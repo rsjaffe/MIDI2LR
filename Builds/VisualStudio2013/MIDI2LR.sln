@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2013
+Project("{050F59F1-41F2-89B3-50B2-E25F43FDC1AE}") = "MIDI2LR", "MIDI2LR.vcxproj", "{62CE7F88-4C2A-C448-873F-40363B88C6A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62CE7F88-4C2A-C448-873F-40363B88C6A3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{62CE7F88-4C2A-C448-873F-40363B88C6A3}.Debug|Win32.Build.0 = Debug|Win32
+		{62CE7F88-4C2A-C448-873F-40363B88C6A3}.Release|Win32.ActiveCfg = Release|Win32
+		{62CE7F88-4C2A-C448-873F-40363B88C6A3}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
