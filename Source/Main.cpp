@@ -34,7 +34,7 @@ public:
     {
         // Add your application's shutdown code here..
 
-		LR_IPC::getInstance().shutdown();
+        LR_IPC::getInstance().shutdown();
         mainWindow = nullptr; // (deletes our window)
     }
 
@@ -63,8 +63,8 @@ public:
     public:
         MainWindow (String name)  : DocumentWindow (name,
                                                     Colours::lightgrey,
-													DocumentWindow::minimiseButton |
-													DocumentWindow::closeButton)
+                                                    DocumentWindow::minimiseButton |
+                                                    DocumentWindow::closeButton)
         {
             setUsingNativeTitleBar (true);
             setContentOwned (new MainContentComponent(), true);

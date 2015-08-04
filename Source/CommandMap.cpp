@@ -17,21 +17,21 @@ CommandMap::CommandMap()
 
 CommandMap& CommandMap::getInstance()
 {
-	static CommandMap instance;
-	return instance;
+    static CommandMap instance;
+    return instance;
 }
 
 void CommandMap::addCommandforCC(int command, MIDI_CC &cc)
 {
-	_controllerMap[cc] = command;
+    _controllerMap[cc] = command;
 }
 
 int CommandMap::getCommandforCC(MIDI_CC &cc)
 {
-	return _controllerMap[cc];
+    return _controllerMap[cc];
 }
 
 bool CommandMap::controllerExistsInMap(MIDI_CC &cc)
 {
-	return _controllerMap.count(cc);
+    return _controllerMap.count(cc);
 }

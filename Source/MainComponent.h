@@ -21,9 +21,9 @@
     your controls and content.
 */
 class MainContentComponent   : public Component,
-							   public MIDICommandListener,
-							   public AsyncUpdater,
-							   public Timer
+                               public MIDICommandListener,
+                               public AsyncUpdater,
+                               public Timer
 {
 public:
     MainContentComponent();
@@ -32,29 +32,29 @@ public:
     void paint (Graphics&);
     void resized();
 
-	// MIDICommandListener interface
-	virtual void handleMidiCC(int midiChannel, int controller, int value) override;
-	virtual void handleMidiNote(int midiChannel, int note) override;
+    // MIDICommandListener interface
+    virtual void handleMidiCC(int midiChannel, int controller, int value) override;
+    virtual void handleMidiNote(int midiChannel, int note) override;
 
-	// AsyncUpdater interface
-	virtual void handleAsyncUpdate() override;
+    // AsyncUpdater interface
+    virtual void handleAsyncUpdate() override;
 
-	// Timer interface
-	virtual void timerCallback() override;
+    // Timer interface
+    virtual void timerCallback() override;
 
 private:
-	Label _titleLabel;
-	DropShadowEffect _titleShadow;
-	Label _commandLabel;
+    Label _titleLabel;
+    DropShadowEffect _titleShadow;
+    Label _commandLabel;
 
-	String _lastCommand;
-	int _rowToSelect;
+    String _lastCommand;
+    int _rowToSelect;
 
-	CommandTable _commandTable;
-	CommandTableModel _commandTableModel;
+    CommandTable _commandTable;
+    CommandTableModel _commandTableModel;
 
     //==============================================================================
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
 };
 
 

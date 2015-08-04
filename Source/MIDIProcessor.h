@@ -16,23 +16,23 @@
 class MIDICommandListener
 {
 public:
-	virtual void handleMidiCC(int midiChannel, int controller, int value) = 0;
-	virtual void handleMidiNote(int midiChannel, int note) = 0;
+    virtual void handleMidiCC(int midiChannel, int controller, int value) = 0;
+    virtual void handleMidiNote(int midiChannel, int note) = 0;
 };
 
 class MIDIProcessor : public MidiInputCallback
 {
 public:
-	static MIDIProcessor& getInstance();
+    static MIDIProcessor& getInstance();
 
-	void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
-	void addMIDICommandListener(MIDICommandListener*);
+    void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
+    void addMIDICommandListener(MIDICommandListener*);
 private:
-	MIDIProcessor();
-	~MIDIProcessor();
+    MIDIProcessor();
+    ~MIDIProcessor();
 
-	Array<MIDICommandListener *> _listeners;
-	OwnedArray<MidiInput> _devices;
+    Array<MIDICommandListener *> _listeners;
+    OwnedArray<MidiInput> _devices;
 };
 
 

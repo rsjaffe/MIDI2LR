@@ -15,13 +15,13 @@
 #include "CommandMap.h"
 
 class CommandMenu : public TextButton,
-				    protected ButtonListener
+                    protected ButtonListener
 {
 public:
-	CommandMenu(MIDI_CC& cc);
-	virtual void buttonClicked(Button* button) override;
+    CommandMenu(MIDI_CC& cc);
+    virtual void buttonClicked(Button* button) override;
 private:
-	MIDI_CC _cc;
+    MIDI_CC _cc;
 };
 
 

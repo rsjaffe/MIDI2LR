@@ -15,34 +15,34 @@
 #include "MIDIProcessor.h"
 
 class LR_IPC : public InterprocessConnection,
-			   public MIDICommandListener,
-			   public AsyncUpdater,
-			   public Timer
+               public MIDICommandListener,
+               public AsyncUpdater,
+               public Timer
 {
 public:
-	static LR_IPC& getInstance();
-	void shutdown();
+    static LR_IPC& getInstance();
+    void shutdown();
 
-	static const int LR_PORT;
+    static const int LR_PORT;
 
-	virtual void connectionMade() override;
-	virtual void connectionLost() override;
-	virtual void messageReceived(const MemoryBlock& msg) override;
-	
-	// MIDICommandListener interface
-	virtual void handleMidiCC(int midiChannel, int controller, int value) override;
-	virtual void handleMidiNote(int midiChannel, int note) override;
-	
-	// AsyncUpdater interface
-	virtual void handleAsyncUpdate() override;
+    virtual void connectionMade() override;
+    virtual void connectionLost() override;
+    virtual void messageReceived(const MemoryBlock& msg) override;
+    
+    // MIDICommandListener interface
+    virtual void handleMidiCC(int midiChannel, int controller, int value) override;
+    virtual void handleMidiNote(int midiChannel, int note) override;
+    
+    // AsyncUpdater interface
+    virtual void handleAsyncUpdate() override;
 
-	// Timer callback
-	virtual void timerCallback() override;
+    // Timer callback
+    virtual void timerCallback() override;
 private:
-	LR_IPC();
+    LR_IPC();
 
-	int _valueToSend;
-	String _commandToSend;
+    int _valueToSend;
+    String _commandToSend;
 };
 
 

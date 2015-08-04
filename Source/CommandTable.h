@@ -5,12 +5,12 @@
 class CommandTable : public TableListBox
 {
 public:
-	CommandTable(const String& componentName, TableListBoxModel *model);
+    CommandTable(const String& componentName, TableListBoxModel *model);
 
 private:
 
-	//==============================================================================
-	JUCE_DECLARE_NON_COPYABLE(CommandTable)
+    //==============================================================================
+    JUCE_DECLARE_NON_COPYABLE(CommandTable)
 };
 
 #endif
