@@ -33,6 +33,9 @@ private:
     MIDIProcessor();
     ~MIDIProcessor();
 
+    MIDIProcessor(MIDIProcessor const&) = delete;
+    void operator=(MIDIProcessor const&) = delete;
+
     void initDevices();
 
     Array<MIDICommandListener *> _listeners;

@@ -41,6 +41,9 @@ public:
 private:
     LR_IPC();
 
+    LR_IPC(LR_IPC const&) = delete;
+    void operator=(LR_IPC const&) = delete;
+
     int _valueToSend;
     String _commandToSend;
 };

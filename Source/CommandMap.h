@@ -31,6 +31,7 @@ struct MIDI_CC
     }
 };
 
+// hash function for MIDI_CC
 namespace std {
     template <>
     struct hash<MIDI_CC>
@@ -49,7 +50,10 @@ public:
     void addCommandforCC(int command, MIDI_CC &cc);
     int getCommandforCC(MIDI_CC &cc);
     void removeCC(MIDI_CC &cc);
+    void emptyMap();
     bool controllerExistsInMap(MIDI_CC &cc);
+
+    void toXMLDocument(File& file);
 
 private:
     CommandMap();

@@ -52,6 +52,7 @@ private:
     Label _commandLabel;
     TextButton _rescanButton;
     TextButton _removeRowButton;
+    TextButton _saveButton;
 
     String _lastCommand;
     int _rowToSelect;

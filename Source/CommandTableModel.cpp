@@ -74,3 +74,10 @@ void CommandTableModel::removeRow(int row)
     CommandMap::getInstance().removeCC(cc);
     _rows--;
 }
+
+void CommandTableModel::removeAllRows()
+{
+    _commands.empty();
+    CommandMap::getInstance().emptyMap();
+    _rows = 0;
+}

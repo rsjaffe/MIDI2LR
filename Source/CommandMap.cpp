@@ -40,3 +40,24 @@ void CommandMap::removeCC(MIDI_CC &cc)
 {
     _controllerMap.erase(cc);
 }
+
+void CommandMap::emptyMap()
+{
+    _controllerMap.empty();
+}
+
+void CommandMap::toXMLDocument(File& file)
+{
+    XmlElement root("settings");
+    for (auto mapEntry : _controllerMap)
+    {
+        XmlElement* setting = new XmlElement("setting");
+        setting->setAttribute("channel", mapEntry.first.channel);
+        setting->setAttribute("controller", mapEntry.first.controller);
+        setting->setAttribute("command", mapEntry.second);
+
+        root.addChildElement(setting);
+    }
+
+    root.writeToFile(file, "");
+}

@@ -19,6 +19,8 @@ public:
 
     void addRow(int midi_channel, int midi_controller);
     void removeRow(int row);
+    void removeAllRows();
+
     int getRowForController(int midi_channel, int midi_controller);
 private:
     int _rows;

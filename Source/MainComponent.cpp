@@ -11,7 +11,8 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                _commandTable("Table", nullptr),
                                                _commandTableModel(),
                                                _rescanButton("Rescan MIDI devices"),
-                                               _removeRowButton("Remove selected row")
+                                               _removeRowButton("Remove selected row"),
+                                               _saveButton("Save")
 {
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
@@ -41,6 +42,10 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _removeRowButton.addListener(this);
     addAndMakeVisible(_removeRowButton);
 
+    // Save button
+    _saveButton.addListener(this);
+    addAndMakeVisible(_saveButton);
+
     setSize (400, 600);
 
     // Start LR IPC
@@ -59,12 +64,17 @@ void MainContentComponent::paint (Graphics& g)
 
 void MainContentComponent::resized()
 {
+    // top components
     _titleLabel.setBoundsRelative(.1f, 0.f, .5f, .15f);
     _commandLabel.setBoundsRelative(.8f, 0.0375f, .2f, .075f);
     _rescanButton.setBoundsRelative(.8f, 0.1175f, .2f, .05f);
 
+    // table
     _commandTable.setBoundsRelative(.1f, .2f, .8f, .6f);
-    _removeRowButton.setBoundsRelative(.1f, .85f, .3f, .05f);
+
+    // bottom components
+    _removeRowButton.setBoundsRelative(.1f, .85f, .4f, .05f);
+    _saveButton.setBoundsRelative(.55f, .85f, .15f, .05f);
 }
 
 // Update MIDI command components
@@ -112,5 +122,21 @@ void MainContentComponent::buttonClicked(Button* button)
             _commandTableModel.removeRow(_commandTable.getSelectedRow());
             _commandTable.updateContent();
         }
+    }
+    else if (button == &_saveButton)
+    {
+        WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
+        FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode | 
+                                     FileBrowserComponent::warnAboutOverwriting,
+                                     File::getCurrentWorkingDirectory(),
+                                     &wildcardFilter,
+                                     nullptr);
+        FileChooserDialogBox dialogBox("Save profile",
+                                       "Enter filename to save profile",
+                                       browser,
+                                       true,
+                                       Colours::lightgrey);
+        if (dialogBox.show())
+            CommandMap::getInstance().toXMLDocument(browser.getSelectedFile(0).withFileExtension("xml"));
     }
 }
