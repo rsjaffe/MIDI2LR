@@ -23,8 +23,7 @@ void CommandTableModel::paintCell (Graphics &g, int rowNumber, int columnId, int
 
     if (columnId == 1) // MIDI command column
         g.drawText(String::formatted("%d | CC: %d", _commands[rowNumber].channel,
-                                                    _commands[rowNumber].controller),
-        0, 0, width, height, Justification::centred);
+                   _commands[rowNumber].controller), 0, 0, width, height, Justification::centred);
 }
 
 Component *CommandTableModel::refreshComponentForCell (int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate)
@@ -33,9 +32,14 @@ Component *CommandTableModel::refreshComponentForCell (int rowNumber, int column
     {
         CommandMenu* commandSelect = (CommandMenu *)existingComponentToUpdate;
 
-        // if we need to create a new combo box, do so and fill it with LR commands
+        // create a new command menu
         if (commandSelect == nullptr)
             commandSelect = new CommandMenu(_commands[rowNumber]);
+        else
+            commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforCC(_commands[rowNumber]) + 1); // add one because
+                                                                                                                 // zero is reserved
+                                                                                                                 // for no selection
+
         return commandSelect;
     }
     else
@@ -50,7 +54,6 @@ void CommandTableModel::addRow(int midi_channel, int midi_controller)
     {
         _commands.push_back(cc);
         CommandMap::getInstance().addCommandforCC(0, cc); // add an entry for 'no command'
-
         _rows++;
     }
 }
@@ -59,8 +62,15 @@ int CommandTableModel::getRowForController(int midi_channel, int midi_controller
 {
     for (auto idx = 0; idx < _rows; idx++)
     {
-        if (_commands[idx].channel == midi_channel
-            && _commands[idx].controller == midi_controller)
+        if (_commands[idx].channel == midi_channel && _commands[idx].controller == midi_controller)
             return idx;
     }
+}
+
+void CommandTableModel::removeRow(int row)
+{
+    MIDI_CC cc = _commands[row];
+    _commands.erase(_commands.begin() + row);
+    CommandMap::getInstance().removeCC(cc);
+    _rows--;
 }

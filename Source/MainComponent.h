@@ -51,6 +51,7 @@ private:
     DropShadowEffect _titleShadow;
     Label _commandLabel;
     TextButton _rescanButton;
+    TextButton _removeRowButton;
 
     String _lastCommand;
     int _rowToSelect;

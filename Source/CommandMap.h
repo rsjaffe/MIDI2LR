@@ -48,6 +48,7 @@ public:
     static CommandMap& getInstance();
     void addCommandforCC(int command, MIDI_CC &cc);
     int getCommandforCC(MIDI_CC &cc);
+    void removeCC(MIDI_CC &cc);
     bool controllerExistsInMap(MIDI_CC &cc);
 
 private:

@@ -18,9 +18,11 @@ public:
     virtual Component *refreshComponentForCell (int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate) override;
 
     void addRow(int midi_channel, int midi_controller);
+    void removeRow(int row);
     int getRowForController(int midi_channel, int midi_controller);
 private:
     int _rows;
+
     std::vector<MIDI_CC> _commands;
 
     //==============================================================================

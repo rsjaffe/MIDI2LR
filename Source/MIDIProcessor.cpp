@@ -37,8 +37,8 @@ void MIDIProcessor::rescanDevices()
 {
     for (auto dev : _devices)
         dev->stop();
-
     _devices.clear(true);
+
     initDevices();
 }
 

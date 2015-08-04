@@ -35,3 +35,8 @@ bool CommandMap::controllerExistsInMap(MIDI_CC &cc)
 {
     return _controllerMap.count(cc);
 }
+
+void CommandMap::removeCC(MIDI_CC &cc)
+{
+    _controllerMap.erase(cc);
+}

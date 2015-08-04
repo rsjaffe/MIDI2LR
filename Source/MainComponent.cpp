@@ -10,7 +10,8 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                _commandLabel("Command", ""),
                                                _commandTable("Table", nullptr),
                                                _commandTableModel(),
-                                               _rescanButton("Rescan MIDI devices")
+                                               _rescanButton("Rescan MIDI devices"),
+                                               _removeRowButton("Remove selected row")
 {
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
@@ -36,6 +37,10 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _commandTable.setModel(&_commandTableModel);
     addAndMakeVisible(_commandTable);
 
+    // Remove row button
+    _removeRowButton.addListener(this);
+    addAndMakeVisible(_removeRowButton);
+
     setSize (400, 600);
 
     // Start LR IPC
@@ -56,8 +61,10 @@ void MainContentComponent::resized()
 {
     _titleLabel.setBoundsRelative(.1f, 0.f, .5f, .15f);
     _commandLabel.setBoundsRelative(.8f, 0.0375f, .2f, .075f);
-    _commandTable.setBoundsRelative(.1f, .2f, .8f, .8f);
     _rescanButton.setBoundsRelative(.8f, 0.1175f, .2f, .05f);
+
+    _commandTable.setBoundsRelative(.1f, .2f, .8f, .6f);
+    _removeRowButton.setBoundsRelative(.1f, .85f, .3f, .05f);
 }
 
 // Update MIDI command components
@@ -96,5 +103,14 @@ void MainContentComponent::timerCallback()
 
 void MainContentComponent::buttonClicked(Button* button)
 {
-    MIDIProcessor::getInstance().rescanDevices();
+    if (button == &_rescanButton)
+        MIDIProcessor::getInstance().rescanDevices();
+    else if (button == &_removeRowButton)
+    {
+        if (_commandTable.getSelectedRow() != -1)
+        {
+            _commandTableModel.removeRow(_commandTable.getSelectedRow());
+            _commandTable.updateContent();
+        }
+    }
 }

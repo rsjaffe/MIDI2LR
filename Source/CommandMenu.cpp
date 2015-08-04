@@ -69,3 +69,9 @@ void CommandMenu::buttonClicked(Button* button)
         CommandMap::getInstance().addCommandforCC(result - 1, _cc);
     }
 }
+
+void CommandMenu::setSelectedItem(int idx)
+{
+    _selectedItem = idx;
+    setButtonText(LRCommandList::LRStringList[idx - 1]);
+}

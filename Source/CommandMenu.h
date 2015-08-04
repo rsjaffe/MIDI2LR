@@ -20,6 +20,7 @@ class CommandMenu : public TextButton,
 public:
     CommandMenu(MIDI_CC& cc);
     virtual void buttonClicked(Button* button) override;
+    void setSelectedItem(int idx);
 private:
     MIDI_CC _cc;
     int _selectedItem;
