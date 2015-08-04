@@ -18,6 +18,11 @@ MIDIProcessor& MIDIProcessor::getInstance()
 
 MIDIProcessor::MIDIProcessor()
 {
+    initDevices();
+}
+
+void MIDIProcessor::initDevices()
+{
     for(auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
     {
         if(_devices.set(idx, MidiInput::openDevice(idx, this)))
@@ -26,6 +31,15 @@ MIDIProcessor::MIDIProcessor()
             DBG(_devices[idx]->getName());
         }
     }
+}
+
+void MIDIProcessor::rescanDevices()
+{
+    for (auto dev : _devices)
+        dev->stop();
+
+    _devices.clear(true);
+    initDevices();
 }
 
 MIDIProcessor::~MIDIProcessor()

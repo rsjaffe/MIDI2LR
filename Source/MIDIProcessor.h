@@ -27,9 +27,13 @@ public:
 
     void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
     void addMIDICommandListener(MIDICommandListener*);
+    void rescanDevices();
+
 private:
     MIDIProcessor();
     ~MIDIProcessor();
+
+    void initDevices();
 
     Array<MIDICommandListener *> _listeners;
     OwnedArray<MidiInput> _devices;

@@ -11,6 +11,9 @@ local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrFunctionContext   = import 'LrFunctionContext'
 
+local PORT = 58763
+local PICKUP_THRESHOLD = 4
+
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
     local min, max = LrDevelopController.getRange(param)
@@ -33,9 +36,9 @@ local function updateParam(param, midi_value)
             LrApplicationView.switchToModule('develop')
     end
     
-    --if(math.abs(midi_value - develop_lerp_to_midi(param)) <= 5) then
+    if(math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD) then
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
-    --end
+    end
 end
 
 -- message processor
@@ -46,8 +49,6 @@ local function processMessage(message)
         updateParam(param, tonumber(value))
     end
 end
-
-local PORT = 58763
 
 -- Main task
 LrTasks.startAsyncTask( function()

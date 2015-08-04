@@ -9,7 +9,8 @@
 MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                _commandLabel("Command", ""),
                                                _commandTable("Table", nullptr),
-                                               _commandTableModel()
+                                               _commandTableModel(),
+                                               _rescanButton("Rescan MIDI devices")
 {
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
@@ -23,6 +24,10 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _commandLabel.setEditable(false);
     _commandLabel.setColour(Label::textColourId, Colours::darkgrey);
     addAndMakeVisible(_commandLabel);
+
+    // Rescan MIDI button
+    _rescanButton.addListener(this);
+    addAndMakeVisible(_rescanButton);
 
     // Add ourselves as a listener for MIDI commands
     MIDIProcessor::getInstance().addMIDICommandListener(this);
@@ -49,9 +54,10 @@ void MainContentComponent::paint (Graphics& g)
 
 void MainContentComponent::resized()
 {
-    _titleLabel.setBoundsRelative(.1f, 0.f, .8f, .15f);
-    _commandLabel.setBoundsRelative(.8f, 0.025f, .2f, .10f);
+    _titleLabel.setBoundsRelative(.1f, 0.f, .5f, .15f);
+    _commandLabel.setBoundsRelative(.8f, 0.0375f, .2f, .075f);
     _commandTable.setBoundsRelative(.1f, .2f, .8f, .8f);
+    _rescanButton.setBoundsRelative(.8f, 0.1175f, .2f, .05f);
 }
 
 // Update MIDI command components
@@ -86,4 +92,9 @@ void MainContentComponent::timerCallback()
     // reset the command label's background to white
     _commandLabel.setColour(Label::backgroundColourId, Colours::white);
     stopTimer();
+}
+
+void MainContentComponent::buttonClicked(Button* button)
+{
+    MIDIProcessor::getInstance().rescanDevices();
 }

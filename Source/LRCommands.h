@@ -17,10 +17,18 @@
 class LRCommandList
 {
 public:
+    // Strings that LR uses
     static const std::vector<String> LRStringList;
+
+    // Sectioned and readable strings
     static const std::vector<String> AdjustmentStringList;
     static const std::vector<String> ToneStringList;
     static const std::vector<String> MixerStringList;
+    static const std::vector<String> SplitToningStringList;
+    static const std::vector<String> DetailStringList;
+    static const std::vector<String> EffectsStringList;
+    static const std::vector<String> LensCorrectionStringList;
+    static const std::vector<String> CalibrateStringList;
 
 private:
     LRCommandList();

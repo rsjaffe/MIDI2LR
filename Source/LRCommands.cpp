@@ -204,6 +204,69 @@ const std::vector<String> LRCommandList::MixerStringList = {
     "Gray Mixer Magenta",
 };
 
+const std::vector<String> LRCommandList::SplitToningStringList = {
+    "Split Toning Shadow Hue",
+    "Split Toning Shadow Saturation",
+    "Split Toning Highlight Hue",
+    "Split Toning Highlight Saturation",
+    "Split Toning Balance",
+};
+
+const std::vector<String> LRCommandList::DetailStringList = {
+    "Sharpness",
+    "Sharpen Radius",
+    "Sharpen Detail",
+    "Sharpen Edge Masking",
+    "Luminance Smoothing",
+    "Luminance Noise Reduction Detail",
+    "Luminance Noise Reduction Contrast",
+    "Color Noise Reduction",
+    "Color Noise Reduction Detail",
+    "Color Noise Reduction Smoothness",
+};
+
+const std::vector<String> LRCommandList::LensCorrectionStringList = {
+    "Lens Profile Distortion Scale",
+    "Lens Profile Chromatic Aberration Scale",
+    "Lens Profile Vignetting Scale",
+    "Lens Manual Distortion Amount",
+    "Defringe Purple Amount",
+    "Defringe Purple Hue Lo",
+    "Defringe Purple Hue Hi",
+    "Defringe Green Amount",
+    "Defringe Green Hue Lo",
+    "Defringe Green Hue Hi",
+    "Perspective Vertical",
+    "Perspective Horizontal",
+    "Perspective Rotate",
+    "Perspective Scale",
+    "Perspective Aspect",
+    "Perspective Upright",
+};
+
+const std::vector<String> LRCommandList::EffectsStringList = {
+    "Dehaze",
+    "Post Crop Vignette Amount",
+    "Post Crop Vignette Midpoint",
+    "Post Crop Vignette Feather",
+    "Post Crop Vignette Roundness",
+    "Post Crop Vignette Style",
+    "Post Crop Vignette Highlight Contrast",
+    "Grain Amount",
+    "Grain Size",
+    "Grain Frequency",
+};
+
+const std::vector<String> LRCommandList::CalibrateStringList = {
+    "Shadow Tint",
+    "Red Hue",
+    "Red Saturation",
+    "Green Hue",
+    "Green Saturation",
+    "Blue Hue",
+    "Blue Saturation"
+};
+
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
@@ -259,4 +322,57 @@ const std::vector<String> LRCommandList::LRStringList = {
     "GrayMixerBlue",
     "GrayMixerPurple",
     "GrayMixerMagenta",
+    /* Split Toning */
+    "SplitToningShadowHue",
+    "SplitToningShadowSaturation",
+    "SplitToningHighlightHue",
+    "SplitToningHighlightSaturation",
+    "SplitToningBalance",
+    /* Detail */
+    "Sharpness",
+    "SharpenRadius",
+    "SharpenDetail",
+    "SharpenEdgeMasking",
+    "LuminanceSmoothing",
+    "LuminanceNoiseReductionDetail",
+    "LuminanceNoiseReductionContrast",
+    "ColorNoiseReduction",
+    "ColorNoiseReductionDetail",
+    "ColorNoiseReductionSmoothness",
+    /* Lens Correction */
+    "LensProfileDistortionScale",
+    "LensProfileChromaticAberrationScale",
+    "LensProfileVignettingScale",
+    "LensManualDistortionAmount",
+    "DefringePurpleAmount",
+    "DefringePurpleHueLo",
+    "DefringePurpleHueHi",
+    "DefringeGreenAmount",
+    "DefringeGreenHueLo",
+    "DefringeGreenHueHi",
+    "PerspectiveVertical",
+    "PerspectiveHorizontal",
+    "PerspectiveRotate",
+    "PerspectiveScale",
+    "PerspectiveAspect",
+    "PerspectiveUpright",
+    /* Effects */
+    "Dehaze",
+    "PostCropVignetteAmount",
+    "PostCropVignetteMidpoint",
+    "PostCropVignetteFeather",
+    "PostCropVignetteRoundness",
+    "PostCropVignetteStyle",
+    "PostCropVignetteHighlightContrast",
+    "GrainAmount",
+    "GrainSize",
+    "GrainFrequency",
+    /* Calibrate */
+    "ShadowTint",
+    "RedHue",
+    "RedSaturation",
+    "GreenHue",
+    "GreenSaturation",
+    "BlueHue",
+    "BlueSaturation",
 };

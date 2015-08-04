@@ -26,39 +26,46 @@ void CommandMenu::buttonClicked(Button* button)
     mainMenu.addItem(idx, "Unmapped", true, subMenuTickSet = (idx == _selectedItem));
     idx++;
 
-    PopupMenu adjustmentMenu;
-    for (auto cmd : LRCommandList::AdjustmentStringList)
+    const std::vector<String> menus = { "Basic", 
+                                        "Tone Curve", 
+                                        "HSL / Color / B&W" ,
+                                        "Split Toning",
+                                        "Detail",
+                                        "Lens Correction",
+                                        "Effects",
+                                        "Camera Calibration"
+                                      };
+    const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
+                                                           LRCommandList::ToneStringList,
+                                                           LRCommandList::MixerStringList,
+                                                           LRCommandList::SplitToningStringList,
+                                                           LRCommandList::DetailStringList,
+                                                           LRCommandList::LensCorrectionStringList,
+                                                           LRCommandList::EffectsStringList,
+                                                           LRCommandList::CalibrateStringList
+                                                         };
+
+    // add each submenu
+    for (size_t menuIdx = 0; menuIdx < menus.size(); menuIdx++)
     {
-        adjustmentMenu.addItem(idx, cmd, true, idx == _selectedItem);
-        idx++;
-    }
-    mainMenu.addSubMenu("Basic", adjustmentMenu, true, nullptr, _selectedItem < idx && !subMenuTickSet);
-    subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
-
-    PopupMenu toneMenu;
-    for (auto cmd : LRCommandList::ToneStringList)
-    {
-        toneMenu.addItem(idx, cmd, true, idx == _selectedItem);
-        idx++;
-    }
-    mainMenu.addSubMenu("Tone Curve", toneMenu, true, nullptr, _selectedItem < idx && !subMenuTickSet);
-    subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
-
-    PopupMenu mixerMenu;
-    for (auto cmd : LRCommandList::MixerStringList)
-    {
-        mixerMenu.addItem(idx, cmd, true, idx == _selectedItem);
-        idx++;
+        PopupMenu subMenu;
+        for (auto cmd : menuEntries[menuIdx])
+        {
+            // add each submenu entry, ticking the previously selected entry
+            subMenu.addItem(idx, cmd, true, idx == _selectedItem);
+            idx++;
+        }
+        // set whether or not the submenu is ticked (true if one of the submenu's entries is selected)
+        mainMenu.addSubMenu(menus[menuIdx], subMenu, true, nullptr, _selectedItem < idx && !subMenuTickSet);
+        subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
     }
 
-    mainMenu.addSubMenu("HSL / Color / B&W", mixerMenu, true, nullptr, _selectedItem < idx && !subMenuTickSet);
-    subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
-
-    auto result = mainMenu.show();
-    if (result)
+    if (auto result = mainMenu.show())
     {
         _selectedItem = result;
         setButtonText(LRCommandList::LRStringList[result - 1]);
+
+        // Map the selected command to the CC
         CommandMap::getInstance().addCommandforCC(result - 1, _cc);
     }
 }

@@ -23,7 +23,8 @@
 class MainContentComponent   : public Component,
                                public MIDICommandListener,
                                public AsyncUpdater,
-                               public Timer
+                               public Timer,
+                               public ButtonListener
 {
 public:
     MainContentComponent();
@@ -42,10 +43,14 @@ public:
     // Timer interface
     virtual void timerCallback() override;
 
+    // Button interface
+    virtual void buttonClicked(Button* button) override;
+
 private:
     Label _titleLabel;
     DropShadowEffect _titleShadow;
     Label _commandLabel;
+    TextButton _rescanButton;
 
     String _lastCommand;
     int _rowToSelect;
