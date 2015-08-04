@@ -31,26 +31,15 @@ Component *CommandTableModel::refreshComponentForCell (int rowNumber, int column
 {
 	if (columnId == 2) // LR command column
 	{
-		CustomComboBox* commandSelect = (CustomComboBox *)existingComponentToUpdate;
+		CommandMenu* commandSelect = (CommandMenu *)existingComponentToUpdate;
 
 		// if we need to create a new combo box, do so and fill it with LR commands
 		if (commandSelect == nullptr)
-		{
-			commandSelect = new CustomComboBox(_commands[rowNumber]);
-			commandSelect->addListener(this);
-			auto idx = 1;
-			for (auto cmd : LRCommandList::StringList)
-				commandSelect->addItem(cmd, idx++);
-		}
+			commandSelect = new CommandMenu(_commands[rowNumber]);
 		return commandSelect;
 	}
 	else
 		return nullptr;
-}
-
-void CommandTableModel::comboBoxChanged(ComboBox* cb)
-{
-	CommandMap::getInstance().addCommandforCC(cb->getSelectedId()-1, ((CustomComboBox*)cb)->getCC());
 }
 
 void CommandTableModel::addRow(int midi_channel, int midi_controller)

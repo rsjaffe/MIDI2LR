@@ -5,6 +5,8 @@
               jucerVersion="3.1.0">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
+      <FILE id="x6sgxb" name="CommandMenu.h" compile="0" resource="0" file="Source/CommandMenu.h"/>
       <FILE id="IDzpMr" name="LR_IPC.cpp" compile="1" resource="0" file="Source/LR_IPC.cpp"/>
       <FILE id="SAormw" name="LR_IPC.h" compile="0" resource="0" file="Source/LR_IPC.h"/>
       <FILE id="h3ctHq" name="LRCommands.cpp" compile="1" resource="0" file="Source/LRCommands.cpp"/>

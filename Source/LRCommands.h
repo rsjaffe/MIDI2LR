@@ -17,8 +17,9 @@
 class LRCommandList
 {
 public:
-	static const std::vector<String> StringList;
 	static const std::vector<String> LRStringList;
+	static const std::vector<String> AdjustmentStringList;
+	static const std::vector<String> ToneStringList;
 
 private:
 	LRCommandList();

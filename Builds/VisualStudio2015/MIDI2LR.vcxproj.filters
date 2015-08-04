@@ -301,6 +301,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\CommandMenu.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LR_IPC.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1527,6 +1530,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\CommandMenu.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\LR_IPC.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
