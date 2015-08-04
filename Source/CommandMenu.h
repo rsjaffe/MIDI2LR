@@ -22,6 +22,7 @@ public:
     virtual void buttonClicked(Button* button) override;
 private:
     MIDI_CC _cc;
+    int _selectedItem;
 };
 
 

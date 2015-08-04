@@ -20,6 +20,7 @@ public:
     static const std::vector<String> LRStringList;
     static const std::vector<String> AdjustmentStringList;
     static const std::vector<String> ToneStringList;
+    static const std::vector<String> MixerStringList;
 
 private:
     LRCommandList();
