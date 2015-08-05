@@ -13,7 +13,7 @@
 
 CommandMenu::CommandMenu(MIDI_CC& cc) : _cc(cc),
                                         _selectedItem(std::numeric_limits<int>::max()),
-                                        TextButton("Choose Command")
+                                        TextButton("Unmapped")
 {
     addListener(this);
 }

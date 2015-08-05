@@ -53,6 +53,7 @@ private:
     TextButton _rescanButton;
     TextButton _removeRowButton;
     TextButton _saveButton;
+    TextButton _loadButton;
 
     String _lastCommand;
     int _rowToSelect;

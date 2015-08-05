@@ -41,9 +41,9 @@ void CommandMap::removeCC(MIDI_CC &cc)
     _controllerMap.erase(cc);
 }
 
-void CommandMap::emptyMap()
+void CommandMap::clearMap()
 {
-    _controllerMap.empty();
+    _controllerMap.clear();
 }
 
 void CommandMap::toXMLDocument(File& file)

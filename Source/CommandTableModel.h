@@ -20,6 +20,7 @@ public:
     void addRow(int midi_channel, int midi_controller);
     void removeRow(int row);
     void removeAllRows();
+    void buildFromXml(XmlElement *elem);
 
     int getRowForController(int midi_channel, int midi_controller);
 private:

@@ -50,7 +50,7 @@ public:
     void addCommandforCC(int command, MIDI_CC &cc);
     int getCommandforCC(MIDI_CC &cc);
     void removeCC(MIDI_CC &cc);
-    void emptyMap();
+    void clearMap();
     bool controllerExistsInMap(MIDI_CC &cc);
 
     void toXMLDocument(File& file);

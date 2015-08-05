@@ -12,7 +12,8 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                _commandTableModel(),
                                                _rescanButton("Rescan MIDI devices"),
                                                _removeRowButton("Remove selected row"),
-                                               _saveButton("Save")
+                                               _saveButton("Save"),
+                                               _loadButton("Load")
 {
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
@@ -46,6 +47,10 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _saveButton.addListener(this);
     addAndMakeVisible(_saveButton);
 
+    // Load button
+    _loadButton.addListener(this);
+    addAndMakeVisible(_loadButton);
+
     setSize (400, 600);
 
     // Start LR IPC
@@ -75,6 +80,7 @@ void MainContentComponent::resized()
     // bottom components
     _removeRowButton.setBoundsRelative(.1f, .85f, .4f, .05f);
     _saveButton.setBoundsRelative(.55f, .85f, .15f, .05f);
+    _loadButton.setBoundsRelative(.75f, .85f, .15f, .05f);
 }
 
 // Update MIDI command components
@@ -129,7 +135,7 @@ void MainContentComponent::buttonClicked(Button* button)
         FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode | 
                                      FileBrowserComponent::warnAboutOverwriting,
                                      File::getCurrentWorkingDirectory(),
-                                     &wildcardFilter,
+                                     nullptr,
                                      nullptr);
         FileChooserDialogBox dialogBox("Save profile",
                                        "Enter filename to save profile",
@@ -137,6 +143,32 @@ void MainContentComponent::buttonClicked(Button* button)
                                        true,
                                        Colours::lightgrey);
         if (dialogBox.show())
-            CommandMap::getInstance().toXMLDocument(browser.getSelectedFile(0).withFileExtension("xml"));
+        {
+            File selectedFile = browser.getSelectedFile(0).withFileExtension("xml");
+            CommandMap::getInstance().toXMLDocument(selectedFile);
+        }
+    }
+    else if (button == &_loadButton)
+    {
+        WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
+        FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode,
+                                     File::getCurrentWorkingDirectory(),
+                                     &wildcardFilter,
+                                     nullptr);
+        FileChooserDialogBox dialogBox("Open profile",
+                                       "Select a profile to open",
+                                       browser,
+                                       true,
+                                       Colours::lightgrey);
+
+        if (dialogBox.show())
+        {
+            ScopedPointer<XmlElement> elem = XmlDocument::parse(browser.getSelectedFile(0));
+            if(elem)
+            {
+                _commandTableModel.buildFromXml(elem);
+                _commandTable.updateContent();
+            }
+        }
     }
 }

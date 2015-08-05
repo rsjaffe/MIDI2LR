@@ -35,8 +35,7 @@ Component *CommandTableModel::refreshComponentForCell (int rowNumber, int column
         // create a new command menu
         if (commandSelect == nullptr)
             commandSelect = new CommandMenu(_commands[rowNumber]);
-        else
-            commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforCC(_commands[rowNumber]) + 1); // add one because
+        commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforCC(_commands[rowNumber]) + 1); // add one because
                                                                                                                  // zero is reserved
                                                                                                                  // for no selection
 
@@ -77,7 +76,24 @@ void CommandTableModel::removeRow(int row)
 
 void CommandTableModel::removeAllRows()
 {
-    _commands.empty();
-    CommandMap::getInstance().emptyMap();
+    _commands.clear();
+    CommandMap::getInstance().clearMap();
     _rows = 0;
+}
+
+void CommandTableModel::buildFromXml(XmlElement *root)
+{
+    if (root->getTagName().compare("settings") != 0)
+        return;
+    
+    removeAllRows();
+
+    XmlElement* setting = root->getFirstChildElement();
+    while (setting)
+    {
+        MIDI_CC cc(setting->getIntAttribute("channel"), setting->getIntAttribute("controller"));
+        addRow(cc.channel, cc.controller);
+        CommandMap::getInstance().addCommandforCC(setting->getIntAttribute("command"), cc);
+        setting = setting->getNextElement();
+    }
 }
