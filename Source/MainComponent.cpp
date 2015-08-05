@@ -131,7 +131,6 @@ void MainContentComponent::buttonClicked(Button* button)
     }
     else if (button == &_saveButton)
     {
-        WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
         FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode | 
                                      FileBrowserComponent::warnAboutOverwriting,
                                      File::getCurrentWorkingDirectory(),
