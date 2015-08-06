@@ -7,5 +7,8 @@ A build for Windows is currently available, but the underlying framework is cros
 ## Building
 It should only be necessary to point to the module paths in MIDI2LR.jucer to those in your copy of JUCE. The Introjucer can generate the requisite project files for Visual Studio or XCode.
 
+## Lightroom 6 API reference
+<http://lightroomsolutions.com/sdk/index.html>
+
 ## Screenshot
 ![Screenshot](http://i.imgur.com/Q4tFhL8.png)
