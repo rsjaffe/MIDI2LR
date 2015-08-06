@@ -41,14 +41,21 @@ void LR_IPC::timerCallback()
     }
 }
 
+void LR_IPC::addListener(LRConnectionListener *listener)
+{
+    _listeners.addIfNotAlreadyThere(listener);
+}
+
 void LR_IPC::connectionMade()
 {
-
+    for (auto listener : _listeners)
+        listener->connected();
 }
 
 void LR_IPC::connectionLost()
 {
-
+    for (auto listener : _listeners)
+        listener->disconnected();
 }
 
 void LR_IPC::messageReceived(const MemoryBlock& msg)

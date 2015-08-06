@@ -13,6 +13,7 @@
 #include "CommandTable.h"
 #include "CommandTableModel.h"
 #include "MIDIProcessor.h"
+#include "LR_IPC.h"
 
 
 //==============================================================================
@@ -22,6 +23,7 @@
 */
 class MainContentComponent   : public Component,
                                public MIDICommandListener,
+                               public LRConnectionListener,
                                public AsyncUpdater,
                                public Timer,
                                public ButtonListener
@@ -37,6 +39,10 @@ public:
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;
     virtual void handleMidiNote(int midiChannel, int note) override;
 
+    // LRConnectionListener interface
+    virtual void connected() override;
+    virtual void disconnected() override;
+
     // AsyncUpdater interface
     virtual void handleAsyncUpdate() override;
 
@@ -50,6 +56,7 @@ private:
     Label _titleLabel;
     DropShadowEffect _titleShadow;
     Label _commandLabel;
+    Label _connectionLabel;
     TextButton _rescanButton;
     TextButton _removeRowButton;
     TextButton _saveButton;

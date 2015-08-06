@@ -3,10 +3,10 @@
 */
 
 #include "MainComponent.h"
-#include "LR_IPC.h"
 
 //==============================================================================
 MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
+                                               _connectionLabel("Connection", "Not connected to LR"),
                                                _commandLabel("Command", ""),
                                                _commandTable("Table", nullptr),
                                                _commandTableModel(),
@@ -22,6 +22,14 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _titleLabel.setComponentEffect(&_titleShadow);
     addAndMakeVisible(_titleLabel);
 
+    // Connection status
+    _connectionLabel.setFont(Font(12.f, Font::bold));
+    _connectionLabel.setEditable(false);
+    _connectionLabel.setColour(Label::backgroundColourId, Colours::red);
+    _connectionLabel.setColour(Label::textColourId, Colours::black);
+    _connectionLabel.setJustificationType(Justification::centred);
+    addAndMakeVisible(_connectionLabel);
+
     // Last MIDI command
     _commandLabel.setFont(Font(12.f, Font::bold));
     _commandLabel.setEditable(false);
@@ -34,6 +42,9 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
 
     // Add ourselves as a listener for MIDI commands
     MIDIProcessor::getInstance().addMIDICommandListener(this);
+
+    // Add ourselves as a listener for LR_IPC events
+    LR_IPC::getInstance().addListener(this);
 
     // Command Table
     _commandTable.setModel(&_commandTableModel);
@@ -71,6 +82,7 @@ void MainContentComponent::resized()
 {
     // top components
     _titleLabel.setBoundsRelative(.1f, 0.f, .5f, .15f);
+    _connectionLabel.setBoundsRelative(.1f, .125f, .3f, .05f);
     _commandLabel.setBoundsRelative(.8f, 0.0375f, .2f, .075f);
     _rescanButton.setBoundsRelative(.8f, 0.1175f, .2f, .05f);
 
@@ -108,6 +120,18 @@ void MainContentComponent::handleMidiNote(int midiChannel, int note)
 {
     // _lastCommand = String::formatted("%d: Note%d", midiChannel, note);
     // triggerAsyncUpdate();
+}
+
+void MainContentComponent::connected()
+{
+    _connectionLabel.setText("Connected to LR", NotificationType::dontSendNotification);
+    _connectionLabel.setColour(Label::backgroundColourId, Colours::greenyellow);
+}
+
+void MainContentComponent::disconnected()
+{
+    _connectionLabel.setText("Not connected to LR", NotificationType::dontSendNotification);
+    _connectionLabel.setColour(Label::backgroundColourId, Colours::red);
 }
 
 void MainContentComponent::timerCallback()

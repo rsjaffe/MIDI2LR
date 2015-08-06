@@ -14,6 +14,13 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MIDIProcessor.h"
 
+class LRConnectionListener
+{
+public:
+    virtual void connected() = 0;
+    virtual void disconnected() = 0;
+};
+
 class LR_IPC : public InterprocessConnection,
                public MIDICommandListener,
                public AsyncUpdater,
@@ -28,6 +35,8 @@ public:
     virtual void connectionMade() override;
     virtual void connectionLost() override;
     virtual void messageReceived(const MemoryBlock& msg) override;
+
+    void addListener(LRConnectionListener *listener);
     
     // MIDICommandListener interface
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;
@@ -44,6 +53,7 @@ private:
     LR_IPC(LR_IPC const&) = delete;
     void operator=(LR_IPC const&) = delete;
 
+    Array<LRConnectionListener *> _listeners;
     int _valueToSend;
     String _commandToSend;
 };
