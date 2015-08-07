@@ -65,6 +65,8 @@ void LR_IPC::messageReceived(const MemoryBlock& msg)
 
 void LR_IPC::handleAsyncUpdate()
 {
+    if (!isConnected()) return;
+
     String command = _commandToSend + String::formatted(" %d\n", _valueToSend);
     getSocket()->write(command.getCharPointer(), command.length());
 }
