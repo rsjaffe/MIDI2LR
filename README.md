@@ -2,10 +2,11 @@
 **MIDI2LR** is an application that translates MIDI Control Change commands into Lightroom actions.
 
 ## Supported platforms
-A build for Windows is currently available, but the underlying framework is cross-platform, so a Mac build can easily be made
+Mac OS X
+Windows 7/8/10
 
 ## Building
-It should only be necessary to point to the module paths in MIDI2LR.jucer to those in your copy of JUCE. The Introjucer can generate the requisite project files for Visual Studio or XCode.
+The project files for Visual Studio and Xcode are located in Builds/
 
 ## Lightroom 6 API reference
 <http://lightroomsolutions.com/sdk/index.html>
