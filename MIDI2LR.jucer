@@ -39,19 +39,19 @@
                        isDebug="0" optimisation="2" targetName="MIDI2LR"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_video" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../../juce/modules"/>
+        <MODULEPATH id="juce_core" path="modules"/>
+        <MODULEPATH id="juce_events" path="modules"/>
+        <MODULEPATH id="juce_graphics" path="modules"/>
+        <MODULEPATH id="juce_data_structures" path="modules"/>
+        <MODULEPATH id="juce_gui_basics" path="modules"/>
+        <MODULEPATH id="juce_gui_extra" path="modules"/>
+        <MODULEPATH id="juce_cryptography" path="modules"/>
+        <MODULEPATH id="juce_video" path="modules"/>
+        <MODULEPATH id="juce_opengl" path="modules"/>
+        <MODULEPATH id="juce_audio_basics" path="modules"/>
+        <MODULEPATH id="juce_audio_devices" path="modules"/>
+        <MODULEPATH id="juce_audio_formats" path="modules"/>
+        <MODULEPATH id="juce_audio_processors" path="modules"/>
       </MODULEPATHS>
     </VS2012>
     <VS2013 targetFolder="Builds/VisualStudio2013">
@@ -62,19 +62,19 @@
                        isDebug="0" optimisation="2" targetName="MIDI2LR"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_video" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_core" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../../juce/modules"/>
+        <MODULEPATH id="juce_video" path="modules"/>
+        <MODULEPATH id="juce_opengl" path="modules"/>
+        <MODULEPATH id="juce_gui_extra" path="modules"/>
+        <MODULEPATH id="juce_gui_basics" path="modules"/>
+        <MODULEPATH id="juce_graphics" path="modules"/>
+        <MODULEPATH id="juce_events" path="modules"/>
+        <MODULEPATH id="juce_data_structures" path="modules"/>
+        <MODULEPATH id="juce_cryptography" path="modules"/>
+        <MODULEPATH id="juce_core" path="modules"/>
+        <MODULEPATH id="juce_audio_processors" path="modules"/>
+        <MODULEPATH id="juce_audio_formats" path="modules"/>
+        <MODULEPATH id="juce_audio_devices" path="modules"/>
+        <MODULEPATH id="juce_audio_basics" path="modules"/>
       </MODULEPATHS>
     </VS2013>
     <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="WdgQGt" bigIcon="WdgQGt">
@@ -85,19 +85,19 @@
                        isDebug="0" optimisation="2" targetName="MIDI2LR"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_video" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_core" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../../../juce/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../../../juce/modules"/>
+        <MODULEPATH id="juce_video" path="modules"/>
+        <MODULEPATH id="juce_opengl" path="modules"/>
+        <MODULEPATH id="juce_gui_extra" path="modules"/>
+        <MODULEPATH id="juce_gui_basics" path="modules"/>
+        <MODULEPATH id="juce_graphics" path="modules"/>
+        <MODULEPATH id="juce_events" path="modules"/>
+        <MODULEPATH id="juce_data_structures" path="modules"/>
+        <MODULEPATH id="juce_cryptography" path="modules"/>
+        <MODULEPATH id="juce_core" path="modules"/>
+        <MODULEPATH id="juce_audio_processors" path="modules"/>
+        <MODULEPATH id="juce_audio_formats" path="modules"/>
+        <MODULEPATH id="juce_audio_devices" path="modules"/>
+        <MODULEPATH id="juce_audio_basics" path="modules"/>
       </MODULEPATHS>
     </VS2015>
   </EXPORTFORMATS>

@@ -22,7 +22,6 @@ contents.xcworkspacedata
 .DS_Store
 .svn
 profile
-/Builds
 **/MacOSX/build
 **/VisualStudio2012/Debug
 **/VisualStudio2012/Release
