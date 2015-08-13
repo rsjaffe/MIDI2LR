@@ -43,11 +43,13 @@ local function updateParam(param, midi_value)
 end
 
 local ACTIONS = {
-    ['pick']   = function () LrSelection.flagAsPick() end,
-    ['reject'] = function () LrSelection.flagAsReject() end,
-    ['next']   = function () LrSelection.nextPhoto() end,
-    ['prev']   = function () LrSelection.previousPhoto() end,
-    ['unflag'] = function () LrSelection.removeFlag() end
+    ['Pick']       = function () LrSelection.flagAsPick() end,
+    ['Reject']     = function () LrSelection.flagAsReject() end,
+    ['Next']       = function () LrSelection.nextPhoto() end,
+    ['Prev']       = function () LrSelection.previousPhoto() end,
+    ['RemoveFlag'] = function () LrSelection.removeFlag() end,
+    ['IncreaseRating'] = function () LrSelection.increaseRating() end,
+    ['DecreaseRating'] = function () LrSelection.decreaseRating() end
 }
 
 -- message processor
@@ -58,7 +60,7 @@ local function processMessage(message)
        
         -- perform a one time action
         if(ACTIONS[param] ~= nil) then
-            ACTIONS[param]()
+            if(tonumber(value) == 127) then ACTIONS[param]() end
         else -- otherwise update a develop parameter
             updateParam(param, tonumber(value))
         end

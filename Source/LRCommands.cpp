@@ -133,6 +133,16 @@ const std::vector<String> LRCommandList::CalibrateStringList = {
     "Blue Saturation"
 };
 
+const std::vector<String> LRCommandList::SelectionList = {
+    "Pick",
+    "Reject",
+    "Next Photo",
+    "Previous Photo",
+    "Remove Flag",
+    "Increase Rating",
+    "Decrease Rating",
+};
+
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
@@ -240,4 +250,12 @@ const std::vector<String> LRCommandList::LRStringList = {
     "GreenSaturation",
     "BlueHue",
     "BlueSaturation",
+    /* Selection Actions */
+    "Pick",
+    "Reject",
+    "Next",
+    "Prev",
+    "RemoveFlag",
+    "IncreaseRating",
+    "DecreaseRating",
 };

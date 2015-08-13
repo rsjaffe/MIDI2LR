@@ -30,6 +30,8 @@ public:
     static const std::vector<String> LensCorrectionStringList;
     static const std::vector<String> CalibrateStringList;
 
+    static const std::vector<String> SelectionList;
+
 private:
     LRCommandList();
 };
