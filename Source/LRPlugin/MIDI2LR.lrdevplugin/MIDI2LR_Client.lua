@@ -10,6 +10,7 @@ local LrApplicationView   = import 'LrApplicationView'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrFunctionContext   = import 'LrFunctionContext'
+local LrSelection         = import 'LrSelection'
 
 local PORT = 58763
 local PICKUP_THRESHOLD = 4
@@ -41,12 +42,26 @@ local function updateParam(param, midi_value)
     end
 end
 
+local ACTIONS = {
+    ['pick']   = function () LrSelection.flagAsPick() end,
+    ['reject'] = function () LrSelection.flagAsReject() end,
+    ['next']   = function () LrSelection.nextPhoto() end,
+    ['prev']   = function () LrSelection.previousPhoto() end,
+    ['unflag'] = function () LrSelection.removeFlag() end
+}
+
 -- message processor
 local function processMessage(message)
     if type(message) == 'string' then
         -- messages are in the format 'param value'
         local _, _, param, value = string.find( message, '(%S+)%s(%d+)' )
-        updateParam(param, tonumber(value))
+       
+        -- perform a one time action
+        if(ACTIONS[param] ~= nil) then
+            ACTIONS[param]()
+        else -- otherwise update a develop parameter
+            updateParam(param, tonumber(value))
+        end
     end
 end
 
