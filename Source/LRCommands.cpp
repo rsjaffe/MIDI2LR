@@ -112,6 +112,7 @@ const std::vector<String> LRCommandList::LensCorrectionStringList = {
 };
 
 const std::vector<String> LRCommandList::EffectsStringList = {
+    "Dehaze",
     "Post Crop Vignette Amount",
     "Post Crop Vignette Midpoint",
     "Post Crop Vignette Feather",
@@ -233,6 +234,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "PerspectiveAspect",
     "PerspectiveUpright",
     /* Effects */
+    "Dehaze",
     "PostCropVignetteAmount",
     "PostCropVignetteMidpoint",
     "PostCropVignetteFeather",
