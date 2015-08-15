@@ -111,15 +111,17 @@ void MainContentComponent::handleAsyncUpdate()
 void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
 {
     _lastCommand = String::formatted("%d: CC%d [%d]", midiChannel, controller, value);
-    _commandTableModel.addRow(midiChannel, controller);
-    _rowToSelect = _commandTableModel.getRowForController(midiChannel, controller);
+    _commandTableModel.addRow(midiChannel, controller, true);
+    _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, controller, true);
     triggerAsyncUpdate();
 }
 
 void MainContentComponent::handleMidiNote(int midiChannel, int note)
 {
-    // _lastCommand = String::formatted("%d: Note%d", midiChannel, note);
-    // triggerAsyncUpdate();
+    _lastCommand = String::formatted("%d: Note [%d]", midiChannel, note);
+    _commandTableModel.addRow(midiChannel, note, false);
+    _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, note, false);
+    triggerAsyncUpdate();
 }
 
 void MainContentComponent::connected()

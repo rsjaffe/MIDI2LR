@@ -21,39 +21,44 @@ CommandMap& CommandMap::getInstance()
     return instance;
 }
 
-void CommandMap::addCommandforCC(int command, MIDI_CC &cc)
+void CommandMap::addCommandforMessage(int command, MIDI_Message &msg)
 {
-    _controllerMap[cc] = command;
+    _messageMap[msg] = command;
 }
 
-int CommandMap::getCommandforCC(MIDI_CC &cc)
+int CommandMap::getCommandforMessage(MIDI_Message &msg)
 {
-    return _controllerMap[cc];
+    return _messageMap[msg];
 }
 
-bool CommandMap::controllerExistsInMap(MIDI_CC &cc)
+bool CommandMap::messageExistsInMap(MIDI_Message &msg)
 {
-    return _controllerMap.count(cc);
+    return _messageMap.count(msg);
 }
 
-void CommandMap::removeCC(MIDI_CC &cc)
+void CommandMap::removeMessage(MIDI_Message &msg)
 {
-    _controllerMap.erase(cc);
+    _messageMap.erase(msg);
 }
 
 void CommandMap::clearMap()
 {
-    _controllerMap.clear();
+    _messageMap.clear();
 }
 
 void CommandMap::toXMLDocument(File& file)
 {
     XmlElement root("settings");
-    for (auto mapEntry : _controllerMap)
+    for (auto mapEntry : _messageMap)
     {
         XmlElement* setting = new XmlElement("setting");
         setting->setAttribute("channel", mapEntry.first.channel);
-        setting->setAttribute("controller", mapEntry.first.controller);
+
+        if (mapEntry.first.isCC)
+            setting->setAttribute("controller", mapEntry.first.controller);
+        else
+            setting->setAttribute("note", mapEntry.first.pitch);
+
         setting->setAttribute("command", mapEntry.second);
 
         root.addChildElement(setting);

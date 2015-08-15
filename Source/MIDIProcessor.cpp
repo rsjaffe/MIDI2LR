@@ -51,7 +51,7 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput *device, const MidiMessa
     if(msg.isController())
         for(auto listener : _listeners)
             listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
-    else if(msg.isNoteOnOrOff())
+    else if(msg.isNoteOn())
         for(auto listener : _listeners)
             listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
 }

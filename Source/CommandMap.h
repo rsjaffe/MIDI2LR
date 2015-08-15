@@ -16,29 +16,35 @@
 
 #include "LRCommands.h"
 
-struct MIDI_CC
+struct MIDI_Message
 {
+    bool isCC;
     int channel;
-    int controller;
+    union {
+        int controller;
+        int pitch;
+        int data;
+    };
 
-    MIDI_CC(int ch, int cont) : channel(ch),
-                                controller(cont)
+    MIDI_Message(int ch, int dat, bool iscc) : channel(ch),
+                                               data(dat),
+                                               isCC(iscc)
     {}
 
-    bool operator==(const MIDI_CC &other) const
+    bool operator==(const MIDI_Message &other) const
     {
-        return (channel == other.channel && controller == other.controller);
+        return (isCC == other.isCC && channel == other.channel && data == other.data);
     }
 };
 
 // hash function for MIDI_CC
 namespace std {
     template <>
-    struct hash<MIDI_CC>
+    struct hash<MIDI_Message>
     {
-        std::size_t operator()(const MIDI_CC& k) const
+        std::size_t operator()(const MIDI_Message& k) const
         {
-            return (std::hash<int>()(k.channel) ^ (std::hash<int>()(k.controller) << 1));
+            return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^ (std::hash<int>()(k.data) << 1));
         }
     };
 }
@@ -47,11 +53,11 @@ class CommandMap
 {
 public:
     static CommandMap& getInstance();
-    void addCommandforCC(int command, MIDI_CC &cc);
-    int getCommandforCC(MIDI_CC &cc);
-    void removeCC(MIDI_CC &cc);
+    void addCommandforMessage(int command, MIDI_Message &cc);
+    int getCommandforMessage(MIDI_Message &cc);
+    void removeMessage(MIDI_Message &cc);
     void clearMap();
-    bool controllerExistsInMap(MIDI_CC &cc);
+    bool messageExistsInMap(MIDI_Message &cc);
 
     void toXMLDocument(File& file);
 
@@ -61,9 +67,8 @@ private:
     CommandMap(CommandMap const&)  = delete;
     void operator=(CommandMap const&) = delete;
 
-    std::unordered_map<MIDI_CC, int> _controllerMap;
+    std::unordered_map<MIDI_Message, int> _messageMap;
 };
-
 
 
 #endif  // COMMANDMAP_H_INCLUDED

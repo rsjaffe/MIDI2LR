@@ -22,8 +22,14 @@ void CommandTableModel::paintCell (Graphics &g, int rowNumber, int columnId, int
     g.setFont(12.0f);
 
     if (columnId == 1) // MIDI command column
-        g.drawText(String::formatted("%d | CC: %d", _commands[rowNumber].channel,
-                   _commands[rowNumber].controller), 0, 0, width, height, Justification::centred);
+    {
+        if(_commands[rowNumber].isCC)
+            g.drawText(String::formatted("%d | CC: %d", _commands[rowNumber].channel,
+                       _commands[rowNumber].controller), 0, 0, width, height, Justification::centred);
+        else
+            g.drawText(String::formatted("%d | Note: %d", _commands[rowNumber].channel,
+                _commands[rowNumber].pitch), 0, 0, width, height, Justification::centred);
+    }
 }
 
 Component *CommandTableModel::refreshComponentForCell (int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate)
@@ -35,7 +41,7 @@ Component *CommandTableModel::refreshComponentForCell (int rowNumber, int column
         // create a new command menu
         if (commandSelect == nullptr)
             commandSelect = new CommandMenu(_commands[rowNumber]);
-        commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforCC(_commands[rowNumber]) + 1); // add one because
+        commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforMessage(_commands[rowNumber]) + 1); // add one because
                                                                                                                  // zero is reserved
                                                                                                                  // for no selection
 
@@ -45,32 +51,33 @@ Component *CommandTableModel::refreshComponentForCell (int rowNumber, int column
         return nullptr;
 }
 
-void CommandTableModel::addRow(int midi_channel, int midi_controller)
+void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
 {
-    MIDI_CC cc(midi_channel, midi_controller);
+    MIDI_Message msg(midi_channel, midi_data, isCC);
 
-    if (!CommandMap::getInstance().controllerExistsInMap(cc))
+    if (!CommandMap::getInstance().messageExistsInMap(msg))
     {
-        _commands.push_back(cc);
-        CommandMap::getInstance().addCommandforCC(0, cc); // add an entry for 'no command'
+        _commands.push_back(msg);
+        CommandMap::getInstance().addCommandforMessage(0, msg); // add an entry for 'no command'
         _rows++;
     }
 }
 
-int CommandTableModel::getRowForController(int midi_channel, int midi_controller)
+int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC)
 {
     for (auto idx = 0; idx < _rows; idx++)
     {
-        if (_commands[idx].channel == midi_channel && _commands[idx].controller == midi_controller)
+        if (_commands[idx].channel == midi_channel && _commands[idx].controller == midi_data
+            && _commands[idx].isCC == isCC)
             return idx;
     }
 }
 
 void CommandTableModel::removeRow(int row)
 {
-    MIDI_CC cc = _commands[row];
+    MIDI_Message msg = _commands[row];
     _commands.erase(_commands.begin() + row);
-    CommandMap::getInstance().removeCC(cc);
+    CommandMap::getInstance().removeMessage(msg);
     _rows--;
 }
 
@@ -91,9 +98,18 @@ void CommandTableModel::buildFromXml(XmlElement *root)
     XmlElement* setting = root->getFirstChildElement();
     while (setting)
     {
-        MIDI_CC cc(setting->getIntAttribute("channel"), setting->getIntAttribute("controller"));
-        addRow(cc.channel, cc.controller);
-        CommandMap::getInstance().addCommandforCC(setting->getIntAttribute("command"), cc);
+        if (setting->hasAttribute("controller"))
+        {
+            MIDI_Message cc(setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true);
+            addRow(cc.channel, cc.controller, true);
+            CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), cc);
+        }
+        else if(setting->hasAttribute("note"))
+        {
+            MIDI_Message note(setting->getIntAttribute("channel"), setting->getIntAttribute("note"), false);
+            addRow(note.channel, note.pitch, false);
+            CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), note);
+        }
         setting = setting->getNextElement();
     }
 }

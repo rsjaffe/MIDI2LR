@@ -17,16 +17,16 @@ public:
     virtual void paintCell (Graphics &, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     virtual Component *refreshComponentForCell (int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate) override;
 
-    void addRow(int midi_channel, int midi_controller);
+    void addRow(int midi_channel, int midi_data, bool isCC);
     void removeRow(int row);
     void removeAllRows();
     void buildFromXml(XmlElement *elem);
 
-    int getRowForController(int midi_channel, int midi_controller);
+    int getRowForMessage(int midi_channel, int midi_data, bool isCC);
 private:
     int _rows;
 
-    std::vector<MIDI_CC> _commands;
+    std::vector<MIDI_Message> _commands;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

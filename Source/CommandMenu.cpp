@@ -11,7 +11,7 @@
 #include <limits>
 #include "CommandMenu.h"
 
-CommandMenu::CommandMenu(MIDI_CC& cc) : _cc(cc),
+CommandMenu::CommandMenu(MIDI_Message& msg) : _msg(msg),
                                         _selectedItem(std::numeric_limits<int>::max()),
                                         TextButton("Unmapped")
 {
@@ -68,7 +68,7 @@ void CommandMenu::buttonClicked(Button* button)
         setButtonText(LRCommandList::LRStringList[result - 1]);
 
         // Map the selected command to the CC
-        CommandMap::getInstance().addCommandforCC(result - 1, _cc);
+        CommandMap::getInstance().addCommandforMessage(result - 1, _msg);
     }
 }
 

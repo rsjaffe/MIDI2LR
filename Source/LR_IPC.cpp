@@ -73,17 +73,24 @@ void LR_IPC::handleAsyncUpdate()
 
 void LR_IPC::handleMidiCC(int midiChannel, int controller, int value)
 {
-    MIDI_CC cc(midiChannel, controller);
+    MIDI_Message cc(midiChannel, controller, true);
 
-    if (CommandMap::getInstance().getCommandforCC(cc) == 0) 
+    if (CommandMap::getInstance().getCommandforMessage(cc) == 0) 
         return;
 
-    _commandToSend = LRCommandList::LRStringList[(int)CommandMap::getInstance().getCommandforCC(cc)];
+    _commandToSend = LRCommandList::LRStringList[(int)CommandMap::getInstance().getCommandforMessage(cc)];
     _valueToSend = value;
     handleAsyncUpdate();
 }
 
 void LR_IPC::handleMidiNote(int midiChannel, int note)
 {
+    MIDI_Message note_msg(midiChannel, note, false);
 
+    if (CommandMap::getInstance().getCommandforMessage(note_msg) == 0)
+        return;
+
+    _commandToSend = LRCommandList::LRStringList[(int)CommandMap::getInstance().getCommandforMessage(note_msg)];
+    _valueToSend = 127;
+    handleAsyncUpdate();
 }
