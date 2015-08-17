@@ -142,7 +142,18 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Remove Flag",
     "Increase Rating",
     "Decrease Rating",
+    "Set Rating To 0",
     "Reset Develop Adjustments",
+};
+
+const std::vector<String> LRCommandList::ToolsList = {
+    "Loupe",
+    "Crop Overlay",
+    "Spot Removal",
+    "Red Eye",
+    "Graduated Filter",
+    "Radial Filter",
+    "Adjustment Brush",
 };
 
 const std::vector<String> LRCommandList::LRStringList = {
@@ -261,5 +272,14 @@ const std::vector<String> LRCommandList::LRStringList = {
     "RemoveFlag",
     "IncreaseRating",
     "DecreaseRating",
+    "SetRating0",
     "Reset",
+    /* Tools */
+    "Loupe",
+    "CropOverlay",
+    "SpotRemoval",
+    "RedEye",
+    "GraduatedFilter",
+    "RadialFilter",
+    "AdjustmentBrush",
 };

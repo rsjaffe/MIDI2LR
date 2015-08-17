@@ -31,6 +31,7 @@ public:
     static const std::vector<String> CalibrateStringList;
 
     static const std::vector<String> SelectionList;
+    static const std::vector<String> ToolsList;
 
 private:
     LRCommandList();

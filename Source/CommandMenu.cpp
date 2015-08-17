@@ -34,7 +34,8 @@ void CommandMenu::buttonClicked(Button* button)
                                         "Lens Correction",
                                         "Effects",
                                         "Camera Calibration",
-                                        "Photo Actions"
+                                        "Photo Actions",
+                                        "Tools",
                                       };
     const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
                                                            LRCommandList::ToneStringList,
@@ -45,6 +46,7 @@ void CommandMenu::buttonClicked(Button* button)
                                                            LRCommandList::EffectsStringList,
                                                            LRCommandList::CalibrateStringList,
                                                            LRCommandList::SelectionList,
+                                                           LRCommandList::ToolsList,
                                                          };
 
     // add each submenu

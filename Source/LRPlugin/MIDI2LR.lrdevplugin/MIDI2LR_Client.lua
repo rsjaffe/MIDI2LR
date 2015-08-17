@@ -14,6 +14,7 @@ local LrSelection         = import 'LrSelection'
 
 local PORT = 58763
 local PICKUP_THRESHOLD = 4
+local PREV_TOOL = ''
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -48,9 +49,20 @@ local ACTIONS = {
     ['Next']       = function () LrSelection.nextPhoto() end,
     ['Prev']       = function () LrSelection.previousPhoto() end,
     ['RemoveFlag'] = function () LrSelection.removeFlag() end,
-    ['IncreaseRating'] = function () LrSelection.increaseRating() end,
-    ['DecreaseRating'] = function () LrSelection.decreaseRating() end,
-    ['Reset'] = function() LrDevelopController.resetAllDevelopAdjustments() end,
+    ['IncreaseRating']  = function () LrSelection.increaseRating() end,
+    ['DecreaseRating']  = function () LrSelection.decreaseRating() end,
+    ['SetRating0']      = function () LrSelection.setRating(0) end,
+    ['Reset']           = function() LrDevelopController.resetAllDevelopAdjustments() end,
+}
+
+local TOOLS = {
+    ['Loupe']           = function() LrDevelopController.selectTool('loupe') end,
+    ['CropOverlay']     = function() LrDevelopController.selectTool('crop') end,
+    ['SpotRemoval']     = function() LrDevelopController.selectTool('dust') end,
+    ['RedEye']          = function() LrDevelopController.selectTool('redeye') end,
+    ['GraduatedFilter'] = function() LrDevelopController.selectTool('gradient') end,
+    ['RadialFilter']    = function() LrDevelopController.selectTool('circularGradient') end,
+    ['AdjustmentBrush'] = function() LrDevelopController.selectTool('localized') end,
 }
 
 -- message processor
@@ -62,6 +74,16 @@ local function processMessage(message)
         -- perform a one time action
         if(ACTIONS[param] ~= nil) then
             if(tonumber(value) == 127) then ACTIONS[param]() end
+        elseif(TOOLS[param] ~= nil) then
+            if(tonumber(value) == 127) then 
+                if(PREV_TOOL == param) then -- toggle between the tool/loupe
+                    TOOLS['Loupe']()
+                    PREV_TOOL = 'Loupe'
+                else
+                    TOOLS[param]()
+                    PREV_TOOL = param
+                end
+            end
         else -- otherwise update a develop parameter
             updateParam(param, tonumber(value))
         end
