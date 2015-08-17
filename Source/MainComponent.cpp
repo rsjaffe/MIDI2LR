@@ -13,7 +13,9 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                _rescanButton("Rescan MIDI devices"),
                                                _removeRowButton("Remove selected row"),
                                                _saveButton("Save"),
-                                               _loadButton("Load")
+                                               _loadButton("Load"),
+                                               _versionLabel("Version", "Version " +
+                                                                        String(ProjectInfo::versionString))
 {
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
@@ -62,6 +64,12 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _loadButton.addListener(this);
     addAndMakeVisible(_loadButton);
 
+    // Version label
+    _versionLabel.setFont(Font(12.f, Font::bold));
+    _versionLabel.setEditable(false);
+    _versionLabel.setColour(Label::textColourId, Colours::darkgrey);
+    addAndMakeVisible(_versionLabel);
+
     setSize (400, 600);
 
     // Start LR IPC
@@ -93,6 +101,7 @@ void MainContentComponent::resized()
     _removeRowButton.setBoundsRelative(.1f, .85f, .4f, .05f);
     _saveButton.setBoundsRelative(.55f, .85f, .15f, .05f);
     _loadButton.setBoundsRelative(.75f, .85f, .15f, .05f);
+    _versionLabel.setBoundsRelative(.8f, .9f, .2f, .1f);
 }
 
 // Update MIDI command components

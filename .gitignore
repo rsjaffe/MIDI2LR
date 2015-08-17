@@ -8,6 +8,7 @@
 *.ilk
 *.pch
 *.pdb
+*.aps
 *.dep
 *.idb
 *.manifest

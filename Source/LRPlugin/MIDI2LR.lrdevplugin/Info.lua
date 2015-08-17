@@ -16,5 +16,5 @@ return {
         title = "About",
         file = "About.lua",
     },
-    VERSION = { major=0, minor=1}
+    VERSION = { major=0, minor=2}
 }

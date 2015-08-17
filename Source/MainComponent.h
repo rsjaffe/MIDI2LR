@@ -61,6 +61,7 @@ private:
     TextButton _removeRowButton;
     TextButton _saveButton;
     TextButton _loadButton;
+    Label _versionLabel;
 
     String _lastCommand;
     int _rowToSelect;
