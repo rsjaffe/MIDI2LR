@@ -49,7 +49,8 @@ local ACTIONS = {
     ['Prev']       = function () LrSelection.previousPhoto() end,
     ['RemoveFlag'] = function () LrSelection.removeFlag() end,
     ['IncreaseRating'] = function () LrSelection.increaseRating() end,
-    ['DecreaseRating'] = function () LrSelection.decreaseRating() end
+    ['DecreaseRating'] = function () LrSelection.decreaseRating() end,
+    ['Reset'] = function() LrDevelopController.resetAllDevelopAdjustments() end,
 }
 
 -- message processor

@@ -142,6 +142,7 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Remove Flag",
     "Increase Rating",
     "Decrease Rating",
+    "Reset Develop Adjustments",
 };
 
 const std::vector<String> LRCommandList::LRStringList = {
@@ -260,4 +261,5 @@ const std::vector<String> LRCommandList::LRStringList = {
     "RemoveFlag",
     "IncreaseRating",
     "DecreaseRating",
+    "Reset",
 };
