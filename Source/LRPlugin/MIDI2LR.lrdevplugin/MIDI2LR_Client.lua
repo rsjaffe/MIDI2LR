@@ -14,7 +14,6 @@ local LrSelection         = import 'LrSelection'
 
 local PORT = 58763
 local PICKUP_THRESHOLD = 4
-local PREV_TOOL = ''
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -55,14 +54,14 @@ local ACTIONS = {
     ['Reset']           = function() LrDevelopController.resetAllDevelopAdjustments() end,
 }
 
-local TOOLS = {
-    ['Loupe']           = function() LrDevelopController.selectTool('loupe') end,
-    ['CropOverlay']     = function() LrDevelopController.selectTool('crop') end,
-    ['SpotRemoval']     = function() LrDevelopController.selectTool('dust') end,
-    ['RedEye']          = function() LrDevelopController.selectTool('redeye') end,
-    ['GraduatedFilter'] = function() LrDevelopController.selectTool('gradient') end,
-    ['RadialFilter']    = function() LrDevelopController.selectTool('circularGradient') end,
-    ['AdjustmentBrush'] = function() LrDevelopController.selectTool('localized') end,
+local TOOL_ALIASES = {
+    ['Loupe']           = 'loupe',
+    ['CropOverlay']     = 'crop',
+    ['SpotRemoval']     = 'dust',
+    ['RedEye']          = 'redeye',
+    ['GraduatedFilter'] = 'gradient',
+    ['RadialFilter']    = 'circularGradient',
+    ['AdjustmentBrush'] = 'localized',
 }
 
 -- message processor
@@ -71,17 +70,14 @@ local function processMessage(message)
         -- messages are in the format 'param value'
         local _, _, param, value = string.find( message, '(%S+)%s(%d+)' )
        
-        -- perform a one time action
-        if(ACTIONS[param] ~= nil) then
+        if(ACTIONS[param] ~= nil) then -- perform a one time action
             if(tonumber(value) == 127) then ACTIONS[param]() end
-        elseif(TOOLS[param] ~= nil) then
+        elseif(TOOL_ALIASES[param] ~= nil) then -- switch to desired tool
             if(tonumber(value) == 127) then 
-                if(PREV_TOOL == param) then -- toggle between the tool/loupe
-                    TOOLS['Loupe']()
-                    PREV_TOOL = 'Loupe'
+                if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
+                    LrDevelopController.selectTool('loupe')
                 else
-                    TOOLS[param]()
-                    PREV_TOOL = param
+                    LrDevelopController.selectTool(TOOL_ALIASES[param])
                 end
             end
         else -- otherwise update a develop parameter
