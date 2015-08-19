@@ -5,6 +5,10 @@
               jucerVersion="3.1.0">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
+            file="Source/VersionChecker.cpp"/>
+      <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
+            file="Source/VersionChecker.h"/>
       <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="Source/MIDI2LR.png"/>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
       <FILE id="x6sgxb" name="CommandMenu.h" compile="0" resource="0" file="Source/CommandMenu.h"/>

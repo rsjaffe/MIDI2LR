@@ -11,6 +11,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainComponent.h"
 #include "LR_IPC.h"
+#include "VersionChecker.h"
 
 
 class MIDI2LRApplication  : public JUCEApplication
@@ -25,9 +26,10 @@ public:
     //==============================================================================
     void initialise (const String& commandLine) override
     {
-        // This method is where you should put your application's initialisation code..
-
         mainWindow = new MainWindow (getApplicationName());
+
+        // Check for latest version
+        _versionChecker.startThread();
     }
 
     void shutdown() override
@@ -94,6 +96,7 @@ public:
 
 private:
     ScopedPointer<MainWindow> mainWindow;
+    VersionChecker _versionChecker;
 };
 
 //==============================================================================
