@@ -51,6 +51,11 @@ local ACTIONS = {
     ['IncreaseRating']  = function () LrSelection.increaseRating() end,
     ['DecreaseRating']  = function () LrSelection.decreaseRating() end,
     ['SetRating0']      = function () LrSelection.setRating(0) end,
+    ['ToggleBlue']      = function () LrSelection.toggleBlueLabel() end,
+    ['ToggleGreen']     = function () LrSelection.toggleGreenLabel() end,
+    ['ToggleRed']       = function () LrSelection.toggleRedLabel() end,
+    ['TogglePurple']    = function () LrSelection.togglePurpleLabel() end,
+    ['ToggleYellow']    = function () LrSelection.toggleYellowLabel() end,
     ['Reset']           = function() LrDevelopController.resetAllDevelopAdjustments() end,
 }
 

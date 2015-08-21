@@ -143,6 +143,11 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Increase Rating",
     "Decrease Rating",
     "Set Rating To 0",
+    "Toggle Blue Label",
+    "Toggle Green Label",
+    "Toggle Red Label",
+    "Toggle Purple Label",
+    "Toggle Yellow Label",
     "Reset Develop Adjustments",
 };
 
@@ -273,6 +278,11 @@ const std::vector<String> LRCommandList::LRStringList = {
     "IncreaseRating",
     "DecreaseRating",
     "SetRating0",
+    "ToggleBlue",
+    "ToggleGreen",
+    "ToggleRed",
+    "TogglePurple",
+    "ToggleYellow",
     "Reset",
     /* Tools */
     "Loupe",

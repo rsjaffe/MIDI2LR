@@ -90,7 +90,7 @@ void LR_IPC::handleMidiNote(int midiChannel, int note)
     if (CommandMap::getInstance().getCommandforMessage(note_msg) == 0)
         return;
 
-    _commandToSend = LRCommandList::LRStringList[(int)CommandMap::getInstance().getCommandforMessage(note_msg)];
+    _commandToSend = LRCommandList::LRStringList[CommandMap::getInstance().getCommandforMessage(note_msg)];
     _valueToSend = 127;
     handleAsyncUpdate();
 }
