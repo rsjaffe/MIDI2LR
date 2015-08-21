@@ -74,6 +74,15 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
 
     // Start LR IPC
     LR_IPC::getInstance();
+
+    // Try to load a default.xml
+    File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+    ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
+    if (elem)
+    {
+        _commandTableModel.buildFromXml(elem);
+        _commandTable.updateContent();
+    }
      
 }
 

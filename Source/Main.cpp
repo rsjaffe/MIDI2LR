@@ -34,7 +34,9 @@ public:
 
     void shutdown() override
     {
-        // Add your application's shutdown code here..
+        // Save the current profile as default.xml
+        File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+        CommandMap::getInstance().toXMLDocument(defaultProfile);
 
         LR_IPC::getInstance().shutdown();
         mainWindow = nullptr; // (deletes our window)
