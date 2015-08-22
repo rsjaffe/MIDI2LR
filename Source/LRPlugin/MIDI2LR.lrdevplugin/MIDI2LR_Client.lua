@@ -3,7 +3,7 @@
 MIDI2LR_Client.lua
 
 Receives and processes commands from MIDI2LR
-
+Sends parameters to MIDI2LR
 ------------------------------------------------------------------------------]]
 local LrDevelopController = import 'LrDevelopController'
 local LrApplicationView   = import 'LrApplicationView'
@@ -12,8 +12,14 @@ local LrTasks             = import 'LrTasks'
 local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
 
-local PORT = 58763
+-- Global consts
+local RECEIVE_PORT = 58763
+local SEND_PORT    = 58764
 local PICKUP_THRESHOLD = 4
+require 'Develop_Params.lua' -- global table of develop params we need to observe
+
+-- Global vars
+local SERVER = {}
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -91,14 +97,29 @@ local function processMessage(message)
     end
 end
 
+-- send changed parameters to MIDI2LR
+local function sendChangedParams( observer )
+    for _, param in ipairs(DEVELOP_PARAMS) do
+        if(observer[param] ~= LrDevelopController.getValue(param)) then
+            SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
+            observer[param] = LrDevelopController.getValue(param)
+        end
+    end
+end
+
 -- Main task
 LrTasks.startAsyncTask( function()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+        
+        -- add an observer for develop param changes
+        local param_observer = {} -- will become a table of any changed parameters needed to be relayed to MIDI2LR
+        LrDevelopController.addAdjustmentChangeObserver( context, param_observer, sendChangedParams )
+        
         local client = LrSocket.bind {
             functionContext = context,
             plugin = _PLUGIN,
-            port = PORT,
+            port = RECEIVE_PORT,
             mode = 'receive',
             onMessage = function(socket, message)
                 processMessage(message)
@@ -113,11 +134,24 @@ LrTasks.startAsyncTask( function()
                 end
             end
         }
-    
+        
+        SERVER = LrSocket.bind {
+          functionContext = context,
+          plugin = _PLUGIN,
+          port = SEND_PORT,
+          mode = 'send',
+          onError = function( socket, err )
+           if err == 'timeout' then
+            socket:reconnect()
+           end
+          end,
+        }
+        
         while true do
             LrTasks.sleep( 1/2 )
         end
         
         client:close()
+        SERVER:close()
     end )
  end )
