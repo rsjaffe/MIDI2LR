@@ -20,7 +20,7 @@ require 'Develop_Params.lua' -- global table of develop params we need to observ
 
 -- Global vars
 local SERVER = {}
-local UPDATED_BY_REMOTE = false
+local PARAM_OBSERVER = {}
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -45,6 +45,7 @@ local function updateParam(param, midi_value)
     end
     
     if(math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD) then
+        PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
     end
 end
@@ -93,9 +94,7 @@ local function processMessage(message)
                 end
             end
         else -- otherwise update a develop parameter
-            UPDATED_BY_REMOTE = true
             updateParam(param, tonumber(value))
-            UPDATED_BY_REMOTE = false
         end
     end
 end
@@ -104,12 +103,26 @@ end
 local function sendChangedParams( observer )
     for _, param in ipairs(DEVELOP_PARAMS) do
         if(observer[param] ~= LrDevelopController.getValue(param)) then
-            if(not UPDATED_BY_REMOTE) then
-                SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
-            end
+            SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
             observer[param] = LrDevelopController.getValue(param)
         end
     end
+end
+
+local function startServer(context)
+    SERVER = LrSocket.bind {
+          functionContext = context,
+          plugin = _PLUGIN,
+          port = SEND_PORT,
+          mode = 'send',
+          onClosed = function( socket ) -- this callback never seems to get called...
+            -- MIDI2LR closed connection, allow for reconnection
+            -- socket:reconnect()
+          end,
+          onError = function( socket, err )
+            socket:reconnect()
+          end,
+        }
 end
 
 -- Main task
@@ -118,8 +131,7 @@ LrTasks.startAsyncTask( function()
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
         
         -- add an observer for develop param changes
-        local param_observer = {} -- will become a table of any changed parameters needed to be relayed to MIDI2LR
-        LrDevelopController.addAdjustmentChangeObserver( context, param_observer, sendChangedParams )
+        LrDevelopController.addAdjustmentChangeObserver( context, PARAM_OBSERVER, sendChangedParams )
         
         local client = LrSocket.bind {
             functionContext = context,
@@ -132,6 +144,10 @@ LrTasks.startAsyncTask( function()
             onClosed = function( socket )
                 -- MIDI2LR closed connection, allow for reconnection
                 socket:reconnect()
+                
+                -- calling SERVER:reconnect causes LR to hang for some reason...
+                SERVER:close()
+                startServer(context)
             end,
             onError = function(socket, err)
                 if err == 'timeout' then -- reconnect if timed out
@@ -140,19 +156,7 @@ LrTasks.startAsyncTask( function()
             end
         }
         
-        SERVER = LrSocket.bind {
-          functionContext = context,
-          plugin = _PLUGIN,
-          port = SEND_PORT,
-          mode = 'send',
-          onClosed = function( socket ) -- this callback never seems to get called...
-            -- MIDI2LR closed connection, allow for reconnection
-            socket:reconnect()
-          end,
-          onError = function( socket, err )
-            socket:reconnect()
-          end,
-        }
+        startServer(context)
         
         while true do
             LrTasks.sleep( 1/2 )
