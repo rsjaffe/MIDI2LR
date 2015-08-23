@@ -13,7 +13,7 @@
 #include "CommandTable.h"
 #include "CommandTableModel.h"
 #include "MIDIProcessor.h"
-#include "LR_IPC.h"
+#include "LR_IPC_OUT.h"
 
 
 //==============================================================================

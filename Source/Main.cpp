@@ -10,7 +10,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainComponent.h"
-#include "LR_IPC.h"
+#include "LR_IPC_OUT.h"
+#include "LR_IPC_IN.h"
 #include "VersionChecker.h"
 
 
@@ -38,7 +39,8 @@ public:
         File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
         CommandMap::getInstance().toXMLDocument(defaultProfile);
 
-        LR_IPC::getInstance().shutdown();
+        LR_IPC_OUT::getInstance().shutdown();
+        LR_IPC_IN::getInstance().shutdown();
         mainWindow = nullptr; // (deletes our window)
     }
 

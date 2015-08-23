@@ -3,6 +3,7 @@
 */
 
 #include "MainComponent.h"
+#include "LR_IPC_IN.h"
 
 //==============================================================================
 MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
@@ -45,8 +46,8 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     // Add ourselves as a listener for MIDI commands
     MIDIProcessor::getInstance().addMIDICommandListener(this);
 
-    // Add ourselves as a listener for LR_IPC events
-    LR_IPC::getInstance().addListener(this);
+    // Add ourselves as a listener for LR_IPC_OUT events
+    LR_IPC_OUT::getInstance().addListener(this);
 
     // Command Table
     _commandTable.setModel(&_commandTableModel);
@@ -72,8 +73,8 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
 
     setSize (400, 600);
 
-    // Start LR IPC
-    LR_IPC::getInstance();
+    // Start LR_IPC_IN
+    LR_IPC_IN::getInstance();
 
     // Try to load a default.xml
     File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");

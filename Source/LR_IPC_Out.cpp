@@ -1,69 +1,66 @@
 /*
   ==============================================================================
 
-    LR_IPC.cpp
+    LR_IPC_OUT.cpp
     Created: 2 Aug 2015 12:27:47am
     Author:  Parth
 
   ==============================================================================
 */
 
-#include "LR_IPC.h"
+#include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-const int LR_IPC::LR_PORT = 58763;
+const int LR_IPC_OUT::LR_OUT_PORT = 58763;
 
-LR_IPC& LR_IPC::getInstance()
+LR_IPC_OUT& LR_IPC_OUT::getInstance()
 {
-    static LR_IPC instance;
+    static LR_IPC_OUT instance;
     return instance;
 }
 
-LR_IPC::LR_IPC() : InterprocessConnection()
+LR_IPC_OUT::LR_IPC_OUT() : InterprocessConnection()
 {
     MIDIProcessor::getInstance().addMIDICommandListener(this);
     startTimer(1000);
 }
 
-void LR_IPC::shutdown()
+void LR_IPC_OUT::shutdown()
 {
     stopTimer();
     disconnect();
 }
 
-void LR_IPC::timerCallback()
+void LR_IPC_OUT::timerCallback()
 {
     if (!isConnected())
-    {
-        connectToSocket("127.0.0.1", LR_PORT, 100);
-        DBG("Connecting");
-    }
+        connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
 }
 
-void LR_IPC::addListener(LRConnectionListener *listener)
+void LR_IPC_OUT::addListener(LRConnectionListener *listener)
 {
     _listeners.addIfNotAlreadyThere(listener);
 }
 
-void LR_IPC::connectionMade()
+void LR_IPC_OUT::connectionMade()
 {
     for (auto listener : _listeners)
         listener->connected();
 }
 
-void LR_IPC::connectionLost()
+void LR_IPC_OUT::connectionLost()
 {
     for (auto listener : _listeners)
         listener->disconnected();
 }
 
-void LR_IPC::messageReceived(const MemoryBlock& msg)
+void LR_IPC_OUT::messageReceived(const MemoryBlock& msg)
 {
 
 }
 
-void LR_IPC::handleAsyncUpdate()
+void LR_IPC_OUT::handleAsyncUpdate()
 {
     if (!isConnected()) return;
 
@@ -71,7 +68,7 @@ void LR_IPC::handleAsyncUpdate()
     getSocket()->write(command.getCharPointer(), command.length());
 }
 
-void LR_IPC::handleMidiCC(int midiChannel, int controller, int value)
+void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
     MIDI_Message cc(midiChannel, controller, true);
 
@@ -83,7 +80,7 @@ void LR_IPC::handleMidiCC(int midiChannel, int controller, int value)
     handleAsyncUpdate();
 }
 
-void LR_IPC::handleMidiNote(int midiChannel, int note)
+void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 {
     MIDI_Message note_msg(midiChannel, note, false);
 

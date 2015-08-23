@@ -20,6 +20,7 @@ require 'Develop_Params.lua' -- global table of develop params we need to observ
 
 -- Global vars
 local SERVER = {}
+local UPDATED_BY_REMOTE = false
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -92,7 +93,9 @@ local function processMessage(message)
                 end
             end
         else -- otherwise update a develop parameter
+            UPDATED_BY_REMOTE = true
             updateParam(param, tonumber(value))
+            UPDATED_BY_REMOTE = false
         end
     end
 end
@@ -101,7 +104,9 @@ end
 local function sendChangedParams( observer )
     for _, param in ipairs(DEVELOP_PARAMS) do
         if(observer[param] ~= LrDevelopController.getValue(param)) then
-            SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
+            if(not UPDATED_BY_REMOTE) then
+                SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
+            end
             observer[param] = LrDevelopController.getValue(param)
         end
     end
@@ -140,10 +145,12 @@ LrTasks.startAsyncTask( function()
           plugin = _PLUGIN,
           port = SEND_PORT,
           mode = 'send',
-          onError = function( socket, err )
-           if err == 'timeout' then
+          onClosed = function( socket ) -- this callback never seems to get called...
+            -- MIDI2LR closed connection, allow for reconnection
             socket:reconnect()
-           end
+          end,
+          onError = function( socket, err )
+            socket:reconnect()
           end,
         }
         
