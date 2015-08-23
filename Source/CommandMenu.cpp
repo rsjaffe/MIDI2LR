@@ -10,6 +10,7 @@
 
 #include <limits>
 #include "CommandMenu.h"
+#include "LRCommands.h"
 
 CommandMenu::CommandMenu(MIDI_Message& msg) : _msg(msg),
                                         _selectedItem(std::numeric_limits<int>::max()),

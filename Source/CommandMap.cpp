@@ -9,6 +9,7 @@
 */
 
 #include "CommandMap.h"
+#include "LRCommands.h"
 
 CommandMap::CommandMap()
 {
@@ -24,6 +25,7 @@ CommandMap& CommandMap::getInstance()
 void CommandMap::addCommandforMessage(int command, MIDI_Message &msg)
 {
     _messageMap[msg] = command;
+    _commandStringMap[LRCommandList::LRStringList[command]] = msg;
 }
 
 int CommandMap::getCommandforMessage(MIDI_Message &msg)
@@ -31,18 +33,30 @@ int CommandMap::getCommandforMessage(MIDI_Message &msg)
     return _messageMap[msg];
 }
 
+MIDI_Message& CommandMap::getMessageForCommand(String &command)
+{
+    return _commandStringMap[command];
+}
+
 bool CommandMap::messageExistsInMap(MIDI_Message &msg)
 {
     return _messageMap.count(msg);
 }
 
+bool CommandMap::commandHasAssociatedMessage(String &command)
+{
+    return _commandStringMap.count(command);
+}
+
 void CommandMap::removeMessage(MIDI_Message &msg)
 {
+    _commandStringMap.erase(LRCommandList::LRStringList[_messageMap[msg]]);
     _messageMap.erase(msg);
 }
 
 void CommandMap::clearMap()
 {
+    _commandStringMap.clear();
     _messageMap.clear();
 }
 

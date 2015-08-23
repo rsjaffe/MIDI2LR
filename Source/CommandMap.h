@@ -11,10 +11,8 @@
 #ifndef COMMANDMAP_H_INCLUDED
 #define COMMANDMAP_H_INCLUDED
 
+#include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
-#include <vector>
-
-#include "LRCommands.h"
 
 struct MIDI_Message
 {
@@ -25,6 +23,12 @@ struct MIDI_Message
         int pitch;
         int data;
     };
+
+    MIDI_Message() : isCC(0),
+                     channel(0),
+                     data(0)
+    {
+    }
 
     MIDI_Message(int ch, int dat, bool iscc) : channel(ch),
                                                data(dat),
@@ -47,6 +51,15 @@ namespace std {
             return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^ (std::hash<int>()(k.data) << 1));
         }
     };
+
+    template <>
+    struct hash<String>
+    {
+        std::size_t operator()(const String& k) const
+        {
+            return k.hash();
+        }
+    };
 }
 
 class CommandMap
@@ -59,6 +72,9 @@ public:
     void clearMap();
     bool messageExistsInMap(MIDI_Message &cc);
 
+    MIDI_Message& getMessageForCommand(String &command);
+    bool commandHasAssociatedMessage(String &command);
+
     void toXMLDocument(File& file);
 
 private:
@@ -68,6 +84,7 @@ private:
     void operator=(CommandMap const&) = delete;
 
     std::unordered_map<MIDI_Message, int> _messageMap;
+    std::unordered_map<String, MIDI_Message> _commandStringMap;
 };
 
 
