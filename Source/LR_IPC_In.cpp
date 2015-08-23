@@ -9,6 +9,8 @@
 */
 
 #include "LR_IPC_In.h"
+#include "MIDISender.h"
+#include "CommandMap.h"
 
 const int LR_IPC_IN::LR_IN_PORT = 58764;
 
@@ -22,6 +24,7 @@ LR_IPC_IN::LR_IPC_IN() : StreamingSocket(),
                          Thread("LR_IPC_IN")
 {
     startTimer(1000);
+    MIDISender::getInstance(); // enumerate MIDI output devices
 }
 
 void LR_IPC_IN::shutdown()
@@ -66,5 +69,17 @@ void LR_IPC_IN::run()
 
         if(canReadLine)
             DBG(String(line));
+    }
+}
+
+void LR_IPC_IN::processLine(String& line)
+{
+    auto value = line.getTrailingIntValue();
+    String command = line.upToFirstOccurrenceOf(" ", false, false);
+
+    if (CommandMap::getInstance().commandHasAssociatedMessage(command))
+    {
+        MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
+        MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
     }
 }

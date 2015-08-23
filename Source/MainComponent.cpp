@@ -4,6 +4,7 @@
 
 #include "MainComponent.h"
 #include "LR_IPC_IN.h"
+#include "MIDISender.h"
 
 //==============================================================================
 MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
@@ -165,7 +166,10 @@ void MainContentComponent::timerCallback()
 void MainContentComponent::buttonClicked(Button* button)
 {
     if (button == &_rescanButton)
+    {
         MIDIProcessor::getInstance().rescanDevices();
+        MIDISender::getInstance().rescanDevices();
+    }
     else if (button == &_removeRowButton)
     {
         if (_commandTable.getSelectedRow() != -1)

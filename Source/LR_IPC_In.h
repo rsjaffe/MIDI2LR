@@ -33,6 +33,8 @@ private:
 
     LR_IPC_IN(LR_IPC_IN const&) = delete;
     void operator=(LR_IPC_IN const&) = delete;
+
+    void processLine(String& line);
 };
 
 
