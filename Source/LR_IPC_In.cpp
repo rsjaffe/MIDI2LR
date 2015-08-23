@@ -67,15 +67,20 @@ void LR_IPC_IN::run()
             sizeRead += read(line + sizeRead, 1, false);
         }
 
-        if(canReadLine)
-            DBG(String(line));
+        if (canReadLine)
+        {
+            String param(line);
+            processLine(param);
+        }
     }
 }
 
 void LR_IPC_IN::processLine(String& line)
 {
-    auto value = line.getTrailingIntValue();
+    line.trimEnd();
     String command = line.upToFirstOccurrenceOf(" ", false, false);
+    String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
+    auto value = valueString.getIntValue();
 
     if (CommandMap::getInstance().commandHasAssociatedMessage(command))
     {
