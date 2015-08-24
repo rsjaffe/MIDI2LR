@@ -148,7 +148,8 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Toggle Red Label",
     "Toggle Purple Label",
     "Toggle Yellow Label",
-    "Reset Develop Adjustments",
+    "Reset All Develop Adjustments",
+    "Reset Last Develop Parameter",
 };
 
 const std::vector<String> LRCommandList::ToolsList = {
@@ -284,6 +285,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "TogglePurple",
     "ToggleYellow",
     "Reset",
+    "ResetLast",
     /* Tools */
     "Loupe",
     "CropOverlay",

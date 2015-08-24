@@ -23,6 +23,7 @@ require 'Develop_Params.lua' -- global table of develop params we need to observ
 local SERVER = {}
 local PARAM_OBSERVER = {}
 local PICKUP_ENABLED = true
+local LAST_PARAM = ''
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -37,7 +38,7 @@ local function develop_lerp_to_midi(param)
     local result = (LrDevelopController.getValue(param)-min)/(max-min) * 127
     return result
 end
- 
+
 local function updateParam(param, midi_value)
     -- this function does a 'pickup' type of check
     -- that is, it will ensure the develop parameter is close 
@@ -49,6 +50,7 @@ local function updateParam(param, midi_value)
     if(not PICKUP_ENABLED or (math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD)) then
         PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
+        LAST_PARAM = param
     end
 end
 
@@ -67,6 +69,7 @@ local ACTIONS = {
     ['TogglePurple']    = function () LrSelection.togglePurpleLabel() end,
     ['ToggleYellow']    = function () LrSelection.toggleYellowLabel() end,
     ['Reset']           = function() LrDevelopController.resetAllDevelopAdjustments() end,
+    ['ResetLast']       = function() LrDevelopController.resetToDefault(LAST_PARAM) end,
 }
 
 local TOOL_ALIASES = {
@@ -113,6 +116,8 @@ local function sendChangedParams( observer )
         if(observer[param] ~= LrDevelopController.getValue(param)) then
             SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
             observer[param] = LrDevelopController.getValue(param)
+            LAST_PARAM = param
+            break
         end
     end
 end
