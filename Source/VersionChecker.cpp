@@ -31,9 +31,9 @@ void VersionChecker::handleAsyncUpdate()
     DialogWindow::LaunchOptions dwOpt;
     dwOpt.dialogTitle = "New Version Available!";
     
-    int major = (_newVersion & 0xF00) >> 8;
-    int minor = (_newVersion & 0x0F0) >> 4;
-    int rev = _newVersion & 0x00F;
+    int major = (_newVersion & 0xF000) >> 12;
+    int minor = (_newVersion & 0x0F00) >> 8;
+    int rev = (_newVersion & 0x00F0) >> 4;
     String versionString = String::formatted("New version %d.%d.%d available", major, minor, rev);
     URL downloadURL("http://thegouger.github.io/MIDI2LR");
 
