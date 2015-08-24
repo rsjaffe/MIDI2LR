@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.2.1"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.3.0"
               bundleIdentifier="ca.parth.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="3.1.0">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
