@@ -11,6 +11,7 @@ local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
+local LrShell             = import 'LrShell'
 
 -- Global consts
 local RECEIVE_PORT = 58763
@@ -166,3 +167,11 @@ LrTasks.startAsyncTask( function()
         SERVER:close()
     end )
  end )
+ 
+LrTasks.startAsyncTask( function()
+    if(WIN_ENV) then
+        LrShell.openFilesInApp({""}, _PLUGIN.path..'/MIDI2LR.exe')
+    else
+        LrShell.openFilesInApp({""}, _PLUGIN.path..'/MIDI2LR.app')
+    end
+end)
