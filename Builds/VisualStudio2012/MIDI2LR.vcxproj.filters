@@ -301,6 +301,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\SettingsComponent.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\MIDISender.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1542,6 +1545,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SettingsComponent.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\MIDISender.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>

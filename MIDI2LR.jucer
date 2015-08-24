@@ -5,6 +5,10 @@
               jucerVersion="3.1.0">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
+            file="Source/SettingsComponent.cpp"/>
+      <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"
+            file="Source/SettingsComponent.h"/>
       <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
       <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>

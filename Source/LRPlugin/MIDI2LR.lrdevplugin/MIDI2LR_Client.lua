@@ -22,6 +22,7 @@ require 'Develop_Params.lua' -- global table of develop params we need to observ
 -- Global vars
 local SERVER = {}
 local PARAM_OBSERVER = {}
+local PICKUP_ENABLED = true
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -45,7 +46,7 @@ local function updateParam(param, midi_value)
             LrApplicationView.switchToModule('develop')
     end
     
-    if(math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD) then
+    if(not PICKUP_ENABLED or (math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD)) then
         PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
     end
@@ -78,6 +79,10 @@ local TOOL_ALIASES = {
     ['AdjustmentBrush'] = 'localized',
 }
 
+local SETTINGS = {
+    ['Pickup'] = function (enabled) PICKUP_ENABLED = enabled end,
+}
+
 -- message processor
 local function processMessage(message)
     if type(message) == 'string' then
@@ -94,6 +99,8 @@ local function processMessage(message)
                     LrDevelopController.selectTool(TOOL_ALIASES[param])
                 end
             end
+        elseif(SETTINGS[param] ~= nil) then
+            SETTINGS[param](tonumber(value))
         else -- otherwise update a develop parameter
             updateParam(param, tonumber(value))
         end
