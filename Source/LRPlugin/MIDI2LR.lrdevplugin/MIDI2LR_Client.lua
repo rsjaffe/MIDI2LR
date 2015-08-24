@@ -12,6 +12,7 @@ local LrTasks             = import 'LrTasks'
 local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
 local LrShell             = import 'LrShell'
+local LrUndo              = import 'LrUndo'
 
 -- Global consts
 local RECEIVE_PORT = 58763
@@ -68,8 +69,10 @@ local ACTIONS = {
     ['ToggleRed']       = function () LrSelection.toggleRedLabel() end,
     ['TogglePurple']    = function () LrSelection.togglePurpleLabel() end,
     ['ToggleYellow']    = function () LrSelection.toggleYellowLabel() end,
-    ['Reset']           = function() LrDevelopController.resetAllDevelopAdjustments() end,
+    ['ResetAll']        = function() LrDevelopController.resetAllDevelopAdjustments() end,
     ['ResetLast']       = function() LrDevelopController.resetToDefault(LAST_PARAM) end,
+    ['Undo']            = function() LrUndo.undo() end,
+    ['Redo']            = function() LrUndo.redo() end,
 }
 
 local TOOL_ALIASES = {
