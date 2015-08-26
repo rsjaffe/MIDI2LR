@@ -22,5 +22,5 @@ return {
             file = "LaunchAppFromMenu.lua"
         },
     },
-    VERSION = { major=0, minor=3, revision=0}
+    VERSION = { major=0, minor=3, revision=1}
 }

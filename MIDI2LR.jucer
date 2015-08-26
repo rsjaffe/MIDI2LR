@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.3.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.3.1"
               bundleIdentifier="ca.parth.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="3.1.0">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="RKQ9iV" name="SettingsManager.cpp" compile="1" resource="0"
+            file="Source/SettingsManager.cpp"/>
+      <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
+            file="Source/SettingsManager.h"/>
       <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
             file="Source/SettingsComponent.cpp"/>
       <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"
