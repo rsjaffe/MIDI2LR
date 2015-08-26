@@ -22,6 +22,19 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                                         String(ProjectInfo::versionString)),
                                                _settingsButton("Settings")
 {
+
+    // Get and set our app settings
+    SettingsManager::getInstance();
+
+    // Add ourselves as a listener for MIDI commands
+    MIDIProcessor::getInstance().addMIDICommandListener(this);
+
+    // Add ourselves as a listener for LR_IPC_OUT events
+    LR_IPC_OUT::getInstance().addListener(this);
+
+    // Start LR_IPC_IN
+    LR_IPC_IN::getInstance();
+
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
     _titleLabel.setEditable(false);
@@ -74,18 +87,6 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     addAndMakeVisible(_settingsButton);
 
     setSize (400, 600);
-
-    // Get and set our app settings
-    SettingsManager::getInstance();
-
-    // Add ourselves as a listener for MIDI commands
-    MIDIProcessor::getInstance().addMIDICommandListener(this);
-
-    // Add ourselves as a listener for LR_IPC_OUT events
-    LR_IPC_OUT::getInstance().addListener(this);
-
-    // Start LR_IPC_IN
-    LR_IPC_IN::getInstance();
 
     // Try to load a default.xml
     File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");

@@ -79,7 +79,7 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
     MIDI_Message cc(midiChannel, controller, true);
 
-    if (CommandMap::getInstance().getCommandforMessage(cc) == 0) 
+    if (!CommandMap::getInstance().messageExistsInMap(cc) || CommandMap::getInstance().getCommandforMessage(cc) == 0) 
         return;
 
     _commandToSend = LRCommandList::LRStringList[(int)CommandMap::getInstance().getCommandforMessage(cc)];
