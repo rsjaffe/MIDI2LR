@@ -48,7 +48,7 @@ local function updateParam(param, midi_value)
             LrApplicationView.switchToModule('develop')
     end
     
-    if(not PICKUP_ENABLED or (math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD)) then
+    if((not PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD)) then
         PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
         LAST_PARAM = param
@@ -86,7 +86,7 @@ local TOOL_ALIASES = {
 }
 
 local SETTINGS = {
-    ['Pickup'] = function (enabled) PICKUP_ENABLED = enabled end,
+    ['Pickup'] = function(enabled) PICKUP_ENABLED = (enabled == 1) end,
 }
 
 -- message processor

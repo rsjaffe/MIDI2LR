@@ -16,7 +16,8 @@
 //==============================================================================
 /*
 */
-class SettingsComponent    : public Component
+class SettingsComponent    : public Component,
+                             public ButtonListener
 {
 public:
     SettingsComponent();
@@ -25,7 +26,12 @@ public:
     void paint (Graphics&);
     void resized();
 
+    // ButtonListener interface
+    virtual void buttonClicked(Button* button) override;
+
 private:
+    ToggleButton _pickupEnabled;
+    Label _pickupLabel;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsComponent)
 };
 

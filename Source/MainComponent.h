@@ -61,7 +61,9 @@ private:
     TextButton _removeRowButton;
     TextButton _saveButton;
     TextButton _loadButton;
+    TextButton _settingsButton;
     Label _versionLabel;
+    ScopedPointer<DialogWindow> _settingsDialog;
 
     String _lastCommand;
     int _rowToSelect;

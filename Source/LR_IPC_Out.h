@@ -32,12 +32,13 @@ public:
 
     static const int LR_OUT_PORT;
 
+    void addListener(LRConnectionListener *listener);
+    void sendCommand(String& command);
+
     // IPC interface
     virtual void connectionMade() override;
     virtual void connectionLost() override;
     virtual void messageReceived(const MemoryBlock& msg) override;
-
-    void addListener(LRConnectionListener *listener);
     
     // MIDICommandListener interface
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;

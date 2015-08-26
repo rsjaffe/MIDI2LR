@@ -5,6 +5,8 @@
 #include "MainComponent.h"
 #include "LR_IPC_IN.h"
 #include "MIDISender.h"
+#include "SettingsManager.h"
+#include "SettingsComponent.h"
 
 //==============================================================================
 MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
@@ -17,7 +19,8 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                _saveButton("Save"),
                                                _loadButton("Load"),
                                                _versionLabel("Version", "Version " +
-                                                                        String(ProjectInfo::versionString))
+                                                                        String(ProjectInfo::versionString)),
+                                               _settingsButton("Settings")
 {
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
@@ -44,12 +47,6 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _rescanButton.addListener(this);
     addAndMakeVisible(_rescanButton);
 
-    // Add ourselves as a listener for MIDI commands
-    MIDIProcessor::getInstance().addMIDICommandListener(this);
-
-    // Add ourselves as a listener for LR_IPC_OUT events
-    LR_IPC_OUT::getInstance().addListener(this);
-
     // Command Table
     _commandTable.setModel(&_commandTableModel);
     addAndMakeVisible(_commandTable);
@@ -72,7 +69,20 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _versionLabel.setColour(Label::textColourId, Colours::darkgrey);
     addAndMakeVisible(_versionLabel);
 
+    // Settings button
+    _settingsButton.addListener(this);
+    addAndMakeVisible(_settingsButton);
+
     setSize (400, 600);
+
+    // Get and set our app settings
+    SettingsManager::getInstance();
+
+    // Add ourselves as a listener for MIDI commands
+    MIDIProcessor::getInstance().addMIDICommandListener(this);
+
+    // Add ourselves as a listener for LR_IPC_OUT events
+    LR_IPC_OUT::getInstance().addListener(this);
 
     // Start LR_IPC_IN
     LR_IPC_IN::getInstance();
@@ -112,6 +122,7 @@ void MainContentComponent::resized()
     _removeRowButton.setBoundsRelative(.1f, .85f, .4f, .05f);
     _saveButton.setBoundsRelative(.55f, .85f, .15f, .05f);
     _loadButton.setBoundsRelative(.75f, .85f, .15f, .05f);
+    _settingsButton.setBoundsRelative(.1f, .9175f, .2f, .05f);
     _versionLabel.setBoundsRelative(.8f, .9f, .2f, .1f);
 }
 
@@ -218,5 +229,16 @@ void MainContentComponent::buttonClicked(Button* button)
                 _commandTable.updateContent();
             }
         }
+    }
+    else if (button == &_settingsButton)
+    {
+        DialogWindow::LaunchOptions dwOpt;
+        dwOpt.dialogTitle = "Settings";
+        dwOpt.content.setOwned(new SettingsComponent());
+        dwOpt.content->setSize(300, 200);
+        dwOpt.escapeKeyTriggersCloseButton = true;
+        dwOpt.useNativeTitleBar = false;
+        _settingsDialog = dwOpt.create();
+        _settingsDialog->setVisible(true);
     }
 }

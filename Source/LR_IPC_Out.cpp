@@ -60,12 +60,17 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& msg)
 
 }
 
+void LR_IPC_OUT::sendCommand(String &command)
+{
+    getSocket()->write(command.getCharPointer(), command.length());
+}
+
 void LR_IPC_OUT::handleAsyncUpdate()
 {
     if (!isConnected()) return;
 
     String command = _commandToSend + String::formatted(" %d\n", _valueToSend);
-    getSocket()->write(command.getCharPointer(), command.length());
+    sendCommand(command);
 }
 
 void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)

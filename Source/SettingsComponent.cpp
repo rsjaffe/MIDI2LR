@@ -10,42 +10,42 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsComponent.h"
+#include "SettingsManager.h"
 
 //==============================================================================
-SettingsComponent::SettingsComponent()
+SettingsComponent::SettingsComponent() : _pickupEnabled("Enable Pickup Mode"),
+                                         _pickupLabel("PickupLabel", "")
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
 
+    _pickupEnabled.addListener(this);
+    _pickupEnabled.setToggleState(SettingsManager::getInstance().getPickupEnabled(), NotificationType::dontSendNotification);
+    addAndMakeVisible(_pickupEnabled);
+
+    _pickupLabel.setFont(Font(12.f, Font::bold));
+    _pickupLabel.setText("Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements",
+                         NotificationType::dontSendNotification);
+    _pickupLabel.setEditable(false);
+    _pickupLabel.setColour(Label::textColourId, Colours::darkgrey);
+    addAndMakeVisible(_pickupLabel);
 }
 
 SettingsComponent::~SettingsComponent()
 {
+
 }
 
 void SettingsComponent::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (Colours::white);   // clear the background
-
-    g.setColour (Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (Colours::lightblue);
-    g.setFont (14.0f);
-    g.drawText ("SettingsComponent", getLocalBounds(),
-                Justification::centred, true);   // draw some placeholder text
 }
 
 void SettingsComponent::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+    _pickupLabel.setBoundsRelative(.1f, .1f, .8f, .3f);
+    _pickupEnabled.setBoundsRelative(.1f, .35f, .5f, .2f);
+}
 
+void SettingsComponent::buttonClicked(Button* button)
+{
+    SettingsManager::getInstance().setPickupEnabled(_pickupEnabled.getToggleState());
 }
