@@ -62,6 +62,8 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& msg)
 
 void LR_IPC_OUT::sendCommand(String &command)
 {
+    if (!isConnected()) return;
+
     getSocket()->write(command.getCharPointer(), command.length());
 }
 
