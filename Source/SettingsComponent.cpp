@@ -14,7 +14,11 @@
 
 //==============================================================================
 SettingsComponent::SettingsComponent() : _pickupEnabled("Enable Pickup Mode"),
-                                         _pickupLabel("PickupLabel", "")
+                                         _pickupLabel("PickupLabel", ""),
+                                         _midiDelaySlider(),
+                                         _midiDelayLabel("MIDIDelayLabel", "Sets the delay between sending MIDI messages \
+                                                          which may be necessary for motorized sliders to update correctly (default 20ms). \
+                                                          MIDI2LR will need to be restarted for this change to take effect.")
 {
 
     _pickupEnabled.addListener(this);
@@ -27,6 +31,20 @@ SettingsComponent::SettingsComponent() : _pickupEnabled("Enable Pickup Mode"),
     _pickupLabel.setEditable(false);
     _pickupLabel.setColour(Label::textColourId, Colours::darkgrey);
     addAndMakeVisible(_pickupLabel);
+
+    _midiDelaySlider.setRange(1.0, 50.0, 1.0);
+    _midiDelaySlider.setSliderStyle(Slider::LinearHorizontal);
+    _midiDelaySlider.setTextBoxStyle(Slider::TextBoxRight, false, 40, 20);
+    _midiDelaySlider.setValue(SettingsManager::getInstance().getMIDISendDelay(), NotificationType::dontSendNotification);
+    _midiDelaySlider.setChangeNotificationOnlyOnRelease(true);
+    _midiDelaySlider.setTextValueSuffix("ms");
+    _midiDelaySlider.addListener(this);
+    addAndMakeVisible(_midiDelaySlider);
+
+    _midiDelayLabel.setFont(Font(12.f, Font::bold));
+    _midiDelayLabel.setEditable(false);
+    _midiDelayLabel.setColour(Label::textColourId, Colours::darkgrey);
+    addAndMakeVisible(_midiDelayLabel);
 }
 
 SettingsComponent::~SettingsComponent()
@@ -41,11 +59,21 @@ void SettingsComponent::paint (Graphics& g)
 
 void SettingsComponent::resized()
 {
-    _pickupLabel.setBoundsRelative(.1f, .1f, .8f, .3f);
-    _pickupEnabled.setBoundsRelative(.1f, .35f, .5f, .2f);
+    _pickupLabel.setBoundsRelative(.1f, .1f, .9f, .3f);
+    _pickupEnabled.setBoundsRelative(.1f, .3f, .5f, .2f);
+
+    _midiDelayLabel.setBoundsRelative(.1f, .5f, .9f, .3f);
+    _midiDelaySlider.setBoundsRelative(.1f, .7f, .5f, .3f);
 }
 
 void SettingsComponent::buttonClicked(Button* button)
 {
-    SettingsManager::getInstance().setPickupEnabled(_pickupEnabled.getToggleState());
+    if (button == &_pickupEnabled)
+        SettingsManager::getInstance().setPickupEnabled(_pickupEnabled.getToggleState());
+}
+
+void SettingsComponent::sliderValueChanged(Slider* slider)
+{
+    if (slider == &_midiDelaySlider)
+        SettingsManager::getInstance().setMIDISendDelay((int)slider->getValue());
 }

@@ -85,6 +85,6 @@ void LR_IPC_IN::processLine(String& line)
     if (CommandMap::getInstance().commandHasAssociatedMessage(command))
     {
         MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
-        MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
+        MIDISender::getInstance().queueCCForSending(msg.channel, msg.controller, value);
     }
 }

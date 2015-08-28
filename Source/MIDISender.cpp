@@ -9,10 +9,12 @@
 */
 
 #include "MIDISender.h"
+#include "SettingsManager.h"
 
 MIDISender::MIDISender()
 {
     initDevices();
+    startTimer(SettingsManager::getInstance().getMIDISendDelay());
 }
 
 void MIDISender::initDevices()
@@ -40,6 +42,21 @@ MIDISender& MIDISender::getInstance()
 MIDISender::~MIDISender()
 {
 
+}
+
+void MIDISender::timerCallback()
+{
+    if (!_ccMap.empty())
+    {
+        sendCC(_ccMap.begin()->first.channel, _ccMap.begin()->first.controller, _ccMap.begin()->second);
+        _ccMap.erase(_ccMap.begin()->first);
+    }
+}
+
+void MIDISender::queueCCForSending(int midi_channel, int controller, int value)
+{
+    MIDI_Message msg(midi_channel, controller, true);
+    _ccMap[msg] = value;
 }
 
 void MIDISender::sendCC(int midi_channel, int controller, int value)
