@@ -96,9 +96,9 @@ local function processMessage(message)
         local _, _, param, value = string.find( message, '(%S+)%s(%d+)' )
        
         if(ACTIONS[param] ~= nil) then -- perform a one time action
-            if(tonumber(value) == 127 || tonumber(value) == 1) then ACTIONS[param]() end
+            if(tonumber(value) == 127 or tonumber(value) == 1) then ACTIONS[param]() end
         elseif(TOOL_ALIASES[param] ~= nil) then -- switch to desired tool
-            if(tonumber(value) == 127 || tonumber(value) == 1) then 
+            if(tonumber(value) == 127 or tonumber(value) == 1) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
                     LrDevelopController.selectTool('loupe')
                 else
@@ -120,7 +120,6 @@ local function sendChangedParams( observer )
             SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
             observer[param] = LrDevelopController.getValue(param)
             LAST_PARAM = param
-            break
         end
     end
 end
