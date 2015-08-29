@@ -22,9 +22,6 @@ public:
     bool getPickupEnabled();
     void setPickupEnabled(bool enabled);
 
-    int getMIDISendDelay();
-    void setMIDISendDelay(int delay);
-
     // LRConnectionListener interface
     virtual void connected() override;
     virtual void disconnected() override;

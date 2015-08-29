@@ -17,8 +17,7 @@
 /*
 */
 class SettingsComponent    : public Component,
-                             public ButtonListener,
-                             public SliderListener
+                             public ButtonListener
 {
 public:
     SettingsComponent();
@@ -30,15 +29,9 @@ public:
     // ButtonListener interface
     virtual void buttonClicked(Button* button) override;
 
-    // SliderListener interface
-    virtual void sliderValueChanged(Slider *slider) override;
 private:
     ToggleButton _pickupEnabled;
     Label _pickupLabel;
-    
-    Slider _midiDelaySlider;
-    Label _midiDelayLabel;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsComponent)
 };
 

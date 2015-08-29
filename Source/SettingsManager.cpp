@@ -44,17 +44,6 @@ bool SettingsManager::getPickupEnabled()
     return _propertiesFile->getBoolValue("pickup_enabled", true);
 }
 
-void SettingsManager::setMIDISendDelay(int delay)
-{
-    _propertiesFile->setValue("midi_delay", delay);
-    _propertiesFile->saveIfNeeded();
-}
-
-int SettingsManager::getMIDISendDelay()
-{
-    return _propertiesFile->getIntValue("midi_delay", 20);
-}
-
 void SettingsManager::connected()
 {
     String command = String::formatted("Pickup %d\n", getPickupEnabled());

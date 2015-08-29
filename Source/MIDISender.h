@@ -12,19 +12,13 @@
 #define MIDISENDER_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "CommandMap.h"
-#include <unordered_map>
 
-class MIDISender : public Timer
+class MIDISender
 {
 public:
     static MIDISender& getInstance();
-    void queueCCForSending(int midi_channel, int controller, int value);
-    
+    void sendCC(int midi_channel, int controller, int value);
     void rescanDevices();
-
-    // Timer interface
-    virtual void timerCallback() override;
 private:
     MIDISender();
     ~MIDISender();
@@ -33,10 +27,8 @@ private:
     void operator=(MIDISender const&) = delete;
 
     OwnedArray<MidiOutput> _outputDevices;
-    std::unordered_map<MIDI_Message, int> _ccMap;
 
     void initDevices();
-    void sendCC(int midi_channel, int controller, int value);
 };
 
 
