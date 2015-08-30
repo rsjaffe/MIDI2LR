@@ -5,6 +5,10 @@
               jucerVersion="3.1.0">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
+            file="Source/ProfileManager.cpp"/>
+      <FILE id="o8SiAm" name="ProfileManager.h" compile="0" resource="0"
+            file="Source/ProfileManager.h"/>
       <FILE id="RKQ9iV" name="SettingsManager.cpp" compile="1" resource="0"
             file="Source/SettingsManager.cpp"/>
       <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
