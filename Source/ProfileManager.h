@@ -17,7 +17,7 @@
 class ProfileChangeListener
 {
 public:
-    virtual void profileChanged(XmlElement*) = 0;
+    virtual void profileChanged(XmlElement* elem, const String& filename) = 0;
 };
 
 class ProfileManager : public MIDICommandListener,

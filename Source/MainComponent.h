@@ -55,7 +55,7 @@ public:
     virtual void buttonClicked(Button* button) override;
 
     // ProfileChangeListener interface
-    virtual void profileChanged(XmlElement* elem) override;
+    virtual void profileChanged(XmlElement* elem, const String& filename) override;
 
 private:
     Label _titleLabel;
@@ -75,6 +75,8 @@ private:
 
     CommandTable _commandTable;
     CommandTableModel _commandTableModel;
+
+    Label _profileNameLabel;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

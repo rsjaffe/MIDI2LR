@@ -35,6 +35,7 @@ void ProfileManager::setProfileDirectory(File& dir)
     Array<File> fileArray;
     dir.findChildFiles(fileArray, File::findFiles, false, "*.xml");
 
+    _currentProfileIdx = 0;
     _profiles.clear();
     for (auto file : fileArray)
         _profiles.add(file.getFileName());
@@ -65,7 +66,7 @@ void ProfileManager::switchToProfile(const String& profile)
     {
         ScopedPointer<XmlElement> elem = XmlDocument::parse(profileFile);
         for (auto listener : _listeners)
-            listener->profileChanged(elem);
+            listener->profileChanged(elem, profile);
     }
 }
 
@@ -74,7 +75,7 @@ void ProfileManager::switchToPreviousProfile()
     _currentProfileIdx--;
     if (_currentProfileIdx < 0) _currentProfileIdx = _profiles.size() - 1;
 
-    switchToProfile(_profiles[_currentProfileIdx]);
+    switchToProfile(_currentProfileIdx);
 }
 
 void ProfileManager::switchToNextProfile()
@@ -82,14 +83,14 @@ void ProfileManager::switchToNextProfile()
     _currentProfileIdx++;
     if (_currentProfileIdx == _profiles.size()) _currentProfileIdx = 0;
 
-    switchToProfile(_profiles[_currentProfileIdx]);
+    switchToProfile(_currentProfileIdx);
 }
 
 void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
     MIDI_Message cc(midiChannel, controller, true);
 
-    if (value == 0 || !CommandMap::getInstance().messageExistsInMap(cc) ||
+    if ((value != 1 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc) ||
         CommandMap::getInstance().getCommandforMessage(cc) < LRCommandList::LRStringList.size())
         return;
 

@@ -20,7 +20,8 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
                                                _loadButton("Load"),
                                                _versionLabel("Version", "Version " +
                                                                         String(ProjectInfo::versionString)),
-                                               _settingsButton("Settings")
+                                               _settingsButton("Settings"),
+                                               _profileNameLabel("ProfileNameLabel", "")
 {
 
     // Get and set our app settings
@@ -89,6 +90,13 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     _settingsButton.addListener(this);
     addAndMakeVisible(_settingsButton);
 
+    // Profile name label
+    _profileNameLabel.setFont(Font(12.f, Font::bold));
+    _profileNameLabel.setJustificationType(Justification::centred);
+    _profileNameLabel.setEditable(false);
+    _profileNameLabel.setColour(Label::textColourId, Colours::darkgrey);
+    addAndMakeVisible(_profileNameLabel);
+
     setSize (400, 600);
 
     // Try to load a default.xml if the user has not set a profile directory
@@ -133,6 +141,7 @@ void MainContentComponent::resized()
     _loadButton.setBoundsRelative(.75f, .85f, .15f, .05f);
     _settingsButton.setBoundsRelative(.1f, .9175f, .2f, .05f);
     _versionLabel.setBoundsRelative(.8f, .9f, .2f, .1f);
+    _profileNameLabel.setBoundsRelative(.1f, .8f, .8f, .05f);
 }
 
 // Update MIDI command components
@@ -200,9 +209,10 @@ void MainContentComponent::buttonClicked(Button* button)
     }
     else if (button == &_saveButton)
     {
+        bool profileDirSet = SettingsManager::getInstance().getProfileDirectory().isNotEmpty();
         FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode | 
                                      FileBrowserComponent::warnAboutOverwriting,
-                                     File::getCurrentWorkingDirectory(),
+                                     profileDirSet ? SettingsManager::getInstance().getProfileDirectory() : File::getCurrentWorkingDirectory(),
                                      nullptr,
                                      nullptr);
         FileChooserDialogBox dialogBox("Save profile",
@@ -218,9 +228,10 @@ void MainContentComponent::buttonClicked(Button* button)
     }
     else if (button == &_loadButton)
     {
+        bool profileDirSet = SettingsManager::getInstance().getProfileDirectory().isNotEmpty();
         WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
         FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode,
-                                     File::getCurrentWorkingDirectory(),
+                                     profileDirSet ? SettingsManager::getInstance().getProfileDirectory() : File::getCurrentWorkingDirectory(),
                                      &wildcardFilter,
                                      nullptr);
         FileChooserDialogBox dialogBox("Open profile",
@@ -234,6 +245,7 @@ void MainContentComponent::buttonClicked(Button* button)
             ScopedPointer<XmlElement> elem = XmlDocument::parse(browser.getSelectedFile(0));
             if(elem)
             {
+                _profileNameLabel.setText(browser.getSelectedFile(0).getFileName(), NotificationType::dontSendNotification);
                 _commandTableModel.buildFromXml(elem);
                 _commandTable.updateContent();
             }
@@ -252,9 +264,10 @@ void MainContentComponent::buttonClicked(Button* button)
     }
 }
 
-void MainContentComponent::profileChanged(XmlElement* elem)
+void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
 {
     _commandTableModel.buildFromXml(elem);
     _commandTable.updateContent();
     _commandTable.repaint();
+    _profileNameLabel.setText(filename, NotificationType::dontSendNotification);
 }
