@@ -35,6 +35,9 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     // Start LR_IPC_IN
     LR_IPC_IN::getInstance();
 
+    // Add ourselves as a listener for profile changes
+    ProfileManager::getInstance().addListener(this);
+
     // Main title
     _titleLabel.setFont(Font(36.f, Font::bold));
     _titleLabel.setEditable(false);
@@ -88,14 +91,19 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
 
     setSize (400, 600);
 
-    // Try to load a default.xml
-    File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-    ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
-    if (elem)
+    // Try to load a default.xml if the user has not set a profile directory
+    if (SettingsManager::getInstance().getProfileDirectory().isEmpty())
     {
-        _commandTableModel.buildFromXml(elem);
-        _commandTable.updateContent();
+        File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+        ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
+        if (elem)
+        {
+            _commandTableModel.buildFromXml(elem);
+            _commandTable.updateContent();
+        }
     }
+    else // otherwise use the last profile from the profile directory
+        ProfileManager::getInstance().switchToProfile(0);
      
 }
 
@@ -242,4 +250,11 @@ void MainContentComponent::buttonClicked(Button* button)
         _settingsDialog = dwOpt.create();
         _settingsDialog->setVisible(true);
     }
+}
+
+void MainContentComponent::profileChanged(XmlElement* elem)
+{
+    _commandTableModel.buildFromXml(elem);
+    _commandTable.updateContent();
+    _commandTable.repaint();
 }

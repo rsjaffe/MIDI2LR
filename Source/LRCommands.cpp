@@ -299,3 +299,8 @@ const std::vector<String> LRCommandList::LRStringList = {
     "RadialFilter",
     "AdjustmentBrush",
 };
+
+const std::vector<String> LRCommandList::ProfileList = {
+  "Previous Profile",
+  "Next Profile",
+};

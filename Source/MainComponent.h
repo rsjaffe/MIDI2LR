@@ -14,6 +14,7 @@
 #include "CommandTableModel.h"
 #include "MIDIProcessor.h"
 #include "LR_IPC_OUT.h"
+#include "ProfileManager.h"
 
 
 //==============================================================================
@@ -26,7 +27,8 @@ class MainContentComponent   : public Component,
                                public LRConnectionListener,
                                public AsyncUpdater,
                                public Timer,
-                               public ButtonListener
+                               public ButtonListener,
+                               public ProfileChangeListener
 {
 public:
     MainContentComponent();
@@ -51,6 +53,9 @@ public:
 
     // Button interface
     virtual void buttonClicked(Button* button) override;
+
+    // ProfileChangeListener interface
+    virtual void profileChanged(XmlElement* elem) override;
 
 private:
     Label _titleLabel;

@@ -20,7 +20,7 @@ public:
     // Strings that LR uses
     static const std::vector<String> LRStringList;
 
-    // Sectioned and readable strings
+    // Sectioned and readable develop param strings
     static const std::vector<String> AdjustmentStringList;
     static const std::vector<String> ToneStringList;
     static const std::vector<String> MixerStringList;
@@ -30,8 +30,12 @@ public:
     static const std::vector<String> LensCorrectionStringList;
     static const std::vector<String> CalibrateStringList;
 
+    // Sectioned and readable LR tool string
     static const std::vector<String> SelectionList;
     static const std::vector<String> ToolsList;
+
+    // MIDI2LR commands
+    static const std::vector<String> ProfileList;
 
 private:
     LRCommandList();

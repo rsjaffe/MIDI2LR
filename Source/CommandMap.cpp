@@ -25,7 +25,9 @@ CommandMap& CommandMap::getInstance()
 void CommandMap::addCommandforMessage(int command, MIDI_Message &msg)
 {
     _messageMap[msg] = command;
-    _commandStringMap[LRCommandList::LRStringList[command]] = msg;
+
+    if(command < LRCommandList::LRStringList.size())
+      _commandStringMap[LRCommandList::LRStringList[command]] = msg;
 }
 
 int CommandMap::getCommandforMessage(MIDI_Message &msg)

@@ -37,6 +37,8 @@ void CommandMenu::buttonClicked(Button* button)
                                         "Camera Calibration",
                                         "Photo Actions",
                                         "Tools",
+                                        // MIDI2LR items
+                                        "Profile"
                                       };
     const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
                                                            LRCommandList::ToneStringList,
@@ -48,6 +50,8 @@ void CommandMenu::buttonClicked(Button* button)
                                                            LRCommandList::CalibrateStringList,
                                                            LRCommandList::SelectionList,
                                                            LRCommandList::ToolsList,
+                                                           // MIDI2LR items
+                                                           LRCommandList::ProfileList,
                                                          };
 
     // add each submenu
@@ -68,7 +72,11 @@ void CommandMenu::buttonClicked(Button* button)
     if (auto result = mainMenu.show())
     {
         _selectedItem = result;
-        setButtonText(LRCommandList::LRStringList[result - 1]);
+
+        if (result - 1 < LRCommandList::LRStringList.size())
+            setButtonText(LRCommandList::LRStringList[result - 1]);
+        else
+            setButtonText(LRCommandList::ProfileList[result - 1 - LRCommandList::LRStringList.size()]);
 
         // Map the selected command to the CC
         CommandMap::getInstance().addCommandforMessage(result - 1, _msg);
@@ -78,5 +86,8 @@ void CommandMenu::buttonClicked(Button* button)
 void CommandMenu::setSelectedItem(int idx)
 {
     _selectedItem = idx;
-    setButtonText(LRCommandList::LRStringList[idx - 1]);
+    if (idx - 1 < LRCommandList::LRStringList.size())
+        setButtonText(LRCommandList::LRStringList[idx - 1]);
+    else
+        setButtonText(LRCommandList::ProfileList[idx - 1 - LRCommandList::LRStringList.size()]);
 }
