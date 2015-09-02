@@ -22,13 +22,18 @@ public:
 class ProfileManager
 {
 public:
-    ProfileManager& getInstance();
+    static ProfileManager& getInstance();
     void addListener(ProfileChangeListener *listener);
     void setProfileDirectory(File& dir);
     StringArray& getMenuItems();
     void switchToProfile(String& profile);
 
 private:
+    ProfileManager();
+
+    ProfileManager(ProfileManager const&) = delete;
+    void operator=(ProfileManager const&) = delete;
+
     File _profileLocation;
     StringArray _profiles;
     Array<ProfileChangeListener *> _listeners;

@@ -16,6 +16,11 @@ ProfileManager& ProfileManager::getInstance()
     return instance;
 }
 
+ProfileManager::ProfileManager()
+{
+
+}
+
 void ProfileManager::addListener(ProfileChangeListener *listener)
 {
     _listeners.addIfNotAlreadyThere(listener);

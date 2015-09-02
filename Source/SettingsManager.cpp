@@ -9,6 +9,7 @@
 */
 
 #include "SettingsManager.h"
+#include "ProfileManager.h"
 
 SettingsManager::SettingsManager()
 {
@@ -21,7 +22,12 @@ SettingsManager::SettingsManager()
 
     _propertiesFile = new PropertiesFile(opts);
 
+    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
     LR_IPC_OUT::getInstance().addListener(this);
+
+    // set the profile directory
+    File profileDir(getProfileDirectory());
+    ProfileManager::getInstance().setProfileDirectory(profileDir);
 }
 
 SettingsManager& SettingsManager::getInstance()
@@ -42,6 +48,20 @@ void SettingsManager::setPickupEnabled(bool enabled)
 bool SettingsManager::getPickupEnabled()
 {
     return _propertiesFile->getBoolValue("pickup_enabled", true);
+}
+
+String SettingsManager::getProfileDirectory()
+{
+    return _propertiesFile->getValue("profile_directory");
+}
+
+void SettingsManager::setProfileDirectory(const String& profileDirStr)
+{
+    _propertiesFile->setValue("profile_directory", profileDirStr);
+    _propertiesFile->saveIfNeeded();
+
+    File profileDir(profileDirStr);
+    ProfileManager::getInstance().setProfileDirectory(profileDir);
 }
 
 void SettingsManager::connected()

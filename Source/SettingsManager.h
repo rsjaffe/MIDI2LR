@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "LR_IPC_OUT.h"
+#include "ProfileManager.h"
 
 class SettingsManager : public LRConnectionListener
 {
@@ -21,6 +22,9 @@ public:
 
     bool getPickupEnabled();
     void setPickupEnabled(bool enabled);
+
+    void setProfileDirectory(const String& profileDirectory);
+    String getProfileDirectory();
 
     // LRConnectionListener interface
     virtual void connected() override;

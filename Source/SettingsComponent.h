@@ -32,6 +32,9 @@ public:
 private:
     ToggleButton _pickupEnabled;
     Label _pickupLabel;
+
+    TextButton _profileLocationButton;
+    Label _profileLocationLabel;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsComponent)
 };
 
