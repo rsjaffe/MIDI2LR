@@ -19,8 +19,12 @@ class CommandMenu : public TextButton,
 {
 public:
     CommandMenu(MIDI_Message& msg);
-    virtual void buttonClicked(Button* button) override;
+    void setMsg(MIDI_Message& msg);
     void setSelectedItem(int idx);
+
+    // ButtonListener interface
+    virtual void buttonClicked(Button* button) override;
+    
 private:
     MIDI_Message _msg;
     int _selectedItem;

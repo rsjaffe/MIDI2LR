@@ -36,14 +36,16 @@ Component *CommandTableModel::refreshComponentForCell (int rowNumber, int column
 {
     if (columnId == 2) // LR command column
     {
+        // because Juce recycles these components when scrolling, we need to reset their properties
         CommandMenu* commandSelect = (CommandMenu *)existingComponentToUpdate;
 
         // create a new command menu
         if (commandSelect == nullptr)
             commandSelect = new CommandMenu(_commands[rowNumber]);
-        commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforMessage(_commands[rowNumber]) + 1); // add one because
-                                                                                                                 // zero is reserved
-                                                                                                                 // for no selection
+        else
+            commandSelect->setMsg(_commands[rowNumber]);
+        // add 1 because 0 is reserved for no selection
+        commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforMessage(_commands[rowNumber]) + 1);
 
         return commandSelect;
     }

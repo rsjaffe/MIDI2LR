@@ -19,6 +19,11 @@ CommandMenu::CommandMenu(MIDI_Message& msg) : _msg(msg),
     addListener(this);
 }
 
+void CommandMenu::setMsg(MIDI_Message& msg)
+{
+    _msg = msg;
+}
+
 void CommandMenu::buttonClicked(Button* button)
 {
     auto idx = 1;
