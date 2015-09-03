@@ -98,6 +98,7 @@ MainContentComponent::MainContentComponent() : _titleLabel("Title", "MIDI2LR"),
     addAndMakeVisible(_profileNameLabel);
 
     setSize (400, 600);
+    _systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
 
     // Try to load a default.xml if the user has not set a profile directory
     if (SettingsManager::getInstance().getProfileDirectory().isEmpty())
@@ -270,4 +271,5 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
     _commandTable.updateContent();
     _commandTable.repaint();
     _profileNameLabel.setText(filename, NotificationType::dontSendNotification);
+    _systemTrayComponent.showInfoBubble(filename, "Profile changed");
 }

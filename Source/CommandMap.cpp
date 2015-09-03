@@ -52,7 +52,9 @@ bool CommandMap::commandHasAssociatedMessage(String &command)
 
 void CommandMap::removeMessage(MIDI_Message &msg)
 {
-    _commandStringMap.erase(LRCommandList::LRStringList[_messageMap[msg]]);
+    if (_messageMap[msg] < LRCommandList::LRStringList.size())
+        _commandStringMap.erase(LRCommandList::LRStringList[_messageMap[msg]]);
+
     _messageMap.erase(msg);
 }
 

@@ -68,15 +68,17 @@ private:
     TextButton _loadButton;
     TextButton _settingsButton;
     Label _versionLabel;
+    CommandTable _commandTable;
+    CommandTableModel _commandTableModel;
+    Label _profileNameLabel;
+
     ScopedPointer<DialogWindow> _settingsDialog;
+    SystemTrayIconComponent _systemTrayComponent;
 
     String _lastCommand;
     int _rowToSelect;
 
-    CommandTable _commandTable;
-    CommandTableModel _commandTableModel;
-
-    Label _profileNameLabel;
+    
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
