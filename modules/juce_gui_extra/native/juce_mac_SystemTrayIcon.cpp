@@ -228,9 +228,14 @@ void SystemTrayIconComponent::setHighlighted (bool highlight)
         pimpl->setHighlighted (highlight);
 }
 
-void SystemTrayIconComponent::showInfoBubble (const String& /*title*/, const String& /*content*/)
+void SystemTrayIconComponent::showInfoBubble (const String& title, const String& content)
 {
-    // xxx Not implemented!
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    notification.title           = [NSString stringWithCString:title.getCharPointer() encoding:[NSString defaultCStringEncoding]];
+    notification.informativeText = [NSString stringWithCString:content.getCharPointer() encoding:[NSString defaultCStringEncoding]];
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    
+    [notification release];
 }
 
 void SystemTrayIconComponent::hideInfoBubble()
