@@ -22,7 +22,7 @@ CommandMap& CommandMap::getInstance()
     return instance;
 }
 
-void CommandMap::addCommandforMessage(int command, MIDI_Message &msg)
+void CommandMap::addCommandforMessage(int command, const MIDI_Message &msg)
 {
     _messageMap[msg] = command;
 
@@ -35,22 +35,22 @@ int CommandMap::getCommandforMessage(MIDI_Message &msg)
     return _messageMap[msg];
 }
 
-MIDI_Message& CommandMap::getMessageForCommand(String &command)
+MIDI_Message& CommandMap::getMessageForCommand(const String &command)
 {
     return _commandStringMap[command];
 }
 
-bool CommandMap::messageExistsInMap(MIDI_Message &msg)
+bool CommandMap::messageExistsInMap(const MIDI_Message &msg)
 {
     return _messageMap.count(msg);
 }
 
-bool CommandMap::commandHasAssociatedMessage(String &command)
+bool CommandMap::commandHasAssociatedMessage(const String &command)
 {
     return _commandStringMap.count(command);
 }
 
-void CommandMap::removeMessage(MIDI_Message &msg)
+void CommandMap::removeMessage(const MIDI_Message &msg)
 {
     if (_messageMap[msg] < LRCommandList::LRStringList.size())
         _commandStringMap.erase(LRCommandList::LRStringList[_messageMap[msg]]);

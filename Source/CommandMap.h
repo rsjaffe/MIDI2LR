@@ -66,14 +66,14 @@ class CommandMap
 {
 public:
     static CommandMap& getInstance();
-    void addCommandforMessage(int command, MIDI_Message &cc);
+    void addCommandforMessage(int command, const MIDI_Message &cc);
     int getCommandforMessage(MIDI_Message &cc);
-    void removeMessage(MIDI_Message &cc);
+    void removeMessage(const MIDI_Message &cc);
     void clearMap();
-    bool messageExistsInMap(MIDI_Message &cc);
+    bool messageExistsInMap(const MIDI_Message &cc);
 
-    MIDI_Message& getMessageForCommand(String &command);
-    bool commandHasAssociatedMessage(String &command);
+    MIDI_Message& getMessageForCommand(const String &command);
+    bool commandHasAssociatedMessage(const String &command);
 
     void toXMLDocument(File& file);
 

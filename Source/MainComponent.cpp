@@ -160,6 +160,7 @@ void MainContentComponent::handleAsyncUpdate()
 
 void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
 {
+    // Display the CC parameters and add/highlight row in table corresponding to the CC
     _lastCommand = String::formatted("%d: CC%d [%d]", midiChannel, controller, value);
     _commandTableModel.addRow(midiChannel, controller, true);
     _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, controller, true);
@@ -168,6 +169,7 @@ void MainContentComponent::handleMidiCC(int midiChannel, int controller, int val
 
 void MainContentComponent::handleMidiNote(int midiChannel, int note)
 {
+    // Display the Note parameters and add/highlight row in table corresponding to the Note
     _lastCommand = String::formatted("%d: Note [%d]", midiChannel, note);
     _commandTableModel.addRow(midiChannel, note, false);
     _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, note, false);
@@ -197,6 +199,7 @@ void MainContentComponent::buttonClicked(Button* button)
 {
     if (button == &_rescanButton)
     {
+        // Re-enumerate MIDI IN and OUT devices
         MIDIProcessor::getInstance().rescanDevices();
         MIDISender::getInstance().rescanDevices();
     }
@@ -272,4 +275,7 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
     _commandTable.repaint();
     _profileNameLabel.setText(filename, NotificationType::dontSendNotification);
     _systemTrayComponent.showInfoBubble(filename, "Profile changed");
+
+    // Send new CC parameters to MIDI Out devices
+    LR_IPC_IN::getInstance().refreshMIDIOutput();
 }

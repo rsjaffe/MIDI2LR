@@ -12,6 +12,8 @@
 #define LR_IPC_IN_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include <unordered_map>
+#include "CommandMap.h"
 
 class LR_IPC_IN : public StreamingSocket,
                   public Timer,
@@ -22,6 +24,8 @@ public:
     void shutdown();
 
     static const int LR_IN_PORT;
+
+    void refreshMIDIOutput();
 
     // Thread interface
     virtual void run() override;
@@ -35,6 +39,8 @@ private:
     void operator=(LR_IPC_IN const&) = delete;
 
     void processLine(String& line);
+
+    std::unordered_map<String, int> parameterMap;
 };
 
 

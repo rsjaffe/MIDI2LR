@@ -10,7 +10,6 @@
 
 #include "LR_IPC_In.h"
 #include "MIDISender.h"
-#include "CommandMap.h"
 
 const int LR_IPC_IN::LR_IN_PORT = 58764;
 
@@ -51,6 +50,7 @@ void LR_IPC_IN::run()
         int sizeRead = 0;
         bool canReadLine = true;
 
+        // parse input until we have a line, then process that line
         while (!String(line).endsWithChar('\n') && !threadShouldExit())
         {
             auto waitStatus = waitUntilReady(true, 0);
@@ -77,14 +77,32 @@ void LR_IPC_IN::run()
 
 void LR_IPC_IN::processLine(String& line)
 {
+    // process input into [parameter] [Value]
     line.trimEnd();
     String command = line.upToFirstOccurrenceOf(" ", false, false);
     String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
     auto value = valueString.getIntValue();
 
+    // store updates in map
+    parameterMap[command] = value;
+
+    // send associated CC messages to MIDI OUT devices
     if (CommandMap::getInstance().commandHasAssociatedMessage(command))
     {
         MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
         MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
+    }
+}
+
+void LR_IPC_IN::refreshMIDIOutput()
+{
+    // send associated CC messages to MIDI OUT devices
+    for (auto mapEntry : parameterMap)
+    {
+        if (CommandMap::getInstance().commandHasAssociatedMessage(mapEntry.first))
+        {
+            MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(mapEntry.first);
+            MIDISender::getInstance().sendCC(msg.channel, msg.controller, mapEntry.second);
+        }
     }
 }
