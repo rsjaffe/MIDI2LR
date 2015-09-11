@@ -65,8 +65,12 @@ void CommandMenu::buttonClicked(Button* button)
         PopupMenu subMenu;
         for (auto cmd : menuEntries[menuIdx])
         {
-            // add each submenu entry, ticking the previously selected entry
-            subMenu.addItem(idx, cmd, true, idx == _selectedItem);
+            bool alreadyMapped = false;
+            if (idx - 1 < LRCommandList::LRStringList.size())
+                alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
+
+            // add each submenu entry, ticking the previously selected entry and disabling a previously mapped entry
+            subMenu.addItem(idx, cmd, !alreadyMapped, idx == _selectedItem);
             idx++;
         }
         // set whether or not the submenu is ticked (true if one of the submenu's entries is selected)
@@ -76,12 +80,16 @@ void CommandMenu::buttonClicked(Button* button)
 
     if (auto result = mainMenu.show())
     {
-        _selectedItem = result;
+        // user chose a different command, remove previous command mapping associated to this menu
+        if (_selectedItem < std::numeric_limits<int>::max())
+            CommandMap::getInstance().removeMessage(_msg);
 
         if (result - 1 < LRCommandList::LRStringList.size())
             setButtonText(LRCommandList::LRStringList[result - 1]);
         else
             setButtonText(LRCommandList::ProfileList[result - 1 - LRCommandList::LRStringList.size()]);
+
+        _selectedItem = result;
 
         // Map the selected command to the CC
         CommandMap::getInstance().addCommandforMessage(result - 1, _msg);
