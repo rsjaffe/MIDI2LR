@@ -11,6 +11,8 @@
 #include "CommandMap.h"
 #include "LRCommands.h"
 
+const int CommandMap::UNMAPPED_INDEX = 0;
+
 CommandMap::CommandMap()
 {
 
@@ -24,34 +26,36 @@ CommandMap& CommandMap::getInstance()
 
 void CommandMap::addCommandforMessage(int command, const MIDI_Message &msg)
 {
+    // adds a msg to the msg:command map, and it's associated command to the command:msg map
     _messageMap[msg] = command;
 
     if(command < LRCommandList::LRStringList.size())
       _commandStringMap[LRCommandList::LRStringList[command]] = msg;
 }
 
-int CommandMap::getCommandforMessage(MIDI_Message &msg)
+int CommandMap::getCommandforMessage(const MIDI_Message &msg) const
 {
-    return _messageMap[msg];
+    return _messageMap.at(msg);
 }
 
-MIDI_Message& CommandMap::getMessageForCommand(const String &command)
+const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const
 {
-    return _commandStringMap[command];
+    return _commandStringMap.at(command);
 }
 
-bool CommandMap::messageExistsInMap(const MIDI_Message &msg)
+bool CommandMap::messageExistsInMap(const MIDI_Message &msg) const
 {
     return _messageMap.count(msg);
 }
 
-bool CommandMap::commandHasAssociatedMessage(const String &command)
+bool CommandMap::commandHasAssociatedMessage(const String &command) const
 {
     return _commandStringMap.count(command);
 }
 
 void CommandMap::removeMessage(const MIDI_Message &msg)
 {
+    // removes msg from the msg:command map, and it's associated command from the command:msg map
     if (_messageMap[msg] < LRCommandList::LRStringList.size())
         _commandStringMap.erase(LRCommandList::LRStringList[_messageMap[msg]]);
 
@@ -64,8 +68,9 @@ void CommandMap::clearMap()
     _messageMap.clear();
 }
 
-void CommandMap::toXMLDocument(File& file)
+void CommandMap::toXMLDocument(File& file) const
 {
+    // save the contents of the command map to an xml file
     XmlElement root("settings");
     for (auto mapEntry : _messageMap)
     {

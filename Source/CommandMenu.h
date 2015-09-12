@@ -18,8 +18,12 @@ class CommandMenu : public TextButton,
                     protected ButtonListener
 {
 public:
-    CommandMenu(MIDI_Message& msg);
-    void setMsg(MIDI_Message& msg);
+    CommandMenu(const MIDI_Message& msg);
+
+    // sets the MIDI message associated to this menu component
+    void setMsg(const MIDI_Message& msg);
+
+    // sets which item in the menu is selected
     void setSelectedItem(int idx);
 
     // ButtonListener interface

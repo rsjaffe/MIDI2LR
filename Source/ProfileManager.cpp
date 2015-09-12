@@ -28,7 +28,7 @@ void ProfileManager::addListener(ProfileChangeListener *listener)
     _listeners.addIfNotAlreadyThere(listener);
 }
 
-void ProfileManager::setProfileDirectory(File& dir)
+void ProfileManager::setProfileDirectory(const File& dir)
 {
     _profileLocation = dir;
 
@@ -44,7 +44,7 @@ void ProfileManager::setProfileDirectory(File& dir)
         switchToProfile(_profiles[0]);
 }
 
-StringArray& ProfileManager::getMenuItems()
+const StringArray& ProfileManager::getMenuItems() const
 {
     return _profiles;
 }
@@ -88,8 +88,9 @@ void ProfileManager::switchToNextProfile()
 
 void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
-    MIDI_Message cc(midiChannel, controller, true);
+    const MIDI_Message cc(midiChannel, controller, true);
 
+    // return if the value isn't 1 or 127, or the command isn't a valid profile-related command
     if ((value != 1 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc) ||
         CommandMap::getInstance().getCommandforMessage(cc) < LRCommandList::LRStringList.size())
         return;
@@ -104,8 +105,9 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 
 void ProfileManager::handleMidiNote(int midiChannel, int note)
 {
-    MIDI_Message note_msg(midiChannel, note, false);
+    const MIDI_Message note_msg(midiChannel, note, false);
 
+    // return if the command isn't a valid profile-related command
     if (!CommandMap::getInstance().messageExistsInMap(note_msg) ||
         CommandMap::getInstance().getCommandforMessage(note_msg) < LRCommandList::LRStringList.size())
         return;

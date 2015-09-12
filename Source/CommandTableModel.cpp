@@ -10,18 +10,18 @@ int CommandTableModel::getNumRows()
     return _rows;
 }
 
-void CommandTableModel::paintRowBackground (Graphics &g, int rowNumber, int width, int height, bool rowIsSelected)
+void CommandTableModel::paintRowBackground (Graphics &g, int /*rowNumber*/, int /*width*/, int /*height*/, bool rowIsSelected)
 {
     if (rowIsSelected)
         g.fillAll (Colours::lightblue);
 }
 
-void CommandTableModel::paintCell (Graphics &g, int rowNumber, int columnId, int width, int height, bool rowIsSelected)
+void CommandTableModel::paintCell (Graphics &g, int rowNumber, int columnId, int width, int height, bool /*rowIsSelected*/)
 {
     g.setColour(Colours::black);
     g.setFont(12.0f);
 
-    if (columnId == 1) // MIDI command column
+    if (columnId == 1) // write the MIDI message in the MIDI command column
     {
         if(_commands[rowNumber].isCC)
             g.drawText(String::formatted("%d | CC: %d", _commands[rowNumber].channel,
@@ -32,7 +32,7 @@ void CommandTableModel::paintCell (Graphics &g, int rowNumber, int columnId, int
     }
 }
 
-Component *CommandTableModel::refreshComponentForCell (int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate)
+Component *CommandTableModel::refreshComponentForCell (int rowNumber, int columnId, bool /*isRowSelected*/, Component *existingComponentToUpdate)
 {
     if (columnId == 2) // LR command column
     {
@@ -65,7 +65,7 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
     }
 }
 
-int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC)
+int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC) const
 {
     for (auto idx = 0; idx < _rows; idx++)
     {

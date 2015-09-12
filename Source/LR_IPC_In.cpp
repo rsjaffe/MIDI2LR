@@ -75,7 +75,7 @@ void LR_IPC_IN::run()
     }
 }
 
-void LR_IPC_IN::processLine(String& line)
+void LR_IPC_IN::processLine(const String& line)
 {
     // process input into [parameter] [Value]
     line.trimEnd();
@@ -89,7 +89,7 @@ void LR_IPC_IN::processLine(String& line)
     // send associated CC messages to MIDI OUT devices
     if (CommandMap::getInstance().commandHasAssociatedMessage(command))
     {
-        MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
+        const MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
         MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
     }
 }
@@ -101,7 +101,7 @@ void LR_IPC_IN::refreshMIDIOutput()
     {
         if (CommandMap::getInstance().commandHasAssociatedMessage(mapEntry.first))
         {
-            MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(mapEntry.first);
+            const MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(mapEntry.first);
             MIDISender::getInstance().sendCC(msg.channel, msg.controller, mapEntry.second);
         }
     }

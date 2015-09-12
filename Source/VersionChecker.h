@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+// checks http://thegouger.github.io/MIDI2LR/version.xml to see if we are running the latest version or not
 class VersionChecker : public Thread,
                        public AsyncUpdater
 {

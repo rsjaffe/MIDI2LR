@@ -14,6 +14,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
 
+// encapsulates a MIDI message (Note or CC)
 struct MIDI_Message
 {
     bool isCC;
@@ -41,7 +42,7 @@ struct MIDI_Message
     }
 };
 
-// hash function for MIDI_CC
+// hash functions for MIDI_Message and String
 namespace std {
     template <>
     struct hash<MIDI_Message>
@@ -65,17 +66,33 @@ namespace std {
 class CommandMap
 {
 public:
+    static const int UNMAPPED_INDEX;
+
     static CommandMap& getInstance();
+
+    // adds an entry to the msg:command map, and a corresponding entry to the command:msg map
     void addCommandforMessage(int command, const MIDI_Message &cc);
-    int getCommandforMessage(MIDI_Message &cc);
-    void removeMessage(const MIDI_Message &cc);
+
+    // gets the LR command associated to a MIDI message
+    int getCommandforMessage(const MIDI_Message &msg) const;
+
+    // removes a MIDI message from the msg:command map, and it's associated entry in the command:msg map
+    void removeMessage(const MIDI_Message &msg);
+
+    // clears both msg:command and command:msg maps
     void clearMap();
-    bool messageExistsInMap(const MIDI_Message &cc);
 
-    MIDI_Message& getMessageForCommand(const String &command);
-    bool commandHasAssociatedMessage(const String &command);
+    // returns true if there is a mapping for a particular MIDI message
+    bool messageExistsInMap(const MIDI_Message &msg) const;
 
-    void toXMLDocument(File& file);
+    // gets the MIDI message associated to a LR command
+    const MIDI_Message& getMessageForCommand(const String &command) const;
+
+    // returns true if there is a mapping for a particular LR command
+    bool commandHasAssociatedMessage(const String &command) const;
+
+    // saves the msg:command map as an XML file
+    void toXMLDocument(File& file) const;
 
 private:
     CommandMap();

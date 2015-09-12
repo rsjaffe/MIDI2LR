@@ -17,23 +17,32 @@
 class LRConnectionListener
 {
 public:
+    // sent when a connection to the LR plugin is made
     virtual void connected() = 0;
+
+    // sent if disconnected from the LR plugin
     virtual void disconnected() = 0;
+    
+    virtual ~LRConnectionListener() {};
 };
 
 class LR_IPC_OUT : public InterprocessConnection,
-               public MIDICommandListener,
-               public AsyncUpdater,
-               public Timer
+                   public MIDICommandListener,
+                   public AsyncUpdater,
+                   public Timer
 {
 public:
-    static LR_IPC_OUT& getInstance();
-    void shutdown();
-
     static const int LR_OUT_PORT;
 
+    static LR_IPC_OUT& getInstance();
+
+    // closes the socket
+    void shutdown();
+
     void addListener(LRConnectionListener *listener);
-    void sendCommand(String& command);
+
+    // sends a command to the plugin
+    void sendCommand(const String& command);
 
     // IPC interface
     virtual void connectionMade() override;

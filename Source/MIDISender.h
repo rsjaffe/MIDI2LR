@@ -17,7 +17,11 @@ class MIDISender
 {
 public:
     static MIDISender& getInstance();
+
+    // sends a CC message to all output devices
     void sendCC(int midi_channel, int controller, int value);
+
+    // re-enumerates MIDI OUT devices
     void rescanDevices();
 private:
     MIDISender();

@@ -18,6 +18,8 @@ class MIDICommandListener
 public:
     virtual void handleMidiCC(int midiChannel, int controller, int value) = 0;
     virtual void handleMidiNote(int midiChannel, int note) = 0;
+
+    virtual ~MIDICommandListener() {};
 };
 
 class MIDIProcessor : public MidiInputCallback
@@ -25,8 +27,12 @@ class MIDIProcessor : public MidiInputCallback
 public:
     static MIDIProcessor& getInstance();
 
+    // overriden from MidiInputCallback
     void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
+
     void addMIDICommandListener(MIDICommandListener*);
+
+    // re-enumerates MIDI IN devices
     void rescanDevices();
 
 private:

@@ -17,12 +17,20 @@ public:
     virtual void paintCell (Graphics &, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
     virtual Component *refreshComponentForCell (int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate) override;
 
+    // adds a row with a corresponding MIDI message to the table
     void addRow(int midi_channel, int midi_data, bool isCC);
+
+    // removes a row from the table
     void removeRow(int row);
+
+    // removes all rows from the table
     void removeAllRows();
+
+    // builds the table from an XML file
     void buildFromXml(XmlElement *elem);
 
-    int getRowForMessage(int midi_channel, int midi_data, bool isCC);
+    // returns the index of the row associated to a particular MIDI message
+    int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
 private:
     int _rows;
 

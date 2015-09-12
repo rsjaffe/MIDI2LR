@@ -45,12 +45,12 @@ void SettingsManager::setPickupEnabled(bool enabled)
     LR_IPC_OUT::getInstance().sendCommand(command);
 }
 
-bool SettingsManager::getPickupEnabled()
+bool SettingsManager::getPickupEnabled() const
 {
     return _propertiesFile->getBoolValue("pickup_enabled", true);
 }
 
-String SettingsManager::getProfileDirectory()
+String SettingsManager::getProfileDirectory() const
 {
     return _propertiesFile->getValue("profile_directory");
 }

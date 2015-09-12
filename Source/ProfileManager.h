@@ -17,7 +17,10 @@
 class ProfileChangeListener
 {
 public:
+    // called when the current profile is change
     virtual void profileChanged(XmlElement* elem, const String& filename) = 0;
+    
+    virtual ~ProfileChangeListener() {};
 };
 
 class ProfileManager : public MIDICommandListener,
@@ -26,11 +29,23 @@ class ProfileManager : public MIDICommandListener,
 public:
     static ProfileManager& getInstance();
     void addListener(ProfileChangeListener *listener);
-    void setProfileDirectory(File& dir);
-    StringArray& getMenuItems();
+
+    // sets the default profile directory and scans its contents for profiles
+    void setProfileDirectory(const File& dir);
+
+    // returns an array of profile names
+    const StringArray& getMenuItems() const;
+
+    // switches to a profile defined by an index
     void switchToProfile(int profileIdx);
+
+    // switches to a profile defined by a name
     void switchToProfile(const String& profile);
+
+    // swithces to the next profile
     void switchToNextProfile();
+
+    // switches to the previous profile
     void switchToPreviousProfile();
 
     // MIDICommandListener interface

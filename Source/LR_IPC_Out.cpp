@@ -60,7 +60,7 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& msg)
 
 }
 
-void LR_IPC_OUT::sendCommand(String &command)
+void LR_IPC_OUT::sendCommand(const String &command)
 {
     if (!isConnected()) return;
 

@@ -12,14 +12,14 @@
 #include "CommandMenu.h"
 #include "LRCommands.h"
 
-CommandMenu::CommandMenu(MIDI_Message& msg) : _msg(msg),
-                                        _selectedItem(std::numeric_limits<int>::max()),
-                                        TextButton("Unmapped")
+CommandMenu::CommandMenu(const MIDI_Message& msg) : _msg(msg),
+                                                    _selectedItem(std::numeric_limits<int>::max()),
+                                                    TextButton("Unmapped")
 {
     addListener(this);
 }
 
-void CommandMenu::setMsg(MIDI_Message& msg)
+void CommandMenu::setMsg(const MIDI_Message& msg)
 {
     _msg = msg;
 }

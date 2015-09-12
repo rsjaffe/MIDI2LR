@@ -28,6 +28,7 @@ void VersionChecker::run()
 
 void VersionChecker::handleAsyncUpdate()
 {
+    // show a dialog box indicating there is a newer version available
     DialogWindow::LaunchOptions dwOpt;
     dwOpt.dialogTitle = "New Version Available!";
     

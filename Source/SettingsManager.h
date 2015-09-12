@@ -20,11 +20,11 @@ class SettingsManager : public LRConnectionListener
 public:
     static SettingsManager& getInstance();
 
-    bool getPickupEnabled();
+    bool getPickupEnabled() const;
     void setPickupEnabled(bool enabled);
 
     void setProfileDirectory(const String& profileDirectory);
-    String getProfileDirectory();
+    String getProfileDirectory() const;
 
     // LRConnectionListener interface
     virtual void connected() override;
@@ -32,8 +32,6 @@ public:
 
 private:
     SettingsManager();
-
-    void sendPluginSettings();
 
     SettingsManager(SettingsManager const&) = delete;
     void operator=(SettingsManager const&) = delete;

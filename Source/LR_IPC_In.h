@@ -20,11 +20,14 @@ class LR_IPC_IN : public StreamingSocket,
                   public Thread
 {
 public:
-    static LR_IPC_IN& getInstance();
-    void shutdown();
-
     static const int LR_IN_PORT;
 
+    static LR_IPC_IN& getInstance();
+
+    // closes the socket
+    void shutdown();
+
+    // re-enumerates MIDI OUT devices
     void refreshMIDIOutput();
 
     // Thread interface
@@ -38,7 +41,8 @@ private:
     LR_IPC_IN(LR_IPC_IN const&) = delete;
     void operator=(LR_IPC_IN const&) = delete;
 
-    void processLine(String& line);
+    // process a line received from the socket
+    void processLine(const String& line);
 
     std::unordered_map<String, int> parameterMap;
 };
