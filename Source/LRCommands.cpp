@@ -14,14 +14,25 @@ const std::vector<String> LRCommandList::AdjustmentStringList = {
     "Temperature",
     "Tint",
     "Exposure",
+    "Contrast",
     "Highlights",
     "Shadows",
-    "Contrast",
     "Whites",
     "Blacks",
     "Clarity",
     "Vibrance",
     "Saturation",
+    "Reset Temperature"
+    "Reset Tint",
+    "Reset Exposure",
+    "Reset Contrast",
+    "Reset Highlights",
+    "Reset Shadows",
+    "Reset Whites",
+    "Reset Blacks",
+    "Reset Clarity",
+    "Reset Vibrance",
+    "Reset Saturation",
 };
 
 const std::vector<String> LRCommandList::ToneStringList = {
@@ -32,6 +43,14 @@ const std::vector<String> LRCommandList::ToneStringList = {
     "Parametric Shadow Split",
     "Parametric Midtone Split",
     "Parametric Highlight Split",
+    "Reset Parametric Darks",
+    "Reset Parametric Lights",
+    "Reset Parametric Shadows",
+    "Reset Parametric Highlights",
+    "Reset Parametric Shadow Split",
+    "Reset Parametric Midtone Split",
+    "Reset Parametric Highlight Split",
+
 };
 
 const std::vector<String> LRCommandList::MixerStringList = {
@@ -90,6 +109,16 @@ const std::vector<String> LRCommandList::DetailStringList = {
     "Color Noise Reduction",
     "Color Noise Reduction Detail",
     "Color Noise Reduction Smoothness",
+    "Reset Sharpness",
+    "Reset Sharpen Radius",
+    "Reset Sharpen Detail",
+    "Reset Sharpen Edge Masking",
+    "Reset Luminance Smoothing",
+    "Reset Luminance Noise Reduction Detail",
+    "Reset Luminance Noise Reduction Contrast",
+    "Reset Color Noise Reduction",
+    "Reset Color Noise Reduction Detail",
+    "Reset Color Noise Reduction Smoothness",
 };
 
 const std::vector<String> LRCommandList::LensCorrectionStringList = {
@@ -122,6 +151,7 @@ const std::vector<String> LRCommandList::EffectsStringList = {
     "Grain Amount",
     "Grain Size",
     "Grain Frequency",
+    "Reset Dehaze",
 };
 
 const std::vector<String> LRCommandList::CalibrateStringList = {
@@ -175,14 +205,26 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Temperature",
     "Tint",
     "Exposure",
+    "Contrast",
     "Highlights",
     "Shadows",
-    "Contrast",
     "Whites",
     "Blacks",
     "Clarity",
     "Vibrance",
     "Saturation",
+    "ResetTemperature",
+    "ResetTint",
+    "ResetExposure",
+    "ResetContrast",
+    "ResetHighlights",
+    "ResetShadows",
+    "ResetWhites",
+    "ResetBlacks",
+    "ResetClarity",
+    "ResetVibrance",
+    "ResetSaturation",
+
     /* Tone*/
     "ParametricDarks",
     "ParametricLights",
@@ -191,6 +233,14 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ParametricShadowSplit",
     "ParametricMidtoneSplit",
     "ParametricHighlightSplit",
+    "ResetParametricDarks",
+    "ResetParametricLights",
+    "ResetParametricShadows",
+    "ResetParametricHighlights",
+    "ResetParametricShadowSplit",
+    "ResetParametricMidtoneSplit",
+    "ResetParametricHighlightSplit",
+
     /* Mixer */
     "SaturationAdjustmentRed",
     "SaturationAdjustmentOrange",
@@ -241,6 +291,16 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ColorNoiseReduction",
     "ColorNoiseReductionDetail",
     "ColorNoiseReductionSmoothness",
+    "ResetSharpness",
+    "ResetSharpenRadius",
+    "ResetSharpenDetail",
+    "ResetSharpenEdgeMasking",
+    "ResetLuminanceSmoothing",
+    "ResetLuminanceNoiseReductionDetail",
+    "ResetLuminanceNoiseReductionContrast",
+    "ResetColorNoiseReduction",
+    "ResetColorNoiseReductionDetail",
+    "ResetColorNoiseReductionSmoothness",
     /* Lens Correction */
     "LensProfileDistortionScale",
     "LensProfileChromaticAberrationScale",
@@ -269,6 +329,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "GrainAmount",
     "GrainSize",
     "GrainFrequency",
+    "ResetDehaze",
     /* Calibrate */
     "ShadowTint",
     "RedHue",
