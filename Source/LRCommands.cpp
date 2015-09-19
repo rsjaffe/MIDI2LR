@@ -22,7 +22,7 @@ const std::vector<String> LRCommandList::AdjustmentStringList = {
     "Clarity",
     "Vibrance",
     "Saturation",
-    "Reset Temperature"
+    "Reset Temperature",
     "Reset Tint",
     "Reset Exposure",
     "Reset Contrast",
