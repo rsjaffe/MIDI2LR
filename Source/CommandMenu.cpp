@@ -24,7 +24,7 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
     _msg = msg;
 }
 
-void CommandMenu::buttonClicked(Button* button)
+void CommandMenu::buttonClicked(Button* /*button*/)
 {
     auto idx = 1;
     bool subMenuTickSet = false;

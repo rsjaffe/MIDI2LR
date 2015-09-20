@@ -91,13 +91,12 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
     const MIDI_Message cc(midiChannel, controller, true);
 
     // return if the value isn't 1 or 127, or the command isn't a valid profile-related command
-    if ((value != 1 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc) ||
-        CommandMap::getInstance().getCommandforMessage(cc) < LRCommandList::LRStringList.size())
+    if ((value != 1 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc))
         return;
 
-    if (CommandMap::getInstance().getCommandforMessage(cc) - LRCommandList::LRStringList.size() == 0)
+    if (CommandMap::getInstance().getCommandforMessage(cc) == "Previous Profile")
         _switchState = SWITCH_STATE::PREV;
-    else if (CommandMap::getInstance().getCommandforMessage(cc) - LRCommandList::LRStringList.size() == 1)
+    else if (CommandMap::getInstance().getCommandforMessage(cc) == "Next Profile")
         _switchState = SWITCH_STATE::NEXT;
 
     triggerAsyncUpdate();
@@ -108,13 +107,12 @@ void ProfileManager::handleMidiNote(int midiChannel, int note)
     const MIDI_Message note_msg(midiChannel, note, false);
 
     // return if the command isn't a valid profile-related command
-    if (!CommandMap::getInstance().messageExistsInMap(note_msg) ||
-        CommandMap::getInstance().getCommandforMessage(note_msg) < LRCommandList::LRStringList.size())
+    if (!CommandMap::getInstance().messageExistsInMap(note_msg))
         return;
 
-    if (CommandMap::getInstance().getCommandforMessage(note_msg) - LRCommandList::LRStringList.size() == 0)
+    if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Previous Profile")
         _switchState = SWITCH_STATE::PREV;
-    else if (CommandMap::getInstance().getCommandforMessage(note_msg) - LRCommandList::LRStringList.size() == 1)
+    else if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Next Profile")
         _switchState = SWITCH_STATE::NEXT;
 
     triggerAsyncUpdate();

@@ -8,7 +8,9 @@
   ==============================================================================
 */
 
+#include <unordered_map>
 #include "LRCommands.h"
+#include "CommandMap.h"
 
 const std::vector<String> LRCommandList::AdjustmentStringList = {
     "Temperature",
@@ -375,3 +377,20 @@ const std::vector<String> LRCommandList::ProfileList = {
   "Previous Profile",
   "Next Profile",
 };
+
+int LRCommandList::getIndexOfCommand(const String& command)
+{
+    static std::unordered_map<String, int> indexMap;
+    if (indexMap.size() == 0)
+    {
+        int idx = 0;
+        for (auto &str : LRStringList)
+            indexMap[str] = idx++;
+
+        for (auto &str : ProfileList)
+            indexMap[str] = idx++;
+    }
+
+    return indexMap[command];
+
+}

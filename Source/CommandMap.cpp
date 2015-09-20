@@ -27,13 +27,22 @@ CommandMap& CommandMap::getInstance()
 void CommandMap::addCommandforMessage(int command, const MIDI_Message &msg)
 {
     // adds a msg to the msg:command map, and it's associated command to the command:msg map
-    _messageMap[msg] = command;
-
-    if(command < LRCommandList::LRStringList.size())
-      _commandStringMap[LRCommandList::LRStringList[command]] = msg;
+    if (command < LRCommandList::LRStringList.size())
+    {
+        _messageMap[msg] = LRCommandList::LRStringList[command];
+        _commandStringMap[LRCommandList::LRStringList[command]] = msg;
+    }
+    else
+        _messageMap[msg] = LRCommandList::ProfileList[command - LRCommandList::LRStringList.size()];
 }
 
-int CommandMap::getCommandforMessage(const MIDI_Message &msg) const
+void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &msg)
+{
+    _messageMap[msg] = command;
+    _commandStringMap[command] = msg;
+}
+
+const String& CommandMap::getCommandforMessage(const MIDI_Message &msg) const
 {
     return _messageMap.at(msg);
 }
@@ -56,9 +65,7 @@ bool CommandMap::commandHasAssociatedMessage(const String &command) const
 void CommandMap::removeMessage(const MIDI_Message &msg)
 {
     // removes msg from the msg:command map, and it's associated command from the command:msg map
-    if (_messageMap[msg] < LRCommandList::LRStringList.size())
-        _commandStringMap.erase(LRCommandList::LRStringList[_messageMap[msg]]);
-
+    _commandStringMap.erase(_messageMap[msg]);
     _messageMap.erase(msg);
 }
 
@@ -82,7 +89,7 @@ void CommandMap::toXMLDocument(File& file) const
         else
             setting->setAttribute("note", mapEntry.first.pitch);
 
-        setting->setAttribute("command", mapEntry.second);
+        setting->setAttribute("command_string", mapEntry.second);
 
         root.addChildElement(setting);
     }

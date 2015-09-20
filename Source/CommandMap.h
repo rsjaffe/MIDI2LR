@@ -71,10 +71,14 @@ public:
     static CommandMap& getInstance();
 
     // adds an entry to the msg:command map, and a corresponding entry to the command:msg map
+    // will look up the string by the index (but it is preferred to directly use the String)
     void addCommandforMessage(int command, const MIDI_Message &cc);
+    
+    // adds an entry to the msg:command map, and a corresponding entry to the command:msg map
+    void addCommandforMessage(const String &command, const MIDI_Message &cc);
 
     // gets the LR command associated to a MIDI message
-    int getCommandforMessage(const MIDI_Message &msg) const;
+    const String& getCommandforMessage(const MIDI_Message &msg) const;
 
     // removes a MIDI message from the msg:command map, and it's associated entry in the command:msg map
     void removeMessage(const MIDI_Message &msg);
@@ -100,7 +104,7 @@ private:
     CommandMap(CommandMap const&)  = delete;
     void operator=(CommandMap const&) = delete;
 
-    std::unordered_map<MIDI_Message, int> _messageMap;
+    std::unordered_map<MIDI_Message, String> _messageMap;
     std::unordered_map<String, MIDI_Message> _commandStringMap;
 };
 

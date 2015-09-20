@@ -37,6 +37,9 @@ public:
     // MIDI2LR commands
     static const std::vector<String> ProfileList;
 
+    // Map of command strings to indices
+    static int getIndexOfCommand(const String& command);
+
 private:
     LRCommandList();
 };

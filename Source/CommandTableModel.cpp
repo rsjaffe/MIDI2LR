@@ -45,7 +45,7 @@ Component *CommandTableModel::refreshComponentForCell (int rowNumber, int column
         else
             commandSelect->setMsg(_commands[rowNumber]);
         // add 1 because 0 is reserved for no selection
-        commandSelect->setSelectedItem(CommandMap::getInstance().getCommandforMessage(_commands[rowNumber]) + 1);
+        commandSelect->setSelectedItem(LRCommandList::getIndexOfCommand(CommandMap::getInstance().getCommandforMessage(_commands[rowNumber])) + 1);
 
         return commandSelect;
     }
@@ -104,13 +104,24 @@ void CommandTableModel::buildFromXml(XmlElement *root)
         {
             MIDI_Message cc(setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true);
             addRow(cc.channel, cc.controller, true);
-            CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), cc);
+
+            // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
+            if(setting->getIntAttribute("command", -1) != -1)
+                CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), cc);
+            else
+                CommandMap::getInstance().addCommandforMessage(setting->getStringAttribute("command_string"), cc);
+            
         }
         else if(setting->hasAttribute("note"))
         {
             MIDI_Message note(setting->getIntAttribute("channel"), setting->getIntAttribute("note"), false);
             addRow(note.channel, note.pitch, false);
-            CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), note);
+
+            // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
+            if (setting->getIntAttribute("command", -1) != -1)
+                CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), note);
+            else
+                CommandMap::getInstance().addCommandforMessage(setting->getStringAttribute("command_string"), note);
         }
         setting = setting->getNextElement();
     }

@@ -80,11 +80,13 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
     MIDI_Message cc(midiChannel, controller, true);
 
     if (!CommandMap::getInstance().messageExistsInMap(cc) || 
-         CommandMap::getInstance().getCommandforMessage(cc) == 0 ||
-         CommandMap::getInstance().getCommandforMessage(cc) >= LRCommandList::LRStringList.size())
+         CommandMap::getInstance().getCommandforMessage(cc) == "Unmapped" ||
+         find(LRCommandList::ProfileList.begin(), 
+              LRCommandList::ProfileList.end(),
+              CommandMap::getInstance().getCommandforMessage(cc)) != LRCommandList::ProfileList.end())
         return;
 
-    _commandToSend = LRCommandList::LRStringList[(int)CommandMap::getInstance().getCommandforMessage(cc)];
+    _commandToSend = CommandMap::getInstance().getCommandforMessage(cc);
     _valueToSend = value;
     handleAsyncUpdate();
 }
@@ -94,11 +96,13 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
     MIDI_Message note_msg(midiChannel, note, false);
 
     if (!CommandMap::getInstance().messageExistsInMap(note_msg) || 
-         CommandMap::getInstance().getCommandforMessage(note_msg) == 0 ||
-         CommandMap::getInstance().getCommandforMessage(note_msg) >= LRCommandList::LRStringList.size())
+         CommandMap::getInstance().getCommandforMessage(note_msg) == "Unmapped" ||
+        find(LRCommandList::ProfileList.begin(),
+            LRCommandList::ProfileList.end(),
+            CommandMap::getInstance().getCommandforMessage(note_msg)) != LRCommandList::ProfileList.end())
         return;
 
-    _commandToSend = LRCommandList::LRStringList[CommandMap::getInstance().getCommandforMessage(note_msg)];
+    _commandToSend = CommandMap::getInstance().getCommandforMessage(note_msg);
     _valueToSend = 127;
     handleAsyncUpdate();
 }

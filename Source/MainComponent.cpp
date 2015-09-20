@@ -252,6 +252,7 @@ void MainContentComponent::buttonClicked(Button* button)
                 _profileNameLabel.setText(browser.getSelectedFile(0).getFileName(), NotificationType::dontSendNotification);
                 _commandTableModel.buildFromXml(elem);
                 _commandTable.updateContent();
+                _commandTable.repaint();
             }
         }
     }
