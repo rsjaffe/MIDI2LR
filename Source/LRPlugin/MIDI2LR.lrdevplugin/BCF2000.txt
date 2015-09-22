@@ -1,6 +1,6 @@
 $rev F1 ; Firmware 1.10; BC Manager 2.6.0
 $preset
-  .name 'MIDI2LR 0.4             '
+  .name 'MIDI2LR 0.4.1           '
 ;Designed for MIDI2LR
   .snapshot off
   .request off
