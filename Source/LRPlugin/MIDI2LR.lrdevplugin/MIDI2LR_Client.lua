@@ -88,35 +88,6 @@ local ACTIONS = {
     ['ResetLast']        = function () LrDevelopController.resetToDefault(LAST_PARAM) end,
     ['Undo']             = function () LrUndo.undo() end,
     ['Redo']             = function () LrUndo.redo() end,
-    ['ResetTemperature'] = function () LrDevelopController.resetToDefault('Temperature') end,
-    ['ResetTint']        = function () LrDevelopController.resetToDefault('Tint') end,
-    ['ResetExposure']    = function () LrDevelopController.resetToDefault('Exposure') end,
-    ['ResetHighlights']  = function () LrDevelopController.resetToDefault('Highlights') end,
-    ['ResetShadows']     = function () LrDevelopController.resetToDefault('Shadows') end,
-    ['ResetContrast']    = function () LrDevelopController.resetToDefault('Contrast') end,
-    ['ResetWhites']      = function () LrDevelopController.resetToDefault('Whites') end,
-    ['ResetBlacks']      = function () LrDevelopController.resetToDefault('Blacks') end,
-    ['ResetClarity']     = function () LrDevelopController.resetToDefault('Clarity') end,
-    ['ResetVibrance']    = function () LrDevelopController.resetToDefault('Vibrance') end,
-    ['ResetSaturation']  = function () LrDevelopController.resetToDefault('Saturation') end,
-    ['ResetParametricDarks']                 = function () LrDevelopController.resetToDefault('ParametricDarks') end,
-    ['ResetParametricLights']                = function () LrDevelopController.resetToDefault('ParametricLights') end,
-    ['ResetParametricShadows']               = function () LrDevelopController.resetToDefault('ParametricShadows') end,
-    ['ResetParametricHighlights']            = function () LrDevelopController.resetToDefault('ParametricHighlights') end,
-    ['ResetParametricShadowSplit']           = function () LrDevelopController.resetToDefault('ParametricShadowSplit') end,
-    ['ResetParametricMidtoneSplit']          = function () LrDevelopController.resetToDefault('ParametricMidtoneSplit') end,
-    ['ResetParametricHighlightSplit']        = function () LrDevelopController.resetToDefault('ParametricHighlightSplit') end,
-    ['ResetSharpness']                       = function () LrDevelopController.resetToDefault('Sharpness') end,
-    ['ResetSharpenRadius']                   = function () LrDevelopController.resetToDefault('SharpenRadius') end,
-    ['ResetSharpenDetail']                   = function () LrDevelopController.resetToDefault('SharpenDetail') end,
-    ['ResetSharpenEdgeMasking']              = function () LrDevelopController.resetToDefault('SharpenEdgeMasking') end,
-    ['ResetLuminanceSmoothing']              = function () LrDevelopController.resetToDefault('LuminanceSmoothing') end,
-    ['ResetLuminanceNoiseReductionDetail']   = function () LrDevelopController.resetToDefault('LuminanceNoiseReductionDetail') end,
-    ['ResetLuminanceNoiseReductionContrast'] = function () LrDevelopController.resetToDefault('LuminanceNoiseReductionContrast') end,
-    ['ResetColorNoiseReduction']             = function () LrDevelopController.resetToDefault('ColorNoiseReduction') end,
-    ['ResetColorNoiseReductionDetail']       = function () LrDevelopController.resetToDefault('ColorNoiseReductionDetail') end,
-    ['ResetColorNoiseReductionSmoothness']   = function () LrDevelopController.resetToDefault('ColorNoiseReductionSmoothness') end,
-    ['ResetDehaze']                          = function () LrDevelopController.resetToDefault('Dehaze') end,
 }
 
 local TOOL_ALIASES = {
@@ -141,6 +112,8 @@ local function processMessage(message)
        
         if(ACTIONS[param] ~= nil) then -- perform a one time action
             if(tonumber(value) == 127 or tonumber(value) == 1) then ACTIONS[param]() end
+        elseif((strfind(param,'Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+           if(tonumber(value) == 127 or tonumber(value) == 1) then LrDevelopController.resetToDefault(strsub(param,6)) end
         elseif(TOOL_ALIASES[param] ~= nil) then -- switch to desired tool
             if(tonumber(value) == 127 or tonumber(value) == 1) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe

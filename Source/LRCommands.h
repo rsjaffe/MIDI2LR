@@ -24,6 +24,7 @@ public:
     static const std::vector<String> AdjustmentStringList;
     static const std::vector<String> ToneStringList;
     static const std::vector<String> MixerStringList;
+    static const std::vector<String> ResetMixerStringList;
     static const std::vector<String> SplitToningStringList;
     static const std::vector<String> DetailStringList;
     static const std::vector<String> EffectsStringList;
