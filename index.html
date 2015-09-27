@@ -22,12 +22,19 @@
       <h1>
 <a id="midi2lr" class="anchor" href="#midi2lr" aria-hidden="true"><span class="octicon octicon-link"></span></a>MIDI2LR</h1>
 
-<p><strong>MIDI2LR</strong> is an application that translates MIDI Control Change commands into Lightroom actions.</p>
+<p><strong>MIDI2LR</strong> is an application that translates MIDI Control Change commands into Lightroom actions. The wiki is read-only to prevent spamming. Contact me if you wish to add any pages or text.</p>
 
 <h2>
 <a id="supported-platforms" class="anchor" href="#supported-platforms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported platforms</h2>
 
 <p>A build for Windows is currently available, but the underlying framework is cross-platform, so a Mac build can easily be made</p>
+
+<h2>
+<a id="proposed-project-plan" class="anchor" href="#proposed-project-plan" aria-hidden="true"><span class="octicon octicon-link"></span></a>Proposed Project Plan</h2>
+
+<p>Please contact me if you have suggestions/changes for the plan.
+1. Move conversion from LR range to controller range from lua code to c++ code. Goals: remove the unwanted fader motor action caused by rounding errors, and prepare the application for wide-range MIDI control codes.
+2. Implement NRPN MIDI message handling. This will help with the wide-range parameters such as Color Temperature, as sensitivity of control can then be altered by speed of movement.</p>
 
 <h2>
 <a id="screenshot" class="anchor" href="#screenshot" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screenshot</h2>
