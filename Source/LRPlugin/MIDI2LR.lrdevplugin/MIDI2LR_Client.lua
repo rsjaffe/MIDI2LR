@@ -88,6 +88,11 @@ local ACTIONS = {
     ['ResetLast']        = function () LrDevelopController.resetToDefault(LAST_PARAM) end,
     ['Undo']             = function () LrUndo.undo() end,
     ['Redo']             = function () LrUndo.redo() end,
+    ['ZoomInLargeStep']  = function () LrApplicationView.zoomIn() end,
+    ['ZoomInSmallStep']  = function () LrApplicationView.zoomInSome() end,
+    ['ZoomOutSmallStep'] = function () LrApplicationView.zoomOutSome() end,
+    ['ZoomOutLargeStep'] = function () LrApplicationView.zoomOut() end,
+    ['ToggleZoomOffOn']  = function () LrApplicationView.toggleZoom() end,
 }
 
 local TOOL_ALIASES = {
