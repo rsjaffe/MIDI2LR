@@ -135,6 +135,11 @@ const std::vector<String> LRCommandList::SplitToningStringList = {
     "Split Toning Highlight Hue",
     "Split Toning Highlight Saturation",
     "Split Toning Balance",
+    "Reset Split Toning Shadow Hue",
+    "Reset Split Toning Shadow Saturation",
+    "Reset Split Toning Highlight Hue",
+    "Reset Split Toning Highlight Saturation",
+    "Reset Split Toning Balance",
 };
 
 const std::vector<String> LRCommandList::DetailStringList = {
@@ -209,6 +214,15 @@ const std::vector<String> LRCommandList::EffectsStringList = {
     "Grain Size",
     "Grain Frequency",
     "Reset Dehaze",
+    "Reset Post Crop Vignette Amount",
+    "Reset Post Crop Vignette Midpoint",
+    "Reset Post Crop Vignette Feather",
+    "Reset Post Crop Vignette Roundness",
+    "Reset Post Crop Vignette Style",
+    "Reset Post Crop Vignette Highlight Contrast",
+    "Reset Grain Amount",
+    "Reset Grain Size",
+    "Reset Grain Frequency",
 };
 
 const std::vector<String> LRCommandList::CalibrateStringList = {
@@ -219,6 +233,13 @@ const std::vector<String> LRCommandList::CalibrateStringList = {
     "Green Saturation",
     "Blue Hue",
     "Blue Saturation"
+    "Reset Shadow Tint",
+    "Reset Red Hue",
+    "Reset Red Saturation",
+    "Reset Green Hue",
+    "Reset Green Saturation",
+    "Reset Blue Hue",
+    "Reset Blue Saturation"
 };
 
 const std::vector<String> LRCommandList::SelectionList = {
@@ -254,6 +275,11 @@ const std::vector<String> LRCommandList::ToolsList = {
     "Graduated Filter",
     "Radial Filter",
     "Adjustment Brush",
+    "Zoom In Large Step",
+    "Zoom In Small Step",
+    "Zoom Out Small Step",
+    "Zoom Out Large Step",
+    "Toggle Zoom Off/On",
 };
 
 const std::vector<String> LRCommandList::LRStringList = {
@@ -372,6 +398,12 @@ const std::vector<String> LRCommandList::LRStringList = {
     "SplitToningHighlightHue",
     "SplitToningHighlightSaturation",
     "SplitToningBalance",
+    "ResetSplitToningShadowHue",
+    "ResetSplitToningShadowSaturation",
+    "ResetSplitToningHighlightHue",
+    "ResetSplitToningHighlightSaturation",
+    "ResetSplitToningBalance",
+  
     /* Detail */
     "Sharpness",
     "SharpenRadius",
@@ -439,6 +471,15 @@ const std::vector<String> LRCommandList::LRStringList = {
     "GrainSize",
     "GrainFrequency",
     "ResetDehaze",
+    "ResetPostCropVignetteAmount",
+    "ResetPostCropVignetteMidpoint",
+    "ResetPostCropVignetteFeather",
+    "ResetPostCropVignetteRoundness",
+    "ResetPostCropVignetteStyle",
+    "ResetPostCropVignetteHighlightContrast",
+    "ResetGrainAmount",
+    "ResetGrainSize",
+    "ResetGrainFrequency",
     /* Calibrate */
     "ShadowTint",
     "RedHue",
@@ -447,6 +488,14 @@ const std::vector<String> LRCommandList::LRStringList = {
     "GreenSaturation",
     "BlueHue",
     "BlueSaturation",
+    "ResetShadowTint",
+    "ResetRedHue",
+    "ResetRedSaturation",
+    "ResetGreenHue",
+    "ResetGreenSaturation",
+    "ResetBlueHue",
+    "ResetBlueSaturation",
+
     /* Selection Actions */
     "Pick",
     "Reject",
@@ -478,6 +527,11 @@ const std::vector<String> LRCommandList::LRStringList = {
     "GraduatedFilter",
     "RadialFilter",
     "AdjustmentBrush",
+    "ZoomInLargeStep",
+    "ZoomInSmallStep",
+    "ZoomOutSmallStep",
+    "ZoomOutLargeStep",
+    "ToggleZoomOffOn",
 };
 
 const std::vector<String> LRCommandList::ProfileList = {
