@@ -17,7 +17,7 @@ VersionChecker::VersionChecker() : Thread("VersionChecker")
 
 void VersionChecker::run()
 {
-    URL versionURL("http://thegouger.github.io/MIDI2LR/version.xml");
+    URL versionURL("http://rsjaffe.github.io/MIDI2LR/version.xml");
     ScopedPointer<XmlElement> versionElem = versionURL.readEntireXmlStream();
     if (versionElem != nullptr && (versionElem->getIntAttribute("latest") > ProjectInfo::versionNumber))
     {
