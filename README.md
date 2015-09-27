@@ -15,6 +15,9 @@ Windows 7/8/10
 ## Building
 The project files for Visual Studio and Xcode are located in Builds/
 
+## Project Page		
+[Project Page](http://rsjaffe.github.io/MIDI2LR)
+
 ## Lightroom 6 API reference
 <http://lightroomsolutions.com/sdk/index.html>
 
