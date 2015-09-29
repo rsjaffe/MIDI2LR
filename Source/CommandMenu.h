@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    CommandMenu.h
-    Created: 3 Aug 2015 3:27:33pm
-    Author:  Parth
+	CommandMenu.h
+	Created: 3 Aug 2015 3:27:33pm
+	Author:  Parth
 
   ==============================================================================
 */
@@ -15,23 +15,23 @@
 #include "CommandMap.h"
 
 class CommandMenu : public TextButton,
-                    protected ButtonListener
+	protected ButtonListener
 {
 public:
-    CommandMenu(const MIDI_Message& msg);
+	CommandMenu(const MIDI_Message& msg);
 
-    // sets the MIDI message associated to this menu component
-    void setMsg(const MIDI_Message& msg);
+	// sets the MIDI message associated to this menu component
+	void setMsg(const MIDI_Message& msg);
 
-    // sets which item in the menu is selected
-    void setSelectedItem(int idx);
+	// sets which item in the menu is selected
+	void setSelectedItem(int idx);
 
-    // ButtonListener interface
-    virtual void buttonClicked(Button* button) override;
-    
+	// ButtonListener interface
+	virtual void buttonClicked(Button* button) override;
+
 private:
-    MIDI_Message _msg;
-    int _selectedItem;
+	MIDI_Message _msg;
+	int _selectedItem;
 };
 
 
