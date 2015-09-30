@@ -3,14 +3,8 @@
 ###############################################################################
 * text=auto
 
-###############################################################################
-# Set default behavior for command prompt diff.
-#
-# This is need for earlier builds of msysgit that does not have it on by
-# default for csharp files.
-# Note: This is only used by command line
-###############################################################################
-#*.cs     diff=csharp
+*.h diff=cpp
+*.cpp diff=cpp
 
 ###############################################################################
 # Set the merge driver for project and solution files
