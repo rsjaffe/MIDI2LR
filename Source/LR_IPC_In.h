@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    LR_IPC_In.h
-    Created: 22 Aug 2015 9:44:03pm
-    Author:  Parth
+	LR_IPC_In.h
+	Created: 22 Aug 2015 9:44:03pm
+	Author:  Parth
 
   ==============================================================================
 */
@@ -16,35 +16,35 @@
 #include "CommandMap.h"
 
 class LR_IPC_IN : public StreamingSocket,
-                  public Timer,
-                  public Thread
+	public Timer,
+	public Thread
 {
 public:
-    static const int LR_IN_PORT;
+	static const int LR_IN_PORT;
 
-    static LR_IPC_IN& getInstance();
+	static LR_IPC_IN& getInstance();
 
-    // closes the socket
-    void shutdown();
+	// closes the socket
+	void shutdown();
 
-    // re-enumerates MIDI OUT devices
-    void refreshMIDIOutput();
+	// re-enumerates MIDI OUT devices
+	void refreshMIDIOutput();
 
-    // Thread interface
-    virtual void run() override;
+	// Thread interface
+	virtual void run() override;
 
-    // Timer callback
-    virtual void timerCallback() override;
+	// Timer callback
+	virtual void timerCallback() override;
 private:
-    LR_IPC_IN();
+	LR_IPC_IN();
 
-    LR_IPC_IN(LR_IPC_IN const&) = delete;
-    void operator=(LR_IPC_IN const&) = delete;
+	LR_IPC_IN(LR_IPC_IN const&) = delete;
+	void operator=(LR_IPC_IN const&) = delete;
 
-    // process a line received from the socket
-    void processLine(const String& line);
+	// process a line received from the socket
+	void processLine(const String& line);
 
-    std::unordered_map<String, int> parameterMap;
+	std::unordered_map<String, int> parameterMap;
 };
 
 

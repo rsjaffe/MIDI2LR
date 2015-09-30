@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    SettingsComponent.h
-    Created: 24 Aug 2015 11:43:59am
-    Author:  Parth
+	SettingsComponent.h
+	Created: 24 Aug 2015 11:43:59am
+	Author:  Parth
 
   ==============================================================================
 */
@@ -16,26 +16,26 @@
 //==============================================================================
 /*
 */
-class SettingsComponent    : public Component,
-                             public ButtonListener
+class SettingsComponent : public Component,
+	public ButtonListener
 {
 public:
-    SettingsComponent();
-    ~SettingsComponent();
+	SettingsComponent();
+	~SettingsComponent();
 
-    void paint (Graphics&);
-    void resized();
+	void paint(Graphics&);
+	void resized();
 
-    // ButtonListener interface
-    virtual void buttonClicked(Button* button) override;
+	// ButtonListener interface
+	virtual void buttonClicked(Button* button) override;
 
 private:
-    ToggleButton _pickupEnabled;
-    Label _pickupLabel;
+	ToggleButton _pickupEnabled;
+	Label _pickupLabel;
 
-    TextButton _profileLocationButton;
-    Label _profileLocationLabel;
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SettingsComponent)
+	TextButton _profileLocationButton;
+	Label _profileLocationLabel;
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
 
 

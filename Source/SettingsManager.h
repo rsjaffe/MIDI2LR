@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    SettingsManager.h
-    Created: 24 Aug 2015 7:11:29pm
-    Author:  Parth
+	SettingsManager.h
+	Created: 24 Aug 2015 7:11:29pm
+	Author:  Parth
 
   ==============================================================================
 */
@@ -18,25 +18,25 @@
 class SettingsManager : public LRConnectionListener
 {
 public:
-    static SettingsManager& getInstance();
+	static SettingsManager& getInstance();
 
-    bool getPickupEnabled() const;
-    void setPickupEnabled(bool enabled);
+	bool getPickupEnabled() const;
+	void setPickupEnabled(bool enabled);
 
-    void setProfileDirectory(const String& profileDirectory);
-    String getProfileDirectory() const;
+	void setProfileDirectory(const String& profileDirectory);
+	String getProfileDirectory() const;
 
-    // LRConnectionListener interface
-    virtual void connected() override;
-    virtual void disconnected() override;
+	// LRConnectionListener interface
+	virtual void connected() override;
+	virtual void disconnected() override;
 
 private:
-    SettingsManager();
+	SettingsManager();
 
-    SettingsManager(SettingsManager const&) = delete;
-    void operator=(SettingsManager const&) = delete;
+	SettingsManager(SettingsManager const&) = delete;
+	void operator=(SettingsManager const&) = delete;
 
-    ScopedPointer<PropertiesFile> _propertiesFile;
+	ScopedPointer<PropertiesFile> _propertiesFile;
 };
 
 
