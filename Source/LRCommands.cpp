@@ -232,7 +232,7 @@ const std::vector<String> LRCommandList::CalibrateStringList = {
 	"Green Hue",
 	"Green Saturation",
 	"Blue Hue",
-	"Blue Saturation"
+	"Blue Saturation",
 	"Reset Shadow Tint",
 	"Reset Red Hue",
 	"Reset Red Saturation",
