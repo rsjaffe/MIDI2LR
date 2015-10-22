@@ -36,7 +36,7 @@ void VersionChecker::handleAsyncUpdate()
 	int minor = (_newVersion & 0x00F00) >> 8;
 	int rev = (_newVersion & 0x0000F);
 	String versionString = String::formatted("New version %d.%d.%d available", major, minor, rev);
-	URL downloadURL("http://thegouger.github.io/MIDI2LR");
+	URL downloadURL("http://rsjaffe.github.io/MIDI2LR");
 
 	dwOpt.content.setOwned(new HyperlinkButton(versionString, downloadURL));
 	dwOpt.content->setSize(300, 100);
