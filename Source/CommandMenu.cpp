@@ -33,34 +33,34 @@ void CommandMenu::buttonClicked(Button* /*button*/)
 	idx++;
 
 	const std::vector<String> menus = { "Basic",
-										"Tone Curve",
-										"HSL / Color / B&W" ,
-										"Reset HSL / Color / B&W" ,
-										"Split Toning",
-										"Detail",
-										"Lens Correction",
-										"Effects",
-										"Camera Calibration",
-										"Photo Actions",
-										"Tools",
-										"Modules",
+                                            "Tone Curve",
+                                            "HSL / Color / B&W" ,
+                                            "Reset HSL / Color / B&W" ,
+                                            "Split Toning",
+                                            "Detail",
+                                            "Lens Correction",
+                                            "Effects",
+                                            "Camera Calibration",
+                                            "Photo Actions",
+                                            "Tools",
+                                            "Modules",
 		// MIDI2LR items
-										"Profile"
+                                            "Profile"
 	};
 	const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
-														   LRCommandList::ToneStringList,
-														   LRCommandList::MixerStringList,
-														   LRCommandList::ResetMixerStringList,
-														   LRCommandList::SplitToningStringList,
-														   LRCommandList::DetailStringList,
-														   LRCommandList::LensCorrectionStringList,
-														   LRCommandList::EffectsStringList,
-														   LRCommandList::CalibrateStringList,
-														   LRCommandList::SelectionList,
-														   LRCommandList::ToolsList,
-														   LRCommandList::ModulesList,
+                                                               LRCommandList::ToneStringList,
+                                                               LRCommandList::MixerStringList,
+                                                               LRCommandList::ResetMixerStringList,
+                                                               LRCommandList::SplitToningStringList,
+                                                               LRCommandList::DetailStringList,
+                                                               LRCommandList::LensCorrectionStringList,
+                                                               LRCommandList::EffectsStringList,
+                                                               LRCommandList::CalibrateStringList,
+                                                               LRCommandList::SelectionList,
+                                                               LRCommandList::ToolsList,
+                                                               LRCommandList::ModulesList,
 		// MIDI2LR items
-		LRCommandList::ProfileList,
+                                                               LRCommandList::ProfileList,
 	};
 
 	// add each submenu
