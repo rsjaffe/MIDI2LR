@@ -93,8 +93,8 @@ local ACTIONS = {
     ['ZoomOutSmallStep'] = function () LrApplicationView.zoomOutSome() end,
     ['ZoomOutLargeStep'] = function () LrApplicationView.zoomOut() end,
     ['ToggleZoomOffOn']  = function () LrApplicationView.toggleZoom() end,
-	['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(LAST_PARAM) end,
-	['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
+    ['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(LAST_PARAM) end,
+    ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
 }
 
 local TOOL_ALIASES = {
