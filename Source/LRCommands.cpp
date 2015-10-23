@@ -284,6 +284,16 @@ const std::vector<String> LRCommandList::ToolsList = {
 	"Toggle Zoom Off/On",
 };
 
+const std::vector<String> LRCommandList::ModulesList = {
+	"Library",
+	"Develop",
+	"Map",
+	"Book",
+	"Slideshow",
+	"Print",
+	"Web",
+};
+
 const std::vector<String> LRCommandList::LRStringList = {
 	"Unmapped",
 	/* Adjust */
@@ -536,6 +546,15 @@ const std::vector<String> LRCommandList::LRStringList = {
 	"ZoomOutSmallStep",
 	"ZoomOutLargeStep",
 	"ToggleZoomOffOn",
+	/* Modules */
+		"SwToMLibrary",
+		"SwToMDevelop",
+		"SwToMMap",
+		"SwToMBook",
+		"SwToMSlideshow",
+		"SwToMPrint",
+		"SwToMWeb",
+
 };
 
 const std::vector<String> LRCommandList::ProfileList = {

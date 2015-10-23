@@ -34,6 +34,7 @@ public:
 	// Sectioned and readable LR tool string
 	static const std::vector<String> SelectionList;
 	static const std::vector<String> ToolsList;
+	static const std::vector<String> ModulesList;
 
 	// MIDI2LR commands
 	static const std::vector<String> ProfileList;

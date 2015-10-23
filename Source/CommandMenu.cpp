@@ -43,8 +43,9 @@ void CommandMenu::buttonClicked(Button* /*button*/)
 										"Camera Calibration",
 										"Photo Actions",
 										"Tools",
+										"Modules",
 		// MIDI2LR items
-		                                "Profile"
+										"Profile"
 	};
 	const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
 														   LRCommandList::ToneStringList,
@@ -57,6 +58,7 @@ void CommandMenu::buttonClicked(Button* /*button*/)
 														   LRCommandList::CalibrateStringList,
 														   LRCommandList::SelectionList,
 														   LRCommandList::ToolsList,
+														   LRCommandList::ModulesList,
 		// MIDI2LR items
 		LRCommandList::ProfileList,
 	};
