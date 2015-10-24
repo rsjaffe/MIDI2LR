@@ -294,6 +294,19 @@ const std::vector<String> LRCommandList::ModulesList = {
 	"Web",
 };
 
+const std::vector<String> LRCommandList::ViewModesList = {
+    "Loupe",
+    "Grid",
+    "Compare",
+    "Survey",
+    "People",
+    "Develop Loupe",
+    "Develop Bef/Aft Horizontal",
+    "Develop Bef/Aft Vertical",
+    "Develop Before",
+};
+
+
 const std::vector<String> LRCommandList::LRStringList = {
 	"Unmapped",
 	/* Adjust */
@@ -547,13 +560,24 @@ const std::vector<String> LRCommandList::LRStringList = {
 	"ZoomOutLargeStep",
 	"ToggleZoomOffOn",
 	/* Modules */
-		"SwToMLibrary",
-		"SwToMDevelop",
-		"SwToMMap",
-		"SwToMBook",
-		"SwToMSlideshow",
-		"SwToMPrint",
-		"SwToMWeb",
+	"SwToMLibrary",
+	"SwToMDevelop",
+	"SwToMMap",
+	"SwToMBook",
+	"SwToMSlideshow",
+	"SwToMPrint",
+	"SwToMWeb",
+    /* View Modes */
+    "ShoVwloupe",
+    "ShoVwgrid",
+    "ShoVwcompare",
+    "ShoVwsurvey",
+    "ShoVwpeople",
+    "ShoVwdevelop_loupe",
+    "ShoVwdevelop_before_after_horiz",
+    "ShoVwdevelop_before_after_vert",
+    "ShoVwdevelop_before",
+
 
 };
 

@@ -5,6 +5,7 @@ MIDI2LR_Client.lua
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
 ------------------------------------------------------------------------------]]
+require 'strict.lua' -- catch incorrect variable names
 local LrDevelopController = import 'LrDevelopController'
 local LrApplicationView   = import 'LrApplicationView'
 local LrSocket            = import 'LrSocket'
@@ -123,6 +124,8 @@ local function processMessage(message)
            if(tonumber(value) == 127 or tonumber(value) == 0) then LrDevelopController.resetToDefault(param:sub(6)) end
         elseif(param:find('SwToM') == 1) then -- perform a switch to module
             if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.switchToModule(param:sub(6)) end
+        elseif(param:find('ShoVw') == 1) then -- change application's view mode
+            if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.showView(param:sub(6)) end
         elseif(TOOL_ALIASES[param] ~= nil) then -- switch to desired tool
             if(tonumber(value) == 127 or tonumber(value) == 0) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe

@@ -35,8 +35,8 @@ public:
 	static const std::vector<String> SelectionList;
 	static const std::vector<String> ToolsList;
 	static const std::vector<String> ModulesList;
-
-	// MIDI2LR commands
+    static const std::vector<String> ViewModesList;
+    // MIDI2LR commands
 	static const std::vector<String> ProfileList;
 
 	// Map of command strings to indices
