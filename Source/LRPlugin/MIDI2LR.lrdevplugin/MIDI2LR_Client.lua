@@ -14,6 +14,7 @@ local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
 local LrShell             = import 'LrShell'
 local LrUndo              = import 'LrUndo'
+local LrApplication       = import 'LrApplication'
 
 -- Global consts
 local RECEIVE_PORT = 58763
@@ -96,6 +97,7 @@ local ACTIONS = {
     ['ToggleZoomOffOn']  = function () LrApplicationView.toggleZoom() end,
     ['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(LAST_PARAM) end,
     ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
+    ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
 }
 
 local TOOL_ALIASES = {
