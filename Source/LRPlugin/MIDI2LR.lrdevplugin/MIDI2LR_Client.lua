@@ -98,6 +98,7 @@ local ACTIONS = {
     ['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(LAST_PARAM) end,
     ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
     ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
+    ['ToggleScreenTwo']  = function () LrApplicationView.toggleSecondaryDisplay() end,
 }
 
 local TOOL_ALIASES = {
@@ -128,6 +129,8 @@ local function processMessage(message)
             if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.switchToModule(param:sub(6)) end
         elseif(param:find('ShoVw') == 1) then -- change application's view mode
             if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.showView(param:sub(6)) end
+        elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
+            if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.showSecondaryView(param:sub(10)) end
         elseif(TOOL_ALIASES[param] ~= nil) then -- switch to desired tool
             if(tonumber(value) == 127 or tonumber(value) == 0) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe

@@ -305,6 +305,14 @@ const std::vector<String> LRCommandList::ViewModesList = {
     "Develop Bef/Aft Horizontal",
     "Develop Bef/Aft Vertical",
     "Develop Before",
+    "Second Screeen Loupe",
+    "Second Screen Live Loupe",
+    "Second Screen Locked Loupe",
+    "Second Screen Grid",
+    "Second Screen Compare",
+    "Second Screen Survey",
+    "Second Screen Slideshow",
+    "Toggle on/off Second Screen",
 };
 
 
@@ -579,6 +587,14 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ShoVwdevelop_before_after_horiz",
     "ShoVwdevelop_before_after_vert",
     "ShoVwdevelop_before",
+    "ShoScndVwloupe",
+    "ShoScndVwlive_loupe",
+    "ShoScndVwlocked_loupe",
+    "ShoScndVwgrid",
+    "ShoScndVwcompare",
+    "ShoScndVwsurvey",
+    "ShoScndVwslideshow",
+    "ToggleScreenTwo",
 
 
 };
