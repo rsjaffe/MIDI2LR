@@ -27,6 +27,7 @@ local SERVER = {}
 local PARAM_OBSERVER = {}
 local PICKUP_ENABLED = true
 local LAST_PARAM = ''
+local COPIED_SETTINGS = {}
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
@@ -99,6 +100,8 @@ local ACTIONS = {
     ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
     ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
     ['ToggleScreenTwo']  = function () LrApplicationView.toggleSecondaryDisplay() end,
+    ['CopySettings']     = function () COPIED_SETTINGS = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end,
+    ['PasteSettings']    = function () sendChangedParams(COPIED_SETTINGS) end,
 }
 
 local TOOL_ALIASES = {
