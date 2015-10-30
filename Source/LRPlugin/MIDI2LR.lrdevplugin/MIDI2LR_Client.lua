@@ -27,12 +27,11 @@ local SERVER = {}
 local PARAM_OBSERVER = {}
 local PICKUP_ENABLED = true
 local LAST_PARAM = ''
-local COPIED_SETTINGS = {}
 
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
     local min,max = LrDevelopController.getRange(param)
-    if(param == 'Temperature' and max > 9000) then
+    if(param == 'Temperature') then
         min = 3000
         max = 9000
     end
@@ -44,7 +43,7 @@ end
 local function develop_lerp_to_midi(param)
     -- map develop parameter range to midi range
     local min, max = LrDevelopController.getRange(param)
-    if(param == 'Temperature' and max > 9000) then
+    if(param == 'Temperature') then
         min = 3000
         max = 9000
     end
@@ -65,6 +64,17 @@ local function updateParam(param, midi_value)
         PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
         LAST_PARAM = param
+    end
+end
+
+local function applySettings(set) --still experimental
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+            LrApplicationView.switchToModule('develop')
+    end
+    for x,v in pairs(set) do
+       SERVER:send(string.format('%s %d\n', x, develop_lerp_to_midi(v)))
+       PARAM_OBSERVER[x] = v
+       LrDevelopController.setValue(x,v)	
     end
 end
 
@@ -100,8 +110,9 @@ local ACTIONS = {
     ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
     ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
     ['ToggleScreenTwo']  = function () LrApplicationView.toggleSecondaryDisplay() end,
-    ['CopySettings']     = function () COPIED_SETTINGS = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end,
-    ['PasteSettings']    = function () sendChangedParams(COPIED_SETTINGS) end,
+    ['CopySettings']     = function () LrApplication.addDevelopPresetForPlugin(_PLUGIN,'savedsettings',
+    						LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()) end,
+    ['PasteSettings']    = nil,
 }
 
 local TOOL_ALIASES = {
@@ -125,17 +136,17 @@ local function processMessage(message)
         local _, _, param, value = string.find( message, '(%S+)%s(%d+)' )
        
         if(ACTIONS[param] ~= nil) then -- perform a one time action
-            if(tonumber(value) == 127 or tonumber(value) == 0) then ACTIONS[param]() end
+            if(tonumber(value) == 127) then ACTIONS[param]() end
         elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-           if(tonumber(value) == 127 or tonumber(value) == 0) then LrDevelopController.resetToDefault(param:sub(6)) end
+           if(tonumber(value) == 127) then LrDevelopController.resetToDefault(param:sub(6)) end
         elseif(param:find('SwToM') == 1) then -- perform a switch to module
-            if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.switchToModule(param:sub(6)) end
+            if(tonumber(value) == 127) then LrApplicationView.switchToModule(param:sub(6)) end
         elseif(param:find('ShoVw') == 1) then -- change application's view mode
-            if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.showView(param:sub(6)) end
+            if(tonumber(value) == 127) then LrApplicationView.showView(param:sub(6)) end
         elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
-            if(tonumber(value) == 127 or tonumber(value) == 0) then LrApplicationView.showSecondaryView(param:sub(10)) end
+            if(tonumber(value) == 127) then LrApplicationView.showSecondaryView(param:sub(10)) end
         elseif(TOOL_ALIASES[param] ~= nil) then -- switch to desired tool
-            if(tonumber(value) == 127 or tonumber(value) == 0) then 
+            if(tonumber(value) == 127) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
                     LrDevelopController.selectTool('loupe')
                 else
