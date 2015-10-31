@@ -5,7 +5,8 @@ MIDI2LR_Client.lua
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
 ------------------------------------------------------------------------------]]
-require 'strict.lua' -- catch incorrect variable names
+require 'strict.lua' -- catch some incorrect variable names
+require 'Develop_Params.lua' -- global table of develop params we need to observe
 local LrDevelopController = import 'LrDevelopController'
 local LrApplicationView   = import 'LrApplicationView'
 local LrSocket            = import 'LrSocket'
@@ -16,100 +17,60 @@ local LrShell             = import 'LrShell'
 local LrUndo              = import 'LrUndo'
 local LrApplication       = import 'LrApplication'
 
--- Global consts
+-- File local consts
 local RECEIVE_PORT = 58763
 local SEND_PORT    = 58764
 local PICKUP_THRESHOLD = 4
-require 'Develop_Params.lua' -- global table of develop params we need to observe
 
--- Global vars
+-- File local vars
 local SERVER = {}
 local PARAM_OBSERVER = {}
 local PICKUP_ENABLED = true
 local LAST_PARAM = ''
 
-local function midi_lerp_to_develop(param, midi_value)
-    -- map midi range to develop parameter range
-    local min,max = LrDevelopController.getRange(param)
---    if(param == 'Temperature') then
---        min = 3000
---        max = 9000
---    end
-    
-    local result = midi_value/127 * (max-min) + min
-    return result
-end
-
-local function develop_lerp_to_midi(param)
-    -- map develop parameter range to midi range
-    local min, max = LrDevelopController.getRange(param)
---    if(param == 'Temperature') then
---        min = 3000
---        max = 9000
---    end
-    
-    local result = (LrDevelopController.getValue(param)-min)/(max-min) * 127
-    return result
-end
-
-local function updateParam(param, midi_value)
-    -- this function does a 'pickup' type of check
-    -- that is, it will ensure the develop parameter is close 
-    -- to what the inputted command value is before updating it
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-            LrApplicationView.switchToModule('develop')
-    end
-    
-    if((not PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD)) then
-        PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
-        LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
-        LAST_PARAM = param
-    end
-end
-
-local function applySettings(set) --still experimental
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-            LrApplicationView.switchToModule('develop')
-    end
-    for x,v in pairs(set) do
-       SERVER:send(string.format('%s %d\n', x, develop_lerp_to_midi(v)))
-       PARAM_OBSERVER[x] = v
-       LrDevelopController.setValue(x,v)	
-    end
-end
+--File local function declarations (advance declared to allow it to be in scope for all calls. 
+--When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
+--These declaration are intended to get around some Lua gotcha's.
+local midi_lerp_to_develop
+local develop_lerp_to_midi
+local updateParam
+local applySettings
+local processMessage
+local sendChangedParams
+local startServer
 
 local ACTIONS = {
-    ['Pick']       = function () LrSelection.flagAsPick() end,
-    ['Reject']     = function () LrSelection.flagAsReject() end,
-    ['Next']       = function () LrSelection.nextPhoto() end,
-    ['Prev']       = function () LrSelection.previousPhoto() end,
-    ['RemoveFlag'] = function () LrSelection.removeFlag() end,
-    ['IncreaseRating']   = function () LrSelection.increaseRating() end,
-    ['DecreaseRating']   = function () LrSelection.decreaseRating() end,
+    ['Pick']             = LrSelection.flagAsPick,
+    ['Reject']           = LrSelection.flagAsReject,
+    ['Next']             = LrSelection.nextPhoto,
+    ['Prev']             = LrSelection.previousPhoto,
+    ['RemoveFlag']       = LrSelection.removeFlag,
+    ['IncreaseRating']   = LrSelection.increaseRating,
+    ['DecreaseRating']   = LrSelection.decreaseRating,
     ['SetRating0']       = function () LrSelection.setRating(0) end,
     ['SetRating1']       = function () LrSelection.setRating(1) end,
     ['SetRating2']       = function () LrSelection.setRating(2) end,
     ['SetRating3']       = function () LrSelection.setRating(3) end,
     ['SetRating4']       = function () LrSelection.setRating(4) end,
     ['SetRating5']       = function () LrSelection.setRating(5) end,
-    ['ToggleBlue']       = function () LrSelection.toggleBlueLabel() end,
-    ['ToggleGreen']      = function () LrSelection.toggleGreenLabel() end,
-    ['ToggleRed']        = function () LrSelection.toggleRedLabel() end,
-    ['TogglePurple']     = function () LrSelection.togglePurpleLabel() end,
-    ['ToggleYellow']     = function () LrSelection.toggleYellowLabel() end,
-    ['ResetAll']         = function () LrDevelopController.resetAllDevelopAdjustments() end,
+    ['ToggleBlue']       = LrSelection.toggleBlueLabel,
+    ['ToggleGreen']      = LrSelection.toggleGreenLabel,
+    ['ToggleRed']        = LrSelection.toggleRedLabel,
+    ['TogglePurple']     = LrSelection.togglePurpleLabel,
+    ['ToggleYellow']     = LrSelection.toggleYellowLabel,
+    ['ResetAll']         = LrDevelopController.resetAllDevelopAdjustments,
     ['ResetLast']        = function () LrDevelopController.resetToDefault(LAST_PARAM) end,
-    ['Undo']             = function () LrUndo.undo() end,
-    ['Redo']             = function () LrUndo.redo() end,
-    ['ZoomInLargeStep']  = function () LrApplicationView.zoomIn() end,
-    ['ZoomInSmallStep']  = function () LrApplicationView.zoomInSome() end,
-    ['ZoomOutSmallStep'] = function () LrApplicationView.zoomOutSome() end,
-    ['ZoomOutLargeStep'] = function () LrApplicationView.zoomOut() end,
-    ['ToggleZoomOffOn']  = function () LrApplicationView.toggleZoom() end,
+    ['Undo']             = LrUndo.undo,
+    ['Redo']             = LrUndo.redo,
+    ['ZoomInLargeStep']  = LrApplicationView.zoomIn,
+    ['ZoomInSmallStep']  = LrApplicationView.zoomInSome,
+    ['ZoomOutSmallStep'] = LrApplicationView.zoomOutSome,
+    ['ZoomOutLargeStep'] = LrApplicationView.zoomOut,
+    ['ToggleZoomOffOn']  = LrApplicationView.toggleZoom,
     ['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(LAST_PARAM) end,
     ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
     ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
-    ['ToggleScreenTwo']  = function () LrApplicationView.toggleSecondaryDisplay() end,
+    ['ToggleScreenTwo']  = LrApplicationView.toggleSecondaryDisplay,
     ['CopySettings']     = function () LrApplication.addDevelopPresetForPlugin(_PLUGIN,'savedsettings',
     						LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()) end,
     ['PasteSettings']    = nil,
@@ -129,8 +90,58 @@ local SETTINGS = {
     ['Pickup'] = function(enabled) PICKUP_ENABLED = (enabled == 1) end,
 }
 
+function midi_lerp_to_develop(param, midi_value)
+    -- map midi range to develop parameter range
+    local min,max = LrDevelopController.getRange(param)
+--    if(param == 'Temperature') then
+--        min = 3000
+--        max = 9000
+--    end
+    
+    local result = midi_value/127 * (max-min) + min
+    return result
+end
+
+function develop_lerp_to_midi(param)
+    -- map develop parameter range to midi range
+    local min, max = LrDevelopController.getRange(param)
+--    if(param == 'Temperature') then
+--        min = 3000
+--        max = 9000
+--    end
+    
+    local result = (LrDevelopController.getValue(param)-min)/(max-min) * 127
+    return result
+end
+
+function updateParam(param, midi_value)
+    -- this function does a 'pickup' type of check
+    -- that is, it will ensure the develop parameter is close 
+    -- to what the inputted command value is before updating it
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+            LrApplicationView.switchToModule('develop')
+    end
+    
+    if((not PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD)) then
+        PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
+        LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
+        LAST_PARAM = param
+    end
+end
+
+function applySettings(set) --still experimental
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+            LrApplicationView.switchToModule('develop')
+    end
+    for x,v in pairs(set) do
+       SERVER:send(string.format('%s %d\n', x, develop_lerp_to_midi(v)))
+       PARAM_OBSERVER[x] = v
+       LrDevelopController.setValue(x,v)	
+    end
+end
+
 -- message processor
-local function processMessage(message)
+function processMessage(message)
     if type(message) == 'string' then
         -- messages are in the format 'param value'
         local _, _, param, value = string.find( message, '(%S+)%s(%d+)' )
@@ -162,7 +173,7 @@ local function processMessage(message)
 end
 
 -- send changed parameters to MIDI2LR
-local function sendChangedParams( observer )
+function sendChangedParams( observer )
     for _, param in ipairs(DEVELOP_PARAMS) do
         if(observer[param] ~= LrDevelopController.getValue(param)) then
             SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
@@ -172,7 +183,7 @@ local function sendChangedParams( observer )
     end
 end
 
-local function startServer(context)
+function startServer(context)
     SERVER = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
