@@ -8,7 +8,7 @@ MIDI2LR Plugin properties
 
 return {
     LrSdkVersion = 6.0,
-    LrToolkitIdentifier = 'ca.parth.midi2lr',
+    LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
     LrPluginName = 'MIDI2LR',
     LrInitPlugin = 'MIDI2LR_Client.lua', -- Main client logic
     LrForceInitPlugin = true,
