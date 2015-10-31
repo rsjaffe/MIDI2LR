@@ -31,10 +31,10 @@ local LAST_PARAM = ''
 local function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
     local min,max = LrDevelopController.getRange(param)
-    if(param == 'Temperature') then
-        min = 3000
-        max = 9000
-    end
+--    if(param == 'Temperature') then
+--        min = 3000
+--        max = 9000
+--    end
     
     local result = midi_value/127 * (max-min) + min
     return result
@@ -43,10 +43,10 @@ end
 local function develop_lerp_to_midi(param)
     -- map develop parameter range to midi range
     local min, max = LrDevelopController.getRange(param)
-    if(param == 'Temperature') then
-        min = 3000
-        max = 9000
-    end
+--    if(param == 'Temperature') then
+--        min = 3000
+--        max = 9000
+--    end
     
     local result = (LrDevelopController.getValue(param)-min)/(max-min) * 127
     return result
