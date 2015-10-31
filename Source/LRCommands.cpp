@@ -266,8 +266,8 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Decrement Last Develop Parameter",
     "Undo",
     "Redo",
-    //      "Copy Settings",
-    //      "Paste Settings",
+    "Copy Settings",
+    "Paste Settings",
 };
 
 const std::vector<String> LRCommandList::ToolsList = {
@@ -556,8 +556,8 @@ const std::vector<String> LRCommandList::LRStringList = {
     "DecrementLastDevelopParameter",
     "Undo",
     "Redo",
-    //   "CopySettings",
-    //   "PasteSettings",
+    "CopySettings",
+    "PasteSettings",
     /* Tools */
     "Loupe",
     "CropOverlay",
