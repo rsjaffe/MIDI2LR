@@ -17,16 +17,8 @@ local LrShell             = import 'LrShell'
 local LrUndo              = import 'LrUndo'
 local LrApplication       = import 'LrApplication'
 
--- File local consts
-local RECEIVE_PORT = 58763
-local SEND_PORT    = 58764
-local PICKUP_THRESHOLD = 4
-
--- File local vars
-local SERVER = {}
-local PARAM_OBSERVER = {}
-local PICKUP_ENABLED = true
-local LAST_PARAM = ''
+MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4; --constants
+	LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
 --When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
@@ -59,7 +51,7 @@ local ACTIONS = {
     ['TogglePurple']     = LrSelection.togglePurpleLabel,
     ['ToggleYellow']     = LrSelection.toggleYellowLabel,
     ['ResetAll']         = LrDevelopController.resetAllDevelopAdjustments,
-    ['ResetLast']        = function () LrDevelopController.resetToDefault(LAST_PARAM) end,
+    ['ResetLast']        = function () LrDevelopController.resetToDefault(MIDI2LR.LAST_PARAM) end,
     ['Undo']             = LrUndo.undo,
     ['Redo']             = LrUndo.redo,
     ['ZoomInLargeStep']  = LrApplicationView.zoomIn,
@@ -67,8 +59,8 @@ local ACTIONS = {
     ['ZoomOutSmallStep'] = LrApplicationView.zoomOutSome,
     ['ZoomOutLargeStep'] = LrApplicationView.zoomOut,
     ['ToggleZoomOffOn']  = LrApplicationView.toggleZoom,
-    ['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(LAST_PARAM) end,
-    ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(LAST_PARAM) end,
+    ['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(MIDI2LR.LAST_PARAM) end,
+    ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(MIDI2LR.LAST_PARAM) end,
     ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
     ['ToggleScreenTwo']  = LrApplicationView.toggleSecondaryDisplay,
     ['CopySettings']     = function () LrApplication.addDevelopPresetForPlugin(_PLUGIN,'savedsettings',
@@ -87,7 +79,7 @@ local TOOL_ALIASES = {
 }
 
 local SETTINGS = {
-    ['Pickup'] = function(enabled) PICKUP_ENABLED = (enabled == 1) end,
+    ['Pickup'] = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
 }
 
 function midi_lerp_to_develop(param, midi_value)
@@ -122,10 +114,10 @@ function updateParam(param, midi_value)
             LrApplicationView.switchToModule('develop')
     end
     
-    if((not PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= PICKUP_THRESHOLD)) then
-        PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
+    if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) then
+        MIDI2LR.PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
-        LAST_PARAM = param
+        MIDI2LR.LAST_PARAM = param
     end
 end
 
@@ -134,8 +126,8 @@ function applySettings(set) --still experimental
             LrApplicationView.switchToModule('develop')
     end
     for x,v in pairs(set) do
-       SERVER:send(string.format('%s %d\n', x, develop_lerp_to_midi(v)))
-       PARAM_OBSERVER[x] = v
+       MIDI2LR.SERVER:send(string.format('%s %d\n', x, develop_lerp_to_midi(v)))
+       MIDI2LR.PARAM_OBSERVER[x] = v
        LrDevelopController.setValue(x,v)	
     end
 end
@@ -176,18 +168,18 @@ end
 function sendChangedParams( observer )
     for _, param in ipairs(DEVELOP_PARAMS) do
         if(observer[param] ~= LrDevelopController.getValue(param)) then
-            SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
+            MIDI2LR.SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
             observer[param] = LrDevelopController.getValue(param)
-            LAST_PARAM = param
+            MIDI2LR.LAST_PARAM = param
         end
     end
 end
 
 function startServer(context)
-    SERVER = LrSocket.bind {
+    MIDI2LR.SERVER = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
-          port = SEND_PORT,
+          port = MIDI2LR.SEND_PORT,
           mode = 'send',
           onClosed = function( socket ) -- this callback never seems to get called...
             -- MIDI2LR closed connection, allow for reconnection
@@ -205,12 +197,12 @@ LrTasks.startAsyncTask( function()
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
         
         -- add an observer for develop param changes
-        LrDevelopController.addAdjustmentChangeObserver( context, PARAM_OBSERVER, sendChangedParams )
+        LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
         
         local client = LrSocket.bind {
             functionContext = context,
             plugin = _PLUGIN,
-            port = RECEIVE_PORT,
+            port = MIDI2LR.RECEIVE_PORT,
             mode = 'receive',
             onMessage = function(socket, message)
                 processMessage(message)
@@ -220,7 +212,7 @@ LrTasks.startAsyncTask( function()
                 socket:reconnect()
                 
                 -- calling SERVER:reconnect causes LR to hang for some reason...
-                SERVER:close()
+                MIDI2LR.SERVER:close()
                 startServer(context)
             end,
             onError = function(socket, err)
@@ -237,7 +229,7 @@ LrTasks.startAsyncTask( function()
         end
         
         client:close()
-        SERVER:close()
+        MIDI2LR.SERVER:close()
     end )
  end )
  
