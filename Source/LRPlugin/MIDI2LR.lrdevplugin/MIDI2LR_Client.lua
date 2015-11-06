@@ -138,7 +138,7 @@ function processMessage(message)
         -- messages are in the format 'param value'
         local _, _, param, value = string.find( message, '(%S+)%s(%d+)' )
        
-        if(ACTIONS[param] ~= nil) then -- perform a one time action
+        if(ACTIONS[param]) then -- perform a one time action
             if(tonumber(value) == 127) then ACTIONS[param]() end
         elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
            if(tonumber(value) == 127) then LrDevelopController.resetToDefault(param:sub(6)) end
@@ -148,7 +148,7 @@ function processMessage(message)
             if(tonumber(value) == 127) then LrApplicationView.showView(param:sub(6)) end
         elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
             if(tonumber(value) == 127) then LrApplicationView.showSecondaryView(param:sub(10)) end
-        elseif(TOOL_ALIASES[param] ~= nil) then -- switch to desired tool
+        elseif(TOOL_ALIASES[param]) then -- switch to desired tool
             if(tonumber(value) == 127) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
                     LrDevelopController.selectTool('loupe')
@@ -156,7 +156,7 @@ function processMessage(message)
                     LrDevelopController.selectTool(TOOL_ALIASES[param])
                 end
             end
-        elseif(SETTINGS[param] ~= nil) then
+        elseif(SETTINGS[param]) then
             SETTINGS[param](tonumber(value))
         else -- otherwise update a develop parameter
             updateParam(param, tonumber(value))
