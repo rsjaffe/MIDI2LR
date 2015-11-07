@@ -19,13 +19,10 @@ The project files for Visual Studio and Xcode are located in Builds/
 [Project Page](http://rsjaffe.github.io/MIDI2LR)
 
 ## Wiki
-[Wiki](https://github.com/rsjaffe/MIDI2LR/wiki)
+[Wiki :book:](https://github.com/rsjaffe/MIDI2LR/wiki)
 
 ## Donations Welcome
 [Donate to development costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YWHT4JMA42RXN)
-
-## Lightroom 6 API reference
-<http://lightroomsolutions.com/sdk/index.html>
 
 ## Screenshot
 ![Screenshot](http://i.imgur.com/nneRpK1.png)
