@@ -18,7 +18,7 @@ The project files for Visual Studio and Xcode are located in Builds/
 ## Project Page		
 [Project Page](http://rsjaffe.github.io/MIDI2LR)
 
-## Wiki
+## Wiki and Instruction Manual
 [Wiki :book:](https://github.com/rsjaffe/MIDI2LR/wiki)
 
 ## Donations Welcome

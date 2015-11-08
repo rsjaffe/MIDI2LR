@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.5.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="3.2.0">
+              jucerVersion="4.0.1">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
@@ -122,9 +122,9 @@
     </VS2015>
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="10.10 SDK" osxCompatibility="10.4 SDK" osxArchitecture="default"
+        <CONFIGURATION name="Debug" osxSDK="10.10 SDK" osxCompatibility="10.5 SDK" osxArchitecture="default"
                        isDebug="1" optimisation="1" targetName="MIDI2LR"/>
-        <CONFIGURATION name="Release" osxSDK="10.10 SDK" osxCompatibility="10.4 SDK"
+        <CONFIGURATION name="Release" osxSDK="10.10 SDK" osxCompatibility="10.5 SDK"
                        osxArchitecture="default" isDebug="0" optimisation="2" targetName="MIDI2LR"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
@@ -160,4 +160,7 @@
     <MODULES id="juce_video" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS/>
+  <LIVE_SETTINGS>
+    <WINDOWS enableCxx11="1"/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>
