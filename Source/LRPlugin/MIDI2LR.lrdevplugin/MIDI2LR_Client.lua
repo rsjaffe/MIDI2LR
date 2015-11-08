@@ -17,7 +17,7 @@ local LrShell             = import 'LrShell'
 local LrUndo              = import 'LrUndo'
 local LrApplication       = import 'LrApplication'
 
-MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4; --constants
+MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127; --constants
 	LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
@@ -89,7 +89,7 @@ function midi_lerp_to_develop(param, midi_value)
 --        max = 9000
 --    end
     
-    local result = midi_value/127 * (max-min) + min
+    local result = midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
     return result
 end
 
@@ -101,7 +101,7 @@ function develop_lerp_to_midi(param)
 --        max = 9000
 --    end
     
-    local result = (LrDevelopController.getValue(param)-min)/(max-min) * 127
+    local result = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
     return result
 end
 
@@ -138,17 +138,17 @@ function processMessage(message)
         local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
        
         if(ACTIONS[param]) then -- perform a one time action
-            if(tonumber(value) == 127) then ACTIONS[param]() end
+            if(tonumber(value) == MIDI2LR.CONTROL_MAX) then ACTIONS[param]() end
         elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-           if(tonumber(value) == 127) then LrDevelopController.resetToDefault(param:sub(6)) end
+           if(tonumber(value) == MIDI2LR.CONTROL_MAX) then LrDevelopController.resetToDefault(param:sub(6)) end
         elseif(param:find('SwToM') == 1) then -- perform a switch to module
-            if(tonumber(value) == 127) then LrApplicationView.switchToModule(param:sub(6)) end
+            if(tonumber(value) == MIDI2LR.CONTROL_MAX) then LrApplicationView.switchToModule(param:sub(6)) end
         elseif(param:find('ShoVw') == 1) then -- change application's view mode
-            if(tonumber(value) == 127) then LrApplicationView.showView(param:sub(6)) end
+            if(tonumber(value) == MIDI2LR.CONTROL_MAX) then LrApplicationView.showView(param:sub(6)) end
         elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
-            if(tonumber(value) == 127) then LrApplicationView.showSecondaryView(param:sub(10)) end
+            if(tonumber(value) == MIDI2LR.CONTROL_MAX) then LrApplicationView.showSecondaryView(param:sub(10)) end
         elseif(TOOL_ALIASES[param]) then -- switch to desired tool
-            if(tonumber(value) == 127) then 
+            if(tonumber(value) == MIDI2LR.CONTROL_MAX) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
                     LrDevelopController.selectTool('loupe')
                 else
