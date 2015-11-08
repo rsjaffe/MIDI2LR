@@ -125,7 +125,7 @@ function applySettings(set) --still experimental
             LrApplicationView.switchToModule('develop')
     end
     for x,v in pairs(set) do
-       MIDI2LR.SERVER:send(string.format('%s %d\n', x, develop_lerp_to_midi(v)))
+       MIDI2LR.SERVER:send(string.format('%s %g\n', x, develop_lerp_to_midi(v)))
        MIDI2LR.PARAM_OBSERVER[x] = v
        LrDevelopController.setValue(x,v)	
     end
@@ -135,7 +135,7 @@ end
 function processMessage(message)
     if type(message) == 'string' then
         -- messages are in the format 'param value'
-        local _, _, param, value = string.find( message, '(%S+)%s(%d+)' )
+        local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
        
         if(ACTIONS[param]) then -- perform a one time action
             if(tonumber(value) == 127) then ACTIONS[param]() end
@@ -167,7 +167,7 @@ end
 function sendChangedParams( observer )
     for _, param in ipairs(DEVELOP_PARAMS) do
         if(observer[param] ~= LrDevelopController.getValue(param)) then
-            MIDI2LR.SERVER:send(string.format('%s %d\n', param, develop_lerp_to_midi(param)))
+            MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
             observer[param] = LrDevelopController.getValue(param)
             MIDI2LR.LAST_PARAM = param
         end
