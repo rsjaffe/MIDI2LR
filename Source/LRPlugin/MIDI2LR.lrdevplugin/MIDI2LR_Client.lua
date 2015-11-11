@@ -64,7 +64,7 @@ local ACTIONS = {
     ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
     ['ToggleScreenTwo']  = LrApplicationView.toggleSecondaryDisplay,
     ['CopySettings']     = function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end,
-    ['PasteSettings']    = function () LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
+    ['PasteSettings']    = function () applySettings(MIDI2LR.Copied_Settings) end,
 }
 
 local TOOL_ALIASES = {
