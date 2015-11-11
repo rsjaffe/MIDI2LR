@@ -7,15 +7,15 @@ Sends parameters to MIDI2LR
 ------------------------------------------------------------------------------]]
 require 'strict.lua' -- catch some incorrect variable names
 require 'Develop_Params.lua' -- global table of develop params we need to observe
-local LrDevelopController = import 'LrDevelopController'
+local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
-local LrSocket            = import 'LrSocket'
-local LrTasks             = import 'LrTasks'
+local LrDevelopController = import 'LrDevelopController'
 local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
 local LrShell             = import 'LrShell'
+local LrSocket            = import 'LrSocket'
+local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
-local LrApplication       = import 'LrApplication'
 
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
 	LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
@@ -23,13 +23,13 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
 --When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
 --These declaration are intended to get around some Lua gotcha's.
-local midi_lerp_to_develop
-local develop_lerp_to_midi
-local updateParam
 local applySettings
+local develop_lerp_to_midi
+local midi_lerp_to_develop
 local processMessage
 local sendChangedParams
 local startServer
+local updateParam
 
 local ACTIONS = {
     ['Pick']             = LrSelection.flagAsPick,
@@ -124,11 +124,13 @@ function applySettings(set) --still experimental
     if LrApplicationView.getCurrentModuleName() ~= 'develop' then
             LrApplicationView.switchToModule('develop')
     end
-    for x,v in pairs(set) do
-       MIDI2LR.SERVER:send(string.format('%s %g\n', x, develop_lerp_to_midi(v)))
-       MIDI2LR.PARAM_OBSERVER[x] = v
-       LrDevelopController.setValue(x,v)	
+    sendChangedParams(set) --send parameters to midi controller
+    local _pickup_enabled = MIDI2LR.PICKUP_ENABLED
+    MIDI2LR.PICKUP_ENABLED = false
+    for x,v in pairs(set) do --send parameters to LR
+       updateParam(x,v)	
     end
+    MIDI2LR.PICKUP_ENABLED = _pickup_enabled
 end
 
 -- message processor
