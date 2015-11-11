@@ -126,8 +126,8 @@ function applySettings(set) --still experimental
     end
     sendChangedParams(set) --send parameters to midi controller
     for x,v in pairs(set) do --send parameters to LR
-        MIDI2LR.PARAM_OBSERVER[x] = midi_lerp_to_develop(x, v)
-        LrDevelopController.setValue(param, midi_lerp_to_develop(x,v))
+        MIDI2LR.PARAM_OBSERVER[x] = v
+        LrDevelopController.setValue(x,v)
     end
 end
 
