@@ -125,12 +125,10 @@ function applySettings(set) --still experimental
             LrApplicationView.switchToModule('develop')
     end
     sendChangedParams(set) --send parameters to midi controller
-    local _pickup_enabled = MIDI2LR.PICKUP_ENABLED
-    MIDI2LR.PICKUP_ENABLED = false
     for x,v in pairs(set) do --send parameters to LR
-       updateParam(x,v)	
+        MIDI2LR.PARAM_OBSERVER[x] = midi_lerp_to_develop(x, v)
+        LrDevelopController.setValue(param, midi_lerp_to_develop(x,v))
     end
-    MIDI2LR.PICKUP_ENABLED = _pickup_enabled
 end
 
 -- message processor
