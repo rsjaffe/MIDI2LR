@@ -23,9 +23,10 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
 --When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
 --These declaration are intended to get around some Lua gotcha's.
-local applySettings
+
 local develop_lerp_to_midi
 local midi_lerp_to_develop
+local pasteSettings
 local processMessage
 local sendChangedParams
 local startServer
@@ -64,7 +65,7 @@ local ACTIONS = {
     ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
     ['ToggleScreenTwo']  = LrApplicationView.toggleSecondaryDisplay,
     ['CopySettings']     = function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end,
-    ['PasteSettings']    = function () applySettings(MIDI2LR.Copied_Settings) end,
+    ['PasteSettings']    = function () pasteSettings(MIDI2LR.Copied_Settings) end,
 }
 
 local TOOL_ALIASES = {
@@ -120,7 +121,7 @@ function updateParam(param, midi_value)
     end
 end
 
-function applySettings(set) --still experimental
+function pasteSettings(set) --still experimental
     if LrApplicationView.getCurrentModuleName() ~= 'develop' then
             LrApplicationView.switchToModule('develop')
     end
