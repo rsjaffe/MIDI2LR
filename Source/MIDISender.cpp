@@ -45,5 +45,13 @@ MIDISender::~MIDISender()
 void MIDISender::sendCC(int midi_channel, int controller, int value)
 {
     for (auto dev : _outputDevices)
-        dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));
+        if (controller > 0x7F || value > 0x7F) //requires NRPN message
+        {
+            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 99, controller >> 7)); //MSB Address
+            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 98, controller & 0x7F)); //LSB Address
+            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 6, value >> 7)); //MSB Data Byte
+            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 38, value & 0x7F)); //LSB Data Byte
+        }
+        else
+            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));
 }
