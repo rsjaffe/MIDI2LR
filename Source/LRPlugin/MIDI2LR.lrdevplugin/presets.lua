@@ -23,6 +23,9 @@ local function assignPresets()
       end
 
       local props = LrBinding.makePropertyTable( context )
+      if (prefs.presetsbyUuid == null) then
+        prefs.presetsbyUuid = {}
+      end
       props.presetsbyUuid = prefs.presetsbyUuid -- start with saved presets
 
       local f = LrView.osFactory()
