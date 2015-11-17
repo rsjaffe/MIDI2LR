@@ -8,6 +8,7 @@ local LrApplication = import 'LrApplication'
 local LrBinding = import 'LrBinding'
 local LrDialogs = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
+local prefs = import 'LrPrefs'.prefsForPlugin() 
 local LrView = import 'LrView'
 local psList = {}
 
@@ -22,7 +23,7 @@ local function assignPresets()
       end
 
       local props = LrBinding.makePropertyTable( context )
---      props.myObservedString = "This is a string"
+      props.presetsbyUuid = prefs.presetsbyUuid -- start with saved presets
 
       local f = LrView.osFactory()
       local font = "<system/small>"
@@ -33,6 +34,7 @@ local function assignPresets()
           f:simple_list {font = font, items = psList},
         }
       }
+      prefs.presetsbyUuid = {} -- replace with table derived from dialog
     end )
 end
 
