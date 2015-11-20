@@ -12,7 +12,7 @@
 #include "CommandMenu.h"
 #include "LRCommands.h"
 
-CommandMenu::CommandMenu(const MIDI_Message& msg) : _msg(msg),
+CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<int>::max()),
 TextButton("Unmapped")
 {
@@ -45,6 +45,7 @@ void CommandMenu::buttonClicked(Button* /*button*/)
                                         "Tools",
                                         "Modules",
                                         "View Modes",
+                                        "Presets",
                                         // MIDI2LR items
                                         "Profile"
     };
@@ -61,8 +62,9 @@ void CommandMenu::buttonClicked(Button* /*button*/)
                                                            LRCommandList::ToolsList,
                                                            LRCommandList::ModulesList,
                                                            LRCommandList::ViewModesList,
-                                                            // MIDI2LR items
-                                                            LRCommandList::ProfileList,
+                                                           LRCommandList::PresetsList,
+                                                           // MIDI2LR items
+                                                           LRCommandList::ProfileList,
     };
 
     // add each submenu

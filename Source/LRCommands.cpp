@@ -315,8 +315,10 @@ const std::vector<String> LRCommandList::ViewModesList = {
     "Toggle on/off Second Screen",
 };
 
+std::vector<String> LRCommandList::PresetsList = {};
 
-const std::vector<String> LRCommandList::LRStringList = {
+
+std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
     "Temperature",
@@ -601,6 +603,8 @@ const std::vector<String> LRCommandList::LRStringList = {
 
 };
 
+size_t LRCommandList::baseSize = 0;
+
 const std::vector<String> LRCommandList::ProfileList = {
   "Previous Profile",
   "Next Profile",
@@ -621,4 +625,18 @@ int LRCommandList::getIndexOfCommand(const String& command)
 
     return indexMap[command];
 
+}
+
+void LRCommandList::ClearPresets()
+{
+    if (baseSize == 0)
+        baseSize = LRCommandList::LRStringList.size();
+    LRCommandList::LRStringList.resize(baseSize);
+    LRCommandList::PresetsList.clear();
+}
+
+void LRCommandList::AddPreset(String ID, String presetName)
+{
+    LRCommandList::LRStringList.push_back(ID);
+    LRCommandList::PresetsList.push_back(presetName);
 }

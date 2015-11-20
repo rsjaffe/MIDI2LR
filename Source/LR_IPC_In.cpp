@@ -9,6 +9,7 @@
 */
 
 #include "LR_IPC_In.h"
+#include "LRCommands.h"
 #include "MIDISender.h"
 
 const int LR_IPC_IN::LR_IN_PORT = 58764;
@@ -80,18 +81,27 @@ void LR_IPC_IN::processLine(const String& line)
 	// process input into [parameter] [Value]
 	line.trimEnd();
 	String command = line.upToFirstOccurrenceOf(" ", false, false);
-	String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
-	auto value = valueString.getIntValue();
+    if (command == "ClearPresets") //can't do switch statement on String type
+        LRCommandList::ClearPresets();
+    else if (command == "AddPreset")
+    {
+        //parse preset and ID here, add via LRCommandList::AddPreset(ID,Label);
+    }
+    else
+    {
+        String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
+        auto value = valueString.getIntValue();
 
-	// store updates in map
-	parameterMap[command] = value;
+        // store updates in map
+        parameterMap[command] = value;
 
-	// send associated CC messages to MIDI OUT devices
-	if (CommandMap::getInstance().commandHasAssociatedMessage(command))
-	{
-		const MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
-		MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
-	}
+        // send associated CC messages to MIDI OUT devices
+        if (CommandMap::getInstance().commandHasAssociatedMessage(command))
+        {
+            const MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
+            MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
+        }
+    }
 }
 
 void LR_IPC_IN::refreshMIDIOutput()
