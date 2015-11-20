@@ -184,7 +184,7 @@ function sendPresets()
 	for _,fold in pairs(LrApplication.developPresetFolders()) do
 		local foldname = fold:getName()
 		for _,pst in pairs(fold:getDevelopPresets()) do
-			MIDI2LR.SERVER:send('AddPreset preSet'..pst:getUuid()..'\t'..pst:getName())
+			MIDI2LR.SERVER:send('AddPreset preSet'..pst:getUuid()..'\t'..foldname..'->'..pst:getName())
 		end
 	end
 end
