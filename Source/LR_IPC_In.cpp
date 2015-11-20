@@ -85,7 +85,10 @@ void LR_IPC_IN::processLine(const String& line)
         LRCommandList::ClearPresets();
     else if (command == "AddPreset")
     {
-        //parse preset and ID here, add via LRCommandList::AddPreset(ID,Label);
+        String presetInformation = line.fromFirstOccurrenceOf(" ", false, false);
+        String presetID = presetInformation.upToFirstOccurrenceOf("\t", false, false);
+        String presetLabel = presetInformation.fromFirstOccurrenceOf("\t", false, false);
+        LRCommandList::AddPreset(presetID,presetLabel);
     }
     else
     {

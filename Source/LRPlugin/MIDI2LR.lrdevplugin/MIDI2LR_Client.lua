@@ -29,6 +29,7 @@ local midi_lerp_to_develop
 local pasteSettings
 local processMessage
 local sendChangedParams
+local sendPresets
 local startServer
 local updateParam
 
@@ -148,6 +149,8 @@ function processMessage(message)
             if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showView(param:sub(6)) end
         elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
             if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
+        elseif(parm:find('preSet') == 1) then -- apply preset
+             local TBD = 1 --replace with call to apply preset for param:sub(6)
         elseif(TOOL_ALIASES[param]) then -- switch to desired tool
             if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
                 if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
@@ -175,12 +178,24 @@ function sendChangedParams( observer )
     end
 end
 
+-- send presets to MIDI2LR
+function sendPresets()
+	MIDI2LR.SERVER:send('ClearPresets')
+	for _,fold in pairs(LrApplication.developPresetFolders()) do
+		local foldname = fold:getName()
+		for _,pst in pairs(fold:getDevelopPresets()) do
+			MIDI2LR.SERVER:send('AddPreset preSet'..pst:getUuid()..'\t'..pst:getName())
+		end
+	end
+end
+
 function startServer(context)
     MIDI2LR.SERVER = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
           port = MIDI2LR.SEND_PORT,
           mode = 'send',
+          onConnected = sendPresets,
           onClosed = function( socket ) -- this callback never seems to get called...
             -- MIDI2LR closed connection, allow for reconnection
             -- socket:reconnect()
