@@ -86,10 +86,10 @@ local SETTINGS = {
 function midi_lerp_to_develop(param, midi_value)
     -- map midi range to develop parameter range
     local min,max = LrDevelopController.getRange(param)
---    if(param == 'Temperature') then
---        min = 3000
---        max = 9000
---    end
+    if(param == 'Temperature') then
+        min = 3000
+        max = 9000
+    end
     
     local result = midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
     return result
@@ -98,10 +98,10 @@ end
 function develop_lerp_to_midi(param)
     -- map develop parameter range to midi range
     local min, max = LrDevelopController.getRange(param)
---    if(param == 'Temperature') then
---        min = 3000
---        max = 9000
---    end
+    if(param == 'Temperature') then
+        min = 3000
+        max = 9000
+    end
     
     local result = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
     return result
@@ -115,6 +115,17 @@ function updateParam(param, midi_value)
             LrApplicationView.switchToModule('develop')
     end
     
+    if (MIDI2LR.PICKUP_ENABLED and (param == 'Temperature')) then --clamp temperature to limits to allow pickup to work
+    	local TempValue = LrDevelopController.getValue('Temperature')
+    	if TempValue > 9000 then
+    		MIDI2LR.PARAM_OBSERVER['Temperature'] = 9000
+    		LrDevelopController.setValue('Temperature',9000)
+    	elseif TempValue < 3000 then
+    		MIDI2LR.PARAM_OBSERVER['Temperature'] = 3000
+    		LrDevelopController.setValue('Temperature',3000)
+    	end
+    end
+
     if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) then
         MIDI2LR.PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
         LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
