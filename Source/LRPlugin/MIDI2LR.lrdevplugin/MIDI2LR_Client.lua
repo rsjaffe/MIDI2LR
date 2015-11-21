@@ -6,6 +6,7 @@ Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
 ------------------------------------------------------------------------------]]
 require 'Develop_Params.lua' -- global table of develop params we need to observe
+local deque = require "deque"
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
@@ -17,7 +18,7 @@ local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
 
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
-  LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
+  LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {}, PresetQueue = deque.new() } --non-local but in MIDI2LR namespace
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
 --When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
@@ -160,7 +161,7 @@ function processMessage(message)
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
     elseif(param:find('preSet') == 1) then -- apply preset
-      local _ = 1 --replace with call to apply preset for param:sub(6)
+      MIDI2LR.PresetQueue.push_left(param:sub(6)) --queue up preset for application
     elseif(TOOL_ALIASES[param]) then -- switch to desired tool
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
@@ -250,6 +251,14 @@ LrTasks.startAsyncTask( function()
         startServer(context)
 
         while true do
+          local presetUuid = MIDI2LR.PresetQueue.pop_right() --need to apply preset in async task
+          if (presetUuid) then
+            local catalog = LrApplication.activeCatalog()
+            catalog:withWriteAccessDo( 'Apply develop preset', function()
+                local photo = catalog:getTargetPhoto()
+                photo:applyDevelopPreset(LrApplication.developPresetByUuid(presetUuid))
+              end)
+          end
           LrTasks.sleep( 1/2 )
         end
 
