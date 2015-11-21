@@ -5,7 +5,6 @@ MIDI2LR_Client.lua
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
 ------------------------------------------------------------------------------]]
-require 'strict.lua' -- catch some incorrect variable names
 require 'Develop_Params.lua' -- global table of develop params we need to observe
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
@@ -196,7 +195,7 @@ end
 
 -- send presets to MIDI2LR
 function sendPresets()
-  MIDI2LR.SERVER:send('ClearPresets')
+  MIDI2LR.SERVER:send('ClearPresets ')
   for _,fold in pairs(LrApplication.developPresetFolders()) do
     local foldname = fold:getName()
     for _,pst in pairs(fold:getDevelopPresets()) do
