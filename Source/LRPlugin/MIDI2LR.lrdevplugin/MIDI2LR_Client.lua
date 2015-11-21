@@ -36,7 +36,7 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
 --When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
---These declaration are intended to get around some Lua gotcha's.
+--These declarations are intended to get around some Lua gotcha's.
 
 local develop_lerp_to_midi
 local midi_lerp_to_develop
