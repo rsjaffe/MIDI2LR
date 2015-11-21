@@ -16,7 +16,7 @@ local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
 
-MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 2, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
+MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
@@ -114,12 +114,7 @@ function updateParam(param, midi_value)
     LrApplicationView.switchToModule('develop')
   end
 
-  local pickupSpread
-  if (MIDI2LR.PICKUP_ENABLED) then
-    local min,max = LrDevelopController.getRange(param)
-    pickupSpread = (max - min) * MIDI2LR.PICKUP_THRESHOLD / 100
-  elseif (MIDI2LR.PICKUP_ENABLED and (param == 'Temperature')) then --clamp temperature to limits to allow pickup to work
-    pickupSpread = (9000-3000) * MIDI2LR.PICKUP_THRESHOLD / 100
+  if (MIDI2LR.PICKUP_ENABLED and (param == 'Temperature')) then --clamp temperature to limits to allow pickup to work
     local TempValue = LrDevelopController.getValue('Temperature')
     if TempValue > 9000 then
       MIDI2LR.PARAM_OBSERVER['Temperature'] = 9000
@@ -130,7 +125,7 @@ function updateParam(param, midi_value)
     end
   end
 
-  if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= pickupSpread)) then
+  if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) then
     MIDI2LR.PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
     LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
     MIDI2LR.LAST_PARAM = param
