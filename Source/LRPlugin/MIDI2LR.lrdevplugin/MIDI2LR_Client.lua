@@ -175,7 +175,7 @@ function processMessage(message)
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
     elseif(param:find('preSet') == 1) then -- apply preset
-      MIDI2LR.PresetQueue.push_left(param:sub(6)) --queue up preset for application
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then MIDI2LR.PresetQueue.push_left(param:sub(6)) end--queue up preset for application
     elseif(TOOL_ALIASES[param]) then -- switch to desired tool
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
