@@ -15,7 +15,7 @@ MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY WARRA
 You should have received a copy of the GNU General Public License along with MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 --]]
 require 'Develop_Params.lua' -- global table of develop params we need to observe
-local deque = require "deque"
+local deque = require 'deque'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
@@ -43,53 +43,53 @@ local startServer
 local updateParam
 
 local ACTIONS = {
-  ['Pick']             = LrSelection.flagAsPick,
-  ['Reject']           = LrSelection.flagAsReject,
-  ['Next']             = LrSelection.nextPhoto,
-  ['Prev']             = LrSelection.previousPhoto,
-  ['RemoveFlag']       = LrSelection.removeFlag,
-  ['IncreaseRating']   = LrSelection.increaseRating,
-  ['DecreaseRating']   = LrSelection.decreaseRating,
-  ['SetRating0']       = function () LrSelection.setRating(0) end,
-  ['SetRating1']       = function () LrSelection.setRating(1) end,
-  ['SetRating2']       = function () LrSelection.setRating(2) end,
-  ['SetRating3']       = function () LrSelection.setRating(3) end,
-  ['SetRating4']       = function () LrSelection.setRating(4) end,
-  ['SetRating5']       = function () LrSelection.setRating(5) end,
-  ['ToggleBlue']       = LrSelection.toggleBlueLabel,
-  ['ToggleGreen']      = LrSelection.toggleGreenLabel,
-  ['ToggleRed']        = LrSelection.toggleRedLabel,
-  ['TogglePurple']     = LrSelection.togglePurpleLabel,
-  ['ToggleYellow']     = LrSelection.toggleYellowLabel,
-  ['ResetAll']         = LrDevelopController.resetAllDevelopAdjustments,
-  ['ResetLast']        = function () LrDevelopController.resetToDefault(MIDI2LR.LAST_PARAM) end,
-  ['Undo']             = LrUndo.undo,
-  ['Redo']             = LrUndo.redo,
-  ['ZoomInLargeStep']  = LrApplicationView.zoomIn,
-  ['ZoomInSmallStep']  = LrApplicationView.zoomInSome,
-  ['ZoomOutSmallStep'] = LrApplicationView.zoomOutSome,
-  ['ZoomOutLargeStep'] = LrApplicationView.zoomOut,
-  ['ToggleZoomOffOn']  = LrApplicationView.toggleZoom,
-  ['IncrementLastDevelopParameter'] = function () LrDevelopController.increment(MIDI2LR.LAST_PARAM) end,
-  ['DecrementLastDevelopParameter'] = function () LrDevelopController.decrement(MIDI2LR.LAST_PARAM) end,
-  ['VirtualCopy']      = function () LrApplication.activeCatalog():createVirtualCopies() end,
-  ['ToggleScreenTwo']  = LrApplicationView.toggleSecondaryDisplay,
-  ['CopySettings']     = function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end,
-  ['PasteSettings']    = function () pasteSettings(MIDI2LR.Copied_Settings) end,
+  Pick             = LrSelection.flagAsPick,
+  Reject           = LrSelection.flagAsReject,
+  Next             = LrSelection.nextPhoto,
+  Prev             = LrSelection.previousPhoto,
+  RemoveFlag       = LrSelection.removeFlag,
+  IncreaseRating   = LrSelection.increaseRating,
+  DecreaseRating   = LrSelection.decreaseRating,
+  SetRating0       = function () LrSelection.setRating(0) end,
+  SetRating1       = function () LrSelection.setRating(1) end,
+  SetRating2       = function () LrSelection.setRating(2) end,
+  SetRating3       = function () LrSelection.setRating(3) end,
+  SetRating4       = function () LrSelection.setRating(4) end,
+  SetRating5       = function () LrSelection.setRating(5) end,
+  ToggleBlue       = LrSelection.toggleBlueLabel,
+  ToggleGreen      = LrSelection.toggleGreenLabel,
+  ToggleRed        = LrSelection.toggleRedLabel,
+  TogglePurple     = LrSelection.togglePurpleLabel,
+  ToggleYellow     = LrSelection.toggleYellowLabel,
+  ResetAll         = LrDevelopController.resetAllDevelopAdjustments,
+  ResetLast        = function () LrDevelopController.resetToDefault(MIDI2LR.LAST_PARAM) end,
+  Undo             = LrUndo.undo,
+  Redo             = LrUndo.redo,
+  ZoomInLargeStep  = LrApplicationView.zoomIn,
+  ZoomInSmallStep  = LrApplicationView.zoomInSome,
+  ZoomOutSmallStep = LrApplicationView.zoomOutSome,
+  ZoomOutLargeStep = LrApplicationView.zoomOut,
+  ToggleZoomOffOn  = LrApplicationView.toggleZoom,
+  IncrementLastDevelopParameter = function () LrDevelopController.increment(MIDI2LR.LAST_PARAM) end,
+  DecrementLastDevelopParameter = function () LrDevelopController.decrement(MIDI2LR.LAST_PARAM) end,
+  VirtualCopy      = function () LrApplication.activeCatalog():createVirtualCopies() end,
+  ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
+  CopySettings     = function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end,
+  PasteSettings    = function () pasteSettings(MIDI2LR.Copied_Settings) end,
 }
 
 local TOOL_ALIASES = {
-  ['Loupe']           = 'loupe',
-  ['CropOverlay']     = 'crop',
-  ['SpotRemoval']     = 'dust',
-  ['RedEye']          = 'redeye',
-  ['GraduatedFilter'] = 'gradient',
-  ['RadialFilter']    = 'circularGradient',
-  ['AdjustmentBrush'] = 'localized',
+  Loupe           = 'loupe',
+  CropOverlay     = 'crop',
+  SpotRemoval     = 'dust',
+  RedEye          = 'redeye',
+  GraduatedFilter = 'gradient',
+  RadialFilter    = 'circularGradient',
+  AdjustmentBrush = 'localized',
 }
 
 local SETTINGS = {
-  ['Pickup'] = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
+  Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
 }
 
 function midi_lerp_to_develop(param, midi_value)
