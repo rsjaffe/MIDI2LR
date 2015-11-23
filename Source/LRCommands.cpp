@@ -3,23 +3,11 @@
 
     LRCommands.cpp
     Created: 31 Jul 2015 10:21:12pm
-    Author:  Parth, Jaffe
+    Author:  Parth
 
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe, derived from code
-by Parth.
-
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
-
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+
 #include <unordered_map>
 #include "LRCommands.h"
 #include "CommandMap.h"
@@ -327,10 +315,8 @@ const std::vector<String> LRCommandList::ViewModesList = {
     "Toggle on/off Second Screen",
 };
 
-std::vector<String> LRCommandList::PresetsList = {};
 
-
-std::vector<String> LRCommandList::LRStringList = {
+const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
     "Temperature",
@@ -615,8 +601,6 @@ std::vector<String> LRCommandList::LRStringList = {
 
 };
 
-size_t LRCommandList::baseSize = 0;
-
 const std::vector<String> LRCommandList::ProfileList = {
   "Previous Profile",
   "Next Profile",
@@ -637,18 +621,4 @@ int LRCommandList::getIndexOfCommand(const String& command)
 
     return indexMap[command];
 
-}
-
-void LRCommandList::ClearPresets()
-{
-    if (baseSize == 0)
-        baseSize = LRCommandList::LRStringList.size();
-    LRCommandList::LRStringList.resize(baseSize);
-    LRCommandList::PresetsList.clear();
-}
-
-void LRCommandList::AddPreset(String ID, String presetName)
-{
-    LRCommandList::LRStringList.push_back(ID);
-    LRCommandList::PresetsList.push_back(presetName);
 }
