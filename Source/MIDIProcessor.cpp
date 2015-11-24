@@ -17,7 +17,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
   ==============================================================================
 */
 #include "MIDIProcessor.h"
@@ -35,9 +35,9 @@ MIDIProcessor::MIDIProcessor()
 
 void MIDIProcessor::initDevices()
 {
-    for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
+    for(auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
     {
-        if (_devices.set(idx, MidiInput::openDevice(idx, this)))
+        if(_devices.set(idx, MidiInput::openDevice(idx, this)))
         {
             _devices[idx]->start();
             DBG(_devices[idx]->getName());
@@ -55,15 +55,16 @@ void MIDIProcessor::rescanDevices()
 }
 
 MIDIProcessor::~MIDIProcessor()
-{}
+{
+}
 
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput *device, const MidiMessage &msg)
 {
-    if (msg.isController())
-        for (auto listener : _listeners)
+    if(msg.isController())
+        for(auto listener : _listeners)
             listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
-    else if (msg.isNoteOn())
-        for (auto listener : _listeners)
+    else if(msg.isNoteOn())
+        for(auto listener : _listeners)
             listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
 }
 

@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    SettingsComponent.h
-    Created: 24 Aug 2015 11:43:59am
-    Author:  Parth, Jaffe
+	SettingsComponent.h
+	Created: 24 Aug 2015 11:43:59am
+	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe, derived from code
 by Parth.
@@ -17,7 +17,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
   ==============================================================================
 */
 #ifndef SETTINGSCOMPONENT_H_INCLUDED
@@ -28,26 +28,26 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 //==============================================================================
 /*
 */
-class SettingsComponent: public Component,
-    public ButtonListener
+class SettingsComponent : public Component,
+	public ButtonListener
 {
 public:
-    SettingsComponent();
-    ~SettingsComponent();
+	SettingsComponent();
+	~SettingsComponent();
 
-    void paint(Graphics&);
-    void resized();
+	void paint(Graphics&);
+	void resized();
 
-    // ButtonListener interface
-    virtual void buttonClicked(Button* button) override;
+	// ButtonListener interface
+	virtual void buttonClicked(Button* button) override;
 
 private:
-    ToggleButton _pickupEnabled;
-    Label _pickupLabel;
+	ToggleButton _pickupEnabled;
+	Label _pickupLabel;
 
-    TextButton _profileLocationButton;
-    Label _profileLocationLabel;
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
+	TextButton _profileLocationButton;
+	Label _profileLocationLabel;
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
 
 

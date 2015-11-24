@@ -17,7 +17,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
   ==============================================================================
 */
 #include "MIDISender.h"
@@ -57,13 +57,5 @@ MIDISender::~MIDISender()
 void MIDISender::sendCC(int midi_channel, int controller, int value)
 {
     for (auto dev : _outputDevices)
-        if (controller > 0x7F || value > 0x7F) //requires NRPN message
-        {
-            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 99, controller >> 7)); //MSB Address
-            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 98, controller & 0x7F)); //LSB Address
-            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 6, value >> 7)); //MSB Data Byte
-            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 38, value & 0x7F)); //LSB Data Byte
-        }
-        else
-            dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));
+        dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));
 }

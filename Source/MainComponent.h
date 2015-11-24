@@ -22,6 +22,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+
 #ifndef MAINCOMPONENT_H_INCLUDED
 #define MAINCOMPONENT_H_INCLUDED
 
@@ -38,19 +39,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainContentComponent: public Component,
-    public MIDICommandListener,
-    public LRConnectionListener,
-    public AsyncUpdater,
-    public Timer,
-    public ButtonListener,
-    public ProfileChangeListener
+class MainContentComponent   : public Component,
+                               public MIDICommandListener,
+                               public LRConnectionListener,
+                               public AsyncUpdater,
+                               public Timer,
+                               public ButtonListener,
+                               public ProfileChangeListener
 {
 public:
     MainContentComponent();
     ~MainContentComponent();
 
-    void paint(Graphics&);
+    void paint (Graphics&);
     void resized();
 
     // MIDICommandListener interface
@@ -94,7 +95,7 @@ private:
     String _lastCommand;
     int _rowToSelect;
 
-
+    
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

@@ -3,7 +3,7 @@
 
 	CommandMap.h
 	Created: 31 Jul 2015 9:16:41pm
-	Author:  Parth
+	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe, derived from code
 by Parth.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
   ==============================================================================
 */
+
 #ifndef COMMANDMAP_H_INCLUDED
 #define COMMANDMAP_H_INCLUDED
 

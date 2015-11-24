@@ -17,7 +17,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
   ==============================================================================
 */
 #include <unordered_map>
@@ -327,10 +327,8 @@ const std::vector<String> LRCommandList::ViewModesList = {
     "Toggle on/off Second Screen",
 };
 
-std::vector<String> LRCommandList::PresetsList = {};
 
-
-std::vector<String> LRCommandList::LRStringList = {
+const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
     "Temperature",
@@ -615,8 +613,6 @@ std::vector<String> LRCommandList::LRStringList = {
 
 };
 
-size_t LRCommandList::baseSize = 0;
-
 const std::vector<String> LRCommandList::ProfileList = {
   "Previous Profile",
   "Next Profile",
@@ -637,18 +633,4 @@ int LRCommandList::getIndexOfCommand(const String& command)
 
     return indexMap[command];
 
-}
-
-void LRCommandList::ClearPresets()
-{
-    if (baseSize == 0)
-        baseSize = LRCommandList::LRStringList.size();
-    LRCommandList::LRStringList.resize(baseSize);
-    LRCommandList::PresetsList.clear();
-}
-
-void LRCommandList::AddPreset(String ID, String presetName)
-{
-    LRCommandList::LRStringList.push_back(ID);
-    LRCommandList::PresetsList.push_back(presetName);
 }

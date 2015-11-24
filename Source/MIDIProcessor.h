@@ -17,7 +17,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
   ==============================================================================
 */
 #ifndef MIDIPROCESSOR_H_INCLUDED
@@ -31,11 +31,10 @@ public:
     virtual void handleMidiCC(int midiChannel, int controller, int value) = 0;
     virtual void handleMidiNote(int midiChannel, int note) = 0;
 
-    virtual ~MIDICommandListener()
-    {};
+    virtual ~MIDICommandListener() {};
 };
 
-class MIDIProcessor: public MidiInputCallback
+class MIDIProcessor : public MidiInputCallback
 {
 public:
     static MIDIProcessor& getInstance();
