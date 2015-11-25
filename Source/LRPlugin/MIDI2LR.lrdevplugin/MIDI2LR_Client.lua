@@ -134,17 +134,6 @@ function updateParam(param, midi_value)
   end
 end
 
-function applySettings(set) --still experimental
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
-  for x,v in pairs(set) do
-    MIDI2LR.SERVER:send(string.format('%s %g\n', x, develop_lerp_to_midi(v)))
-    MIDI2LR.PARAM_OBSERVER[x] = v
-    LrDevelopController.setValue(x,v)	
-  end
-end
-
 -- message processor
 function processMessage(message)
   if type(message) == 'string' then
