@@ -66,13 +66,13 @@ const MIDI_Message& CommandMap::getMessageForCommand(const String &command) cons
 }
 
 bool CommandMap::messageExistsInMap(const MIDI_Message &msg) const
-{
-	return _messageMap.count(msg);
+{	
+	return _messageMap.count(msg) > 0 ? true : false;
 }
 
 bool CommandMap::commandHasAssociatedMessage(const String &command) const
 {
-	return _commandStringMap.count(command);
+	return _commandStringMap.count(command) > 0 ? true : false;
 }
 
 void CommandMap::removeMessage(const MIDI_Message &msg)
