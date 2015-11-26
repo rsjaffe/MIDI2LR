@@ -30,6 +30,17 @@ local LrShell             = import 'LrShell'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
+-------------debug section
+local LrLogger = import 'LrLogger'
+local myLogger = LrLogger( 'libraryLogger' )
+myLogger:enable( 'logfile' ) -- Pass either a string or a table of actions.
+
+-- Write trace information to the logger.
+
+local function outputToLog( message )
+	myLogger:trace( message )
+end
+-------------end debug section
 
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127,
   TEMPERATURE_MIN = 3000, TEMPERATURE_MAX = 9000; --constants
@@ -77,9 +88,9 @@ local ACTIONS = {
   DecrementLastDevelopParameter = function () LrDevelopController.decrement(MIDI2LR.LAST_PARAM) end,
   VirtualCopy      = function () LrApplication.activeCatalog():createVirtualCopies() end,
   ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
-  CopySettings     = function ()  LrTasks.startAsyncTask ( function () 
+  CopySettings     = function ()  LrTasks.startAsyncTask ( function () outputToLog('in CopySettings')
       MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end) end,
-  PasteSettings    = function () LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
+  PasteSettings    = function () outputToLog('in PasteSettings'); LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
 }
 
 local TOOL_ALIASES = {
