@@ -77,7 +77,8 @@ local ACTIONS = {
   DecrementLastDevelopParameter = function () LrDevelopController.decrement(MIDI2LR.LAST_PARAM) end,
   VirtualCopy      = function () LrApplication.activeCatalog():createVirtualCopies() end,
   ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
-  CopySettings     = function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end,
+  CopySettings     = function ()  LrTasks.startAsyncTask ( function () 
+      MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end) end,
   PasteSettings    = function () LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
 }
 
