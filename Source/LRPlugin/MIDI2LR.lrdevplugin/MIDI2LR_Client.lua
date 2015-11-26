@@ -31,13 +31,13 @@ local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
 
-MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
+MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127,
+  TEMPERATURE_MIN = 3000, TEMPERATURE_MAX = 9000; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
 --When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
 --These declaration are intended to get around some Lua gotcha's.
-local applySettings
 local develop_lerp_to_midi
 local midi_lerp_to_develop
 local processMessage
@@ -99,8 +99,8 @@ function midi_lerp_to_develop(param, midi_value)
   -- map midi range to develop parameter range
   local min,max = LrDevelopController.getRange(param)
   if(param == 'Temperature') then
-    min = 3000
-    max = 9000
+    min = MIDI2LR.TEMPERATURE_MIN
+    max = MIDI2LR.TEMPERATURE_MAX
   end
 
   local result = midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
@@ -111,8 +111,8 @@ function develop_lerp_to_midi(param)
   -- map develop parameter range to midi range
   local min, max = LrDevelopController.getRange(param)
   if(param == 'Temperature') then
-    min = 3000
-    max = 9000
+    min = MIDI2LR.TEMPERATURE_MIN
+    max = MIDI2LR.TEMPERATURE_MAX
   end
 
   local result = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
@@ -125,6 +125,17 @@ function updateParam(param, midi_value)
   -- to what the inputted command value is before updating it
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
+  end
+
+  if (MIDI2LR.PICKUP_ENABLED and (param == 'Temperature')) then --clamp temperature to limits to allow pickup to work
+    local TempValue = LrDevelopController.getValue('Temperature')
+    if TempValue > MIDI2LR.TEMPERATURE_MAX then
+      MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MAX
+      LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MAX)
+    elseif TempValue < MIDI2LR.TEMPERATURE_MIN then
+      MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MIN
+      LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MIN)
+    end
   end
 
   if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) then
