@@ -21,4 +21,4 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 local LrDialogs = import 'LrDialogs'
 
-LrDialogs.message('How to use: connect a MIDI controller, launch MIDI2LR, and begin editing!')
+LrDialogs.message('How to use: connect a MIDI controller, launch MIDI2LR, and begin editing! See https://github.com/rsjaffe/MIDI2LR/wiki for details.')
