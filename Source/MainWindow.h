@@ -34,8 +34,8 @@
             
             // bad mode calling this from the constructor
             startTimer(1000);
-			m_autoHideCounter = 5;
-            
+			m_autoHideCounter = 5;    
+
         }
 
         void closeButtonPressed() override

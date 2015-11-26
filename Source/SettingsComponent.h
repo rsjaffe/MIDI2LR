@@ -24,19 +24,20 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define SETTINGSCOMPONENT_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "ResizableLayout.h"
 
 //==============================================================================
 /*
 */
 class SettingsComponent : public Component,
-	public ButtonListener
+	public ButtonListener, ResizableLayout
 {
 public:
 	SettingsComponent();
 	~SettingsComponent();
 
 	void paint(Graphics&);
-	void resized();
+	//void resized();
 
 	// ButtonListener interface
 	virtual void buttonClicked(Button* button) override;
@@ -47,6 +48,8 @@ private:
 
 	TextButton _profileLocationButton;
 	Label _profileLocationLabel;
+	GroupComponent m_autoHideGroup;
+	GroupComponent m_pickupGroup;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
 

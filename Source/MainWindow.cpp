@@ -12,7 +12,11 @@
 
 void MainWindow::timerCallback(void)
 {
-    
+	
+	AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon,
+		TRANS("Scan complete"),
+		TRANS("Note that the following files appeared to be plugin files, but failed to load correctly"));
+
 	if (m_autoHideCounter > 0)
 	{
 		//decrement counter
