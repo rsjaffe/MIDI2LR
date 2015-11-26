@@ -24,6 +24,7 @@ require 'Develop_Params.lua' -- global table of develop params we need to observ
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
+local LrDialogs = import 'LrDialogs'
 local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
 local LrShell             = import 'LrShell'
@@ -32,6 +33,7 @@ local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
 -------------debug section
 local LrLogger = import 'LrLogger'
+
 local myLogger = LrLogger( 'libraryLogger' )
 myLogger:enable( 'logfile' ) -- Pass either a string or a table of actions.
 
@@ -55,6 +57,24 @@ local processMessage
 local sendChangedParams
 local startServer
 local updateParam
+
+local function PasteSettings  ()
+  LrTasks.startAsyncTask ( function () 
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'Paste settings', 
+        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
+        { timeout = 4, 
+          callback = function() LrDialogs.showError('Unable to get catalog write access for copy settings') end, 
+          asynchronous = true }
+      ) 
+    end )
+end
+
+local function CopySettings ()
+  LrTasks.startAsyncTask ( 
+    function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end
+  ) 
+end
 
 local ACTIONS = {
   Pick             = LrSelection.flagAsPick,
@@ -88,181 +108,179 @@ local ACTIONS = {
   DecrementLastDevelopParameter = function () LrDevelopController.decrement(MIDI2LR.LAST_PARAM) end,
   VirtualCopy      = function () LrApplication.activeCatalog():createVirtualCopies() end,
   ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
-  CopySettings     = function ()  
-    LrTasks.startAsyncTask ( function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end) end,
-  PasteSettings    = function () 
-    LrTasks.startAsyncTask ( function () LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end) end,
-  }
+  CopySettings     = CopySettings,
+  PasteSettings    = PasteSettings,
+}
 
-  local TOOL_ALIASES = {
-    Loupe           = 'loupe',
-    CropOverlay     = 'crop',
-    SpotRemoval     = 'dust',
-    RedEye          = 'redeye',
-    GraduatedFilter = 'gradient',
-    RadialFilter    = 'circularGradient',
-    AdjustmentBrush = 'localized',
-  }
+local TOOL_ALIASES = {
+  Loupe           = 'loupe',
+  CropOverlay     = 'crop',
+  SpotRemoval     = 'dust',
+  RedEye          = 'redeye',
+  GraduatedFilter = 'gradient',
+  RadialFilter    = 'circularGradient',
+  AdjustmentBrush = 'localized',
+}
 
-  local SETTINGS = {
-    Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
-  }
+local SETTINGS = {
+  Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
+}
 
-  function midi_lerp_to_develop(param, midi_value)
-    -- map midi range to develop parameter range
-    local min,max = LrDevelopController.getRange(param)
-    if(param == 'Temperature') then
-      min = MIDI2LR.TEMPERATURE_MIN
-      max = MIDI2LR.TEMPERATURE_MAX
-    end
-
-    local result = midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
-    return result
+function midi_lerp_to_develop(param, midi_value)
+  -- map midi range to develop parameter range
+  local min,max = LrDevelopController.getRange(param)
+  if(param == 'Temperature') then
+    min = MIDI2LR.TEMPERATURE_MIN
+    max = MIDI2LR.TEMPERATURE_MAX
   end
 
-  function develop_lerp_to_midi(param)
-    -- map develop parameter range to midi range
-    local min, max = LrDevelopController.getRange(param)
-    if(param == 'Temperature') then
-      min = MIDI2LR.TEMPERATURE_MIN
-      max = MIDI2LR.TEMPERATURE_MAX
-    end
+  local result = midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
+  return result
+end
 
-    local result = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-    return result
+function develop_lerp_to_midi(param)
+  -- map develop parameter range to midi range
+  local min, max = LrDevelopController.getRange(param)
+  if(param == 'Temperature') then
+    min = MIDI2LR.TEMPERATURE_MIN
+    max = MIDI2LR.TEMPERATURE_MAX
   end
 
-  function updateParam(param, midi_value)
-    -- this function does a 'pickup' type of check
-    -- that is, it will ensure the develop parameter is close 
-    -- to what the inputted command value is before updating it
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
+  local result = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+  return result
+end
 
-    if (MIDI2LR.PICKUP_ENABLED and (param == 'Temperature')) then --clamp temperature to limits to allow pickup to work
-      local TempValue = LrDevelopController.getValue('Temperature')
-      if TempValue > MIDI2LR.TEMPERATURE_MAX then
-        MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MAX
-        LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MAX)
-      elseif TempValue < MIDI2LR.TEMPERATURE_MIN then
-        MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MIN
-        LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MIN)
+function updateParam(param, midi_value)
+  -- this function does a 'pickup' type of check
+  -- that is, it will ensure the develop parameter is close 
+  -- to what the inputted command value is before updating it
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop')
+  end
+
+  if (MIDI2LR.PICKUP_ENABLED and (param == 'Temperature')) then --clamp temperature to limits to allow pickup to work
+    local TempValue = LrDevelopController.getValue('Temperature')
+    if TempValue > MIDI2LR.TEMPERATURE_MAX then
+      MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MAX
+      LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MAX)
+    elseif TempValue < MIDI2LR.TEMPERATURE_MIN then
+      MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MIN
+      LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MIN)
+    end
+  end
+
+  if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) then
+    MIDI2LR.PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
+    LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
+    MIDI2LR.LAST_PARAM = param
+  end
+end
+
+-- message processor
+function processMessage(message)
+  if type(message) == 'string' then
+    -- messages are in the format 'param value'
+    local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
+
+    if(ACTIONS[param]) then -- perform a one time action
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
+    elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.resetToDefault(param:sub(6)) end
+    elseif(param:find('SwToM') == 1) then -- perform a switch to module
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.switchToModule(param:sub(6)) end
+    elseif(param:find('ShoVw') == 1) then -- change application's view mode
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showView(param:sub(6)) end
+    elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
+    elseif(TOOL_ALIASES[param]) then -- switch to desired tool
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
+        if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
+          LrDevelopController.selectTool('loupe')
+        else
+          LrDevelopController.selectTool(TOOL_ALIASES[param])
+        end
       end
+    elseif(SETTINGS[param]) then
+      SETTINGS[param](tonumber(value))
+    else -- otherwise update a develop parameter
+      updateParam(param, tonumber(value))
     end
+  end
+end
 
-    if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) then
-      MIDI2LR.PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
-      LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
+-- send changed parameters to MIDI2LR
+function sendChangedParams( observer )
+  for _, param in ipairs(DEVELOP_PARAMS) do
+    if(observer[param] ~= LrDevelopController.getValue(param)) then
+      MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+      observer[param] = LrDevelopController.getValue(param)
       MIDI2LR.LAST_PARAM = param
     end
   end
+end
 
--- message processor
-  function processMessage(message)
-    if type(message) == 'string' then
-      -- messages are in the format 'param value'
-      local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
-
-      if(ACTIONS[param]) then -- perform a one time action
-        if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
-      elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-        if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.resetToDefault(param:sub(6)) end
-      elseif(param:find('SwToM') == 1) then -- perform a switch to module
-        if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.switchToModule(param:sub(6)) end
-      elseif(param:find('ShoVw') == 1) then -- change application's view mode
-        if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showView(param:sub(6)) end
-      elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
-        if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
-      elseif(TOOL_ALIASES[param]) then -- switch to desired tool
-        if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-          if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
-            LrDevelopController.selectTool('loupe')
-          else
-            LrDevelopController.selectTool(TOOL_ALIASES[param])
-          end
-        end
-      elseif(SETTINGS[param]) then
-        SETTINGS[param](tonumber(value))
-      else -- otherwise update a develop parameter
-        updateParam(param, tonumber(value))
-      end
-    end
-  end
-
--- send changed parameters to MIDI2LR
-  function sendChangedParams( observer )
-    for _, param in ipairs(DEVELOP_PARAMS) do
-      if(observer[param] ~= LrDevelopController.getValue(param)) then
-        MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-        observer[param] = LrDevelopController.getValue(param)
-        MIDI2LR.LAST_PARAM = param
-      end
-    end
-  end
-
-  function startServer(context)
-    MIDI2LR.SERVER = LrSocket.bind {
-      functionContext = context,
-      plugin = _PLUGIN,
-      port = MIDI2LR.SEND_PORT,
-      mode = 'send',
-      onClosed = function( socket ) -- this callback never seems to get called...
-        -- MIDI2LR closed connection, allow for reconnection
-        -- socket:reconnect()
-      end,
-      onError = function( socket, err )
-        socket:reconnect()
-      end,
-    }
-  end
+function startServer(context)
+  MIDI2LR.SERVER = LrSocket.bind {
+    functionContext = context,
+    plugin = _PLUGIN,
+    port = MIDI2LR.SEND_PORT,
+    mode = 'send',
+    onClosed = function( socket ) -- this callback never seems to get called...
+      -- MIDI2LR closed connection, allow for reconnection
+      -- socket:reconnect()
+    end,
+    onError = function( socket, err )
+      socket:reconnect()
+    end,
+  }
+end
 
 -- Main task
-  LrTasks.startAsyncTask( function()
-      LrFunctionContext.callWithContext( 'socket_remote', function( context )
-          LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+LrTasks.startAsyncTask( function()
+    LrFunctionContext.callWithContext( 'socket_remote', function( context )
+        LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
 
-          -- add an observer for develop param changes
-          LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
+        -- add an observer for develop param changes
+        LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
 
-          local client = LrSocket.bind {
-            functionContext = context,
-            plugin = _PLUGIN,
-            port = MIDI2LR.RECEIVE_PORT,
-            mode = 'receive',
-            onMessage = function(socket, message)
-              processMessage(message)
-            end,
-            onClosed = function( socket )
-              -- MIDI2LR closed connection, allow for reconnection
+        local client = LrSocket.bind {
+          functionContext = context,
+          plugin = _PLUGIN,
+          port = MIDI2LR.RECEIVE_PORT,
+          mode = 'receive',
+          onMessage = function(socket, message)
+            processMessage(message)
+          end,
+          onClosed = function( socket )
+            -- MIDI2LR closed connection, allow for reconnection
+            socket:reconnect()
+
+            -- calling SERVER:reconnect causes LR to hang for some reason...
+            MIDI2LR.SERVER:close()
+            startServer(context)
+          end,
+          onError = function(socket, err)
+            if err == 'timeout' then -- reconnect if timed out
               socket:reconnect()
-
-              -- calling SERVER:reconnect causes LR to hang for some reason...
-              MIDI2LR.SERVER:close()
-              startServer(context)
-            end,
-            onError = function(socket, err)
-              if err == 'timeout' then -- reconnect if timed out
-                socket:reconnect()
-              end
             end
-          }
-
-          startServer(context)
-
-          while true do
-            LrTasks.sleep( 1/2 )
           end
+        }
 
-          client:close()
-          MIDI2LR.SERVER:close()
-        end )
-    end )
+        startServer(context)
 
-  LrTasks.startAsyncTask( function()
-      if(WIN_ENV) then
-        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
-      else
-        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
-      end
-    end)
+        while true do
+          LrTasks.sleep( 1/2 )
+        end
+
+        client:close()
+        MIDI2LR.SERVER:close()
+      end )
+  end )
+
+LrTasks.startAsyncTask( function()
+    if(WIN_ENV) then
+      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
+    else
+      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
+    end
+  end)
