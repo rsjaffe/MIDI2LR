@@ -1,7 +1,6 @@
 --[[----------------------------------------------------------------------------
 
 LaunchAppFromMenu.lua
-
 Launches the app
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe, derived from code

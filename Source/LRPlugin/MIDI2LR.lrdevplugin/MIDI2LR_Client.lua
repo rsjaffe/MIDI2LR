@@ -61,7 +61,7 @@ local updateParam
 local function PasteSettings  ()
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
-        'Paste settings', 
+        'MIDI2LR: Paste settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
         { timeout = 4, 
           callback = function() LrDialogs.showError('Unable to get catalog write access for copy settings') end, 

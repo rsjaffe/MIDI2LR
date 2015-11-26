@@ -1,7 +1,6 @@
 --[[----------------------------------------------------------------------------
 
 Info.lua
-
 MIDI2LR Plugin properties
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe, derived from code
