@@ -12,19 +12,17 @@
 
 void MainWindow::timerCallback(void)
 {
-	
-	AlertWindow::showMessageBoxAsync(AlertWindow::InfoIcon,
-		TRANS("Scan complete"),
-		TRANS("Note that the following files appeared to be plugin files, but failed to load correctly"));
+	bool decreasedValue = false;
 
 	if (m_autoHideCounter > 0)
 	{
 		//decrement counter
 		--m_autoHideCounter;
+		decreasedValue = true;
 	}
 	
 	//set the new timer text
-	m_windowContent.SetTimerText(m_autoHideCounter);
+	m_windowContent->SetTimerText(m_autoHideCounter);
 
 	if (m_autoHideCounter == 0)
 	{
@@ -34,9 +32,22 @@ void MainWindow::timerCallback(void)
 		//check if the window is not already minimized
 		if (!this->isMinimised())
 		{
-			this->minimiseButtonPressed();
+			if (decreasedValue)
+			{
+				this->minimiseButtonPressed();
+			}
 		}
 	}
 	
+
+}
+
+void MainWindow::Init(void)
+{
+	
+	// get the auto time setting
+	m_autoHideCounter = SettingsManager::getInstance().getAutoHideTime();
+	//start timing
+	this->startTimer(1000);	
 
 }

@@ -42,6 +42,7 @@ _versionLabel("Version", "Version " +
 {
 
     // Get and set our app settings
+	// The causes the other objects to be initialized correctly.
     SettingsManager::getInstance();
 
     // Add ourselves as a listener for MIDI commands
@@ -128,9 +129,11 @@ _versionLabel("Version", "Version " +
             _commandTable.updateContent();
         }
     }
-    else // otherwise use the last profile from the profile directory
-        ProfileManager::getInstance().switchToProfile(0);
-
+	else
+	{
+		// otherwise use the last profile from the profile directory
+		ProfileManager::getInstance().switchToProfile(0);
+	}
 }
 
 MainContentComponent::~MainContentComponent()
@@ -307,5 +310,13 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
 
 void MainContentComponent::SetTimerText(int timeValue)
 {
-	m_currentStatus.setText(String::formatted("Closing in %i Sec.", timeValue), NotificationType::dontSendNotification);
+	if (timeValue > 0)
+	{
+		m_currentStatus.setText(String::formatted("Closing in %i Sec.", timeValue), NotificationType::dontSendNotification);
+	}
+	else
+	{
+		m_currentStatus.setText("", NotificationType::dontSendNotification);
+	}
+
 }

@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainComponent.h"
+#include "SettingsManager.h"
 //==============================================================================
     /*
         This class implements the desktop window that contains an instance of
@@ -27,15 +28,12 @@
             DocumentWindow::closeButton) , Timer()
         {
             setUsingNativeTitleBar(true);
-            setContentOwned(&m_windowContent, true);
+			m_windowContent = new MainContentComponent();
+
+            setContentOwned(m_windowContent, true);
 
             centreWithSize(getWidth(), getHeight());
-            setVisible(true);
-            
-            // bad mode calling this from the constructor
-            startTimer(1000);
-			m_autoHideCounter = 5;    
-
+            setVisible(true);            
         }
 
         void closeButtonPressed() override
@@ -45,6 +43,8 @@
             // whatever you need.
             JUCEApplication::getInstance()->systemRequestedQuit();
         }
+
+		void Init(void);
 
         /* Note: Be careful if you override any DocumentWindow methods - the base
            class uses a lot of them, so by overriding you might break its functionality.
@@ -58,7 +58,7 @@
         
     private:
 		int m_autoHideCounter;
-		MainContentComponent m_windowContent;
+		MainContentComponent *m_windowContent;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
     };
