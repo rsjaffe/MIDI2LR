@@ -76,6 +76,19 @@ local function CopySettings ()
   ) 
 end
 
+function ApplyPreset(presetUuid)
+  local preset = LrApplication.developPresetByUuid(presetUuid)
+  LrTasks.startAsyncTask ( function () 
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'Apply preset '..preset:getName(), 
+        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
+        { timeout = 4, 
+          callback = function() LrDialogs.showError('Unable to get catalog write access for paste preset '..preset:getName()) end, 
+          asynchronous = true }
+      ) 
+    end )
+end
+
 local ACTIONS = {
   Pick             = LrSelection.flagAsPick,
   Reject           = LrSelection.flagAsReject,
