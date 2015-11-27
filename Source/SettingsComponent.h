@@ -48,8 +48,12 @@ private:
 
 	TextButton _profileLocationButton;
 	Label _profileLocationLabel;
+	Label m_autoHideExplainLabel;
+	Slider m_autoHideSetting;
 	GroupComponent m_autoHideGroup;
 	GroupComponent m_pickupGroup;
+	GroupComponent m_profileGroup;
+
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
 
