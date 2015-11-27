@@ -42,6 +42,9 @@ public:
 	virtual void connected() override;
 	virtual void disconnected() override;
 
+	int getAutoHideTime() const;
+	void setAutoHideTime(int newTime);
+
 private:
 	SettingsManager();
 

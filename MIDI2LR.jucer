@@ -5,33 +5,10 @@
               jucerVersion="4.0.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
-      <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
-            file="Source/ProfileManager.cpp"/>
-      <FILE id="o8SiAm" name="ProfileManager.h" compile="0" resource="0"
-            file="Source/ProfileManager.h"/>
-      <FILE id="RKQ9iV" name="SettingsManager.cpp" compile="1" resource="0"
-            file="Source/SettingsManager.cpp"/>
-      <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
-            file="Source/SettingsManager.h"/>
-      <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
-            file="Source/SettingsComponent.cpp"/>
-      <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"
-            file="Source/SettingsComponent.h"/>
-      <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
-      <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
-      <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>
-      <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
-      <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
-            file="Source/VersionChecker.cpp"/>
-      <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
-            file="Source/VersionChecker.h"/>
-      <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="Source/MIDI2LR.png"/>
+      <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
+      <FILE id="xs42Pd" name="CommandMap.h" compile="0" resource="0" file="Source/CommandMap.h"/>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
       <FILE id="x6sgxb" name="CommandMenu.h" compile="0" resource="0" file="Source/CommandMenu.h"/>
-      <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
-      <FILE id="SAormw" name="LR_IPC_Out.h" compile="0" resource="0" file="Source/LR_IPC_Out.h"/>
-      <FILE id="h3ctHq" name="LRCommands.cpp" compile="1" resource="0" file="Source/LRCommands.cpp"/>
-      <FILE id="ydSA1z" name="LRCommands.h" compile="0" resource="0" file="Source/LRCommands.h"/>
       <FILE id="qgvDuW" name="CommandTable.cpp" compile="1" resource="0"
             file="Source/CommandTable.cpp"/>
       <FILE id="AOfNMq" name="CommandTable.h" compile="0" resource="0" file="Source/CommandTable.h"/>
@@ -39,15 +16,44 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
-      <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
-      <FILE id="xs42Pd" name="CommandMap.h" compile="0" resource="0" file="Source/CommandMap.h"/>
-      <FILE id="UhLjfh" name="MIDIProcessor.cpp" compile="1" resource="0"
-            file="Source/MIDIProcessor.cpp"/>
-      <FILE id="L4doqk" name="MIDIProcessor.h" compile="0" resource="0" file="Source/MIDIProcessor.h"/>
+      <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>
+      <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
+      <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
+      <FILE id="SAormw" name="LR_IPC_Out.h" compile="0" resource="0" file="Source/LR_IPC_Out.h"/>
+      <FILE id="h3ctHq" name="LRCommands.cpp" compile="1" resource="0" file="Source/LRCommands.cpp"/>
+      <FILE id="ydSA1z" name="LRCommands.h" compile="0" resource="0" file="Source/LRCommands.h"/>
+      <FILE id="DX1wJU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="DR9WJZ" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="teVB2z" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
-      <FILE id="DX1wJU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="hbC1l2" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
+      <FILE id="hctg9F" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
+      <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="Source/MIDI2LR.png"/>
+      <FILE id="UhLjfh" name="MIDIProcessor.cpp" compile="1" resource="0"
+            file="Source/MIDIProcessor.cpp"/>
+      <FILE id="L4doqk" name="MIDIProcessor.h" compile="0" resource="0" file="Source/MIDIProcessor.h"/>
+      <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
+      <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
+      <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
+            file="Source/ProfileManager.cpp"/>
+      <FILE id="o8SiAm" name="ProfileManager.h" compile="0" resource="0"
+            file="Source/ProfileManager.h"/>
+      <FILE id="aE8ojc" name="ResizableLayout.cpp" compile="1" resource="0"
+            file="Source/ResizableLayout.cpp"/>
+      <FILE id="s4VIaO" name="ResizableLayout.h" compile="0" resource="0"
+            file="Source/ResizableLayout.h"/>
+      <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
+            file="Source/SettingsComponent.cpp"/>
+      <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"
+            file="Source/SettingsComponent.h"/>
+      <FILE id="RKQ9iV" name="SettingsManager.cpp" compile="1" resource="0"
+            file="Source/SettingsManager.cpp"/>
+      <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
+            file="Source/SettingsManager.h"/>
+      <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
+            file="Source/VersionChecker.cpp"/>
+      <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
+            file="Source/VersionChecker.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

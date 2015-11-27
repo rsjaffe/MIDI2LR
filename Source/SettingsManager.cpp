@@ -23,6 +23,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "ProfileManager.h"
 
+#define AUTOHIDE_SECTION "autohide"
+
+
+
 SettingsManager::SettingsManager()
 {
 	PropertiesFile::Options opts;
@@ -84,5 +88,17 @@ void SettingsManager::connected()
 
 void SettingsManager::disconnected()
 {
+
+}
+
+int SettingsManager::getAutoHideTime() const
+{
+	return _propertiesFile->getIntValue(AUTOHIDE_SECTION, 0);
+
+}
+void SettingsManager::setAutoHideTime(int newTime)
+{
+	_propertiesFile->setValue(AUTOHIDE_SECTION, newTime);
+	_propertiesFile->saveIfNeeded();
 
 }
