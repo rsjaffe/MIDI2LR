@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 #define SETTINGS_LEFT 20
-#define SETTING_WIDTH 300
+#define SETTING_WIDTH 400
 #define SETTING_HEIGHT 300
 //==============================================================================
 SettingsComponent::SettingsComponent() : ResizableLayout(this), _pickupEnabled("Enable Pickup Mode"),
@@ -100,9 +100,12 @@ m_autoHideExplainLabel()
 	addAndMakeVisible(m_autoHideExplainLabel);
 
 	m_autoHideSetting.setBounds(SETTINGS_LEFT, 245, SETTING_WIDTH - 2 * SETTINGS_LEFT, 50);
-	m_autoHideSetting.setRange(0, 10, 1);
+	m_autoHideSetting.setRange(0, 10, 1); 
+	m_autoHideSetting.setValue(SettingsManager::getInstance().getAutoHideTime(), NotificationType::dontSendNotification);
 
 	addToLayout(&m_autoHideSetting, anchorMidLeft, anchorMidRight);
+	//add this as the lister for the data
+	m_autoHideSetting.addListener(this);
 	addAndMakeVisible(m_autoHideSetting);
 	// turn it on
 	activateLayout();
@@ -118,15 +121,6 @@ void SettingsComponent::paint(Graphics& g)
 	g.fillAll(Colours::white);   // clear the background
 }
 
-/*void SettingsComponent::resized()
-{
-	_pickupLabel.setBoundsRelative(.1f, .1f, .8f, .3f);
-	_pickupEnabled.setBoundsRelative(.1f, .35f, .5f, .2f);
-
-	_profileLocationButton.setBoundsRelative(.1f, .6f, .5f, .1f);
-	_profileLocationLabel.setBoundsRelative(.1f, .7f, .8f, .2f);
-}
-*/
 void SettingsComponent::buttonClicked(Button* button)
 {
 	if (button == &_pickupEnabled)
@@ -150,4 +144,23 @@ void SettingsComponent::buttonClicked(Button* button)
 			_profileLocationLabel.setText(profileLoc, NotificationType::dontSendNotification);
 		}
 	}
+}
+
+void SettingsComponent::sliderValueChanged(Slider* slider)
+{
+	// NULL pointer check
+	if (slider)
+	{
+		if (&m_autoHideSetting == slider)
+		{
+			//get the rounded setting
+			int newSetting = (int)m_autoHideSetting.getValue();
+
+			SettingsManager::getInstance().setAutoHideTime(newSetting);
+
+		}
+
+	}
+
+
 }

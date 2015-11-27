@@ -285,7 +285,7 @@ void MainContentComponent::buttonClicked(Button* button)
         DialogWindow::LaunchOptions dwOpt;
         dwOpt.dialogTitle = "Settings";
         dwOpt.content.setOwned(new SettingsComponent());
-        dwOpt.content->setSize(300, 300);
+        dwOpt.content->setSize(400, 300);
         dwOpt.escapeKeyTriggersCloseButton = true;
         dwOpt.useNativeTitleBar = false;
         _settingsDialog = dwOpt.create();

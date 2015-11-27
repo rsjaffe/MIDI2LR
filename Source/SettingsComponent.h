@@ -30,7 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 /*
 */
 class SettingsComponent : public Component,
-	public ButtonListener, ResizableLayout
+	public ButtonListener, ResizableLayout, public Slider::Listener
 {
 public:
 	SettingsComponent();
@@ -41,6 +41,8 @@ public:
 
 	// ButtonListener interface
 	virtual void buttonClicked(Button* button) override;
+
+	virtual void sliderValueChanged(Slider* slider);
 
 private:
 	ToggleButton _pickupEnabled;
