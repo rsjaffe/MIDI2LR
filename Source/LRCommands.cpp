@@ -282,6 +282,29 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Paste Settings",
 };
 
+const std::vector<String> LRCommandList::PresetsList = {
+    "Preset 1",
+    "Preset 2",
+    "Preset 3",
+    "Preset 4",
+    "Preset 5",
+    "Preset 6",
+    "Preset 7",
+    "Preset 8",
+    "Preset 9",
+    "Preset 10",
+    "Preset 11",
+    "Preset 12",
+    "Preset 13",
+    "Preset 14",
+    "Preset 15",
+    "Preset 16",
+    "Preset 17",
+    "Preset 18",
+    "Preset 19",
+    "Preset 20",
+};
+
 const std::vector<String> LRCommandList::ToolsList = {
     "Loupe",
     "Crop Overlay",
@@ -570,6 +593,28 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Redo",
     "CopySettings",
     "PasteSettings",
+    /* Presets */
+    "Preset_1",
+    "Preset_2",
+    "Preset_3",
+    "Preset_4",
+    "Preset_5",
+    "Preset_6",
+    "Preset_7",
+    "Preset_8",
+    "Preset_9",
+    "Preset_10",
+    "Preset_11",
+    "Preset_12",
+    "Preset_13",
+    "Preset_14",
+    "Preset_15",
+    "Preset_16",
+    "Preset_17",
+    "Preset_18",
+    "Preset_19",
+    "Preset_20",
+
     /* Tools */
     "Loupe",
     "CropOverlay",

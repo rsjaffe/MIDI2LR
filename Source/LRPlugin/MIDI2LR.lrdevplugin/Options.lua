@@ -26,14 +26,20 @@ local prefs = import 'LrPrefs'.prefsForPlugin()
 local LrView = import 'LrView'
 local bind = LrView.bind -- shortcut for bind() method
 
+---[[ FOR DEBUGGING ONLY. REMOVE - to comment out
+MIDI2LR = {}
+--]]
+
+
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
+      local LrDevelopController = import 'LrDevelopController'
       local psList = {}
       for _,fold in pairs(LrApplication.developPresetFolders()) do
         local foldname = fold:getName()
         for _,pst in pairs(fold:getDevelopPresets()) do
-          table.insert(psList,{title = foldname..'->'..pst:getName(), value = pst:getUuid()})
-        end
+          table.insert(psList,{title = foldname..'\226\134\146'..pst:getName(), value = pst:getUuid()})
+        end -- '\226\134\146' is right arrow in utf8
       end
 
       local f = LrView.osFactory()
@@ -43,16 +49,23 @@ local function setOptions()
         properties['preset'..i][1] = prefs.Presets[i]
       end
 
+      local templow,temphigh = LrDevelopController.getRange('Temperature') 
+      properties['TemperatureLow'] = prefs['TemperatureLow'] or templow
+      properties['TemperatureHigh'] = prefs['TemperatureHigh'] or temphigh
+      local tintlow,tinthigh = LrDevelopController.getRange('Tint') 
+      properties['TintLow'] = prefs['TintLow'] or tintlow
+      properties['TintHigh'] = prefs['TintHigh'] or tinthigh
+
       local contents = 
       f:view{
-        f:row {
-          f:tab_view {
-            f:tab_view_item {
-              title = 'Presets',
-              identifier = 'presets',
+        bind_to_object = properties, -- default bound table
+        f:tab_view {
+          f:tab_view_item {
+            title = 'Presets',
+            identifier = 'presets',
+            f:row {
               f:column {
                 spacing = f:control_spacing(),
-                bind_to_object = properties, -- default bound table
                 f:tab_view {
                   f:tab_view_item {
                     title = 'Presets 1-5',
@@ -174,7 +187,9 @@ local function setOptions()
               }, -- column
               f:column{
                 spacing = f:control_spacing(),
-                bind_to_object = properties, 
+                f:spacer {
+                  height = f:control_spacing() * 2,
+                }, -- spacer
                 f:group_box {
                   title = 'Selected presets',
                   f:static_text {
@@ -359,17 +374,71 @@ local function setOptions()
                   }, -- static_text
                 }, -- group_box
               }, -- column
-            }, -- tab_view_item
-            f:tab_view_item {
-              title = 'Other settings',
-              identifier = 'othersettings',
-              f:static_text{ title = 'will place other settings here' }, -- static_text 
-            }, -- tab_view_item
-          }, -- tab_view
-        }, -- row
+            }, -- row
+          }, -- tab_view_item
+          f:tab_view_item {
+            title = 'Other settings',
+            identifier = 'othersettings',
+            f:row {
+              f:static_text{
+                title = 'Temperature Limits',
+                width = LrView.share('limit_label'),
+              }, -- static_text
+              f:slider {
+                value = bind 'TemperatureLow',
+                min = templow, 
+                max = temphigh,
+                integral = true,
+              }, -- slider
+              f:static_text {
+                title = bind 'TemperatureLow',
+                alignment = 'right',
+                width = LrView.share('limit_reading'),  
+              }, -- static_text
+              f:slider {
+                value = bind 'TemperatureHigh',
+                min = templow ,
+                max = temphigh,
+                integral = true,
+              }, -- slider
+              f:static_text {
+                title = bind 'TemperatureHigh',
+                alignment = 'right',
+                width = LrView.share('limit_reading'),                
+              }, -- static_text
+            }, -- row
+            f:row {
+              f:static_text{
+                title = 'Tint Limits',
+                width = LrView.share('limit_label'),
+              }, -- static_text
+
+              f:slider {
+                value = bind 'TintLow',
+                min = tintlow, 
+                max = tinthigh,
+                integral = true,
+              }, -- slider
+              f:static_text {
+                title = bind 'TintLow',
+                alignment = 'right',
+                width = LrView.share('limit_reading'),                 
+              }, -- static_text
+              f:slider {
+                value = bind 'TintHigh',
+                min = tintlow ,
+                max = tinthigh,
+                integral = true,
+              }, -- slider
+              f:static_text {
+                title = bind 'TintHigh',
+                alignment = 'right',
+                width = LrView.share('limit_reading'),                 
+              }, -- static_text
+            }, -- row
+          }, -- tab_view_item
+        }, -- tab_view
       } -- view
-
-
 
       local result = LrDialogs.presentModalDialog (
         {
@@ -383,7 +452,20 @@ local function setOptions()
             prefs.Presets[i] = properties['preset'..i][1]
           end
         end
-        prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated
+        if properties.TemperatureLow > properties.TemperatureHigh then
+          properties.TemperatureLow = properties.TemperatureHigh - 100
+        end
+        if properties.TintLow > properties.TintHigh then
+          properties.TintLow = properties.TintHigh - 10
+        end
+
+        for _,v in ipairs { 'Temperature', 'Tint' } do
+          prefs[v..'Low'] = properties[v..'Low']
+          prefs[v..'High'] = properties[v..'High']
+          MIDI2LR[v..'Low'] = properties[v..'Low']
+          MIDI2LR[v..'High'] = properties[v..'High']
+        end
+        prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
         MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
       end
     end)

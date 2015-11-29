@@ -24,7 +24,7 @@ require 'Develop_Params.lua' -- global table of develop params we need to observ
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
-local LrDialogs = import 'LrDialogs'
+local LrDialogs           = import 'LrDialogs'
 local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
 local LrShell             = import 'LrShell'
@@ -45,14 +45,17 @@ end
 -------------end debug section
 
 
-MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127,
-  TEMPERATURE_MIN = 3000, TEMPERATURE_MAX = 9000; --constants
+MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
 -------------preferences
 do
   local prefs = import 'LrPrefs'.prefsForPlugin() 
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
+  MIDI2LR.TemperatureLow = prefs.TemperatureLow or 3000
+  MIDI2LR.TemperatureHigh = prefs.TemperatureHigh or 9000
+  MIDI2LR.TintLow = prefs.TintLow or -100
+  MIDI2LR.TintHigh = prefs.TintHigh or 100
 end
 -------------end preferences section
 
@@ -84,7 +87,7 @@ local function CopySettings ()
   ) 
 end
 
-function ApplyPreset(presetUuid)
+local function ApplyPreset(presetUuid)
   if presetUuid == nil then
     return
   end
@@ -153,9 +156,11 @@ local SETTINGS = {
 function midi_lerp_to_develop(param, midi_value)
   -- map midi range to develop parameter range
   local min,max = LrDevelopController.getRange(param)
-  if(param == 'Temperature') then
-    min = MIDI2LR.TEMPERATURE_MIN
-    max = MIDI2LR.TEMPERATURE_MAX
+  for _,v in pairs {'Temperature','Tint'} do
+    if(param == v) then
+      min = MIDI2LR[v..'Low']
+      max = MIDI2LR[v..'High']
+    end
   end
 
   local result = midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
@@ -165,9 +170,11 @@ end
 function develop_lerp_to_midi(param)
   -- map develop parameter range to midi range
   local min, max = LrDevelopController.getRange(param)
-  if(param == 'Temperature') then
-    min = MIDI2LR.TEMPERATURE_MIN
-    max = MIDI2LR.TEMPERATURE_MAX
+  for _,v in pairs {'Temperature','Tint'} do
+    if(param == v) then
+      min = MIDI2LR[v..'Low']
+      max = MIDI2LR[v..'High']
+    end
   end
 
   local result = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
@@ -182,14 +189,16 @@ function updateParam(param, midi_value)
     LrApplicationView.switchToModule('develop')
   end
 
-  if (MIDI2LR.PICKUP_ENABLED and (param == 'Temperature')) then --clamp temperature to limits to allow pickup to work
-    local TempValue = LrDevelopController.getValue('Temperature')
-    if TempValue > MIDI2LR.TEMPERATURE_MAX then
-      MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MAX
-      LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MAX)
-    elseif TempValue < MIDI2LR.TEMPERATURE_MIN then
-      MIDI2LR.PARAM_OBSERVER['Temperature'] = MIDI2LR.TEMPERATURE_MIN
-      LrDevelopController.setValue('Temperature',MIDI2LR.TEMPERATURE_MIN)
+  for _,v in pairs {'Temperature','Tint'} do
+    if (MIDI2LR.PICKUP_ENABLED and (param == v)) then --clamp  to limits to allow pickup to work
+      local value = LrDevelopController.getValue(v)
+      if value > MIDI2LR[v..'High'] then
+        MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'High'] 
+        LrDevelopController.setValue(v,MIDI2LR[v..'High'] )
+      elseif value < MIDI2LR[v..'Low'] then
+        MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'Low'] 
+        LrDevelopController.setValue(v,MIDI2LR[v..'Low'] )
+      end
     end
   end
 
@@ -216,6 +225,8 @@ function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showView(param:sub(6)) end
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
+    elseif(param:find('Preset_') == 1) then --apply preset by #
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(MIDI2LR.Presets[tonumber(param:sub(8))]) end
     elseif(TOOL_ALIASES[param]) then -- switch to desired tool
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
