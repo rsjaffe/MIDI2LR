@@ -28,7 +28,7 @@ return {
     {
       title = 'Set options',
       file = 'Options.lua',
-    }
+    },
     {
       title = "About",
       file = "About.lua",

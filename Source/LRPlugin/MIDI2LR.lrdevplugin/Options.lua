@@ -26,7 +26,10 @@ local prefs = import 'LrPrefs'.prefsForPlugin()
 local LrView = import 'LrView'
 local bind = LrView.bind -- shortcut for bind() method
 
----[[ FOR DEBUGGING ONLY. REMOVE - to comment out
+prefs = prefs or {}
+prefs.Presets = prefs.Presets or {}
+
+--[[ FOR DEBUGGING ONLY. REMOVE - to comment out
 MIDI2LR = {}
 --]]
 
@@ -50,8 +53,8 @@ local function setOptions()
       end
 
       local templow,temphigh = LrDevelopController.getRange('Temperature') 
-      properties['TemperatureLow'] = prefs['TemperatureLow'] or templow
-      properties['TemperatureHigh'] = prefs['TemperatureHigh'] or temphigh
+      properties['TemperatureLow'] = prefs['TemperatureLow'] or 3000
+      properties['TemperatureHigh'] = prefs['TemperatureHigh'] or 9000
       local tintlow,tinthigh = LrDevelopController.getRange('Tint') 
       properties['TintLow'] = prefs['TintLow'] or tintlow
       properties['TintHigh'] = prefs['TintHigh'] or tinthigh
@@ -406,6 +409,13 @@ local function setOptions()
                 alignment = 'right',
                 width = LrView.share('limit_reading'),                
               }, -- static_text
+              f:push_button {
+                title = 'Reset to defaults',
+                action = function ()
+                  properties.TemperatureLow = 3000
+                  properties.TemperatureHigh = 9000
+                end
+              }, -- push_button
             }, -- row
             f:row {
               f:static_text{
@@ -435,6 +445,13 @@ local function setOptions()
                 alignment = 'right',
                 width = LrView.share('limit_reading'),                 
               }, -- static_text
+              f:push_button {
+                title = 'Reset to defaults',
+                action = function ()
+                  properties.TintLow = tintlow
+                  properties.TintHigh = tinthigh
+                end
+              }, -- push_button
             }, -- row
           }, -- tab_view_item
         }, -- tab_view

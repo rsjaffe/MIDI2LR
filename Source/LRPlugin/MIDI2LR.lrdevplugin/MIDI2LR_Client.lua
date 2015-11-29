@@ -51,6 +51,7 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 -------------preferences
 do
   local prefs = import 'LrPrefs'.prefsForPlugin() 
+  prefs = prefs or {}
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
   MIDI2LR.TemperatureLow = prefs.TemperatureLow or 3000
   MIDI2LR.TemperatureHigh = prefs.TemperatureHigh or 9000
