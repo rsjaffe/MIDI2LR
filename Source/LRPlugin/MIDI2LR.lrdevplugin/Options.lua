@@ -25,7 +25,6 @@ local LrFunctionContext = import 'LrFunctionContext'
 local prefs = import 'LrPrefs'.prefsForPlugin() 
 local LrView = import 'LrView'
 local bind = LrView.bind -- shortcut for bind() method
-local retval
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
@@ -182,7 +181,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset1',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 1 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -191,7 +190,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset2',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 2 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -199,7 +198,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset3',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 3 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -207,7 +206,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset4',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 4 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -215,7 +214,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset5',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 5 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -223,7 +222,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset6',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 6 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -231,7 +230,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset7',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 7 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -239,7 +238,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset8',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 8 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -247,7 +246,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset9',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 9 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -255,7 +254,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset10',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 10 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -263,7 +262,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset11',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 11 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -271,7 +270,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset12',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 12 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -279,7 +278,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset13',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 13 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -287,7 +286,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset14',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 14 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -295,7 +294,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset15',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 15 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -303,7 +302,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset16',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 16 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -311,7 +310,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset17',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 17 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -319,7 +318,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset18',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 18 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -327,7 +326,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset19',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 19 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -335,7 +334,7 @@ local function setOptions()
               fill_horizontal = 1,
               title = bind {
                 key = 'preset20',
-                transform = function(value, fromTable)
+                transform = function(value)
                   return 'Preset 20 '..LrApplication.developPresetByUuid(value[1]):getName()
                 end
               },
@@ -359,6 +358,7 @@ local function setOptions()
           end
         end
         prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated
+        MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
       end
     end)
 end

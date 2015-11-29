@@ -44,9 +44,17 @@ local function outputToLog( message )
 end
 -------------end debug section
 
+
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127,
   TEMPERATURE_MIN = 3000, TEMPERATURE_MAX = 9000; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
+
+-------------preferences
+do
+  local prefs = import 'LrPrefs'.prefsForPlugin() 
+  MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
+end
+-------------end preferences section
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
 --When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
@@ -77,6 +85,9 @@ local function CopySettings ()
 end
 
 function ApplyPreset(presetUuid)
+  if presetUuid == nil then
+    return
+  end
   local preset = LrApplication.developPresetByUuid(presetUuid)
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
