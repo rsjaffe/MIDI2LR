@@ -312,7 +312,7 @@ void MainContentComponent::SetTimerText(int timeValue)
 {
 	if (timeValue > 0)
 	{
-		m_currentStatus.setText(String::formatted("Closing in %i Sec.", timeValue), NotificationType::dontSendNotification);
+		m_currentStatus.setText(String::formatted("Hiding in %i Sec.", timeValue), NotificationType::dontSendNotification);
 	}
 	else
 	{
