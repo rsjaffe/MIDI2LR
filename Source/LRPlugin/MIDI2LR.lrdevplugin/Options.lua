@@ -39,7 +39,10 @@ local function setOptions()
 
       local f = LrView.osFactory()
       local properties = LrBinding.makePropertyTable( context )
-      properties.preset1 = ''
+      for i = 1,20 do
+        properties['preset'..i][1] = prefs.Presets[i]
+      end
+
       local contents = 
       f:view{
         place = 'horizontal',
