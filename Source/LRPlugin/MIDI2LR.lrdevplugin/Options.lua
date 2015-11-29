@@ -452,11 +452,11 @@ local function setOptions()
             prefs.Presets[i] = properties['preset'..i][1]
           end
         end
-        if properties.TemperatureLow > properties.TemperatureHigh then
-          properties.TemperatureLow = properties.TemperatureHigh - 100
+        if properties.TemperatureLow > properties.TemperatureHigh then -- swap values
+          properties.TemperatureLow, properties.TemperatureHigh = properties.TemperatureHigh, properties.TemperatureLow
         end
-        if properties.TintLow > properties.TintHigh then
-          properties.TintLow = properties.TintHigh - 10
+        if properties.TintLow > properties.TintHigh then -- swap values
+          properties.TintLow, properties.TintHigh = properties.TintHigh, properties.TintLow
         end
 
         for _,v in ipairs { 'Temperature', 'Tint' } do
