@@ -53,8 +53,8 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
 {
 	if (columnId == 2) // LR command column
 	{
-		// because Juce recycles these components when scrolling, we need to reset their properties
-		CommandMenu* commandSelect = (CommandMenu *)existingComponentToUpdate;
+		// because Juce recycles these components when scrolling, we need to reset their properties		
+		CommandMenu* commandSelect =  dynamic_cast<CommandMenu *>(existingComponentToUpdate);
 
 		// create a new command menu
 		if (commandSelect == nullptr)
