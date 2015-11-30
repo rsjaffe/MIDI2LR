@@ -31,7 +31,7 @@ local LrShell             = import 'LrShell'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
--------------debug section
+--[[---------debug section: activate by adding third - to beginning of line
 local LrLogger = import 'LrLogger'
 
 local myLogger = LrLogger( 'libraryLogger' )
@@ -42,7 +42,7 @@ myLogger:enable( 'logfile' ) -- Pass either a string or a table of actions.
 local function outputToLog( message )
   myLogger:trace( message )
 end
--------------end debug section
+--]]---------end debug section
 
 
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
@@ -72,15 +72,17 @@ local startServer
 local updateParam
 
 local function PasteSettings  ()
-  LrTasks.startAsyncTask ( function () 
-      LrApplication.activeCatalog():withWriteAccessDo(
+  LrTasks.startAsyncTask ( 
+    function () 
+      LrApplication.activeCatalog():withWriteAccessDo (
         'MIDI2LR: Paste settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
         { timeout = 4, 
           callback = function() LrDialogs.showError('Unable to get catalog write access for copy settings') end, 
           asynchronous = true }
       ) 
-    end )
+    end 
+  )
 end
 
 local function CopySettings ()
@@ -94,7 +96,8 @@ local function ApplyPreset(presetUuid)
     return
   end
   local preset = LrApplication.developPresetByUuid(presetUuid)
-  LrTasks.startAsyncTask ( function () 
+  LrTasks.startAsyncTask ( 
+    function () 
       LrApplication.activeCatalog():withWriteAccessDo(
         'Apply preset '..preset:getName(), 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
@@ -102,7 +105,8 @@ local function ApplyPreset(presetUuid)
           callback = function() LrDialogs.showError('Unable to get catalog write access for paste preset '..preset:getName()) end, 
           asynchronous = true }
       ) 
-    end )
+    end 
+  )
 end
 
 local ACTIONS = {
@@ -274,7 +278,9 @@ end
 
 -- Main task
 LrTasks.startAsyncTask( function()
-    LrFunctionContext.callWithContext( 'socket_remote', function( context )
+    LrFunctionContext.callWithContext( 
+      'socket_remote', 
+      function( context )
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
 
         -- add an observer for develop param changes
@@ -311,8 +317,10 @@ LrTasks.startAsyncTask( function()
 
         client:close()
         MIDI2LR.SERVER:close()
-      end )
-  end )
+      end 
+    )
+  end 
+)
 
 LrTasks.startAsyncTask( function()
     if(WIN_ENV) then

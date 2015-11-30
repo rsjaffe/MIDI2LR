@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -92,6 +92,12 @@ class AudioProcessor;
 #include "format_types/juce_VST3PluginFormat.h"
 #include "scanning/juce_PluginDirectoryScanner.h"
 #include "scanning/juce_PluginListComponent.h"
+#include "utilities/juce_AudioProcessorValueTreeState.h"
+#include "utilities/juce_AudioProcessorParameterWithID.h"
+#include "utilities/juce_AudioParameterFloat.h"
+#include "utilities/juce_AudioParameterInt.h"
+#include "utilities/juce_AudioParameterBool.h"
+#include "utilities/juce_AudioParameterChoice.h"
 
 }
 

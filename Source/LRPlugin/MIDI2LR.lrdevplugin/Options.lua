@@ -422,7 +422,6 @@ local function setOptions()
                 title = 'Tint Limits',
                 width = LrView.share('limit_label'),
               }, -- static_text
-
               f:slider {
                 value = bind 'TintLow',
                 min = tintlow, 
@@ -469,6 +468,7 @@ local function setOptions()
             prefs.Presets[i] = properties['preset'..i][1]
           end
         end
+
         if properties.TemperatureLow > properties.TemperatureHigh then -- swap values
           properties.TemperatureLow, properties.TemperatureHigh = properties.TemperatureHigh, properties.TemperatureLow
         end
