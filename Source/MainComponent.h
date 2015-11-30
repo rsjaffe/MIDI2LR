@@ -31,7 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
-
+#include "ResizableLayout.h"
 
 //==============================================================================
 /*
@@ -44,14 +44,14 @@ class MainContentComponent: public Component,
     public AsyncUpdater,
     public Timer,
     public ButtonListener,
-    public ProfileChangeListener
+    public ProfileChangeListener,
+    public ResizableLayout
 {
 public:
     MainContentComponent();
     ~MainContentComponent();
 
     void paint (Graphics&);
-    void resized();
 
     // MIDICommandListener interface
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;
