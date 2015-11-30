@@ -55,8 +55,9 @@ do
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
   MIDI2LR.TemperatureLow = prefs.TemperatureLow or 3000
   MIDI2LR.TemperatureHigh = prefs.TemperatureHigh or 9000
-  MIDI2LR.TintLow = prefs.TintLow or -100
-  MIDI2LR.TintHigh = prefs.TintHigh or 100
+  local tmin,tmax = LrDevelopController.getRange('Tint')
+  MIDI2LR.TintLow = prefs.TintLow or tmin
+  MIDI2LR.TintHigh = prefs.TintHigh or tmax
 end
 -------------end preferences section
 
