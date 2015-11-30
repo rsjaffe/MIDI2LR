@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -77,6 +77,7 @@ private:
     const CGFloat flipHeight;
     float targetScale;
     CGColorSpaceRef rgbColourSpace, greyColourSpace;
+    CGFunctionCallbacks gradientCallbacks;
     mutable Rectangle<int> lastClipRect;
     mutable bool lastClipRectIsValid;
 
@@ -86,17 +87,24 @@ private:
         SavedState (const SavedState&);
         ~SavedState();
 
-        void setFill (const FillType&);
+        void setFill (const FillType& newFill);
+        CGShadingRef getShading (CoreGraphicsContext& owner);
+
+        static void gradientCallback (void* info, const CGFloat* inData, CGFloat* outData);
 
         FillType fillType;
         Font font;
         CGFontRef fontRef;
         CGAffineTransform fontTransform;
-        CGGradientRef gradient;
+
+    private:
+        CGShadingRef shading;
+        HeapBlock <PixelARGB> gradientLookupTable;
+        int numGradientLookupEntries;
     };
 
-    ScopedPointer<SavedState> state;
-    OwnedArray<SavedState> stateStack;
+    ScopedPointer <SavedState> state;
+    OwnedArray <SavedState> stateStack;
 
     void drawGradient();
     void createPath (const Path&) const;

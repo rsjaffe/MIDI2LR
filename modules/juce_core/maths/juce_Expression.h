@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -55,6 +55,9 @@ public:
     /** Destructor. */
     ~Expression();
 
+    /** Creates a simple expression with a specified constant value. */
+    explicit Expression (double constant);
+
     /** Creates a copy of an expression. */
     Expression (const Expression&);
 
@@ -66,13 +69,11 @@ public:
     Expression& operator= (Expression&&) noexcept;
    #endif
 
-    /** Creates a simple expression with a specified constant value. */
-    explicit Expression (double constant);
-
-    /** Attempts to create an expression by parsing a string.
-        Any errors are returned in the parseError argument provided.
+    /** Creates an expression by parsing a string.
+        If there's a syntax error in the string, this will throw a ParseError exception.
+        @throws ParseError
     */
-    Expression (const String& stringToParse, String& parseError);
+    explicit Expression (const String& stringToParse);
 
     /** Returns a string version of the expression. */
     String toString() const;
@@ -100,10 +101,10 @@ public:
         The pointer is incremented so that on return, it indicates the character that follows
         the end of the expression that was parsed.
 
-        If there's a syntax error in parsing, the parseError argument will be set
-        to a description of the problem.
+        If there's a syntax error in the string, this will throw a ParseError exception.
+        @throws ParseError
     */
-    static Expression parse (String::CharPointerType& stringToParse, String& parseError);
+    static Expression parse (String::CharPointerType& stringToParse);
 
     //==============================================================================
     /** When evaluating an Expression object, this class is used to resolve symbols and
@@ -214,6 +215,16 @@ public:
 
     /** Returns a list of all symbols that may be needed to resolve this expression in the given scope. */
     void findReferencedSymbols (Array<Symbol>& results, const Scope& scope) const;
+
+    //==============================================================================
+    /** An exception that can be thrown by Expression::parse(). */
+    class ParseError  : public std::exception
+    {
+    public:
+        ParseError (const String& message);
+
+        String description;
+    };
 
     //==============================================================================
     /** Expression type.

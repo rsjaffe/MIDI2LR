@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -74,10 +74,12 @@ ImageFileFormat* ImageFileFormat::findImageFormatForFileExtension (const File& f
 //==============================================================================
 Image ImageFileFormat::loadFrom (InputStream& input)
 {
-    if (ImageFileFormat* format = findImageFormatForStream (input))
+    ImageFileFormat* const format = findImageFormatForStream (input);
+
+    if (format != nullptr)
         return format->decodeImage (input);
 
-    return Image();
+    return Image::null;
 }
 
 Image ImageFileFormat::loadFrom (const File& file)
@@ -90,7 +92,7 @@ Image ImageFileFormat::loadFrom (const File& file)
         return loadFrom (b);
     }
 
-    return Image();
+    return Image::null;
 }
 
 Image ImageFileFormat::loadFrom (const void* rawData, const size_t numBytes)
@@ -101,5 +103,5 @@ Image ImageFileFormat::loadFrom (const void* rawData, const size_t numBytes)
         return loadFrom (stream);
     }
 
-    return Image();
+    return Image::null;
 }

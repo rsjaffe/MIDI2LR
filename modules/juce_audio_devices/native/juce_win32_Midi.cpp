@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -143,37 +143,37 @@ private:
     public:
         MidiHeader() {}
 
-        void prepare (HMIDIIN device)
+        void prepare (HMIDIIN deviceHandle)
         {
             zerostruct (hdr);
             hdr.lpData = data;
             hdr.dwBufferLength = (DWORD) numElementsInArray (data);
 
-            midiInPrepareHeader (device, &hdr, sizeof (hdr));
+            midiInPrepareHeader (deviceHandle, &hdr, sizeof (hdr));
         }
 
-        void unprepare (HMIDIIN device)
+        void unprepare (HMIDIIN deviceHandle)
         {
             if ((hdr.dwFlags & WHDR_DONE) != 0)
             {
                 int c = 10;
-                while (--c >= 0 && midiInUnprepareHeader (device, &hdr, sizeof (hdr)) == MIDIERR_STILLPLAYING)
+                while (--c >= 0 && midiInUnprepareHeader (deviceHandle, &hdr, sizeof (hdr)) == MIDIERR_STILLPLAYING)
                     Thread::sleep (20);
 
                 jassert (c >= 0);
             }
         }
 
-        void write (HMIDIIN device)
+        void write (HMIDIIN deviceHandle)
         {
             hdr.dwBytesRecorded = 0;
-            midiInAddBuffer (device, &hdr, sizeof (hdr));
+            midiInAddBuffer (deviceHandle, &hdr, sizeof (hdr));
         }
 
-        void writeIfFinished (HMIDIIN device)
+        void writeIfFinished (HMIDIIN deviceHandle)
         {
             if ((hdr.dwFlags & WHDR_DONE) != 0)
-                write (device);
+                write (deviceHandle);
         }
 
     private:
@@ -362,7 +362,6 @@ MidiOutput* MidiOutput::openDevice (int index)
     UINT deviceId = MIDI_MAPPER;
     const UINT num = midiOutGetNumDevs();
     int n = 0;
-    String deviceName;
 
     for (UINT i = 0; i < num; ++i)
     {
@@ -370,16 +369,13 @@ MidiOutput* MidiOutput::openDevice (int index)
 
         if (midiOutGetDevCaps (i, &mc, sizeof (mc)) == MMSYSERR_NOERROR)
         {
-            String name = String (mc.szPname, sizeof (mc.szPname));
-
             // use the microsoft sw synth as a default - best not to allow deviceId
             // to be MIDI_MAPPER, or else device sharing breaks
-            if (name.containsIgnoreCase ("microsoft"))
+            if (String (mc.szPname, sizeof (mc.szPname)).containsIgnoreCase ("microsoft"))
                 deviceId = i;
 
             if (index == n)
             {
-                deviceName = name;
                 deviceId = i;
                 break;
             }
@@ -396,7 +392,7 @@ MidiOutput* MidiOutput::openDevice (int index)
         {
             han->refCount++;
 
-            MidiOutput* const out = new MidiOutput (deviceName);
+            MidiOutput* const out = new MidiOutput();
             out->internal = han;
             return out;
         }
@@ -415,7 +411,7 @@ MidiOutput* MidiOutput::openDevice (int index)
             han->handle = h;
             MidiOutHandle::activeHandles.add (han);
 
-            MidiOutput* const out = new MidiOutput (deviceName);
+            MidiOutput* const out = new MidiOutput();
             out->internal = han;
             return out;
         }

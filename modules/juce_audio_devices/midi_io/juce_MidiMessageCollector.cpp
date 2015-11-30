@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -33,12 +33,12 @@ MidiMessageCollector::~MidiMessageCollector()
 }
 
 //==============================================================================
-void MidiMessageCollector::reset (const double newSampleRate)
+void MidiMessageCollector::reset (const double sampleRate_)
 {
-    jassert (newSampleRate > 0);
+    jassert (sampleRate_ > 0);
 
     const ScopedLock sl (midiCallbackLock);
-    sampleRate = newSampleRate;
+    sampleRate = sampleRate_;
     incomingMessages.clear();
     lastCallbackTime = Time::getMillisecondCounterHiRes();
 }
@@ -139,9 +139,9 @@ void MidiMessageCollector::handleNoteOn (MidiKeyboardState*, int midiChannel, in
     addMessageToQueue (m);
 }
 
-void MidiMessageCollector::handleNoteOff (MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity)
+void MidiMessageCollector::handleNoteOff (MidiKeyboardState*, int midiChannel, int midiNoteNumber)
 {
-    MidiMessage m (MidiMessage::noteOff (midiChannel, midiNoteNumber, velocity));
+    MidiMessage m (MidiMessage::noteOff (midiChannel, midiNoteNumber));
     m.setTimeStamp (Time::getMillisecondCounterHiRes() * 0.001);
 
     addMessageToQueue (m);

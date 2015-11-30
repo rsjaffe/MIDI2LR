@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,8 +22,8 @@
   ==============================================================================
 */
 
-TextLayout::Glyph::Glyph (const int glyph, Point<float> anch, float w) noexcept
-    : glyphCode (glyph), anchor (anch), width (w)
+TextLayout::Glyph::Glyph (const int glyphCode_, Point<float> anchor_, float width_) noexcept
+    : glyphCode (glyphCode_), anchor (anchor_), width (width_)
 {
 }
 
@@ -70,10 +70,11 @@ TextLayout::Line::Line() noexcept
 {
 }
 
-TextLayout::Line::Line (Range<int> range, Point<float> o, float asc, float desc,
-                        float lead, int numRunsToPreallocate)
-    : stringRange (range), lineOrigin (o),
-      ascent (asc), descent (desc), leading (lead)
+TextLayout::Line::Line (Range<int> stringRange_, Point<float> lineOrigin_,
+                        const float ascent_, const float descent_, const float leading_,
+                        const int numRunsToPreallocate)
+    : stringRange (stringRange_), lineOrigin (lineOrigin_),
+      ascent (ascent_), descent (descent_), leading (leading_)
 {
     runs.ensureStorageAllocated (numRunsToPreallocate);
 }
@@ -126,28 +127,14 @@ Range<float> TextLayout::Line::getLineBoundsX() const noexcept
     return range + lineOrigin.x;
 }
 
-Range<float> TextLayout::Line::getLineBoundsY() const noexcept
-{
-    return Range<float> (lineOrigin.y - ascent,
-                         lineOrigin.y + descent);
-}
-
-Rectangle<float> TextLayout::Line::getLineBounds() const noexcept
-{
-    const Range<float> x (getLineBoundsX()),
-                       y (getLineBoundsY());
-
-    return Rectangle<float> (x.getStart(), y.getStart(), x.getLength(), y.getLength());
-}
-
 //==============================================================================
 TextLayout::TextLayout()
-    : width (0), height (0), justification (Justification::topLeft)
+    : width (0), justification (Justification::topLeft)
 {
 }
 
 TextLayout::TextLayout (const TextLayout& other)
-    : width (other.width), height (other.height),
+    : width (other.width),
       justification (other.justification)
 {
     lines.addCopiesOf (other.lines);
@@ -155,17 +142,16 @@ TextLayout::TextLayout (const TextLayout& other)
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
 TextLayout::TextLayout (TextLayout&& other) noexcept
-    : lines (static_cast<OwnedArray<Line>&&> (other.lines)),
-      width (other.width), height (other.height),
+    : lines (static_cast <OwnedArray<Line>&&> (other.lines)),
+      width (other.width),
       justification (other.justification)
 {
 }
 
 TextLayout& TextLayout::operator= (TextLayout&& other) noexcept
 {
-    lines = static_cast<OwnedArray<Line>&&> (other.lines);
+    lines = static_cast <OwnedArray<Line>&&> (other.lines);
     width = other.width;
-    height = other.height;
     justification = other.justification;
     return *this;
 }
@@ -174,7 +160,6 @@ TextLayout& TextLayout::operator= (TextLayout&& other) noexcept
 TextLayout& TextLayout::operator= (const TextLayout& other)
 {
     width = other.width;
-    height = other.height;
     justification = other.justification;
     lines.clear();
     lines.addCopiesOf (other.lines);
@@ -185,9 +170,17 @@ TextLayout::~TextLayout()
 {
 }
 
+float TextLayout::getHeight() const noexcept
+{
+    if (const Line* const lastLine = lines.getLast())
+        return lastLine->lineOrigin.y + lastLine->descent;
+
+    return 0.0f;
+}
+
 TextLayout::Line& TextLayout::getLine (const int index) const
 {
-    return *lines.getUnchecked (index);
+    return *lines[index];
 }
 
 void TextLayout::ensureStorageAllocated (int numLinesNeeded)
@@ -206,7 +199,7 @@ void TextLayout::draw (Graphics& g, const Rectangle<float>& area) const
 
     LowLevelGraphicsContext& context = g.getInternalContext();
 
-    for (int i = 0; i < lines.size(); ++i)
+    for (int i = 0; i < getNumLines(); ++i)
     {
         const Line& line = getLine (i);
         const Point<float> lineOrigin (origin + line.lineOrigin);
@@ -229,59 +222,14 @@ void TextLayout::draw (Graphics& g, const Rectangle<float>& area) const
 
 void TextLayout::createLayout (const AttributedString& text, float maxWidth)
 {
-    createLayout (text, maxWidth, 1.0e7f);
-}
-
-void TextLayout::createLayout (const AttributedString& text, float maxWidth, float maxHeight)
-{
     lines.clear();
     width = maxWidth;
-    height = maxHeight;
     justification = text.getJustification();
 
     if (! createNativeLayout (text))
         createStandardLayout (text);
 
-    recalculateSize (text);
-}
-
-void TextLayout::createLayoutWithBalancedLineLengths (const AttributedString& text, float maxWidth)
-{
-    createLayoutWithBalancedLineLengths (text, maxWidth, 1.0e7f);
-}
-
-void TextLayout::createLayoutWithBalancedLineLengths (const AttributedString& text, float maxWidth, float maxHeight)
-{
-    const float minimumWidth = maxWidth / 2.0f;
-    float bestWidth = maxWidth;
-    float bestLineProportion = 0.0f;
-
-    while (maxWidth > minimumWidth)
-    {
-        createLayout (text, maxWidth, maxHeight);
-
-        if (getNumLines() < 2)
-            return;
-
-        const float line1 = lines.getUnchecked (lines.size() - 1)->getLineBoundsX().getLength();
-        const float line2 = lines.getUnchecked (lines.size() - 2)->getLineBoundsX().getLength();
-        const float shortestLine = jmin (line1, line2);
-        const float prop = (shortestLine > 0) ? jmax (line1, line2) / shortestLine : 1.0f;
-
-        if (prop > 0.9f)
-            return;
-
-        if (prop > bestLineProportion)
-        {
-            bestLineProportion = prop;
-            bestWidth = maxWidth;
-        }
-
-        maxWidth -= 10.0f;
-    }
-
-    if (bestWidth != maxWidth)
-        createLayout (text, bestWidth, maxHeight);
+    recalculateWidth (text);
 }
 
 //==============================================================================
@@ -357,8 +305,8 @@ namespace TextLayoutHelpers
             {
                 const Token& t = *tokens.getUnchecked (i);
 
-                Array<int> newGlyphs;
-                Array<float> xOffsets;
+                Array <int> newGlyphs;
+                Array <float> xOffsets;
                 t.font.getGlyphPositions (getTrimmedEndIfNotAllWhitespace (t.text), newGlyphs, xOffsets);
 
                 if (currentRun == nullptr)  currentRun  = new TextLayout::Run();
@@ -614,30 +562,59 @@ namespace TextLayoutHelpers
 }
 
 //==============================================================================
+void TextLayout::createLayoutWithBalancedLineLengths (const AttributedString& text, float maxWidth)
+{
+    const float minimumWidth = maxWidth / 2.0f;
+    float bestWidth = maxWidth;
+    float bestLineProportion = 0.0f;
+
+    while (maxWidth > minimumWidth)
+    {
+        createLayout (text, maxWidth);
+
+        if (getNumLines() < 2)
+            return;
+
+        const float line1 = lines.getUnchecked (lines.size() - 1)->getLineBoundsX().getLength();
+        const float line2 = lines.getUnchecked (lines.size() - 2)->getLineBoundsX().getLength();
+        const float shortestLine = jmin (line1, line2);
+        const float prop = (shortestLine > 0) ? jmax (line1, line2) / shortestLine : 1.0f;
+
+        if (prop > 0.9f)
+            return;
+
+        if (prop > bestLineProportion)
+        {
+            bestLineProportion = prop;
+            bestWidth = maxWidth;
+        }
+
+        maxWidth -= 10.0f;
+    }
+
+    if (bestWidth != maxWidth)
+        createLayout (text, bestWidth);
+}
+
+//==============================================================================
 void TextLayout::createStandardLayout (const AttributedString& text)
 {
     TextLayoutHelpers::TokenList l;
     l.createLayout (text, *this);
 }
 
-void TextLayout::recalculateSize (const AttributedString& text)
+void TextLayout::recalculateWidth (const AttributedString& text)
 {
     if (lines.size() > 0 && text.getReadingDirection() != AttributedString::rightToLeft)
     {
-        Rectangle<float> bounds (lines.getFirst()->getLineBounds());
+        Range<float> range (lines.getFirst()->getLineBoundsX());
 
         for (int i = lines.size(); --i > 0;)
-            bounds = bounds.getUnion (lines.getUnchecked(i)->getLineBounds());
+            range = range.getUnionWith (lines.getUnchecked(i)->getLineBoundsX());
 
         for (int i = lines.size(); --i >= 0;)
-            lines.getUnchecked(i)->lineOrigin.x -= bounds.getX();
+            lines.getUnchecked(i)->lineOrigin.x -= range.getStart();
 
-        width  = bounds.getWidth();
-        height = bounds.getHeight();
-    }
-    else
-    {
-        width = 0;
-        height = 0;
+        width = range.getLength();
     }
 }

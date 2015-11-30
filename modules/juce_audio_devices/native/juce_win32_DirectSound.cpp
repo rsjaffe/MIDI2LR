@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -640,7 +640,7 @@ public:
             DWORD dwsize1 = 0;
             DWORD dwsize2 = 0;
 
-            hr = pInputBuffer->Lock ((DWORD) readOffset, (DWORD) bytesPerBuffer,
+            HRESULT hr = pInputBuffer->Lock ((DWORD) readOffset, (DWORD) bytesPerBuffer,
                                              (void**) &buf1, &dwsize1,
                                              (void**) &buf2, &dwsize2, 0);
 
@@ -753,9 +753,9 @@ public:
 
     String open (const BigInteger& inputChannels,
                  const BigInteger& outputChannels,
-                 double newSampleRate, int newBufferSize) override
+                 double sampleRate, int bufferSizeSamples) override
     {
-        lastError = openDevice (inputChannels, outputChannels, newSampleRate, newBufferSize);
+        lastError = openDevice (inputChannels, outputChannels, sampleRate, bufferSizeSamples);
         isOpen_ = lastError.isEmpty();
 
         return lastError;

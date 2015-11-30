@@ -1,12 +1,12 @@
 {
   "id":             "juce_opengl",
   "name":           "JUCE OpenGL classes",
-  "version":        "4.0.2",
+  "version":        "3.1.1",
   "description":    "Classes for rendering OpenGL in a JUCE window.",
   "website":        "http://www.juce.com/juce",
   "license":        "GPL/Commercial",
 
-  "dependencies":   [ { "id": "juce_gui_extra",        "version": "matching" } ],
+  "dependencies":   [ { "id": "juce_gui_basics",        "version": "matching" } ],
 
   "include":        "juce_opengl.h",
 

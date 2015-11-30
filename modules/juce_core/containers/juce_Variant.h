@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -62,6 +62,7 @@ public:
     };
 
     typedef var (*NativeFunction) (const NativeFunctionArgs&);
+    typedef Identifier identifier;
 
     //==============================================================================
     /** Creates a void variant. */
@@ -241,27 +242,27 @@ public:
 
     //==============================================================================
     /** If this variant is an object, this returns one of its properties. */
-    const var& operator[] (const Identifier& propertyName) const;
+    var operator[] (Identifier propertyName) const;
     /** If this variant is an object, this returns one of its properties. */
-    const var& operator[] (const char* propertyName) const;
+    var operator[] (const char* propertyName) const;
     /** If this variant is an object, this returns one of its properties, or a default
         fallback value if the property is not set. */
-    var getProperty (const Identifier& propertyName, const var& defaultReturnValue) const;
+    var getProperty (Identifier propertyName, const var& defaultReturnValue) const;
 
     /** Invokes a named method call with no arguments. */
-    var call (const Identifier& method) const;
+    var call (Identifier method) const;
     /** Invokes a named method call with one argument. */
-    var call (const Identifier& method, const var& arg1) const;
+    var call (Identifier method, const var& arg1) const;
     /** Invokes a named method call with 2 arguments. */
-    var call (const Identifier& method, const var& arg1, const var& arg2) const;
+    var call (Identifier method, const var& arg1, const var& arg2) const;
     /** Invokes a named method call with 3 arguments. */
-    var call (const Identifier& method, const var& arg1, const var& arg2, const var& arg3);
+    var call (Identifier method, const var& arg1, const var& arg2, const var& arg3);
     /** Invokes a named method call with 4 arguments. */
-    var call (const Identifier& method, const var& arg1, const var& arg2, const var& arg3, const var& arg4) const;
+    var call (Identifier method, const var& arg1, const var& arg2, const var& arg3, const var& arg4) const;
     /** Invokes a named method call with 5 arguments. */
-    var call (const Identifier& method, const var& arg1, const var& arg2, const var& arg3, const var& arg4, const var& arg5) const;
+    var call (Identifier method, const var& arg1, const var& arg2, const var& arg3, const var& arg4, const var& arg5) const;
     /** Invokes a named method call with a list of arguments. */
-    var invoke (const Identifier& method, const var* arguments, int numArguments) const;
+    var invoke (Identifier method, const var* arguments, int numArguments) const;
     /** If this object is a method, this returns the function pointer. */
     NativeFunction getNativeFunction() const;
 

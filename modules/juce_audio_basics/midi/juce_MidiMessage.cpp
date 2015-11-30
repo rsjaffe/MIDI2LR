@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -32,11 +32,6 @@ namespace MidiHelpers
     inline uint8 validVelocity (const int v) noexcept
     {
         return (uint8) jlimit (0, 127, v);
-    }
-
-    inline uint8 floatVelocityToByte (const float v) noexcept
-    {
-        return validVelocity (roundToInt (v * 127.0f));
     }
 }
 
@@ -391,7 +386,7 @@ float MidiMessage::getFloatVelocity() const noexcept
 void MidiMessage::setVelocity (const float newVelocity) noexcept
 {
     if (isNoteOnOrOff())
-        getData()[2] = MidiHelpers::floatVelocityToByte (newVelocity);
+        getData()[2] = MidiHelpers::validVelocity (roundToInt (newVelocity * 127.0f));
 }
 
 void MidiMessage::multiplyVelocity (const float scaleFactor) noexcept
@@ -527,6 +522,11 @@ MidiMessage MidiMessage::controllerEvent (const int channel, const int controlle
                         controllerType & 127, value & 127);
 }
 
+MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const float velocity) noexcept
+{
+    return noteOn (channel, noteNumber, (uint8) (velocity * 127.0f + 0.5f));
+}
+
 MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const uint8 velocity) noexcept
 {
     jassert (channel > 0 && channel <= 16);
@@ -536,11 +536,6 @@ MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const 
                         noteNumber & 127, MidiHelpers::validVelocity (velocity));
 }
 
-MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const float velocity) noexcept
-{
-    return noteOn (channel, noteNumber, MidiHelpers::floatVelocityToByte (velocity));
-}
-
 MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber, uint8 velocity) noexcept
 {
     jassert (channel > 0 && channel <= 16);
@@ -548,19 +543,6 @@ MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber, uint8
 
     return MidiMessage (MidiHelpers::initialByte (0x80, channel),
                         noteNumber & 127, MidiHelpers::validVelocity (velocity));
-}
-
-MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber, float velocity) noexcept
-{
-    return noteOff (channel, noteNumber, MidiHelpers::floatVelocityToByte (velocity));
-}
-
-MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber) noexcept
-{
-    jassert (channel > 0 && channel <= 16);
-    jassert (isPositiveAndBelow (noteNumber, (int) 128));
-
-    return MidiMessage (MidiHelpers::initialByte (0x80, channel), noteNumber & 127, 0);
 }
 
 MidiMessage MidiMessage::allNotesOff (const int channel) noexcept

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -77,12 +77,10 @@ extern NewLine newLine;
     myString << "Hello World" << newLine << newLine;
     @endcode
 */
-inline String& operator<< (String& string1, const NewLine&) { return string1 += NewLine::getDefault(); }
-inline String& operator+= (String& s1, const NewLine&)      { return s1 += NewLine::getDefault(); }
+JUCE_API String& JUCE_CALLTYPE operator<< (String& string1, const NewLine&);
 
-inline String operator+ (const NewLine&, const NewLine&)    { return String (NewLine::getDefault()) + NewLine::getDefault(); }
-inline String operator+ (String s1, const NewLine&)         { return s1 += NewLine::getDefault(); }
-inline String operator+ (const NewLine&, const char* s2)    { return String (NewLine::getDefault()) + s2; }
-
+#if JUCE_STRING_UTF_TYPE != 8 && ! defined (DOXYGEN)
+ inline String operator+ (String s1, const NewLine&)      { return s1 += NewLine::getDefault(); }
+#endif
 
 #endif   // JUCE_NEWLINE_H_INCLUDED

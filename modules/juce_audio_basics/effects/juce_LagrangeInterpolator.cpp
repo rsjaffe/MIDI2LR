@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -87,10 +87,7 @@ int LagrangeInterpolator::process (const double actualRatio, const float* in,
 
         if (numOut >= 4)
         {
-            const float* end = in + numOut;
-
-            for (int i = 0; i < 4; ++i)
-                lastInputSamples[i] = *--end;
+            memcpy (lastInputSamples, in + (numOut - 4), 4 * sizeof (float));
         }
         else
         {
@@ -155,10 +152,7 @@ int LagrangeInterpolator::processAdding (const double actualRatio, const float* 
 
         if (numOut >= 4)
         {
-            const float* end = in + numOut;
-
-            for (int i = 0; i < 4; ++i)
-                lastInputSamples[i] = *--end;
+            memcpy (lastInputSamples, in + (numOut - 4), 4 * sizeof (float));
         }
         else
         {

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -65,14 +65,14 @@ class JUCE_API  SettableTooltipClient   : public TooltipClient
 public:
     //==============================================================================
     /** Destructor. */
-    ~SettableTooltipClient() {}
+    virtual ~SettableTooltipClient()                                {}
 
     //==============================================================================
     /** Assigns a new tooltip to this object. */
     virtual void setTooltip (const String& newTooltip)              { tooltipString = newTooltip; }
 
     /** Returns the tooltip assigned to this object. */
-    String getTooltip() override                                    { return tooltipString; }
+    virtual String getTooltip()                                     { return tooltipString; }
 
 protected:
     SettableTooltipClient() {}

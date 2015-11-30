@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -1219,7 +1219,7 @@ public:
         getLookAndFeel().drawPopupMenuSectionHeader (g, getLocalBounds(), getName());
     }
 
-    void getIdealSize (int& idealWidth, int& idealHeight) override
+    void getIdealSize (int& idealWidth, int& idealHeight)
     {
         getLookAndFeel().getIdealPopupMenuItemSize (getName(), false, -1, idealWidth, idealHeight);
         idealHeight += idealHeight / 2;
@@ -1328,8 +1328,7 @@ void PopupMenu::addItem (int itemResultID, const String& itemText, bool isActive
 
 void PopupMenu::addCommandItem (ApplicationCommandManager* commandManager,
                                 const CommandID commandID,
-                                const String& displayName,
-                                Drawable* iconToUse)
+                                const String& displayName)
 {
     jassert (commandManager != nullptr && commandID != 0);
 
@@ -1343,7 +1342,7 @@ void PopupMenu::addCommandItem (ApplicationCommandManager* commandManager,
                                                       : info.shortName,
                              target != nullptr && (info.flags & ApplicationCommandInfo::isDisabled) == 0,
                              (info.flags & ApplicationCommandInfo::isTicked) != 0,
-                             iconToUse,
+                             nullptr,
                              Colours::black,
                              false,
                              nullptr, nullptr,
@@ -1544,7 +1543,6 @@ int PopupMenu::showWithOptionalCallback (const Options& options, ModalComponentM
         if (userCallback == nullptr && canBeModal)
             return window->runModalLoop();
        #else
-        (void) canBeModal;
         jassert (! (userCallback == nullptr && canBeModal));
        #endif
     }
@@ -1699,9 +1697,9 @@ void PopupMenu::CustomComponent::setHighlighted (bool shouldBeHighlighted)
 
 void PopupMenu::CustomComponent::triggerMenuItem()
 {
-    if (HelperClasses::ItemComponent* const mic = findParentComponentOfClass<HelperClasses::ItemComponent>())
+    if (HelperClasses::ItemComponent* const mic = dynamic_cast<HelperClasses::ItemComponent*> (getParentComponent()))
     {
-        if (HelperClasses::MenuWindow* const pmw = mic->findParentComponentOfClass<HelperClasses::MenuWindow>())
+        if (HelperClasses::MenuWindow* const pmw = dynamic_cast<HelperClasses::MenuWindow*> (mic->getParentComponent()))
         {
             pmw->dismissMenu (&mic->itemInfo);
         }

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -85,7 +85,7 @@ public:
 
     void deleteKeyPressed (int) override
     {
-        owner.removeSelectedPlugins();
+        owner.removeSelected();
     }
 
     void sortOrderChanged (int newSortColumnId, bool isForwards) override
@@ -100,6 +100,14 @@ public:
 
             default: jassertfalse; break;
         }
+    }
+
+    static void removePluginItem (KnownPluginList& list, int index)
+    {
+        if (index < list.getNumTypes())
+            list.removeType (index);
+        else
+            list.removeFromBlacklist (list.getBlacklistedFiles() [index - list.getNumTypes()]);
     }
 
     static String getPluginDescription (const PluginDescription& desc)
@@ -171,12 +179,6 @@ void PluginListComponent::setOptionsButtonText (const String& newText)
     resized();
 }
 
-void PluginListComponent::setScanDialogText (const String& title, const String& content)
-{
-    dialogTitle = title;
-    dialogText = content;
-}
-
 void PluginListComponent::setNumberOfThreadsForScanning (int num)
 {
     numThreads = num;
@@ -205,24 +207,13 @@ void PluginListComponent::updateList()
     table.repaint();
 }
 
-void PluginListComponent::removeSelectedPlugins()
+void PluginListComponent::removeSelected()
 {
     const SparseSet<int> selected (table.getSelectedRows());
 
     for (int i = table.getNumRows(); --i >= 0;)
         if (selected.contains (i))
-            removePluginItem (i);
-}
-
-void PluginListComponent::setTableModel (TableListBoxModel* model)
-{
-    table.setModel (nullptr);
-    tableModel = model;
-    table.setModel (tableModel);
-
-    table.getHeader().reSortTable();
-    table.updateContent();
-    table.repaint();
+            TableModel::removePluginItem (list, i);
 }
 
 bool PluginListComponent::canShowSelectedFolder() const
@@ -247,14 +238,6 @@ void PluginListComponent::removeMissingPlugins()
             list.removeType (i);
 }
 
-void PluginListComponent::removePluginItem (int index)
-{
-    if (index < list.getNumTypes())
-        list.removeType (index);
-    else
-        list.removeFromBlacklist (list.getBlacklistedFiles() [index - list.getNumTypes()]);
-}
-
 void PluginListComponent::optionsMenuStaticCallback (int result, PluginListComponent* pluginList)
 {
     if (pluginList != nullptr)
@@ -267,7 +250,7 @@ void PluginListComponent::optionsMenuCallback (int result)
     {
         case 0:   break;
         case 1:   list.clear(); break;
-        case 2:   removeSelectedPlugins(); break;
+        case 2:   removeSelected(); break;
         case 3:   showSelectedFolder(); break;
         case 4:   removeMissingPlugins(); break;
 
@@ -310,7 +293,7 @@ bool PluginListComponent::isInterestedInFileDrag (const StringArray& /*files*/)
 
 void PluginListComponent::filesDropped (const StringArray& files, int, int)
 {
-    OwnedArray<PluginDescription> typesFound;
+    OwnedArray <PluginDescription> typesFound;
     list.scanAndAddDragAndDroppedFiles (formatManager, files, typesFound);
 }
 
@@ -330,11 +313,11 @@ void PluginListComponent::setLastSearchPath (PropertiesFile& properties, AudioPl
 class PluginListComponent::Scanner    : private Timer
 {
 public:
-    Scanner (PluginListComponent& plc, AudioPluginFormat& format, PropertiesFile* properties,
-             int threads, const String& title, const String& text)
+    Scanner (PluginListComponent& plc, AudioPluginFormat& format, PropertiesFile* properties, int threads)
         : owner (plc), formatToScan (format), propertiesToUse (properties),
           pathChooserWindow (TRANS("Select folders to scan..."), String::empty, AlertWindow::NoIcon),
-          progressWindow (title, text, AlertWindow::NoIcon),
+          progressWindow (TRANS("Scanning for plug-ins..."),
+                          TRANS("Searching for all possible plug-in files..."), AlertWindow::NoIcon),
           progress (0.0), numThreads (threads), finished (false)
     {
         FileSearchPath path (formatToScan.getDefaultLocationsToSearch());
@@ -545,9 +528,7 @@ private:
 
 void PluginListComponent::scanFor (AudioPluginFormat& format)
 {
-    currentScanner = new Scanner (*this, format, propertiesToUse, numThreads,
-                                  dialogTitle.isNotEmpty() ? dialogTitle : TRANS("Scanning for plug-ins..."),
-                                  dialogText.isNotEmpty()  ? dialogText  : TRANS("Searching for all possible plug-in files..."));
+    currentScanner = new Scanner (*this, format, propertiesToUse, numThreads);
 }
 
 bool PluginListComponent::isScanning() const noexcept

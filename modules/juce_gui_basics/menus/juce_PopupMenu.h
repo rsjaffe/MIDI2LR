@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -80,8 +80,6 @@ private:
     class Window;
 
 public:
-    class CustomComponent;
-
     //==============================================================================
     /** Creates an empty popup menu. */
     PopupMenu();
@@ -167,15 +165,10 @@ public:
         @param commandID            the ID of the command
         @param displayName          if this is non-empty, then this string will be used instead of
                                     the command's registered name
-        @param iconToUse            an optional Drawable object to use as the icon to the left of the item.
-                                    The menu will take ownership of this drawable object and will
-                                    delete it later when no longer needed
     */
     void addCommandItem (ApplicationCommandManager* commandManager,
                          CommandID commandID,
-                         const String& displayName = String::empty,
-                         Drawable* iconToUse = nullptr);
-
+                         const String& displayName = String::empty);
 
 
     /** Appends a text item with a special colour.
@@ -191,17 +184,6 @@ public:
                           bool isTicked = false,
                           const Image& iconToUse = Image::null);
 
-    /** Appends a custom menu item.
-
-        This will add a user-defined component to use as a menu item. The component
-        passed in will be deleted by this menu when it's no longer needed.
-
-        @see CustomComponent
-    */
-    void addCustomItem (int itemResultID,
-                        CustomComponent* customComponent,
-                        const PopupMenu* optionalSubMenu = nullptr);
-
     /** Appends a custom menu item that can't be used to trigger a result.
 
         This will add a user-defined component to use as a menu item.
@@ -212,11 +194,12 @@ public:
         detection of a mouse-click on your component, and use that to trigger the
         menu ID specified in itemResultID. If this is false, the menu item can't
         be triggered, so itemResultID is not used.
+
+        @see CustomComponent
     */
     void addCustomItem (int itemResultID,
                         Component* customComponent,
-                        int idealWidth,
-                        int idealHeight,
+                        int idealWidth, int idealHeight,
                         bool triggerMenuItemAutomaticallyWhenClicked,
                         const PopupMenu* optionalSubMenu = nullptr);
 
@@ -547,6 +530,17 @@ public:
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomComponent)
     };
+
+    /** Appends a custom menu item.
+
+        This will add a user-defined component to use as a menu item. The component
+        passed in will be deleted by this menu when it's no longer needed.
+
+        @see CustomComponent
+    */
+    void addCustomItem (int itemResultID, CustomComponent* customComponent,
+                        const PopupMenu* optionalSubMenu = nullptr);
+
 
     //==============================================================================
     /** This abstract base class is implemented by LookAndFeel classes to provide

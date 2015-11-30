@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -34,9 +34,9 @@
 
     See also SystemStats::getJUCEVersion() for a string version.
 */
-#define JUCE_MAJOR_VERSION      4
-#define JUCE_MINOR_VERSION      0
-#define JUCE_BUILDNUMBER        2
+#define JUCE_MAJOR_VERSION      3
+#define JUCE_MINOR_VERSION      1
+#define JUCE_BUILDNUMBER        1
 
 /** Current Juce version number.
 
@@ -50,10 +50,8 @@
 
 
 //==============================================================================
-#include <vector>  // included before platform defs to provide a definition of _LIBCPP_VERSION
-
-#include "juce_CompilerSupport.h"
 #include "juce_PlatformDefs.h"
+#include "juce_CompilerSupport.h"
 
 //==============================================================================
 // Now we'll include some common OS headers..
@@ -73,6 +71,7 @@
 #include <cstring>
 #include <cstdio>
 #include <iostream>
+#include <vector>
 #include <algorithm>
 #include <functional>
 
@@ -104,12 +103,8 @@
  #pragma warning (pop)
 #endif
 
-#if JUCE_MINGW
- #include <sys/types.h>
-#endif
-
 #if JUCE_ANDROID
- #include <atomic>
+ #include <sys/atomics.h>
  #include <byteswap.h>
 #endif
 
@@ -118,9 +113,6 @@
 #undef TYPE_BOOL
 #undef max
 #undef min
-#undef major
-#undef minor
-#undef KeyPress
 
 //==============================================================================
 // DLL building settings on Windows

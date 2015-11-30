@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -154,7 +154,7 @@ private:
 
         bool shouldBailOut() const noexcept
         {
-            return checker.shouldBailOut() || safePointer == nullptr;
+            return checker.shouldBailOut() || safePointer == 0;
         }
 
     private:
@@ -200,7 +200,7 @@ struct ScalingHelpers
 
     // For these, we need to avoid getSmallestIntegerContainer being used, which causes
     // judder when moving windows
-    static Rectangle<int> unscaledScreenPosToScaled (float scale, Rectangle<int> pos) noexcept
+    static Rectangle<int> unscaledScreenPosToScaled (float scale, const Rectangle<int>& pos) noexcept
     {
         return scale != 1.0f ? Rectangle<int> (roundToInt (pos.getX() / scale),
                                                roundToInt (pos.getY() / scale),
@@ -208,7 +208,7 @@ struct ScalingHelpers
                                                roundToInt (pos.getHeight() / scale)) : pos;
     }
 
-    static Rectangle<int> scaledScreenPosToUnscaled (float scale, Rectangle<int> pos) noexcept
+    static Rectangle<int> scaledScreenPosToUnscaled (float scale, Rectangle<int>& pos) noexcept
     {
         return scale != 1.0f ? Rectangle<int> (roundToInt (pos.getX() * scale),
                                                roundToInt (pos.getY() * scale),
@@ -399,7 +399,7 @@ struct Component::ComponentHelpers
         return convertFromDistantParentSpace (topLevelComp, *target, p);
     }
 
-    static bool clipObscuredRegions (const Component& comp, Graphics& g, const Rectangle<int> clipRect, Point<int> delta)
+    static bool clipObscuredRegions (const Component& comp, Graphics& g, const Rectangle<int>& clipRect, Point<int> delta)
     {
         bool nothingChanged = true;
 
@@ -789,8 +789,6 @@ public:
             Graphics imG (image);
             LowLevelGraphicsContext& lg = imG.getInternalContext();
 
-            lg.addTransform (AffineTransform::scale (scale));
-
             for (const Rectangle<int>* i = validArea.begin(), * const e = validArea.end(); i != e; ++i)
                 lg.excludeClipRectangle (*i);
 
@@ -801,10 +799,11 @@ public:
                 lg.setFill (Colours::black);
             }
 
+            lg.addTransform (AffineTransform::scale (scale));
             owner.paintEntireComponent (imG, true);
         }
 
-        validArea = compBounds;
+        validArea = imageBounds;
 
         g.setColour (Colours::black.withAlpha (owner.getAlpha()));
         g.drawImageTransformed (image, AffineTransform::scale (compBounds.getWidth()  / (float) imageBounds.getWidth(),
@@ -812,7 +811,7 @@ public:
     }
 
     bool invalidateAll() override                            { validArea.clear(); return true; }
-    bool invalidate (const Rectangle<int>& area) override    { validArea.subtract (area); return true; }
+    bool invalidate (const Rectangle<int>& area) override    { validArea.subtract (area * scale); return true; }
     void releaseResources() override                         { image = Image::null; }
 
 private:
@@ -1154,15 +1153,12 @@ void Component::setBounds (const int x, const int y, int w, int h)
 
 void Component::sendMovedResizedMessagesIfPending()
 {
-    const bool wasMoved   = flags.isMoveCallbackPending;
-    const bool wasResized = flags.isResizeCallbackPending;
-
-    if (wasMoved || wasResized)
+    if (flags.isMoveCallbackPending || flags.isResizeCallbackPending)
     {
+        sendMovedResizedMessages (flags.isMoveCallbackPending, flags.isResizeCallbackPending);
+
         flags.isMoveCallbackPending = false;
         flags.isResizeCallbackPending = false;
-
-        sendMovedResizedMessages (wasMoved, wasResized);
     }
 }
 
@@ -1838,11 +1834,6 @@ void Component::setRepaintsOnMouseActivity (const bool shouldRepaint) noexcept
 }
 
 //==============================================================================
-float Component::getAlpha() const noexcept
-{
-    return (255 - componentTransparency) / 255.0f;
-}
-
 void Component::setAlpha (const float newAlpha)
 {
     const uint8 newIntAlpha = (uint8) (255 - jlimit (0, 255, roundToInt (newAlpha * 255.0)));
@@ -1850,21 +1841,22 @@ void Component::setAlpha (const float newAlpha)
     if (componentTransparency != newIntAlpha)
     {
         componentTransparency = newIntAlpha;
-        alphaChanged();
+
+        if (flags.hasHeavyweightPeerFlag)
+        {
+            if (ComponentPeer* const peer = getPeer())
+                peer->setAlpha (newAlpha);
+        }
+        else
+        {
+            repaint();
+        }
     }
 }
 
-void Component::alphaChanged()
+float Component::getAlpha() const
 {
-    if (flags.hasHeavyweightPeerFlag)
-    {
-        if (ComponentPeer* const peer = getPeer())
-            peer->setAlpha (getAlpha());
-    }
-    else
-    {
-        repaint();
-    }
+    return (255 - componentTransparency) / 255.0f;
 }
 
 //==============================================================================
@@ -1889,15 +1881,15 @@ void Component::repaintParent()
         parentComponent->internalRepaint (ComponentHelpers::convertToParentSpace (*this, getLocalBounds()));
 }
 
-void Component::internalRepaint (Rectangle<int> area)
+void Component::internalRepaint (const Rectangle<int>& area)
 {
-    area = area.getIntersection (getLocalBounds());
+    const Rectangle<int> r (area.getIntersection (getLocalBounds()));
 
-    if (! area.isEmpty())
-        internalRepaintUnchecked (area, false);
+    if (! r.isEmpty())
+        internalRepaintUnchecked (r, false);
 }
 
-void Component::internalRepaintUnchecked (Rectangle<int> area, const bool isEntireComponent)
+void Component::internalRepaintUnchecked (const Rectangle<int>& area, const bool isEntireComponent)
 {
     if (flags.visibleFlag)
     {
@@ -2317,15 +2309,16 @@ void Component::internalModalInputAttempt()
 //==============================================================================
 void Component::postCommandMessage (const int commandId)
 {
-    struct CustomCommandMessage   : public CallbackMessage
+    class CustomCommandMessage   : public CallbackMessage
     {
+    public:
         CustomCommandMessage (Component* const c, const int command)
             : target (c), commandId (command) {}
 
         void messageCallback() override
         {
-            if (Component* c = target.get())
-                c->handleCommandMessage (commandId);
+            if (target.get() != nullptr)  // (get() required for VS2003 bug)
+                target->handleCommandMessage (commandId);
         }
 
     private:
@@ -2384,7 +2377,7 @@ void Component::internalMouseEnter (MouseInputSource source, Point<float> relati
 
     BailOutChecker checker (this);
 
-    const MouseEvent me (source, relativePos, source.getCurrentModifiers(), MouseInputSource::invalidPressure,
+    const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
                          this, this, time, relativePos, time, 0, false);
     mouseEnter (me);
 
@@ -2403,7 +2396,7 @@ void Component::internalMouseExit (MouseInputSource source, Point<float> relativ
 
     BailOutChecker checker (this);
 
-    const MouseEvent me (source, relativePos, source.getCurrentModifiers(), MouseInputSource::invalidPressure,
+    const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
                          this, this, time, relativePos, time, 0, false);
 
     mouseExit (me);
@@ -2416,7 +2409,7 @@ void Component::internalMouseExit (MouseInputSource source, Point<float> relativ
     MouseListenerList::sendMouseEvent (*this, checker, &MouseListener::mouseExit, me);
 }
 
-void Component::internalMouseDown (MouseInputSource source, Point<float> relativePos, Time time, float pressure)
+void Component::internalMouseDown (MouseInputSource source, Point<float> relativePos, Time time)
 {
     Desktop& desktop = Desktop::getInstance();
     BailOutChecker checker (this);
@@ -2435,7 +2428,7 @@ void Component::internalMouseDown (MouseInputSource source, Point<float> relativ
         {
             // allow blocked mouse-events to go to global listeners..
             const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
-                                 pressure, this, this, time, relativePos, time,
+                                 this, this, time, relativePos, time,
                                  source.getNumberOfMultipleClicks(), false);
 
             desktop.getMouseListeners().callChecked (checker, &MouseListener::mouseDown, me);
@@ -2468,7 +2461,7 @@ void Component::internalMouseDown (MouseInputSource source, Point<float> relativ
         repaint();
 
     const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
-                         pressure, this, this, time, relativePos, time,
+                         this, this, time, relativePos, time,
                          source.getNumberOfMultipleClicks(), false);
     mouseDown (me);
 
@@ -2492,7 +2485,7 @@ void Component::internalMouseUp (MouseInputSource source, Point<float> relativeP
         repaint();
 
     const MouseEvent me (source, relativePos,
-                         oldModifiers, MouseInputSource::invalidPressure, this, this, time,
+                         oldModifiers, this, this, time,
                          getLocalPoint (nullptr, source.getLastMouseDownPosition()),
                          source.getLastMouseDownTime(),
                          source.getNumberOfMultipleClicks(),
@@ -2523,14 +2516,14 @@ void Component::internalMouseUp (MouseInputSource source, Point<float> relativeP
     }
 }
 
-void Component::internalMouseDrag (MouseInputSource source, Point<float> relativePos, Time time, float pressure)
+void Component::internalMouseDrag (MouseInputSource source, Point<float> relativePos, Time time)
 {
     if (! isCurrentlyBlockedByAnotherModalComponent())
     {
         BailOutChecker checker (this);
 
-        const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
-                             pressure, this, this, time,
+        const MouseEvent me (source, relativePos,
+                             source.getCurrentModifiers(), this, this, time,
                              getLocalPoint (nullptr, source.getLastMouseDownPosition()),
                              source.getLastMouseDownTime(),
                              source.getNumberOfMultipleClicks(),
@@ -2559,7 +2552,7 @@ void Component::internalMouseMove (MouseInputSource source, Point<float> relativ
     {
         BailOutChecker checker (this);
 
-        const MouseEvent me (source, relativePos, source.getCurrentModifiers(), MouseInputSource::invalidPressure,
+        const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
                              this, this, time, relativePos, time, 0, false);
         mouseMove (me);
 
@@ -2578,7 +2571,7 @@ void Component::internalMouseWheel (MouseInputSource source, Point<float> relati
     Desktop& desktop = Desktop::getInstance();
     BailOutChecker checker (this);
 
-    const MouseEvent me (source, relativePos, source.getCurrentModifiers(), MouseInputSource::invalidPressure,
+    const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
                          this, this, time, relativePos, time, 0, false);
 
     if (isCurrentlyBlockedByAnotherModalComponent())
@@ -2605,7 +2598,7 @@ void Component::internalMagnifyGesture (MouseInputSource source, Point<float> re
 {
     if (! isCurrentlyBlockedByAnotherModalComponent())
     {
-        const MouseEvent me (source, relativePos, source.getCurrentModifiers(), MouseInputSource::invalidPressure,
+        const MouseEvent me (source, relativePos, source.getCurrentModifiers(),
                              this, this, time, relativePos, time, 0, false);
 
         mouseMagnify (me, amount);

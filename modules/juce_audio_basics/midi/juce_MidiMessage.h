@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -238,27 +238,10 @@ public:
 
         @param channel      the midi channel, in the range 1 to 16
         @param noteNumber   the key number, 0 to 127
-        @param velocity     in the range 0 to 1.0
-        @see isNoteOff
-    */
-    static MidiMessage noteOff (int channel, int noteNumber, float velocity) noexcept;
-
-    /** Creates a key-up message.
-
-        @param channel      the midi channel, in the range 1 to 16
-        @param noteNumber   the key number, 0 to 127
         @param velocity     in the range 0 to 127
         @see isNoteOff
     */
-    static MidiMessage noteOff (int channel, int noteNumber, uint8 velocity) noexcept;
-
-    /** Creates a key-up message.
-
-        @param channel      the midi channel, in the range 1 to 16
-        @param noteNumber   the key number, 0 to 127
-        @see isNoteOff
-    */
-    static MidiMessage noteOff (int channel, int noteNumber) noexcept;
+    static MidiMessage noteOff (int channel, int noteNumber, uint8 velocity = 0) noexcept;
 
     /** Returns true if this message is a 'key-down' or 'key-up' event.
 

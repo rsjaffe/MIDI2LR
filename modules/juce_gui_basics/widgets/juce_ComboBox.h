@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -63,7 +63,7 @@ public:
     ~ComboBox();
 
     //==============================================================================
-    /** Sets whether the text in the combo-box is editable.
+    /** Sets whether the test in the combo-box is editable.
 
         The default state for a new ComboBox is non-editable, and can only be changed
         by choosing from the drop-down list.
@@ -263,12 +263,6 @@ public:
     */
     virtual void showPopup();
 
-    /** Hides the combo box's popup list, if it's currently visible. */
-    void hidePopup();
-
-    /** Returns true if the popup menu is currently being shown. */
-    bool isPopupActive() const noexcept                 { return menuActive; }
-
     /** Adds the items in this ComboBox to the given menu. */
     virtual void addItemsToMenu (PopupMenu&) const;
 
@@ -338,7 +332,7 @@ public:
         These constants can be used either via the Component::setColour(), or LookAndFeel::setColour()
         methods.
 
-        To change the colours of the menu that pops up, you can set the colour IDs in PopupMenu::ColourIDs.
+        To change the colours of the menu that pops up
 
         @see Component::setColour, Component::findColour, LookAndFeel::setColour, LookAndFeel::findColour
     */
@@ -432,7 +426,7 @@ private:
     int lastCurrentId;
     bool isButtonDown, separatorPending, menuActive, scrollWheelEnabled;
     float mouseWheelAccumulator;
-    ListenerList<Listener> listeners;
+    ListenerList <Listener> listeners;
     ScopedPointer<Label> label;
     String textWhenNothingSelected, noChoicesMessage;
 
@@ -442,6 +436,7 @@ private:
     bool nudgeSelectedItem (int delta);
     void sendChange (NotificationType);
     void showPopupIfNotActive();
+    static void popupMenuFinishedCallback (int, ComboBox*);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ComboBox)
 };

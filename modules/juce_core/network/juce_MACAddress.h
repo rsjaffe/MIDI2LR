@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -43,31 +43,22 @@ public:
 
     //==============================================================================
     /** Creates a null address (00-00-00-00-00-00). */
-    MACAddress() noexcept;
+    MACAddress();
 
     /** Creates a copy of another address. */
-    MACAddress (const MACAddress&) noexcept;
+    MACAddress (const MACAddress&);
 
     /** Creates a copy of another address. */
-    MACAddress& operator= (const MACAddress&) noexcept;
+    MACAddress& operator= (const MACAddress&);
 
     /** Creates an address from 6 bytes. */
-    explicit MACAddress (const uint8 bytes[6]) noexcept;
-
-    /** Creates an address from a hex string.
-        If the string isn't a 6-byte hex value, this will just default-initialise
-        the object.
-    */
-    explicit MACAddress (StringRef address);
+    explicit MACAddress (const uint8 bytes[6]);
 
     /** Returns a pointer to the 6 bytes that make up this address. */
     const uint8* getBytes() const noexcept        { return address; }
 
     /** Returns a dash-separated string in the form "11-22-33-44-55-66" */
     String toString() const;
-
-    /** Returns a hex string of this address, using a custom separator between each byte. */
-    String toString (StringRef separator) const;
 
     /** Returns the address in the lower 6 bytes of an int64.
 

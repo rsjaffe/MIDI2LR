@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -28,18 +28,15 @@
 
 struct TextDiffHelpers
 {
-    enum { minLengthToMatch = 3,
-           maxComplexity = 16 * 1024 * 1024 };
+    enum { minLengthToMatch = 3 };
 
     struct StringRegion
     {
         StringRegion (const String& s) noexcept
             : text (s.getCharPointer()), start (0), length (s.length()) {}
 
-        StringRegion (const String::CharPointerType t, int s, int len) noexcept
+        StringRegion (const String::CharPointerType t, int s, int len)  noexcept
             : text (t), start (s), length (len) {}
-
-        void incrementStart() noexcept  { ++text; ++start; --length; }
 
         String::CharPointerType text;
         int start, length;
@@ -50,7 +47,7 @@ struct TextDiffHelpers
         TextDiff::Change c;
         c.insertedText = String (text, (size_t) length);
         c.start = index;
-        c.length = 0;
+        c.length = length;
         td.changes.add (c);
     }
 
@@ -62,28 +59,29 @@ struct TextDiffHelpers
         td.changes.add (c);
     }
 
-    static void diffSkippingCommonStart (TextDiff& td, StringRegion a, StringRegion b)
+    static void diffSkippingCommonStart (TextDiff& td, const StringRegion& a, const StringRegion& b)
     {
-        for (;;)
+        String::CharPointerType sa (a.text);
+        String::CharPointerType sb (b.text);
+        const int maxLen = jmax (a.length, b.length);
+
+        for (int i = 0; i < maxLen; ++i, ++sa, ++sb)
         {
-            const juce_wchar ca = *a.text;
-            const juce_wchar cb = *b.text;
-
-            if (ca != cb || ca == 0)
+            if (*sa != *sb)
+            {
+                diffRecursively (td, StringRegion (sa, a.start + i, a.length - i),
+                                     StringRegion (sb, b.start + i, b.length - i));
                 break;
-
-            a.incrementStart();
-            b.incrementStart();
+            }
         }
-
-        diffRecursively (td, a, b);
     }
 
-    static void diffRecursively (TextDiff& td, StringRegion a, StringRegion b)
+    static void diffRecursively (TextDiff& td, const StringRegion& a, const StringRegion& b)
     {
-        int indexA = 0, indexB = 0;
-        const int len = findLongestCommonSubstring (a.text, a.length, indexA,
-                                                    b.text, b.length, indexB);
+        int indexA, indexB;
+        const int len = findLongestCommonSubstring (a.text, a.length,
+                                                    b.text, b.length,
+                                                    indexA, indexB);
 
         if (len >= minLengthToMatch)
         {
@@ -95,8 +93,8 @@ struct TextDiffHelpers
             else if (indexB > 0)
                 addInsertion (td, b.text, b.start, indexB);
 
-            diffRecursively (td, StringRegion (a.text + (indexA + len), a.start + indexA + len, a.length - indexA - len),
-                                 StringRegion (b.text + (indexB + len), b.start + indexB + len, b.length - indexB - len));
+            diffRecursively (td, StringRegion (a.text + indexA + len, a.start + indexA + len, a.length - indexA - len),
+                                 StringRegion (b.text + indexB + len, b.start + indexB + len, b.length - indexB - len));
         }
         else
         {
@@ -105,39 +103,22 @@ struct TextDiffHelpers
         }
     }
 
-    static int findLongestCommonSubstring (String::CharPointerType a, const int lenA, int& indexInA,
-                                           String::CharPointerType b, const int lenB, int& indexInB) noexcept
+    static int findLongestCommonSubstring (String::CharPointerType a, const int lenA,
+                                           const String::CharPointerType b, const int lenB,
+                                           int& indexInA, int& indexInB)
     {
         if (lenA == 0 || lenB == 0)
             return 0;
 
-        if (lenA * lenB > maxComplexity)
-            return findCommonSuffix (a, lenA, indexInA,
-                                     b, lenB, indexInB);
-
-        const size_t scratchSpace = sizeof (int) * (2 + 2 * (size_t) lenB);
-
-        if (scratchSpace < 4096)
-        {
-            int* scratch = (int*) alloca (scratchSpace);
-            return findLongestCommonSubstring (a, lenA, indexInA, b, lenB, indexInB, scratchSpace, scratch);
-        }
-
-        HeapBlock<int> scratch (scratchSpace);
-        return findLongestCommonSubstring (a, lenA, indexInA, b, lenB, indexInB, scratchSpace, scratch);
-    }
-
-    static int findLongestCommonSubstring (String::CharPointerType a, const int lenA, int& indexInA,
-                                           String::CharPointerType b, const int lenB, int& indexInB,
-                                           const size_t scratchSpace, int* const lines) noexcept
-    {
-        zeromem (lines, scratchSpace);
+        HeapBlock<int> lines;
+        lines.calloc (2 + 2 * (size_t) lenB);
 
         int* l0 = lines;
         int* l1 = l0 + lenB + 1;
 
         int loopsWithoutImprovement = 0;
         int bestLength = 0;
+        indexInA = indexInB = 0;
 
         for (int i = 0; i < lenA; ++i)
         {
@@ -175,25 +156,6 @@ struct TextDiffHelpers
         indexInB -= bestLength - 1;
         return bestLength;
     }
-
-    static int findCommonSuffix (String::CharPointerType a, const int lenA, int& indexInA,
-                                 String::CharPointerType b, const int lenB, int& indexInB) noexcept
-    {
-        int length = 0;
-        a += lenA - 1;
-        b += lenB - 1;
-
-        while (length < lenA && length < lenB && *a == *b)
-        {
-            --a;
-            --b;
-            ++length;
-        }
-
-        indexInA = lenA - length;
-        indexInB = lenB - length;
-        return length;
-    }
 };
 
 TextDiff::TextDiff (const String& original, const String& target)
@@ -216,7 +178,8 @@ bool TextDiff::Change::isDeletion() const noexcept
 
 String TextDiff::Change::appliedTo (const String& text) const noexcept
 {
-    return text.replaceSection (start, length, insertedText);
+    return text.substring (0, start) + (isDeletion() ? text.substring (start + length)
+                                                     : (insertedText + text.substring (start)));
 }
 
 //==============================================================================
@@ -230,9 +193,9 @@ public:
 
     static String createString (Random& r)
     {
-        juce_wchar buffer[500] = { 0 };
+        juce_wchar buffer[50] = { 0 };
 
-        for (int i = r.nextInt (numElementsInArray (buffer) - 1); --i >= 0;)
+        for (int i = r.nextInt (49); --i >= 0;)
         {
             if (r.nextInt (10) == 0)
             {
@@ -256,7 +219,7 @@ public:
         expectEquals (result, b);
     }
 
-    void runTest() override
+    void runTest()
     {
         beginTest ("TextDiff");
 
@@ -270,7 +233,7 @@ public:
         testDiff ("xxx", "x");
         testDiff ("x", "xxx");
 
-        for (int i = 1000; --i >= 0;)
+        for (int i = 5000; --i >= 0;)
         {
             String s (createString (r));
             testDiff (s, createString (r));

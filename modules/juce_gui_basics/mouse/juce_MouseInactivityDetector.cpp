@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -23,7 +23,7 @@
 */
 
 MouseInactivityDetector::MouseInactivityDetector (Component& c)
-    : targetComp (c), delayMs (1500), toleranceDistance (15), isActive (true)
+    : targetComp (c), delayMs (1500), isActive (true)
 {
     targetComp.addMouseListener (this, true);
 }
@@ -33,8 +33,11 @@ MouseInactivityDetector::~MouseInactivityDetector()
     targetComp.removeMouseListener (this);
 }
 
-void MouseInactivityDetector::setDelay (int newDelay) noexcept                  { delayMs = newDelay; }
-void MouseInactivityDetector::setMouseMoveTolerance (int newDistance) noexcept  { toleranceDistance = newDistance; }
+void MouseInactivityDetector::setDelay (int newDelayMilliseconds)
+{
+    delayMs = newDelayMilliseconds;
+}
+
 
 void MouseInactivityDetector::addListener    (Listener* l)   { listenerList.add (l); }
 void MouseInactivityDetector::removeListener (Listener* l)   { listenerList.remove (l); }
@@ -48,7 +51,7 @@ void MouseInactivityDetector::wakeUp (const MouseEvent& e, bool alwaysWake)
 {
     const Point<int> newPos (e.getEventRelativeTo (&targetComp).getPosition());
 
-    if ((! isActive) && (alwaysWake || e.source.isTouch() || newPos.getDistanceFrom (lastMousePos) > toleranceDistance))
+    if ((! isActive) && (alwaysWake || e.source.isTouch() || newPos.getDistanceFrom (lastMousePos) > 15))
         setActive (true);
 
     if (lastMousePos != newPos)

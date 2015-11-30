@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -67,21 +67,19 @@ bool JUCE_CALLTYPE Process::openEmailWithAttachments (const String& /* targetEma
     return false;
 }
 
+
 //==============================================================================
-#if ! JUCE_USE_CURL
 class WebInputStream  : public InputStream
 {
 public:
     WebInputStream (const String& address_, bool isPost_, const MemoryBlock& postData_,
                     URL::OpenStreamProgressCallback* progressCallback, void* progressCallbackContext,
-                    const String& headers_, int timeOutMs_, StringPairArray* responseHeaders,
-                    const int maxRedirects, const String& httpRequestCmd_)
+                    const String& headers_, int timeOutMs_, StringPairArray* responseHeaders)
       : statusCode (0), socketHandle (-1), levelsOfRedirection (0),
-        address (address_), headers (headers_), postData (postData_), contentLength (-1), position (0),
-        finished (false), isPost (isPost_), timeOutMs (timeOutMs_), numRedirectsToFollow (maxRedirects),
-        httpRequestCmd (httpRequestCmd_), chunkEnd (0), isChunked (false), readingChunk (false)
+        address (address_), headers (headers_), postData (postData_), position (0),
+        finished (false), isPost (isPost_), timeOutMs (timeOutMs_)
     {
-        statusCode = createConnection (progressCallback, progressCallbackContext, numRedirectsToFollow);
+        statusCode = createConnection (progressCallback, progressCallbackContext);
 
         if (responseHeaders != nullptr && ! isError())
         {
@@ -105,62 +103,17 @@ public:
     bool isError() const                 { return socketHandle < 0; }
     bool isExhausted() override          { return finished; }
     int64 getPosition() override         { return position; }
-    int64 getTotalLength() override      { return contentLength; }
+
+    int64 getTotalLength() override
+    {
+        //xxx to do
+        return -1;
+    }
 
     int read (void* buffer, int bytesToRead) override
     {
         if (finished || isError())
             return 0;
-
-        if (isChunked && ! readingChunk)
-        {
-            if (position >= chunkEnd)
-            {
-                const ScopedValueSetter<bool> setter (readingChunk, true, false);
-                MemoryOutputStream chunkLengthBuffer;
-                char c = 0;
-
-                if (chunkEnd > 0)
-                {
-                    if (read (&c, 1) != 1 || c != '\r'
-                         || read (&c, 1) != 1 || c != '\n')
-                    {
-                        finished = true;
-                        return 0;
-                    }
-                }
-
-                while (chunkLengthBuffer.getDataSize() < 512 && ! (finished || isError()))
-                {
-                    if (read (&c, 1) != 1)
-                    {
-                        finished = true;
-                        return 0;
-                    }
-
-                    if (c == '\r')
-                        continue;
-
-                    if (c == '\n')
-                        break;
-
-                    chunkLengthBuffer.writeByte (c);
-                }
-
-                const int64 chunkSize = chunkLengthBuffer.toString().trimStart().getHexValue64();
-
-                if (chunkSize == 0)
-                {
-                    finished = true;
-                    return 0;
-                }
-
-                chunkEnd += chunkSize;
-            }
-
-            if (bytesToRead > chunkEnd - position)
-                bytesToRead = static_cast<int> (chunkEnd - position);
-        }
 
         fd_set readbits;
         FD_ZERO (&readbits);
@@ -173,13 +126,11 @@ public:
         if (select (socketHandle + 1, &readbits, 0, 0, &tv) <= 0)
             return 0;   // (timeout)
 
-        const int bytesRead = jmax (0, (int) recv (socketHandle, buffer, (size_t) bytesToRead, MSG_WAITALL));
+        const int bytesRead = jmax (0, (int) recv (socketHandle, buffer, bytesToRead, MSG_WAITALL));
         if (bytesRead == 0)
             finished = true;
 
-        if (! readingChunk)
-            position += bytesRead;
-
+        position += bytesRead;
         return bytesRead;
     }
 
@@ -196,7 +147,7 @@ public:
             {
                 closeSocket();
                 position = 0;
-                statusCode = createConnection (0, 0, numRedirectsToFollow);
+                statusCode = createConnection (0, 0);
             }
 
             skipNextBytes (wantedPos - position);
@@ -213,38 +164,32 @@ private:
     StringArray headerLines;
     String address, headers;
     MemoryBlock postData;
-    int64 contentLength, position;
+    int64 position;
     bool finished;
     const bool isPost;
     const int timeOutMs;
-    const int numRedirectsToFollow;
-    String httpRequestCmd;
-    int64 chunkEnd;
-    bool isChunked, readingChunk;
 
-    void closeSocket (bool resetLevelsOfRedirection = true)
+    void closeSocket()
     {
         if (socketHandle >= 0)
             close (socketHandle);
 
         socketHandle = -1;
-        if (resetLevelsOfRedirection)
-            levelsOfRedirection = 0;
+        levelsOfRedirection = 0;
     }
 
-    int createConnection (URL::OpenStreamProgressCallback* progressCallback, void* progressCallbackContext,
-                          const int numRedirects)
+    int createConnection (URL::OpenStreamProgressCallback* progressCallback, void* progressCallbackContext)
     {
-        closeSocket (false);
+        closeSocket();
 
         uint32 timeOutTime = Time::getMillisecondCounter();
 
         if (timeOutMs == 0)
-            timeOutTime += 30000;
+            timeOutTime += 60000;
         else if (timeOutMs < 0)
             timeOutTime = 0xffffffff;
         else
-            timeOutTime += (uint32) timeOutMs;
+            timeOutTime += timeOutMs;
 
         String hostName, hostPath;
         int hostPort;
@@ -307,8 +252,8 @@ private:
         freeaddrinfo (result);
 
         {
-            const MemoryBlock requestHeader (createRequestHeader (hostName, hostPort, proxyName, proxyPort, hostPath,
-                                                                  address, headers, postData, isPost, httpRequestCmd));
+            const MemoryBlock requestHeader (createRequestHeader (hostName, hostPort, proxyName, proxyPort,
+                                                                  hostPath, address, headers, postData, isPost));
 
             if (! sendHeader (socketHandle, requestHeader, timeOutTime,
                               progressCallback, progressCallbackContext))
@@ -328,35 +273,28 @@ private:
             const int status = responseHeader.fromFirstOccurrenceOf (" ", false, false)
                                              .substring (0, 3).getIntValue();
 
+            //int contentLength = findHeaderItem (lines, "Content-Length:").getIntValue();
+            //bool isChunked = findHeaderItem (lines, "Transfer-Encoding:").equalsIgnoreCase ("chunked");
+
             String location (findHeaderItem (headerLines, "Location:"));
 
-            if (++levelsOfRedirection <= numRedirects
-                 && status >= 300 && status < 400
+            if (status >= 300 && status < 400
                  && location.isNotEmpty() && location != address)
             {
-                if (! (location.startsWithIgnoreCase ("http://")
-                        || location.startsWithIgnoreCase ("https://")
-                        || location.startsWithIgnoreCase ("ftp://")))
+                if (! location.startsWithIgnoreCase ("http://"))
+                    location = "http://" + location;
+
+                if (++levelsOfRedirection <= 3)
                 {
-                    // The following is a bit dodgy. Ideally, we should do a proper transform of the relative URI to a target URI
-                    if (location.startsWithChar ('/'))
-                        location = URL (address).withNewSubPath (location).toString (true);
-                    else
-                        location = address + "/" + location;
+                    address = location;
+                    return createConnection (progressCallback, progressCallbackContext);
                 }
-
-                address = location;
-                return createConnection (progressCallback, progressCallbackContext, numRedirects);
             }
-
-            String contentLengthString (findHeaderItem (headerLines, "Content-Length:"));
-
-            if (contentLengthString.isNotEmpty())
-                contentLength = contentLengthString.getLargeIntValue();
-
-            isChunked = (findHeaderItem (headerLines, "Transfer-Encoding:") == "chunked");
-
-            return status;
+            else
+            {
+                levelsOfRedirection = 0;
+                return status;
+            }
         }
 
         closeSocket();
@@ -400,28 +338,24 @@ private:
             dest << "\r\n" << key << ' ' << value;
     }
 
-    static void writeHost (MemoryOutputStream& dest, const String& httpRequestCmd,
-                           const String& path, const String& host, int port)
+    static void writeHost (MemoryOutputStream& dest, const bool isPost,
+                           const String& path, const String& host, int /*port*/)
     {
-        dest << httpRequestCmd << ' ' << path << " HTTP/1.1\r\nHost: " << host;
-
-        /* HTTP spec 14.23 says that the port number must be included in the header if it is not 80 */
-        if (port != 80)
-            dest << ':' << port;
+        dest << (isPost ? "POST " : "GET ") << path << " HTTP/1.0\r\nHost: " << host;
     }
 
     static MemoryBlock createRequestHeader (const String& hostName, const int hostPort,
                                             const String& proxyName, const int proxyPort,
                                             const String& hostPath, const String& originalURL,
                                             const String& userHeaders, const MemoryBlock& postData,
-                                            const bool isPost, const String& httpRequestCmd)
+                                            const bool isPost)
     {
         MemoryOutputStream header;
 
         if (proxyName.isEmpty())
-            writeHost (header, httpRequestCmd, hostPath, hostName, hostPort);
+            writeHost (header, isPost, hostPath, hostName, hostPort);
         else
-            writeHost (header, httpRequestCmd, originalURL, proxyName, proxyPort);
+            writeHost (header, isPost, originalURL, proxyName, proxyPort);
 
         writeValueIfNotPresent (header, userHeaders, "User-Agent:", "JUCE/" JUCE_STRINGIFY(JUCE_MAJOR_VERSION)
                                                                         "." JUCE_STRINGIFY(JUCE_MINOR_VERSION)
@@ -429,14 +363,10 @@ private:
         writeValueIfNotPresent (header, userHeaders, "Connection:", "close");
 
         if (isPost)
-        {
             writeValueIfNotPresent (header, userHeaders, "Content-Length:", String ((int) postData.getSize()));
-            header << userHeaders << "\r\n" << postData;
-        }
-        else
-        {
-            header << "\r\n" << userHeaders << "\r\n";
-        }
+
+        header << "\r\n" << userHeaders
+               << "\r\n" << postData;
 
         return header.getMemoryBlock();
     }
@@ -453,12 +383,12 @@ private:
 
             const int numToSend = jmin (1024, (int) (requestHeader.getSize() - totalHeaderSent));
 
-            if (send (socketHandle, static_cast <const char*> (requestHeader.getData()) + totalHeaderSent, (size_t) numToSend, 0) != numToSend)
+            if (send (socketHandle, static_cast <const char*> (requestHeader.getData()) + totalHeaderSent, numToSend, 0) != numToSend)
                 return false;
 
-            totalHeaderSent += (size_t) numToSend;
+            totalHeaderSent += numToSend;
 
-            if (progressCallback != nullptr && ! progressCallback (progressCallbackContext, (int) totalHeaderSent, (int) requestHeader.getSize()))
+            if (progressCallback != nullptr && ! progressCallback (progressCallbackContext, totalHeaderSent, requestHeader.getSize()))
                 return false;
         }
 
@@ -513,4 +443,3 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WebInputStream)
 };
-#endif

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -60,17 +60,12 @@ static bool doUIDsMatch (const Steinberg::TUID a, const Steinberg::TUID b) noexc
     }
 
 //==============================================================================
-inline juce::String toString (const Steinberg::char8* string) noexcept      { return juce::String (string); }
-inline juce::String toString (const Steinberg::char16* string) noexcept     { return juce::String (juce::CharPointer_UTF16 ((juce::CharPointer_UTF16::CharType*) string)); }
+static juce::String toString (const Steinberg::char8* string) noexcept      { return juce::String (string); }
+static juce::String toString (const Steinberg::char16* string) noexcept     { return juce::String (juce::CharPointer_UTF16 ((juce::CharPointer_UTF16::CharType*) string)); }
 
 // NB: The casts are handled by a Steinberg::UString operator
-inline juce::String toString (const Steinberg::UString128& string) noexcept { return toString (static_cast<const Steinberg::char16*> (string)); }
-inline juce::String toString (const Steinberg::UString256& string) noexcept { return toString (static_cast<const Steinberg::char16*> (string)); }
-
-static void toString128 (Steinberg::Vst::String128 result, const char* source)
-{
-    Steinberg::UString (result, 128).fromAscii (source);
-}
+static juce::String toString (const Steinberg::UString128& string) noexcept { return toString (static_cast<const Steinberg::char16*> (string)); }
+static juce::String toString (const Steinberg::UString256& string) noexcept { return toString (static_cast<const Steinberg::char16*> (string)); }
 
 static void toString128 (Steinberg::Vst::String128 result, const juce::String& source)
 {
@@ -255,7 +250,7 @@ public:
                         break;
 
                     case Steinberg::Vst::Event::kDataEvent:
-                        result.addEvent (MidiMessage::createSysExMessage (e.data.bytes, (int) e.data.size),
+                        result.addEvent (MidiMessage::createSysExMessage (e.data.bytes, e.data.size),
                                          e.sampleOffset);
                         break;
 
@@ -305,7 +300,7 @@ public:
             {
                 e.type          = Steinberg::Vst::Event::kDataEvent;
                 e.data.bytes    = msg.getSysExData();
-                e.data.size     = (uint32) msg.getSysExDataSize();
+                e.data.size     = msg.getSysExDataSize();
                 e.data.type     = Steinberg::Vst::DataEvent::kMidiSysEx;
             }
             else if (msg.isAftertouch())
@@ -344,25 +339,21 @@ private:
 };
 
 //==============================================================================
-template <typename FloatType>
-struct VST3BufferExchange
+namespace VST3BufferExchange
 {
-    typedef Array<FloatType*> Bus;
+    typedef Array<float*> Bus;
     typedef Array<Bus> BusMap;
-
-    static inline void assignRawPointer (Steinberg::Vst::AudioBusBuffers& vstBuffers, float** raw)  { vstBuffers.channelBuffers32 = raw; }
-    static inline void assignRawPointer (Steinberg::Vst::AudioBusBuffers& vstBuffers, double** raw) { vstBuffers.channelBuffers64 = raw; }
 
     /** Assigns a series of AudioSampleBuffer's channels to an AudioBusBuffers'
 
         @warning For speed, does not check the channel count and offsets
                  according to the AudioSampleBuffer
     */
-    static void associateBufferTo (Steinberg::Vst::AudioBusBuffers& vstBuffers,
-                                   Bus& bus,
-                                   AudioBuffer<FloatType>& buffer,
-                                   int numChannels, int channelStartOffset,
-                                   int sampleOffset = 0)
+    void associateBufferTo (Steinberg::Vst::AudioBusBuffers& vstBuffers,
+                            Bus& bus,
+                            AudioSampleBuffer& buffer,
+                            int numChannels, int channelStartOffset,
+                            int sampleOffset = 0)
     {
         const int channelEnd = numChannels + channelStartOffset;
         jassert (channelEnd >= 0 && channelEnd <= buffer.getNumChannels());
@@ -372,7 +363,7 @@ struct VST3BufferExchange
         for (int i = channelStartOffset; i < channelEnd; ++i)
             bus.add (buffer.getWritePointer (i, sampleOffset));
 
-        assignRawPointer (vstBuffers, bus.getRawDataPointer());
+        vstBuffers.channelBuffers32 = bus.getRawDataPointer();
         vstBuffers.numChannels      = numChannels;
         vstBuffers.silenceFlags     = 0;
     }
@@ -380,7 +371,7 @@ struct VST3BufferExchange
     static void mapArrangementToBusses (int& channelIndexOffset, int index,
                                         Array<Steinberg::Vst::AudioBusBuffers>& result,
                                         BusMap& busMapToUse, Steinberg::Vst::SpeakerArrangement arrangement,
-                                        AudioBuffer<FloatType>& source)
+                                        AudioSampleBuffer& source)
     {
         const int numChansForBus = BigInteger ((juce::int64) arrangement).countNumberOfSetBits();
 
@@ -391,16 +382,18 @@ struct VST3BufferExchange
             busMapToUse.add (Bus());
 
         if (numChansForBus > 0)
+        {
             associateBufferTo (result.getReference (index),
                                busMapToUse.getReference (index),
                                source, numChansForBus, channelIndexOffset);
+        }
 
         channelIndexOffset += numChansForBus;
     }
 
-    static inline void mapBufferToBusses (Array<Steinberg::Vst::AudioBusBuffers>& result, BusMap& busMapToUse,
-                                          const Array<Steinberg::Vst::SpeakerArrangement>& arrangements,
-                                          AudioBuffer<FloatType>& source)
+    static void mapBufferToBusses (Array<Steinberg::Vst::AudioBusBuffers>& result, BusMap& busMapToUse,
+                                   const Array<Steinberg::Vst::SpeakerArrangement>& arrangements,
+                                   AudioSampleBuffer& source)
     {
         int channelIndexOffset = 0;
 
@@ -409,10 +402,10 @@ struct VST3BufferExchange
                                     arrangements.getUnchecked (i), source);
     }
 
-    static inline void mapBufferToBusses (Array<Steinberg::Vst::AudioBusBuffers>& result,
-                                          Steinberg::Vst::IAudioProcessor& processor,
-                                          BusMap& busMapToUse, bool isInput, int numBusses,
-                                          AudioBuffer<FloatType>& source)
+    static void mapBufferToBusses (Array<Steinberg::Vst::AudioBusBuffers>& result,
+                                   Steinberg::Vst::IAudioProcessor& processor,
+                                   BusMap& busMapToUse, bool isInput, int numBusses,
+                                   AudioSampleBuffer& source)
     {
         int channelIndexOffset = 0;
 
@@ -422,28 +415,6 @@ struct VST3BufferExchange
                                     getArrangementForBus (&processor, isInput, i),
                                     source);
     }
-};
+}
 
-template <typename FloatType>
-struct VST3FloatAndDoubleBusMapCompositeHelper {};
-
-struct VST3FloatAndDoubleBusMapComposite
-{
-    VST3BufferExchange<float>::BusMap  floatVersion;
-    VST3BufferExchange<double>::BusMap doubleVersion;
-
-    template <typename FloatType>
-    inline typename VST3BufferExchange<FloatType>::BusMap& get()   { return VST3FloatAndDoubleBusMapCompositeHelper<FloatType>::get (*this); }
-};
-
-
-template <> struct VST3FloatAndDoubleBusMapCompositeHelper<float>
-{
-    static inline VST3BufferExchange<float>::BusMap& get (VST3FloatAndDoubleBusMapComposite& impl)  { return impl.floatVersion; }
-};
-
-template <> struct VST3FloatAndDoubleBusMapCompositeHelper<double>
-{
-    static inline VST3BufferExchange<double>::BusMap& get (VST3FloatAndDoubleBusMapComposite& impl) { return impl.doubleVersion; }
-};
 #endif   // JUCE_VST3COMMON_H_INCLUDED

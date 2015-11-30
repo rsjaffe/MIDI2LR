@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -24,7 +24,7 @@
 
 ChangeBroadcaster::ChangeBroadcaster() noexcept
 {
-    broadcastCallback.owner = this;
+    callback.owner = this;
 }
 
 ChangeBroadcaster::~ChangeBroadcaster()
@@ -61,7 +61,7 @@ void ChangeBroadcaster::removeAllChangeListeners()
 void ChangeBroadcaster::sendChangeMessage()
 {
     if (changeListeners.size() > 0)
-        broadcastCallback.triggerAsyncUpdate();
+        callback.triggerAsyncUpdate();
 }
 
 void ChangeBroadcaster::sendSynchronousChangeMessage()
@@ -69,13 +69,13 @@ void ChangeBroadcaster::sendSynchronousChangeMessage()
     // This can only be called by the event thread.
     jassert (MessageManager::getInstance()->isThisTheMessageThread());
 
-    broadcastCallback.cancelPendingUpdate();
+    callback.cancelPendingUpdate();
     callListeners();
 }
 
 void ChangeBroadcaster::dispatchPendingMessages()
 {
-    broadcastCallback.handleUpdateNowIfNeeded();
+    callback.handleUpdateNowIfNeeded();
 }
 
 void ChangeBroadcaster::callListeners()

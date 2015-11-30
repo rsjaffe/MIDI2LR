@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -142,7 +142,7 @@ bool ChildProcessMaster::sendMessageToSlave (const MemoryBlock& mb)
     return false;
 }
 
-bool ChildProcessMaster::launchSlaveProcess (const File& executable, const String& commandLineUniqueID, int timeoutMs, int streamFlags)
+bool ChildProcessMaster::launchSlaveProcess (const File& executable, const String& commandLineUniqueID, int timeoutMs)
 {
     connection = nullptr;
     jassert (childProcess.kill());
@@ -153,7 +153,7 @@ bool ChildProcessMaster::launchSlaveProcess (const File& executable, const Strin
     args.add (executable.getFullPathName());
     args.add (getCommandLinePrefix (commandLineUniqueID) + pipeName);
 
-    if (childProcess.start (args, streamFlags))
+    if (childProcess.start (args))
     {
         connection = new Connection (*this, pipeName, timeoutMs <= 0 ? defaultTimeoutMs : timeoutMs);
 

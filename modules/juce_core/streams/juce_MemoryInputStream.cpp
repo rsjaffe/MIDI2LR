@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -67,18 +67,13 @@ int MemoryInputStream::read (void* const buffer, const int howMany)
 {
     jassert (buffer != nullptr && howMany >= 0);
 
-    if (howMany <= 0 || position >= dataSize)
+    const int num = jmin (howMany, (int) (dataSize - position));
+    if (num <= 0)
         return 0;
 
-    const size_t num = jmin ((size_t) howMany, dataSize - position);
-
-    if (num > 0)
-    {
-        memcpy (buffer, addBytesToPointer (data, position), num);
-        position += num;
-    }
-
-    return (int) num;
+    memcpy (buffer, addBytesToPointer (data, position), (size_t) num);
+    position += (unsigned int) num;
+    return num;
 }
 
 bool MemoryInputStream::isExhausted()
@@ -106,7 +101,7 @@ class MemoryStreamTests  : public UnitTest
 public:
     MemoryStreamTests() : UnitTest ("MemoryInputStream & MemoryOutputStream") {}
 
-    void runTest() override
+    void runTest()
     {
         beginTest ("Basics");
         Random r = getRandom();

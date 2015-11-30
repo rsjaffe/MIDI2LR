@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -106,7 +106,8 @@ namespace FileHelpers
         return nsStringToJuce ([NSSearchPathForDirectoriesInDomains (type, NSUserDomainMask, YES)
                                 objectAtIndex: 0]);
     }
-   #else
+   #endif
+
     static bool launchExecutable (const String& pathAndArguments)
     {
         const char* const argv[4] = { "/bin/sh", "-c", pathAndArguments.toUTF8(), 0 };
@@ -127,7 +128,6 @@ namespace FileHelpers
 
         return true;
     }
-   #endif
 }
 
 bool File::isOnCDRomDrive() const
@@ -285,7 +285,7 @@ static NSString* getFileLink (const String& path)
    #endif
 }
 
-bool File::isSymbolicLink() const
+bool File::isLink() const
 {
     return getFileLink (fullPath) != nil;
 }
@@ -309,11 +309,14 @@ bool File::moveToTrash() const
    #else
     JUCE_AUTORELEASEPOOL
     {
-        NSURL* url = [NSURL fileURLWithPath: juceStringToNS (getFullPathName())];
+        NSString* p = juceStringToNS (getFullPathName());
 
-        [[NSWorkspace sharedWorkspace] recycleURLs: [NSArray arrayWithObject: url]
-                                 completionHandler: nil];
-        return true;
+        return [[NSWorkspace sharedWorkspace]
+                    performFileOperation: NSWorkspaceRecycleOperation
+                                  source: [p stringByDeletingLastPathComponent]
+                             destination: nsEmptyString()
+                                   files: [NSArray arrayWithObject: [p lastPathComponent]]
+                                     tag: nil ];
     }
    #endif
 }
@@ -401,12 +404,7 @@ bool JUCE_CALLTYPE Process::openDocument (const String& fileName, const String& 
 {
     JUCE_AUTORELEASEPOOL
     {
-        NSString* fileNameAsNS (juceStringToNS (fileName));
-
-        NSURL* filenameAsURL ([NSURL URLWithString: fileNameAsNS]);
-
-        if (filenameAsURL == nil)
-            filenameAsURL = [NSURL fileURLWithPath: fileNameAsNS];
+        NSURL* filenameAsURL = [NSURL URLWithString: juceStringToNS (fileName)];
 
       #if JUCE_IOS
         (void) parameters;

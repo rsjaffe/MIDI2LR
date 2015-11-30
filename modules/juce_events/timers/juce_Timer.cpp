@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -31,15 +31,14 @@ public:
 
     TimerThread()
         : Thread ("Juce Timer"),
-          firstTimer (nullptr)
+          firstTimer (nullptr),
+          callbackNeeded (0)
     {
         triggerAsyncUpdate();
     }
 
     ~TimerThread() noexcept
     {
-        signalThreadShouldExit();
-        callbackArrived.signal();
         stopThread (4000);
 
         jassert (instance == this || instance == nullptr);
@@ -56,6 +55,12 @@ public:
         {
             const uint32 now = Time::getMillisecondCounter();
 
+            if (now == lastTime)
+            {
+                wait (1);
+                continue;
+            }
+
             const int elapsed = (int) (now >= lastTime ? (now - lastTime)
                                                        : (std::numeric_limits<uint32>::max() - (lastTime - now)));
             lastTime = now;
@@ -64,29 +69,42 @@ public:
 
             if (timeUntilFirstTimer <= 0)
             {
-                if (callbackArrived.wait (0))
-                {
-                    // already a message in flight - do nothing..
-                }
-                else
+                /* If we managed to set the atomic boolean to true then send a message, this is needed
+                   as a memory barrier so the message won't be sent before callbackNeeded is set to true,
+                   but if it fails it means the message-thread changed the value from under us so at least
+                   some processing is happenening and we can just loop around and try again
+                */
+                if (callbackNeeded.compareAndSetBool (1, 0))
                 {
                     messageToSend->post();
 
-                    if (! callbackArrived.wait (300))
-                    {
-                        // Sometimes our message can get discarded by the OS (e.g. when running as an RTAS
-                        // when the app has a modal loop), so this is how long to wait before assuming the
-                        // message has been lost and trying again.
-                        messageToSend->post();
-                    }
+                    /* Sometimes our message can get discarded by the OS (e.g. when running as an RTAS
+                       when the app has a modal loop), so this is how long to wait before assuming the
+                       message has been lost and trying again.
+                    */
+                    const uint32 messageDeliveryTimeout = now + 300;
 
-                    continue;
+                    while (callbackNeeded.get() != 0)
+                    {
+                        wait (4);
+
+                        if (threadShouldExit())
+                            return;
+
+                        if (Time::getMillisecondCounter() > messageDeliveryTimeout)
+                        {
+                            messageToSend->post();
+                            break;
+                        }
+                    }
                 }
             }
-
-            // don't wait for too long because running this loop also helps keep the
-            // Time::getApproximateMillisecondTimer value stay up-to-date
-            wait (jlimit (1, 100, timeUntilFirstTimer));
+            else
+            {
+                // don't wait for too long because running this loop also helps keep the
+                // Time::getApproximateMillisecondTimer value stay up-to-date
+                wait (jlimit (1, 50, timeUntilFirstTimer));
+            }
         }
     }
 
@@ -94,10 +112,10 @@ public:
     {
         const LockType::ScopedLockType sl (lock);
 
-        while (firstTimer != nullptr && firstTimer->timerCountdownMs <= 0)
+        while (firstTimer != nullptr && firstTimer->countdownMs <= 0)
         {
             Timer* const t = firstTimer;
-            t->timerCountdownMs = t->timerPeriodMs;
+            t->countdownMs = t->periodMs;
 
             removeTimer (t);
             addTimer (t);
@@ -111,7 +129,13 @@ public:
             JUCE_CATCH_EXCEPTION
         }
 
-        callbackArrived.signal();
+        /* This is needed as a memory barrier to make sure all processing of current timers is done
+           before the boolean is set. This set should never fail since if it was false in the first place,
+           we wouldn't get a message (so it can't be changed from false to true from under us), and if we
+           get a message then the value is true and the other thread can only set it to true again and
+           we will get another callback to set it to false.
+        */
+        callbackNeeded.set (0);
     }
 
     void callTimersSynchronously()
@@ -145,11 +169,11 @@ public:
     {
         if (instance != nullptr)
         {
-            tim->timerCountdownMs = newCounter;
-            tim->timerPeriodMs = newCounter;
+            tim->countdownMs = newCounter;
+            tim->periodMs = newCounter;
 
-            if ((tim->nextTimer != nullptr && tim->nextTimer->timerCountdownMs < tim->timerCountdownMs)
-                 || (tim->previousTimer != nullptr && tim->previousTimer->timerCountdownMs > tim->timerCountdownMs))
+            if ((tim->next != nullptr && tim->next->countdownMs < tim->countdownMs)
+                 || (tim->previous != nullptr && tim->previous->countdownMs > tim->countdownMs))
             {
                 instance->removeTimer (tim);
                 instance->addTimer (tim);
@@ -162,7 +186,7 @@ public:
 
 private:
     Timer* volatile firstTimer;
-    WaitableEvent callbackArrived;
+    Atomic <int> callbackNeeded;
 
     struct CallTimersMessage  : public MessageManager::MessageBase
     {
@@ -186,28 +210,28 @@ private:
 
         Timer* i = firstTimer;
 
-        if (i == nullptr || i->timerCountdownMs > t->timerCountdownMs)
+        if (i == nullptr || i->countdownMs > t->countdownMs)
         {
-            t->nextTimer = firstTimer;
+            t->next = firstTimer;
             firstTimer = t;
         }
         else
         {
-            while (i->nextTimer != nullptr && i->nextTimer->timerCountdownMs <= t->timerCountdownMs)
-                i = i->nextTimer;
+            while (i->next != nullptr && i->next->countdownMs <= t->countdownMs)
+                i = i->next;
 
             jassert (i != nullptr);
 
-            t->nextTimer = i->nextTimer;
-            t->previousTimer = i;
-            i->nextTimer = t;
+            t->next = i->next;
+            t->previous = i;
+            i->next = t;
         }
 
-        if (t->nextTimer != nullptr)
-            t->nextTimer->previousTimer = t;
+        if (t->next != nullptr)
+            t->next->previous = t;
 
-        jassert ((t->nextTimer == nullptr || t->nextTimer->timerCountdownMs >= t->timerCountdownMs)
-                  && (t->previousTimer == nullptr || t->previousTimer->timerCountdownMs <= t->timerCountdownMs));
+        jassert ((t->next == nullptr || t->next->countdownMs >= t->countdownMs)
+                  && (t->previous == nullptr || t->previous->countdownMs <= t->countdownMs));
 
         notify();
     }
@@ -220,32 +244,32 @@ private:
         jassert (timerExists (t));
        #endif
 
-        if (t->previousTimer != nullptr)
+        if (t->previous != nullptr)
         {
             jassert (firstTimer != t);
-            t->previousTimer->nextTimer = t->nextTimer;
+            t->previous->next = t->next;
         }
         else
         {
             jassert (firstTimer == t);
-            firstTimer = t->nextTimer;
+            firstTimer = t->next;
         }
 
-        if (t->nextTimer != nullptr)
-            t->nextTimer->previousTimer = t->previousTimer;
+        if (t->next != nullptr)
+            t->next->previous = t->previous;
 
-        t->nextTimer = nullptr;
-        t->previousTimer = nullptr;
+        t->next = nullptr;
+        t->previous = nullptr;
     }
 
     int getTimeUntilFirstTimer (const int numMillisecsElapsed) const
     {
         const LockType::ScopedLockType sl (lock);
 
-        for (Timer* t = firstTimer; t != nullptr; t = t->nextTimer)
-            t->timerCountdownMs -= numMillisecsElapsed;
+        for (Timer* t = firstTimer; t != nullptr; t = t->next)
+            t->countdownMs -= numMillisecsElapsed;
 
-        return firstTimer != nullptr ? firstTimer->timerCountdownMs : 1000;
+        return firstTimer != nullptr ? firstTimer->countdownMs : 1000;
     }
 
     void handleAsyncUpdate() override
@@ -256,7 +280,7 @@ private:
    #if JUCE_DEBUG
     bool timerExists (Timer* const t) const noexcept
     {
-        for (Timer* tt = firstTimer; tt != nullptr; tt = tt->nextTimer)
+        for (Timer* tt = firstTimer; tt != nullptr; tt = tt->next)
             if (tt == t)
                 return true;
 
@@ -272,18 +296,18 @@ Timer::TimerThread::LockType Timer::TimerThread::lock;
 
 //==============================================================================
 Timer::Timer() noexcept
-   : timerCountdownMs (0),
-     timerPeriodMs (0),
-     previousTimer (nullptr),
-     nextTimer (nullptr)
+   : countdownMs (0),
+     periodMs (0),
+     previous (nullptr),
+     next (nullptr)
 {
 }
 
 Timer::Timer (const Timer&) noexcept
-   : timerCountdownMs (0),
-     timerPeriodMs (0),
-     previousTimer (nullptr),
-     nextTimer (nullptr)
+   : countdownMs (0),
+     periodMs (0),
+     previous (nullptr),
+     next (nullptr)
 {
 }
 
@@ -296,10 +320,10 @@ void Timer::startTimer (const int interval) noexcept
 {
     const TimerThread::LockType::ScopedLockType sl (TimerThread::lock);
 
-    if (timerPeriodMs == 0)
+    if (periodMs == 0)
     {
-        timerCountdownMs = interval;
-        timerPeriodMs = jmax (1, interval);
+        countdownMs = interval;
+        periodMs = jmax (1, interval);
         TimerThread::add (this);
     }
     else
@@ -320,10 +344,10 @@ void Timer::stopTimer() noexcept
 {
     const TimerThread::LockType::ScopedLockType sl (TimerThread::lock);
 
-    if (timerPeriodMs > 0)
+    if (periodMs > 0)
     {
         TimerThread::remove (this);
-        timerPeriodMs = 0;
+        periodMs = 0;
     }
 }
 

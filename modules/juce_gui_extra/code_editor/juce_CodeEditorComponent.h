@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -277,9 +277,6 @@ public:
     virtual void handleTabKey();
     /** Called when the escape key is pressed - this can be overridden for custom behaviour. */
     virtual void handleEscapeKey();
-
-    /** Called when the view position is scrolled horizontally or vertically. */
-    virtual void editorViewportPositionChanged();
 
     //==============================================================================
     /** This adds the items to the popup menu.

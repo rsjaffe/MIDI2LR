@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -119,7 +119,7 @@ public:
         should then be deleted by the caller.
 
         If the stream can't be created for some reason (e.g. the parameters passed in
-        here aren't suitable), this will return nullptr.
+        here aren't suitable), this will return 0.
 
         @param streamToWriteTo      the stream that the data will go to - this will be
                                     deleted by the AudioFormatWriter object when it's no longer

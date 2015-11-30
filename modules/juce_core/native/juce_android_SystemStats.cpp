@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -98,19 +98,24 @@ jfieldID JNIClassBase::resolveStaticField (JNIEnv* env, const char* fieldName, c
 }
 
 //==============================================================================
-ThreadLocalValue<JNIEnv*> androidJNIEnv;
+ThreadLocalJNIEnvHolder threadLocalJNIEnvHolder;
+
+#if JUCE_DEBUG
+static bool systemInitialised = false;
+#endif
 
 JNIEnv* getEnv() noexcept
 {
-    JNIEnv* env = androidJNIEnv.get();
-    jassert (env != nullptr);
+   #if JUCE_DEBUG
+    if (! systemInitialised)
+    {
+        DBG ("*** Call to getEnv() when system not initialised");
+        jassertfalse;
+        std::exit (EXIT_FAILURE);
+    }
+   #endif
 
-    return env;
-}
-
-void setEnv (JNIEnv* env) noexcept
-{
-    androidJNIEnv.get() = env;
+    return threadLocalJNIEnvHolder.getOrAttach();
 }
 
 extern "C" jint JNI_OnLoad (JavaVM*, void*)
@@ -129,6 +134,11 @@ void AndroidSystem::initialise (JNIEnv* env, jobject act, jstring file, jstring 
     dpi = 160;
     JNIClassBase::initialiseAllClasses (env);
 
+    threadLocalJNIEnvHolder.initialise (env);
+   #if JUCE_DEBUG
+    systemInitialised = true;
+   #endif
+
     activity = GlobalRef (act);
     appFile = juceString (env, file);
     appDataDir = juceString (env, dataDir);
@@ -137,6 +147,10 @@ void AndroidSystem::initialise (JNIEnv* env, jobject act, jstring file, jstring 
 void AndroidSystem::shutdown (JNIEnv* env)
 {
     activity.clear();
+
+   #if JUCE_DEBUG
+    systemInitialised = false;
+   #endif
 
     JNIClassBase::releaseAllClasses (env);
 }
@@ -239,7 +253,7 @@ String SystemStats::getLogonName()
     if (struct passwd* const pw = getpwuid (getuid()))
         return CharPointer_UTF8 (pw->pw_name);
 
-    return String();
+    return String::empty;
 }
 
 String SystemStats::getFullUserName()
@@ -253,7 +267,7 @@ String SystemStats::getComputerName()
     if (gethostname (name, sizeof (name) - 1) == 0)
         return name;
 
-    return String();
+    return String::empty;
 }
 
 
@@ -264,7 +278,7 @@ String SystemStats::getDisplayLanguage() { return getUserLanguage() + "-" + getU
 //==============================================================================
 void CPUInformation::initialise() noexcept
 {
-    numCpus = jmax ((int) 1, (int) sysconf (_SC_NPROCESSORS_ONLN));
+    numCpus = jmax (1, (int) sysconf (_SC_NPROCESSORS_ONLN));
 }
 
 //==============================================================================

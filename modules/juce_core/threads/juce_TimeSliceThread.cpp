@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -122,50 +122,45 @@ void TimeSliceThread::run()
 
         {
             Time nextClientTime;
-            int numClients = 0;
 
             {
                 const ScopedLock sl2 (listLock);
 
-                numClients = clients.size();
-                index = numClients > 0 ? ((index + 1) % numClients) : 0;
+                index = clients.size() > 0 ? ((index + 1) % clients.size()) : 0;
 
                 if (TimeSliceClient* const firstClient = getNextClient (index))
                     nextClientTime = firstClient->nextCallTime;
             }
 
-            if (numClients > 0)
+            const Time now (Time::getCurrentTime());
+
+            if (nextClientTime > now)
             {
-                const Time now (Time::getCurrentTime());
+                timeToWait = (int) jmin ((int64) 500, (nextClientTime - now).inMilliseconds());
+            }
+            else
+            {
+                timeToWait = index == 0 ? 1 : 0;
 
-                if (nextClientTime > now)
+                const ScopedLock sl (callbackLock);
+
                 {
-                    timeToWait = (int) jmin ((int64) 500, (nextClientTime - now).inMilliseconds());
+                    const ScopedLock sl2 (listLock);
+                    clientBeingCalled = getNextClient (index);
                 }
-                else
+
+                if (clientBeingCalled != nullptr)
                 {
-                    timeToWait = index == 0 ? 1 : 0;
+                    const int msUntilNextCall = clientBeingCalled->useTimeSlice();
 
-                    const ScopedLock sl (callbackLock);
+                    const ScopedLock sl2 (listLock);
 
-                    {
-                        const ScopedLock sl2 (listLock);
-                        clientBeingCalled = getNextClient (index);
-                    }
+                    if (msUntilNextCall >= 0)
+                        clientBeingCalled->nextCallTime = now + RelativeTime::milliseconds (msUntilNextCall);
+                    else
+                        clients.removeFirstMatchingValue (clientBeingCalled);
 
-                    if (clientBeingCalled != nullptr)
-                    {
-                        const int msUntilNextCall = clientBeingCalled->useTimeSlice();
-
-                        const ScopedLock sl2 (listLock);
-
-                        if (msUntilNextCall >= 0)
-                            clientBeingCalled->nextCallTime = now + RelativeTime::milliseconds (msUntilNextCall);
-                        else
-                            clients.removeFirstMatchingValue (clientBeingCalled);
-
-                        clientBeingCalled = nullptr;
-                    }
+                    clientBeingCalled = nullptr;
                 }
             }
         }

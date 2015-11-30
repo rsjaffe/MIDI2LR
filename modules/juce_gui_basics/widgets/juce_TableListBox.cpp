@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -146,21 +146,16 @@ public:
     {
         if (isEnabled() && owner.getModel() != nullptr && ! (e.mouseWasClicked() || isDragging))
         {
-            SparseSet<int> rowsToDrag;
+            const SparseSet<int> selectedRows (owner.getSelectedRows());
 
-            if (owner.selectOnMouseDown || owner.isRowSelected (row))
-                rowsToDrag = owner.getSelectedRows();
-            else
-                rowsToDrag.addRange (Range<int>::withStartAndLength (row, 1));
-
-            if (rowsToDrag.size() > 0)
+            if (selectedRows.size() > 0)
             {
-                const var dragDescription (owner.getModel()->getDragSourceDescription (rowsToDrag));
+                const var dragDescription (owner.getModel()->getDragSourceDescription (selectedRows));
 
                 if (! (dragDescription.isVoid() || (dragDescription.isString() && dragDescription.toString().isEmpty())))
                 {
                     isDragging = true;
-                    owner.startDragAndDrop (e, rowsToDrag, dragDescription, true);
+                    owner.startDragAndDrop (e, dragDescription, true);
                 }
             }
         }

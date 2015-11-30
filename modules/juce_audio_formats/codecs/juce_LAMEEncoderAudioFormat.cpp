@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -30,9 +30,9 @@ public:
     Writer (OutputStream* destStream, const String& formatName,
             const File& appFile, int vbr, int cbr,
             double sampleRate, unsigned int numberOfChannels,
-            int bitsPerSample, const StringPairArray& metadata)
+            unsigned int bitsPerSample, const StringPairArray& metadata)
         : AudioFormatWriter (destStream, formatName, sampleRate,
-                             numberOfChannels, (unsigned int) bitsPerSample),
+                             numberOfChannels, bitsPerSample),
           vbrLevel (vbr), cbrBitrate (cbr),
           tempWav (".wav")
     {

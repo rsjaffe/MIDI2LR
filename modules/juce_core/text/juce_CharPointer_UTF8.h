@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -90,9 +90,9 @@ public:
         uint32 n = (uint32) (uint8) byte;
         uint32 mask = 0x7f;
         uint32 bit = 0x40;
-        int numExtraValues = 0;
+        size_t numExtraValues = 0;
 
-        while ((n & bit) != 0 && bit > 0x8)
+        while ((n & bit) != 0 && bit > 0x10)
         {
             mask >>= 1;
             ++numExtraValues;
@@ -101,9 +101,9 @@ public:
 
         n &= mask;
 
-        for (int i = 1; i <= numExtraValues; ++i)
+        for (size_t i = 1; i <= numExtraValues; ++i)
         {
-            const uint32 nextByte = (uint32) (uint8) data[i];
+            const uint8 nextByte = (uint8) data [i];
 
             if ((nextByte & 0xc0) != 0x80)
                 break;
@@ -312,8 +312,9 @@ public:
     static size_t getBytesRequiredFor (CharPointer text) noexcept
     {
         size_t count = 0;
+        juce_wchar n;
 
-        while (juce_wchar n = text.getAndAdvance())
+        while ((n = text.getAndAdvance()) != 0)
             count += getBytesRequiredFor (n);
 
         return count;
@@ -420,9 +421,7 @@ public:
     /** Compares this string with another one. */
     int compareIgnoreCase (const CharPointer_UTF8 other) const noexcept
     {
-       #if JUCE_MINGW || (JUCE_WINDOWS && JUCE_CLANG)
-        return CharacterFunctions::compareIgnoreCase (*this, other);
-       #elif JUCE_WINDOWS
+       #if JUCE_WINDOWS
         return stricmp (data, other.data);
        #else
         return strcasecmp (data, other.data);
@@ -457,9 +456,9 @@ public:
     }
 
     /** Returns true if the first character of this string is whitespace. */
-    bool isWhitespace() const noexcept      { const CharType c = *data; return c == ' ' || (c <= 13 && c >= 9); }
+    bool isWhitespace() const noexcept      { return *data == ' ' || (*data <= 13 && *data >= 9); }
     /** Returns true if the first character of this string is a digit. */
-    bool isDigit() const noexcept           { const CharType c = *data; return c >= '0' && c <= '9'; }
+    bool isDigit() const noexcept           { return *data >= '0' && *data <= '9'; }
     /** Returns true if the first character of this string is a letter. */
     bool isLetter() const noexcept          { return CharacterFunctions::isLetter (operator*()) != 0; }
     /** Returns true if the first character of this string is a letter or digit. */
@@ -480,7 +479,7 @@ public:
     /** Parses this string as a 64-bit integer. */
     int64 getIntValue64() const noexcept
     {
-       #if JUCE_LINUX || JUCE_ANDROID || JUCE_MINGW
+       #if JUCE_LINUX || JUCE_ANDROID
         return atoll (data);
        #elif JUCE_WINDOWS
         return _atoi64 (data);
@@ -510,7 +509,7 @@ public:
 
             if (byte < 0)
             {
-                int bit = 0x40;
+                uint8 bit = 0x40;
                 int numExtraValues = 0;
 
                 while ((byte & bit) != 0)

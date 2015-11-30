@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -184,7 +184,7 @@ namespace AudioUnitFormatHelpers
         const char* const utf8 = fileOrIdentifier.toUTF8();
 
         if (CFURLRef url = CFURLCreateFromFileSystemRepresentation (0, (const UInt8*) utf8,
-                                                                    (CFIndex) strlen (utf8), file.isDirectory()))
+                                                                    strlen (utf8), file.isDirectory()))
         {
             CFBundleRef bundleRef = CFBundleCreate (kCFAllocatorDefault, url);
             CFRelease (url);
@@ -345,8 +345,8 @@ public:
         refreshParameterList();
         updateNumChannels();
         producesMidiMessages = canProduceMidiOutput();
-        setPlayConfigDetails ((int) (numInputBusChannels * numInputBusses),
-                              (int) (numOutputBusChannels * numOutputBusses),
+        setPlayConfigDetails (numInputBusChannels * numInputBusses,
+                              numOutputBusChannels * numOutputBusses,
                               rate, blockSize);
         setLatencySamples (0);
 
@@ -374,7 +374,6 @@ public:
                     ^ ((int) componentDesc.componentSubType)
                     ^ ((int) componentDesc.componentManufacturer);
         desc.lastFileModTime = Time();
-        desc.lastInfoUpdateTime = Time::getCurrentTime();
         desc.pluginFormatName = "AudioUnit";
         desc.category = AudioUnitFormatHelpers::getCategory (componentDesc.componentType);
         desc.manufacturerName = manufacturer;
@@ -421,7 +420,7 @@ public:
             UInt32 sampleRateSize = sizeof (sampleRateIn);
             const Float64 sr = newSampleRate;
 
-            for (AudioUnitElement i = 0; i < numInputBusses; ++i)
+            for (int i = 0; i < numInputBusses; ++i)
             {
                 AudioUnitGetProperty (audioUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Input, i, &sampleRateIn, &sampleRateSize);
 
@@ -429,7 +428,7 @@ public:
                     AudioUnitSetProperty (audioUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Input, i, &sr, sizeof (sr));
             }
 
-            for (AudioUnitElement i = 0; i < numOutputBusses; ++i)
+            for (int i = 0; i < numOutputBusses; ++i)
             {
                 AudioUnitGetProperty (audioUnit, kAudioUnitProperty_SampleRate, kAudioUnitScope_Output, i, &sampleRateOut, &sampleRateSize);
 
@@ -441,9 +440,9 @@ public:
             AudioUnitSetProperty (audioUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0,
                                   &frameSize, sizeof (frameSize));
 
-            setPlayConfigDetails ((int) (numInputBusChannels * numInputBusses),
-                                  (int) (numOutputBusChannels * numOutputBusses),
-                                  (double) newSampleRate, estimatedSamplesPerBlock);
+            setPlayConfigDetails (numInputBusChannels * numInputBusses,
+                                  numOutputBusChannels * numOutputBusses,
+                                  newSampleRate, estimatedSamplesPerBlock);
 
             Float64 latencySecs = 0.0;
             UInt32 latencySize = sizeof (latencySecs);
@@ -464,13 +463,13 @@ public:
                 stream.mBitsPerChannel   = 32;
                 stream.mChannelsPerFrame = numInputBusChannels;
 
-                for (AudioUnitElement i = 0; i < numInputBusses; ++i)
+                for (int i = 0; i < numInputBusses; ++i)
                     AudioUnitSetProperty (audioUnit, kAudioUnitProperty_StreamFormat,
                                           kAudioUnitScope_Input, i, &stream, sizeof (stream));
 
                 stream.mChannelsPerFrame = numOutputBusChannels;
 
-                for (AudioUnitElement i = 0; i < numOutputBusses; ++i)
+                for (int i = 0; i < numOutputBusses; ++i)
                     AudioUnitSetProperty (audioUnit, kAudioUnitProperty_StreamFormat,
                                           kAudioUnitScope_Output, i, &stream, sizeof (stream));
             }
@@ -519,8 +518,8 @@ public:
 
     void resetBusses()
     {
-        for (AudioUnitElement i = 0; i < numInputBusses; ++i)   AudioUnitReset (audioUnit, kAudioUnitScope_Input, i);
-        for (AudioUnitElement i = 0; i < numOutputBusses; ++i)  AudioUnitReset (audioUnit, kAudioUnitScope_Output, i);
+        for (int i = 0; i < numInputBusses; ++i)   AudioUnitReset (audioUnit, kAudioUnitScope_Input, i);
+        for (int i = 0; i < numOutputBusses; ++i)  AudioUnitReset (audioUnit, kAudioUnitScope_Output, i);
     }
 
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages) override
@@ -531,17 +530,17 @@ public:
         {
             timeStamp.mHostTime = AudioGetCurrentHostTime();
 
-            for (AudioUnitElement i = 0; i < numOutputBusses; ++i)
+            for (int i = 0; i < numOutputBusses; ++i)
             {
                 if (AudioBufferList* const abl = getAudioBufferListForBus(i))
                 {
                     abl->mNumberBuffers = numOutputBusChannels;
 
-                    for (AudioUnitElement j = 0; j < numOutputBusChannels; ++j)
+                    for (int j = 0; j < numOutputBusChannels; ++j)
                     {
                         abl->mBuffers[j].mNumberChannels = 1;
-                        abl->mBuffers[j].mDataByteSize = sizeof (float) * (size_t) numSamples;
-                        abl->mBuffers[j].mData = buffer.getWritePointer ((int) (i * numOutputBusChannels + j));
+                        abl->mBuffers[j].mDataByteSize = sizeof (float) * numSamples;
+                        abl->mBuffers[j].mData = buffer.getWritePointer (i * numOutputBusChannels + j);
                     }
                 }
             }
@@ -558,19 +557,19 @@ public:
                     if (midiEventSize <= 3)
                         MusicDeviceMIDIEvent (audioUnit,
                                               midiEventData[0], midiEventData[1], midiEventData[2],
-                                              (UInt32) midiEventPosition);
+                                              midiEventPosition);
                     else
-                        MusicDeviceSysEx (audioUnit, midiEventData, (UInt32) midiEventSize);
+                        MusicDeviceSysEx (audioUnit, midiEventData, midiEventSize);
                 }
 
                 midiMessages.clear();
             }
 
 
-            for (AudioUnitElement i = 0; i < numOutputBusses; ++i)
+            for (int i = 0; i < numOutputBusses; ++i)
             {
                 AudioUnitRenderActionFlags flags = 0;
-                AudioUnitRender (audioUnit, &flags, &timeStamp, i, (UInt32) numSamples, getAudioBufferListForBus (i));
+                AudioUnitRender (audioUnit, &flags, &timeStamp, i, numSamples, getAudioBufferListForBus (i));
             }
 
             timeStamp.mSampleTime += numSamples;
@@ -797,7 +796,7 @@ public:
 
             CFDataRef data = (CFDataRef) CFWriteStreamCopyProperty (stream, kCFStreamPropertyDataWritten);
 
-            destData.setSize ((size_t) bytesWritten);
+            destData.setSize (bytesWritten);
             destData.copyFrom (CFDataGetBytePtr (data), 0, destData.getSize());
             CFRelease (data);
 
@@ -841,9 +840,9 @@ public:
 
         if (audioUnit != nullptr)
         {
-            UInt32 dummy = 0, paramListSize = 0;
+            UInt32 paramListSize = 0;
             AudioUnitGetProperty (audioUnit, kAudioUnitProperty_ParameterList, kAudioUnitScope_Global,
-                                  0, &dummy, &paramListSize);
+                                  0, 0, &paramListSize);
 
             if (paramListSize > 0)
             {
@@ -912,7 +911,7 @@ private:
     HeapBlock <AudioBufferList> outputBufferList;
     AudioTimeStamp timeStamp;
     AudioSampleBuffer* currentBuffer;
-    AudioUnitElement numInputBusChannels, numOutputBusChannels, numInputBusses, numOutputBusses;
+    int numInputBusChannels, numOutputBusChannels, numInputBusses, numOutputBusses;
 
     AudioUnit audioUnit;
     AUEventListenerRef eventListenerRef;
@@ -942,7 +941,7 @@ private:
                 info.inputProcRefCon = this;
                 info.inputProc = renderGetInputCallback;
 
-                for (AudioUnitElement i = 0; i < numInputBusses; ++i)
+                for (int i = 0; i < numInputBusses; ++i)
                     AudioUnitSetProperty (audioUnit, kAudioUnitProperty_SetRenderCallback,
                                           kAudioUnitScope_Input, i, &info, sizeof (info));
             }
@@ -1029,11 +1028,11 @@ private:
                 break;
 
             case kAudioUnitEvent_BeginParameterChangeGesture:
-                beginParameterChangeGesture ((int) event.mArgument.mParameter.mParameterID);
+                beginParameterChangeGesture (event.mArgument.mParameter.mParameterID);
                 break;
 
             case kAudioUnitEvent_EndParameterChangeGesture:
-                endParameterChangeGesture ((int) event.mArgument.mParameter.mParameterID);
+                endParameterChangeGesture (event.mArgument.mParameter.mParameterID);
                 break;
 
             default:
@@ -1063,7 +1062,7 @@ private:
 
             for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
             {
-                const int bufferChannel = (int) (inBusNumber * numInputBusChannels + i);
+                const int bufferChannel = inBusNumber * numInputBusChannels + i;
 
                 if (bufferChannel < currentBuffer->getNumChannels())
                 {
@@ -1132,16 +1131,16 @@ private:
 
         if (ph != nullptr && ph->getCurrentPosition (result))
         {
-            setIfNotNull (outTimeSig_Numerator,   (UInt32) result.timeSigNumerator);
-            setIfNotNull (outTimeSig_Denominator, (UInt32) result.timeSigDenominator);
-            setIfNotNull (outDeltaSampleOffsetToNextBeat, (UInt32) 0); //xxx
+            setIfNotNull (outTimeSig_Numerator, result.timeSigNumerator);
+            setIfNotNull (outTimeSig_Denominator, result.timeSigDenominator);
+            setIfNotNull (outDeltaSampleOffsetToNextBeat, 0); //xxx
             setIfNotNull (outCurrentMeasureDownBeat, result.ppqPositionOfLastBarStart); //xxx wrong
         }
         else
         {
-            setIfNotNull (outDeltaSampleOffsetToNextBeat, (UInt32) 0);
-            setIfNotNull (outTimeSig_Numerator, (UInt32) 4);
-            setIfNotNull (outTimeSig_Denominator, (UInt32) 4);
+            setIfNotNull (outDeltaSampleOffsetToNextBeat, 0);
+            setIfNotNull (outTimeSig_Numerator, 4);
+            setIfNotNull (outTimeSig_Denominator, 4);
             setIfNotNull (outCurrentMeasureDownBeat, 0);
         }
 
@@ -1224,15 +1223,15 @@ private:
     //==============================================================================
     size_t getAudioBufferSizeInBytes() const noexcept
     {
-        return offsetof (AudioBufferList, mBuffers) + (sizeof (::AudioBuffer) * numOutputBusChannels);
+        return offsetof (AudioBufferList, mBuffers) + (sizeof (AudioBuffer) * numOutputBusChannels);
     }
 
-    AudioBufferList* getAudioBufferListForBus (AudioUnitElement busIndex) const noexcept
+    AudioBufferList* getAudioBufferListForBus (int busIndex) const noexcept
     {
         return addBytesToPointer (outputBufferList.getData(), getAudioBufferSizeInBytes() * busIndex);
     }
 
-    AudioUnitElement getElementCount (AudioUnitScope scope) const noexcept
+    int getElementCount (AudioUnitScope scope) const noexcept
     {
         UInt32 count;
         UInt32 countSize = sizeof (count);
@@ -1241,7 +1240,7 @@ private:
              || countSize == 0)
             count = 1;
 
-        return count;
+        return (int) count;
     }
 
     void updateNumChannels()
@@ -1267,17 +1266,17 @@ private:
                 const int outChannels = (int) supportedChannels[i].outChannels;
 
                 if (inChannels < 0)
-                    maximumNumIns  = jmin (maximumNumIns,  inChannels);
+                    maximumNumIns  = jmin (maximumNumIns, inChannels);
                 else
                     explicitNumIns = jmax (explicitNumIns, inChannels);
 
                 if (outChannels < 0)
-                    maximumNumOuts  = jmin (maximumNumOuts,  outChannels);
+                    maximumNumOuts  = jmin (maximumNumOuts, outChannels);
                 else
                     explicitNumOuts = jmax (explicitNumOuts, outChannels);
             }
 
-            if ((maximumNumIns == -1 && maximumNumOuts == -1)    // (special meaning: any number of ins/outs, as long as they match)
+            if ((maximumNumIns == -1 && maximumNumOuts == -1)  // (special meaning: any number of ins/outs, as long as they match)
                 || (maximumNumIns == -2 && maximumNumOuts == -1) // (special meaning: any number of ins/outs, even if they don't match)
                 || (maximumNumIns == -1 && maximumNumOuts == -2))
             {
@@ -1285,8 +1284,8 @@ private:
             }
             else
             {
-                numInputBusChannels  = (AudioUnitElement) explicitNumIns;
-                numOutputBusChannels = (AudioUnitElement) explicitNumOuts;
+                numInputBusChannels = explicitNumIns;
+                numOutputBusChannels = explicitNumOuts;
 
                 if (maximumNumIns == -1 || (maximumNumIns < 0 && explicitNumIns <= -maximumNumIns))
                     numInputBusChannels = 2;

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -44,7 +44,6 @@ PluginDescription::PluginDescription (const PluginDescription& other)
       version (other.version),
       fileOrIdentifier (other.fileOrIdentifier),
       lastFileModTime (other.lastFileModTime),
-      lastInfoUpdateTime (other.lastInfoUpdateTime),
       uid (other.uid),
       isInstrument (other.isInstrument),
       numInputChannels (other.numInputChannels),
@@ -65,7 +64,6 @@ PluginDescription& PluginDescription::operator= (const PluginDescription& other)
     uid = other.uid;
     isInstrument = other.isInstrument;
     lastFileModTime = other.lastFileModTime;
-    lastInfoUpdateTime = other.lastInfoUpdateTime;
     numInputChannels = other.numInputChannels;
     numOutputChannels = other.numOutputChannels;
     hasSharedContainer = other.hasSharedContainer;
@@ -110,7 +108,6 @@ XmlElement* PluginDescription::createXml() const
     e->setAttribute ("uid", String::toHexString (uid));
     e->setAttribute ("isInstrument", isInstrument);
     e->setAttribute ("fileTime", String::toHexString (lastFileModTime.toMilliseconds()));
-    e->setAttribute ("infoUpdateTime", String::toHexString (lastInfoUpdateTime.toMilliseconds()));
     e->setAttribute ("numInputs", numInputChannels);
     e->setAttribute ("numOutputs", numOutputChannels);
     e->setAttribute ("isShell", hasSharedContainer);
@@ -132,7 +129,6 @@ bool PluginDescription::loadFromXml (const XmlElement& xml)
         uid                 = xml.getStringAttribute ("uid").getHexValue32();
         isInstrument        = xml.getBoolAttribute ("isInstrument", false);
         lastFileModTime     = Time (xml.getStringAttribute ("fileTime").getHexValue64());
-        lastInfoUpdateTime  = Time (xml.getStringAttribute ("infoUpdateTime").getHexValue64());
         numInputChannels    = xml.getIntAttribute ("numInputs");
         numOutputChannels   = xml.getIntAttribute ("numOutputs");
         hasSharedContainer  = xml.getBoolAttribute ("isShell", false);

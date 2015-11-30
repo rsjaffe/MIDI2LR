@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -200,12 +200,12 @@ void ComponentBuilder::valueTreeChildAdded (ValueTree& tree, ValueTree&)
     ComponentBuilderHelpers::updateComponent (*this, tree);
 }
 
-void ComponentBuilder::valueTreeChildRemoved (ValueTree& tree, ValueTree&, int)
+void ComponentBuilder::valueTreeChildRemoved (ValueTree& tree, ValueTree&)
 {
     ComponentBuilderHelpers::updateComponent (*this, tree);
 }
 
-void ComponentBuilder::valueTreeChildOrderChanged (ValueTree& tree, int, int)
+void ComponentBuilder::valueTreeChildOrderChanged (ValueTree& tree)
 {
     ComponentBuilderHelpers::updateComponent (*this, tree);
 }

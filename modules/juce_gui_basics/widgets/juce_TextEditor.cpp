@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -49,7 +49,7 @@ struct TextAtom
             return atomText.substring (0, numChars);
 
         if (isNewLine())
-            return String();
+            return String::empty;
 
         return String::repeatedString (String::charToString (passwordCharacter), numChars);
     }
@@ -111,7 +111,7 @@ public:
 
     UniformTextSection* split (const int indexToBreakAt, const juce_wchar passwordChar)
     {
-        UniformTextSection* const section2 = new UniformTextSection (String(), font, colour, passwordChar);
+        UniformTextSection* const section2 = new UniformTextSection (String::empty, font, colour, passwordChar);
         int index = 0;
 
         for (int i = 0; i < atoms.size(); ++i)
@@ -723,19 +723,19 @@ public:
     {
     }
 
-    bool perform() override
+    bool perform()
     {
         owner.insert (text, insertIndex, font, colour, 0, newCaretPos);
         return true;
     }
 
-    bool undo() override
+    bool undo()
     {
         owner.remove (Range<int> (insertIndex, insertIndex + text.length()), 0, oldCaretPos);
         return true;
     }
 
-    int getSizeInUnits() override
+    int getSizeInUnits()
     {
         return text.length() + 16;
     }
@@ -767,20 +767,20 @@ public:
         removedSections.addArray (oldSections);
     }
 
-    bool perform() override
+    bool perform()
     {
         owner.remove (range, 0, newCaretPos);
         return true;
     }
 
-    bool undo() override
+    bool undo()
     {
         owner.reinsert (range.getStart(), removedSections);
         owner.moveCaretTo (oldCaretPos, false);
         return true;
     }
 
-    int getSizeInUnits() override
+    int getSizeInUnits()
     {
         int n = 16;
         for (int i = removedSections.size(); --i >= 0;)
@@ -902,7 +902,6 @@ TextEditor::TextEditor (const String& name,
     : Component (name),
       borderSize (1, 1, 1, 3),
       readOnly (false),
-      caretVisible (true),
       multiline (false),
       wordWrap (false),
       returnKeyStartsNewLine (false),
@@ -922,7 +921,6 @@ TextEditor::TextEditor (const String& name,
       totalNumChars (0),
       caretPosition (0),
       passwordCharacter (passwordChar),
-      keyboardType (TextInputTarget::textKeyboard),
       dragType (notDragging)
 {
     setOpaque (true);
@@ -934,7 +932,7 @@ TextEditor::TextEditor (const String& name,
     viewport->setScrollBarsShown (false, false);
 
     setWantsKeyboardFocus (true);
-    recreateCaret();
+    setCaretVisible (true);
 }
 
 TextEditor::~TextEditor()
@@ -1021,7 +1019,7 @@ void TextEditor::setReadOnly (const bool shouldBeReadOnly)
     }
 }
 
-bool TextEditor::isReadOnly() const noexcept
+bool TextEditor::isReadOnly() const
 {
     return readOnly || ! isEnabled();
 }
@@ -1084,35 +1082,20 @@ void TextEditor::colourChanged()
 
 void TextEditor::lookAndFeelChanged()
 {
-    caret = nullptr;
-    recreateCaret();
-    repaint();
-}
-
-void TextEditor::enablementChanged()
-{
-    recreateCaret();
-    repaint();
+    if (isCaretVisible())
+    {
+        setCaretVisible (false);
+        setCaretVisible (true);
+        updateCaretPosition();
+    }
 }
 
 void TextEditor::setCaretVisible (const bool shouldCaretBeVisible)
 {
-    if (caretVisible != shouldCaretBeVisible)
-    {
-        caretVisible = shouldCaretBeVisible;
-        recreateCaret();
-    }
-}
-
-void TextEditor::recreateCaret()
-{
-    if (isCaretVisible())
+    if (shouldCaretBeVisible && ! isReadOnly())
     {
         if (caret == nullptr)
-        {
             textHolder->addChildComponent (caret = getLookAndFeel().createCaretComponent (this));
-            updateCaretPosition();
-        }
     }
     else
     {
@@ -1148,7 +1131,8 @@ void TextEditor::setInputFilter (InputFilter* newFilter, bool takeOwnership)
     inputFilter.set (newFilter, takeOwnership);
 }
 
-void TextEditor::setInputRestrictions (const int maxLen, const String& chars)
+void TextEditor::setInputRestrictions (const int maxLen,
+                                       const String& chars)
 {
     setInputFilter (new LengthAndCharacterRestriction (maxLen, chars), true);
 }
@@ -1308,8 +1292,8 @@ void TextEditor::moveCaret (int newCaretPos)
 {
     if (newCaretPos < 0)
         newCaretPos = 0;
-    else
-        newCaretPos = jmin (newCaretPos, getTotalNumChars());
+    else if (newCaretPos > getTotalNumChars())
+        newCaretPos = getTotalNumChars();
 
     if (newCaretPos != getCaretPosition())
     {
@@ -1519,8 +1503,8 @@ void TextEditor::moveCaretTo (const int newPosition, const bool isSelecting)
 
 int TextEditor::getTextIndexAt (const int x, const int y)
 {
-    return indexAtPosition ((float) (x + viewport->getViewPositionX() - leftIndent - borderSize.getLeft()),
-                            (float) (y + viewport->getViewPositionY() - topIndent  - borderSize.getTop()));
+    return indexAtPosition ((float) (x + viewport->getViewPositionX() - leftIndent),
+                            (float) (y + viewport->getViewPositionY() - topIndent));
 }
 
 void TextEditor::insertTextAtCaret (const String& t)
@@ -1578,7 +1562,7 @@ void TextEditor::cut()
     if (! isReadOnly())
     {
         moveCaret (selection.getEnd());
-        insertTextAtCaret (String());
+        insertTextAtCaret (String::empty);
     }
 }
 
@@ -2139,7 +2123,12 @@ void TextEditor::handleCommandMessage (const int commandId)
     }
 }
 
-void TextEditor::setTemporaryUnderlining (const Array<Range<int> >& newUnderlinedSections)
+void TextEditor::enablementChanged()
+{
+    repaint();
+}
+
+void TextEditor::setTemporaryUnderlining (const Array <Range<int> >& newUnderlinedSections)
 {
     underlinedSections = newUnderlinedSections;
     repaint();
@@ -2363,7 +2352,7 @@ String TextEditor::getText() const
 String TextEditor::getTextInRange (const Range<int>& range) const
 {
     if (range.isEmpty())
-        return String();
+        return String::empty;
 
     MemoryOutputStream mo;
     mo.preallocate ((size_t) jmin (getTotalNumChars(), range.getLength()));

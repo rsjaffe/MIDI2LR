@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -29,11 +29,6 @@
 //==============================================================================
 /**
     A drawable object which acts as a container for a set of other Drawables.
-
-    Note that although this is a Component, it takes ownership of its child components
-    and will delete them, so that you can use it as a self-contained graphic object.
-    The intention is that you should not add your own components to it, only add other
-    Drawable objects.
 
     @see Drawable
 */
@@ -97,15 +92,15 @@ public:
 
     //==============================================================================
     /** @internal */
-    Drawable* createCopy() const override;
+    Drawable* createCopy() const;
     /** @internal */
-    void refreshFromValueTree (const ValueTree&, ComponentBuilder&);
+    void refreshFromValueTree (const ValueTree& tree, ComponentBuilder& builder);
     /** @internal */
-    ValueTree createValueTree (ComponentBuilder::ImageProvider* imageProvider) const override;
+    ValueTree createValueTree (ComponentBuilder::ImageProvider* imageProvider) const;
     /** @internal */
     static const Identifier valueTreeType;
     /** @internal */
-    Rectangle<float> getDrawableBounds() const override;
+    Rectangle<float> getDrawableBounds() const;
     /** @internal */
     void childBoundsChanged (Component*) override;
     /** @internal */

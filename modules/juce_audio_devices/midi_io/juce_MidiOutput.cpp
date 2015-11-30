@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -32,11 +32,10 @@ struct MidiOutput::PendingMessage
     PendingMessage* next;
 };
 
-MidiOutput::MidiOutput(const String& midiName)
+MidiOutput::MidiOutput()
     : Thread ("midi out"),
       internal (nullptr),
-      firstMessage (nullptr),
-      name (midiName)
+      firstMessage (nullptr)
 {
 }
 

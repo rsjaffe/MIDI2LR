@@ -15,10 +15,6 @@
 
  ********************************************************************/
 
-#ifdef JUCE_MSVC
- #pragma warning (disable: 4456 4457 4459)
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>

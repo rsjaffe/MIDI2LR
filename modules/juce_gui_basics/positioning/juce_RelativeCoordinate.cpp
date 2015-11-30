@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -87,8 +87,12 @@ RelativeCoordinate::RelativeCoordinate (const double absoluteDistanceFromOrigin)
 
 RelativeCoordinate::RelativeCoordinate (const String& s)
 {
-    String error;
-    term = Expression (s, error);
+    try
+    {
+        term = Expression (s);
+    }
+    catch (Expression::ParseError&)
+    {}
 }
 
 RelativeCoordinate::~RelativeCoordinate()
@@ -107,35 +111,52 @@ bool RelativeCoordinate::operator!= (const RelativeCoordinate& other) const noex
 
 double RelativeCoordinate::resolve (const Expression::Scope* scope) const
 {
-    if (scope != nullptr)
-        return term.evaluate (*scope);
+    try
+    {
+        if (scope != nullptr)
+            return term.evaluate (*scope);
 
-    return term.evaluate();
+        return term.evaluate();
+    }
+    catch (Expression::ParseError&)
+    {}
+
+    return 0.0;
 }
 
 bool RelativeCoordinate::isRecursive (const Expression::Scope* scope) const
 {
-    String error;
+    try
+    {
+        if (scope != nullptr)
+            term.evaluate (*scope);
+        else
+            term.evaluate();
+    }
+    catch (Expression::ParseError&)
+    {
+        return true;
+    }
 
-    if (scope != nullptr)
-        term.evaluate (*scope, error);
-    else
-        term.evaluate (Expression::Scope(), error);
-
-    return error.isNotEmpty();
+    return false;
 }
 
 void RelativeCoordinate::moveToAbsolute (double newPos, const Expression::Scope* scope)
 {
-    if (scope != nullptr)
+    try
     {
-        term = term.adjustedToGiveNewResult (newPos, *scope);
+        if (scope != nullptr)
+        {
+            term = term.adjustedToGiveNewResult (newPos, *scope);
+        }
+        else
+        {
+            Expression::Scope defaultScope;
+            term = term.adjustedToGiveNewResult (newPos, defaultScope);
+        }
     }
-    else
-    {
-        Expression::Scope defaultScope;
-        term = term.adjustedToGiveNewResult (newPos, defaultScope);
-    }
+    catch (Expression::ParseError&)
+    {}
 }
 
 bool RelativeCoordinate::isDynamic() const

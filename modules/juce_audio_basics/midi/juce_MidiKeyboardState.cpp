@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -81,7 +81,7 @@ void MidiKeyboardState::noteOnInternal  (const int midiChannel, const int midiNo
     }
 }
 
-void MidiKeyboardState::noteOff (const int midiChannel, const int midiNoteNumber, const float velocity)
+void MidiKeyboardState::noteOff (const int midiChannel, const int midiNoteNumber)
 {
     const ScopedLock sl (lock);
 
@@ -91,18 +91,18 @@ void MidiKeyboardState::noteOff (const int midiChannel, const int midiNoteNumber
         eventsToAdd.addEvent (MidiMessage::noteOff (midiChannel, midiNoteNumber), timeNow);
         eventsToAdd.clear (0, timeNow - 500);
 
-        noteOffInternal (midiChannel, midiNoteNumber, velocity);
+        noteOffInternal (midiChannel, midiNoteNumber);
     }
 }
 
-void MidiKeyboardState::noteOffInternal  (const int midiChannel, const int midiNoteNumber, const float velocity)
+void MidiKeyboardState::noteOffInternal  (const int midiChannel, const int midiNoteNumber)
 {
     if (isNoteOn (midiChannel, midiNoteNumber))
     {
         noteStates [midiNoteNumber] &= ~(1 << (midiChannel - 1));
 
         for (int i = listeners.size(); --i >= 0;)
-            listeners.getUnchecked(i)->handleNoteOff (this, midiChannel, midiNoteNumber, velocity);
+            listeners.getUnchecked(i)->handleNoteOff (this, midiChannel, midiNoteNumber);
     }
 }
 
@@ -118,7 +118,7 @@ void MidiKeyboardState::allNotesOff (const int midiChannel)
     else
     {
         for (int i = 0; i < 128; ++i)
-            noteOff (midiChannel, i, 0.0f);
+            noteOff (midiChannel, i);
     }
 }
 
@@ -130,12 +130,12 @@ void MidiKeyboardState::processNextMidiEvent (const MidiMessage& message)
     }
     else if (message.isNoteOff())
     {
-        noteOffInternal (message.getChannel(), message.getNoteNumber(), message.getFloatVelocity());
+        noteOffInternal (message.getChannel(), message.getNoteNumber());
     }
     else if (message.isAllNotesOff())
     {
         for (int i = 0; i < 128; ++i)
-            noteOffInternal (message.getChannel(), i, 0.0f);
+            noteOffInternal (message.getChannel(), i);
     }
 }
 
@@ -145,7 +145,7 @@ void MidiKeyboardState::processNextMidiBuffer (MidiBuffer& buffer,
                                                const bool injectIndirectEvents)
 {
     MidiBuffer::Iterator i (buffer);
-    MidiMessage message;
+    MidiMessage message (0xf4, 0.0);
     int time;
 
     const ScopedLock sl (lock);

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -128,14 +128,10 @@ public:
 
     //==============================================================================
     /** Fills-in the given structure with details about the transport's
-        position at the start of the current processing block. If this method returns
-        false then the current play head position is not available and the given
-        structure will be undefined.
+        position at the start of the current processing block.
 
-        You can ONLY call this from your processBlock() method! Calling it at other
-        times will produce undefined behaviour, as the host may not have any context
-        in which a time would make sense, and some hosts will almost certainly have
-        multithreading issues if it's not called on the audio thread.
+        This method must ONLY be called from within your AudioProcessor::processBlock()
+        method. Calling it at any other time will probably cause a nasty crash.
     */
     virtual bool getCurrentPosition (CurrentPositionInfo& result) = 0;
 };

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -100,7 +100,6 @@ public:
     {
         [view retain];
         [view setPostsFrameChangedNotifications: YES];
-        updateAlpha();
 
         if (owner.isShowing())
             componentPeerChanged();
@@ -170,11 +169,6 @@ public:
         owner.childBoundsChanged (nullptr);
     }
 
-    void updateAlpha()
-    {
-        [view setAlphaValue: (CGFloat) owner.getAlpha()];
-    }
-
     NSView* const view;
 
 private:
@@ -222,12 +216,6 @@ void NSViewComponent::resizeToFitView()
 }
 
 void NSViewComponent::paint (Graphics&) {}
-
-void NSViewComponent::alphaChanged()
-{
-    if (attachment != nullptr)
-        (static_cast<NSViewAttachment*> (attachment.get()))->updateAlpha();
-}
 
 ReferenceCountedObject* NSViewComponent::attachViewToComponent (Component& comp, void* const view)
 {

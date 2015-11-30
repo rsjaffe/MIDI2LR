@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,8 +22,8 @@
   ==============================================================================
 */
 
-extern ::Display* display;
-extern ::Window juce_messageWindowHandle;
+extern Display* display;
+extern Window juce_messageWindowHandle;
 
 namespace ClipboardHelpers
 {
@@ -36,11 +36,8 @@ namespace ClipboardHelpers
     static void initSelectionAtoms()
     {
         static bool isInitialised = false;
-
         if (! isInitialised)
         {
-            isInitialised = true;
-
             atom_UTF8_STRING = XInternAtom (display, "UTF8_STRING", False);
             atom_CLIPBOARD   = XInternAtom (display, "CLIPBOARD", False);
             atom_TARGETS     = XInternAtom (display, "TARGETS", False);
@@ -53,34 +50,29 @@ namespace ClipboardHelpers
     static String readWindowProperty (Window window, Atom prop)
     {
         String returnData;
+        char* clipData;
+        Atom actualType;
+        int actualFormat;
+        unsigned long numItems, bytesLeft;
 
-        if (display != nullptr)
+        if (XGetWindowProperty (display, window, prop,
+                                0L /* offset */, 1000000 /* length (max) */, False,
+                                AnyPropertyType /* format */,
+                                &actualType, &actualFormat, &numItems, &bytesLeft,
+                                (unsigned char**) &clipData) == Success)
         {
-            char* clipData;
-            Atom actualType;
-            int actualFormat;
-            unsigned long numItems, bytesLeft;
+            if (actualType == atom_UTF8_STRING && actualFormat == 8)
+                returnData = String::fromUTF8 (clipData, numItems);
+            else if (actualType == XA_STRING && actualFormat == 8)
+                returnData = String (clipData, numItems);
 
-            if (XGetWindowProperty (display, window, prop,
-                                    0L /* offset */, 1000000 /* length (max) */, False,
-                                    AnyPropertyType /* format */,
-                                    &actualType, &actualFormat, &numItems, &bytesLeft,
-                                    (unsigned char**) &clipData) == Success)
-            {
-                if (actualType == atom_UTF8_STRING && actualFormat == 8)
-                    returnData = String::fromUTF8 (clipData, (int) numItems);
-                else if (actualType == XA_STRING && actualFormat == 8)
-                    returnData = String (clipData, numItems);
+            if (clipData != nullptr)
+                XFree (clipData);
 
-                if (clipData != nullptr)
-                    XFree (clipData);
-
-                jassert (bytesLeft == 0 || numItems == 1000000);
-            }
-
-            XDeleteProperty (display, window, prop);
+            jassert (bytesLeft == 0 || numItems == 1000000);
         }
 
+        XDeleteProperty (display, window, prop);
         return returnData;
     }
 
@@ -100,7 +92,6 @@ namespace ClipboardHelpers
         while (--count >= 0)
         {
             XEvent event;
-
             if (XCheckTypedWindowEvent (display, juce_messageWindowHandle, SelectionNotify, &event))
             {
                 if (event.xselection.property == property_name)
@@ -111,8 +102,10 @@ namespace ClipboardHelpers
                                                            event.xselection.property);
                     return true;
                 }
-
-                return false;  // the format we asked for was denied.. (event.xselection.property == None)
+                else
+                {
+                    return false; // the format we asked for was denied.. (event.xselection.property == None)
+                }
             }
 
             // not very elegant.. we could do a select() or something like that...
@@ -128,69 +121,66 @@ namespace ClipboardHelpers
     // Called from the event loop in juce_linux_Messaging in response to SelectionRequest events
     static void handleSelection (XSelectionRequestEvent& evt)
     {
-        if (display != nullptr)
+        ClipboardHelpers::initSelectionAtoms();
+
+        // the selection content is sent to the target window as a window property
+        XSelectionEvent reply;
+        reply.type = SelectionNotify;
+        reply.display = evt.display;
+        reply.requestor = evt.requestor;
+        reply.selection = evt.selection;
+        reply.target = evt.target;
+        reply.property = None; // == "fail"
+        reply.time = evt.time;
+
+        HeapBlock <char> data;
+        int propertyFormat = 0;
+        size_t numDataItems = 0;
+
+        if (evt.selection == XA_PRIMARY || evt.selection == ClipboardHelpers::atom_CLIPBOARD)
         {
-            ClipboardHelpers::initSelectionAtoms();
-
-            // the selection content is sent to the target window as a window property
-            XSelectionEvent reply;
-            reply.type = SelectionNotify;
-            reply.display = evt.display;
-            reply.requestor = evt.requestor;
-            reply.selection = evt.selection;
-            reply.target = evt.target;
-            reply.property = None; // == "fail"
-            reply.time = evt.time;
-
-            HeapBlock <char> data;
-            int propertyFormat = 0;
-            size_t numDataItems = 0;
-
-            if (evt.selection == XA_PRIMARY || evt.selection == ClipboardHelpers::atom_CLIPBOARD)
+            if (evt.target == XA_STRING || evt.target == ClipboardHelpers::atom_UTF8_STRING)
             {
-                if (evt.target == XA_STRING || evt.target == ClipboardHelpers::atom_UTF8_STRING)
-                {
-                    // translate to utf8
-                    numDataItems = ClipboardHelpers::localClipboardContent.getNumBytesAsUTF8() + 1;
-                    data.calloc (numDataItems + 1);
-                    ClipboardHelpers::localClipboardContent.copyToUTF8 (data, numDataItems);
-                    propertyFormat = 8; // bits/item
-                }
-                else if (evt.target == ClipboardHelpers::atom_TARGETS)
-                {
-                    // another application wants to know what we are able to send
-                    numDataItems = 2;
-                    propertyFormat = 32; // atoms are 32-bit
-                    data.calloc (numDataItems * 4);
-                    Atom* atoms = reinterpret_cast<Atom*> (data.getData());
-                    atoms[0] = ClipboardHelpers::atom_UTF8_STRING;
-                    atoms[1] = XA_STRING;
-
-                    evt.target = XA_ATOM;
-                }
+                // translate to utf8
+                numDataItems = ClipboardHelpers::localClipboardContent.getNumBytesAsUTF8() + 1;
+                data.calloc (numDataItems + 1);
+                ClipboardHelpers::localClipboardContent.copyToUTF8 (data, numDataItems);
+                propertyFormat = 8; // bits/item
             }
-            else
+            else if (evt.target == ClipboardHelpers::atom_TARGETS)
             {
-                DBG ("requested unsupported clipboard");
+                // another application wants to know what we are able to send
+                numDataItems = 2;
+                propertyFormat = 32; // atoms are 32-bit
+                data.calloc (numDataItems * 4);
+                Atom* atoms = reinterpret_cast<Atom*> (data.getData());
+                atoms[0] = ClipboardHelpers::atom_UTF8_STRING;
+                atoms[1] = XA_STRING;
+
+                evt.target = XA_ATOM;
             }
-
-            if (data != nullptr)
-            {
-                const size_t maxReasonableSelectionSize = 1000000;
-
-                // for very big chunks of data, we should use the "INCR" protocol , which is a pain in the *ss
-                if (evt.property != None && numDataItems < maxReasonableSelectionSize)
-                {
-                    XChangeProperty (evt.display, evt.requestor,
-                                     evt.property, evt.target,
-                                     propertyFormat /* 8 or 32 */, PropModeReplace,
-                                     reinterpret_cast<const unsigned char*> (data.getData()), (int) numDataItems);
-                    reply.property = evt.property; // " == success"
-                }
-            }
-
-            XSendEvent (evt.display, evt.requestor, 0, NoEventMask, (XEvent*) &reply);
         }
+        else
+        {
+            DBG ("requested unsupported clipboard");
+        }
+
+        if (data != nullptr)
+        {
+            const size_t maxReasonableSelectionSize = 1000000;
+
+            // for very big chunks of data, we should use the "INCR" protocol , which is a pain in the *ss
+            if (evt.property != None && numDataItems < maxReasonableSelectionSize)
+            {
+                XChangeProperty (evt.display, evt.requestor,
+                                 evt.property, evt.target,
+                                 propertyFormat /* 8 or 32 */, PropModeReplace,
+                                 reinterpret_cast<const unsigned char*> (data.getData()), numDataItems);
+                reply.property = evt.property; // " == success"
+            }
+        }
+
+        XSendEvent (evt.display, evt.requestor, 0, NoEventMask, (XEvent*) &reply);
     }
 }
 
@@ -211,58 +201,51 @@ static ClipboardCallbackInitialiser clipboardInitialiser;
 //==============================================================================
 void SystemClipboard::copyTextToClipboard (const String& clipText)
 {
-    if (display != nullptr)
-    {
-        ClipboardHelpers::initSelectionAtoms();
-        ClipboardHelpers::localClipboardContent = clipText;
+    ClipboardHelpers::initSelectionAtoms();
+    ClipboardHelpers::localClipboardContent = clipText;
 
-        XSetSelectionOwner (display, XA_PRIMARY, juce_messageWindowHandle, CurrentTime);
-        XSetSelectionOwner (display, ClipboardHelpers::atom_CLIPBOARD, juce_messageWindowHandle, CurrentTime);
-    }
+    XSetSelectionOwner (display, XA_PRIMARY, juce_messageWindowHandle, CurrentTime);
+    XSetSelectionOwner (display, ClipboardHelpers::atom_CLIPBOARD, juce_messageWindowHandle, CurrentTime);
 }
 
 String SystemClipboard::getTextFromClipboard()
 {
+    ClipboardHelpers::initSelectionAtoms();
+
+    /* 1) try to read from the "CLIPBOARD" selection first (the "high
+       level" clipboard that is supposed to be filled by ctrl-C
+       etc). When a clipboard manager is running, the content of this
+       selection is preserved even when the original selection owner
+       exits.
+
+       2) and then try to read from "PRIMARY" selection (the "legacy" selection
+       filled by good old x11 apps such as xterm)
+    */
     String content;
+    Atom selection = XA_PRIMARY;
+    Window selectionOwner = None;
 
-    if (display != nullptr)
+    if ((selectionOwner = XGetSelectionOwner (display, selection)) == None)
     {
-        ClipboardHelpers::initSelectionAtoms();
+        selection = ClipboardHelpers::atom_CLIPBOARD;
+        selectionOwner = XGetSelectionOwner (display, selection);
+    }
 
-        /* 1) try to read from the "CLIPBOARD" selection first (the "high
-           level" clipboard that is supposed to be filled by ctrl-C
-           etc). When a clipboard manager is running, the content of this
-           selection is preserved even when the original selection owner
-           exits.
-
-           2) and then try to read from "PRIMARY" selection (the "legacy" selection
-           filled by good old x11 apps such as xterm)
-        */
-        Atom selection = XA_PRIMARY;
-        Window selectionOwner = None;
-
-        if ((selectionOwner = XGetSelectionOwner (display, selection)) == None)
+    if (selectionOwner != None)
+    {
+        if (selectionOwner == juce_messageWindowHandle)
         {
-            selection = ClipboardHelpers::atom_CLIPBOARD;
-            selectionOwner = XGetSelectionOwner (display, selection);
+            content = ClipboardHelpers::localClipboardContent;
         }
-
-        if (selectionOwner != None)
+        else
         {
-            if (selectionOwner == juce_messageWindowHandle)
-            {
-                content = ClipboardHelpers::localClipboardContent;
-            }
-            else
-            {
-                // first try: we want an utf8 string
-                bool ok = ClipboardHelpers::requestSelectionContent (content, selection, ClipboardHelpers::atom_UTF8_STRING);
+            // first try: we want an utf8 string
+            bool ok = ClipboardHelpers::requestSelectionContent (content, selection, ClipboardHelpers::atom_UTF8_STRING);
 
-                if (! ok)
-                {
-                    // second chance, ask for a good old locale-dependent string ..
-                    ok = ClipboardHelpers::requestSelectionContent (content, selection, XA_STRING);
-                }
+            if (! ok)
+            {
+                // second chance, ask for a good old locale-dependent string ..
+                ok = ClipboardHelpers::requestSelectionContent (content, selection, XA_STRING);
             }
         }
     }

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -33,8 +33,6 @@ public:
        : pipeInName  (pipePath + "_in"),
          pipeOutName (pipePath + "_out"),
          pipeIn (-1), pipeOut (-1),
-         createdFifoIn (false),
-         createdFifoOut (false),
          createdPipe (createPipe),
          stopReadOperation (false)
     {
@@ -49,8 +47,8 @@ public:
 
         if (createdPipe)
         {
-            if (createdFifoIn)  unlink (pipeInName.toUTF8());
-            if (createdFifoOut) unlink (pipeOutName.toUTF8());
+            unlink (pipeInName.toUTF8());
+            unlink (pipeOutName.toUTF8());
         }
     }
 
@@ -121,22 +119,14 @@ public:
         return bytesWritten;
     }
 
-    static bool createFifo (const String& name, bool mustNotExist)
+    bool createFifos() const
     {
-        return mkfifo (name.toUTF8(), 0666) == 0 || ((! mustNotExist) && errno == EEXIST);
-    }
-
-    bool createFifos (bool mustNotExist)
-    {
-        createdFifoIn  = createFifo (pipeInName, mustNotExist);
-        createdFifoOut = createFifo (pipeOutName, mustNotExist);
-
-        return createdFifoIn && createdFifoOut;
+        return (mkfifo (pipeInName .toUTF8(), 0666) == 0 || errno == EEXIST)
+            && (mkfifo (pipeOutName.toUTF8(), 0666) == 0 || errno == EEXIST);
     }
 
     const String pipeInName, pipeOutName;
     int pipeIn, pipeOut;
-    bool createdFifoIn, createdFifoOut;
 
     const bool createdPipe;
     bool stopReadOperation;
@@ -198,7 +188,7 @@ void NamedPipe::close()
     }
 }
 
-bool NamedPipe::openInternal (const String& pipeName, const bool createPipe, bool mustNotExist)
+bool NamedPipe::openInternal (const String& pipeName, const bool createPipe)
 {
    #if JUCE_IOS
     pimpl = new Pimpl (File::getSpecialLocation (File::tempDirectory)
@@ -212,7 +202,7 @@ bool NamedPipe::openInternal (const String& pipeName, const bool createPipe, boo
     pimpl = new Pimpl (file, createPipe);
    #endif
 
-    if (createPipe && ! pimpl->createFifos (mustNotExist))
+    if (createPipe && ! pimpl->createFifos())
     {
         pimpl = nullptr;
         return false;

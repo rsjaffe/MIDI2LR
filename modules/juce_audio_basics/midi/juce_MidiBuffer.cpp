@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -26,12 +26,12 @@ namespace MidiBufferHelpers
 {
     inline int getEventTime (const void* const d) noexcept
     {
-        return readUnaligned<int32> (d);
+        return *static_cast<const int32*> (d);
     }
 
     inline uint16 getEventDataSize (const void* const d) noexcept
     {
-        return readUnaligned<uint16> (static_cast<const char*> (d) + sizeof (int32));
+        return *reinterpret_cast<const uint16*> (static_cast<const char*> (d) + sizeof (int32));
     }
 
     inline uint16 getEventTotalSize (const void* const d) noexcept
@@ -124,8 +124,8 @@ void MidiBuffer::addEvent (const void* const newData, const int maxBytes, const 
         data.insertMultiple (offset, 0, (int) newItemSize);
 
         uint8* const d = data.begin() + offset;
-        writeUnaligned<int32>  (d, sampleNumber);
-        writeUnaligned<uint16> (d + 4, static_cast<uint16> (numBytes));
+        *reinterpret_cast<int32*> (d) = sampleNumber;
+        *reinterpret_cast<uint16*> (d + 4) = (uint16) numBytes;
         memcpy (d + 6, newData, (size_t) numBytes);
     }
 }

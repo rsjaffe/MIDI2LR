@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -40,10 +40,6 @@
  #define JUCE_USE_SSE_INTRINSICS 0
 #endif
 
-#if JUCE_MINGW
- #define alloca __builtin_alloca
-#endif
-
 #ifndef JUCE_USE_SSE_INTRINSICS
  #define JUCE_USE_SSE_INTRINSICS 1
 #endif
@@ -70,9 +66,6 @@
 
 #if __ARM_NEON__ && ! (JUCE_USE_VDSP_FRAMEWORK || defined (JUCE_USE_ARM_NEON))
  #define JUCE_USE_ARM_NEON 1
-#endif
-
-#if JUCE_USE_ARM_NEON
  #include <arm_neon.h>
 #endif
 
@@ -80,10 +73,10 @@ namespace juce
 {
 
 #include "buffers/juce_AudioDataConverters.cpp"
+#include "buffers/juce_AudioSampleBuffer.cpp"
 #include "buffers/juce_FloatVectorOperations.cpp"
 #include "effects/juce_IIRFilter.cpp"
 #include "effects/juce_LagrangeInterpolator.cpp"
-#include "effects/juce_FFT.cpp"
 #include "midi/juce_MidiBuffer.cpp"
 #include "midi/juce_MidiFile.cpp"
 #include "midi/juce_MidiKeyboardState.cpp"

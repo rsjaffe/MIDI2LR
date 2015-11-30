@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -26,44 +26,28 @@
   ==============================================================================
 */
 
-MACAddress::MACAddress() noexcept
+MACAddress::MACAddress()
 {
     zeromem (address, sizeof (address));
 }
 
-MACAddress::MACAddress (const MACAddress& other) noexcept
+MACAddress::MACAddress (const MACAddress& other)
 {
     memcpy (address, other.address, sizeof (address));
 }
 
-MACAddress& MACAddress::operator= (const MACAddress& other) noexcept
+MACAddress& MACAddress::operator= (const MACAddress& other)
 {
     memcpy (address, other.address, sizeof (address));
     return *this;
 }
 
-MACAddress::MACAddress (const uint8 bytes[6]) noexcept
+MACAddress::MACAddress (const uint8 bytes[6])
 {
     memcpy (address, bytes, sizeof (address));
 }
 
-MACAddress::MACAddress (StringRef addressString)
-{
-    MemoryBlock hex;
-    hex.loadFromHexString (addressString);
-
-    if (hex.getSize() == sizeof (address))
-        memcpy (address, hex.getData(), sizeof (address));
-    else
-        zeromem (address, sizeof (address));
-}
-
 String MACAddress::toString() const
-{
-    return toString ("-");
-}
-
-String MACAddress::toString (StringRef separator) const
 {
     String s;
 
@@ -72,7 +56,7 @@ String MACAddress::toString (StringRef separator) const
         s << String::toHexString ((int) address[i]).paddedLeft ('0', 2);
 
         if (i < sizeof (address) - 1)
-            s << separator;
+            s << '-';
     }
 
     return s;

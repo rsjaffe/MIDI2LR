@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -38,8 +38,7 @@ AudioProcessor::AudioProcessor()
       numOutputChannels (0),
       latencySamples (0),
       suspended (false),
-      nonRealtime (false),
-      processingPrecision (singlePrecision)
+      nonRealtime (false)
 {
 }
 
@@ -49,7 +48,7 @@ AudioProcessor::~AudioProcessor()
     // that it refers to is deleted..
     jassert (activeEditor == nullptr);
 
-   #if JUCE_DEBUG && ! JUCE_DISABLE_AUDIOPROCESSOR_BEGIN_END_GESTURE_CHECKING
+   #if JUCE_DEBUG
     // This will fail if you've called beginParameterChangeGesture() for one
     // or more parameters without having made a corresponding call to endParameterChangeGesture...
     jassert (changingParams.countNumberOfSetBits() == 0);
@@ -143,7 +142,7 @@ void AudioProcessor::beginParameterChangeGesture (int parameterIndex)
 {
     if (isPositiveAndBelow (parameterIndex, getNumParameters()))
     {
-       #if JUCE_DEBUG && ! JUCE_DISABLE_AUDIOPROCESSOR_BEGIN_END_GESTURE_CHECKING
+       #if JUCE_DEBUG
         // This means you've called beginParameterChangeGesture twice in succession without a matching
         // call to endParameterChangeGesture. That might be fine in most hosts, but better to avoid doing it.
         jassert (! changingParams [parameterIndex]);
@@ -164,9 +163,9 @@ void AudioProcessor::endParameterChangeGesture (int parameterIndex)
 {
     if (isPositiveAndBelow (parameterIndex, getNumParameters()))
     {
-       #if JUCE_DEBUG && ! JUCE_DISABLE_AUDIOPROCESSOR_BEGIN_END_GESTURE_CHECKING
+       #if JUCE_DEBUG
         // This means you've called endParameterChangeGesture without having previously called
-        // beginParameterChangeGesture. That might be fine in most hosts, but better to keep the
+        // endParameterChangeGesture. That might be fine in most hosts, but better to keep the
         // calls matched correctly.
         jassert (changingParams [parameterIndex]);
         changingParams.clearBit (parameterIndex);
@@ -311,10 +310,6 @@ void AudioProcessor::addParameter (AudioProcessorParameter* p)
     p->processor = this;
     p->parameterIndex = managedParameters.size();
     managedParameters.add (p);
-
-    // if you're using parameter objects, then you must not override the
-    // deprecated getNumParameters() method!
-    jassert (getNumParameters() == AudioProcessor::getNumParameters());
 }
 
 void AudioProcessor::suspendProcessing (const bool shouldBeSuspended)
@@ -324,33 +319,7 @@ void AudioProcessor::suspendProcessing (const bool shouldBeSuspended)
 }
 
 void AudioProcessor::reset() {}
-void AudioProcessor::processBlockBypassed (AudioBuffer<float>&, MidiBuffer&) {}
-void AudioProcessor::processBlockBypassed (AudioBuffer<double>&, MidiBuffer&) {}
-
-void AudioProcessor::processBlock (AudioBuffer<double>& buffer, MidiBuffer& midiMessages)
-{
-    ignoreUnused (buffer, midiMessages);
-
-    // If you hit this assertion then either the caller called the double
-    // precision version of processBlock on a processor which does not support it
-    // (i.e. supportsDoublePrecisionProcessing() returns false), or the implementation
-    // of the AudioProcessor forgot to override the double precision version of this method
-    jassertfalse;
-}
-
-void AudioProcessor::setProcessingPrecision (ProcessingPrecision precision) noexcept
-{
-    // If you hit this assertion then you're trying to use double precision
-    // processing on a processor which does not support it!
-    jassert (precision != doublePrecision || supportsDoublePrecisionProcessing());
-
-    processingPrecision = precision;
-}
-
-bool AudioProcessor::supportsDoublePrecisionProcessing() const
-{
-    return false;
-}
+void AudioProcessor::processBlockBypassed (AudioSampleBuffer&, MidiBuffer&) {}
 
 //==============================================================================
 void AudioProcessor::editorBeingDeleted (AudioProcessorEditor* const editor) noexcept

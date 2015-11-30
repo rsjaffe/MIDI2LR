@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -52,37 +52,11 @@ namespace DirectWriteTypeLayout
             return S_OK;
         }
 
-        JUCE_COMRESULT GetCurrentTransform (void*, DWRITE_MATRIX* matrix)
-        {
-            matrix->m11 = 1.0f;
-            matrix->m12 = 0.0f;
-            matrix->m21 = 0.0f;
-            matrix->m22 = 1.0f;
-            matrix->dx = 0.0f;
-            matrix->dy = 0.0f;
-            return S_OK;
-        }
-
-        JUCE_COMRESULT GetPixelsPerDip (void*, FLOAT* pixelsPerDip)
-        {
-            *pixelsPerDip = 1.0f;
-            return S_OK;
-        }
-
-        JUCE_COMRESULT DrawUnderline (void*, FLOAT, FLOAT, DWRITE_UNDERLINE const*, IUnknown*)
-        {
-            return E_NOTIMPL;
-        }
-
-        JUCE_COMRESULT DrawStrikethrough (void*, FLOAT, FLOAT, DWRITE_STRIKETHROUGH const*, IUnknown*)
-        {
-            return E_NOTIMPL;
-        }
-
-        JUCE_COMRESULT DrawInlineObject (void*, FLOAT, FLOAT, IDWriteInlineObject*, BOOL, BOOL, IUnknown*)
-        {
-            return E_NOTIMPL;
-        }
+        JUCE_COMRESULT GetCurrentTransform (void*, DWRITE_MATRIX*)                                          { return S_OK; }
+        JUCE_COMRESULT GetPixelsPerDip (void*, FLOAT*)                                                      { return S_OK; }
+        JUCE_COMRESULT DrawUnderline (void*, FLOAT, FLOAT, DWRITE_UNDERLINE const*, IUnknown*)              { return S_OK; }
+        JUCE_COMRESULT DrawStrikethrough (void*, FLOAT, FLOAT, DWRITE_STRIKETHROUGH const*, IUnknown*)      { return S_OK; }
+        JUCE_COMRESULT DrawInlineObject (void*, FLOAT, FLOAT, IDWriteInlineObject*, BOOL, BOOL, IUnknown*)  { return E_NOTIMPL; }
 
         JUCE_COMRESULT DrawGlyphRun (void* clientDrawingContext, FLOAT baselineOriginX, FLOAT baselineOriginY, DWRITE_MEASURING_MODE,
                                      DWRITE_GLYPH_RUN const* glyphRun, DWRITE_GLYPH_RUN_DESCRIPTION const* runDescription,
@@ -101,10 +75,10 @@ namespace DirectWriteTypeLayout
                 if (currentLine >= layout->getNumLines())
                 {
                     jassert (currentLine == layout->getNumLines());
-                    TextLayout::Line* const line = new TextLayout::Line();
-                    layout->addLine (line);
+                    TextLayout::Line* const newLine = new TextLayout::Line();
+                    layout->addLine (newLine);
 
-                    line->lineOrigin = Point<float> (baselineOriginX, baselineOriginY);
+                    newLine->lineOrigin = Point<float> (baselineOriginX, baselineOriginY);
                 }
             }
 
@@ -337,13 +311,6 @@ namespace DirectWriteTypeLayout
 
         setTextFormatProperties (text, dwTextFormat);
 
-        {
-            DWRITE_TRIMMING trimming = { DWRITE_TRIMMING_GRANULARITY_CHARACTER, 0, 0 };
-            ComSmartPtr<IDWriteInlineObject> trimmingSign;
-            hr = directWriteFactory->CreateEllipsisTrimmingSign (dwTextFormat, trimmingSign.resetAndGetPointerAddress());
-            hr = dwTextFormat->SetTrimming (&trimming, trimmingSign);
-        }
-
         const int textLen = text.getText().length();
 
         hr = directWriteFactory->CreateTextLayout (text.getText().toWideCharPointer(), textLen, dwTextFormat,
@@ -377,8 +344,7 @@ namespace DirectWriteTypeLayout
 
         ComSmartPtr<IDWriteTextLayout> dwTextLayout;
 
-        if (! setupLayout (text, layout.getWidth(), layout.getHeight(), renderTarget,
-                           directWriteFactory, fontCollection, dwTextLayout))
+        if (! setupLayout (text, layout.getWidth(), 1.0e7f, renderTarget, directWriteFactory, fontCollection, dwTextLayout))
             return;
 
         UINT32 actualLineCount = 0;
@@ -408,8 +374,7 @@ namespace DirectWriteTypeLayout
     {
         ComSmartPtr<IDWriteTextLayout> dwTextLayout;
 
-        if (setupLayout (text, area.getWidth(), area.getHeight(), renderTarget,
-                         directWriteFactory, fontCollection, dwTextLayout))
+        if (setupLayout (text, area.getWidth(), area.getHeight(), renderTarget, directWriteFactory, fontCollection, dwTextLayout))
         {
             ComSmartPtr<ID2D1SolidColorBrush> d2dBrush;
             renderTarget->CreateSolidColorBrush (D2D1::ColorF (D2D1::ColorF (0.0f, 0.0f, 0.0f, 1.0f)),
@@ -445,6 +410,20 @@ bool TextLayout::createNativeLayout (const AttributedString& text)
 
     if (factories->d2dFactory != nullptr && factories->systemFonts != nullptr)
     {
+       #if JUCE_64BIT
+        // There's a mysterious bug in 64-bit Windows that causes garbage floating-point
+        // values to be returned to DrawGlyphRun the first time that it gets used.
+        // In lieu of a better plan, this bodge uses a dummy call to work around this.
+        static bool hasBeenCalled = false;
+        if (! hasBeenCalled)
+        {
+            hasBeenCalled = true;
+            TextLayout dummy;
+            DirectWriteTypeLayout::createLayout (dummy, text, factories->directWriteFactory,
+                                                 factories->d2dFactory, factories->systemFonts);
+        }
+       #endif
+
         DirectWriteTypeLayout::createLayout (*this, text, factories->directWriteFactory,
                                              factories->d2dFactory, factories->systemFonts);
         return true;

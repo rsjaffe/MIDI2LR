@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -139,7 +139,7 @@ public:
 
     //==============================================================================
     /** Destructor. */
-    ~MidiInput();
+    virtual ~MidiInput();
 
     /** Returns the name of this device. */
     const String& getName() const noexcept                      { return name; }
@@ -158,21 +158,23 @@ public:
 
         @see stop
     */
-    void start();
+    virtual void start();
 
     /** Stops the device running.
+
         @see start
     */
-    void stop();
+    virtual void stop();
 
-private:
+protected:
     //==============================================================================
     String name;
     void* internal;
 
-    // The input objects are created with the openDevice() method.
-    explicit MidiInput (const String&);
+    explicit MidiInput (const String& name);
 
+private:
+    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiInput)
 };
 

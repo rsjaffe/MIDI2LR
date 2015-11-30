@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -24,15 +24,6 @@
 
 extern bool isIOSAppActive;
 
-struct AppInactivityCallback // NB: careful, this declaration is duplicated in other modules
-{
-    virtual ~AppInactivityCallback() {}
-    virtual void appBecomingInactive() = 0;
-};
-
-// This is an internal list of callbacks (but currently used between modules)
-Array<AppInactivityCallback*> appBecomingInactiveCallbacks;
-
 } // (juce namespace)
 
 @interface JuceAppStartupDelegate : NSObject <UIApplicationDelegate>
@@ -52,55 +43,45 @@ Array<AppInactivityCallback*> appBecomingInactiveCallbacks;
 
 - (void) applicationDidFinishLaunching: (UIApplication*) application
 {
-    ignoreUnused (application);
+    (void) application;
     initialiseJuce_GUI();
 
-    if (JUCEApplicationBase* app = JUCEApplicationBase::createInstance())
-    {
-        if (! app->initialiseApp())
-            exit (app->shutdownApp());
-    }
-    else
-    {
-        jassertfalse; // you must supply an application object for an iOS app!
-    }
+    JUCEApplicationBase* app = JUCEApplicationBase::createInstance();
+
+    if (! app->initialiseApp())
+        exit (0);
 }
 
 - (void) applicationWillTerminate: (UIApplication*) application
 {
-    ignoreUnused (application);
+    (void) application;
     JUCEApplicationBase::appWillTerminateByForce();
 }
 
 - (void) applicationDidEnterBackground: (UIApplication*) application
 {
-    ignoreUnused (application);
-
+    (void) application;
     if (JUCEApplicationBase* const app = JUCEApplicationBase::getInstance())
         app->suspended();
 }
 
 - (void) applicationWillEnterForeground: (UIApplication*) application
 {
-    ignoreUnused (application);
-
+    (void) application;
     if (JUCEApplicationBase* const app = JUCEApplicationBase::getInstance())
         app->resumed();
 }
 
 - (void) applicationDidBecomeActive: (UIApplication*) application
 {
-    ignoreUnused (application);
+    (void) application;
     isIOSAppActive = true;
 }
 
 - (void) applicationWillResignActive: (UIApplication*) application
 {
-    ignoreUnused (application);
+    (void) application;
     isIOSAppActive = false;
-
-    for (int i = appBecomingInactiveCallbacks.size(); --i >= 0;)
-        appBecomingInactiveCallbacks.getReference(i)->appBecomingInactive();
 }
 
 @end
@@ -226,7 +207,7 @@ void JUCE_CALLTYPE NativeMessageBox::showMessageBox (AlertWindow::AlertIconType 
     JUCE_AUTORELEASEPOOL
     {
         iOSMessageBox mb (title, message, @"OK", nil, nil, nullptr, false);
-        ignoreUnused (mb.getResult());
+        (void) mb.getResult();
     }
 }
 #endif
@@ -313,10 +294,10 @@ void SystemClipboard::copyTextToClipboard (const String& text)
 
 String SystemClipboard::getTextFromClipboard()
 {
-    if (NSString* text = [[UIPasteboard generalPasteboard] valueForPasteboardType: @"public.text"])
-        return nsStringToJuce (text);
+    NSString* text = [[UIPasteboard generalPasteboard] valueForPasteboardType: @"public.text"];
 
-    return String();
+    return text == nil ? String::empty
+                       : nsStringToJuce (text);
 }
 
 //==============================================================================

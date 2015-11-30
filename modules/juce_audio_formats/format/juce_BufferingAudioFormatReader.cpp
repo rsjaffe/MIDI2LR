@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -28,8 +28,7 @@ BufferingAudioReader::BufferingAudioReader (AudioFormatReader* sourceReader,
     : AudioFormatReader (nullptr, sourceReader->getFormatName()),
       source (sourceReader), thread (timeSliceThread),
       nextReadPosition (0),
-      numBlocks (1 + (samplesToBuffer / samplesPerBlock)),
-      timeoutMs (0)
+      numBlocks (1 + (samplesToBuffer / samplesPerBlock))
 {
     sampleRate            = source->sampleRate;
     lengthInSamples       = source->lengthInSamples;

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -56,23 +56,23 @@ public:
     /** Returns the number of files the user has got selected.
         @see getSelectedFile
     */
-    int getNumSelectedFiles() const override;
+    int getNumSelectedFiles() const;
 
     /** Returns one of the files that the user has currently selected.
         The index should be in the range 0 to (getNumSelectedFiles() - 1).
         @see getNumSelectedFiles
     */
-    File getSelectedFile (int index = 0) const override;
+    File getSelectedFile (int index = 0) const;
 
     /** Deselects any files that are currently selected. */
-    void deselectAllFiles() override;
+    void deselectAllFiles();
 
     /** Scrolls to the top of the list. */
-    void scrollToTop() override;
+    void scrollToTop();
 
     /** If the specified file is in the list, it will become the only selected item
         (and if the file isn't in the list, all other items will be deselected). */
-    void setSelectedFile (const File&) override;
+    void setSelectedFile (const File&);
 
 private:
     //==============================================================================
@@ -84,8 +84,8 @@ private:
 
     int getNumRows() override;
     void paintListBoxItem (int, Graphics&, int, int, bool) override;
-    Component* refreshComponentForRow (int rowNumber, bool isRowSelected, Component*) override;
-    void selectedRowsChanged (int row) override;
+    Component* refreshComponentForRow (int rowNumber, bool isRowSelected, Component* existingComponentToUpdate) override;
+    void selectedRowsChanged (int lastRowSelected) override;
     void deleteKeyPressed (int currentSelectedRow) override;
     void returnKeyPressed (int currentSelectedRow) override;
 

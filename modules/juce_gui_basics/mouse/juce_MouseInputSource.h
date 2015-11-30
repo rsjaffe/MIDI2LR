@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -60,18 +60,18 @@ public:
 
     //==============================================================================
     /** Returns true if this object represents a normal desk-based mouse device. */
-    bool isMouse() const noexcept;
+    bool isMouse() const;
 
     /** Returns true if this object represents a source of touch events - i.e. a finger or stylus. */
-    bool isTouch() const noexcept;
+    bool isTouch() const;
 
     /** Returns true if this source has an on-screen pointer that can hover over
         items without clicking them.
     */
-    bool canHover() const noexcept;
+    bool canHover() const;
 
     /** Returns true if this source may have a scroll wheel. */
-    bool hasMouseWheel() const noexcept;
+    bool hasMouseWheel() const;
 
     /** Returns this source's index in the global list of possible sources.
         If the system only has a single mouse, there will only be a single MouseInputSource
@@ -82,28 +82,18 @@ public:
         number 0, and then if a second touch happens while the first is still down, it
         will have index 1, etc.
     */
-    int getIndex() const noexcept;
+    int getIndex() const;
 
     /** Returns true if this device is currently being pressed. */
-    bool isDragging() const noexcept;
+    bool isDragging() const;
 
     /** Returns the last-known screen position of this source. */
-    Point<float> getScreenPosition() const noexcept;
+    Point<float> getScreenPosition() const;
 
     /** Returns a set of modifiers that indicate which buttons are currently
         held down on this device.
     */
-    ModifierKeys getCurrentModifiers() const noexcept;
-
-    /** Returns the device's current touch or pen pressure.
-        The range is 0 (soft) to 1 (hard).
-        If the input device doesn't provide any pressure data, it may return a negative
-        value here, or 0.0 or 1.0, depending on the platform.
-    */
-    float getCurrentPressure() const noexcept;
-
-    /** Returns true if the current pressure value is meaningful. */
-    bool isPressureValid() const noexcept;
+    ModifierKeys getCurrentModifiers() const;
 
     /** Returns the component that was last known to be under this pointer. */
     Component* getComponentUnderMouse() const;
@@ -174,11 +164,6 @@ public:
     /** Attempts to set this mouse pointer's screen position. */
     void setScreenPosition (Point<float> newPosition);
 
-    /** A default value for pressure, which is used when a device doesn't support it, or for
-        mouse-moves, mouse-ups, etc.
-    */
-    static const float invalidPressure;
-
 private:
     //==============================================================================
     friend class ComponentPeer;
@@ -189,7 +174,7 @@ private:
     struct SourceList;
 
     explicit MouseInputSource (MouseInputSourceInternal*) noexcept;
-    void handleEvent (ComponentPeer&, Point<float>, int64 time, ModifierKeys, float);
+    void handleEvent (ComponentPeer&, Point<float>, int64 time, ModifierKeys);
     void handleWheel (ComponentPeer&, Point<float>, int64 time, const MouseWheelDetails&);
     void handleMagnifyGesture (ComponentPeer&, Point<float>, int64 time, float scaleFactor);
 

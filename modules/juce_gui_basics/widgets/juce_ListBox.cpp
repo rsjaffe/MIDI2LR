@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -68,7 +68,7 @@ public:
 
         if (isEnabled())
         {
-            if (owner.selectOnMouseDown && ! selected)
+            if (! selected)
             {
                 owner.selectRowsBasedOnModifierKeys (row, e.mods, false);
 
@@ -106,21 +106,16 @@ public:
         {
             if (isEnabled() && ! (e.mouseWasClicked() || isDragging))
             {
-                SparseSet<int> rowsToDrag;
+                const SparseSet<int> selectedRows (owner.getSelectedRows());
 
-                if (owner.selectOnMouseDown || owner.isRowSelected (row))
-                    rowsToDrag = owner.getSelectedRows();
-                else
-                    rowsToDrag.addRange (Range<int>::withStartAndLength (row, 1));
-
-                if (rowsToDrag.size() > 0)
+                if (selectedRows.size() > 0)
                 {
-                    const var dragDescription (m->getDragSourceDescription (rowsToDrag));
+                    const var dragDescription (m->getDragSourceDescription (selectedRows));
 
                     if (! (dragDescription.isVoid() || (dragDescription.isString() && dragDescription.toString().isEmpty())))
                     {
                         isDragging = true;
-                        owner.startDragAndDrop (e, rowsToDrag, dragDescription, true);
+                        owner.startDragAndDrop (e, dragDescription, true);
                     }
                 }
             }
@@ -375,8 +370,7 @@ ListBox::ListBox (const String& name, ListBoxModel* const m)
       lastRowSelected (-1),
       multipleSelection (false),
       alwaysFlipSelection (false),
-      hasDoneInitialUpdate (false),
-      selectOnMouseDown (true)
+      hasDoneInitialUpdate (false)
 {
     addAndMakeVisible (viewport = new ListViewport (*this));
 
@@ -400,9 +394,15 @@ void ListBox::setModel (ListBoxModel* const newModel)
     }
 }
 
-void ListBox::setMultipleSelectionEnabled (bool b) noexcept         { multipleSelection = b; }
-void ListBox::setClickingTogglesRowSelection (bool b) noexcept      { alwaysFlipSelection = b; }
-void ListBox::setRowSelectedOnMouseDown (bool b) noexcept           { selectOnMouseDown = b; }
+void ListBox::setMultipleSelectionEnabled (bool b) noexcept
+{
+    multipleSelection = b;
+}
+
+void ListBox::setClickingTogglesRowSelection (bool b) noexcept
+{
+    alwaysFlipSelection = b;
+}
 
 void ListBox::setMouseMoveSelectsRows (bool b)
 {
@@ -886,7 +886,7 @@ void ListBox::repaintRow (const int rowNumber) noexcept
     repaint (getRowPosition (rowNumber, true));
 }
 
-Image ListBox::createSnapshotOfRows (const SparseSet<int>& rows, int& imageX, int& imageY)
+Image ListBox::createSnapshotOfSelectedRows (int& imageX, int& imageY)
 {
     Rectangle<int> imageArea;
     const int firstRow = getRowContainingPosition (0, viewport->getY());
@@ -895,7 +895,7 @@ Image ListBox::createSnapshotOfRows (const SparseSet<int>& rows, int& imageX, in
     {
         Component* rowComp = viewport->getComponentForRowIfOnscreen (firstRow + i);
 
-        if (rowComp != nullptr && rows.contains (firstRow + i))
+        if (rowComp != nullptr && isRowSelected (firstRow + i))
         {
             const Point<int> pos (getLocalPoint (rowComp, Point<int>()));
             const Rectangle<int> rowRect (pos.getX(), pos.getY(), rowComp->getWidth(), rowComp->getHeight());
@@ -912,7 +912,7 @@ Image ListBox::createSnapshotOfRows (const SparseSet<int>& rows, int& imageX, in
     {
         Component* rowComp = viewport->getComponentForRowIfOnscreen (firstRow + i);
 
-        if (rowComp != nullptr && rows.contains (firstRow + i))
+        if (rowComp != nullptr && isRowSelected (firstRow + i))
         {
             Graphics g (snapshot);
             g.setOrigin (getLocalPoint (rowComp, Point<int>()) - imageArea.getPosition());
@@ -929,12 +929,12 @@ Image ListBox::createSnapshotOfRows (const SparseSet<int>& rows, int& imageX, in
     return snapshot;
 }
 
-void ListBox::startDragAndDrop (const MouseEvent& e, const SparseSet<int>& rowsToDrag, const var& dragDescription, bool allowDraggingToOtherWindows)
+void ListBox::startDragAndDrop (const MouseEvent& e, const var& dragDescription, bool allowDraggingToOtherWindows)
 {
     if (DragAndDropContainer* const dragContainer = DragAndDropContainer::findParentDragContainerFor (this))
     {
         int x, y;
-        Image dragImage = createSnapshotOfRows (rowsToDrag, x, y);
+        Image dragImage (createSnapshotOfSelectedRows (x, y));
 
         MouseEvent e2 (e.getEventRelativeTo (this));
         const Point<int> p (x - e2.x, y - e2.y);

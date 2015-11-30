@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -56,7 +56,10 @@ ComboBox::ComboBox (const String& name)
 ComboBox::~ComboBox()
 {
     currentId.removeListener (this);
-    hidePopup();
+
+    if (menuActive)
+        PopupMenu::dismissAllActiveMenus();
+
     label = nullptr;
 }
 
@@ -498,33 +501,23 @@ void ComboBox::labelTextChanged (Label*)
 
 
 //==============================================================================
+void ComboBox::popupMenuFinishedCallback (int result, ComboBox* box)
+{
+    if (box != nullptr)
+    {
+        box->menuActive = false;
+
+        if (result != 0)
+            box->setSelectedId (result);
+    }
+}
+
 void ComboBox::showPopupIfNotActive()
 {
     if (! menuActive)
     {
         menuActive = true;
         showPopup();
-    }
-}
-
-void ComboBox::hidePopup()
-{
-    if (menuActive)
-    {
-        menuActive = false;
-        PopupMenu::dismissAllActiveMenus();
-        repaint();
-    }
-}
-
-static void comboBoxPopupMenuFinishedCallback (int result, ComboBox* combo)
-{
-    if (combo != nullptr)
-    {
-        combo->hidePopup();
-
-        if (result != 0)
-            combo->setSelectedId (result);
     }
 }
 
@@ -539,7 +532,7 @@ void ComboBox::showPopup()
                                             .withMinimumWidth (getWidth())
                                             .withMaximumNumColumns (1)
                                             .withStandardItemHeight (label->getHeight()),
-                        ModalCallbackFunction::forComponent (comboBoxPopupMenuFinishedCallback, this));
+                        ModalCallbackFunction::forComponent (popupMenuFinishedCallback, this));
 }
 
 void ComboBox::addItemsToMenu (PopupMenu& menu) const

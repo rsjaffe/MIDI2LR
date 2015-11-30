@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -276,9 +276,7 @@ public:
 
     int compareIgnoreCase (const CharPointer_ASCII other) const
     {
-       #if JUCE_MINGW || (JUCE_WINDOWS && JUCE_CLANG)
-        return CharacterFunctions::compareIgnoreCase (*this, other);
-       #elif JUCE_WINDOWS
+       #if JUCE_WINDOWS
         return stricmp (data, other.data);
        #else
         return strcasecmp (data, other.data);
@@ -346,7 +344,7 @@ public:
     /** Parses this string as a 64-bit integer. */
     int64 getIntValue64() const noexcept
     {
-       #if JUCE_LINUX || JUCE_ANDROID || JUCE_MINGW
+       #if JUCE_LINUX || JUCE_ANDROID
         return atoll (data);
        #elif JUCE_WINDOWS
         return _atoi64 (data);

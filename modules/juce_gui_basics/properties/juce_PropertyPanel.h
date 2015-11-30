@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -67,9 +67,8 @@ public:
 
     /** Adds a set of properties to the panel.
 
-        These properties are added under a section heading with a plus/minus button that
-        allows it to be opened and closed. If indexToInsertAt is < 0 then it will be added
-        at the end of the list, or before the given index if the index is non-zero.
+        These properties are added at the bottom of the list, under a section heading with
+        a plus/minus button that allows it to be opened and closed.
 
         The components in the list will be owned by this object and will be automatically
         deleted later on when no longer needed.
@@ -78,8 +77,7 @@ public:
     */
     void addSection (const String& sectionTitle,
                      const Array<PropertyComponent*>& newPropertyComponents,
-                     bool shouldSectionInitiallyBeOpen = true,
-                     int indexToInsertAt = -1);
+                     bool shouldSectionInitiallyBeOpen = true);
 
     /** Calls the refresh() method of all PropertyComponents in the panel */
     void refreshAll() const;
@@ -113,11 +111,6 @@ public:
     */
     void setSectionEnabled (int sectionIndex, bool shouldBeEnabled);
 
-    /** Remove one of the sections using the section index.
-        The index is from 0 up to the number of items returned by getSectionNames().
-    */
-    void removeSection (int sectionIndex);
-
     //==============================================================================
     /** Saves the current state of open/closed sections so it can be restored later.
 
@@ -147,7 +140,7 @@ public:
     /** Returns the message that is displayed when there are no properties.
         @see setMessageWhenEmpty
     */
-    const String& getMessageWhenEmpty() const noexcept;
+    const String& getMessageWhenEmpty() const;
 
     //==============================================================================
     /** @internal */
@@ -156,9 +149,10 @@ public:
     void resized() override;
 
 private:
+    class SectionComponent;
+
     Viewport viewport;
-    struct SectionComponent;
-    struct PropertyHolderComponent;
+    class PropertyHolderComponent;
     PropertyHolderComponent* propertyHolderComponent;
     String messageWhenEmpty;
 

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -265,8 +265,8 @@ bool File::isDirectory() const
 {
     juce_statStruct info;
 
-    return fullPath.isNotEmpty()
-             && (juce_stat (fullPath, info) && ((info.st_mode & S_IFDIR) != 0));
+    return fullPath.isEmpty()
+            || (juce_stat (fullPath, info) && ((info.st_mode & S_IFDIR) != 0));
 }
 
 bool File::exists() const
@@ -578,10 +578,16 @@ MemoryMappedFile::~MemoryMappedFile()
 }
 
 //==============================================================================
+#if JUCE_PROJUCER_LIVE_BUILD
+extern "C" const char* juce_getCurrentExecutablePath();
+#endif
+
 File juce_getExecutableFile();
 File juce_getExecutableFile()
 {
-   #if JUCE_ANDROID
+   #if JUCE_PROJUCER_LIVE_BUILD
+    return File (juce_getCurrentExecutablePath());
+   #elif JUCE_ANDROID
     return File (android.appFile);
    #else
     struct DLAddrReader
@@ -841,7 +847,6 @@ void InterProcessLock::exit()
 }
 
 //==============================================================================
-#if ! JUCE_ANDROID
 void JUCE_API juce_threadEntryPoint (void*);
 
 extern "C" void* threadEntryProc (void*);
@@ -849,6 +854,10 @@ extern "C" void* threadEntryProc (void* userData)
 {
     JUCE_AUTORELEASEPOOL
     {
+       #if JUCE_ANDROID
+        const AndroidThreadScope androidEnv;
+       #endif
+
         juce_threadEntryPoint (userData);
     }
 
@@ -922,7 +931,6 @@ bool Thread::setThreadPriority (void* handle, int priority)
     param.sched_priority = ((maxPriority - minPriority) * priority) / 10 + minPriority;
     return pthread_setschedparam ((pthread_t) handle, policy, &param) == 0;
 }
-#endif
 
 Thread::ThreadID JUCE_CALLTYPE Thread::getCurrentThreadId()
 {
@@ -953,22 +961,22 @@ void JUCE_CALLTYPE Thread::setCurrentThreadAffinityMask (const uint32 affinityMa
         if ((affinityMask & (1 << i)) != 0)
             CPU_SET (i, &affinity);
 
-   #if (! JUCE_ANDROID) && ((! JUCE_LINUX) || ((__GLIBC__ * 1000 + __GLIBC_MINOR__) >= 2004))
-    pthread_setaffinity_np (pthread_self(), sizeof (cpu_set_t), &affinity);
-   #else
-    // NB: this call isn't really correct because it sets the affinity of the process,
-    // not the thread. But it's included here as a fallback for people who are using
-    // ridiculously old versions of glibc
-    sched_setaffinity (getpid(), sizeof (cpu_set_t), &affinity);
-   #endif
+    /*
+       N.B. If this line causes a compile error, then you've probably not got the latest
+       version of glibc installed.
 
+       If you don't want to update your copy of glibc and don't care about cpu affinities,
+       then you can just disable all this stuff by setting the SUPPORT_AFFINITIES macro to 0.
+    */
+    sched_setaffinity (getpid(), sizeof (cpu_set_t), &affinity);
     sched_yield();
 
    #else
-    // affinities aren't supported because either the appropriate header files weren't found,
-    // or the SUPPORT_AFFINITIES macro was turned off
+    /* affinities aren't supported because either the appropriate header files weren't found,
+       or the SUPPORT_AFFINITIES macro was turned off
+    */
     jassertfalse;
-    ignoreUnused (affinityMask);
+    (void) affinityMask;
    #endif
 }
 
@@ -1141,7 +1149,6 @@ bool ChildProcess::start (const StringArray& args, int streamFlags)
 }
 
 //==============================================================================
-#if ! JUCE_ANDROID
 struct HighResolutionTimer::Pimpl
 {
     Pimpl (HighResolutionTimer& t)  : owner (t), thread (0), shouldStop (false)
@@ -1248,12 +1255,26 @@ private:
 
         uint64_t time, delta;
 
+       #elif JUCE_ANDROID
+        Clock (double millis) noexcept  : delta ((uint64) (millis * 1000000))
+        {
+        }
+
+        void wait() noexcept
+        {
+            struct timespec t;
+            t.tv_sec  = (time_t) (delta / 1000000000);
+            t.tv_nsec = (long)   (delta % 1000000000);
+            nanosleep (&t, nullptr);
+        }
+
+        uint64 delta;
        #else
         Clock (double millis) noexcept  : delta ((uint64) (millis * 1000000))
         {
             struct timespec t;
             clock_gettime (CLOCK_MONOTONIC, &t);
-            time = (uint64) (1000000000 * (int64) t.tv_sec + (int64) t.tv_nsec);
+            time = 1000000000 * (int64) t.tv_sec + t.tv_nsec;
         }
 
         void wait() noexcept
@@ -1296,5 +1317,3 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (Pimpl)
 };
-
-#endif

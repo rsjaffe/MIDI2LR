@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -82,15 +82,13 @@ public:
 
     //==============================================================================
     /** Destructor. */
-    ~MidiOutput();
-
-    /** Returns the name of this device. */
-    const String& getName() const noexcept                      { return name; }
+    virtual ~MidiOutput();
 
     /** Makes this device output a midi message.
+
         @see MidiMessage
     */
-    void sendMessageNow (const MidiMessage& message);
+    virtual void sendMessageNow (const MidiMessage& message);
 
     //==============================================================================
     /** This lets you supply a block of messages that will be sent out at some point
@@ -102,7 +100,7 @@ public:
 
         This will only work if you've already started the thread with startBackgroundThread().
 
-        A time is specified, at which the block of messages should be sent. This time uses
+        A time is supplied, at which the block of messages should be sent. This time uses
         the same time base as Time::getMillisecondCounter(), and must be in the future.
 
         The samplesPerSecondForBuffer parameter indicates the number of samples per second
@@ -110,35 +108,38 @@ public:
         samplesPerSecondForBuffer value is needed to convert this sample position to a
         real time.
     */
-    void sendBlockOfMessages (const MidiBuffer& buffer,
-                              double millisecondCounterToStartAt,
-                              double samplesPerSecondForBuffer);
+    virtual void sendBlockOfMessages (const MidiBuffer& buffer,
+                                      double millisecondCounterToStartAt,
+                                      double samplesPerSecondForBuffer);
 
-    /** Gets rid of any midi messages that had been added by sendBlockOfMessages(). */
-    void clearAllPendingMessages();
+    /** Gets rid of any midi messages that had been added by sendBlockOfMessages().
+    */
+    virtual void clearAllPendingMessages();
 
     /** Starts up a background thread so that the device can send blocks of data.
+
         Call this to get the device ready, before using sendBlockOfMessages().
     */
-    void startBackgroundThread();
+    virtual void startBackgroundThread();
 
     /** Stops the background thread, and clears any pending midi events.
+
         @see startBackgroundThread
     */
-    void stopBackgroundThread();
+    virtual void stopBackgroundThread();
 
 
-private:
+protected:
     //==============================================================================
     void* internal;
     CriticalSection lock;
     struct PendingMessage;
     PendingMessage* firstMessage;
-    String name;
 
-    MidiOutput(const String& midiName); // These objects are created with the openDevice() method.
+    MidiOutput();
     void run() override;
 
+private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiOutput)
 };
 

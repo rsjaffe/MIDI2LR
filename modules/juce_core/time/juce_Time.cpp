@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -62,18 +62,21 @@ namespace TimeHelpers
         }
         else
         {
-            time_t now = static_cast<time_t> (seconds);
+            time_t now = static_cast <time_t> (seconds);
 
-           #if JUCE_WINDOWS && JUCE_MINGW
-            return *localtime (&now);
-           #elif JUCE_WINDOWS
+          #if JUCE_WINDOWS
+           #ifdef _INC_TIME_INL
             if (now >= 0 && now <= 0x793406fff)
                 localtime_s (&result, &now);
             else
                 zerostruct (result);
            #else
-            localtime_r (&now, &result); // more thread-safe
+            result = *localtime (&now);
            #endif
+          #else
+
+            localtime_r (&now, &result); // more thread-safe
+          #endif
         }
 
         return result;
@@ -192,15 +195,19 @@ Time& Time::operator= (const Time& other) noexcept
 //==============================================================================
 int64 Time::currentTimeMillis() noexcept
 {
-   #if JUCE_WINDOWS && ! JUCE_MINGW
+  #if JUCE_WINDOWS
     struct _timeb t;
+   #ifdef _INC_TIME_INL
     _ftime_s (&t);
-    return ((int64) t.time) * 1000 + t.millitm;
    #else
+    _ftime (&t);
+   #endif
+    return ((int64) t.time) * 1000 + t.millitm;
+  #else
     struct timeval tv;
     gettimeofday (&tv, nullptr);
     return ((int64) tv.tv_sec) * 1000 + tv.tv_usec / 1000;
-   #endif
+  #endif
 }
 
 Time JUCE_CALLTYPE Time::getCurrentTime() noexcept
@@ -354,9 +361,10 @@ String Time::getTimeZone() const noexcept
 {
     String zone[2];
 
-  #if JUCE_MSVC
+  #if JUCE_WINDOWS
     _tzset();
 
+   #ifdef _INC_TIME_INL
     for (int i = 0; i < 2; ++i)
     {
         char name[128] = { 0 };
@@ -364,12 +372,13 @@ String Time::getTimeZone() const noexcept
         _get_tzname (&length, name, 127, i);
         zone[i] = name;
     }
-  #else
-   #if JUCE_MINGW
-    #warning "Can't find a replacement for tzset on mingw - ideas welcome!"
    #else
-    tzset();
+    const char** const zonePtr = (const char**) _tzname;
+    zone[0] = zonePtr[0];
+    zone[1] = zonePtr[1];
    #endif
+  #else
+    tzset();
     const char** const zonePtr = (const char**) tzname;
     zone[0] = zonePtr[0];
     zone[1] = zonePtr[1];

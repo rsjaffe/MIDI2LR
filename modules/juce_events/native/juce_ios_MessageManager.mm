@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -25,15 +25,7 @@
 void MessageManager::runDispatchLoop()
 {
     jassert (isThisTheMessageThread()); // must only be called by the message thread
-
-    while (! quitMessagePosted)
-    {
-        JUCE_AUTORELEASEPOOL
-        {
-            [[NSRunLoop currentRunLoop] runMode: NSDefaultRunLoopMode
-                                     beforeDate: [NSDate dateWithTimeIntervalSinceNow: 0.001]];
-        }
-    }
+    runDispatchLoopUntil (-1);
 }
 
 void MessageManager::stopDispatchLoop()
@@ -42,7 +34,6 @@ void MessageManager::stopDispatchLoop()
     exit (0); // iOS apps get no mercy..
 }
 
-#if JUCE_MODAL_LOOPS_PERMITTED
 bool MessageManager::runDispatchLoopUntil (int millisecondsToRunFor)
 {
     JUCE_AUTORELEASEPOOL
@@ -68,7 +59,6 @@ bool MessageManager::runDispatchLoopUntil (int millisecondsToRunFor)
         return ! quitMessagePosted;
     }
 }
-#endif
 
 //==============================================================================
 static ScopedPointer<MessageQueue> messageQueue;

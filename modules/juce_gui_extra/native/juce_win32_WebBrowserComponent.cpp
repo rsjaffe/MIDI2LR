@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -71,8 +71,8 @@ public:
         {
             LPSAFEARRAY sa = nullptr;
 
-            VARIANT headerFlags, frame, postDataVar, headersVar;  // (_variant_t isn't available in all compilers)
-            VariantInit (&headerFlags);
+            VARIANT flags, frame, postDataVar, headersVar;  // (_variant_t isn't available in all compilers)
+            VariantInit (&flags);
             VariantInit (&frame);
             VariantInit (&postDataVar);
             VariantInit (&headersVar);
@@ -109,12 +109,12 @@ public:
             }
 
             browser->Navigate ((BSTR) (const OLECHAR*) url.toWideCharPointer(),
-                               &headerFlags, &frame, &postDataVar, &headersVar);
+                               &flags, &frame, &postDataVar, &headersVar);
 
             if (sa != nullptr)
                 SafeArrayDestroy (sa);
 
-            VariantClear (&headerFlags);
+            VariantClear (&flags);
             VariantClear (&frame);
             VariantClear (&postDataVar);
             VariantClear (&headersVar);
@@ -129,10 +129,13 @@ private:
     DWORD adviseCookie;
 
     //==============================================================================
-    struct EventHandler  : public ComBaseClassHelper<IDispatch>,
-                           public ComponentMovementWatcher
+    class EventHandler  : public ComBaseClassHelper<IDispatch>,
+                          public ComponentMovementWatcher
     {
-        EventHandler (WebBrowserComponent& w)  : ComponentMovementWatcher (&w), owner (w) {}
+    public:
+        EventHandler (WebBrowserComponent& w)  : ComponentMovementWatcher (&w), owner (w)
+        {
+        }
 
         JUCE_COMRESULT GetTypeInfoCount (UINT*)                                  { return E_NOTIMPL; }
         JUCE_COMRESULT GetTypeInfo (UINT, LCID, ITypeInfo**)                     { return E_NOTIMPL; }
@@ -148,21 +151,19 @@ private:
                                                                                                     : VARIANT_TRUE;
                 return S_OK;
             }
-
-            if (dispIdMember == 273 /*DISPID_NEWWINDOW3*/)
+            else if (dispIdMember == DISPID_NEWWINDOW3)
             {
                 owner.newWindowAttemptingToLoad (pDispParams->rgvarg[0].bstrVal);
                 *pDispParams->rgvarg[3].pboolVal = VARIANT_TRUE;
+
                 return S_OK;
             }
-
-            if (dispIdMember == DISPID_DOCUMENTCOMPLETE)
+            else if (dispIdMember == DISPID_DOCUMENTCOMPLETE)
             {
                 owner.pageFinishedLoading (getStringFromVariant (pDispParams->rgvarg[0].pvarVal));
                 return S_OK;
             }
-
-            if (dispIdMember == 263 /*DISPID_WINDOWCLOSING*/)
+            else if (dispIdMember == 263 /*DISPID_WINDOWCLOSING*/)
             {
                 owner.windowCloseRequest();
 

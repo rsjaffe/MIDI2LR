@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -43,7 +43,7 @@ public:
           imageOffset (offset),
           hasCheckedForExternalDrag (false)
     {
-        updateSize();
+        setSize (im.getWidth(), im.getHeight());
 
         if (mouseDragSource == nullptr)
             mouseDragSource = sourceComponent;
@@ -160,13 +160,6 @@ public:
         forceMouseCursorUpdate();
     }
 
-    void updateImage (const Image& newImage)
-    {
-        image = newImage;
-        updateSize();
-        repaint();
-    }
-
     void timerCallback() override
     {
         forceMouseCursorUpdate();
@@ -213,11 +206,6 @@ private:
     const Point<int> imageOffset;
     bool hasCheckedForExternalDrag;
     Time lastTimeOverTarget;
-
-    void updateSize()
-    {
-        setSize (image.getWidth(), image.getHeight());
-    }
 
     void forceMouseCursorUpdate()
     {
@@ -482,12 +470,6 @@ var DragAndDropContainer::getCurrentDragDescription() const
 {
     return dragImageComponent != nullptr ? dragImageComponent->sourceDetails.description
                                          : var();
-}
-
-void DragAndDropContainer::setCurrentDragImage (const Image& newImage)
-{
-    if (dragImageComponent != nullptr)
-        dragImageComponent->updateImage (newImage);
 }
 
 DragAndDropContainer* DragAndDropContainer::findParentDragContainerFor (Component* c)

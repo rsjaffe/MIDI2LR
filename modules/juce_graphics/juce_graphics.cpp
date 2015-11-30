@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -73,15 +73,15 @@
  #ifndef JUCE_USE_FREETYPE
   #define JUCE_USE_FREETYPE 1
  #endif
-#endif
 
-#if JUCE_USE_FREETYPE
- #if JUCE_USE_FREETYPE_AMALGAMATED
-  #include "native/freetype/FreeTypeAmalgam.h"
- #else
+ #if ! JUCE_USE_FREETYPE_AMALGAMATED
   #include <ft2build.h>
   #include FT_FREETYPE_H
  #endif
+#endif
+
+#if JUCE_USE_FREETYPE && JUCE_USE_FREETYPE_AMALGAMATED
+ #include "native/freetype/FreeTypeAmalgam.h"
 #endif
 
 #undef SIZEOF

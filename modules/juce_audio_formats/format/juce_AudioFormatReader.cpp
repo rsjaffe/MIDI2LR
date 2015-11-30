@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -46,7 +46,6 @@ bool AudioFormatReader::read (int* const* destSamples,
 {
     jassert (numDestChannels > 0); // you have to actually give this some channels to work with!
 
-    const size_t originalNumSamplesToRead = (size_t) numSamplesToRead;
     int startOffsetInDestBuffer = 0;
 
     if (startSampleInSource < 0)
@@ -65,7 +64,7 @@ bool AudioFormatReader::read (int* const* destSamples,
     if (numSamplesToRead <= 0)
         return true;
 
-    if (! readSamples (const_cast<int**> (destSamples),
+    if (! readSamples (const_cast <int**> (destSamples),
                        jmin ((int) numChannels, numDestChannels), startOffsetInDestBuffer,
                        startSampleInSource, numSamplesToRead))
         return false;
@@ -88,13 +87,13 @@ bool AudioFormatReader::read (int* const* destSamples,
             if (lastFullChannel != nullptr)
                 for (int i = (int) numChannels; i < numDestChannels; ++i)
                     if (destSamples[i] != nullptr)
-                        memcpy (destSamples[i], lastFullChannel, sizeof (int) * originalNumSamplesToRead);
+                        memcpy (destSamples[i], lastFullChannel, sizeof (int) * (size_t) numSamplesToRead);
         }
         else
         {
             for (int i = (int) numChannels; i < numDestChannels; ++i)
                 if (destSamples[i] != nullptr)
-                    zeromem (destSamples[i], sizeof (int) * originalNumSamplesToRead);
+                    zeromem (destSamples[i], sizeof (int) * (size_t) numSamplesToRead);
         }
     }
 
@@ -163,7 +162,7 @@ void AudioFormatReader::read (AudioSampleBuffer* buffer,
         }
         else
         {
-            HeapBlock<int*> chans ((size_t) numTargetChannels + 1);
+            HeapBlock<int*> chans ((size_t) numTargetChannels);
             readChannels (*this, chans, buffer, startSample, numSamples, readerStartSample, numTargetChannels);
         }
 
@@ -230,21 +229,20 @@ void AudioFormatReader::readMaxLevels (int64 startSampleInFile, int64 numSamples
                                        float& lowestRight, float& highestRight)
 {
     Range<float> levels[2];
+    readMaxLevels (startSampleInFile, numSamples, levels, jmin (2, (int) numChannels));
+    lowestLeft  = levels[0].getStart();
+    highestLeft = levels[0].getEnd();
 
-    if (numChannels < 2)
+    if (numChannels > 1)
     {
-        readMaxLevels (startSampleInFile, numSamples, levels, (int) numChannels);
-        levels[1] = levels[0];
+        lowestRight  = levels[1].getStart();
+        highestRight = levels[1].getEnd();
     }
     else
     {
-        readMaxLevels (startSampleInFile, numSamples, levels, 2);
+        lowestRight  = lowestLeft;
+        highestRight = highestLeft;
     }
-
-    lowestLeft   = levels[0].getStart();
-    highestLeft  = levels[0].getEnd();
-    lowestRight  = levels[1].getStart();
-    highestRight = levels[1].getEnd();
 }
 
 int64 AudioFormatReader::searchForLevel (int64 startSample,

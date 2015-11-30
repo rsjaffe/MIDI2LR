@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2013 - Raw Material Software Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -29,7 +29,7 @@
 struct NamedValueSet::NamedValue
 {
     NamedValue() noexcept {}
-    NamedValue (const Identifier& n, const var& v)  : name (n), value (v) {}
+    NamedValue (Identifier n, const var& v)  : name (n), value (v) {}
     NamedValue (const NamedValue& other) : name (other.name), value (other.value) {}
 
    #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
@@ -39,9 +39,7 @@ struct NamedValueSet::NamedValue
     {
     }
 
-    NamedValue (Identifier&& n, var&& v)
-        : name (static_cast<Identifier&&> (n)),
-          value (static_cast<var&&> (v))
+    NamedValue (Identifier n, var&& v)  : name (n), value (static_cast<var&&> (v))
     {
     }
 
@@ -140,7 +138,7 @@ var* NamedValueSet::getVarPointer (const Identifier& name) const noexcept
 }
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
-bool NamedValueSet::set (const Identifier& name, var&& newValue)
+bool NamedValueSet::set (Identifier name, var&& newValue)
 {
     if (var* const v = getVarPointer (name))
     {
@@ -156,7 +154,7 @@ bool NamedValueSet::set (const Identifier& name, var&& newValue)
 }
 #endif
 
-bool NamedValueSet::set (const Identifier& name, const var& newValue)
+bool NamedValueSet::set (Identifier name, const var& newValue)
 {
     if (var* const v = getVarPointer (name))
     {
