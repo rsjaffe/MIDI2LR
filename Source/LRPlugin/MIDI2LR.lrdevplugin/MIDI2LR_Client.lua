@@ -58,6 +58,7 @@ do
   local tmin,tmax = LrDevelopController.getRange('Tint')
   MIDI2LR.TintLow = prefs.TintLow or tmin
   MIDI2LR.TintHigh = prefs.TintHigh or tmax
+  MIDI2LR.PasteList = prefs.PasteList or {}
 end
 -------------end preferences section
 
@@ -70,6 +71,16 @@ local processMessage
 local sendChangedParams
 local startServer
 local updateParam
+
+local function PasteSelectedSettings ()
+  for param,value in pairs (MIDI2LR.PasteList) do
+    if value == true and MIDI2LR.Copied_Settings[param] then
+      MIDI2LR.PARAM_OBSERVER[param] = value
+      LrDevelopController.setValue(param,value)
+    end
+  end
+end
+
 
 local function PasteSettings  ()
   LrTasks.startAsyncTask ( function () 
@@ -139,6 +150,7 @@ local ACTIONS = {
   ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
   CopySettings     = CopySettings,
   PasteSettings    = PasteSettings,
+  PasteSelectedSettings = PasteSelectedSettings,
 }
 
 local TOOL_ALIASES = {
