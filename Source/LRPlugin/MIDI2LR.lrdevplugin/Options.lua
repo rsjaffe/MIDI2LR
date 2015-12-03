@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+require 'Develop_Params.lua' -- global table of develop params for selection when pasting
 local LrApplication = import 'LrApplication'
 local LrBinding = import 'LrBinding'
 local LrDialogs = import 'LrDialogs'
@@ -28,6 +29,7 @@ local bind = LrView.bind -- shortcut for bind() method
 
 prefs = prefs or {}
 prefs.Presets = prefs.Presets or {}
+prefs.PasteList = prefs.PasteList or {}
 
 --[[ FOR DEBUGGING ONLY. REMOVE - to comment out
 MIDI2LR = {}
@@ -58,6 +60,24 @@ local function setOptions()
       local tintlow,tinthigh = LrDevelopController.getRange('Tint') 
       properties['TintLow'] = prefs['TintLow'] or tintlow
       properties['TintHigh'] = prefs['TintHigh'] or tinthigh
+
+      local adjustmentscol1, adjustmentscol2 = {}, {}
+      properties.PasteList = prefs.PasteList
+
+      do -- set up adjustments columns
+        local breakpoint = math.floor(#DEVELOP_PARAMS / 2)
+        for i = 1,breakpoint do
+          table.insert(adjustmentscol1, 
+            f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
+          )
+        end
+        for i = breakpoint + 1, #DEVELOP_PARAMS do
+          table.insert(adjustmentscol2, 
+            f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
+          )
+        end
+      end
+
 
       local contents = 
       f:view{
@@ -380,6 +400,14 @@ local function setOptions()
             }, -- row
           }, -- tab_view_item
           f:tab_view_item {
+            title = 'Paste selections',
+            identifier = 'pasteselections',
+            f:row{
+              f:column (adjustmentscol1),
+              f:column (adjustmentscol2) ,           
+            }, --row
+          }, -- tab_view_item
+          f:tab_view_item {
             title = 'Other settings',
             identifier = 'othersettings',
             f:row {
@@ -482,6 +510,8 @@ local function setOptions()
           MIDI2LR[v..'Low'] = properties[v..'Low']
           MIDI2LR[v..'High'] = properties[v..'High']
         end
+        prefs.PasteList = properties.PasteList
+        MIDI2LR.PasteList = prefs.PasteList
         prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
         MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
       end

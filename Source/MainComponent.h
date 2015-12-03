@@ -22,7 +22,6 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-
 #ifndef MAINCOMPONENT_H_INCLUDED
 #define MAINCOMPONENT_H_INCLUDED
 
@@ -32,27 +31,27 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
-
+#include "ResizableLayout.h"
 
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainContentComponent   : public Component,
-                               public MIDICommandListener,
-                               public LRConnectionListener,
-                               public AsyncUpdater,
-                               public Timer,
-                               public ButtonListener,
-                               public ProfileChangeListener
+class MainContentComponent: public Component,
+    public MIDICommandListener,
+    public LRConnectionListener,
+    public AsyncUpdater,
+    public Timer,
+    public ButtonListener,
+    public ProfileChangeListener,
+    public ResizableLayout
 {
 public:
     MainContentComponent();
     ~MainContentComponent();
 
     void paint (Graphics&);
-    void resized();
 
     // MIDICommandListener interface
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;
@@ -73,7 +72,10 @@ public:
 
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
-
+    void SetTimerText(int timeValue);
+protected:
+    void SetLabelSettings(Label &lblToSet);
+    
 private:
     Label _titleLabel;
     DropShadowEffect _titleShadow;
@@ -94,8 +96,9 @@ private:
 
     String _lastCommand;
     int _rowToSelect;
+    Label m_currentStatus;
 
-    
+
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

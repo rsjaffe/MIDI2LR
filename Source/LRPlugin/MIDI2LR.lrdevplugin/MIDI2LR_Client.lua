@@ -31,7 +31,7 @@ local LrShell             = import 'LrShell'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
--------------debug section
+--[[-----------debug section, enable by adding - to beginning this line
 local LrLogger = import 'LrLogger'
 
 local myLogger = LrLogger( 'libraryLogger' )
@@ -42,7 +42,43 @@ myLogger:enable( 'logfile' ) -- Pass either a string or a table of actions.
 local function outputToLog( message )
   myLogger:trace( message )
 end
--------------end debug section
+---table.tostring function
+function table.val_to_str ( v )
+  if "string" == type( v ) then
+    v = string.gsub( v, "\n", "\\n" )
+    if string.match( string.gsub(v,"[^'\"]",""), '^"+$' ) then
+      return "'" .. v .. "'"
+    end
+    return '"' .. string.gsub(v,'"', '\\"' ) .. '"'
+  else
+    return "table" == type( v ) and table.tostring( v ) or
+    tostring( v )
+  end
+end
+
+function table.key_to_str ( k )
+  if "string" == type( k ) and string.match( k, "^[_%a][_%a%d]*$" ) then
+    return k
+  else
+    return "[" .. table.val_to_str( k ) .. "]"
+  end
+end
+
+function table.tostring( tbl )
+  local result, done = {}, {}
+  for k, v in ipairs( tbl ) do
+    table.insert( result, table.val_to_str( v ) )
+    done[ k ] = true
+  end
+  for k, v in pairs( tbl ) do
+    if not done[ k ] then
+      table.insert( result,
+        table.key_to_str( k ) .. "=" .. table.val_to_str( v ) )
+    end
+  end
+  return "{" .. table.concat( result, "," ) .. "}"
+end
+--]]-----------end debug section
 
 
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
@@ -55,8 +91,10 @@ do
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
   MIDI2LR.TemperatureLow = prefs.TemperatureLow or 3000
   MIDI2LR.TemperatureHigh = prefs.TemperatureHigh or 9000
-  MIDI2LR.TintLow = prefs.TintLow or -100
-  MIDI2LR.TintHigh = prefs.TintHigh or 100
+  local tmin,tmax = LrDevelopController.getRange('Tint')
+  MIDI2LR.TintLow = prefs.TintLow or tmin
+  MIDI2LR.TintHigh = prefs.TintHigh or tmax
+  MIDI2LR.PasteList = prefs.PasteList or {}
 end
 -------------end preferences section
 
@@ -70,7 +108,18 @@ local sendChangedParams
 local startServer
 local updateParam
 
+local function PasteSelectedSettings ()
+  for _,param in ipairs (DEVELOP_PARAMS) do --having trouble iterating pastelist--observable table iterator issue?
+    if (MIDI2LR.PasteList[param] and MIDI2LR.Copied_Settings[param]) then
+      MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
+      LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
+    end
+  end
+end
+
+
 local function PasteSettings  ()
+  if MIDI2LR.Copied_Settings == nil then return end
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Paste settings', 
@@ -138,6 +187,7 @@ local ACTIONS = {
   ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
   CopySettings     = CopySettings,
   PasteSettings    = PasteSettings,
+  PasteSelectedSettings = PasteSelectedSettings,
 }
 
 local TOOL_ALIASES = {

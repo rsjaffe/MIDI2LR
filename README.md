@@ -8,7 +8,7 @@ Assistance on the code and design is welcome.
 
 
 ## Supported platforms
-Mac OS X
+Mac OSX 10.9+
 
 Windows 7/8/10
 

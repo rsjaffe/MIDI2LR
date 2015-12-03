@@ -82,6 +82,7 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
 	}
 }
 
+// return value -1 means can not find
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC) const
 {
 	for (auto idx = 0; idx < _rows; idx++)
@@ -90,6 +91,8 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
 			&& _commands[idx].isCC == isCC)
 			return idx;
 	}
+	//could not find 
+	return -1;
 }
 
 void CommandTableModel::removeRow(int row)
