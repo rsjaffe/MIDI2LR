@@ -61,21 +61,29 @@ local function setOptions()
       properties['TintLow'] = prefs['TintLow'] or tintlow
       properties['TintHigh'] = prefs['TintHigh'] or tinthigh
 
-      local adjustmentscol1, adjustmentscol2 = {}, {}
+      local adjustmentscol1, adjustmentscol2, adjustmentscol3 = {}, {}, {}
       properties.PasteList = prefs.PasteList
 
       do -- set up adjustments columns
-        local breakpoint = math.floor(#DEVELOP_PARAMS / 2)
+        local breakpoint = math.floor(#DEVELOP_PARAMS / 3)
         for i = 1,breakpoint do
-          table.insert(adjustmentscol1, 
+          table.insert(
+            adjustmentscol1, 
             f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
           )
         end
-        for i = breakpoint + 1, #DEVELOP_PARAMS do
-          table.insert(adjustmentscol2, 
+        for i = breakpoint + 1, breakpoint * 2 do
+          table.insert(
+            adjustmentscol2, 
             f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
           )
         end
+        for i = (breakpoint * 2) + 1, #DEVELOP_PARAMS do
+          table.insert(
+            adjustmentscol3, 
+            f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
+          )
+        end 
       end
 
 
@@ -404,7 +412,8 @@ local function setOptions()
             identifier = 'pasteselections',
             f:row{
               f:column (adjustmentscol1),
-              f:column (adjustmentscol2) ,           
+              f:column (adjustmentscol2) , 
+              f:column (adjustmentscol3),
             }, --row
           }, -- tab_view_item
           f:tab_view_item {
