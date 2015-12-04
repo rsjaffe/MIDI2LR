@@ -25,4 +25,5 @@ The project files for Visual Studio and Xcode are located in Builds/
 [Donate to development costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YWHT4JMA42RXN)
 
 ## Screenshot
-![Screenshot](http://i.imgur.com/nneRpK1.png)
+![Screenshot](http://rsjaffe.github.io/MIDI2LR/images/app070.png)
+
