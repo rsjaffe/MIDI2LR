@@ -44,12 +44,22 @@ public:
 	bool moreThanOneInstanceAllowed() override { return false; }
 
 	//==============================================================================
-	void initialise(const String& /*commandLine*/) override
+	void initialise(const String& commandLine) override
 	{
-		mainWindow = new MainWindow(getApplicationName());
-		mainWindow->Init();
-		// Check for latest version
-		_versionChecker.startThread();
+		if (commandLine != SHUT_DOWN_STRING)
+		{
+	    
+	        mainWindow = new MainWindow(getApplicationName());
+		    mainWindow->Init();
+		    // Check for latest version
+		    _versionChecker.startThread();
+		}
+		else
+	    {
+	        // apparently the appication is already terminated
+	        quit();
+	    }
+	        
 	}
 
 	void shutdown() override
@@ -61,6 +71,7 @@ public:
 		LR_IPC_OUT::getInstance().shutdown();
 		LR_IPC_IN::getInstance().shutdown();
 		mainWindow = nullptr; // (deletes our window)
+		quit();
 	}
 
 	//==============================================================================
