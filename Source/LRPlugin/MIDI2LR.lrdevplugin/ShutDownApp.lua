@@ -16,47 +16,31 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local LrShell = import 'LrShell'
-local LrTasks = import 'LrTasks'
 
---LrTasks.startAsyncTask( function()
---    if(WIN_ENV) then
---        LrShell.openFilesInCommandLineProcess({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe',  '--LRSHUTDOWN')
---    else
---        LrShell.openFilesInCommandLineProcess({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app', '--LRSHUTDOWN') -- On Mac it seems like the files argument has to include an existing file
---    end
---end)
-
+function sleep(s)
+  local ntime = os.time() + s
+  repeat until os.time() > ntime
+end
 
 return {
-
-    LrShutdownFunction = function(doneFunction, progressFunction) 
-
-        doneFunction = function()
-
-            -- Uitvoeren wanneer ik klaar ben?
+		
+		LrShutdownFunction = function(doneFunction, progressFunction)  			
+						
+			local LrShell             = import 'LrShell'			
+			 if(WIN_ENV) then
+				LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.exe')
+			else
+				LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
+			end
 			
-			LrTasks.startAsyncTask( function()
-				if(WIN_ENV) then
-					LrShell.openFilesInCommandLineProcess({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe',  '--LRSHUTDOWN')
-				else
-					LrShell.openFilesInCommandLineProcess({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app', '--LRSHUTDOWN') -- On Mac it seems like the files argument has to include an existing file
-				end
-			end)
-				
+			-- Do some work shutting down the plugin and then report progress
+			for i=0,1,1 
+			do 
+			   progressFunction (i, "Thank you for using MIDI2LR")
+			   sleep(1)
+			end
+			
+			doneFunction ()
+		
 		end
-
-        
-
-        progressFunction = function(percent, description)
-			
-			--percent = 1
-			
-			--description = 'jewe testing'
-            -- Uitvoeren tijdens progressie?    
-			return false
-        end
-
-    end
-
-}
+		}

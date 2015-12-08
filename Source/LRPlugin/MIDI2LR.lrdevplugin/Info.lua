@@ -26,6 +26,7 @@ return {
   LrInitPlugin = 'MIDI2LR_Client.lua', -- Main client logic
   LrForceInitPlugin = true,  
   LrShutdownApp = 'ShutDownApp.lua',
+  VERSION = { major=0, minor=6, revision=0},
   LrExportMenuItems = { -- Needs to provide at least a menu item
     {
       title = 'Set options',
@@ -39,6 +40,6 @@ return {
       title = "Start MIDI2LR",
       file = "LaunchAppFromMenu.lua"
     },
-  },
-  VERSION = { major=0, minor=6, revision=0}
+  }
+  
 }
