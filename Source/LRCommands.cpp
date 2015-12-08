@@ -280,6 +280,7 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Redo",
     "Copy Settings",
     "Paste Settings",
+    "Paste Selected Settings",
 };
 
 const std::vector<String> LRCommandList::PresetsList = {
@@ -593,6 +594,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Redo",
     "CopySettings",
     "PasteSettings",
+    "PasteSelectedSettings",
     /* Presets */
     "Preset_1",
     "Preset_2",

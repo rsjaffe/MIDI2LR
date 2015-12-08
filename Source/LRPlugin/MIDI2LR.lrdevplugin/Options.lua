@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+require 'Develop_Params.lua' -- global table of develop params for selection when pasting
 local LrApplication = import 'LrApplication'
 local LrBinding = import 'LrBinding'
 local LrDialogs = import 'LrDialogs'
@@ -28,6 +29,7 @@ local bind = LrView.bind -- shortcut for bind() method
 
 prefs = prefs or {}
 prefs.Presets = prefs.Presets or {}
+prefs.PasteList = prefs.PasteList or {}
 
 --[[ FOR DEBUGGING ONLY. REMOVE - to comment out
 MIDI2LR = {}
@@ -58,6 +60,44 @@ local function setOptions()
       local tintlow,tinthigh = LrDevelopController.getRange('Tint') 
       properties['TintLow'] = prefs['TintLow'] or tintlow
       properties['TintHigh'] = prefs['TintHigh'] or tinthigh
+      properties.PasteList = prefs.PasteList
+
+      -- set up adjustments columns
+      local adjustmentscol = {}
+      adjustmentscol[1] = {}
+      adjustmentscol[2] = {}
+      adjustmentscol[3] = {}
+      do 
+        local breakpoint = math.floor(#DEVELOP_PARAMS / 3)
+        for col = 1,3 do
+          for i = ((col-1)*breakpoint+1),(breakpoint*col) do
+            table.insert(
+              adjustmentscol[col], 
+              f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
+            )
+          end
+        end
+      end
+      -- set up presets list for the groupbox on the right of the presets selection dialog
+      local groupboxpresets = {title = 'Selected presets'} 
+      for i=1,20 do
+        table.insert( 
+          groupboxpresets, 
+          f:static_text {fill_horizontal = 1,
+            title = bind { key = 'preset'..i,
+              transform = function(value) return 'Preset '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
+            },  -- title
+          } -- static_text
+        )
+      end
+      -- set up groups of preset listings
+      local tabviewitems = {} 
+      for group=1, 4 do
+        tabviewitems[group] = f:tab_view_item {title = ('Presets '..(group*5-4)..'-'..(group*5)), identifier = ('presets-'..(group*5-4)..'-'..(group*5)),}
+        for i=-4,0 do
+          table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*5+i)) })
+        end
+      end
 
       local contents = 
       f:view{
@@ -69,320 +109,35 @@ local function setOptions()
             f:row {
               f:column {
                 spacing = f:control_spacing(),
-                f:tab_view {
-                  f:tab_view_item {
-                    title = 'Presets 1-5',
-                    identifier = 'presets-1-5',
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset1'
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset2'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset3'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset4'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset5'          
-                    }, -- simple_list
-                  }, -- tab_view_item
-                  f:tab_view_item {
-                    title = 'Presets 6-10',
-                    identifier = 'presets-6-10',
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset6'
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset7'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset8'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset9'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset10'          
-                    }, -- simple_list
-                  }, -- tab_view_item
-                  f:tab_view_item {
-                    title = 'Presets 11-15',
-                    identifier = 'presets-11-15',
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset11'
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset12'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset13'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset14'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset15'          
-                    }, -- simple_list
-                  }, -- tab_view_item
-                  f:tab_view_item {
-                    title = 'Presets 16-20',
-                    identifier = 'presets-16-20',
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset16'
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset17'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset18'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset19'          
-                    }, -- simple_list
-                    f:simple_list {
-                      items = psList,
-                      allows_multiple_selection = false,
-                      value = bind 'preset20'          
-                    }, -- simple_list
-                  }, -- tab_view_item
+                f:tab_view { -- for choosing the presets
+                  f:tab_view_item (tabviewitems[1]), -- tab_view_item
+                  f:tab_view_item (tabviewitems[2]), -- tab_view_item
+                  f:tab_view_item (tabviewitems[3]), -- tab_view_item
+                  f:tab_view_item (tabviewitems[4]), -- tab_view_item
                 }, -- tab_view
               }, -- column
-              f:column{
+              f:column{ -- for the display of chosen presets
                 spacing = f:control_spacing(),
                 f:spacer {
                   height = f:control_spacing() * 2,
                 }, -- spacer
-                f:group_box {
-                  title = 'Selected presets',
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset1',
-                      transform = function(value)
-                        return 'Preset 1 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset2',
-                      transform = function(value)
-                        return 'Preset 2 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset3',
-                      transform = function(value)
-                        return 'Preset 3 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset4',
-                      transform = function(value)
-                        return 'Preset 4 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset5',
-                      transform = function(value)
-                        return 'Preset 5 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset6',
-                      transform = function(value)
-                        return 'Preset 6 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset7',
-                      transform = function(value)
-                        return 'Preset 7 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset8',
-                      transform = function(value)
-                        return 'Preset 8 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset9',
-                      transform = function(value)
-                        return 'Preset 9 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset10',
-                      transform = function(value)
-                        return 'Preset 10 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset11',
-                      transform = function(value)
-                        return 'Preset 11 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset12',
-                      transform = function(value)
-                        return 'Preset 12 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset13',
-                      transform = function(value)
-                        return 'Preset 13 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset14',
-                      transform = function(value)
-                        return 'Preset 14 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset15',
-                      transform = function(value)
-                        return 'Preset 15 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset16',
-                      transform = function(value)
-                        return 'Preset 16 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset17',
-                      transform = function(value)
-                        return 'Preset 17 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset18',
-                      transform = function(value)
-                        return 'Preset 18 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset19',
-                      transform = function(value)
-                        return 'Preset 19 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                  f:static_text {
-                    fill_horizontal = 1,
-                    title = bind {
-                      key = 'preset20',
-                      transform = function(value)
-                        return 'Preset 20 '..LrApplication.developPresetByUuid(value[1]):getName()
-                      end
-                    },  -- title
-                  }, -- static_text
-                }, -- group_box
+                f:group_box (groupboxpresets), -- group_box
               }, -- column
             }, -- row
           }, -- tab_view_item
           f:tab_view_item {
+            title = 'Paste selections',
+            identifier = 'pasteselections',
+            f:row{ -- all available adjustments
+              f:column (adjustmentscol[1]),
+              f:column (adjustmentscol[2]), 
+              f:column (adjustmentscol[3]),
+            }, --row
+          }, -- tab_view_item
+          f:tab_view_item {
             title = 'Other settings',
             identifier = 'othersettings',
-            f:row {
+            f:row { --Temperature row
               f:static_text{
                 title = 'Temperature Limits',
                 width = LrView.share('limit_label'),
@@ -417,12 +172,11 @@ local function setOptions()
                 end
               }, -- push_button
             }, -- row
-            f:row {
+            f:row { --Tint row
               f:static_text{
                 title = 'Tint Limits',
                 width = LrView.share('limit_label'),
               }, -- static_text
-
               f:slider {
                 value = bind 'TintLow',
                 min = tintlow, 
@@ -464,26 +218,34 @@ local function setOptions()
         }
       )
       if result == 'ok' then
+        ------assign presets
         for i = 1,20 do
           if properties['preset'..i] then
             prefs.Presets[i] = properties['preset'..i][1]
           end
         end
+        prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
+        MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
+        ------assign Temperature and Tint
         if properties.TemperatureLow > properties.TemperatureHigh then -- swap values
           properties.TemperatureLow, properties.TemperatureHigh = properties.TemperatureHigh, properties.TemperatureLow
         end
         if properties.TintLow > properties.TintHigh then -- swap values
           properties.TintLow, properties.TintHigh = properties.TintHigh, properties.TintLow
         end
-
         for _,v in ipairs { 'Temperature', 'Tint' } do
           prefs[v..'Low'] = properties[v..'Low']
           prefs[v..'High'] = properties[v..'High']
           MIDI2LR[v..'Low'] = properties[v..'Low']
           MIDI2LR[v..'High'] = properties[v..'High']
         end
-        prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
-        MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
+        ------assign PasteList
+        prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
+        for k,v in pairs(properties.PasteList) do --use iterator--simple assignment causes issue (probably due to bound table iterator issues)
+          prefs.PasteList[k] = v
+          MIDI2LR.PasteList[k] = v
+        end
+
       end
     end)
 end
