@@ -209,8 +209,11 @@ function midi_lerp_to_develop(param, midi_value)
   local min,max = LrDevelopController.getRange(param)
   for _,v in pairs {'Temperature','Tint'} do
     if(param == v) then
-      min = MIDI2LR[v..'Low']
-      max = MIDI2LR[v..'High']
+      local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
+      if mintemp >= 0 then
+        min = MIDI2LR[v..'Low']
+        max = MIDI2LR[v..'High']
+      end
     end
   end
 
@@ -223,8 +226,11 @@ function develop_lerp_to_midi(param)
   local min, max = LrDevelopController.getRange(param)
   for _,v in pairs {'Temperature','Tint'} do
     if(param == v) then
-      min = MIDI2LR[v..'Low']
-      max = MIDI2LR[v..'High']
+      local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
+      if mintemp >= 0 then
+        min = MIDI2LR[v..'Low']
+        max = MIDI2LR[v..'High']
+      end
     end
   end
 
@@ -241,14 +247,18 @@ function updateParam(param, midi_value)
   end
 
   for _,v in pairs {'Temperature','Tint'} do
+
     if (MIDI2LR.PICKUP_ENABLED and (param == v)) then --clamp  to limits to allow pickup to work
       local value = LrDevelopController.getValue(v)
-      if value > MIDI2LR[v..'High'] then
-        MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'High'] 
-        LrDevelopController.setValue(v,MIDI2LR[v..'High'] )
-      elseif value < MIDI2LR[v..'Low'] then
-        MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'Low'] 
-        LrDevelopController.setValue(v,MIDI2LR[v..'Low'] )
+      local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
+      if mintemp >= 0 then   
+        if value > MIDI2LR[v..'High'] then
+          MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'High'] 
+          LrDevelopController.setValue(v,MIDI2LR[v..'High'] )
+        elseif value < MIDI2LR[v..'Low'] then
+          MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'Low'] 
+          LrDevelopController.setValue(v,MIDI2LR[v..'Low'] )
+        end
       end
     end
   end
