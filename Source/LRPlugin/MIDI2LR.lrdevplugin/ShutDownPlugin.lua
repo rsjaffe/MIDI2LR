@@ -1,7 +1,8 @@
---[[----------------------------------------------------------------------------
+   --[[----------------------------------------------------------------------------
 
-ShutDownApp.lua
-Launches the app
+ShutDownPlugin.lua
+
+Run when plugin is shut down
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -16,23 +17,6 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-
-return {
-  LrShutdownFunction = function(doneFunction, progressFunction)  			
-    local LrShell             = import 'LrShell'	
-    local LrTasks             = import 'LrTasks'
-    --shut down app
-    if(WIN_ENV) then
-      LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.exe')
-    else
-      LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.app')
-    end
-    -- Report shutdown
-    for i=0,1 do 
-      progressFunction (i, "Thank you for using MIDI2LR")
-      LrTasks.sleep(1) 
-    end
-    --tasks completed
-    doneFunction()
-  end
-}
+   -- signal main background loop
+    currentLoadVersion = rawget (_G, "currentLoadVersion") or 0  
+    currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
