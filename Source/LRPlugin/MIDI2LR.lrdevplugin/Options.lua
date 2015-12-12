@@ -60,6 +60,8 @@ local function setOptions()
       local tintlow,tinthigh = LrDevelopController.getRange('Tint') 
       properties['TintLow'] = prefs['TintLow'] or tintlow
       properties['TintHigh'] = prefs['TintHigh'] or tinthigh
+      properties['ExposureLow'] = prefs['ExposureLow'] or -5 --value will be -10 to 10 for HDR DNGs, will handle in code
+      properties['ExposureHigh'] = prefs['ExposureHigh'] or 5
       properties.PasteList = prefs.PasteList
 
       -- set up adjustments columns
@@ -213,6 +215,46 @@ local function setOptions()
                 enabled = templow >= 0,
               }, -- push_button
             }, -- row
+            f:row { --Exposure row
+              f:static_text{
+                title = 'Exposure Limits',
+                width = LrView.share('limit_label'),
+              }, -- static_text
+              f:slider {
+                value = bind 'ExposureLow',
+                min = -5, 
+                max = 5,
+                integral = true,
+              }, -- slider
+              f:static_text {
+                title = bind 'ExposureLow',
+                alignment = 'right',
+                width = LrView.share('limit_reading'),                 
+              }, -- static_text
+              f:slider {
+                value = bind 'ExposureHigh',
+                min = -5 ,
+                max = 5,
+                integral = true,
+              }, -- slider
+              f:static_text {
+                title = bind 'ExposureHigh',
+                alignment = 'right',
+                width = LrView.share('limit_reading'),                 
+              }, -- static_text
+              f:push_button {
+                title = 'Reset to defaults',
+                action = function ()
+                  properties.ExposureLow = -5
+                  properties.ExposureHigh = 5
+                end,
+              }, -- push_button
+            }, -- row
+            f:row { --explanation of exposure
+              f:static_text {
+                title = 'Note that exposure limits will be doubled for HDR images. For example, if the limits were set at -3 and +3, for HDR images it would be -6 and +6',
+              }, -- static_text
+            }, -- row
           }, -- tab_view_item
         }, -- tab_view
       } -- view
@@ -233,13 +275,10 @@ local function setOptions()
         prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
         MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
         ------assign Temperature and Tint
-        if properties.TemperatureLow > properties.TemperatureHigh then -- swap values
-          properties.TemperatureLow, properties.TemperatureHigh = properties.TemperatureHigh, properties.TemperatureLow
-        end
-        if properties.TintLow > properties.TintHigh then -- swap values
-          properties.TintLow, properties.TintHigh = properties.TintHigh, properties.TintLow
-        end
-        for _,v in ipairs { 'Temperature', 'Tint' } do
+        for _,v in ipairs { 'Temperature', 'Tint', 'Exposure' } do
+          if properties[v..'Low'] > properties[v..'High'] then --swap values
+            properties[v..'Low'], properties[v..'High'] = properties[v..'High'], properties[v..'Low']
+          end
           prefs[v..'Low'] = properties[v..'Low']
           prefs[v..'High'] = properties[v..'High']
           MIDI2LR[v..'Low'] = properties[v..'Low']

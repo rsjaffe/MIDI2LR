@@ -94,6 +94,8 @@ do
   local tmin,tmax = LrDevelopController.getRange('Tint')
   MIDI2LR.TintLow = prefs.TintLow or tmin
   MIDI2LR.TintHigh = prefs.TintHigh or tmax
+  MIDI2LR.ExposureLow = prefs.ExposureLow or -5
+  MIDI2LR.ExposureHigh = prefs.ExposureHigh or 5
   MIDI2LR.PasteList = prefs.PasteList or {}
 end
 -------------end preferences section
@@ -207,13 +209,20 @@ local SETTINGS = {
 function midi_lerp_to_develop(param, midi_value)
   -- map midi range to develop parameter range
   local min,max = LrDevelopController.getRange(param)
-  for _,v in pairs {'Temperature','Tint'} do
+  for _,v in pairs {'Temperature','Tint','Exposure'} do
     if(param == v) then
       local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
       if mintemp >= 0 then
         min = MIDI2LR[v..'Low']
         max = MIDI2LR[v..'High']
       end
+      if (param == 'Exposure' and LrDevelopController.getRange('Exposure') == -10) then
+        min = MIDI2LR.ExposureMin * 2
+        max = MIDI2LR.ExposureMax * 2
+      else
+        min = MIDI2LR.ExposureMin
+        max = MIDI2LR.ExposureMax
+      end      
     end
   end
 
@@ -224,13 +233,20 @@ end
 function develop_lerp_to_midi(param)
   -- map develop parameter range to midi range
   local min, max = LrDevelopController.getRange(param)
-  for _,v in pairs {'Temperature','Tint'} do
+  for _,v in pairs {'Temperature','Tint','Exposure'} do
     if(param == v) then
       local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
       if mintemp >= 0 then
         min = MIDI2LR[v..'Low']
         max = MIDI2LR[v..'High']
       end
+      if (param == 'Exposure' and LrDevelopController.getRange('Exposure') == -10) then
+        min = MIDI2LR.ExposureMin * 2
+        max = MIDI2LR.ExposureMax * 2
+      else
+        min = MIDI2LR.ExposureMin
+        max = MIDI2LR.ExposureMax
+      end      
     end
   end
 
@@ -247,7 +263,6 @@ function updateParam(param, midi_value)
   end
 
   for _,v in pairs {'Temperature','Tint'} do
-
     if (MIDI2LR.PICKUP_ENABLED and (param == v)) then --clamp  to limits to allow pickup to work
       local value = LrDevelopController.getValue(v)
       local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
@@ -260,6 +275,24 @@ function updateParam(param, midi_value)
           LrDevelopController.setValue(v,MIDI2LR[v..'Low'] )
         end
       end
+    end
+  end
+  if MIDI2LR.PICKUP_ENABLED and param == 'Exposure' then
+    local min, max
+    local value = LrDevelopController.getValue('Exposure')
+    if (param == 'Exposure' and LrDevelopController.getRange('Exposure') == -10) then
+      min = MIDI2LR.ExposureMin * 2
+      max = MIDI2LR.ExposureMax * 2
+    else
+      min = MIDI2LR.ExposureMin
+      max = MIDI2LR.ExposureMax
+    end 
+    if value > max then
+      MIDI2LR.PARAM_OBSERVER['Exposure'] = max
+      LrDevelopController.setValue('Exposure',max)
+    elseif value < min then
+      MIDI2LR.PARAM_OBSERVER['Exposure'] = min
+      LrDevelopController.setValue('Exposure',min)
     end
   end
 
