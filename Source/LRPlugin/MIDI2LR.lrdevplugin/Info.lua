@@ -19,13 +19,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 return {
-  LrSdkVersion = 6.0,
-  LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
-  LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
-  LrPluginName = 'MIDI2LR',
-  LrInitPlugin = 'MIDI2LR_Client.lua', -- Main client logic
   LrForceInitPlugin = true,  
+  LrInitPlugin = 'MIDI2LR_Client.lua', -- Main client logic
+  LrPluginName = 'MIDI2LR',
+  LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
+  LrSdkVersion = 6.0,
   LrShutdownApp = 'ShutDownApp.lua',
+  LrShutdownPlugin = 'ShutDownApp.lua',
+  LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = { -- Needs to provide at least a menu item
     {
       title = 'Set options',

@@ -3,7 +3,7 @@
 ShutDownApp.lua
 Launches the app
  
-This file is part of MIDI2LR. Copyright 2015 by Jeffrey Westgeest.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -17,30 +17,25 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-function sleep(s)
-  local ntime = os.time() + s
-  repeat until os.time() > ntime
-end
-
 return {
-		
-		LrShutdownFunction = function(doneFunction, progressFunction)  			
-						
-			local LrShell             = import 'LrShell'			
-			 if(WIN_ENV) then
-				LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.exe')
-			else
-				LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
-			end
-			
-			-- Do some work shutting down the plugin and then report progress
-			for i=0,1,1 
-			do 
-			   progressFunction (i, "Thank you for using MIDI2LR")
-			   sleep(1)
-			end
-			
-			doneFunction ()
-		
-		end
-		}
+  LrShutdownFunction = function(doneFunction, progressFunction)  			
+    local LrShell             = import 'LrShell'	
+    local LrTasks             = import 'LrTasks'
+    --shut down app
+    if(WIN_ENV) then
+      LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.exe')
+    else
+      LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.app')
+    end
+    -- signal main background loop
+    currentLoadVersion = rawget (_G, "currentLoadVersion") or 0  
+    currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
+    -- Report shutdown
+    for i=0,1 do 
+      progressFunction (i, "Thank you for using MIDI2LR")
+      LrTasks.sleep(1) 
+    end
+    --tasks completed
+    doneFunction()
+  end
+}

@@ -31,6 +31,7 @@ local LrShell             = import 'LrShell'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
+
 --[[-----------debug section, enable by adding - to beginning this line
 local LrLogger = import 'LrLogger'
 
@@ -336,6 +337,8 @@ LrTasks.startAsyncTask( function()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
 
+
+
         -- add an observer for develop param changes
         LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
 
@@ -363,8 +366,11 @@ LrTasks.startAsyncTask( function()
         }
 
         startServer(context)
-
-        while true do
+        
+        currentLoadVersion = rawget (_G, "currentLoadVersion") or 0  
+        currentLoadVersion = currentLoadVersion + 1  
+        local loadVersion = currentLoadVersion  
+        while (loadVersion == currentLoadVersion)  do --detect halt or reload
           LrTasks.sleep( 1/2 )
         end
 

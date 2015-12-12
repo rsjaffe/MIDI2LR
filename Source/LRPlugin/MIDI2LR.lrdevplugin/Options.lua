@@ -19,13 +19,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 require 'Develop_Params.lua' -- global table of develop params for selection when pasting
-local LrApplication = import 'LrApplication'
-local LrBinding = import 'LrBinding'
-local LrDialogs = import 'LrDialogs'
+local LrApplication     = import 'LrApplication'
+local LrBinding         = import 'LrBinding'
+local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
-local prefs = import 'LrPrefs'.prefsForPlugin() 
-local LrView = import 'LrView'
-local bind = LrView.bind -- shortcut for bind() method
+local prefs             = import 'LrPrefs'.prefsForPlugin() 
+local LrView            = import 'LrView'
+local bind              = LrView.bind -- shortcut for bind() method
 
 prefs = prefs or {}
 prefs.Presets = prefs.Presets or {}
