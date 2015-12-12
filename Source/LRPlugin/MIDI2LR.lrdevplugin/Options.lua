@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 require 'Develop_Params.lua' -- global table of develop params for selection when pasting
+local Limits = require 'Limits' -- import module
 local LrApplication = import 'LrApplication'
 local LrBinding = import 'LrBinding'
 local LrDialogs = import 'LrDialogs'
@@ -38,7 +39,6 @@ MIDI2LR = {}
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
-      local LrDevelopController = import 'LrDevelopController'
       local psList = {}
       for _,fold in pairs(LrApplication.developPresetFolders()) do
         local foldname = fold:getName()
@@ -54,14 +54,11 @@ local function setOptions()
         properties['preset'..i][1] = prefs.Presets[i]
       end
 
-      local templow,temphigh = LrDevelopController.getRange('Temperature') 
-      properties['TemperatureLow'] = prefs['TemperatureLow'] or 3000
-      properties['TemperatureHigh'] = prefs['TemperatureHigh'] or 9000
-      local tintlow,tinthigh = LrDevelopController.getRange('Tint') 
-      properties['TintLow'] = prefs['TintLow'] or tintlow
-      properties['TintHigh'] = prefs['TintHigh'] or tinthigh
-      properties['ExposureLow'] = prefs['ExposureLow'] or -5 --value will be -10 to 10 for HDR DNGs, will handle in code
-      properties['ExposureHigh'] = prefs['ExposureHigh'] or 5
+      local savedlimits = Limits.GetPreferences()
+      for p in pairs(Limits.Parameters) do
+        properties[p..'Low'], properties[p..'High'] = Limits.Index(savedlimits,p)
+      end
+
       properties.PasteList = prefs.PasteList
 
       -- set up adjustments columns
@@ -80,6 +77,16 @@ local function setOptions()
           end
         end
       end
+
+      -- set up parameter limits column
+      local parameterscolumn = {
+        title = 'Presets',
+        identifier = 'presets',
+      }
+      for _,v in ipairs(Limits.OptionsRows(f,properties)) do
+        table.insert(parameterscolumn,v)
+      end
+
       -- set up presets list for the groupbox on the right of the presets selection dialog
       local groupboxpresets = {title = 'Selected presets'} 
       for i=1,20 do
@@ -136,126 +143,7 @@ local function setOptions()
               f:column (adjustmentscol[3]),
             }, --row
           }, -- tab_view_item
-          f:tab_view_item {
-            title = 'Other settings',
-            identifier = 'othersettings',
-            f:row { --Temperature row
-              f:static_text{
-                title = 'Temperature Limits',
-                width = LrView.share('limit_label'),
-              }, -- static_text
-              f:slider {
-                value = bind 'TemperatureLow',
-                min = templow, 
-                max = temphigh,
-                integral = true,
-                enabled = templow >= 0,
-              }, -- slider
-              f:static_text {
-                title = bind 'TemperatureLow',
-                alignment = 'right',
-                width = LrView.share('limit_reading'),  
-              }, -- static_text
-              f:slider {
-                value = bind 'TemperatureHigh',
-                min = templow ,
-                max = temphigh,
-                integral = true,
-                enabled = templow >= 0,
-              }, -- slider
-              f:static_text {
-                title = bind 'TemperatureHigh',
-                alignment = 'right',
-                width = LrView.share('limit_reading'),                
-              }, -- static_text
-              f:push_button {
-                title = 'Reset to defaults',
-                action = function ()
-                  properties.TemperatureLow = 3000
-                  properties.TemperatureHigh = 9000
-                end,
-                enabled = templow >= 0,
-              }, -- push_button
-            }, -- row
-            f:row { --Tint row
-              f:static_text{
-                title = 'Tint Limits',
-                width = LrView.share('limit_label'),
-              }, -- static_text
-              f:slider {
-                value = bind 'TintLow',
-                min = tintlow, 
-                max = tinthigh,
-                integral = true,
-                enabled = templow >= 0,
-              }, -- slider
-              f:static_text {
-                title = bind 'TintLow',
-                alignment = 'right',
-                width = LrView.share('limit_reading'),                 
-              }, -- static_text
-              f:slider {
-                value = bind 'TintHigh',
-                min = tintlow ,
-                max = tinthigh,
-                integral = true,
-                enabled = templow >= 0,
-              }, -- slider
-              f:static_text {
-                title = bind 'TintHigh',
-                alignment = 'right',
-                width = LrView.share('limit_reading'),                 
-              }, -- static_text
-              f:push_button {
-                title = 'Reset to defaults',
-                action = function ()
-                  properties.TintLow = tintlow
-                  properties.TintHigh = tinthigh
-                end,
-                enabled = templow >= 0,
-              }, -- push_button
-            }, -- row
-            f:row { --Exposure row
-              f:static_text{
-                title = 'Exposure Limits',
-                width = LrView.share('limit_label'),
-              }, -- static_text
-              f:slider {
-                value = bind 'ExposureLow',
-                min = -5, 
-                max = 5,
-                integral = true,
-              }, -- slider
-              f:static_text {
-                title = bind 'ExposureLow',
-                alignment = 'right',
-                width = LrView.share('limit_reading'),                 
-              }, -- static_text
-              f:slider {
-                value = bind 'ExposureHigh',
-                min = -5 ,
-                max = 5,
-                integral = true,
-              }, -- slider
-              f:static_text {
-                title = bind 'ExposureHigh',
-                alignment = 'right',
-                width = LrView.share('limit_reading'),                 
-              }, -- static_text
-              f:push_button {
-                title = 'Reset to defaults',
-                action = function ()
-                  properties.ExposureLow = -5
-                  properties.ExposureHigh = 5
-                end,
-              }, -- push_button
-            }, -- row
-            f:row { --explanation of exposure
-              f:static_text {
-                title = 'Note that exposure limits will be doubled for HDR images. For example, if the limits were set at -3 and +3, for HDR images it would be -6 and +6',
-              }, -- static_text
-            }, -- row
-          }, -- tab_view_item
+          f:tab_view_item (parameterscolumn), -- tab_view_item
         }, -- tab_view
       } -- view
 
@@ -274,16 +162,14 @@ local function setOptions()
         end
         prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
         MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
-        ------assign Temperature and Tint
-        for _,v in ipairs { 'Temperature', 'Tint', 'Exposure' } do
-          if properties[v..'Low'] > properties[v..'High'] then --swap values
-            properties[v..'Low'], properties[v..'High'] = properties[v..'High'], properties[v..'Low']
+        ------assign limits
+        for p in pairs(Limits.Parameters) do
+          if properties[p..'Low'] > properties[p..'High'] then --swap values
+            properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
           end
-          prefs[v..'Low'] = properties[v..'Low']
-          prefs[v..'High'] = properties[v..'High']
-          MIDI2LR[v..'Low'] = properties[v..'Low']
-          MIDI2LR[v..'High'] = properties[v..'High']
         end
+        Limits.SavePreferencesOneMode(properties)
+        Limits.SaveOtherTableOneMode(properties,MIDI2LR)
         ------assign PasteList
         prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
         for k,v in pairs(properties.PasteList) do --use iterator--simple assignment causes issue (probably due to bound table iterator issues)
