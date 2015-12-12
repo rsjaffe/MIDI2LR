@@ -668,7 +668,9 @@ const std::vector<String> LRCommandList::ProfileList = {
 int LRCommandList::getIndexOfCommand(const String& command)
 {
     static std::unordered_map<String, int> indexMap;
-    if (indexMap.size() == 0)
+
+	// better to check for empty then lenght, as empty has a constant run time behavior.
+    if (indexMap.empty())
     {
         int idx = 0;
         for (auto &str : LRStringList)
