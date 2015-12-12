@@ -147,6 +147,7 @@ local function setOptions()
                 min = templow, 
                 max = temphigh,
                 integral = true,
+                enabled = templow >= 0,
               }, -- slider
               f:static_text {
                 title = bind 'TemperatureLow',
@@ -158,6 +159,7 @@ local function setOptions()
                 min = templow ,
                 max = temphigh,
                 integral = true,
+                enabled = templow >= 0,
               }, -- slider
               f:static_text {
                 title = bind 'TemperatureHigh',
@@ -169,7 +171,8 @@ local function setOptions()
                 action = function ()
                   properties.TemperatureLow = 3000
                   properties.TemperatureHigh = 9000
-                end
+                end,
+                enabled = templow >= 0,
               }, -- push_button
             }, -- row
             f:row { --Tint row
@@ -182,6 +185,7 @@ local function setOptions()
                 min = tintlow, 
                 max = tinthigh,
                 integral = true,
+                enabled = templow >= 0,
               }, -- slider
               f:static_text {
                 title = bind 'TintLow',
@@ -193,6 +197,7 @@ local function setOptions()
                 min = tintlow ,
                 max = tinthigh,
                 integral = true,
+                enabled = templow >= 0,
               }, -- slider
               f:static_text {
                 title = bind 'TintHigh',
@@ -204,7 +209,8 @@ local function setOptions()
                 action = function ()
                   properties.TintLow = tintlow
                   properties.TintHigh = tinthigh
-                end
+                end,
+                enabled = templow >= 0,
               }, -- push_button
             }, -- row
           }, -- tab_view_item
