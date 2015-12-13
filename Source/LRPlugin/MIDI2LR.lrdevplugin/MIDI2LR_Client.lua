@@ -31,6 +31,9 @@ local LrShell             = import 'LrShell'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
+-- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
+currentLoadVersion = rawget (_G, "currentLoadVersion") or 0  
+currentLoadVersion = currentLoadVersion + 1 
 
 --[[-----------debug section, enable by adding - to beginning this line
 local LrLogger = import 'LrLogger'
@@ -366,9 +369,8 @@ LrTasks.startAsyncTask( function()
         }
 
         startServer(context)
-        
-        currentLoadVersion = rawget (_G, "currentLoadVersion") or 0  
-        currentLoadVersion = currentLoadVersion + 1  
+
+
         local loadVersion = currentLoadVersion  
         while (loadVersion == currentLoadVersion)  do --detect halt or reload
           LrTasks.sleep( 1/2 )
