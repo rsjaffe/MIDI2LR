@@ -28,7 +28,7 @@ local prefs               = import 'LrPrefs'.prefsForPlugin()
 local LrView              = import 'LrView'
 
 --hidden 
-
+local DisplayOrder           = {'Temperature','Tint','Exposure'}
 
 
 
@@ -81,27 +81,38 @@ end
 --------------------------------------------------------------------------------
 -- Get temperature limit preferences.
 -- Returns all saved settings, including those for modes not currently in use
--- (e.g., jpg, raw, HDR).
+-- (e.g., jpg, raw, HDR). Will always return valid values for current mode,
+-- and will update preferences if current mode was undefined.
 -- @return Table containing preferences in form table['TemperatureLow'][50000],
 -- where second index identifies max vaule for mode (jpg, raw, HDR).
 --------------------------------------------------------------------------------
 local function GetPreferences()
   local retval = {}
+  -- following for people with defaults from version 0.7.0 or earlier
+  local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
   for p in pairs(Parameters) do
-    prefs[p..'Low'] = prefs[p..'Low'] or {} -- if uninitialized
-    if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences
-      prefs[p..'Low'] = {}
+    local controlmin, controlmax = LrDevelopController.getRange(p)    
+    --  prefs[p..'Low'] = prefs[p..'Low'] or {} -- if uninitialized
+    if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
+      --make it into table and slot old value (if it exists) into proper place
+      prefs[p..'Low'], prefs[p..'Low'][historic(p)] = {}, prefs[p..'Low'] 
     end
     for i,v in pairs(prefs[p..'Low']) do--run through all saved ranges
       retval[p..'Low'][i] = v
     end
-    prefs[p..'High'] = prefs[p..'High'] or {} -- if uninitialized
-    if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences
-      prefs[p..'High'] = {}
+    retval[p..'Low'][controlmax] = retval[p..'Low'][controlmax] or controlmin
+    --   prefs[p..'High'] = prefs[p..'High'] or {} -- if uninitialized
+    if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
+      --make it into table and slot old value (if it exists) into proper place      
+      prefs[p..'High'], prefs[p..'High'][historic(p)] = {}, prefs[p..'High']
     end
     for i,v in pairs(prefs[p..'High']) do--run through all saved ranges
       retval[p..'High'][i] = v
     end
+    retval[p..'High'][controlmax] = retval[p..'High'][controlmax] or controlmax
+  end
+  if retval.TemperatureLow[historic.Temperature] == nil then --defaults for temperature
+    retval.TemperatureLow[historic.Temperature], retval.TemperatureHigh[historic.Temperature] = 3000, 9000
   end
   return retval
 end
@@ -158,7 +169,7 @@ end
 --------------------------------------------------------------------------------
 local function OptionsRows(f,obstable)
   local retval = {}
-  for p in pairs(Parameters) do
+  for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
     table.insert(
       retval,
@@ -171,7 +182,8 @@ local function OptionsRows(f,obstable)
           value = LrView.bind(p..'Low'),
           min = low, 
           max = high,
-          integral = true,
+          integral = false,
+          width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
           title = LrView.bind(p..'Low'),
@@ -182,7 +194,8 @@ local function OptionsRows(f,obstable)
           value = LrView.bind(p..'High'),
           min = low ,
           max = high,
-          integral = true,
+          integral = false,
+          width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
           title = LrView.bind(p..'High'),
