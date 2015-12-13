@@ -4,6 +4,7 @@
 -- with reasonable accuracy. It limits the total range that particular MIDI
 -- control affects.
 -- @module Limits
+-- @license GNU GPLv3
 --------------------------------------------------------------------------------
 
 --[[
@@ -233,7 +234,7 @@ local function GetMinMax(param)
   end
 end
 
-
+--- @export
 return { --table of exports, setting table member name and module function it points to
   ClampValue = ClampValue,
   GetMinMax = GetMinMax,
