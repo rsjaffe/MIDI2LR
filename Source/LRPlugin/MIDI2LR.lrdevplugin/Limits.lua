@@ -43,7 +43,11 @@ local LrView              = import 'LrView'
 --------------------------------------------------------------------------------
 local function Index(variable, param)
   local _, rangemax = LrDevelopController.getRange(param)
-  return variable[param..'Low'][rangemax], variable[param..'High'][rangemax]
+  if variable[param..'Low'] and variable[param..'Low'][rangemax] then -- avoid indexing nil variables
+    return variable[param..'Low'][rangemax], variable[param..'High'][rangemax]
+  else
+    return nil,nil
+  end
 end
 
 --------------------------------------------------------------------------------
@@ -51,7 +55,14 @@ end
 --------------------------------------------------------------------------------
 local Parameters           = {Temperature = true, Tint = true, Exposure = true}
 
-
+--------------------------------------------------------------------------------
+-- Limits a given parameter to the min,max set up.
+-- This function is used to avoid the bug in pickup mode, in which the parameter's
+-- value may be too low or high to be picked up by the limited control range. By
+-- clamping value to min-max range, this forces parameter to be in the limited
+-- control range.
+-- @param Parameter to clamp to limits.
+--------------------------------------------------------------------------------
 local function ClampValue(param)
   if Parameters[param] then
     local min, max = Index(MIDI2LR,param)
@@ -78,14 +89,18 @@ local function GetPreferences()
   local retval = {}
   for p in pairs(Parameters) do
     prefs[p..'Low'] = prefs[p..'Low'] or {} -- if uninitialized
+    if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences
+      prefs[p..'Low'] = {}
+    end
     for i,v in pairs(prefs[p..'Low']) do--run through all saved ranges
       retval[p..'Low'][i] = v
     end
     prefs[p..'High'] = prefs[p..'High'] or {} -- if uninitialized
-    for p in pairs(Parameters) do
-      for i,v in pairs(prefs[p..'High']) do--run through all saved ranges
-        retval[p..'High'][i] = v
-      end
+    if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences
+      prefs[p..'High'] = {}
+    end
+    for i,v in pairs(prefs[p..'High']) do--run through all saved ranges
+      retval[p..'High'][i] = v
     end
   end
   return retval
@@ -114,15 +129,13 @@ end
 
 --------------------------------------------------------------------------------
 -- Save temperature limit preferences
--- Ignores any preferences not in the provided table. Uses current range for
--- parameter to identify mode to save
+-- Ignores any preferences not in the provided table.
 -- @param saveme Table of preferences in form table['TemperatureLow'].
 -- @return nil.
 --------------------------------------------------------------------------------
 local function SavePreferencesOneMode(saveme)
 
   for p in pairs(Parameters) do
-    local _, rangemax = LrDevelopController.getRange(p) 
     prefs[p..'Low'] = prefs[p..'Low'] or {} -- if uninitialized
     for i,v in pairs(saveme[p..'Low']) do
       prefs[p..'Low'][i] = v
@@ -136,31 +149,6 @@ local function SavePreferencesOneMode(saveme)
 end
 
 --------------------------------------------------------------------------------
--- Save temperature limits to a destination table
--- Ignores any preferences not in the source table. Uses current range for
--- parameter to identify mode to save
--- @param saveme Source table of preferences in form table['TemperatureLow'].
--- @param other Destination table in form table['TemperatureLow'][50000].
--- @return nil.
---------------------------------------------------------------------------------
-local function SaveOtherTableOneMode(saveme, other)
-
-  for p in pairs(Parameters) do
-    local _, rangemax = LrDevelopController.getRange(p) 
-    other[p..'Low'] = other[p..'Low'] or {} -- if uninitialized
-    for i,v in pairs(saveme[p..'Low']) do
-      other[p..'Low'][i] = v
-    end
-    other[p..'High'] = other[p..'High'] or {} -- if uninitialized
-    for i,v in other(saveme[p..'High']) do
-      other[p..'High'][i] = v
-    end
-  end
-  prefs = prefs --force save -- LR may not notice changes otherwise
-end
-
-
---------------------------------------------------------------------------------
 -- Provide rows of controls for dialog boxes.
 -- For the current photo type (HDR, raw, jpg, etc) will produce
 -- rows that allow user to set limits.
@@ -172,7 +160,8 @@ local function OptionsRows(f,obstable)
   local retval = {}
   for p in pairs(Parameters) do
     local low,high = LrDevelopController.getRange(p)
-    table.insert(retval,
+    table.insert(
+      retval,
       f:row { 
         f:static_text {
           title = p..' Limits',
@@ -212,7 +201,7 @@ local function OptionsRows(f,obstable)
             end
           end,
         }, -- push_button
-      }, -- row
+      } -- row
     ) -- table.insert
   end
   return retval -- array of rows
@@ -224,7 +213,7 @@ end
 -- @return min, max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
-  if Parameters(param) and MIDI2LR[param..'High'] then
+  if Parameters[param] and MIDI2LR[param..'High'] then
     return Index(MIDI2LR,param)
   else
     return LrDevelopController.getRange(param)

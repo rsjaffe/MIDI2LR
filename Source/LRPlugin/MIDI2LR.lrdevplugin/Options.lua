@@ -19,23 +19,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 require 'Develop_Params.lua' -- global table of develop params for selection when pasting
-local Limits = require 'Limits' -- import module
-local LrApplication = import 'LrApplication'
-local LrBinding = import 'LrBinding'
-local LrDialogs = import 'LrDialogs'
+local Limits            = require 'Limits' -- import module
+local LrApplication     = import 'LrApplication'
+local LrBinding         = import 'LrBinding'
+local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
-local prefs = import 'LrPrefs'.prefsForPlugin() 
-local LrView = import 'LrView'
-local bind = LrView.bind -- shortcut for bind() method
+local prefs             = import 'LrPrefs'.prefsForPlugin() 
+local LrView            = import 'LrView'
+local bind              = LrView.bind -- shortcut for bind() method
 
-prefs = prefs or {}
-prefs.Presets = prefs.Presets or {}
+prefs           = prefs or {}
+prefs.Presets   = prefs.Presets or {}
 prefs.PasteList = prefs.PasteList or {}
-
---[[ FOR DEBUGGING ONLY. REMOVE - to comment out
-MIDI2LR = {}
---]]
-
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
@@ -80,8 +75,8 @@ local function setOptions()
 
       -- set up parameter limits column
       local parameterscolumn = {
-        title = 'Presets',
-        identifier = 'presets',
+        title = 'Other settings',
+        identifier = 'othersettings',
       }
       for _,v in ipairs(Limits.OptionsRows(f,properties)) do
         table.insert(parameterscolumn,v)
