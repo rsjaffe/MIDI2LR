@@ -27,6 +27,9 @@ return {
     else
       LrShell.openFilesInApp({"--LRSHUTDOWN"}, _PLUGIN.path..'/MIDI2LR.app')
     end
+    -- signal main background loop
+    currentLoadVersion = rawget (_G, "currentLoadVersion") or 0  
+    currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
     -- Report shutdown
     for i=0,1 do 
       progressFunction (i, "Thank you for using MIDI2LR")
