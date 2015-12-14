@@ -21,7 +21,9 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 --]]
---All variables and functions defined here must be local, except for return table
+--All variables and functions defined here must be local, except for return table.
+--The only global identifiers used in this module are 'import' and 'MIDI2LR'.
+--In ZeroBrane IDE, check for global identifiers by pressing shift-F7.
 
 --imports
 local LrDevelopController = import 'LrDevelopController'
@@ -47,6 +49,7 @@ local Parameters           = {Temperature = true, Tint = true, Exposure = true}
 -- clamping value to min-max range, this forces parameter to be in the limited
 -- control range.
 -- @param Parameter to clamp to limits.
+-- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
   local _, rangemax = LrDevelopController.getRange(param)
@@ -240,7 +243,8 @@ end
 --------------------------------------------------------------------------------
 -- Provides min and max for given parameter and mode.
 -- @param param Which parameter is being adjusted.
--- @return min, max for given param and mode.
+-- @return min for given param and mode.
+-- @return max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
   if Parameters[param] and MIDI2LR[param..'High'] then
