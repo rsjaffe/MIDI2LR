@@ -84,6 +84,8 @@ end
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
+local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
+
 -------------preferences
 do
   local prefs = import 'LrPrefs'.prefsForPlugin() 
@@ -295,8 +297,13 @@ function updateParam(param, midi_value)
       LrDevelopController.setValue('Exposure',min)
     end
   end
-
-  if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) then
+  -- enable movement if pickup mode is off; controller is within pickup range; or control was last used recently and rapidly moved out of pickup range
+  if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) or
+  (lastclock + 0.5 > os.clock() and lastparam == param) then
+    if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
+      lastclock = os.clock()
+      lastparam = param
+    end
     MIDI2LR.PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
     LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
     MIDI2LR.LAST_PARAM = param
