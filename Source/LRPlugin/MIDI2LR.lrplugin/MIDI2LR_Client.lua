@@ -85,6 +85,7 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
 local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
+--we should put the above in a function closure once the code stabilizes. No need for everyone to see these variables.
 
 -------------preferences
 do
