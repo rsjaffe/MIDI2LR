@@ -49,10 +49,10 @@ local function setOptions()
         properties['preset'..i][1] = prefs.Presets[i]
       end
 
-      local savedlimits = Limits.GetPreferences()
-      for p in pairs(Limits.Parameters) do
-        properties[p..'Low'], properties[p..'High'] = Limits.Index(savedlimits,p)
+      for k,v in pairs(Limits.GetPreferencesCurrentMode()) do
+        properties[k] = v
       end
+      
 
       properties.PasteList = prefs.PasteList
 
@@ -164,7 +164,7 @@ local function setOptions()
           end
         end
         Limits.SavePreferencesOneMode(properties)
-        Limits.SaveOtherTableOneMode(properties,MIDI2LR)
+        Limits.SavePreferencesOneMode(properties,MIDI2LR)
         ------assign PasteList
         prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
         for k,v in pairs(properties.PasteList) do --use iterator--simple assignment causes issue (probably due to bound table iterator issues)
