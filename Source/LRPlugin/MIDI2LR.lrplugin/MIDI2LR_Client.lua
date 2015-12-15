@@ -5,8 +5,7 @@ MIDI2LR_Client.lua
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
  
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe, derived from code
-by Parth.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -21,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 require 'Develop_Params.lua' -- global table of develop params we need to observe
+local Limits = require 'Limits' --import module
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
@@ -96,13 +96,9 @@ do
   local prefs = import 'LrPrefs'.prefsForPlugin() 
   prefs = prefs or {}
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
-  MIDI2LR.TemperatureLow = prefs.TemperatureLow or 3000
-  MIDI2LR.TemperatureHigh = prefs.TemperatureHigh or 9000
-  local tmin,tmax = LrDevelopController.getRange('Tint')
-  MIDI2LR.TintLow = prefs.TintLow or tmin
-  MIDI2LR.TintHigh = prefs.TintHigh or tmax
-  MIDI2LR.ExposureLow = prefs.ExposureLow or -5
-  MIDI2LR.ExposureHigh = prefs.ExposureHigh or 5
+  for i,v in pairs(Limits.GetPreferences()) do
+    MIDI2LR[i] = v
+  end
   MIDI2LR.PasteList = prefs.PasteList or {}
 end
 -------------end preferences section
@@ -215,50 +211,14 @@ local SETTINGS = {
 
 function midi_lerp_to_develop(param, midi_value)
   -- map midi range to develop parameter range
-  local min,max = LrDevelopController.getRange(param)
-  for _,v in pairs {'Temperature','Tint','Exposure'} do
-    if(param == v) then
-      local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
-      if mintemp >= 0 then
-        min = MIDI2LR[v..'Low']
-        max = MIDI2LR[v..'High']
-      end
-      if (param == 'Exposure' and LrDevelopController.getRange('Exposure') == -10) then
-        min = MIDI2LR.ExposureMin * 2
-        max = MIDI2LR.ExposureMax * 2
-      else
-        min = MIDI2LR.ExposureMin
-        max = MIDI2LR.ExposureMax
-      end      
-    end
-  end
-
-  local result = midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
-  return result
+  local min,max = Limits.GetMinMax(param)
+  return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
 end
 
 function develop_lerp_to_midi(param)
   -- map develop parameter range to midi range
-  local min, max = LrDevelopController.getRange(param)
-  for _,v in pairs {'Temperature','Tint','Exposure'} do
-    if(param == v) then
-      local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
-      if mintemp >= 0 then
-        min = MIDI2LR[v..'Low']
-        max = MIDI2LR[v..'High']
-      end
-      if (param == 'Exposure' and LrDevelopController.getRange('Exposure') == -10) then
-        min = MIDI2LR.ExposureMin * 2
-        max = MIDI2LR.ExposureMax * 2
-      else
-        min = MIDI2LR.ExposureMin
-        max = MIDI2LR.ExposureMax
-      end      
-    end
-  end
-
-  local result = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-  return result
+  local min,max = Limits.GetMinMax(param)
+  return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
 end
 
 function updateParam(param, midi_value)
@@ -269,38 +229,8 @@ function updateParam(param, midi_value)
     LrApplicationView.switchToModule('develop')
   end
 
-  for _,v in pairs {'Temperature','Tint'} do
-    if (MIDI2LR.PICKUP_ENABLED and (param == v)) then --clamp  to limits to allow pickup to work
-      local value = LrDevelopController.getValue(v)
-      local mintemp = LrDevelopController.getRange('Temperature') --test for jpg
-      if mintemp >= 0 then   
-        if value > MIDI2LR[v..'High'] then
-          MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'High'] 
-          LrDevelopController.setValue(v,MIDI2LR[v..'High'] )
-        elseif value < MIDI2LR[v..'Low'] then
-          MIDI2LR.PARAM_OBSERVER[v] = MIDI2LR[v..'Low'] 
-          LrDevelopController.setValue(v,MIDI2LR[v..'Low'] )
-        end
-      end
-    end
-  end
-  if MIDI2LR.PICKUP_ENABLED and param == 'Exposure' then
-    local min, max
-    local value = LrDevelopController.getValue('Exposure')
-    if (param == 'Exposure' and LrDevelopController.getRange('Exposure') == -10) then
-      min = MIDI2LR.ExposureMin * 2
-      max = MIDI2LR.ExposureMax * 2
-    else
-      min = MIDI2LR.ExposureMin
-      max = MIDI2LR.ExposureMax
-    end 
-    if value > max then
-      MIDI2LR.PARAM_OBSERVER['Exposure'] = max
-      LrDevelopController.setValue('Exposure',max)
-    elseif value < min then
-      MIDI2LR.PARAM_OBSERVER['Exposure'] = min
-      LrDevelopController.setValue('Exposure',min)
-    end
+  if Limits.Parameters[param] and MIDI2LR.PICKUP_ENABLED then
+    Limits.ClampValue(param)
   end
   -- enable movement if pickup mode is off; controller is within pickup range; or control was last used recently and rapidly moved out of pickup range
   if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) or
