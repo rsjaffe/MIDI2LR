@@ -112,8 +112,12 @@ local startServer
 local updateParam
 
 local function PasteSelectedSettings ()
+  if MIDI2LR.Copied_Settings == nil then return end 
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop')
+  end
   for _,param in ipairs (DEVELOP_PARAMS) do --having trouble iterating pastelist--observable table iterator issue?
-    if (MIDI2LR.PasteList[param] and MIDI2LR.Copied_Settings[param]) then
+    if (MIDI2LR.PasteList[param]~=nil and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
     end
@@ -123,6 +127,9 @@ end
 
 local function PasteSettings  ()
   if MIDI2LR.Copied_Settings == nil then return end
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop')
+  end
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Paste settings', 
@@ -235,9 +242,10 @@ function updateParam() --closure
     -- enable movement if pickup mode is off; controller is within pickup range; 
     -- or control was last used recently and rapidly moved out of pickup range
     if(
-      (not MIDI2LR.PICKUP_ENABLED) 
-      or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)
-      or (lastclock + 0.5 > os.clock() and lastparam == param))
+      (not MIDI2LR.PICKUP_ENABLED) or
+      (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD) or
+      (lastclock + 0.5 > os.clock() and lastparam == param) 
+      )
     then
       if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
         lastclock = os.clock()
