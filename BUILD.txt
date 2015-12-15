@@ -4,9 +4,6 @@ Prerequisites
 On Windows, you need to get Visual Studio 2015 (the Community edition is free).
 On Mac, you need to install XCode, also free.
 
-The project files for both will be located in Builds/ (MIDI2LR.sln for Visual studio,
-and MIDI2LR.xcodeproj for XCode).
-
 There is a utility used to manage JUCE projects called the Introjucer, which is
 included when you download JUCE (http://www.juce.com/download) (you don't need
 the actual JUCE source code, as this is already included in the repository).
@@ -29,9 +26,7 @@ will build a release version (which is preferable as it will reduce the
 binary size slightly). Both of these builds will reside in Builds/Visual
  Studio 2015/Debug and Builds/Visual Studio 2015/Release
 
-On Mac, you need to run the project in XCode.
-By default I set the project in Release mode (though again this can be changed for debugging purposes).
-These builds should also reside in Builds/MacOSX
+On Mac, you need to run the project in XCode. These builds should reside in Builds/MacOSX
 
 Assembling the plugin
 --------------------
