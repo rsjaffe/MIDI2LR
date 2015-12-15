@@ -32,6 +32,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 #include "MainWindow.h"
 
+#define SHUT_DOWN_STRING "--LRSHUTDOWN"
+
 class MIDI2LRApplication : public JUCEApplication
 {
 public:
@@ -42,12 +44,22 @@ public:
 	bool moreThanOneInstanceAllowed() override { return false; }
 
 	//==============================================================================
-	void initialise(const String& /*commandLine*/) override
+	void initialise(const String& commandLine) override
 	{
-		mainWindow = new MainWindow(getApplicationName());
-		mainWindow->Init();
-		// Check for latest version
-		_versionChecker.startThread();
+		if (commandLine != SHUT_DOWN_STRING)
+		{
+	    
+	        mainWindow = new MainWindow(getApplicationName());
+		    mainWindow->Init();
+		    // Check for latest version
+		    _versionChecker.startThread();
+		}
+		else
+	    {
+	        // apparently the appication is already terminated
+	        quit();
+	    }
+	        
 	}
 
 	void shutdown() override
@@ -59,6 +71,7 @@ public:
 		LR_IPC_OUT::getInstance().shutdown();
 		LR_IPC_IN::getInstance().shutdown();
 		mainWindow = nullptr; // (deletes our window)
+		quit();
 	}
 
 	//==============================================================================
@@ -69,11 +82,18 @@ public:
 		quit();
 	}
 
-	void anotherInstanceStarted(const String& /*commandLine*/) override
+	void anotherInstanceStarted(const String& commandLine) override
 	{
 		// When another instance of the app is launched while this one is running,
 		// this method is invoked, and the commandLine parameter tells you what
 		// the other instance's command-line arguments were.
+
+		if (commandLine == SHUT_DOWN_STRING)
+		{
+			//shutting down
+			this->shutdown();
+		}
+
 	}
 
 
