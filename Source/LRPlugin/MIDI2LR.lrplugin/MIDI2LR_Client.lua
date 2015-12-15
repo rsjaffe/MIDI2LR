@@ -88,8 +88,6 @@ end
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
-local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
---we should put the above in a function closure once the code stabilizes. No need for everyone to see these variables.
 
 -------------preferences
 do
@@ -221,29 +219,38 @@ function develop_lerp_to_midi(param)
   return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
 end
 
-function updateParam(param, midi_value)
-  -- this function does a 'pickup' type of check
-  -- that is, it will ensure the develop parameter is close 
-  -- to what the inputted command value is before updating it
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
-
-  if Limits.Parameters[param] and MIDI2LR.PICKUP_ENABLED then
-    Limits.ClampValue(param)
-  end
-  -- enable movement if pickup mode is off; controller is within pickup range; or control was last used recently and rapidly moved out of pickup range
-  if((not MIDI2LR.PICKUP_ENABLED) or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)) or
-  (lastclock + 0.5 > os.clock() and lastparam == param) then
-    if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
-      lastclock = os.clock()
-      lastparam = param
+function updateParam() --closure
+  local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
+  return function(param, midi_value)
+    -- this function does a 'pickup' type of check
+    -- that is, it will ensure the develop parameter is close 
+    -- to what the inputted command value is before updating it
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
     end
-    MIDI2LR.PARAM_OBSERVER[param] = midi_lerp_to_develop(param, midi_value)
-    LrDevelopController.setValue(param, midi_lerp_to_develop(param, midi_value))
-    MIDI2LR.LAST_PARAM = param
+    -- if pickup mode, keep LR value within pickup limits so pickup can work
+    if Limits.Parameters[param] and MIDI2LR.PICKUP_ENABLED then
+      Limits.ClampValue(param)
+    end
+    -- enable movement if pickup mode is off; controller is within pickup range; 
+    -- or control was last used recently and rapidly moved out of pickup range
+    if(
+      (not MIDI2LR.PICKUP_ENABLED) 
+      or (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD)
+      or (lastclock + 0.5 > os.clock() and lastparam == param))
+    then
+      if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
+        lastclock = os.clock()
+        lastparam = param
+      end
+      local value = midi_lerp_to_develop(param, midi_value)
+      MIDI2LR.PARAM_OBSERVER[param] = value
+      LrDevelopController.setValue(param, value)
+      MIDI2LR.LAST_PARAM = param
+    end
   end
 end
+updateParam = updateParam() --complete closure
 
 -- message processor
 function processMessage(message)
