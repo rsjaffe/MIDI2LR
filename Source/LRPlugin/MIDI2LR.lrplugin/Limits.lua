@@ -41,13 +41,14 @@ local DisplayOrder           = {'Temperature','Tint','Exposure'}
 --------------------------------------------------------------------------------
 -- Table listing parameter names managed by Limits module.
 --------------------------------------------------------------------------------
-local Parameters           = {}--{Temperature = true, Tint = true, Exposure = true}
-for _, p in ipairs(DisplayOrder) do
-  Parameters[p] = true
-end
+local Parameters           = {Temperature = true, Tint = true, Exposure = true}
+--for _, p in ipairs(DisplayOrder) do
+--  Parameters[p] = true
+--end
 --Above is attempt to dynamically set up Parameters table. This way, the only thing
 --that needs to be done to add a parameter is to add it to DisplayOrder.
---if this works, will take out commented Temperature=true...
+--Turns out this isn't run until sometime after module is loaded, so need to reload
+--plugin for this to work. Will work on a self-initializing module latere
 
 --------------------------------------------------------------------------------
 -- Limits a given parameter to the min,max set up.
