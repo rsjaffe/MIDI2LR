@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -44,8 +44,26 @@ namespace juce
 #include "gui/juce_AudioDeviceSelectorComponent.cpp"
 #include "gui/juce_AudioThumbnail.cpp"
 #include "gui/juce_AudioThumbnailCache.cpp"
+#include "gui/juce_AudioVisualiserComponent.cpp"
 #include "gui/juce_MidiKeyboardComponent.cpp"
 #include "gui/juce_AudioAppComponent.cpp"
 #include "players/juce_AudioProcessorPlayer.cpp"
+
+#if JUCE_MODULE_AVAILABLE_juce_gui_extra
+ #include "../juce_gui_extra/embedding/juce_UIViewComponent.h"
+#endif
+
+#if JUCE_MAC
+ #include "native/juce_mac_BluetoothMidiDevicePairingDialogue.mm"
+#elif JUCE_IOS
+ #include "native/juce_ios_BluetoothMidiDevicePairingDialogue.mm"
+#elif JUCE_ANDROID
+ #include "../juce_core/native/juce_android_JNIHelpers.h"
+ #include "native/juce_android_BluetoothMidiDevicePairingDialogue.cpp"
+#elif JUCE_LINUX
+ #include "native/juce_linux_BluetoothMidiDevicePairingDialogue.cpp"
+#elif JUCE_WINDOWS
+ #include "native/juce_win_BluetoothMidiDevicePairingDialogue.cpp"
+#endif
 
 }
