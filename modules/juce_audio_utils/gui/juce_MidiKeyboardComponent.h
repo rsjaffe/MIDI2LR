@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -35,7 +35,7 @@
     notes by calling the noteOn() and noteOff() methods of its MidiKeyboardState object.
 
     Another feature is that the computer keyboard can also be used to play notes. By
-    default it maps the top two rows of a standard querty keyboard to the notes, but
+    default it maps the top two rows of a standard qwerty keyboard to the notes, but
     these can be remapped if needed. It will only respond to keypresses when it has
     the keyboard focus, so to disable this feature you can call setWantsKeyboardFocus (false).
 
@@ -281,11 +281,13 @@ public:
     /** @internal */
     bool keyStateChanged (bool isKeyDown) override;
     /** @internal */
+    bool keyPressed (const KeyPress&) override;
+    /** @internal */
     void focusLost (FocusChangeType) override;
     /** @internal */
     void handleNoteOn (MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
     /** @internal */
-    void handleNoteOff (MidiKeyboardState*, int midiChannel, int midiNoteNumber) override;
+    void handleNoteOff (MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
     /** @internal */
     void colourChanged() override;
 
@@ -364,6 +366,10 @@ protected:
     virtual void getKeyPosition (int midiNoteNumber, float keyWidth,
                                  int& x, int& w) const;
 
+    /** Returns the rectangle for a given key if within the displayable range */
+    Rectangle<int> getRectangleForKey (int midiNoteNumber) const;
+
+
 private:
     //==============================================================================
     friend class MidiKeyboardUpDownButton;
@@ -398,9 +404,8 @@ private:
     void resetAnyKeysInUse();
     void updateNoteUnderMouse (Point<int>, bool isDown, int fingerNum);
     void updateNoteUnderMouse (const MouseEvent&, bool isDown);
-    void repaintNote (const int midiNoteNumber);
+    void repaintNote (int midiNoteNumber);
     void setLowestVisibleKeyFloat (float noteNumber);
-    Rectangle<int> getWhiteNotePos (int noteNumber) const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiKeyboardComponent)
 };

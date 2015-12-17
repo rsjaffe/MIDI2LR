@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -56,7 +56,7 @@ public:
         setSource (new FileInputSource (file))
         @endcode
 
-        You can pass a zero in here to clear the thumbnail.
+        You can pass a nullptr in here to clear the thumbnail.
         The source that is passed in will be deleted by this object when it is no longer needed.
         @returns true if the source could be opened as a valid audio file, false if this failed for
         some reason.

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -51,7 +51,8 @@ public:
                 if (Component* const comp = Desktop::getInstance().findComponentAt (screenPos.roundToInt()))
                     if (ComponentPeer* const peer = comp->getPeer())
                         if (! peer->isFocused())
-                            peer->handleMouseEvent (0, peer->globalToLocal (screenPos), mods, Time::currentTimeMillis());
+                            peer->handleMouseEvent (0, peer->globalToLocal (screenPos), mods,
+                                                    MouseInputSource::invalidPressure, Time::currentTimeMillis());
         }
     }
 
