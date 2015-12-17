@@ -23,7 +23,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 --]]
 --All variables and functions defined here must be local, except for return table.
 --The only global identifiers used in this module are 'import' and 'MIDI2LR'.
---In ZeroBrane IDE, check for global identifiers by pressing shift-F7.
+--In ZeroBrane IDE, check for global identifiers by pressing shift-F7 while 
+--viewing this file.
 
 --imports
 local LrDevelopController = import 'LrDevelopController'
@@ -40,7 +41,13 @@ local DisplayOrder           = {'Temperature','Tint','Exposure'}
 --------------------------------------------------------------------------------
 -- Table listing parameter names managed by Limits module.
 --------------------------------------------------------------------------------
-local Parameters           = {Temperature = true, Tint = true, Exposure = true}
+local Parameters           = {}--{Temperature = true, Tint = true, Exposure = true}
+for _, p in ipairs(DisplayOrder) do
+  Parameters[p] = true
+end
+--Above is attempt to dynamically set up Parameters table. This way, the only thing
+--that needs to be done to add a parameter is to add it to DisplayOrder.
+--if this works, will take out commented Temperature=true...
 
 --------------------------------------------------------------------------------
 -- Limits a given parameter to the min,max set up.
@@ -81,7 +88,6 @@ local function GetPreferences()
   local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
   for p in pairs(Parameters) do
     local controlmin, controlmax = LrDevelopController.getRange(p)    
-    --  prefs[p..'Low'] = prefs[p..'Low'] or {} -- if uninitialized
     if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place
       prefs[p..'Low'], prefs[p..'Low'][historic(p)] = {}, prefs[p..'Low'] 
@@ -91,7 +97,6 @@ local function GetPreferences()
       retval[p..'Low'][i] = v
     end
     retval[p..'Low'][controlmax] = retval[p..'Low'][controlmax] or controlmin
-    --   prefs[p..'High'] = prefs[p..'High'] or {} -- if uninitialized
     if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place      
       prefs[p..'High'], prefs[p..'High'][historic(p)] = {}, prefs[p..'High']
