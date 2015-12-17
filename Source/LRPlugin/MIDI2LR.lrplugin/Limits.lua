@@ -30,11 +30,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrDevelopController = import 'LrDevelopController'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local LrView              = import 'LrView'
+local LrApplicationView   = import 'LrApplicationView'
 
 --hidden 
 local DisplayOrder           = {'Temperature','Tint','Exposure'}
-
-
 
 --public--each must be in table of exports
 
@@ -45,10 +44,6 @@ local Parameters           = {}--{Temperature = true, Tint = true, Exposure = tr
 for _, p in ipairs(DisplayOrder) do
   Parameters[p] = true
 end
---Above is attempt to dynamically set up Parameters table. This way, the only thing
---that needs to be done to add a parameter is to add it to DisplayOrder.
---if this works, will take out commented Temperature=true...
-
 --------------------------------------------------------------------------------
 -- Limits a given parameter to the min,max set up.
 -- This function is used to avoid the bug in pickup mode, in which the parameter's
@@ -59,6 +54,9 @@ end
 -- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop') -- for getRange
+  end
   local _, rangemax = LrDevelopController.getRange(param)
   if Parameters[param] and (type(MIDI2LR[param..'Low']) == 'table') and MIDI2LR[param..'Low'][rangemax] then
     local min, max = MIDI2LR[param..'Low'][rangemax], MIDI2LR[param..'High'][rangemax]
@@ -86,6 +84,9 @@ local function GetPreferences()
   local retval = {}
   -- following for people with defaults from version 0.7.0 or earlier
   local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop') -- for getRange
+  end
   for p in pairs(Parameters) do
     local controlmin, controlmax = LrDevelopController.getRange(p)    
     if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
@@ -124,6 +125,9 @@ local function GetPreferencesCurrentMode()
   local retval = {}
   -- following for people with defaults from version 0.7.0 or earlier
   local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop') -- for getRange
+  end
   for p in pairs(Parameters) do
     local controlmin, controlmax = LrDevelopController.getRange(p)    
     if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
@@ -172,6 +176,9 @@ end
 --------------------------------------------------------------------------------
 local function SavePreferencesOneMode(saveme, destination)
   destination = destination or prefs
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop') -- for getRange
+  end
   for p in pairs(Parameters) do
     local _,highlimit = LrDevelopController.getRange(p)
     destination[p..'Low'] = destination[p..'Low'] or {} -- if uninitialized
@@ -194,6 +201,9 @@ end
 --------------------------------------------------------------------------------
 local function OptionsRows(f,obstable)
   local retval = {}
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop') -- for getRange
+  end
   for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
     table.insert(
@@ -252,6 +262,9 @@ end
 -- @return max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+    LrApplicationView.switchToModule('develop') -- for getRange
+  end
   if Parameters[param] and MIDI2LR[param..'High'] then
     local _, rangemax = LrDevelopController.getRange(param)
     return MIDI2LR[param..'Low'][rangemax], MIDI2LR[param..'High'][rangemax]

@@ -94,9 +94,12 @@ do
   local prefs = import 'LrPrefs'.prefsForPlugin() 
   prefs = prefs or {}
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
-  for i,v in pairs(Limits.GetPreferences()) do
-    MIDI2LR[i] = v
-  end
+  LrTasks.startAsyncTask( function ()
+      LrTasks.sleep(1) -- problem with getting limits too early, getRange doesn't work
+      for i,v in pairs(Limits.GetPreferences()) do
+        MIDI2LR[i] = v
+      end
+    end  )
   MIDI2LR.PasteList = prefs.PasteList or {}
 end
 -------------end preferences section
@@ -245,7 +248,7 @@ function updateParam() --closure
       (not MIDI2LR.PICKUP_ENABLED) or
       (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD) or
       (lastclock + 0.5 > os.clock() and lastparam == param) 
-      )
+    )
     then
       if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
         lastclock = os.clock()
