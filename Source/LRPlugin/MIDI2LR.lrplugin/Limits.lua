@@ -54,7 +54,8 @@ end
 -- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+  local currentModule = LrApplicationView.getCurrentModuleName()
+  if currentModule ~= 'develop' then
     LrApplicationView.switchToModule('develop') -- for getRange
   end
   local _, rangemax = LrDevelopController.getRange(param)
@@ -68,6 +69,9 @@ local function ClampValue(param)
       MIDI2LR.PARAM_OBSERVER[param] = max
       LrDevelopController.setValue(param, max)
     end
+  end
+  if currentModule ~= 'develop' then
+    LrApplicationView.switchToModule(currentModule)
   end
 end
 
@@ -84,7 +88,8 @@ local function GetPreferences()
   local retval = {}
   -- following for people with defaults from version 0.7.0 or earlier
   local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+  local currentModule = LrApplicationView.getCurrentModuleName()
+  if currentModule ~= 'develop' then
     LrApplicationView.switchToModule('develop') -- for getRange
   end
   for p in pairs(Parameters) do
@@ -111,6 +116,9 @@ local function GetPreferences()
   if retval.TemperatureLow[historic.Temperature] == nil then --defaults for temperature
     retval.TemperatureLow[historic.Temperature], retval.TemperatureHigh[historic.Temperature] = 3000, 9000
   end
+  if currentModule ~= 'develop' then
+    LrApplicationView.switchToModule(currentModule)
+  end
   return retval
 end
 
@@ -125,7 +133,8 @@ local function GetPreferencesCurrentMode()
   local retval = {}
   -- following for people with defaults from version 0.7.0 or earlier
   local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+  local currentModule = LrApplicationView.getCurrentModuleName()
+  if currentModule ~= 'develop' then
     LrApplicationView.switchToModule('develop') -- for getRange
   end
   for p in pairs(Parameters) do
@@ -140,6 +149,9 @@ local function GetPreferencesCurrentMode()
       prefs[p..'High'], prefs[p..'High'][historic(p)] = {}, prefs[p..'High']
     end
     retval[p..'High'] = prefs[p..'High'][controlmax] or controlmax
+  end
+  if currentModule ~= 'develop' then
+    LrApplicationView.switchToModule(currentModule)
   end
   return retval
 end
@@ -176,7 +188,8 @@ end
 --------------------------------------------------------------------------------
 local function SavePreferencesOneMode(saveme, destination)
   destination = destination or prefs
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+  local currentModule = LrApplicationView.getCurrentModuleName()
+  if currentModule ~= 'develop' then
     LrApplicationView.switchToModule('develop') -- for getRange
   end
   for p in pairs(Parameters) do
@@ -188,6 +201,9 @@ local function SavePreferencesOneMode(saveme, destination)
   end
   if destination == prefs then
     prefs = prefs --force save -- LR may not notice changes otherwise
+  end
+  if currentModule ~= 'develop' then
+    LrApplicationView.switchToModule(currentModule)
   end
 end
 
@@ -201,7 +217,8 @@ end
 --------------------------------------------------------------------------------
 local function OptionsRows(f,obstable)
   local retval = {}
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+  local currentModule = LrApplicationView.getCurrentModuleName()
+  if currentModule ~= 'develop' then
     LrApplicationView.switchToModule('develop') -- for getRange
   end
   for _, p in ipairs(DisplayOrder) do
@@ -252,6 +269,9 @@ local function OptionsRows(f,obstable)
       } -- row
     ) -- table.insert
   end
+  if currentModule ~= 'develop' then
+    LrApplicationView.switchToModule(currentModule)
+  end
   return retval -- array of rows
 end
 
@@ -262,14 +282,18 @@ end
 -- @return max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+  local currentModule = LrApplicationView.getCurrentModuleName()
+  if currentModule ~= 'develop' then
     LrApplicationView.switchToModule('develop') -- for getRange
   end
+  local rangemin, rangemax = LrDevelopController.getRange(param)
+  if currentModule ~= 'develop' then
+    LrApplicationView.switchToModule(currentModule)
+  end
   if Parameters[param] and MIDI2LR[param..'High'] then
-    local _, rangemax = LrDevelopController.getRange(param)
     return MIDI2LR[param..'Low'][rangemax], MIDI2LR[param..'High'][rangemax]
   else
-    return LrDevelopController.getRange(param)
+    return rangemin, rangemax
   end
 end
 
