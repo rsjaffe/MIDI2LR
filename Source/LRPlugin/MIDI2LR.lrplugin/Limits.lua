@@ -27,10 +27,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 --viewing this file.
 
 --imports
-local LrDevelopController = import 'LrDevelopController'
-local prefs               = import 'LrPrefs'.prefsForPlugin() 
-local LrView              = import 'LrView'
 local LrApplicationView   = import 'LrApplicationView'
+local LrDevelopController = import 'LrDevelopController'
+local LrView              = import 'LrView'
+local prefs               = import 'LrPrefs'.prefsForPlugin() 
 
 --hidden 
 local DisplayOrder           = {'Temperature','Tint','Exposure'}
@@ -74,7 +74,6 @@ local function ClampValue(param)
     LrApplicationView.switchToModule(currentModule)
   end
 end
-
 
 --------------------------------------------------------------------------------
 -- Get temperature limit preferences.
