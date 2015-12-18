@@ -95,7 +95,9 @@ do
   prefs = prefs or {}
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
   LrTasks.startAsyncTask( function ()
-      LrTasks.sleep(1) -- problem with getting limits too early, getRange doesn't work
+      repeat
+        LrTasks.sleep(1) -- problem with getting limits too early, getRange doesn't work
+      until LrApplication.activeCatalog():getTargetPhoto() --need to have a photo selected for limits to work
       for i,v in pairs(Limits.GetPreferences()) do
         MIDI2LR[i] = v
       end
@@ -284,99 +286,99 @@ function processMessage(message)
     elseif(param:find('Enable') == 1) then --enable/disable parts of develop module
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         LrDevelopController.setValue(param,not LrDevelopController.getValue(param)) end
-    elseif(TOOL_ALIASES[param]) then -- switch to desired tool
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
-          LrDevelopController.selectTool('loupe')
-        else
-          LrDevelopController.selectTool(TOOL_ALIASES[param])
+      elseif(TOOL_ALIASES[param]) then -- switch to desired tool
+        if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
+          if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
+            LrDevelopController.selectTool('loupe')
+          else
+            LrDevelopController.selectTool(TOOL_ALIASES[param])
+          end
         end
+      elseif(SETTINGS[param]) then
+        SETTINGS[param](tonumber(value))
+      else -- otherwise update a develop parameter
+        updateParam(param, tonumber(value))
       end
-    elseif(SETTINGS[param]) then
-      SETTINGS[param](tonumber(value))
-    else -- otherwise update a develop parameter
-      updateParam(param, tonumber(value))
     end
   end
-end
 
 -- send changed parameters to MIDI2LR
-function sendChangedParams( observer )
-  for _, param in ipairs(DEVELOP_PARAMS) do
-    if(observer[param] ~= LrDevelopController.getValue(param)) then
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-      observer[param] = LrDevelopController.getValue(param)
-      MIDI2LR.LAST_PARAM = param
+  function sendChangedParams( observer )
+    for _, param in ipairs(DEVELOP_PARAMS) do
+      if(observer[param] ~= LrDevelopController.getValue(param)) then
+        MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+        observer[param] = LrDevelopController.getValue(param)
+        MIDI2LR.LAST_PARAM = param
+      end
     end
   end
-end
 
-function startServer(context)
-  MIDI2LR.SERVER = LrSocket.bind {
-    functionContext = context,
-    plugin = _PLUGIN,
-    port = MIDI2LR.SEND_PORT,
-    mode = 'send',
-    onClosed = function( socket ) -- this callback never seems to get called...
-      -- MIDI2LR closed connection, allow for reconnection
-      -- socket:reconnect()
-    end,
-    onError = function( socket, err )
-      socket:reconnect()
-    end,
-  }
-end
+  function startServer(context)
+    MIDI2LR.SERVER = LrSocket.bind {
+      functionContext = context,
+      plugin = _PLUGIN,
+      port = MIDI2LR.SEND_PORT,
+      mode = 'send',
+      onClosed = function( socket ) -- this callback never seems to get called...
+        -- MIDI2LR closed connection, allow for reconnection
+        -- socket:reconnect()
+      end,
+      onError = function( socket, err )
+        socket:reconnect()
+      end,
+    }
+  end
 
 -- Main task
-LrTasks.startAsyncTask( function()
-    LrFunctionContext.callWithContext( 'socket_remote', function( context )
-        LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+  LrTasks.startAsyncTask( function()
+      LrFunctionContext.callWithContext( 'socket_remote', function( context )
+          LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
 
 
 
-        -- add an observer for develop param changes
-        LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
+          -- add an observer for develop param changes
+          LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
 
-        local client = LrSocket.bind {
-          functionContext = context,
-          plugin = _PLUGIN,
-          port = MIDI2LR.RECEIVE_PORT,
-          mode = 'receive',
-          onMessage = function(socket, message)
-            processMessage(message)
-          end,
-          onClosed = function( socket )
-            -- MIDI2LR closed connection, allow for reconnection
-            socket:reconnect()
-
-            -- calling SERVER:reconnect causes LR to hang for some reason...
-            MIDI2LR.SERVER:close()
-            startServer(context)
-          end,
-          onError = function(socket, err)
-            if err == 'timeout' then -- reconnect if timed out
+          local client = LrSocket.bind {
+            functionContext = context,
+            plugin = _PLUGIN,
+            port = MIDI2LR.RECEIVE_PORT,
+            mode = 'receive',
+            onMessage = function(socket, message)
+              processMessage(message)
+            end,
+            onClosed = function( socket )
+              -- MIDI2LR closed connection, allow for reconnection
               socket:reconnect()
+
+              -- calling SERVER:reconnect causes LR to hang for some reason...
+              MIDI2LR.SERVER:close()
+              startServer(context)
+            end,
+            onError = function(socket, err)
+              if err == 'timeout' then -- reconnect if timed out
+                socket:reconnect()
+              end
             end
+          }
+
+          startServer(context)
+
+
+          local loadVersion = currentLoadVersion  
+          while (loadVersion == currentLoadVersion)  do --detect halt or reload
+            LrTasks.sleep( 1/2 )
           end
-        }
 
-        startServer(context)
+          client:close()
+          MIDI2LR.SERVER:close()
+        end )
+    end )
 
-
-        local loadVersion = currentLoadVersion  
-        while (loadVersion == currentLoadVersion)  do --detect halt or reload
-          LrTasks.sleep( 1/2 )
-        end
-
-        client:close()
-        MIDI2LR.SERVER:close()
-      end )
-  end )
-
-LrTasks.startAsyncTask( function()
-    if(WIN_ENV) then
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
-    else
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
-    end
-  end)
+  LrTasks.startAsyncTask( function()
+      if(WIN_ENV) then
+        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
+      else
+        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
+      end
+    end)

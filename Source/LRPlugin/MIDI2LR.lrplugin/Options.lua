@@ -34,6 +34,7 @@ prefs.PasteList = prefs.PasteList or {}
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
+      local photoIsSelected = LrApplication.activeCatalog():getTargetPhoto() ~= nil
       local psList = {}
       for _,fold in pairs(LrApplication.developPresetFolders()) do
         local foldname = fold:getName()
@@ -73,13 +74,16 @@ local function setOptions()
         end
       end
 
+
       -- set up parameter limits column
       local parameterscolumn = {
         title = 'Other settings',
         identifier = 'othersettings',
       }
-      for _,v in ipairs(Limits.OptionsRows(f,properties)) do
-        table.insert(parameterscolumn,v)
+      if photoIsSelected then -- don't set up limits if photo isn't selected
+        for _,v in ipairs(Limits.OptionsRows(f,properties)) do
+          table.insert(parameterscolumn,v)
+        end
       end
 
       -- set up presets list for the groupbox on the right of the presets selection dialog
