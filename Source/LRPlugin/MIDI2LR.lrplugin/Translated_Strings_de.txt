@@ -1,0 +1,20 @@
+﻿'$$$/MIDI2LR/Options/grpboxpresets=Gewählten Presets'
+'$$$/MIDI2LR/Options/Preset=Preset'
+'$$$/MIDI2LR/Options/Presets=Presets'
+'$$$/MIDI2LR/Options/pastesel=Auswahl anwenden'
+'$$$/MIDI2LR/Options/clearall=Alle deaktivieren'
+'$$$/MIDI2LR/Options/setall=Alle aktivieren'
+'$$$/MIDI2LR/Options/dlgtitle=Gesetzt MIDI2LR Optionen'
+'$$$/MIDI2LR/Limits/Limits=Grenzen'
+'$$$/MIDI2LR/Limits/reset=Standardeinstellungen wiederherstellen'
+'$$$/MIDI2LR/Info/setopt=Stellen Optionen'
+"$$$/MIDI2LR/Info/about=Über"
+"$$$/MIDI2LR/Info/start=MIDI2LR Programm zu starten"
+'$$$/MIDI2LR/About/about=Wie zu verwenden: ein MIDI-Controller, starten MIDI2LR, und beginnen Sie die Bearbeitung! Siehe https://github.com/rsjaffe/MIDI2LR/wiki für Details.'
+"$$$/MIDI2LR/ShutDownApp/msg=Danke und tschüss von MIDI2LR"
+
+
+
+
+
+

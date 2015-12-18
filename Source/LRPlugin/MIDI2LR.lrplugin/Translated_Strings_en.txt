@@ -1,4 +1,4 @@
-'$$$/MIDI2LR/Options/grpboxpresets=Selected presets'
+﻿'$$$/MIDI2LR/Options/grpboxpresets=Selected presets'
 '$$$/MIDI2LR/Options/Preset=Preset'
 '$$$/MIDI2LR/Options/Presets=Presets'
 '$$$/MIDI2LR/Options/pastesel=Paste selections'
