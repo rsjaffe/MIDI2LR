@@ -32,7 +32,7 @@ local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
 -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
-currentLoadVersion = rawget (_G, "currentLoadVersion") or 0  
+currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
 currentLoadVersion = currentLoadVersion + 1 
 
 --[[-----------debug section, enable by adding - to beginning this line
@@ -48,23 +48,23 @@ local function outputToLog( message )
 end
 ---table.tostring function
 function table.val_to_str ( v )
-  if "string" == type( v ) then
-    v = string.gsub( v, "\n", "\\n" )
-    if string.match( string.gsub(v,"[^'\"]",""), '^"+$' ) then
-      return "'" .. v .. "'"
+  if 'string' == type( v ) then
+    v = string.gsub( v, '\n', '\\n' )
+    if string.match( string.gsub(v,'[^'\']',''), '^'+$' ) then
+      return ''' .. v .. '''
     end
-    return '"' .. string.gsub(v,'"', '\\"' ) .. '"'
+    return ''' .. string.gsub(v,''', '\\'' ) .. '''
   else
-    return "table" == type( v ) and table.tostring( v ) or
+    return 'table' == type( v ) and table.tostring( v ) or
     tostring( v )
   end
 end
 
 function table.key_to_str ( k )
-  if "string" == type( k ) and string.match( k, "^[_%a][_%a%d]*$" ) then
+  if 'string' == type( k ) and string.match( k, '^[_%a][_%a%d]*$' ) then
     return k
   else
-    return "[" .. table.val_to_str( k ) .. "]"
+    return '[' .. table.val_to_str( k ) .. ']'
   end
 end
 
@@ -77,10 +77,10 @@ function table.tostring( tbl )
   for k, v in pairs( tbl ) do
     if not done[ k ] then
       table.insert( result,
-        table.key_to_str( k ) .. "=" .. table.val_to_str( v ) )
+        table.key_to_str( k ) .. '=' .. table.val_to_str( v ) )
     end
   end
-  return "{" .. table.concat( result, "," ) .. "}"
+  return '{' .. table.concat( result, ',' ) .. '}'
 end
 --]]-----------end debug section
 
@@ -138,7 +138,7 @@ local function PasteSettings  ()
         'MIDI2LR: Paste settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError('Unable to get catalog write access for copy settings') end, 
+          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/writeaccesscopy=Unable to get catalog write access for copy settings')) end, 
           asynchronous = true }
       ) 
     end )
@@ -160,7 +160,7 @@ local function ApplyPreset(presetUuid)
         'Apply preset '..preset:getName(), 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError('Unable to get catalog write access for paste preset '..preset:getName()) end, 
+          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/writeaccesspaste=Unable to get catalog write access for paste preset ^1',preset:getName())) end, 
           asynchronous = true }
       ) 
     end )
