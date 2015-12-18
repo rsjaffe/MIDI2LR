@@ -96,7 +96,11 @@ local function GetPreferences()
     local controlmin, controlmax = LrDevelopController.getRange(p)    
     if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place
-      prefs[p..'Low'], prefs[p..'Low'][historic[p]] = {}, prefs[p..'Low'] 
+      local oldpref = prefs[p..'Low']
+      prefs[p..'Low'] = {}
+      if type(oldpref) == 'number' and historic[p] then
+        prefs[p..'Low'][historic[p]] = oldpref
+      end
     end
     retval[p..'Low'] = {}
     for i,v in pairs(prefs[p..'Low']) do--run through all saved ranges
@@ -105,7 +109,11 @@ local function GetPreferences()
     retval[p..'Low'][controlmax] = retval[p..'Low'][controlmax] or controlmin
     if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place      
-      prefs[p..'High'], prefs[p..'High'][historic[p]] = {}, prefs[p..'High']
+      local oldpref = prefs[p..'High']
+      prefs[p..'High'] = {}
+      if type(oldpref) == 'number' and historic[p] then
+        prefs[p..'High'][historic[p]] = oldpref
+      end
     end
     retval[p..'High'] = {}
     for i,v in pairs(prefs[p..'High']) do--run through all saved ranges
@@ -141,12 +149,20 @@ local function GetPreferencesCurrentMode()
     local controlmin, controlmax = LrDevelopController.getRange(p)    
     if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place
-      prefs[p..'Low'], prefs[p..'Low'][historic[p]] = {}, prefs[p..'Low'] 
+      local oldpref = prefs[p..'Low']
+      prefs[p..'Low'] = {}
+      if type(oldpref) == 'number' and historic[p] then
+        prefs[p..'Low'][historic[p]] = oldpref
+      end
     end
     retval[p..'Low'] = prefs[p..'Low'][controlmax] or controlmin
     if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place      
-      prefs[p..'High'], prefs[p..'High'][historic[p]] = {}, prefs[p..'High']
+      local oldpref = prefs[p..'High']
+      prefs[p..'High'] = {}
+      if type(oldpref) == 'number' and historic[p] then
+        prefs[p..'High'][historic[p]] = oldpref
+      end
     end
     retval[p..'High'] = prefs[p..'High'][controlmax] or controlmax
   end
