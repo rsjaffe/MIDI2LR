@@ -185,8 +185,10 @@ local function setOptions()
             properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
           end
         end
-        Limits.SavePreferencesOneMode(properties)
-        Limits.SavePreferencesOneMode(properties,MIDI2LR)
+        if photoIsSelected then
+          Limits.SavePreferencesOneMode(properties)
+          Limits.SavePreferencesOneMode(properties,MIDI2LR)
+        end
         ------assign PasteList
         prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
         for k,v in pairs(properties.PasteList) do --use iterator--simple assignment causes issue (probably due to bound table iterator issues)
