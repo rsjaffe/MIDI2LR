@@ -52,18 +52,18 @@ local function setOptions()
       for k,v in pairs(Limits.GetPreferencesCurrentMode()) do
         properties[k] = v
       end
-      
 
-      properties.PasteList = prefs.PasteList
+      properties.PasteList = {}
+      for k,v in pairs(prefs.PasteList) do
+        properties.PasteList[k] = v --straight assignment seems to cause prefs to update automatically
+      end
 
       -- set up adjustments columns
       local adjustmentscol = {}
-      adjustmentscol[1] = {}
-      adjustmentscol[2] = {}
-      adjustmentscol[3] = {}
       do 
         local breakpoint = math.floor(#DEVELOP_PARAMS / 3)
         for col = 1,3 do
+          adjustmentscol[col] = {}
           for i = ((col-1)*breakpoint+1),(breakpoint*col) do
             table.insert(
               adjustmentscol[col], 
@@ -136,6 +136,24 @@ local function setOptions()
               f:column (adjustmentscol[1]),
               f:column (adjustmentscol[2]), 
               f:column (adjustmentscol[3]),
+            }, --row
+            f:row{
+              f:push_button {
+                title = 'Clear all',
+                action = function ()
+                  for _,p in ipairs(DEVELOP_PARAMS) do
+                    properties['PasteList.'..p] = false
+                  end
+                end,
+              }, -- push_button
+              f:push_button {
+                title = 'Set all',
+                action = function ()
+                  for _,p in ipairs(DEVELOP_PARAMS) do
+                    properties['PasteList.'..p] = true
+                  end
+                end,
+              } ,-- push_button
             }, --row
           }, -- tab_view_item
           f:tab_view_item (parameterscolumn), -- tab_view_item
