@@ -281,6 +281,9 @@ function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
     elseif(param:find('Preset_') == 1) then --apply preset by #
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(MIDI2LR.Presets[tonumber(param:sub(8))]) end
+    elseif(param:find('Enable') == 1) then --enable/disable parts of develop module
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
+        LrDevelopController.setValue(param,not LrDevelopController.getValue(param)) end
     elseif(TOOL_ALIASES[param]) then -- switch to desired tool
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe

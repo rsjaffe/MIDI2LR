@@ -126,21 +126,21 @@ DEVELOP_PARAMS = {
   'BlueSaturation',
   -- Experimental, shown in copy settings not in documentation
   'AutoBrightness', --true/false
-  'AutoContrast', --true/false
-  'AutoExposure', --true/false
+  'AutoContrast', --true/false --read only?
+  'AutoExposure', --true/false --read only?
   'AutoLateralCA', --0
   'AutoShadows', --true/false
   'Brightness', --50
   'CameraProfile', --text "Adobe Standard"
   'ChromaticAberrationB', --0
   'ChromaticAberrationR', --0
-  'ConvertToGrayscale',  --true/false
-  'CropAngle', --0
-  'CropBottom', --1
+  'ConvertToGrayscale',  --true/false --works
+  'CropAngle', --0 --works
+  'CropBottom', --1 --works
   'CropConstrainToWarp', --0
-  'CropLeft', --0
-  'CropRight', --1
-  'CropTop', --0
+  'CropLeft', --0 --works
+  'CropRight', --1 --works
+  'CropTop', --0 --works
   'Defringe', --0
   'EnableCalibration',  --true/false
   'EnableCircularGradientBasedCorrections',  --true/false
@@ -160,15 +160,15 @@ DEVELOP_PARAMS = {
   'ProcessVersion', --"6.7"
   'RedEyeInfo', -- {}
   'RetouchInfo', -- {}
-  'ToneCurve', -- {0,0,32,22,64,56,128,128,192,196,255,255}
-  'ToneCurveName', -- "Medium Contrast"
+  'ToneCurve', -- {0,0,32,22,64,56,128,128,192,196,255,255} --looks to be read only?
+  'ToneCurveName', -- "Medium Contrast", "Linear", "Strong Contrast" 
   'ToneCurveName2012',  --"Linear"
   'ToneCurvePV2012', -- {0,0,255,255}
   'ToneCurvePV2012Blue', -- {0,0,255,255}
   'ToneCurvePV2012Green', -- {0,0,255,255}
   'ToneCurvePV2012Red', -- {0,0,255,255}
-  'VignetteAmount', -- 0
-  'VignetteMidpoint', -- 50
-  'WhiteBalance', -- "Custom"
+  'VignetteAmount', -- 0 --this affects lens vignetting in manual tab of lens corrections
+  'VignetteMidpoint', -- 50 --this affects lens vignetting in manual tab of lens corrections
+  'WhiteBalance', -- "Custom" -- works Auto Daylight Cloudy Shade Tungsten Fluorescent Flash
 
 }
