@@ -3,3 +3,6 @@ git user creatomix
 Parth Davé
 Rory Jaffe
 Jeffrey Westgeest
+
+Translation assistance by:
+Niklas Mischkulnig
