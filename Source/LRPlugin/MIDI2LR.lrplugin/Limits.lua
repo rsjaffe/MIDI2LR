@@ -96,7 +96,7 @@ local function GetPreferences()
     local controlmin, controlmax = LrDevelopController.getRange(p)    
     if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place
-      prefs[p..'Low'], prefs[p..'Low'][historic(p)] = {}, prefs[p..'Low'] 
+      prefs[p..'Low'], prefs[p..'Low'][historic[p]] = {}, prefs[p..'Low'] 
     end
     retval[p..'Low'] = {}
     for i,v in pairs(prefs[p..'Low']) do--run through all saved ranges
@@ -105,7 +105,7 @@ local function GetPreferences()
     retval[p..'Low'][controlmax] = retval[p..'Low'][controlmax] or controlmin
     if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place      
-      prefs[p..'High'], prefs[p..'High'][historic(p)] = {}, prefs[p..'High']
+      prefs[p..'High'], prefs[p..'High'][historic[p]] = {}, prefs[p..'High']
     end
     retval[p..'High'] = {}
     for i,v in pairs(prefs[p..'High']) do--run through all saved ranges
