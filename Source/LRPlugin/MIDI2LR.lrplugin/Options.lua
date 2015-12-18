@@ -83,13 +83,13 @@ local function setOptions()
       end
 
       -- set up presets list for the groupbox on the right of the presets selection dialog
-      local groupboxpresets = {title = 'Selected presets'} 
+      local groupboxpresets = {title = LOC('$$$/MIDI2LR/Options/grpboxpresets=Selected presets')} 
       for i=1,20 do
         table.insert( 
           groupboxpresets, 
           f:static_text {fill_horizontal = 1,
             title = bind { key = 'preset'..i,
-              transform = function(value) return 'Preset '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
+              transform = function(value) return LOC('$$$/MIDI2LR/Options/Preset=Preset')..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
             },  -- title
           } -- static_text
         )
@@ -97,7 +97,7 @@ local function setOptions()
       -- set up groups of preset listings
       local tabviewitems = {} 
       for group=1, 4 do
-        tabviewitems[group] = f:tab_view_item {title = ('Presets '..(group*5-4)..'-'..(group*5)), identifier = ('presets-'..(group*5-4)..'-'..(group*5)),}
+        tabviewitems[group] = f:tab_view_item {title = (LOC('$$$/MIDI2LR/Options/Presets=Presets')..' '..(group*5-4)..'-'..(group*5)), identifier = ('presets-'..(group*5-4)..'-'..(group*5)),}
         for i=-4,0 do
           table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*5+i)) })
         end
@@ -108,7 +108,7 @@ local function setOptions()
         bind_to_object = properties, -- default bound table
         f:tab_view {
           f:tab_view_item {
-            title = 'Presets',
+            title = LOC('$$$/MIDI2LR/Options/Presets=Presets'),
             identifier = 'presets',
             f:row {
               f:column {
@@ -130,7 +130,7 @@ local function setOptions()
             }, -- row
           }, -- tab_view_item
           f:tab_view_item {
-            title = 'Paste selections',
+            title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
             f:row{ -- all available adjustments
               f:column (adjustmentscol[1]),
@@ -139,7 +139,7 @@ local function setOptions()
             }, --row
             f:row{
               f:push_button {
-                title = 'Clear all',
+                title = LOC('$$$/MIDI2LR/Options/clearall=Clear all'),
                 action = function ()
                   for _,p in ipairs(DEVELOP_PARAMS) do
                     properties['PasteList.'..p] = false
@@ -147,7 +147,7 @@ local function setOptions()
                 end,
               }, -- push_button
               f:push_button {
-                title = 'Set all',
+                title = LOC('$$$/MIDI2LR/Options/setall=Set all'),
                 action = function ()
                   for _,p in ipairs(DEVELOP_PARAMS) do
                     properties['PasteList.'..p] = true
@@ -162,7 +162,7 @@ local function setOptions()
 
       local result = LrDialogs.presentModalDialog (
         {
-          title = 'Set MIDI2LR options',
+          title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
           contents = contents,
         }
       )

@@ -32,7 +32,7 @@ return {
     currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
     -- Report shutdown
     for i=0,1 do 
-      progressFunction (i, "Thank you for using MIDI2LR")
+      progressFunction (i, LOC("$$$/MIDI2LR/ShutDownApp/msg=Thank you for using MIDI2LR"))
       LrTasks.sleep(1) 
     end
     --tasks completed

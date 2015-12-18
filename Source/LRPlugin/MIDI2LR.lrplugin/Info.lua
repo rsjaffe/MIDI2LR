@@ -28,15 +28,15 @@ return {
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = { -- Needs to provide at least a menu item
     {
-      title = 'Set options',
+      title = LOC('$$$/MIDI2LR/Info/setopt=Set options'),
       file = 'Options.lua',
     },
     {
-      title = "About",
+      title = LOC("$$$/MIDI2LR/Info/about=About"),
       file = "About.lua",
     },
     {
-      title = "Start MIDI2LR",
+      title = LOC("$$$/MIDI2LR/Info/start=Start MIDI2LR app"),
       file = "LaunchAppFromMenu.lua"
     },
   },

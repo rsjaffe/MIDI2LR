@@ -227,7 +227,7 @@ local function OptionsRows(f,obstable)
       retval,
       f:row { 
         f:static_text {
-          title = p..' Limits',
+          title = p..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
           width = LrView.share('limit_label'),
         }, -- static_text
         f:slider {
@@ -255,7 +255,7 @@ local function OptionsRows(f,obstable)
           width = LrView.share('limit_reading'),                
         }, -- static_text
         f:push_button {
-          title = 'Reset to defaults',
+          title = LOC('$$$/MIDI2LR/Limits/reset=Reset to defaults'),
           action = function ()
             if p == 'Temperature' and low > 0 then
               obstable.TemperatureLow = 3000
