@@ -141,12 +141,12 @@ local function GetPreferencesCurrentMode()
     local controlmin, controlmax = LrDevelopController.getRange(p)    
     if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place
-      prefs[p..'Low'], prefs[p..'Low'][historic(p)] = {}, prefs[p..'Low'] 
+      prefs[p..'Low'], prefs[p..'Low'][historic[p]] = {}, prefs[p..'Low'] 
     end
     retval[p..'Low'] = prefs[p..'Low'][controlmax] or controlmin
     if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
       --make it into table and slot old value (if it exists) into proper place      
-      prefs[p..'High'], prefs[p..'High'][historic(p)] = {}, prefs[p..'High']
+      prefs[p..'High'], prefs[p..'High'][historic[p]] = {}, prefs[p..'High']
     end
     retval[p..'High'] = prefs[p..'High'][controlmax] or controlmax
   end
