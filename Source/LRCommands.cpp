@@ -25,6 +25,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 
 const std::vector<String> LRCommandList::AdjustmentStringList = {
+    "White Balance Auto",
+    "White Balance Daylight",
+    "White Balance Cloudy",
+    "White Balance Shade",
+    "White Balance Tungsten",
+    "White Balance Fluorescent",
+    "White Balance Flash",
     "Temperature",
     "Tint",
     "Exposure",
@@ -382,6 +389,13 @@ const std::vector<String> LRCommandList::ViewModesList = {
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
+    "WhiteBalanceAuto",
+    "WhiteBalanceDaylight",
+    "WhiteBalanceCloudy",
+    "WhiteBalanceShade",
+    "WhiteBalanceTungsten",
+    "WhiteBalanceFluorescent",
+    "WhiteBalanceFlash",
     "Temperature",
     "Tint",
     "Exposure",

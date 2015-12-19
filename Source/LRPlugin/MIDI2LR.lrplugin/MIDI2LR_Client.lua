@@ -336,6 +336,8 @@ function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.resetToDefault(param:sub(6)) end
+    elseif(param:find('WhiteBalance') == 1) then -- adjust white balance
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue('WhiteBalance',param:sub(13)) end
     elseif(param:find('SwToM') == 1) then -- perform a switch to module
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.switchToModule(param:sub(6)) end
     elseif(param:find('ShoVw') == 1) then -- change application's view mode
