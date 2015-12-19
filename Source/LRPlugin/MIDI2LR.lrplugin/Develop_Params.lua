@@ -124,7 +124,27 @@ DEVELOP_PARAMS = {
   'GreenSaturation',
   'BlueHue',
   'BlueSaturation',
-  -- Experimental, shown in copy settings not in documentation
+  -- Experimental, shown in copy settings but not in documentation, will be enabled one-by-one after testing identifies functionality
+  'ConvertToGrayscale',  -- enabled in app
+  'CropAngle', -- enabled in app
+  'CropBottom', -- enabled in app
+  'CropConstrainToWarp', --0
+  'CropLeft', -- enabled in app
+  'CropRight', -- enabled in app
+  'CropTop', -- enabled in app  
+  'EnableCalibration',  -- enabled in app
+  'EnableCircularGradientBasedCorrections',  -- enabled in app
+  'EnableColorAdjustments', -- enabled in app
+  'EnableDetail', -- enabled in app
+  'EnableEffects', -- enabled in app
+  'EnableGradientBasedCorrections', -- enabled in app
+  'EnableGrayscaleMix', -- enabled in app
+  'EnableLensCorrections', -- enabled in app
+  'EnablePaintBasedCorrections', -- enabled in app
+  'EnableRedEye', -- enabled in app
+  'EnableRetouch', -- enabled in app
+  'EnableSplitToning', -- enabled in app
+  'WhiteBalance', -- enabled in app
   'AutoBrightness', --true/false
   'AutoContrast', --true/false --read only?
   'AutoExposure', --true/false --read only?
@@ -134,26 +154,7 @@ DEVELOP_PARAMS = {
   'CameraProfile', --text "Adobe Standard"
   'ChromaticAberrationB', --0
   'ChromaticAberrationR', --0
-  'ConvertToGrayscale',  --true/false --works
-  'CropAngle', --0 --works
-  'CropBottom', --1 --works
-  'CropConstrainToWarp', --0
-  'CropLeft', --0 --works
-  'CropRight', --1 --works
-  'CropTop', --0 --works
   'Defringe', --0
-  'EnableCalibration',  --true/false
-  'EnableCircularGradientBasedCorrections',  --true/false
-  'EnableColorAdjustments', --true/false
-  'EnableDetail', --true/false
-  'EnableEffects', --true/false
-  'EnableGradientBasedCorrections', --true/false
-  'EnableGrayscaleMix', --true/false
-  'EnableLensCorrections', --true/false
-  'EnablePaintBasedCorrections', --true/false
-  'EnableRedEye', --true/false
-  'EnableRetouch', --true/false
-  'EnableSplitToning', --true/false
   'LensProfileEnable',--1
   'LensProfileSetup', -- "LensDefaults"
   'orientation', --"AB"
@@ -169,6 +170,4 @@ DEVELOP_PARAMS = {
   'ToneCurvePV2012Red', -- {0,0,255,255}
   'VignetteAmount', -- 0 --this affects lens vignetting in manual tab of lens corrections
   'VignetteMidpoint', -- 50 --this affects lens vignetting in manual tab of lens corrections
-  'WhiteBalance', -- "Custom" -- works Auto Daylight Cloudy Shade Tungsten Fluorescent Flash
-
 }
