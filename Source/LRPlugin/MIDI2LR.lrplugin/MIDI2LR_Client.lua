@@ -203,6 +203,11 @@ local ACTIONS = {
   CopySettings     = CopySettings,
   PasteSettings    = PasteSettings,
   PasteSelectedSettings = PasteSelectedSettings,
+  UprightOff       = function () LrDevelopController.setValue('PerspectiveUpright',0) end,
+  UprightAuto      = function () LrDevelopController.setValue('PerspectiveUpright',1) end,
+  UprightLevel     = function () LrDevelopController.setValue('PerspectiveUpright',3) end,
+  UprightVertical  = function () LrDevelopController.setValue('PerspectiveUpright',4) end,
+  UprightFull      = function () LrDevelopController.setValue('PerspectiveUpright',2) end,
 }
 
 local TOOL_ALIASES = {
