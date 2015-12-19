@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.7.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.8.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.0.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
@@ -65,19 +65,19 @@
                        isDebug="0" optimisation="3" targetName="MIDI2LR"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_video" path="modules"/>
         <MODULEPATH id="juce_opengl" path="modules"/>
         <MODULEPATH id="juce_gui_extra" path="modules"/>
         <MODULEPATH id="juce_gui_basics" path="modules"/>
         <MODULEPATH id="juce_graphics" path="modules"/>
         <MODULEPATH id="juce_events" path="modules"/>
         <MODULEPATH id="juce_data_structures" path="modules"/>
-        <MODULEPATH id="juce_cryptography" path="modules"/>
         <MODULEPATH id="juce_core" path="modules"/>
+        <MODULEPATH id="juce_audio_basics" path="modules"/>
         <MODULEPATH id="juce_audio_processors" path="modules"/>
+        <MODULEPATH id="juce_box2d" path="modules"/>
+        <MODULEPATH id="juce_osc" path="modules"/>
         <MODULEPATH id="juce_audio_formats" path="modules"/>
         <MODULEPATH id="juce_audio_devices" path="modules"/>
-        <MODULEPATH id="juce_audio_basics" path="modules"/>
       </MODULEPATHS>
     </VS2015>
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt">
@@ -88,38 +88,40 @@
                        isDebug="0" optimisation="2" targetName="MIDI2LR" linkTimeOptimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_video" path="modules"/>
         <MODULEPATH id="juce_opengl" path="modules"/>
         <MODULEPATH id="juce_gui_extra" path="modules"/>
         <MODULEPATH id="juce_gui_basics" path="modules"/>
         <MODULEPATH id="juce_graphics" path="modules"/>
         <MODULEPATH id="juce_events" path="modules"/>
         <MODULEPATH id="juce_data_structures" path="modules"/>
-        <MODULEPATH id="juce_cryptography" path="modules"/>
         <MODULEPATH id="juce_core" path="modules"/>
+        <MODULEPATH id="juce_audio_basics" path="modules"/>
         <MODULEPATH id="juce_audio_processors" path="modules"/>
+        <MODULEPATH id="juce_box2d" path="modules"/>
+        <MODULEPATH id="juce_osc" path="modules"/>
         <MODULEPATH id="juce_audio_formats" path="modules"/>
         <MODULEPATH id="juce_audio_devices" path="modules"/>
-        <MODULEPATH id="juce_audio_basics" path="modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
   </EXPORTFORMATS>
   <MODULES>
-    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_video" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_box2d" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
-  <JUCEOPTIONS/>
+  <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
+               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="disabled"
+               JUCE_WASAPI_EXCLUSIVE="disabled"/>
   <LIVE_SETTINGS>
     <WINDOWS enableCxx11="1"/>
   </LIVE_SETTINGS>

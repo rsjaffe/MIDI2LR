@@ -86,12 +86,9 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         PopupMenu subMenu;
         for (auto cmd : menuEntries[menuIdx])
         {
-            bool alreadyMapped = false;
-            if (idx - 1 < LRCommandList::LRStringList.size())
-                alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
-
+            
             // add each submenu entry, ticking the previously selected entry and disabling a previously mapped entry
-            subMenu.addItem(idx, cmd, !alreadyMapped, idx == _selectedItem);
+            subMenu.addItem(idx, cmd, true, idx == _selectedItem);
             idx++;
         }
         // set whether or not the submenu is ticked (true if one of the submenu's entries is selected)

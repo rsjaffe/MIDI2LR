@@ -25,6 +25,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 
 const std::vector<String> LRCommandList::AdjustmentStringList = {
+    "White Balance Auto",
+    "White Balance Daylight",
+    "White Balance Cloudy",
+    "White Balance Shade",
+    "White Balance Tungsten",
+    "White Balance Fluorescent",
+    "White Balance Flash",
     "Temperature",
     "Tint",
     "Exposure",
@@ -94,6 +101,7 @@ const std::vector<String> LRCommandList::MixerStringList = {
     "Luminance Adjustment Purple",
     "Luminance Adjustment Magenta",
     // B & W
+    "Toggle Convert to Grayscale",
     "Gray Mixer Red",
     "Gray Mixer Orange",
     "Gray Mixer Yellow",
@@ -193,7 +201,11 @@ const std::vector<String> LRCommandList::LensCorrectionStringList = {
     "Perspective Rotate",
     "Perspective Scale",
     "Perspective Aspect",
-    "Perspective Upright",
+    "Perspective Upright Off",
+    "Perspective Upright Auto",
+    "Perspective Upright Level",
+    "Perspective Upright Vertical",
+    "Perspective Upright Full",
     "Reset Lens Profile Distortion Scale",
     "Reset Lens Profile Chromatic Aberration Scale",
     "Reset Lens Profile Vignetting Scale",
@@ -319,6 +331,34 @@ const std::vector<String> LRCommandList::ToolsList = {
     "Zoom Out Small Step",
     "Zoom Out Large Step",
     "Toggle Zoom Off/On",
+    "Crop Angle",
+    "Crop Bottom",
+    "Crop Left",
+    "Crop Right",
+    "Crop Top",
+    "Reset Crop",
+/*  "Reset Crop Angle",
+    "Reset Crop Bottom",
+    "Reset Crop Left",
+    "Reset Crop Right",
+    "Reset Crop Top", // Resets don't work for crop */
+    "Toggle Calibration",
+    "Toggle Circular Gradient-Based Corrections",
+    "Toggle Color Adjustments",
+    "Toggle Detail",
+    "Toggle Effects",
+    "Toggle Gradient-Based Corrections",
+    "Toggle Grayscale Mix",
+    "Toggle Lens Corrections",
+    "Toggle Paint-Based Corrections",
+    "Toggle Red-Eye",
+    "Toggle Retouch",
+    "Toggle Split Toning",
+    "Reset Circular Gradient-Based Corrections", //ResetCircGrad
+    "Reset Gradient-Based Corrections", //ResetGradient
+    "Reset Paint-Based Corrections", //ResetBrushing
+    "Reset Red-Eye", //ResetRedeye
+    "Reset Retouch", //ResetSpotRem
 };
 
 const std::vector<String> LRCommandList::ModulesList = {
@@ -355,6 +395,13 @@ const std::vector<String> LRCommandList::ViewModesList = {
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
+    "WhiteBalanceAuto",
+    "WhiteBalanceDaylight",
+    "WhiteBalanceCloudy",
+    "WhiteBalanceShade",
+    "WhiteBalanceTungsten",
+    "WhiteBalanceFluorescent",
+    "WhiteBalanceFlash",
     "Temperature",
     "Tint",
     "Exposure",
@@ -419,6 +466,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "LuminanceAdjustmentBlue",
     "LuminanceAdjustmentPurple",
     "LuminanceAdjustmentMagenta",
+    "ConvertToGrayscale",
     "GrayMixerRed",
     "GrayMixerOrange",
     "GrayMixerYellow",
@@ -511,7 +559,11 @@ const std::vector<String> LRCommandList::LRStringList = {
     "PerspectiveRotate",
     "PerspectiveScale",
     "PerspectiveAspect",
-    "PerspectiveUpright",
+    "UprightOff",
+    "UprightAuto",
+    "UprightLevel",
+    "UprightVertical",
+    "UprightFull",
     "ResetLensProfileDistortionScale",
     "ResetLensProfileChromaticAberrationScale",
     "ResetLensProfileVignettingScale",
@@ -630,6 +682,34 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ZoomOutSmallStep",
     "ZoomOutLargeStep",
     "ToggleZoomOffOn",
+    "CropAngle",
+    "CropBottom",
+    "CropLeft",
+    "CropRight",
+    "CropTop",
+    "ResetCrop",
+/*  "ResetCropAngle",
+    "ResetCropBottom",
+    "ResetCropLeft",
+    "ResetCropRight",
+    "ResetCropTop",   // resets don't work for crop*/
+    "EnableCalibration",
+    "EnableCircularGradientBasedCorrections",
+    "EnableColorAdjustments",
+    "EnableDetail",
+    "EnableEffects",
+    "EnableGradientBasedCorrections",
+    "EnableGrayscaleMix",
+    "EnableLensCorrections",
+    "EnablePaintBasedCorrections",
+    "EnableRedEye",
+    "EnableRetouch",
+    "EnableSplitToning",
+    "ResetCircGrad",
+    "ResetGradient",
+    "ResetBrushing",
+    "ResetRedeye",
+    "ResetSpotRem",
     /* Modules */
     "SwToMlibrary",
     "SwToMdevelop",
@@ -668,7 +748,9 @@ const std::vector<String> LRCommandList::ProfileList = {
 int LRCommandList::getIndexOfCommand(const String& command)
 {
     static std::unordered_map<String, int> indexMap;
-    if (indexMap.size() == 0)
+
+	// better to check for empty then lenght, as empty has a constant run time behavior.
+    if (indexMap.empty())
     {
         int idx = 0;
         for (auto &str : LRStringList)

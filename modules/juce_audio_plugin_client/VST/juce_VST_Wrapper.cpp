@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -69,6 +69,11 @@
  #pragma clang diagnostic ignored "-Wnon-virtual-dtor"
 #endif
 
+#ifdef _MSC_VER
+ #pragma warning (push)
+ #pragma warning (disable : 4458)
+#endif
+
 /*  These files come with the Steinberg VST SDK - to get them, you'll need to
     visit the Steinberg website and agree to whatever is currently required to
     get them. The best version to get is the VST3 SDK, which also contains
@@ -94,6 +99,10 @@
 #if JucePlugin_Build_VST3 && JUCE_VST3_CAN_REPLACE_VST2
  #include <pluginterfaces/base/funknown.h>
  namespace juce { extern Steinberg::FUID getJuceVST3ComponentIID(); }
+#endif
+
+#ifdef _MSC_VER
+ #pragma warning (pop)
 #endif
 
 #ifdef __clang__
@@ -122,14 +131,14 @@ static juce::uint32 lastMasterIdleCall = 0;
 namespace juce
 {
  #if JUCE_MAC
-  extern void initialiseMac();
-  extern void* attachComponentToWindowRef (Component*, void* parent, bool isNSView);
-  extern void detachComponentFromWindowRef (Component*, void* window, bool isNSView);
-  extern void setNativeHostWindowSize (void* window, Component*, int newWidth, int newHeight, bool isNSView);
-  extern void checkWindowVisibility (void* window, Component*, bool isNSView);
-  extern bool forwardCurrentKeyEventToHost (Component*, bool isNSView);
+  extern void initialiseMacVST();
+  extern void* attachComponentToWindowRefVST (Component*, void* parent, bool isNSView);
+  extern void detachComponentFromWindowRefVST (Component*, void* window, bool isNSView);
+  extern void setNativeHostWindowSizeVST (void* window, Component*, int newWidth, int newHeight, bool isNSView);
+  extern void checkWindowVisibilityVST (void* window, Component*, bool isNSView);
+  extern bool forwardCurrentKeyEventToHostVST (Component*, bool isNSView);
  #if ! JUCE_64BIT
-  extern void updateEditorCompBounds (Component*);
+  extern void updateEditorCompBoundsVST (Component*);
  #endif
  #endif
 
@@ -243,6 +252,27 @@ class JuceVSTWrapper  : public AudioEffectX,
                         private Timer,
                         private AsyncUpdater
 {
+private:
+    //==============================================================================
+    template <typename FloatType>
+    struct VstTempBuffers
+    {
+        VstTempBuffers() {}
+        ~VstTempBuffers() { release(); }
+
+        void release() noexcept
+        {
+            for (int i = tempChannels.size(); --i >= 0;)
+                delete[] (tempChannels.getUnchecked(i));
+
+            tempChannels.clear();
+        }
+
+        HeapBlock<FloatType*> channels;
+        Array<FloatType*> tempChannels;  // see note in processReplacing()
+        juce::AudioBuffer<FloatType> processTempBuffer;
+    };
+
 public:
     //==============================================================================
     JuceVSTWrapper (audioMasterCallback audioMasterCB, AudioProcessor* const af)
@@ -256,6 +286,7 @@ public:
          isProcessing (false),
          isBypassed (false),
          hasShutdown (false),
+         isInSizeWindow (false),
          firstProcessCallback (true),
          shouldDeleteEditor (false),
         #if JUCE_64BIT
@@ -263,7 +294,6 @@ public:
         #else
          useNSView (false),
         #endif
-         processTempBuffer (1, 1),
          hostWindow (0)
     {
         filter->setPlayConfigDetails (numInChans, numOutChans, 0, 0);
@@ -279,9 +309,9 @@ public:
         setNumOutputs (numOutChans);
 
         canProcessReplacing (true);
+        canDoubleReplacing (filter->supportsDoublePrecisionProcessing());
 
         isSynth ((JucePlugin_IsSynth) != 0);
-        noTail (filter->getTailLengthSeconds() <= 0);
         setInitialDelay (filter->getLatencySamples());
         programsAreChunks (true);
 
@@ -310,7 +340,6 @@ public:
 
                 jassert (editorComp == 0);
 
-                channels.free();
                 deleteTempChannels();
 
                 jassert (activePlugins.contains (this));
@@ -500,23 +529,27 @@ public:
 
     void process (float** inputs, float** outputs, VstInt32 numSamples)
     {
+        VstTempBuffers<float>& tmpBuffers = floatTempBuffers;
+
         const int numIn = numInChans;
         const int numOut = numOutChans;
 
-        processTempBuffer.setSize (numIn, numSamples, false, false, true);
+        tmpBuffers.processTempBuffer.setSize (numIn, numSamples, false, false, true);
 
         for (int i = numIn; --i >= 0;)
-            processTempBuffer.copyFrom (i, 0, outputs[i], numSamples);
+            tmpBuffers.processTempBuffer.copyFrom (i, 0, outputs[i], numSamples);
 
         processReplacing (inputs, outputs, numSamples);
 
         AudioSampleBuffer dest (outputs, numOut, numSamples);
 
         for (int i = jmin (numIn, numOut); --i >= 0;)
-            dest.addFrom (i, 0, processTempBuffer, i, 0, numSamples);
+            dest.addFrom (i, 0, tmpBuffers.processTempBuffer, i, 0, numSamples);
     }
 
-    void processReplacing (float** inputs, float** outputs, VstInt32 numSamples) override
+    template <typename FloatType>
+    void internalProcessReplacing (FloatType** inputs, FloatType** outputs,
+                                   VstInt32 numSamples, VstTempBuffers<FloatType>& tmpBuffers)
     {
         if (firstProcessCallback)
         {
@@ -561,7 +594,7 @@ public:
                 int i;
                 for (i = 0; i < numOut; ++i)
                 {
-                    float* chan = tempChannels.getUnchecked(i);
+                    FloatType* chan = tmpBuffers.tempChannels.getUnchecked(i);
 
                     if (chan == nullptr)
                     {
@@ -574,24 +607,24 @@ public:
                         {
                             if (outputs[j] == chan)
                             {
-                                chan = new float [blockSize * 2];
-                                tempChannels.set (i, chan);
+                                chan = new FloatType [blockSize * 2];
+                                tmpBuffers.tempChannels.set (i, chan);
                                 break;
                             }
                         }
                     }
 
                     if (i < numIn && chan != inputs[i])
-                        memcpy (chan, inputs[i], sizeof (float) * (size_t) numSamples);
+                        memcpy (chan, inputs[i], sizeof (FloatType) * (size_t) numSamples);
 
-                    channels[i] = chan;
+                    tmpBuffers.channels[i] = chan;
                 }
 
                 for (; i < numIn; ++i)
-                    channels[i] = inputs[i];
+                    tmpBuffers.channels[i] = inputs[i];
 
                 {
-                    AudioSampleBuffer chans (channels, jmax (numIn, numOut), numSamples);
+                    AudioBuffer<FloatType> chans (tmpBuffers.channels, jmax (numIn, numOut), numSamples);
 
                     if (isBypassed)
                         filter->processBlockBypassed (chans, midiEvents);
@@ -601,8 +634,8 @@ public:
 
                 // copy back any temp channels that may have been used..
                 for (i = 0; i < numOut; ++i)
-                    if (const float* const chan = tempChannels.getUnchecked(i))
-                        memcpy (outputs[i], chan, sizeof (float) * (size_t) numSamples);
+                    if (const FloatType* const chan = tmpBuffers.tempChannels.getUnchecked(i))
+                        memcpy (outputs[i], chan, sizeof (FloatType) * (size_t) numSamples);
             }
         }
 
@@ -648,16 +681,47 @@ public:
         }
     }
 
+    void processReplacing (float** inputs, float** outputs, VstInt32 sampleFrames) override
+    {
+        jassert (! filter->isUsingDoublePrecision());
+        internalProcessReplacing (inputs, outputs, sampleFrames, floatTempBuffers);
+    }
+
+    void processDoubleReplacing (double** inputs, double** outputs, VstInt32 sampleFrames) override
+    {
+        jassert (filter->isUsingDoublePrecision());
+        internalProcessReplacing (inputs, outputs, sampleFrames, doubleTempBuffers);
+    }
+
     //==============================================================================
     VstInt32 startProcess() override  { return 0; }
     VstInt32 stopProcess() override   { return 0; }
+
+    //==============================================================================
+    bool setProcessPrecision (VstInt32 vstPrecision) override
+    {
+        if (! isProcessing)
+        {
+            if (filter != nullptr)
+            {
+                filter->setProcessingPrecision (vstPrecision == kVstProcessPrecision64 && filter->supportsDoublePrecisionProcessing()
+                                                    ? AudioProcessor::doublePrecision
+                                                    : AudioProcessor::singlePrecision);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     void resume() override
     {
         if (filter != nullptr)
         {
             isProcessing = true;
-            channels.calloc ((size_t) (numInChans + numOutChans));
+            floatTempBuffers.channels.calloc ((size_t) (numInChans + numOutChans));
+            doubleTempBuffers.channels.calloc ((size_t) (numInChans + numOutChans));
 
             double rate = getSampleRate();
             jassert (rate > 0);
@@ -699,7 +763,8 @@ public:
             outgoingEvents.freeEvents();
 
             isProcessing = false;
-            channels.free();
+            floatTempBuffers.channels.free();
+            doubleTempBuffers.channels.free();
 
             deleteTempChannels();
         }
@@ -846,6 +911,22 @@ public:
         }
     }
 
+    bool string2parameter (VstInt32 index, char* text) override
+    {
+        if (filter != nullptr)
+        {
+            jassert (isPositiveAndBelow (index, filter->getNumParameters()));
+
+            if (AudioProcessorParameter* p = filter->getParameters()[index])
+            {
+                filter->setParameter (index, p->getValueForText (String::fromUTF8 (text)));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void getParameterName (VstInt32 index, char* text) override
     {
         if (filter != nullptr)
@@ -907,7 +988,7 @@ public:
     {
         short channelConfigs[][2] = { JucePlugin_PreferredChannelConfigurations };
 
-        Array <short*> channelConfigsSorted;
+        Array<short*> channelConfigsSorted;
         ChannelConfigComparator comp;
 
         for (int i = 0; i < numElementsInArray (channelConfigs); ++i)
@@ -1037,7 +1118,7 @@ public:
 
        #if JUCE_MAC
         if (hostWindow != 0)
-            checkWindowVisibility (hostWindow, editorComp, useNSView);
+            checkWindowVisibilityVST (hostWindow, editorComp, useNSView);
        #endif
 
         tryMasterIdle();
@@ -1131,7 +1212,7 @@ public:
                #if JUCE_MAC
                 if (hostWindow != 0)
                 {
-                    detachComponentFromWindowRef (editorComp, hostWindow, useNSView);
+                    detachComponentFromWindowRefVST (editorComp, hostWindow, useNSView);
                     hostWindow = 0;
                 }
                #endif
@@ -1185,8 +1266,10 @@ public:
               #elif JUCE_LINUX
                 editorComp->addToDesktop (0, ptr);
                 hostWindow = (Window) ptr;
+                Window editorWnd = (Window) editorComp->getWindowHandle();
+                XReparentWindow (display, editorWnd, hostWindow, 0, 0);
               #else
-                hostWindow = attachComponentToWindowRef (editorComp, ptr, useNSView);
+                hostWindow = attachComponentToWindowRefVST (editorComp, ptr, useNSView);
               #endif
                 editorComp->setVisible (true);
 
@@ -1228,11 +1311,20 @@ public:
     {
         if (editorComp != nullptr)
         {
-            if (! (canHostDo (const_cast <char*> ("sizeWindow")) && sizeWindow (newWidth, newHeight)))
+            bool sizeWasSuccessful = false;
+
+            if (canHostDo (const_cast<char*> ("sizeWindow")))
+            {
+                isInSizeWindow = true;
+                sizeWasSuccessful = sizeWindow (newWidth, newHeight);
+                isInSizeWindow = false;
+            }
+
+            if (! sizeWasSuccessful)
             {
                 // some hosts don't support the sizeWindow call, so do it manually..
                #if JUCE_MAC
-                setNativeHostWindowSize (hostWindow, editorComp, newWidth, newHeight, useNSView);
+                setNativeHostWindowSizeVST (hostWindow, editorComp, newWidth, newHeight, useNSView);
 
                #elif JUCE_LINUX
                 // (Currently, all linux hosts support sizeWindow, so this should never need to happen)
@@ -1284,7 +1376,10 @@ public:
             }
 
             if (ComponentPeer* peer = editorComp->getPeer())
+            {
                 peer->handleMovedOrResized();
+                peer->getComponent().repaint();
+            }
         }
     }
 
@@ -1333,7 +1428,7 @@ public:
         {
             // If we have an unused keypress, move the key-focus to a host window
             // and re-inject the event..
-            return forwardCurrentKeyEventToHost (this, wrapper.useNSView);
+            return forwardCurrentKeyEventToHostVST (this, wrapper.useNSView);
         }
        #endif
 
@@ -1344,38 +1439,41 @@ public:
 
         void resized() override
         {
-            if (Component* const editor = getChildComponent(0))
-                editor->setBounds (getLocalBounds());
+            if (Component* const editorChildComp = getChildComponent(0))
+                editorChildComp->setBounds (getLocalBounds());
 
            #if JUCE_MAC && ! JUCE_64BIT
             if (! wrapper.useNSView)
-                updateEditorCompBounds (this);
+                updateEditorCompBoundsVST (this);
            #endif
         }
 
         void childBoundsChanged (Component* child) override
         {
-            child->setTopLeftPosition (0, 0);
+            if (! wrapper.isInSizeWindow)
+            {
+                child->setTopLeftPosition (0, 0);
 
-            const int cw = child->getWidth();
-            const int ch = child->getHeight();
+                const int cw = child->getWidth();
+                const int ch = child->getHeight();
 
-           #if JUCE_MAC
-            if (wrapper.useNSView)
-                setTopLeftPosition (0, getHeight() - ch);
-           #endif
+               #if JUCE_MAC
+                if (wrapper.useNSView)
+                    setTopLeftPosition (0, getHeight() - ch);
+               #endif
 
-            wrapper.resizeHostWindow (cw, ch);
+                wrapper.resizeHostWindow (cw, ch);
 
-           #if ! JUCE_LINUX // setSize() on linux causes renoise and energyxt to fail.
-            setSize (cw, ch);
-           #else
-            XResizeWindow (display, (Window) getWindowHandle(), cw, ch);
-           #endif
+               #if ! JUCE_LINUX // setSize() on linux causes renoise and energyxt to fail.
+                setSize (cw, ch);
+               #else
+                XResizeWindow (display, (Window) getWindowHandle(), (unsigned int) cw, (unsigned int) ch);
+               #endif
 
-           #if JUCE_MAC
-            wrapper.resizeHostWindow (cw, ch);  // (doing this a second time seems to be necessary in tracktion)
-           #endif
+               #if JUCE_MAC
+                wrapper.resizeHostWindow (cw, ch);  // (doing this a second time seems to be necessary in tracktion)
+               #endif
+            }
         }
 
         void handleAsyncUpdate() override
@@ -1422,11 +1520,10 @@ private:
     VSTMidiEventList outgoingEvents;
     VstSpeakerArrangementType speakerIn, speakerOut;
     int numInChans, numOutChans;
-    bool isProcessing, isBypassed, hasShutdown, firstProcessCallback;
+    bool isProcessing, isBypassed, hasShutdown, isInSizeWindow, firstProcessCallback;
     bool shouldDeleteEditor, useNSView;
-    HeapBlock<float*> channels;
-    Array<float*> tempChannels;  // see note in processReplacing()
-    AudioSampleBuffer processTempBuffer;
+    VstTempBuffers<float> floatTempBuffers;
+    VstTempBuffers<double> doubleTempBuffers;
 
    #if JUCE_MAC
     void* hostWindow;
@@ -1484,15 +1581,22 @@ private:
    #endif
 
     //==============================================================================
-    void deleteTempChannels()
+    template <typename FloatType>
+    void deleteTempChannels (VstTempBuffers<FloatType>& tmpBuffers)
     {
-        for (int i = tempChannels.size(); --i >= 0;)
-            delete[] (tempChannels.getUnchecked(i));
-
-        tempChannels.clear();
+        tmpBuffers.release();
 
         if (filter != nullptr)
-            tempChannels.insertMultiple (0, nullptr, filter->getNumInputChannels() + filter->getNumOutputChannels());
+        {
+            int numChannels = filter->getNumInputChannels() + filter->getNumOutputChannels();
+            tmpBuffers.tempChannels.insertMultiple (0, nullptr, numChannels);
+        }
+    }
+
+    void deleteTempChannels()
+    {
+        deleteTempChannels (floatTempBuffers);
+        deleteTempChannels (doubleTempBuffers);
     }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceVSTWrapper)
@@ -1539,14 +1643,14 @@ namespace
     JUCE_EXPORTED_FUNCTION AEffect* VSTPluginMain (audioMasterCallback audioMaster);
     JUCE_EXPORTED_FUNCTION AEffect* VSTPluginMain (audioMasterCallback audioMaster)
     {
-        initialiseMac();
+        initialiseMacVST();
         return pluginEntryPoint (audioMaster);
     }
 
     JUCE_EXPORTED_FUNCTION AEffect* main_macho (audioMasterCallback audioMaster);
     JUCE_EXPORTED_FUNCTION AEffect* main_macho (audioMasterCallback audioMaster)
     {
-        initialiseMac();
+        initialiseMacVST();
         return pluginEntryPoint (audioMaster);
     }
 
