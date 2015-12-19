@@ -238,6 +238,7 @@ local function OptionsRows(f,obstable)
   end
   for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
+    local integral = high - 5 > low
     table.insert(
       retval,
       f:row { 
@@ -249,7 +250,7 @@ local function OptionsRows(f,obstable)
           value = LrView.bind(p..'Low'),
           min = low, 
           max = high,
-          integral = false,
+          integral = integral,
           width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
@@ -261,7 +262,7 @@ local function OptionsRows(f,obstable)
           value = LrView.bind(p..'High'),
           min = low ,
           max = high,
-          integral = false,
+          integral = integral,
           width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
