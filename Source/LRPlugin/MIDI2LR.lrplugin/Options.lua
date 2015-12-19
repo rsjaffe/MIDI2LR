@@ -59,33 +59,6 @@ local function setOptions()
         properties.PasteList[k] = v --straight assignment seems to cause prefs to update automatically
       end
 
-      -- set up adjustments columns
-      local adjustmentscol = {}
-      do 
-        local breakpoint = math.floor(#DEVELOP_PARAMS / 3)
-        for col = 1,3 do
-          adjustmentscol[col] = {}
-          for i = ((col-1)*breakpoint+1),(breakpoint*col) do
-            table.insert(
-              adjustmentscol[col], 
-              f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
-            )
-          end
-        end
-      end
-
-
-      -- set up parameter limits column
-      local parameterscolumn = {
-        title = 'Other settings',
-        identifier = 'othersettings',
-      }
-      if photoIsSelected then -- don't set up limits if photo isn't selected
-        for _,v in ipairs(Limits.OptionsRows(f,properties)) do
-          table.insert(parameterscolumn,v)
-        end
-      end
-
       -- set up presets list for the groupbox on the right of the presets selection dialog
       local groupboxpresets = {title = LOC('$$$/MIDI2LR/Options/grpboxpresets=Selected presets')} 
       for i=1,20 do
@@ -106,7 +79,32 @@ local function setOptions()
           table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*5+i)) })
         end
       end
+      -- set up adjustments columns
+      local adjustmentscol = {}
+      do 
+        local breakpoint = math.floor(#DEVELOP_PARAMS / 3)
+        for col = 1,3 do
+          adjustmentscol[col] = {}
+          for i = ((col-1)*breakpoint+1),(breakpoint*col) do
+            table.insert(
+              adjustmentscol[col], 
+              f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
+            )
+          end
+        end
+      end
+      -- set up other settings column
+      local parameterscolumn = {
+        title = 'Other settings',
+        identifier = 'othersettings',
+      }
+      if photoIsSelected then -- don't set up limits if photo isn't selected
+        for _,v in ipairs(Limits.OptionsRows(f,properties)) do
+          table.insert(parameterscolumn,v)
+        end
+      end
 
+      -- final assembly of dialog box contents
       local contents = 
       f:view{
         bind_to_object = properties, -- default bound table
@@ -164,14 +162,16 @@ local function setOptions()
         }, -- tab_view
       } -- view
 
+      -- display dialog
       local result = LrDialogs.presentModalDialog (
         {
           title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
           contents = contents,
         }
       )
+      -- assign values from dialog if ok is pressed
       if result == 'ok' then
-        ------assign presets
+        --assign presets
         for i = 1,20 do
           if properties['preset'..i] then
             prefs.Presets[i] = properties['preset'..i][1]
@@ -179,24 +179,23 @@ local function setOptions()
         end
         prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
         MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
-        ------assign limits
-        for p in pairs(Limits.Parameters) do
-          if properties[p..'Low'] > properties[p..'High'] then --swap values
-            properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
-          end
-        end
-        if photoIsSelected then
-          Limits.SavePreferencesOneMode(properties)
-          Limits.SavePreferencesOneMode(properties,MIDI2LR)
-        end
-        ------assign PasteList
+        --assign PasteList
         prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
         for k,v in pairs(properties.PasteList) do --use iterator--simple assignment causes issue (probably due to bound table iterator issues)
           prefs.PasteList[k] = v
           MIDI2LR.PasteList[k] = v
         end
-
-      end
+        --assign limits
+        if photoIsSelected then
+          for p in pairs(Limits.Parameters) do
+            if properties[p..'Low'] > properties[p..'High'] then --swap values
+              properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
+            end
+          end
+          Limits.SavePreferencesOneMode(properties)
+          Limits.SavePreferencesOneMode(properties,MIDI2LR)
+        end --if photoIsSelected
+      end -- if result ok
     end)
 end
 setOptions() --execute
