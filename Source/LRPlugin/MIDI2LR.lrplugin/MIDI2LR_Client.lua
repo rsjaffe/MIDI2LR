@@ -188,7 +188,12 @@ local ACTIONS = {
   TogglePurple     = LrSelection.togglePurpleLabel,
   ToggleYellow     = LrSelection.toggleYellowLabel,
   ResetAll         = LrDevelopController.resetAllDevelopAdjustments,
-  ResetLast        = function () LrDevelopController.resetToDefault(MIDI2LR.LAST_PARAM) end,
+  ResetLast        = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.resetToDefault(MIDI2LR.LAST_PARAM) 
+  end,
   Undo             = LrUndo.undo,
   Redo             = LrUndo.redo,
   ZoomInLargeStep  = LrApplicationView.zoomIn,
@@ -196,18 +201,53 @@ local ACTIONS = {
   ZoomOutSmallStep = LrApplicationView.zoomOutSome,
   ZoomOutLargeStep = LrApplicationView.zoomOut,
   ToggleZoomOffOn  = LrApplicationView.toggleZoom,
-  IncrementLastDevelopParameter = function () LrDevelopController.increment(MIDI2LR.LAST_PARAM) end,
-  DecrementLastDevelopParameter = function () LrDevelopController.decrement(MIDI2LR.LAST_PARAM) end,
+  IncrementLastDevelopParameter = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.increment(MIDI2LR.LAST_PARAM) 
+  end,
+  DecrementLastDevelopParameter = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.decrement(MIDI2LR.LAST_PARAM) 
+  end,
   VirtualCopy      = function () LrApplication.activeCatalog():createVirtualCopies() end,
   ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
   CopySettings     = CopySettings,
   PasteSettings    = PasteSettings,
   PasteSelectedSettings = PasteSelectedSettings,
-  UprightOff       = function () LrDevelopController.setValue('PerspectiveUpright',0) end,
-  UprightAuto      = function () LrDevelopController.setValue('PerspectiveUpright',1) end,
-  UprightLevel     = function () LrDevelopController.setValue('PerspectiveUpright',3) end,
-  UprightVertical  = function () LrDevelopController.setValue('PerspectiveUpright',4) end,
-  UprightFull      = function () LrDevelopController.setValue('PerspectiveUpright',2) end,
+  UprightOff       = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.setValue('PerspectiveUpright',0) 
+  end,
+  UprightAuto      = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.setValue('PerspectiveUpright',1) 
+  end,
+  UprightLevel     = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.setValue('PerspectiveUpright',3) 
+  end,
+  UprightVertical  = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.setValue('PerspectiveUpright',4) 
+  end,
+  UprightFull      = function () 
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    LrDevelopController.setValue('PerspectiveUpright',2) 
+  end,
 }
 
 local TOOL_ALIASES = {
