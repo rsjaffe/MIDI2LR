@@ -1,0 +1,36 @@
+Prerequisites
+--------------------
+
+On Windows, you need to get Visual Studio 2015 (the Community edition is free).
+On Mac, you need to install XCode, also free.
+
+There is a utility used to manage JUCE projects called the Introjucer, which is
+included when you download JUCE (http://www.juce.com/download) (you don't need
+the actual JUCE source code, as this is already included in the repository).
+
+Using this utility, you can easily add/remove files and update project properties
+such as the build version, and it will automatically update the relevant
+parameters for the Mac and Windows projects. The Introjucer project file
+(MIDI2LR.jucer) is located in the root directory.
+
+The project files for both will be located in Builds/ (MIDI2LR.sln for Visual
+studio, and MIDI2LR.xcodeproj for XCode), once you've run Juce.
+
+Build process
+--------------------
+
+The build process is quite simple.
+On Windows, you simply need to run the project in Visual Studio.
+By default it will be Debug mode for debugging. Switching to Release
+will build a release version (which is preferable as it will reduce the
+binary size slightly). Both of these builds will reside in Builds/Visual
+ Studio 2015/Debug and Builds/Visual Studio 2015/Release
+
+On Mac, you need to run the project in XCode. These builds should reside in Builds/MacOSX
+
+Assembling the plugin
+--------------------
+
+Add the exe file (windows) or app directory (OSX) to a new directory named MIDI2LR.lrplugin.
+Then add to MIDI2LR.lrplugin all the files in the project's /Source/LRPlugin/MIDI2LR.lrdevplugin
+directory. That plugin can then be installed in Lightroom as usual.

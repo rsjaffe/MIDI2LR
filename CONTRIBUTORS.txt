@@ -1,0 +1,8 @@
+MIDI2LR code includes work by the following contributors:
+git user creatomix
+Parth Davé
+Rory Jaffe
+Jeffrey Westgeest
+
+Translation assistance by:
+Niklas Mischkulnig
