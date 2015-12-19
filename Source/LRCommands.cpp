@@ -94,6 +94,7 @@ const std::vector<String> LRCommandList::MixerStringList = {
     "Luminance Adjustment Purple",
     "Luminance Adjustment Magenta",
     // B & W
+    "Toggle Convert to Grayscale",
     "Gray Mixer Red",
     "Gray Mixer Orange",
     "Gray Mixer Yellow",
@@ -445,6 +446,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "LuminanceAdjustmentBlue",
     "LuminanceAdjustmentPurple",
     "LuminanceAdjustmentMagenta",
+    "ConvertToGrayscale",
     "GrayMixerRed",
     "GrayMixerOrange",
     "GrayMixerYellow",
