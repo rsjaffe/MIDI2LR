@@ -336,6 +336,7 @@ const std::vector<String> LRCommandList::ToolsList = {
     "Crop Left",
     "Crop Right",
     "Crop Top",
+    "Reset Crop",
 /*  "Reset Crop Angle",
     "Reset Crop Bottom",
     "Reset Crop Left",
@@ -353,6 +354,11 @@ const std::vector<String> LRCommandList::ToolsList = {
     "Toggle Red-Eye",
     "Toggle Retouch",
     "Toggle Split Toning",
+    "Reset Circular Gradient-Based Corrections", //ResetCircGrad
+    "Reset Gradient-Based Corrections", //ResetGradient
+    "Reset Paint-Based Corrections", //ResetBrushing
+    "Reset Red-Eye", //ResetRedeye
+    "Reset Retouch", //ResetSpotRem
 };
 
 const std::vector<String> LRCommandList::ModulesList = {
@@ -681,6 +687,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "CropLeft",
     "CropRight",
     "CropTop",
+    "ResetCrop",
 /*  "ResetCropAngle",
     "ResetCropBottom",
     "ResetCropLeft",
@@ -698,6 +705,11 @@ const std::vector<String> LRCommandList::LRStringList = {
     "EnableRedEye",
     "EnableRetouch",
     "EnableSplitToning",
+    "ResetCircGrad",
+    "ResetGradient",
+    "ResetBrushing",
+    "ResetRedeye",
+    "ResetSpotRem",
     /* Modules */
     "SwToMlibrary",
     "SwToMdevelop",

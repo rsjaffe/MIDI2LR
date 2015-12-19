@@ -20,7 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 require 'Develop_Params.lua' -- global table of develop params we need to observe
-local Limits = require 'Limits' --import module
+local Limits = require 'Limits'
+local Ut     = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
@@ -187,13 +188,14 @@ local ACTIONS = {
   ToggleRed        = LrSelection.toggleRedLabel,
   TogglePurple     = LrSelection.togglePurpleLabel,
   ToggleYellow     = LrSelection.toggleYellowLabel,
-  ResetAll         = LrDevelopController.resetAllDevelopAdjustments,
-  ResetLast        = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.resetToDefault(MIDI2LR.LAST_PARAM) 
-  end,
+  ResetCrop        = Ut.wrapFOM(LrDevelopController.resetCrop),
+  ResetAll         = Ut.wrapFOM(LrDevelopController.resetAllDevelopAdjustments),
+  ResetBrushing    = Ut.wrapFOM(LrDevelopController.resetBrushing),
+  ResetCircGrad    = Ut.wrapFOM(LrDevelopController.resetCircularGradient),
+  ResetGradient    = Ut.wrapFOM(LrDevelopController.resetGradient),
+  ResetRedeye      = Ut.wrapFOM(LrDevelopController.resetRedeye),
+  ResetSpotRem     = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
+  ResetLast        = Ut.wrapFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM),
   Undo             = LrUndo.undo,
   Redo             = LrUndo.redo,
   ZoomInLargeStep  = LrApplicationView.zoomIn,
@@ -201,53 +203,18 @@ local ACTIONS = {
   ZoomOutSmallStep = LrApplicationView.zoomOutSome,
   ZoomOutLargeStep = LrApplicationView.zoomOut,
   ToggleZoomOffOn  = LrApplicationView.toggleZoom,
-  IncrementLastDevelopParameter = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.increment(MIDI2LR.LAST_PARAM) 
-  end,
-  DecrementLastDevelopParameter = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.decrement(MIDI2LR.LAST_PARAM) 
-  end,
+  IncrementLastDevelopParameter = Ut.wrapFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM),
+  DecrementLastDevelopParameter = Ut.wrapFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM),
   VirtualCopy      = function () LrApplication.activeCatalog():createVirtualCopies() end,
   ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
   CopySettings     = CopySettings,
   PasteSettings    = PasteSettings,
   PasteSelectedSettings = PasteSelectedSettings,
-  UprightOff       = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.setValue('PerspectiveUpright',0) 
-  end,
-  UprightAuto      = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.setValue('PerspectiveUpright',1) 
-  end,
-  UprightLevel     = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.setValue('PerspectiveUpright',3) 
-  end,
-  UprightVertical  = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.setValue('PerspectiveUpright',4) 
-  end,
-  UprightFull      = function () 
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    LrDevelopController.setValue('PerspectiveUpright',2) 
-  end,
+  UprightOff       = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
+  UprightAuto      = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',1),
+  UprightLevel     = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',3),
+  UprightVertical  = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
+  UprightFull      = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',2),
 }
 
 local TOOL_ALIASES = {
@@ -335,9 +302,9 @@ function processMessage(message)
     if(ACTIONS[param]) then -- perform a one time action
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.resetToDefault(param:sub(6)) end
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
     elseif(param:find('WhiteBalance') == 1) then -- adjust white balance
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue('WhiteBalance',param:sub(13)) end
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.setValue,'WhiteBalance',param:sub(13)) end
     elseif(param:find('SwToM') == 1) then -- perform a switch to module
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.switchToModule(param:sub(6)) end
     elseif(param:find('ShoVw') == 1) then -- change application's view mode
@@ -347,18 +314,13 @@ function processMessage(message)
     elseif(param:find('Preset_') == 1) then --apply preset by #
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(MIDI2LR.Presets[tonumber(param:sub(8))]) end
     elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-          LrApplicationView.switchToModule('develop')
-        end
-        LrDevelopController.setValue(param,not LrDevelopController.getValue(param)) 
-      end -- toggle parameters if button on
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
     elseif(TOOL_ALIASES[param]) then -- switch to desired tool
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
-          LrDevelopController.selectTool('loupe')
+          Ut.execFOM(LrDevelopController.selectTool,'loupe')
         else
-          LrDevelopController.selectTool(TOOL_ALIASES[param])
+          Ut.execFOM(LrDevelopController.selectTool,TOOL_ALIASES[param])
         end
       end
     elseif(SETTINGS[param]) then
@@ -371,12 +333,19 @@ end
 
 -- send changed parameters to MIDI2LR
 function sendChangedParams( observer )
+  local currentMod = LrApplicationView.getCurrentModuleName()
+  if currentMod ~= 'develop' then
+    LrApplicationView.switchToModule('develop')
+  end
   for _, param in ipairs(DEVELOP_PARAMS) do
     if(observer[param] ~= LrDevelopController.getValue(param)) then
       MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
       observer[param] = LrDevelopController.getValue(param)
       MIDI2LR.LAST_PARAM = param
     end
+  end
+  if currentMod ~= 'develop' then
+    LrApplicationView.switchToModule(currentMod)
   end
 end
 
