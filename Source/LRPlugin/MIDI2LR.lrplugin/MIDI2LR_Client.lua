@@ -92,17 +92,26 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 
 -------------preferences
 do
+
   local prefs = import 'LrPrefs'.prefsForPlugin() 
   prefs = prefs or {}
   MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
   LrTasks.startAsyncTask( function ()
+      local currentMod = LrApplicationView.getCurrentModuleName()
+      if currentMod ~= 'develop' then
+        LrApplicationView.switchToModule('develop')
+      end
       repeat
         LrTasks.sleep(1) -- problem with getting limits too early, getRange doesn't work
       until LrApplication.activeCatalog():getTargetPhoto() --need to have a photo selected for limits to work
       for i,v in pairs(Limits.GetPreferences()) do
         MIDI2LR[i] = v
       end
+      if currentMod ~= 'develop' then
+        LrApplicationView.switchToModule(currentMod)
+      end
     end  )
+
   MIDI2LR.PasteList = prefs.PasteList or {}
 end
 -------------end preferences section
@@ -123,7 +132,7 @@ local function PasteSelectedSettings ()
     LrApplicationView.switchToModule('develop')
   end
   for _,param in ipairs (DEVELOP_PARAMS) do --having trouble iterating pastelist--observable table iterator issue?
-    if (MIDI2LR.PasteList[param]~=nil and MIDI2LR.Copied_Settings[param]~=nil) then
+    if (MIDI2LR.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
     end
@@ -332,20 +341,18 @@ function processMessage(message)
 end
 
 -- send changed parameters to MIDI2LR
-function sendChangedParams( observer )
-  local currentMod = LrApplicationView.getCurrentModuleName()
-  if currentMod ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
+-- only works while in develop module 
+-- if I add change to module at beginning
+-- and change back at end, program ends up
+-- switching to develop module whenever
+-- a picture is selected--an unwanted behavior
+function sendChangedParams( observer ) 
   for _, param in ipairs(DEVELOP_PARAMS) do
     if(observer[param] ~= LrDevelopController.getValue(param)) then
       MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
       observer[param] = LrDevelopController.getValue(param)
       MIDI2LR.LAST_PARAM = param
     end
-  end
-  if currentMod ~= 'develop' then
-    LrApplicationView.switchToModule(currentMod)
   end
 end
 
