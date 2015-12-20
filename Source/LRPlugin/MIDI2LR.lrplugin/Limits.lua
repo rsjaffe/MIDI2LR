@@ -22,7 +22,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 --]]
 --All variables and functions defined here must be local, except for return table.
---The only global identifiers used in this module are 'import' and 'MIDI2LR'.
+--The only global identifiers used in this module are 'import', 'LOC' and 'MIDI2LR'.
 --In ZeroBrane IDE, check for global identifiers by pressing shift-F7 while 
 --viewing this file.
 
