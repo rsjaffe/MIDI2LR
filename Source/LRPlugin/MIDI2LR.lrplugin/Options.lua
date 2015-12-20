@@ -65,6 +65,8 @@ local function setOptions()
         table.insert( 
           groupboxpresets, 
           f:static_text {fill_horizontal = 1,
+            width_in_chars = 50,
+            truncation = 'head',
             title = bind { key = 'preset'..i,
               transform = function(value) return LOC('$$$/MIDI2LR/Options/Preset=Preset')..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
             },  -- title
@@ -73,17 +75,19 @@ local function setOptions()
       end
       -- set up groups of preset listings
       local tabviewitems = {} 
-      for group=1, 4 do
-        tabviewitems[group] = f:tab_view_item {title = (LOC('$$$/MIDI2LR/Options/Presets=Presets')..' '..(group*5-4)..'-'..(group*5)), identifier = ('presets-'..(group*5-4)..'-'..(group*5)),}
-        for i=-4,0 do
-          table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*5+i)) })
+      local psrows, pscolumns = 4,5
+      for group=1, pscolumns do
+        tabviewitems[group] = f:tab_view_item {title = (LOC('$$$/MIDI2LR/Options/Presets=Presets')..' '..(group*psrows-pscolumns)..'-'..(group*psrows)), identifier = ('presets-'..(group*psrows-pscolumns)..'-'..(group*psrows)),}
+        for i=(1-psrows),0 do
+          table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*psrows+i)) })
         end
       end
       -- set up adjustments columns
       local adjustmentscol = {}
       do 
-        local breakpoint = math.floor(#DEVELOP_PARAMS / 3)
-        for col = 1,3 do
+        local numberofcolumns = 4
+        local breakpoint = math.floor(#DEVELOP_PARAMS / numberofcolumns)
+        for col = 1,numberofcolumns do
           adjustmentscol[col] = {}
           for i = ((col-1)*breakpoint+1),(breakpoint*col) do
             table.insert(
@@ -120,6 +124,7 @@ local function setOptions()
                   f:tab_view_item (tabviewitems[2]), -- tab_view_item
                   f:tab_view_item (tabviewitems[3]), -- tab_view_item
                   f:tab_view_item (tabviewitems[4]), -- tab_view_item
+                  f:tab_view_item (tabviewitems[5]), -- tab_view_item                  
                 }, -- tab_view
               }, -- column
               f:column{ -- for the display of chosen presets
@@ -138,6 +143,7 @@ local function setOptions()
               f:column (adjustmentscol[1]),
               f:column (adjustmentscol[2]), 
               f:column (adjustmentscol[3]),
+              f:column (adjustmentscol[4]),
             }, --row
             f:row{
               f:push_button {
