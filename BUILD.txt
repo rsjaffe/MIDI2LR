@@ -32,5 +32,5 @@ Assembling the plugin
 --------------------
 
 Add the exe file (windows) or app directory (OSX) to a new directory named MIDI2LR.lrplugin.
-Then add to MIDI2LR.lrplugin all the files in the project's /Source/LRPlugin/MIDI2LR.lrdevplugin
+Then add to MIDI2LR.lrplugin all the files in the project's /Source/LRPlugin/MIDI2LR.lrplugin
 directory. That plugin can then be installed in Lightroom as usual.

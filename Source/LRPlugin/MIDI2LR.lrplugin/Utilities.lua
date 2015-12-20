@@ -70,7 +70,9 @@ local needsModule = {
 local function wrapFOM(F,...)
   local openModule = needsModule[F]
   if openModule == nil then
-    return function() return F(unpack(arg)) end
+    return function() 
+      return F(unpack(arg))  --proper tail call
+    end
   end
   return function()
     if LrApplicationView.getCurrentModuleName() ~= openModule then
@@ -93,7 +95,9 @@ end
 local function wrapFCM(F,...)
   local openModule = needsModule[F]
   if openModule == nil then
-    return function() return F(unpack(arg)) end
+    return function() 
+      return F(unpack(arg))  --proper tail call
+    end
   end
   return function()
     local currentMod = LrApplicationView.getCurrentModuleName()
