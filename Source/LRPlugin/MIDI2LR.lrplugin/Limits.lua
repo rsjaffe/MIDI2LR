@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 --viewing this file.
 
 --imports
+local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrView              = import 'LrView'
@@ -34,8 +35,31 @@ local prefs               = import 'LrPrefs'.prefsForPlugin()
 
 --hidden 
 local DisplayOrder           = {'Temperature','Tint','Exposure'}
+local RangeClass = {}
+RangeClass.__index = RangeClass
+function RangeClass.new(param,maxhigh)
+  local retval = {Parameter = param, MaxHigh = maxhigh}
+  --do work here
+  return setmetatable(retval,RangeClass)
+end
 
+
+local function indexLimit(mythis,index)
+  mythis[index] = {}
+  if LrApplication.activeCatalog():getTargetPhoto() then
+    
+  end
+  return mythis[index]
+end
+
+local metaLimit = {__index = indexLimit,}
 --public--each must be in table of exports
+--------------------------------------------------------------------------------
+-- Table containing the limits.
+--------------------------------------------------------------------------------
+local Limit = {}
+setmetatable(Limit,metaLimit)
+
 
 --------------------------------------------------------------------------------
 -- Table listing parameter names managed by Limits module.
