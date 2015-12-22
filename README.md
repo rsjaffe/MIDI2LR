@@ -7,8 +7,8 @@
 | <img src="http://rsjaffe.github.io/MIDI2LR/images/app070.png" /> | **Donations Welcome**: [Donate to development costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YWHT4JMA42RXN). **Supported platforms**: Mac OSX 10.9+, Windows 7/8/10. **Building**: [See the BUILD.txt file](https://github.com/rsjaffe/MIDI2LR/blob/master/BUILD.txt). **Project Page**: [Project Page](http://rsjaffe.github.io/MIDI2LR). **Wiki and Instruction Manual**: [Wiki :book:](https://github.com/rsjaffe/MIDI2LR/wiki). |
 
 ## Translation assistance
-I'm adding translation of menu items for the Lightroom plugin (but not the app).
-For those interested in helping, the files to edit are named TranslatedStrings_??.txt 
+I'm adding translation of menu items for the [Lightroom plugin](https://github.com/rsjaffe/MIDI2LR/tree/master/Source/LRPlugin/MIDI2LR.lrplugin) (but not the app).
+For those interested in helping, the files to edit are named [TranslatedStrings_??.txt](https://github.com/rsjaffe/MIDI2LR/tree/master/Source/LRPlugin/MIDI2LR.lrplugin) 
 where ?? is replaced with the language code.
 
 To provide a translation for the project, edit the txt file in the language you want 
