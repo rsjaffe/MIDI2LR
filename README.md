@@ -29,7 +29,7 @@ the = sign with the translation. If you see a ^ sign followed by a number in the
 leave that alone as well--that gets replaced with a calculated value in the program. No 
 newline characters or comments are allowed. The strings in this file must all be enclosed 
 with double quotes. If you're wondering what a translated file looks like, compare 
-TranslatedStrings_en.txt with TranslatedStrings_de.txt.
+[TranslatedStrings_en.txt](https://github.com/rsjaffe/MIDI2LR/blob/master/Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_en.txt) with [TranslatedStrings_de.txt](https://github.com/rsjaffe/MIDI2LR/blob/master/Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_de.txt).
 
 Send any translations to me at rsjaffe@gmail.com. Thanks for your assistance!
 
