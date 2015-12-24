@@ -3,6 +3,7 @@ Prerequisites
 =============
 
 - Lightroom 6+
+- Windowws 7+ or OSX 10.9+
 - Any USB MIDI controller (eg: Korg nanoKONTROL, etc.)
 
 =====
@@ -50,9 +51,16 @@ Notes
 - After setting a profile folder, adding new profiles to this folder will require 
   restarting MIDI2LR or going to Settings and choosing the same folder for them to be
   picked up by MIDI2LR.
+  
+===================================
+Problems/Frequently Asked Questions
+===================================
+
+First see the FAQ at https://github.com/rsjaffe/MIDI2LR/wiki. If you still have
+questions, post them at https://github.com/rsjaffe/MIDI2LR/issues.
 
 =========
 Changelog
 =========
 
-See wiki at https://github.com/rsjaffe/MIDI2LR/wiki
+See https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
