@@ -17,7 +17,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMenu.h"
 #include "LRCommands.h"
 
-CommandMenu::CommandMenu(const MIDI_Message& msg) : _msg(msg),
+CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<int>::max()),
 TextButton("Unmapped")
 {
@@ -86,9 +86,17 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         PopupMenu subMenu;
         for (auto cmd : menuEntries[menuIdx])
         {
-            
+            bool alreadyMapped = false;
+            if (idx - 1 < LRCommandList::LRStringList.size())
+                alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
+
             // add each submenu entry, ticking the previously selected entry and disabling a previously mapped entry
-            subMenu.addItem(idx, cmd, true, idx == _selectedItem);
+
+            if (alreadyMapped)
+                subMenu.addColouredItem(idx, cmd, Colours::red, true, idx == _selectedItem);
+            else
+                subMenu.addItem(idx, cmd, true, idx == _selectedItem);
+
             idx++;
         }
         // set whether or not the submenu is ticked (true if one of the submenu's entries is selected)
