@@ -125,6 +125,7 @@ DEVELOP_PARAMS = {
   'BlueSaturation',
   -- Experimental, shown in copy settings but not in documentation, will be enabled one-by-one after testing identifies functionality
   'AutoLateralCA', --0 off 1 on  
+  'CameraProfile', --text "Adobe Standard", 'Camera Clear', Deep Landscape Light Neutral Protrait Standard Vivid  
   'ConvertToGrayscale',  -- enabled in app
   'CropAngle', -- enabled in app
   'CropBottom', -- enabled in app
@@ -154,11 +155,11 @@ DEVELOP_PARAMS = {
   'AutoExposure', --true/false --read only?
   'AutoShadows', --true/false
   'Brightness', --50
-  'CameraProfile', --text "Adobe Standard"
+
   'ChromaticAberrationB', --0
   'ChromaticAberrationR', --0
   'Defringe', --0
-  'LensProfileSetup', -- "LensDefaults"
+  'LensProfileSetup', -- "LensDefaults", 'Auto', 'Custom' -- works, but who would want this control?
   'orientation', --"AB"
   'ProcessVersion', --"6.7"
   'RedEyeInfo', -- {}

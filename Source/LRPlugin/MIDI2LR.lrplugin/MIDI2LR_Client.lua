@@ -189,6 +189,15 @@ local ACTIONS = {
   PasteSettings    = PasteSettings,
   Pick             = LrSelection.flagAsPick,
   Prev             = LrSelection.previousPhoto,
+  Profile_Adobe_Standard   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
+  Profile_Camera_Clear     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
+  Profile_Camera_Deep      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
+  Profile_Camera_Landscape = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Landscape'),
+  Profile_Camera_Light     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Light'),
+  Profile_Camera_Neutral   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Neutral'),
+  Profile_Camera_Portrait  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Portrait'),
+  Profile_Camera_Standard  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Standard'),
+  Profile_Camera_Vivid     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid'),
   Redo             = LrUndo.redo,
   Reject           = LrSelection.flagAsReject,
   RemoveFlag       = LrSelection.removeFlag,
@@ -336,22 +345,22 @@ function processMessage(message)
           LrDevelopController.setValue(param,1)
         else
           LrDevelopController.setValue(param,0)
-      end
-    elseif(TOOL_ALIASES[param]) then -- switch to desired tool
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
-          Ut.execFOM(LrDevelopController.selectTool,'loupe')
-        else
-          Ut.execFOM(LrDevelopController.selectTool,TOOL_ALIASES[param])
         end
+      elseif(TOOL_ALIASES[param]) then -- switch to desired tool
+        if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
+          if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
+            Ut.execFOM(LrDevelopController.selectTool,'loupe')
+          else
+            Ut.execFOM(LrDevelopController.selectTool,TOOL_ALIASES[param])
+          end
+        end
+      elseif(SETTINGS[param]) then
+        SETTINGS[param](tonumber(value))
+      else -- otherwise update a develop parameter
+        updateParam(param, tonumber(value))
       end
-    elseif(SETTINGS[param]) then
-      SETTINGS[param](tonumber(value))
-    else -- otherwise update a develop parameter
-      updateParam(param, tonumber(value))
     end
   end
-end
 
 -- send changed parameters to MIDI2LR
 -- only works while in develop module 
@@ -359,82 +368,82 @@ end
 -- and change back at end, program ends up
 -- switching to develop module whenever
 -- a picture is selected--an unwanted behavior
-function sendChangedParams( observer ) 
-  for _, param in ipairs(DEVELOP_PARAMS) do
-    if(observer[param] ~= LrDevelopController.getValue(param)) then
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-      observer[param] = LrDevelopController.getValue(param)
-      MIDI2LR.LAST_PARAM = param
+  function sendChangedParams( observer ) 
+    for _, param in ipairs(DEVELOP_PARAMS) do
+      if(observer[param] ~= LrDevelopController.getValue(param)) then
+        MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+        observer[param] = LrDevelopController.getValue(param)
+        MIDI2LR.LAST_PARAM = param
+      end
     end
   end
-end
 
-function startServer(context)
-  MIDI2LR.SERVER = LrSocket.bind {
-    functionContext = context,
-    plugin = _PLUGIN,
-    port = MIDI2LR.SEND_PORT,
-    mode = 'send',
-    onClosed = function( socket ) -- this callback never seems to get called...
-      -- MIDI2LR closed connection, allow for reconnection
-      -- socket:reconnect()
-    end,
-    onError = function( socket, err )
-      socket:reconnect()
-    end,
-  }
-end
+  function startServer(context)
+    MIDI2LR.SERVER = LrSocket.bind {
+      functionContext = context,
+      plugin = _PLUGIN,
+      port = MIDI2LR.SEND_PORT,
+      mode = 'send',
+      onClosed = function( socket ) -- this callback never seems to get called...
+        -- MIDI2LR closed connection, allow for reconnection
+        -- socket:reconnect()
+      end,
+      onError = function( socket, err )
+        socket:reconnect()
+      end,
+    }
+  end
 
 -- Main task
-LrTasks.startAsyncTask( function()
-    LrFunctionContext.callWithContext( 'socket_remote', function( context )
-        LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+  LrTasks.startAsyncTask( function()
+      LrFunctionContext.callWithContext( 'socket_remote', function( context )
+          LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
 
 
 
-        -- add an observer for develop param changes
-        LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
+          -- add an observer for develop param changes
+          LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
 
-        local client = LrSocket.bind {
-          functionContext = context,
-          plugin = _PLUGIN,
-          port = MIDI2LR.RECEIVE_PORT,
-          mode = 'receive',
-          onMessage = function(socket, message)
-            processMessage(message)
-          end,
-          onClosed = function( socket )
-            -- MIDI2LR closed connection, allow for reconnection
-            socket:reconnect()
-
-            -- calling SERVER:reconnect causes LR to hang for some reason...
-            MIDI2LR.SERVER:close()
-            startServer(context)
-          end,
-          onError = function(socket, err)
-            if err == 'timeout' then -- reconnect if timed out
+          local client = LrSocket.bind {
+            functionContext = context,
+            plugin = _PLUGIN,
+            port = MIDI2LR.RECEIVE_PORT,
+            mode = 'receive',
+            onMessage = function(socket, message)
+              processMessage(message)
+            end,
+            onClosed = function( socket )
+              -- MIDI2LR closed connection, allow for reconnection
               socket:reconnect()
+
+              -- calling SERVER:reconnect causes LR to hang for some reason...
+              MIDI2LR.SERVER:close()
+              startServer(context)
+            end,
+            onError = function(socket, err)
+              if err == 'timeout' then -- reconnect if timed out
+                socket:reconnect()
+              end
             end
+          }
+
+          startServer(context)
+
+
+          local loadVersion = currentLoadVersion  
+          while (loadVersion == currentLoadVersion)  do --detect halt or reload
+            LrTasks.sleep( 1/2 )
           end
-        }
 
-        startServer(context)
+          client:close()
+          MIDI2LR.SERVER:close()
+        end )
+    end )
 
-
-        local loadVersion = currentLoadVersion  
-        while (loadVersion == currentLoadVersion)  do --detect halt or reload
-          LrTasks.sleep( 1/2 )
-        end
-
-        client:close()
-        MIDI2LR.SERVER:close()
-      end )
-  end )
-
-LrTasks.startAsyncTask( function()
-    if(WIN_ENV) then
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
-    else
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
-    end
-  end)
+  LrTasks.startAsyncTask( function()
+      if(WIN_ENV) then
+        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
+      else
+        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
+      end
+    end)

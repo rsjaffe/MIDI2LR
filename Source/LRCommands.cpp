@@ -254,6 +254,15 @@ const std::vector<String> LRCommandList::EffectsStringList = {
 };
 
 const std::vector<String> LRCommandList::CalibrateStringList = {
+    "Camera Profile Adobe Standard",
+    "Camera Profile Clear",
+    "Camera Profile Deep",
+    "Camera Profile Landscape",
+    "Camera Profile Light",
+    "Camera Profile Neutral",
+    "Camera Profile Portrait",
+    "Camera Profile Standard",
+    "Camera Profile Vivid",
     "Shadow Tint",
     "Red Hue",
     "Red Saturation",
@@ -616,6 +625,15 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetGrainSize",
     "ResetGrainFrequency",
     /* Calibrate */
+    "Profile_Adobe_Standard",
+    "Profile_Camera_Clear",
+    "Profile_Camera_Deep",
+    "Profile_Camera_Landscape",
+    "Profile_Camera_Light",
+    "Profile_Camera_Neutral",
+    "Profile_Camera_Portrait",
+    "Profile_Camera_Standard",
+    "Profile_Camera_Vivid",
     "ShadowTint",
     "RedHue",
     "RedSaturation",
