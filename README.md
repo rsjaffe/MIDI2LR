@@ -16,6 +16,8 @@ to translate. The only languages supported by Lightroom are German (de), English
 Spanish (es), French (fr), Italian (it), Japanese (ja), Korean (ko), Dutch (nl), 
 Portuguese (pt), Swedish (sv), Chinese simplified (zh_cn) and Chinese traditional (zh_tw).
 
+So far, we have translations for German (de) and French (fr).
+
 The following text editors are recommended for editing these files:
 
 In Mac OS X simply use TextEdit and make sure you save the file type as “UTF-8” 
