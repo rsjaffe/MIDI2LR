@@ -5,4 +5,5 @@ Rory Jaffe
 Jeffrey Westgeest
 
 Translation assistance by:
+Paul Allain
 Niklas Mischkulnig
