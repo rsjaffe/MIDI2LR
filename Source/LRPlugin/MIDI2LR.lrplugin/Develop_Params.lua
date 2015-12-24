@@ -143,6 +143,8 @@ DEVELOP_PARAMS = {
   'EnableRedEye', -- enabled in app
   'EnableRetouch', -- enabled in app
   'EnableSplitToning', -- enabled in app
+  'VignetteAmount', -- 0 --this affects lens vignetting in manual tab of lens corrections
+  'VignetteMidpoint', -- 50 --this affects lens vignetting in manual tab of lens corrections  
   'WhiteBalance', -- enabled in app
   'AutoBrightness', --true/false
   'AutoContrast', --true/false --read only?
@@ -167,6 +169,5 @@ DEVELOP_PARAMS = {
   'ToneCurvePV2012Blue', -- {0,0,255,255}
   'ToneCurvePV2012Green', -- {0,0,255,255}
   'ToneCurvePV2012Red', -- {0,0,255,255}
-  'VignetteAmount', -- 0 --this affects lens vignetting in manual tab of lens corrections
-  'VignetteMidpoint', -- 50 --this affects lens vignetting in manual tab of lens corrections
+
 }
