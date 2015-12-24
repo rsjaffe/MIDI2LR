@@ -252,6 +252,12 @@ local TOGGLE_PARAMETERS = { --alternate on/off by button presses
   EnableSplitToning                      = true,
 }
 
+local TOGGLE_PARAMETERS_01 = { --alternate on/off, but 0/1 rather than false/true
+  AutoLateralCA                          = true,
+  LensProfileEnable                      = true,
+}
+
+
 local SETTINGS = {
   Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
 }
@@ -324,6 +330,13 @@ function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(MIDI2LR.Presets[tonumber(param:sub(8))]) end
     elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
+    elseif(TOGGLE_PARAMETERS_01[param]) then --enable/disable
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
+        if Ut.execFOM(LrDevelopController.getValue(param)) == 0 then
+          LrDevelopController.setValue(param,1)
+        else
+          LrDevelopController.setValue(param,0)
+      end
     elseif(TOOL_ALIASES[param]) then -- switch to desired tool
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe

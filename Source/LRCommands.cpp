@@ -186,6 +186,8 @@ const std::vector<String> LRCommandList::DetailStringList = {
 };
 
 const std::vector<String> LRCommandList::LensCorrectionStringList = {
+    "Enable/Disable Profile Corrections",
+    "Enable/Disable Remove Chromatic Aberration",
     "Perspective Upright Off",
     "Perspective Upright Auto",
     "Perspective Upright Level",
@@ -549,6 +551,8 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetColorNoiseReductionSmoothness",
         
     /* Lens Correction */
+    "LensProfileEnable",
+    "AutoLateralCA",
     "UprightOff",
     "UprightAuto",
     "UprightLevel",

@@ -124,6 +124,7 @@ DEVELOP_PARAMS = {
   'BlueHue',
   'BlueSaturation',
   -- Experimental, shown in copy settings but not in documentation, will be enabled one-by-one after testing identifies functionality
+  'AutoLateralCA', --0 off 1 on  
   'ConvertToGrayscale',  -- enabled in app
   'CropAngle', -- enabled in app
   'CropBottom', -- enabled in app
@@ -143,20 +144,20 @@ DEVELOP_PARAMS = {
   'EnableRedEye', -- enabled in app
   'EnableRetouch', -- enabled in app
   'EnableSplitToning', -- enabled in app
+  'LensProfileEnable',--1 on 0 off
   'VignetteAmount', -- 0 --this affects lens vignetting in manual tab of lens corrections
   'VignetteMidpoint', -- 50 --this affects lens vignetting in manual tab of lens corrections  
   'WhiteBalance', -- enabled in app
   'AutoBrightness', --true/false
   'AutoContrast', --true/false --read only?
   'AutoExposure', --true/false --read only?
-  'AutoLateralCA', --0
   'AutoShadows', --true/false
   'Brightness', --50
   'CameraProfile', --text "Adobe Standard"
   'ChromaticAberrationB', --0
   'ChromaticAberrationR', --0
   'Defringe', --0
-  'LensProfileEnable',--1
+
   'LensProfileSetup', -- "LensDefaults"
   'orientation', --"AB"
   'ProcessVersion', --"6.7"
