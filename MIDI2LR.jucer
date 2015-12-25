@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.8.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.8.1"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.1.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
@@ -83,9 +83,9 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
-                       isDebug="1" optimisation="1" targetName="MIDI2LR"/>
+                       isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
-                       isDebug="0" optimisation="2" targetName="MIDI2LR" linkTimeOptimisation="1"/>
+                       isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_opengl" path="modules"/>
