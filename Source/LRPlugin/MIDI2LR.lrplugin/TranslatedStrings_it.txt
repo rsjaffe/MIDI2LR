@@ -14,7 +14,7 @@
 "$$$/MIDI2LR/ShutDownApp/msg=Thank you for using MIDI2LR"
 "$$$/MIDI2LR/Client/writeaccesscopy=Unable to get catalog write access for copy settings"
 "$$$/MIDI2LR/Client/writeaccesspaste=Unable to get catalog write access for paste preset ^1"
-
+"$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
 
 
 

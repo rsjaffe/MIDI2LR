@@ -14,6 +14,7 @@
 "$$$/MIDI2LR/ShutDownApp/msg=Danke, dass sie MIDI2LR verwenden"
 "$$$/MIDI2LR/Client/writeaccesscopy=Konnte Einstellungen nicht kopieren (writeaccesscopy)"
 "$$$/MIDI2LR/Client/writeaccesspaste=Konnte Einstellungen nicht einfügen (writeaccesspaste) ^1"
+"$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
 
 
 

@@ -14,7 +14,7 @@
 "$$$/MIDI2LR/ShutDownApp/msg=Merci d’utiliser MIDI2LR"
 "$$$/MIDI2LR/Client/writeaccesscopy=Impossible d'obtenir l'accès à l’écriture du catalogue pour les paramètres de copie"
 "$$$/MIDI2LR/Client/writeaccesspaste=Impossible d'obtenir l'accès à l’écriture du catalogue pour le collage du réglage ^1"
-
+"$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
 
 
 
