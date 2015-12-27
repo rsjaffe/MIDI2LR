@@ -92,7 +92,7 @@ local function setOptions()
           for i = ((col-1)*breakpoint+1),(breakpoint*col) do
             table.insert(
               adjustmentscol[col], 
-              f:checkbox { title = Parameters.Names[Parameters.Order[i]][1], value = bind ('PasteList.'..Parameters.Order[i]) } 
+              f:checkbox { title = Parameters.Names[i][1], value = bind ('PasteList.'..Parameters.Order[i]) } 
             )
           end
         end

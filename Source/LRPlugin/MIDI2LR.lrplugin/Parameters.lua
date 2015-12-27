@@ -179,6 +179,7 @@ local Names = {
   ToneCurvePV2012Red = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012Red=Tone Curve PV 2012 Red"), 1440}, -- {0,0,255,255}
 }
 
+
 local Order = {}
 for k,_ in pairs(Names) do
   table.insert(Order,k)
@@ -187,6 +188,17 @@ local function sorter(a,b)
   return Names[a][2] < Names[b][2] 
 end
 table.sort(Order, sorter)
+
+setmetatable(Names, 
+  {__index = 
+    function(_,k) 
+      if type(k)=='number' then 
+        return Names[Order[k]]
+      end
+      return nil
+    end,
+  }
+)
 
 return {
   Names = Names,
