@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-require 'Develop_Params.lua' -- global table of develop params we need to observe
+local Parameters = require 'Parameters'
 local Limits = require 'Limits'
 local Ut     = require 'Utilities'
 local LrApplication       = import 'LrApplication'
@@ -131,7 +131,7 @@ local function PasteSelectedSettings ()
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
-  for _,param in ipairs (DEVELOP_PARAMS) do --having trouble iterating pastelist--observable table iterator issue?
+  for param in ipairs(Parameters.Names) do --having trouble iterating pastelist--observable table iterator issue?
     if (MIDI2LR.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
@@ -427,7 +427,7 @@ end
 -- switching to develop module whenever
 -- a picture is selected--an unwanted behavior
 function sendChangedParams( observer ) 
-  for _, param in ipairs(DEVELOP_PARAMS) do
+  for param in ipairs(Parameters.Names) do
     if(observer[param] ~= LrDevelopController.getValue(param)) then
       MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
       observer[param] = LrDevelopController.getValue(param)

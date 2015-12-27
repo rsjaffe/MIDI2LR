@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-require 'Develop_Params.lua' -- global table of develop params for selection when pasting
+local Parameters = require 'Parameters'
 local Limits            = require 'Limits' -- import module
 local LrApplication     = import 'LrApplication'
 local LrBinding         = import 'LrBinding'
@@ -86,13 +86,13 @@ local function setOptions()
       local adjustmentscol = {}
       do 
         local numberofcolumns = 4
-        local breakpoint = math.floor(#DEVELOP_PARAMS / numberofcolumns)
+        local breakpoint = math.floor(#Parameters.Order / numberofcolumns)
         for col = 1,numberofcolumns do
           adjustmentscol[col] = {}
           for i = ((col-1)*breakpoint+1),(breakpoint*col) do
             table.insert(
               adjustmentscol[col], 
-              f:checkbox { title = DEVELOP_PARAMS[i], value = bind ('PasteList.'..DEVELOP_PARAMS[i]) } 
+              f:checkbox { title = Parameters.Names[Parameters.Order[i]][1], value = bind ('PasteList.'..Parameters.Order[i]) } 
             )
           end
         end
@@ -149,7 +149,7 @@ local function setOptions()
               f:push_button {
                 title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
                 action = function ()
-                  for _,p in ipairs(DEVELOP_PARAMS) do
+                  for p in ipairs(Parameters.Names) do
                     properties['PasteList.'..p] = false
                   end
                 end,
@@ -158,7 +158,7 @@ local function setOptions()
                 title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckAll=Check all"
 ),
                 action = function ()
-                  for _,p in ipairs(DEVELOP_PARAMS) do
+                  for p in ipairs(Parameters.Names) do
                     properties['PasteList.'..p] = true
                   end
                 end,
