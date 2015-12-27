@@ -28,6 +28,7 @@ local LrDialogs           = import 'LrDialogs'
 local Ut                  = require 'Utilities'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local serpent             = require 'serpent'
+local Parameters          = require 'Parameters'
 
 -- hidden
 
@@ -51,18 +52,18 @@ local metalimit2 = {
 
 local metalimit1 = {
   __index = function(t,k)--key is the name of the parameter
-    t[k] = setmetatable({param = k,},metalimit2)
+    t[k] = setmetatable({param = k,label = Parameters.Names[k]},metalimit2) -- add friendlyname = 
     changed = true
     return t[k]
   end,
 }
-
-local Limits, Preferences = {},{}
+-- preferences table
+local Preferences = {}
 
 local function useDefaults()
-  Limits = setmetatable({},metalimit1)
-  Preferences.Limits = Limits
-  Limits['Temperature'][50000] = {3000,9000}
+  Preferences = {}
+  Preferences = {Limits = setmetatable({},metalimit1) }
+  Preferences.Limits['Temperature'][50000] = {3000,9000}
 end
 
 
@@ -97,7 +98,7 @@ end
 
 
 return {
-  Limits = Limits,
+  Limits = Preferences.Limits,
   Load = Load,
   Preferences = Preferences,
   Save = Save,
