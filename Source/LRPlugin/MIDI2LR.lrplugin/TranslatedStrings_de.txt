@@ -7,8 +7,6 @@
 "$$$/MIDI2LR/Info/start=MIDI2LR Programm starten"
 "$$$/MIDI2LR/About/about=Verwendung: einen MIDI-Controller verbinden, MIDI2LR starten, und mit der Bearbeitung beginnen! Für Details siehe https://github.com/rsjaffe/MIDI2LR/wiki"
 "$$$/MIDI2LR/ShutDownApp/msg=Danke, dass sie MIDI2LR verwenden"
-"$$$/MIDI2LR/Client/writeaccesscopy=Konnte Einstellungen nicht kopieren (writeaccesscopy)"
-"$$$/MIDI2LR/Client/writeaccesspaste=Konnte Einstellungen nicht einfügen (writeaccesspaste) ^1"
 "$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
 
 

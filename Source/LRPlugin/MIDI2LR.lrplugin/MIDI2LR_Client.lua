@@ -150,7 +150,7 @@ local function PasteSettings  ()
         'MIDI2LR: Paste settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/writeaccesscopy=Unable to get catalog write access for copy settings')) end, 
+          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') end, 
           asynchronous = true }
       ) 
     end )
@@ -172,7 +172,7 @@ local function ApplyPreset(presetUuid)
         'Apply preset '..preset:getName(), 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/writeaccesspaste=Unable to get catalog write access for paste preset ^1',preset:getName())) end, 
+          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
           asynchronous = true }
       ) 
     end )
@@ -191,7 +191,7 @@ local function addToCollection()
           targetcollection = catalog:createCollection(targetname,nil,true)
         end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/addtocollection=Unable to get catalog write access for add to collection.')) end, 
+          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' GetCollection.') end, 
           asynchronous = true 
         }
       )
@@ -224,7 +224,7 @@ local function addToCollection()
             end
           end,
           { timeout = 4, 
-            callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/addtocollection=Unable to get catalog write access for add to collection.')) end, 
+            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' AddToCollection.') end, 
             asynchronous = true 
           }
         )
