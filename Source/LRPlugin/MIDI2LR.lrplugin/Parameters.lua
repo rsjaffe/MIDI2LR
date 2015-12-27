@@ -130,7 +130,7 @@ local Names = {
   GreenSaturation = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenSaturationCalibration=Green Saturation Calibration"), 970},
   BlueHue = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueHueCalibration=Blue Hue Calibration"), 980},
   BlueSaturation = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueSaturationCalibration=Blue Saturation Calibration"), 990},
-  -- Experimental, shown in copy settings but not in documentation, will be enabled one-by-one after testing identifies functionality
+  -- Experimental, shown in copy settings but not in documentation; enabled one-by-one after testing identifies functionality
   AutoLateralCA = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration"), 1000}, --0 off 1 on  --noloc
   CameraProfile = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CameraProfile=Camera Profile"), 1010}, --text "Adobe Standard"), 10}, 'Camera Clear', Deep Landscape Light Neutral Protrait Standard Vivid  
   ConvertToGrayscale = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ConvertToGrayscale=Convert to Grayscale"), 1020},  -- enabled in app
