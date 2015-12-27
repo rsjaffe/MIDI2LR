@@ -183,9 +183,10 @@ local function addToCollection()
   local quickname = catalog.kQuickCollectionIdentifier
   local targetname = catalog.kTargetCollection
   local quickcollection, targetcollection
-  LrTasks.startAsyncTask ( 
+  LrTasks.startAsyncTask (
     function () 
       LrApplication.activeCatalog():withWriteAccessDo( 
+        '',
         function()
           quickcollection = catalog:createCollection(quickname,nil,true)
           targetcollection = catalog:createCollection(targetname,nil,true)
@@ -198,9 +199,16 @@ local function addToCollection()
     end
   )
   return function(collectiontype,photos)
-    LrTasks.startAsyncTask ( 
+    local CollectionName
+    if collectiontype == 'quick' then
+      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
+    else
+      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToTargetCollection=Add to Target Collection"
+    end
+        LrTasks.startAsyncTask ( 
       function () 
         LrApplication.activeCatalog():withWriteAccessDo( 
+          CollectionName,
           function()
             if LrApplication.activeCatalog() ~= catalog then
               catalog = LrApplication.activeCatalog()
