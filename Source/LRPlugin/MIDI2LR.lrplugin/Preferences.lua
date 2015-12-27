@@ -52,7 +52,7 @@ local metalimit2 = {
 
 local metalimit1 = {
   __index = function(t,k)--key is the name of the parameter
-    t[k] = setmetatable({param = k,label = Parameters.Names[k]},metalimit2) -- add friendlyname = 
+    t[k] = setmetatable({param = k,label = Parameters.Names[k][1], order = Parameters.Names[k][2]},metalimit2) 
     changed = true
     return t[k]
   end,

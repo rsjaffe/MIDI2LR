@@ -60,7 +60,7 @@ local function setOptions()
       end
 
       -- set up presets list for the groupbox on the right of the presets selection dialog
-      local groupboxpresets = {title = LOC('$$$/MIDI2LR/Options/grpboxpresets=Selected presets')} 
+      local groupboxpresets = {title = LOC("$$$/AgIdentityPlates/MainDialog/Choose=Choose")..' '..LOC("$$$/SmartCollection/Criteria/DevelopPreset=develop preset")} 
       for i=1,20 do
         table.insert( 
           groupboxpresets, 
@@ -68,7 +68,7 @@ local function setOptions()
             width_in_chars = 50,
             truncation = 'head',
             title = bind { key = 'preset'..i,
-              transform = function(value) return LOC('$$$/MIDI2LR/Options/Preset=Preset')..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
+              transform = function(value) return LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
             },  -- title
           } -- static_text
         )
@@ -77,7 +77,7 @@ local function setOptions()
       local tabviewitems = {} 
       local psrows, pscolumns = 4,5
       for group=1, pscolumns do
-        tabviewitems[group] = f:tab_view_item {title = (LOC('$$$/MIDI2LR/Options/Presets=Presets')..' '..(group*psrows-pscolumns)..'-'..(group*psrows)), identifier = ('presets-'..(group*psrows-pscolumns)..'-'..(group*psrows)),}
+        tabviewitems[group] = f:tab_view_item {title = (LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..(group*psrows-pscolumns)..'-'..(group*psrows)), identifier = ('presets-'..(group*psrows-pscolumns)..'-'..(group*psrows)),}
         for i=(1-psrows),0 do
           table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*psrows+i)) })
         end
@@ -114,7 +114,7 @@ local function setOptions()
         bind_to_object = properties, -- default bound table
         f:tab_view {
           f:tab_view_item {
-            title = LOC('$$$/MIDI2LR/Options/Presets=Presets'),
+            title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Entwicklungsvorgabe"),
             identifier = 'presets',
             f:row {
               f:column {
@@ -147,7 +147,7 @@ local function setOptions()
             }, --row
             f:row{
               f:push_button {
-                title = LOC('$$$/MIDI2LR/Options/clearall=Clear all'),
+                title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
                 action = function ()
                   for _,p in ipairs(DEVELOP_PARAMS) do
                     properties['PasteList.'..p] = false
@@ -155,7 +155,8 @@ local function setOptions()
                 end,
               }, -- push_button
               f:push_button {
-                title = LOC('$$$/MIDI2LR/Options/setall=Set all'),
+                title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckAll=Check all"
+),
                 action = function ()
                   for _,p in ipairs(DEVELOP_PARAMS) do
                     properties['PasteList.'..p] = true
