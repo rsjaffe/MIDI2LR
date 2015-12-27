@@ -149,7 +149,6 @@ local Names = {
   EnableGrayscaleMix = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableGrayscaleMix=Enable Grayscale Mix"), 1150}, -- enabled in app
   EnableLensCorrections = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableLensCorrections=Enable Lens Corrections"), 1160}, -- enabled in app
   EnablePaintBasedCorrections = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableBrushAdjustments=Enable Brush Adjustments"), 1170},
-  -- enabled in app
   EnableRedEye = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableRedEye=Enable Red-Eye"), 1180}, -- enabled in app
   EnableRetouch = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSpotRemoval=Enable Spot Removal"), 1190}, -- enabled in app
   EnableSplitToning = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSplitToning=Enable Split Toning"), 1200}, -- enabled in app
@@ -163,7 +162,6 @@ local Names = {
   AutoExposure = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoExposure=Automatic Exposure"), 1270}, --true/false --read only?
   AutoShadows = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoShadows=Automatic Shadows"), 1280}, --true/false
   Brightness = {LOC("$$$/AgCameraRawUI/Brightness=Brightness"), 1290}, --50
-
   ChromaticAberrationB = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationB=Blue Chromatic Aberration"), 1300}, --0
   ChromaticAberrationR = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationR=Red Chromatic Aberration"), 1310}, --0
   Defringe = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Defringe=Defringe"), 1320}, --0
