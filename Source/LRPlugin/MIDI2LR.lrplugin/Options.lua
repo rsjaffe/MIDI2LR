@@ -188,7 +188,7 @@ local function setOptions()
         MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
         --assign PasteList
         prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
-        for _,k in ipairs(DEVELOP_PARAMS) do
+        for k in ipairs(Parameters.Names) do
           prefs.PasteList[k] = properties.PasteList[k]
           MIDI2LR.PasteList[k] = properties.PasteList[k]
         end
