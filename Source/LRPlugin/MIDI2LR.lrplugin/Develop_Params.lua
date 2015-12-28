@@ -21,12 +21,19 @@ DEVELOP_PARAMS = {
   'Temperature',
   'Tint',
   'Exposure',
+  'Exposure2012',
   'Highlights',
+  'Highlights2012',
   'Shadows',
+  'Shadows2012',
   'Contrast',
+  'Contrast2012',
   'Whites',
+  'Whites2012',
   'Blacks',
+  'Blacks2012',
   'Clarity',
+  'Clarity2012',
   'Vibrance',
   'Saturation',
   -- Tone
@@ -124,6 +131,8 @@ DEVELOP_PARAMS = {
   'BlueHue',
   'BlueSaturation',
   -- Experimental, shown in copy settings but not in documentation, will be enabled one-by-one after testing identifies functionality
+  'AutoLateralCA', --0 off 1 on  
+  'CameraProfile', --text "Adobe Standard", 'Camera Clear', Deep Landscape Light Neutral Protrait Standard Vivid  
   'ConvertToGrayscale',  -- enabled in app
   'CropAngle', -- enabled in app
   'CropBottom', -- enabled in app
@@ -143,19 +152,21 @@ DEVELOP_PARAMS = {
   'EnableRedEye', -- enabled in app
   'EnableRetouch', -- enabled in app
   'EnableSplitToning', -- enabled in app
+  'LensProfileEnable',--1 on 0 off
+  'VignetteAmount', -- 0 --this affects lens vignetting in manual tab of lens corrections
+  'VignetteMidpoint', -- 50 --this affects lens vignetting in manual tab of lens corrections  
   'WhiteBalance', -- enabled in app
+  --don't know how to control the following or whether control is even possible
   'AutoBrightness', --true/false
   'AutoContrast', --true/false --read only?
   'AutoExposure', --true/false --read only?
-  'AutoLateralCA', --0
   'AutoShadows', --true/false
   'Brightness', --50
-  'CameraProfile', --text "Adobe Standard"
+
   'ChromaticAberrationB', --0
   'ChromaticAberrationR', --0
   'Defringe', --0
-  'LensProfileEnable',--1
-  'LensProfileSetup', -- "LensDefaults"
+  'LensProfileSetup', -- "LensDefaults", 'Auto', 'Custom' -- works, but who would want this control?
   'orientation', --"AB"
   'ProcessVersion', --"6.7"
   'RedEyeInfo', -- {}
@@ -167,6 +178,4 @@ DEVELOP_PARAMS = {
   'ToneCurvePV2012Blue', -- {0,0,255,255}
   'ToneCurvePV2012Green', -- {0,0,255,255}
   'ToneCurvePV2012Red', -- {0,0,255,255}
-  'VignetteAmount', -- 0 --this affects lens vignetting in manual tab of lens corrections
-  'VignetteMidpoint', -- 50 --this affects lens vignetting in manual tab of lens corrections
 }

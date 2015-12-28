@@ -37,52 +37,8 @@ currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0
 currentLoadVersion = currentLoadVersion + 1 
 
 --[[-----------debug section, enable by adding - to beginning this line
-local LrLogger = import 'LrLogger'
-
-local myLogger = LrLogger( 'libraryLogger' )
-myLogger:enable( 'logfile' ) -- Pass either a string or a table of actions.
-
--- Write trace information to the logger.
-
-local function outputToLog( message )
-  myLogger:trace( message )
-end
----table.tostring function
-function table.val_to_str ( v )
-  if 'string' == type( v ) then
-    v = string.gsub( v, '\n', '\\n' )
-    if string.match( string.gsub(v,'[^'\']',''), '^'+$' ) then
-      return ''' .. v .. '''
-    end
-    return ''' .. string.gsub(v,''', '\\'' ) .. '''
-  else
-    return 'table' == type( v ) and table.tostring( v ) or
-    tostring( v )
-  end
-end
-
-function table.key_to_str ( k )
-  if 'string' == type( k ) and string.match( k, '^[_%a][_%a%d]*$' ) then
-    return k
-  else
-    return '[' .. table.val_to_str( k ) .. ']'
-  end
-end
-
-function table.tostring( tbl )
-  local result, done = {}, {}
-  for k, v in ipairs( tbl ) do
-    table.insert( result, table.val_to_str( v ) )
-    done[ k ] = true
-  end
-  for k, v in pairs( tbl ) do
-    if not done[ k ] then
-      table.insert( result,
-        table.key_to_str( k ) .. '=' .. table.val_to_str( v ) )
-    end
-  end
-  return '{' .. table.concat( result, ',' ) .. '}'
-end
+local LrMobdebug = import 'LrMobdebug'
+LrMobdebug.start()
 --]]-----------end debug section
 
 
@@ -178,6 +134,71 @@ local function ApplyPreset(presetUuid)
     end )
 end
 
+local function addToCollection()
+  local catalog = LrApplication.activeCatalog()
+  local quickname = catalog.kQuickCollectionIdentifier
+  local targetname = catalog.kTargetCollection
+  local quickcollection, targetcollection
+  LrTasks.startAsyncTask (
+    function () 
+      LrApplication.activeCatalog():withWriteAccessDo( 
+        '',
+        function()
+          quickcollection = catalog:createCollection(quickname,nil,true)
+          targetcollection = catalog:createCollection(targetname,nil,true)
+        end,
+        { timeout = 4, 
+          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/addtocollection=Unable to get catalog write access for add to collection.')) end, 
+          asynchronous = true 
+        }
+      )
+    end
+  )
+  return function(collectiontype,photos)
+    local CollectionName
+    if collectiontype == 'quick' then
+      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
+    else
+      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToTargetCollection=Add to Target Collection"
+    end
+        LrTasks.startAsyncTask ( 
+      function () 
+        LrApplication.activeCatalog():withWriteAccessDo( 
+          CollectionName,
+          function()
+            if LrApplication.activeCatalog() ~= catalog then
+              catalog = LrApplication.activeCatalog()
+              quickname = catalog.kQuickCollectionIdentifier
+              targetname = catalog.kTargetCollection
+              quickcollection = catalog:createCollection(quickname,nil,true)
+              targetcollection = catalog:createCollection(targetname,nil,true)
+            elseif catalog.kTargetCollection ~= targetname then
+              targetcollection = catalog:createCollection(targetname,nil,true)
+            end
+            local usecollection
+            if collectiontype == 'quick' then
+              usecollection = quickcollection
+            else
+              usecollection = targetcollection
+            end
+            if type(photos)==table then
+              usecollection:addPhotos(photos)
+            else
+              usecollection:addPhotos {photos}
+            end
+          end,
+          { timeout = 4, 
+            callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/addtocollection=Unable to get catalog write access for add to collection.')) end, 
+            asynchronous = true 
+          }
+        )
+      end
+    )
+  end
+end
+
+addToCollection = addToCollection()
+
 local ACTIONS = {
   CopySettings     = CopySettings,
   DecreaseRating   = LrSelection.decreaseRating,
@@ -189,6 +210,15 @@ local ACTIONS = {
   PasteSettings    = PasteSettings,
   Pick             = LrSelection.flagAsPick,
   Prev             = LrSelection.previousPhoto,
+  Profile_Adobe_Standard   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
+  Profile_Camera_Clear     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
+  Profile_Camera_Deep      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
+  Profile_Camera_Landscape = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Landscape'),
+  Profile_Camera_Light     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Light'),
+  Profile_Camera_Neutral   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Neutral'),
+  Profile_Camera_Portrait  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Portrait'),
+  Profile_Camera_Standard  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Standard'),
+  Profile_Camera_Vivid     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid'),
   Redo             = LrUndo.redo,
   Reject           = LrSelection.flagAsReject,
   RemoveFlag       = LrSelection.removeFlag,
@@ -251,6 +281,12 @@ local TOGGLE_PARAMETERS = { --alternate on/off by button presses
   EnableRetouch                          = true,
   EnableSplitToning                      = true,
 }
+
+local TOGGLE_PARAMETERS_01 = { --alternate on/off, but 0/1 rather than false/true
+  AutoLateralCA                          = true,
+  LensProfileEnable                      = true,
+}
+
 
 local SETTINGS = {
   Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
@@ -324,6 +360,14 @@ function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(MIDI2LR.Presets[tonumber(param:sub(8))]) end
     elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
+    elseif(TOGGLE_PARAMETERS_01[param]) then --enable/disable
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
+        if Ut.execFOM(LrDevelopController.getValue(param)) == 0 then
+          LrDevelopController.setValue(param,1)
+        else
+          LrDevelopController.setValue(param,0)
+        end
+      end
     elseif(TOOL_ALIASES[param]) then -- switch to desired tool
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
@@ -424,4 +468,5 @@ LrTasks.startAsyncTask( function()
     else
       LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
     end
-  end)
+  end
+)

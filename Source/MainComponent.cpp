@@ -328,7 +328,7 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
     _commandTable.updateContent();
     _commandTable.repaint();
     _profileNameLabel.setText(filename, NotificationType::dontSendNotification);
-    _systemTrayComponent.showInfoBubble(filename, "Profile changed");
+    _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
     // Send new CC parameters to MIDI Out devices
     LR_IPC_IN::getInstance().refreshMIDIOutput();
