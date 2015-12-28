@@ -8,27 +8,13 @@ load for current version will call load for prior version if current version not
 will do a blank initialization of preferences if none is found.
 load will do blank initialization if prefs is not a table.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --]]
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
-local Ut                  = require 'Utilities'
+local Parameters          = require 'Parameters'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local serpent             = require 'serpent'
-local Parameters          = require 'Parameters'
+local Ut                  = require 'Utilities'
 
 -- hidden
 
@@ -57,43 +43,83 @@ local metalimit1 = {
     return t[k]
   end,
 }
+-- public
 -- preferences table
 local Preferences = {}
 
 local function useDefaults()
   Preferences = {}
-  Preferences = {Limits = setmetatable({},metalimit1) }
+  Preferences = {Limits = setmetatable({},metalimit1), Presets = {} }
   Preferences.Limits['Temperature'][50000] = {3000,9000}
 end
 
 
--- public
 
 local function Save()
   if not changed then return end
   prefs[version] = serpent.dump(Preferences)
 end
 
-local function load0() --load version 0
+local function load0() --load version 0 --still need to add paste selective settings
+  local loaded = false
   useDefaults()
   --then load whatever is available from version 0
+  for k,v in pairs(prefs) do
+    if type(k)=='string' then
+      local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
+      local startlo = k:find('Low',1,true)
+      local starthi = k:find('High',1,true)
+      if startlo then
+        local prefname = v:sub(1,startlo-1)
+        if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
+          Preferences.Limits[prefname][historic[prefname]][1] = v --low limit added
+          loaded = true
+        elseif type(v) == table --newer style
+        for i,p in v do -- pull out low for each rangemax, i=rangemax p = limit
+          Preferences.Limits[prefname][i] = p
+          loaded = true
+        end
+      elseif starthi then
+        local prefname = v:sub(1,starthi-1)
+        if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
+          Preferences.Limits[prefname][historic[prefname]][2] = v --high limit added
+          loaded = true
+        elseif type(v) == table --newer style
+        for i,p in v do -- pull out low for each rangemax, i=rangemax p = limit
+          Preferences.Limits[prefname][2] = p
+          loaded = true
+        end
+      end --processing for control limits
+      if k == 'Presets' then
+        loaded = true
+        for i,p in pairs(k) do
+          Preferences.Presets[i] = [k] --avoid assigning tables to make a true copy
+        end
+      end --processing preses
+    end  --if string
+  end --for k,v in prefs
+  if loaded == false then
+    LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
+  end
+  return loaded
 end
 
 local function Load()
+  local loaded = false
   if type(prefs)=='table' then
     if type(prefs[1])=='string' then
-      local ok
-      ok,Preferences = serpent.load(prefs[1])
-      if not ok then
+      loaded,Preferences = serpent.load(prefs[1])
+      if loaded ~= true then
         useDefaults()
         LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
       end
     else -- not current version
-      load0() --load prior version
+      return load0() --load prior version, proper tail call
     end
   else
     useDefaults()
   end
+  return loaded
 end
 
 
@@ -101,6 +127,8 @@ return {
   Limits = Preferences.Limits,
   Load = Load,
   Preferences = Preferences,
+  Presets = Preferences.Presets,
+  Reset = useDefaults,
   Save = Save,
 }
 

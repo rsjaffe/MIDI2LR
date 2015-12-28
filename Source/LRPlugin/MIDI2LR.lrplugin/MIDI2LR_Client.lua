@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 local Parameters = require 'Parameters'
 local Limits = require 'Limits'
+local Preferences = require 'Preferences'
 local Ut     = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
@@ -47,29 +48,7 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 
 
 -------------preferences
-do
-
-  local prefs = import 'LrPrefs'.prefsForPlugin() 
-  prefs = prefs or {}
-  MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
-  LrTasks.startAsyncTask( function ()
-      local currentMod = LrApplicationView.getCurrentModuleName()
-      if currentMod ~= 'develop' then
-        LrApplicationView.switchToModule('develop')
-      end
-      repeat
-        LrTasks.sleep(1) -- problem with getting limits too early, getRange doesn't work
-      until LrApplication.activeCatalog():getTargetPhoto() --need to have a photo selected for limits to work
-      for i,v in pairs(Limits.GetPreferences()) do
-        MIDI2LR[i] = v
-      end
-      if currentMod ~= 'develop' then
-        LrApplicationView.switchToModule(currentMod)
-      end
-    end  )
-
-  MIDI2LR.PasteList = prefs.PasteList or {}
-end
+Preferences.Load() 
 -------------end preferences section
 
 --File local function declarations (advance declared to allow it to be in scope for all calls. 
@@ -161,7 +140,7 @@ local function addToCollection()
     else
       CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToTargetCollection=Add to Target Collection"
     end
-        LrTasks.startAsyncTask ( 
+    LrTasks.startAsyncTask ( 
       function () 
         LrApplication.activeCatalog():withWriteAccessDo( 
           CollectionName,
