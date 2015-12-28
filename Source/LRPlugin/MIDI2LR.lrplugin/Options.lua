@@ -145,7 +145,7 @@ local function setOptions()
               f:column (adjustmentscol[3]),
               f:column (adjustmentscol[4]),
             }, --row
-            f:row{
+ --[[           f:row{
               f:push_button {
                 title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
                 action = function ()
@@ -163,7 +163,7 @@ local function setOptions()
                   end
                 end,
               } ,-- push_button
-            }, --row
+            }, --row --]] -- commented out push button row until functionality fixed
           }, -- tab_view_item
           f:tab_view_item (parameterscolumn), -- tab_view_item
         }, -- tab_view
@@ -188,9 +188,9 @@ local function setOptions()
         MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
         --assign PasteList
         prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
-        for k,v in pairs(properties.PasteList) do --use iterator--simple assignment causes issue (probably due to bound table iterator issues)
-          prefs.PasteList[k] = v
-          MIDI2LR.PasteList[k] = v
+        for _,k in ipairs(DEVELOP_PARAMS) do
+          prefs.PasteList[k] = properties.PasteList[k]
+          MIDI2LR.PasteList[k] = properties.PasteList[k]
         end
         --assign limits
         if photoIsSelected then
