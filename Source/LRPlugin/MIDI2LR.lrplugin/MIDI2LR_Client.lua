@@ -161,7 +161,7 @@ local function addToCollection()
     else
       CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToTargetCollection=Add to Target Collection"
     end
-        LrTasks.startAsyncTask ( 
+    LrTasks.startAsyncTask ( 
       function () 
         LrApplication.activeCatalog():withWriteAccessDo( 
           CollectionName,
@@ -391,6 +391,7 @@ end
 -- switching to develop module whenever
 -- a picture is selected--an unwanted behavior
 function sendChangedParams( observer ) 
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
   for _, param in ipairs(DEVELOP_PARAMS) do
     if(observer[param] ~= LrDevelopController.getValue(param)) then
       MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
