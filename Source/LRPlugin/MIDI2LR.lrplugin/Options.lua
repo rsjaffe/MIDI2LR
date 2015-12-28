@@ -19,22 +19,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local Parameters = require 'Parameters'
+local Preferences = require 'Preferences'
 local Limits            = require 'Limits' -- import module
 local LrApplication     = import 'LrApplication'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
-local prefs             = import 'LrPrefs'.prefsForPlugin() 
 local LrView            = import 'LrView'
 local bind              = LrView.bind -- shortcut for bind() method
 
-prefs           = prefs or {}
-prefs.Presets   = prefs.Presets or {}
-prefs.PasteList = prefs.PasteList or {}
-
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
-      local photoIsSelected = LrApplication.activeCatalog():getTargetPhoto() ~= nil
+      local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
       local psList = {}
       for _,fold in pairs(LrApplication.developPresetFolders()) do
         local foldname = fold:getName()
@@ -47,11 +43,13 @@ local function setOptions()
       local properties = LrBinding.makePropertyTable( context )
       for i = 1,20 do
         properties['preset'..i] = {}
-        properties['preset'..i][1] = prefs.Presets[i]
+        properties['preset'..i][1] = Preferences.Presets[i]
       end
 
-      for k,v in pairs(Limits.GetPreferencesCurrentMode()) do
-        properties[k] = v
+      for p in pairs(Limits.Parameters) do
+        local min,max = Limits.GetMinMax(p)
+        properties[p..'Low'] = min
+        properties[p..'High'] = max
       end
 
       properties.PasteList = {}
@@ -102,7 +100,7 @@ local function setOptions()
         title = 'Other settings',
         identifier = 'othersettings',
       }
-      if photoIsSelected then -- don't set up limits if photo isn't selected
+      if limitsCanBeSet then -- don't set up limits if photo isn't selected
         for _,v in ipairs(Limits.OptionsRows(f,properties)) do
           table.insert(parameterscolumn,v)
         end
@@ -145,7 +143,7 @@ local function setOptions()
               f:column (adjustmentscol[3]),
               f:column (adjustmentscol[4]),
             }, --row
- --[[           f:row{
+            --[[           f:row{
               f:push_button {
                 title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
                 action = function ()
@@ -164,45 +162,45 @@ local function setOptions()
                 end,
               } ,-- push_button
             }, --row --]] -- commented out push button row until functionality fixed
-          }, -- tab_view_item
-          f:tab_view_item (parameterscolumn), -- tab_view_item
-        }, -- tab_view
-      } -- view
+        }, -- tab_view_item
+        f:tab_view_item (parameterscolumn), -- tab_view_item
+      }, -- tab_view
+    } -- view
 
-      -- display dialog
-      local result = LrDialogs.presentModalDialog (
-        {
-          title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
-          contents = contents,
-        }
-      )
-      -- assign values from dialog if ok is pressed
-      if result == 'ok' then
-        --assign presets
-        for i = 1,20 do
-          if properties['preset'..i] then
-            prefs.Presets[i] = properties['preset'..i][1]
+    -- display dialog
+    local result = LrDialogs.presentModalDialog (
+      {
+        title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
+        contents = contents,
+      }
+    )
+    -- assign values from dialog if ok is pressed
+    if result == 'ok' then
+      --assign presets
+      for i = 1,20 do
+        if properties['preset'..i] then
+          prefs.Presets[i] = properties['preset'..i][1]
+        end
+      end
+      prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
+      MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
+      --assign PasteList
+      prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
+      for k in ipairs(Parameters.Names) do
+        prefs.PasteList[k] = properties.PasteList[k]
+        MIDI2LR.PasteList[k] = properties.PasteList[k]
+      end
+      --assign limits
+      if limitsCanBeSet then
+        for p in pairs(Limits.Parameters) do
+          if properties[p..'Low'] > properties[p..'High'] then --swap values
+            properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
           end
         end
-        prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
-        MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
-        --assign PasteList
-        prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
-        for k in ipairs(Parameters.Names) do
-          prefs.PasteList[k] = properties.PasteList[k]
-          MIDI2LR.PasteList[k] = properties.PasteList[k]
-        end
-        --assign limits
-        if photoIsSelected then
-          for p in pairs(Limits.Parameters) do
-            if properties[p..'Low'] > properties[p..'High'] then --swap values
-              properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
-            end
-          end
-          Limits.SavePreferencesOneMode(properties)
-          Limits.SavePreferencesOneMode(properties,MIDI2LR)
-        end --if photoIsSelected
-      end -- if result ok
-    end)
+        Limits.SavePreferencesOneMode(properties)
+        Limits.SavePreferencesOneMode(properties,MIDI2LR)
+      end --if photoIsSelected
+    end -- if result ok
+  end)
 end
 setOptions() --execute
