@@ -370,6 +370,7 @@ end
 -- switching to develop module whenever
 -- a picture is selected--an unwanted behavior
 function sendChangedParams( observer ) 
+  if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
   for param in ipairs(Parameters.Names) do
     if(observer[param] ~= LrDevelopController.getValue(param)) then
       MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
