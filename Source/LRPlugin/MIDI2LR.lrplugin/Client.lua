@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-MIDI2LR_Client.lua
+Client.lua
 
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
