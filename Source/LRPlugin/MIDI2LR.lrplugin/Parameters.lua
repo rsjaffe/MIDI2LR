@@ -2,6 +2,9 @@
 
 Parameters.lua
 List of develop params
+
+Parameters.Names table. Key = short name. Value = {[1]=Friendly name,[2]=rank order}
+Parameters.Order table(array). Key = rank order. Value = short name.
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
