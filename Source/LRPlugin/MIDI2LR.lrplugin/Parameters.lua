@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-Develop_Params.lua
+Parameters.lua
 List of develop params
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.

@@ -31,6 +31,34 @@ local bind              = LrView.bind -- shortcut for bind() method
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
       local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
+     
+      --------------------------bound property table setup begins
+      --set up bound property table
+      local f = LrView.osFactory()
+      local properties = LrBinding.makePropertyTable( context )
+      --populate table with presets
+      for i = 1,20 do
+        properties['preset'..i] = {}
+        properties['preset'..i][1] = Preferences.Presets[i]
+      end
+      --populate table with limits
+      if limitsCanBeSet then
+        for p in pairs(Limits.Parameters) do
+          local min,max = Limits.GetMinMax(p)
+          properties[p..'Low'] = min
+          properties[p..'High'] = max
+        end
+      end
+      --populate table with selective paste options
+      properties.PasteList = {}
+      for k,v in pairs(prefs.PasteList) do
+        properties.PasteList[k] = v --straight assignment seems to cause prefs to update automatically
+      end
+      --------------------------bound property table setup ends
+      
+      --------------------------dialog box setup begins
+      ---------------presets dialog setup begins
+      -- find presets stored in Lightroom and put in table name and UUID
       local psList = {}
       for _,fold in pairs(LrApplication.developPresetFolders()) do
         local foldname = fold:getName()
@@ -38,25 +66,6 @@ local function setOptions()
           table.insert(psList,{title = foldname..'\226\134\146'..pst:getName(), value = pst:getUuid()})
         end -- '\226\134\146' is right arrow in utf8
       end
-
-      local f = LrView.osFactory()
-      local properties = LrBinding.makePropertyTable( context )
-      for i = 1,20 do
-        properties['preset'..i] = {}
-        properties['preset'..i][1] = Preferences.Presets[i]
-      end
-
-      for p in pairs(Limits.Parameters) do
-        local min,max = Limits.GetMinMax(p)
-        properties[p..'Low'] = min
-        properties[p..'High'] = max
-      end
-
-      properties.PasteList = {}
-      for k,v in pairs(prefs.PasteList) do
-        properties.PasteList[k] = v --straight assignment seems to cause prefs to update automatically
-      end
-
       -- set up presets list for the groupbox on the right of the presets selection dialog
       local groupboxpresets = {title = LOC("$$$/AgIdentityPlates/MainDialog/Choose=Choose")..' '..LOC("$$$/SmartCollection/Criteria/DevelopPreset=develop preset")} 
       for i=1,20 do
@@ -80,32 +89,40 @@ local function setOptions()
           table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*psrows+i)) })
         end
       end
+      ---------------presets dialog setup ends
+      
+      ---------------selective paste dialog setup begins
       -- set up adjustments columns
-      local adjustmentscol = {}
+      local selectivepastecol = {}
       do 
         local numberofcolumns = 4
         local breakpoint = math.floor(#Parameters.Order / numberofcolumns)
         for col = 1,numberofcolumns do
-          adjustmentscol[col] = {}
+          selectivepastecol[col] = {}
           for i = ((col-1)*breakpoint+1),(breakpoint*col) do
             table.insert(
-              adjustmentscol[col], 
+              selectivepastecol[col], 
               f:checkbox { title = Parameters.Names[i][1], value = bind ('PasteList.'..Parameters.Order[i]) } 
             )
           end
         end
       end
+      ---------------selective paste dialog setup ends
+      
+      ---------------other setup begins
       -- set up other settings column
-      local parameterscolumn = {
+      local othercolumn = {
         title = 'Other settings',
         identifier = 'othersettings',
       }
       if limitsCanBeSet then -- don't set up limits if photo isn't selected
         for _,v in ipairs(Limits.OptionsRows(f,properties)) do
-          table.insert(parameterscolumn,v)
+          table.insert(othercolumn,v)
         end
       end
-
+      ---------------other setup ends
+      --------------------------dialog box setup ends
+      
       -- final assembly of dialog box contents
       local contents = 
       f:view{
@@ -138,10 +155,10 @@ local function setOptions()
             title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
             f:row{ -- all available adjustments
-              f:column (adjustmentscol[1]),
-              f:column (adjustmentscol[2]), 
-              f:column (adjustmentscol[3]),
-              f:column (adjustmentscol[4]),
+              f:column (selectivepastecol[1]),
+              f:column (selectivepastecol[2]), 
+              f:column (selectivepastecol[3]),
+              f:column (selectivepastecol[4]),
             }, --row
             --[[           f:row{
               f:push_button {
@@ -163,7 +180,7 @@ local function setOptions()
               } ,-- push_button
             }, --row --]] -- commented out push button row until functionality fixed
         }, -- tab_view_item
-        f:tab_view_item (parameterscolumn), -- tab_view_item
+        f:tab_view_item (othercolumn), -- tab_view_item
       }, -- tab_view
     } -- view
 

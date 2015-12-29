@@ -121,7 +121,7 @@ local function OptionsRows(f,obstable)
           width = LrView.share('limit_reading'),                
         }, -- static_text
         f:push_button {
-          title = LOC('$$$/MIDI2LR/Limits/reset=Reset to defaults'),
+          title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
           action = function ()
             if p == 'Temperature' and low > 0 then
               obstable.TemperatureLow = 3000
