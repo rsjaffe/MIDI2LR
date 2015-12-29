@@ -1,5 +1,15 @@
 --[[ put preferences module here
 
+
+load for current version will call load for prior version if current version not there and table in place. last load (load0)
+will do a blank initialization of preferences if none is found.
+load will do blank initialization if prefs is not a table.
+
+===========still need to add selective paste prefs to load0
+
+Preferences.lua
+Manages application preferences.
+
 Preferences.Limits table. Key = parameter short name. 
         Value = {param = parameter short name, label = friendly name, 
         order = rank order, [maxvalue] = table {[1]=low,[2]=high}}
@@ -12,15 +22,6 @@ Preferences.Preferences table. Key = subtable name (e.g., 'Limits', 'Presets').
 Preferences.Presets table. 
 Preferences.Reset function. Sets Preferences.Preferences to default settings.
 Preferences.Save function. Load from LR storage.
-
-load for current version will call load for prior version if current version not there and table in place. last load (load0)
-will do a blank initialization of preferences if none is found.
-load will do blank initialization if prefs is not a table.
-
-===========still need to add selective paste prefs to load0
-
-Preferences.lua
-Manages application preferences.
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 

@@ -5,6 +5,9 @@
 --------------------------------------------------------------------------------
 
 --[[
+Utilities.lua
+Provides utility methods for MIDI2LR
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
