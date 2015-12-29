@@ -83,7 +83,7 @@ local Preferences = {}
 
 local function useDefaults()
   Preferences = {}
-  Preferences = {Limits = setmetatable({},metalimit1), Presets = {} }
+  Preferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {} }
   Preferences.Limits['Temperature'][50000] = {3000,9000}
 end
 
@@ -161,6 +161,7 @@ end
 return {
   Limits = Preferences.Limits,
   Load = Load,
+  PasteList = Preferences.PasteList,
   Preferences = Preferences,
   Presets = Preferences.Presets,
   Reset = useDefaults,

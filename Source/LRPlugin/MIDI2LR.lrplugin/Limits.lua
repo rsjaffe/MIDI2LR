@@ -158,4 +158,5 @@ return { --table of exports, setting table member name and module function it po
   ClampValue = ClampValue,
   GetMinMax = GetMinMax,
   OptionsRows = OptionsRows,
+  Parameters = Parameters,
 }

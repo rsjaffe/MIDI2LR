@@ -18,20 +18,21 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local Parameters = require 'Parameters'
-local Preferences = require 'Preferences'
-local Limits            = require 'Limits' -- import module
+local Parameters        = require 'Parameters'
+local Preferences       = require 'Preferences'
+local Limits            = require 'Limits' 
 local LrApplication     = import 'LrApplication'
+local LrApplicationView = import 'LrApplicationView'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
+local LrDevelopController = import 'LrDevelopController'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
-local bind              = LrView.bind -- shortcut for bind() method
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
       local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
-     
+
       --------------------------bound property table setup begins
       --set up bound property table
       local f = LrView.osFactory()
@@ -51,11 +52,11 @@ local function setOptions()
       end
       --populate table with selective paste options
       properties.PasteList = {}
-      for k,v in pairs(prefs.PasteList) do
-        properties.PasteList[k] = v --straight assignment seems to cause prefs to update automatically
+      for k,v in pairs(Preferences.PasteList) do
+        properties.PasteList[k] = v 
       end
       --------------------------bound property table setup ends
-      
+
       --------------------------dialog box setup begins
       ---------------presets dialog setup begins
       -- find presets stored in Lightroom and put in table name and UUID
@@ -74,7 +75,7 @@ local function setOptions()
           f:static_text {fill_horizontal = 1,
             width_in_chars = 50,
             truncation = 'head',
-            title = bind { key = 'preset'..i,
+            title = LrView.bind { key = 'preset'..i,
               transform = function(value) return LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
             },  -- title
           } -- static_text
@@ -86,11 +87,11 @@ local function setOptions()
       for group=1, pscolumns do
         tabviewitems[group] = f:tab_view_item {title = (LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..(group*psrows-pscolumns)..'-'..(group*psrows)), identifier = ('presets-'..(group*psrows-pscolumns)..'-'..(group*psrows)),}
         for i=(1-psrows),0 do
-          table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = bind ('preset'..(group*psrows+i)) })
+          table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..(group*psrows+i)) })
         end
       end
       ---------------presets dialog setup ends
-      
+
       ---------------selective paste dialog setup begins
       -- set up adjustments columns
       local selectivepastecol = {}
@@ -102,14 +103,14 @@ local function setOptions()
           for i = ((col-1)*breakpoint+1),(breakpoint*col) do
             table.insert(
               selectivepastecol[col], 
-              f:checkbox { title = Parameters.Names[i][1], value = bind ('PasteList.'..Parameters.Order[i]) } 
+              f:checkbox { title = Parameters.Names[i][1], value = LrView.bind ('PasteList.'..Parameters.Order[i]) } 
             )
           end
         end
       end
       ---------------selective paste dialog setup ends
-      
-      ---------------other setup begins
+
+      ---------------other settings dialog setup begins
       -- set up other settings column
       local othercolumn = {
         title = 'Other settings',
@@ -120,16 +121,16 @@ local function setOptions()
           table.insert(othercolumn,v)
         end
       end
-      ---------------other setup ends
+      ---------------other settings dialog setup ends
       --------------------------dialog box setup ends
-      
+
       -- final assembly of dialog box contents
       local contents = 
       f:view{
         bind_to_object = properties, -- default bound table
         f:tab_view {
           f:tab_view_item {
-            title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Entwicklungsvorgabe"),
+            title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop Preset"),
             identifier = 'presets',
             f:row {
               f:column {
@@ -194,29 +195,27 @@ local function setOptions()
     -- assign values from dialog if ok is pressed
     if result == 'ok' then
       --assign presets
+      Preferences.Presets = {} -- empty out prior settings
       for i = 1,20 do
-        if properties['preset'..i] then
-          prefs.Presets[i] = properties['preset'..i][1]
+        if type(properties['preset'..i])=='table' then
+          Preferences.Presets[i] = properties['preset'..i][1]
         end
       end
-      prefs.Presets = prefs.Presets --to ensure that preferences in LR get updated for deep updates
-      MIDI2LR.Presets = prefs.Presets -- read only global to access preferences
       --assign PasteList
-      prefs.PasteList, MIDI2LR.PasteList = {},{} -- empty out prior settings
+      Preferences.PasteList = {} -- empty out prior settings
       for k in ipairs(Parameters.Names) do
-        prefs.PasteList[k] = properties.PasteList[k]
-        MIDI2LR.PasteList[k] = properties.PasteList[k]
+        Preferences.PasteList[k] = properties.PasteList[k]
       end
       --assign limits
-      if limitsCanBeSet then
+      if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
         for p in pairs(Limits.Parameters) do
           if properties[p..'Low'] > properties[p..'High'] then --swap values
             properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
           end
+          local _,max = LrDevelopController.getRange(p)
+          Preferences.Limits[p][max] = {properties[p..'Low'], properties[p..'High']}
         end
-        Limits.SavePreferencesOneMode(properties)
-        Limits.SavePreferencesOneMode(properties,MIDI2LR)
-      end --if photoIsSelected
+      end --if limitsCanBeSet
     end -- if result ok
   end)
 end
