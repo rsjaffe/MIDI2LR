@@ -31,11 +31,11 @@ local LrView            = import 'LrView'
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
+      -- initialize variables needed throughout this function
       local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
-
-      --------------------------bound property table setup begins
-      --set up bound property table
       local f = LrView.osFactory()
+      --------------------------bound property table setup begins
+      --make bound property table
       local properties = LrBinding.makePropertyTable( context )
       --populate table with presets
       for i = 1,20 do
@@ -89,7 +89,8 @@ local function setOptions()
         for i=(1-psrows),0 do
           table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..(group*psrows+i)) })
         end
-      end
+        tabviewitems[group] = f:tab_view_item (tabviewitems[group]) -- prepare for use in f:tabview below
+      end -- for group
       ---------------presets dialog setup ends
 
       ---------------selective paste dialog setup begins
@@ -106,7 +107,8 @@ local function setOptions()
               f:checkbox { title = Parameters.Names[i][1], value = LrView.bind ('PasteList.'..Parameters.Order[i]) } 
             )
           end
-        end
+          selectivepastecol[col] = f:column (selectivepastecol[col]) -- prepare for use in f:row below
+        end -- for col
       end
       ---------------selective paste dialog setup ends
 
@@ -135,13 +137,7 @@ local function setOptions()
             f:row {
               f:column {
                 spacing = f:control_spacing(),
-                f:tab_view { -- for choosing the presets
-                  f:tab_view_item (tabviewitems[1]), -- tab_view_item
-                  f:tab_view_item (tabviewitems[2]), -- tab_view_item
-                  f:tab_view_item (tabviewitems[3]), -- tab_view_item
-                  f:tab_view_item (tabviewitems[4]), -- tab_view_item
-                  f:tab_view_item (tabviewitems[5]), -- tab_view_item                  
-                }, -- tab_view
+                f:tab_view (tabviewitems), -- tab_view
               }, -- column
               f:column{ -- for the display of chosen presets
                 spacing = f:control_spacing(),
@@ -155,12 +151,7 @@ local function setOptions()
           f:tab_view_item {
             title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
-            f:row{ -- all available adjustments
-              f:column (selectivepastecol[1]),
-              f:column (selectivepastecol[2]), 
-              f:column (selectivepastecol[3]),
-              f:column (selectivepastecol[4]),
-            }, --row
+            f:row (selectivepastecol), --row
             --[[           f:row{
               f:push_button {
                 title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
@@ -197,7 +188,7 @@ local function setOptions()
       --assign presets
       Preferences.Presets = {} -- empty out prior settings
       for i = 1,20 do
-        if type(properties['preset'..i])=='table' then
+        if type(properties['preset'..i])=='table' then -- simple_list should return a table
           Preferences.Presets[i] = properties['preset'..i][1]
         end
       end
@@ -212,11 +203,12 @@ local function setOptions()
           if properties[p..'Low'] > properties[p..'High'] then --swap values
             properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
           end
-          local _,max = LrDevelopController.getRange(p)
+          local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
           Preferences.Limits[p][max] = {properties[p..'Low'], properties[p..'High']}
         end
       end --if limitsCanBeSet
     end -- if result ok
+    -- finished with assigning values from dialog
   end)
 end
 setOptions() --execute

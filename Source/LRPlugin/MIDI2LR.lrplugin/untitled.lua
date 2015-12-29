@@ -12210,4 +12210,4 @@
 "$$$Slideshow/Playback/AddMusicErr/tooManyMusics=Musikdatei konnte nicht hinzugefügt werden. Die Musikliste überschreitet die Höchstgrenze."
 "$$$Slideshow/Playback/ShowManyErrors/mesg1=Einige Musikdateien konnten nicht hinzugefügt werden"
 "$$$Slideshow/Playback/Tooltip/MusicMissing=„^1“ fehlt"
-======================
+

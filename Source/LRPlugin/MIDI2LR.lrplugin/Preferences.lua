@@ -120,14 +120,14 @@ local function load0() --load version 0 --still need to add paste selective sett
           Preferences.Limits[prefname][historic[prefname]][2] = v --high limit added
           loaded = true
         elseif type(v) == table then--newer style
-          for i,p in v do -- pull out low for each rangemax, i=rangemax p = limit
+          for _,p in v do -- pull out low for each rangemax, i=rangemax p = limit
             Preferences.Limits[prefname][2] = p
             loaded = true
           end
         end
       elseif k == 'Presets' then --end starthi, start presets
         loaded = true
-        for i,p in pairs(k) do
+        for i in pairs(k) do
           Preferences.Presets[i] = k --avoid assigning tables to make a true copy
         end
       end --processing presets

@@ -58,7 +58,7 @@ end
 -- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' or Parameters[param] == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
+  if Parameters[param] == nil or LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
   local _, rangemax = LrDevelopController.getRange(param)
   local min, max = unpack(Preferences.Limits[param][rangemax])
   local value = LrDevelopController.getValue(param)
@@ -76,17 +76,14 @@ end
 --------------------------------------------------------------------------------
 -- Provide rows of controls for dialog boxes.
 -- For the current photo type (HDR, raw, jpg, etc) will produce
--- rows that allow user to set limits.
+-- rows that allow user to set limits. Must be in develop module and must
+-- have photo selected before calling this function.
 -- @param f The LrView.osfactory to use.
 -- @param obstable The observable table to bind to dialog controls.
 -- @return Table of f:rows populated with the needed dialog controls.
 --------------------------------------------------------------------------------
 local function OptionsRows(f,obstable)
   local retval = {}
-  local currentModule = LrApplicationView.getCurrentModuleName()
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule('develop') -- for getRange
-  end
   for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
     local integral = high - 5 > low
@@ -134,9 +131,6 @@ local function OptionsRows(f,obstable)
         }, -- push_button
       } -- row
     ) -- table.insert
-  end
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule(currentModule)
   end
   return retval -- array of rows
 end
