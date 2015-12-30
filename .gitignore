@@ -260,3 +260,4 @@ xcuserdata
 *.xcuserstate
 ## added by RJ
 *.nib
+Source/LRPlugin/MIDI2LR.lrplugin/test.lua
