@@ -19,12 +19,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 return {
   LrForceInitPlugin = true,  
-  LrInitPlugin = 'MIDI2LR_Client.lua', -- Main client logic
+  LrInitPlugin = 'Client.lua', -- Main client logic
   LrPluginName = 'MIDI2LR',
   LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
   LrSdkVersion = 6.0,
-  LrShutdownApp = 'ShutDownApp.lua',
-  LrShutdownPlugin = 'ShutDownApp.lua',
+  LrShutdownApp = 'ShutDown.lua',
+  LrShutdownPlugin = 'ShutDown.lua',
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = { -- Needs to provide at least a menu item
     {
@@ -37,7 +37,7 @@ return {
     },
     {
       title = LOC("$$$/AgPluginManager/Status/HttpServer/StartServer=Start Server"),
-      file = "LaunchAppFromMenu.lua"
+      file = "LaunchServer.lua"
     },
   },
   VERSION = { major=0, minor=8, revision=2}
