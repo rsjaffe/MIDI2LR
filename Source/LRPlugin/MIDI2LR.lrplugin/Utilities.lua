@@ -115,6 +115,31 @@ local function wrapFCM(F,...)
 end
 
 --------------------------------------------------------------------------------
+-- Returns function passed to it, that will return without doing anything
+-- if the needed module is not active.
+-- This should wrap a module-specific Lightroom SDK function call unless you 
+-- already know that Lightroom is set to the correct module. 
+-- @tparam function F The function to use.
+-- @param Rnil The return value to use if the correct module is not active.
+-- @param ... Any arguments to the function.
+-- @treturn function Function closure.
+--------------------------------------------------------------------------------
+local function wrapFIM(F,Rnil,...)
+  local openModule = needsModule[F]
+  if openModule == nil then
+    return function() 
+      return F(unpack(arg))  --proper tail call
+    end
+  end
+  return function ()
+    if LrApplicationView.getCurrentModuleName() ~= openModule then
+      return Rnil
+    end
+    return F(unpack(arg)) -- proper tail call
+  end
+end
+
+--------------------------------------------------------------------------------
 -- Executes function passed to it, with appropriate switch to Lightroom module if
 -- needed.
 -- This should wrap a module-specific Lightroom SDK function call unless you 
@@ -162,10 +187,30 @@ local function execFCM(F,...)
   return retval
 end
 
+--------------------------------------------------------------------------------
+-- Executes function passed to it if the needed module is active.
+-- This should wrap a module-specific Lightroom SDK function call unless you 
+-- already know that Lightroom is set to the correct module. Returns Rnil
+-- if it cannot execute the function.
+-- @tparam function F The function to use.
+-- @param Rnil The return value to use if the correct module is not active.
+-- @param ... Any arguments to the function.
+-- @treturn function Function closure.
+--------------------------------------------------------------------------------
+local function execFIM(F,Rnil,...)
+  local openModule = needsModule[F]
+  if openModule == nil or openModule == LrApplicationView.getCurrentModuleName() then
+    return  F(...)  --proper tail call
+  end
+  return Rnil
+end
+
 --- @export
 return { --table of exports, setting table member name and module function it points to
   wrapFOM = wrapFOM,
   wrapFCM = wrapFCM,
+  wrapFIM = wrapFIM,
   execFOM = execFOM,
   execFCM = execFCM,
+  execFIM = execFIM,
 }
