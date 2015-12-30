@@ -32,31 +32,39 @@ local LrDevelopController = import 'LrDevelopController'
 
 --hidden 
 local needsModule = {
-  [LrDevelopController.addAdjustmentChangeObserver]    = 'develop',
-  [LrDevelopController.decrement]                      = 'develop',
-  [LrDevelopController.getProcessVersion]              = 'develop',
-  [LrDevelopController.getRange]                       = 'develop',
-  [LrDevelopController.getSelectedTool]                = 'develop',
-  [LrDevelopController.getValue]                       = 'develop',
-  [LrDevelopController.increment]                      = 'develop',
-  [LrDevelopController.resetAllDevelopAdjustments]     = 'develop',
-  [LrDevelopController.resetBrushing]                  = 'develop',
-  [LrDevelopController.resetCircularGradient]          = 'develop',
-  [LrDevelopController.resetCrop]                      = 'develop',
-  [LrDevelopController.resetGradient]                  = 'develop',
-  [LrDevelopController.resetRedeye]                    = 'develop',
-  [LrDevelopController.resetSpotRemoval]               = 'develop',
-  [LrDevelopController.resetToDefault]                 = 'develop',
-  [LrDevelopController.revealAdjustedControls]         = 'develop',
-  [LrDevelopController.revealPanel]                    = 'develop',
-  [LrDevelopController.selectTool]                     = 'develop',
-  [LrDevelopController.setMultipleAdjustmentThreshold] = 'develop',
-  [LrDevelopController.setProcessVersion]              = 'develop',
-  [LrDevelopController.setTrackingDelay]               = 'develop',
-  [LrDevelopController.setValue]                       = 'develop',
-  [LrDevelopController.startTracking]                  = 'develop',
-  [LrDevelopController.stopTracking]                   = 'develop',
+  [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
+  [LrDevelopController.decrement]                      = {module = 'develop', photoSelected = true },
+  [LrDevelopController.getProcessVersion]              = {module = 'develop', photoSelected = true },
+  [LrDevelopController.getRange]                       = {module = 'develop', photoSelected = true },
+  [LrDevelopController.getSelectedTool]                = {module = 'develop', photoSelected = false },
+  [LrDevelopController.getValue]                       = {module = 'develop', photoSelected = true },
+  [LrDevelopController.increment]                      = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetAllDevelopAdjustments]     = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetBrushing]                  = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetCircularGradient]          = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetCrop]                      = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetGradient]                  = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
+  [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
+  [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
+  [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
+  [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setValue]                       = {module = 'develop', photoSelected = true },
+  [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
+  [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
 }
+
+local _needsModule = {
+  __index = function (t,k)
+    t[k] = {module = nil, photoSelected = false}
+    return t[k]
+  end
+}
+setmetatable ( needsModule, _needsModule)
 
 --public
 
@@ -71,7 +79,7 @@ local needsModule = {
 -- @treturn function Function closure.
 --------------------------------------------------------------------------------
 local function wrapFOM(F,...)
-  local openModule = needsModule[F]
+  local openModule = needsModule[F]['module']
   if openModule == nil then
     return function() 
       return F(unpack(arg))  --proper tail call
@@ -96,7 +104,7 @@ end
 -- @treturn function Function closure.
 --------------------------------------------------------------------------------
 local function wrapFCM(F,...)
-  local openModule = needsModule[F]
+  local openModule = needsModule[F]['module']
   if openModule == nil then
     return function() 
       return F(unpack(arg))  --proper tail call
@@ -125,7 +133,7 @@ end
 -- @treturn function Function closure.
 --------------------------------------------------------------------------------
 local function wrapFIM(F,Rnil,...)
-  local openModule = needsModule[F]
+  local openModule = needsModule[F]['module']
   if openModule == nil then
     return function() 
       return F(unpack(arg))  --proper tail call
@@ -150,7 +158,7 @@ end
 -- @return Results of passed function.
 --------------------------------------------------------------------------------
 local function execFOM(F,...)
-  local openModule = needsModule[F]
+  local openModule = needsModule[F]['module']
   if openModule == nil then
     return F(...) --proper tail call
   end
@@ -171,7 +179,7 @@ end
 -- @return Results of passed function.
 --------------------------------------------------------------------------------
 local function execFCM(F,...)
-  local openModule = needsModule[F]
+  local openModule = needsModule[F]['module']
   if openModule == nil then
     return F(...) --proper tail call
   end
@@ -198,7 +206,7 @@ end
 -- @treturn function Function closure.
 --------------------------------------------------------------------------------
 local function execFIM(F,Rnil,...)
-  local openModule = needsModule[F]
+  local openModule = needsModule[F]['module']
   if openModule == nil or openModule == LrApplicationView.getCurrentModuleName() then
     return  F(...)  --proper tail call
   end

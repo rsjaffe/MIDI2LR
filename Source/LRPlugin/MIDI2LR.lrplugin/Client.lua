@@ -19,10 +19,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local Parameters = require 'Parameters'
-local Limits = require 'Limits'
-local Preferences = require 'Preferences'
-local Ut     = require 'Utilities'
+local Parameters          = require 'Parameters'
+local Limits              = require 'Limits'
+local Preferences         = require 'Preferences'
+local Ut                  = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
@@ -62,12 +62,12 @@ local startServer
 local updateParam
 
 local function PasteSelectedSettings ()
-  if MIDI2LR.Copied_Settings == nil then return end 
+  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
   for param in ipairs(Parameters.Names) do --having trouble iterating pastelist--observable table iterator issue?
-    if (MIDI2LR.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
+    if (Preferences.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
     end
@@ -76,10 +76,7 @@ end
 
 
 local function PasteSettings  ()
-  if MIDI2LR.Copied_Settings == nil then return end
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
+  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Paste settings', 
@@ -92,15 +89,16 @@ local function PasteSettings  ()
 end
 
 local function CopySettings ()
+  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( 
-    function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end
+    function () 
+      MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
+    end
   ) 
 end
 
 local function ApplyPreset(presetUuid)
-  if presetUuid == nil then
-    return
-  end
+  if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   local preset = LrApplication.developPresetByUuid(presetUuid)
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
@@ -134,6 +132,7 @@ local function addToCollection()
     end
   )
   return function(collectiontype,photos)
+    if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     local CollectionName
     if collectiontype == 'quick' then
       CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
@@ -336,7 +335,7 @@ function processMessage(message)
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
     elseif(param:find('Preset_') == 1) then --apply preset by #
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(MIDI2LR.Presets[tonumber(param:sub(8))]) end
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(Preferences.Presets[tonumber(param:sub(8))]) end
     elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
     elseif(TOGGLE_PARAMETERS_01[param]) then --enable/disable

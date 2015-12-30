@@ -25,6 +25,7 @@ local function LOC(a)
   local idx = a:find("=",1,true)
   return a:sub(idx+1) 
 end
+-- current status: module tested independently and passed
 --]] -- http://notebook.kulchenko.com/zerobrane/debugging-lightroom-plugins-zerobrane-studio-ide
 
 local Names = {
@@ -194,16 +195,13 @@ local Order = {}
 for k,_ in pairs(Names) do
   table.insert(Order,k)
 end
-local function sorter(a,b) 
-  return Names[a][2] < Names[b][2] 
-end
-table.sort(Order, sorter)
+table.sort(Order, function(a,b) return Names[a][2] < Names[b][2] end)
 
 setmetatable(Names, 
   {__index = 
-    function(_,k) 
+    function(t,k) 
       if type(k)=='number' then 
-        return Names[Order[k]]
+        return t[Order[k]]
       end
       return nil
     end,
