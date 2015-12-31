@@ -37,7 +37,7 @@ local LrUndo              = import 'LrUndo'
 currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
 currentLoadVersion = currentLoadVersion + 1 
 
---[[-----------debug section, enable by adding - to beginning this line
+---[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
