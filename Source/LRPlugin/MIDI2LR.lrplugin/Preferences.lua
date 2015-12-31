@@ -44,7 +44,6 @@ local Parameters          = require 'Parameters'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local serpent             = require 'serpent'
 
-
 -- hidden
 
 local changed = false
@@ -52,21 +51,21 @@ local version = 1
 
 local metalimit3 = {
 }
-
-local metalimit2 = {
-  __index = function(t,k) -- key is high value for the range
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil,nil end
-
-    local lo,hi = LrDevelopController.getRange(t.param)
-    if k ~= hi then
-      return nil
+--------------note: test if can use t in place of t.param in metalimit2
+local metalimit2 = { 
+  __index = function(t,k) -- key is high value for the range -- always return t[k]!
+    t[k] = setmetatable({},metalimit3)
+    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() == nil then 
+      local lo,hi = LrDevelopController.getRange(t.param)
+      if k == hi then
+        if t.param == 'Temperature' and k == 50000 then
+          t[k] = setmetatable({3000,9000},metalimit3) 
+        else
+          t[k] = setmetatable({lo,hi},metalimit3) 
+        end
+        changed = true
+      end
     end
-    if t.param == 'Temperature' and k == 50000 then
-      t[k] = setmetatable({3000,9000},metalimit3) 
-    else
-      t[k] = setmetatable({lo,hi},metalimit3) 
-    end
-    changed = true
     return t[k]
   end,
 }
@@ -89,10 +88,13 @@ local function useDefaults()
 end
 
 
-
-local function Save()
-  if not changed then return end
-  prefs[version] = serpent.dump(Preferences)
+local function Save(ClearOld)
+  if ClearOld then
+    prefs = nil
+    prefs[version] = serpent.dump(Preferences)
+  elseif changed then
+    prefs[version] = serpent.dump(Preferences)
+  end
 end
 
 local function load0() --load version 0 --still need to add paste selective settings
@@ -128,13 +130,26 @@ local function load0() --load version 0 --still need to add paste selective sett
         end
       elseif k == 'Presets' then --end starthi, start presets
         loaded = true
-        for i in pairs(k) do
-          Preferences.Presets[i] = k --avoid assigning tables to make a true copy
+        for i,j in pairs(v) do
+          Preferences.Presets[i] = j --avoid assigning tables to make a true copy
         end
-      end --processing presets
+      elseif k == 'PasteList' then --end Presets, start Pastelist
+        loaded = true
+        for i,j in pairs(v) do
+          Preferences.PasteList[i] = j
+        end
+      end -- end pastelist
     end  --if string -- all processing occurs inside here--anything added would be an elseif after presets
   end --for k,v in prefs
-  if loaded == false then
+  if loaded then -- final cleanup after load
+    for _,v in pairs(Preferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
+      for kk,vv in pairs(v) do -- for each highlimittable kk, look at vv(limit values table) 
+        if type(kk)=='number' and (vv[1]==nil or vv[2]==nil) then -- table for each parameter has limits and other data (param,label.order)--ignore other data
+          vv[1],vv[2]=nil,nil --guard against corrupted data when only one bound gets initialized
+        end
+      end
+    end
+  else --failed to load
     useDefaults()
     LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
   end
@@ -159,8 +174,13 @@ local function Load()
   return loaded
 end
 
+local function ClearAll()
+  prefs = nil
+  useDefaults()
+end
 
 return {
+  ClearAll = ClearAll,
   Limits = Preferences.Limits,
   Load = Load,
   PasteList = Preferences.PasteList,
