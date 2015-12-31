@@ -109,8 +109,8 @@ local function load0() --load version 0 --still need to add paste selective sett
         if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
           Preferences.Limits[prefname][historic[prefname]][1] = v --low limit added
           loaded = true
-        elseif type(v) == table then--newer style
-          for i,p in v do -- pull out low for each rangemax, i=rangemax p = limit
+        elseif type(v) == 'table' then--newer style
+          for i,p in pairs(v) do -- pull out low for each rangemax, i=rangemax p = limit
             Preferences.Limits[prefname][i][1] = p
             loaded = true
           end
@@ -120,8 +120,8 @@ local function load0() --load version 0 --still need to add paste selective sett
         if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
           Preferences.Limits[prefname][historic[prefname]][2] = v --high limit added
           loaded = true
-        elseif type(v) == table then--newer style
-          for i,p in v do -- pull out high for each rangemax, i=rangemax p = limit
+        elseif type(v) == 'table' then--newer style
+          for i,p in pairs(v) do -- pull out high for each rangemax, i=rangemax p = limit
             Preferences.Limits[prefname][i][2] = p
             loaded = true
           end
