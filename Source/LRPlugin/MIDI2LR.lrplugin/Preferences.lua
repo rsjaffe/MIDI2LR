@@ -99,30 +99,30 @@ local function load0() --load version 0 --still need to add paste selective sett
   local loaded = false
   useDefaults()
   --then load whatever is available from version 0
-  for k,v in pairs(prefs) do
+  for k,v in prefs:pairs() do
     if type(k)=='string' then
       local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
       local startlo = k:find('Low',1,true)
       local starthi = k:find('High',1,true)
       if startlo then --start starthi--first attempt to understand index string
-        local prefname = v:sub(1,startlo-1)
+        local prefname = k:sub(1,startlo-1)
         if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
           Preferences.Limits[prefname][historic[prefname]][1] = v --low limit added
           loaded = true
         elseif type(v) == table then--newer style
           for i,p in v do -- pull out low for each rangemax, i=rangemax p = limit
-            Preferences.Limits[prefname][i] = p
+            Preferences.Limits[prefname][i][1] = p
             loaded = true
           end
         end
       elseif starthi then --end startlo, start starthi
-        local prefname = v:sub(1,starthi-1)
+        local prefname = k:sub(1,starthi-1)
         if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
           Preferences.Limits[prefname][historic[prefname]][2] = v --high limit added
           loaded = true
         elseif type(v) == table then--newer style
-          for _,p in v do -- pull out low for each rangemax, i=rangemax p = limit
-            Preferences.Limits[prefname][2] = p
+          for i,p in v do -- pull out high for each rangemax, i=rangemax p = limit
+            Preferences.Limits[prefname][i][2] = p
             loaded = true
           end
         end
@@ -135,6 +135,7 @@ local function load0() --load version 0 --still need to add paste selective sett
     end  --if string -- all processing occurs inside here--anything added would be an elseif after presets
   end --for k,v in prefs
   if loaded == false then
+    useDefaults()
     LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
   end
   return loaded
