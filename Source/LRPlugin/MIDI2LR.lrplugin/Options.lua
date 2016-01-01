@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local Parameters        = require 'Parameters'
+local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
 local Limits            = require 'Limits' 
 local LrApplication     = import 'LrApplication'
@@ -29,13 +30,16 @@ local LrDevelopController = import 'LrDevelopController'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
 
+local LrMobdebug = import 'LrMobdebug'
+
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
+      LrMobdebug.on() --debugging
       -- initialize variables needed throughout this function
       local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
       local f = LrView.osFactory()
       --------------------------bound property table setup begins
-      --make bound property table
+      --make bound property tables
       local properties = LrBinding.makePropertyTable( context )
       --populate table with presets
       for i = 1,20 do
@@ -50,11 +54,10 @@ local function setOptions()
           properties[p..'High'] = max
         end
       end
-      --populate table with selective paste options
-      properties.PasteList = {}
+
       for k,v in pairs(ProgramPreferences.PasteList) do
-        properties.PasteList[k] = v 
-      end
+        properties['Paste'..k] = v 
+      end 
       --------------------------bound property table setup ends
 
       --------------------------dialog box setup begins
@@ -104,7 +107,7 @@ local function setOptions()
           for i = ((col-1)*breakpoint+1),(breakpoint*col) do
             table.insert(
               selectivepastecol[col], 
-              f:checkbox { title = Parameters.Names[i][1], value = LrView.bind ('PasteList.'..Parameters.Order[i]) } 
+              f:checkbox { title = Parameters.Names[i][1], value = LrView.bind ('Paste'..Parameters.Order[i]) } 
             )
           end
           selectivepastecol[col] = f:column (selectivepastecol[col]) -- prepare for use in f:row below
@@ -151,65 +154,66 @@ local function setOptions()
           f:tab_view_item {
             title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
-            f:row (selectivepastecol), --row
-            --[[           f:row{
+            f:row (selectivepastecol),
+            f:row{
               f:push_button {
                 title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
                 action = function ()
-                  for p in ipairs(Parameters.Names) do
-                    properties['PasteList.'..p] = false
-                  end
+                  for i,v in ipairs(Parameters.Order) do
+                    properties['Paste'..v] = false
+                  end 
                 end,
               }, -- push_button
               f:push_button {
                 title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckAll=Check all"
-),
+                ),
                 action = function ()
-                  for p in ipairs(Parameters.Names) do
-                    properties['PasteList.'..p] = true
-                  end
+                  for i,v in ipairs(Parameters.Order) do
+                    properties['Paste'..v] = true
+                  end 
                 end,
               } ,-- push_button
-            }, --row --]] -- commented out push button row until functionality fixed
-        }, -- tab_view_item
-        f:tab_view_item (othercolumn), -- tab_view_item
-      }, -- tab_view
-    } -- view
+            } --row of pushbuttons
+          }, -- tab_view_item
+          f:tab_view_item (othercolumn), -- tab_view_item
+        }, -- tab_view
+      } -- view
 
-    -- display dialog
-    local result = LrDialogs.presentModalDialog (
-      {
-        title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
-        contents = contents,
-      }
-    )
-    -- assign values from dialog if ok is pressed
-    if result == 'ok' then
-      --assign presets
-      ProgramPreferences.Presets = {} -- empty out prior settings
-      for i = 1,20 do
-        if type(properties['preset'..i])=='table' then -- simple_list should return a table
-          ProgramPreferences.Presets[i] = properties['preset'..i][1]
-        end
-      end
-      --assign PasteList
-      ProgramPreferences.PasteList = {} -- empty out prior settings
-      for k in ipairs(Parameters.Names) do
-        ProgramPreferences.PasteList[k] = properties.PasteList[k]
-      end
-      --assign limits
-      if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
-        for p in pairs(Limits.Parameters) do
-          if properties[p..'Low'] > properties[p..'High'] then --swap values
-            properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
+      -- display dialog
+      local result = LrDialogs.presentModalDialog (
+        {
+          title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
+          contents = contents,
+        }
+      )
+      -- assign values from dialog if ok is pressed
+      if result == 'ok' then
+        --assign presets
+        ProgramPreferences.Presets = {} -- empty out prior settings
+        for i = 1,20 do
+          if type(properties['preset'..i])=='table' then -- simple_list should return a table
+            ProgramPreferences.Presets[i] = properties['preset'..i][1]
           end
-          local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
-          ProgramPreferences.Limits[p][max] = {properties[p..'Low'], properties[p..'High']}
         end
-      end --if limitsCanBeSet
-      Preferences.Save()
-    end -- if result ok
-    -- finished with assigning values from dialog
-  end)
+        --assign PasteList
+        ProgramPreferences.PasteList = {} -- empty out prior settings
+        for i,v in ipairs(Parameters.Order) do
+          ProgramPreferences.PasteList[v] = properties['Paste'..v]
+        end 
+
+        --assign limits
+        if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
+          for p in pairs(Limits.Parameters) do
+            if properties[p..'Low'] > properties[p..'High'] then --swap values
+              properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
+            end
+            local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
+            ProgramPreferences.Limits[p][max] = {properties[p..'Low'], properties[p..'High']}
+          end
+        end --if limitsCanBeSet
+        Preferences.Save()
+      end -- if result ok
+      -- finished with assigning values from dialog
+    end)
 end
 setOptions() --execute
