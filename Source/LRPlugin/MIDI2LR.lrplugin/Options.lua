@@ -55,9 +55,6 @@ local function setOptions()
         end
       end
 
-      for k,v in pairs(ProgramPreferences.PasteList) do
-        properties['Paste'..k] = v 
-      end 
       --------------------------bound property table setup ends
 
       --------------------------dialog box setup begins
@@ -95,25 +92,6 @@ local function setOptions()
         tabviewitems[group] = f:tab_view_item (tabviewitems[group]) -- prepare for use in f:tabview below
       end -- for group
       ---------------presets dialog setup ends
-
-      ---------------selective paste dialog setup begins
-      -- set up adjustments columns
-      local selectivepastecol = {}
-      do 
-        local numberofcolumns = 4
-        local breakpoint = math.floor(#Parameters.Order / numberofcolumns)
-        for col = 1,numberofcolumns do
-          selectivepastecol[col] = {}
-          for i = ((col-1)*breakpoint+1),(breakpoint*col) do
-            table.insert(
-              selectivepastecol[col], 
-              f:checkbox { title = Parameters.Names[i][1], value = LrView.bind ('Paste'..Parameters.Order[i]) } 
-            )
-          end
-          selectivepastecol[col] = f:column (selectivepastecol[col]) -- prepare for use in f:row below
-        end -- for col
-      end
-      ---------------selective paste dialog setup ends
 
       ---------------other settings dialog setup begins
       -- set up other settings column
@@ -154,26 +132,7 @@ local function setOptions()
           f:tab_view_item {
             title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
-            f:row (selectivepastecol),
-            f:row{
-              f:push_button {
-                title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
-                action = function ()
-                  for i,v in ipairs(Parameters.Order) do
-                    properties['Paste'..v] = false
-                  end 
-                end,
-              }, -- push_button
-              f:push_button {
-                title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckAll=Check all"
-                ),
-                action = function ()
-                  for i,v in ipairs(Parameters.Order) do
-                    properties['Paste'..v] = true
-                  end 
-                end,
-              } ,-- push_button
-            } --row of pushbuttons
+            Paste.StartDialog(properties,f)
           }, -- tab_view_item
           f:tab_view_item (othercolumn), -- tab_view_item
         }, -- tab_view
@@ -195,12 +154,8 @@ local function setOptions()
             ProgramPreferences.Presets[i] = properties['preset'..i][1]
           end
         end
-        --assign PasteList
-        ProgramPreferences.PasteList = {} -- empty out prior settings
-        for i,v in ipairs(Parameters.Order) do
-          ProgramPreferences.PasteList[v] = properties['Paste'..v]
-        end 
 
+        Paste.EndDialog(properties,result)
         --assign limits
         if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
           for p in pairs(Limits.Parameters) do
