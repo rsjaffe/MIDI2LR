@@ -24,6 +24,7 @@ local function StartDialog(obstable,f)
   for k,v in pairs(ProgramPreferences.PasteList) do
     obstable['Paste'..k] = v 
   end 
+  obstable.PastePopup = ProgramPreferences.PastePopup
   local selectivepastecol = {}
   do 
     local numberofcolumns = 4
@@ -39,26 +40,30 @@ local function StartDialog(obstable,f)
       selectivepastecol[col] = f:column (selectivepastecol[col]) -- prepare for use in f:row below
     end -- for col
   end
-  return f:row(selectivepastecol),
-  f:row{
-    f:push_button {
-      title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
-      action = function ()
-        for _,v in ipairs(Parameters.Order) do
-          obstable['Paste'..v] = false
-        end 
-      end,
-    }, -- push_button
-    f:push_button {
-      title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckAll=Check all"
-      ),
-      action = function ()
-        for _,v in ipairs(Parameters.Order) do
-          obstable['Paste'..v] = true
-        end 
-      end,
-    } ,-- push_button
-  } --row of pushbuttons
+  return 
+  f:row(selectivepastecol),
+  f:row{ 
+    f:row{
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckNone=Check none"),
+        action = function ()
+          for _,v in ipairs(Parameters.Order) do
+            obstable['Paste'..v] = false
+          end 
+        end,
+      }, -- push_button
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/NamedSettingsControls/CheckAll=Check all"
+        ),
+        action = function ()
+          for _,v in ipairs(Parameters.Order) do
+            obstable['Paste'..v] = true
+          end 
+        end,
+      } ,-- push_button 
+    },-- set of pushbuttons
+    f:checkbox {title = 'Ask each time', value = LrView.bind('PastePopup')}
+  } --row with pushbuttons and checkbox
 end
 
 local function EndDialog(obstable, status)
@@ -68,6 +73,7 @@ local function EndDialog(obstable, status)
     for i,v in ipairs(Parameters.Order) do
       ProgramPreferences.PasteList[v] = obstable['Paste'..v]
     end 
+    ProgramPreferences.PastePopup = obstable.PastePopup
   end
 end
 
