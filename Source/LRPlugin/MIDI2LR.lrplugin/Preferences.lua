@@ -9,16 +9,16 @@ load will do blank initialization if prefs is not a table.
 Preferences.lua
 Manages application preferences.
 
-Preferences.Limits table. Key = parameter short name. 
+ProgramPreferences.Limits table. Key = parameter short name. 
         Value = {param = parameter short name, label = friendly name, 
         order = rank order, [maxvalue] = table {[1]=low,[2]=high}}
-Preferences.Limits metatables. undefined Value will set key of shortname =
+ProgramPreferences.Limits metatables. undefined Value will set key of shortname =
         {param=parameter short name, label = friendly name, order = rank order}
-Preferences.Limits metatables. undefined maxvalue will set 
+ProgramPreferences.Limits metatables. undefined maxvalue will set 
          maxvalue={[1]=low,[2]=high} but will return nil if not in develop
 Preferences.Load function. Save to LR storage.
-Preferences.Preferences table. Key = subtable name (e.g., 'Limits', 'Presets').
-Preferences.Presets table. 
+ProgramPreferences.Preferences table. Key = subtable name (e.g., 'Limits', 'Presets').
+ProgramPreferences.Presets table. 
 Preferences.Reset function. Sets Preferences.Preferences to default settings.
 Preferences.Save function. Load from LR storage.
  
@@ -49,7 +49,7 @@ local version = 1
 
 
 --------------note: test if can use t in place of t.param in metalimit2
-local metalimit2 = { 
+local metalimit2 = { --assumes only new table members for each parameter are numeric, representing ranges
   __index = function(t,k) -- key is high value for the range -- always return t[k]!
     t[k] = {}
     if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() == nil then 
@@ -82,6 +82,7 @@ local function useDefaults()
   ProgramPreferences = {}
   ProgramPreferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {} }
   ProgramPreferences.Limits['Temperature'][50000] = {3000,9000}
+  changed = true
 end
 
 
@@ -91,6 +92,7 @@ local function Save(ClearOld) --clear old optional parameter
     prefs = nil
   end
   prefs[version] = serpent.dump(ProgramPreferences)
+  changed = false
 end
 
 local function load0() --load version 0 --still need to test paste selective settings -- also test change in starthi startlo tests
@@ -148,6 +150,7 @@ local function load0() --load version 0 --still need to test paste selective set
     Save()--in new format
   else --failed to load
     useDefaults()
+    Save()
     LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
   end
   return loaded
@@ -161,14 +164,10 @@ local function Load()
       if loaded ~= true then
         useDefaults()
         LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
-      else --need to add back in the metatables
+      else --need to add back in the metatables. serpent doesn't serialize metatables
         setmetatable(ProgramPreferences.Limits,metalimit1)
-        for _,v in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
-          for k,_ in pairs(v) do --k is table member (e.g., param, label, limit value)
-            if type(k) == 'number' then
-              setmetatable(k,metalimit2)
-            end
-          end
+        for k in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
+          setmetatable(ProgramPreferences.Limits[k],metalimit2)
         end
       end
     else -- not current version
@@ -183,6 +182,7 @@ end
 local function ClearAll()
   prefs = nil
   useDefaults()
+  Save()
 end
 
 return {
