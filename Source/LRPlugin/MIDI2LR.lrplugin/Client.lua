@@ -67,7 +67,7 @@ local function PasteSelectedSettings ()
     LrApplicationView.switchToModule('develop')
   end
   for param in ipairs(Parameters.Names) do --having trouble iterating pastelist--observable table iterator issue?
-    if (Preferences.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
+    if (ProgramPreferences.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
     end
@@ -335,7 +335,7 @@ function processMessage(message)
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
     elseif(param:find('Preset_') == 1) then --apply preset by #
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(Preferences.Presets[tonumber(param:sub(8))]) end
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(ProgramPreferences.Presets[tonumber(param:sub(8))]) end
     elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
     elseif(TOGGLE_PARAMETERS_01[param]) then --enable/disable

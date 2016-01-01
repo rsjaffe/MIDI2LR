@@ -35,7 +35,7 @@ local LrView              = import 'LrView'
 local Preferences         = require 'Preferences'
 
 --hidden 
-local DisplayOrder           = {'Temperature','Tint','Exposure'}
+local DisplayOrder           = {'Temperature','Tint','Exposure','Whites'}
 
 --public--each must be in table of exports
 
@@ -60,7 +60,7 @@ end
 local function ClampValue(param)
   if Parameters[param] == nil or LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
   local _, rangemax = LrDevelopController.getRange(param)
-  local min, max = unpack(Preferences.Limits[param][rangemax])
+  local min, max = unpack(ProgramPreferences.Limits[param][rangemax])
   local value = LrDevelopController.getValue(param)
   if value < min then      
     MIDI2LR.PARAM_OBSERVER[param] = min
@@ -144,12 +144,38 @@ end
 local function GetMinMax(param)
   if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil,nil end
   local _, rangemax = LrDevelopController.getRange(param)
-  return unpack(Preferences.Limits[param][rangemax])
+  return unpack(ProgramPreferences.Limits[param][rangemax])
 end
+
+--------------------------------------------------------------------------------
+-- Removes unneeded Parameters entries.
+-- [param][max] unneeded if max has an empty or missing table.
+-- [param] then unneeded if it has no numeric entries (max's).
+-- @return hil
+--------------------------------------------------------------------------------
+local function DiscardExcess()
+  for k,v in pairs(ProgramPreferences.Limits) do -- for each parameter
+    local validlimits = false
+    for kk,vv in pairs(v) do -- for each numeric entry (ignore other data)
+      if type(kk) == 'number' then
+        if type(vv) ~= 'table' or kk[1]==nil or kk[2]==nil then
+          ProgramPreferences.Limits[k][kk]=nil --delete
+        else
+          validlimits = true
+        end --if type vv ~= table...
+      end -- if type kk = number
+    end -- for kk,vv in pairs
+    if validlimits == false then
+      ProgramPreferences.Limits[k] = nil --remove from parent array
+    end
+  end -- for k,v in pairs
+end --DiscardExcess
+
 
 --- @export
 return { --table of exports, setting table member name and module function it points to
   ClampValue = ClampValue,
+  DiscardExcess = DiscardExcess,
   GetMinMax = GetMinMax,
   OptionsRows = OptionsRows,
   Parameters = Parameters,

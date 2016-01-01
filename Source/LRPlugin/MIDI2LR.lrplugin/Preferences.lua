@@ -5,7 +5,6 @@ load for current version will call load for prior version if current version not
 will do a blank initialization of preferences if none is found.
 load will do blank initialization if prefs is not a table.
 
-===========still need to add selective paste prefs to load0
 
 Preferences.lua
 Manages application preferences.
@@ -43,25 +42,23 @@ local LrDialogs           = import 'LrDialogs'
 local Parameters          = require 'Parameters'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local serpent             = require 'serpent'
-
 -- hidden
 
 local changed = false
 local version = 1
 
-local metalimit3 = {
-}
+
 --------------note: test if can use t in place of t.param in metalimit2
 local metalimit2 = { 
   __index = function(t,k) -- key is high value for the range -- always return t[k]!
-    t[k] = setmetatable({},metalimit3)
+    t[k] = {}
     if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() == nil then 
       local lo,hi = LrDevelopController.getRange(t.param)
       if k == hi then
         if t.param == 'Temperature' and k == 50000 then
-          t[k] = setmetatable({3000,9000},metalimit3) 
+          t[k] = {3000,9000}
         else
-          t[k] = setmetatable({lo,hi},metalimit3) 
+          t[k] = {lo,hi}
         end
         changed = true
       end
@@ -79,25 +76,24 @@ local metalimit1 = {
 }
 -- public
 -- preferences table
-local Preferences = {}
+ProgramPreferences = {}
 
 local function useDefaults()
-  Preferences = {}
-  Preferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {} }
-  Preferences.Limits['Temperature'][50000] = {3000,9000}
+  ProgramPreferences = {}
+  ProgramPreferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {} }
+  ProgramPreferences.Limits['Temperature'][50000] = {3000,9000}
 end
 
 
-local function Save(ClearOld)
+local function Save(ClearOld) --clear old optional parameter
+  -- Limits.DiscardExcess() -- call for each 'class' currently only Limits
   if ClearOld then
     prefs = nil
-    prefs[version] = serpent.dump(Preferences)
-  elseif changed then
-    prefs[version] = serpent.dump(Preferences)
   end
+  prefs[version] = serpent.dump(ProgramPreferences)
 end
 
-local function load0() --load version 0 --still need to add paste selective settings
+local function load0() --load version 0 --still need to test paste selective settings -- also test change in starthi startlo tests
   local loaded = false
   useDefaults()
   --then load whatever is available from version 0
@@ -106,49 +102,50 @@ local function load0() --load version 0 --still need to add paste selective sett
       local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
       local startlo = k:find('Low',1,true)
       local starthi = k:find('High',1,true)
-      if startlo then --start starthi--first attempt to understand index string
+      if startlo == k:len()-2 then --start starthi--first attempt to understand index string
         local prefname = k:sub(1,startlo-1)
         if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
-          Preferences.Limits[prefname][historic[prefname]][1] = v --low limit added
+          ProgramPreferences.Limits[prefname][historic[prefname]][1] = v --low limit added
           loaded = true
         elseif type(v) == 'table' then--newer style
           for i,p in pairs(v) do -- pull out low for each rangemax, i=rangemax p = limit
-            Preferences.Limits[prefname][i][1] = p
+            ProgramPreferences.Limits[prefname][i][1] = p
             loaded = true
           end
         end
-      elseif starthi then --end startlo, start starthi
+      elseif starthi == k:len()-3 then --end startlo, start starthi
         local prefname = k:sub(1,starthi-1)
         if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
-          Preferences.Limits[prefname][historic[prefname]][2] = v --high limit added
+          ProgramPreferences.Limits[prefname][historic[prefname]][2] = v --high limit added
           loaded = true
         elseif type(v) == 'table' then--newer style
           for i,p in pairs(v) do -- pull out high for each rangemax, i=rangemax p = limit
-            Preferences.Limits[prefname][i][2] = p
+            ProgramPreferences.Limits[prefname][i][2] = p
             loaded = true
           end
         end
       elseif k == 'Presets' then --end starthi, start presets
         loaded = true
         for i,j in pairs(v) do
-          Preferences.Presets[i] = j --avoid assigning tables to make a true copy
+          ProgramPreferences.Presets[i] = j --avoid assigning tables to make a true copy
         end
       elseif k == 'PasteList' then --end Presets, start Pastelist
         loaded = true
         for i,j in pairs(v) do
-          Preferences.PasteList[i] = j
+          ProgramPreferences.PasteList[i] = j
         end
       end -- end pastelist
     end  --if string -- all processing occurs inside here--anything added would be an elseif after presets
   end --for k,v in prefs
   if loaded then -- final cleanup after load
-    for _,v in pairs(Preferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
+    for _,v in pairs(ProgramPreferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
       for kk,vv in pairs(v) do -- for each highlimittable kk, look at vv(limit values table) 
         if type(kk)=='number' and (vv[1]==nil or vv[2]==nil) then -- table for each parameter has limits and other data (param,label.order)--ignore other data
           vv[1],vv[2]=nil,nil --guard against corrupted data when only one bound gets initialized
         end
       end
     end
+    Save()--in new format
   else --failed to load
     useDefaults()
     LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
@@ -159,11 +156,20 @@ end
 local function Load()
   local loaded = false
   if type(prefs)=='table' then
-    if type(prefs[1])=='string' then
-      loaded,Preferences = serpent.load(prefs[1])
+    if type(prefs[version])=='string' then
+      loaded,ProgramPreferences = serpent.load(prefs[version])
       if loaded ~= true then
         useDefaults()
         LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
+      else --need to add back in the metatables
+        setmetatable(ProgramPreferences.Limits,metalimit1)
+        for _,v in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
+          for k,_ in pairs(v) do --k is table member (e.g., param, label, limit value)
+            if type(k) == 'number' then
+              setmetatable(k,metalimit2)
+            end
+          end
+        end
       end
     else -- not current version
       return load0() --load prior version, proper tail call
@@ -181,11 +187,7 @@ end
 
 return {
   ClearAll = ClearAll,
-  Limits = Preferences.Limits,
   Load = Load,
-  PasteList = Preferences.PasteList,
-  Preferences = Preferences,
-  Presets = Preferences.Presets,
   Reset = useDefaults,
   Save = Save,
 }

@@ -40,7 +40,7 @@ local function setOptions()
       --populate table with presets
       for i = 1,20 do
         properties['preset'..i] = {}
-        properties['preset'..i][1] = Preferences.Presets[i]
+        properties['preset'..i][1] = ProgramPreferences.Presets[i]
       end
       --populate table with limits
       if limitsCanBeSet then
@@ -52,7 +52,7 @@ local function setOptions()
       end
       --populate table with selective paste options
       properties.PasteList = {}
-      for k,v in pairs(Preferences.PasteList) do
+      for k,v in pairs(ProgramPreferences.PasteList) do
         properties.PasteList[k] = v 
       end
       --------------------------bound property table setup ends
@@ -186,16 +186,16 @@ local function setOptions()
     -- assign values from dialog if ok is pressed
     if result == 'ok' then
       --assign presets
-      Preferences.Presets = {} -- empty out prior settings
+      ProgramPreferences.Presets = {} -- empty out prior settings
       for i = 1,20 do
         if type(properties['preset'..i])=='table' then -- simple_list should return a table
-          Preferences.Presets[i] = properties['preset'..i][1]
+          ProgramPreferences.Presets[i] = properties['preset'..i][1]
         end
       end
       --assign PasteList
-      Preferences.PasteList = {} -- empty out prior settings
+      ProgramPreferences.PasteList = {} -- empty out prior settings
       for k in ipairs(Parameters.Names) do
-        Preferences.PasteList[k] = properties.PasteList[k]
+        ProgramPreferences.PasteList[k] = properties.PasteList[k]
       end
       --assign limits
       if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
@@ -204,9 +204,10 @@ local function setOptions()
             properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
           end
           local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
-          Preferences.Limits[p][max] = {properties[p..'Low'], properties[p..'High']}
+          ProgramPreferences.Limits[p][max] = {properties[p..'Low'], properties[p..'High']}
         end
       end --if limitsCanBeSet
+      Preferences.Save()
     end -- if result ok
     -- finished with assigning values from dialog
   end)
