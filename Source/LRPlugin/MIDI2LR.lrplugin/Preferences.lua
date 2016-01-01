@@ -5,8 +5,6 @@ load for current version will call load for prior version if current version not
 will do a blank initialization of preferences if none is found.
 load will do blank initialization if prefs is not a table.
 
-=============still have to test adding metatables on load
-
 
 Preferences.lua
 Manages application preferences.
@@ -51,7 +49,7 @@ local version = 1
 
 
 --------------note: test if can use t in place of t.param in metalimit2
-local metalimit2 = { -- this assumes only new members in a given parameter's subtable is numeric, representing a range to limit
+local metalimit2 = { 
   __index = function(t,k) -- key is high value for the range -- always return t[k]!
     t[k] = {}
     if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() == nil then 
@@ -163,10 +161,14 @@ local function Load()
       if loaded ~= true then
         useDefaults()
         LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
-      else --need to add back in the metatables, as serpent doesn't serialize the metatables
+      else --need to add back in the metatables
         setmetatable(ProgramPreferences.Limits,metalimit1)
-        for k,_ in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
-          setmetatable(k,metalimit2) --meta2 is called when new set of limits indexed
+        for _,v in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
+          for k,_ in pairs(v) do --k is table member (e.g., param, label, limit value)
+            if type(k) == 'number' then
+              setmetatable(k,metalimit2)
+            end
+          end
         end
       end
     else -- not current version
