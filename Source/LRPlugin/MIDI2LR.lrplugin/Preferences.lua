@@ -84,6 +84,7 @@ local function useDefaults()
   ProgramPreferences = {}
   ProgramPreferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {} }
   ProgramPreferences.Limits['Temperature'][50000] = {3000,9000}
+  changed = true
 end
 
 
@@ -93,6 +94,7 @@ local function Save(ClearOld) --clear old optional parameter
     prefs = nil
   end
   prefs[version] = serpent.dump(ProgramPreferences)
+  changed = false
 end
 
 local function load0() --load version 0 --still need to test paste selective settings -- also test change in starthi startlo tests
@@ -181,6 +183,7 @@ end
 local function ClearAll()
   prefs = nil
   useDefaults()
+  Save()
 end
 
 return {
