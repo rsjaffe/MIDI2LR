@@ -388,29 +388,7 @@ LrTasks.startAsyncTask( function()
     --LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
         --LrMobdebug.on()
-        -- add an observer for develop param changes--needs to occur in develop module
-        local currentmod = LrApplicationView.getCurrentModuleName()
-        if currentmod ~= 'develop' then
-          LrApplicationView.switchToModule('develop')
-        end
-        LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
-        LrDevelopController.addAdjustmentChangeObserver(
-          context, 
-          MIDI2LR.PARAM_OBSERVER, 
-          function ( observer ) 
-            if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
-            for _,param in ipairs(Parameters.Order) do
-              if(observer[param] ~= LrDevelopController.getValue(param)) then
-                MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-                observer[param] = LrDevelopController.getValue(param)
-                MIDI2LR.LAST_PARAM = param
-              end
-            end
-          end 
-        )
-        if currentmod~= 'develop' then
-          LrApplicationView.switchToModule(currentmod)
-        end
+
 
         local client = LrSocket.bind {
           functionContext = context,
@@ -437,8 +415,30 @@ LrTasks.startAsyncTask( function()
 
         startServer(context)
 
-        currentLoadVersion = currentLoadVersion + 1 --in case currentLoadVersion gets initialized to 0 each load
+        math.randomseed(os.time())
+        currentLoadVersion = math.random() --in case currentLoadVersion gets initialized to 0 each load
         local loadVersion = currentLoadVersion  
+
+        -- add an observer for develop param changes--needs to occur in develop module
+        while (loadVersion == currentLoadVersion) and (LrApplicationView.getCurrentModuleName() ~= 'develop') do
+          LrTasks.sleep (1/4)
+        end --sleep away until ended or until develop module activated
+        LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+        LrDevelopController.addAdjustmentChangeObserver(
+          context, 
+          MIDI2LR.PARAM_OBSERVER, 
+          function ( observer ) 
+            if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
+            for _,param in ipairs(Parameters.Order) do
+              if(observer[param] ~= LrDevelopController.getValue(param)) then
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+                observer[param] = LrDevelopController.getValue(param)
+                MIDI2LR.LAST_PARAM = param
+              end
+            end
+          end 
+        )
+
         while (loadVersion == currentLoadVersion)  do --detect halt or reload
           LrTasks.sleep( 1/2 )
         end
