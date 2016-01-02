@@ -19,15 +19,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local Limits            = require 'Limits' 
-local Parameters        = require 'Parameters'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
 local Presets           = require 'Presets'
-local LrApplication     = import 'LrApplication'
-local LrApplicationView = import 'LrApplicationView'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
-local LrDevelopController = import 'LrDevelopController'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
 
@@ -52,7 +48,7 @@ local function setOptions()
             Paste.StartDialog(properties,f),
           }, -- tab_view_item
           f:tab_view_item {
-            title = LOC"$$$/AgPrint/ProfileMenu/Other=Andere..."),
+            title = LOC("$$$/AgPrint/ProfileMenu/Other=Andere..."),
             identifier = 'othersettings',
             Limits.StartDialog(properties,f),
           }, -- tab_view_item

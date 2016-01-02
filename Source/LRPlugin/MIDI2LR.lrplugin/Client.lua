@@ -18,7 +18,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-
+---[[-----------debug section, enable by adding - to beginning this line
+local LrMobdebug = import 'LrMobdebug'
+LrMobdebug.start()
+--]]-----------end debug section
 local Parameters          = require 'Parameters'
 local Limits              = require 'Limits'
 local Preferences         = require 'Preferences'
@@ -44,15 +47,6 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 Preferences.Load() 
 -------------end preferences section
 
---File local function declarations (advance declared to allow it to be in scope for all calls. 
---When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
---These declaration are intended to get around some Lua gotcha's.
-local develop_lerp_to_midi
-local midi_lerp_to_develop
-local processMessage
-local sendChangedParams
-local startServer
-local updateParam
 
 local function PasteSelectedSettings ()
   if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
@@ -263,19 +257,19 @@ local SETTINGS = {
   Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
 }
 
-function midi_lerp_to_develop(param, midi_value)
+local function midi_lerp_to_develop(param, midi_value)
   -- map midi range to develop parameter range
   local min,max = Limits.GetMinMax(param)
   return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
 end
 
-function develop_lerp_to_midi(param)
+local function develop_lerp_to_midi(param)
   -- map develop parameter range to midi range
   local min,max = Limits.GetMinMax(param)
   return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
 end
 
-function updateParam() --closure
+local function updateParam() --closure
   local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
   return function(param, midi_value)
     -- this function does a 'pickup' type of check
@@ -310,7 +304,7 @@ end
 updateParam = updateParam() --complete closure
 
 -- message processor
-function processMessage(message)
+local function processMessage(message)
   if type(message) == 'string' then
     -- messages are in the format 'param value'
     local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
@@ -355,24 +349,7 @@ function processMessage(message)
   end
 end
 
--- send changed parameters to MIDI2LR
--- only works while in develop module 
--- if I add change to module at beginning
--- and change back at end, program ends up
--- switching to develop module whenever
--- a picture is selected--an unwanted behavior
-function sendChangedParams( observer ) 
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
-  for param in ipairs(Parameters.Names) do
-    if(observer[param] ~= LrDevelopController.getValue(param)) then
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-      observer[param] = LrDevelopController.getValue(param)
-      MIDI2LR.LAST_PARAM = param
-    end
-  end
-end
-
-function startServer(context)
+local function startServer(context)
   MIDI2LR.SERVER = LrSocket.bind {
     functionContext = context,
     plugin = _PLUGIN,
@@ -389,14 +366,33 @@ function startServer(context)
 end
 
 -- Main task
-LrTasks.startAsyncTask( function()
+LrTasks.startAsyncTask( function() 
+    LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
+        LrMobdebug.on()
+        -- add an observer for develop param changes--needs to occur in develop module
+        local currentmod = LrApplicationView.getCurrentModuleName()
+        if currentmod ~= 'develop' then
+          LrApplicationView.switchToModule('develop')
+        end
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
-
-
-
-        -- add an observer for develop param changes
-        LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
+        LrDevelopController.addAdjustmentChangeObserver(
+          context, 
+          MIDI2LR.PARAM_OBSERVER, 
+          function ( observer ) 
+            if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
+            for _,param in ipairs(Parameters.Order) do
+              if(observer[param] ~= LrDevelopController.getValue(param)) then
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+                observer[param] = LrDevelopController.getValue(param)
+                MIDI2LR.LAST_PARAM = param
+              end
+            end
+          end 
+        )
+        if currentmod~= 'develop' then
+          LrApplicationView.switchToModule(currentmod)
+        end
 
         local client = LrSocket.bind {
           functionContext = context,

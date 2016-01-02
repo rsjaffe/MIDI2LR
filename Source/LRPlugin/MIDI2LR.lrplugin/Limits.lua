@@ -32,7 +32,6 @@ local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrView              = import 'LrView'
-local Preferences         = require 'Preferences'
 
 --hidden 
 local DisplayOrder           = {'Temperature','Tint','Exposure'}
@@ -142,9 +141,13 @@ end
 -- @return max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil,nil end
-  local _, rangemax = LrDevelopController.getRange(param)
-  return unpack(ProgramPreferences.Limits[param][rangemax])
+  --if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil,nil end
+  local rangemin, rangemax = LrDevelopController.getRange(param)
+  if Parameters[param] then
+    return unpack(ProgramPreferences.Limits[param][rangemax])
+  else
+    return rangemin,rangemax
+  end
 end
 
 --------------------------------------------------------------------------------
