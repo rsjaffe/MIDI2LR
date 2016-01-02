@@ -437,7 +437,7 @@ LrTasks.startAsyncTask( function()
 
         startServer(context)
 
-
+        currentLoadVersion = currentLoadVersion + 1 --in case currentLoadVersion gets initialized to 0 each load
         local loadVersion = currentLoadVersion  
         while (loadVersion == currentLoadVersion)  do --detect halt or reload
           LrTasks.sleep( 1/2 )

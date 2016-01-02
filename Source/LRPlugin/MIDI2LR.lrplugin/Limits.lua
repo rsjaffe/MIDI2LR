@@ -212,7 +212,7 @@ return { --table of exports, setting table member name and module function it po
   ClampValue = ClampValue,
   DiscardExcess = DiscardExcess,
   GetMinMax = GetMinMax,
-  OptionsRows = OptionsRows,
+--  OptionsRows = OptionsRows,
   Parameters = Parameters,
   StartDialog = StartDialog,
   EndDialog = EndDialog,

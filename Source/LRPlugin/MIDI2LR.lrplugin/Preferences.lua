@@ -16,11 +16,11 @@ ProgramPreferences.Limits metatables. undefined Value will set key of shortname 
         {param=parameter short name, label = friendly name, order = rank order}
 ProgramPreferences.Limits metatables. undefined maxvalue will set 
          maxvalue={[1]=low,[2]=high} but will return nil if not in develop
-Preferences.Load function. Save to LR storage.
+Preferences.Save function. Save to LR storage.
 ProgramPreferences.Preferences table. Key = subtable name (e.g., 'Limits', 'Presets').
 ProgramPreferences.Presets table. 
 Preferences.Reset function. Sets Preferences.Preferences to default settings.
-Preferences.Save function. Load from LR storage.
+Preferences.Load function. Load from LR storage.
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -185,10 +185,10 @@ local function ClearAll()
   Save()
 end
 
-return {
-  ClearAll = ClearAll,
+return { --commented out unused exports
+--  ClearAll = ClearAll,
   Load = Load,
-  Reset = useDefaults,
+--  Reset = useDefaults,
   Save = Save,
 }
 

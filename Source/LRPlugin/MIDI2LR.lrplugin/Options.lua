@@ -56,12 +56,10 @@ local function setOptions()
       } -- view
 
       -- display dialog
-      local result = LrDialogs.presentModalDialog (
-        {
-          title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
-          contents = contents,
-        }
-      )
+      local result = LrDialogs.presentModalDialog {
+        title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
+        contents = contents,
+      }
 
       Limits.EndDialog(properties,result)
       Presets.EndDialog(properties,result)
