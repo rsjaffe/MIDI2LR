@@ -18,16 +18,18 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
----[[-----------debug section, enable by adding - to beginning this line
+--[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
 local Parameters          = require 'Parameters'
 local Limits              = require 'Limits'
+local Paste               = require 'Paste'
 local Preferences         = require 'Preferences'
 local Ut                  = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
+local LrBinding           = import 'LrBinding'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFunctionContext   = import 'LrFunctionContext'
@@ -36,6 +38,7 @@ local LrShell             = import 'LrShell'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
+local LrView              = import 'LrView'
 -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
 currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
 currentLoadVersion = currentLoadVersion + 1 
@@ -50,10 +53,25 @@ Preferences.Load()
 
 local function PasteSelectedSettings ()
   if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
+  if ProgramPreferences.PastePopup then 
+    LrFunctionContext.callWithContext( "checkPaste", 
+      function( context )
+        local f = LrView.osFactory()
+        local properties = LrBinding.makePropertyTable( context )
+        local result = LrDialogs.presentModalDialog (
+          { 
+            title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections') ,
+            contents = f:view{ bind_to_object = properties, Paste.StartDialog(properties,f) }
+          }
+        )
+        Paste.EndDialog (properties,result)
+      end 
+    )
+  end
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
-  for param in ipairs(Parameters.Names) do --having trouble iterating pastelist--observable table iterator issue?
+  for _,param in ipairs(Parameters.Order) do --having trouble iterating pastelist--observable table iterator issue?
     if (ProgramPreferences.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
@@ -367,9 +385,9 @@ end
 
 -- Main task
 LrTasks.startAsyncTask( function() 
-    LrMobdebug.on()
+    --LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
-        LrMobdebug.on()
+        --LrMobdebug.on()
         -- add an observer for develop param changes--needs to occur in develop module
         local currentmod = LrApplicationView.getCurrentModuleName()
         if currentmod ~= 'develop' then

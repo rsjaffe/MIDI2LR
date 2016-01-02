@@ -48,7 +48,7 @@ local function setOptions()
             Paste.StartDialog(properties,f),
           }, -- tab_view_item
           f:tab_view_item {
-            title = LOC("$$$/AgPrint/ProfileMenu/Other=Andere..."),
+            title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
             identifier = 'othersettings',
             Limits.StartDialog(properties,f),
           }, -- tab_view_item
