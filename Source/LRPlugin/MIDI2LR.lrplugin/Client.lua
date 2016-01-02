@@ -71,8 +71,8 @@ local function PasteSelectedSettings ()
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
-  for _,param in ipairs(Parameters.Order) do --having trouble iterating pastelist--observable table iterator issue?
-    if (ProgramPreferences.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
+  for param,yesno in pairs(ProgramPreferences.PasteList) do 
+    if (yesno==true and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
     end
