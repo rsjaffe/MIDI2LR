@@ -18,12 +18,18 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-
-require 'Develop_Params.lua' -- global table of develop params we need to observe
-local Limits = require 'Limits'
-local Ut     = require 'Utilities'
+--[[-----------debug section, enable by adding - to beginning this line
+local LrMobdebug = import 'LrMobdebug'
+LrMobdebug.start()
+--]]-----------end debug section
+local Parameters          = require 'Parameters'
+local Limits              = require 'Limits'
+local Paste               = require 'Paste'
+local Preferences         = require 'Preferences'
+local Ut                  = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
+local LrBinding           = import 'LrBinding'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFunctionContext   = import 'LrFunctionContext'
@@ -32,63 +38,41 @@ local LrShell             = import 'LrShell'
 local LrSocket            = import 'LrSocket'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
+local LrView              = import 'LrView'
 -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
 currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
 currentLoadVersion = currentLoadVersion + 1 
 
---[[-----------debug section, enable by adding - to beginning this line
-local LrMobdebug = import 'LrMobdebug'
-LrMobdebug.start()
---]]-----------end debug section
-
-
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
-
 -------------preferences
-do
-
-  local prefs = import 'LrPrefs'.prefsForPlugin() 
-  prefs = prefs or {}
-  MIDI2LR.Presets = prefs.Presets or {} -- read only global to access preferences
-  LrTasks.startAsyncTask( function ()
-      local currentMod = LrApplicationView.getCurrentModuleName()
-      if currentMod ~= 'develop' then
-        LrApplicationView.switchToModule('develop')
-      end
-      repeat
-        LrTasks.sleep(1) -- problem with getting limits too early, getRange doesn't work
-      until LrApplication.activeCatalog():getTargetPhoto() --need to have a photo selected for limits to work
-      for i,v in pairs(Limits.GetPreferences()) do
-        MIDI2LR[i] = v
-      end
-      if currentMod ~= 'develop' then
-        LrApplicationView.switchToModule(currentMod)
-      end
-    end  )
-
-  MIDI2LR.PasteList = prefs.PasteList or {}
-end
+Preferences.Load() 
 -------------end preferences section
 
---File local function declarations (advance declared to allow it to be in scope for all calls. 
---When defining function, DO NOT USE local KEYWORD, as it will define yet another local function.
---These declaration are intended to get around some Lua gotcha's.
-local develop_lerp_to_midi
-local midi_lerp_to_develop
-local processMessage
-local sendChangedParams
-local startServer
-local updateParam
 
 local function PasteSelectedSettings ()
-  if MIDI2LR.Copied_Settings == nil then return end 
+  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
+  if ProgramPreferences.PastePopup then 
+    LrFunctionContext.callWithContext( "checkPaste", 
+      function( context )
+        local f = LrView.osFactory()
+        local properties = LrBinding.makePropertyTable( context )
+        local result = LrDialogs.presentModalDialog (
+          { 
+            title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections') ,
+            contents = f:view{ bind_to_object = properties, Paste.StartDialog(properties,f) }
+          }
+        )
+        Paste.EndDialog (properties,result)
+      end 
+    )
+  end
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
-  for _,param in ipairs (DEVELOP_PARAMS) do --having trouble iterating pastelist--observable table iterator issue?
-    if (MIDI2LR.PasteList[param]==true and MIDI2LR.Copied_Settings[param]~=nil) then
+  for param,yesno in pairs(ProgramPreferences.PasteList) do 
+    if (yesno==true and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
     end
@@ -97,38 +81,36 @@ end
 
 
 local function PasteSettings  ()
-  if MIDI2LR.Copied_Settings == nil then return end
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
+  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Paste settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/writeaccesscopy=Unable to get catalog write access for copy settings')) end, 
+          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') end, 
           asynchronous = true }
       ) 
     end )
 end
 
 local function CopySettings ()
+  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( 
-    function () MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() end
+    function () 
+      MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
+    end
   ) 
 end
 
 local function ApplyPreset(presetUuid)
-  if presetUuid == nil then
-    return
-  end
+  if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   local preset = LrApplication.developPresetByUuid(presetUuid)
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
         'Apply preset '..preset:getName(), 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/writeaccesspaste=Unable to get catalog write access for paste preset ^1',preset:getName())) end, 
+          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
           asynchronous = true }
       ) 
     end )
@@ -148,13 +130,14 @@ local function addToCollection()
           targetcollection = catalog:createCollection(targetname,nil,true)
         end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/addtocollection=Unable to get catalog write access for add to collection.')) end, 
+          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' GetCollection.') end, 
           asynchronous = true 
         }
       )
     end
   )
   return function(collectiontype,photos)
+    if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     local CollectionName
     if collectiontype == 'quick' then
       CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
@@ -188,7 +171,7 @@ local function addToCollection()
             end
           end,
           { timeout = 4, 
-            callback = function() LrDialogs.showError(LOC('$$$/MIDI2LR/Client/addtocollection=Unable to get catalog write access for add to collection.')) end, 
+            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' AddToCollection.') end, 
             asynchronous = true 
           }
         )
@@ -292,19 +275,19 @@ local SETTINGS = {
   Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
 }
 
-function midi_lerp_to_develop(param, midi_value)
+local function midi_lerp_to_develop(param, midi_value)
   -- map midi range to develop parameter range
   local min,max = Limits.GetMinMax(param)
   return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
 end
 
-function develop_lerp_to_midi(param)
+local function develop_lerp_to_midi(param)
   -- map develop parameter range to midi range
   local min,max = Limits.GetMinMax(param)
   return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
 end
 
-function updateParam() --closure
+local function updateParam() --closure
   local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
   return function(param, midi_value)
     -- this function does a 'pickup' type of check
@@ -339,7 +322,7 @@ end
 updateParam = updateParam() --complete closure
 
 -- message processor
-function processMessage(message)
+local function processMessage(message)
   if type(message) == 'string' then
     -- messages are in the format 'param value'
     local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
@@ -357,7 +340,7 @@ function processMessage(message)
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
     elseif(param:find('Preset_') == 1) then --apply preset by #
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(MIDI2LR.Presets[tonumber(param:sub(8))]) end
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(ProgramPreferences.Presets[tonumber(param:sub(8))]) end
     elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
     elseif(TOGGLE_PARAMETERS_01[param]) then --enable/disable
@@ -384,24 +367,7 @@ function processMessage(message)
   end
 end
 
--- send changed parameters to MIDI2LR
--- only works while in develop module 
--- if I add change to module at beginning
--- and change back at end, program ends up
--- switching to develop module whenever
--- a picture is selected--an unwanted behavior
-function sendChangedParams( observer ) 
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
-  for _, param in ipairs(DEVELOP_PARAMS) do
-    if(observer[param] ~= LrDevelopController.getValue(param)) then
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-      observer[param] = LrDevelopController.getValue(param)
-      MIDI2LR.LAST_PARAM = param
-    end
-  end
-end
-
-function startServer(context)
+local function startServer(context)
   MIDI2LR.SERVER = LrSocket.bind {
     functionContext = context,
     plugin = _PLUGIN,
@@ -418,14 +384,33 @@ function startServer(context)
 end
 
 -- Main task
-LrTasks.startAsyncTask( function()
+LrTasks.startAsyncTask( function() 
+    --LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
+        --LrMobdebug.on()
+        -- add an observer for develop param changes--needs to occur in develop module
+        local currentmod = LrApplicationView.getCurrentModuleName()
+        if currentmod ~= 'develop' then
+          LrApplicationView.switchToModule('develop')
+        end
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
-
-
-
-        -- add an observer for develop param changes
-        LrDevelopController.addAdjustmentChangeObserver( context, MIDI2LR.PARAM_OBSERVER, sendChangedParams )
+        LrDevelopController.addAdjustmentChangeObserver(
+          context, 
+          MIDI2LR.PARAM_OBSERVER, 
+          function ( observer ) 
+            if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
+            for _,param in ipairs(Parameters.Order) do
+              if(observer[param] ~= LrDevelopController.getValue(param)) then
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+                observer[param] = LrDevelopController.getValue(param)
+                MIDI2LR.LAST_PARAM = param
+              end
+            end
+          end 
+        )
+        if currentmod~= 'develop' then
+          LrApplicationView.switchToModule(currentmod)
+        end
 
         local client = LrSocket.bind {
           functionContext = context,
@@ -452,7 +437,7 @@ LrTasks.startAsyncTask( function()
 
         startServer(context)
 
-
+        currentLoadVersion = currentLoadVersion + 1 --in case currentLoadVersion gets initialized to 0 each load
         local loadVersion = currentLoadVersion  
         while (loadVersion == currentLoadVersion)  do --detect halt or reload
           LrTasks.sleep( 1/2 )

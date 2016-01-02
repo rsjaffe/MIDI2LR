@@ -358,16 +358,16 @@ const std::vector<String> LRCommandList::ToolsList = {
     "Reset Crop Right",
     "Reset Crop Top", // Resets don't work for crop */
     "Toggle Calibration",
-    "Toggle Circular Gradient-Based Corrections",
+    "Toggle Radial Filter",
     "Toggle Color Adjustments",
     "Toggle Detail",
     "Toggle Effects",
-    "Toggle Gradient-Based Corrections",
+    "Toggle Graduated Filter",
     "Toggle Grayscale Mix",
     "Toggle Lens Corrections",
-    "Toggle Paint-Based Corrections",
+    "Toggle Brush Adjustments",
     "Toggle Red-Eye",
-    "Toggle Retouch",
+    "Toggle Spot Removal",
     "Toggle Split Toning",
     "Reset Circular Gradient-Based Corrections", //ResetCircGrad
     "Reset Gradient-Based Corrections", //ResetGradient

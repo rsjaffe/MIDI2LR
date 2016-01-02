@@ -25,12 +25,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 --The only global identifiers used in this module are 'import', 'LOC' and 'MIDI2LR'.
 --In ZeroBrane IDE, check for global identifiers by pressing shift-F7 while 
 --viewing this file.
+--Limits are now stored in the form Limits.Temperature[50000]{3000,9000} in the Preferences module
 
 --imports
+local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrView              = import 'LrView'
-local prefs               = import 'LrPrefs'.prefsForPlugin() 
 
 --hidden 
 local DisplayOrder           = {'Temperature','Tint','Exposure'}
@@ -44,203 +45,48 @@ local Parameters           = {}--{Temperature = true, Tint = true, Exposure = tr
 for _, p in ipairs(DisplayOrder) do
   Parameters[p] = true
 end
+
 --------------------------------------------------------------------------------
 -- Limits a given parameter to the min,max set up.
 -- This function is used to avoid the bug in pickup mode, in which the parameter's
 -- value may be too low or high to be picked up by the limited control range. By
 -- clamping value to min-max range, this forces parameter to be in the limited
--- control range.
+-- control range. This function immediately returns without doing anything if the
+-- Develop module isn't active or the parameter is not limited.
 -- @param Parameter to clamp to limits.
 -- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
-  local currentModule = LrApplicationView.getCurrentModuleName()
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule('develop') -- for getRange
-  end
+  if Parameters[param] == nil or LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
   local _, rangemax = LrDevelopController.getRange(param)
-  if Parameters[param] and (type(MIDI2LR[param..'Low']) == 'table') and MIDI2LR[param..'Low'][rangemax] then
-    local min, max = MIDI2LR[param..'Low'][rangemax], MIDI2LR[param..'High'][rangemax]
-    local value = LrDevelopController.getValue(param)
-    if value < min then      
-      MIDI2LR.PARAM_OBSERVER[param] = min
-      LrDevelopController.setValue(param, min)
-    elseif value > max then
-      MIDI2LR.PARAM_OBSERVER[param] = max
-      LrDevelopController.setValue(param, max)
-    end
+  local min, max = unpack(ProgramPreferences.Limits[param][rangemax])
+  local value = LrDevelopController.getValue(param)
+  if value < min then      
+    MIDI2LR.PARAM_OBSERVER[param] = min
+    LrDevelopController.setValue(param, min)
+  elseif value > max then
+    MIDI2LR.PARAM_OBSERVER[param] = max
+    LrDevelopController.setValue(param, max)
   end
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule(currentModule)
-  end
+  return nil
 end
 
---------------------------------------------------------------------------------
--- Get temperature limit preferences.
--- Returns all saved settings, including those for modes not currently in use
--- (e.g., jpg, raw, HDR). Will always return valid values for current mode,
--- and will update preferences if current mode was undefined.
--- @return Table containing preferences in form table['TemperatureLow'][50000],
--- where second index identifies max vaule for mode (jpg, raw, HDR).
---------------------------------------------------------------------------------
-local function GetPreferences()
-  local retval = {}
-  -- following for people with defaults from version 0.7.0 or earlier
-  local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
-  local currentModule = LrApplicationView.getCurrentModuleName()
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule('develop') -- for getRange
-  end
-  for p in pairs(Parameters) do
-    local controlmin, controlmax = LrDevelopController.getRange(p)    
-    if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
-      --make it into table and slot old value (if it exists) into proper place
-      local oldpref = prefs[p..'Low']
-      prefs[p..'Low'] = {}
-      if type(oldpref) == 'number' and historic[p] then
-        prefs[p..'Low'][historic[p]] = oldpref
-      end
-    end
-    retval[p..'Low'] = {}
-    for i,v in pairs(prefs[p..'Low']) do--run through all saved ranges
-      retval[p..'Low'][i] = v
-    end
-    retval[p..'Low'][controlmax] = retval[p..'Low'][controlmax] or controlmin
-    if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
-      --make it into table and slot old value (if it exists) into proper place      
-      local oldpref = prefs[p..'High']
-      prefs[p..'High'] = {}
-      if type(oldpref) == 'number' and historic[p] then
-        prefs[p..'High'][historic[p]] = oldpref
-      end
-    end
-    retval[p..'High'] = {}
-    for i,v in pairs(prefs[p..'High']) do--run through all saved ranges
-      retval[p..'High'][i] = v
-    end
-    retval[p..'High'][controlmax] = retval[p..'High'][controlmax] or controlmax
-  end
-  if retval.TemperatureLow[historic.Temperature] == nil then --defaults for temperature
-    retval.TemperatureLow[historic.Temperature], retval.TemperatureHigh[historic.Temperature] = 3000, 9000
-  end
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule(currentModule)
-  end
-  return retval
-end
-
---------------------------------------------------------------------------------
--- Get temperature limit preferences for current mode.
--- Returns all saved settings, for the mode currently in use.
--- (e.g., jpg, raw, HDR). Will always return valid values,
--- and will update preferences if current mode was undefined.
--- @return Table containing preferences in form table['TemperatureLow'].
---------------------------------------------------------------------------------
-local function GetPreferencesCurrentMode()
-  local retval = {}
-  -- following for people with defaults from version 0.7.0 or earlier
-  local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
-  local currentModule = LrApplicationView.getCurrentModuleName()
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule('develop') -- for getRange
-  end
-  for p in pairs(Parameters) do
-    local controlmin, controlmax = LrDevelopController.getRange(p)    
-    if type(prefs[p..'Low']) ~= 'table' then -- need to wipe old preferences or initialize
-      --make it into table and slot old value (if it exists) into proper place
-      local oldpref = prefs[p..'Low']
-      prefs[p..'Low'] = {}
-      if type(oldpref) == 'number' and historic[p] then
-        prefs[p..'Low'][historic[p]] = oldpref
-      end
-    end
-    retval[p..'Low'] = prefs[p..'Low'][controlmax] or controlmin
-    if type(prefs[p..'High']) ~= 'table' then -- need to wipe old preferences or initialize
-      --make it into table and slot old value (if it exists) into proper place      
-      local oldpref = prefs[p..'High']
-      prefs[p..'High'] = {}
-      if type(oldpref) == 'number' and historic[p] then
-        prefs[p..'High'][historic[p]] = oldpref
-      end
-    end
-    retval[p..'High'] = prefs[p..'High'][controlmax] or controlmax
-  end
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule(currentModule)
-  end
-  return retval
-end
-
---------------------------------------------------------------------------------
--- Save temperature limit preferences
--- Ignores any preferences not in the provided table.
--- @param saveme Table of preferences in form table['TemperatureLow'][50000],
--- where second index identifies max vaule for mode (jpg, raw, HDR).
--- @return nil.
---------------------------------------------------------------------------------
-local function SavePreferences(saveme)
-  for p in pairs(Parameters) do
-    prefs[p..'Low'] = prefs[p..'Low'] or {} -- if uninitialized
-    for i,v in pairs(saveme[p..'Low']) do
-      prefs[p..'Low'][i] = v
-    end
-    prefs[p..'High'] = prefs[p..'High'] or {} -- if uninitialized
-    for i,v in pairs(saveme[p..'High']) do
-      prefs[p..'High'][i] = v
-    end
-  end
-  prefs = prefs --force save -- LR may not notice changes otherwise
-end
-
---------------------------------------------------------------------------------
--- Save temperature limit preferences
--- Ignores any preferences not in the provided table. Saves to plugin's preferences
--- unless destination parameter is set.
--- @param saveme Table of preferences in form table['TemperatureLow'].
--- @param destination Optional. If given, table to put values in. Otherwise, saves
--- them in preferences.
--- @return nil.
---------------------------------------------------------------------------------
-local function SavePreferencesOneMode(saveme, destination)
-  destination = destination or prefs
-  local currentModule = LrApplicationView.getCurrentModuleName()
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule('develop') -- for getRange
-  end
-  for p in pairs(Parameters) do
-    local _,highlimit = LrDevelopController.getRange(p)
-    destination[p..'Low'] = destination[p..'Low'] or {} -- if uninitialized
-    destination[p..'Low'][highlimit] = saveme[p..'Low']
-    destination[p..'High'] = destination[p..'High'] or {} -- if uninitialized
-    destination[p..'High'][highlimit] = saveme[p..'High']
-  end
-  if destination == prefs then
-    prefs = prefs --force save -- LR may not notice changes otherwise
-  end
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule(currentModule)
-  end
-end
 
 --------------------------------------------------------------------------------
 -- Provide rows of controls for dialog boxes.
 -- For the current photo type (HDR, raw, jpg, etc) will produce
--- rows that allow user to set limits.
+-- rows that allow user to set limits. Must be in develop module and must
+-- have photo selected before calling this function.
 -- @param f The LrView.osfactory to use.
 -- @param obstable The observable table to bind to dialog controls.
 -- @return Table of f:rows populated with the needed dialog controls.
 --------------------------------------------------------------------------------
 local function OptionsRows(f,obstable)
   local retval = {}
-  local currentModule = LrApplicationView.getCurrentModuleName()
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule('develop') -- for getRange
-  end
   for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
     local integral = high - 5 > low
-    table.insert(
-      retval,
+    table.insert( retval,
       f:row { 
         f:static_text {
           title = p..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
@@ -271,7 +117,7 @@ local function OptionsRows(f,obstable)
           width = LrView.share('limit_reading'),                
         }, -- static_text
         f:push_button {
-          title = LOC('$$$/MIDI2LR/Limits/reset=Reset to defaults'),
+          title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
           action = function ()
             if p == 'Temperature' and low > 0 then
               obstable.TemperatureLow = 3000
@@ -285,9 +131,6 @@ local function OptionsRows(f,obstable)
       } -- row
     ) -- table.insert
   end
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule(currentModule)
-  end
   return retval -- array of rows
 end
 
@@ -298,29 +141,79 @@ end
 -- @return max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
-  local currentModule = LrApplicationView.getCurrentModuleName()
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule('develop') -- for getRange
-  end
+  --if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil,nil end
   local rangemin, rangemax = LrDevelopController.getRange(param)
-  if currentModule ~= 'develop' then
-    LrApplicationView.switchToModule(currentModule)
-  end
-  if Parameters[param] and MIDI2LR[param..'High'] then
-    return MIDI2LR[param..'Low'][rangemax], MIDI2LR[param..'High'][rangemax]
+  if Parameters[param] then
+    return unpack(ProgramPreferences.Limits[param][rangemax])
   else
-    return rangemin, rangemax
+    return rangemin,rangemax
   end
 end
+
+--------------------------------------------------------------------------------
+-- Removes unneeded Parameters entries.
+-- [param][max] unneeded if max has an empty or missing table.
+-- [param] then unneeded if it has no numeric entries (max's).
+-- @return hil
+--------------------------------------------------------------------------------
+local function DiscardExcess()
+  for k,v in pairs(ProgramPreferences.Limits) do -- for each parameter
+    local validlimits = false
+    for kk,vv in pairs(v) do -- for each numeric entry (ignore other data)
+      if type(kk) == 'number' then
+        if type(vv) ~= 'table' or kk[1]==nil or kk[2]==nil then
+          ProgramPreferences.Limits[k][kk]=nil --delete
+        else
+          validlimits = true
+        end --if type vv ~= table...
+      end -- if type kk = number
+    end -- for kk,vv in pairs
+    if validlimits == false then
+      ProgramPreferences.Limits[k] = nil --remove from parent array
+    end
+  end -- for k,v in pairs
+end --DiscardExcess
+
+local function StartDialog(obstable,f)
+  local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
+  local retval = {}
+  if limitsCanBeSet then
+    for p in pairs(Parameters) do
+      local min,max = GetMinMax(p)
+      obstable[p..'Low'] = min
+      obstable[p..'High'] = max
+    end
+    for _,v in ipairs(OptionsRows(f,obstable)) do
+      table.insert(retval,v)
+    end
+  end
+  return unpack(retval)
+end
+
+local function EndDialog(obstable, status)
+  if status == 'ok' then
+    local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
+    --assign limits
+    if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
+      for p in pairs(Parameters) do
+        if obstable[p..'Low'] > obstable[p..'High'] then --swap values
+          obstable[p..'Low'], obstable[p..'High'] = obstable[p..'High'], obstable[p..'Low']
+        end
+        local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
+        ProgramPreferences.Limits[p][max] = {obstable[p..'Low'], obstable[p..'High']}
+      end
+    end --if limitsCanBeSet
+  end
+end
+
 
 --- @export
 return { --table of exports, setting table member name and module function it points to
   ClampValue = ClampValue,
+  DiscardExcess = DiscardExcess,
   GetMinMax = GetMinMax,
-  GetPreferences = GetPreferences,
-  GetPreferencesCurrentMode = GetPreferencesCurrentMode,
-  OptionsRows = OptionsRows,
+--  OptionsRows = OptionsRows,
   Parameters = Parameters,
-  SavePreferences = SavePreferences,
-  SavePreferencesOneMode = SavePreferencesOneMode,
+  StartDialog = StartDialog,
+  EndDialog = EndDialog,
 }

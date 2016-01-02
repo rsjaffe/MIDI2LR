@@ -28,7 +28,7 @@ return {
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = { -- Needs to provide at least a menu item
     {
-      title = LOC('$$$/MIDI2LR/Info/setopt=Set options'),
+      title = LOC("$$$/AgCreations/NewCreationDialog/CreateItemDialog/Options=Options"),
       file = 'Options.lua',
     },
     {
@@ -36,7 +36,7 @@ return {
       file = "About.lua",
     },
     {
-      title = LOC("$$$/MIDI2LR/Info/start=Start MIDI2LR app"),
+      title = LOC("$$$/AgPluginManager/Status/HttpServer/StartServer=Start Server"),
       file = "LaunchServer.lua"
     },
   },

@@ -1,19 +1,9 @@
-﻿﻿"$$$/MIDI2LR/Options/grpboxpresets=Gewählte Presets"
-"$$$/MIDI2LR/Options/Preset=Preset"
-"$$$/MIDI2LR/Options/Presets=Presets"
-"$$$/MIDI2LR/Options/pastesel=Einfügungs-Auswahl"
-"$$$/MIDI2LR/Options/clearall=Nichts auswählen"
-"$$$/MIDI2LR/Options/setall=Alles auswählen"
+﻿"$$$/MIDI2LR/Options/pastesel=Einfügungs-Auswahl"
 "$$$/MIDI2LR/Options/dlgtitle=MIDI2LR Einstellungen"
 "$$$/MIDI2LR/Limits/Limits=Grenzwerte"
-"$$$/MIDI2LR/Limits/reset=Standardeinstellungen wiederherstellen"
-"$$$/MIDI2LR/Info/setopt=Einstellungen"
 "$$$/MIDI2LR/Info/about=Über"
-"$$$/MIDI2LR/Info/start=MIDI2LR Programm starten"
 "$$$/MIDI2LR/About/about=Verwendung: einen MIDI-Controller verbinden, MIDI2LR starten, und mit der Bearbeitung beginnen! Für Details siehe https://github.com/rsjaffe/MIDI2LR/wiki"
-"$$$/MIDI2LR/ShutDownApp/msg=Danke, dass sie MIDI2LR verwenden"
-"$$$/MIDI2LR/Client/writeaccesscopy=Konnte Einstellungen nicht kopieren (writeaccesscopy)"
-"$$$/MIDI2LR/Client/writeaccesspaste=Konnte Einstellungen nicht einfügen (writeaccesspaste) ^1"
+"$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
 
 
 

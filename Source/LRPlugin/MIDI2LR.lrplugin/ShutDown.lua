@@ -1,7 +1,7 @@
 --[[----------------------------------------------------------------------------
 
 ShutDown.lua
-Launches the app
+Closes the app
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -17,24 +17,28 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+
 return {
-  LrShutdownFunction = function(doneFunction, progressFunction)  			
+  LrShutdownFunction = function(doneFunction, progressFunction)  
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
-    --shut down app
-    if(WIN_ENV) then
-      LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.exe')
-    else
-      LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.app')
-    end
-    -- signal main background loop
-    currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
-    currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
+    local Preferences         = require 'Preferences'
     -- Report shutdown
     for i=0,1 do 
-      progressFunction (i, LOC('$$$/MIDI2LR/ShutDownApp/msg=Thank you for using MIDI2LR'))
+      progressFunction (i, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+      if i == 0 then --main shut down steps
+        -- signal main background loop
+        currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
+        currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
+        --shut down app
+        if(WIN_ENV) then
+          LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.exe')
+        else
+          LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.app')
+        end
+      end
       LrTasks.sleep(1) 
-    end
+    end    
     --tasks completed
     doneFunction()
   end
