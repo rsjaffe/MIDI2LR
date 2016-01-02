@@ -32,19 +32,19 @@ local Names = {
   Temperature = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Temperature=Temperature"), 10},
   Tint = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Tint=Tint"), 20},
   Exposure = {LOC("$$$/AgCameraRawUI/Exposure=Exposure"), 30},
-  Exposure2012 = {LOC("$$$/AgCameraRawUI/Exposure=Exposure")..' 2012', 35},
+--  Exposure2012 = {LOC("$$$/AgCameraRawUI/Exposure=Exposure")..' 2012', 35},
   Highlights = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Highlights=Highlights"), 40},
-  Highlights2012 = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Highlights=Highlights")..' 2012', 45},
+--  Highlights2012 = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Highlights=Highlights")..' 2012', 45},
   Shadows = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows"), 50},
-  Shadows2012 = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows")..' 2012', 55},
+--  Shadows2012 = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows")..' 2012', 55},
   Contrast = {LOC("$$$/AgCameraRawUI/Contrast=Contrast"), 60},
-  Contrast2012 = {LOC("$$$/AgCameraRawUI/Contrast=Contrast")..' 2012', 65},
+--  Contrast2012 = {LOC("$$$/AgCameraRawUI/Contrast=Contrast")..' 2012', 65},
   Whites = {LOC("$$$/AgCameraRawUI/Whites=Whites"), 70},
-  Whites2012 = {LOC("$$$/AgCameraRawUI/Whites=Whites")..'2012', 75},
+--  Whites2012 = {LOC("$$$/AgCameraRawUI/Whites=Whites")..'2012', 75},
   Blacks = {LOC("$$$/AgCameraRawUI/Blacks=Blacks"), 80},
-  Blacks2012 = {LOC("$$$/AgCameraRawUI/Blacks=Blacks")..' 2012', 85},
+--  Blacks2012 = {LOC("$$$/AgCameraRawUI/Blacks=Blacks")..' 2012', 85},
   Clarity = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Clarity=Clarity"), 90},
-  Clarity2012 = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Clarity=Clarity")..'2012', 95},
+--  Clarity2012 = {LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Clarity=Clarity")..'2012', 95},
   Vibrance = {LOC("$$$/AgCameraRawUI/Vibrance=Vibrance"), 100},
   Saturation = {LOC("$$$/AgCameraRawUI/Saturation=Saturation"), 110},
   -- Tone
@@ -183,8 +183,8 @@ local Names = {
   RetouchInfo = {LOC("$$$/MIDI2LR/Parameters/RetouchInfo=Retouch Information"), 1370}, -- {}
   ToneCurve = {LOC("$$$/MIDI2LR/Parameters/ToneCurve=Tone Curve"), 1380}, -- {0,0,32,22,64,56,128,128,192,196,255,255} --looks to be read only?
   ToneCurveName = {LOC("$$$/AgDevelop/Menu/Settings/Target/ToneCurve=Tone Curve Name"), 1390}, -- "Medium Contrast"), 10}, "Linear"), 10}, "Strong Contrast" 
-  ToneCurveName2012 = {LOC("$$$/MIDI2LR/Parameters/ToneCurveName2012=Tone Curve Name 2012"), 1400},  --"Linear"
-  ToneCurvePV2012 = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012=Tone Curve PV 2012"), 1410}, -- {0,0,255,255}
+--  ToneCurveName2012 = {LOC("$$$/MIDI2LR/Parameters/ToneCurveName2012=Tone Curve Name 2012"), 1400},  --"Linear"
+--  ToneCurvePV2012 = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012=Tone Curve PV 2012"), 1410}, -- {0,0,255,255}
   ToneCurvePV2012Blue = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012Blue=Tone Curve PV 2012 Blue"), 1420}, -- {0,0,255,255}
   ToneCurvePV2012Green = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012Green=Tone Curve PV 2012 Green"), 1430}, -- {0,0,255,255}
   ToneCurvePV2012Red = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012Red=Tone Curve PV 2012 Red"), 1440}, -- {0,0,255,255}

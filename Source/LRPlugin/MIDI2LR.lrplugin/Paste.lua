@@ -20,6 +20,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local Parameters = require 'Parameters'
 local LrView = import 'LrView'
 
+local Duplicates = { -- will set each to its duplicate in EndDialog
+  Exposure2012 = 'Exposure',
+  Highlights2012 = 'Highlights',
+  Shadows2012 = 'Shadows',
+  Contrast2012 = 'Contrast',
+  Whites2012 = 'Whites',
+  Blacks2012 = 'Blacks',
+  Clarity2012 = 'Clarity',
+  ToneCurveName2012 = 'ToneCurveName',
+  ToneCurvePV2012 = 'ToneCurve',
+}
+
 local function StartDialog(obstable,f)
   for k,v in pairs(ProgramPreferences.PasteList) do
     obstable['Paste'..k] = v 
@@ -73,6 +85,9 @@ local function EndDialog(obstable, status)
     for i,v in ipairs(Parameters.Order) do
       ProgramPreferences.PasteList[v] = obstable['Paste'..v]
     end 
+    for k,v in pairs(Duplicates) do
+      ProgramPreferences.PasteList[k] = ProgramPreferences.PasteList[v]
+    end
     ProgramPreferences.PastePopup = obstable.PastePopup
   end
 end
