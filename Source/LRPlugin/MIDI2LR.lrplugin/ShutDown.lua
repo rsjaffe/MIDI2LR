@@ -22,7 +22,6 @@ return {
   LrShutdownFunction = function(doneFunction, progressFunction)  
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
-    local Preferences         = require 'Preferences'
     -- Report shutdown
     for i=0,1 do 
       progressFunction (i, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))

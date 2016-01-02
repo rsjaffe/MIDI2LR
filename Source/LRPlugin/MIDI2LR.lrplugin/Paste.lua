@@ -82,7 +82,7 @@ local function EndDialog(obstable, status)
   if status == 'ok' then
     --assign PasteList
     ProgramPreferences.PasteList = {} -- empty out prior settings
-    for i,v in ipairs(Parameters.Order) do
+    for _,v in ipairs(Parameters.Order) do
       ProgramPreferences.PasteList[v] = obstable['Paste'..v]
     end 
     for k,v in pairs(Duplicates) do

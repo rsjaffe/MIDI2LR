@@ -22,8 +22,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
-local Parameters          = require 'Parameters'
 local Limits              = require 'Limits'
+local Parameters          = require 'Parameters'
 local Paste               = require 'Paste'
 local Preferences         = require 'Preferences'
 local Ut                  = require 'Utilities'
