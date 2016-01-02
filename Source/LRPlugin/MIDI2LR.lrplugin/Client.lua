@@ -37,15 +37,8 @@ local LrUndo              = import 'LrUndo'
 currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
 currentLoadVersion = currentLoadVersion + 1 
 
----[[-----------debug section, enable by adding - to beginning this line
-local LrMobdebug = import 'LrMobdebug'
-LrMobdebug.start()
---]]-----------end debug section
-
-
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
-
 
 -------------preferences
 Preferences.Load() 

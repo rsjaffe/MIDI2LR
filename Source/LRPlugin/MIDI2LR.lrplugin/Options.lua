@@ -18,10 +18,11 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local Limits            = require 'Limits' 
 local Parameters        = require 'Parameters'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
-local Limits            = require 'Limits' 
+local Presets           = require 'Presets'
 local LrApplication     = import 'LrApplication'
 local LrApplicationView = import 'LrApplicationView'
 local LrBinding         = import 'LrBinding'
@@ -30,84 +31,12 @@ local LrDevelopController = import 'LrDevelopController'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
 
-local LrMobdebug = import 'LrMobdebug'
-
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
-      LrMobdebug.on() --debugging
-      -- initialize variables needed throughout this function
-      local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
       local f = LrView.osFactory()
-      --------------------------bound property table setup begins
-      --make bound property tables
       local properties = LrBinding.makePropertyTable( context )
-      --populate table with presets
-      for i = 1,20 do
-        properties['preset'..i] = {}
-        properties['preset'..i][1] = ProgramPreferences.Presets[i]
-      end
-      --populate table with limits
-      if limitsCanBeSet then
-        for p in pairs(Limits.Parameters) do
-          local min,max = Limits.GetMinMax(p)
-          properties[p..'Low'] = min
-          properties[p..'High'] = max
-        end
-      end
 
-      --------------------------bound property table setup ends
-
-      --------------------------dialog box setup begins
-      ---------------presets dialog setup begins
-      -- find presets stored in Lightroom and put in table name and UUID
-      local psList = {}
-      for _,fold in pairs(LrApplication.developPresetFolders()) do
-        local foldname = fold:getName()
-        for _,pst in pairs(fold:getDevelopPresets()) do
-          table.insert(psList,{title = foldname..'\226\134\146'..pst:getName(), value = pst:getUuid()})
-        end -- '\226\134\146' is right arrow in utf8
-      end
-      -- set up presets list for the groupbox on the right of the presets selection dialog
-      local groupboxpresets = {title = LOC("$$$/AgIdentityPlates/MainDialog/Choose=Choose")..' '..LOC("$$$/SmartCollection/Criteria/DevelopPreset=develop preset")} 
-      for i=1,20 do
-        table.insert( 
-          groupboxpresets, 
-          f:static_text {fill_horizontal = 1,
-            width_in_chars = 50,
-            truncation = 'head',
-            title = LrView.bind { key = 'preset'..i,
-              transform = function(value) return LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
-            },  -- title
-          } -- static_text
-        )
-      end
-      -- set up groups of preset listings
-      local tabviewitems = {} 
-      local psrows, pscolumns = 4,5
-      for group=1, pscolumns do
-        tabviewitems[group] = f:tab_view_item {title = (LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..(group*psrows-pscolumns)..'-'..(group*psrows)), identifier = ('presets-'..(group*psrows-pscolumns)..'-'..(group*psrows)),}
-        for i=(1-psrows),0 do
-          table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..(group*psrows+i)) })
-        end
-        tabviewitems[group] = f:tab_view_item (tabviewitems[group]) -- prepare for use in f:tabview below
-      end -- for group
-      ---------------presets dialog setup ends
-
-      ---------------other settings dialog setup begins
-      -- set up other settings column
-      local othercolumn = {
-        title = 'Other settings',
-        identifier = 'othersettings',
-      }
-      if limitsCanBeSet then -- don't set up limits if photo isn't selected
-        for _,v in ipairs(Limits.OptionsRows(f,properties)) do
-          table.insert(othercolumn,v)
-        end
-      end
-      ---------------other settings dialog setup ends
-      --------------------------dialog box setup ends
-
-      -- final assembly of dialog box contents
+      -- assemble dialog box contents
       local contents = 
       f:view{
         bind_to_object = properties, -- default bound table
@@ -115,26 +44,18 @@ local function setOptions()
           f:tab_view_item {
             title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop Preset"),
             identifier = 'presets',
-            f:row {
-              f:column {
-                spacing = f:control_spacing(),
-                f:tab_view (tabviewitems), -- tab_view
-              }, -- column
-              f:column{ -- for the display of chosen presets
-                spacing = f:control_spacing(),
-                f:spacer {
-                  height = f:control_spacing() * 2,
-                }, -- spacer
-                f:group_box (groupboxpresets), -- group_box
-              }, -- column
-            }, -- row
-          }, -- tab_view_item
+            Presets.StartDialog(properties,f),
+          }, -- tab_view_item 
           f:tab_view_item {
             title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
-            Paste.StartDialog(properties,f)
+            Paste.StartDialog(properties,f),
           }, -- tab_view_item
-          f:tab_view_item (othercolumn), -- tab_view_item
+          f:tab_view_item {
+            title = LOC"$$$/AgPrint/ProfileMenu/Other=Andere..."),
+            identifier = 'othersettings',
+            Limits.StartDialog(properties,f),
+          }, -- tab_view_item
         }, -- tab_view
       } -- view
 
@@ -145,30 +66,15 @@ local function setOptions()
           contents = contents,
         }
       )
-      -- assign values from dialog if ok is pressed
-      if result == 'ok' then
-        --assign presets
-        ProgramPreferences.Presets = {} -- empty out prior settings
-        for i = 1,20 do
-          if type(properties['preset'..i])=='table' then -- simple_list should return a table
-            ProgramPreferences.Presets[i] = properties['preset'..i][1]
-          end
-        end
 
-        Paste.EndDialog(properties,result)
-        --assign limits
-        if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
-          for p in pairs(Limits.Parameters) do
-            if properties[p..'Low'] > properties[p..'High'] then --swap values
-              properties[p..'Low'], properties[p..'High'] = properties[p..'High'], properties[p..'Low']
-            end
-            local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
-            ProgramPreferences.Limits[p][max] = {properties[p..'Low'], properties[p..'High']}
-          end
-        end --if limitsCanBeSet
+      Limits.EndDialog(properties,result)
+      Presets.EndDialog(properties,result)
+      Paste.EndDialog(properties,result)
+      if result == 'ok' then
         Preferences.Save()
       end -- if result ok
       -- finished with assigning values from dialog
-    end)
+    end
+  )
 end
 setOptions() --execute

@@ -52,7 +52,7 @@ local version = 1
 local metalimit2 = { --assumes only new table members for each parameter are numeric, representing ranges
   __index = function(t,k) -- key is high value for the range -- always return t[k]!
     t[k] = {}
-    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() == nil then 
+    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then 
       local lo,hi = LrDevelopController.getRange(t.param)
       if k == hi then
         if t.param == 'Temperature' and k == 50000 then

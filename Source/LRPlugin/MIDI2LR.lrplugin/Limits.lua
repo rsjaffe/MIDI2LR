@@ -35,7 +35,7 @@ local LrView              = import 'LrView'
 local Preferences         = require 'Preferences'
 
 --hidden 
-local DisplayOrder           = {'Temperature','Tint','Exposure','Whites'}
+local DisplayOrder           = {'Temperature','Tint','Exposure'}
 
 --public--each must be in table of exports
 
@@ -171,6 +171,38 @@ local function DiscardExcess()
   end -- for k,v in pairs
 end --DiscardExcess
 
+local function StartDialog(obstable,f)
+  local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
+  local retval = {}
+  if limitsCanBeSet then
+    for p in pairs(Parameters) do
+      local min,max = GetMinMax(p)
+      obstable[p..'Low'] = min
+      obstable[p..'High'] = max
+    end
+    for _,v in ipairs(OptionsRows(f,obstable)) do
+      table.insert(retval,v)
+    end
+  end
+  return unpack(retval)
+end
+
+local function EndDialog(obstable, status)
+  if status == 'ok' then
+    local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
+    --assign limits
+    if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
+      for p in pairs(Parameters) do
+        if obstable[p..'Low'] > obstable[p..'High'] then --swap values
+          obstable[p..'Low'], obstable[p..'High'] = obstable[p..'High'], obstable[p..'Low']
+        end
+        local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
+        ProgramPreferences.Limits[p][max] = {obstable[p..'Low'], obstable[p..'High']}
+      end
+    end --if limitsCanBeSet
+  end
+end
+
 
 --- @export
 return { --table of exports, setting table member name and module function it points to
@@ -179,4 +211,6 @@ return { --table of exports, setting table member name and module function it po
   GetMinMax = GetMinMax,
   OptionsRows = OptionsRows,
   Parameters = Parameters,
+  StartDialog = StartDialog,
+  EndDialog = EndDialog,
 }
