@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 #include "MIDISender.h"
+#include "ProfileManager.h"
 
 const int LR_IPC_IN::LR_IN_PORT = 58764;
 
@@ -95,15 +96,21 @@ void LR_IPC_IN::processLine(const String& line)
 	String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
 	auto value = valueString.getIntValue();
 
-	// store updates in map
-	parameterMap[command] = value;
+    if (command == String("SwitchProfile"))
+        ProfileManager::getInstance().switchToProfile(valueString.trim());
+    else
+    {
 
-	// send associated CC messages to MIDI OUT devices
-	if (CommandMap::getInstance().commandHasAssociatedMessage(command))
-	{
-		const MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
-		MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
-	}
+    // store updates in map
+        parameterMap[command] = value;
+
+        // send associated CC messages to MIDI OUT devices
+        if (CommandMap::getInstance().commandHasAssociatedMessage(command))
+        {
+            const MIDI_Message& msg = CommandMap::getInstance().getMessageForCommand(command);
+            MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
+        }
+    }
 }
 
 void LR_IPC_IN::refreshMIDIOutput()
