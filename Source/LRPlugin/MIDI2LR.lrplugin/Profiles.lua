@@ -85,9 +85,15 @@ end
 
 local function checkProfile()
   local newmod = LrApplicationView.getCurrentModuleName()
-  changeProfile(newmod)
-  if newmod == 'develop' then --this may cause problems if getSelectedTool always returns something--need to verify ok
-    changeProfile(LrDevelopController.getSelectedTool())
+  if newmod == 'develop' then 
+    local tool = LrDevelopController.getSelectedTool()
+    if ProgramPreferences[tool] == '' then
+      changeProfile(newmod)
+    else
+      changeProfile(tool)
+    end
+  else
+    changeProfile(newmod)
   end
 end
 
