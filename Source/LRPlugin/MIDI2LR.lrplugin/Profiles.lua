@@ -18,12 +18,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local LrApplicationView  = import 'LrApplicationView'
+local LrDevelopController = import 'LrDevelopController'
+
 local defaults = {
   loupe = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),},
   crop = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop"),},
   dust = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),},
-  redeye = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-eye Correction"},
-  gradient = {ToolModulePanel = ''Tool, presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),},
+  redeye = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-eye Correction"),},
+  gradient = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),},
   circularGradient = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),},
   localized = {ToolModulePanel = 'Tool', presetFile = '', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),},
   adjustPanel = {ToolModulePanel = 'Panel', presetFile = '', friendlyName = LOC("$$$/AgDevelop/Panel/BasicAdjustments=Basic Adjustments"),},
@@ -53,7 +56,7 @@ local defaults = {
   profile10 = {ToolModulePanel = '', presetFile = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 10',},
 }
 
-local current {Tool = '', Module = '', Panel = ''}
+local current = {Tool = '', Module = '', Panel = ''}
 
 
 local function useDefaults()
@@ -65,12 +68,11 @@ end
 
 local function changeProfile(profilename, ignoreCurrent)
   local changed = false
-  if defaults[profilename] ~= null then
+  if defaults[profilename] ~= nil then
     local newprofile_file = ProgramPreferences.Profiles[profilename]['presetFile']
     local newToolModulePanel = ProgramPreferences.Profiles[profilename]['ToolModulePanel']
-    if newprofile_file and 
-    (newprofile_file ~= '') and 
-    (ignoreCurrent == true or newToolModulePanel = '' or current[newToolModulePanel] ~= profilename) then
+    if (newprofile_file) and (newprofile_file ~= '') and 
+    ((ignoreCurrent == true) or (newToolModulePanel == '') or (current[newToolModulePanel] ~= profilename)) then
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
       if newToolModulePanel ~= '' then
         current[newToolModulePanel] = profilename
@@ -84,7 +86,7 @@ end
 local function checkProfile()
   local newmod = LrApplicationView.getCurrentModuleName()
   if changeProfile(newmod) ~= true and newmod == 'develop' then
-    changeProfile(getSelectedTool())
+    changeProfile(LrDevelopController.getSelectedTool())
   end
 end
 
