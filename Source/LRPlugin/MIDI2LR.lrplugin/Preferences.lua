@@ -184,7 +184,9 @@ local function Load()
 end
 
 local function ClearAll()
-  prefs = nil
+  for k,v in prefs:pairs() do
+    prefs[k] = nil
+  end
   useDefaults()
   Save()
 end
