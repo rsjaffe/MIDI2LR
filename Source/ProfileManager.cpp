@@ -102,16 +102,21 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
 	const MIDI_Message cc(midiChannel, controller, true);
 
-	// return if the value isn't 1 or 127, or the command isn't a valid profile-related command
-	if ((value != 1 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc))
+	// return if the value isn't 0 or 127, or the command isn't a valid profile-related command
+	if ((value != 0 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc))
 		return;
 
-	if (CommandMap::getInstance().getCommandforMessage(cc) == "Previous Profile")
-		_switchState = SWITCH_STATE::PREV;
-	else if (CommandMap::getInstance().getCommandforMessage(cc) == "Next Profile")
-		_switchState = SWITCH_STATE::NEXT;
+    if (CommandMap::getInstance().getCommandforMessage(cc) == "Previous Profile")
+    {
+        _switchState = SWITCH_STATE::PREV;
+        triggerAsyncUpdate();
+    }
+    else if (CommandMap::getInstance().getCommandforMessage(cc) == "Next Profile")
+    {
+        _switchState = SWITCH_STATE::NEXT;
+        triggerAsyncUpdate();
+    }
 
-	triggerAsyncUpdate();
 }
 
 void ProfileManager::handleMidiNote(int midiChannel, int note)
@@ -122,12 +127,16 @@ void ProfileManager::handleMidiNote(int midiChannel, int note)
 	if (!CommandMap::getInstance().messageExistsInMap(note_msg))
 		return;
 
-	if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Previous Profile")
-		_switchState = SWITCH_STATE::PREV;
-	else if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Next Profile")
-		_switchState = SWITCH_STATE::NEXT;
-
-	triggerAsyncUpdate();
+    if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Previous Profile")
+    {
+        _switchState = SWITCH_STATE::PREV;
+        triggerAsyncUpdate();
+    }
+    else if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Next Profile")
+    {
+        _switchState = SWITCH_STATE::NEXT;
+        triggerAsyncUpdate();
+    }
 }
 
 void ProfileManager::handleAsyncUpdate()
