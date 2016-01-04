@@ -180,8 +180,8 @@ local Names = {
   orientation = {LOC("$$$/MIDI2LR/Parameters/orientation=orientation"), 1340, ''}, --"AB"
   ProcessVersion = {LOC("$$$/AgDevelop/Menu/ProcessVersion=Process Version"), 1350, 'adjustPanel'}, --"6.7"
   RedEyeInfo = {LOC("$$$/MIDI2LR/Parameters/RedEyeInfo=Red-Eye Information"), 1360, 'redeye'}, -- {}
-  RetouchInfo = {LOC("$$$/MIDI2LR/Parameters/RetouchInfo=Retouch Information"), 1370, 'localized'}, -- {}
-  ToneCurve = {LOC("$$$/MIDI2LR/Parameters/ToneCurve=Tone Curve"), 1380, 'tonePanel'}, -- {0,0,32,22,64,56,128,128,192,196,255,255} --looks to be read only?
+  RetouchInfo = {LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments", 1370, 'localized'}, -- {}
+  ToneCurve = {LOC("$$$/AgDevelop/Panel/ToneCurve=Tone Curve"), 1380, 'tonePanel'}, -- {0,0,32,22,64,56,128,128,192,196,255,255} --looks to be read only?
   ToneCurveName = {LOC("$$$/AgDevelop/Menu/Settings/Target/ToneCurve=Tone Curve Name"), 1390, 'tonePanel'}, -- "Medium Contrast"), 10, ''}, "Linear"), 10, ''}, "Strong Contrast" 
 --  ToneCurveName2012 = {LOC("$$$/MIDI2LR/Parameters/ToneCurveName2012=Tone Curve Name 2012"), 1400, 'tonePanel'},  --"Linear"
 --  ToneCurvePV2012 = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012=Tone Curve PV 2012"), 1410, 'tonePanel'}, -- {0,0,255,255}
