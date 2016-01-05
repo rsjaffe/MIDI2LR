@@ -22,6 +22,7 @@ local Limits            = require 'Limits'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
 local Presets           = require 'Presets'
+local Profiles          = require 'Profiles'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
@@ -51,6 +52,7 @@ local function setOptions()
             title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
             identifier = 'othersettings',
             Limits.StartDialog(properties,f),
+            Profiles.StartDialog(properties,f),
           }, -- tab_view_item
         }, -- tab_view
       } -- view
@@ -64,6 +66,7 @@ local function setOptions()
       Limits.EndDialog(properties,result)
       Presets.EndDialog(properties,result)
       Paste.EndDialog(properties,result)
+      Profiles.EndDialog(properties,result)
       if result == 'ok' then
         Preferences.Save()
       end -- if result ok
