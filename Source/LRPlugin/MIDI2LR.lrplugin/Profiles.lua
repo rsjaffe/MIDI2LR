@@ -87,7 +87,7 @@ local function checkProfile()
   local newmod = LrApplicationView.getCurrentModuleName()
   if newmod == 'develop' then 
     local tool = LrDevelopController.getSelectedTool()
-    if ProgramPreferences[tool] == '' then
+    if ProgramPreferences.Profiles[tool] == '' then
       changeProfile(newmod)
     else
       changeProfile(tool)
