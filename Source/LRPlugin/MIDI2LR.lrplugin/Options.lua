@@ -48,11 +48,15 @@ local function setOptions()
             identifier = 'pasteselections',
             Paste.StartDialog(properties,f),
           }, -- tab_view_item
+          f:tab_view_item{
+            title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+            identifier = 'profiles',
+            Profiles.StartDialog(properties,f),
+          },
           f:tab_view_item {
             title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
             identifier = 'othersettings',
             Limits.StartDialog(properties,f),
-            Profiles.StartDialog(properties,f),
           }, -- tab_view_item
         }, -- tab_view
       } -- view
