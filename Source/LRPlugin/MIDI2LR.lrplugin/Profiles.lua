@@ -273,7 +273,7 @@ local function EndDialog(obstable, status)
     useDefaults() -- empty out prior settings
     for k in pairs(ProfileTypes) do
       if type(obstable['Profile'..k])=='string' then
-        ProgramPreferences.Profiles[k] = obstable['Profile'..k]
+        ProgramPreferences.Profiles[k] = obstable['Profile'..k]:gsub("^%s*(.-)%s*$", "%1")
       end
     end
   end
