@@ -379,6 +379,8 @@ local function processMessage(message)
       end
     elseif(SETTINGS[param]) then
       SETTINGS[param](tonumber(value))
+    elseif (param == 'ChangedToProfile') then
+      Profiles.receiveAppMessage(value,message.sub(message.find('\t',1,true)+1))
     else -- otherwise update a develop parameter
       updateParam(param, tonumber(value))
     end

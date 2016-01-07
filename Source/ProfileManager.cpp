@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
+#include "LR_IPC_Out.h"
 
 ProfileManager& ProfileManager::getInstance()
 {
@@ -79,6 +80,8 @@ void ProfileManager::switchToProfile(const String& profile)
 		ScopedPointer<XmlElement> elem = XmlDocument::parse(profileFile);
 		for (auto listener : _listeners)
 			listener->profileChanged(elem, profile);
+        LR_IPC_OUT::getInstance().sendCommand(String("ChangedToProfile " + 
+            profileFile.getFullPathName().upToLastOccurrenceOf(profileFile.getFileName(),false, true) + "\t" + profileFile.getFileName()));
 	}
 }
 
