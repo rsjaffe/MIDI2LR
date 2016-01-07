@@ -337,7 +337,7 @@ updateParam = updateParam() --complete closure
 local function processMessage(message)
   if type(message) == 'string' then
     -- messages are in the format 'param value'
-    local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
+    local _, _, param, value = message:find( '(%S+)%s(%S+)' )
 
     if(ACTIONS[param]) then -- perform a one time action
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
@@ -380,7 +380,7 @@ local function processMessage(message)
     elseif(SETTINGS[param]) then
       SETTINGS[param](tonumber(value))
     elseif (param == 'ChangedToProfile') then
-      Profiles.receiveAppMessage(value,message.sub(message.find('\t',1,true)+1))
+      Profiles.receiveAppMessage(value,message:sub(message:find('\t',1,true)+1))
     else -- otherwise update a develop parameter
       updateParam(param, tonumber(value))
     end

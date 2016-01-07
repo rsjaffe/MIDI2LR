@@ -116,7 +116,7 @@ local function StartDialog(obstable,f)
   if profilepath and profilepath ~= '' then
     auto_completion = true
     for filePath in LrFileUtils.files(profilepath) do
-      local _, fn, ext = filePath.match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+      local _, fn, ext = filePath:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
       if ext == 'xml' then
         table.insert(completion,fn)
       end
