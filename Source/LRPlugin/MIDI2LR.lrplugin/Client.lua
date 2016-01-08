@@ -327,7 +327,6 @@ local function updateParam() --closure
       MIDI2LR.PARAM_OBSERVER[param] = value
       LrDevelopController.setValue(param, value)
       MIDI2LR.LAST_PARAM = param
-      Profiles.changeProfile(Parameters.Names[param][3]) --permissive change profile--looks at panel name=[3]
     end
   end
 end
@@ -380,9 +379,10 @@ local function processMessage(message)
     elseif(SETTINGS[param]) then
       SETTINGS[param](tonumber(value))
     elseif (param == 'ChangedToProfile') then
-      Profiles.receiveAppMessage(value,message:sub(message:find('\t',1,true)+1))
+      Profiles.receiveAppMessage(value)
     else -- otherwise update a develop parameter
       updateParam(param, tonumber(value))
+      Profiles.changeProfile(Parameters.Names[param][3])
     end
   end
 end

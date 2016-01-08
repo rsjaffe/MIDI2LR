@@ -58,13 +58,11 @@ local ProfileTypes = {
   profile10 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 10',},
 }
 
-local current = {Tool = '', Module = '', Panel = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 
-local function receiveAppMessage(path,filename)
-  loadedprofile = filename
-  profilepath = path
+local function receiveAppMessage(value)
+  profilepath, loadedprofile, _ = value:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
 end
 
 
@@ -79,14 +77,10 @@ local function changeProfile(profilename, ignoreCurrent)
   local changed = false
   if profilename and ProfileTypes[profilename] then
     local newprofile_file = ProgramPreferences.Profiles[profilename]
-    local newToolModulePanel = ProfileTypes[profilename]['ToolModulePanel']
     if (newprofile_file ~= nil) and (newprofile_file ~= '') and 
-    ((ignoreCurrent == true) or (newToolModulePanel == '') or (current[newToolModulePanel] ~= profilename)) then
+    ((ignoreCurrent == true) or (loadedprofile ~= newprofile_file)) then
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
       loadedprofile = newprofile_file
-      if newToolModulePanel ~= '' then
-        current[newToolModulePanel] = profilename
-      end
       changed = true
     end
   end
@@ -187,7 +181,7 @@ local function StartDialog(obstable,f)
           }, 
           f:row {
             f:static_text{title = ProfileTypes.book.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilesbook'), width = LrView.share('profile_value'), 
+            f:edit_field{ value = LrView.bind ('Profilebook'), width = LrView.share('profile_value'), 
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },  
           f:row {
