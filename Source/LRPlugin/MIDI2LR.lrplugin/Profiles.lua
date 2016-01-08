@@ -24,40 +24,41 @@ local LrFileUtils         = import 'LrFileUtils'
 local LrView              = import 'LrView'
 
 local ProfileTypes = {
-  loupe = {ToolModulePanel = 'Tool', friendlyName = LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),},
-  crop = {ToolModulePanel = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop"),},
-  dust = {ToolModulePanel = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),},
-  redeye = {ToolModulePanel = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-eye Correction"),},
-  gradient = {ToolModulePanel = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),},
-  circularGradient = {ToolModulePanel = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),},
-  localized = {ToolModulePanel = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),},
-  adjustPanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/BasicAdjustments=Basic Adjustments"),},
-  tonePanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/ToneCurve=Tone Curve"),},
-  mixerPanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments"),},
-  splitToningPanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/SplitToning=Split Toning"),},
-  detailPanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Detail=Details")},
-  lensCorrectionsPanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/LensCorrections=Lens Corrections"),},
-  effectsPanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Effects=Effects"),},
-  calibratePanel = {ToolModulePanel = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Calibration=Camera Calibration"),},
-  library = {ToolModulePanel = 'Module', friendlyName = LOC("$$$/AgLibraryModule/ModuleTitle=Library"),},
-  develop = {ToolModulePanel = 'Module', friendlyName = LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),},
-  map = {ToolModulePanel = 'Module', friendlyName = LOC("$$$/AgLocation/ModuleTitle=Map"),},
-  book = {ToolModulePanel = 'Module', friendlyName = LOC("$$$/Ag/Layout/Book/ModuleTitle=Book"),},
-  slideshow = {ToolModulePanel = 'Module', friendlyName = LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),},
-  print = {ToolModulePanel = 'Module', friendlyName = LOC("$$$/AgPrint/Menu/File/Print=Print"),},
-  web = {ToolModulePanel = 'Module', friendlyName = LOC("$$$/WPG/Help/Shortcuts/WebHeader=Web"),},
-  profile1 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 1',},
-  profile2 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 2',},
-  profile3 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 3',},
-  profile4 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 4',},
-  profile5 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 5',},
-  profile6 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 6',},
-  profile7 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 7',},
-  profile8 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 8',},
-  profile9 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 9',},
-  profile10 = {ToolModulePanel = '', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 10',},
+  loupe = {TMP = 'Tool', friendlyName = LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),},
+  crop = {TMP = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop"),},
+  dust = {TMP = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),},
+  redeye = {TMP = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-eye Correction"),},
+  gradient = {TMP = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),},
+  circularGradient = {TMP = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),},
+  localized = {TMP = 'Tool', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),},
+  adjustPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/BasicAdjustments=Basic Adjustments"),},
+  tonePanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/ToneCurve=Tone Curve"),},
+  mixerPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments"),},
+  splitToningPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/SplitToning=Split Toning"),},
+  detailPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Detail=Details")},
+  lensCorrectionsPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/LensCorrections=Lens Corrections"),},
+  effectsPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Effects=Effects"),},
+  calibratePanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Calibration=Camera Calibration"),},
+  library = {TMP = 'Module', friendlyName = LOC("$$$/AgLibraryModule/ModuleTitle=Library"),},
+  develop = {TMP = 'Module', friendlyName = LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),},
+  map = {TMP = 'Module', friendlyName = LOC("$$$/AgLocation/ModuleTitle=Map"),},
+  book = {TMP = 'Module', friendlyName = LOC("$$$/Ag/Layout/Book/ModuleTitle=Book"),},
+  slideshow = {TMP = 'Module', friendlyName = LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),},
+  print = {TMP = 'Module', friendlyName = LOC("$$$/AgPrint/Menu/File/Print=Print"),},
+  web = {TMP = 'Module', friendlyName = LOC("$$$/WPG/Help/Shortcuts/WebHeader=Web"),},
+  profile1 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 1',},
+  profile2 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 2',},
+  profile3 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 3',},
+  profile4 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 4',},
+  profile5 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 5',},
+  profile6 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 6',},
+  profile7 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 7',},
+  profile8 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 8',},
+  profile9 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 9',},
+  profile10 = {TMP = 'Profile', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")..' 10',},
 }
 
+local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 
@@ -77,26 +78,29 @@ local function changeProfile(profilename, ignoreCurrent)
   local changed = false
   if profilename and ProfileTypes[profilename] then
     local newprofile_file = ProgramPreferences.Profiles[profilename]
-    if (newprofile_file ~= nil) and (newprofile_file ~= '') and 
-    ((ignoreCurrent == true) or (loadedprofile ~= newprofile_file)) then
+    local TMP = ProfileTypes[profilename]['TMP']
+    if (newprofile_file ~= nil) and (newprofile_file ~= '') and (loadedprofile ~= newprofile_file) and 
+    ((ignoreCurrent == true) or (currentTMP[TMP] ~= profilename)) then
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
       loadedprofile = newprofile_file
       changed = true
     end
+    currentTMP[TMP] = profilename
   end
   return changed
 end
 
 local function checkProfile()
+  --as this runs 4X/second, doing check against currentTMP here to make it faster than always deferring to changeProfile
   local newmod = LrApplicationView.getCurrentModuleName()
   if newmod == 'develop' then 
     local tool = LrDevelopController.getSelectedTool()
-    if ProgramPreferences.Profiles[tool] == '' then
+    if currentTMP.Module ~= newmod and ProgramPreferences.Profiles[tool] == '' then
       changeProfile(newmod)
-    else
+    elseif currentTMP.Tool ~= tool then
       changeProfile(tool)
     end
-  else
+  elseif currentTMP.Module ~= newmod then
     changeProfile(newmod)
   end
 end
