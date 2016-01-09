@@ -24,9 +24,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "CommandMenu.h"
 #include "LRCommands.h"
+#include "Tools.h"
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
-_selectedItem(std::numeric_limits<int>::max()),
+_selectedItem(std::numeric_limits<unsigned int>::max()),
 TextButton("Unmapped")
 {
     addListener(this);
@@ -37,9 +38,9 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
     _msg = msg;
 }
 
-void CommandMenu::buttonClicked(Button* /*button*/)
+void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
 {
-    auto idx = 1;
+    size_t idx = 1;
     bool subMenuTickSet = false;
     PopupMenu mainMenu;
     mainMenu.addItem(idx, "Unmapped", true, subMenuTickSet = (idx == _selectedItem));
@@ -59,8 +60,9 @@ void CommandMenu::buttonClicked(Button* /*button*/)
                                         "Tools",
                                         "Modules",
                                         "View Modes",
+                                        "Profiles",
                                         // MIDI2LR items
-                                        "Profile"
+                                        "Next/Prev Profile"
     };
     const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
                                                            LRCommandList::ToneStringList,
@@ -76,8 +78,9 @@ void CommandMenu::buttonClicked(Button* /*button*/)
                                                            LRCommandList::ToolsList,
                                                            LRCommandList::ModulesList,
                                                            LRCommandList::ViewModesList,
+                                                           LRCommandList::ProfilesList,
                                                             // MIDI2LR items
-                                                            LRCommandList::ProfileList,
+                                                            LRCommandList::NextPrevProfile,
     };
 
     // add each submenu
@@ -87,8 +90,10 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         for (auto cmd : menuEntries[menuIdx])
         {
             bool alreadyMapped = false;
-            if (idx - 1 < LRCommandList::LRStringList.size())
-                alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
+			if (idx - 1 < LRCommandList::LRStringList.size())
+			{
+				alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
+			}
 
             // add each submenu entry, ticking the previously selected entry and disabling a previously mapped entry
 
@@ -104,16 +109,16 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
     }
 
-    if (auto result = mainMenu.show())
+    if (unsigned int result = mainMenu.show())
     {
         // user chose a different command, remove previous command mapping associated to this menu
-        if (_selectedItem < std::numeric_limits<int>::max())
+        if (_selectedItem < std::numeric_limits<unsigned int>::max())
             CommandMap::getInstance().removeMessage(_msg);
 
         if (result - 1 < LRCommandList::LRStringList.size())
             setButtonText(LRCommandList::LRStringList[result - 1]);
         else
-            setButtonText(LRCommandList::ProfileList[result - 1 - LRCommandList::LRStringList.size()]);
+            setButtonText(LRCommandList::NextPrevProfile[result - 1 - LRCommandList::LRStringList.size()]);
 
         _selectedItem = result;
 
@@ -122,11 +127,11 @@ void CommandMenu::buttonClicked(Button* /*button*/)
     }
 }
 
-void CommandMenu::setSelectedItem(int idx)
+void CommandMenu::setSelectedItem(unsigned int idx)
 {
     _selectedItem = idx;
     if (idx - 1 < LRCommandList::LRStringList.size())
         setButtonText(LRCommandList::LRStringList[idx - 1]);
     else
-        setButtonText(LRCommandList::ProfileList[idx - 1 - LRCommandList::LRStringList.size()]);
+        setButtonText(LRCommandList::NextPrevProfile[idx - 1 - LRCommandList::LRStringList.size()]);
 }

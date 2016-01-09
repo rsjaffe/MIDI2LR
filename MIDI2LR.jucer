@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.8.2"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.8.9"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.1.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
@@ -50,6 +50,7 @@
             file="Source/SettingsManager.cpp"/>
       <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
             file="Source/SettingsManager.h"/>
+      <FILE id="YOlp5P" name="Tools.h" compile="0" resource="0" file="Source/Tools.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
@@ -65,18 +66,14 @@
                        isDebug="0" optimisation="3" targetName="MIDI2LR"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_opengl" path="modules"/>
-        <MODULEPATH id="juce_gui_extra" path="modules"/>
         <MODULEPATH id="juce_gui_basics" path="modules"/>
-        <MODULEPATH id="juce_graphics" path="modules"/>
         <MODULEPATH id="juce_events" path="modules"/>
         <MODULEPATH id="juce_data_structures" path="modules"/>
         <MODULEPATH id="juce_core" path="modules"/>
         <MODULEPATH id="juce_audio_basics" path="modules"/>
-        <MODULEPATH id="juce_audio_processors" path="modules"/>
-        <MODULEPATH id="juce_box2d" path="modules"/>
-        <MODULEPATH id="juce_osc" path="modules"/>
         <MODULEPATH id="juce_audio_formats" path="modules"/>
+        <MODULEPATH id="juce_gui_extra" path="modules"/>
+        <MODULEPATH id="juce_graphics" path="modules"/>
         <MODULEPATH id="juce_audio_devices" path="modules"/>
       </MODULEPATHS>
     </VS2015>
@@ -88,18 +85,14 @@
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_opengl" path="modules"/>
-        <MODULEPATH id="juce_gui_extra" path="modules"/>
         <MODULEPATH id="juce_gui_basics" path="modules"/>
-        <MODULEPATH id="juce_graphics" path="modules"/>
         <MODULEPATH id="juce_events" path="modules"/>
         <MODULEPATH id="juce_data_structures" path="modules"/>
         <MODULEPATH id="juce_core" path="modules"/>
         <MODULEPATH id="juce_audio_basics" path="modules"/>
-        <MODULEPATH id="juce_audio_processors" path="modules"/>
-        <MODULEPATH id="juce_box2d" path="modules"/>
-        <MODULEPATH id="juce_osc" path="modules"/>
         <MODULEPATH id="juce_audio_formats" path="modules"/>
+        <MODULEPATH id="juce_gui_extra" path="modules"/>
+        <MODULEPATH id="juce_graphics" path="modules"/>
         <MODULEPATH id="juce_audio_devices" path="modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
@@ -108,16 +101,12 @@
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_box2d" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
-    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
                JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="disabled"

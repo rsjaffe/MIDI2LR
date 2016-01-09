@@ -26,6 +26,7 @@ THE SOFTWARE.
 
 #include "JuceHeader.h"
 #include "ResizableLayout.h"
+#include "Tools.h"
 
 const Point<int> ResizableLayout::anchorNone(-1, -1);
 const Point<int> ResizableLayout::anchorTopLeft(0, 0);
@@ -236,7 +237,7 @@ void ResizableLayout::recalculateLayout()
 }
 
 void ResizableLayout::componentMovedOrResized(Component& component,
-	bool wasMoved,
+	bool UNUSED_ARG(wasMoved),
 	bool wasResized)
 {
 	if (&component == m_owner)
@@ -344,11 +345,11 @@ void TopLevelResizableLayout::Constrainer::resizeStart()
 {
 	m_owner.resizeStart();
 
-	int minW = m_owner.getMinimumWidth();
-	int minH = m_owner.getMinimumHeight();
+	int minWtmp = m_owner.getMinimumWidth();
+	int minHtmp = m_owner.getMinimumHeight();
 
-	setMinimumWidth(minW);
-	setMinimumHeight(minH);
+	setMinimumWidth(minWtmp);
+	setMinimumHeight(minHtmp);
 }
 
 //------------------------------------------------------------------------------

@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
+#include "Tools.h"
 
 const int LR_IPC_OUT::LR_OUT_PORT = 58763;
 
@@ -67,7 +68,7 @@ void LR_IPC_OUT::connectionLost()
 		listener->disconnected();
 }
 
-void LR_IPC_OUT::messageReceived(const MemoryBlock& msg)
+void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
 {
 
 }
@@ -93,9 +94,9 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 
 	if (!CommandMap::getInstance().messageExistsInMap(cc) ||
 		CommandMap::getInstance().getCommandforMessage(cc) == "Unmapped" ||
-		find(LRCommandList::ProfileList.begin(),
-			LRCommandList::ProfileList.end(),
-			CommandMap::getInstance().getCommandforMessage(cc)) != LRCommandList::ProfileList.end())
+		find(LRCommandList::NextPrevProfile.begin(),
+			LRCommandList::NextPrevProfile.end(),
+			CommandMap::getInstance().getCommandforMessage(cc)) != LRCommandList::NextPrevProfile.end())
 		return;
 
 	_commandToSend = CommandMap::getInstance().getCommandforMessage(cc);
@@ -109,9 +110,9 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 
 	if (!CommandMap::getInstance().messageExistsInMap(note_msg) ||
 		CommandMap::getInstance().getCommandforMessage(note_msg) == "Unmapped" ||
-		find(LRCommandList::ProfileList.begin(),
-			LRCommandList::ProfileList.end(),
-			CommandMap::getInstance().getCommandforMessage(note_msg)) != LRCommandList::ProfileList.end())
+		find(LRCommandList::NextPrevProfile.begin(),
+			LRCommandList::NextPrevProfile.end(),
+			CommandMap::getInstance().getCommandforMessage(note_msg)) != LRCommandList::NextPrevProfile.end())
 		return;
 
 	_commandToSend = CommandMap::getInstance().getCommandforMessage(note_msg);
