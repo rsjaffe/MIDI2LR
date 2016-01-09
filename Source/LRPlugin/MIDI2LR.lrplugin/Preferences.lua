@@ -1,10 +1,4 @@
---[[ put preferences module here
-
-
-load for current version will call load for prior version if current version not there and table in place. last load (load0)
-will do a blank initialization of preferences if none is found.
-load will do blank initialization if prefs is not a table.
-
+--[[ 
 
 Preferences.lua
 Manages application preferences.
