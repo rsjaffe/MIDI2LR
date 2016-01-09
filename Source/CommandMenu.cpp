@@ -57,8 +57,8 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
                                         "Camera Calibration",
                                         "Photo Actions",
                                         "Develop Presets",
-                                        "Tools",
-                                        "Modules",
+                                        "Miscellaneous",
+                                        "Go To Tool, Module, or Panel",
                                         "View Modes",
                                         "Profiles",
                                         // MIDI2LR items
@@ -75,8 +75,8 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
                                                            LRCommandList::CalibrateStringList,
                                                            LRCommandList::SelectionList,
                                                            LRCommandList::PresetsList,
-                                                           LRCommandList::ToolsList,
-                                                           LRCommandList::ModulesList,
+                                                           LRCommandList::MiscList,
+                                                           LRCommandList::TMPList,
                                                            LRCommandList::ViewModesList,
                                                            LRCommandList::ProfilesList,
                                                             // MIDI2LR items
