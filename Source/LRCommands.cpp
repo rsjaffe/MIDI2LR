@@ -362,11 +362,11 @@ const std::vector<String> LRCommandList::MiscList = {
     "Enable/Disable Brush Adjustments",
     "Enable/Disable Red-Eye",
     "Enable/Disable Spot Removal",
-    "Reset Circular Gradient-Based Corrections", //ResetCircGrad
-    "Reset Gradient-Based Corrections", //ResetGradient
-    "Reset Paint-Based Corrections", //ResetBrushing
+    "Reset Radial Filter", //ResetCircGrad
+    "Reset Graduated Filter", //ResetGradient
+    "Reset Brush Adjustments", //ResetBrushing
     "Reset Red-Eye", //ResetRedeye
-    "Reset Retouch", //ResetSpotRem
+    "Reset Spot Removal", //ResetSpotRem
 };
 
 const std::vector<String> LRCommandList::TMPList = {
