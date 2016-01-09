@@ -36,14 +36,14 @@ public:
 	void setMsg(const MIDI_Message& msg);
 
 	// sets which item in the menu is selected
-	void setSelectedItem(int idx);
+	void setSelectedItem(unsigned int idx);
 
 	// ButtonListener interface
 	virtual void buttonClicked(Button* button) override;
 
 private:
 	MIDI_Message _msg;
-	int _selectedItem;
+	size_t _selectedItem;
 };
 
 

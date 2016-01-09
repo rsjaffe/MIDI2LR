@@ -37,7 +37,7 @@ CommandMap& CommandMap::getInstance()
 	return instance;
 }
 
-void CommandMap::addCommandforMessage(int command, const MIDI_Message &msg)
+void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &msg)
 {
 	// adds a msg to the msg:command map, and it's associated command to the command:msg map
 	if (command < LRCommandList::LRStringList.size())

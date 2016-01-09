@@ -92,7 +92,7 @@ public:
 
 	// adds an entry to the msg:command map, and a corresponding entry to the command:msg map
 	// will look up the string by the index (but it is preferred to directly use the String)
-	void addCommandforMessage(int command, const MIDI_Message &cc);
+	void addCommandforMessage(unsigned int command, const MIDI_Message &cc);
 
 	// adds an entry to the msg:command map, and a corresponding entry to the command:msg map
 	void addCommandforMessage(const String &command, const MIDI_Message &cc);
