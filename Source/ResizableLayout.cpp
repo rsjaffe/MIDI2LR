@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 #include "JuceHeader.h"
 #include "ResizableLayout.h"
-#include "tools.h"
+#include "Tools.h"
 
 const Point<int> ResizableLayout::anchorNone(-1, -1);
 const Point<int> ResizableLayout::anchorTopLeft(0, 0);

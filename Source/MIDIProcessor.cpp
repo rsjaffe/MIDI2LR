@@ -21,7 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
-#include "tools.h"
+#include "Tools.h"
 
 MIDIProcessor& MIDIProcessor::getInstance()
 {

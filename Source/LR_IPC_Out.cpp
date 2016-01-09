@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
-#include "tools.h"
+#include "Tools.h"
 
 const int LR_IPC_OUT::LR_OUT_PORT = 58763;
 

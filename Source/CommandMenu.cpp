@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "CommandMenu.h"
 #include "LRCommands.h"
-#include "tools.h"
+#include "Tools.h"
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<unsigned int>::max()),
