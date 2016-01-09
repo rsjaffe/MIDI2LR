@@ -93,9 +93,9 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 
 	if (!CommandMap::getInstance().messageExistsInMap(cc) ||
 		CommandMap::getInstance().getCommandforMessage(cc) == "Unmapped" ||
-		find(LRCommandList::ProfileList.begin(),
-			LRCommandList::ProfileList.end(),
-			CommandMap::getInstance().getCommandforMessage(cc)) != LRCommandList::ProfileList.end())
+		find(LRCommandList::NextPrevProfile.begin(),
+			LRCommandList::NextPrevProfile.end(),
+			CommandMap::getInstance().getCommandforMessage(cc)) != LRCommandList::NextPrevProfile.end())
 		return;
 
 	_commandToSend = CommandMap::getInstance().getCommandforMessage(cc);
@@ -109,9 +109,9 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 
 	if (!CommandMap::getInstance().messageExistsInMap(note_msg) ||
 		CommandMap::getInstance().getCommandforMessage(note_msg) == "Unmapped" ||
-		find(LRCommandList::ProfileList.begin(),
-			LRCommandList::ProfileList.end(),
-			CommandMap::getInstance().getCommandforMessage(note_msg)) != LRCommandList::ProfileList.end())
+		find(LRCommandList::NextPrevProfile.begin(),
+			LRCommandList::NextPrevProfile.end(),
+			CommandMap::getInstance().getCommandforMessage(note_msg)) != LRCommandList::NextPrevProfile.end())
 		return;
 
 	_commandToSend = CommandMap::getInstance().getCommandforMessage(note_msg);

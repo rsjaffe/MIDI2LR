@@ -18,7 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
---[[-----------debug section, enable by adding - to beginning this line
+---[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
@@ -26,6 +26,7 @@ local Limits              = require 'Limits'
 local Parameters          = require 'Parameters'
 local Paste               = require 'Paste'
 local Preferences         = require 'Preferences'
+local Profiles            = require 'Profiles'
 local Ut                  = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
@@ -202,6 +203,16 @@ local ACTIONS = {
   Profile_Camera_Portrait  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Portrait'),
   Profile_Camera_Standard  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Standard'),
   Profile_Camera_Vivid     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid'),
+  profile1 = function() Profiles.changeProfile('profile1', true) end,
+  profile2 = function() Profiles.changeProfile('profile2', true) end,
+  profile3 = function() Profiles.changeProfile('profile3', true) end,
+  profile4 = function() Profiles.changeProfile('profile4', true) end,
+  profile5 = function() Profiles.changeProfile('profile5', true) end,
+  profile6 = function() Profiles.changeProfile('profile6', true) end,
+  profile7 = function() Profiles.changeProfile('profile7', true) end,
+  profile8 = function() Profiles.changeProfile('profile8', true) end,
+  profile9 = function() Profiles.changeProfile('profile9', true) end,
+  profile10 = function() Profiles.changeProfile('profile10', true) end,
   Redo             = LrUndo.redo,
   Reject           = LrSelection.flagAsReject,
   RemoveFlag       = LrSelection.removeFlag,
@@ -325,7 +336,7 @@ updateParam = updateParam() --complete closure
 local function processMessage(message)
   if type(message) == 'string' then
     -- messages are in the format 'param value'
-    local _, _, param, value = string.find( message, '(%S+)%s(%S+)' )
+    local _, _, param, value = message:find( '(%S+)%s(%S+)' )
 
     if(ACTIONS[param]) then -- perform a one time action
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
@@ -334,7 +345,11 @@ local function processMessage(message)
     elseif(param:find('WhiteBalance') == 1) then -- adjust white balance
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.setValue,'WhiteBalance',param:sub(13)) end
     elseif(param:find('SwToM') == 1) then -- perform a switch to module
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.switchToModule(param:sub(6)) end
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
+        local modname = param:sub(6)
+        LrApplicationView.switchToModule(modname) 
+        Profiles.changeProfile(modname, true)
+      end
     elseif(param:find('ShoVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showView(param:sub(6)) end
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
@@ -355,14 +370,23 @@ local function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
           Ut.execFOM(LrDevelopController.selectTool,'loupe')
+          Profiles.changeProfile('loupe', true)
         else
           Ut.execFOM(LrDevelopController.selectTool,TOOL_ALIASES[param])
+          Profiles.changeProfile(param, true)
         end
       end
     elseif(SETTINGS[param]) then
       SETTINGS[param](tonumber(value))
+    elseif (param == 'ChangedToDirectory') then
+      Profiles.setDirectory(message:sub(message:find(' ',1,true)+1))
+    elseif (param == 'ChangedToFile') then
+      Profiles.setFile(message:sub(message:find(' ',1,true)+1))
+    elseif (param == 'ChangedToFullPath') then
+      Profiles.setFullPath(message:sub(message:find(' ',1,true)+1)) --value stops at first space
     else -- otherwise update a develop parameter
       updateParam(param, tonumber(value))
+      Profiles.changeProfile(Parameters.Names[param][3])
     end
   end
 end
@@ -385,9 +409,9 @@ end
 
 -- Main task
 LrTasks.startAsyncTask( function() 
-    --LrMobdebug.on()
+    LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
-        --LrMobdebug.on()
+        LrMobdebug.on()
 
 
         local client = LrSocket.bind {
@@ -421,7 +445,8 @@ LrTasks.startAsyncTask( function()
 
         -- add an observer for develop param changes--needs to occur in develop module
         while (loadVersion == currentLoadVersion) and (LrApplicationView.getCurrentModuleName() ~= 'develop') do
-          LrTasks.sleep (1/4)
+          LrTasks.sleep ( .29 )
+          Profiles.checkProfile()
         end --sleep away until ended or until develop module activated
         LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
         LrDevelopController.addAdjustmentChangeObserver(
@@ -440,7 +465,8 @@ LrTasks.startAsyncTask( function()
         )
 
         while (loadVersion == currentLoadVersion)  do --detect halt or reload
-          LrTasks.sleep( 1/2 )
+          LrTasks.sleep( .29 )
+          Profiles.checkProfile()
         end
 
         client:close()

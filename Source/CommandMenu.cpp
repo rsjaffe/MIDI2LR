@@ -59,8 +59,9 @@ void CommandMenu::buttonClicked(Button* /*button*/)
                                         "Tools",
                                         "Modules",
                                         "View Modes",
+                                        "Profiles",
                                         // MIDI2LR items
-                                        "Profile"
+                                        "Next/Prev Profile"
     };
     const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
                                                            LRCommandList::ToneStringList,
@@ -76,8 +77,9 @@ void CommandMenu::buttonClicked(Button* /*button*/)
                                                            LRCommandList::ToolsList,
                                                            LRCommandList::ModulesList,
                                                            LRCommandList::ViewModesList,
+                                                           LRCommandList::ProfilesList,
                                                             // MIDI2LR items
-                                                            LRCommandList::ProfileList,
+                                                            LRCommandList::NextPrevProfile,
     };
 
     // add each submenu
@@ -113,7 +115,7 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         if (result - 1 < LRCommandList::LRStringList.size())
             setButtonText(LRCommandList::LRStringList[result - 1]);
         else
-            setButtonText(LRCommandList::ProfileList[result - 1 - LRCommandList::LRStringList.size()]);
+            setButtonText(LRCommandList::NextPrevProfile[result - 1 - LRCommandList::LRStringList.size()]);
 
         _selectedItem = result;
 
@@ -128,5 +130,5 @@ void CommandMenu::setSelectedItem(int idx)
     if (idx - 1 < LRCommandList::LRStringList.size())
         setButtonText(LRCommandList::LRStringList[idx - 1]);
     else
-        setButtonText(LRCommandList::ProfileList[idx - 1 - LRCommandList::LRStringList.size()]);
+        setButtonText(LRCommandList::NextPrevProfile[idx - 1 - LRCommandList::LRStringList.size()]);
 }

@@ -406,6 +406,19 @@ const std::vector<String> LRCommandList::ViewModesList = {
     "Toggle on/off Second Screen",
 };
 
+const std::vector<String> LRCommandList::ProfilesList = {
+    "Profile 1",
+    "Profile 2",
+    "Profile 3",
+    "Profile 4",
+    "Profile 5",
+    "Profile 6",
+    "Profile 7",
+    "Profile 8",
+    "Profile 9",
+    "Profile 10",
+};
+
 
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
@@ -767,11 +780,22 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ShoScndVwsurvey",
     "ShoScndVwslideshow",
     "ToggleScreenTwo",
+    /* Profiles */
+    "profile1",
+    "profile2",
+    "profile3",
+    "profile4",
+    "profile5",
+    "profile6",
+    "profile7",
+    "profile8",
+    "profile9",
+    "profile10",
 
 
 };
 
-const std::vector<String> LRCommandList::ProfileList = {
+const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
 };
@@ -787,7 +811,7 @@ int LRCommandList::getIndexOfCommand(const String& command)
         for (auto &str : LRStringList)
             indexMap[str] = idx++;
 
-        for (auto &str : ProfileList)
+        for (auto &str : NextPrevProfile)
             indexMap[str] = idx++;
     }
 
