@@ -24,9 +24,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "CommandMenu.h"
 #include "LRCommands.h"
+#include "tools.h"
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
-_selectedItem(std::numeric_limits<int>::max()),
+_selectedItem(std::numeric_limits<unsigned int>::max()),
 TextButton("Unmapped")
 {
     addListener(this);
@@ -37,9 +38,9 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
     _msg = msg;
 }
 
-void CommandMenu::buttonClicked(Button* /*button*/)
+void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
 {
-    auto idx = 1;
+    size_t idx = 1;
     bool subMenuTickSet = false;
     PopupMenu mainMenu;
     mainMenu.addItem(idx, "Unmapped", true, subMenuTickSet = (idx == _selectedItem));
@@ -87,8 +88,10 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         for (auto cmd : menuEntries[menuIdx])
         {
             bool alreadyMapped = false;
-            if (idx - 1 < LRCommandList::LRStringList.size())
-                alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
+			if (idx - 1 < LRCommandList::LRStringList.size())
+			{
+				alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
+			}
 
             // add each submenu entry, ticking the previously selected entry and disabling a previously mapped entry
 
@@ -104,10 +107,10 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
     }
 
-    if (auto result = mainMenu.show())
+    if (unsigned int result = mainMenu.show())
     {
         // user chose a different command, remove previous command mapping associated to this menu
-        if (_selectedItem < std::numeric_limits<int>::max())
+        if (_selectedItem < std::numeric_limits<unsigned int>::max())
             CommandMap::getInstance().removeMessage(_msg);
 
         if (result - 1 < LRCommandList::LRStringList.size())
@@ -122,7 +125,7 @@ void CommandMenu::buttonClicked(Button* /*button*/)
     }
 }
 
-void CommandMenu::setSelectedItem(int idx)
+void CommandMenu::setSelectedItem(unsigned int idx)
 {
     _selectedItem = idx;
     if (idx - 1 < LRCommandList::LRStringList.size())
