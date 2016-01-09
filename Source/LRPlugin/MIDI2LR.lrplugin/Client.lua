@@ -379,9 +379,9 @@ local function processMessage(message)
     elseif(SETTINGS[param]) then
       SETTINGS[param](tonumber(value))
     elseif (param == 'ChangedToDirectory') then
-      Profiles.setDirectory(value)
+      Profiles.setDirectory(message:sub(message:find(' ',1,true)+1))
     elseif (param == 'ChangedToFile') then
-      Profiles.setFile(value)
+      Profiles.setFile(message:sub(message:find(' ',1,true)+1))
     elseif (param == 'ChangedToFullPath') then
       Profiles.setFullPath(message:sub(message:find(' ',1,true)+1)) --value stops at first space
     else -- otherwise update a develop parameter

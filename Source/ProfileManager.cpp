@@ -23,7 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
-#include "LR_IPC_Out.h"
 
 ProfileManager& ProfileManager::getInstance()
 {
@@ -34,6 +33,8 @@ ProfileManager& ProfileManager::getInstance()
 ProfileManager::ProfileManager() : _currentProfileIdx(0)
 {
 	MIDIProcessor::getInstance().addMIDICommandListener(this);
+    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
+    LR_IPC_OUT::getInstance().addListener(this);
 }
 
 void ProfileManager::addListener(ProfileChangeListener *listener)
@@ -159,4 +160,15 @@ void ProfileManager::handleAsyncUpdate()
 	default:
 		break;
 	}
+}
+
+void ProfileManager::connected()
+{
+    String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+    LR_IPC_OUT::getInstance().sendCommand(command);
+}
+
+void ProfileManager::disconnected()
+{
+
 }
