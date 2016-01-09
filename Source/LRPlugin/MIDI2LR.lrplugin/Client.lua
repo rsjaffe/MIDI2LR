@@ -18,7 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
---[[-----------debug section, enable by adding - to beginning this line
+---[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
@@ -378,8 +378,12 @@ local function processMessage(message)
       end
     elseif(SETTINGS[param]) then
       SETTINGS[param](tonumber(value))
-    elseif (param == 'ChangedToProfile') then
-      Profiles.receiveAppMessage(value)
+    elseif (param == 'ChangedToDirectory') then
+      Profiles.setDirectory(value)
+    elseif (param == 'ChangedToFile') then
+      Profiles.setFile(value)
+    elseif (param == 'ChangedToFullPath') then
+      Profiles.setFullPath(message:sub(message:find(' ',1,true)+1)) --value stops at first space
     else -- otherwise update a develop parameter
       updateParam(param, tonumber(value))
       Profiles.changeProfile(Parameters.Names[param][3])
@@ -405,9 +409,9 @@ end
 
 -- Main task
 LrTasks.startAsyncTask( function() 
-    --LrMobdebug.on()
+    LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
-        --LrMobdebug.on()
+        LrMobdebug.on()
 
 
         local client = LrSocket.bind {

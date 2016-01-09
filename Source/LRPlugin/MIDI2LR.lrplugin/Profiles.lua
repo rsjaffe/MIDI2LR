@@ -62,9 +62,18 @@ local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 
-local function receiveAppMessage(value)
-  profilepath, loadedprofile, _ = value:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+local function setDirectory(value)
+  profilepath = value
 end
+
+local function setFile(value)
+  loadedprofile = value
+end
+
+local function setFullPath(value)
+  profilepath, loadedprofile = value:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+end
+
 
 
 local function useDefaults()
@@ -339,5 +348,7 @@ return {
   checkProfile = checkProfile,
   StartDialog = StartDialog,
   EndDialog = EndDialog,
-  receiveAppMessage = receiveAppMessage,
+  setDirectory = setDirectory,
+  setFile = setFile,
+  setFullPath = setFullPath,
 }
