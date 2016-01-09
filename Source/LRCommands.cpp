@@ -102,6 +102,7 @@ const std::vector<String> LRCommandList::MixerStringList = {
     "Luminance Adjustment Magenta",
     // B & W
     "Toggle Convert to Grayscale",
+    "Enable/Disable Grayscale Mix",
     "Gray Mixer Red",
     "Gray Mixer Orange",
     "Gray Mixer Yellow",
@@ -358,7 +359,7 @@ const std::vector<String> LRCommandList::MiscList = {
     "Reset Crop Top", // Resets don't work for crop */
     "Enable/Disable Radial Filter",
     "Enable/Disable Graduated Filter",
-    "Enable/Disable Grayscale Mix",
+
     "Enable/Disable Brush Adjustments",
     "Enable/Disable Red-Eye",
     "Enable/Disable Spot Removal",
@@ -504,6 +505,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "LuminanceAdjustmentPurple",
     "LuminanceAdjustmentMagenta",
     "ConvertToGrayscale",
+    "EnableGrayscaleMix",
     "GrayMixerRed",
     "GrayMixerOrange",
     "GrayMixerYellow",
@@ -748,7 +750,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetCropTop",   // resets don't work for crop*/
     "EnableCircularGradientBasedCorrections",
     "EnableGradientBasedCorrections",
-    "EnableGrayscaleMix",
     "EnablePaintBasedCorrections",
     "EnableRedEye",
     "EnableRetouch",
