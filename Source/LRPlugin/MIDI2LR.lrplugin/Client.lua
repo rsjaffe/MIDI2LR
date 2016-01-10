@@ -160,7 +160,7 @@ local function addToCollection()
               targetname = catalog.kTargetCollection
               quickcollection = catalog:createCollection(quickname,nil,true)
               targetcollection = catalog:createCollection(targetname,nil,true)
-            elseif catalog.kTargetCollection ~= targetname then
+            elseif catalog.kTargetCollection ~= targetname and collectiontype ~= 'quick' then
               targetcollection = catalog:createCollection(targetname,nil,true)
             end
             local usecollection
