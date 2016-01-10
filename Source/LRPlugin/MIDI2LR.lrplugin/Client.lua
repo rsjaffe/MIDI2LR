@@ -351,7 +351,7 @@ local function processMessage(message)
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
     elseif(param:find('WhiteBalance') == 1) then -- adjust white balance
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.setValue,'WhiteBalance',param:sub(13)) end
+      if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.setValue,'WhiteBalance',param:sub(13):gsub('_',' ')) end
     elseif(param:find('SwToM') == 1) then -- perform a switch to module
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         local modname = param:sub(6)

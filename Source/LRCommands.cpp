@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 const std::vector<String> LRCommandList::AdjustmentStringList = {
     "White Balance Auto",
+    "White Balance As Shot",
     "White Balance Daylight",
     "White Balance Cloudy",
     "White Balance Shade",
@@ -433,6 +434,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* Adjust */
     "WhiteBalanceAuto",
+    "WhiteBalanceAs_Shot", //watch out for embedded space!
     "WhiteBalanceDaylight",
     "WhiteBalanceCloudy",
     "WhiteBalanceShade",
