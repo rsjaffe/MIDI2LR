@@ -268,6 +268,22 @@ local ACTIONS = {
   SetRating3 = function () LrSelection.setRating(3) end,
   SetRating4 = function () LrSelection.setRating(4) end,
   SetRating5 = function () LrSelection.setRating(5) end,
+  ShoScndVwloupe        = function() LrApplicationView.showSecondaryView('loupe') end,
+  ShoScndVwlive_loupe   = function() LrApplicationView.showSecondaryView('live_loupe') end,
+  ShoScndVwlocked_loupe = function() LrApplicationView.showSecondaryView('locked_loupe') end,
+  ShoScndVwgrid         = function() LrApplicationView.showSecondaryView('grid') end,
+  ShoScndVwcompare      = function() LrApplicationView.showSecondaryView('compare') end,
+  ShoScndVwsurvey       = function() LrApplicationView.showSecondaryView('survey') end,
+  ShoScndVwslideshow    = function() LrApplicationView.showSecondaryView('slideshow') end,  
+  ShoVwloupe   = function () LrApplicationView.showView('loupe') end,
+  ShoVwgrid    = function() LrApplicationView.showView('grid') end,
+  ShoVwcompare = function() LrApplicationView.showView('compare') end,
+  ShoVwsurvey  = function() LrApplicationView.showView('survey') end,
+  ShoVwpeople  = function() LrApplicationView.showView('people') end,
+  ShoVwdevelop_loupe              = function() LrApplicationView.showView('develop_loupe') end,
+  ShoVwdevelop_before_after_horiz = function() LrApplicationView.showView('develop_before_after_horiz') end,
+  ShoVwdevelop_before_after_vert  = function() LrApplicationView.showView('develop_before_after_vert') end,
+  ShoVwdevelop_before             = function() LrApplicationView.showView('develop_before') end,
   SwToMlibrary = function() 
     LrApplicationView.switchToModule('library') 
     Profiles.changeProfile('library') 
@@ -276,19 +292,24 @@ local ACTIONS = {
     LrApplicationView.switchToModule('develop') 
     Profiles.changeProfile('develop') 
   end,
-  SwToMmap = function() LrApplicationView.switchToModule('map') 
+  SwToMmap = function() 
+    LrApplicationView.switchToModule('map') 
     Profiles.changeProfile('map') 
   end,
-  SwToMbook = function() LrApplicationView.switchToModule('book') 
+  SwToMbook = function() 
+    LrApplicationView.switchToModule('book') 
     Profiles.changeProfile('book') 
   end,
-  SwToMslideshow = function() LrApplicationView.switchToModule('slideshow') 
+  SwToMslideshow = function() 
+    LrApplicationView.switchToModule('slideshow') 
     Profiles.changeProfile('slideshow') 
   end,
-  SwToMprint = function() LrApplicationView.switchToModule('print') 
+  SwToMprint = function() 
+    LrApplicationView.switchToModule('print') 
     Profiles.changeProfile('print') 
   end,
-  SwToMweb = function() LrApplicationView.switchToModule('web') 
+  SwToMweb = function() 
+    LrApplicationView.switchToModule('web') 
     Profiles.changeProfile('web') 
   end,
   ToggleBlue       = LrSelection.toggleBlueLabel,
@@ -411,10 +432,6 @@ local function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
-    elseif(param:find('ShoVw') == 1) then -- change application's view mode
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showView(param:sub(6)) end
-    elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showSecondaryView(param:sub(10)) end
     elseif(param:find('Preset_') == 1) then --apply preset by #
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(ProgramPreferences.Presets[tonumber(param:sub(8))]) end
     elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
