@@ -265,6 +265,9 @@
     <ClCompile Include="..\..\Source\CommandTableModel.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Logger.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1441,6 +1444,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CommandTableModel.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Logger.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LR_IPC_In.h">
