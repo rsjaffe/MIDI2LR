@@ -224,14 +224,15 @@ local ACTIONS = {
   ResetLast        = function() Ut.execFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM) end,
   ResetRedeye      = Ut.wrapFOM(LrDevelopController.resetRedeye),
   ResetSpotRem     = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
-  RevealPanelAdjust = function() UT.execFOM(LrDevelopController.revealPanel,'adjustPanel');Profiles.changeProfile('adjustPanel');end,
-  RevealPanelTone = function() UT.execFOM(LrDevelopController.revealPanel,'tonePanel');Profiles.changeProfile('tonePanel');end,
-  RevealPanelMixer = function() UT.execFOM(LrDevelopController.revealPanel,'mixerPanel');Profiles.changeProfile('mixerPanel');end,
-  RevealPanelSplit = function() UT.execFOM(LrDevelopController.revealPanel,'splitToningPanel');Profiles.changeProfile('splitToningPanel');end,
-  RevealPanelDetail = function() UT.execFOM(LrDevelopController.revealPanel,'detailPanel');Profiles.changeProfile('detailPanel');end,
-  RevealPanelLens = function() UT.execFOM(LrDevelopController.revealPanel,'lensCorrectionsPanel');Profiles.changeProfile('lensCorrectionsPanel');end,
-  RevealPanelEffects = function() UT.execFOM(LrDevelopController.revealPanel,'effectsPanel');Profiles.changeProfile('effectsPanel');end,
-  RevealPanelCalibrate = function() UT.execFOM(LrDevelopController.revealPanel,'calibratePanel');Profiles.changeProfile('calibratePanel');end,
+  RevealPanelAdjust    = function() Ut.execFOM(LrDevelopController.revealPanel,'adjustPanel');Profiles.changeProfile('adjustPanel');end,
+  RevealPanelCalibrate = function() Ut.execFOM(LrDevelopController.revealPanel,'calibratePanel');Profiles.changeProfile('calibratePanel');
+    end,
+  RevealPanelDetail    = function() Ut.execFOM(LrDevelopController.revealPanel,'detailPanel');Profiles.changeProfile('detailPanel');end,
+  RevealPanelEffects   = function() Ut.execFOM(LrDevelopController.revealPanel,'effectsPanel');Profiles.changeProfile('effectsPanel');end,
+  RevealPanelLens      = function() Ut.execFOM(LrDevelopController.revealPanel,'lensCorrectionsPanel');Profiles.changeProfile('lensCorrectionsPanel');end,
+  RevealPanelMixer     = function() Ut.execFOM(LrDevelopController.revealPanel,'mixerPanel');Profiles.changeProfile('mixerPanel');end,
+  RevealPanelSplit     = function() Ut.execFOM(LrDevelopController.revealPanel,'splitToningPanel');Profiles.changeProfile('splitToningPanel');end,
+  RevealPanelTone      = function() Ut.execFOM(LrDevelopController.revealPanel,'tonePanel');Profiles.changeProfile('tonePanel');end,
   SetRating0       = function () LrSelection.setRating(0) end,
   SetRating1       = function () LrSelection.setRating(1) end,
   SetRating2       = function () LrSelection.setRating(2) end,
@@ -252,6 +253,14 @@ local ACTIONS = {
   UprightOff       = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
   UprightVertical  = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
   VirtualCopy      = function () LrApplication.activeCatalog():createVirtualCopies() end,
+  WhiteBalanceAs_Shot     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
+  WhiteBalanceAuto        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto'),
+  WhiteBalanceCloudy      = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
+  WhiteBalanceDaylight    = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
+  WhiteBalanceFlash       = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),  
+  WhiteBalanceFluorescent = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
+  WhiteBalanceShade       = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
+  WhiteBalanceTungsten    = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
   ZoomInLargeStep  = LrApplicationView.zoomIn,
   ZoomInSmallStep  = LrApplicationView.zoomInSome,
   ZoomOutLargeStep = LrApplicationView.zoomOut,
@@ -350,8 +359,6 @@ local function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
-    elseif(param:find('WhiteBalance') == 1) then -- adjust white balance
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.setValue,'WhiteBalance',param:sub(13):gsub('_',' ')) end
     elseif(param:find('SwToM') == 1) then -- perform a switch to module
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
         local modname = param:sub(6)
@@ -417,9 +424,9 @@ end
 
 -- Main task
 LrTasks.startAsyncTask( function() 
-    --LrMobdebug.on()
+   -- LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
-        --LrMobdebug.on()
+       -- LrMobdebug.on()
 
 
         local client = LrSocket.bind {
