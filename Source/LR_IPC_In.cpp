@@ -90,17 +90,17 @@ void LR_IPC_IN::run()
 }
 
 void LR_IPC_IN::processLine(const String& line)
-{
-	AddToLog(line.toStdString());
-	
+{	
 	// process input into [parameter] [Value]
 	line.trimEnd();
 	String command = line.upToFirstOccurrenceOf(" ", false, false);
 	String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
 	auto value = valueString.getIntValue();
 
-    if (command == String("SwitchProfile"))
-        ProfileManager::getInstance().switchToProfile(valueString.trim());
+	if (command == String("SwitchProfile"))
+	{
+		ProfileManager::getInstance().switchToProfile(valueString.trim());
+	}
     else
     {
 

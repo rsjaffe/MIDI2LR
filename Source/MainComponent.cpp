@@ -255,6 +255,8 @@ void MainContentComponent::buttonClicked(Button* button)
         // Re-enumerate MIDI IN and OUT devices
         MIDIProcessor::getInstance().rescanDevices();
         MIDISender::getInstance().rescanDevices();
+		// Send new CC parameters to MIDI Out devices
+		LR_IPC_IN::getInstance().refreshMIDIOutput();
     }
     else if (button == &_removeRowButton)
     {

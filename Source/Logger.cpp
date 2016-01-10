@@ -35,6 +35,7 @@ Logger::~Logger()
 
 void Logger::AddToLog(string &data)
 {
+	//check if open
 	if (!IsOpen())
 	{
 		//open the log
@@ -45,11 +46,22 @@ void Logger::AddToLog(string &data)
 	GetLocalTime(&st);
 	char buffer[100];
 	//GetSystemTime(&st);
-	sprintf(buffer, "%d:%02d:%02d:%02d:Min:%02d:%02d.%03d:", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+	//sprintf(buffer, "%d:%02d:%02d %02d:%02d:%02d.%03d:", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+	sprintf(buffer, "%02d:%02d:%02d.%03d: ", st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 
 	m_outStream << buffer;
-	m_outStream	<< data << "\n";
-	m_outStream.flush(); // flush to disk
+	m_outStream	<< data ;
+	// ensure line
+	if (!data.empty())
+	{
+		if (data.back() != '\n')
+		{
+			m_outStream << "\n";
+		}
+	}
+	
+	// flush to disk.
+	m_outStream.flush(); 
 	
 }
 
