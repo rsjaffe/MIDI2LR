@@ -22,12 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
-local Limits              = require 'Limits'
-local Parameters          = require 'Parameters'
-local Paste               = require 'Paste'
-local Preferences         = require 'Preferences'
-local Profiles            = require 'Profiles'
-local Ut                  = require 'Utilities'
+local Limits      = require 'Limits'
+local Parameters  = require 'Parameters'
+local Paste       = require 'Paste'
+local Preferences = require 'Preferences'
+local Profiles    = require 'Profiles'
+local Ut          = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrBinding           = import 'LrBinding'
@@ -88,10 +88,14 @@ local function PasteSettings  ()
         'MIDI2LR: Paste settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
         { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') end, 
-          asynchronous = true }
+          callback = function() 
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') 
+          end, 
+          asynchronous = true 
+        }
       ) 
-    end )
+    end 
+  )
 end
 
 local function CopySettings ()
@@ -172,7 +176,9 @@ local function addToCollection()
             end
           end,
           { timeout = 4, 
-            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' AddToCollection.') end, 
+            callback = function() 
+              LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' AddToCollection.') 
+            end, 
             asynchronous = true 
           }
         )
@@ -184,16 +190,16 @@ end
 addToCollection = addToCollection()
 
 local ACTIONS = {
-  CopySettings     = CopySettings,
-  DecreaseRating   = LrSelection.decreaseRating,
+  CopySettings                  = CopySettings,
+  DecreaseRating                = LrSelection.decreaseRating,
   DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM) end,
-  IncreaseRating   = LrSelection.increaseRating,
+  IncreaseRating                = LrSelection.increaseRating,
   IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM) end,
-  Next             = LrSelection.nextPhoto,
-  PasteSelectedSettings = PasteSelectedSettings,
-  PasteSettings    = PasteSettings,
-  Pick             = LrSelection.flagAsPick,
-  Prev             = LrSelection.previousPhoto,
+  Next                          = LrSelection.nextPhoto,
+  PasteSelectedSettings         = PasteSelectedSettings,
+  PasteSettings                 = PasteSettings,
+  Pick                          = LrSelection.flagAsPick,
+  Prev                          = LrSelection.previousPhoto,
   Profile_Adobe_Standard   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
   Profile_Camera_Clear     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
   Profile_Camera_Deep      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
@@ -224,21 +230,67 @@ local ACTIONS = {
   ResetLast        = function() Ut.execFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM) end,
   ResetRedeye      = Ut.wrapFOM(LrDevelopController.resetRedeye),
   ResetSpotRem     = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
-  RevealPanelAdjust    = function() Ut.execFOM(LrDevelopController.revealPanel,'adjustPanel');Profiles.changeProfile('adjustPanel');end,
-  RevealPanelCalibrate = function() Ut.execFOM(LrDevelopController.revealPanel,'calibratePanel');Profiles.changeProfile('calibratePanel');
-    end,
-  RevealPanelDetail    = function() Ut.execFOM(LrDevelopController.revealPanel,'detailPanel');Profiles.changeProfile('detailPanel');end,
-  RevealPanelEffects   = function() Ut.execFOM(LrDevelopController.revealPanel,'effectsPanel');Profiles.changeProfile('effectsPanel');end,
-  RevealPanelLens      = function() Ut.execFOM(LrDevelopController.revealPanel,'lensCorrectionsPanel');Profiles.changeProfile('lensCorrectionsPanel');end,
-  RevealPanelMixer     = function() Ut.execFOM(LrDevelopController.revealPanel,'mixerPanel');Profiles.changeProfile('mixerPanel');end,
-  RevealPanelSplit     = function() Ut.execFOM(LrDevelopController.revealPanel,'splitToningPanel');Profiles.changeProfile('splitToningPanel');end,
-  RevealPanelTone      = function() Ut.execFOM(LrDevelopController.revealPanel,'tonePanel');Profiles.changeProfile('tonePanel');end,
-  SetRating0       = function () LrSelection.setRating(0) end,
-  SetRating1       = function () LrSelection.setRating(1) end,
-  SetRating2       = function () LrSelection.setRating(2) end,
-  SetRating3       = function () LrSelection.setRating(3) end,
-  SetRating4       = function () LrSelection.setRating(4) end,
-  SetRating5       = function () LrSelection.setRating(5) end,
+  RevealPanelAdjust = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'adjustPanel')
+    Profiles.changeProfile('adjustPanel') 
+  end,
+  RevealPanelCalibrate = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'calibratePanel')
+    Profiles.changeProfile('calibratePanel') 
+  end,
+  RevealPanelDetail = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'detailPanel')
+    Profiles.changeProfile('detailPanel') 
+  end,
+  RevealPanelEffects = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'effectsPanel')
+    Profiles.changeProfile('effectsPanel') 
+  end,
+  RevealPanelLens = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'lensCorrectionsPanel')
+    Profiles.changeProfile('lensCorrectionsPanel') 
+  end,
+  RevealPanelMixer = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'mixerPanel')
+    Profiles.changeProfile('mixerPanel') 
+  end,
+  RevealPanelSplit = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'splitToningPanel')
+    Profiles.changeProfile('splitToningPanel') 
+  end,
+  RevealPanelTone = function() 
+    Ut.execFOM(LrDevelopController.revealPanel,'tonePanel')
+    Profiles.changeProfile('tonePanel') 
+  end,
+  SetRating0 = function () LrSelection.setRating(0) end,
+  SetRating1 = function () LrSelection.setRating(1) end,
+  SetRating2 = function () LrSelection.setRating(2) end,
+  SetRating3 = function () LrSelection.setRating(3) end,
+  SetRating4 = function () LrSelection.setRating(4) end,
+  SetRating5 = function () LrSelection.setRating(5) end,
+  SwToMlibrary = function() 
+    LrApplicationView.switchToModule('library') 
+    Profiles.changeProfile('library') 
+  end,
+  SwToMdevelop = function() 
+    LrApplicationView.switchToModule('develop') 
+    Profiles.changeProfile('develop') 
+  end,
+  SwToMmap = function() LrApplicationView.switchToModule('map') 
+    Profiles.changeProfile('map') 
+  end,
+  SwToMbook = function() LrApplicationView.switchToModule('book') 
+    Profiles.changeProfile('book') 
+  end,
+  SwToMslideshow = function() LrApplicationView.switchToModule('slideshow') 
+    Profiles.changeProfile('slideshow') 
+  end,
+  SwToMprint = function() LrApplicationView.switchToModule('print') 
+    Profiles.changeProfile('print') 
+  end,
+  SwToMweb = function() LrApplicationView.switchToModule('web') 
+    Profiles.changeProfile('web') 
+  end,
   ToggleBlue       = LrSelection.toggleBlueLabel,
   ToggleGreen      = LrSelection.toggleGreenLabel,
   TogglePurple     = LrSelection.togglePurpleLabel,
@@ -294,8 +346,8 @@ local TOGGLE_PARAMETERS = { --alternate on/off by button presses
 }
 
 local TOGGLE_PARAMETERS_01 = { --alternate on/off, but 0/1 rather than false/true
-  AutoLateralCA                          = true,
-  LensProfileEnable                      = true,
+  AutoLateralCA        = true,
+  LensProfileEnable    = true,
 }
 
 
@@ -359,12 +411,6 @@ local function processMessage(message)
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
-    elseif(param:find('SwToM') == 1) then -- perform a switch to module
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        local modname = param:sub(6)
-        LrApplicationView.switchToModule(modname) 
-        Profiles.changeProfile(modname, true)
-      end
     elseif(param:find('ShoVw') == 1) then -- change application's view mode
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrApplicationView.showView(param:sub(6)) end
     elseif(param:find('ShoScndVw') == 1) then -- change application's view mode
@@ -424,9 +470,9 @@ end
 
 -- Main task
 LrTasks.startAsyncTask( function() 
-   -- LrMobdebug.on()
+    -- LrMobdebug.on()
     LrFunctionContext.callWithContext( 'socket_remote', function( context )
-       -- LrMobdebug.on()
+        -- LrMobdebug.on()
 
 
         local client = LrSocket.bind {
@@ -493,7 +539,7 @@ LrTasks.startAsyncTask( function()
     if(WIN_ENV) then
       LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
     else
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') -- On Mac it seems like the files argument has to include an existing file
+      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') 
     end
   end
 )
