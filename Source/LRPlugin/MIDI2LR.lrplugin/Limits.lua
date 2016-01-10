@@ -93,26 +93,26 @@ local function OptionsRows(f,obstable)
           width = LrView.share('limit_label'),
         }, -- static_text
         f:slider {
-          value = LrView.bind(p..'Low'),
+          value = LrView.bind('Limits'..p..'Low'),
           min = low, 
           max = high,
           integral = integral,
           width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
-          title = LrView.bind(p..'Low'),
+          title = LrView.bind('Limits'..p..'Low'),
           alignment = 'right',
           width = LrView.share('limit_reading'),  
         }, -- static_text
         f:slider {
-          value = LrView.bind(p..'High'),
+          value = LrView.bind('Limits'..p..'High'),
           min = low ,
           max = high,
           integral = integral,
           width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
-          title = LrView.bind(p..'High'),
+          title = LrView.bind('Limits'..p..'High'),
           alignment = 'right',
           width = LrView.share('limit_reading'),                
         }, -- static_text
@@ -123,8 +123,8 @@ local function OptionsRows(f,obstable)
               obstable.TemperatureLow = 3000
               obstable.TemperatureHigh = 9000
             else
-              obstable[p..'Low'] = low
-              obstable[p..'High'] = high
+              obstable['Limits'..p..'Low'] = low
+              obstable['Limits'..p..'High'] = high
             end
           end,
         }, -- push_button
@@ -180,8 +180,8 @@ local function StartDialog(obstable,f)
   if limitsCanBeSet then
     for p in pairs(Parameters) do
       local min,max = GetMinMax(p)
-      obstable[p..'Low'] = min
-      obstable[p..'High'] = max
+      obstable['Limits'..p..'Low'] = min
+      obstable['Limits'..p..'High'] = max
     end
     for _,v in ipairs(OptionsRows(f,obstable)) do
       table.insert(retval,v)
@@ -196,11 +196,11 @@ local function EndDialog(obstable, status)
     --assign limits
     if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
       for p in pairs(Parameters) do
-        if obstable[p..'Low'] > obstable[p..'High'] then --swap values
-          obstable[p..'Low'], obstable[p..'High'] = obstable[p..'High'], obstable[p..'Low']
+        if obstable['Limits'..p..'Low'] > obstable['Limits'..p..'High'] then --swap values
+          obstable['Limits'..p..'Low'], obstable['Limits'..p..'High'] = obstable['Limits'..p..'High'], obstable['Limits'..p..'Low']
         end
         local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
-        ProgramPreferences.Limits[p][max] = {obstable[p..'Low'], obstable[p..'High']}
+        ProgramPreferences.Limits[p][max] = {obstable['Limits'..p..'Low'], obstable['Limits'..p..'High']}
       end
     end --if limitsCanBeSet
   end

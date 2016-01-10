@@ -1,10 +1,4 @@
---[[ put preferences module here
-
-
-load for current version will call load for prior version if current version not there and table in place. last load (load0)
-will do a blank initialization of preferences if none is found.
-load will do blank initialization if prefs is not a table.
-
+--[[ 
 
 Preferences.lua
 Manages application preferences.
@@ -41,6 +35,7 @@ local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local Parameters          = require 'Parameters'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
+local Profiles            = require 'Profiles'
 local serpent             = require 'serpent'
 -- hidden
 
@@ -80,8 +75,9 @@ ProgramPreferences = {}
 
 local function useDefaults()
   ProgramPreferences = {}
-  ProgramPreferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {} }
+  ProgramPreferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {}, Profiles = {}, }
   ProgramPreferences.Limits['Temperature'][50000] = {3000,9000}
+  Profiles.useDefaults()
   changed = true
 end
 
@@ -89,7 +85,9 @@ end
 local function Save(ClearOld) --clear old optional parameter
   -- Limits.DiscardExcess() -- call for each 'class' currently only Limits
   if ClearOld then
-    prefs = nil
+    for k,v in prefs:pairs() do
+      prefs[k] = nil
+    end
   end
   prefs[version] = serpent.dump(ProgramPreferences)
   changed = false
@@ -180,7 +178,9 @@ local function Load()
 end
 
 local function ClearAll()
-  prefs = nil
+  for k,v in prefs:pairs() do
+    prefs[k] = nil
+  end
   useDefaults()
   Save()
 end

@@ -46,11 +46,12 @@ public:
 	// Sectioned and readable LR tool string
 	static const std::vector<String> SelectionList;
     static const std::vector<String> PresetsList;
-	static const std::vector<String> ToolsList;
-	static const std::vector<String> ModulesList;
+	static const std::vector<String> MiscList;
+	static const std::vector<String> TMPList;
     static const std::vector<String> ViewModesList;
+    static const std::vector<String> ProfilesList;
     // MIDI2LR commands
-	static const std::vector<String> ProfileList;
+	static const std::vector<String> NextPrevProfile;
 
 	// Map of command strings to indices
 	static int getIndexOfCommand(const String& command);

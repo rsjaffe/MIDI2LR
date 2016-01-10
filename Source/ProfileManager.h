@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MIDIProcessor.h"
+#include "LR_IPC_OUT.h"
 
 class ProfileChangeListener
 {
@@ -36,7 +37,7 @@ public:
 };
 
 class ProfileManager : public MIDICommandListener,
-	public AsyncUpdater
+	public AsyncUpdater, public LRConnectionListener
 {
 public:
 	static ProfileManager& getInstance();
@@ -66,6 +67,10 @@ public:
 
 	// AsyncUpdate interface
 	virtual void handleAsyncUpdate() override;
+
+    // LRConnectionListener interface
+    virtual void connected() override;
+    virtual void disconnected() override;
 
 private:
 	enum class SWITCH_STATE

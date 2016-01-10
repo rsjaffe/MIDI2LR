@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "CommandMenu.h"
 #include "LRCommands.h"
-#include "tools.h"
+#include "Tools.h"
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<unsigned int>::max()),
@@ -57,11 +57,12 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
                                         "Camera Calibration",
                                         "Photo Actions",
                                         "Develop Presets",
-                                        "Tools",
-                                        "Modules",
+                                        "Miscellaneous",
+                                        "Go To Tool, Module, or Panel",
                                         "View Modes",
+                                        "Profiles",
                                         // MIDI2LR items
-                                        "Profile"
+                                        "Next/Prev Profile"
     };
     const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
                                                            LRCommandList::ToneStringList,
@@ -74,11 +75,12 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
                                                            LRCommandList::CalibrateStringList,
                                                            LRCommandList::SelectionList,
                                                            LRCommandList::PresetsList,
-                                                           LRCommandList::ToolsList,
-                                                           LRCommandList::ModulesList,
+                                                           LRCommandList::MiscList,
+                                                           LRCommandList::TMPList,
                                                            LRCommandList::ViewModesList,
+                                                           LRCommandList::ProfilesList,
                                                             // MIDI2LR items
-                                                            LRCommandList::ProfileList,
+                                                            LRCommandList::NextPrevProfile,
     };
 
     // add each submenu
@@ -116,7 +118,7 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
         if (result - 1 < LRCommandList::LRStringList.size())
             setButtonText(LRCommandList::LRStringList[result - 1]);
         else
-            setButtonText(LRCommandList::ProfileList[result - 1 - LRCommandList::LRStringList.size()]);
+            setButtonText(LRCommandList::NextPrevProfile[result - 1 - LRCommandList::LRStringList.size()]);
 
         _selectedItem = result;
 
@@ -131,5 +133,5 @@ void CommandMenu::setSelectedItem(unsigned int idx)
     if (idx - 1 < LRCommandList::LRStringList.size())
         setButtonText(LRCommandList::LRStringList[idx - 1]);
     else
-        setButtonText(LRCommandList::ProfileList[idx - 1 - LRCommandList::LRStringList.size()]);
+        setButtonText(LRCommandList::NextPrevProfile[idx - 1 - LRCommandList::LRStringList.size()]);
 }

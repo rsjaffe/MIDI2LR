@@ -302,7 +302,10 @@ void MainContentComponent::buttonClicked(Button* button)
             ScopedPointer<XmlElement> elem = XmlDocument::parse(browser.getSelectedFile(0));
             if (elem)
             {
-                _profileNameLabel.setText(browser.getSelectedFile(0).getFileName(), NotificationType::dontSendNotification);
+                File newprofile = browser.getSelectedFile(0);
+                String command = String("ChangedToFullPath ") + newprofile.getFullPathName() + "\n";
+                LR_IPC_OUT::getInstance().sendCommand(command);
+                _profileNameLabel.setText(newprofile.getFileName(), NotificationType::dontSendNotification);
                 _commandTableModel.buildFromXml(elem);
                 _commandTable.updateContent();
                 _commandTable.repaint();

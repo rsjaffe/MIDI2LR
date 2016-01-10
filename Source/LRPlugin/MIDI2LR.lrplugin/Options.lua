@@ -22,6 +22,7 @@ local Limits            = require 'Limits'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
 local Presets           = require 'Presets'
+local Profiles          = require 'Profiles'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
@@ -47,6 +48,11 @@ local function setOptions()
             identifier = 'pasteselections',
             Paste.StartDialog(properties,f),
           }, -- tab_view_item
+          f:tab_view_item{
+            title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
+            identifier = 'profiles',
+            Profiles.StartDialog(properties,f),
+          },
           f:tab_view_item {
             title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
             identifier = 'othersettings',
@@ -64,6 +70,7 @@ local function setOptions()
       Limits.EndDialog(properties,result)
       Presets.EndDialog(properties,result)
       Paste.EndDialog(properties,result)
+      Profiles.EndDialog(properties,result)
       if result == 'ok' then
         Preferences.Save()
       end -- if result ok
