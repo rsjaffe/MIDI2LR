@@ -6,7 +6,7 @@ List of develop params
 Parameters.Names table. Key = short name. Value = {[1]=Friendly name,[2]=rank order,[3]panel used}
 Parameters.Order table(array). Key = rank order. Value = short name.
  
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
