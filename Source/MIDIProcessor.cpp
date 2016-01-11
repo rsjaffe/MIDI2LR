@@ -5,8 +5,7 @@
     Created: 31 Jul 2015 11:56:19pm
     Author:  Parth, Jaffe
 
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe, derived from code
-by Parth.
+This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -61,12 +60,20 @@ MIDIProcessor::~MIDIProcessor()
 
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
 {
-    if(msg.isController())
-        for(auto listener : _listeners)
-            listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
-    else if(msg.isNoteOn())
-        for(auto listener : _listeners)
-            listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
+	if (msg.isController())
+	{
+		for (auto listener : _listeners)
+		{
+			listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
+		}
+	}
+	else if (msg.isNoteOn())
+	{
+		for (auto listener : _listeners)
+		{
+			listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
+		}
+	}
 }
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)

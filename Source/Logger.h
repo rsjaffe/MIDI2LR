@@ -1,11 +1,11 @@
 /*
   ==============================================================================
-
-	VersionChecker.h
-	Created: 19 Aug 2015 1:21:14pm
-	Author:  Parth, Jaffe
-
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  
+  	Logger.h
+	Created: 10 Jan 2016 4:27:41pm
+	Author:  Jewest
+  
+This file is part of MIDI2LR. Copyright 2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -16,32 +16,37 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef VERSIONCHECKER_H_INCLUDED
-#define VERSIONCHECKER_H_INCLUDED
+#ifndef LOGGER_H
+#define LOGGER_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
+using namespace std;
 
-// checks to see if we are running the latest version or not
-class VersionChecker : public Thread,
-	public AsyncUpdater
+// Debugging tool for messages
+#include <string>
+#include <iostream>     // std::cout
+#include <fstream>      // std::fstream
+
+class Logger
 {
-public:
-	VersionChecker();
+    public:
+		Logger();
+	    virtual ~Logger();
+		void AddToLog(string &data);
+	protected:
 
-	// Thread interface
-	virtual void run() override;
+    bool IsOpen(void);
+	void Open(void);
+	void Close(void);
 
-	// AsyncUpdater interface
-	virtual void handleAsyncUpdate() override;
+	private:
+		std::fstream m_outStream;
 
-private:
-	int _newVersion;
-	ScopedPointer<DialogWindow> _dialog;
+
 };
 
+void AddToLog(string newInfo);
 
-
-#endif  // VERSIONCHECKER_H_INCLUDED
+#endif
