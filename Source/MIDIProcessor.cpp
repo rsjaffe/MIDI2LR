@@ -61,12 +61,20 @@ MIDIProcessor::~MIDIProcessor()
 
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
 {
-    if(msg.isController())
-        for(auto listener : _listeners)
-            listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
-    else if(msg.isNoteOn())
-        for(auto listener : _listeners)
-            listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
+	if (msg.isController())
+	{
+		for (auto listener : _listeners)
+		{
+			listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
+		}
+	}
+	else if (msg.isNoteOn())
+	{
+		for (auto listener : _listeners)
+		{
+			listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
+		}
+	}
 }
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)

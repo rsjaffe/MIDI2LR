@@ -75,17 +75,21 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
 
 void LR_IPC_OUT::sendCommand(const String &command)
 {
-	if (!isConnected()) return;
-
-	getSocket()->write(command.getCharPointer(), command.length());
+	//check if there is a connection
+	if (isConnected())
+	{
+		getSocket()->write(command.getCharPointer(), command.length());
+	}
 }
 
 void LR_IPC_OUT::handleAsyncUpdate()
 {
-	if (!isConnected()) return;
-
-	String command = _commandToSend + String::formatted(" %d\n", _valueToSend);
-	sendCommand(command);
+	//check if there is a connection
+	if (isConnected())
+	{		
+		String command(_commandToSend + String::formatted(" %d\n", _valueToSend));
+		sendCommand(command);
+	}
 }
 
 void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)

@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include "MIDISender.h"
 #include "ProfileManager.h"
+#include "Logger.h"
 
 const int LR_IPC_IN::LR_IN_PORT = 58764;
 
@@ -89,15 +90,17 @@ void LR_IPC_IN::run()
 }
 
 void LR_IPC_IN::processLine(const String& line)
-{
+{	
 	// process input into [parameter] [Value]
 	line.trimEnd();
 	String command = line.upToFirstOccurrenceOf(" ", false, false);
 	String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
 	auto value = valueString.getIntValue();
 
-    if (command == String("SwitchProfile"))
-        ProfileManager::getInstance().switchToProfile(valueString.trim());
+	if (command == String("SwitchProfile"))
+	{
+		ProfileManager::getInstance().switchToProfile(valueString.trim());
+	}
     else
     {
 

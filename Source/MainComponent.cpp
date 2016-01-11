@@ -255,6 +255,8 @@ void MainContentComponent::buttonClicked(Button* button)
         // Re-enumerate MIDI IN and OUT devices
         MIDIProcessor::getInstance().rescanDevices();
         MIDISender::getInstance().rescanDevices();
+		// Send new CC parameters to MIDI Out devices
+		LR_IPC_IN::getInstance().refreshMIDIOutput();
     }
     else if (button == &_removeRowButton)
     {
@@ -267,11 +269,11 @@ void MainContentComponent::buttonClicked(Button* button)
     else if (button == &_saveButton)
     {
         bool profileDirSet = SettingsManager::getInstance().getProfileDirectory().isNotEmpty();
+		WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
         FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode |
             FileBrowserComponent::warnAboutOverwriting,
             profileDirSet ? SettingsManager::getInstance().getProfileDirectory() : File::getCurrentWorkingDirectory(),
-            nullptr,
-            nullptr);
+			&wildcardFilter,        nullptr);
         FileChooserDialogBox dialogBox("Save profile",
             "Enter filename to save profile",
             browser,
