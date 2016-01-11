@@ -1,6 +1,11 @@
 /*
 ==============================================================================
-This file is part of MIDI2LR. Copyright 2016 by Jewest.
+
+  	Logger.cpp
+	Created: 10 Jan 2016 4:27:41pm
+	Author:  Jewest
+	
+This file is part of MIDI2LR. Copyright 2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software

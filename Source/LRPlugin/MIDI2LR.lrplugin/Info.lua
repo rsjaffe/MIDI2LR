@@ -40,5 +40,5 @@ return {
       file = "LaunchServer.lua"
     },
   },
-  VERSION = { major=0, minor=8, revision=10}
+  VERSION = { major=0, minor=9, revision=0}
 }
