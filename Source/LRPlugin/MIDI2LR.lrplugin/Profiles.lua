@@ -4,7 +4,7 @@ Profiles.lua
 
 Manages profile changes for plugin
  
-This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -22,6 +22,10 @@ local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrFileUtils         = import 'LrFileUtils'
 local LrView              = import 'LrView'
+--following needed because need to resend values to controller when change profile
+local Limits              = require 'Limits'
+local Parameters          = require 'Parameters'
+
 
 local ProfileTypes = {
   loupe = {TMP = 'Tool', friendlyName = LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),},
@@ -67,11 +71,30 @@ local function setDirectory(value)
 end
 
 local function setFile(value)
-  loadedprofile = value
+  if loadedprofile ~= value then
+    loadedprofile = value
+    -- refresh MIDI controller since mapping has changed
+    for _,param in ipairs(Parameters.Order) do
+      local min,max = Limits.GetMinMax(param)
+      local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+    end
+
+  end
 end
 
 local function setFullPath(value)
-  profilepath, loadedprofile = value:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+  local path, profile = value:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+  profilepath = path
+  if profile ~= loadedprofile then
+    loadedprofile = profile
+    -- refresh MIDI controller since mapping has changed
+    for _,param in ipairs(Parameters.Order) do
+      local min,max = Limits.GetMinMax(param)
+      local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+    end
+  end
 end
 
 
@@ -93,6 +116,12 @@ local function changeProfile(profilename, ignoreCurrent)
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
       loadedprofile = newprofile_file
       changed = true
+      -- refresh MIDI controller since mapping has changed
+      for _,param in ipairs(Parameters.Order) do
+        local min,max = Limits.GetMinMax(param)
+        local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+        MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+      end
     end
     currentTMP[TMP] = profilename
   end
