@@ -21,7 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef LOGGER_H
 #define LOGGER_H
-#ifdef _WIN32
+
 using namespace std;
 
 // Debugging tool for messages
@@ -49,5 +49,4 @@ class Logger
 
 void AddToLog(string newInfo);
 
-#endif
 #endif
