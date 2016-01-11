@@ -19,6 +19,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#ifdef _WIN32
 
 #include "Logger.h"
 #include <Windows.h>
@@ -100,3 +101,4 @@ void AddToLog(string newInfo)
 
 	logApp.AddToLog(newInfo);
 }
+#endif
