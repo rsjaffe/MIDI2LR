@@ -72,10 +72,13 @@ local function resync()
     -- refresh MIDI controller since mapping has changed
     for _,param in ipairs(Parameters.Order) do
       local min,max = Limits.GetMinMax(param)
-      local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+      local lrvalue = LrDevelopController.getValue(param)
+      if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
+        local midivalue = (lrvalue-min)/(max-min) * MIDI2LR.CONTROL_MAX
+        MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+      end
     end
-    resyncDeferred = false
+      resyncDeferred = false
   else 
     resyncDeferred = true
   end
