@@ -107,8 +107,8 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
 	const MIDI_Message cc(midiChannel, controller, true);
 
-	// return if the value isn't 0 or 127, or the command isn't a valid profile-related command
-	if ((value != 0 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc))
+	// return if the value isn't 127, or the command isn't a valid profile-related command
+	if ((value != 127) || !CommandMap::getInstance().messageExistsInMap(cc))
 		return;
 
     if (CommandMap::getInstance().getCommandforMessage(cc) == "Previous Profile")
