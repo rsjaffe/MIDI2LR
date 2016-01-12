@@ -65,6 +65,22 @@ local ProfileTypes = {
 local currentTMP = {Tool = '', Module = '', Panel = '', Profile = ''}
 local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
+local resyncDeferred = false
+
+local function resync()
+  if LrApplicationView.getCurrentModuleName() == 'develop' then
+    -- refresh MIDI controller since mapping has changed
+    for _,param in ipairs(Parameters.Order) do
+      local min,max = Limits.GetMinMax(param)
+      local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+    end
+    resyncDeferred = false
+  else 
+    resyncDeferred = true
+  end
+end
+
 
 local function setDirectory(value)
   profilepath = value
@@ -73,13 +89,7 @@ end
 local function setFile(value)
   if loadedprofile ~= value then
     loadedprofile = value
-    -- refresh MIDI controller since mapping has changed
-    for _,param in ipairs(Parameters.Order) do
-      local min,max = Limits.GetMinMax(param)
-      local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
-    end
-
+    resync()
   end
 end
 
@@ -88,12 +98,7 @@ local function setFullPath(value)
   profilepath = path
   if profile ~= loadedprofile then
     loadedprofile = profile
-    -- refresh MIDI controller since mapping has changed
-    for _,param in ipairs(Parameters.Order) do
-      local min,max = Limits.GetMinMax(param)
-      local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
-    end
+    resync()
   end
 end
 
@@ -116,12 +121,7 @@ local function changeProfile(profilename, ignoreCurrent)
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
       loadedprofile = newprofile_file
       changed = true
-      -- refresh MIDI controller since mapping has changed
-      for _,param in ipairs(Parameters.Order) do
-        local min,max = Limits.GetMinMax(param)
-        local midivalue = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-        MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
-      end
+      resync()
     end
     currentTMP[TMP] = profilename
   end
