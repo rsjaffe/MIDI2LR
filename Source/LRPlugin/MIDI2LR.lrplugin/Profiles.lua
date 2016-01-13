@@ -22,7 +22,7 @@ local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrFileUtils         = import 'LrFileUtils'
 local LrView              = import 'LrView'
---following needed because need to resend values to controller when change profile
+--following needed to resend values to controller when changing profile
 local Limits              = require 'Limits'
 local Parameters          = require 'Parameters'
 
@@ -78,7 +78,7 @@ local function resync()
         MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
       end
     end
-      resyncDeferred = false
+    resyncDeferred = false
   else 
     resyncDeferred = true
   end

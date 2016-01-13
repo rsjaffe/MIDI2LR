@@ -533,9 +533,10 @@ LrTasks.startAsyncTask( function()
           function ( observer ) 
             if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
             for _,param in ipairs(Parameters.Order) do
-              if(observer[param] ~= LrDevelopController.getValue(param)) then
+              local lrvalue = LrDevelopController.getValue(param)
+              if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
                 MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-                observer[param] = LrDevelopController.getValue(param)
+                observer[param] = lrvalue
                 MIDI2LR.LAST_PARAM = param
               end
             end
