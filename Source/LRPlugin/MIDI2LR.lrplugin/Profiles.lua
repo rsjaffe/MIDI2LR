@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
+local LrDialogs           = import 'LrDialogs'
 local LrFileUtils         = import 'LrFileUtils'
 local LrView              = import 'LrView'
 --following needed to resend values to controller when changing profile
@@ -91,6 +92,9 @@ end
 
 local function setFile(value)
   if loadedprofile ~= value then
+    if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
+      LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,value))
+    end
     loadedprofile = value
     resync()
   end
@@ -100,6 +104,9 @@ local function setFullPath(value)
   local path, profile = value:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
   profilepath = path
   if profile ~= loadedprofile then
+    if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
+      LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,profile))
+    end
     loadedprofile = profile
     resync()
   end
@@ -122,6 +129,9 @@ local function changeProfile(profilename, ignoreCurrent)
     if (newprofile_file ~= nil) and (newprofile_file ~= '') and (loadedprofile ~= newprofile_file) and 
     ((ignoreCurrent == true) or (currentTMP[TMP] ~= profilename)) then
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
+      if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
+        LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,newprofile_file))
+      end
       loadedprofile = newprofile_file
       changed = true
       resync()
@@ -150,6 +160,7 @@ local function StartDialog(obstable,f)
   for k in pairs(ProfileTypes) do
     obstable['Profile'..k] = ProgramPreferences.Profiles[k]
   end
+  obstable.ProfilesShowBezelOnChange = ProgramPreferences.ProfilesShowBezelOnChange
   local completion = {}
   local auto_completion = false
   if profilepath and profilepath ~= '' then
@@ -167,45 +178,7 @@ local function StartDialog(obstable,f)
     f:row {
       f:column {
         width = LrView.share('profile_column'),
-        f:group_box {
-          title = LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&',''), --string has & in it in LR database
-          width = LrView.share('profile_group'),
-          f:row {
-            f:static_text{title = ProfileTypes.loupe.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileloupe'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },
-          f:row {
-            f:static_text{title = ProfileTypes.crop.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilecrop'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },    
-          f:row {
-            f:static_text{title = ProfileTypes.dust.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profiledust'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
-          f:row {
-            f:static_text{title = ProfileTypes.redeye.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profileredeye'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
-          f:row {
-            f:static_text{title = ProfileTypes.gradient.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilegradient'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          }, 
-          f:row {
-            f:static_text{title = ProfileTypes.circularGradient.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('ProfilecircularGradient'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },   
-          f:row {
-            f:static_text{title = ProfileTypes.localized.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('Profilelocalized'), width = LrView.share('profile_value'), 
-              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
-          },  
-        },
+
         f:group_box {
           title = LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':',''), --string has : in it in LR database
           width = LrView.share('profile_group'),
@@ -244,6 +217,45 @@ local function StartDialog(obstable,f)
             f:edit_field{ value = LrView.bind ('Profileweb'), width = LrView.share('profile_value'), 
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           }, 
+        },
+        f:group_box {
+          title = LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&',''), --string has & in it in LR database
+          width = LrView.share('profile_group'),
+          f:row {
+            f:static_text{title = ProfileTypes.loupe.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileloupe'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },
+          f:row {
+            f:static_text{title = ProfileTypes.crop.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profilecrop'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },    
+          f:row {
+            f:static_text{title = ProfileTypes.dust.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profiledust'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },  
+          f:row {
+            f:static_text{title = ProfileTypes.redeye.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profileredeye'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },  
+          f:row {
+            f:static_text{title = ProfileTypes.gradient.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profilegradient'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          }, 
+          f:row {
+            f:static_text{title = ProfileTypes.circularGradient.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('ProfilecircularGradient'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },   
+          f:row {
+            f:static_text{title = ProfileTypes.localized.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('Profilelocalized'), width = LrView.share('profile_value'), 
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },  
         },
       },
       f:column {
@@ -359,6 +371,7 @@ local function StartDialog(obstable,f)
         end
       end
     },
+    f:checkbox {title = 'Notify when profile changes.', value = LrView.bind('ProfilesShowBezelOnChange')}
   }
   return allboxes
 end
@@ -371,6 +384,7 @@ local function EndDialog(obstable, status)
         ProgramPreferences.Profiles[k] = obstable['Profile'..k]:gsub("^%s*(.-)%s*$", "%1")
       end
     end
+    ProgramPreferences.ProfilesShowBezelOnChange = obstable.ProfilesShowBezelOnChange
   end
 end
 
