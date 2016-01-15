@@ -495,7 +495,6 @@ do --save localized file for app
   local Info = require 'Info'
   local versionmismatch = false
   local datafile = LrPathUtils.child(_PLUGIN.path, 'datastructure.txt')
-  ProgramPreferences.Preferences = nil --temporary to clean out old version of prefs
   if ProgramPreferences.DataStructure == nil then
     versionmismatch = true
   else
