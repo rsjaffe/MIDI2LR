@@ -464,6 +464,9 @@ local function processMessage(message)
       Profiles.setFullPath(message:sub(message:find(' ',1,true)+1)) --value stops at first space
     else -- otherwise update a develop parameter
       updateParam(param, tonumber(value))
+      if ProgramPreferences.ClientShowBezelOnChange then
+        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..midi_lerp_to_develop(param, tonumber(value)))
+      end
       Profiles.changeProfile(Parameters.Names[param][3])
     end
   end
@@ -492,24 +495,25 @@ do --save localized file for app
   local Info = require 'Info'
   local versionmismatch = false
   local datafile = LrPathUtils.child(_PLUGIN.path, 'datastructure.txt')
-  if ProgramPreferences.Parameters == nil then
+  ProgramPreferences.Preferences = nil --temporary to clean out old version of prefs
+  if ProgramPreferences.DataStructure == nil then
     versionmismatch = true
   else
     for k,v in pairs(Info.VERSION) do
-      versionmismatch = versionmismatch or ProgramPreferences.Parameters.version[k] ~= v
+      versionmismatch = versionmismatch or ProgramPreferences.DataStructure.version[k] ~= v
     end
   end
   if versionmismatch or LrFileUtils.exists(datafile) ~= 'file' or
-  ProgramPreferences.Parameters.language ~= LrLocalization.currentLanguage()
-   then
+  ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
+  then
     local serpent = require 'serpent'
     local file = io.open(datafile,'w')
     file:write(serpent.block(Parameters.Names))
     file:close()
-    ProgramPreferences.Parameters = {version={},language = ''} --empty it out, fill it up
-    ProgramPreferences.Parameters.language = LrLocalization.currentLanguage()
+    ProgramPreferences.DataStructure = {version={},language = ''} --empty it out, fill it up
+    ProgramPreferences.DataStructure.language = LrLocalization.currentLanguage()
     for k,v in pairs(Info.VERSION) do
-      ProgramPreferences.Parameters.version[k] = v
+      ProgramPreferences.DataStructure.version[k] = v
     end
   end
 end

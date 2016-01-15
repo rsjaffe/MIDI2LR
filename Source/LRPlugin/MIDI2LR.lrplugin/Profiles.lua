@@ -18,15 +18,13 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local Limits              = require 'Limits'
+local Parameters          = require 'Parameters'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFileUtils         = import 'LrFileUtils'
 local LrView              = import 'LrView'
---following needed to resend values to controller when changing profile
-local Limits              = require 'Limits'
-local Parameters          = require 'Parameters'
-
 
 local ProfileTypes = {
   loupe = {TMP = 'Tool', friendlyName = LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),},
@@ -68,7 +66,11 @@ local loadedprofile = ''-- according to application and us
 local profilepath = '' --according to application
 local resyncDeferred = false
 
-local function resync()
+local function doprofilechange(newprofile)
+  if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
+    LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,newprofile))
+  end
+  loadedprofile = newprofile
   if LrApplicationView.getCurrentModuleName() == 'develop' then
     -- refresh MIDI controller since mapping has changed
     for _,param in ipairs(Parameters.Order) do
@@ -85,18 +87,13 @@ local function resync()
   end
 end
 
-
 local function setDirectory(value)
   profilepath = value
 end
 
 local function setFile(value)
   if loadedprofile ~= value then
-    if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
-      LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,value))
-    end
-    loadedprofile = value
-    resync()
+    doprofilechange(value)
   end
 end
 
@@ -104,15 +101,9 @@ local function setFullPath(value)
   local path, profile = value:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
   profilepath = path
   if profile ~= loadedprofile then
-    if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
-      LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,profile))
-    end
-    loadedprofile = profile
-    resync()
+    doprofilechange(profile)
   end
 end
-
-
 
 local function useDefaults()
   ProgramPreferences.Profiles = {}
@@ -129,12 +120,7 @@ local function changeProfile(profilename, ignoreCurrent)
     if (newprofile_file ~= nil) and (newprofile_file ~= '') and (loadedprofile ~= newprofile_file) and 
     ((ignoreCurrent == true) or (currentTMP[TMP] ~= profilename)) then
       MIDI2LR.SERVER:send('SwitchProfile '..newprofile_file..'\n')
-      if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
-        LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,newprofile_file))
-      end
-      loadedprofile = newprofile_file
-      changed = true
-      resync()
+      doprofilechange(newprofile_file)
     end
     currentTMP[TMP] = profilename
   end

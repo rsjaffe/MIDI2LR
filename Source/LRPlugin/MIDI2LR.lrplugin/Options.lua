@@ -32,6 +32,8 @@ local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
       local f = LrView.osFactory()
       local properties = LrBinding.makePropertyTable( context )
+      --following not managed by another module
+      properties.ClientShowBezelOnChange = ProgramPreferences.ClientShowBezelOnChange
 
       -- assemble dialog box contents
       local contents = 
@@ -57,6 +59,7 @@ local function setOptions()
             title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
             identifier = 'othersettings',
             Limits.StartDialog(properties,f),
+            f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')}
           }, -- tab_view_item
         }, -- tab_view
       } -- view
@@ -73,6 +76,8 @@ local function setOptions()
       Profiles.EndDialog(properties,result)
       if result == 'ok' then
         Preferences.Save()
+        --following not managed by another module
+        ProgramPreferences.ClientShowBezelOnChange = properties.ClientShowBezelOnChange
       end -- if result ok
       -- finished with assigning values from dialog
     end
