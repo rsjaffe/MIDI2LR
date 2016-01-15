@@ -1,0 +1,707 @@
+{
+  AutoBrightness = {
+    "Automatic Brightness",
+    1250,
+    "adjustPanel"
+  } --[[table: 000000001A2CB450]],
+  AutoContrast = {
+    "Automatic Contrast",
+    1260,
+    "adjustPanel"
+  } --[[table: 000000001A2CB040]],
+  AutoExposure = {
+    "Automatic Exposure",
+    1270,
+    "adjustPanel"
+  } --[[table: 000000001A2CB0E0]],
+  AutoLateralCA = {
+    "Remove Chromatic Aberration",
+    1000,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9010]],
+  AutoShadows = {
+    "Automatic Shadows",
+    1280,
+    "adjustPanel"
+  } --[[table: 000000001A2CB130]],
+  Blacks = {
+    "Blacks",
+    80,
+    "adjustPanel"
+  } --[[table: 000000001A2C7620]],
+  BlueHue = {
+    "Blue Hue Calibration",
+    980,
+    "calibratePanel"
+  } --[[table: 000000001A2C9420]],
+  BlueSaturation = {
+    "Blue Saturation Calibration",
+    990,
+    "calibratePanel"
+  } --[[table: 000000001A2C8ED0]],
+  Brightness = {
+    "Brightness",
+    1290,
+    "adjustPanel"
+  } --[[table: 000000001A2CA370]],
+  CameraProfile = {
+    "Camera Profile",
+    1010,
+    "calibratePanel"
+  } --[[table: 000000001A2C9150]],
+  ChromaticAberrationB = {
+    "Blue Chromatic Aberration",
+    1300,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2CA230]],
+  ChromaticAberrationR = {
+    "Red Chromatic Aberration",
+    1310,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2CA5A0]],
+  Clarity = {
+    "Clarity",
+    90,
+    "adjustPanel"
+  } --[[table: 000000001A2C76C0]],
+  ColorNoiseReduction = {
+    "Color Noise Reduction",
+    630,
+    "detailPanel"
+  } --[[table: 000000001A2C79E0]],
+  ColorNoiseReductionDetail = {
+    "Color Noise Reduction Detail",
+    640,
+    "detailPanel"
+  } --[[table: 000000001A2C8AC0]],
+  ColorNoiseReductionSmoothness = {
+    "Color Noise Reduction Smoothness",
+    650,
+    "detailPanel"
+  } --[[table: 000000001A2C8B10]],
+  Contrast = {
+    "Contrast",
+    60,
+    "adjustPanel"
+  } --[[table: 000000001A2C74E0]],
+  ConvertToGrayscale = {
+    "Convert to Grayscale",
+    1020,
+    "mixerPanel"
+  } --[[table: 000000001A2C9BF0]],
+  CropAngle = {
+    "Crop Angle",
+    1030,
+    "crop"
+  } --[[table: 000000001A2C9830]],
+  CropBottom = {
+    "Crop - Bottom",
+    1040,
+    "crop"
+  } --[[table: 000000001A2C91A0]],
+  CropConstrainToWarp = {
+    "Constrain to Warp",
+    1050,
+    "crop"
+  } --[[table: 000000001A2C9EC0]],
+  CropLeft = {
+    "Crop - Left",
+    1060,
+    "crop"
+  } --[[table: 000000001A2C9240]],
+  CropRight = {
+    "Crop - Right",
+    1070,
+    "crop"
+  } --[[table: 000000001A2CA000]],
+  CropTop = {
+    "Crop - Top",
+    1080,
+    "crop"
+  } --[[table: 000000001A2CA0F0]],
+  Defringe = {
+    "Defringe",
+    1320,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2CB270]],
+  DefringeGreenAmount = {
+    "Defringe Green Amount",
+    740,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C92E0]],
+  DefringeGreenHueHi = {
+    "Defringe Green Hue - High",
+    760,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9E70]],
+  DefringeGreenHueLo = {
+    "Defringe Green Hue - Low",
+    750,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C97E0]],
+  DefringePurpleAmount = {
+    "Defringe Purple Amount",
+    700,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C7B20]],
+  DefringePurpleHueHi = {
+    "Defringe Purple Hue - High",
+    730,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9F60]],
+  DefringePurpleHueLo = {
+    "Defringe Purple Hue - Low",
+    710,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9C90]],
+  Dehaze = {
+    "Dehaze Amount",
+    830,
+    "effectsPanel"
+  } --[[table: 000000001A2C8F70]],
+  EnableCalibration = {
+    "Enable Calibration",
+    1090,
+    "calibratePanel"
+  } --[[table: 000000001A2C9470]],
+  EnableCircularGradientBasedCorrections = {
+    "Enable Radial Filter",
+    1100,
+    "circularGradient"
+  } --[[table: 000000001A2C94C0]],
+  EnableColorAdjustments = {
+    "Enable Color Adjustments",
+    1110,
+    "mixerPanel"
+  } --[[table: 000000001A2C9600]],
+  EnableDetail = {
+    "Enable Detail",
+    1120,
+    "detailPanel"
+  } --[[table: 000000001A2C9650]],
+  EnableEffects = {
+    "Enable Effects",
+    1130,
+    "effectsPanel"
+  } --[[table: 000000001A2C96A0]],
+  EnableGradientBasedCorrections = {
+    "Enable Graduated Filter",
+    1140,
+    "gradient"
+  } --[[table: 000000001A2C96F0]],
+  EnableGrayscaleMix = {
+    "Enable Grayscale Mix",
+    1150,
+    "mixerPanel"
+  } --[[table: 000000001A2C9740]],
+  EnableLensCorrections = {
+    "Enable Lens Corrections",
+    1160,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9880]],
+  EnablePaintBasedCorrections = {
+    "Enable Brush Adjustments",
+    1170,
+    "localized"
+  } --[[table: 000000001A2CAC80]],
+  EnableRedEye = {
+    "Enable Red-Eye",
+    1180,
+    "redeye"
+  } --[[table: 000000001A2CA140]],
+  EnableRetouch = {
+    "Enable Spot Removal",
+    1190,
+    "dust"
+  } --[[table: 000000001A2CA320]],
+  EnableSplitToning = {
+    "Enable Split Toning",
+    1200,
+    "splitToningPanel"
+  } --[[table: 000000001A2CA910]],
+  Exposure = {
+    "Exposure",
+    30,
+    "adjustPanel"
+  } --[[table: 000000001A2C7440]],
+  GrainAmount = {
+    "Grain Amount",
+    900,
+    "effectsPanel"
+  } --[[table: 000000001A2C9060]],
+  GrainFrequency = {
+    "Grain Roughness",
+    920,
+    "effectsPanel"
+  } --[[table: 000000001A2C90B0]],
+  GrainSize = {
+    "Grain Size",
+    910,
+    "effectsPanel"
+  } --[[table: 000000001A2C9AB0]],
+  GrayMixerAqua = {
+    "Gray Mixer Aqua",
+    470,
+    "mixerPanel"
+  } --[[table: 000000001A2C85C0]],
+  GrayMixerBlue = {
+    "Gray Mixer Blue",
+    480,
+    "mixerPanel"
+  } --[[table: 000000001A2C8570]],
+  GrayMixerGreen = {
+    "Gray Mixer Green",
+    460,
+    "mixerPanel"
+  } --[[table: 000000001A2C7940]],
+  GrayMixerMagenta = {
+    "Gray Mixer Magenta",
+    500,
+    "mixerPanel"
+  } --[[table: 000000001A2C8110]],
+  GrayMixerOrange = {
+    "Gray Mixer Orange",
+    440,
+    "mixerPanel"
+  } --[[table: 000000001A2C7EE0]],
+  GrayMixerPurple = {
+    "Gray Mixer Purple",
+    490,
+    "mixerPanel"
+  } --[[table: 000000001A2C80C0]],
+  GrayMixerRed = {
+    "Gray Mixer Red",
+    430,
+    "mixerPanel"
+  } --[[table: 000000001A2C8520]],
+  GrayMixerYellow = {
+    "Gray Mixer Yellow",
+    450,
+    "mixerPanel"
+  } --[[table: 000000001A2C7DA0]],
+  GreenHue = {
+    "Green Hue Calibration",
+    960,
+    "calibratePanel"
+  } --[[table: 000000001A2C8E80]],
+  GreenSaturation = {
+    "Green Saturation Calibration",
+    970,
+    "calibratePanel"
+  } --[[table: 000000001A2C91F0]],
+  Highlights = {
+    "Highlights",
+    40,
+    "adjustPanel"
+  } --[[table: 000000001A2C7490]],
+  HueAdjustmentAqua = {
+    "Hue Adjustment Aqua",
+    310,
+    "mixerPanel"
+  } --[[table: 000000001A2C86B0]],
+  HueAdjustmentBlue = {
+    "Hue Adjustment Blue",
+    320,
+    "mixerPanel"
+  } --[[table: 000000001A2C8070]],
+  HueAdjustmentGreen = {
+    "Hue Adjustment Green",
+    300,
+    "mixerPanel"
+  } --[[table: 000000001A2C8430]],
+  HueAdjustmentMagenta = {
+    "Hue Adjustment Magenta",
+    340,
+    "mixerPanel"
+  } --[[table: 000000001A2C8390]],
+  HueAdjustmentOrange = {
+    "Hue Adjustment Orange",
+    280,
+    "mixerPanel"
+  } --[[table: 000000001A2C7CB0]],
+  HueAdjustmentPurple = {
+    "Hue Adjustment Purple",
+    330,
+    "mixerPanel"
+  } --[[table: 000000001A2C8700]],
+  HueAdjustmentRed = {
+    "Hue Adjustment Red",
+    270,
+    "mixerPanel"
+  } --[[table: 000000001A2C7C60]],
+  HueAdjustmentYellow = {
+    "Hue Adjustment Yellow",
+    290,
+    "mixerPanel"
+  } --[[table: 000000001A2C8020]],
+  LensManualDistortionAmount = {
+    "Lens Manual Distortion Amount",
+    690,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C7AD0]],
+  LensProfileChromaticAberrationScale = {
+    "Lens Profile Chromatic Aberration Scale",
+    670,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C8CF0]],
+  LensProfileDistortionScale = {
+    "Lens Profile Distortion Scale",
+    660,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C8BB0]],
+  LensProfileEnable = {
+    "Enable Lens Corrections",
+    1210,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2CB090]],
+  LensProfileSetup = {
+    "Lens Profile Setup",
+    1330,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2CAFA0]],
+  LensProfileVignettingScale = {
+    "Lens Profile Vignetting Scale",
+    680,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C7A80]],
+  LuminanceAdjustmentAqua = {
+    "Luminance Adjustment Aqua",
+    390,
+    "mixerPanel"
+  } --[[table: 000000001A2C87F0]],
+  LuminanceAdjustmentBlue = {
+    "Luminance Adjustment Blue",
+    400,
+    "mixerPanel"
+  } --[[table: 000000001A2C7D00]],
+  LuminanceAdjustmentGreen = {
+    "Luminance Adjustment Green",
+    380,
+    "mixerPanel"
+  } --[[table: 000000001A2C7BC0]],
+  LuminanceAdjustmentMagenta = {
+    "Luminance Adjustment Magenta",
+    420,
+    "mixerPanel"
+  } --[[table: 000000001A2C7F80]],
+  LuminanceAdjustmentOrange = {
+    "Luminance Adjustment Orange",
+    360,
+    "mixerPanel"
+  } --[[table: 000000001A2C7B70]],
+  LuminanceAdjustmentPurple = {
+    "Luminance Adjustment Purple",
+    410,
+    "mixerPanel"
+  } --[[table: 000000001A2C7D50]],
+  LuminanceAdjustmentRed = {
+    "Luminance Adjustment Red",
+    350,
+    "mixerPanel"
+  } --[[table: 000000001A2C7C10]],
+  LuminanceAdjustmentYellow = {
+    "Luminance Adjustment Yellow",
+    370,
+    "mixerPanel"
+  } --[[table: 000000001A2C7FD0]],
+  LuminanceNoiseReductionContrast = {
+    "Luminance Noise Reduction Contrast",
+    620,
+    "detailPanel"
+  } --[[table: 000000001A2C8C50]],
+  LuminanceNoiseReductionDetail = {
+    "Luminance Noise Reduction Detail",
+    610,
+    "detailPanel"
+  } --[[table: 000000001A2C83E0]],
+  LuminanceSmoothing = {
+    "Luminance Smoothing",
+    600,
+    "detailPanel"
+  } --[[table: 000000001A2C7A30]],
+  ParametricDarks = {
+    "Parametric Darks",
+    120,
+    "tonePanel"
+  } --[[table: 000000001A2C7760]],
+  ParametricHighlightSplit = {
+    "Parametric Highlight Split",
+    180,
+    "tonePanel"
+  } --[[table: 000000001A2C68B0]],
+  ParametricHighlights = {
+    "Parametric Highlights",
+    150,
+    "tonePanel"
+  } --[[table: 000000001A2C66D0]],
+  ParametricLights = {
+    "Parametric Lights",
+    130,
+    "tonePanel"
+  } --[[table: 000000001A2C7800]],
+  ParametricMidtoneSplit = {
+    "Parametric Midtone Split",
+    170,
+    "tonePanel"
+  } --[[table: 000000001A2C6860]],
+  ParametricShadowSplit = {
+    "Parametric Shadow Split",
+    160,
+    "tonePanel"
+  } --[[table: 000000001A2C6C70]],
+  ParametricShadows = {
+    "Parametric Shadows",
+    140,
+    "tonePanel"
+  } --[[table: 000000001A2C6680]],
+  PerspectiveAspect = {
+    "Perspective Aspect",
+    810,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9970]],
+  PerspectiveHorizontal = {
+    "Perspective Horizontal",
+    780,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9B00]],
+  PerspectiveRotate = {
+    "Perspective Rotate",
+    790,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9920]],
+  PerspectiveScale = {
+    "Perspective Scale",
+    800,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C8DE0]],
+  PerspectiveUpright = {
+    "Perspective Upright",
+    820,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C9380]],
+  PerspectiveVertical = {
+    "Perspective Vertical",
+    770,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2C8FC0]],
+  PostCropVignetteAmount = {
+    "Post Crop Vignette Amount",
+    840,
+    "effectsPanel"
+  } --[[table: 000000001A2C9D80]],
+  PostCropVignetteFeather = {
+    "Post Crop Vignette Feather",
+    860,
+    "effectsPanel"
+  } --[[table: 000000001A2C9330]],
+  PostCropVignetteHighlightContrast = {
+    "Post Crop Vignette Highlight Contrast",
+    890,
+    "effectsPanel"
+  } --[[table: 000000001A2C9560]],
+  PostCropVignetteMidpoint = {
+    "Post Crop Vignette Midpoint",
+    850,
+    "effectsPanel"
+  } --[[table: 000000001A2C99C0]],
+  PostCropVignetteRoundness = {
+    "Post Crop Vignette Roundness",
+    870,
+    "effectsPanel"
+  } --[[table: 000000001A2C9FB0]],
+  PostCropVignetteStyle = {
+    "Post Crop Vignette Style",
+    880,
+    "effectsPanel"
+  } --[[table: 000000001A2CA0A0]],
+  ProcessVersion = {
+    "Process Version",
+    1350,
+    "adjustPanel"
+  } --[[table: 000000001A2CA460]],
+  RedEyeInfo = {
+    "Red-Eye Information",
+    1360,
+    "redeye"
+  } --[[table: 000000001A2CAD20]],
+  RedHue = {
+    "Red Hue Calibration",
+    940,
+    "calibratePanel"
+  } --[[table: 000000001A2C8E30]],
+  RedSaturation = {
+    "Red Saturation Calibration",
+    950,
+    "calibratePanel"
+  } --[[table: 000000001A2C9100]],
+  RetouchInfo = {
+    "Brush Adjustments",
+    1370,
+    "localized"
+  } --[[table: 000000001A2CA690]],
+  Saturation = {
+    "Saturation",
+    110,
+    "adjustPanel"
+  } --[[table: 000000001A2C6630]],
+  SaturationAdjustmentAqua = {
+    "Saturation Adjustment Aqua",
+    230,
+    "mixerPanel"
+  } --[[table: 000000001A2C6C20]],
+  SaturationAdjustmentBlue = {
+    "Saturation Adjustment Blue",
+    240,
+    "mixerPanel"
+  } --[[table: 000000001A2C6CC0]],
+  SaturationAdjustmentGreen = {
+    "Saturation Adjustment Green",
+    220,
+    "mixerPanel"
+  } --[[table: 000000001A2C6D60]],
+  SaturationAdjustmentMagenta = {
+    "Saturation Adjustment Magenta",
+    260,
+    "mixerPanel"
+  } --[[table: 000000001A2C6E00]],
+  SaturationAdjustmentOrange = {
+    "Saturation Adjustment Orange",
+    200,
+    "mixerPanel"
+  } --[[table: 000000001A2C6900]],
+  SaturationAdjustmentPurple = {
+    "Saturation Adjustment Purple",
+    250,
+    "mixerPanel"
+  } --[[table: 000000001A2C6D10]],
+  SaturationAdjustmentRed = {
+    "Saturation Adjustment Red",
+    190,
+    "mixerPanel"
+  } --[[table: 000000001A2C6B30]],
+  SaturationAdjustmentYellow = {
+    "Saturation Adjustment Yellow",
+    210,
+    "mixerPanel"
+  } --[[table: 000000001A2C6B80]],
+  ShadowTint = {
+    "Shadow Tint Calibration",
+    930,
+    "calibratePanel"
+  } --[[table: 000000001A2C93D0]],
+  Shadows = {
+    "Shadows",
+    50,
+    "adjustPanel"
+  } --[[table: 000000001A2C6950]],
+  SharpenDetail = {
+    "Sharpen Detail",
+    580,
+    "detailPanel"
+  } --[[table: 000000001A2C89D0]],
+  SharpenEdgeMasking = {
+    "Sharpen Edge Masking",
+    590,
+    "detailPanel"
+  } --[[table: 000000001A2C8A20]],
+  SharpenRadius = {
+    "Sharpen Radius",
+    570,
+    "detailPanel"
+  } --[[table: 000000001A2C8C00]],
+  Sharpness = {
+    "Sharpness",
+    560,
+    "detailPanel"
+  } --[[table: 000000001A2C82F0]],
+  SplitToningBalance = {
+    "Split Toning Balance",
+    550,
+    "splitToningPanel"
+  } --[[table: 000000001A2C8930]],
+  SplitToningHighlightHue = {
+    "Split Toning Highlight Hue",
+    530,
+    "splitToningPanel"
+  } --[[table: 000000001A2C8890]],
+  SplitToningHighlightSaturation = {
+    "Split Toning Highlight Saturation",
+    540,
+    "splitToningPanel"
+  } --[[table: 000000001A2C82A0]],
+  SplitToningShadowHue = {
+    "Split Toning Shadow Hue",
+    510,
+    "splitToningPanel"
+  } --[[table: 000000001A2C8200]],
+  SplitToningShadowSaturation = {
+    "Split Toning Shadow Saturation",
+    520,
+    "splitToningPanel"
+  } --[[table: 000000001A2C8250]],
+  Temperature = {
+    "Temperature",
+    10,
+    "adjustPanel"
+  } --[[table: 000000001A2C7030]],
+  Tint = {
+    "Tint",
+    20,
+    "adjustPanel"
+  } --[[table: 000000001A2C6FE0]],
+  ToneCurve = {
+    "Tone Curve",
+    1380,
+    "tonePanel"
+  } --[[table: 000000001A2CAAA0]],
+  ToneCurveName = {
+    "Tone Curve Name",
+    1390,
+    "tonePanel"
+  } --[[table: 000000001A2CAC30]],
+  ToneCurvePV2012Blue = {
+    "Tone Curve PV 2012 Blue",
+    1420,
+    "tonePanel"
+  } --[[table: 000000001A2CA960]],
+  ToneCurvePV2012Green = {
+    "Tone Curve PV 2012 Green",
+    1430,
+    "tonePanel"
+  } --[[table: 000000001A2CA6E0]],
+  ToneCurvePV2012Red = {
+    "Tone Curve PV 2012 Red",
+    1440,
+    "tonePanel"
+  } --[[table: 000000001A2CAD70]],
+  Vibrance = {
+    "Vibrance",
+    100,
+    "adjustPanel"
+  } --[[table: 000000001A2C7710]],
+  VignetteAmount = {
+    "Vignette Amount",
+    1220,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2CA3C0]],
+  VignetteMidpoint = {
+    "Vignette Midpoint",
+    1230,
+    "lensCorrectionsPanel"
+  } --[[table: 000000001A2CA8C0]],
+  WhiteBalance = {
+    "White Balance",
+    1240,
+    "adjustPanel"
+  } --[[table: 000000001A2CACD0]],
+  Whites = {
+    "Whites",
+    70,
+    "adjustPanel"
+  } --[[table: 000000001A2C67C0]],
+  orientation = {
+    "orientation",
+    1340,
+    ""
+  } --[[table: 000000001A2CA410]]
+} --[[table: 000000001A2C7170]]

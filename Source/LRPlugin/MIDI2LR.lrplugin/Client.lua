@@ -485,6 +485,35 @@ local function startServer(context)
   }
 end
 
+do --save localized file for app
+  local LrFileUtils = import 'LrFileUtils'
+  local LrLocalization = import 'LrLocalization'
+  local LrPathUtils = import 'LrPathUtils'
+  local Info = require 'Info'
+  local versionmismatch = false
+  local datafile = LrPathUtils.child(_PLUGIN.path, 'datastructure.txt')
+  if ProgramPreferences.Parameters == nil then
+    versionmismatch = true
+  else
+    for k,v in pairs(Info.VERSION) do
+      versionmismatch = versionmismatch or ProgramPreferences.Parameters.version[k] ~= v
+    end
+  end
+  if versionmismatch or LrFileUtils.exists(datafile) ~= 'file' or
+  ProgramPreferences.Parameters.language ~= LrLocalization.currentLanguage()
+   then
+    local serpent = require 'serpent'
+    local file = io.open(datafile,'w')
+    file:write(serpent.block(Parameters.Names))
+    file:close()
+    ProgramPreferences.Parameters = {version={},language = ''} --empty it out, fill it up
+    ProgramPreferences.Parameters.language = LrLocalization.currentLanguage()
+    for k,v in pairs(Info.VERSION) do
+      ProgramPreferences.Parameters.version[k] = v
+    end
+  end
+end
+
 -- Main task
 LrTasks.startAsyncTask( function() 
     -- LrMobdebug.on()
