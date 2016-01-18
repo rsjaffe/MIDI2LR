@@ -95,4 +95,5 @@ end
 return {
   StartDialog = StartDialog,
   EndDialog = EndDialog,
+  Duplicates = Duplicates,
 }

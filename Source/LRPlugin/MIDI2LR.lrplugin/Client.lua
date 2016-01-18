@@ -72,8 +72,14 @@ local function PasteSelectedSettings ()
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
-  for param,yesno in pairs(ProgramPreferences.PasteList) do 
-    if (yesno==true and MIDI2LR.Copied_Settings[param]~=nil) then
+  for _,param in ipairs(Parameters.Order) do 
+    if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
+      MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
+      LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
+    end
+  end
+  for param in pairs(Paste.Duplicates) do
+    if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
       MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
       LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
     end
