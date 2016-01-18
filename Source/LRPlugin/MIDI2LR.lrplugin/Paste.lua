@@ -20,6 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local Parameters = require 'Parameters'
 local LrView = import 'LrView'
 
+
+
 local Duplicates = { -- will set each to its duplicate in EndDialog
   Exposure2012 = 'Exposure',
   Highlights2012 = 'Highlights',
@@ -33,6 +35,17 @@ local Duplicates = { -- will set each to its duplicate in EndDialog
 }
 
 local function StartDialog(obstable,f)
+  
+  local function set_reset(parmarray) --closure factory for toggle buttons
+    local set = true
+    return function()
+      for _,p in ipairs(parmarray) do
+        obstable['Paste'..p] = set
+      end
+      set = not set
+    end
+  end
+  
   for k,v in pairs(ProgramPreferences.PasteList) do
     obstable['Paste'..k] = v 
   end 
@@ -73,6 +86,36 @@ local function StartDialog(obstable,f)
           end 
         end,
       } ,-- push_button 
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone"),
+        action = set_reset {'Exposure','Highlights','Shadows','Contrast','Whites','Blacks'},
+      }, -- push button
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Color=Color"),
+        action = set_reset {'Vibrance','Saturation','SaturationAdjustmentRed','SaturationAdjustmentOrange','SaturationAdjustmentYellow',
+          'SaturationAdjustmentGreen','SaturationAdjustmentAqua','SaturationAdjustmentBlue','SaturationAdjustmentPurple',
+          'SaturationAdjustmentMagenta','HueAdjustmentRed','HueAdjustmentOrange','HueAdjustmentYellow','HueAdjustmentGreen',
+          'HueAdjustmentAqua','HueAdjustmentBlue','HueAdjustmentPurple','HueAdjustmentMagenta','LuminanceAdjustmentRed',
+          'LuminanceAdjustmentOrange','LuminanceAdjustmentYellow','LuminanceAdjustmentGreen','LuminanceAdjustmentAqua','LuminanceAdjustmentBlue',
+          'LuminanceAdjustmentPurple','LuminanceAdjustmentMagenta'},  
+      }, --push button
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/NoiseReduction=Noise Reduction"),
+        action = set_reset {'LuminanceSmoothing','LuminanceNoiseReductionDetail','LuminanceNoiseReductionContrast','ColorNoiseReduction',
+          'ColorNoiseReductionDetail','ColorNoiseReductionSmoothness'},  
+      }, --push button
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections"),
+        action = set_reset {'LensProfileDistortionScale','LensProfileChromaticAberrationScale','LensProfileVignettingScale',
+          'LensManualDistortionAmount','DefringePurpleAmount','DefringePurpleHueLo','DefringePurpleHueHi','DefringeGreenAmount',
+          'DefringeGreenHueLo','DefringeGreenHueHi','PerspectiveVertical','PerspectiveHorizontal','PerspectiveRotate',
+          'PerspectiveScale','PerspectiveAspect','PerspectiveUpright','VignetteAmount','VignetteMidpoint','Defringe'},  
+      }, --push button      
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects"),
+        action = set_reset {'Dehaze','PostCropVignetteAmount','PostCropVignetteMidpoint','PostCropVignetteFeather','PostCropVignetteRoundness',
+          'PostCropVignetteStyle','PostCropVignetteHighlightContrast','GrainAmount','GrainSize','GrainFrequency'},  
+      }, --push button
     },-- set of pushbuttons
     f:checkbox {title = 'Ask each time', value = LrView.bind('PastePopup')}
   } --row with pushbuttons and checkbox
