@@ -269,6 +269,8 @@ local ACTIONS = {
     Ut.execFOM(LrDevelopController.revealPanel,'tonePanel')
     Profiles.changeProfile('tonePanel') 
   end,
+  Select1Left = LrSelection.extendSelection('left',1),
+  Select1Right = LrSelection.extendSelection('right',1),
   SetRating0 = function() LrSelection.setRating(0) end,
   SetRating1 = function() LrSelection.setRating(1) end,
   SetRating2 = function() LrSelection.setRating(2) end,
