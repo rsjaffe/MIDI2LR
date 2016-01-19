@@ -541,14 +541,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 local MenuList = ]=],serpent.block(MenuListPreTrans.MenuList, {comment = false}), [==[
       
-local MenuListOrdered = {}
+local MenuListHashed = {}
 for i,v in ipairs(MenuList) do
-  MenuListOrdered[v[1]]={i*100,v[2],v[3],v[4]}
+  MenuListHashed[v[1]]={i*100,v[2],v[3],v[4]}
 end
 
 return {
   MenuList = MenuList,
-  MenuListOrdered = MenuListOrdered,
+  MenuListHashed = MenuListHashed,
 }]==])
       file:close()
       ProgramPreferences.DataStructure = {version={},language = ''} --empty it out, fill it up
