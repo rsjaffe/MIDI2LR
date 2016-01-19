@@ -500,7 +500,7 @@ do --save localized file for app
   local LrPathUtils = import 'LrPathUtils'
   local Info = require 'Info'
   local versionmismatch = false
-  local datafile = LrPathUtils.child(_PLUGIN.path, 'datastructure.txt')
+  local datafile = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
   if ProgramPreferences.DataStructure == nil then
     versionmismatch = true
   else
@@ -512,8 +512,13 @@ do --save localized file for app
   ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
   then
     local serpent = require 'serpent'
+    local MenuListPreTrans = require 'MenuListPreTrans'
     local file = io.open(datafile,'w')
-    file:write(serpent.block(Parameters.Names))
+    file:write('local MenuList = ',serpent.block(MenuListPreTrans.MenuList, {comment = false}), [[
+      
+      return {
+  MenuList = MenuList,
+}]])
     file:close()
     ProgramPreferences.DataStructure = {version={},language = ''} --empty it out, fill it up
     ProgramPreferences.DataStructure.language = LrLocalization.currentLanguage()
