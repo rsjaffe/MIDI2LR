@@ -27,7 +27,8 @@ return {
       progressFunction (i, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
       if i == 0 then --main shut down steps
         -- signal main background loop
-        currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
+        math.randomseed(os.time())
+        currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
         currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
         --shut down app
         if(WIN_ENV) then

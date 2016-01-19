@@ -41,7 +41,8 @@ local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
 local LrView              = import 'LrView'
 -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
-currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
+math.randomseed(os.time())
+currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
 currentLoadVersion = currentLoadVersion + 1 
 
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
