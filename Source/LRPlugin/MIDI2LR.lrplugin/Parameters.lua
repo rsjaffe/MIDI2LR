@@ -190,7 +190,6 @@ local Names = {
   ToneCurvePV2012Red = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012Red=Tone Curve PV 2012 Red"), 1440, 'tonePanel'}, -- {0,0,255,255}
 }
 
-
 local Order = {}
 for k,_ in pairs(Names) do
   table.insert(Order,k)

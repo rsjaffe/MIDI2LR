@@ -52,7 +52,6 @@ MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTRO
 Preferences.Load() 
 -------------end preferences section
 
-
 local function PasteSelectedSettings ()
   if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
   if ProgramPreferences.PastePopup then 
@@ -86,7 +85,6 @@ local function PasteSelectedSettings ()
     end
   end
 end
-
 
 local function PasteSettings  ()
   if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -193,8 +191,7 @@ local function addToCollection()
     )
   end
 end
-
-addToCollection = addToCollection()
+addToCollection = addToCollection() --closure
 
 local ACTIONS = {
   CopySettings                  = CopySettings,
@@ -379,7 +376,6 @@ local TOGGLE_PARAMETERS_01 = { --alternate on/off, but 0/1 rather than false/tru
   AutoLateralCA        = true,
   LensProfileEnable    = true,
 }
-
 
 local SETTINGS = {
   Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,

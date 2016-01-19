@@ -71,7 +71,6 @@ local function ClampValue(param)
   return nil
 end
 
-
 --------------------------------------------------------------------------------
 -- Provide rows of controls for dialog boxes.
 -- For the current photo type (HDR, raw, jpg, etc) will produce
@@ -205,7 +204,6 @@ local function EndDialog(obstable, status)
     end --if limitsCanBeSet
   end
 end
-
 
 --- @export
 return { --table of exports, setting table member name and module function it points to
