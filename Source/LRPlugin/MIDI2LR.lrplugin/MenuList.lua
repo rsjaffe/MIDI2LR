@@ -1533,13 +1533,13 @@ local MenuList = {
   },
   {
     "IncrementLastDevelopParameter",
-    "Last Modified erhöhen ^2",
+    "Increase Last Modified",
     "Photo Actions",
     true
   },
   {
     "DecrementLastDevelopParameter",
-    "Last Modified decrease ^2",
+    "Decrease Last Modified",
     "Photo Actions",
     true
   },
