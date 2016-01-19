@@ -539,11 +539,17 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local MenuList = ]=],serpent.block(MenuListPreTrans.MenuList, {comment = false}), [[
+local MenuList = ]=],serpent.block(MenuListPreTrans.MenuList, {comment = false}), [==[
       
+local MenuListOrdered = {}
+for i,v in ipairs(MenuList) do
+  MenuListOrdered[v[1]]={i*100,v[2],v[3],v[4]}
+end
+
 return {
   MenuList = MenuList,
-}]])
+  MenuListOrdered = MenuListOrdered,
+}]==])
       file:close()
       ProgramPreferences.DataStructure = {version={},language = ''} --empty it out, fill it up
       ProgramPreferences.DataStructure.language = LrLocalization.currentLanguage()
