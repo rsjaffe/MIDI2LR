@@ -1,0 +1,100 @@
+--[[----------------------------------------------------------------------------
+
+ClientUtilities.lua
+
+Procedures used by Client.lua. Moved to separate file as size of Client.lua
+became unwieldy.
+ 
+This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+
+MIDI2LR is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+
+MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+------------------------------------------------------------------------------]]
+local Profiles = require 'Profiles'
+local Ut = require 'Utilities'
+local LrApplication      = import 'LrApplication'
+local LrApplicationView = import 'LrApplicationView'
+local LrDevelopController = import 'LrDevelopController'
+local LrDialogs = import 'LrDialogs'
+local LrTasks = import 'LrTasks'
+
+local function ApplyPreset(presetnumber)
+  return function()
+    local presetUuid = ProgramPreferences.Presets[presetnumber]
+    if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+    local preset = LrApplication.developPresetByUuid(presetUuid)
+    LrTasks.startAsyncTask ( function () 
+        LrApplication.activeCatalog():withWriteAccessDo(
+          'Apply preset '..preset:getName(), 
+          function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
+          { timeout = 4, 
+            callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
+            asynchronous = true }
+        ) 
+      end )
+  end
+end
+
+local function ChangePanel(panelname)
+  return function()
+    Ut.execFOM(LrDevelopController.revealPanel,panelname)
+    Profiles.changeProfile(panelname) 
+  end
+end
+
+local function ChangeModule(modulename)
+  return function()
+    LrApplicationView.switchToModule(modulename) 
+    Profiles.changeProfile(modulename) 
+  end
+end
+
+local function Toggle01(param)
+  return function()
+    if Ut.execFOM(LrDevelopController.getValue(param)) == 0 then
+      LrDevelopController.setValue(param,1)
+    else
+      LrDevelopController.setValue(param,0)
+    end
+  end
+end
+
+local function ToggleTF(param)
+  return function()
+    LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param))
+  end
+end
+
+local function ToggleTool(param)
+  return function()
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrApplicationView.switchToModule('develop')
+    end
+    if(LrDevelopController.getSelectedTool() == param) then -- toggle between the tool/loupe
+      LrDevelopController.selectTool('loupe')
+      Profiles.changeProfile('loupe', true)
+    else
+      LrDevelopController.selectTool(param)
+      Profiles.changeProfile(param, true)
+    end
+  end
+end
+
+
+return {
+  ApplyPreset = ApplyPreset,
+  ChangeModule = ChangeModule,
+  ChangePanel = ChangePanel,
+  Toggle01 = Toggle01,
+  ToggleTF = ToggleTF,
+  ToggleTool = ToggleTool,
+
+}

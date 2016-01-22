@@ -22,12 +22,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
-local Limits      = require 'Limits'
-local Parameters  = require 'Parameters'
-local Paste       = require 'Paste'
-local Preferences = require 'Preferences'
-local Profiles    = require 'Profiles'
-local Ut          = require 'Utilities'
+local ClientUtilities = require 'ClientUtilities'
+local Limits          = require 'Limits'
+local Parameters      = require 'Parameters'
+local Paste           = require 'Paste'
+local Preferences     = require 'Preferences'
+local Profiles        = require 'Profiles'
+local Ut              = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrBinding           = import 'LrBinding'
@@ -126,20 +127,6 @@ local function CopySettings ()
   ) 
 end
 
-local function ApplyPreset(presetUuid)
-  if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  local preset = LrApplication.developPresetByUuid(presetUuid)
-  LrTasks.startAsyncTask ( function () 
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'Apply preset '..preset:getName(), 
-        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
-        { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
-          asynchronous = true }
-      ) 
-    end )
-end
-
 local function addToCollection()
   local catalog = LrApplication.activeCatalog()
   local quickname = catalog.kQuickCollectionIdentifier
@@ -208,16 +195,55 @@ end
 addToCollection = addToCollection() --closure
 
 local ACTIONS = {
+  AdjustmentBrush               = ClientUtilities.ToggleTool('localized'),
+  AutoLateralCA                 = ClientUtilities.Toggle01('AutoLateralCA'),
+  ConvertToGrayscale            = ClientUtilities.ToggleTF('ConvertToGrayscale'),
   CopySettings                  = CopySettings,
+  CropOverlay                   = ClientUtilities.ToggleTool('crop'),
   DecreaseRating                = LrSelection.decreaseRating,
   DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM) end,
+  EnableCalibration                      = ClientUtilities.ToggleTF('EnableCalibration'),
+  EnableCircularGradientBasedCorrections = ClientUtilities.ToggleTF('EnableCircularGradientBasedCorrections'),
+  EnableColorAdjustments                 = ClientUtilities.ToggleTF('EnableColorAdjustments'),
+  EnableDetail                           = ClientUtilities.ToggleTF('EnableDetail'),
+  EnableEffects                          = ClientUtilities.ToggleTF('EnableEffects'),
+  EnableGradientBasedCorrections         = ClientUtilities.ToggleTF('EnableGradientBasedCorrections'),
+  EnableGrayscaleMix                     = ClientUtilities.ToggleTF('EnableGrayscaleMix'),
+  EnableLensCorrections                  = ClientUtilities.ToggleTF('EnableLensCorrections'),
+  EnablePaintBasedCorrections            = ClientUtilities.ToggleTF('EnablePaintBasedCorrections'),
+  EnableRedEye                           = ClientUtilities.ToggleTF('EnableRedEye'),
+  EnableRetouch                          = ClientUtilities.ToggleTF('EnableRetouch'),
+  EnableSplitToning                      = ClientUtilities.ToggleTF('EnableSplitToning'),
+  GraduatedFilter               = ClientUtilities.ToggleTool('gradient'),
   IncreaseRating                = LrSelection.increaseRating,
   IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM) end,
+  LensProfileEnable             = ClientUtilities.Toggle01('LensProfileEnable'),
+  Loupe                         = ClientUtilities.ToggleTool('loupe'),
   Next                          = LrSelection.nextPhoto,
   PasteSelectedSettings         = PasteSelectedSettings,
   PasteSettings                 = PasteSettings,
   Pick                          = LrSelection.flagAsPick,
-  Prev                          = LrSelection.previousPhoto,
+  Preset_1 = ClientUtilities.ApplyPreset(1),
+  Preset_2 = ClientUtilities.ApplyPreset(2),
+  Preset_3 = ClientUtilities.ApplyPreset(3),
+  Preset_4 = ClientUtilities.ApplyPreset(4),
+  Preset_5 = ClientUtilities.ApplyPreset(5),
+  Preset_6 = ClientUtilities.ApplyPreset(6),
+  Preset_7 = ClientUtilities.ApplyPreset(7),
+  Preset_8 = ClientUtilities.ApplyPreset(8),
+  Preset_9 = ClientUtilities.ApplyPreset(9),
+  Preset_10 = ClientUtilities.ApplyPreset(10),
+  Preset_11 = ClientUtilities.ApplyPreset(11),
+  Preset_12 = ClientUtilities.ApplyPreset(12),
+  Preset_13 = ClientUtilities.ApplyPreset(13),
+  Preset_14 = ClientUtilities.ApplyPreset(14),
+  Preset_15 = ClientUtilities.ApplyPreset(15),
+  Preset_16 = ClientUtilities.ApplyPreset(16),
+  Preset_17 = ClientUtilities.ApplyPreset(17),
+  Preset_18 = ClientUtilities.ApplyPreset(18),
+  Preset_19 = ClientUtilities.ApplyPreset(19),
+  Preset_20 = ClientUtilities.ApplyPreset(20),
+  Prev                     = LrSelection.previousPhoto,
   Profile_Adobe_Standard   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
   Profile_Camera_Clear     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
   Profile_Camera_Deep      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
@@ -237,6 +263,8 @@ local ACTIONS = {
   profile8 = function() Profiles.changeProfile('profile8', true) end,
   profile9 = function() Profiles.changeProfile('profile9', true) end,
   profile10 = function() Profiles.changeProfile('profile10', true) end,
+  RadialFilter     = ClientUtilities.ToggleTool('circularGradient'),
+  RedEye           = ClientUtilities.ToggleTool('redeye'),
   Redo             = LrUndo.redo,
   Reject           = LrSelection.flagAsReject,
   RemoveFlag       = LrSelection.removeFlag,
@@ -248,46 +276,22 @@ local ACTIONS = {
   ResetLast        = function() Ut.execFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM) end,
   ResetRedeye      = Ut.wrapFOM(LrDevelopController.resetRedeye),
   ResetSpotRem     = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
-  RevealPanelAdjust = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'adjustPanel')
-    Profiles.changeProfile('adjustPanel') 
-  end,
-  RevealPanelCalibrate = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'calibratePanel')
-    Profiles.changeProfile('calibratePanel') 
-  end,
-  RevealPanelDetail = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'detailPanel')
-    Profiles.changeProfile('detailPanel') 
-  end,
-  RevealPanelEffects = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'effectsPanel')
-    Profiles.changeProfile('effectsPanel') 
-  end,
-  RevealPanelLens = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'lensCorrectionsPanel')
-    Profiles.changeProfile('lensCorrectionsPanel') 
-  end,
-  RevealPanelMixer = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'mixerPanel')
-    Profiles.changeProfile('mixerPanel') 
-  end,
-  RevealPanelSplit = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'splitToningPanel')
-    Profiles.changeProfile('splitToningPanel') 
-  end,
-  RevealPanelTone = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'tonePanel')
-    Profiles.changeProfile('tonePanel') 
-  end,
-  Select1Left = function() LrSelection.extendSelection('left',1) end,
+  RevealPanelAdjust    = ClientUtilities.ChangePanel('adjustPanel'),
+  RevealPanelCalibrate = ClientUtilities.ChangePanel('calibratePanel'),
+  RevealPanelDetail    = ClientUtilities.ChangePanel('detailPanel'), 
+  RevealPanelEffects   = ClientUtilities.ChangePanel('effectsPanel'),
+  RevealPanelLens      = ClientUtilities.ChangePanel('lensCorrectionsPanel'),
+  RevealPanelMixer     = ClientUtilities.ChangePanel('mixerPanel'),
+  RevealPanelSplit     = ClientUtilities.ChangePanel('splitToningPanel'),
+  RevealPanelTone      = ClientUtilities.ChangePanel('tonePanel'),
+  Select1Left  = function() LrSelection.extendSelection('left',1) end,
   Select1Right = function() LrSelection.extendSelection('right',1) end,
-  SetRating0 = function() LrSelection.setRating(0) end,
-  SetRating1 = function() LrSelection.setRating(1) end,
-  SetRating2 = function() LrSelection.setRating(2) end,
-  SetRating3 = function() LrSelection.setRating(3) end,
-  SetRating4 = function() LrSelection.setRating(4) end,
-  SetRating5 = function() LrSelection.setRating(5) end,
+  SetRating0   = function() LrSelection.setRating(0) end,
+  SetRating1   = function() LrSelection.setRating(1) end,
+  SetRating2   = function() LrSelection.setRating(2) end,
+  SetRating3   = function() LrSelection.setRating(3) end,
+  SetRating4   = function() LrSelection.setRating(4) end,
+  SetRating5   = function() LrSelection.setRating(5) end,
   ShoScndVwloupe        = function() LrApplicationView.showSecondaryView('loupe') end,
   ShoScndVwlive_loupe   = function() LrApplicationView.showSecondaryView('live_loupe') end,
   ShoScndVwlocked_loupe = function() LrApplicationView.showSecondaryView('locked_loupe') end,
@@ -304,34 +308,14 @@ local ACTIONS = {
   ShoVwdevelop_before_after_horiz = function() LrApplicationView.showView('develop_before_after_horiz') end,
   ShoVwdevelop_before_after_vert  = function() LrApplicationView.showView('develop_before_after_vert') end,
   ShoVwdevelop_before             = function() LrApplicationView.showView('develop_before') end,
-  SwToMlibrary = function() 
-    LrApplicationView.switchToModule('library') 
-    Profiles.changeProfile('library') 
-  end,
-  SwToMdevelop = function() 
-    LrApplicationView.switchToModule('develop') 
-    Profiles.changeProfile('develop') 
-  end,
-  SwToMmap = function() 
-    LrApplicationView.switchToModule('map') 
-    Profiles.changeProfile('map') 
-  end,
-  SwToMbook = function() 
-    LrApplicationView.switchToModule('book') 
-    Profiles.changeProfile('book') 
-  end,
-  SwToMslideshow = function() 
-    LrApplicationView.switchToModule('slideshow') 
-    Profiles.changeProfile('slideshow') 
-  end,
-  SwToMprint = function() 
-    LrApplicationView.switchToModule('print') 
-    Profiles.changeProfile('print') 
-  end,
-  SwToMweb = function() 
-    LrApplicationView.switchToModule('web') 
-    Profiles.changeProfile('web') 
-  end,
+  SpotRemoval     = ClientUtilities.ToggleTool('dust'),
+  SwToMlibrary   = ClientUtilities.ChangeModule('library'),
+  SwToMdevelop   = ClientUtilities.ChangeModule('develop'),
+  SwToMmap       = ClientUtilities.ChangeModule('map'),
+  SwToMbook      = ClientUtilities.ChangeModule('book'),
+  SwToMslideshow = ClientUtilities.ChangeModule('slideshow'),
+  SwToMprint     = ClientUtilities.ChangeModule('print'),
+  SwToMweb       = ClientUtilities.ChangeModule('web'),
   ToggleBlue       = LrSelection.toggleBlueLabel,
   ToggleGreen      = LrSelection.toggleGreenLabel,
   TogglePurple     = LrSelection.togglePurpleLabel,
@@ -358,37 +342,6 @@ local ACTIONS = {
   ZoomInSmallStep  = LrApplicationView.zoomInSome,
   ZoomOutLargeStep = LrApplicationView.zoomOut,
   ZoomOutSmallStep = LrApplicationView.zoomOutSome,
-}
-
-local TOOL_ALIASES = {
-  AdjustmentBrush = 'localized',
-  CropOverlay     = 'crop',
-  GraduatedFilter = 'gradient',
-  Loupe           = 'loupe',
-  RadialFilter    = 'circularGradient',
-  RedEye          = 'redeye',
-  SpotRemoval     = 'dust',
-}
-
-local TOGGLE_PARAMETERS = { --alternate on/off by button presses
-  ConvertToGrayscale                     = true,
-  EnableCalibration                      = true,
-  EnableCircularGradientBasedCorrections = true,
-  EnableColorAdjustments                 = true,
-  EnableDetail                           = true,
-  EnableEffects                          = true,
-  EnableGradientBasedCorrections         = true,
-  EnableGrayscaleMix                     = true,
-  EnableLensCorrections                  = true,
-  EnablePaintBasedCorrections            = true,
-  EnableRedEye                           = true,
-  EnableRetouch                          = true,
-  EnableSplitToning                      = true,
-}
-
-local TOGGLE_PARAMETERS_01 = { --alternate on/off, but 0/1 rather than false/true
-  AutoLateralCA        = true,
-  LensProfileEnable    = true,
 }
 
 local SETTINGS = {
@@ -458,33 +411,10 @@ local function processMessage(message)
   if type(message) == 'string' then
     -- messages are in the format 'param value'
     local _, _, param, value = message:find( '(%S+)%s(%S+)' )
-
     if(ACTIONS[param]) then -- perform a one time action
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
-    elseif(param:find('Preset_') == 1) then --apply preset by #
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(ProgramPreferences.Presets[tonumber(param:sub(8))]) end
-    elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
-    elseif(TOGGLE_PARAMETERS_01[param]) then --enable/disable
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        if Ut.execFOM(LrDevelopController.getValue(param)) == 0 then
-          LrDevelopController.setValue(param,1)
-        else
-          LrDevelopController.setValue(param,0)
-        end
-      end
-    elseif(TOOL_ALIASES[param]) then -- switch to desired tool
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
-          Ut.execFOM(LrDevelopController.selectTool,'loupe')
-          Profiles.changeProfile('loupe', true)
-        else
-          Ut.execFOM(LrDevelopController.selectTool,TOOL_ALIASES[param])
-          Profiles.changeProfile(param, true)
-        end
-      end
     elseif(SETTINGS[param]) then
       SETTINGS[param](tonumber(value))
     elseif (param == 'ChangedToDirectory') then
