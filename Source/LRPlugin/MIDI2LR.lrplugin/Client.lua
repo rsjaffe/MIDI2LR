@@ -73,18 +73,31 @@ local function PasteSelectedSettings ()
   if LrApplicationView.getCurrentModuleName() ~= 'develop' then
     LrApplicationView.switchToModule('develop')
   end
-  for _,param in ipairs(Parameters.Order) do 
-    if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-      MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
-      LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
+  LrTasks.startAsyncTask ( 
+    function ()
+      local TargetSettings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
+      for _,param in ipairs(Parameters.Order) do 
+        if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
+          TargetSettings[param] = MIDI2LR.Copied_Settings[param]
+        end
+      end
+      for param in pairs(Paste.Duplicates) do
+        if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
+          TargetSettings[param] = MIDI2LR.Copied_Settings[param]
+        end
+      end
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'MIDI2LR: Paste selected settings', 
+        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(TargetSettings) end,
+        { timeout = 4, 
+          callback = function() 
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSelectedSettings') 
+          end, 
+          asynchronous = true 
+        }
+      )
     end
-  end
-  for param in pairs(Paste.Duplicates) do
-    if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-      MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
-      LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
-    end
-  end
+  ) 
 end
 
 local function PasteSettings  ()
@@ -429,20 +442,10 @@ local function updateParam() --closure
       if value == nil then -- didn't do an update--pickup failed, so show target value as well
         value = midi_lerp_to_develop(param, midi_value)
         local actualvalue = LrDevelopController.getValue(param)
-        local precision
-        if value = 0 then
-          precision = 0 
-        else
-          precision = math.max(0,3-math.floor(math.log10(math.abs(value))))
-        end
+        local precision = Ut.precision(value)
         LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToString(value,precision)..'  '..LrStringUtils.numberToString(actualvalue,precision))
       else
-        if value = 0 then
-          precision = 0 
-        else
-          precision = math.max(0,3-math.floor(math.log10(math.abs(value))))
-        end
-        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToString(value,precision))
+        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToString(value,Ut.precision(value)))
       end
     end
     Profiles.changeProfile(Parameters.Names[param][3])
