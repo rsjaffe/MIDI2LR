@@ -556,7 +556,7 @@ return {
       end
     end
   end --save localized file for app
-  
+
   LrFunctionContext.callWithContext( 'socket_remote', function( context )
       -- LrMobdebug.on()
       local client = LrSocket.bind {
@@ -583,6 +583,12 @@ return {
       }
 
       startServer(context)
+
+      if(WIN_ENV) then
+        LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
+      else
+        LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app')) 
+      end
 
       math.randomseed(os.time())
       currentLoadVersion = math.random() --in case currentLoadVersion gets initialized to 0 each load
@@ -620,11 +626,3 @@ return {
     end )
 end )
 
-LrTasks.startAsyncTask( function()
-    if(WIN_ENV) then
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
-    else
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') 
-    end
-  end
-)
