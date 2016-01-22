@@ -18,7 +18,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 return {
-  LrShutdownFunction = function(doneFunction, progressFunction)  
+  LrShutdownFunction = function(doneFunction, progressFunction) 
+    local LrPathUtils         = import 'LrPathUtils'
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
     -- Report shutdown
@@ -31,9 +32,9 @@ return {
         currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
         --shut down app
         if(WIN_ENV) then
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.exe')
+          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
         else
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.app')
+          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
         end
       end
       LrTasks.sleep(1) 
