@@ -24,6 +24,7 @@ local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFileUtils         = import 'LrFileUtils'
+local LrStringUtils       = import 'LrStringUtils'
 local LrView              = import 'LrView'
 
 local ProfileTypes = {
@@ -367,7 +368,7 @@ local function EndDialog(obstable, status)
     useDefaults() -- empty out prior settings
     for k in pairs(ProfileTypes) do
       if type(obstable['Profile'..k])=='string' then
-        ProgramPreferences.Profiles[k] = obstable['Profile'..k]:gsub("^%s*(.-)%s*$", "%1")
+        ProgramPreferences.Profiles[k] = LrStringUtils.trimWhitespace(obstable['Profile'..k])
       end
     end
     ProgramPreferences.ProfilesShowBezelOnChange = obstable.ProfilesShowBezelOnChange
