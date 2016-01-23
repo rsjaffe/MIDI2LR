@@ -25,21 +25,17 @@ LrMobdebug.start()
 local CU              = require 'ClientUtilities'
 local Limits          = require 'Limits'
 local Parameters      = require 'Parameters'
-local Paste           = require 'Paste'
 local Preferences     = require 'Preferences'
 local Profiles        = require 'Profiles'
 local Ut              = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
-local LrBinding           = import 'LrBinding'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
-local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
 local LrStringUtils       = import 'LrStringUtils'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
-local LrView              = import 'LrView'
 -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
 math.randomseed(os.time())
 currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
@@ -47,156 +43,14 @@ currentLoadVersion = currentLoadVersion + 1
 
 MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
   LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
-
 -------------preferences
 Preferences.Load() 
 -------------end preferences section
-
-local function PasteSelectedSettings ()
-  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
-  if ProgramPreferences.PastePopup then 
-    LrFunctionContext.callWithContext( "checkPaste", 
-      function( context )
-        local f = LrView.osFactory()
-        local properties = LrBinding.makePropertyTable( context )
-        local result = LrDialogs.presentModalDialog (
-          { 
-            title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections') ,
-            contents = f:view{ bind_to_object = properties, Paste.StartDialog(properties,f) }
-          }
-        )
-        Paste.EndDialog (properties,result)
-      end 
-    )
-  end
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
-  LrTasks.startAsyncTask ( 
-    function ()
-      local TargetSettings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
-      for _,param in ipairs(Parameters.Order) do 
-        if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-          TargetSettings[param] = MIDI2LR.Copied_Settings[param]
-        end
-      end
-      for param in pairs(Paste.Duplicates) do
-        if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-          TargetSettings[param] = MIDI2LR.Copied_Settings[param]
-        end
-      end
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'MIDI2LR: Paste selected settings', 
-        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(TargetSettings) end,
-        { timeout = 4, 
-          callback = function() 
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSelectedSettings') 
-          end, 
-          asynchronous = true 
-        }
-      )
-    end
-  ) 
-end
-
-local function PasteSettings  ()
-  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  LrTasks.startAsyncTask ( function () 
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'MIDI2LR: Paste settings', 
-        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
-        { timeout = 4, 
-          callback = function() 
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') 
-          end, 
-          asynchronous = true 
-        }
-      ) 
-    end 
-  )
-end
-
-local function CopySettings ()
-  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  LrTasks.startAsyncTask ( 
-    function () 
-      MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
-    end
-  ) 
-end
-
-local function addToCollection()
-  local catalog = LrApplication.activeCatalog()
-  local quickname = catalog.kQuickCollectionIdentifier
-  local targetname = catalog.kTargetCollection
-  local quickcollection, targetcollection
-  LrTasks.startAsyncTask (
-    function () 
-      LrApplication.activeCatalog():withWriteAccessDo( 
-        '',
-        function()
-          quickcollection = catalog:createCollection(quickname,nil,true)
-          targetcollection = catalog:createCollection(targetname,nil,true)
-        end,
-        { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' GetCollection.') end, 
-          asynchronous = true 
-        }
-      )
-    end
-  )
-  return function(collectiontype,photos)
-    if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-    local CollectionName
-    if collectiontype == 'quick' then
-      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
-    else
-      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToTargetCollection=Add to Target Collection"
-    end
-    LrTasks.startAsyncTask ( 
-      function () 
-        LrApplication.activeCatalog():withWriteAccessDo( 
-          CollectionName,
-          function()
-            if LrApplication.activeCatalog() ~= catalog then
-              catalog = LrApplication.activeCatalog()
-              quickname = catalog.kQuickCollectionIdentifier
-              targetname = catalog.kTargetCollection
-              quickcollection = catalog:createCollection(quickname,nil,true)
-              targetcollection = catalog:createCollection(targetname,nil,true)
-            elseif catalog.kTargetCollection ~= targetname and collectiontype ~= 'quick' then
-              targetcollection = catalog:createCollection(targetname,nil,true)
-            end
-            local usecollection
-            if collectiontype == 'quick' then
-              usecollection = quickcollection
-            else
-              usecollection = targetcollection
-            end
-            if type(photos)==table then
-              usecollection:addPhotos(photos)
-            else
-              usecollection:addPhotos {photos}
-            end
-          end,
-          { timeout = 4, 
-            callback = function() 
-              LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' AddToCollection.') 
-            end, 
-            asynchronous = true 
-          }
-        )
-      end
-    )
-  end
-end
-addToCollection = addToCollection() --closure
-
 local ACTIONS = {
   AdjustmentBrush          = CU.fToggleTool('localized'),
   AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
   ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
-  CopySettings             = CopySettings,
+  CopySettings             = CU.CopySettings,
   CropOverlay              = CU.fToggleTool('crop'),
   DecreaseRating           = LrSelection.decreaseRating,
   DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM) end,
@@ -218,8 +72,8 @@ local ACTIONS = {
   LensProfileEnable        = CU.fToggle01('LensProfileEnable'),
   Loupe                    = CU.fToggleTool('loupe'),
   Next                     = LrSelection.nextPhoto,
-  PasteSelectedSettings    = PasteSelectedSettings,
-  PasteSettings            = PasteSettings,
+  PasteSelectedSettings    = CU.PasteSelectedSettings,
+  PasteSettings            = CU.PasteSettings,
   Pick                     = LrSelection.flagAsPick,
   Preset_1                 = CU.fApplyPreset(1),
   Preset_2                 = CU.fApplyPreset(2),
@@ -425,11 +279,10 @@ local function processMessage(message)
   end
 end
 
-
-
 -- Main task
 LrTasks.startAsyncTask( function() 
     -- LrMobdebug.on()
+    local LrFunctionContext   = import 'LrFunctionContext'
     local LrPathUtils = import 'LrPathUtils'
     do --save localized file for app
       local LrFileUtils    = import 'LrFileUtils'
