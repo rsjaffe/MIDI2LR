@@ -73,7 +73,7 @@ public:
     virtual void connected() override;
     virtual void disconnected() override;
 	void SetCommandMap(CommandMap *map);
-
+	void Init(LR_IPC_IN *in, LR_IPC_OUT out, CommandMap commandMap);
 private:
 	enum class SWITCH_STATE
 	{

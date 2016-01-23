@@ -50,6 +50,7 @@ public:
 		{
 			
 			//set the reference to the command map
+			m_profileManager.Init(m_lr_IPC_IN, m_lr_IPC_OUT)
 			m_profileManager.SetCommandMap(&m_commandMap);
 
 	        mainWindow = new MainWindow(getApplicationName());

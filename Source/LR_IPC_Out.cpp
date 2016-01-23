@@ -27,12 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // define the port used to 
 #define LR_OUT_PORT 58763 
 
-LR_IPC_OUT& LR_IPC_OUT::getInstance()
-{
-	static LR_IPC_OUT instance;
-	return instance;
-}
-
 LR_IPC_OUT::LR_IPC_OUT() : InterprocessConnection()
 {
 	MIDIProcessor::getInstance().addMIDICommandListener(this);
@@ -49,6 +43,11 @@ void LR_IPC_OUT::timerCallback()
 {
 	if (!isConnected())
 		connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
+}
+
+void LR_IPC_OUT::SetCommandMap(CommandMap * mapCommand)
+{
+	m_commandMap = mapCommand;
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
@@ -96,30 +95,37 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
 	MIDI_Message cc(midiChannel, controller, true);
 
-	if (!CommandMap::getInstance().messageExistsInMap(cc) ||
-		CommandMap::getInstance().getCommandforMessage(cc) == "Unmapped" ||
-		find(LRCommandList::NextPrevProfile.begin(),
-			LRCommandList::NextPrevProfile.end(),
-			CommandMap::getInstance().getCommandforMessage(cc)) != LRCommandList::NextPrevProfile.end())
-		return;
+	if (m_commandMap)
+	{
+		if (!m_commandMap->messageExistsInMap(cc) ||
+			m_commandMap->getCommandforMessage(cc) == "Unmapped" ||
+			find(LRCommandList::NextPrevProfile.begin(),
+				LRCommandList::NextPrevProfile.end(),
+				m_commandMap->getCommandforMessage(cc)) != LRCommandList::NextPrevProfile.end())
+			return;
 
-	_commandToSend = CommandMap::getInstance().getCommandforMessage(cc);
-	_valueToSend = value;
-	handleAsyncUpdate();
+		_commandToSend = m_commandMap->getCommandforMessage(cc);
+		_valueToSend = value;
+		handleAsyncUpdate();
+	}
 }
 
 void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 {
 	MIDI_Message note_msg(midiChannel, note, false);
 
-	if (!CommandMap::getInstance().messageExistsInMap(note_msg) ||
-		CommandMap::getInstance().getCommandforMessage(note_msg) == "Unmapped" ||
-		find(LRCommandList::NextPrevProfile.begin(),
-			LRCommandList::NextPrevProfile.end(),
-			CommandMap::getInstance().getCommandforMessage(note_msg)) != LRCommandList::NextPrevProfile.end())
-		return;
+	if (m_commandMap)
+	{
 
-	_commandToSend = CommandMap::getInstance().getCommandforMessage(note_msg);
-	_valueToSend = 127;
-	handleAsyncUpdate();
+		if (!m_commandMap->messageExistsInMap(note_msg) ||
+			m_commandMap->getCommandforMessage(note_msg) == "Unmapped" ||
+			find(LRCommandList::NextPrevProfile.begin(),
+				LRCommandList::NextPrevProfile.end(),
+				m_commandMap->getCommandforMessage(note_msg)) != LRCommandList::NextPrevProfile.end())
+			return;
+
+		_commandToSend = m_commandMap->getCommandforMessage(note_msg);
+		_valueToSend = 127;
+		handleAsyncUpdate();
+	}
 }

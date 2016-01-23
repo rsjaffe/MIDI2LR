@@ -45,12 +45,6 @@ SettingsManager::SettingsManager()
 	ProfileManager::getInstance().setProfileDirectory(profileDir);
 }
 
-SettingsManager& SettingsManager::getInstance()
-{
-	static SettingsManager instance;
-	return instance;
-}
-
 void SettingsManager::setPickupEnabled(bool enabled)
 {
 	_propertiesFile->setValue("pickup_enabled", enabled);

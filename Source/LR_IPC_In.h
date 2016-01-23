@@ -44,10 +44,11 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
+	void SetCommandMap(CommandMap *mapCommand);
 private:
 	// process a line received from the socket
 	void processLine(const String& line);
-
+	CommandMap *m_commandMap;
 	std::unordered_map<String, int> parameterMap;
 };
 

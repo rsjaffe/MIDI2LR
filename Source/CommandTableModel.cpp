@@ -104,7 +104,10 @@ void CommandTableModel::removeRow(int row)
 {
 	MIDI_Message msg = _commands[row];
 	_commands.erase(_commands.begin() + row);
-	CommandMap::getInstance().removeMessage(msg);
+	if (m_commandMap)
+	{
+		m_commandMap->removeMessage(msg);
+	}
 	_rows--;
 }
 
@@ -128,7 +131,7 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 	removeAllRows();
 
 	XmlElement* setting = root->getFirstChildElement();
-	while (setting)
+	while ((setting) && (m_commandMap))
 	{
 		if (setting->hasAttribute("controller"))
 		{
@@ -137,10 +140,13 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 
 			// older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
 			if (setting->getIntAttribute("command", -1) != -1)
-				CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), cc);
+			{
+				m_commandMap->addCommandforMessage(setting->getIntAttribute("command"), cc);
+			}
 			else
-				CommandMap::getInstance().addCommandforMessage(setting->getStringAttribute("command_string"), cc);
-
+			{
+				m_commandMap->addCommandforMessage(setting->getStringAttribute("command_string"), cc);
+			}
 		}
 		else if (setting->hasAttribute("note"))
 		{
@@ -149,9 +155,13 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 
 			// older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
 			if (setting->getIntAttribute("command", -1) != -1)
-				CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), note);
+			{
+				m_commandMap->addCommandforMessage(setting->getIntAttribute("command"), note);
+			}
 			else
-				CommandMap::getInstance().addCommandforMessage(setting->getStringAttribute("command_string"), note);
+			{
+				m_commandMap->addCommandforMessage(setting->getStringAttribute("command_string"), note);
+			}
 		}
 		setting = setting->getNextElement();
 	}

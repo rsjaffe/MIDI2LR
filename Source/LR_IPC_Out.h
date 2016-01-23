@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MIDIProcessor.h"
+#include "CommandMap.h"
 
 class LRConnectionListener
 {
@@ -67,11 +68,10 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
+	void SetCommandMap(CommandMap *mapCommand);
 private:
 	
-
-
-
+	CommandMap *m_commandMap;
 	Array<LRConnectionListener *> _listeners;
 	int _valueToSend;
 	String _commandToSend;
