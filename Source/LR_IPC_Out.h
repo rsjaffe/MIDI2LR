@@ -43,10 +43,8 @@ class LR_IPC_OUT : public InterprocessConnection,
 	public Timer
 {
 public:
-	static const int LR_OUT_PORT;
-
-	static LR_IPC_OUT& getInstance();
-
+	LR_IPC_OUT();
+	virtual ~LR_IPC_OUT();
 	// closes the socket
 	void shutdown();
 
@@ -70,10 +68,9 @@ public:
 	// Timer callback
 	virtual void timerCallback() override;
 private:
-	LR_IPC_OUT();
+	
 
-	LR_IPC_OUT(LR_IPC_OUT const&) = delete;
-	void operator=(LR_IPC_OUT const&) = delete;
+
 
 	Array<LRConnectionListener *> _listeners;
 	int _valueToSend;

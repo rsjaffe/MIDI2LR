@@ -24,7 +24,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "Logger.h"
 
-const int LR_IPC_IN::LR_IN_PORT = 58764;
+//define the communication port
+#define LR_IN_PORT 58764
 
 LR_IPC_IN& LR_IPC_IN::getInstance()
 {

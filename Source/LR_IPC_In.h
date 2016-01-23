@@ -30,11 +30,9 @@ class LR_IPC_IN : public StreamingSocket,
 	public Timer,
 	public Thread
 {
-public:
-	static const int LR_IN_PORT;
-
-	static LR_IPC_IN& getInstance();
-
+public:	
+	LR_IPC_IN();
+	virtual ~LR_IPC_IN();
 	// closes the socket
 	void shutdown();
 
@@ -47,11 +45,6 @@ public:
 	// Timer callback
 	virtual void timerCallback() override;
 private:
-	LR_IPC_IN();
-
-	LR_IPC_IN(LR_IPC_IN const&) = delete;
-	void operator=(LR_IPC_IN const&) = delete;
-
 	// process a line received from the socket
 	void processLine(const String& line);
 

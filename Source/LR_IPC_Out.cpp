@@ -24,7 +24,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "Tools.h"
 
-const int LR_IPC_OUT::LR_OUT_PORT = 58763;
+// define the port used to 
+#define LR_OUT_PORT 58763 
 
 LR_IPC_OUT& LR_IPC_OUT::getInstance()
 {

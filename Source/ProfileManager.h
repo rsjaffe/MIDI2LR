@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MIDIProcessor.h"
 #include "LR_IPC_OUT.h"
+#include "CommandMap.h"
 
 class ProfileChangeListener
 {
@@ -38,8 +39,9 @@ public:
 class ProfileManager : public MIDICommandListener,
 	public AsyncUpdater, public LRConnectionListener
 {
-public:
-	static ProfileManager& getInstance();
+public:	
+	ProfileManager();
+	virtual ~ProfileManager();
 	void addListener(ProfileChangeListener *listener);
 
 	// sets the default profile directory and scans its contents for profiles
@@ -70,6 +72,7 @@ public:
     // LRConnectionListener interface
     virtual void connected() override;
     virtual void disconnected() override;
+	void SetCommandMap(CommandMap *map);
 
 private:
 	enum class SWITCH_STATE
@@ -79,7 +82,7 @@ private:
 		NEXT,
 	};
 
-	ProfileManager();
+	
 
 	ProfileManager(ProfileManager const&) = delete;
 	void operator=(ProfileManager const&) = delete;
@@ -89,6 +92,7 @@ private:
 	Array<ProfileChangeListener *> _listeners;
 	int _currentProfileIdx;
 	SWITCH_STATE _switchState;
+	CommandMap *m_commandMap;
 };
 
 

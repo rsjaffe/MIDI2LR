@@ -29,7 +29,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class SettingsManager : public LRConnectionListener
 {
 public:
-	static SettingsManager& getInstance();
+	SettingsManager();
+	virtual ~SettingsManager();
 
 	bool getPickupEnabled() const;
 	void setPickupEnabled(bool enabled);
@@ -45,10 +46,7 @@ public:
 	void setAutoHideTime(int newTime);
 
 private:
-	SettingsManager();
 
-	SettingsManager(SettingsManager const&) = delete;
-	void operator=(SettingsManager const&) = delete;
 
 	ScopedPointer<PropertiesFile> _propertiesFile;
 };

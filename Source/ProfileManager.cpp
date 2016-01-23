@@ -20,16 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "ProfileManager.h"
-#include "CommandMap.h"
 #include "LRCommands.h"
 
-ProfileManager& ProfileManager::getInstance()
-{
-	static ProfileManager instance;
-	return instance;
-}
-
-ProfileManager::ProfileManager() : _currentProfileIdx(0)
+ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(NULL)
 {
 	MIDIProcessor::getInstance().addMIDICommandListener(this);
     // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
@@ -107,41 +100,47 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
 	const MIDI_Message cc(midiChannel, controller, true);
 
-	// return if the value isn't 0 or 127, or the command isn't a valid profile-related command
-	if ((value != 0 && value != 127) || !CommandMap::getInstance().messageExistsInMap(cc))
-		return;
+	if (m_commandMap)
+	{
+		// return if the value isn't 0 or 127, or the command isn't a valid profile-related command
+		if ((value != 0 && value != 127) || !m_commandMap->messageExistsInMap(cc))
+			return;
 
-    if (CommandMap::getInstance().getCommandforMessage(cc) == "Previous Profile")
-    {
-        _switchState = SWITCH_STATE::PREV;
-        triggerAsyncUpdate();
-    }
-    else if (CommandMap::getInstance().getCommandforMessage(cc) == "Next Profile")
-    {
-        _switchState = SWITCH_STATE::NEXT;
-        triggerAsyncUpdate();
-    }
-
+		if (m_commandMap->getCommandforMessage(cc) == "Previous Profile")
+		{
+			_switchState = SWITCH_STATE::PREV;
+			triggerAsyncUpdate();
+		}
+		else if (m_commandMap->getCommandforMessage(cc) == "Next Profile")
+		{
+			_switchState = SWITCH_STATE::NEXT;
+			triggerAsyncUpdate();
+		}
+	}
 }
 
 void ProfileManager::handleMidiNote(int midiChannel, int note)
 {
 	const MIDI_Message note_msg(midiChannel, note, false);
 
-	// return if the command isn't a valid profile-related command
-	if (!CommandMap::getInstance().messageExistsInMap(note_msg))
-		return;
+	if (m_commandMap)
+	{
 
-    if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Previous Profile")
-    {
-        _switchState = SWITCH_STATE::PREV;
-        triggerAsyncUpdate();
-    }
-    else if (CommandMap::getInstance().getCommandforMessage(note_msg) == "Next Profile")
-    {
-        _switchState = SWITCH_STATE::NEXT;
-        triggerAsyncUpdate();
-    }
+		// return if the command isn't a valid profile-related command
+		if (!m_commandMap->messageExistsInMap(note_msg))
+			return;
+
+		if (m_commandMap->getCommandforMessage(note_msg) == "Previous Profile")
+		{
+			_switchState = SWITCH_STATE::PREV;
+			triggerAsyncUpdate();
+		}
+		else if (m_commandMap->getCommandforMessage(note_msg) == "Next Profile")
+		{
+			_switchState = SWITCH_STATE::NEXT;
+			triggerAsyncUpdate();
+		}
+	}
 }
 
 void ProfileManager::handleAsyncUpdate()
@@ -170,4 +169,10 @@ void ProfileManager::connected()
 void ProfileManager::disconnected()
 {
 
+}
+
+void ProfileManager::SetCommandMap(CommandMap *mapCommand)
+{
+	//copy the pointer
+	m_commandMap = mapCommand;
 }

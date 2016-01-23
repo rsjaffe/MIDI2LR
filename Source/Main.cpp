@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_IN.h"
 #include "VersionChecker.h"
 #include "MainWindow.h"
+#include "CommandMap.h"
 
 #define SHUT_DOWN_STRING "--LRSHUTDOWN"
 
@@ -47,7 +48,10 @@ public:
 	{
 		if (commandLine != SHUT_DOWN_STRING)
 		{
-	    
+			
+			//set the reference to the command map
+			m_profileManager.SetCommandMap(&m_commandMap);
+
 	        mainWindow = new MainWindow(getApplicationName());
 		    mainWindow->Init();
 		    // Check for latest version
@@ -65,10 +69,10 @@ public:
 	{
 		// Save the current profile as default.xml
 		File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-		CommandMap::getInstance().toXMLDocument(defaultProfile);
+		m_commandMap.toXMLDocument(defaultProfile);
 
 		LR_IPC_OUT::getInstance().shutdown();
-		LR_IPC_IN::getInstance().shutdown();
+		m_lr_IPC_IN.shutdown();
 		mainWindow = nullptr; // (deletes our window)
 		quit();
 	}
@@ -99,6 +103,12 @@ public:
 private:
 	ScopedPointer<MainWindow> mainWindow;
 	VersionChecker _versionChecker;
+
+	// the array with the commands
+	CommandMap m_commandMap;
+	LR_IPC_IN m_lr_IPC_IN;
+	LR_IPC_OUT m_lr_IPC_OUT;
+	ProfileManager m_profileManager;
 };
 
 //==============================================================================
