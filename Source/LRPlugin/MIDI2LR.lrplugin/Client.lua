@@ -508,6 +508,19 @@ LrTasks.startAsyncTask( function()
   end --save localized file for app
 
   LrFunctionContext.callWithContext( 'socket_remote', function( context )
+      local LrRecursionGuard = import 'LrRecursionGuard'
+      local guard = LrRecursionGuard('AdjustmentChangeObserver')
+      --call following within guard
+      local function AdjustmentChangeObserver(observer)
+        for _,param in ipairs(Parameters.Order) do
+          local lrvalue = LrDevelopController.getValue(param)
+          if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
+            MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+            observer[param] = lrvalue
+            MIDI2LR.LAST_PARAM = param
+          end
+        end
+      end
       -- LrMobdebug.on()
       local client = LrSocket.bind {
         functionContext = context,
@@ -554,14 +567,8 @@ LrTasks.startAsyncTask( function()
         context, 
         MIDI2LR.PARAM_OBSERVER, 
         function ( observer ) 
-          if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
-          for _,param in ipairs(Parameters.Order) do
-            local lrvalue = LrDevelopController.getValue(param)
-            if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-              MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-              observer[param] = lrvalue
-              MIDI2LR.LAST_PARAM = param
-            end
+          if LrApplicationView.getCurrentModuleName() == 'develop' then
+            guard:performWithGuard(AdjustmentChangeObserver,observer)
           end
         end 
       )
