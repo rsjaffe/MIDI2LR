@@ -53,7 +53,8 @@ public:
 			m_profileManager.SetCommandMap(&m_commandMap);
 
 	        mainWindow = new MainWindow(getApplicationName());
-		    mainWindow->Init();
+		    mainWindow->Init(m_commandMap);
+			
 		    // Check for latest version
 		    _versionChecker.startThread();
 		}
@@ -70,8 +71,7 @@ public:
 		// Save the current profile as default.xml
 		File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
 		m_commandMap.toXMLDocument(defaultProfile);
-
-		LR_IPC_OUT::getInstance().shutdown();
+		m_lr_IPC_OUT.shutdown();
 		m_lr_IPC_IN.shutdown();
 		mainWindow = nullptr; // (deletes our window)
 		quit();

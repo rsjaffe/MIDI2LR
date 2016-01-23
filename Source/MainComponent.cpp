@@ -347,3 +347,9 @@ void MainContentComponent::SetTimerText(int timeValue)
 	}
 
 }
+
+void MainContentComponent::SetCommandMap(CommandMap *commandMap)
+{
+	//call the function of the sub component.
+	_commandTableModel.SetCommandMap(commandMap);
+}

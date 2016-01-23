@@ -72,6 +72,7 @@ public:
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
     void SetTimerText(int timeValue);
+	void SetCommandMap(CommandMap *commandMap);
 protected:
     void SetLabelSettings(Label &lblToSet);
     

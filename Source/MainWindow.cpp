@@ -54,12 +54,16 @@ void MainWindow::timerCallback(void)
 
 }
 
-void MainWindow::Init(void)
+void MainWindow::Init(CommandMap *commandMap)
 {
 	
 	// get the auto time setting
 	m_autoHideCounter = SettingsManager::getInstance().getAutoHideTime();
 	//start timing
 	this->startTimer(1000);	
-
+	
+	if (m_windowContent)
+	{
+		m_windowContent->SetCommandMap(commandMap);
+	}
 }
