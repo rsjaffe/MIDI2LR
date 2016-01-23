@@ -36,8 +36,6 @@ local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFunctionContext   = import 'LrFunctionContext'
 local LrSelection         = import 'LrSelection'
-local LrShell             = import 'LrShell'
-local LrSocket            = import 'LrSocket'
 local LrStringUtils       = import 'LrStringUtils'
 local LrTasks             = import 'LrTasks'
 local LrUndo              = import 'LrUndo'
@@ -427,28 +425,14 @@ local function processMessage(message)
   end
 end
 
-local function startServer(context)
-  MIDI2LR.SERVER = LrSocket.bind {
-    functionContext = context,
-    plugin = _PLUGIN,
-    port = MIDI2LR.SEND_PORT,
-    mode = 'send',
-    onClosed = function( socket ) -- this callback never seems to get called...
-      -- MIDI2LR closed connection, allow for reconnection
-      -- socket:reconnect()
-    end,
-    onError = function( socket, err )
-      socket:reconnect()
-    end,
-  }
-end
+
 
 -- Main task
 LrTasks.startAsyncTask( function() 
     -- LrMobdebug.on()
     local LrPathUtils = import 'LrPathUtils'
     do --save localized file for app
-      local LrFileUtils = import 'LrFileUtils'
+      local LrFileUtils    = import 'LrFileUtils'
       local LrLocalization = import 'LrLocalization'
       local Info = require 'Info'
       local versionmismatch = false
@@ -508,7 +492,9 @@ LrTasks.startAsyncTask( function()
   end --save localized file for app
 
   LrFunctionContext.callWithContext( 'socket_remote', function( context )
-      local LrRecursionGuard = import 'LrRecursionGuard'
+      local LrRecursionGuard    = import 'LrRecursionGuard'
+      local LrShell             = import 'LrShell'
+      local LrSocket            = import 'LrSocket'
       local guard = LrRecursionGuard('AdjustmentChangeObserver')
       --call following within guard
       local function AdjustmentChangeObserver(observer)
@@ -520,6 +506,22 @@ LrTasks.startAsyncTask( function()
             MIDI2LR.LAST_PARAM = param
           end
         end
+      end
+      -- wrapped in function so can be called when connection lost
+      local function startServer(context)
+        MIDI2LR.SERVER = LrSocket.bind {
+          functionContext = context,
+          plugin = _PLUGIN,
+          port = MIDI2LR.SEND_PORT,
+          mode = 'send',
+          onClosed = function( socket ) -- this callback never seems to get called...
+            -- MIDI2LR closed connection, allow for reconnection
+            -- socket:reconnect()
+          end,
+          onError = function( socket, err )
+            socket:reconnect()
+          end,
+        }
       end
       -- LrMobdebug.on()
       local client = LrSocket.bind {
