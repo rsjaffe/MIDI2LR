@@ -26,7 +26,7 @@ local LrDevelopController = import 'LrDevelopController'
 local LrDialogs = import 'LrDialogs'
 local LrTasks = import 'LrTasks'
 
-local function ApplyPreset(presetnumber)
+local function fApplyPreset(presetnumber)
   return function()
     local presetUuid = ProgramPreferences.Presets[presetnumber]
     if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -43,21 +43,21 @@ local function ApplyPreset(presetnumber)
   end
 end
 
-local function ChangePanel(panelname)
+local function fChangePanel(panelname)
   return function()
     Ut.execFOM(LrDevelopController.revealPanel,panelname)
     Profiles.changeProfile(panelname) 
   end
 end
 
-local function ChangeModule(modulename)
+local function fChangeModule(modulename)
   return function()
     LrApplicationView.switchToModule(modulename) 
     Profiles.changeProfile(modulename) 
   end
 end
 
-local function Toggle01(param)
+local function fToggle01(param)
   return function()
     if Ut.execFOM(LrDevelopController.getValue(param)) == 0 then
       LrDevelopController.setValue(param,1)
@@ -67,13 +67,13 @@ local function Toggle01(param)
   end
 end
 
-local function ToggleTF(param)
+local function fToggleTF(param)
   return function()
     LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param))
   end
 end
 
-local function ToggleTool(param)
+local function fToggleTool(param)
   return function()
     if LrApplicationView.getCurrentModuleName() ~= 'develop' then
       LrApplicationView.switchToModule('develop')
@@ -90,11 +90,11 @@ end
 
 
 return {
-  ApplyPreset = ApplyPreset,
-  ChangeModule = ChangeModule,
-  ChangePanel = ChangePanel,
-  Toggle01 = Toggle01,
-  ToggleTF = ToggleTF,
-  ToggleTool = ToggleTool,
+  fApplyPreset = fApplyPreset,
+  fChangeModule = fChangeModule,
+  fChangePanel = fChangePanel,
+  fToggle01 = fToggle01,
+  fToggleTF = fToggleTF,
+  fToggleTool = fToggleTool,
 
 }

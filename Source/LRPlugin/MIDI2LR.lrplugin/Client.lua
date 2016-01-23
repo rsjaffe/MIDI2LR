@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
-local ClientUtilities = require 'ClientUtilities'
+local CU              = require 'ClientUtilities'
 local Limits          = require 'Limits'
 local Parameters      = require 'Parameters'
 local Paste           = require 'Paste'
@@ -195,54 +195,54 @@ end
 addToCollection = addToCollection() --closure
 
 local ACTIONS = {
-  AdjustmentBrush               = ClientUtilities.ToggleTool('localized'),
-  AutoLateralCA                 = ClientUtilities.Toggle01('AutoLateralCA'),
-  ConvertToGrayscale            = ClientUtilities.ToggleTF('ConvertToGrayscale'),
+  AdjustmentBrush               = CU.fToggleTool('localized'),
+  AutoLateralCA                 = CU.fToggle01('AutoLateralCA'),
+  ConvertToGrayscale            = CU.fToggleTF('ConvertToGrayscale'),
   CopySettings                  = CopySettings,
-  CropOverlay                   = ClientUtilities.ToggleTool('crop'),
+  CropOverlay                   = CU.fToggleTool('crop'),
   DecreaseRating                = LrSelection.decreaseRating,
   DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM) end,
-  EnableCalibration                      = ClientUtilities.ToggleTF('EnableCalibration'),
-  EnableCircularGradientBasedCorrections = ClientUtilities.ToggleTF('EnableCircularGradientBasedCorrections'),
-  EnableColorAdjustments                 = ClientUtilities.ToggleTF('EnableColorAdjustments'),
-  EnableDetail                           = ClientUtilities.ToggleTF('EnableDetail'),
-  EnableEffects                          = ClientUtilities.ToggleTF('EnableEffects'),
-  EnableGradientBasedCorrections         = ClientUtilities.ToggleTF('EnableGradientBasedCorrections'),
-  EnableGrayscaleMix                     = ClientUtilities.ToggleTF('EnableGrayscaleMix'),
-  EnableLensCorrections                  = ClientUtilities.ToggleTF('EnableLensCorrections'),
-  EnablePaintBasedCorrections            = ClientUtilities.ToggleTF('EnablePaintBasedCorrections'),
-  EnableRedEye                           = ClientUtilities.ToggleTF('EnableRedEye'),
-  EnableRetouch                          = ClientUtilities.ToggleTF('EnableRetouch'),
-  EnableSplitToning                      = ClientUtilities.ToggleTF('EnableSplitToning'),
-  GraduatedFilter               = ClientUtilities.ToggleTool('gradient'),
+  EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
+  EnableCircularGradientBasedCorrections = CU.fToggleTF('EnableCircularGradientBasedCorrections'),
+  EnableColorAdjustments                 = CU.fToggleTF('EnableColorAdjustments'),
+  EnableDetail                           = CU.fToggleTF('EnableDetail'),
+  EnableEffects                          = CU.fToggleTF('EnableEffects'),
+  EnableGradientBasedCorrections         = CU.fToggleTF('EnableGradientBasedCorrections'),
+  EnableGrayscaleMix                     = CU.fToggleTF('EnableGrayscaleMix'),
+  EnableLensCorrections                  = CU.fToggleTF('EnableLensCorrections'),
+  EnablePaintBasedCorrections            = CU.fToggleTF('EnablePaintBasedCorrections'),
+  EnableRedEye                           = CU.fToggleTF('EnableRedEye'),
+  EnableRetouch                          = CU.fToggleTF('EnableRetouch'),
+  EnableSplitToning                      = CU.fToggleTF('EnableSplitToning'),
+  GraduatedFilter               = CU.fToggleTool('gradient'),
   IncreaseRating                = LrSelection.increaseRating,
   IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM) end,
-  LensProfileEnable             = ClientUtilities.Toggle01('LensProfileEnable'),
-  Loupe                         = ClientUtilities.ToggleTool('loupe'),
+  LensProfileEnable             = CU.fToggle01('LensProfileEnable'),
+  Loupe                         = CU.fToggleTool('loupe'),
   Next                          = LrSelection.nextPhoto,
   PasteSelectedSettings         = PasteSelectedSettings,
   PasteSettings                 = PasteSettings,
   Pick                          = LrSelection.flagAsPick,
-  Preset_1 = ClientUtilities.ApplyPreset(1),
-  Preset_2 = ClientUtilities.ApplyPreset(2),
-  Preset_3 = ClientUtilities.ApplyPreset(3),
-  Preset_4 = ClientUtilities.ApplyPreset(4),
-  Preset_5 = ClientUtilities.ApplyPreset(5),
-  Preset_6 = ClientUtilities.ApplyPreset(6),
-  Preset_7 = ClientUtilities.ApplyPreset(7),
-  Preset_8 = ClientUtilities.ApplyPreset(8),
-  Preset_9 = ClientUtilities.ApplyPreset(9),
-  Preset_10 = ClientUtilities.ApplyPreset(10),
-  Preset_11 = ClientUtilities.ApplyPreset(11),
-  Preset_12 = ClientUtilities.ApplyPreset(12),
-  Preset_13 = ClientUtilities.ApplyPreset(13),
-  Preset_14 = ClientUtilities.ApplyPreset(14),
-  Preset_15 = ClientUtilities.ApplyPreset(15),
-  Preset_16 = ClientUtilities.ApplyPreset(16),
-  Preset_17 = ClientUtilities.ApplyPreset(17),
-  Preset_18 = ClientUtilities.ApplyPreset(18),
-  Preset_19 = ClientUtilities.ApplyPreset(19),
-  Preset_20 = ClientUtilities.ApplyPreset(20),
+  Preset_1 = CU.fApplyPreset(1),
+  Preset_2 = CU.fApplyPreset(2),
+  Preset_3 = CU.fApplyPreset(3),
+  Preset_4 = CU.fApplyPreset(4),
+  Preset_5 = CU.fApplyPreset(5),
+  Preset_6 = CU.fApplyPreset(6),
+  Preset_7 = CU.fApplyPreset(7),
+  Preset_8 = CU.fApplyPreset(8),
+  Preset_9 = CU.fApplyPreset(9),
+  Preset_10 = CU.fApplyPreset(10),
+  Preset_11 = CU.fApplyPreset(11),
+  Preset_12 = CU.fApplyPreset(12),
+  Preset_13 = CU.fApplyPreset(13),
+  Preset_14 = CU.fApplyPreset(14),
+  Preset_15 = CU.fApplyPreset(15),
+  Preset_16 = CU.fApplyPreset(16),
+  Preset_17 = CU.fApplyPreset(17),
+  Preset_18 = CU.fApplyPreset(18),
+  Preset_19 = CU.fApplyPreset(19),
+  Preset_20 = CU.fApplyPreset(20),
   Prev                     = LrSelection.previousPhoto,
   Profile_Adobe_Standard   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
   Profile_Camera_Clear     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
@@ -263,8 +263,8 @@ local ACTIONS = {
   profile8 = function() Profiles.changeProfile('profile8', true) end,
   profile9 = function() Profiles.changeProfile('profile9', true) end,
   profile10 = function() Profiles.changeProfile('profile10', true) end,
-  RadialFilter     = ClientUtilities.ToggleTool('circularGradient'),
-  RedEye           = ClientUtilities.ToggleTool('redeye'),
+  RadialFilter     = CU.fToggleTool('circularGradient'),
+  RedEye           = CU.fToggleTool('redeye'),
   Redo             = LrUndo.redo,
   Reject           = LrSelection.flagAsReject,
   RemoveFlag       = LrSelection.removeFlag,
@@ -276,14 +276,14 @@ local ACTIONS = {
   ResetLast        = function() Ut.execFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM) end,
   ResetRedeye      = Ut.wrapFOM(LrDevelopController.resetRedeye),
   ResetSpotRem     = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
-  RevealPanelAdjust    = ClientUtilities.ChangePanel('adjustPanel'),
-  RevealPanelCalibrate = ClientUtilities.ChangePanel('calibratePanel'),
-  RevealPanelDetail    = ClientUtilities.ChangePanel('detailPanel'), 
-  RevealPanelEffects   = ClientUtilities.ChangePanel('effectsPanel'),
-  RevealPanelLens      = ClientUtilities.ChangePanel('lensCorrectionsPanel'),
-  RevealPanelMixer     = ClientUtilities.ChangePanel('mixerPanel'),
-  RevealPanelSplit     = ClientUtilities.ChangePanel('splitToningPanel'),
-  RevealPanelTone      = ClientUtilities.ChangePanel('tonePanel'),
+  RevealPanelAdjust    = CU.fChangePanel('adjustPanel'),
+  RevealPanelCalibrate = CU.fChangePanel('calibratePanel'),
+  RevealPanelDetail    = CU.fChangePanel('detailPanel'), 
+  RevealPanelEffects   = CU.fChangePanel('effectsPanel'),
+  RevealPanelLens      = CU.fChangePanel('lensCorrectionsPanel'),
+  RevealPanelMixer     = CU.fChangePanel('mixerPanel'),
+  RevealPanelSplit     = CU.fChangePanel('splitToningPanel'),
+  RevealPanelTone      = CU.fChangePanel('tonePanel'),
   Select1Left  = function() LrSelection.extendSelection('left',1) end,
   Select1Right = function() LrSelection.extendSelection('right',1) end,
   SetRating0   = function() LrSelection.setRating(0) end,
@@ -308,14 +308,14 @@ local ACTIONS = {
   ShoVwdevelop_before_after_horiz = function() LrApplicationView.showView('develop_before_after_horiz') end,
   ShoVwdevelop_before_after_vert  = function() LrApplicationView.showView('develop_before_after_vert') end,
   ShoVwdevelop_before             = function() LrApplicationView.showView('develop_before') end,
-  SpotRemoval     = ClientUtilities.ToggleTool('dust'),
-  SwToMlibrary   = ClientUtilities.ChangeModule('library'),
-  SwToMdevelop   = ClientUtilities.ChangeModule('develop'),
-  SwToMmap       = ClientUtilities.ChangeModule('map'),
-  SwToMbook      = ClientUtilities.ChangeModule('book'),
-  SwToMslideshow = ClientUtilities.ChangeModule('slideshow'),
-  SwToMprint     = ClientUtilities.ChangeModule('print'),
-  SwToMweb       = ClientUtilities.ChangeModule('web'),
+  SpotRemoval     = CU.fToggleTool('dust'),
+  SwToMlibrary   = CU.fChangeModule('library'),
+  SwToMdevelop   = CU.fChangeModule('develop'),
+  SwToMmap       = CU.fChangeModule('map'),
+  SwToMbook      = CU.fChangeModule('book'),
+  SwToMslideshow = CU.fChangeModule('slideshow'),
+  SwToMprint     = CU.fChangeModule('print'),
+  SwToMweb       = CU.fChangeModule('web'),
   ToggleBlue       = LrSelection.toggleBlueLabel,
   ToggleGreen      = LrSelection.toggleGreenLabel,
   TogglePurple     = LrSelection.togglePurpleLabel,
@@ -345,7 +345,10 @@ local ACTIONS = {
 }
 
 local SETTINGS = {
-  Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
+  ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
+  ChangedToFile      = function(value) Profiles.setFile(value) end,
+  ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
+  Pickup             = function(enabled) MIDI2LR.PICKUP_ENABLED = (tonumber(enabled) == 1) end, 
 }
 
 local function midi_lerp_to_develop(param, midi_value)
@@ -409,20 +412,15 @@ updateParam = updateParam() --complete closure
 -- message processor
 local function processMessage(message)
   if type(message) == 'string' then
-    -- messages are in the format 'param value'
-    local _, _, param, value = message:find( '(%S+)%s(%S+)' )
+    local split = message:find(' ',1,true)
+    local param = message:sub(1,split-1)
+    local value = message:sub(split+1)
     if(ACTIONS[param]) then -- perform a one time action
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
     elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
       if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
-    elseif(SETTINGS[param]) then
-      SETTINGS[param](tonumber(value))
-    elseif (param == 'ChangedToDirectory') then
-      Profiles.setDirectory(message:sub(message:find(' ',1,true)+1))
-    elseif (param == 'ChangedToFile') then
-      Profiles.setFile(message:sub(message:find(' ',1,true)+1))
-    elseif (param == 'ChangedToFullPath') then
-      Profiles.setFullPath(message:sub(message:find(' ',1,true)+1)) --value stops at first space
+    elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
+      SETTINGS[param](value)
     else -- otherwise update a develop parameter
       updateParam(param, tonumber(value))
     end
