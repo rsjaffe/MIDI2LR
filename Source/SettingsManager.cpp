@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-SettingsManager::SettingsManager()
+SettingsManager::SettingsManager() : m_lr_IPC_OUT(NULL)
 {
 	PropertiesFile::Options opts;
 	opts.applicationName = "MIDI2LR";
@@ -37,12 +37,6 @@ SettingsManager::SettingsManager()
 
 	_propertiesFile = new PropertiesFile(opts);
 
-	// add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
-	LR_IPC_OUT::getInstance().addListener(this);
-
-	// set the profile directory
-	File profileDir(getProfileDirectory());
-	ProfileManager::getInstance().setProfileDirectory(profileDir);
 }
 
 void SettingsManager::setPickupEnabled(bool enabled)
@@ -51,7 +45,12 @@ void SettingsManager::setPickupEnabled(bool enabled)
 	_propertiesFile->saveIfNeeded();
 
 	String command = String::formatted("Pickup %d\n", enabled);
-	LR_IPC_OUT::getInstance().sendCommand(command);
+
+	if (m_lr_IPC_OUT)
+	{
+		m_lr_IPC_OUT->sendCommand(command);
+	}
+	
 }
 
 bool SettingsManager::getPickupEnabled() const
@@ -76,7 +75,12 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 void SettingsManager::connected()
 {
 	String command = String::formatted("Pickup %d\n", getPickupEnabled());
-	LR_IPC_OUT::getInstance().sendCommand(command);
+
+	if (m_lr_IPC_OUT)
+	{
+		m_lr_IPC_OUT->sendCommand(command);
+	}
+	
 }
 
 void SettingsManager::disconnected()
@@ -93,5 +97,21 @@ void SettingsManager::setAutoHideTime(int newTime)
 {
 	_propertiesFile->setValue(AUTOHIDE_SECTION, newTime);
 	_propertiesFile->saveIfNeeded();
+
+}
+
+void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT)
+{
+	m_lr_IPC_OUT = lr_IPC_OUT;
+
+	if (m_lr_IPC_OUT)
+	{
+		// add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
+		m_lr_IPC_OUT->addListener(this);
+	}
+
+	// set the profile directory
+	File profileDir(getProfileDirectory());
+	ProfileManager::getInstance().setProfileDirectory(profileDir);
 
 }

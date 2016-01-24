@@ -54,16 +54,24 @@ void MainWindow::timerCallback(void)
 
 }
 
-void MainWindow::Init(CommandMap *commandMap)
+void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager)
 {
 	
 	// get the auto time setting
-	m_autoHideCounter = SettingsManager::getInstance().getAutoHideTime();
+	if (settingsManager)
+	{
+		m_autoHideCounter = settingsManager->getAutoHideTime();
+	}
+	else
+	{
+		m_autoHideCounter = 0;
+	}
+	
 	//start timing
 	this->startTimer(1000);	
 	
 	if (m_windowContent)
 	{
-		m_windowContent->Init(commandMap);
+		m_windowContent->Init(commandMap,in, out, midiProcessor, profileManager, settingsManager);
 	}
 }

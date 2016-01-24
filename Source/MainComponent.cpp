@@ -17,7 +17,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "LR_IPC_IN.h"
 #include "MIDISender.h"
-#include "SettingsManager.h"
+
 #include "SettingsComponent.h"
 
 #define MAIN_WIDTH 400
@@ -121,7 +121,10 @@ void MainContentComponent::buttonClicked(Button* button)
         MIDIProcessor::getInstance().rescanDevices();
         MIDISender::getInstance().rescanDevices();
 		// Send new CC parameters to MIDI Out devices
-		LR_IPC_IN::getInstance().refreshMIDIOutput();
+		if (m_lr_IPC_IN)
+		{
+			m_lr_IPC_IN->refreshMIDIOutput();
+		}		
     }
     else if (button == &_removeRowButton)
     {
@@ -201,7 +204,10 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
     _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
     // Send new CC parameters to MIDI Out devices
-    LR_IPC_IN::getInstance().refreshMIDIOutput();
+	if (m_lr_IPC_IN)
+	{
+		m_lr_IPC_IN->refreshMIDIOutput();
+	}    
 }
 
 void MainContentComponent::SetTimerText(int timeValue)
@@ -217,7 +223,7 @@ void MainContentComponent::SetTimerText(int timeValue)
 
 }
 
-void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out)
+void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager)
 {
 	//copy the pointers
 	m_commandMap = commandMap;
@@ -226,22 +232,24 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 		
 	//call the function of the sub component.
 	_commandTableModel.Init(commandMap);
-
-
-
-	// Add ourselves as a listener for MIDI commands
-	MIDIProcessor::getInstance().addMIDICommandListener(this);
-
+	
+	if (midiProcessor)
+	{
+		// Add ourselves as a listener for MIDI commands
+		midiProcessor->addMIDICommandListener(this);
+	}
+	
 	if (m_lr_IPC_OUT)
 	{
 		// Add ourselves as a listener for LR_IPC_OUT events
 		m_lr_IPC_OUT->addListener(this);
 	}
-	// Start LR_IPC_IN
-	LR_IPC_IN::getInstance();
 
-	// Add ourselves as a listener for profile changes
-	ProfileManager::getInstance().addListener(this);
+	if (profileManager)
+	{
+		// Add ourselves as a listener for profile changes
+		profileManager->addListener(this);
+	}
 
 	//Set the component size
 	setSize(MAIN_WIDTH, MAIN_HEIGHT);
@@ -341,6 +349,8 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	addAndMakeVisible(m_currentStatus);
 
 	_systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
+
+
 
 	// Try to load a default.xml if the user has not set a profile directory
 	if (SettingsManager::getInstance().getProfileDirectory().isEmpty())

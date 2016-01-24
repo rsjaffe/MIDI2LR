@@ -34,6 +34,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
+#include "SettingsManager.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -74,7 +75,7 @@ public:
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
     void SetTimerText(int timeValue);
-	void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out);
+	void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager);
 protected:
     void SetLabelSettings(Label &lblToSet);
     

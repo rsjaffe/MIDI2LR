@@ -56,7 +56,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
             JUCEApplication::getInstance()->systemRequestedQuit();
         }
 
-		void Init(CommandMap *commandMap);
+		void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager);
 
         /* Note: Be careful if you override any DocumentWindow methods - the base
            class uses a lot of them, so by overriding you might break its functionality.

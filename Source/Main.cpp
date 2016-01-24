@@ -55,7 +55,7 @@ public:
 			m_lr_IPC_IN.Init(&m_commandMap, &m_profileManager);
 
 	        mainWindow = new MainWindow(getApplicationName());
-		    mainWindow->Init(&m_commandMap);
+		    mainWindow->Init(&m_commandMap, m_lr_IPC_IN, m_lr_IPC_OUT, , m_profileManager, );
 			
 		    // Check for latest version
 		    _versionChecker.startThread();

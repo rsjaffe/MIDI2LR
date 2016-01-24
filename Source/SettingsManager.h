@@ -44,10 +44,10 @@ public:
 
 	int getAutoHideTime() const;
 	void setAutoHideTime(int newTime);
-
+	void Init(LR_IPC_OUT *lr_IPC_OUT);
 private:
 
-
+	LR_IPC_OUT *m_lr_IPC_OUT;
 	ScopedPointer<PropertiesFile> _propertiesFile;
 };
 

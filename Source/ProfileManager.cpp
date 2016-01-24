@@ -72,10 +72,15 @@ void ProfileManager::switchToProfile(const String& profile)
 		ScopedPointer<XmlElement> elem = XmlDocument::parse(profileFile);
 		for (auto listener : _listeners)
 			listener->profileChanged(elem, profile);
-        String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
-        LR_IPC_OUT::getInstance().sendCommand(command);
-        command = String("ChangedToFile ") + profile + String("\n");
-        LR_IPC_OUT::getInstance().sendCommand(command);
+        
+		if (m_lr_IPC_OUT)
+		{
+			String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+			m_lr_IPC_OUT->sendCommand(command);
+			command = String("ChangedToFile ") + profile + String("\n");
+			m_lr_IPC_OUT->sendCommand(command);
+		}
+		        
 	}
 }
 
