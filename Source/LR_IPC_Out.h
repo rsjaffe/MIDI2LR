@@ -68,7 +68,7 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void SetCommandMap(CommandMap *mapCommand);
+	void Init(CommandMap *mapCommand);
 private:
 	
 	CommandMap *m_commandMap;

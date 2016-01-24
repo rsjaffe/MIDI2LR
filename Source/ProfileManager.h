@@ -71,9 +71,8 @@ public:
 
     // LRConnectionListener interface
     virtual void connected() override;
-    virtual void disconnected() override;
-	void SetCommandMap(CommandMap *map);
-	void Init(LR_IPC_IN *in, LR_IPC_OUT out, CommandMap commandMap);
+    virtual void disconnected() override;	
+	void Init(LR_IPC_OUT *out, CommandMap *commandMap);
 private:
 	enum class SWITCH_STATE
 	{
@@ -93,6 +92,7 @@ private:
 	int _currentProfileIdx;
 	SWITCH_STATE _switchState;
 	CommandMap *m_commandMap;
+	LR_IPC_OUT *m_lr_IPC_OUT;
 };
 
 

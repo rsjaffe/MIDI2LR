@@ -167,7 +167,7 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 	}
 }
 
-void CommandTableModel::SetCommandMap(CommandMap *mapCommand)
+void CommandTableModel::Init(CommandMap *mapCommand)
 {
 	//copy the pointer
 	m_commandMap = mapCommand;

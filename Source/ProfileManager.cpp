@@ -171,11 +171,7 @@ void ProfileManager::disconnected()
 
 }
 
-void ProfileManager::SetCommandMap(CommandMap *mapCommand)
-{
-	//copy the pointer
-	m_commandMap = mapCommand;
-}
+
 
 void ProfileManager::Init(LR_IPC_IN * in, LR_IPC_OUT *out, CommandMap *commandMap)
 {

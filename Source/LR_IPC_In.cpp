@@ -50,7 +50,7 @@ void LR_IPC_IN::timerCallback()
 	}
 }
 
-void LR_IPC_IN::SetCommandMap(CommandMap * mapCommand)
+void LR_IPC_IN::Init(CommandMap * mapCommand)
 {
 	m_commandMap = mapCommand;
 }

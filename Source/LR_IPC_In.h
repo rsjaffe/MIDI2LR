@@ -44,7 +44,7 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void SetCommandMap(CommandMap *mapCommand);
+	void Init(CommandMap *mapCommand);
 private:
 	// process a line received from the socket
 	void processLine(const String& line);

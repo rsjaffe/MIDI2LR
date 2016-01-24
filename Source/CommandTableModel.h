@@ -47,7 +47,7 @@ public:
 
 	// returns the index of the row associated to a particular MIDI message
 	int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
-	
+	void Init(CommandMap *mapCommand);
 private:
 	int _rows;
 	std::vector<MIDI_Message> _commands;

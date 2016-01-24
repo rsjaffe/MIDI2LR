@@ -45,7 +45,7 @@ void LR_IPC_OUT::timerCallback()
 		connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
 }
 
-void LR_IPC_OUT::SetCommandMap(CommandMap * mapCommand)
+void LR_IPC_OUT::Init(CommandMap * mapCommand)
 {
 	m_commandMap = mapCommand;
 }
