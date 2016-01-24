@@ -351,7 +351,7 @@ LrTasks.startAsyncTask( function()
       local guard = LrRecursionGuard('AdjustmentChangeObserver')
       --call following within guard
       local function AdjustmentChangeObserver(observer)
-        for _,param in ipairs(Parameters.Order) do
+        for _,param in ipairs(Parameters.Iterate) do
           local lrvalue = LrDevelopController.getValue(param)
           if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
             MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))

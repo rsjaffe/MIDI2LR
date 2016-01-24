@@ -206,8 +206,32 @@ setmetatable(Names,
     end,
   }
 )
+local localAdjustments = { 
+  "local_Temperature",
+  "local_Tint",
+  "local_Exposure",
+  "local_Contrast",
+  "local_Highlights",
+  "local_Shadows",
+  "local_Clarity",
+  "local_Saturation",
+  "local_Sharpness",
+  "local_LuminanceNoise",
+  "local_Moire",
+  "local_Defringe",
+  "local_ToningLuminance",
+}
+local Iterate = {} --this table is used when iterating over all available adjustment parameters--has local adjustments not used in copy/paste
+for i,k in ipairs(Order) do
+  Iterate[i] = k
+end
+for _,k in ipairs(localAdjustments) do
+  table.insert(Iterate,k)
+end
+
 
 return {
+  Iterate = Iterate,
   Names = Names,
   Order = Order
 }
