@@ -19,17 +19,17 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local Parameters = require 'Parameters'
-local Paste = require 'Paste'
-local Profiles = require 'Profiles'
-local Ut = require 'Utilities'
-local LrApplication      = import 'LrApplication'
-local LrApplicationView = import 'LrApplicationView'
-local LrBinding = import 'LrBinding'
+local Paste      = require 'Paste'
+local Profiles   = require 'Profiles'
+local Ut         = require 'Utilities'
+local LrApplication       = import 'LrApplication'
+local LrApplicationView   = import 'LrApplicationView'
+local LrBinding           = import 'LrBinding'
 local LrDevelopController = import 'LrDevelopController'
-local LrFunctionContext = import 'LrFunctionContext'
-local LrDialogs = import 'LrDialogs'
-local LrTasks = import 'LrTasks'
-local LrView = import 'LrView'
+local LrDialogs           = import 'LrDialogs'
+local LrFunctionContext   = import 'LrFunctionContext'
+local LrTasks             = import 'LrTasks'
+local LrView              = import 'LrView'
 
 local function fApplyPreset(presetnumber)
   return function()
