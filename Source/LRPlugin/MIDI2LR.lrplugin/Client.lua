@@ -251,9 +251,9 @@ local function updateParam() --closure
         value = midi_lerp_to_develop(param, midi_value)
         local actualvalue = LrDevelopController.getValue(param)
         local precision = Ut.precision(value)
-        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToString(value,precision)..'  '..LrStringUtils.numberToString(actualvalue,precision))
+        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
       else
-        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToString(value,Ut.precision(value)))
+        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
       end
     end
     Profiles.changeProfile(Parameters.Names[param][3])
