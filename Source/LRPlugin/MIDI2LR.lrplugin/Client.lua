@@ -217,8 +217,8 @@ end
 
 local function updateParam() --closure
   local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
-  local value
   return function(param, midi_value)
+    local value
     -- this function does a 'pickup' type of check
     -- that is, it will ensure the develop parameter is close 
     -- to what the inputted command value is before updating it
