@@ -22,11 +22,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "LRCommands.h"
 
-ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(NULL)
+ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(NULL), m_lr_IPC_OUT(NULL)
 {
 	MIDIProcessor::getInstance().addMIDICommandListener(this);
-    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
-    LR_IPC_OUT::getInstance().addListener(this);
+   
 }
 
 void ProfileManager::addListener(ProfileChangeListener *listener)
@@ -163,7 +162,10 @@ void ProfileManager::handleAsyncUpdate()
 void ProfileManager::connected()
 {
     String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
-    LR_IPC_OUT::getInstance().sendCommand(command);
+	if (m_lr_IPC_OUT)
+	{
+		m_lr_IPC_OUT->sendCommand(command);
+	}
 }
 
 void ProfileManager::disconnected()
@@ -173,10 +175,16 @@ void ProfileManager::disconnected()
 
 
 
-void ProfileManager::Init(LR_IPC_IN * in, LR_IPC_OUT *out, CommandMap *commandMap)
+void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap)
 {
-
+	//copy the pointers
 	m_commandMap = commandMap;
-	m_l
+	m_lr_IPC_OUT = out;
+
+	if (m_lr_IPC_OUT)
+	{
+		// add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
+		m_lr_IPC_OUT->addListener(this);
+	}
 
 }

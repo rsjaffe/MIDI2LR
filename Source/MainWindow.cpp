@@ -64,6 +64,6 @@ void MainWindow::Init(CommandMap *commandMap)
 	
 	if (m_windowContent)
 	{
-		m_windowContent->SetCommandMap(commandMap);
+		m_windowContent->Init(commandMap);
 	}
 }

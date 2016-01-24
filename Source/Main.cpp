@@ -48,13 +48,14 @@ public:
 	{
 		if (commandLine != SHUT_DOWN_STRING)
 		{
-			
+			m_lr_IPC_OUT.Init(&m_commandMap);			
 			//set the reference to the command map
-			m_profileManager.Init(m_lr_IPC_IN, m_lr_IPC_OUT)
-			m_profileManager.SetCommandMap(&m_commandMap);
+			m_profileManager.Init(&m_lr_IPC_OUT, &m_commandMap);
+			//init the IPC_In
+			m_lr_IPC_IN.Init(&m_commandMap, &m_profileManager);
 
 	        mainWindow = new MainWindow(getApplicationName());
-		    mainWindow->Init(m_commandMap);
+		    mainWindow->Init(&m_commandMap);
 			
 		    // Check for latest version
 		    _versionChecker.startThread();

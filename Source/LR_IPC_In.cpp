@@ -21,16 +21,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 #include "MIDISender.h"
-#include "ProfileManager.h"
+
 #include "Logger.h"
 
 //define the communication port
 #define LR_IN_PORT 58764
 
 LR_IPC_IN::LR_IPC_IN() : StreamingSocket(),
-Thread("LR_IPC_IN"), m_commandMap(NULL)
+Thread("LR_IPC_IN"), m_commandMap(NULL), m_profileManager(NULL)
 {
-	startTimer(1000);
+	
 	MIDISender::getInstance(); // enumerate MIDI output devices
 }
 
@@ -50,9 +50,12 @@ void LR_IPC_IN::timerCallback()
 	}
 }
 
-void LR_IPC_IN::Init(CommandMap * mapCommand)
+void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager)
 {
 	m_commandMap = mapCommand;
+	m_profileManager = profileManager;
+	//start the timer
+	startTimer(1000);
 }
 
 void LR_IPC_IN::run()
@@ -101,7 +104,10 @@ void LR_IPC_IN::processLine(const String& line)
 
 		if (command == String("SwitchProfile"))
 		{
-			ProfileManager::getInstance().switchToProfile(valueString.trim());
+			if (m_profileManager)
+			{
+				m_profileManager->switchToProfile(valueString.trim());
+			}
 		}
 		else
 		{

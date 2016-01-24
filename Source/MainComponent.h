@@ -31,7 +31,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
 #include "ResizableLayout.h"
-
+#include "CommandMap.h"
+#include "LR_IPC_In.h"
+#include "LR_IPC_Out.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -72,7 +74,7 @@ public:
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
     void SetTimerText(int timeValue);
-	void SetCommandMap(CommandMap *commandMap);
+	void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out);
 protected:
     void SetLabelSettings(Label &lblToSet);
     
@@ -98,7 +100,9 @@ private:
     int _rowToSelect;
     Label m_currentStatus;
 
-
+	CommandMap *m_commandMap;
+	LR_IPC_IN *m_lr_IPC_IN;
+	LR_IPC_OUT *m_lr_IPC_OUT;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

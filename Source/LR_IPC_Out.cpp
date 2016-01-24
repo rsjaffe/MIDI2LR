@@ -30,7 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 LR_IPC_OUT::LR_IPC_OUT() : InterprocessConnection()
 {
 	MIDIProcessor::getInstance().addMIDICommandListener(this);
-	startTimer(1000);
+	
 }
 
 void LR_IPC_OUT::shutdown()
@@ -48,6 +48,8 @@ void LR_IPC_OUT::timerCallback()
 void LR_IPC_OUT::Init(CommandMap * mapCommand)
 {
 	m_commandMap = mapCommand;
+	//start the timer
+	startTimer(1000);
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
