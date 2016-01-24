@@ -45,6 +45,7 @@ public:
 	// Sectioned and readable LR tool string
 	static const std::vector<String> SelectionList;
     static const std::vector<String> PresetsList;
+    static const std::vector<String> LocalList;
 	static const std::vector<String> MiscList;
 	static const std::vector<String> TMPList;
     static const std::vector<String> ViewModesList;

@@ -340,6 +340,45 @@ const std::vector<String> LRCommandList::PresetsList = {
     "Preset 20",
 };
 
+const std::vector<String> LRCommandList::LocalList = {
+    "Local Temperature (PV2012)",
+    "Local Tint (PV2012)",
+    "Local Exposure (PV2010 and PV2012)",
+    "Local Contrast (PV2010 and PV2012)",
+    "Local Highlights (PV2012)",
+    "Local Shadows (PV2012)",
+    "Local Clarity (PV2010 and PV2012)",
+    "Local Saturation (PV2010 and PV2012)",
+    "Local Sharpness (PV2010 and PV 2012)",
+    "Local Luminance Noise (PV2012)",
+    "Local Moire (PV2012)",
+    "Local Defringe (PV2012)",
+    "Local Toning Luminance (PV2010)",
+    "Reset Local Temperature (PV2012)",
+    "Reset Local Tint (PV2012)",
+    "Reset Local Exposure (PV2010 and PV2012)",
+    "Reset Local Contrast (PV2010 and PV2012)",
+    "Reset Local Highlights (PV2012)",
+    "Reset Local Shadows (PV2012)",
+    "Reset Local Clarity (PV2010 and PV2012)",
+    "Reset Local Saturation (PV2010 and PV2012)",
+    "Reset Local Sharpness (PV2010 and PV 2012)",
+    "Reset Local Luminance Noise (PV2012)",
+    "Reset Local Moire (PV2012)",
+    "Reset Local Defringe (PV2012)",
+    "Reset Local Toning Luminance (PV2010)",
+    "Enable/Disable Radial Filter",
+    "Enable/Disable Graduated Filter",
+    "Enable/Disable Brush Adjustments",
+    "Enable/Disable Red-Eye",
+    "Enable/Disable Spot Removal",
+    "Reset Radial Filter", //ResetCircGrad
+    "Reset Graduated Filter", //ResetGradient
+    "Reset Brush Adjustments", //ResetBrushing
+    "Reset Red-Eye", //ResetRedeye
+    "Reset Spot Removal", //ResetSpotRem
+};
+
 const std::vector<String> LRCommandList::MiscList = {
     "Zoom In Large Step",
     "Zoom In Small Step",
@@ -357,17 +396,7 @@ const std::vector<String> LRCommandList::MiscList = {
     "Reset Crop Left",
     "Reset Crop Right",
     "Reset Crop Top", // Resets don't work for crop */
-    "Enable/Disable Radial Filter",
-    "Enable/Disable Graduated Filter",
 
-    "Enable/Disable Brush Adjustments",
-    "Enable/Disable Red-Eye",
-    "Enable/Disable Spot Removal",
-    "Reset Radial Filter", //ResetCircGrad
-    "Reset Graduated Filter", //ResetGradient
-    "Reset Brush Adjustments", //ResetBrushing
-    "Reset Red-Eye", //ResetRedeye
-    "Reset Spot Removal", //ResetSpotRem
 };
 
 const std::vector<String> LRCommandList::TMPList = {
@@ -732,6 +761,44 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Preset_19",
     "Preset_20",
 
+    /* Local Adjustments */
+    "local_Temperature",
+    "local_Tint",
+    "local_Exposure",
+    "local_Contrast",
+    "local_Highlights",
+    "local_Shadows",
+    "local_Clarity",
+    "local_Saturation",
+    "local_Sharpness",
+    "local_LuminanceNoise",
+    "local_Moire",
+    "local_Defringe",
+    "local_ToningLuminance",
+    "Resetlocal_Temperature",
+    "Resetlocal_Tint",
+    "Resetlocal_Exposure",
+    "Resetlocal_Contrast",
+    "Resetlocal_Highlights",
+    "Resetlocal_Shadows",
+    "Resetlocal_Clarity",
+    "Resetlocal_Saturation",
+    "Resetlocal_Sharpness",
+    "Resetlocal_LuminanceNoise",
+    "Resetlocal_Moire",
+    "Resetlocal_Defringe",
+    "Resetlocal_ToningLuminance",
+    "EnableCircularGradientBasedCorrections",
+    "EnableGradientBasedCorrections",
+    "EnablePaintBasedCorrections",
+    "EnableRedEye",
+    "EnableRetouch",
+    "ResetCircGrad",
+    "ResetGradient",
+    "ResetBrushing",
+    "ResetRedeye",
+    "ResetSpotRem",
+
     /* Misc */
     "ZoomInLargeStep",
     "ZoomInSmallStep",
@@ -749,16 +816,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetCropLeft",
     "ResetCropRight",
     "ResetCropTop",   // resets don't work for crop*/
-    "EnableCircularGradientBasedCorrections",
-    "EnableGradientBasedCorrections",
-    "EnablePaintBasedCorrections",
-    "EnableRedEye",
-    "EnableRetouch",
-    "ResetCircGrad",
-    "ResetGradient",
-    "ResetBrushing",
-    "ResetRedeye",
-    "ResetSpotRem",
+
 
     /* TMP (Tools Modules Panels) */
     "Loupe",
