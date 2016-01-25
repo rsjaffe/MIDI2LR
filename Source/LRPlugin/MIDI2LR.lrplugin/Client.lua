@@ -24,6 +24,7 @@ LrMobdebug.start()
 --]]-----------end debug section
 local CU              = require 'ClientUtilities'
 local Limits          = require 'Limits'
+local MenuList        = require 'MenuList'
 local Parameters      = require 'Parameters'
 local Preferences     = require 'Preferences'
 local Profiles        = require 'Profiles'
@@ -251,9 +252,9 @@ local function updateParam() --closure
         value = midi_lerp_to_develop(param, midi_value)
         local actualvalue = LrDevelopController.getValue(param)
         local precision = Ut.precision(value)
-        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+        LrDialogs.showBezel(MenuList.MenuListHashed[param][2]..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
       else
-        LrDialogs.showBezel(Parameters.Names[param][1]..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+        LrDialogs.showBezel(MenuList.MenuListHashed[param][2]..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
       end
     end
     Profiles.changeProfile(Parameters.Names[param][3])
@@ -326,15 +327,15 @@ LrTasks.startAsyncTask( function()
           ------------------------------------------------------------------------------]]
           local MenuList = ]=],serpent.block(MenuListPreTrans.MenuList, {comment = false}), [==[
 
-          local MenuListHashed = {}
-          for i,v in ipairs(MenuList) do
-            MenuListHashed[v[1]]={i*100,v[2],v[3],v[4]}
-          end
+local MenuListHashed = {}
+for i,v in ipairs(MenuList) do
+  MenuListHashed[v[1]]={i*100,v[2],v[3],v[4]}
+  end
 
-          return {
-            MenuList = MenuList,
-            MenuListHashed = MenuListHashed,
-            }]==])
+return {
+  MenuList = MenuList,
+  MenuListHashed = MenuListHashed,
+}]==])
       file:close()
       ProgramPreferences.DataStructure = {version={},language = ''} --empty it out, fill it up
       ProgramPreferences.DataStructure.language = LrLocalization.currentLanguage()
