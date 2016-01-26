@@ -25,16 +25,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
 #include "CommandMap.h"
+#include "ProfileManager.h"
+#include "MIDISender.h"
 
 class LR_IPC_IN : public StreamingSocket,
 	public Timer,
 	public Thread
 {
-public:
-	static const int LR_IN_PORT;
-
-	static LR_IPC_IN& getInstance();
-
+public:	
+	LR_IPC_IN();
+	virtual ~LR_IPC_IN() {};
 	// closes the socket
 	void shutdown();
 
@@ -46,15 +46,13 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
+	void Init(CommandMap *mapCommand, ProfileManager *profileManager, MIDISender *midiSender);
 private:
-	LR_IPC_IN();
-
-	LR_IPC_IN(LR_IPC_IN const&) = delete;
-	void operator=(LR_IPC_IN const&) = delete;
-
 	// process a line received from the socket
 	void processLine(const String& line);
-
+	CommandMap *m_commandMap;
+	ProfileManager *m_profileManager;
+	MIDISender *m_midiSender;
 	std::unordered_map<String, int> parameterMap;
 };
 

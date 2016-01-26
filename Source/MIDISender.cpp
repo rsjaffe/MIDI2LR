@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 MIDISender::MIDISender()
 {
-    initDevices();
+   
 }
 
 void MIDISender::initDevices()
@@ -42,11 +42,6 @@ void MIDISender::rescanDevices()
     initDevices();
 }
 
-MIDISender& MIDISender::getInstance()
-{
-    static MIDISender instance;
-    return instance;
-}
 
 MIDISender::~MIDISender()
 {
@@ -57,4 +52,9 @@ void MIDISender::sendCC(int midi_channel, int controller, int value)
 {
     for (auto dev : _outputDevices)
         dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));
+}
+
+void MIDISender::Init(void)
+{
+	initDevices();
 }

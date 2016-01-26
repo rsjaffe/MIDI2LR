@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ResizableLayout.h"
-
+#include "SettingsManager.h"
 //==============================================================================
 /*
 */
@@ -42,7 +42,7 @@ public:
 	virtual void buttonClicked(Button* button) override;
 
 	virtual void sliderValueChanged(Slider* slider);
-
+	void Init(SettingsManager *settingsManager);
 private:
 	ToggleButton _pickupEnabled;
 	Label _pickupLabel;
@@ -54,6 +54,7 @@ private:
 	GroupComponent m_autoHideGroup;
 	GroupComponent m_pickupGroup;
 	GroupComponent m_profileGroup;
+	SettingsManager *m_settingsManager;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

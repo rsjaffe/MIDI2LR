@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
+#include "Pattern\Subject.h"
 
 // encapsulates a MIDI message (Note or CC)
 struct MIDI_Message
@@ -82,12 +83,11 @@ namespace std {
 	};
 }
 
-class CommandMap
+class CommandMap : public Subject
 {
 public:
-	static const int UNMAPPED_INDEX;
-
-	static CommandMap& getInstance();
+	CommandMap();
+	virtual ~CommandMap() {}
 
 	// adds an entry to the msg:command map, and a corresponding entry to the command:msg map
 	// will look up the string by the index (but it is preferred to directly use the String)
@@ -118,11 +118,7 @@ public:
 	void toXMLDocument(File& file) const;
 
 private:
-	CommandMap();
-
-	CommandMap(CommandMap const&) = delete;
-	void operator=(CommandMap const&) = delete;
-
+		
 	std::unordered_map<MIDI_Message, String> _messageMap;
 	std::unordered_map<String, MIDI_Message> _commandStringMap;
 };
