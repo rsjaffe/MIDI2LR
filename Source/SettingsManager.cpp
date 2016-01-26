@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-SettingsManager::SettingsManager() : m_lr_IPC_OUT(NULL)
+SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nullptr)
 {
 	PropertiesFile::Options opts;
 	opts.applicationName = "MIDI2LR";
@@ -68,8 +68,11 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 	_propertiesFile->setValue("profile_directory", profileDirStr);
 	_propertiesFile->saveIfNeeded();
 
-	File profileDir(profileDirStr);
-	ProfileManager::getInstance().setProfileDirectory(profileDir);
+	if (m_profileManager)
+	{
+		File profileDir(profileDirStr);
+		m_profileManager->setProfileDirectory(profileDir);
+	}
 }
 
 void SettingsManager::connected()
@@ -100,7 +103,7 @@ void SettingsManager::setAutoHideTime(int newTime)
 
 }
 
-void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT)
+void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
 {
 	m_lr_IPC_OUT = lr_IPC_OUT;
 
@@ -110,8 +113,13 @@ void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT)
 		m_lr_IPC_OUT->addListener(this);
 	}
 
-	// set the profile directory
-	File profileDir(getProfileDirectory());
-	ProfileManager::getInstance().setProfileDirectory(profileDir);
+	m_profileManager = profileManager;
+
+	if (m_profileManager)
+	{
+		// set the profile directory
+		File profileDir(getProfileDirectory());
+		profileManager->setProfileDirectory(profileDir);
+	}
 
 }

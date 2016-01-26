@@ -54,7 +54,7 @@ void MainWindow::timerCallback(void)
 
 }
 
-void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager)
+void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
 {
 	
 	// get the auto time setting
@@ -72,6 +72,6 @@ void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MI
 	
 	if (m_windowContent)
 	{
-		m_windowContent->Init(commandMap,in, out, midiProcessor, profileManager, settingsManager);
+		m_windowContent->Init(commandMap,in, out, midiProcessor, profileManager, settingsManager, midiSender);
 	}
 }

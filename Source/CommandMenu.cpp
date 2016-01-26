@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<unsigned int>::max()),
-TextButton("Unmapped"), m_commandMap(NULL)
+TextButton("Unmapped"), m_commandMap(nullptr)
 {
     
 }

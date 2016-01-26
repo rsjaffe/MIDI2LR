@@ -51,7 +51,7 @@ class MainContentComponent: public Component,
 {
 public:
     MainContentComponent();
-    ~MainContentComponent();
+    virtual ~MainContentComponent();
 
     void paint (Graphics&);
 
@@ -75,7 +75,7 @@ public:
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
     void SetTimerText(int timeValue);
-	void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager);
+	void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender);
 protected:
     void SetLabelSettings(Label &lblToSet);
     
@@ -104,6 +104,10 @@ private:
 	CommandMap *m_commandMap;
 	LR_IPC_IN *m_lr_IPC_IN;
 	LR_IPC_OUT *m_lr_IPC_OUT;
+	SettingsManager *m_settingsManager;
+	MIDIProcessor *m_midiProcessor;
+	MIDISender *m_midiSender;
+
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

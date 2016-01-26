@@ -20,7 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
-#include "MIDISender.h"
+
 
 #include "Logger.h"
 
@@ -28,10 +28,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define LR_IN_PORT 58764
 
 LR_IPC_IN::LR_IPC_IN() : StreamingSocket(),
-Thread("LR_IPC_IN"), m_commandMap(NULL), m_profileManager(NULL)
+Thread("LR_IPC_IN"), m_commandMap(nullptr), m_profileManager(nullptr), m_midiSender(nullptr)
 {
 	
-	MIDISender::getInstance(); // enumerate MIDI output devices
 }
 
 void LR_IPC_IN::shutdown()
@@ -50,10 +49,11 @@ void LR_IPC_IN::timerCallback()
 	}
 }
 
-void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager)
+void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager, MIDISender *midiSender)
 {
 	m_commandMap = mapCommand;
 	m_profileManager = profileManager;
+	m_midiSender = midiSender;
 	//start the timer
 	startTimer(1000);
 }
@@ -119,7 +119,11 @@ void LR_IPC_IN::processLine(const String& line)
 			if (m_commandMap->commandHasAssociatedMessage(command))
 			{
 				const MIDI_Message& msg = m_commandMap->getMessageForCommand(command);
-				MIDISender::getInstance().sendCC(msg.channel, msg.controller, value);
+
+				if (m_midiSender)
+				{
+					m_midiSender->sendCC(msg.channel, msg.controller, value);
+				}				
 			}
 		}
 	}
@@ -132,10 +136,10 @@ void LR_IPC_IN::refreshMIDIOutput()
 		// send associated CC messages to MIDI OUT devices
 		for (auto mapEntry : parameterMap)
 		{
-			if (m_commandMap->commandHasAssociatedMessage(mapEntry.first))
+			if ((m_commandMap->commandHasAssociatedMessage(mapEntry.first)) && (m_midiSender))
 			{
 				const MIDI_Message& msg = m_commandMap->getMessageForCommand(mapEntry.first);
-				MIDISender::getInstance().sendCC(msg.channel, msg.controller, mapEntry.second);
+				m_midiSender->sendCC(msg.channel, msg.controller, mapEntry.second);
 			}
 		}
 	}

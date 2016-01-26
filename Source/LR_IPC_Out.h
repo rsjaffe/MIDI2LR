@@ -45,7 +45,7 @@ class LR_IPC_OUT : public InterprocessConnection,
 {
 public:
 	LR_IPC_OUT();
-	virtual ~LR_IPC_OUT();
+	virtual ~LR_IPC_OUT() {};
 	// closes the socket
 	void shutdown();
 
@@ -68,7 +68,7 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(CommandMap *mapCommand);
+	void Init(CommandMap *mapCommand, MIDIProcessor *midiProcessor);
 private:
 	
 	CommandMap *m_commandMap;

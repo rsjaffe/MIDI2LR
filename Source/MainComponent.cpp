@@ -41,9 +41,12 @@ _versionLabel("Version", "Version " +
     _settingsButton("Settings"),
     _profileNameLabel("ProfileNameLabel", ""),
     m_currentStatus("CurrentStatus", "no extra info"),
-	m_commandMap(NULL),
-	m_lr_IPC_IN(NULL),
-	m_lr_IPC_OUT(NULL)
+	m_commandMap(nullptr),
+	m_lr_IPC_IN(nullptr),
+	m_lr_IPC_OUT(nullptr),
+	m_settingsManager(nullptr),
+	m_midiProcessor(nullptr),
+	m_midiSender(nullptr)
 {
 	   
 }
@@ -117,10 +120,18 @@ void MainContentComponent::buttonClicked(Button* button)
 {
     if (button == &_rescanButton)
     {
-        // Re-enumerate MIDI IN and OUT devices
-        MIDIProcessor::getInstance().rescanDevices();
-        MIDISender::getInstance().rescanDevices();
-		// Send new CC parameters to MIDI Out devices
+        // Re-enumerate MIDI IN and OUT devices	
+
+		if (m_midiProcessor)
+		{
+			m_midiProcessor->rescanDevices();
+		}
+
+		if (m_midiSender)
+		{
+			m_midiSender->rescanDevices();
+		}
+        // Send new CC parameters to MIDI Out devices
 		if (m_lr_IPC_IN)
 		{
 			m_lr_IPC_IN->refreshMIDIOutput();
@@ -136,12 +147,22 @@ void MainContentComponent::buttonClicked(Button* button)
     }
     else if (button == &_saveButton)
     {
-        bool profileDirSet = SettingsManager::getInstance().getProfileDirectory().isNotEmpty();
+        
+		File profileDir;
+
+		if (m_settingsManager)
+		{
+			profileDir = m_settingsManager->getProfileDirectory();
+		}
+
+		if (!profileDir.exists())
+		{
+			profileDir = File::getCurrentWorkingDirectory();
+		}
+
 		WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
         FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode |
-            FileBrowserComponent::warnAboutOverwriting,
-            profileDirSet ? SettingsManager::getInstance().getProfileDirectory() : File::getCurrentWorkingDirectory(),
-			&wildcardFilter,        nullptr);
+            FileBrowserComponent::warnAboutOverwriting,	profileDir,	&wildcardFilter,  nullptr);
         FileChooserDialogBox dialogBox("Save profile",
             "Enter filename to save profile",
             browser,
@@ -150,22 +171,31 @@ void MainContentComponent::buttonClicked(Button* button)
         if (dialogBox.show())
         {
             File selectedFile = browser.getSelectedFile(0).withFileExtension("xml");
-            CommandMap::getInstance().toXMLDocument(selectedFile);
+
+			if (m_commandMap)
+			{
+				m_commandMap->toXMLDocument(selectedFile);
+			}
         }
     }
     else if (button == &_loadButton)
     {
-        bool profileDirSet = SettingsManager::getInstance().getProfileDirectory().isNotEmpty();
+        File profileDir;
+
+		if (m_settingsManager)
+		{
+			profileDir = m_settingsManager->getProfileDirectory();
+		}
+
+		if (!profileDir.exists())
+		{
+			profileDir = File::getCurrentWorkingDirectory();
+		}
+
+
         WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
-        FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode,
-            profileDirSet ? SettingsManager::getInstance().getProfileDirectory() : File::getCurrentWorkingDirectory(),
-            &wildcardFilter,
-            nullptr);
-        FileChooserDialogBox dialogBox("Open profile",
-            "Select a profile to open",
-            browser,
-            true,
-            Colours::lightgrey);
+        FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode,		profileDir, &wildcardFilter, nullptr);
+        FileChooserDialogBox dialogBox("Open profile", "Select a profile to open", browser, true, Colours::lightgrey);
 
         if (dialogBox.show())
         {
@@ -174,7 +204,11 @@ void MainContentComponent::buttonClicked(Button* button)
             {
                 File newprofile = browser.getSelectedFile(0);
                 String command = String("ChangedToFullPath ") + newprofile.getFullPathName() + "\n";
-                LR_IPC_OUT::getInstance().sendCommand(command);
+
+				if (m_lr_IPC_OUT)
+				{
+					m_lr_IPC_OUT->sendCommand(command);
+				}
                 _profileNameLabel.setText(newprofile.getFileName(), NotificationType::dontSendNotification);
                 _commandTableModel.buildFromXml(elem);
                 _commandTable.updateContent();
@@ -186,7 +220,10 @@ void MainContentComponent::buttonClicked(Button* button)
     {
         DialogWindow::LaunchOptions dwOpt;
         dwOpt.dialogTitle = "Settings";
-        dwOpt.content.setOwned(new SettingsComponent());
+		//create new object
+		SettingsComponent *comp = new SettingsComponent();
+		comp->Init(m_settingsManager);
+        dwOpt.content.setOwned(comp);
         dwOpt.content->setSize(400, 300);
         dwOpt.escapeKeyTriggersCloseButton = true;
         dwOpt.useNativeTitleBar = false;
@@ -223,12 +260,15 @@ void MainContentComponent::SetTimerText(int timeValue)
 
 }
 
-void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager)
+void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
 {
 	//copy the pointers
 	m_commandMap = commandMap;
 	m_lr_IPC_IN = in;
 	m_lr_IPC_OUT = out;
+	m_settingsManager = settingsManager;
+	m_midiProcessor = midiProcessor;
+	m_midiSender = midiSender;
 		
 	//call the function of the sub component.
 	_commandTableModel.Init(commandMap);
@@ -351,24 +391,26 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	_systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
 
 
-
-	// Try to load a default.xml if the user has not set a profile directory
-	if (SettingsManager::getInstance().getProfileDirectory().isEmpty())
+	if (m_settingsManager)
 	{
-		File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-		ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
-		if (elem)
+		// Try to load a default.xml if the user has not set a profile directory
+		if (m_settingsManager->getProfileDirectory().isEmpty())
 		{
-			_commandTableModel.buildFromXml(elem);
-			_commandTable.updateContent();
+			File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+			ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
+			if (elem)
+			{
+				_commandTableModel.buildFromXml(elem);
+				_commandTable.updateContent();
+			}
+		}
+		else if (profileManager)
+		{
+
+			// otherwise use the last profile from the profile directory
+			profileManager->switchToProfile(0);
 		}
 	}
-	else
-	{
-		// otherwise use the last profile from the profile directory
-		ProfileManager::getInstance().switchToProfile(0);
-	}
-
 	// turn it on
 	activateLayout();
 

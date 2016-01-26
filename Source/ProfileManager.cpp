@@ -22,9 +22,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "LRCommands.h"
 
-ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(NULL), m_lr_IPC_OUT(NULL)
+ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
 {
-	MIDIProcessor::getInstance().addMIDICommandListener(this);
+	
    
 }
 
@@ -179,8 +179,7 @@ void ProfileManager::disconnected()
 }
 
 
-
-void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap)
+void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor)
 {
 	//copy the pointers
 	m_commandMap = commandMap;
@@ -192,4 +191,8 @@ void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap)
 		m_lr_IPC_OUT->addListener(this);
 	}
 
+	if (midiProcessor)
+	{
+		midiProcessor->addMIDICommandListener(this);
+	}
 }

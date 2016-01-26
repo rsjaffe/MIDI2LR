@@ -31,6 +31,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 #include "MainWindow.h"
 #include "CommandMap.h"
+#include "SettingsManager.h"
+#include "MIDISender.h"
 
 #define SHUT_DOWN_STRING "--LRSHUTDOWN"
 
@@ -48,14 +50,21 @@ public:
 	{
 		if (commandLine != SHUT_DOWN_STRING)
 		{
-			m_lr_IPC_OUT.Init(&m_commandMap);			
+			
+			m_midiProcessor.Init();
+			m_midiSender.Init();
+			
+			m_lr_IPC_OUT.Init(&m_commandMap, &m_midiProcessor);
 			//set the reference to the command map
-			m_profileManager.Init(&m_lr_IPC_OUT, &m_commandMap);
+			m_profileManager.Init(&m_lr_IPC_OUT, &m_commandMap, &m_midiProcessor);
 			//init the IPC_In
-			m_lr_IPC_IN.Init(&m_commandMap, &m_profileManager);
+			m_lr_IPC_IN.Init(&m_commandMap, &m_profileManager, &m_midiSender);
+
+			// init the settings manager
+			m_settingsManager.Init(&m_lr_IPC_OUT, &m_profileManager);
 
 	        mainWindow = new MainWindow(getApplicationName());
-		    mainWindow->Init(&m_commandMap, m_lr_IPC_IN, m_lr_IPC_OUT, , m_profileManager, );
+		    mainWindow->Init(&m_commandMap, &m_lr_IPC_IN, &m_lr_IPC_OUT, &m_midiProcessor, &m_profileManager, &m_settingsManager, &m_midiSender);
 			
 		    // Check for latest version
 		    _versionChecker.startThread();
@@ -111,6 +120,9 @@ private:
 	LR_IPC_IN m_lr_IPC_IN;
 	LR_IPC_OUT m_lr_IPC_OUT;
 	ProfileManager m_profileManager;
+	SettingsManager m_settingsManager;
+	MIDIProcessor m_midiProcessor;
+	MIDISender m_midiSender;
 };
 
 //==============================================================================

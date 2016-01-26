@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "CommandMap.h"
 #include "ProfileManager.h"
+#include "MIDISender.h"
 
 class LR_IPC_IN : public StreamingSocket,
 	public Timer,
@@ -33,7 +34,7 @@ class LR_IPC_IN : public StreamingSocket,
 {
 public:	
 	LR_IPC_IN();
-	virtual ~LR_IPC_IN();
+	virtual ~LR_IPC_IN() {};
 	// closes the socket
 	void shutdown();
 
@@ -45,12 +46,13 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(CommandMap *mapCommand, ProfileManager *profileManager);
+	void Init(CommandMap *mapCommand, ProfileManager *profileManager, MIDISender *midiSender);
 private:
 	// process a line received from the socket
 	void processLine(const String& line);
 	CommandMap *m_commandMap;
 	ProfileManager *m_profileManager;
+	MIDISender *m_midiSender;
 	std::unordered_map<String, int> parameterMap;
 };
 

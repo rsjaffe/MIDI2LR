@@ -41,7 +41,7 @@ class ProfileManager : public MIDICommandListener,
 {
 public:	
 	ProfileManager();
-	virtual ~ProfileManager();
+	virtual ~ProfileManager() {};
 	void addListener(ProfileChangeListener *listener);
 
 	// sets the default profile directory and scans its contents for profiles
@@ -72,7 +72,7 @@ public:
     // LRConnectionListener interface
     virtual void connected() override;
     virtual void disconnected() override;	
-	void Init(LR_IPC_OUT *out, CommandMap *commandMap);
+	void Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor);
 private:
 	enum class SWITCH_STATE
 	{

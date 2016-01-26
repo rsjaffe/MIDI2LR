@@ -17,7 +17,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include "LRCommands.h"
 
-CommandTableModel::CommandTableModel() : _rows(0), m_commandMap(NULL)
+CommandTableModel::CommandTableModel() : _rows(0), m_commandMap(nullptr)
 {
 }
 
