@@ -190,7 +190,6 @@ local Names = {
   ToneCurvePV2012Red = {LOC("$$$/MIDI2LR/Parameters/ToneCurvePV2012Red=Tone Curve PV 2012 Red"), 1440, 'tonePanel'}, -- {0,0,255,255}
 }
 
-
 local Order = {}
 for k,_ in pairs(Names) do
   table.insert(Order,k)
@@ -207,8 +206,32 @@ setmetatable(Names,
     end,
   }
 )
+local localAdjustments = { 
+  "local_Temperature",
+  "local_Tint",
+  "local_Exposure",
+  "local_Contrast",
+  "local_Highlights",
+  "local_Shadows",
+  "local_Clarity",
+  "local_Saturation",
+  "local_Sharpness",
+  "local_LuminanceNoise",
+  "local_Moire",
+  "local_Defringe",
+  "local_ToningLuminance",
+}
+local Iterate = {} --this table is used when iterating over all available adjustment parameters--has local adjustments not used in copy/paste
+for i,k in ipairs(Order) do
+  Iterate[i] = k
+end
+for _,k in ipairs(localAdjustments) do
+  table.insert(Iterate,k)
+end
+
 
 return {
+  Iterate = Iterate,
   Names = Names,
   Order = Order
 }

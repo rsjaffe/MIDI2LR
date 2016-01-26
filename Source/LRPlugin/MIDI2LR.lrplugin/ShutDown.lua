@@ -17,9 +17,9 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-
 return {
-  LrShutdownFunction = function(doneFunction, progressFunction)  
+  LrShutdownFunction = function(doneFunction, progressFunction) 
+    local LrPathUtils         = import 'LrPathUtils'
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
     -- Report shutdown
@@ -27,13 +27,14 @@ return {
       progressFunction (i, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
       if i == 0 then --main shut down steps
         -- signal main background loop
-        currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
+        math.randomseed(os.time())
+        currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
         currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
         --shut down app
         if(WIN_ENV) then
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.exe')
+          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
         else
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, _PLUGIN.path..'/MIDI2LR.app')
+          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
         end
       end
       LrTasks.sleep(1) 

@@ -38,10 +38,8 @@ local prefs               = import 'LrPrefs'.prefsForPlugin()
 local Profiles            = require 'Profiles'
 local serpent             = require 'serpent'
 -- hidden
-
 local changed = false
 local version = 1
-
 
 --------------note: test if can use t in place of t.param in metalimit2
 local metalimit2 = { --assumes only new table members for each parameter are numeric, representing ranges
@@ -80,7 +78,6 @@ local function useDefaults()
   Profiles.useDefaults()
   changed = true
 end
-
 
 local function Save(ClearOld) --clear old optional parameter
   -- Limits.DiscardExcess() -- call for each 'class' currently only Limits
@@ -191,5 +188,3 @@ return { --commented out unused exports
 --  Reset = useDefaults,
   Save = Save,
 }
-
-

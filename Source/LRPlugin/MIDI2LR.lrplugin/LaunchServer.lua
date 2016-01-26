@@ -16,13 +16,16 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local LrShell = import 'LrShell'
-local LrTasks = import 'LrTasks'
+local LrPathUtils = import 'LrPathUtils'
+local LrShell     = import 'LrShell'
+local LrTasks     = import 'LrTasks'
 
-LrTasks.startAsyncTask( function()
+LrTasks.startAsyncTask( 
+  function()
     if(WIN_ENV) then
-        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
+      LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
     else
-        LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app')
+      LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app')) 
     end
-end)
+  end
+)

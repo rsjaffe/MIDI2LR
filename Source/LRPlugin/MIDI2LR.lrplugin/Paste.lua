@@ -18,9 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local Parameters = require 'Parameters'
-local LrView = import 'LrView'
-
-
+local LrView     = import 'LrView'
 
 local Duplicates = { -- will set each to its duplicate in EndDialog
   Exposure2012 = 'Exposure',

@@ -71,7 +71,6 @@ local function ClampValue(param)
   return nil
 end
 
-
 --------------------------------------------------------------------------------
 -- Provide rows of controls for dialog boxes.
 -- For the current photo type (HDR, raw, jpg, etc) will produce
@@ -176,18 +175,15 @@ end --DiscardExcess
 
 local function StartDialog(obstable,f)
   local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
-  local retval = {}
   if limitsCanBeSet then
-    for p in pairs(Parameters) do
+    for _,p in ipairs(DisplayOrder) do
       local min,max = GetMinMax(p)
       obstable['Limits'..p..'Low'] = min
       obstable['Limits'..p..'High'] = max
     end
-    for _,v in ipairs(OptionsRows(f,obstable)) do
-      table.insert(retval,v)
-    end
+    return OptionsRows(f,obstable)
   end
-  return unpack(retval)
+  return nil
 end
 
 local function EndDialog(obstable, status)
@@ -206,13 +202,12 @@ local function EndDialog(obstable, status)
   end
 end
 
-
 --- @export
 return { --table of exports, setting table member name and module function it points to
   ClampValue = ClampValue,
   DiscardExcess = DiscardExcess,
   GetMinMax = GetMinMax,
---  OptionsRows = OptionsRows,
+  --  OptionsRows = OptionsRows,
   Parameters = Parameters,
   StartDialog = StartDialog,
   EndDialog = EndDialog,
