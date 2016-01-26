@@ -283,7 +283,7 @@ LrTasks.startAsyncTask( function()
       if versionmismatch or LrFileUtils.exists(datafile) ~= 'file' or
         ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
-        require 'MenuListPreTrans'
+        require 'Database'
         ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
         for k,v in pairs(Info.VERSION) do
           ProgramPreferences.DataStructure.version[k] = v
