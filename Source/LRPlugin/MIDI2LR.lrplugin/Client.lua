@@ -262,24 +262,6 @@ local function updateParam() --closure
 end
 updateParam = updateParam() --complete closure
 
--- message processor
-local function processMessage(message)
-  if type(message) == 'string' then
-    local split = message:find(' ',1,true)
-    local param = message:sub(1,split-1)
-    local value = message:sub(split+1)
-    if(ACTIONS[param]) then -- perform a one time action
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
-    elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
-    elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
-      SETTINGS[param](value)
-    else -- otherwise update a develop parameter
-      updateParam(param, tonumber(value))
-    end
-  end
-end
-
 -- Main task
 LrTasks.startAsyncTask( function() 
     -- LrMobdebug.on()
@@ -383,13 +365,25 @@ return {
         plugin = _PLUGIN,
         port = MIDI2LR.RECEIVE_PORT,
         mode = 'receive',
-        onMessage = function(socket, message)
-          processMessage(message)
+        onMessage = function(socket, message) --message processor
+          if type(message) == 'string' then
+            local split = message:find(' ',1,true)
+            local param = message:sub(1,split-1)
+            local value = message:sub(split+1)
+            if(ACTIONS[param]) then -- perform a one time action
+              if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
+            elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+              if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
+            elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
+              SETTINGS[param](value)
+            else -- otherwise update a develop parameter
+              updateParam(param, tonumber(value))
+            end
+          end
         end,
         onClosed = function( socket )
           -- MIDI2LR closed connection, allow for reconnection
           socket:reconnect()
-
           -- calling SERVER:reconnect causes LR to hang for some reason...
           MIDI2LR.SERVER:close()
           startServer(context)
