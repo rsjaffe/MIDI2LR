@@ -281,14 +281,14 @@ LrTasks.startAsyncTask( function()
         end
       end
       if versionmismatch or LrFileUtils.exists(datafile) ~= 'file' or
-      ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
+        ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
         require 'MenuListPreTrans'
-        ProgramPreferences.DataStructure = {version={},language = ''} --empty it out, fill it up
-        ProgramPreferences.DataStructure.language = LrLocalization.currentLanguage()
+        ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
         for k,v in pairs(Info.VERSION) do
           ProgramPreferences.DataStructure.version[k] = v
         end
+        Preferences.Save() --ensure that new version/language info saved
       end
     end --save localized file for app
 
