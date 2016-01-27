@@ -29,7 +29,7 @@ local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/P
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
 local gotoToolModulePanel = "Go to Tool, Module, or Panel"
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
-local localizedAdjustments = "Localized Adjustments"
+local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
 local miscellaneous = "Miscellaneous"
 local photoActions = "Photo Actions"
 local primaryDisplay = LOC("$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Display")
