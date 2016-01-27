@@ -17,7 +17,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "LR_IPC_IN.h"
 #include "MIDISender.h"
-#include "SettingsManager.h"
+
 #include "SettingsComponent.h"
 
 #define MAIN_WIDTH 400
@@ -40,143 +40,15 @@ _versionLabel("Version", "Version " +
     String(ProjectInfo::versionString)),
     _settingsButton("Settings"),
     _profileNameLabel("ProfileNameLabel", ""),
-    m_currentStatus("CurrentStatus", "no extra info")
+    m_currentStatus("CurrentStatus", "no extra info"),
+	m_commandMap(nullptr),
+	m_lr_IPC_IN(nullptr),
+	m_lr_IPC_OUT(nullptr),
+	m_settingsManager(nullptr),
+	m_midiProcessor(nullptr),
+	m_midiSender(nullptr)
 {
-
-    // Get and set our app settings
-	// The causes the other objects to be initialized correctly.
-    SettingsManager::getInstance();
-
-    // Add ourselves as a listener for MIDI commands
-    MIDIProcessor::getInstance().addMIDICommandListener(this);
-
-    // Add ourselves as a listener for LR_IPC_OUT events
-    LR_IPC_OUT::getInstance().addListener(this);
-
-    // Start LR_IPC_IN
-    LR_IPC_IN::getInstance();
-
-    // Add ourselves as a listener for profile changes
-    ProfileManager::getInstance().addListener(this);
-
-	//Set the component size
-	setSize(MAIN_WIDTH, MAIN_HEIGHT);
-
-    // Main title
-    _titleLabel.setFont(Font(36.f, Font::bold));
-    _titleLabel.setEditable(false);
-    _titleLabel.setColour(Label::textColourId, Colours::darkgrey);
-	_titleLabel.setComponentEffect(&_titleShadow);
-	_titleLabel.setBounds(MAIN_LEFT, 10, MAIN_WIDTH - 2*MAIN_LEFT, 30);
-	addToLayout(&_titleLabel, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_titleLabel);
-
-	// Version label
-	SetLabelSettings(_versionLabel);
-	_versionLabel.setBounds(MAIN_LEFT, 40, MAIN_WIDTH - 2 * MAIN_LEFT, 10);
-	addToLayout(&_versionLabel, anchorMidLeft, anchorMidRight);
-	addAndMakeVisible(_versionLabel);
-
-
-    // Connection status
-    _connectionLabel.setFont(Font(12.f, Font::bold));
-    _connectionLabel.setEditable(false);
-    _connectionLabel.setColour(Label::backgroundColourId, Colours::red);
-    _connectionLabel.setColour(Label::textColourId, Colours::black);
-    _connectionLabel.setJustificationType(Justification::centred);
-	_connectionLabel.setBounds(200, 15, MAIN_WIDTH - MAIN_LEFT - 200, 20);
-	addToLayout(&_connectionLabel, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_connectionLabel);
-
-	//get the button width
-	long buttonWidth = (MAIN_WIDTH - 2 * MAIN_LEFT - SPACEBETWEENBUTTON * 2) / 3;
-
-	// Load button
-	_loadButton.addListener(this);
-	_loadButton.setBounds(MAIN_LEFT, 60, buttonWidth, 20);
-	addToLayout(&_loadButton, anchorMidLeft, anchorMidRight);
-	addAndMakeVisible(_loadButton);
-
-	// Save button
-	_saveButton.addListener(this);
-	_saveButton.setBounds(MAIN_LEFT + buttonWidth + SPACEBETWEENBUTTON, 60, buttonWidth, 20);
-	addToLayout(&_saveButton, anchorMidLeft, anchorMidRight);
-	addAndMakeVisible(_saveButton);
-
-	// Settings button
-	_settingsButton.addListener(this);
-	_settingsButton.setBounds(MAIN_LEFT + buttonWidth*2 + SPACEBETWEENBUTTON*2, 60, buttonWidth, 20);
-	addToLayout(&_settingsButton, anchorMidLeft, anchorMidRight);
-	addAndMakeVisible(_settingsButton);
-
-	
-
-    // Command Table
-    _commandTable.setModel(&_commandTableModel);
-	_commandTable.setBounds(MAIN_LEFT , 100, MAIN_WIDTH - MAIN_LEFT*2, MAIN_HEIGHT - 210);
-	addToLayout(&_commandTable, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_commandTable);
-
-
-	long labelWidth = (MAIN_WIDTH - MAIN_LEFT * 2) / 2;
-
-
-	// Profile name label
-	SetLabelSettings(_profileNameLabel);
-	_profileNameLabel.setBounds(MAIN_LEFT, MAIN_HEIGHT - 100, labelWidth, 20);
-	addToLayout(&_profileNameLabel, anchorMidLeft, anchorMidRight);
-	_profileNameLabel.setJustificationType(Justification::centred);
-	addAndMakeVisible(_profileNameLabel);
-
-	// Last MIDI command
-	_commandLabel.setFont(Font(12.f, Font::bold));
-	_commandLabel.setEditable(false);
-	_commandLabel.setColour(Label::textColourId, Colours::darkgrey);
-	_commandLabel.setBounds(MAIN_LEFT + labelWidth, MAIN_HEIGHT - 100, labelWidth, 20);
-	addToLayout(&_commandLabel, anchorMidLeft, anchorMidRight);
-	addAndMakeVisible(_commandLabel);
- 	
-	// Remove row button
-    _removeRowButton.addListener(this);
-	_removeRowButton.setBounds(MAIN_LEFT, MAIN_HEIGHT - 75, MAIN_WIDTH - MAIN_LEFT * 2, 20);
-	addToLayout(&_removeRowButton, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_removeRowButton);
-
-    
-	// Rescan MIDI button
-	_rescanButton.addListener(this);
-	_rescanButton.setBounds(MAIN_LEFT, MAIN_HEIGHT - 50, MAIN_WIDTH - MAIN_LEFT * 2, 20);
-	addToLayout(&_rescanButton, anchorMidLeft, anchorMidRight);
-	addAndMakeVisible(_rescanButton);
-      
-    // adding the current status label, used for counting down.
-	m_currentStatus.setBounds(MAIN_LEFT, MAIN_HEIGHT - 30, MAIN_WIDTH - MAIN_LEFT * 2, 20);
-	addToLayout(&m_currentStatus, anchorMidLeft, anchorMidRight);
-	m_currentStatus.setJustificationType(Justification::centred);
-    SetLabelSettings(m_currentStatus);    
-    addAndMakeVisible(m_currentStatus);
-    
-    _systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
-
-    // Try to load a default.xml if the user has not set a profile directory
-    if (SettingsManager::getInstance().getProfileDirectory().isEmpty())
-    {
-        File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-        ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
-        if (elem)
-        {
-            _commandTableModel.buildFromXml(elem);
-            _commandTable.updateContent();
-        }
-    }
-	else
-	{
-		// otherwise use the last profile from the profile directory
-		ProfileManager::getInstance().switchToProfile(0);
-	}
-
-	// turn it on
-	activateLayout();
+	   
 }
 
 MainContentComponent::~MainContentComponent()
@@ -248,11 +120,22 @@ void MainContentComponent::buttonClicked(Button* button)
 {
     if (button == &_rescanButton)
     {
-        // Re-enumerate MIDI IN and OUT devices
-        MIDIProcessor::getInstance().rescanDevices();
-        MIDISender::getInstance().rescanDevices();
-		// Send new CC parameters to MIDI Out devices
-		LR_IPC_IN::getInstance().refreshMIDIOutput();
+        // Re-enumerate MIDI IN and OUT devices	
+
+		if (m_midiProcessor)
+		{
+			m_midiProcessor->rescanDevices();
+		}
+
+		if (m_midiSender)
+		{
+			m_midiSender->rescanDevices();
+		}
+        // Send new CC parameters to MIDI Out devices
+		if (m_lr_IPC_IN)
+		{
+			m_lr_IPC_IN->refreshMIDIOutput();
+		}		
     }
     else if (button == &_removeRowButton)
     {
@@ -264,12 +147,22 @@ void MainContentComponent::buttonClicked(Button* button)
     }
     else if (button == &_saveButton)
     {
-        bool profileDirSet = SettingsManager::getInstance().getProfileDirectory().isNotEmpty();
+        
+		File profileDir;
+
+		if (m_settingsManager)
+		{
+			profileDir = m_settingsManager->getProfileDirectory();
+		}
+
+		if (!profileDir.exists())
+		{
+			profileDir = File::getCurrentWorkingDirectory();
+		}
+
 		WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
         FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode |
-            FileBrowserComponent::warnAboutOverwriting,
-            profileDirSet ? SettingsManager::getInstance().getProfileDirectory() : File::getCurrentWorkingDirectory(),
-			&wildcardFilter,        nullptr);
+            FileBrowserComponent::warnAboutOverwriting,	profileDir,	&wildcardFilter,  nullptr);
         FileChooserDialogBox dialogBox("Save profile",
             "Enter filename to save profile",
             browser,
@@ -278,22 +171,31 @@ void MainContentComponent::buttonClicked(Button* button)
         if (dialogBox.show())
         {
             File selectedFile = browser.getSelectedFile(0).withFileExtension("xml");
-            CommandMap::getInstance().toXMLDocument(selectedFile);
+
+			if (m_commandMap)
+			{
+				m_commandMap->toXMLDocument(selectedFile);
+			}
         }
     }
     else if (button == &_loadButton)
     {
-        bool profileDirSet = SettingsManager::getInstance().getProfileDirectory().isNotEmpty();
+        File profileDir;
+
+		if (m_settingsManager)
+		{
+			profileDir = m_settingsManager->getProfileDirectory();
+		}
+
+		if (!profileDir.exists())
+		{
+			profileDir = File::getCurrentWorkingDirectory();
+		}
+
+
         WildcardFileFilter wildcardFilter("*.xml", String::empty, "MIDI2LR profiles");
-        FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode,
-            profileDirSet ? SettingsManager::getInstance().getProfileDirectory() : File::getCurrentWorkingDirectory(),
-            &wildcardFilter,
-            nullptr);
-        FileChooserDialogBox dialogBox("Open profile",
-            "Select a profile to open",
-            browser,
-            true,
-            Colours::lightgrey);
+        FileBrowserComponent browser(FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode,		profileDir, &wildcardFilter, nullptr);
+        FileChooserDialogBox dialogBox("Open profile", "Select a profile to open", browser, true, Colours::lightgrey);
 
         if (dialogBox.show())
         {
@@ -302,7 +204,11 @@ void MainContentComponent::buttonClicked(Button* button)
             {
                 File newprofile = browser.getSelectedFile(0);
                 String command = String("ChangedToFullPath ") + newprofile.getFullPathName() + "\n";
-                LR_IPC_OUT::getInstance().sendCommand(command);
+
+				if (m_lr_IPC_OUT)
+				{
+					m_lr_IPC_OUT->sendCommand(command);
+				}
                 _profileNameLabel.setText(newprofile.getFileName(), NotificationType::dontSendNotification);
                 _commandTableModel.buildFromXml(elem);
                 _commandTable.updateContent();
@@ -314,7 +220,10 @@ void MainContentComponent::buttonClicked(Button* button)
     {
         DialogWindow::LaunchOptions dwOpt;
         dwOpt.dialogTitle = "Settings";
-        dwOpt.content.setOwned(new SettingsComponent());
+		//create new object
+		SettingsComponent *comp = new SettingsComponent();
+		comp->Init(m_settingsManager);
+        dwOpt.content.setOwned(comp);
         dwOpt.content->setSize(400, 300);
         dwOpt.escapeKeyTriggersCloseButton = true;
         dwOpt.useNativeTitleBar = false;
@@ -332,7 +241,10 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
     _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
     // Send new CC parameters to MIDI Out devices
-    LR_IPC_IN::getInstance().refreshMIDIOutput();
+	if (m_lr_IPC_IN)
+	{
+		m_lr_IPC_IN->refreshMIDIOutput();
+	}    
 }
 
 void MainContentComponent::SetTimerText(int timeValue)
@@ -345,5 +257,163 @@ void MainContentComponent::SetTimerText(int timeValue)
 	{
 		m_currentStatus.setText("", NotificationType::dontSendNotification);
 	}
+
+}
+
+void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
+{
+	//copy the pointers
+	m_commandMap = commandMap;
+	m_lr_IPC_IN = in;
+	m_lr_IPC_OUT = out;
+	m_settingsManager = settingsManager;
+	m_midiProcessor = midiProcessor;
+	m_midiSender = midiSender;
+		
+	//call the function of the sub component.
+	_commandTableModel.Init(commandMap);
+	
+	if (midiProcessor)
+	{
+		// Add ourselves as a listener for MIDI commands
+		midiProcessor->addMIDICommandListener(this);
+	}
+	
+	if (m_lr_IPC_OUT)
+	{
+		// Add ourselves as a listener for LR_IPC_OUT events
+		m_lr_IPC_OUT->addListener(this);
+	}
+
+	if (profileManager)
+	{
+		// Add ourselves as a listener for profile changes
+		profileManager->addListener(this);
+	}
+
+	//Set the component size
+	setSize(MAIN_WIDTH, MAIN_HEIGHT);
+
+	// Main title
+	_titleLabel.setFont(Font(36.f, Font::bold));
+	_titleLabel.setEditable(false);
+	_titleLabel.setColour(Label::textColourId, Colours::darkgrey);
+	_titleLabel.setComponentEffect(&_titleShadow);
+	_titleLabel.setBounds(MAIN_LEFT, 10, MAIN_WIDTH - 2 * MAIN_LEFT, 30);
+	addToLayout(&_titleLabel, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_titleLabel);
+
+	// Version label
+	SetLabelSettings(_versionLabel);
+	_versionLabel.setBounds(MAIN_LEFT, 40, MAIN_WIDTH - 2 * MAIN_LEFT, 10);
+	addToLayout(&_versionLabel, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_versionLabel);
+
+
+	// Connection status
+	_connectionLabel.setFont(Font(12.f, Font::bold));
+	_connectionLabel.setEditable(false);
+	_connectionLabel.setColour(Label::backgroundColourId, Colours::red);
+	_connectionLabel.setColour(Label::textColourId, Colours::black);
+	_connectionLabel.setJustificationType(Justification::centred);
+	_connectionLabel.setBounds(200, 15, MAIN_WIDTH - MAIN_LEFT - 200, 20);
+	addToLayout(&_connectionLabel, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_connectionLabel);
+
+	//get the button width
+	long buttonWidth = (MAIN_WIDTH - 2 * MAIN_LEFT - SPACEBETWEENBUTTON * 2) / 3;
+
+	// Load button
+	_loadButton.addListener(this);
+	_loadButton.setBounds(MAIN_LEFT, 60, buttonWidth, 20);
+	addToLayout(&_loadButton, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_loadButton);
+
+	// Save button
+	_saveButton.addListener(this);
+	_saveButton.setBounds(MAIN_LEFT + buttonWidth + SPACEBETWEENBUTTON, 60, buttonWidth, 20);
+	addToLayout(&_saveButton, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_saveButton);
+
+	// Settings button
+	_settingsButton.addListener(this);
+	_settingsButton.setBounds(MAIN_LEFT + buttonWidth * 2 + SPACEBETWEENBUTTON * 2, 60, buttonWidth, 20);
+	addToLayout(&_settingsButton, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_settingsButton);
+
+
+
+	// Command Table
+	_commandTable.setModel(&_commandTableModel);
+	_commandTable.setBounds(MAIN_LEFT, 100, MAIN_WIDTH - MAIN_LEFT * 2, MAIN_HEIGHT - 210);
+	addToLayout(&_commandTable, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_commandTable);
+
+
+	long labelWidth = (MAIN_WIDTH - MAIN_LEFT * 2) / 2;
+
+
+	// Profile name label
+	SetLabelSettings(_profileNameLabel);
+	_profileNameLabel.setBounds(MAIN_LEFT, MAIN_HEIGHT - 100, labelWidth, 20);
+	addToLayout(&_profileNameLabel, anchorMidLeft, anchorMidRight);
+	_profileNameLabel.setJustificationType(Justification::centred);
+	addAndMakeVisible(_profileNameLabel);
+
+	// Last MIDI command
+	_commandLabel.setFont(Font(12.f, Font::bold));
+	_commandLabel.setEditable(false);
+	_commandLabel.setColour(Label::textColourId, Colours::darkgrey);
+	_commandLabel.setBounds(MAIN_LEFT + labelWidth, MAIN_HEIGHT - 100, labelWidth, 20);
+	addToLayout(&_commandLabel, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_commandLabel);
+
+	// Remove row button
+	_removeRowButton.addListener(this);
+	_removeRowButton.setBounds(MAIN_LEFT, MAIN_HEIGHT - 75, MAIN_WIDTH - MAIN_LEFT * 2, 20);
+	addToLayout(&_removeRowButton, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_removeRowButton);
+
+
+	// Rescan MIDI button
+	_rescanButton.addListener(this);
+	_rescanButton.setBounds(MAIN_LEFT, MAIN_HEIGHT - 50, MAIN_WIDTH - MAIN_LEFT * 2, 20);
+	addToLayout(&_rescanButton, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(_rescanButton);
+
+	// adding the current status label, used for counting down.
+	m_currentStatus.setBounds(MAIN_LEFT, MAIN_HEIGHT - 30, MAIN_WIDTH - MAIN_LEFT * 2, 20);
+	addToLayout(&m_currentStatus, anchorMidLeft, anchorMidRight);
+	m_currentStatus.setJustificationType(Justification::centred);
+	SetLabelSettings(m_currentStatus);
+	addAndMakeVisible(m_currentStatus);
+
+	_systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
+
+
+	if (m_settingsManager)
+	{
+		// Try to load a default.xml if the user has not set a profile directory
+		if (m_settingsManager->getProfileDirectory().isEmpty())
+		{
+			File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+			ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
+			if (elem)
+			{
+				_commandTableModel.buildFromXml(elem);
+				_commandTable.updateContent();
+			}
+		}
+		else if (profileManager)
+		{
+
+			// otherwise use the last profile from the profile directory
+			profileManager->switchToProfile(0);
+		}
+	}
+	// turn it on
+	activateLayout();
+
+
 
 }

@@ -27,20 +27,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MIDISender
 {
 public:
-    static MIDISender& getInstance();
-
-    // sends a CC message to all output devices
+	MIDISender();
+	virtual ~MIDISender();	
+	// sends a CC message to all output devices
     void sendCC(int midi_channel, int controller, int value);
 
     // re-enumerates MIDI OUT devices
     void rescanDevices();
+	void Init();
 private:
-    MIDISender();
-    ~MIDISender();
-
-    MIDISender(MIDISender const&) = delete;
-    void operator=(MIDISender const&) = delete;
-
+    
     OwnedArray<MidiOutput> _outputDevices;
 
     void initDevices();

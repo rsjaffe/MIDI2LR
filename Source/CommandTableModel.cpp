@@ -17,7 +17,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include "LRCommands.h"
 
-CommandTableModel::CommandTableModel() : _rows(0)
+CommandTableModel::CommandTableModel() : _rows(0), m_commandMap(nullptr)
 {
 }
 
@@ -60,9 +60,13 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
 			commandSelect = new CommandMenu(_commands[rowNumber]);
 		else
 			commandSelect->setMsg(_commands[rowNumber]);
-		// add 1 because 0 is reserved for no selection
-		commandSelect->setSelectedItem(LRCommandList::getIndexOfCommand(CommandMap::getInstance().getCommandforMessage(_commands[rowNumber])) + 1);
 
+		if (m_commandMap)
+		{
+			// add 1 because 0 is reserved for no selection
+			commandSelect->setSelectedItem(LRCommandList::getIndexOfCommand(m_commandMap->getCommandforMessage(_commands[rowNumber])) + 1);
+		}
+		
 		return commandSelect;
 	}
 	else
@@ -72,12 +76,14 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
 void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
 {
 	MIDI_Message msg(midi_channel, midi_data, isCC);
-
-	if (!CommandMap::getInstance().messageExistsInMap(msg))
+	if (m_commandMap)
 	{
-		_commands.push_back(msg);
-		CommandMap::getInstance().addCommandforMessage(0, msg); // add an entry for 'no command'
-		_rows++;
+		if (!m_commandMap->messageExistsInMap(msg))
+		{
+			_commands.push_back(msg);
+			m_commandMap->addCommandforMessage(0, msg); // add an entry for 'no command'
+			_rows++;
+		}
 	}
 }
 
@@ -98,14 +104,22 @@ void CommandTableModel::removeRow(int row)
 {
 	MIDI_Message msg = _commands[row];
 	_commands.erase(_commands.begin() + row);
-	CommandMap::getInstance().removeMessage(msg);
+	if (m_commandMap)
+	{
+		m_commandMap->removeMessage(msg);
+	}
 	_rows--;
 }
 
 void CommandTableModel::removeAllRows()
 {
 	_commands.clear();
-	CommandMap::getInstance().clearMap();
+
+	if (m_commandMap)
+	{
+		m_commandMap->clearMap();
+	}
+	
 	_rows = 0;
 }
 
@@ -117,7 +131,7 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 	removeAllRows();
 
 	XmlElement* setting = root->getFirstChildElement();
-	while (setting)
+	while ((setting) && (m_commandMap))
 	{
 		if (setting->hasAttribute("controller"))
 		{
@@ -126,10 +140,13 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 
 			// older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
 			if (setting->getIntAttribute("command", -1) != -1)
-				CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), cc);
+			{
+				m_commandMap->addCommandforMessage(setting->getIntAttribute("command"), cc);
+			}
 			else
-				CommandMap::getInstance().addCommandforMessage(setting->getStringAttribute("command_string"), cc);
-
+			{
+				m_commandMap->addCommandforMessage(setting->getStringAttribute("command_string"), cc);
+			}
 		}
 		else if (setting->hasAttribute("note"))
 		{
@@ -138,10 +155,20 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 
 			// older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
 			if (setting->getIntAttribute("command", -1) != -1)
-				CommandMap::getInstance().addCommandforMessage(setting->getIntAttribute("command"), note);
+			{
+				m_commandMap->addCommandforMessage(setting->getIntAttribute("command"), note);
+			}
 			else
-				CommandMap::getInstance().addCommandforMessage(setting->getStringAttribute("command_string"), note);
+			{
+				m_commandMap->addCommandforMessage(setting->getStringAttribute("command_string"), note);
+			}
 		}
 		setting = setting->getNextElement();
 	}
+}
+
+void CommandTableModel::Init(CommandMap *mapCommand)
+{
+	//copy the pointer
+	m_commandMap = mapCommand;
 }

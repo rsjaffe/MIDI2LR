@@ -27,9 +27,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<unsigned int>::max()),
-TextButton("Unmapped")
+TextButton("Unmapped"), m_commandMap(nullptr)
 {
-    addListener(this);
+    
 }
 
 void CommandMenu::setMsg(const MIDI_Message& msg)
@@ -91,9 +91,9 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
         for (auto cmd : menuEntries[menuIdx])
         {
             bool alreadyMapped = false;
-			if (idx - 1 < LRCommandList::LRStringList.size())
+			if ((idx - 1 < LRCommandList::LRStringList.size()) && (m_commandMap))
 			{
-				alreadyMapped = CommandMap::getInstance().commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
+				alreadyMapped = m_commandMap->commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
 			}
 
             // add each submenu entry, ticking the previously selected entry and disabling a previously mapped entry
@@ -110,11 +110,12 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
         subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
     }
 
-    if (unsigned int result = mainMenu.show())
+	unsigned int result = mainMenu.show();
+    if ((result) && (m_commandMap))
     {
         // user chose a different command, remove previous command mapping associated to this menu
         if (_selectedItem < std::numeric_limits<unsigned int>::max())
-            CommandMap::getInstance().removeMessage(_msg);
+			m_commandMap->removeMessage(_msg);
 
         if (result - 1 < LRCommandList::LRStringList.size())
             setButtonText(LRCommandList::LRStringList[result - 1]);
@@ -124,7 +125,7 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
         _selectedItem = result;
 
         // Map the selected command to the CC
-        CommandMap::getInstance().addCommandforMessage(result - 1, _msg);
+		m_commandMap->addCommandforMessage(result - 1, _msg);
     }
 }
 
@@ -135,4 +136,11 @@ void CommandMenu::setSelectedItem(unsigned int idx)
         setButtonText(LRCommandList::LRStringList[idx - 1]);
     else
         setButtonText(LRCommandList::NextPrevProfile[idx - 1 - LRCommandList::LRStringList.size()]);
+}
+
+void CommandMenu::Init(CommandMap *mapCommand)
+{
+	//copy the pointer
+	m_commandMap = mapCommand;
+	addListener(this);
 }

@@ -23,17 +23,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-const int CommandMap::UNMAPPED_INDEX = 0;
-
-CommandMap::CommandMap()
+CommandMap::CommandMap() : Subject()
 {
 
-}
-
-CommandMap& CommandMap::getInstance()
-{
-	static CommandMap instance;
-	return instance;
 }
 
 void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &msg)

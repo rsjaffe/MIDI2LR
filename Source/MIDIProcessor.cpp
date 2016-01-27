@@ -22,15 +22,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "Tools.h"
 
-MIDIProcessor& MIDIProcessor::getInstance()
-{
-    static MIDIProcessor instance;
-    return instance;
-}
-
 MIDIProcessor::MIDIProcessor()
 {
-    initDevices();
+    
+}
+
+MIDIProcessor::~MIDIProcessor()
+{
+
+}
+
+void MIDIProcessor::Init(void)
+{
+	initDevices();
 }
 
 void MIDIProcessor::initDevices()
@@ -52,10 +56,6 @@ void MIDIProcessor::rescanDevices()
     _devices.clear(true);
 
     initDevices();
-}
-
-MIDIProcessor::~MIDIProcessor()
-{
 }
 
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
