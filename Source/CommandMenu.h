@@ -44,6 +44,9 @@ private:
 	MIDI_Message _msg;
 	size_t _selectedItem;
 	CommandMap *m_commandMap;
+
+	const std::vector<String> m_menus;
+	const std::vector<std::vector<String>> m_menuEntries;
 };
 
 

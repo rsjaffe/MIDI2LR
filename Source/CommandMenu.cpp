@@ -27,7 +27,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<unsigned int>::max()),
-TextButton("Unmapped"), m_commandMap(nullptr)
+TextButton("Unmapped"), m_commandMap(nullptr),
+m_menus({ "Basic", "Tone Curve", "HSL / Color / B&W" , "Reset HSL / Color / B&W" , "Split Toning", "Detail", "Lens Correction", "Effects", "Camera Calibration", "Photo Actions",
+"Develop Presets", "Local Adjustments", "Miscellaneous", "Go To Tool, Module, or Panel", "View Modes", "Profiles", // MIDI2LR items
+"Next/Prev Profile" }),
+
+m_menuEntries({ LRCommandList::AdjustmentStringList, LRCommandList::ToneStringList, LRCommandList::MixerStringList, LRCommandList::ResetMixerStringList, LRCommandList::SplitToningStringList,
+	LRCommandList::DetailStringList, LRCommandList::LensCorrectionStringList, LRCommandList::EffectsStringList, LRCommandList::CalibrateStringList, LRCommandList::SelectionList, LRCommandList::PresetsList,
+	LRCommandList::LocalList, LRCommandList::MiscList, LRCommandList::TMPList, LRCommandList::ViewModesList, LRCommandList::ProfilesList, // MIDI2LR items
+	LRCommandList::NextPrevProfile,
+})
 {
     
 }
@@ -44,51 +53,12 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
     PopupMenu mainMenu;
     mainMenu.addItem(idx, "Unmapped", true, subMenuTickSet = (idx == _selectedItem));
     idx++;
-
-    const std::vector<String> menus = { "Basic",
-                                        "Tone Curve",
-                                        "HSL / Color / B&W" ,
-                                        "Reset HSL / Color / B&W" ,
-                                        "Split Toning",
-                                        "Detail",
-                                        "Lens Correction",
-                                        "Effects",
-                                        "Camera Calibration",
-                                        "Photo Actions",
-                                        "Develop Presets",
-                                        "Local Adjustments",
-                                        "Miscellaneous",
-                                        "Go To Tool, Module, or Panel",
-                                        "View Modes",
-                                        "Profiles",
-                                        // MIDI2LR items
-                                        "Next/Prev Profile"
-    };
-    const std::vector<std::vector<String>> menuEntries = { LRCommandList::AdjustmentStringList,
-                                                           LRCommandList::ToneStringList,
-                                                           LRCommandList::MixerStringList,
-                                                           LRCommandList::ResetMixerStringList,
-                                                           LRCommandList::SplitToningStringList,
-                                                           LRCommandList::DetailStringList,
-                                                           LRCommandList::LensCorrectionStringList,
-                                                           LRCommandList::EffectsStringList,
-                                                           LRCommandList::CalibrateStringList,
-                                                           LRCommandList::SelectionList,
-                                                           LRCommandList::PresetsList,
-                                                           LRCommandList::LocalList,
-                                                           LRCommandList::MiscList,
-                                                           LRCommandList::TMPList,
-                                                           LRCommandList::ViewModesList,
-                                                           LRCommandList::ProfilesList,
-                                                            // MIDI2LR items
-                                                            LRCommandList::NextPrevProfile,
-    };
-
+	    
     // add each submenu
-    for (size_t menuIdx = 0; menuIdx < menus.size(); menuIdx++)
+    for (size_t menuIdx = 0; menuIdx < m_menus.size(); menuIdx++)
     {
         PopupMenu subMenu;
-        for (auto cmd : menuEntries[menuIdx])
+        for (auto cmd : m_menuEntries[menuIdx])
         {
             bool alreadyMapped = false;
 			if ((idx - 1 < LRCommandList::LRStringList.size()) && (m_commandMap))
@@ -106,7 +76,7 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
             idx++;
         }
         // set whether or not the submenu is ticked (true if one of the submenu's entries is selected)
-        mainMenu.addSubMenu(menus[menuIdx], subMenu, true, nullptr, _selectedItem < idx && !subMenuTickSet);
+        mainMenu.addSubMenu(m_menus[menuIdx], subMenu, true, nullptr, _selectedItem < idx && !subMenuTickSet);
         subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
     }
 
