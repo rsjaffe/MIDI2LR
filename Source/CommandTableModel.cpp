@@ -57,7 +57,10 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
 
 		// create a new command menu
 		if (commandSelect == nullptr)
+		{
 			commandSelect = new CommandMenu(_commands[rowNumber]);
+			commandSelect->Init(m_commandMap);
+		}
 		else
 			commandSelect->setMsg(_commands[rowNumber]);
 
