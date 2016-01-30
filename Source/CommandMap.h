@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
-#include "Pattern\Subject.h"
+#include "Pattern/Subject.h"
 
 // encapsulates a MIDI message (Note or CC)
 struct MIDI_Message
