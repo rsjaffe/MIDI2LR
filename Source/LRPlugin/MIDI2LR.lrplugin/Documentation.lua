@@ -27,7 +27,7 @@ local datafile = LrPathUtils.child(_PLUGIN.path, 'Documentation.txt')
 local file = io.open(datafile,'w')
 local menulocation = ""
 
-Database.RunTests()
+
 
 file:write("Control definitions for wiki\n")
 for _,v in ipairs(Database.DataBase) do
@@ -65,6 +65,7 @@ for _,v in ipairs(Database.DataBase) do
     file:write('"'..v[1]..'",\n')
   end
 end
+file:write("\n\nRunning Tests\n\n",Database.RunTests(),"\n")
 
 file:close()
 
