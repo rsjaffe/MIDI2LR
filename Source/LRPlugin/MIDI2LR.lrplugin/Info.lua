@@ -39,6 +39,12 @@ return {
       title = LOC("$$$/AgPluginManager/Status/HttpServer/StartServer=Start Server"),
       file = "LaunchServer.lua"
     },
+    ---[[ comment out for end-users, enable for development
+    {
+      title = "Produce documentation (development use only)",
+      file = "Documentation.lua"
+    },
+    --]]
   },
   VERSION = { major=0, minor=9, revision=4, build=1}
 }
