@@ -1796,7 +1796,7 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
     {"local_LuminanceNoise",
       false,false,true,true,false,false,
       "Local Luminance Noise (PV2012)",
-      "Localized Adjusments",
+      localizedAdjustments,
       "Adjust Luminance Noise for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
     {"local_Moire",
       false,false,true,true,false,false,
@@ -1861,7 +1861,7 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
     {"Resetlocal_LuminanceNoise",
       false,false,true,false,true,false,
       "Reset Local Luminance Noise (PV2012)",
-      "Localized Adjusments",
+      localizedAdjustments,
       "Reset to default. *button*"},
     {"Resetlocal_Moire",
       false,false,true,false,true,false,
@@ -2338,3 +2338,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     }]==])
 file:close()
 
+return { --used in documentation module
+  DataBase = DataBase,
+  }

@@ -75,7 +75,7 @@ local function StartDialog(obstable,f)
       } ,-- push_button 
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone"),
-        action = set_reset {'WhiteBalance','AutoBrightness','AutoContrast','AutoExposure','AutoShadows','Temperature','Tint'
+        action = set_reset {'WhiteBalance','AutoBrightness','AutoContrast','AutoExposure','AutoShadows','Temperature','Tint',
           'Exposure','Contrast','Highlights','Brightness','HighlightRecovery','Shadows2012','FillLight','Whites2012','Blacks2012'},
       }, -- push button
       f:push_button {
