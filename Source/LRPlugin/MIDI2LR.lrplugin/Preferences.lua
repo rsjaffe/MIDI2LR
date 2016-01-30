@@ -33,7 +33,7 @@ local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
-local Parameters          = require 'Parameters'
+local ParamList           = require 'ParamList'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local Profiles            = require 'Profiles'
 local serpent             = require 'serpent'
@@ -62,7 +62,7 @@ local metalimit2 = { --assumes only new table members for each parameter are num
 
 local metalimit1 = {
   __index = function(t,k)--key is the name of the parameter
-    t[k] = setmetatable({param = k,label = Parameters.Names[k][1], order = Parameters.Names[k][2]},metalimit2) 
+    t[k] = setmetatable({param = k,label = ParamList.LimitEligible[k][1], order = ParamList.LimitEligible[k][2]},metalimit2) 
     changed = true
     return t[k]
   end,
@@ -82,7 +82,7 @@ end
 local function Save(ClearOld) --clear old optional parameter
   -- Limits.DiscardExcess() -- call for each 'class' currently only Limits
   if ClearOld then
-    for k,v in prefs:pairs() do
+    for k in prefs:pairs() do
       prefs[k] = nil
     end
   end
@@ -175,7 +175,7 @@ local function Load()
 end
 
 local function ClearAll()
-  for k,v in prefs:pairs() do
+  for k in prefs:pairs() do
     prefs[k] = nil
   end
   useDefaults()

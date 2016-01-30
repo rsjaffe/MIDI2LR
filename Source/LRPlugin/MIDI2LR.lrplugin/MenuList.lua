@@ -14,8 +14,8 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
-  ------------------------------------------------------------------------------]]
-local MenuList = {
+------------------------------------------------------------------------------]]
+  local MenuList = {
   {
     "WhiteBalanceAs_Shot",
     "White Balance As Shot",
@@ -132,9 +132,9 @@ local MenuList = {
   },
   {
     "ResetTemperature",
-    nil,
-    nil,
-    false
+    "Reset Temperature",
+    "Basic Tone",
+    true
   },
   {
     "ResetTint",
@@ -1364,43 +1364,43 @@ local MenuList = {
     "ResetShadowTint",
     "Reset Shadow Tint Calibration",
     "Calibration",
-    false
+    true
   },
   {
     "ResetRedHue",
     "Reset Red Hue Calibration",
     "Calibration",
-    false
+    true
   },
   {
     "ResetRedSaturation",
     "Reset Red Saturation Calibration",
     "Calibration",
-    false
+    true
   },
   {
     "ResetGreenHue",
     "Reset Green Hue Calibration",
     "Calibration",
-    false
+    true
   },
   {
     "ResetGreenSaturation",
     "Reset Green Saturation Calibration",
     "Calibration",
-    false
+    true
   },
   {
     "ResetBlueHue",
     "Reset Blue Hue Calibration",
     "Calibration",
-    false
+    true
   },
   {
     "ResetBlueSaturation",
     "Reset Blue Saturation Calibration",
     "Calibration",
-    false
+    true
   },
   {
     "Pick",
@@ -1440,15 +1440,15 @@ local MenuList = {
   },
   {
     "VirtualCopy",
-    false,
-    nil,
-    false
+    "Create Virtual Copy",
+    "Photo Actions",
+    true
   },
   {
     "RemoveFlag",
-    false,
-    nil,
-    false
+    "Unflagged",
+    "Photo Actions",
+    true
   },
   {
     "IncreaseRating",
@@ -1464,69 +1464,69 @@ local MenuList = {
   },
   {
     "SetRating0",
-    false,
-    nil,
-    false
+    "0 Stars",
+    "Photo Actions",
+    true
   },
   {
     "SetRating1",
-    false,
-    nil,
-    false
+    "1 Star",
+    "Photo Actions",
+    true
   },
   {
     "SetRating2",
-    false,
-    nil,
-    false
+    "2 Stars",
+    "Photo Actions",
+    true
   },
   {
     "SetRating3",
-    false,
-    nil,
-    false
+    "3 Stars",
+    "Photo Actions",
+    true
   },
   {
     "SetRating4",
-    false,
-    nil,
-    false
+    "4 Stars",
+    "Photo Actions",
+    true
   },
   {
     "SetRating5",
-    false,
-    nil,
-    false
+    "5 Stars",
+    "Photo Actions",
+    true
   },
   {
     "ToggleBlue",
-    false,
-    nil,
-    false
+    "Label Blue Enable/Disable",
+    "Photo Actions",
+    true
   },
   {
     "ToggleGreen",
-    false,
-    nil,
-    false
+    "Label Green Enable/Disable",
+    "Photo Actions",
+    true
   },
   {
     "ToggleRed",
-    false,
-    nil,
-    false
+    "Label Red Enable/Disable",
+    "Photo Actions",
+    true
   },
   {
     "TogglePurple",
-    false,
-    nil,
-    false
+    "Label Purple Enable/Disable",
+    "Photo Actions",
+    true
   },
   {
     "ToggleYellow",
-    false,
-    nil,
-    false
+    "Label Yellow Enable/Disable",
+    "Photo Actions",
+    true
   },
   {
     "ResetAll",
@@ -1536,21 +1536,21 @@ local MenuList = {
   },
   {
     "ResetLast",
-    false,
-    nil,
-    false
+    "Reset Last Modified",
+    "Photo Actions",
+    true
   },
   {
     "IncrementLastDevelopParameter",
-    false,
-    nil,
-    false
+    "Increase Last Modified",
+    "Photo Actions",
+    true
   },
   {
     "DecrementLastDevelopParameter",
-    false,
-    nil,
-    false
+    "Decrease Last Modified",
+    "Photo Actions",
+    true
   },
   {
     "Undo",

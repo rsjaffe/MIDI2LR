@@ -15,7 +15,31 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local SelectivePasteMenu = {
+  local SelectivePasteMenu = {
+  {
+    "ProcessVersion",
+    "Process Version"
+  },
+  {
+    "WhiteBalance",
+    "White Balance"
+  },
+  {
+    "AutoBrightness",
+    "Automatic Brightness"
+  },
+  {
+    "AutoContrast",
+    "Automatic Contrast"
+  },
+  {
+    "AutoExposure",
+    "Automatic Exposure"
+  },
+  {
+    "AutoShadows",
+    "Automatic Shadows"
+  },
   {
     "Temperature",
     "Temperature"
@@ -37,15 +61,27 @@ local SelectivePasteMenu = {
     "Highlights(Recovery in PV2003 and PV2010)"
   },
   {
-    "Shadows",
-    "Shadows(Fill Light in PV2003 and PV2010)"
+    "Brightness",
+    "Brightness"
   },
   {
-    "Whites",
+    "HighlightRecovery",
+    "Highlight Recovery (PV2003 and PV2010)"
+  },
+  {
+    "Shadows2012",
+    "Shadows"
+  },
+  {
+    "FillLight",
+    "Fill Light (PV2003 and PV2010)"
+  },
+  {
+    "Whites2012",
     "Whites(no effect in PV2003 and PV2010)"
   },
   {
-    "Blacks",
+    "Blacks2012",
     "Blacks"
   },
   {
@@ -61,7 +97,8 @@ local SelectivePasteMenu = {
     "Saturation"
   },
   {
-    "ResetTemperature"
+    "ToneCurve",
+    "Tone Curve"
   },
   {
     "ParametricDarks",
@@ -90,6 +127,10 @@ local SelectivePasteMenu = {
   {
     "ParametricHighlightSplit",
     "Highlight Split"
+  },
+  {
+    "EnableColorAdjustments",
+    "Enable Color Adjustments"
   },
   {
     "SaturationAdjustmentRed",
@@ -188,6 +229,14 @@ local SelectivePasteMenu = {
     "Luminance Adjustment Magenta"
   },
   {
+    "ConvertToGrayscale",
+    "Convert to Grayscale"
+  },
+  {
+    "EnableGrayscaleMix",
+    "Enable Grayscale Mix"
+  },
+  {
     "GrayMixerRed",
     "Gray Mixer Red"
   },
@@ -220,6 +269,10 @@ local SelectivePasteMenu = {
     "Gray Mixer Magenta"
   },
   {
+    "EnableSplitToning",
+    "Enable Split Toning"
+  },
+  {
     "SplitToningShadowHue",
     "Shadow Hue"
   },
@@ -238,6 +291,10 @@ local SelectivePasteMenu = {
   {
     "SplitToningBalance",
     "Split Toning Balance"
+  },
+  {
+    "EnableDetail",
+    "Enable Detail"
   },
   {
     "Sharpness",
@@ -278,6 +335,34 @@ local SelectivePasteMenu = {
   {
     "ColorNoiseReductionSmoothness",
     "Color Noise Reduction Smoothness"
+  },
+  {
+    "EnableLensCorrections",
+    "Enable Lens Corrections"
+  },
+  {
+    "LensProfileEnable",
+    "Lens Profile Enable"
+  },
+  {
+    "LensProfileSetup",
+    "Lens Profile Setup"
+  },
+  {
+    "AutoLateralCA",
+    "Remove Chromatic Aberration"
+  },
+  {
+    "ChromaticAberrationB",
+    "Blue Chromatic Aberration"
+  },
+  {
+    "ChromaticAberrationR",
+    "Red Chromatic Aberration"
+  },
+  {
+    "PerspectiveUpright",
+    "Perspective Upright"
   },
   {
     "LensProfileDistortionScale",
@@ -348,6 +433,10 @@ local SelectivePasteMenu = {
     "Vignette Midpoint"
   },
   {
+    "EnableEffects",
+    "Enable Effects"
+  },
+  {
     "Dehaze",
     "Dehaze Amount"
   },
@@ -388,6 +477,14 @@ local SelectivePasteMenu = {
     "Grain Roughness"
   },
   {
+    "EnableCalibration",
+    "Enable Calibration"
+  },
+  {
+    "CameraProfile",
+    "Camera Profile"
+  },
+  {
     "ShadowTint",
     "Shadow Tint Calibration"
   },
@@ -416,96 +513,36 @@ local SelectivePasteMenu = {
     "Blue Saturation Calibration"
   },
   {
-    "ResetShadowTint",
-    "Reset Shadow Tint Calibration"
+    "EnableCircularGradientBasedCorrections",
+    "Enable Radial Filter"
   },
   {
-    "ResetRedHue",
-    "Reset Red Hue Calibration"
+    "EnableGradientBasedCorrections",
+    "Enable Graduated Filter"
   },
   {
-    "ResetRedSaturation",
-    "Reset Red Saturation Calibration"
+    "EnablePaintBasedCorrections",
+    "Enable Brush Adjustments"
   },
   {
-    "ResetGreenHue",
-    "Reset Green Hue Calibration"
+    "EnableRedEye",
+    "Enable Red-Eye"
   },
   {
-    "ResetGreenSaturation",
-    "Reset Green Saturation Calibration"
+    "EnableRetouch",
+    "Enable Spot Removal"
   },
   {
-    "ResetBlueHue",
-    "Reset Blue Hue Calibration"
+    "RetouchInfo",
+    "RetouchInfo"
   },
   {
-    "ResetBlueSaturation",
-    "Reset Blue Saturation Calibration"
+    "orientation",
+    "orientation"
   },
   {
-    "VirtualCopy",
-    false
-  },
-  {
-    "RemoveFlag",
-    false
-  },
-  {
-    "SetRating0",
-    false
-  },
-  {
-    "SetRating1",
-    false
-  },
-  {
-    "SetRating2",
-    false
-  },
-  {
-    "SetRating3",
-    false
-  },
-  {
-    "SetRating4",
-    false
-  },
-  {
-    "SetRating5",
-    false
-  },
-  {
-    "ToggleBlue",
-    false
-  },
-  {
-    "ToggleGreen",
-    false
-  },
-  {
-    "ToggleRed",
-    false
-  },
-  {
-    "TogglePurple",
-    false
-  },
-  {
-    "ToggleYellow",
-    false
-  },
-  {
-    "ResetLast",
-    false
-  },
-  {
-    "IncrementLastDevelopParameter",
-    false
-  },
-  {
-    "DecrementLastDevelopParameter",
-    false
+    "CropConstrainToWarp",
+    "Constrain to Warp"
   },
   {
     "CropAngle",
@@ -526,22 +563,62 @@ local SelectivePasteMenu = {
   {
     "CropTop",
     "Crop - Top"
+  },
+  {
+    "RedEyeInfo",
+    "Red-Eye Information"
+  },
+  {
+    "TrimEnd",
+    "TrimEnd"
+  },
+  {
+    "TrimStart",
+    "TrimStart"
   }
 }
-local SelectivePasteHidden = {}
-local SelectivePasteIteration = {
+  local SelectivePasteHidden = {
+  Clarity2012 = "Clarity",
+  Contrast2012 = "Contrast",
+  Exposure2012 = "Exposure",
+  ToneCurveName = "ToneCurve",
+  ToneCurveName2012 = "ToneCurve",
+  ToneCurvePV2012 = "ToneCurve",
+  ToneCurvePV2012Blue = "ToneCurve",
+  ToneCurvePV2012Green = "ToneCurve",
+  ToneCurvePV2012Red = "ToneCurve"
+}
+  local SelectivePasteIteration = {
+  "ProcessVersion",
+  "WhiteBalance",
+  "AutoBrightness",
+  "AutoContrast",
+  "AutoExposure",
+  "AutoShadows",
   "Temperature",
   "Tint",
   "Exposure",
+  "Exposure2012",
   "Contrast",
+  "Contrast2012",
   "Highlights",
-  "Shadows",
-  "Whites",
-  "Blacks",
+  "Brightness",
+  "HighlightRecovery",
+  "Shadows2012",
+  "FillLight",
+  "Whites2012",
+  "Blacks2012",
   "Clarity",
+  "Clarity2012",
   "Vibrance",
   "Saturation",
-  "ResetTemperature",
+  "ToneCurve",
+  "ToneCurveName",
+  "ToneCurveName2012",
+  "ToneCurvePV2012",
+  "ToneCurvePV2012Blue",
+  "ToneCurvePV2012Green",
+  "ToneCurvePV2012Red",
   "ParametricDarks",
   "ParametricLights",
   "ParametricShadows",
@@ -549,6 +626,7 @@ local SelectivePasteIteration = {
   "ParametricShadowSplit",
   "ParametricMidtoneSplit",
   "ParametricHighlightSplit",
+  "EnableColorAdjustments",
   "SaturationAdjustmentRed",
   "SaturationAdjustmentOrange",
   "SaturationAdjustmentYellow",
@@ -573,6 +651,8 @@ local SelectivePasteIteration = {
   "LuminanceAdjustmentBlue",
   "LuminanceAdjustmentPurple",
   "LuminanceAdjustmentMagenta",
+  "ConvertToGrayscale",
+  "EnableGrayscaleMix",
   "GrayMixerRed",
   "GrayMixerOrange",
   "GrayMixerYellow",
@@ -581,11 +661,13 @@ local SelectivePasteIteration = {
   "GrayMixerBlue",
   "GrayMixerPurple",
   "GrayMixerMagenta",
+  "EnableSplitToning",
   "SplitToningShadowHue",
   "SplitToningShadowSaturation",
   "SplitToningHighlightHue",
   "SplitToningHighlightSaturation",
   "SplitToningBalance",
+  "EnableDetail",
   "Sharpness",
   "SharpenRadius",
   "SharpenDetail",
@@ -596,6 +678,13 @@ local SelectivePasteIteration = {
   "ColorNoiseReduction",
   "ColorNoiseReductionDetail",
   "ColorNoiseReductionSmoothness",
+  "EnableLensCorrections",
+  "LensProfileEnable",
+  "LensProfileSetup",
+  "AutoLateralCA",
+  "ChromaticAberrationB",
+  "ChromaticAberrationR",
+  "PerspectiveUpright",
   "LensProfileDistortionScale",
   "LensProfileChromaticAberrationScale",
   "LensProfileVignettingScale",
@@ -613,6 +702,7 @@ local SelectivePasteIteration = {
   "PerspectiveAspect",
   "VignetteAmount",
   "VignetteMidpoint",
+  "EnableEffects",
   "Dehaze",
   "PostCropVignetteAmount",
   "PostCropVignetteMidpoint",
@@ -623,6 +713,8 @@ local SelectivePasteIteration = {
   "GrainAmount",
   "GrainSize",
   "GrainFrequency",
+  "EnableCalibration",
+  "CameraProfile",
   "ShadowTint",
   "RedHue",
   "RedSaturation",
@@ -630,36 +722,24 @@ local SelectivePasteIteration = {
   "GreenSaturation",
   "BlueHue",
   "BlueSaturation",
-  "ResetShadowTint",
-  "ResetRedHue",
-  "ResetRedSaturation",
-  "ResetGreenHue",
-  "ResetGreenSaturation",
-  "ResetBlueHue",
-  "ResetBlueSaturation",
-  "VirtualCopy",
-  "RemoveFlag",
-  "SetRating0",
-  "SetRating1",
-  "SetRating2",
-  "SetRating3",
-  "SetRating4",
-  "SetRating5",
-  "ToggleBlue",
-  "ToggleGreen",
-  "ToggleRed",
-  "TogglePurple",
-  "ToggleYellow",
-  "ResetLast",
-  "IncrementLastDevelopParameter",
-  "DecrementLastDevelopParameter",
+  "EnableCircularGradientBasedCorrections",
+  "EnableGradientBasedCorrections",
+  "EnablePaintBasedCorrections",
+  "EnableRedEye",
+  "EnableRetouch",
+  "RetouchInfo",
+  "orientation",
+  "CropConstrainToWarp",
   "CropAngle",
   "CropBottom",
   "CropLeft",
   "CropRight",
-  "CropTop"
-} 
-local SendToMidi = {
+  "CropTop",
+  "RedEyeInfo",
+  "TrimEnd",
+  "TrimStart"
+}
+  local SendToMidi = {
   "Temperature",
   "Tint",
   "Exposure",
@@ -759,13 +839,6 @@ local SendToMidi = {
   "GreenSaturation",
   "BlueHue",
   "BlueSaturation",
-  "ResetShadowTint",
-  "ResetRedHue",
-  "ResetRedSaturation",
-  "ResetGreenHue",
-  "ResetGreenSaturation",
-  "ResetBlueHue",
-  "ResetBlueSaturation",
   "local_Temperature",
   "local_Tint",
   "local_Exposure",
@@ -784,8 +857,251 @@ local SendToMidi = {
   "CropLeft",
   "CropRight",
   "CropTop"
-} 
-local testcommand = {
+}
+  local ProfileMap = {
+  AutoLateralCA = "lensCorrectionsPanel",
+  Blacks = "adjustPanel",
+  BlueHue = "calibratePanel",
+  BlueSaturation = "calibratePanel",
+  Brightness = "adjustPanel",
+  Clarity = "adjustPanel",
+  ColorNoiseReduction = "detailPanel",
+  ColorNoiseReductionDetail = "detailPanel",
+  ColorNoiseReductionSmoothness = "detailPanel",
+  Contrast = "adjustPanel",
+  ConvertToGrayscale = "tonePanel",
+  CropAngle = "crop",
+  CropBottom = "crop",
+  CropLeft = "crop",
+  CropRight = "crop",
+  CropTop = "crop",
+  DefringeGreenAmount = "lensCorrectionsPanel",
+  DefringeGreenHueHi = "lensCorrectionsPanel",
+  DefringeGreenHueLo = "lensCorrectionsPanel",
+  DefringePurpleAmount = "lensCorrectionsPanel",
+  DefringePurpleHueHi = "lensCorrectionsPanel",
+  DefringePurpleHueLo = "lensCorrectionsPanel",
+  Dehaze = "effectsPanel",
+  EnableCalibration = "calibratePanel",
+  EnableColorAdjustments = "tonePanel",
+  EnableDetail = "detailPanel",
+  EnableEffects = "effectsPanel",
+  EnableGrayscaleMix = "tonePanel",
+  EnableLensCorrections = "lensCorrectionsPanel",
+  EnableSplitToning = "splitToningPanel",
+  Exposure = "adjustPanel",
+  GrainAmount = "effectsPanel",
+  GrainFrequency = "effectsPanel",
+  GrainSize = "effectsPanel",
+  GrayMixerAqua = "tonePanel",
+  GrayMixerBlue = "tonePanel",
+  GrayMixerGreen = "tonePanel",
+  GrayMixerMagenta = "tonePanel",
+  GrayMixerOrange = "tonePanel",
+  GrayMixerPurple = "tonePanel",
+  GrayMixerRed = "tonePanel",
+  GrayMixerYellow = "tonePanel",
+  GreenHue = "calibratePanel",
+  GreenSaturation = "calibratePanel",
+  Highlights = "adjustPanel",
+  HueAdjustmentAqua = "tonePanel",
+  HueAdjustmentBlue = "tonePanel",
+  HueAdjustmentGreen = "tonePanel",
+  HueAdjustmentMagenta = "tonePanel",
+  HueAdjustmentOrange = "tonePanel",
+  HueAdjustmentPurple = "tonePanel",
+  HueAdjustmentRed = "tonePanel",
+  HueAdjustmentYellow = "tonePanel",
+  LensManualDistortionAmount = "lensCorrectionsPanel",
+  LensProfileChromaticAberrationScale = "lensCorrectionsPanel",
+  LensProfileDistortionScale = "lensCorrectionsPanel",
+  LensProfileEnable = "lensCorrectionsPanel",
+  LensProfileVignettingScale = "lensCorrectionsPanel",
+  Loupe = "loupe",
+  LuminanceAdjustmentAqua = "tonePanel",
+  LuminanceAdjustmentBlue = "tonePanel",
+  LuminanceAdjustmentGreen = "tonePanel",
+  LuminanceAdjustmentMagenta = "tonePanel",
+  LuminanceAdjustmentOrange = "tonePanel",
+  LuminanceAdjustmentPurple = "tonePanel",
+  LuminanceAdjustmentRed = "tonePanel",
+  LuminanceAdjustmentYellow = "tonePanel",
+  LuminanceNoiseReductionContrast = "detailPanel",
+  LuminanceNoiseReductionDetail = "detailPanel",
+  LuminanceSmoothing = "detailPanel",
+  ParametricDarks = "tonePanel",
+  ParametricHighlightSplit = "tonePanel",
+  ParametricHighlights = "tonePanel",
+  ParametricLights = "tonePanel",
+  ParametricMidtoneSplit = "tonePanel",
+  ParametricShadowSplit = "tonePanel",
+  ParametricShadows = "tonePanel",
+  PerspectiveAspect = "lensCorrectionsPanel",
+  PerspectiveHorizontal = "lensCorrectionsPanel",
+  PerspectiveRotate = "lensCorrectionsPanel",
+  PerspectiveScale = "lensCorrectionsPanel",
+  PerspectiveVertical = "lensCorrectionsPanel",
+  PostCropVignetteAmount = "effectsPanel",
+  PostCropVignetteFeather = "effectsPanel",
+  PostCropVignetteHighlightContrast = "effectsPanel",
+  PostCropVignetteMidpoint = "effectsPanel",
+  PostCropVignetteRoundness = "effectsPanel",
+  PostCropVignetteStyle = "effectsPanel",
+  Profile_Adobe_Standard = "calibratePanel",
+  Profile_Camera_Clear = "calibratePanel",
+  Profile_Camera_Deep = "calibratePanel",
+  Profile_Camera_Landscape = "calibratePanel",
+  Profile_Camera_Light = "calibratePanel",
+  Profile_Camera_Neutral = "calibratePanel",
+  Profile_Camera_Portrait = "calibratePanel",
+  Profile_Camera_Standard = "calibratePanel",
+  Profile_Camera_Vivid = "calibratePanel",
+  RedHue = "calibratePanel",
+  RedSaturation = "calibratePanel",
+  ResetBlacks = "adjustPanel",
+  ResetBlueHue = "calibratePanel",
+  ResetBlueSaturation = "calibratePanel",
+  ResetClarity = "adjustPanel",
+  ResetColorNoiseReduction = "detailPanel",
+  ResetColorNoiseReductionDetail = "detailPanel",
+  ResetColorNoiseReductionSmoothness = "detailPanel",
+  ResetContrast = "adjustPanel",
+  ResetCrop = "crop",
+  ResetDefringeGreenAmount = "lensCorrectionsPanel",
+  ResetDefringeGreenHueHi = "lensCorrectionsPanel",
+  ResetDefringeGreenHueLo = "lensCorrectionsPanel",
+  ResetDefringePurpleAmount = "lensCorrectionsPanel",
+  ResetDefringePurpleHueHi = "lensCorrectionsPanel",
+  ResetDefringePurpleHueLo = "lensCorrectionsPanel",
+  ResetDehaze = "effectsPanel",
+  ResetExposure = "adjustPanel",
+  ResetGrainAmount = "effectsPanel",
+  ResetGrainFrequency = "effectsPanel",
+  ResetGrainSize = "effectsPanel",
+  ResetGrayMixerAqua = "tonePanel",
+  ResetGrayMixerBlue = "tonePanel",
+  ResetGrayMixerGreen = "tonePanel",
+  ResetGrayMixerMagenta = "tonePanel",
+  ResetGrayMixerOrange = "tonePanel",
+  ResetGrayMixerPurple = "tonePanel",
+  ResetGrayMixerRed = "tonePanel",
+  ResetGrayMixerYellow = "tonePanel",
+  ResetGreenHue = "calibratePanel",
+  ResetGreenSaturation = "calibratePanel",
+  ResetHighlights = "adjustPanel",
+  ResetHueAdjustmentAqua = "tonePanel",
+  ResetHueAdjustmentBlue = "tonePanel",
+  ResetHueAdjustmentGreen = "tonePanel",
+  ResetHueAdjustmentMagenta = "tonePanel",
+  ResetHueAdjustmentOrange = "tonePanel",
+  ResetHueAdjustmentPurple = "tonePanel",
+  ResetHueAdjustmentRed = "tonePanel",
+  ResetHueAdjustmentYellow = "tonePanel",
+  ResetLensManualDistortionAmount = "lensCorrectionsPanel",
+  ResetLensProfileChromaticAberrationScale = "lensCorrectionsPanel",
+  ResetLensProfileDistortionScale = "lensCorrectionsPanel",
+  ResetLensProfileVignettingScale = "lensCorrectionsPanel",
+  ResetLuminanceAdjustmentAqua = "tonePanel",
+  ResetLuminanceAdjustmentBlue = "tonePanel",
+  ResetLuminanceAdjustmentGreen = "tonePanel",
+  ResetLuminanceAdjustmentMagenta = "tonePanel",
+  ResetLuminanceAdjustmentOrange = "tonePanel",
+  ResetLuminanceAdjustmentPurple = "tonePanel",
+  ResetLuminanceAdjustmentRed = "tonePanel",
+  ResetLuminanceAdjustmentYellow = "tonePanel",
+  ResetLuminanceNoiseReductionContrast = "detailPanel",
+  ResetLuminanceNoiseReductionDetail = "detailPanel",
+  ResetLuminanceSmoothing = "detailPanel",
+  ResetParametricDarks = "tonePanel",
+  ResetParametricHighlightSplit = "tonePanel",
+  ResetParametricHighlights = "tonePanel",
+  ResetParametricLights = "tonePanel",
+  ResetParametricMidtoneSplit = "tonePanel",
+  ResetParametricShadowSplit = "tonePanel",
+  ResetParametricShadows = "tonePanel",
+  ResetPerspectiveAspect = "lensCorrectionsPanel",
+  ResetPerspectiveHorizontal = "lensCorrectionsPanel",
+  ResetPerspectiveRotate = "lensCorrectionsPanel",
+  ResetPerspectiveScale = "lensCorrectionsPanel",
+  ResetPerspectiveUpright = "lensCorrectionsPanel",
+  ResetPerspectiveVertical = "lensCorrectionsPanel",
+  ResetPostCropVignetteAmount = "effectsPanel",
+  ResetPostCropVignetteFeather = "effectsPanel",
+  ResetPostCropVignetteHighlightContrast = "effectsPanel",
+  ResetPostCropVignetteMidpoint = "effectsPanel",
+  ResetPostCropVignetteRoundness = "effectsPanel",
+  ResetPostCropVignetteStyle = "effectsPanel",
+  ResetRedHue = "calibratePanel",
+  ResetRedSaturation = "calibratePanel",
+  ResetSaturation = "adjustPanel",
+  ResetSaturationAdjustmentAqua = "tonePanel",
+  ResetSaturationAdjustmentBlue = "tonePanel",
+  ResetSaturationAdjustmentGreen = "tonePanel",
+  ResetSaturationAdjustmentMagenta = "tonePanel",
+  ResetSaturationAdjustmentOrange = "tonePanel",
+  ResetSaturationAdjustmentPurple = "tonePanel",
+  ResetSaturationAdjustmentRed = "tonePanel",
+  ResetSaturationAdjustmentYellow = "tonePanel",
+  ResetShadowTint = "calibratePanel",
+  ResetShadows = "adjustPanel",
+  ResetSharpenDetail = "detailPanel",
+  ResetSharpenEdgeMasking = "detailPanel",
+  ResetSharpenRadius = "detailPanel",
+  ResetSharpness = "detailPanel",
+  ResetSplitToningBalance = "splitToningPanel",
+  ResetSplitToningHighlightHue = "splitToningPanel",
+  ResetSplitToningHighlightSaturation = "splitToningPanel",
+  ResetSplitToningShadowHue = "splitToningPanel",
+  ResetSplitToningShadowSaturation = "splitToningPanel",
+  ResetTemperature = "adjustPanel",
+  ResetTint = "adjustPanel",
+  ResetVibrance = "adjustPanel",
+  ResetVignetteAmount = "lensCorrectionsPanel",
+  ResetVignetteMidpoint = "lensCorrectionsPanel",
+  ResetWhites = "adjustPanel",
+  Saturation = "adjustPanel",
+  SaturationAdjustmentAqua = "tonePanel",
+  SaturationAdjustmentBlue = "tonePanel",
+  SaturationAdjustmentGreen = "tonePanel",
+  SaturationAdjustmentMagenta = "tonePanel",
+  SaturationAdjustmentOrange = "tonePanel",
+  SaturationAdjustmentPurple = "tonePanel",
+  SaturationAdjustmentRed = "tonePanel",
+  SaturationAdjustmentYellow = "tonePanel",
+  ShadowTint = "calibratePanel",
+  Shadows = "adjustPanel",
+  SharpenDetail = "detailPanel",
+  SharpenEdgeMasking = "detailPanel",
+  SharpenRadius = "detailPanel",
+  Sharpness = "detailPanel",
+  SplitToningBalance = "splitToningPanel",
+  SplitToningHighlightHue = "splitToningPanel",
+  SplitToningHighlightSaturation = "splitToningPanel",
+  SplitToningShadowHue = "splitToningPanel",
+  SplitToningShadowSaturation = "splitToningPanel",
+  Temperature = "adjustPanel",
+  Tint = "adjustPanel",
+  UprightAuto = "lensCorrectionsPanel",
+  UprightFull = "lensCorrectionsPanel",
+  UprightLevel = "lensCorrectionsPanel",
+  UprightOff = "lensCorrectionsPanel",
+  UprightVertical = "lensCorrectionsPanel",
+  Vibrance = "adjustPanel",
+  VignetteAmount = "lensCorrectionsPanel",
+  VignetteMidpoint = "lensCorrectionsPanel",
+  WhiteBalanceAs_Shot = "adjustPanel",
+  WhiteBalanceAuto = "adjustPanel",
+  WhiteBalanceCloudy = "adjustPanel",
+  WhiteBalanceDaylight = "adjustPanel",
+  WhiteBalanceFlash = "adjustPanel",
+  WhiteBalanceFluorescent = "adjustPanel",
+  WhiteBalanceShade = "adjustPanel",
+  WhiteBalanceTungsten = "adjustPanel",
+  Whites = "adjustPanel"
+}
+  local testcommand = {
+  "ProcessVersion",
+  "WhiteBalance",
   "WhiteBalanceAs_Shot",
   "WhiteBalanceAuto",
   "WhiteBalanceCloudy",
@@ -794,15 +1110,28 @@ local testcommand = {
   "WhiteBalanceFluorescent",
   "WhiteBalanceShade",
   "WhiteBalanceTungsten",
+  "AutoBrightness",
+  "AutoContrast",
+  "AutoExposure",
+  "AutoShadows",
   "Temperature",
   "Tint",
   "Exposure",
+  "Exposure2012",
   "Contrast",
+  "Contrast2012",
   "Highlights",
+  "Brightness",
+  "HighlightRecovery",
   "Shadows",
+  "Shadows2012",
+  "FillLight",
   "Whites",
+  "Whites2012",
   "Blacks",
+  "Blacks2012",
   "Clarity",
+  "Clarity2012",
   "Vibrance",
   "Saturation",
   "ResetTemperature",
@@ -816,6 +1145,13 @@ local testcommand = {
   "ResetClarity",
   "ResetVibrance",
   "ResetSaturation",
+  "ToneCurve",
+  "ToneCurveName",
+  "ToneCurveName2012",
+  "ToneCurvePV2012",
+  "ToneCurvePV2012Blue",
+  "ToneCurvePV2012Green",
+  "ToneCurvePV2012Red",
   "ParametricDarks",
   "ParametricLights",
   "ParametricShadows",
@@ -931,7 +1267,11 @@ local testcommand = {
   "ResetColorNoiseReductionSmoothness",
   "EnableLensCorrections",
   "LensProfileEnable",
+  "LensProfileSetup",
   "AutoLateralCA",
+  "ChromaticAberrationB",
+  "ChromaticAberrationR",
+  "PerspectiveUpright",
   "UprightOff",
   "UprightAuto",
   "UprightLevel",
@@ -994,6 +1334,7 @@ local testcommand = {
   "ResetGrainSize",
   "ResetGrainFrequency",
   "EnableCalibration",
+  "CameraProfile",
   "Profile_Adobe_Standard",
   "Profile_Camera_Clear",
   "Profile_Camera_Deep",
@@ -1098,6 +1439,7 @@ local testcommand = {
   "EnablePaintBasedCorrections",
   "EnableRedEye",
   "EnableRetouch",
+  "RetouchInfo",
   "ResetCircGrad",
   "ResetGradient",
   "ResetBrushing",
@@ -1108,6 +1450,8 @@ local testcommand = {
   "ZoomOutSmallStep",
   "ZoomOutLargeStep",
   "ToggleZoomOffOn",
+  "orientation",
+  "CropConstrainToWarp",
   "CropAngle",
   "CropBottom",
   "CropLeft",
@@ -1117,6 +1461,7 @@ local testcommand = {
   "Loupe",
   "CropOverlay",
   "SpotRemoval",
+  "RedEyeInfo",
   "RedEye",
   "GraduatedFilter",
   "RadialFilter",
@@ -1162,21 +1507,41 @@ local testcommand = {
   "profile7",
   "profile8",
   "profile9",
-  "profile10"
-} 
-local testselectpaste = {
+  "profile10",
+  "TrimEnd",
+  "TrimStart"
+}
+  local testselectpaste = {
+  "ProcessVersion",
+  "WhiteBalance",
+  "AutoBrightness",
+  "AutoContrast",
+  "AutoExposure",
+  "AutoShadows",
   "Temperature",
   "Tint",
   "Exposure",
+  "Exposure2012",
   "Contrast",
+  "Contrast2012",
   "Highlights",
-  "Shadows",
-  "Whites",
-  "Blacks",
+  "Brightness",
+  "HighlightRecovery",
+  "Shadows2012",
+  "FillLight",
+  "Whites2012",
+  "Blacks2012",
   "Clarity",
+  "Clarity2012",
   "Vibrance",
   "Saturation",
-  "ResetTemperature",
+  "ToneCurve",
+  "ToneCurveName",
+  "ToneCurveName2012",
+  "ToneCurvePV2012",
+  "ToneCurvePV2012Blue",
+  "ToneCurvePV2012Green",
+  "ToneCurvePV2012Red",
   "ParametricDarks",
   "ParametricLights",
   "ParametricShadows",
@@ -1184,6 +1549,7 @@ local testselectpaste = {
   "ParametricShadowSplit",
   "ParametricMidtoneSplit",
   "ParametricHighlightSplit",
+  "EnableColorAdjustments",
   "SaturationAdjustmentRed",
   "SaturationAdjustmentOrange",
   "SaturationAdjustmentYellow",
@@ -1208,6 +1574,8 @@ local testselectpaste = {
   "LuminanceAdjustmentBlue",
   "LuminanceAdjustmentPurple",
   "LuminanceAdjustmentMagenta",
+  "ConvertToGrayscale",
+  "EnableGrayscaleMix",
   "GrayMixerRed",
   "GrayMixerOrange",
   "GrayMixerYellow",
@@ -1216,11 +1584,13 @@ local testselectpaste = {
   "GrayMixerBlue",
   "GrayMixerPurple",
   "GrayMixerMagenta",
+  "EnableSplitToning",
   "SplitToningShadowHue",
   "SplitToningShadowSaturation",
   "SplitToningHighlightHue",
   "SplitToningHighlightSaturation",
   "SplitToningBalance",
+  "EnableDetail",
   "Sharpness",
   "SharpenRadius",
   "SharpenDetail",
@@ -1231,6 +1601,13 @@ local testselectpaste = {
   "ColorNoiseReduction",
   "ColorNoiseReductionDetail",
   "ColorNoiseReductionSmoothness",
+  "EnableLensCorrections",
+  "LensProfileEnable",
+  "LensProfileSetup",
+  "AutoLateralCA",
+  "ChromaticAberrationB",
+  "ChromaticAberrationR",
+  "PerspectiveUpright",
   "LensProfileDistortionScale",
   "LensProfileChromaticAberrationScale",
   "LensProfileVignettingScale",
@@ -1248,6 +1625,7 @@ local testselectpaste = {
   "PerspectiveAspect",
   "VignetteAmount",
   "VignetteMidpoint",
+  "EnableEffects",
   "Dehaze",
   "PostCropVignetteAmount",
   "PostCropVignetteMidpoint",
@@ -1258,6 +1636,8 @@ local testselectpaste = {
   "GrainAmount",
   "GrainSize",
   "GrainFrequency",
+  "EnableCalibration",
+  "CameraProfile",
   "ShadowTint",
   "RedHue",
   "RedSaturation",
@@ -1265,36 +1645,24 @@ local testselectpaste = {
   "GreenSaturation",
   "BlueHue",
   "BlueSaturation",
-  "ResetShadowTint",
-  "ResetRedHue",
-  "ResetRedSaturation",
-  "ResetGreenHue",
-  "ResetGreenSaturation",
-  "ResetBlueHue",
-  "ResetBlueSaturation",
-  "VirtualCopy",
-  "RemoveFlag",
-  "SetRating0",
-  "SetRating1",
-  "SetRating2",
-  "SetRating3",
-  "SetRating4",
-  "SetRating5",
-  "ToggleBlue",
-  "ToggleGreen",
-  "ToggleRed",
-  "TogglePurple",
-  "ToggleYellow",
-  "ResetLast",
-  "IncrementLastDevelopParameter",
-  "DecrementLastDevelopParameter",
+  "EnableCircularGradientBasedCorrections",
+  "EnableGradientBasedCorrections",
+  "EnablePaintBasedCorrections",
+  "EnableRedEye",
+  "EnableRetouch",
+  "RetouchInfo",
+  "orientation",
+  "CropConstrainToWarp",
   "CropAngle",
   "CropBottom",
   "CropLeft",
   "CropRight",
-  "CropTop"
-} 
-local testsendMIDI = {
+  "CropTop",
+  "RedEyeInfo",
+  "TrimEnd",
+  "TrimStart"
+}
+  local testsendMIDI = {
   "Temperature",
   "Tint",
   "Exposure",
@@ -1394,13 +1762,6 @@ local testsendMIDI = {
   "GreenSaturation",
   "BlueHue",
   "BlueSaturation",
-  "ResetShadowTint",
-  "ResetRedHue",
-  "ResetRedSaturation",
-  "ResetGreenHue",
-  "ResetGreenSaturation",
-  "ResetBlueHue",
-  "ResetBlueSaturation",
   "local_Temperature",
   "local_Tint",
   "local_Exposure",
@@ -1419,4 +1780,12 @@ local testsendMIDI = {
   "CropLeft",
   "CropRight",
   "CropTop"
-}
+}  
+  return {
+    SelectivePasteMenu = SelectivePasteMenu,
+    SelectivePasteHidden = SelectivePasteHidden,
+    SelectivePasteIteration = SelectivePasteIteration,
+    SendToMidi = SendToMidi,
+    LimitEligible = LimitEligible,
+    ProfileMap = ProfileMap,
+    }

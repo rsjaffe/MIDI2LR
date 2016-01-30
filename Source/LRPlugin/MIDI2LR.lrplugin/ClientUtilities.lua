@@ -18,7 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local Parameters = require 'Parameters'
+local ParamList  = require 'ParamList'
 local Paste      = require 'Paste'
 local Profiles   = require 'Profiles'
 local Ut         = require 'Utilities'
@@ -117,7 +117,7 @@ local function PasteSelectedSettings ()
   LrTasks.startAsyncTask ( 
     function ()
       local TargetSettings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
-      for _,param in ipairs(Parameters.Order) do 
+      for _,param in ipairs(ParamList.SelectivePasteIteration) do 
         if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
           TargetSettings[param] = MIDI2LR.Copied_Settings[param]
         end

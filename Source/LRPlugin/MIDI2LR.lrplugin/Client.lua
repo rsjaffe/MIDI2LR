@@ -45,7 +45,8 @@ LrTasks.startAsyncTask(
       local LrLocalization = import 'LrLocalization'
       local Info = require 'Info'
       local versionmismatch = false
-      local datafile = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
+      local appdatafile = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
+      local plugindatafile = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
       if ProgramPreferences.DataStructure == nil then
         versionmismatch = true
       else
@@ -53,7 +54,10 @@ LrTasks.startAsyncTask(
           versionmismatch = versionmismatch or ProgramPreferences.DataStructure.version[k] ~= v
         end
       end
-      if versionmismatch or LrFileUtils.exists(datafile) ~= 'file' or
+      if 
+      versionmismatch or 
+      LrFileUtils.exists(appdatafile) ~= 'file' or
+      LrFileUtils.exists(plugindatafile) ~= 'file' or
       ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
         require 'Database'
@@ -69,7 +73,7 @@ LrTasks.startAsyncTask(
     local CU              = require 'ClientUtilities'
     local Limits          = require 'Limits'
     local MenuList        = require 'MenuList'
-    local Parameters      = require 'Parameters'
+    local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
     local LrApplication       = import 'LrApplication'
@@ -290,7 +294,9 @@ LrTasks.startAsyncTask(
             LrDialogs.showBezel(MenuList.MenuListHashed[param][2]..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
         end
-        Profiles.changeProfile(Parameters.Names[param][3])
+        if ParamList.ProfileMap[param] then
+          Profiles.changeProfile(ParamList.ProfileMap[param])
+        end
       end
     end
     updateParam = updateParam() --complete closure
@@ -307,7 +313,7 @@ LrTasks.startAsyncTask(
         local guard = LrRecursionGuard('AdjustmentChangeObserver')
         --call following within guard
         local function AdjustmentChangeObserver(observer)
-          for _,param in ipairs(Parameters.Iterate) do
+          for _,param in ipairs(ParamList.SendToMidi) do
             local lrvalue = LrDevelopController.getValue(param)
             if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
               MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))

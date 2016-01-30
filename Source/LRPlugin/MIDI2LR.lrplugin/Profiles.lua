@@ -19,7 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local Limits              = require 'Limits'
-local Parameters          = require 'Parameters'
+local ParamList           = require 'ParamList'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
@@ -74,7 +74,7 @@ local function doprofilechange(newprofile)
   loadedprofile = newprofile
   if LrApplicationView.getCurrentModuleName() == 'develop' then
     -- refresh MIDI controller since mapping has changed
-    for _,param in ipairs(Parameters.Order) do
+    for _,param in ipairs(ParamList.SendToMidi) do
       local min,max = Limits.GetMinMax(param)
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
