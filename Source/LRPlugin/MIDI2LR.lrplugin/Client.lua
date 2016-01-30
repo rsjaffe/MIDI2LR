@@ -72,7 +72,6 @@ LrTasks.startAsyncTask(
     --delay loading most modules until after data structure refreshed
     local CU              = require 'ClientUtilities'
     local Limits          = require 'Limits'
-    local MenuList        = require 'MenuList'
     local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
@@ -289,9 +288,9 @@ LrTasks.startAsyncTask(
             value = midi_lerp_to_develop(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
             local precision = Ut.precision(value)
-            LrDialogs.showBezel(MenuList.MenuListHashed[param][2]..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
           else
-            LrDialogs.showBezel(MenuList.MenuListHashed[param][2]..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
         end
         if ParamList.ProfileMap[param] then
