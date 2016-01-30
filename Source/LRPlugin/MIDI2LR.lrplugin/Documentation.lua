@@ -21,14 +21,16 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local Database = require 'Database'.DataBase
+local Database = require 'Database'
 local LrPathUtils = import 'LrPathUtils'       
 local datafile = LrPathUtils.child(_PLUGIN.path, 'Documentation.txt')
 local file = io.open(datafile,'w')
 local menulocation = ""
 
+Database.RunTests()
+
 file:write("Control definitions for wiki\n")
-for i,v in ipairs(Database) do
+for _,v in ipairs(Database.DataBase) do
   if v[4] then
         if v[9] ~= menulocation then
       menulocation = v[9]
@@ -43,7 +45,7 @@ for i,v in ipairs(Database) do
 end
 file:write("\n\nApplication menu entries\n")
 
-for i,v in ipairs(Database) do
+for _,v in ipairs(Database.DataBase) do
   if v[4] then
     if v[9] ~= menulocation then
       menulocation = v[9]
@@ -54,7 +56,7 @@ for i,v in ipairs(Database) do
 end
 file:write("\n\nCommand strings\n")
 menulocation = ""
-for i,v in ipairs(Database) do
+for _,v in ipairs(Database.DataBase) do
   if v[4] then
     if v[9] ~= menulocation then
       menulocation = v[9]

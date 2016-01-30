@@ -2349,6 +2349,38 @@ file:write([=[
     }]==])
 file:close()
 
+local function RunTests()
+  --[[DataBase structure
+1. command
+2. include in selective paste menu [exclude localized adj]. if in button group on 
+ menu, this will be a string identifying group. Otherwise this is true/false.
+3. include in selective paste iteration
+4. include in application command list
+5. send back values to MIDI controller
+6. button or table or text=true, variable number=false
+7. experimental (for documentation)
+8. user-friendly name or, for 2=false and 3=true, command it maps to
+9. menu group for app
+10. documentation right column
+11. panel for changing profile
+
+errors if:
+2=not false, 3=false
+4=false, 5=true
+4=false, 11 not nil
+8 nil and ((2 not false and 3 true) or (4 true))
+9 nil or "" and 4 true
+--]]
+  for _,v in ipairs(DataBase) do
+    assert (not (v[2] and v[3]==false), v[1].." included in selective paste menu but not in selective paste iteration.")
+    assert (not (v[4]==false and v[5]==true), v[1].." included in send back values to MIDI controller but not command list.")
+    assert (not (v[4]==false and v[11]~=nil), v[1].." not in command list but assigned a panel for changing profile.")
+    assert (not (v[8]==nil and ((v[2]~=false and v[3]==true) or (v[4]==true))), v[1].." missing a user-friendly name.")
+    assert (not (v[4]==true and (v[9]==nil or v[9]=="")), v[1].." needs a menu group for app.")
+  end
+end
+
 return { --used in documentation module
   DataBase = DataBase,
+  RunTests = RunTests,
 }
