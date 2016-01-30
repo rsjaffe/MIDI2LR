@@ -60,10 +60,10 @@ DataBase structure
 11. panel for changing profile
 
 errors if:
-2=true, 3=false
+2=not false, 3=false
 4=false, 5=true
 4=false, 11 not nil
-8 nil and ((2 false and 3 true) or (4 true))
+8 nil and ((2 not false and 3 true) or (4 true))
 9 nil or "" and 4 true
 
 unicode to UTF8 decimal mapping at http://www.utf8-chartable.de/unicode-utf8-table.pl

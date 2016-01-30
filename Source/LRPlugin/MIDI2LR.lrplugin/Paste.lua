@@ -20,17 +20,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local ParamList  = require 'ParamList'
 local LrView     = import 'LrView'
 
-local Duplicates = { -- will set each to its duplicate in EndDialog
-  Exposure2012 = 'Exposure',
-  Highlights2012 = 'Highlights',
-  Shadows2012 = 'Shadows',
-  Contrast2012 = 'Contrast',
-  Whites2012 = 'Whites',
-  Blacks2012 = 'Blacks',
-  Clarity2012 = 'Clarity',
-  ToneCurveName2012 = 'ToneCurveName',
-  ToneCurvePV2012 = 'ToneCurve',
-}
 
 local function StartDialog(obstable,f)
   
@@ -86,7 +75,8 @@ local function StartDialog(obstable,f)
       } ,-- push_button 
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone"),
-        action = set_reset {'Exposure','Highlights','Shadows','Contrast','Whites','Blacks'},
+        action = set_reset {'WhiteBalance','AutoBrightness','AutoContrast','AutoExposure','AutoShadows','Temperature','Tint'
+          'Exposure','Contrast','Highlights','Brightness','HighlightRecovery','Shadows2012','FillLight','Whites2012','Blacks2012'},
       }, -- push button
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Color=Color"),
@@ -95,7 +85,9 @@ local function StartDialog(obstable,f)
           'SaturationAdjustmentMagenta','HueAdjustmentRed','HueAdjustmentOrange','HueAdjustmentYellow','HueAdjustmentGreen',
           'HueAdjustmentAqua','HueAdjustmentBlue','HueAdjustmentPurple','HueAdjustmentMagenta','LuminanceAdjustmentRed',
           'LuminanceAdjustmentOrange','LuminanceAdjustmentYellow','LuminanceAdjustmentGreen','LuminanceAdjustmentAqua','LuminanceAdjustmentBlue',
-          'LuminanceAdjustmentPurple','LuminanceAdjustmentMagenta'},  
+          'LuminanceAdjustmentPurple','LuminanceAdjustmentMagenta','ConvertToGrayscale','EnableGrayscaleMix','GrayMixerRed',
+          'GrayMixerOrange','GrayMixerYellow','GrayMixerGreen','GrayMixerAqua','GrayMixerBlue','GrayMixerPurple','GrayMixerMagenta',
+          'EnableColorAdjustments'},  
       }, --push button
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/NoiseReduction=Noise Reduction"),
@@ -107,12 +99,13 @@ local function StartDialog(obstable,f)
         action = set_reset {'LensProfileDistortionScale','LensProfileChromaticAberrationScale','LensProfileVignettingScale',
           'LensManualDistortionAmount','DefringePurpleAmount','DefringePurpleHueLo','DefringePurpleHueHi','DefringeGreenAmount',
           'DefringeGreenHueLo','DefringeGreenHueHi','PerspectiveVertical','PerspectiveHorizontal','PerspectiveRotate',
-          'PerspectiveScale','PerspectiveAspect','PerspectiveUpright','VignetteAmount','VignetteMidpoint','Defringe'},  
+          'PerspectiveScale','PerspectiveAspect','PerspectiveUpright','VignetteAmount','VignetteMidpoint','Defringe',
+          'EnableLensCorrections','LensProfileEnable','LensProfileSetup','AutoLateralCA','ChromaticAberrationB','ChromaticAberrationR'},  
       }, --push button      
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects"),
         action = set_reset {'Dehaze','PostCropVignetteAmount','PostCropVignetteMidpoint','PostCropVignetteFeather','PostCropVignetteRoundness',
-          'PostCropVignetteStyle','PostCropVignetteHighlightContrast','GrainAmount','GrainSize','GrainFrequency'},  
+          'PostCropVignetteStyle','PostCropVignetteHighlightContrast','GrainAmount','GrainSize','GrainFrequency','EnableEffects'},  
       }, --push button
     },-- set of pushbuttons
     f:checkbox {title = 'Ask each time', value = LrView.bind('PastePopup')}
@@ -136,5 +129,4 @@ end
 return {
   StartDialog = StartDialog,
   EndDialog = EndDialog,
-  Duplicates = Duplicates,
 }
