@@ -22,7 +22,7 @@ local LrView     = import 'LrView'
 
 
 local function StartDialog(obstable,f)
-  
+
   local function set_reset(parmarray) --closure factory for toggle buttons
     local set = true
     return function()
@@ -32,7 +32,7 @@ local function StartDialog(obstable,f)
       set = not set
     end
   end
-  
+
   for k,v in pairs(ProgramPreferences.PasteList) do
     obstable['Paste'..k] = v 
   end 
@@ -75,38 +75,46 @@ local function StartDialog(obstable,f)
       } ,-- push_button 
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone"),
-        action = set_reset {'WhiteBalance','AutoBrightness','AutoContrast','AutoExposure','AutoShadows','Temperature','Tint',
-          'Exposure','Contrast','Highlights','Brightness','HighlightRecovery','Shadows2012','FillLight','Whites2012','Blacks2012'},
+        action = set_reset (ParamList.SelectivePasteGroups.basicTone),
       }, -- push button
       f:push_button {
+        title = LOC("$$$/AgDevelop/CameraRawPanel/TargetName/ToneCurve=Tone Curve"),
+        action = set_reset (ParamList.SelectivePasteGroups.toneCurve),   
+      }, --push button      
+      f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Color=Color"),
-        action = set_reset {'Vibrance','Saturation','SaturationAdjustmentRed','SaturationAdjustmentOrange','SaturationAdjustmentYellow',
-          'SaturationAdjustmentGreen','SaturationAdjustmentAqua','SaturationAdjustmentBlue','SaturationAdjustmentPurple',
-          'SaturationAdjustmentMagenta','HueAdjustmentRed','HueAdjustmentOrange','HueAdjustmentYellow','HueAdjustmentGreen',
-          'HueAdjustmentAqua','HueAdjustmentBlue','HueAdjustmentPurple','HueAdjustmentMagenta','LuminanceAdjustmentRed',
-          'LuminanceAdjustmentOrange','LuminanceAdjustmentYellow','LuminanceAdjustmentGreen','LuminanceAdjustmentAqua','LuminanceAdjustmentBlue',
-          'LuminanceAdjustmentPurple','LuminanceAdjustmentMagenta','ConvertToGrayscale','EnableGrayscaleMix','GrayMixerRed',
-          'GrayMixerOrange','GrayMixerYellow','GrayMixerGreen','GrayMixerAqua','GrayMixerBlue','GrayMixerPurple','GrayMixerMagenta',
-          'EnableColorAdjustments'},  
+        action = set_reset (ParamList.SelectivePasteGroups.colorAdjustments),
+      },
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SplitToning=Split Toning"),
+        action = set_reset (ParamList.SelectivePasteGroups.splitToningPanel),   
       }, --push button
       f:push_button {
-        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/NoiseReduction=Noise Reduction"),
-        action = set_reset {'LuminanceSmoothing','LuminanceNoiseReductionDetail','LuminanceNoiseReductionContrast','ColorNoiseReduction',
-          'ColorNoiseReductionDetail','ColorNoiseReductionSmoothness'},  
+        title = LOC("$$$/AgDevelop/Panel/Detail=Detail"),
+        action = set_reset (ParamList.SelectivePasteGroups.detailPanel),  
       }, --push button
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections"),
-        action = set_reset {'LensProfileDistortionScale','LensProfileChromaticAberrationScale','LensProfileVignettingScale',
-          'LensManualDistortionAmount','DefringePurpleAmount','DefringePurpleHueLo','DefringePurpleHueHi','DefringeGreenAmount',
-          'DefringeGreenHueLo','DefringeGreenHueHi','PerspectiveVertical','PerspectiveHorizontal','PerspectiveRotate',
-          'PerspectiveScale','PerspectiveAspect','PerspectiveUpright','VignetteAmount','VignetteMidpoint','Defringe',
-          'EnableLensCorrections','LensProfileEnable','LensProfileSetup','AutoLateralCA','ChromaticAberrationB','ChromaticAberrationR'},  
+        action = set_reset (ParamList.SelectivePasteGroups.lensCorrectionsPanel),  
       }, --push button      
       f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects"),
-        action = set_reset {'Dehaze','PostCropVignetteAmount','PostCropVignetteMidpoint','PostCropVignetteFeather','PostCropVignetteRoundness',
-          'PostCropVignetteStyle','PostCropVignetteHighlightContrast','GrainAmount','GrainSize','GrainFrequency','EnableEffects'},  
+        action = set_reset (ParamList.SelectivePasteGroups.effectsPanel),   
       }, --push button
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Calibration=Calibration"),
+        action = set_reset (ParamList.SelectivePasteGroups.calibratePanel),   
+      }, --push button      
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments"),
+        action = set_reset (ParamList.SelectivePasteGroups.localizedAdjustments),   
+      }, --push button
+      f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop"),
+        action = set_reset (ParamList.SelectivePasteGroups.miscellaneous),   
+      }, --push button
+
+
     },-- set of pushbuttons
     f:checkbox {title = 'Ask each time', value = LrView.bind('PastePopup')}
   } --row with pushbuttons and checkbox

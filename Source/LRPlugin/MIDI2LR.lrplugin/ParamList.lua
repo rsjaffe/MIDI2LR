@@ -885,6 +885,7 @@
     "SplitToningShadowHue",
     "SplitToningShadowSaturation",
     "SplitToningHighlightHue",
+    "SplitToningHighlightSaturation",
     "SplitToningBalance"
   },
   toneCurve = {
@@ -1262,6 +1263,7 @@
     SelectivePasteMenu = SelectivePasteMenu,
     SelectivePasteHidden = SelectivePasteHidden,
     SelectivePasteIteration = SelectivePasteIteration,
+    SelectivePasteGroups = SelectivePasteGroups,
     SendToMidi = SendToMidi,
     LimitEligible = LimitEligible,
     ProfileMap = ProfileMap,
