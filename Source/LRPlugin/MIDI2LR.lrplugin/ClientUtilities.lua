@@ -107,7 +107,9 @@ local function PasteSelectedSettings ()
             contents = f:view{ bind_to_object = properties, Paste.StartDialog(properties,f) }
           }
         )
-        Paste.EndDialog (properties,result)
+        if result == 'ok' then
+          Paste.EndDialog (properties,result)
+        end
       end 
     )
   end
