@@ -32,7 +32,7 @@ local menulocation = ""
 file:write("Control definitions for wiki\n")
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
-        if v[9] ~= menulocation then
+    if v[9] ~= menulocation then
       menulocation = v[9]
       file:write("New menu "..menulocation.."\n")
     end
@@ -65,6 +65,14 @@ for _,v in ipairs(Database.DataBase) do
     file:write('"'..v[1]..'",\n')
   end
 end
+
+file:write("\n\nLimits codes for documentation\n\n")
+for _,v in ipairs(Database.DataBase) do
+  if v[4] and v[5] and v[6]==false then
+    file:write("| "..v[1].." | "..v[8].." |\n")
+  end
+end
+
 file:write("\n\nRunning Tests\n\n",Database.RunTests(),"\n")
 
 file:close()
