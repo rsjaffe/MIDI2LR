@@ -58,7 +58,7 @@ local SelectivePasteMenu = {
   },
   {
     "Highlights",
-    "Highlights(Recovery in PV2003 and PV2010)"
+    "Highlights (Recovery in PV2003 and PV2010)"
   },
   {
     "Brightness",
@@ -78,7 +78,7 @@ local SelectivePasteMenu = {
   },
   {
     "Whites2012",
-    "Whites(no effect in PV2003 and PV2010)"
+    "Whites (no effect in PV2003 and PV2010)"
   },
   {
     "Blacks2012",

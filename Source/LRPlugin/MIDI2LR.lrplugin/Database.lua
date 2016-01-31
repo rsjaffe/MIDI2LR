@@ -188,7 +188,7 @@ local DataBase = {
     basicTone,
     "Adjusts white clipping. Drag to the left to reduce clipping in highlights. Drag to the right to increase highlight clipping.",
     'adjustPanel'},
-  {"Whites2012",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawUI/Whites=Whites")..'(no effect in PV2003 and PV2010)'},
+  {"Whites2012",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawUI/Whites=Whites")..' (no effect in PV2003 and PV2010)'},
   {"Blacks",
     false,false,true,true,false,false,
     LOC("$$$/AgCameraRawUI/Blacks=Blacks"),

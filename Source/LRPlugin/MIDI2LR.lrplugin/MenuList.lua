@@ -90,7 +90,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "Highlights",
-    "Highlights(Recovery in PV2003 and PV2010)",
+    "Highlights (Recovery in PV2003 and PV2010)",
     "Basic Tone",
     false
   },
@@ -102,13 +102,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "Shadows",
-    "Shadows(Fill Light in PV2003 and PV2010)",
+    "Shadows (Fill Light in PV2003 and PV2010)",
     "Basic Tone",
     false
   },
   {
     "Whites",
-    "Whites(no effect in PV2003 and PV2010)",
+    "Whites (no effect in PV2003 and PV2010)",
     "Basic Tone",
     false
   },
