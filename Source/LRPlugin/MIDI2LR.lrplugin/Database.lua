@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 --local function LOC(str) return str end--for debugging
 
+local PV2003and2010 =  'PV2003'..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..'PV2010'
 local basicTone = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone")
 local calibration = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Calibration=Calibration")
 local colorAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments")
@@ -27,7 +28,8 @@ local detail = LOC("$$$/AgDevelop/Panel/Detail=Detail")
 local developPreset = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset")
 local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets")
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
-local gotoToolModulePanel = "Go to Tool, Module, or Panel"
+local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/RedEye/Tool=Tool:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")
+  ..'Module'..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..'Panel'
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
 local miscellaneous = "Miscellaneous"
@@ -163,9 +165,9 @@ local DataBase = {
   {"Contrast2012",false,true,false,false,false,false,LOC("$$$/AgCameraRawUI/Contrast=Contrast")},
   {"Highlights",
     'basicTone',true,true,true,false,false,
-    LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Highlights=Highlights")..' (Recovery in PV2003 and PV2010)',
+    LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Highlights=Highlights")..' (Recovery in '..PV2003and2010..')',
     basicTone,
-    "Adjusts bright image areas. Drag to the left to darken highlights and recover \226\128\156blown out\226\128\157 highlight details. Drag to the right to brighten highlights while minimizing clipping.<br /><br />In PV2003 and PV2010, controls recovery and reduces the tones of extreme highlights and attempts to recover highlight detail lost because of camera overexposure. Lightroom can recover detail in raw image files if one or two channels are clipped.",
+    "Adjusts bright image areas. Drag to the left to darken highlights and recover \226\128\156blown out\226\128\157 highlight details. Drag to the right to brighten highlights while minimizing clipping.<br /><br />In '..PV2003and2010..', controls recovery and reduces the tones of extreme highlights and attempts to recover highlight detail lost because of camera overexposure. Lightroom can recover detail in raw image files if one or two channels are clipped.",
     'adjustPanel'},
   {"Brightness",
     'basicTone',true,true,true,false,false,
@@ -173,22 +175,22 @@ local DataBase = {
     basicTone,
     "Adjusts image brightness, mainly affecting midtones. Adjust Brightness after setting Exposure, Recovery, and Blacks sliders. Large brightness adjustments can affect shadow or highlight clipping, so you may want to readjust the Exposure, Recovery, or Blacks slider after adjusting brightness. No effect unless in PV2003 or PV2010)",
     'adjustPanel'},
-  {"HighlightRecovery",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HighlightRecovery=Highlight Recovery")..' (PV2003 and PV2010)'},
+  {"HighlightRecovery",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HighlightRecovery=Highlight Recovery")..' ('..PV2003and2010..')'},
   {"Shadows",
     false,false,true,true,false,false,
-    LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows")..' (Fill Light in PV2003 and PV2010)',
+    LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows")..' (Fill Light in '..PV2003and2010..')',
     basicTone,
-    "Adjusts dark image areas. Drag to the left to darken shadows while minimizing clipping. Drag to the right to brighten shadows and recover shadow details.<br /><br />In PV2003 and PV2010, controls Fill Light, and lightens shadow to reveal more detail while maintaining blacks. Take care not to over apply the setting and reveal image noise.",
+    "Adjusts dark image areas. Drag to the left to darken shadows while minimizing clipping. Drag to the right to brighten shadows and recover shadow details.<br /><br />In '..PV2003and2010..', controls Fill Light, and lightens shadow to reveal more detail while maintaining blacks. Take care not to over apply the setting and reveal image noise.",
     'adjustPanel'},
   {"Shadows2012",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows")},--NOT fill light in 2003 and 2010
-  {"FillLight",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawUI/FillLight=Fill Light")..' (PV2003 and PV2010)'},
+  {"FillLight",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawUI/FillLight=Fill Light")..' ('..PV2003and2010..')'},
   {"Whites",
     false,false,true,true,false,false,
-    LOC("$$$/AgCameraRawUI/Whites=Whites")..' (no effect in PV2003 and PV2010)',
+    LOC("$$$/AgCameraRawUI/Whites=Whites")..' (no effect in '..PV2003and2010..')',
     basicTone,
     "Adjusts white clipping. Drag to the left to reduce clipping in highlights. Drag to the right to increase highlight clipping.",
     'adjustPanel'},
-  {"Whites2012",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawUI/Whites=Whites")..' (no effect in PV2003 and PV2010)'},
+  {"Whites2012",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawUI/Whites=Whites")..' (no effect in '..PV2003and2010..')'},
   {"Blacks",
     false,false,true,true,false,false,
     LOC("$$$/AgCameraRawUI/Blacks=Blacks"),
