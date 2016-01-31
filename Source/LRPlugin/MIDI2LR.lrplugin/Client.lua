@@ -84,6 +84,8 @@ LrTasks.startAsyncTask(
     local LrUndo              = import 'LrUndo'
 
     local ACTIONS = {
+      --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
+      --   AddToTargetCollection    = CU.addToCollection('target',LrApplication.activeCatalog():getTargetPhotos()),
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
@@ -328,11 +330,11 @@ LrTasks.startAsyncTask(
             plugin = _PLUGIN,
             port = MIDI2LR.SEND_PORT,
             mode = 'send',
-            onClosed = function( socket ) -- this callback never seems to get called...
+            onClosed = function( ) -- this callback never seems to get called...
               -- MIDI2LR closed connection, allow for reconnection
               -- socket:reconnect()
             end,
-            onError = function( socket, err )
+            onError = function( socket )
               socket:reconnect()
             end,
           }
@@ -343,7 +345,7 @@ LrTasks.startAsyncTask(
           plugin = _PLUGIN,
           port = MIDI2LR.RECEIVE_PORT,
           mode = 'receive',
-          onMessage = function(socket, message) --message processor
+          onMessage = function(_, message) --message processor
             if type(message) == 'string' then
               local split = message:find(' ',1,true)
               local param = message:sub(1,split-1)

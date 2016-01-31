@@ -190,7 +190,7 @@ local function addToCollection()
     end
   )
   return function(collectiontype,photos)
-    if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+    if collectiontype==nil or photos==nil then return end
     local CollectionName
     if collectiontype == 'quick' then
       CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
