@@ -1993,133 +1993,133 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   {
     "Loupe",
     "Show Loupe",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "CropOverlay",
     "Show Crop",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SpotRemoval",
     "Show Spot Removal",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RedEye",
     "Show Red-Eye Correction",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "GraduatedFilter",
     "Show Graduated Filters",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RadialFilter",
     "Show Radial Filters",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "AdjustmentBrush",
     "Show Brush Adjustments",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SwToMlibrary",
     "Show Library",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SwToMdevelop",
     "Show Develop",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SwToMmap",
     "Show Map",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SwToMbook",
     "Show Book",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SwToMslideshow",
     "Show Slideshow",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SwToMprint",
     "Show Print",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "SwToMweb",
     "Show Web",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelAdjust",
     "Show Basic Tone",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelTone",
     "Show Tone Curve",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelMixer",
     "Show Color Adjustments",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelSplit",
     "Show Split Toning",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelDetail",
     "Show Detail",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelLens",
     "Show Lens Corrections",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelEffects",
     "Show Effects",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {
     "RevealPanelCalibrate",
     "Show Calibration",
-    "Go to Tool, Module, or Panel",
+    "Select Tool, Module and Panel",
     true
   },
   {

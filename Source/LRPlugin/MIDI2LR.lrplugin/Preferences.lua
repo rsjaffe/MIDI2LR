@@ -35,7 +35,6 @@ local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local ParamList           = require 'ParamList'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
-local Profiles            = require 'Profiles'
 local serpent             = require 'serpent'
 -- hidden
 local changed = false
@@ -75,6 +74,7 @@ local function useDefaults()
   ProgramPreferences = {}
   ProgramPreferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {}, Profiles = {}, }
   ProgramPreferences.Limits['Temperature'][50000] = {3000,9000}
+  local Profiles            = require 'Profiles' --delay loading as profiles loads limits, until after Limits defined
   Profiles.useDefaults()
   changed = true
 end
@@ -159,11 +159,6 @@ local function Load()
       if loaded ~= true then
         useDefaults()
         LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
-      else --need to add back in the metatables. serpent doesn't serialize metatables
-        setmetatable(ProgramPreferences.Limits,metalimit1)
-        for k in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
-          setmetatable(ProgramPreferences.Limits[k],metalimit2)
-        end
       end
     else -- not current version
       return load0() --load prior version, proper tail call
@@ -173,6 +168,18 @@ local function Load()
   end
   return loaded
 end
+
+local function LoadShell() --encapsulates all loading, allowing post-processing
+  local loadretval = Load()
+  ProgramPreferences.Limits = ProgramPreferences.Limits or {}
+  if getmetatable(ProgramPreferences.Limits)==nil then
+    setmetatable(ProgramPreferences.Limits,metalimit1)
+    for k in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
+      setmetatable(ProgramPreferences.Limits[k],metalimit2)
+    end
+  end
+end
+
 
 local function ClearAll()
   for k in prefs:pairs() do
@@ -184,7 +191,7 @@ end
 
 return { --commented out unused exports
 --  ClearAll = ClearAll,
-  Load = Load,
+  Load = LoadShell,
 --  Reset = useDefaults,
   Save = Save,
 }

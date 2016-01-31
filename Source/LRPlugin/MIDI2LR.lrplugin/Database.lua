@@ -2259,7 +2259,7 @@ for i,v in ipairs(DataBase) do
     table.insert(MenuList,{v[1],v[8],v[9],v[6]})
     if v[5] then
       table.insert(SendToMidi,v[1])
-      if v[6] then
+      if v[6]==false then
         LimitEligible[v[1]] = {v[8],i}
       end
     end
@@ -2336,6 +2336,8 @@ local SelectivePasteIteration = ]==],serpent.block(SelectivePasteIteration, {com
 
 local SelectivePasteGroups = ]==],serpent.block(SelectivePasteGroups, {comment = false}), [==[
 
+local LimitEligible = ]==],serpent.block(LimitEligible, {comment = false}), [==[
+
 local SendToMidi = ]==],serpent.block(SendToMidi, {comment = false}), [==[
 
 local ProfileMap = ]==],serpent.block(ProfileMap, {comment = false}), [==[
@@ -2345,6 +2347,7 @@ return {
   SelectivePasteHidden = SelectivePasteHidden,
   SelectivePasteIteration = SelectivePasteIteration,
   SelectivePasteGroups = SelectivePasteGroups,
+  LimitEligible = LimitEligible,
   SendToMidi = SendToMidi,
   ProfileMap = ProfileMap,
   }]==])

@@ -22,11 +22,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
+
 local LrTasks             = import 'LrTasks'
 -- Main task
 LrTasks.startAsyncTask( 
   function() 
     -- LrMobdebug.on()
+-------------preferences
+    local Preferences     = require 'Preferences'
+    Preferences.Load() 
+-------------end preferences section    
     -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
     math.randomseed(os.time())
     currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
@@ -34,10 +39,7 @@ LrTasks.startAsyncTask(
 
     MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
       LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
--------------preferences
-    local Preferences     = require 'Preferences'
-    Preferences.Load() 
--------------end preferences section
+
     local LrFunctionContext   = import 'LrFunctionContext'
     local LrPathUtils = import 'LrPathUtils'
     do --save localized file for app
