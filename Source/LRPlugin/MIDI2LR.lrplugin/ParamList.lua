@@ -905,6 +905,7 @@ local SendToMidi = {
   "Exposure",
   "Contrast",
   "Highlights",
+  "Brightness",
   "Shadows",
   "Whites",
   "Blacks",

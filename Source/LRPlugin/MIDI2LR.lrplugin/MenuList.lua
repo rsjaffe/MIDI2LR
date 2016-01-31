@@ -95,6 +95,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     false
   },
   {
+    "Brightness",
+    "Brightness",
+    "Basic Tone",
+    false
+  },
+  {
     "Shadows",
     "Shadows(Fill Light in PV2003 and PV2010)",
     "Basic Tone",

@@ -168,7 +168,7 @@ local DataBase = {
     "Adjusts bright image areas. Drag to the left to darken highlights and recover \226\128\156blown out\226\128\157 highlight details. Drag to the right to brighten highlights while minimizing clipping.",
     'adjustPanel'},
   {"Brightness",
-    'basicTone',true,false,false,false,false,
+    'basicTone',true,true,true,false,false,
     LOC("$$$/AgCameraRawUI/Brightness=Brightness"),
     basicTone,
     "No effect unless in PV2003 or PV2010)",
@@ -2372,6 +2372,13 @@ errors if:
 --]]
   local retval = ""
   for _,v in ipairs(DataBase) do
+    local correcttypes = type(v[1])=='string' and (type(v[2])=='string' or type(v[2])=='boolean') and
+    type(v[3])=='boolean' and type(v[4])=='boolean' and type(v[5])=='boolean' and type(v[6])=='boolean' 
+    and type(v[7])=='boolean' and type(v[8])=='string' and (v[9]==nil or type(v[9])=='string')
+    and (v[10]==nil or type(v[10])=='string') and (v[11]==nil or type(v[11])=='string')
+    if correcttypes==false then
+      retval = retval .. v[1].. " includes incorrect types in its data.\n"
+    end
     if (v[2] and v[3]==false)then
       retval = retval .. v[1].." included in selective paste menu but not in selective paste iteration.\n"
     end
