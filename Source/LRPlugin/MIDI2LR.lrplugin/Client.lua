@@ -23,7 +23,7 @@ local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
 
-local LrTasks             = import 'LrTasks'
+local LrTasks = import 'LrTasks'
 -- Main task
 LrTasks.startAsyncTask( 
   function() 
@@ -41,14 +41,15 @@ LrTasks.startAsyncTask(
       LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
     local LrFunctionContext   = import 'LrFunctionContext'
-    local LrPathUtils = import 'LrPathUtils'
+    local LrPathUtils         = import 'LrPathUtils'
     do --save localized file for app
       local LrFileUtils    = import 'LrFileUtils'
       local LrLocalization = import 'LrLocalization'
-      local Info = require 'Info'
+      local Info           = require 'Info'
       local versionmismatch = false
-      local appdatafile = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
-      local plugindatafile = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
+      local appdatafile     = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
+      local plugindatafile  = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
+      
       if ProgramPreferences.DataStructure == nil then
         versionmismatch = true
       else
@@ -56,11 +57,12 @@ LrTasks.startAsyncTask(
           versionmismatch = versionmismatch or ProgramPreferences.DataStructure.version[k] ~= v
         end
       end
+      
       if 
-      versionmismatch or 
-      LrFileUtils.exists(appdatafile) ~= 'file' or
-      LrFileUtils.exists(plugindatafile) ~= 'file' or
-      ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
+        versionmismatch or 
+        LrFileUtils.exists(appdatafile) ~= 'file' or
+        LrFileUtils.exists(plugindatafile) ~= 'file' or
+        ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
         require 'Database'
         ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
