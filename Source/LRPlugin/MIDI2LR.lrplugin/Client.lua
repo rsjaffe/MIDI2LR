@@ -49,7 +49,7 @@ LrTasks.startAsyncTask(
       local versionmismatch = false
       local appdatafile     = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
       local plugindatafile  = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
-      
+
       if ProgramPreferences.DataStructure == nil then
         versionmismatch = true
       else
@@ -57,12 +57,12 @@ LrTasks.startAsyncTask(
           versionmismatch = versionmismatch or ProgramPreferences.DataStructure.version[k] ~= v
         end
       end
-      
+
       if 
-        versionmismatch or 
-        LrFileUtils.exists(appdatafile) ~= 'file' or
-        LrFileUtils.exists(plugindatafile) ~= 'file' or
-        ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
+      versionmismatch or 
+      LrFileUtils.exists(appdatafile) ~= 'file' or
+      LrFileUtils.exists(plugindatafile) ~= 'file' or
+      ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
         require 'Database'
         ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
@@ -392,26 +392,27 @@ LrTasks.startAsyncTask(
         local loadVersion = currentLoadVersion  
 
         -- add an observer for develop param changes--needs to occur in develop module
-        while (loadVersion == currentLoadVersion) and (LrApplicationView.getCurrentModuleName() ~= 'develop') do
+        -- will drop out of loop if loadversion changes or if in develop module with selected photo
+        while (loadVersion == currentLoadVersion) and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
           LrTasks.sleep ( .29 )
           Profiles.checkProfile()
         end --sleep away until ended or until develop module activated
-        LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
-        LrDevelopController.addAdjustmentChangeObserver(
-          context, 
-          MIDI2LR.PARAM_OBSERVER, 
-          function ( observer ) 
-            if LrApplicationView.getCurrentModuleName() == 'develop' then
-              guard:performWithGuard(AdjustmentChangeObserver,observer)
-            end
-          end 
-        )
-
-        while (loadVersion == currentLoadVersion)  do --detect halt or reload
-          LrTasks.sleep( .29 )
-          Profiles.checkProfile()
+        if loadVersion == currentLoadVersion then --didn't drop out of loop because of program termination
+          LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+          LrDevelopController.addAdjustmentChangeObserver(
+            context, 
+            MIDI2LR.PARAM_OBSERVER, 
+            function ( observer ) 
+              if LrApplicationView.getCurrentModuleName() == 'develop' then
+                guard:performWithGuard(AdjustmentChangeObserver,observer)
+              end
+            end 
+          )
+          while (loadVersion == currentLoadVersion)  do --detect halt or reload
+            LrTasks.sleep( .29 )
+            Profiles.checkProfile()
+          end
         end
-
         client:close()
         MIDI2LR.SERVER:close()
       end 
