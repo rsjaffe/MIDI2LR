@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SettingsComponent.h"
 #include "Gui/KeySender.h"
+#include "Gui/BetaComponent.h"
 
 #define MAIN_WIDTH 400
 #define MAIN_HEIGHT 650
@@ -234,9 +235,22 @@ void MainContentComponent::buttonClicked(Button* button)
     }
 	else if (button == &m_futureFeatureButton)
 	{
-		KeySender sender;
-		sender.Configure(false, false, true, 'L');
-		sender.Execute();
+		//KeySender sender;
+		//sender.Configure(false, false, true, 'L');
+		//sender.Execute();
+
+		DialogWindow::LaunchOptions dwOpt;
+		dwOpt.dialogTitle = "Beta Feature Test";
+		//create new object
+		BetaComponent *comp = new BetaComponent();
+		comp->Init();
+		dwOpt.content.setOwned(comp);
+		dwOpt.content->setSize(400, 300);
+		dwOpt.escapeKeyTriggersCloseButton = true;
+		dwOpt.useNativeTitleBar = false;
+		_settingsDialog = dwOpt.create();
+		_settingsDialog->setVisible(true);
+
 	}
 
 }

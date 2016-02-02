@@ -35,8 +35,7 @@ public:
 	SettingsComponent();
 	~SettingsComponent();
 
-	void paint(Graphics&);
-	//void resized();
+	void paint(Graphics&);	
 
 	// ButtonListener interface
 	virtual void buttonClicked(Button* button) override;
