@@ -232,7 +232,7 @@ void MainContentComponent::buttonClicked(Button* button)
         _settingsDialog->setVisible(true);
 		*/
 		KeySender sender;
-		sender.Configure(false, false, true, 'l');
+		sender.Configure(false, false, true, 'L');
 		sender.Execute();
 
 
