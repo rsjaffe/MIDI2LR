@@ -124,11 +124,6 @@ local function PasteSelectedSettings ()
           TargetSettings[param] = MIDI2LR.Copied_Settings[param]
         end
       end
-      for param in pairs(Paste.Duplicates) do
-        if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-          TargetSettings[param] = MIDI2LR.Copied_Settings[param]
-        end
-      end
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Paste selected settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(TargetSettings) end,
