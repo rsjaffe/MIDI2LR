@@ -31,7 +31,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
 #include "ResizableLayout.h"
-
+#include "CommandMap.h"
+#include "LR_IPC_In.h"
+#include "LR_IPC_Out.h"
+#include "SettingsManager.h"
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -48,7 +51,7 @@ class MainContentComponent: public Component,
 {
 public:
     MainContentComponent();
-    ~MainContentComponent();
+    virtual ~MainContentComponent();
 
     void paint (Graphics&);
 
@@ -72,6 +75,7 @@ public:
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
     void SetTimerText(int timeValue);
+	void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender);
 protected:
     void SetLabelSettings(Label &lblToSet);
     
@@ -97,6 +101,12 @@ private:
     int _rowToSelect;
     Label m_currentStatus;
 
+	CommandMap *m_commandMap;
+	LR_IPC_IN *m_lr_IPC_IN;
+	LR_IPC_OUT *m_lr_IPC_OUT;
+	SettingsManager *m_settingsManager;
+	MIDIProcessor *m_midiProcessor;
+	MIDISender *m_midiSender;
 
 
     //==============================================================================

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.9.4"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.9.5"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.1.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
@@ -36,6 +36,8 @@
       <FILE id="L4doqk" name="MIDIProcessor.h" compile="0" resource="0" file="Source/MIDIProcessor.h"/>
       <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
       <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
+      <FILE id="mWGqEu" name="Observer.cpp" compile="1" resource="0" file="Source/Pattern/Observer.cpp"/>
+      <FILE id="iF9wfx" name="Observer.h" compile="0" resource="0" file="Source/Pattern/Observer.h"/>
       <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
             file="Source/ProfileManager.cpp"/>
       <FILE id="o8SiAm" name="ProfileManager.h" compile="0" resource="0"
@@ -52,6 +54,8 @@
             file="Source/SettingsManager.cpp"/>
       <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
             file="Source/SettingsManager.h"/>
+      <FILE id="UHBX0M" name="Subject.cpp" compile="1" resource="0" file="Source/Pattern/Subject.cpp"/>
+      <FILE id="JaAyyB" name="Subject.h" compile="0" resource="0" file="Source/Pattern/Subject.h"/>
       <FILE id="YOlp5P" name="Tools.h" compile="0" resource="0" file="Source/Tools.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>

@@ -10,7 +10,7 @@
 namespace BinaryData
 {
     extern const char*   MIDI2LR_png;
-    const int            MIDI2LR_pngSize = 11624;
+    const int            MIDI2LR_pngSize = 19720;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

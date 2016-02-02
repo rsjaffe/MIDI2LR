@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-SettingsManager::SettingsManager()
+SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nullptr)
 {
 	PropertiesFile::Options opts;
 	opts.applicationName = "MIDI2LR";
@@ -37,18 +37,6 @@ SettingsManager::SettingsManager()
 
 	_propertiesFile = new PropertiesFile(opts);
 
-	// add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
-	LR_IPC_OUT::getInstance().addListener(this);
-
-	// set the profile directory
-	File profileDir(getProfileDirectory());
-	ProfileManager::getInstance().setProfileDirectory(profileDir);
-}
-
-SettingsManager& SettingsManager::getInstance()
-{
-	static SettingsManager instance;
-	return instance;
 }
 
 void SettingsManager::setPickupEnabled(bool enabled)
@@ -57,7 +45,12 @@ void SettingsManager::setPickupEnabled(bool enabled)
 	_propertiesFile->saveIfNeeded();
 
 	String command = String::formatted("Pickup %d\n", enabled);
-	LR_IPC_OUT::getInstance().sendCommand(command);
+
+	if (m_lr_IPC_OUT)
+	{
+		m_lr_IPC_OUT->sendCommand(command);
+	}
+	
 }
 
 bool SettingsManager::getPickupEnabled() const
@@ -75,14 +68,22 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 	_propertiesFile->setValue("profile_directory", profileDirStr);
 	_propertiesFile->saveIfNeeded();
 
-	File profileDir(profileDirStr);
-	ProfileManager::getInstance().setProfileDirectory(profileDir);
+	if (m_profileManager)
+	{
+		File profileDir(profileDirStr);
+		m_profileManager->setProfileDirectory(profileDir);
+	}
 }
 
 void SettingsManager::connected()
 {
 	String command = String::formatted("Pickup %d\n", getPickupEnabled());
-	LR_IPC_OUT::getInstance().sendCommand(command);
+
+	if (m_lr_IPC_OUT)
+	{
+		m_lr_IPC_OUT->sendCommand(command);
+	}
+	
 }
 
 void SettingsManager::disconnected()
@@ -99,5 +100,26 @@ void SettingsManager::setAutoHideTime(int newTime)
 {
 	_propertiesFile->setValue(AUTOHIDE_SECTION, newTime);
 	_propertiesFile->saveIfNeeded();
+
+}
+
+void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
+{
+	m_lr_IPC_OUT = lr_IPC_OUT;
+
+	if (m_lr_IPC_OUT)
+	{
+		// add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
+		m_lr_IPC_OUT->addListener(this);
+	}
+
+	m_profileManager = profileManager;
+
+	if (m_profileManager)
+	{
+		// set the profile directory
+		File profileDir(getProfileDirectory());
+		profileManager->setProfileDirectory(profileDir);
+	}
 
 }

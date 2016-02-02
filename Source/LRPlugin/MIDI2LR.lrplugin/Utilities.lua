@@ -213,6 +213,20 @@ local function execFIM(F,Rnil,...)
   return Rnil
 end
 
+--------------------------------------------------------------------------------
+-- Calculates number of digits to display to right of decimal point.
+-- Tries to maintain 4 digits of precision
+-- @tparam number value The value that will be displayed
+-- @treturn number Number of digits to display to right of decimal point
+--------------------------------------------------------------------------------
+local function precision(value)
+  if value == 0 then
+    return 0 
+  else
+    return math.max(0,3-math.floor(math.log10(math.abs(value))))
+  end
+end
+
 --- @export
 return { --table of exports, setting table member name and module function it points to
   wrapFOM = wrapFOM,
@@ -221,4 +235,5 @@ return { --table of exports, setting table member name and module function it po
   execFOM = execFOM,
   execFCM = execFCM,
   execFIM = execFIM,
+  precision = precision,
 }

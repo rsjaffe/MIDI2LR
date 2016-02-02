@@ -22,494 +22,352 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
-local Limits      = require 'Limits'
-local Parameters  = require 'Parameters'
-local Paste       = require 'Paste'
-local Preferences = require 'Preferences'
-local Profiles    = require 'Profiles'
-local Ut          = require 'Utilities'
-local LrApplication       = import 'LrApplication'
-local LrApplicationView   = import 'LrApplicationView'
-local LrBinding           = import 'LrBinding'
-local LrDevelopController = import 'LrDevelopController'
-local LrDialogs           = import 'LrDialogs'
-local LrFunctionContext   = import 'LrFunctionContext'
-local LrSelection         = import 'LrSelection'
-local LrShell             = import 'LrShell'
-local LrSocket            = import 'LrSocket'
-local LrTasks             = import 'LrTasks'
-local LrUndo              = import 'LrUndo'
-local LrView              = import 'LrView'
--- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
-currentLoadVersion = rawget (_G, 'currentLoadVersion') or 0  
-currentLoadVersion = currentLoadVersion + 1 
 
-MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
-  LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
-
--------------preferences
-Preferences.Load() 
--------------end preferences section
-
-
-local function PasteSelectedSettings ()
-  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
-  if ProgramPreferences.PastePopup then 
-    LrFunctionContext.callWithContext( "checkPaste", 
-      function( context )
-        local f = LrView.osFactory()
-        local properties = LrBinding.makePropertyTable( context )
-        local result = LrDialogs.presentModalDialog (
-          { 
-            title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections') ,
-            contents = f:view{ bind_to_object = properties, Paste.StartDialog(properties,f) }
-          }
-        )
-        Paste.EndDialog (properties,result)
-      end 
-    )
-  end
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
-  for _,param in ipairs(Parameters.Order) do 
-    if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-      MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
-      LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
-    end
-  end
-  for param in pairs(Paste.Duplicates) do
-    if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-      MIDI2LR.PARAM_OBSERVER[param] = MIDI2LR.Copied_Settings[param]
-      LrDevelopController.setValue(param,MIDI2LR.Copied_Settings[param])
-    end
-  end
-end
-
-
-local function PasteSettings  ()
-  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  LrTasks.startAsyncTask ( function () 
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'MIDI2LR: Paste settings', 
-        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
-        { timeout = 4, 
-          callback = function() 
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') 
-          end, 
-          asynchronous = true 
-        }
-      ) 
-    end 
-  )
-end
-
-local function CopySettings ()
-  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  LrTasks.startAsyncTask ( 
-    function () 
-      MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
-    end
-  ) 
-end
-
-local function ApplyPreset(presetUuid)
-  if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  local preset = LrApplication.developPresetByUuid(presetUuid)
-  LrTasks.startAsyncTask ( function () 
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'Apply preset '..preset:getName(), 
-        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
-        { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
-          asynchronous = true }
-      ) 
-    end )
-end
-
-local function addToCollection()
-  local catalog = LrApplication.activeCatalog()
-  local quickname = catalog.kQuickCollectionIdentifier
-  local targetname = catalog.kTargetCollection
-  local quickcollection, targetcollection
-  LrTasks.startAsyncTask (
-    function () 
-      LrApplication.activeCatalog():withWriteAccessDo( 
-        '',
-        function()
-          quickcollection = catalog:createCollection(quickname,nil,true)
-          targetcollection = catalog:createCollection(targetname,nil,true)
-        end,
-        { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' GetCollection.') end, 
-          asynchronous = true 
-        }
-      )
-    end
-  )
-  return function(collectiontype,photos)
-    if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-    local CollectionName
-    if collectiontype == 'quick' then
-      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
-    else
-      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToTargetCollection=Add to Target Collection"
-    end
-    LrTasks.startAsyncTask ( 
-      function () 
-        LrApplication.activeCatalog():withWriteAccessDo( 
-          CollectionName,
-          function()
-            if LrApplication.activeCatalog() ~= catalog then
-              catalog = LrApplication.activeCatalog()
-              quickname = catalog.kQuickCollectionIdentifier
-              targetname = catalog.kTargetCollection
-              quickcollection = catalog:createCollection(quickname,nil,true)
-              targetcollection = catalog:createCollection(targetname,nil,true)
-            elseif catalog.kTargetCollection ~= targetname and collectiontype ~= 'quick' then
-              targetcollection = catalog:createCollection(targetname,nil,true)
-            end
-            local usecollection
-            if collectiontype == 'quick' then
-              usecollection = quickcollection
-            else
-              usecollection = targetcollection
-            end
-            if type(photos)==table then
-              usecollection:addPhotos(photos)
-            else
-              usecollection:addPhotos {photos}
-            end
-          end,
-          { timeout = 4, 
-            callback = function() 
-              LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' AddToCollection.') 
-            end, 
-            asynchronous = true 
-          }
-        )
-      end
-    )
-  end
-end
-
-addToCollection = addToCollection()
-
-local ACTIONS = {
-  CopySettings                  = CopySettings,
-  DecreaseRating                = LrSelection.decreaseRating,
-  DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM) end,
-  IncreaseRating                = LrSelection.increaseRating,
-  IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM) end,
-  Next                          = LrSelection.nextPhoto,
-  PasteSelectedSettings         = PasteSelectedSettings,
-  PasteSettings                 = PasteSettings,
-  Pick                          = LrSelection.flagAsPick,
-  Prev                          = LrSelection.previousPhoto,
-  Profile_Adobe_Standard   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
-  Profile_Camera_Clear     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
-  Profile_Camera_Deep      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
-  Profile_Camera_Landscape = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Landscape'),
-  Profile_Camera_Light     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Light'),
-  Profile_Camera_Neutral   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Neutral'),
-  Profile_Camera_Portrait  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Portrait'),
-  Profile_Camera_Standard  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Standard'),
-  Profile_Camera_Vivid     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid'),
-  profile1 = function() Profiles.changeProfile('profile1', true) end,
-  profile2 = function() Profiles.changeProfile('profile2', true) end,
-  profile3 = function() Profiles.changeProfile('profile3', true) end,
-  profile4 = function() Profiles.changeProfile('profile4', true) end,
-  profile5 = function() Profiles.changeProfile('profile5', true) end,
-  profile6 = function() Profiles.changeProfile('profile6', true) end,
-  profile7 = function() Profiles.changeProfile('profile7', true) end,
-  profile8 = function() Profiles.changeProfile('profile8', true) end,
-  profile9 = function() Profiles.changeProfile('profile9', true) end,
-  profile10 = function() Profiles.changeProfile('profile10', true) end,
-  Redo             = LrUndo.redo,
-  Reject           = LrSelection.flagAsReject,
-  RemoveFlag       = LrSelection.removeFlag,
-  ResetAll         = Ut.wrapFOM(LrDevelopController.resetAllDevelopAdjustments),
-  ResetBrushing    = Ut.wrapFOM(LrDevelopController.resetBrushing),
-  ResetCircGrad    = Ut.wrapFOM(LrDevelopController.resetCircularGradient),
-  ResetCrop        = Ut.wrapFOM(LrDevelopController.resetCrop),
-  ResetGradient    = Ut.wrapFOM(LrDevelopController.resetGradient),
-  ResetLast        = function() Ut.execFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM) end,
-  ResetRedeye      = Ut.wrapFOM(LrDevelopController.resetRedeye),
-  ResetSpotRem     = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
-  RevealPanelAdjust = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'adjustPanel')
-    Profiles.changeProfile('adjustPanel') 
-  end,
-  RevealPanelCalibrate = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'calibratePanel')
-    Profiles.changeProfile('calibratePanel') 
-  end,
-  RevealPanelDetail = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'detailPanel')
-    Profiles.changeProfile('detailPanel') 
-  end,
-  RevealPanelEffects = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'effectsPanel')
-    Profiles.changeProfile('effectsPanel') 
-  end,
-  RevealPanelLens = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'lensCorrectionsPanel')
-    Profiles.changeProfile('lensCorrectionsPanel') 
-  end,
-  RevealPanelMixer = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'mixerPanel')
-    Profiles.changeProfile('mixerPanel') 
-  end,
-  RevealPanelSplit = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'splitToningPanel')
-    Profiles.changeProfile('splitToningPanel') 
-  end,
-  RevealPanelTone = function() 
-    Ut.execFOM(LrDevelopController.revealPanel,'tonePanel')
-    Profiles.changeProfile('tonePanel') 
-  end,
-  SetRating0 = function() LrSelection.setRating(0) end,
-  SetRating1 = function() LrSelection.setRating(1) end,
-  SetRating2 = function() LrSelection.setRating(2) end,
-  SetRating3 = function() LrSelection.setRating(3) end,
-  SetRating4 = function() LrSelection.setRating(4) end,
-  SetRating5 = function() LrSelection.setRating(5) end,
-  ShoScndVwloupe        = function() LrApplicationView.showSecondaryView('loupe') end,
-  ShoScndVwlive_loupe   = function() LrApplicationView.showSecondaryView('live_loupe') end,
-  ShoScndVwlocked_loupe = function() LrApplicationView.showSecondaryView('locked_loupe') end,
-  ShoScndVwgrid         = function() LrApplicationView.showSecondaryView('grid') end,
-  ShoScndVwcompare      = function() LrApplicationView.showSecondaryView('compare') end,
-  ShoScndVwsurvey       = function() LrApplicationView.showSecondaryView('survey') end,
-  ShoScndVwslideshow    = function() LrApplicationView.showSecondaryView('slideshow') end,  
-  ShoVwloupe   = function() LrApplicationView.showView('loupe') end,
-  ShoVwgrid    = function() LrApplicationView.showView('grid') end,
-  ShoVwcompare = function() LrApplicationView.showView('compare') end,
-  ShoVwsurvey  = function() LrApplicationView.showView('survey') end,
-  ShoVwpeople  = function() LrApplicationView.showView('people') end,
-  ShoVwdevelop_loupe              = function() LrApplicationView.showView('develop_loupe') end,
-  ShoVwdevelop_before_after_horiz = function() LrApplicationView.showView('develop_before_after_horiz') end,
-  ShoVwdevelop_before_after_vert  = function() LrApplicationView.showView('develop_before_after_vert') end,
-  ShoVwdevelop_before             = function() LrApplicationView.showView('develop_before') end,
-  SwToMlibrary = function() 
-    LrApplicationView.switchToModule('library') 
-    Profiles.changeProfile('library') 
-  end,
-  SwToMdevelop = function() 
-    LrApplicationView.switchToModule('develop') 
-    Profiles.changeProfile('develop') 
-  end,
-  SwToMmap = function() 
-    LrApplicationView.switchToModule('map') 
-    Profiles.changeProfile('map') 
-  end,
-  SwToMbook = function() 
-    LrApplicationView.switchToModule('book') 
-    Profiles.changeProfile('book') 
-  end,
-  SwToMslideshow = function() 
-    LrApplicationView.switchToModule('slideshow') 
-    Profiles.changeProfile('slideshow') 
-  end,
-  SwToMprint = function() 
-    LrApplicationView.switchToModule('print') 
-    Profiles.changeProfile('print') 
-  end,
-  SwToMweb = function() 
-    LrApplicationView.switchToModule('web') 
-    Profiles.changeProfile('web') 
-  end,
-  ToggleBlue       = LrSelection.toggleBlueLabel,
-  ToggleGreen      = LrSelection.toggleGreenLabel,
-  TogglePurple     = LrSelection.togglePurpleLabel,
-  ToggleRed        = LrSelection.toggleRedLabel,
-  ToggleScreenTwo  = LrApplicationView.toggleSecondaryDisplay,
-  ToggleYellow     = LrSelection.toggleYellowLabel,
-  ToggleZoomOffOn  = LrApplicationView.toggleZoom,
-  Undo             = LrUndo.undo,
-  UprightAuto      = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',1),
-  UprightFull      = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',2),
-  UprightLevel     = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',3),
-  UprightOff       = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
-  UprightVertical  = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
-  VirtualCopy      = function() LrApplication.activeCatalog():createVirtualCopies() end,
-  WhiteBalanceAs_Shot     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
-  WhiteBalanceAuto        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto'),
-  WhiteBalanceCloudy      = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
-  WhiteBalanceDaylight    = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
-  WhiteBalanceFlash       = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),  
-  WhiteBalanceFluorescent = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
-  WhiteBalanceShade       = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
-  WhiteBalanceTungsten    = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
-  ZoomInLargeStep  = LrApplicationView.zoomIn,
-  ZoomInSmallStep  = LrApplicationView.zoomInSome,
-  ZoomOutLargeStep = LrApplicationView.zoomOut,
-  ZoomOutSmallStep = LrApplicationView.zoomOutSome,
-}
-
-local TOOL_ALIASES = {
-  AdjustmentBrush = 'localized',
-  CropOverlay     = 'crop',
-  GraduatedFilter = 'gradient',
-  Loupe           = 'loupe',
-  RadialFilter    = 'circularGradient',
-  RedEye          = 'redeye',
-  SpotRemoval     = 'dust',
-}
-
-local TOGGLE_PARAMETERS = { --alternate on/off by button presses
-  ConvertToGrayscale                     = true,
-  EnableCalibration                      = true,
-  EnableCircularGradientBasedCorrections = true,
-  EnableColorAdjustments                 = true,
-  EnableDetail                           = true,
-  EnableEffects                          = true,
-  EnableGradientBasedCorrections         = true,
-  EnableGrayscaleMix                     = true,
-  EnableLensCorrections                  = true,
-  EnablePaintBasedCorrections            = true,
-  EnableRedEye                           = true,
-  EnableRetouch                          = true,
-  EnableSplitToning                      = true,
-}
-
-local TOGGLE_PARAMETERS_01 = { --alternate on/off, but 0/1 rather than false/true
-  AutoLateralCA        = true,
-  LensProfileEnable    = true,
-}
-
-
-local SETTINGS = {
-  Pickup = function(enabled) MIDI2LR.PICKUP_ENABLED = (enabled == 1) end,
-}
-
-local function midi_lerp_to_develop(param, midi_value)
-  -- map midi range to develop parameter range
-  local min,max = Limits.GetMinMax(param)
-  return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
-end
-
-local function develop_lerp_to_midi(param)
-  -- map develop parameter range to midi range
-  local min,max = Limits.GetMinMax(param)
-  return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-end
-
-local function updateParam() --closure
-  local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
-  return function(param, midi_value)
-    -- this function does a 'pickup' type of check
-    -- that is, it will ensure the develop parameter is close 
-    -- to what the inputted command value is before updating it
-    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-      LrApplicationView.switchToModule('develop')
-    end
-    -- if pickup mode, keep LR value within pickup limits so pickup can work
-    if Limits.Parameters[param] and MIDI2LR.PICKUP_ENABLED then
-      Limits.ClampValue(param)
-    end
-    -- enable movement if pickup mode is off; controller is within pickup range; 
-    -- or control was last used recently and rapidly moved out of pickup range
-    if(
-      (not MIDI2LR.PICKUP_ENABLED) or
-      (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD) or
-      (lastclock + 0.5 > os.clock() and lastparam == param) 
-    )
-    then
-      if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
-        lastclock = os.clock()
-        lastparam = param
-      end
-      local value = midi_lerp_to_develop(param, midi_value)
-      MIDI2LR.PARAM_OBSERVER[param] = value
-      LrDevelopController.setValue(param, value)
-      MIDI2LR.LAST_PARAM = param
-    end
-  end
-end
-updateParam = updateParam() --complete closure
-
--- message processor
-local function processMessage(message)
-  if type(message) == 'string' then
-    -- messages are in the format 'param value'
-    local _, _, param, value = message:find( '(%S+)%s(%S+)' )
-
-    if(ACTIONS[param]) then -- perform a one time action
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
-    elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
-    elseif(param:find('Preset_') == 1) then --apply preset by #
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then ApplyPreset(ProgramPreferences.Presets[tonumber(param:sub(8))]) end
-    elseif(TOGGLE_PARAMETERS[param]) then --enable/disable 
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param)) end -- toggle parameters if button on
-    elseif(TOGGLE_PARAMETERS_01[param]) then --enable/disable
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        if Ut.execFOM(LrDevelopController.getValue(param)) == 0 then
-          LrDevelopController.setValue(param,1)
-        else
-          LrDevelopController.setValue(param,0)
-        end
-      end
-    elseif(TOOL_ALIASES[param]) then -- switch to desired tool
-      if(tonumber(value) == MIDI2LR.BUTTON_ON) then 
-        if(LrDevelopController.getSelectedTool() == TOOL_ALIASES[param]) then -- toggle between the tool/loupe
-          Ut.execFOM(LrDevelopController.selectTool,'loupe')
-          Profiles.changeProfile('loupe', true)
-        else
-          Ut.execFOM(LrDevelopController.selectTool,TOOL_ALIASES[param])
-          Profiles.changeProfile(param, true)
-        end
-      end
-    elseif(SETTINGS[param]) then
-      SETTINGS[param](tonumber(value))
-    elseif (param == 'ChangedToDirectory') then
-      Profiles.setDirectory(message:sub(message:find(' ',1,true)+1))
-    elseif (param == 'ChangedToFile') then
-      Profiles.setFile(message:sub(message:find(' ',1,true)+1))
-    elseif (param == 'ChangedToFullPath') then
-      Profiles.setFullPath(message:sub(message:find(' ',1,true)+1)) --value stops at first space
-    else -- otherwise update a develop parameter
-      updateParam(param, tonumber(value))
-      Profiles.changeProfile(Parameters.Names[param][3])
-    end
-  end
-end
-
-local function startServer(context)
-  MIDI2LR.SERVER = LrSocket.bind {
-    functionContext = context,
-    plugin = _PLUGIN,
-    port = MIDI2LR.SEND_PORT,
-    mode = 'send',
-    onClosed = function( socket ) -- this callback never seems to get called...
-      -- MIDI2LR closed connection, allow for reconnection
-      -- socket:reconnect()
-    end,
-    onError = function( socket, err )
-      socket:reconnect()
-    end,
-  }
-end
-
+local LrTasks = import 'LrTasks'
 -- Main task
-LrTasks.startAsyncTask( function() 
+LrTasks.startAsyncTask( 
+  function() 
     -- LrMobdebug.on()
-    LrFunctionContext.callWithContext( 'socket_remote', function( context )
-        -- LrMobdebug.on()
+-------------preferences
+    local Preferences     = require 'Preferences'
+    Preferences.Load() 
+-------------end preferences section    
+    -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
+    math.randomseed(os.time())
+    currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
+    currentLoadVersion = currentLoadVersion + 1 
 
+    MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
+      LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
+
+    local LrFunctionContext   = import 'LrFunctionContext'
+    local LrPathUtils         = import 'LrPathUtils'
+    do --save localized file for app
+      local LrFileUtils    = import 'LrFileUtils'
+      local LrLocalization = import 'LrLocalization'
+      local Info           = require 'Info'
+      local versionmismatch = false
+      local appdatafile     = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
+      local plugindatafile  = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
+
+      if ProgramPreferences.DataStructure == nil then
+        versionmismatch = true
+      else
+        for k,v in pairs(Info.VERSION) do
+          versionmismatch = versionmismatch or ProgramPreferences.DataStructure.version[k] ~= v
+        end
+      end
+
+      if 
+      versionmismatch or 
+      LrFileUtils.exists(appdatafile) ~= 'file' or
+      LrFileUtils.exists(plugindatafile) ~= 'file' or
+      ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
+      then
+        require 'Database'
+        ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
+        for k,v in pairs(Info.VERSION) do
+          ProgramPreferences.DataStructure.version[k] = v
+        end
+        Preferences.Save() --ensure that new version/language info saved
+      end
+    end --save localized file for app
+
+    --delay loading most modules until after data structure refreshed
+    local CU              = require 'ClientUtilities'
+    local Limits          = require 'Limits'
+    local ParamList       = require 'ParamList'
+    local Profiles        = require 'Profiles'
+    local Ut              = require 'Utilities'
+    local LrApplication       = import 'LrApplication'
+    local LrApplicationView   = import 'LrApplicationView'
+    local LrDevelopController = import 'LrDevelopController'
+    local LrDialogs           = import 'LrDialogs'
+    local LrSelection         = import 'LrSelection'
+    local LrStringUtils       = import 'LrStringUtils'
+    local LrUndo              = import 'LrUndo'
+
+    local ACTIONS = {
+      --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
+      --   AddToTargetCollection    = CU.addToCollection('target',LrApplication.activeCatalog():getTargetPhotos()),
+      AdjustmentBrush          = CU.fToggleTool('localized'),
+      AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
+      ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
+      CopySettings             = CU.CopySettings,
+      CropOverlay              = CU.fToggleTool('crop'),
+      DecreaseRating           = LrSelection.decreaseRating,
+      DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM) end,
+      EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
+      EnableCircularGradientBasedCorrections = CU.fToggleTF('EnableCircularGradientBasedCorrections'),
+      EnableColorAdjustments                 = CU.fToggleTF('EnableColorAdjustments'),
+      EnableDetail                           = CU.fToggleTF('EnableDetail'),
+      EnableEffects                          = CU.fToggleTF('EnableEffects'),
+      EnableGradientBasedCorrections         = CU.fToggleTF('EnableGradientBasedCorrections'),
+      EnableGrayscaleMix                     = CU.fToggleTF('EnableGrayscaleMix'),
+      EnableLensCorrections                  = CU.fToggleTF('EnableLensCorrections'),
+      EnablePaintBasedCorrections            = CU.fToggleTF('EnablePaintBasedCorrections'),
+      EnableRedEye                           = CU.fToggleTF('EnableRedEye'),
+      EnableRetouch                          = CU.fToggleTF('EnableRetouch'),
+      EnableSplitToning                      = CU.fToggleTF('EnableSplitToning'),
+      GraduatedFilter                        = CU.fToggleTool('gradient'),
+      IncreaseRating                         = LrSelection.increaseRating,
+      IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM) end,
+      LensProfileEnable        = CU.fToggle01('LensProfileEnable'),
+      Loupe                    = CU.fToggleTool('loupe'),
+      Next                     = LrSelection.nextPhoto,
+      PasteSelectedSettings    = CU.PasteSelectedSettings,
+      PasteSettings            = CU.PasteSettings,
+      Pick                     = LrSelection.flagAsPick,
+      Preset_1                 = CU.fApplyPreset(1),
+      Preset_2                 = CU.fApplyPreset(2),
+      Preset_3                 = CU.fApplyPreset(3),
+      Preset_4                 = CU.fApplyPreset(4),
+      Preset_5                 = CU.fApplyPreset(5),
+      Preset_6                 = CU.fApplyPreset(6),
+      Preset_7                 = CU.fApplyPreset(7),
+      Preset_8                 = CU.fApplyPreset(8),
+      Preset_9                 = CU.fApplyPreset(9),
+      Preset_10                = CU.fApplyPreset(10),
+      Preset_11                = CU.fApplyPreset(11),
+      Preset_12                = CU.fApplyPreset(12),
+      Preset_13                = CU.fApplyPreset(13),
+      Preset_14                = CU.fApplyPreset(14),
+      Preset_15                = CU.fApplyPreset(15),
+      Preset_16                = CU.fApplyPreset(16),
+      Preset_17                = CU.fApplyPreset(17),
+      Preset_18                = CU.fApplyPreset(18),
+      Preset_19                = CU.fApplyPreset(19),
+      Preset_20                = CU.fApplyPreset(20),
+      Prev                     = LrSelection.previousPhoto,
+      Profile_Adobe_Standard   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
+      Profile_Camera_Clear     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
+      Profile_Camera_Deep      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
+      Profile_Camera_Landscape = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Landscape'),
+      Profile_Camera_Light     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Light'),
+      Profile_Camera_Neutral   = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Neutral'),
+      Profile_Camera_Portrait  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Portrait'),
+      Profile_Camera_Standard  = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Standard'),
+      Profile_Camera_Vivid     = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid'),
+      profile1                 = function() Profiles.changeProfile('profile1', true) end,
+      profile2                 = function() Profiles.changeProfile('profile2', true) end,
+      profile3                 = function() Profiles.changeProfile('profile3', true) end,
+      profile4                 = function() Profiles.changeProfile('profile4', true) end,
+      profile5                 = function() Profiles.changeProfile('profile5', true) end,
+      profile6                 = function() Profiles.changeProfile('profile6', true) end,
+      profile7                 = function() Profiles.changeProfile('profile7', true) end,
+      profile8                 = function() Profiles.changeProfile('profile8', true) end,
+      profile9                 = function() Profiles.changeProfile('profile9', true) end,
+      profile10                = function() Profiles.changeProfile('profile10', true) end,
+      RadialFilter             = CU.fToggleTool('circularGradient'),
+      RedEye                   = CU.fToggleTool('redeye'),
+      Redo                     = LrUndo.redo,
+      Reject                   = LrSelection.flagAsReject,
+      RemoveFlag               = LrSelection.removeFlag,
+      ResetAll                 = Ut.wrapFOM(LrDevelopController.resetAllDevelopAdjustments),
+      ResetBrushing            = Ut.wrapFOM(LrDevelopController.resetBrushing),
+      ResetCircGrad            = Ut.wrapFOM(LrDevelopController.resetCircularGradient),
+      ResetCrop                = Ut.wrapFOM(LrDevelopController.resetCrop),
+      ResetGradient            = Ut.wrapFOM(LrDevelopController.resetGradient),
+      ResetLast                = function() Ut.execFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM) end,
+      ResetRedeye              = Ut.wrapFOM(LrDevelopController.resetRedeye),
+      ResetSpotRem             = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
+      RevealPanelAdjust        = CU.fChangePanel('adjustPanel'),
+      RevealPanelCalibrate     = CU.fChangePanel('calibratePanel'),
+      RevealPanelDetail        = CU.fChangePanel('detailPanel'), 
+      RevealPanelEffects       = CU.fChangePanel('effectsPanel'),
+      RevealPanelLens          = CU.fChangePanel('lensCorrectionsPanel'),
+      RevealPanelMixer         = CU.fChangePanel('mixerPanel'),
+      RevealPanelSplit         = CU.fChangePanel('splitToningPanel'),
+      RevealPanelTone          = CU.fChangePanel('tonePanel'),
+      Select1Left              = function() LrSelection.extendSelection('left',1) end,
+      Select1Right             = function() LrSelection.extendSelection('right',1) end,
+      SetRating0               = function() LrSelection.setRating(0) end,
+      SetRating1               = function() LrSelection.setRating(1) end,
+      SetRating2               = function() LrSelection.setRating(2) end,
+      SetRating3               = function() LrSelection.setRating(3) end,
+      SetRating4               = function() LrSelection.setRating(4) end,
+      SetRating5               = function() LrSelection.setRating(5) end,
+      ShoScndVwloupe           = function() LrApplicationView.showSecondaryView('loupe') end,
+      ShoScndVwlive_loupe      = function() LrApplicationView.showSecondaryView('live_loupe') end,
+      ShoScndVwlocked_loupe    = function() LrApplicationView.showSecondaryView('locked_loupe') end,
+      ShoScndVwgrid            = function() LrApplicationView.showSecondaryView('grid') end,
+      ShoScndVwcompare         = function() LrApplicationView.showSecondaryView('compare') end,
+      ShoScndVwsurvey          = function() LrApplicationView.showSecondaryView('survey') end,
+      ShoScndVwslideshow       = function() LrApplicationView.showSecondaryView('slideshow') end,  
+      ShoVwloupe               = function() LrApplicationView.showView('loupe') end,
+      ShoVwgrid                = function() LrApplicationView.showView('grid') end,
+      ShoVwcompare             = function() LrApplicationView.showView('compare') end,
+      ShoVwsurvey              = function() LrApplicationView.showView('survey') end,
+      ShoVwpeople              = function() LrApplicationView.showView('people') end,
+      ShoVwdevelop_loupe              = function() LrApplicationView.showView('develop_loupe') end,
+      ShoVwdevelop_before_after_horiz = function() LrApplicationView.showView('develop_before_after_horiz') end,
+      ShoVwdevelop_before_after_vert  = function() LrApplicationView.showView('develop_before_after_vert') end,
+      ShoVwdevelop_before             = function() LrApplicationView.showView('develop_before') end,
+      SpotRemoval              = CU.fToggleTool('dust'),
+      SwToMlibrary             = CU.fChangeModule('library'),
+      SwToMdevelop             = CU.fChangeModule('develop'),
+      SwToMmap                 = CU.fChangeModule('map'),
+      SwToMbook                = CU.fChangeModule('book'),
+      SwToMslideshow           = CU.fChangeModule('slideshow'),
+      SwToMprint               = CU.fChangeModule('print'),
+      SwToMweb                 = CU.fChangeModule('web'),
+      ToggleBlue               = LrSelection.toggleBlueLabel,
+      ToggleGreen              = LrSelection.toggleGreenLabel,
+      TogglePurple             = LrSelection.togglePurpleLabel,
+      ToggleRed                = LrSelection.toggleRedLabel,
+      ToggleScreenTwo          = LrApplicationView.toggleSecondaryDisplay,
+      ToggleYellow             = LrSelection.toggleYellowLabel,
+      ToggleZoomOffOn          = LrApplicationView.toggleZoom,
+      Undo                     = LrUndo.undo,
+      UprightAuto              = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',1),
+      UprightFull              = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',2),
+      UprightLevel             = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',3),
+      UprightOff               = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
+      UprightVertical          = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
+      VirtualCopy              = function() LrApplication.activeCatalog():createVirtualCopies() end,
+      WhiteBalanceAs_Shot      = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
+      WhiteBalanceAuto         = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto'),
+      WhiteBalanceCloudy       = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
+      WhiteBalanceDaylight     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
+      WhiteBalanceFlash        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),  
+      WhiteBalanceFluorescent  = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
+      WhiteBalanceShade        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
+      WhiteBalanceTungsten     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      ZoomInLargeStep          = LrApplicationView.zoomIn,
+      ZoomInSmallStep          = LrApplicationView.zoomInSome,
+      ZoomOutLargeStep         = LrApplicationView.zoomOut,
+      ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
+    }
+
+    local SETTINGS = {
+      ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
+      ChangedToFile      = function(value) Profiles.setFile(value) end,
+      ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
+      Pickup             = function(enabled) MIDI2LR.PICKUP_ENABLED = (tonumber(enabled) == 1) end, 
+    }
+
+    local function midi_lerp_to_develop(param, midi_value)
+      -- map midi range to develop parameter range
+      local min,max = Limits.GetMinMax(param)
+      return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
+    end
+
+    local function develop_lerp_to_midi(param)
+      -- map develop parameter range to midi range
+      local min,max = Limits.GetMinMax(param)
+      return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+    end
+
+    local function updateParam() --closure
+      local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
+      return function(param, midi_value)
+        local value
+        -- this function does a 'pickup' type of check
+        -- that is, it will ensure the develop parameter is close 
+        -- to what the inputted command value is before updating it
+        if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+          LrApplicationView.switchToModule('develop')
+        end
+        -- if pickup mode, keep LR value within pickup limits so pickup can work
+        if Limits.Parameters[param] and MIDI2LR.PICKUP_ENABLED then
+          Limits.ClampValue(param)
+        end
+        -- enable movement if pickup mode is off; controller is within pickup range; 
+        -- or control was last used recently and rapidly moved out of pickup range
+        if(
+          (not MIDI2LR.PICKUP_ENABLED) or
+          (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD) or
+          (lastclock + 0.5 > os.clock() and lastparam == param) 
+        )
+        then
+          if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
+            lastclock = os.clock()
+            lastparam = param
+          end
+          value = midi_lerp_to_develop(param, midi_value)
+          MIDI2LR.PARAM_OBSERVER[param] = value
+          LrDevelopController.setValue(param, value)
+          MIDI2LR.LAST_PARAM = param
+        end
+        if ProgramPreferences.ClientShowBezelOnChange then
+          if value == nil then -- didn't do an update--pickup failed, so show target value as well
+            value = midi_lerp_to_develop(param, midi_value)
+            local actualvalue = LrDevelopController.getValue(param)
+            local precision = Ut.precision(value)
+            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+          else
+            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+          end
+        end
+        if ParamList.ProfileMap[param] then
+          Profiles.changeProfile(ParamList.ProfileMap[param])
+        end
+      end
+    end
+    updateParam = updateParam() --complete closure
+
+
+
+    LrFunctionContext.callWithContext( 
+      'socket_remote', 
+      function( context )
+        -- LrMobdebug.on()
+        local LrRecursionGuard    = import 'LrRecursionGuard'
+        local LrShell             = import 'LrShell'
+        local LrSocket            = import 'LrSocket'
+        local guard = LrRecursionGuard('AdjustmentChangeObserver')
+        --call following within guard
+        local function AdjustmentChangeObserver(observer)
+          for _,param in ipairs(ParamList.SendToMidi) do
+            local lrvalue = LrDevelopController.getValue(param)
+            if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
+              MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+              observer[param] = lrvalue
+              MIDI2LR.LAST_PARAM = param
+            end
+          end
+        end
+        -- wrapped in function so can be called when connection lost
+        local function startServer(context)
+          MIDI2LR.SERVER = LrSocket.bind {
+            functionContext = context,
+            plugin = _PLUGIN,
+            port = MIDI2LR.SEND_PORT,
+            mode = 'send',
+            onClosed = function( ) -- this callback never seems to get called...
+              -- MIDI2LR closed connection, allow for reconnection
+              -- socket:reconnect()
+            end,
+            onError = function( socket )
+              socket:reconnect()
+            end,
+          }
+        end
 
         local client = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
           port = MIDI2LR.RECEIVE_PORT,
           mode = 'receive',
-          onMessage = function(socket, message)
-            processMessage(message)
+          onMessage = function(_, message) --message processor
+            if type(message) == 'string' then
+              local split = message:find(' ',1,true)
+              local param = message:sub(1,split-1)
+              local value = message:sub(split+1)
+              if(ACTIONS[param]) then -- perform a one time action
+                if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
+              elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+                if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
+              elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
+                SETTINGS[param](value)
+              else -- otherwise update a develop parameter
+                updateParam(param, tonumber(value))
+              end
+            end
           end,
           onClosed = function( socket )
             -- MIDI2LR closed connection, allow for reconnection
             socket:reconnect()
-
             -- calling SERVER:reconnect causes LR to hang for some reason...
             MIDI2LR.SERVER:close()
             startServer(context)
@@ -523,46 +381,42 @@ LrTasks.startAsyncTask( function()
 
         startServer(context)
 
+        if(WIN_ENV) then
+          LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
+        else
+          LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app')) 
+        end
+
         math.randomseed(os.time())
         currentLoadVersion = math.random() --in case currentLoadVersion gets initialized to 0 each load
         local loadVersion = currentLoadVersion  
 
         -- add an observer for develop param changes--needs to occur in develop module
-        while (loadVersion == currentLoadVersion) and (LrApplicationView.getCurrentModuleName() ~= 'develop') do
+        -- will drop out of loop if loadversion changes or if in develop module with selected photo
+        while (loadVersion == currentLoadVersion) and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
           LrTasks.sleep ( .29 )
           Profiles.checkProfile()
         end --sleep away until ended or until develop module activated
-        LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
-        LrDevelopController.addAdjustmentChangeObserver(
-          context, 
-          MIDI2LR.PARAM_OBSERVER, 
-          function ( observer ) 
-            if LrApplicationView.getCurrentModuleName() ~= 'develop' then return end
-            for _,param in ipairs(Parameters.Order) do
-              if(observer[param] ~= LrDevelopController.getValue(param)) then
-                MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
-                observer[param] = LrDevelopController.getValue(param)
-                MIDI2LR.LAST_PARAM = param
+        if loadVersion == currentLoadVersion then --didn't drop out of loop because of program termination
+          LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+          LrDevelopController.addAdjustmentChangeObserver(
+            context, 
+            MIDI2LR.PARAM_OBSERVER, 
+            function ( observer ) 
+              if LrApplicationView.getCurrentModuleName() == 'develop' then
+                guard:performWithGuard(AdjustmentChangeObserver,observer)
               end
-            end
-          end 
-        )
-
-        while (loadVersion == currentLoadVersion)  do --detect halt or reload
-          LrTasks.sleep( .29 )
-          Profiles.checkProfile()
+            end 
+          )
+          while (loadVersion == currentLoadVersion)  do --detect halt or reload
+            LrTasks.sleep( .29 )
+            Profiles.checkProfile()
+          end
         end
-
         client:close()
         MIDI2LR.SERVER:close()
-      end )
-  end )
-
-LrTasks.startAsyncTask( function()
-    if(WIN_ENV) then
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.exe')
-    else
-      LrShell.openFilesInApp({_PLUGIN.path..'/Info.lua'}, _PLUGIN.path..'/MIDI2LR.app') 
-    end
-  end
+      end 
+    )
+  end 
 )
+

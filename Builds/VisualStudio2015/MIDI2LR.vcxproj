@@ -56,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.4;JUCE_APP_VERSION_HEX=0x904;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.5;JUCE_APP_VERSION_HEX=0x905;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -97,7 +97,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.4;JUCE_APP_VERSION_HEX=0x904;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.5;JUCE_APP_VERSION_HEX=0x905;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -142,10 +142,12 @@
     <ClCompile Include="..\..\Source\MainWindow.cpp"/>
     <ClCompile Include="..\..\Source\MIDIProcessor.cpp"/>
     <ClCompile Include="..\..\Source\MIDISender.cpp"/>
+    <ClCompile Include="..\..\Source\Pattern\Observer.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp"/>
     <ClCompile Include="..\..\Source\SettingsManager.cpp"/>
+    <ClCompile Include="..\..\Source\Pattern\Subject.cpp"/>
     <ClCompile Include="..\..\Source\VersionChecker.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
@@ -1200,10 +1202,12 @@
     <ClInclude Include="..\..\Source\MainWindow.h"/>
     <ClInclude Include="..\..\Source\MIDIProcessor.h"/>
     <ClInclude Include="..\..\Source\MIDISender.h"/>
+    <ClInclude Include="..\..\Source\Pattern\Observer.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\ResizableLayout.h"/>
     <ClInclude Include="..\..\Source\SettingsComponent.h"/>
     <ClInclude Include="..\..\Source\SettingsManager.h"/>
+    <ClInclude Include="..\..\Source\Pattern\Subject.h"/>
     <ClInclude Include="..\..\Source\Tools.h"/>
     <ClInclude Include="..\..\Source\VersionChecker.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
