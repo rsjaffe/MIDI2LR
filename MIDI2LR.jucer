@@ -16,6 +16,8 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
+      <FILE id="fYJ1Wi" name="KeySender.cpp" compile="1" resource="0" file="Source/Gui/KeySender.cpp"/>
+      <FILE id="rouiRl" name="KeySender.h" compile="0" resource="0" file="Source/Gui/KeySender.h"/>
       <FILE id="WR6usH" name="Logger.cpp" compile="1" resource="0" file="Source/Logger.cpp"/>
       <FILE id="am8Hik" name="Logger.h" compile="0" resource="0" file="Source/Logger.h"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>

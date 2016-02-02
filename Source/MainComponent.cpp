@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDISender.h"
 
 #include "SettingsComponent.h"
+#include "Gui/KeySender.h"
 
 #define MAIN_WIDTH 400
 #define MAIN_HEIGHT 650
@@ -218,7 +219,7 @@ void MainContentComponent::buttonClicked(Button* button)
     }
     else if (button == &_settingsButton)
     {
-        DialogWindow::LaunchOptions dwOpt;
+      /*  DialogWindow::LaunchOptions dwOpt;
         dwOpt.dialogTitle = "Settings";
 		//create new object
 		SettingsComponent *comp = new SettingsComponent();
@@ -229,6 +230,12 @@ void MainContentComponent::buttonClicked(Button* button)
         dwOpt.useNativeTitleBar = false;
         _settingsDialog = dwOpt.create();
         _settingsDialog->setVisible(true);
+		*/
+		KeySender sender;
+		sender.Configure(false, false, true, 'l');
+		sender.Execute();
+
+
     }
 }
 
