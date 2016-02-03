@@ -48,12 +48,14 @@ for _, p in ipairs(DisplayOrder) do
 end
 
 --clean up the preferences of discarded Limits and fix label and order
-for k,v in pairs(ProgramPreferences.Limits) do
-  if Parameters[k] then
-    ProgramPreferences.Limits[k]['label'] = ParamList.LimitEligible[k][1]
-    ProgramPreferences.Limits[k]['order'] = ParamList.LimitEligible[k][2]
-  else
-    ProgramPreferences.Limits[k] = nil --erase unused
+if ProgramPreferences.Limits ~= nil and type(ProgramPreferences.Limits)=='table' then
+  for k,v in pairs(ProgramPreferences.Limits) do
+    if Parameters[k] then
+      ProgramPreferences.Limits[k]['label'] = ParamList.LimitEligible[k][1]
+      ProgramPreferences.Limits[k]['order'] = ParamList.LimitEligible[k][2]
+    else
+      ProgramPreferences.Limits[k] = nil --erase unused
+    end
   end
 end
 
