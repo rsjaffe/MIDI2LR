@@ -3,7 +3,7 @@
 "$$$/MIDI2LR/Limits/Limits=Grenzwerte"
 "$$$/MIDI2LR/Info/about=Über"
 "$$$/MIDI2LR/About/about=Verwendung: einen MIDI-Controller verbinden, MIDI2LR starten, und mit der Bearbeitung beginnen! Für Details siehe https://github.com/rsjaffe/MIDI2LR/wiki"
-"$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
+"$$$/MIDI2LR/Preferences/cantload=Einstellungen konnten nicht geladen werden. Verwende Standard-Einstellungen."
 
 
 
