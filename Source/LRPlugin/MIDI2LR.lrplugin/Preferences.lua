@@ -36,46 +36,21 @@ local LrDialogs           = import 'LrDialogs'
 local ParamList           = require 'ParamList'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local serpent             = require 'serpent'
+local Init                = require 'Init'
 -- hidden
 local changed = false
 local version = 1
 
---------------note: test if can use t in place of t.param in metalimit2
-local metalimit2 = { --assumes only new table members for each parameter are numeric, representing ranges
-  __index = function(t,k) -- key is high value for the range -- always return t[k]!
-    t[k] = {}
-    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then 
-      local lo,hi = LrDevelopController.getRange(t.param)
-      if k == hi then
-        if t.param == 'Temperature' and k == 50000 then
-          t[k] = {3000,9000}
-        else
-          t[k] = {lo,hi}
-        end
-        changed = true
-      end
-    end
-    return t[k]
-  end,
-}
 
-local metalimit1 = {
-  __index = function(t,k)--key is the name of the parameter
-    t[k] = setmetatable({param = k,label = ParamList.LimitEligible[k][1], order = ParamList.LimitEligible[k][2]},metalimit2) 
-    changed = true
-    return t[k]
-  end,
-}
 -- public
 -- preferences table
 ProgramPreferences = {}
 
 local function useDefaults()
   ProgramPreferences = {}
-  ProgramPreferences = {Limits = setmetatable({},metalimit1), Presets = {}, PasteList = {}, Profiles = {}, }
-  ProgramPreferences.Limits['Temperature'][50000] = {3000,9000}
-  local Profiles            = require 'Profiles' --delay loading as profiles loads limits, until after Limits defined
-  Profiles.useDefaults()
+  ProgramPreferences = {Presets = {}, PasteList = {}}
+  Init.UseDefaultsLimits()
+  Init.UseDefaultsProfiles()
   changed = true
 end
 
@@ -171,13 +146,7 @@ end
 
 local function LoadShell() --encapsulates all loading, allowing post-processing
   local loadretval = Load()
-  ProgramPreferences.Limits = ProgramPreferences.Limits or {}
-  if getmetatable(ProgramPreferences.Limits)==nil then
-    setmetatable(ProgramPreferences.Limits,metalimit1)
-    for k in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
-      setmetatable(ProgramPreferences.Limits[k],metalimit2)
-    end
-  end
+  Init.LoadedLimits()
 end
 
 
