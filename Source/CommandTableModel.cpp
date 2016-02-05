@@ -66,8 +66,13 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
 
 		if (m_commandMap)
 		{
-			// add 1 because 0 is reserved for no selection
-			commandSelect->setSelectedItem(LRCommandList::getIndexOfCommand(m_commandMap->getCommandforMessage(_commands[rowNumber])) + 1);
+			// is this a key command?
+			String strCommandToSend = m_commandMap->getCommandforMessage(_commands[rowNumber]);
+			if (strCommandToSend.startsWith("keys:"))
+				commandSelect->setButtonText(strCommandToSend);
+			else
+				// add 1 because 0 is reserved for no selection
+				commandSelect->setSelectedItem(LRCommandList::getIndexOfCommand(m_commandMap->getCommandforMessage(_commands[rowNumber])) + 1);
 		}
 		
 		return commandSelect;
@@ -136,7 +141,14 @@ void CommandTableModel::buildFromXml(XmlElement *root)
 	XmlElement* setting = root->getFirstChildElement();
 	while ((setting) && (m_commandMap))
 	{
-		if (setting->hasAttribute("controller"))
+		if (setting->hasAttribute("key_command") /*&& (setting->getIntAttribute("keyboard_shortcut") == 1)*/)
+		{
+			MIDI_Message cc(setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true);
+			addRow(cc.channel, cc.controller, true);
+
+			m_commandMap->addCommandforMessage(setting->getStringAttribute("key_command"), cc);
+		}
+		else if (setting->hasAttribute("controller"))
 		{
 			MIDI_Message cc(setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true);
 			addRow(cc.channel, cc.controller, true);

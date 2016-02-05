@@ -63,6 +63,11 @@ public:
 	virtual void handleMidiCC(int midiChannel, int controller, int value) override;
 	virtual void handleMidiNote(int midiChannel, int note) override;
 
+	// Send key commands 
+	void handleKeyCommandMacro(void);
+	void handleShortcutKeyDown(int iKeyCode);
+	void handleShortcutKeyUp(int iKeyCode);
+
 	// AsyncUpdater interface
 	virtual void handleAsyncUpdate() override;
 

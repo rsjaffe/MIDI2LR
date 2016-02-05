@@ -96,8 +96,11 @@ void CommandMap::toXMLDocument(File& file) const
 			setting->setAttribute("controller", mapEntry.first.controller);
 		else
 			setting->setAttribute("note", mapEntry.first.pitch);
-
-		setting->setAttribute("command_string", mapEntry.second);
+		
+		if (mapEntry.second.startsWith("keys:"))
+			setting->setAttribute("key_command", mapEntry.second);
+		else
+			setting->setAttribute("command_string", mapEntry.second);
 
 		root.addChildElement(setting);
 	}
