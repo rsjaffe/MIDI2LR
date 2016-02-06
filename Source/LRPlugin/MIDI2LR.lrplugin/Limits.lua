@@ -173,7 +173,7 @@ local function StartDialog(obstable,f)
     end
     return OptionsRows(f,obstable)
   end
-  return nil
+  return {visible = false}
 end
 
 local function EndDialog(obstable, status)
