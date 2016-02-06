@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local Init                = require 'Init'
 local Limits              = require 'Limits'
 local ParamList           = require 'ParamList'
 local LrApplicationView   = import 'LrApplicationView'
@@ -326,7 +327,7 @@ end
 
 local function EndDialog(obstable, status)
   if status == 'ok' then
-    useDefaults() -- empty out prior settings
+    Init.UseDefaultsProfiles() -- empty out prior settings
     for k in pairs(ProfileTypes) do
       if type(obstable['Profile'..k])=='string' then
         ProgramPreferences.Profiles[k] = LrStringUtils.trimWhitespace(obstable['Profile'..k])
