@@ -29,45 +29,37 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local LrApplication       = import 'LrApplication'
-local LrApplicationView   = import 'LrApplicationView'
-local LrDevelopController = import 'LrDevelopController'
+local Init                = require 'Init'
 local LrDialogs           = import 'LrDialogs'
-local ParamList           = require 'ParamList'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local serpent             = require 'serpent'
-local Init                = require 'Init'
 -- hidden
-local changed = false
 local version = 1
-
 
 -- public
 -- preferences table
 ProgramPreferences = {}
 
-local function useDefaults()
+local function UseDefaults()
   ProgramPreferences = {}
-  ProgramPreferences = {Presets = {}, PasteList = {}}
   Init.UseDefaultsLimits()
+  Init.UseDefaultsPaste()
+  Init.UseDefaultsPresets()
   Init.UseDefaultsProfiles()
-  changed = true
 end
 
 local function Save(ClearOld) --clear old optional parameter
-  -- Limits.DiscardExcess() -- call for each 'class' currently only Limits
   if ClearOld then
     for k in prefs:pairs() do
       prefs[k] = nil
     end
   end
   prefs[version] = serpent.dump(ProgramPreferences)
-  changed = false
 end
 
 local function load0() --load version 0 --still need to test paste selective settings -- also test change in starthi startlo tests
   local loaded = false
-  useDefaults()
+  UseDefaults()
   --then load whatever is available from version 0
   for k,v in prefs:pairs() do
     if type(k)=='string' then
@@ -109,17 +101,8 @@ local function load0() --load version 0 --still need to test paste selective set
       end -- end pastelist
     end  --if string -- all processing occurs inside here--anything added would be an elseif after presets
   end --for k,v in prefs
-  if loaded then -- final cleanup after load
-    for _,v in pairs(ProgramPreferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
-      for kk,vv in pairs(v) do -- for each highlimittable kk, look at vv(limit values table) 
-        if type(kk)=='number' and (vv[1]==nil or vv[2]==nil) then -- table for each parameter has limits and other data (param,label.order)--ignore other data
-          vv[1],vv[2]=nil,nil --guard against corrupted data when only one bound gets initialized
-        end
-      end
-    end
-    Save()--in new format
-  else --failed to load
-    useDefaults()
+  if not loaded then
+    UseDefaults()
     Save()
     LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
   end
@@ -132,35 +115,32 @@ local function Load()
     if type(prefs[version])=='string' then
       loaded,ProgramPreferences = serpent.load(prefs[version])
       if loaded ~= true then
-        useDefaults()
+        UseDefaults()
         LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
       end
     else -- not current version
       return load0() --load prior version, proper tail call
     end
   else
-    useDefaults()
+    UseDefaults()
   end
   return loaded
 end
 
 local function LoadShell() --encapsulates all loading, allowing post-processing
-  local loadretval = Load()
-  Init.LoadedLimits()
-end
-
-
-local function ClearAll()
-  for k in prefs:pairs() do
-    prefs[k] = nil
+  local loaded = Load()
+  if loaded then
+    Init.LoadedLimits()
+    Init.LoadedPaste()
+    Init.LoadedPresets()
+    Init.LoadedProfiles()
+    Save()
   end
-  useDefaults()
-  Save()
 end
+
+
 
 return { --commented out unused exports
---  ClearAll = ClearAll,
   Load = LoadShell,
---  Reset = useDefaults,
   Save = Save,
 }

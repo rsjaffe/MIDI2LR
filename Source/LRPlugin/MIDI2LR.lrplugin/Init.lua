@@ -8,6 +8,8 @@ can be included. Because Lua requires that the entire module be
 of some of the init routines from the body. This holds init routines for
 several modules and is required by the Preferences module, which handles 
 initialization.
+
+Each type needs to have a Loaded and UseDefaults function.
  
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -59,11 +61,18 @@ local function UseDefaultsLimits()
   ProgramPreferences.Limits = setmetatable({},metalimit1)
   ProgramPreferences.Limits.Temperature= {[50000] = {3000,9000}}
 end
-
 local function LoadedLimits()
-  if ProgramPreferences.Limits == nil then
+  if ProgramPreferences.Limits == nil or type(ProgramPreferences.Limits)~='table' then
     ProgramPreferences.Limits = {}
     ProgramPreferences.Limits.Temperature = {[50000] = {3000,9000}}
+  else --following is just in cases we loaded historic limits, which may have a missing value--no harm in checking carefully
+    for _,v in pairs(ProgramPreferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
+      for kk,vv in pairs(v) do -- for each highlimittable kk, look at vv(limit values table) 
+        if type(kk)=='number' and (vv[1]==nil or vv[2]==nil) then -- table for each parameter has limits and other data (param,label.order)--ignore other data
+          vv[1],vv[2]=nil,nil --guard against corrupted data when only one bound gets initialized
+        end
+      end
+    end
   end
   if getmetatable(ProgramPreferences.Limits)==nil then
     setmetatable(ProgramPreferences.Limits,metalimit1)
@@ -73,6 +82,21 @@ local function LoadedLimits()
   end
 end
 
+--Paste.lua
+local function UseDefaultsPaste()
+  ProgramPreferences.PasteList = {}
+  ProgramPreferences.PastePopup = false
+end
+local function LoadedPaste()
+end
+
+--Presets.lua
+local function UseDefaultsPresets()
+  ProgramPreferences.Presets = {}
+end
+local function LoadedPresets()
+end
+
 --Profiles.lua
 local function UseDefaultsProfiles()
   ProgramPreferences.Profiles = {}
@@ -80,9 +104,16 @@ local function UseDefaultsProfiles()
     ProgramPreferences.Profiles[k] = ''
   end
 end
+local function LoadedProfiles()
+end
 
 return {
-  UseDefaultsLimits = UseDefaultsLimits,
+  LoadedLimits        = LoadedLimits,
+  LoadedPaste         = LoadedPaste,
+  LoadedPresets       = LoadedPresets,
+  LoadedProfiles      = LoadedProfiles,
+  UseDefaultsLimits   = UseDefaultsLimits,
+  UseDefaultsPaste    = UseDefaultsPaste,
+  UseDefaultsPresets  = UseDefaultsPresets,
   UseDefaultsProfiles = UseDefaultsProfiles,
-  LoadedLimits = LoadedLimits,
 }

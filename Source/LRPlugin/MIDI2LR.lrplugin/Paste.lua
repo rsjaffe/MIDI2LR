@@ -22,7 +22,6 @@ local LrView     = import 'LrView'
 
 
 local function StartDialog(obstable,f)
-
   local function set_reset(parmarray) --closure factory for toggle buttons
     local set = true
     return function()
