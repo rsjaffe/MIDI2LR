@@ -180,7 +180,7 @@ local DataBase = {
     false,false,true,true,false,false,
     LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows")..' (Fill Light in '..PV2003and2010..')',
     basicTone,
-    "Adjusts dark image areas. Drag to the left to darken shadows while minimizing clipping. Drag to the right to brighten shadows and recover shadow details.<br /><br />In '..PV2003and2010..', controls Fill Light, and lightens shadow to reveal more detail while maintaining blacks. Take care not to over apply the setting and reveal image noise.",
+    'Adjusts dark image areas. Drag to the left to darken shadows while minimizing clipping. Drag to the right to brighten shadows and recover shadow details.<br /><br />In '..PV2003and2010..', controls Fill Light, and lightens shadow to reveal more detail while maintaining blacks. Take care not to over apply the setting and reveal image noise.',
     'adjustPanel'},
   {"Shadows2012",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Shadows=Shadows")},--NOT fill light in 2003 and 2010
   {"FillLight",'basicTone',true,false,false,false,false,LOC("$$$/AgCameraRawUI/FillLight=Fill Light")..' ('..PV2003and2010..')'},
