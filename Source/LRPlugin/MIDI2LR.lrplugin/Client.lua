@@ -109,6 +109,7 @@ LrTasks.startAsyncTask(
       EnableRedEye                           = CU.fToggleTF('EnableRedEye'),
       EnableRetouch                          = CU.fToggleTF('EnableRetouch'),
       EnableSplitToning                      = CU.fToggleTF('EnableSplitToning'),
+      EnableToneCurve                        = CU.fToggleTF('EnableToneCurve'),
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
       IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM) end,

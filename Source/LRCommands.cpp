@@ -58,6 +58,7 @@ const std::vector<String> LRCommandList::AdjustmentStringList = {
 };
 
 const std::vector<String> LRCommandList::ToneStringList = {
+    "Enable Tone Curve",
     "Dark Tones",
     "Light Tones",
     "Shadow Tones",
@@ -487,6 +488,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetVibrance",
     "ResetSaturation",
     /* Tone Curve */
+    "EnableToneCurve",
     "ParametricDarks",
     "ParametricLights",
     "ParametricShadows",
@@ -796,7 +798,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "CropRight",
     "CropTop",
     "ResetCrop",
-    /* Go to Tool, Module, or Panel */
+    /* Select Tool, Module and Panel */
     "Loupe",
     "CropOverlay",
     "SpotRemoval",
@@ -848,7 +850,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile8",
     "profile9",
     "profile10",
-
 };
 
 const std::vector<String> LRCommandList::NextPrevProfile = {
