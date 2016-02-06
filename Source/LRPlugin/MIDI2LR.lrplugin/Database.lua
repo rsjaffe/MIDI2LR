@@ -29,7 +29,7 @@ local developPreset = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Si
 local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets")
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
 local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")
-  ..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
+..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
 local miscellaneous = "Miscellaneous"
@@ -1995,6 +1995,20 @@ local DataBase = {
     miscellaneous,
     "Reset the crop angle and frame for the current photo. *button*",
     'crop'},
+  {'CycleLightsOut', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/CycleLightsOut=Cycle Lights Out"),miscellaneous, 'L'},
+  {'AutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Cmd Option u'},
+  {'DecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),miscellaneous, '-'},
+  {'EditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),miscellaneous, 'Cmd E'},
+  {'GoLightsOutDim', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoLightsOutDim=Go Lights Out Dim"),miscellaneous, ' Cmd Shift L or Ctrl Shift L'},
+  {'GoNormalMode', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoNormalMode=Go Normal Mode"),miscellaneous, 'Cmd Opt F or Ctrl Alt F'},
+  {'HideAllPanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowAllThePanels=Show/Hide All Panels"),miscellaneous, 'shift Tab'},
+  {'HidePanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Show_HideTheSidePanels=Show/Hide Side Panels"),miscellaneous, 'Tab'},
+  {'HideToolbar', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowToolbar=Show/Hide Toolbar"),miscellaneous, 'T'},
+  {'IncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),miscellaneous, '#'},
+  {'MatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),miscellaneous, 'Cmd Option Shift m'},
+  {'PasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),miscellaneous, 'Cmd Option v'},
+  {'RotateLeft', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_left=Rotate Left"),miscellaneous, 'Cmd ,'},
+  {'RotateRight', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_right=Rotate Right"),miscellaneous, 'Cmd .'},
   {"Loupe",
     false,false,true,false,true,false,
     show..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),
