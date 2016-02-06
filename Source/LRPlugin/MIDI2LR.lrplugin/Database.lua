@@ -28,8 +28,8 @@ local detail = LOC("$$$/AgDevelop/Panel/Detail=Detail")
 local developPreset = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset")
 local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets")
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
-local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/RedEye/Tool=Tool:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")
-  ..'Module'..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..'Panel'
+local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")
+  ..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
 local miscellaneous = "Miscellaneous"
