@@ -203,6 +203,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     true
   },
   {
+    "EnableToneCurve",
+    "Enable Tone Curve",
+    "Tone Curve",
+    true
+  },
+  {
     "ParametricDarks",
     "Dark Tones",
     "Tone Curve",
