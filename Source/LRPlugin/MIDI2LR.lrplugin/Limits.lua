@@ -196,7 +196,7 @@ local function StartDialog(obstable,f)
     end
     return OptionsRows(f,obstable)
   end
-  return f:static_text{title = 'Limits only displayed when in Develop Module.'}
+  return {visible = false}
 end
 
 local function EndDialog(obstable, status)
