@@ -86,7 +86,7 @@ LrTasks.startAsyncTask(
     local LrStringUtils       = import 'LrStringUtils'
     local LrUndo              = import 'LrUndo'
     --global variables
-    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {} } --non-local but in MIDI2LR namespace
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CONTROL_MAX = 127 } --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
     local PickupEnabled       = true
@@ -94,7 +94,6 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
     local PICKUP_THRESHOLD = 4
-    local CONTROL_MAX      = 127
     local BUTTON_ON        = 127
 
     local ACTIONS = {
@@ -259,13 +258,13 @@ LrTasks.startAsyncTask(
     local function MIDIValueToLRValue(param, midi_value)
       -- map midi range to develop parameter range
       local min,max = Limits.GetMinMax(param)
-      return midi_value/CONTROL_MAX * (max-min) + min
+      return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
     end
 
     local function LRValueToMIDIValue(param)
       -- map develop parameter range to midi range
       local min,max = Limits.GetMinMax(param)
-      return (LrDevelopController.getValue(param)-min)/(max-min) * CONTROL_MAX
+      return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
     end
 
     local function updateParam() --closure
