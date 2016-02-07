@@ -1,7 +1,6 @@
-﻿"$$$/MIDI2LR/Options/pastesel=Paste selections"
-"$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options"
+﻿"$$$/MIDI2LR/Options/pastesel=붙여 넣기 선택"
+"$$$/MIDI2LR/Options/dlgtitle=MIDI2LR 옵션을 설정합니다"
 "$$$/MIDI2LR/Limits/Limits=제한"
-"$$$/MIDI2LR/Info/about=About"
 "$$$/MIDI2LR/About/about=사용 방법 : MIDI 컨트롤러를 연결 MIDI2LR를 시작하고, 편집을 시작! 자세한 내용은 https://github.com/rsjaffe/MIDI2LR/wiki를 참조하십시오."
 "$$$/MIDI2LR/Preferences/cantload=기본 설정을로드 할 수 없습니다. 기본 설정을 사용."
 

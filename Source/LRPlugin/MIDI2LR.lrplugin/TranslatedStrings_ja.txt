@@ -1,7 +1,6 @@
 ﻿"$$$/MIDI2LR/Options/pastesel=ペーストの選択"
 "$$$/MIDI2LR/Options/dlgtitle=MIDI2LRオプションを設定"
 "$$$/MIDI2LR/Limits/Limits=範囲"
-"$$$/MIDI2LR/Info/about=約"
 "$$$/MIDI2LR/About/about=使用方法：MIDIコントローラを接続し、MIDI2LRを起動し、編集を開始！詳細については、https://github.com/rsjaffe/MIDI2LR/wikiを参照してください。"
 "$$$/MIDI2LR/Preferences/cantload=環境設定を読み込むことができません。デフォルト設定を使用して。"
 
