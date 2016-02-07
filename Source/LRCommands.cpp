@@ -347,6 +347,8 @@ const std::vector<String> LRCommandList::LocalList = {
     "Local Contrast (PV2010 and PV2012)",
     "Local Highlights (PV2012)",
     "Local Shadows (PV2012)",
+    "Local Whites (PV2012)",
+    "Local Blacks (PV2012)",
     "Local Clarity (PV2010 and PV2012)",
     "Local Dehaze (PV2012)",
     "Local Saturation (PV2010 and PV2012)",
@@ -361,6 +363,8 @@ const std::vector<String> LRCommandList::LocalList = {
     "Reset Local Contrast (PV2010 and PV2012)",
     "Reset Local Highlights (PV2012)",
     "Reset Local Shadows (PV2012)",
+    "Reset Local Whites (PV2012)",
+    "Reset Local Blacks (PV2012)",
     "Reset Local Clarity (PV2010 and PV2012)",
     "Reset Local Dehaze (PV2012)",
     "Reset Local Saturation (PV2010 and PV2012)",
@@ -379,6 +383,7 @@ const std::vector<String> LRCommandList::LocalList = {
     "Reset Brush Corrections",
     "Reset Red-Eye",
     "Reset Spot Removal",
+
 };
 
 const std::vector<String> LRCommandList::MiscList = {
@@ -758,6 +763,8 @@ const std::vector<String> LRCommandList::LRStringList = {
     "local_Contrast",
     "local_Highlights",
     "local_Shadows",
+    "local_Whites2012",
+    "local_Blacks2012",
     "local_Clarity",
     "local_Dehaze",
     "local_Saturation",
@@ -772,6 +779,8 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Resetlocal_Contrast",
     "Resetlocal_Highlights",
     "Resetlocal_Shadows",
+    "Resetlocal_Whites2012",
+    "Resetlocal_Blacks2012",
     "Resetlocal_Clarity",
     "Resetlocal_Dehaze",
     "Resetlocal_Saturation",
@@ -802,7 +811,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "CropRight",
     "CropTop",
     "ResetCrop",
-    /* Select Tool, Module and Panel */
+    /* Select Tools, Modules and Panels */
     "Loupe",
     "CropOverlay",
     "SpotRemoval",
