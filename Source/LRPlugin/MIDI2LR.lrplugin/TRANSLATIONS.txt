@@ -1,7 +1,6 @@
 I'm adding translation of menu items for the Lightroom plugin (but not the app).
 For those interested in helping, the files to edit are named TranslatedStrings_??.txt 
-where ?? is replaced with the language code. The German translation has already been 
-done by Niklas Mischkulnig.
+where ?? is replaced with the language code.
 
 To provide a translation for the project, edit the txt file in the language you want 
 to translate. The only languages supported by Lightroom are German (de), English (en), 
