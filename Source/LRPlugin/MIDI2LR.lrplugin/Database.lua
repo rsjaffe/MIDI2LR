@@ -29,7 +29,7 @@ local developPreset = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Si
 local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets")
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
 local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")
-  ..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
+..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
 local miscellaneous = "Miscellaneous"
@@ -1787,11 +1787,28 @@ local DataBase = {
     "Local Shadows (PV2012)",
     localizedAdjustments,
     "Adjust Shadows for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
+  --[[
+  {"local_Whites",    
+    false,false,true,true,false,true,
+    "Local Whites (PV2012)",
+    localizedAdjustments,
+    "Adjust Whites for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
+  {"local_Blacks",    
+    false,false,true,true,false,true,
+    "Local Blacks",
+    localizedAdjustments,
+    "Adjust Blacks for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
+    --]]
   {"local_Clarity",
     false,false,true,true,false,false,
     "Local Clarity (PV2010 and PV2012)",
     localizedAdjustments,
     "Adjust Clarity for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
+  {"local_Dehaze",    
+    false,false,true,true,false,true,
+    "Local Dehaze (PV2012)",
+    localizedAdjustments,
+    "Adjust Dehaze for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Saturation",
     false,false,true,true,false,false,
     "Local Saturation (PV2010 and PV2012)",
@@ -1852,9 +1869,26 @@ local DataBase = {
     "Reset Local Shadows (PV2012)",
     localizedAdjustments,
     "Reset to default. *button*"},
+  --[[
+  {"Resetlocal_Whites",
+    false,false,true,false,true,true,
+    "Reset Local Whites (PV2012)",
+    localizedAdjustments,
+    "Reset to default. *button*"}, 
+  {"Resetlocal_Blacks",
+    false,false,true,false,true,true,
+    "Reset Local Blacks",
+    localizedAdjustments,
+    "Reset to default. *button*"}, 
+    --]]
   {"Resetlocal_Clarity",
     false,false,true,false,true,false,
     "Reset Local Clarity (PV2010 and PV2012)",
+    localizedAdjustments,
+    "Reset to default. *button*"},
+  {"Resetlocal_Dehaze",
+    false,false,true,false,true,true,
+    "Reset Local Dehaze (PV2012)",
     localizedAdjustments,
     "Reset to default. *button*"},
   {"Resetlocal_Saturation",
