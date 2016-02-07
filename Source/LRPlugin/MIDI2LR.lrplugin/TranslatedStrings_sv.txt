@@ -1,4 +1,4 @@
-﻿"$$$/MIDI2LR/Options/pastesel=Colar seleções"
+"$$$/MIDI2LR/Options/pastesel=Colar seleções"
 "$$$/MIDI2LR/Options/dlgtitle=Definir MIDI2LR opções"
 "$$$/MIDI2LR/Limits/Limits=Limite"
 "$$$/MIDI2LR/Info/about=Sobre"
