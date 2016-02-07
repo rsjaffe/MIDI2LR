@@ -1,9 +1,9 @@
-﻿"$$$/MIDI2LR/Options/pastesel=Paste selections"
-"$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options"
-"$$$/MIDI2LR/Limits/Limits=Limits"
-"$$$/MIDI2LR/Info/about=About"
-"$$$/MIDI2LR/About/about=How to use: connect a MIDI controller, launch MIDI2LR, and begin editing! See https://github.com/rsjaffe/MIDI2LR/wiki for details."
-"$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
+﻿"$$$/MIDI2LR/Options/pastesel=ペーストの選択"
+"$$$/MIDI2LR/Options/dlgtitle=MIDI2LRオプションを設定"
+"$$$/MIDI2LR/Limits/Limits=範囲"
+"$$$/MIDI2LR/Info/about=約"
+"$$$/MIDI2LR/About/about=使用方法：MIDIコントローラを接続し、MIDI2LRを起動し、編集を開始！詳細については、https://github.com/rsjaffe/MIDI2LR/wikiを参照してください。"
+"$$$/MIDI2LR/Preferences/cantload=環境設定を読み込むことができません。デフォルト設定を使用して。"
 
 
 
