@@ -58,7 +58,7 @@ local SelectivePasteMenu = {
   },
   {
     "Highlights",
-    "Highlights (Recovery in PV2003 and PV2010)"
+    "Highlights (Highlight Recovery in PV2003 and PV2010)"
   },
   {
     "Brightness",
@@ -574,11 +574,11 @@ local SelectivePasteMenu = {
   },
   {
     "TrimEnd",
-    "TrimEnd"
+    "Set Trim End"
   },
   {
     "TrimStart",
-    "TrimStart"
+    "Set Trim Start"
   }
 }
 local SelectivePasteHidden = {
@@ -944,23 +944,23 @@ local LimitEligible = {
   },
   CropAngle = {
     "Crop Angle",
-    354
+    361
   },
   CropBottom = {
     "Crop - Bottom",
-    355
+    362
   },
   CropLeft = {
     "Crop - Left",
-    356
+    363
   },
   CropRight = {
     "Crop - Right",
-    357
+    364
   },
   CropTop = {
     "Crop - Top",
-    358
+    365
   },
   DefringeGreenAmount = {
     "Defringe Green Amount",
@@ -1047,7 +1047,7 @@ local LimitEligible = {
     250
   },
   Highlights = {
-    "Highlights (Recovery in PV2003 and PV2010)",
+    "Highlights (Highlight Recovery in PV2003 and PV2010)",
     21
   },
   HueAdjustmentAqua = {
@@ -1326,57 +1326,73 @@ local LimitEligible = {
     "Whites (no effect in PV2003 and PV2010)",
     27
   },
+  local_Blacks2012 = {
+    "Local Adjustments Blacks (PV2012)",
+    317
+  },
   local_Clarity = {
-    "Local Clarity (PV2010 and PV2012)",
-    316
+    "Local Adjustments Clarity (PV2010 and PV2012)",
+    318
   },
   local_Contrast = {
-    "Local Contrast (PV2010 and PV2012)",
+    "Local Adjustments Contrast (PV2010 and PV2012)",
     313
   },
   local_Defringe = {
-    "Local Defringe (PV2012)",
-    321
+    "Local Adjustments Defringe (PV2012)",
+    324
+  },
+  local_Dehaze = {
+    "Local Adjustments Dehaze (PV2012)",
+    319
   },
   local_Exposure = {
-    "Local Exposure (PV2010 and PV2012)",
+    "Local Adjustments Exposure (PV2010 and PV2012)",
     312
   },
   local_Highlights = {
-    "Local Highlights (PV2012)",
+    "Local Adjustments Highlights (PV2012)",
     314
   },
   local_LuminanceNoise = {
-    "Local Luminance Noise (PV2012)",
-    319
+    "Local Adjustments Luminence Noise Reduction (PV2012)",
+    322
   },
   local_Moire = {
-    "Local Moire (PV2012)",
-    320
+    "Local Adjustments Moire (PV2012)",
+    323
   },
   local_Saturation = {
-    "Local Saturation (PV2010 and PV2012)",
-    317
+    "Local Adjustments Saturation (PV2010 and PV2012)",
+    320
   },
   local_Shadows = {
-    "Local Shadows (PV2012)",
+    "Local Adjustments Shadows (PV2012)",
     315
   },
   local_Sharpness = {
-    "Local Sharpness (PV2010 and PV 2012)",
-    318
+    "Local Adjustments Sharpness (PV2010 and PV2012)",
+    321
   },
   local_Temperature = {
-    "Local Temperature (PV2012)",
+    "Local Adjustments Temp. (PV2012)",
     310
   },
   local_Tint = {
-    "Local Tint (PV2012)",
+    "Local Adjustments Tint (PV2012)",
     311
   },
   local_ToningLuminance = {
     "Local Toning Luminance (PV2010)",
-    322
+    325
+  },
+  local_Whites2012 = {
+    "Local Adjustments Whites (PV2012)",
+    316
+  },
+  straightenAngle = {
+    "Straighten Angle",
+    360
   }
 }
 local SendToMidi = {
@@ -1486,13 +1502,17 @@ local SendToMidi = {
   "local_Contrast",
   "local_Highlights",
   "local_Shadows",
+  "local_Whites2012",
+  "local_Blacks2012",
   "local_Clarity",
+  "local_Dehaze",
   "local_Saturation",
   "local_Sharpness",
   "local_LuminanceNoise",
   "local_Moire",
   "local_Defringe",
   "local_ToningLuminance",
+  "straightenAngle",
   "CropAngle",
   "CropBottom",
   "CropLeft",

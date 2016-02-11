@@ -391,14 +391,15 @@ const std::vector<String> LRCommandList::MiscList = {
     "Zoom In Some",
     "Zoom Out Some",
     "Zoom Out",
-    "Toggle Zoom Off/On",
+    "Enable/Disable Zoom",
+    "Straighten Angle",
     "Crop Angle",
     "Crop - Bottom",
     "Crop - Left",
     "Crop - Right",
     "Crop - Top",
     "Reset Crop",
-
+    "Reset Straighten Angle",
 };
 
 const std::vector<String> LRCommandList::TMPList = {
@@ -805,12 +806,14 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ZoomOutSmallStep",
     "ZoomOutLargeStep",
     "ToggleZoomOffOn",
+    "straightenAngle",
     "CropAngle",
     "CropBottom",
     "CropLeft",
     "CropRight",
     "CropTop",
     "ResetCrop",
+    "ResetstraightenAngle",
     /* Select Tools, Modules and Panels */
     "Loupe",
     "CropOverlay",
