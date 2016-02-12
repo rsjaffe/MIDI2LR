@@ -2336,7 +2336,28 @@ errors if:
   return retval
 end
 
+local cppvectors ={
+  [basicTone]='AdjustmentStringList',
+  [toneCurve]='ToneStringList',
+  [colorAdjustments]='MixerStringList',
+  [resetColorAdjustments]='ResetMixerStringList',
+  [splitToning]='SplitToningStringList',
+  [detail]='DetailStringList',
+  [lensCorrections]='LensCorrectionStringList',
+  [effects]='EffectsStringList',
+  [calibration]='CalibrateStringList',
+  [photoActions]='SelectionList',
+  [developPresets]='PresetsList',
+  [localizedAdjustments]='LocalList',
+  [miscellaneous]='MiscList',
+  [gotoToolModulePanel]='TMPList',
+  [viewModes]='ViewModesList',
+  [profiles]='ProfilesList',
+}
+
+
 return { --used in documentation module
   DataBase = DataBase,
   RunTests = RunTests,
+  cppvectors = cppvectors,
 }
