@@ -1578,7 +1578,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "CopySettings",
-    "",
+    "Copy Settings",
     "Photo Actions",
     true
   },
@@ -2041,6 +2041,90 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   {
     "ResetstraightenAngle",
     "Reset Straighten Angle",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPCycleLightsOut",
+    "Cycle Lights Out",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPAutoTone",
+    "Auto Tone",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPDecreaseGridSize",
+    "Decrease Grid Size",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPEditInPhotoshop",
+    "Edit in Photoshop",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPGoLightsOutDim",
+    "Go Lights Out Dim",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPGoNormalMode",
+    "Go Normal Mode",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPHideAllPanels",
+    "Show/Hide All Panels",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPHidePanels",
+    "Show/Hide Side Panels",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPHideToolbar",
+    "Show/Hide Toolbar",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPIncreaseGridSize",
+    "Increase Grid Size",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPMatchExposures",
+    "Match Exposures",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPPasteFromPrevious",
+    "Paste From Previous",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPRotateLeft",
+    "Rotate Left",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPRotateRight",
+    "Rotate Right",
     "Miscellaneous",
     true
   },

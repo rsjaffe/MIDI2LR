@@ -574,11 +574,11 @@ local SelectivePasteMenu = {
   },
   {
     "TrimEnd",
-    "Set Trim End"
+    "TrimEnd"
   },
   {
     "TrimStart",
-    "Set Trim Start"
+    "TrimStart"
   }
 }
 local SelectivePasteHidden = {
