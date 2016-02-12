@@ -1644,7 +1644,7 @@ local DataBase = {
     "*button*"},
   {"CopySettings",
     false,false,true,false,true,false,
-    LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""):gsub(".",""),
+    LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),
     photoActions,
     "Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
   {"PasteSettings",
