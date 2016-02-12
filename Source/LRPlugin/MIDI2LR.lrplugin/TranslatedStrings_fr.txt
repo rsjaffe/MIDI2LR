@@ -1,7 +1,6 @@
 ﻿"$$$/MIDI2LR/Options/pastesel=Coller les selections"
 "$$$/MIDI2LR/Options/dlgtitle=Régler les options MIDI2LR"
 "$$$/MIDI2LR/Limits/Limits=Limites"
-"$$$/MIDI2LR/Info/about=A propos"
 "$$$/MIDI2LR/About/about=Comment utiliser: connecter au contrôleur MIDI, lancer MIDI2LR, et commencer l’édition! Voir https://github.com/rsjaffe/MIDI2LR/wiki pour plus de détails."
 "$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."
 

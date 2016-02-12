@@ -29,7 +29,7 @@ return {
         -- signal main background loop
         math.randomseed(os.time())
         currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
-        currentLoadVersion = currentLoadVersion + 1  --signal halt to main background function
+        currentLoadVersion = currentLoadVersion + 1 + math.random() --signal halt to main background function
         --shut down app
         if(WIN_ENV) then
           LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))

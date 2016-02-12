@@ -90,7 +90,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "Highlights",
-    "Highlights (Recovery in PV2003 and PV2010)",
+    "Highlights (Highlight Recovery in PV2003 and PV2010)",
     "Basic Tone",
     false
   },
@@ -200,6 +200,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     "ResetSaturation",
     "Reset Saturation",
     "Basic Tone",
+    true
+  },
+  {
+    "EnableToneCurve",
+    "Enable Tone Curve",
+    "Tone Curve",
     true
   },
   {
@@ -1572,7 +1578,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "CopySettings",
-    "Copy Settings",
+    "",
     "Photo Actions",
     true
   },
@@ -1710,73 +1716,91 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "local_Temperature",
-    "Local Temperature (PV2012)",
+    "Local Adjustments Temp. (PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Tint",
-    "Local Tint (PV2012)",
+    "Local Adjustments Tint (PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Exposure",
-    "Local Exposure (PV2010 and PV2012)",
+    "Local Adjustments Exposure (PV2010 and PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Contrast",
-    "Local Contrast (PV2010 and PV2012)",
+    "Local Adjustments Contrast (PV2010 and PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Highlights",
-    "Local Highlights (PV2012)",
+    "Local Adjustments Highlights (PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Shadows",
-    "Local Shadows (PV2012)",
+    "Local Adjustments Shadows (PV2012)",
+    "Local Adjustments",
+    false
+  },
+  {
+    "local_Whites2012",
+    "Local Adjustments Whites (PV2012)",
+    "Local Adjustments",
+    false
+  },
+  {
+    "local_Blacks2012",
+    "Local Adjustments Blacks (PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Clarity",
-    "Local Clarity (PV2010 and PV2012)",
+    "Local Adjustments Clarity (PV2010 and PV2012)",
+    "Local Adjustments",
+    false
+  },
+  {
+    "local_Dehaze",
+    "Local Adjustments Dehaze (PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Saturation",
-    "Local Saturation (PV2010 and PV2012)",
+    "Local Adjustments Saturation (PV2010 and PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Sharpness",
-    "Local Sharpness (PV2010 and PV 2012)",
+    "Local Adjustments Sharpness (PV2010 and PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_LuminanceNoise",
-    "Local Luminance Noise (PV2012)",
+    "Local Adjustments Luminence Noise Reduction (PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Moire",
-    "Local Moire (PV2012)",
+    "Local Adjustments Moire (PV2012)",
     "Local Adjustments",
     false
   },
   {
     "local_Defringe",
-    "Local Defringe (PV2012)",
+    "Local Adjustments Defringe (PV2012)",
     "Local Adjustments",
     false
   },
@@ -1788,73 +1812,91 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "Resetlocal_Temperature",
-    "Reset Local Temperature (PV2012)",
+    "Reset Local Adjustments Temp. (PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Tint",
-    "Reset Local Tint (PV2012)",
+    "Reset Local Adjustments Tint (PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Exposure",
-    "Reset Local Exposure (PV2010 and PV2012)",
+    "Reset Local Adjustments Exposure (PV2010 and PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Contrast",
-    "Reset Local Contrast (PV2010 and PV2012)",
+    "Reset Local Adjustments Contrast (PV2010 and PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Highlights",
-    "Reset Local Highlights (PV2012)",
+    "Reset Local Adjustments Highlights (PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Shadows",
-    "Reset Local Shadows (PV2012)",
+    "Reset Local Adjustments Shadows (PV2012)",
+    "Local Adjustments",
+    true
+  },
+  {
+    "Resetlocal_Whites2012",
+    "Reset Local Adjustments Whites (PV2012)",
+    "Local Adjustments",
+    true
+  },
+  {
+    "Resetlocal_Blacks2012",
+    "Reset Local Adjustments Blacks (PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Clarity",
-    "Reset Local Clarity (PV2010 and PV2012)",
+    "Reset Local Adjustments Clarity (PV2010 and PV2012)",
+    "Local Adjustments",
+    true
+  },
+  {
+    "Resetlocal_Dehaze",
+    "Reset Local Adjustments Dehaze (PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Saturation",
-    "Reset Local Saturation (PV2010 and PV2012)",
+    "Reset Local Adjustments Saturation (PV2010 and PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Sharpness",
-    "Reset Local Sharpness (PV2010 and PV 2012)",
+    "Reset Local Adjustments Sharpness (PV2010 and PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_LuminanceNoise",
-    "Reset Local Luminance Noise (PV2012)",
+    "Reset Local Adjustments Luminence Noise Reduction (PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Moire",
-    "Reset Local Moire (PV2012)",
+    "Reset Local Adjustments Moire (PV2012)",
     "Local Adjustments",
     true
   },
   {
     "Resetlocal_Defringe",
-    "Reset Local Defringe (PV2012)",
+    "Reset Local Adjustments Defringe (PV2012)",
     "Local Adjustments",
     true
   },
@@ -1950,9 +1992,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   },
   {
     "ToggleZoomOffOn",
-    "Toggle Zoom Off/On",
+    "Enable/Disable Zoom",
     "Miscellaneous",
     true
+  },
+  {
+    "straightenAngle",
+    "Straighten Angle",
+    "Miscellaneous",
+    false
   },
   {
     "CropAngle",
@@ -1991,135 +2039,141 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     true
   },
   {
+    "ResetstraightenAngle",
+    "Reset Straighten Angle",
+    "Miscellaneous",
+    true
+  },
+  {
     "Loupe",
     "Show Loupe",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "CropOverlay",
     "Show Crop",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SpotRemoval",
     "Show Spot Removal",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RedEye",
     "Show Red-Eye Correction",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "GraduatedFilter",
     "Show Graduated Filters",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RadialFilter",
     "Show Radial Filters",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "AdjustmentBrush",
     "Show Brush Adjustments",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SwToMlibrary",
     "Show Library",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SwToMdevelop",
     "Show Develop",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SwToMmap",
     "Show Map",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SwToMbook",
     "Show Book",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SwToMslideshow",
     "Show Slideshow",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SwToMprint",
     "Show Print",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "SwToMweb",
     "Show Web",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelAdjust",
     "Show Basic Tone",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelTone",
     "Show Tone Curve",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelMixer",
     "Show Color Adjustments",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelSplit",
     "Show Split Toning",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelDetail",
     "Show Detail",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelLens",
     "Show Lens Corrections",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelEffects",
     "Show Effects",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {
     "RevealPanelCalibrate",
     "Show Calibration",
-    "Select Tool, Module and Panel",
+    "Select Tools, Modules and Panels",
     true
   },
   {

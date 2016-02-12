@@ -50,7 +50,7 @@ end
 --clean up the preferences of discarded Limits and fix label and order
 --has to be done after init and after loading full limits file
 
-for k,v in pairs(ProgramPreferences.Limits) do
+for k in pairs(ProgramPreferences.Limits) do
   if Parameters[k] then
     ProgramPreferences.Limits[k]['label'] = ParamList.LimitEligible[k][1]
     ProgramPreferences.Limits[k]['order'] = ParamList.LimitEligible[k][2]
