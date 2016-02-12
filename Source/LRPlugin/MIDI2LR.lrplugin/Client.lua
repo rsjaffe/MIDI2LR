@@ -278,6 +278,8 @@ LrTasks.startAsyncTask(
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
         end
+        -- LR bug, doesn't reveal panel when Contrast adjusted
+        if param=='Contrast' then LrDevelopController.revealPanel(adjustPanel) end
         -- if pickup mode, keep LR value within pickup limits so pickup can work
         if Limits.Parameters[param] and PickupEnabled then
           Limits.ClampValue(param)
