@@ -89,6 +89,7 @@ private:
     TextButton _saveButton;
     TextButton _loadButton;
     TextButton _settingsButton;
+	TextButton m_futureFeatureButton;
     Label _versionLabel;
     CommandTable _commandTable;
     CommandTableModel _commandTableModel;
@@ -108,7 +109,8 @@ private:
 	MIDIProcessor *m_midiProcessor;
 	MIDISender *m_midiSender;
 
-
+	//used for displaying the tooltip
+	TooltipWindow tooltipWindow;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
 };

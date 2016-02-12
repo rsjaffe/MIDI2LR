@@ -129,10 +129,12 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Gui\BetaComponent.cpp"/>
     <ClCompile Include="..\..\Source\CommandMap.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>
     <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
+    <ClCompile Include="..\..\Source\Gui\KeySender.cpp"/>
     <ClCompile Include="..\..\Source\Logger.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
@@ -1190,10 +1192,12 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Gui\BetaComponent.h"/>
     <ClInclude Include="..\..\Source\CommandMap.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
     <ClInclude Include="..\..\Source\CommandTableModel.h"/>
+    <ClInclude Include="..\..\Source\Gui\KeySender.h"/>
     <ClInclude Include="..\..\Source\Logger.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>

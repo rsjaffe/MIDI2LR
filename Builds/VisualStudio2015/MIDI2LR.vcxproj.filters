@@ -253,6 +253,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Gui\BetaComponent.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\CommandMap.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -263,6 +266,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\CommandTableModel.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Gui\KeySender.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Logger.cpp">
@@ -1440,6 +1446,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Gui\BetaComponent.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\CommandMap.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1450,6 +1459,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CommandTableModel.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Gui\KeySender.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Logger.h">

@@ -5,6 +5,9 @@
               jucerVersion="4.1.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="xJEjCW" name="BetaComponent.cpp" compile="1" resource="0"
+            file="Source/Gui/BetaComponent.cpp"/>
+      <FILE id="ePVZsk" name="BetaComponent.h" compile="0" resource="0" file="Source/Gui/BetaComponent.h"/>
       <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
       <FILE id="xs42Pd" name="CommandMap.h" compile="0" resource="0" file="Source/CommandMap.h"/>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
@@ -16,6 +19,8 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
+      <FILE id="fYJ1Wi" name="KeySender.cpp" compile="1" resource="0" file="Source/Gui/KeySender.cpp"/>
+      <FILE id="rouiRl" name="KeySender.h" compile="0" resource="0" file="Source/Gui/KeySender.h"/>
       <FILE id="WR6usH" name="Logger.cpp" compile="1" resource="0" file="Source/Logger.cpp"/>
       <FILE id="am8Hik" name="Logger.h" compile="0" resource="0" file="Source/Logger.h"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>

@@ -19,6 +19,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDISender.h"
 
 #include "SettingsComponent.h"
+#include "Gui/KeySender.h"
+#include "Gui/BetaComponent.h"
 
 #define MAIN_WIDTH 400
 #define MAIN_HEIGHT 650
@@ -34,11 +36,12 @@ _commandTable("Table", nullptr),
 _commandTableModel(),
 _rescanButton("Rescan MIDI devices"),
 _removeRowButton("Remove selected row"),
-_saveButton("Save"),
-_loadButton("Load"),
+_saveButton("Save profile"),
+_loadButton("Load profile"),
 _versionLabel("Version", "Version " +
     String(ProjectInfo::versionString)),
     _settingsButton("Settings"),
+	m_futureFeatureButton("Beta"),
     _profileNameLabel("ProfileNameLabel", ""),
     m_currentStatus("CurrentStatus", "no extra info"),
 	m_commandMap(nullptr),
@@ -230,6 +233,26 @@ void MainContentComponent::buttonClicked(Button* button)
         _settingsDialog = dwOpt.create();
         _settingsDialog->setVisible(true);
     }
+	else if (button == &m_futureFeatureButton)
+	{
+		//KeySender sender;
+		//sender.Configure(false, false, true, 'L');
+		//sender.Execute();
+
+		DialogWindow::LaunchOptions dwOpt;
+		dwOpt.dialogTitle = "Beta Feature Test";
+		//create new object
+		BetaComponent *comp = new BetaComponent();
+		comp->Init();
+		dwOpt.content.setOwned(comp);
+		dwOpt.content->setSize(400, 300);
+		dwOpt.escapeKeyTriggersCloseButton = true;
+		dwOpt.useNativeTitleBar = false;
+		_settingsDialog = dwOpt.create();
+		_settingsDialog->setVisible(true);
+
+	}
+
 }
 
 void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
@@ -321,7 +344,7 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	addAndMakeVisible(_connectionLabel);
 
 	//get the button width
-	long buttonWidth = (MAIN_WIDTH - 2 * MAIN_LEFT - SPACEBETWEENBUTTON * 2) / 3;
+	long buttonWidth = (MAIN_WIDTH - 2 * MAIN_LEFT - SPACEBETWEENBUTTON) / 2;
 
 	// Load button
 	_loadButton.addListener(this);
@@ -330,29 +353,31 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	addAndMakeVisible(_loadButton);
 
 	// Save button
-	_saveButton.addListener(this);
-	_saveButton.setBounds(MAIN_LEFT + buttonWidth + SPACEBETWEENBUTTON, 60, buttonWidth, 20);
+	_saveButton.addListener(this);	
+	_saveButton.setBounds(MAIN_LEFT , 85, buttonWidth, 20);
 	addToLayout(&_saveButton, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_saveButton);
 
 	// Settings button
 	_settingsButton.addListener(this);
-	_settingsButton.setBounds(MAIN_LEFT + buttonWidth * 2 + SPACEBETWEENBUTTON * 2, 60, buttonWidth, 20);
+	_settingsButton.setBounds(MAIN_LEFT + buttonWidth + SPACEBETWEENBUTTON, 60, buttonWidth, 20);
 	addToLayout(&_settingsButton, anchorMidLeft, anchorMidRight);
-	addAndMakeVisible(_settingsButton);
+	addAndMakeVisible(_settingsButton); 
 
-
-
+	m_futureFeatureButton.addListener(this);
+	m_futureFeatureButton.setTooltip("Press for the new beta features, help us improve this application.");
+	m_futureFeatureButton.setBounds(MAIN_LEFT + buttonWidth + SPACEBETWEENBUTTON, 85, buttonWidth, 20);
+	addToLayout(&m_futureFeatureButton, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(m_futureFeatureButton);
+	
 	// Command Table
 	_commandTable.setModel(&_commandTableModel);
-	_commandTable.setBounds(MAIN_LEFT, 100, MAIN_WIDTH - MAIN_LEFT * 2, MAIN_HEIGHT - 210);
+	_commandTable.setBounds(MAIN_LEFT, 110, MAIN_WIDTH - MAIN_LEFT * 2, MAIN_HEIGHT - 220);
 	addToLayout(&_commandTable, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_commandTable);
 
 
 	long labelWidth = (MAIN_WIDTH - MAIN_LEFT * 2) / 2;
-
-
 	// Profile name label
 	SetLabelSettings(_profileNameLabel);
 	_profileNameLabel.setBounds(MAIN_LEFT, MAIN_HEIGHT - 100, labelWidth, 20);
