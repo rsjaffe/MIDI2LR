@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 #include "Tools.h"
+#include "Windows.h"
 
 // define the port used to 
 #define LR_OUT_PORT 58763 
@@ -117,7 +118,12 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 
 		_commandToSend = m_commandMap->getCommandforMessage(cc);
 		_valueToSend = value;
-		handleAsyncUpdate();
+		
+		// send a key command macro
+		if ((_valueToSend == 127) && _commandToSend.startsWith("keys:"))
+			handleKeyCommandMacro();
+		else
+			handleAsyncUpdate();
 	}
 }
 
@@ -139,4 +145,75 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 		_valueToSend = 127;
 		handleAsyncUpdate();
 	}
+}
+
+
+void LR_IPC_OUT::handleKeyCommandMacro(void)
+{
+	int key, i, j;
+	StringArray tokens;
+	String strAllKeyCodes = _commandToSend.removeCharacters("keys:");
+	// get all of the key commands
+	tokens.addTokens(strAllKeyCodes, "+,", "\"");
+	// get all of the characters that link the keys together, ie does the user want to press ctrl,alt,shift at same time, are ther multiple keys in a row to make up a macro
+	// + signifies keys are held down
+	// , indicates release this set of keys and then push more keys after these ones are released.  used to string multiple key strokes in sequence - ie creating a macro
+	String strTerminate = strAllKeyCodes.retainCharacters("+,");
+
+	int iKeyUP_start = 0, iKeyUP_end = -1;
+
+	for (i = 0; i < tokens.size(); i++)
+	{
+		// press the key
+		key = tokens[i].getHexValue32();
+		handleShortcutKeyDown(key);
+
+		if (i == tokens.size() - 1)
+			iKeyUP_end = i + 1;
+		else if (strTerminate[i] == ',')
+			iKeyUP_end = i + 1;
+
+		//release the keys in order, releasing all keys between each key sequence 
+		for (j = iKeyUP_start; j < iKeyUP_end; j++)
+		{
+			key = tokens[j].getHexValue32();
+			handleShortcutKeyUp(key);
+			iKeyUP_start = j + 1;
+		}
+	}
+}
+
+
+void LR_IPC_OUT::handleShortcutKeyDown(int iKeyCode)
+{
+
+	// input event.
+	INPUT ip;
+
+
+	// Set up a generic keyboard event.
+	ip.type = INPUT_KEYBOARD;
+	ip.ki.wScan = 0; // hardware scan code for key
+	ip.ki.time = 0;
+	ip.ki.dwExtraInfo = 0;
+	ip.ki.wVk = iKeyCode;
+	ip.ki.dwFlags = 0; // 0 for key press
+	SendInput(1, &ip, sizeof(INPUT));
+}
+
+void LR_IPC_OUT::handleShortcutKeyUp(int iKeyCode)
+{
+	// input event.
+	INPUT ip;
+
+	// Set up a generic keyboard event.
+	ip.type = INPUT_KEYBOARD;
+	ip.ki.wScan = 0; // hardware scan code for key
+	ip.ki.time = 0;
+	ip.ki.dwExtraInfo = 0;
+	ip.ki.wVk = iKeyCode;
+	//	ip.ki.dwFlags = 0; // 0 for key press
+	// Release the key
+	ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+	SendInput(1, &ip, sizeof(INPUT));
 }
