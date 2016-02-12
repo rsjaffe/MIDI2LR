@@ -22,7 +22,6 @@ local LrView     = import 'LrView'
 
 
 local function StartDialog(obstable,f)
-
   local function set_reset(parmarray) --closure factory for toggle buttons
     local set = true
     return function()
@@ -116,7 +115,7 @@ local function StartDialog(obstable,f)
 
 
     },-- set of pushbuttons
-    f:checkbox {title = 'Ask each time', value = LrView.bind('PastePopup')}
+    f:checkbox {title = LOC("$$$/AgPreferences/Touch/AskEveryTime=Ask Every Time"), value = LrView.bind('PastePopup')}
   } --row with pushbuttons and checkbox
 end
 

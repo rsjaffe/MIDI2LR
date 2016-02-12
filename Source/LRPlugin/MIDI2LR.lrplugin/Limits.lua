@@ -48,14 +48,14 @@ for _, p in ipairs(DisplayOrder) do
 end
 
 --clean up the preferences of discarded Limits and fix label and order
-if ProgramPreferences.Limits ~= nil and type(ProgramPreferences.Limits)=='table' then
-  for k,v in pairs(ProgramPreferences.Limits) do
-    if Parameters[k] then
-      ProgramPreferences.Limits[k]['label'] = ParamList.LimitEligible[k][1]
-      ProgramPreferences.Limits[k]['order'] = ParamList.LimitEligible[k][2]
-    else
-      ProgramPreferences.Limits[k] = nil --erase unused
-    end
+--has to be done after init and after loading full limits file
+
+for k in pairs(ProgramPreferences.Limits) do
+  if Parameters[k] then
+    ProgramPreferences.Limits[k]['label'] = ParamList.LimitEligible[k][1]
+    ProgramPreferences.Limits[k]['order'] = ParamList.LimitEligible[k][2]
+  else
+    ProgramPreferences.Limits[k] = nil --erase unused
   end
 end
 
@@ -162,29 +162,6 @@ local function GetMinMax(param)
   end
 end
 
---------------------------------------------------------------------------------
--- Removes unneeded Parameters entries.
--- [param][max] unneeded if max has an empty or missing table.
--- [param] then unneeded if it has no numeric entries (max's).
--- @return hil
---------------------------------------------------------------------------------
-local function DiscardExcess()
-  for k,v in pairs(ProgramPreferences.Limits) do -- for each parameter
-    local validlimits = false
-    for kk,vv in pairs(v) do -- for each numeric entry (ignore other data)
-      if type(kk) == 'number' then
-        if type(vv) ~= 'table' or kk[1]==nil or kk[2]==nil then
-          ProgramPreferences.Limits[k][kk]=nil --delete
-        else
-          validlimits = true
-        end --if type vv ~= table...
-      end -- if type kk = number
-    end -- for kk,vv in pairs
-    if validlimits == false then
-      ProgramPreferences.Limits[k] = nil --remove from parent array
-    end
-  end -- for k,v in pairs
-end --DiscardExcess
 
 local function StartDialog(obstable,f)
   local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
@@ -217,11 +194,9 @@ end
 
 --- @export
 return { --table of exports, setting table member name and module function it points to
-  ClampValue = ClampValue,
-  DiscardExcess = DiscardExcess,
-  GetMinMax = GetMinMax,
-  --  OptionsRows = OptionsRows,
-  Parameters = Parameters,
+  ClampValue  = ClampValue,
+  EndDialog   = EndDialog,
+  GetMinMax   = GetMinMax,
+  Parameters  = Parameters,
   StartDialog = StartDialog,
-  EndDialog = EndDialog,
 }

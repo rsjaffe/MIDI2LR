@@ -22,6 +22,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
+-- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
+math.randomseed(os.time())
+currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
+currentLoadVersion = currentLoadVersion + 1 + math.random()
 
 local LrTasks = import 'LrTasks'
 -- Main task
@@ -32,16 +36,11 @@ LrTasks.startAsyncTask(
     local Preferences     = require 'Preferences'
     Preferences.Load() 
 -------------end preferences section    
-    -- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
-    math.randomseed(os.time())
-    currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
-    currentLoadVersion = currentLoadVersion + 1 
 
-    MIDI2LR = {RECEIVE_PORT = 58763, SEND_PORT = 58764, PICKUP_THRESHOLD = 4, CONTROL_MAX = 127, BUTTON_ON = 127; --constants
-      LAST_PARAM = '', PARAM_OBSERVER = {}, PICKUP_ENABLED = true, SERVER = {} } --non-local but in MIDI2LR namespace
 
     local LrFunctionContext   = import 'LrFunctionContext'
     local LrPathUtils         = import 'LrPathUtils'
+
     do --save localized file for app
       local LrFileUtils    = import 'LrFileUtils'
       local LrLocalization = import 'LrLocalization'
@@ -86,6 +85,16 @@ LrTasks.startAsyncTask(
     local LrSelection         = import 'LrSelection'
     local LrStringUtils       = import 'LrStringUtils'
     local LrUndo              = import 'LrUndo'
+    --global variables
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CONTROL_MAX = 127 } --non-local but in MIDI2LR namespace
+    --local variables
+    local LastParam           = ''
+    local PickupEnabled       = true
+    --local constants--may edit these to change program behaviors
+    local RECEIVE_PORT     = 58763
+    local SEND_PORT        = 58764
+    local PICKUP_THRESHOLD = 4
+    local BUTTON_ON        = 127
 
     local ACTIONS = {
       --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
@@ -96,7 +105,7 @@ LrTasks.startAsyncTask(
       CopySettings             = CU.CopySettings,
       CropOverlay              = CU.fToggleTool('crop'),
       DecreaseRating           = LrSelection.decreaseRating,
-      DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,MIDI2LR.LAST_PARAM) end,
+      DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
       EnableCircularGradientBasedCorrections = CU.fToggleTF('EnableCircularGradientBasedCorrections'),
       EnableColorAdjustments                 = CU.fToggleTF('EnableColorAdjustments'),
@@ -112,7 +121,7 @@ LrTasks.startAsyncTask(
       EnableToneCurve                        = CU.fToggleTF('EnableToneCurve'),
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
-      IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,MIDI2LR.LAST_PARAM) end,
+      IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,LastParam) end,
       LensProfileEnable        = CU.fToggle01('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,
@@ -169,7 +178,7 @@ LrTasks.startAsyncTask(
       ResetCircGrad            = Ut.wrapFOM(LrDevelopController.resetCircularGradient),
       ResetCrop                = Ut.wrapFOM(LrDevelopController.resetCrop),
       ResetGradient            = Ut.wrapFOM(LrDevelopController.resetGradient),
-      ResetLast                = function() Ut.execFOM(LrDevelopController.resetToDefault,MIDI2LR.LAST_PARAM) end,
+      ResetLast                = function() Ut.execFOM(LrDevelopController.resetToDefault,LastParam) end,
       ResetRedeye              = Ut.wrapFOM(LrDevelopController.resetRedeye),
       ResetSpotRem             = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
       RevealPanelAdjust        = CU.fChangePanel('adjustPanel'),
@@ -244,16 +253,16 @@ LrTasks.startAsyncTask(
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
       ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
-      Pickup             = function(enabled) MIDI2LR.PICKUP_ENABLED = (tonumber(enabled) == 1) end, 
+      Pickup             = function(enabled) PickupEnabled = (tonumber(enabled) == 1) end, 
     }
 
-    local function midi_lerp_to_develop(param, midi_value)
+    local function MIDIValueToLRValue(param, midi_value)
       -- map midi range to develop parameter range
       local min,max = Limits.GetMinMax(param)
       return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
     end
 
-    local function develop_lerp_to_midi(param)
+    local function LRValueToMIDIValue(param)
       -- map develop parameter range to midi range
       local min,max = Limits.GetMinMax(param)
       return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
@@ -270,29 +279,29 @@ LrTasks.startAsyncTask(
           LrApplicationView.switchToModule('develop')
         end
         -- if pickup mode, keep LR value within pickup limits so pickup can work
-        if Limits.Parameters[param] and MIDI2LR.PICKUP_ENABLED then
+        if Limits.Parameters[param] and PickupEnabled then
           Limits.ClampValue(param)
         end
         -- enable movement if pickup mode is off; controller is within pickup range; 
         -- or control was last used recently and rapidly moved out of pickup range
         if(
-          (not MIDI2LR.PICKUP_ENABLED) or
-          (math.abs(midi_value - develop_lerp_to_midi(param)) <= MIDI2LR.PICKUP_THRESHOLD) or
+          (not PickupEnabled) or
+          (math.abs(midi_value - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or
           (lastclock + 0.5 > os.clock() and lastparam == param) 
         )
         then
-          if MIDI2LR.PICKUP_ENABLED then -- update info to use for detecting fast control changes
+          if PickupEnabled then -- update info to use for detecting fast control changes
             lastclock = os.clock()
             lastparam = param
           end
-          value = midi_lerp_to_develop(param, midi_value)
+          value = MIDIValueToLRValue(param, midi_value)
           MIDI2LR.PARAM_OBSERVER[param] = value
           LrDevelopController.setValue(param, value)
-          MIDI2LR.LAST_PARAM = param
+          LastParam = param
         end
         if ProgramPreferences.ClientShowBezelOnChange then
           if value == nil then -- didn't do an update--pickup failed, so show target value as well
-            value = midi_lerp_to_develop(param, midi_value)
+            value = MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
             local precision = Ut.precision(value)
             LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
@@ -322,9 +331,9 @@ LrTasks.startAsyncTask(
           for _,param in ipairs(ParamList.SendToMidi) do
             local lrvalue = LrDevelopController.getValue(param)
             if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-              MIDI2LR.SERVER:send(string.format('%s %g\n', param, develop_lerp_to_midi(param)))
+              MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
               observer[param] = lrvalue
-              MIDI2LR.LAST_PARAM = param
+              LastParam = param
             end
           end
         end
@@ -333,7 +342,7 @@ LrTasks.startAsyncTask(
           MIDI2LR.SERVER = LrSocket.bind {
             functionContext = context,
             plugin = _PLUGIN,
-            port = MIDI2LR.SEND_PORT,
+            port = SEND_PORT,
             mode = 'send',
             onClosed = function( ) -- this callback never seems to get called...
               -- MIDI2LR closed connection, allow for reconnection
@@ -348,7 +357,7 @@ LrTasks.startAsyncTask(
         local client = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
-          port = MIDI2LR.RECEIVE_PORT,
+          port = RECEIVE_PORT,
           mode = 'receive',
           onMessage = function(_, message) --message processor
             if type(message) == 'string' then
@@ -356,9 +365,9 @@ LrTasks.startAsyncTask(
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
               if(ACTIONS[param]) then -- perform a one time action
-                if(tonumber(value) == MIDI2LR.BUTTON_ON) then ACTIONS[param]() end
+                if(tonumber(value) == BUTTON_ON) then ACTIONS[param]() end
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-                if(tonumber(value) == MIDI2LR.BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
+                if(tonumber(value) == BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter

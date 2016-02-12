@@ -164,7 +164,7 @@ local function CopySettings ()
   ) 
 end
 
-local function addToCollection()
+local function AddToCollection()
   local catalog = LrApplication.activeCatalog()
   local quickname = catalog.kQuickCollectionIdentifier
   local targetname = catalog.kTargetCollection
@@ -229,11 +229,11 @@ local function addToCollection()
     )
   end
 end
-addToCollection = addToCollection() --closure
+AddToCollection = AddToCollection() --closure
 
 
 return {
-  addToCollection = addToCollection,
+  AddToCollection = AddToCollection,
   CopySettings = CopySettings,
   fApplyPreset = fApplyPreset,
   fChangeModule = fChangeModule,
