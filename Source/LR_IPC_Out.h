@@ -76,7 +76,7 @@ public:
 	virtual void timerCallback() override;
 	void Init(CommandMap *mapCommand, MIDIProcessor *midiProcessor);
 private:
-	
+    const static unordered_map<String, KeyPress> KPMappings;
 	CommandMap *m_commandMap;
 	Array<LRConnectionListener *> _listeners;
 	int _valueToSend;

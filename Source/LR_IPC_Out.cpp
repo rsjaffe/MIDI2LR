@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-	LR_IPC_OUT.cpp
-	Created: 2 Aug 2015 12:27:47am
-	Author:  Parth, Jaffe
+    LR_IPC_OUT.cpp
+    Created: 2 Aug 2015 12:27:47am
+    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -16,7 +16,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_OUT.h"
@@ -29,55 +29,91 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // define the port used to 
 #define LR_OUT_PORT 58763 
 
-LR_IPC_OUT::LR_IPC_OUT() : InterprocessConnection()
+const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
+#ifdef _WIN32
+    {"KPCycleLightsOut", KeyPress::createFromDescription("l")},
+    {"KPAutoTone", KeyPress::createFromDescription("ctrl + u")},
+    {"KPDecreaseGridSize", KeyPress::createFromDescription("-")},
+    {"KPEditInPhotoshop", KeyPress::createFromDescription("ctrl + e")},
+    {"KPGoLightsOutDim", KeyPress::createFromDescription("ctrl + shift + l")},
+    {"KPGoNormalMode", KeyPress::createFromDescription("ctrl + alt + f")},
+    {"KPHideAllPanels", KeyPress::createFromDescription("shift + tab")},
+    {"KPHidePanels", KeyPress::createFromDescription("tab")},
+    {"KPHideToolbar", KeyPress::createFromDescription("t")},
+    {"KPIncreaseGridSize", KeyPress::createFromDescription("=")},
+    {"KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m")},
+    {"KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v")},
+    {"KPRotateLeft", KeyPress::createFromDescription("ctrl + [")},
+    {"KPRotateRight", KeyPress::createFromDescription("ctrl + ]")},
+#else
+    {"KPCycleLightsOut", KeyPress::createFromDescription("l")},
+    {"KPAutoTone", KeyPress::createFromDescription("command + u")},
+    {"KPDecreaseGridSize", KeyPress::createFromDescription("-")},
+    {"KPEditInPhotoshop", KeyPress::createFromDescription("command + e")},
+    {"KPGoLightsOutDim", KeyPress::createFromDescription("command + shift + l")},
+    {"KPGoNormalMode", KeyPress::createFromDescription("command + option + f")},
+    {"KPHideAllPanels", KeyPress::createFromDescription("shift + tab")},
+    {"KPHidePanels", KeyPress::createFromDescription("tab")},
+    {"KPHideToolbar", KeyPress::createFromDescription("t")},
+    {"KPIncreaseGridSize", KeyPress::createFromDescription("=")},
+    {"KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m")},
+    {"KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v")},
+    {"KPRotateLeft", KeyPress::createFromDescription("command + [")},
+    {"KPRotateRight", KeyPress::createFromDescription("command + ]")},
+#endif
+};
+
+
+LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
 {
-		
+
+
 }
 
 void LR_IPC_OUT::shutdown()
 {
-	stopTimer();
-	disconnect();
+    stopTimer(),
+        disconnect();
 }
 
 void LR_IPC_OUT::timerCallback()
 {
-	if (!isConnected())
-		connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
+    if (!isConnected())
+        connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
 }
 
 void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
 {
-	//copy the pointer
-	m_commandMap = mapCommand;
+    //copy the pointer
+    m_commandMap = mapCommand;
 
-	if (midiProcessor)
-	{
-		midiProcessor->addMIDICommandListener(this);
-	}
+    if (midiProcessor)
+    {
+        midiProcessor->addMIDICommandListener(this);
+    }
 
 
-	//start the timer
-	startTimer(1000);
+    //start the timer
+    startTimer(1000);
 
 
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
 {
-	_listeners.addIfNotAlreadyThere(listener);
+    _listeners.addIfNotAlreadyThere(listener);
 }
 
 void LR_IPC_OUT::connectionMade()
 {
-	for (auto listener : _listeners)
-		listener->connected();
+    for (auto listener : _listeners)
+        listener->connected();
 }
 
 void LR_IPC_OUT::connectionLost()
 {
-	for (auto listener : _listeners)
-		listener->disconnected();
+    for (auto listener : _listeners)
+        listener->disconnected();
 }
 
 void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
@@ -87,27 +123,24 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
 
 void LR_IPC_OUT::sendCommand(const String &command)
 {
-	//check if there is a connection
-	if (isConnected())
-	{
-		getSocket()->write(command.getCharPointer(), command.length());
-	}
+    //check if there is a connection
+    if (isConnected())
+    {
+        getSocket()->write(command.getCharPointer(), command.length());
+    }
 }
 
-void LR_IPC_OUT::handleKPCommand() 
+void LR_IPC_OUT::handleKPCommand()
 {
     if (_valueToSend == 127)
-    { // for debugging, send lower case 'L' for all key presses, make table later
-        handleShortCutKeyDown(KeyPress::createFromDescription("l"));
-        handleShortCutKeyUp(KeyPress::createFromDescription("l"));
-    }
+        handleShortCutKeyDownUp(KPMappings.at(_commandToSend));
 }
 
 void LR_IPC_OUT::handleAsyncUpdate()
 {
-	//check if there is a connection
-	if (isConnected())
-	{
+    //check if there is a connection
+    if (isConnected())
+    {
         if (_commandToSend.startsWith("KP"))
             handleKPCommand();
         else
@@ -115,46 +148,46 @@ void LR_IPC_OUT::handleAsyncUpdate()
             String command(_commandToSend + String::formatted(" %d\n", _valueToSend));
             sendCommand(command);
         }
-	}
+    }
 }
 
 void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
-	MIDI_Message cc(midiChannel, controller, true);
+    MIDI_Message cc(midiChannel, controller, true);
 
-	if (m_commandMap)
-	{
-		if (!m_commandMap->messageExistsInMap(cc) ||
-			m_commandMap->getCommandforMessage(cc) == "Unmapped" ||
-			find(LRCommandList::NextPrevProfile.begin(),
-				LRCommandList::NextPrevProfile.end(),
-				m_commandMap->getCommandforMessage(cc)) != LRCommandList::NextPrevProfile.end())
-			return;
+    if (m_commandMap)
+    {
+        if (!m_commandMap->messageExistsInMap(cc) ||
+            m_commandMap->getCommandforMessage(cc) == "Unmapped" ||
+            find(LRCommandList::NextPrevProfile.begin(),
+            LRCommandList::NextPrevProfile.end(),
+            m_commandMap->getCommandforMessage(cc)) != LRCommandList::NextPrevProfile.end())
+            return;
 
-		_commandToSend = m_commandMap->getCommandforMessage(cc);
-		_valueToSend = value;
-		handleAsyncUpdate();
-	}
+        _commandToSend = m_commandMap->getCommandforMessage(cc);
+        _valueToSend = value;
+        handleAsyncUpdate();
+    }
 }
 
 void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 {
-	MIDI_Message note_msg(midiChannel, note, false);
+    MIDI_Message note_msg(midiChannel, note, false);
 
-	if (m_commandMap)
-	{
+    if (m_commandMap)
+    {
 
-		if (!m_commandMap->messageExistsInMap(note_msg) ||
-			m_commandMap->getCommandforMessage(note_msg) == "Unmapped" ||
-			find(LRCommandList::NextPrevProfile.begin(),
-				LRCommandList::NextPrevProfile.end(),
-				m_commandMap->getCommandforMessage(note_msg)) != LRCommandList::NextPrevProfile.end())
-			return;
+        if (!m_commandMap->messageExistsInMap(note_msg) ||
+            m_commandMap->getCommandforMessage(note_msg) == "Unmapped" ||
+            find(LRCommandList::NextPrevProfile.begin(),
+            LRCommandList::NextPrevProfile.end(),
+            m_commandMap->getCommandforMessage(note_msg)) != LRCommandList::NextPrevProfile.end())
+            return;
 
-		_commandToSend = m_commandMap->getCommandforMessage(note_msg);
-		_valueToSend = 127;
-		handleAsyncUpdate();
-	}
+        _commandToSend = m_commandMap->getCommandforMessage(note_msg);
+        _valueToSend = 127;
+        handleAsyncUpdate();
+    }
 }
 
 void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
@@ -163,11 +196,14 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     // input event.
     INPUT ip;
     ModifierKeys mk = key.getModifiers();
+    HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
+    if (hLRWnd)
+        ::SetForegroundWindow(hLRWnd);
     // Set up a generic keyboard event.
     ip.type = INPUT_KEYBOARD;
     ip.ki.wScan = 0; // hardware scan code for key
     ip.ki.time = 0;
-    ip.ki.dwExtraInfo = 0;    
+    ip.ki.dwExtraInfo = 0;
     if (mk.isCtrlDown())
     {
         ip.ki.wVk = VK_CONTROL;
@@ -186,10 +222,11 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
         ip.ki.dwFlags = 0;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    ip.ki.wVk = key.getKeyCode();
+    ip.ki.wVk = (WORD)key.getKeyCode();
     ip.ki.dwFlags = 0; // 0 for key press
     SendInput(1, &ip, sizeof(INPUT));
     // Release the key
+    Sleep(30); //add 30 msec between press and release
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
     if (mk.isCtrlDown())
@@ -216,17 +253,17 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     ProcessSerialNumber psn = { 0, kNoProcess };
     ModifierKeys mk = key.getModifiers();
     CGEventFlags flags;
-    flags = (mk.isCommandDown()? kCGEventFlagMaskCommand:0) | (mk.isAltDown()? kCGEventFlagMaskAlternate:0) |(mk.isShiftDown()? kCGEventFlagMaskShift:0)
+    flags = (mk.isCommandDown() ? kCGEventFlagMaskCommand : 0) | (mk.isAltDown() ? kCGEventFlagMaskAlternate : 0) | (mk.isShiftDown() ? kCGEventFlagMaskShift : 0)
 
-    while (noErr == GetNextProcess(&psn))
-    {
-        CFStringRef processName;
-        if (noErr == CopyProcessName(&psn, &processName))
+        while (noErr == GetNextProcess(&psn))
         {
-            string w = MYCFStringCopyUTF8String(processName);
-            if (w == "Lightroom") LRProcessNumber = psn;
+            CFStringRef processName;
+            if (noErr == CopyProcessName(&psn, &processName))
+            {
+                string w = MYCFStringCopyUTF8String(processName);
+                if (w == "Lightroom") LRProcessNumber = psn;
+            }
         }
-    }
     CGEventRef d = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), true);
     CGEventRef u = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), false);
     if (flags != 0)
@@ -247,6 +284,9 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
     // input event.
     INPUT ip;
     ModifierKeys mk = key.getModifiers();
+    HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
+    if (hLRWnd)
+        ::SetForegroundWindow(hLRWnd);
     // Set up a generic keyboard event.
     ip.type = INPUT_KEYBOARD;
     ip.ki.wScan = 0; // hardware scan code for key
@@ -270,7 +310,7 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
         ip.ki.dwFlags = 0;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    ip.ki.wVk = key.getKeyCode();
+    ip.ki.wVk = (WORD)key.getKeyCode();
     ip.ki.dwFlags = 0; // 0 for key press
     SendInput(1, &ip, sizeof(INPUT));
 #else
@@ -304,12 +344,15 @@ void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
     // input event.
     INPUT ip;
     ModifierKeys mk = key.getModifiers();
+    HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
+    if (hLRWnd)
+        ::SetForegroundWindow(hLRWnd);
     // Set up a generic keyboard event.
     ip.type = INPUT_KEYBOARD;
     ip.ki.wScan = 0; // hardware scan code for key
     ip.ki.time = 0;
     ip.ki.dwExtraInfo = 0;
-    ip.ki.wVk = key.getKeyCode();
+    ip.ki.wVk = (WORD)key.getKeyCode();
     // Release the key
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
