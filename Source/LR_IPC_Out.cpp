@@ -23,7 +23,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 #include "Tools.h"
-
+#ifdef _WIN32
+#include "Windows.h"
+#endif
 // define the port used to 
 #define LR_OUT_PORT 58763 
 
@@ -92,13 +94,27 @@ void LR_IPC_OUT::sendCommand(const String &command)
 	}
 }
 
+void LR_IPC_OUT::handleKPCommand() 
+{
+    if (_valueToSend == 127)
+    { // for debugging, send lower case 'L' for all key presses, make table later
+        handleShortCutKeyDown(KeyPress::createFromDescription("l"));
+        handleShortCutKeyUp(KeyPress::createFromDescription("l"));
+    }
+}
+
 void LR_IPC_OUT::handleAsyncUpdate()
 {
 	//check if there is a connection
 	if (isConnected())
-	{		
-		String command(_commandToSend + String::formatted(" %d\n", _valueToSend));
-		sendCommand(command);
+	{
+        if (_commandToSend.startsWith("KP"))
+            handleKPCommand();
+        else
+        {
+            String command(_commandToSend + String::formatted(" %d\n", _valueToSend));
+            sendCommand(command);
+        }
 	}
 }
 
@@ -139,4 +155,131 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 		_valueToSend = 127;
 		handleAsyncUpdate();
 	}
+}
+
+void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
+{
+#ifdef _WIN32
+    // input event.
+    INPUT ip;
+    ModifierKeys mk = key.getModifiers();
+    // Set up a generic keyboard event.
+    ip.type = INPUT_KEYBOARD;
+    ip.ki.wScan = 0; // hardware scan code for key
+    ip.ki.time = 0;
+    ip.ki.dwExtraInfo = 0;    
+    if (mk.isCtrlDown())
+    {
+        ip.ki.wVk = VK_CONTROL;
+        ip.ki.dwFlags = 0;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isShiftDown())
+    {
+        ip.ki.wVk = VK_SHIFT;
+        ip.ki.dwFlags = 0;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isAltDown())
+    {
+        ip.ki.wVk = VK_MENU;
+        ip.ki.dwFlags = 0;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    ip.ki.wVk = key.getKeyCode();
+    ip.ki.dwFlags = 0; // 0 for key press
+    SendInput(1, &ip, sizeof(INPUT));
+    // Release the key
+    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+    SendInput(1, &ip, sizeof(INPUT));
+    if (mk.isCtrlDown())
+    {
+        ip.ki.wVk = VK_CONTROL;
+        ip.ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isShiftDown())
+    {
+        ip.ki.wVk = VK_SHIFT;
+        ip.ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isAltDown())
+    {
+        ip.ki.wVk = VK_MENU;
+        ip.ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+#endif
+}
+
+void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
+{
+#ifdef _WIN32
+    // input event.
+    INPUT ip;
+    ModifierKeys mk = key.getModifiers();
+    // Set up a generic keyboard event.
+    ip.type = INPUT_KEYBOARD;
+    ip.ki.wScan = 0; // hardware scan code for key
+    ip.ki.time = 0;
+    ip.ki.dwExtraInfo = 0;
+    if (mk.isCtrlDown())
+    {
+        ip.ki.wVk = VK_CONTROL;
+        ip.ki.dwFlags = 0;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isShiftDown())
+    {
+        ip.ki.wVk = VK_SHIFT;
+        ip.ki.dwFlags = 0;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isAltDown())
+    {
+        ip.ki.wVk = VK_MENU;
+        ip.ki.dwFlags = 0;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    ip.ki.wVk = key.getKeyCode();
+    ip.ki.dwFlags = 0; // 0 for key press
+    SendInput(1, &ip, sizeof(INPUT));
+#endif
+}
+
+void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
+{
+#ifdef _WIN32
+    // input event.
+    INPUT ip;
+    ModifierKeys mk = key.getModifiers();
+    // Set up a generic keyboard event.
+    ip.type = INPUT_KEYBOARD;
+    ip.ki.wScan = 0; // hardware scan code for key
+    ip.ki.time = 0;
+    ip.ki.dwExtraInfo = 0;
+    ip.ki.wVk = key.getKeyCode();
+    // Release the key
+    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+    SendInput(1, &ip, sizeof(INPUT));
+    if (mk.isCtrlDown())
+    {
+        ip.ki.wVk = VK_CONTROL;
+        ip.ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isShiftDown())
+    {
+        ip.ki.wVk = VK_SHIFT;
+        ip.ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+    if (mk.isAltDown())
+    {
+        ip.ki.wVk = VK_MENU;
+        ip.ki.dwFlags = KEYEVENTF_KEYUP;
+        SendInput(1, &ip, sizeof(INPUT));
+    }
+#endif
 }
