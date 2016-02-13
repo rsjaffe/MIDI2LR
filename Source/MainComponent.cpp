@@ -238,7 +238,7 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
     _commandTable.updateContent();
     _commandTable.repaint();
     _profileNameLabel.setText(filename, NotificationType::dontSendNotification);
-    _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
+//  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
     // Send new CC parameters to MIDI Out devices
 	if (m_lr_IPC_IN)
@@ -388,7 +388,7 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	SetLabelSettings(m_currentStatus);
 	addAndMakeVisible(m_currentStatus);
 
-	_systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
+//	_systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
 
 
 	if (m_settingsManager)
