@@ -71,6 +71,16 @@ for _,v in ipairs(Database.DataBase) do
 end
 file:write("\n};")
 
+file:write("\n\nKey Press Mappings\n\n\nconst std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {\n#ifdef _WIN32\n")
+local macmappings = ''
+for _,v in ipairs(Database.DataBase) do
+  if v[12] then
+    file:write('    {"',v[1],'", KeyPress::createFromDescription("',v[13],'")},\n')
+    macmappings = macmappings .. '    {"' .. v[1] .. '", KeyPress::createFromDescription("' .. v[14] .. '")},\n'
+  end
+end
+file:write('#else\n',macmappings,'#endif\n};')
+
 file:write("\n\nLimits codes for documentation\n\n")
 for _,v in ipairs(Database.DataBase) do
   if v[4] and v[5] and v[6]==false then

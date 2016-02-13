@@ -61,6 +61,9 @@ DataBase structure
 9. menu group for app
 10. documentation right column
 11. panel for changing profile
+12. is keypress boolean
+13. keypress pc
+14. keypress mac
 
 errors if:
 2=not false, 3=false
@@ -1954,20 +1957,56 @@ local DataBase = {
     reset..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),
     miscellaneous,
     "Reset crop angle. *button*"},
-  {'KPCycleLightsOut', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/CycleLightsOut=Cycle Lights Out"),miscellaneous, 'L'},
-  {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Cmd Option u'},
-  {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),miscellaneous, '-'},
-  {'KPEditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),miscellaneous, 'Cmd E'},
-  {'KPGoLightsOutDim', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoLightsOutDim=Go Lights Out Dim"),miscellaneous, ' Cmd Shift L or Ctrl Shift L'},
-  {'KPGoNormalMode', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoNormalMode=Go Normal Mode"),miscellaneous, 'Cmd Opt F or Ctrl Alt F'},
-  {'KPHideAllPanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowAllThePanels=Show/Hide All Panels"),miscellaneous, 'shift Tab'},
-  {'KPHidePanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Show_HideTheSidePanels=Show/Hide Side Panels"),miscellaneous, 'Tab'},
-  {'KPHideToolbar', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowToolbar=Show/Hide Toolbar"),miscellaneous, 'T'},
-  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),miscellaneous, '#'},
-  {'KPMatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),miscellaneous, 'Cmd Option Shift m'},
-  {'KPPasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),miscellaneous, 'Cmd Option v'},
-  {'KPRotateLeft', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_left=Rotate Left"),miscellaneous, 'Cmd ,'},
-  {'KPRotateRight', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_right=Rotate Right"),miscellaneous, 'Cmd .'},
+
+  --workspace: grid view options
+  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),miscellaneous, '=','',true,'=','='},
+  {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),miscellaneous, '-','',true,'-','-'},
+  --workspace: view options
+  {'KPHideToolbar', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowToolbar=Show/Hide Toolbar"),miscellaneous, 'T','',true,'t','t'},
+  --workspace: panels
+  {'KPHidePanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Show_HideTheSidePanels=Show/Hide Side Panels"),miscellaneous, 'Tab','',true,'tab','tab'},
+  {'KPHideAllPanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowAllThePanels=Show/Hide All Panels"),miscellaneous, 'shift Tab','',true,'shift + tab','shift + tab'},
+  --workspace: Selections
+  {'KPSelectAll', false,false,true,false,true,false,'Select All',miscellaneous,'Select All Photos','',true,'ctrl + a','command + a'},
+  {'KPSelectNone', false,false,true,false,true,false,'Select None',miscellaneous,'Select No Photos','',true,'ctrl + d','command + d'},
+  {'KPSelectActive', false,false,true,false,true,false,'Select Active Photo',miscellaneous,'Select Active Photo Only','',true,'ctrl + shift + d','command + shift + d'},
+  {'KPDeselectActive', false,false,true,false,true,false,'Deselect Active Photo',miscellaneous,'Deselect Active Photo','',true,'/','/'},
+  {'KPSelectFlagged', false,false,true,false,true,false,'Select Flagged Photos',miscellaneous,'Select Flagged Photos','',true,'ctrl + alt + a','command + option + a'},
+  {'KPDeselectUnflagged', false,false,true,false,true,false,'Deselect Unflagged Photos',miscellaneous,'Deselect Unflagged Photos','',true,'ctrl + alt + shift + d','command + option + shift + d'},
+  {'KPPrevSelected', false,false,true,false,true,false,'Previous Selected Photo',miscellaneous,'Go To Previous Selected Photo','',true,'ctrl + cursor left','command + cursor left'},
+  {'KPNextSelected', false,false,true,false,true,false,'Next Selected Photo',miscellaneous,'Go To Next Selected Photo','',true,'ctrl + cursor right','command + cursor right'},
+  --workspace: screen mode
+  {'KPGoNormalMode', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoNormalMode=Go Normal Mode"),miscellaneous, 'Cmd Opt F or Ctrl Alt F','',true,'ctrl + alt + f','command + option + f'},
+  {'KPFullScrHidePanles', false,false,true,false,true,false,'Full Screen Hide Panels',miscellaneous, 'Full Screen Hide Panels','',true,'ctrl + shift + f','command + shift + f'},
+  {'KPFullScrPreview', false,false,true,false,true,false,'Full Screen Preview',miscellaneous, 'Full Screen Preview','',true,'f','f'},
+  --workspace: Lights Out
+  {'KPCycleLightsOut', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/CycleLightsOut=Cycle Lights Out"),miscellaneous, 'L','',true,'l','l'},
+  {'KPGoLightsOutDim', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoLightsOutDim=Go Lights Out Dim"),miscellaneous, ' Cmd Shift L or Ctrl Shift L','',true,'ctrl + shift + l','command + shift + l'},
+  --library: stacking
+  {'KPGroupIntoStack', false,false,true,false,true,false,'Group Into Stack',miscellaneous,'Group Into Stack','',true,'ctrl + g','command + g'},
+  {'KPUnstack', false,false,true,false,true,false,'Unstack',miscellaneous,'Unstack','',true,'ctrl + shift + g','command + shift + g'},
+  {'KPExpandStack', false,false,true,false,true,false,'Collapse/Expand Stack',miscellaneous,'Collapse/Expand Stack','',true,'s','s'},
+  {'KPToTopStack', false,false,true,false,true,false,'Move to Top of Stack',miscellaneous,'Move to Top of Stack','',true,'shift + s','shift + s'},
+  {'KPUpInStack', false,false,true,false,true,false,'Move Up in Stack',miscellaneous,'Move Up in Stack','',true,'shift + [','shift + ['},
+  {'KPDnInStack', false,false,true,false,true,false,'Move Down in Stack',miscellaneous,'Move Down in Stack','',true,'shift + ]','shift + ]'},
+  --library: rotation
+  {'KPRotateLeft', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_left=Rotate Left"),miscellaneous, 'Cmd [','',true,'ctrl + [','command + ['},
+  {'KPRotateRight', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_right=Rotate Right"),miscellaneous, 'Cmd ]','',true,'ctrl + ]','command + ['},
+  --develop: copy paste sync
+  {'KPPasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),miscellaneous, 'Paste Settings from Previous','',true,'ctrl + alt + v','command + option + v'},
+  {'KPMatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),miscellaneous, 'Cmd Option Shift m','',true,'ctrl + alt + shift + m','command + option + shift + m'},
+  --develop: auto
+  {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Control u','',true,'ctrl + u','command + u'},
+  --photomerge
+  {'KPMergeHDR', false,false,true,false,true,false,'Merge HDR',miscellaneous, 'Merge to HDR with Dialog','',true,'ctrl + h','command + h'},
+  {'KPMergeHDRnoDlg', false,false,true,false,true,false,'Merge HDR no Dialog',miscellaneous, 'Merge to HDR, skip dialog.','',true,'ctrl + shift + h','command + shift + h'},
+  {'KPMergePano', false,false,true,false,true,false,'Merge Panorama',miscellaneous, 'Merge to Panorama with dialog.','',true,'ctrl + m','command + m'},
+  {'KPMergePanonoDlg', false,false,true,false,true,false,'Merge Panorama no Dialog',miscellaneous, 'Merge to Panorama, skip dialog.','',true,'ctrl + shift + m','command + shift + m'},
+  
+  --edit in
+  {'KPEditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),miscellaneous, 'Cmd E','',true,'ctrl + e','command + e'},
+  {'KPEditInOther', false,false,true,false,true,false,'Edit in Other',miscellaneous, 'Edit in Other Application','',true,'ctrl + alt + e','command + option + e'},
+  
   {"Loupe",
     false,false,true,false,true,false,
     show..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),
@@ -2221,99 +2260,99 @@ local LrPathUtils = import 'LrPathUtils'
 local datafile = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
 local file = assert(io.open(datafile,'w'),'Unable to write to plugin directory. Please reinstall plugin in a location where you have write privileges.')
 file:write([=[
---[[----------------------------------------------------------------------------
+  --[[----------------------------------------------------------------------------
 
-MenuList.lua
+  MenuList.lua
 
-This file was auto-generated by MIDI2LR and contains the translated menus used
-by the app and the plugin. Edits to this file will be lost any time MIDI2LR
-is updated or the language used by Lightroom changes. Edit Database.lua
-if you want to have persistent changes to the translations or menu structure.
+  This file was auto-generated by MIDI2LR and contains the translated menus used
+  by the app and the plugin. Edits to this file will be lost any time MIDI2LR
+  is updated or the language used by Lightroom changes. Edit Database.lua
+  if you want to have persistent changes to the translations or menu structure.
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  MIDI2LR is free software: you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later version.
 
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
-------------------------------------------------------------------------------]]
+  MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License along with
+  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+  ------------------------------------------------------------------------------]]
   local MenuList = ]=],serpent.block(MenuList, {comment = false}))
 file:close()
 
 datafile = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
 file = assert(io.open(datafile,'w'),'Error writing to ParamList.lua')
 file:write([=[
---[[----------------------------------------------------------------------------
+  --[[----------------------------------------------------------------------------
 
-ParamList.lua
+  ParamList.lua
 
-This file was auto-generated by MIDI2LR and contains the parameters used by the
-plugin. Edits to this file will be lost any time MIDI2LR is updated or the 
-language used by Lightroom changes. Edit Database.lua if you want to have 
-persistent changes to the translations or menu structure.
+  This file was auto-generated by MIDI2LR and contains the parameters used by the
+  plugin. Edits to this file will be lost any time MIDI2LR is updated or the 
+  language used by Lightroom changes. Edit Database.lua if you want to have 
+  persistent changes to the translations or menu structure.
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
-MIDI2LR is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  MIDI2LR is free software: you can redistribute it and/or modify it under the
+  terms of the GNU General Public License as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option) any later version.
 
-MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
-------------------------------------------------------------------------------]]
-local SelectivePasteMenu = ]=],serpent.block(SelectivePasteMenu, {comment = false}), [==[
+  MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License along with
+  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+  ------------------------------------------------------------------------------]]
+  local SelectivePasteMenu = ]=],serpent.block(SelectivePasteMenu, {comment = false}), [==[
 
-local SelectivePasteHidden = ]==],serpent.block(SelectivePasteHidden, {comment = false}), [==[
+  local SelectivePasteHidden = ]==],serpent.block(SelectivePasteHidden, {comment = false}), [==[
 
-local SelectivePasteIteration = ]==],serpent.block(SelectivePasteIteration, {comment = false}), [==[
+  local SelectivePasteIteration = ]==],serpent.block(SelectivePasteIteration, {comment = false}), [==[
 
-local SelectivePasteGroups = ]==],serpent.block(SelectivePasteGroups, {comment = false}), [==[
+  local SelectivePasteGroups = ]==],serpent.block(SelectivePasteGroups, {comment = false}), [==[
 
-local LimitEligible = ]==],serpent.block(LimitEligible, {comment = false}), [==[
+  local LimitEligible = ]==],serpent.block(LimitEligible, {comment = false}), [==[
 
-local SendToMidi = ]==],serpent.block(SendToMidi, {comment = false}), [==[
+  local SendToMidi = ]==],serpent.block(SendToMidi, {comment = false}), [==[
 
-local ProfileMap = ]==],serpent.block(ProfileMap, {comment = false}), [==[
+  local ProfileMap = ]==],serpent.block(ProfileMap, {comment = false}), [==[
 
-return {
-  SelectivePasteMenu = SelectivePasteMenu,
-  SelectivePasteHidden = SelectivePasteHidden,
-  SelectivePasteIteration = SelectivePasteIteration,
-  SelectivePasteGroups = SelectivePasteGroups,
-  LimitEligible = LimitEligible,
-  SendToMidi = SendToMidi,
-  ProfileMap = ProfileMap,
-  }]==])
+  return {
+    SelectivePasteMenu = SelectivePasteMenu,
+    SelectivePasteHidden = SelectivePasteHidden,
+    SelectivePasteIteration = SelectivePasteIteration,
+    SelectivePasteGroups = SelectivePasteGroups,
+    LimitEligible = LimitEligible,
+    SendToMidi = SendToMidi,
+    ProfileMap = ProfileMap,
+    }]==])
 file:close()
 
 local function RunTests()
   --[[DataBase structure
-1. command
-2. include in selective paste menu [exclude localized adj]. if in button group on 
- menu, this will be a string identifying group. Otherwise this is true/false.
-3. include in selective paste iteration
-4. include in application command list
-5. send back values to MIDI controller
-6. button or table or text=true, variable number=false
-7. experimental (for documentation)
-8. user-friendly name or, for 2=false and 3=true, command it maps to
-9. menu group for app
-10. documentation right column
-11. panel for changing profile
+  1. command
+  2. include in selective paste menu [exclude localized adj]. if in button group on 
+  menu, this will be a string identifying group. Otherwise this is true/false.
+  3. include in selective paste iteration
+  4. include in application command list
+  5. send back values to MIDI controller
+  6. button or table or text=true, variable number=false
+  7. experimental (for documentation)
+  8. user-friendly name or, for 2=false and 3=true, command it maps to
+  9. menu group for app
+  10. documentation right column
+  11. panel for changing profile
 
-errors if:
-2=not false, 3=false
-4=false, 5=true
-4=false, 11 not nil
-8 nil and ((2 not false and 3 true) or (4 true))
-9 nil or "" and 4 true
---]]
+  errors if:
+  2=not false, 3=false
+  4=false, 5=true
+  4=false, 11 not nil
+  8 nil and ((2 not false and 3 true) or (4 true))
+  9 nil or "" and 4 true
+  --]]
   local retval = ""
   for _,v in ipairs(DataBase) do
     local correcttypes = type(v[1])=='string' and (type(v[2])=='string' or type(v[2])=='boolean') and
@@ -2338,6 +2377,10 @@ errors if:
     if (v[4]==true and (v[9]==nil or v[9]=="")) then
       retval = retval .. v[1].." needs a menu group for app.\n"
     end
+    if (v[12]==true and (type(v[13])~='string' or type(v[14])~='string')) then
+      retval = retval .. v[1] .. " is marked as a key but is missing 1 or 2 keycodes.\n"
+    end
+
   end
   return retval
 end

@@ -16,7 +16,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include <unordered_map>
@@ -55,6 +55,7 @@ const std::vector<String> LRCommandList::AdjustmentStringList = {
     "Reset Clarity",
     "Reset Vibrance",
     "Reset Saturation",
+
 };
 
 const std::vector<String> LRCommandList::ToneStringList = {
@@ -73,6 +74,7 @@ const std::vector<String> LRCommandList::ToneStringList = {
     "Reset Shadow Split",
     "Reset Midtone Split",
     "Reset Highlight Split",
+
 };
 
 const std::vector<String> LRCommandList::MixerStringList = {
@@ -111,6 +113,7 @@ const std::vector<String> LRCommandList::MixerStringList = {
     "Gray Mixer Blue",
     "Gray Mixer Purple",
     "Gray Mixer Magenta",
+
 };
 
 const std::vector<String> LRCommandList::ResetMixerStringList = {
@@ -146,6 +149,7 @@ const std::vector<String> LRCommandList::ResetMixerStringList = {
     "Reset Gray Mixer Blue",
     "Reset Gray Mixer Purple",
     "Reset Gray Mixer Magenta",
+
 };
 
 const std::vector<String> LRCommandList::SplitToningStringList = {
@@ -185,6 +189,7 @@ const std::vector<String> LRCommandList::DetailStringList = {
     "Reset Color Noise Reduction",
     "Reset Color Noise Reduction Detail",
     "Reset Color Noise Reduction Smoothness",
+
 };
 
 const std::vector<String> LRCommandList::LensCorrectionStringList = {
@@ -231,6 +236,7 @@ const std::vector<String> LRCommandList::LensCorrectionStringList = {
     "Reset Perspective Aspect",
     "Reset Vignette Amount",
     "Reset Vignette Midpoint",
+
 };
 
 const std::vector<String> LRCommandList::EffectsStringList = {
@@ -255,6 +261,7 @@ const std::vector<String> LRCommandList::EffectsStringList = {
     "Reset Grain Amount",
     "Reset Grain Size",
     "Reset Grain Roughness",
+
 };
 
 const std::vector<String> LRCommandList::CalibrateStringList = {
@@ -282,6 +289,7 @@ const std::vector<String> LRCommandList::CalibrateStringList = {
     "Reset Green Saturation Calibration",
     "Reset Blue Hue Calibration",
     "Reset Blue Saturation Calibration",
+
 };
 
 const std::vector<String> LRCommandList::SelectionList = {
@@ -315,6 +323,7 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Copy Settings",
     "Paste Settings",
     "Paste Selected Settings",
+
 };
 
 const std::vector<String> LRCommandList::PresetsList = {
@@ -338,6 +347,7 @@ const std::vector<String> LRCommandList::PresetsList = {
     "Develop Preset 18",
     "Develop Preset 19",
     "Develop Preset 20",
+
 };
 
 const std::vector<String> LRCommandList::LocalList = {
@@ -383,6 +393,7 @@ const std::vector<String> LRCommandList::LocalList = {
     "Reset Brush Corrections",
     "Reset Red-Eye",
     "Reset Spot Removal",
+
 };
 
 const std::vector<String> LRCommandList::MiscList = {
@@ -399,20 +410,42 @@ const std::vector<String> LRCommandList::MiscList = {
     "Crop - Top",
     "Reset Crop",
     "Reset Straighten Angle",
-    "Cycle Lights Out",
-    "Auto Tone",
-    "Decrease Grid Size",
-    "Edit in Photoshop",
-    "Go Lights Out Dim",
-    "Go Normal Mode",
-    "Show/Hide All Panels",
-    "Show/Hide Side Panels",
-    "Show/Hide Toolbar",
     "Increase Grid Size",
-    "Match Exposures",
-    "Paste From Previous",
+    "Decrease Grid Size",
+    "Show/Hide Toolbar",
+    "Show/Hide Side Panels",
+    "Show/Hide All Panels",
+    "Select All",
+    "Select None",
+    "Select Active Photo",
+    "Deselect Active Photo",
+    "Select Flagged Photos",
+    "Deselect Unflagged Photos",
+    "Previous Selected Photo",
+    "Next Selected Photo",
+    "Go Normal Mode",
+    "Full Screen Hide Panels",
+    "Full Screen Preview",
+    "Cycle Lights Out",
+    "Go Lights Out Dim",
+    "Group Into Stack",
+    "Unstack",
+    "Collapse/Expand Stack",
+    "Move to Top of Stack",
+    "Move Up in Stack",
+    "Move Down in Stack",
     "Rotate Left",
     "Rotate Right",
+    "Paste From Previous",
+    "Match Exposures",
+    "Auto Tone",
+    "Merge HDR",
+    "Merge HDR no Dialog",
+    "Merge Panorama",
+    "Merge Panorama no Dialog",
+    "Edit in Photoshop",
+    "Edit in Other",
+
 };
 
 const std::vector<String> LRCommandList::TMPList = {
@@ -438,6 +471,7 @@ const std::vector<String> LRCommandList::TMPList = {
     "Show Lens Corrections",
     "Show Effects",
     "Show Calibration",
+
 };
 
 const std::vector<String> LRCommandList::ViewModesList = {
@@ -458,21 +492,22 @@ const std::vector<String> LRCommandList::ViewModesList = {
     "Secondary Display Survey",
     "Secondary Display Slideshow",
     "Secondary Display Show",
+
 };
 
 const std::vector<String> LRCommandList::ProfilesList = {
-    "Profile 1",
-    "Profile 2",
-    "Profile 3",
-    "Profile 4",
-    "Profile 5",
-    "Profile 6",
-    "Profile 7",
-    "Profile 8",
-    "Profile 9",
-    "Profile 10",
-};
+    "Profile: 1",
+    "Profile: 2",
+    "Profile: 3",
+    "Profile: 4",
+    "Profile: 5",
+    "Profile: 6",
+    "Profile: 7",
+    "Profile: 8",
+    "Profile: 9",
+    "Profile: 10",
 
+};
 
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
@@ -827,20 +862,41 @@ const std::vector<String> LRCommandList::LRStringList = {
     "CropTop",
     "ResetCrop",
     "ResetstraightenAngle",
-    "KPCycleLightsOut",
-    "KPAutoTone",
-    "KPDecreaseGridSize",
-    "KPEditInPhotoshop",
-    "KPGoLightsOutDim",
-    "KPGoNormalMode",
-    "KPHideAllPanels",
-    "KPHidePanels",
-    "KPHideToolbar",
     "KPIncreaseGridSize",
-    "KPMatchExposures",
-    "KPPasteFromPrevious",
+    "KPDecreaseGridSize",
+    "KPHideToolbar",
+    "KPHidePanels",
+    "KPHideAllPanels",
+    "KPSelectAll",
+    "KPSelectNone",
+    "KPSelectActive",
+    "KPDeselectActive",
+    "KPSelectFlagged",
+    "KPDeselectUnflagged",
+    "KPPrevSelected",
+    "KPNextSelected",
+    "KPGoNormalMode",
+    "KPFullScrHidePanles",
+    "KPFullScrPreview",
+    "KPCycleLightsOut",
+    "KPGoLightsOutDim",
+    "KPGroupIntoStack",
+    "KPUnstack",
+    "KPExpandStack",
+    "KPToTopStack",
+    "KPUpInStack",
+    "KPDnInStack",
     "KPRotateLeft",
     "KPRotateRight",
+    "KPPasteFromPrevious",
+    "KPMatchExposures",
+    "KPAutoTone",
+    "KPMergeHDR",
+    "KPMergeHDRnoDlg",
+    "KPMergePano",
+    "KPMergePanonoDlg",
+    "KPEditInPhotoshop",
+    "KPEditInOther",
     /* Select Tools, Modules and Panels */
     "Loupe",
     "CropOverlay",
@@ -905,7 +961,7 @@ int LRCommandList::getIndexOfCommand(const String& command)
 {
     static std::unordered_map<String, int> indexMap;
 
-	// better to check for empty then lenght, as empty has a constant run time behavior.
+    // better to check for empty then lenght, as empty has a constant run time behavior.
     if (indexMap.empty())
     {
         int idx = 0;
