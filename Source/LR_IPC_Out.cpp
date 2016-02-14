@@ -25,6 +25,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Tools.h"
 #ifdef _WIN32
 #include "Windows.h"
+#else
+#import <CoreFoundation/CoreFoundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #endif
 // define the port used to 
 #define LR_OUT_PORT 58763 
@@ -292,8 +295,10 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
 #else
     // search Lightroom
     ProcessSerialNumber LRProcessNumber;
-    ProcessSerialNumber psn = { 0, kNoProcess };
+    ProcessSerialNumber psn = { 0, 0 };
     ModifierKeys mk = key.getModifiers();
+    CGEventRef d = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), true);
+    CGEventRef u = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), false);
     CGEventFlags flags;
     flags = (mk.isCommandDown() ? kCGEventFlagMaskCommand : 0) | (mk.isAltDown() ? kCGEventFlagMaskAlternate : 0) | (mk.isShiftDown() ? kCGEventFlagMaskShift : 0)
 
@@ -306,8 +311,7 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
                 if (w == "Lightroom") LRProcessNumber = psn;
             }
         }
-    CGEventRef d = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), true);
-    CGEventRef u = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), false);
+
     if (flags != 0)
     {
         CGEventSetFlags(d, flags);
@@ -358,7 +362,8 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
 #else
     // search Lightroom
     ProcessSerialNumber LRProcessNumber;
-    ProcessSerialNumber psn = { 0, kNoProcess };
+    ProcessSerialNumber psn = { 0, 0 };
+    CGEventRef d = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), true);
     ModifierKeys mk = key.getModifiers();
     CGEventFlags flags;
     flags = (mk.isCommandDown() ? kCGEventFlagMaskCommand : 0) | (mk.isAltDown() ? kCGEventFlagMaskAlternate : 0) | (mk.isShiftDown() ? kCGEventFlagMaskShift : 0)
@@ -372,7 +377,7 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
                 if (w == "Lightroom") LRProcessNumber = psn;
             }
         }
-    CGEventRef d = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), true);
+
     if (flags != 0)
         CGEventSetFlags(d, flags);
     CGEventPostToPSN(&LRProcessNumber, d);
@@ -419,7 +424,8 @@ void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
 #else
     // search Lightroom
     ProcessSerialNumber LRProcessNumber;
-    ProcessSerialNumber psn = { 0, kNoProcess };
+    ProcessSerialNumber psn = { 0, 0 };
+    CGEventRef u = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), false);
     ModifierKeys mk = key.getModifiers();
     CGEventFlags flags;
     flags = (mk.isCommandDown() ? kCGEventFlagMaskCommand : 0) | (mk.isAltDown() ? kCGEventFlagMaskAlternate : 0) | (mk.isShiftDown() ? kCGEventFlagMaskShift : 0)
@@ -433,7 +439,7 @@ void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
                 if (w == "Lightroom") LRProcessNumber = psn;
             }
         }
-    CGEventRef u = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), false);
+
     if (flags != 0)
         CGEventSetFlags(u, flags);
     CGEventPostToPSN(&LRProcessNumber, u);
