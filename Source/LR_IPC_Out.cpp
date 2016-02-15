@@ -28,6 +28,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+#include <ApplicationServices/ApplicationsServices.h>
+
 #endif
 // define the port used to 
 #define LR_OUT_PORT 58763 
@@ -42,7 +44,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPSelectAll", KeyPress::createFromDescription("ctrl + a") },
     { "KPSelectNone", KeyPress::createFromDescription("ctrl + d") },
     { "KPSelectActive", KeyPress::createFromDescription("ctrl + shift + d") },
-    { "KPDeselectActive", KeyPress::createFromDescription("/") },
+    { "KPDeselectActive", KeyPress::createFromDescription("shift + d") },
     { "KPSelectFlagged", KeyPress::createFromDescription("ctrl + alt + a") },
     { "KPDeselectUnflagged", KeyPress::createFromDescription("ctrl + alt + shift + d") },
     { "KPPrevSelected", KeyPress::createFromDescription("ctrl + cursor left") },
@@ -52,6 +54,12 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPFullScrPreview", KeyPress::createFromDescription("f") },
     { "KPCycleLightsOut", KeyPress::createFromDescription("l") },
     { "KPGoLightsOutDim", KeyPress::createFromDescription("ctrl + shift + l") },
+    { "KPAddToQuickCollection", KeyPress::createFromDescription("b") },
+    { "KPAddToQuickCollectionAndNext", KeyPress::createFromDescription("shift + b") },
+    { "KPShowQuickCollection", KeyPress::createFromDescription("ctrl + b") },
+    { "KPSaveQuickCollection", KeyPress::createFromDescription("ctrl + alt + b") },
+    { "KPClearQuickCollection", KeyPress::createFromDescription("ctrl + shift + b") },
+    { "KPTargetQuickCollection", KeyPress::createFromDescription("ctrl + alt + shift + b") },
     { "KPGroupIntoStack", KeyPress::createFromDescription("ctrl + g") },
     { "KPUnstack", KeyPress::createFromDescription("ctrl + shift + g") },
     { "KPExpandStack", KeyPress::createFromDescription("s") },
@@ -60,15 +68,24 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
     { "KPRotateLeft", KeyPress::createFromDescription("ctrl + [") },
     { "KPRotateRight", KeyPress::createFromDescription("ctrl + ]") },
+    { "KPDelete", KeyPress::createFromDescription("delete") },
+    { "KPDeleteRej", KeyPress::createFromDescription("ctrl + delete") },
+    { "KPRemoveFromCat", KeyPress::createFromDescription("alt + delete") },
+    { "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
     { "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
     { "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
     { "KPAutoTone", KeyPress::createFromDescription("ctrl + u") },
+    { "KPClipping", KeyPress::createFromDescription("j") },
+    { "KPIncreaseSize", KeyPress::createFromDescription("]") },
+    { "KPDecreaseSize", KeyPress::createFromDescription("[") },
+    { "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
+    { "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
     { "KPMergeHDR", KeyPress::createFromDescription("ctrl + h") },
     { "KPMergeHDRnoDlg", KeyPress::createFromDescription("ctrl + shift + h") },
     { "KPMergePano", KeyPress::createFromDescription("ctrl + m") },
     { "KPMergePanonoDlg", KeyPress::createFromDescription("ctrl + shift + m") },
     { "KPEditInPhotoshop", KeyPress::createFromDescription("ctrl + e") },
-    { "KPEditInOther", KeyPress::createFromDescription("ctrl + alt + e") },
+    { "KPEditInOther", KeyPress::createFromDescription("Edit in Other Application (control/command alt/option e). *button*") },
 #else
     { "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
     { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
@@ -78,7 +95,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPSelectAll", KeyPress::createFromDescription("command + a") },
     { "KPSelectNone", KeyPress::createFromDescription("command + d") },
     { "KPSelectActive", KeyPress::createFromDescription("command + shift + d") },
-    { "KPDeselectActive", KeyPress::createFromDescription("/") },
+    { "KPDeselectActive", KeyPress::createFromDescription("shift + d") },
     { "KPSelectFlagged", KeyPress::createFromDescription("command + option + a") },
     { "KPDeselectUnflagged", KeyPress::createFromDescription("command + option + shift + d") },
     { "KPPrevSelected", KeyPress::createFromDescription("command + cursor left") },
@@ -88,6 +105,12 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPFullScrPreview", KeyPress::createFromDescription("f") },
     { "KPCycleLightsOut", KeyPress::createFromDescription("l") },
     { "KPGoLightsOutDim", KeyPress::createFromDescription("command + shift + l") },
+    { "KPAddToQuickCollection", KeyPress::createFromDescription("b") },
+    { "KPAddToQuickCollectionAndNext", KeyPress::createFromDescription("shift + b") },
+    { "KPShowQuickCollection", KeyPress::createFromDescription("command + b") },
+    { "KPSaveQuickCollection", KeyPress::createFromDescription("command + option + b") },
+    { "KPClearQuickCollection", KeyPress::createFromDescription("command + shift + b") },
+    { "KPTargetQuickCollection", KeyPress::createFromDescription("command + option + shift + b") },
     { "KPGroupIntoStack", KeyPress::createFromDescription("command + g") },
     { "KPUnstack", KeyPress::createFromDescription("command + shift + g") },
     { "KPExpandStack", KeyPress::createFromDescription("s") },
@@ -95,16 +118,25 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPUpInStack", KeyPress::createFromDescription("shift + [") },
     { "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
     { "KPRotateLeft", KeyPress::createFromDescription("command + [") },
-    { "KPRotateRight", KeyPress::createFromDescription("command + [") },
+    { "KPRotateRight", KeyPress::createFromDescription("command + ]") },
+    { "KPDelete", KeyPress::createFromDescription("delete") },
+    { "KPDeleteRej", KeyPress::createFromDescription("command + delete") },
+    { "KPRemoveFromCat", KeyPress::createFromDescription("option + delete") },
+    { "KPTrash", KeyPress::createFromDescription("command + option + shift + delete") },
     { "KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v") },
     { "KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m") },
     { "KPAutoTone", KeyPress::createFromDescription("command + u") },
+    { "KPClipping", KeyPress::createFromDescription("j") },
+    { "KPIncreaseSize", KeyPress::createFromDescription("]") },
+    { "KPDecreaseSize", KeyPress::createFromDescription("[") },
+    { "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
+    { "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
     { "KPMergeHDR", KeyPress::createFromDescription("command + h") },
     { "KPMergeHDRnoDlg", KeyPress::createFromDescription("command + shift + h") },
     { "KPMergePano", KeyPress::createFromDescription("command + m") },
     { "KPMergePanonoDlg", KeyPress::createFromDescription("command + shift + m") },
     { "KPEditInPhotoshop", KeyPress::createFromDescription("command + e") },
-    { "KPEditInOther", KeyPress::createFromDescription("command + option + e") },
+    { "KPEditInOther", KeyPress::createFromDescription("ctrl + alt + e") },
 #endif
 };
 
@@ -297,10 +329,13 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     ProcessSerialNumber LRProcessNumber;
     ProcessSerialNumber psn = { 0, 0 };
     ModifierKeys mk = key.getModifiers();
-    CGEventRef d = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), true);
-    CGEventRef u = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), false);
-    CGEventFlags flags;
-    flags = (mk.isCommandDown() ? kCGEventFlagMaskCommand : 0) | (mk.isAltDown() ? kCGEventFlagMaskAlternate : 0) | (mk.isShiftDown() ? kCGEventFlagMaskShift : 0)
+    CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+    CGEventRef d = CGEventCreateKeyboardEvent(source, key.getKeyCode(), true);
+    CGEventRef u = CGEventCreateKeyboardEvent(source, key.getKeyCode(), false);
+    CGEventFlags flags = (CGEventFlags)NULL;
+    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
+    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
+    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
 
         while (noErr == GetNextProcess(&psn))
         {
@@ -312,7 +347,7 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
             }
         }
 
-    if (flags != 0)
+    if (flags != (CGEventFlags)NULL)
     {
         CGEventSetFlags(d, flags);
         CGEventSetFlags(u, flags);
@@ -363,10 +398,13 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
     // search Lightroom
     ProcessSerialNumber LRProcessNumber;
     ProcessSerialNumber psn = { 0, 0 };
-    CGEventRef d = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), true);
+    CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+    CGEventRef d = CGEventCreateKeyboardEvent(source, key.getKeyCode(), true);
     ModifierKeys mk = key.getModifiers();
-    CGEventFlags flags;
-    flags = (mk.isCommandDown() ? kCGEventFlagMaskCommand : 0) | (mk.isAltDown() ? kCGEventFlagMaskAlternate : 0) | (mk.isShiftDown() ? kCGEventFlagMaskShift : 0)
+    CGEventFlags flags = (CGEventFlags)NULL;
+    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
+    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
+    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
 
         while (noErr == GetNextProcess(&psn))
         {
@@ -378,7 +416,7 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
             }
         }
 
-    if (flags != 0)
+    if (flags != (CGEventFlags)NULL)
         CGEventSetFlags(d, flags);
     CGEventPostToPSN(&LRProcessNumber, d);
     CFRelease(d);
@@ -425,10 +463,13 @@ void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
     // search Lightroom
     ProcessSerialNumber LRProcessNumber;
     ProcessSerialNumber psn = { 0, 0 };
-    CGEventRef u = CGEventCreateKeyboardEvent(NULL, key.getKeyCode(), false);
+    CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+    CGEventRef u = CGEventCreateKeyboardEvent(source, key.getKeyCode(), false);
     ModifierKeys mk = key.getModifiers();
-    CGEventFlags flags;
-    flags = (mk.isCommandDown() ? kCGEventFlagMaskCommand : 0) | (mk.isAltDown() ? kCGEventFlagMaskAlternate : 0) | (mk.isShiftDown() ? kCGEventFlagMaskShift : 0)
+    CGEventFlags flags = (CGEventFlags)NULL;
+    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
+    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
+    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
 
         while (noErr == GetNextProcess(&psn))
         {
@@ -440,7 +481,7 @@ void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
             }
         }
 
-    if (flags != 0)
+    if (flags != (CGEventFlags)NULL)
         CGEventSetFlags(u, flags);
     CGEventPostToPSN(&LRProcessNumber, u);
     CFRelease(u);
