@@ -28,8 +28,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#include <ApplicationServices/ApplicationsServices.h>
-
 #endif
 // define the port used to 
 #define LR_OUT_PORT 58763 
@@ -325,35 +323,21 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
         SendInput(1, &ip, sizeof(INPUT));
     }
 #else
-    // search Lightroom
-    ProcessSerialNumber LRProcessNumber;
-    ProcessSerialNumber psn = { 0, 0 };
     ModifierKeys mk = key.getModifiers();
     CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d = CGEventCreateKeyboardEvent(source, key.getKeyCode(), true);
     CGEventRef u = CGEventCreateKeyboardEvent(source, key.getKeyCode(), false);
-    CGEventFlags flags = (CGEventFlags)NULL;
+    uint64_t flags = UINT64_C(0);
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
-
-        while (noErr == GetNextProcess(&psn))
-        {
-            CFStringRef processName;
-            if (noErr == CopyProcessName(&psn, &processName))
-            {
-                string w = MYCFStringCopyUTF8String(processName);
-                if (w == "Lightroom") LRProcessNumber = psn;
-            }
-        }
-
-    if (flags != (CGEventFlags)NULL)
+    if (flags != UINT64_C(0))
     {
         CGEventSetFlags(d, flags);
         CGEventSetFlags(u, flags);
     }
-    CGEventPostToPSN(&LRProcessNumber, d);
-    CGEventPostToPSN(&LRProcessNumber, u);
+    CGEventPost(kCGHIDEventTap, d);
+    CGEventPost(kCGHIDEventTap, u);
     CFRelease(d);
     CFRelease(u);
 #endif
@@ -395,30 +379,16 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
     ip.ki.dwFlags = 0; // 0 for key press
     SendInput(1, &ip, sizeof(INPUT));
 #else
-    // search Lightroom
-    ProcessSerialNumber LRProcessNumber;
-    ProcessSerialNumber psn = { 0, 0 };
+    ModifierKeys mk = key.getModifiers();
     CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d = CGEventCreateKeyboardEvent(source, key.getKeyCode(), true);
-    ModifierKeys mk = key.getModifiers();
-    CGEventFlags flags = (CGEventFlags)NULL;
+    uint64_t flags = UINT64_C(0);
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
-
-        while (noErr == GetNextProcess(&psn))
-        {
-            CFStringRef processName;
-            if (noErr == CopyProcessName(&psn, &processName))
-            {
-                string w = MYCFStringCopyUTF8String(processName);
-                if (w == "Lightroom") LRProcessNumber = psn;
-            }
-        }
-
-    if (flags != (CGEventFlags)NULL)
+    if (flags != UINT64_C(0))
         CGEventSetFlags(d, flags);
-    CGEventPostToPSN(&LRProcessNumber, d);
+    CGEventPost(kCGHIDEventTap, d);
     CFRelease(d);
 #endif
 }
@@ -460,30 +430,16 @@ void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
         SendInput(1, &ip, sizeof(INPUT));
     }
 #else
-    // search Lightroom
-    ProcessSerialNumber LRProcessNumber;
-    ProcessSerialNumber psn = { 0, 0 };
+    ModifierKeys mk = key.getModifiers();
     CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef u = CGEventCreateKeyboardEvent(source, key.getKeyCode(), false);
-    ModifierKeys mk = key.getModifiers();
-    CGEventFlags flags = (CGEventFlags)NULL;
+    uint64_t flags = UINT64_C(0);
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
-
-        while (noErr == GetNextProcess(&psn))
-        {
-            CFStringRef processName;
-            if (noErr == CopyProcessName(&psn, &processName))
-            {
-                string w = MYCFStringCopyUTF8String(processName);
-                if (w == "Lightroom") LRProcessNumber = psn;
-            }
-        }
-
-    if (flags != (CGEventFlags)NULL)
+    if (flags != UINT64_C(0))
         CGEventSetFlags(u, flags);
-    CGEventPostToPSN(&LRProcessNumber, u);
+    CGEventPost(kCGHIDEventTap, u);
     CFRelease(u);
 #endif
 }
