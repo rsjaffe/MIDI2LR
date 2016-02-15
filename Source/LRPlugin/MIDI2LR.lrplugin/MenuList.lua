@@ -2091,7 +2091,7 @@
   },
   {
     "KPSelectActive",
-    "Select Active Photo",
+    "Select Only Active Photo",
     "Miscellaneous",
     true
   },
@@ -2156,26 +2156,62 @@
     true
   },
   {
+    "KPAddToQuickCollection",
+    "Add To Quick Collection",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPAddToQuickCollectionAndNext",
+    "Add to Quick Collection/Next",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPShowQuickCollection",
+    "Show Quick Collection",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPSaveQuickCollection",
+    "Save Quick Collection...",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPClearQuickCollection",
+    "Clear Quick Collection",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPTargetQuickCollection",
+    "Target Quick Collection",
+    "Miscellaneous",
+    true
+  },
+  {
     "KPGroupIntoStack",
-    "Group Into Stack",
+    "Stack Photos",
     "Miscellaneous",
     true
   },
   {
     "KPUnstack",
-    "Unstack",
+    "Unstack Photos",
     "Miscellaneous",
     true
   },
   {
     "KPExpandStack",
-    "Collapse/Expand Stack",
+    "Toggle Stack",
     "Miscellaneous",
     true
   },
   {
     "KPToTopStack",
-    "Move to Top of Stack",
+    "Move to Stack Top",
     "Miscellaneous",
     true
   },
@@ -2204,6 +2240,30 @@
     true
   },
   {
+    "KPDelete",
+    "Delete",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPDeleteRej",
+    "Delete Rejected",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPRemoveFromCat",
+    "Remove from Catalog",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPTrash",
+    "Trash Photo",
+    "Miscellaneous",
+    true
+  },
+  {
     "KPPasteFromPrevious",
     "Paste From Previous",
     "Miscellaneous",
@@ -2222,26 +2282,56 @@
     true
   },
   {
+    "KPClipping",
+    "Show Clipping",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPIncreaseSize",
+    "Increase Size",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPDecreaseSize",
+    "Decrease Size",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPIncreaseFeather",
+    "Increase Feathering",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPDecreaseFeather",
+    "Decrease Feathering",
+    "Miscellaneous",
+    true
+  },
+  {
     "KPMergeHDR",
-    "Merge HDR",
+    "HDR...",
     "Miscellaneous",
     true
   },
   {
     "KPMergeHDRnoDlg",
-    "Merge HDR no Dialog",
+    "HDR",
     "Miscellaneous",
     true
   },
   {
     "KPMergePano",
-    "Merge Panorama",
+    "Panorama...",
     "Miscellaneous",
     true
   },
   {
     "KPMergePanonoDlg",
-    "Merge Panorama no Dialog",
+    "Panorama",
     "Miscellaneous",
     true
   },

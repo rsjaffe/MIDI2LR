@@ -87,7 +87,7 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
 
 local DataBase = {
   {"ProcessVersion",'basicTone',true,false,false,true,false,LOC("$$$/AgDevelop/Menu/ProcessVersion=Process Version")},
-  {"WhiteBalance",'basicTone',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/WhiteBalance=White Balance")},
+  {"WhiteBalance",'basicTone',true,false,false,true,false,whiteBalance},
   {"WhiteBalanceAs_Shot",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/AsShot=As Shot"),
     basicTone,"Use Temperature and Tint as determined by camera. *button*",'adjustPanel'},
   {"WhiteBalanceAuto",false,false,true,false,true,true,
@@ -1274,6 +1274,11 @@ local DataBase = {
     effects,
     "Cycles through: **Highlight Priority** Enables highlight recovery but can lead to color shifts in darkened areas of a photo. Suitable for photos with bright image areas such as clipped specular highlights. **Color Priority** Minimizes color shifts in darkened areas of a photo but cannot perform highlight recovery. **Paint Overlay** Mixes the cropped image values with black or white pixels. Can result in a flat appearance.",
     'effectsPanel'},
+  --[[ eventually replace with
+  "$$$/AgCameraRawController/PostCropVignetteStyle/Exposure1=Highlight Priority"
+  "$$$/AgCameraRawController/PostCropVignetteStyle/Exposure2=Color Priority"
+  "$$$/AgCameraRawController/PostCropVignetteStyle/PaintOverlay=Paint Overlay"
+  --]]
   {"PostCropVignetteHighlightContrast",
     'effectsPanel',true,true,true,false,false,
     LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteHighlightContrast=Post Crop Vignette Highlight Contrast"),
@@ -1652,7 +1657,7 @@ local DataBase = {
     false,false,true,false,true,false,
     "Paste Selected Settings",
     photoActions,
-    "Pastes only those settings checked in the **Optionsâ‡¢Paste Selections** dialog. *button*"},
+    "Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},
   {"Preset_1",false,false,true,false,true,false,developPreset.." 1",developPresets,""},
   {"Preset_2",false,false,true,false,true,false,developPreset.." 2",developPresets,""},
   {"Preset_3",false,false,true,false,true,false,developPreset.." 3",developPresets,""},
@@ -1988,7 +1993,7 @@ local DataBase = {
   {'KPShowQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ShowQuickCollection=Show Quick Collection"):gsub("&",""),miscellaneous, 'Show quick collection (control/command b). *button*','',true,'ctrl + b','command + b'},
   {'KPSaveQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/SaveQuickCollection=Save Quick Collection..."):gsub("&",""),miscellaneous, 'Save quick collection (control/command alt/option b). *button*','',true,'ctrl + alt + b','command + option + b'},
   {'KPClearQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ClearQuickCollection=Clear Quick Collection"):gsub("&",""),miscellaneous, 'Clear quick collection (control/command shift b). *button*','',true,'ctrl + shift + b','command + shift + b'},
-  {'KPTargetQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/TargetQuickCollection=Target Quick Collection")gsub("&",""),miscellaneous, 'Set quick collection as the target collection (control/command alt/option shift b). *button*','',true,'ctrl + alt + shift + b','command + option + shift + b'},
+  {'KPTargetQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/TargetQuickCollection=Target Quick Collection"):gsub("&",""),miscellaneous, 'Set quick collection as the target collection (control/command alt/option shift b). *button*','',true,'ctrl + alt + shift + b','command + option + shift + b'},
 
   --library: stacking
   {'KPGroupIntoStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/StackImages=Stack Photos"),miscellaneous,'Group into stack (control/command g). *button*','',true,'ctrl + g','command + g'},
@@ -2011,7 +2016,7 @@ local DataBase = {
   --develop: auto
   {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Auto tone (control/command u). *button*','',true,'ctrl + u','command + u'},
   --develop: clipping indicators
-  {'KPClipping', false,false,true,false,true,false,'Show Clipping',miscellaneous, 'Show clipping (j). *button*','',true,'j','j'},
+  {'KPClipping', false,false,true,false,true,false,LOC("$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show Clipping"),miscellaneous, 'Show clipping (j). *button*','',true,'j','j'},
   --develop: spot and brush
   {'KPIncreaseSize', false,false,true,false,true,false,'Increase Size',miscellaneous, 'Increase Spot or Brush size (]). *button*','',true,']',']'},
   {'KPDecreaseSize', false,false,true,false,true,false,'Decrease Size',miscellaneous, 'Decrease Spot or Brush size ([). *button*','',true,'[','['},
