@@ -67,6 +67,7 @@ public:
 		    mainWindow->Init(&m_commandMap, &m_lr_IPC_IN, &m_lr_IPC_OUT, &m_midiProcessor, &m_profileManager, &m_settingsManager, &m_midiSender);
 			
 		    // Check for latest version
+            _versionChecker.Init(&m_settingsManager);
 		    _versionChecker.startThread();
 		}
 		else

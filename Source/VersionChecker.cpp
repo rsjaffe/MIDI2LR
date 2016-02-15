@@ -26,13 +26,23 @@ VersionChecker::VersionChecker() : Thread("VersionChecker")
 
 }
 
+void VersionChecker::Init(SettingsManager *settingsManager)
+{
+    m_settingsManager = settingsManager;
+}
+
 void VersionChecker::run()
 {
 	URL versionURL("http://rsjaffe.github.io/MIDI2LR/version.xml");
 	ScopedPointer<XmlElement> versionElem = versionURL.readEntireXmlStream();
-	if (versionElem != nullptr && (versionElem->getIntAttribute("latest") > ProjectInfo::versionNumber))
+    int lastchecked = 0;
+    if (m_settingsManager)
+        lastchecked = m_settingsManager->getLastVersionFound();
+	if (versionElem != nullptr && (versionElem->getIntAttribute("latest") > ProjectInfo::versionNumber) && (versionElem->getIntAttribute("latest") != lastchecked))
 	{
 		_newVersion = versionElem->getIntAttribute("latest");
+        if (m_settingsManager)
+            m_settingsManager->setLastVersionFound(_newVersion);
 		triggerAsyncUpdate();
 	}
 }
