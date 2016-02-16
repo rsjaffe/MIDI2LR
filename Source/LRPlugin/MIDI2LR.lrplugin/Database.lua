@@ -2030,7 +2030,7 @@ local DataBase = {
 
   --edit in
   {'KPEditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),miscellaneous, 'Edit in Photoshop (control/command e). *button*','',true,'ctrl + e','command + e'},
-  {'KPEditInOther', false,false,true,false,true,false,'Edit in Other',miscellaneous, 'Edit in Other Application','',true,'Edit in Other Application (control/command alt/option e). *button*','ctrl + alt + e','command + option + e'},
+  {'KPEditInOther', false,false,true,false,true,false,'Edit in Other',miscellaneous, 'Edit in Other Application (control/command alt/option e). *button*','',true,'ctrl + alt + e','command + option + e'},
 
   {"Loupe",
     false,false,true,false,true,false,
@@ -2405,6 +2405,10 @@ local function RunTests()
     if (v[12]==true and (type(v[13])~='string' or type(v[14])~='string')) then
       retval = retval .. v[1] .. " is marked as a key but is missing 1 or 2 keycodes.\n"
     end
+    if (v[15]~= nil) then
+      retval = retval .. v[1] .. " has too many parameters.\n"
+    end
+    
 
   end
   return retval
