@@ -333,8 +333,8 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
     if (flags != UINT64_C(0))
     {
-        CGEventSetFlags(d, flags);
-        CGEventSetFlags(u, flags);
+        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
@@ -387,7 +387,7 @@ void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
     if (flags != UINT64_C(0))
-        CGEventSetFlags(d, flags);
+        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
     CGEventPost(kCGHIDEventTap, d);
     CFRelease(d);
 #endif
@@ -438,7 +438,7 @@ void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
     if (flags != UINT64_C(0))
-        CGEventSetFlags(u, flags);
+        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     CGEventPost(kCGHIDEventTap, u);
     CFRelease(u);
 #endif
