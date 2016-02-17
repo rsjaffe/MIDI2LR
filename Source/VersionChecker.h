@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define VERSIONCHECKER_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SettingsManager.h"
 
 // checks to see if we are running the latest version or not
 class VersionChecker : public Thread,
@@ -31,6 +32,7 @@ class VersionChecker : public Thread,
 public:
 	VersionChecker();
 
+    void Init(SettingsManager *profileManager);
 	// Thread interface
 	virtual void run() override;
 
@@ -40,6 +42,7 @@ public:
 private:
 	int _newVersion;
 	ScopedPointer<DialogWindow> _dialog;
+    SettingsManager *m_settingsManager;
 };
 
 

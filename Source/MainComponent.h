@@ -95,7 +95,7 @@ private:
     Label _profileNameLabel;
 
     ScopedPointer<DialogWindow> _settingsDialog;
-    SystemTrayIconComponent _systemTrayComponent;
+//  SystemTrayIconComponent _systemTrayComponent;
 
     String _lastCommand;
     int _rowToSelect;
