@@ -1292,8 +1292,26 @@
     true
   },
   {
+    "Profile_Camera_Darker_Skin_Tone",
+    "Camera Darker Skin Tone",
+    "Calibration",
+    true
+  },
+  {
     "Profile_Camera_Deep",
     "Camera Deep",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Faithful",
+    "Camera Faithful",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Flat",
+    "Camera Flat",
     "Calibration",
     true
   },
@@ -1310,6 +1328,36 @@
     true
   },
   {
+    "Profile_Camera_Lighter_Skin_Tone",
+    "Camera Lighter Skin Tone",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Monochrome",
+    "Camera Monochrome",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Monotone",
+    "Camera Monotone",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Muted",
+    "Camera Muted",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Natural",
+    "Camera Natural",
+    "Calibration",
+    true
+  },
+  {
     "Profile_Camera_Neutral",
     "Camera Neutral",
     "Calibration",
@@ -1322,6 +1370,12 @@
     true
   },
   {
+    "Profile_Camera_Positive_Film",
+    "Camera Positive Film",
+    "Calibration",
+    true
+  },
+  {
     "Profile_Camera_Standard",
     "Camera Standard",
     "Calibration",
@@ -1330,6 +1384,24 @@
   {
     "Profile_Camera_Vivid",
     "Camera Vivid",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Vivid_Blue",
+    "Camera Vivid Blue",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Vivid_Green",
+    "Camera Vivid Green",
+    "Calibration",
+    true
+  },
+  {
+    "Profile_Camera_Vivid_Red",
+    "Camera Vivid Red",
     "Calibration",
     true
   },
@@ -2272,6 +2344,12 @@
   {
     "KPMatchExposures",
     "Match Exposures",
+    "Miscellaneous",
+    true
+  },
+  {
+    "KPBeforeAfter",
+    "Before/After",
     "Miscellaneous",
     true
   },

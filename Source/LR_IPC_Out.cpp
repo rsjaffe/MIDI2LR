@@ -72,7 +72,8 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
     { "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
     { "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
-    { "KPAutoTone", KeyPress::createFromDescription("ctrl + u") },
+    { "KPBeforeAfter", KeyPress::createFromDescription("\\")},
+    {"KPAutoTone", KeyPress::createFromDescription("ctrl + u")},
     { "KPClipping", KeyPress::createFromDescription("j") },
     { "KPIncreaseSize", KeyPress::createFromDescription("]") },
     { "KPDecreaseSize", KeyPress::createFromDescription("[") },
@@ -83,7 +84,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPMergePano", KeyPress::createFromDescription("ctrl + m") },
     { "KPMergePanonoDlg", KeyPress::createFromDescription("ctrl + shift + m") },
     { "KPEditInPhotoshop", KeyPress::createFromDescription("ctrl + e") },
-    { "KPEditInOther", KeyPress::createFromDescription("Edit in Other Application (control/command alt/option e). *button*") },
+    { "KPEditInOther", KeyPress::createFromDescription("ctrl + alt + e") },
 #else
     { "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
     { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
@@ -123,7 +124,8 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPTrash", KeyPress::createFromDescription("command + option + shift + delete") },
     { "KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v") },
     { "KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m") },
-    { "KPAutoTone", KeyPress::createFromDescription("command + u") },
+    { "KPBeforeAfter", KeyPress::createFromDescription("\\")},
+    {"KPAutoTone", KeyPress::createFromDescription("command + u")},
     { "KPClipping", KeyPress::createFromDescription("j") },
     { "KPIncreaseSize", KeyPress::createFromDescription("]") },
     { "KPDecreaseSize", KeyPress::createFromDescription("[") },
@@ -134,7 +136,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPMergePano", KeyPress::createFromDescription("command + m") },
     { "KPMergePanonoDlg", KeyPress::createFromDescription("command + shift + m") },
     { "KPEditInPhotoshop", KeyPress::createFromDescription("command + e") },
-    { "KPEditInOther", KeyPress::createFromDescription("ctrl + alt + e") },
+    { "KPEditInOther", KeyPress::createFromDescription("command + option + e") },
 #endif
 };
 

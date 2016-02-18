@@ -915,11 +915,11 @@
   },
   BlueHue = {
     "Blue Hue Calibration",
-    251
+    263
   },
   BlueSaturation = {
     "Blue Saturation Calibration",
-    252
+    264
   },
   Brightness = {
     "Brightness",
@@ -947,23 +947,23 @@
   },
   CropAngle = {
     "Crop Angle",
-    361
+    373
   },
   CropBottom = {
     "Crop - Bottom",
-    362
+    374
   },
   CropLeft = {
     "Crop - Left",
-    363
+    375
   },
   CropRight = {
     "Crop - Right",
-    364
+    376
   },
   CropTop = {
     "Crop - Top",
-    365
+    377
   },
   DefringeGreenAmount = {
     "Defringe Green Amount",
@@ -1043,11 +1043,11 @@
   },
   GreenHue = {
     "Green Hue Calibration",
-    249
+    261
   },
   GreenSaturation = {
     "Green Saturation Calibration",
-    250
+    262
   },
   Highlights = {
     "Highlights (Highlight Recovery in PV2003 and PV2010)",
@@ -1219,11 +1219,11 @@
   },
   RedHue = {
     "Red Hue Calibration",
-    247
+    259
   },
   RedSaturation = {
     "Red Saturation Calibration",
-    248
+    260
   },
   Saturation = {
     "Saturation",
@@ -1263,7 +1263,7 @@
   },
   ShadowTint = {
     "Shadow Tint Calibration",
-    246
+    258
   },
   Shadows = {
     "Shadows (Fill Light in PV2003 and PV2010)",
@@ -1331,71 +1331,71 @@
   },
   local_Blacks2012 = {
     "Local Adjustments Blacks (PV2012)",
-    317
+    329
   },
   local_Clarity = {
     "Local Adjustments Clarity (PV2010 and PV2012)",
-    318
+    330
   },
   local_Contrast = {
     "Local Adjustments Contrast (PV2010 and PV2012)",
-    313
+    325
   },
   local_Defringe = {
     "Local Adjustments Defringe (PV2012)",
-    324
+    336
   },
   local_Dehaze = {
     "Local Adjustments Dehaze (PV2012)",
-    319
+    331
   },
   local_Exposure = {
     "Local Adjustments Exposure (PV2010 and PV2012)",
-    312
+    324
   },
   local_Highlights = {
     "Local Adjustments Highlights (PV2012)",
-    314
+    326
   },
   local_LuminanceNoise = {
     "Local Adjustments Luminence Noise Reduction (PV2012)",
-    322
+    334
   },
   local_Moire = {
     "Local Adjustments Moire (PV2012)",
-    323
+    335
   },
   local_Saturation = {
     "Local Adjustments Saturation (PV2010 and PV2012)",
-    320
+    332
   },
   local_Shadows = {
     "Local Adjustments Shadows (PV2012)",
-    315
+    327
   },
   local_Sharpness = {
     "Local Adjustments Sharpness (PV2010 and PV2012)",
-    321
+    333
   },
   local_Temperature = {
     "Local Adjustments Temp. (PV2012)",
-    310
+    322
   },
   local_Tint = {
     "Local Adjustments Tint (PV2012)",
-    311
+    323
   },
   local_ToningLuminance = {
     "Local Toning Luminance (PV2010)",
-    325
+    337
   },
   local_Whites2012 = {
     "Local Adjustments Whites (PV2012)",
-    316
+    328
   },
   straightenAngle = {
     "Straighten Angle",
-    360
+    372
   }
 }
   local SendToMidi = {
@@ -1580,6 +1580,7 @@
   KPAddToQuickCollection = "",
   KPAddToQuickCollectionAndNext = "",
   KPAutoTone = "",
+  KPBeforeAfter = "",
   KPClearQuickCollection = "",
   KPClipping = "",
   KPCycleLightsOut = "",
@@ -1664,13 +1665,25 @@
   PostCropVignetteStyle = "effectsPanel",
   Profile_Adobe_Standard = "calibratePanel",
   Profile_Camera_Clear = "calibratePanel",
+  Profile_Camera_Darker_Skin_Tone = "calibratePanel",
   Profile_Camera_Deep = "calibratePanel",
+  Profile_Camera_Faithful = "calibratePanel",
+  Profile_Camera_Flat = "calibratePanel",
   Profile_Camera_Landscape = "calibratePanel",
   Profile_Camera_Light = "calibratePanel",
+  Profile_Camera_Lighter_Skin_Tone = "calibratePanel",
+  Profile_Camera_Monochrome = "calibratePanel",
+  Profile_Camera_Monotone = "calibratePanel",
+  Profile_Camera_Muted = "calibratePanel",
+  Profile_Camera_Natural = "calibratePanel",
   Profile_Camera_Neutral = "calibratePanel",
   Profile_Camera_Portrait = "calibratePanel",
+  Profile_Camera_Positive_Film = "calibratePanel",
   Profile_Camera_Standard = "calibratePanel",
   Profile_Camera_Vivid = "calibratePanel",
+  Profile_Camera_Vivid_Blue = "calibratePanel",
+  Profile_Camera_Vivid_Green = "calibratePanel",
+  Profile_Camera_Vivid_Red = "calibratePanel",
   RedHue = "calibratePanel",
   RedSaturation = "calibratePanel",
   ResetBlacks = "adjustPanel",

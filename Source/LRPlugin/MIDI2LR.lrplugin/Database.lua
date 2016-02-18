@@ -2025,6 +2025,8 @@ local DataBase = {
   --develop: copy paste sync
   {'KPPasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),miscellaneous, 'Paste settings from previous (control/command alt/option v). *button*','',true,'ctrl + alt + v','command + option + v'},
   {'KPMatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),miscellaneous, 'Match exposures (control/command alt/option shift m). *button*','',true,'ctrl + alt + shift + m','command + option + shift + m'},
+  --develop: before/after previews
+  {'KPBeforeAfter', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/BeforeAfter=Before/After"):gsub("&",""),miscellaneous, 'Show before and after (\\). *button*','',true,'\\\\','\\\\'},--need two \\ for C++ so it results in one \
   --develop: auto
   {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Auto tone (control/command u). *button*','',true,'ctrl + u','command + u'},
   --develop: clipping indicators
