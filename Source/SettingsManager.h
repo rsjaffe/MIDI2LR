@@ -38,12 +38,18 @@ public:
 	void setProfileDirectory(const String& profileDirectory);
 	String getProfileDirectory() const;
 
+
+
 	// LRConnectionListener interface
 	virtual void connected() override;
 	virtual void disconnected() override;
 
 	int getAutoHideTime() const;
 	void setAutoHideTime(int newTime);
+
+    void setLastVersionFound(int versionnumber);
+    int getLastVersionFound() const;
+
 	void Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager);
 private:
 

@@ -1,4 +1,4 @@
-  --[[----------------------------------------------------------------------------
+--[[----------------------------------------------------------------------------
 
   ParamList.lua
 
@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with
   MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
   ------------------------------------------------------------------------------]]
-  local SelectivePasteMenu = {
+local SelectivePasteMenu = {
   {
     "ProcessVersion",
     "Process Version"
@@ -584,7 +584,7 @@
     "TrimStart"
   }
 }
-  local SelectivePasteHidden = {
+local SelectivePasteHidden = {
   Clarity2012 = "Clarity",
   Contrast2012 = "Contrast",
   Exposure2012 = "Exposure",
@@ -595,7 +595,7 @@
   ToneCurvePV2012Green = "ToneCurve",
   ToneCurvePV2012Red = "ToneCurve"
 }
-  local SelectivePasteIteration = {
+local SelectivePasteIteration = {
   "ProcessVersion",
   "WhiteBalance",
   "AutoBrightness",
@@ -747,7 +747,7 @@
   "TrimEnd",
   "TrimStart"
 }
-  local SelectivePasteGroups = {
+local SelectivePasteGroups = {
   basicTone = {
     "ProcessVersion",
     "WhiteBalance",
@@ -908,7 +908,7 @@
     "ParametricHighlightSplit"
   }
 }
-  local LimitEligible = {
+local LimitEligible = {
   Blacks = {
     "Blacks",
     29
@@ -1398,7 +1398,7 @@
     372
   }
 }
-  local SendToMidi = {
+local SendToMidi = {
   "Temperature",
   "Tint",
   "Exposure",
@@ -1522,7 +1522,7 @@
   "CropRight",
   "CropTop"
 }
-  local ProfileMap = {
+local ProfileMap = {
   AutoLateralCA = "lensCorrectionsPanel",
   Blacks = "adjustPanel",
   BlueHue = "calibratePanel",
@@ -1533,7 +1533,7 @@
   ColorNoiseReductionDetail = "detailPanel",
   ColorNoiseReductionSmoothness = "detailPanel",
   Contrast = "adjustPanel",
-  ConvertToGrayscale = "tonePanel",
+  ConvertToGrayscale = "mixerPanel",
   CropAngle = "crop",
   CropBottom = "crop",
   CropLeft = "crop",
@@ -1547,10 +1547,10 @@
   DefringePurpleHueLo = "lensCorrectionsPanel",
   Dehaze = "effectsPanel",
   EnableCalibration = "calibratePanel",
-  EnableColorAdjustments = "tonePanel",
+  EnableColorAdjustments = "mixerPanel",
   EnableDetail = "detailPanel",
   EnableEffects = "effectsPanel",
-  EnableGrayscaleMix = "tonePanel",
+  EnableGrayscaleMix = "mixerPanel",
   EnableLensCorrections = "lensCorrectionsPanel",
   EnableSplitToning = "splitToningPanel",
   EnableToneCurve = "tonePanel",
@@ -1558,25 +1558,25 @@
   GrainAmount = "effectsPanel",
   GrainFrequency = "effectsPanel",
   GrainSize = "effectsPanel",
-  GrayMixerAqua = "tonePanel",
-  GrayMixerBlue = "tonePanel",
-  GrayMixerGreen = "tonePanel",
-  GrayMixerMagenta = "tonePanel",
-  GrayMixerOrange = "tonePanel",
-  GrayMixerPurple = "tonePanel",
-  GrayMixerRed = "tonePanel",
-  GrayMixerYellow = "tonePanel",
+  GrayMixerAqua = "mixerPanel",
+  GrayMixerBlue = "mixerPanel",
+  GrayMixerGreen = "mixerPanel",
+  GrayMixerMagenta = "mixerPanel",
+  GrayMixerOrange = "mixerPanel",
+  GrayMixerPurple = "mixerPanel",
+  GrayMixerRed = "mixerPanel",
+  GrayMixerYellow = "mixerPanel",
   GreenHue = "calibratePanel",
   GreenSaturation = "calibratePanel",
   Highlights = "adjustPanel",
-  HueAdjustmentAqua = "tonePanel",
-  HueAdjustmentBlue = "tonePanel",
-  HueAdjustmentGreen = "tonePanel",
-  HueAdjustmentMagenta = "tonePanel",
-  HueAdjustmentOrange = "tonePanel",
-  HueAdjustmentPurple = "tonePanel",
-  HueAdjustmentRed = "tonePanel",
-  HueAdjustmentYellow = "tonePanel",
+  HueAdjustmentAqua = "mixerPanel",
+  HueAdjustmentBlue = "mixerPanel",
+  HueAdjustmentGreen = "mixerPanel",
+  HueAdjustmentMagenta = "mixerPanel",
+  HueAdjustmentOrange = "mixerPanel",
+  HueAdjustmentPurple = "mixerPanel",
+  HueAdjustmentRed = "mixerPanel",
+  HueAdjustmentYellow = "mixerPanel",
   KPAddToQuickCollection = "",
   KPAddToQuickCollectionAndNext = "",
   KPAutoTone = "",
@@ -1634,14 +1634,14 @@
   LensProfileEnable = "lensCorrectionsPanel",
   LensProfileVignettingScale = "lensCorrectionsPanel",
   Loupe = "loupe",
-  LuminanceAdjustmentAqua = "tonePanel",
-  LuminanceAdjustmentBlue = "tonePanel",
-  LuminanceAdjustmentGreen = "tonePanel",
-  LuminanceAdjustmentMagenta = "tonePanel",
-  LuminanceAdjustmentOrange = "tonePanel",
-  LuminanceAdjustmentPurple = "tonePanel",
-  LuminanceAdjustmentRed = "tonePanel",
-  LuminanceAdjustmentYellow = "tonePanel",
+  LuminanceAdjustmentAqua = "mixerPanel",
+  LuminanceAdjustmentBlue = "mixerPanel",
+  LuminanceAdjustmentGreen = "mixerPanel",
+  LuminanceAdjustmentMagenta = "mixerPanel",
+  LuminanceAdjustmentOrange = "mixerPanel",
+  LuminanceAdjustmentPurple = "mixerPanel",
+  LuminanceAdjustmentRed = "mixerPanel",
+  LuminanceAdjustmentYellow = "mixerPanel",
   LuminanceNoiseReductionContrast = "detailPanel",
   LuminanceNoiseReductionDetail = "detailPanel",
   LuminanceSmoothing = "detailPanel",
@@ -1706,37 +1706,37 @@
   ResetGrainAmount = "effectsPanel",
   ResetGrainFrequency = "effectsPanel",
   ResetGrainSize = "effectsPanel",
-  ResetGrayMixerAqua = "tonePanel",
-  ResetGrayMixerBlue = "tonePanel",
-  ResetGrayMixerGreen = "tonePanel",
-  ResetGrayMixerMagenta = "tonePanel",
-  ResetGrayMixerOrange = "tonePanel",
-  ResetGrayMixerPurple = "tonePanel",
-  ResetGrayMixerRed = "tonePanel",
-  ResetGrayMixerYellow = "tonePanel",
+  ResetGrayMixerAqua = "mixerPanel",
+  ResetGrayMixerBlue = "mixerPanel",
+  ResetGrayMixerGreen = "mixerPanel",
+  ResetGrayMixerMagenta = "mixerPanel",
+  ResetGrayMixerOrange = "mixerPanel",
+  ResetGrayMixerPurple = "mixerPanel",
+  ResetGrayMixerRed = "mixerPanel",
+  ResetGrayMixerYellow = "mixerPanel",
   ResetGreenHue = "calibratePanel",
   ResetGreenSaturation = "calibratePanel",
   ResetHighlights = "adjustPanel",
-  ResetHueAdjustmentAqua = "tonePanel",
-  ResetHueAdjustmentBlue = "tonePanel",
-  ResetHueAdjustmentGreen = "tonePanel",
-  ResetHueAdjustmentMagenta = "tonePanel",
-  ResetHueAdjustmentOrange = "tonePanel",
-  ResetHueAdjustmentPurple = "tonePanel",
-  ResetHueAdjustmentRed = "tonePanel",
-  ResetHueAdjustmentYellow = "tonePanel",
+  ResetHueAdjustmentAqua = "mixerPanel",
+  ResetHueAdjustmentBlue = "mixerPanel",
+  ResetHueAdjustmentGreen = "mixerPanel",
+  ResetHueAdjustmentMagenta = "mixerPanel",
+  ResetHueAdjustmentOrange = "mixerPanel",
+  ResetHueAdjustmentPurple = "mixerPanel",
+  ResetHueAdjustmentRed = "mixerPanel",
+  ResetHueAdjustmentYellow = "mixerPanel",
   ResetLensManualDistortionAmount = "lensCorrectionsPanel",
   ResetLensProfileChromaticAberrationScale = "lensCorrectionsPanel",
   ResetLensProfileDistortionScale = "lensCorrectionsPanel",
   ResetLensProfileVignettingScale = "lensCorrectionsPanel",
-  ResetLuminanceAdjustmentAqua = "tonePanel",
-  ResetLuminanceAdjustmentBlue = "tonePanel",
-  ResetLuminanceAdjustmentGreen = "tonePanel",
-  ResetLuminanceAdjustmentMagenta = "tonePanel",
-  ResetLuminanceAdjustmentOrange = "tonePanel",
-  ResetLuminanceAdjustmentPurple = "tonePanel",
-  ResetLuminanceAdjustmentRed = "tonePanel",
-  ResetLuminanceAdjustmentYellow = "tonePanel",
+  ResetLuminanceAdjustmentAqua = "mixerPanel",
+  ResetLuminanceAdjustmentBlue = "mixerPanel",
+  ResetLuminanceAdjustmentGreen = "mixerPanel",
+  ResetLuminanceAdjustmentMagenta = "mixerPanel",
+  ResetLuminanceAdjustmentOrange = "mixerPanel",
+  ResetLuminanceAdjustmentPurple = "mixerPanel",
+  ResetLuminanceAdjustmentRed = "mixerPanel",
+  ResetLuminanceAdjustmentYellow = "mixerPanel",
   ResetLuminanceNoiseReductionContrast = "detailPanel",
   ResetLuminanceNoiseReductionDetail = "detailPanel",
   ResetLuminanceSmoothing = "detailPanel",
@@ -1762,14 +1762,14 @@
   ResetRedHue = "calibratePanel",
   ResetRedSaturation = "calibratePanel",
   ResetSaturation = "adjustPanel",
-  ResetSaturationAdjustmentAqua = "tonePanel",
-  ResetSaturationAdjustmentBlue = "tonePanel",
-  ResetSaturationAdjustmentGreen = "tonePanel",
-  ResetSaturationAdjustmentMagenta = "tonePanel",
-  ResetSaturationAdjustmentOrange = "tonePanel",
-  ResetSaturationAdjustmentPurple = "tonePanel",
-  ResetSaturationAdjustmentRed = "tonePanel",
-  ResetSaturationAdjustmentYellow = "tonePanel",
+  ResetSaturationAdjustmentAqua = "mixerPanel",
+  ResetSaturationAdjustmentBlue = "mixerPanel",
+  ResetSaturationAdjustmentGreen = "mixerPanel",
+  ResetSaturationAdjustmentMagenta = "mixerPanel",
+  ResetSaturationAdjustmentOrange = "mixerPanel",
+  ResetSaturationAdjustmentPurple = "mixerPanel",
+  ResetSaturationAdjustmentRed = "mixerPanel",
+  ResetSaturationAdjustmentYellow = "mixerPanel",
   ResetShadowTint = "calibratePanel",
   ResetShadows = "adjustPanel",
   ResetSharpenDetail = "detailPanel",
@@ -1788,14 +1788,14 @@
   ResetVignetteMidpoint = "lensCorrectionsPanel",
   ResetWhites = "adjustPanel",
   Saturation = "adjustPanel",
-  SaturationAdjustmentAqua = "tonePanel",
-  SaturationAdjustmentBlue = "tonePanel",
-  SaturationAdjustmentGreen = "tonePanel",
-  SaturationAdjustmentMagenta = "tonePanel",
-  SaturationAdjustmentOrange = "tonePanel",
-  SaturationAdjustmentPurple = "tonePanel",
-  SaturationAdjustmentRed = "tonePanel",
-  SaturationAdjustmentYellow = "tonePanel",
+  SaturationAdjustmentAqua = "mixerPanel",
+  SaturationAdjustmentBlue = "mixerPanel",
+  SaturationAdjustmentGreen = "mixerPanel",
+  SaturationAdjustmentMagenta = "mixerPanel",
+  SaturationAdjustmentOrange = "mixerPanel",
+  SaturationAdjustmentPurple = "mixerPanel",
+  SaturationAdjustmentRed = "mixerPanel",
+  SaturationAdjustmentYellow = "mixerPanel",
   ShadowTint = "calibratePanel",
   Shadows = "adjustPanel",
   SharpenDetail = "detailPanel",
@@ -1827,12 +1827,12 @@
   WhiteBalanceTungsten = "adjustPanel",
   Whites = "adjustPanel"
 }
-  return {
-    SelectivePasteMenu = SelectivePasteMenu,
-    SelectivePasteHidden = SelectivePasteHidden,
-    SelectivePasteIteration = SelectivePasteIteration,
-    SelectivePasteGroups = SelectivePasteGroups,
-    LimitEligible = LimitEligible,
-    SendToMidi = SendToMidi,
-    ProfileMap = ProfileMap,
-    }
+return {
+  SelectivePasteMenu = SelectivePasteMenu,
+  SelectivePasteHidden = SelectivePasteHidden,
+  SelectivePasteIteration = SelectivePasteIteration,
+  SelectivePasteGroups = SelectivePasteGroups,
+  LimitEligible = LimitEligible,
+  SendToMidi = SendToMidi,
+  ProfileMap = ProfileMap,
+}

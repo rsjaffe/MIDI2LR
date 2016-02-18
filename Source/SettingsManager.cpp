@@ -103,6 +103,17 @@ void SettingsManager::setAutoHideTime(int newTime)
 
 }
 
+int SettingsManager::getLastVersionFound() const
+{
+    return _propertiesFile->getIntValue("LastVersionFound", 0);
+}
+
+void SettingsManager::setLastVersionFound(int newversion)
+{
+    _propertiesFile->setValue("LastVersionFound", newversion);
+    _propertiesFile->saveIfNeeded();
+}
+
 void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
 {
 	m_lr_IPC_OUT = lr_IPC_OUT;
