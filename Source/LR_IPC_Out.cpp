@@ -324,8 +324,10 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
 #else
     ModifierKeys mk = key.getModifiers();
     CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-    CGEventRef d = CGEventCreateKeyboardEvent(source, key.getKeyCode(), true);
-    CGEventRef u = CGEventCreateKeyboardEvent(source, key.getKeyCode(), false);
+    CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
+    CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
+    CGEventKeyboardSetUnicodeString(d, 1, &key.getKeyCode());
+    CGEventKeyboardSetUnicodeString(u, 1, &key.getKeyCode());
     uint64_t flags = UINT64_C(0);
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
@@ -338,107 +340,6 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
     CFRelease(d);
-    CFRelease(u);
-#endif
-}
-
-void LR_IPC_OUT::handleShortCutKeyDown(KeyPress key)
-{
-#ifdef _WIN32
-    // input event.
-    INPUT ip;
-    ModifierKeys mk = key.getModifiers();
-    HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
-    if (hLRWnd)
-        ::SetForegroundWindow(hLRWnd);
-    // Set up a generic keyboard event.
-    ip.type = INPUT_KEYBOARD;
-    ip.ki.wScan = 0; // hardware scan code for key
-    ip.ki.time = 0;
-    ip.ki.dwExtraInfo = 0;
-    if (mk.isCtrlDown())
-    {
-        ip.ki.wVk = VK_CONTROL;
-        ip.ki.dwFlags = 0;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isShiftDown())
-    {
-        ip.ki.wVk = VK_SHIFT;
-        ip.ki.dwFlags = 0;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isAltDown())
-    {
-        ip.ki.wVk = VK_MENU;
-        ip.ki.dwFlags = 0;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    ip.ki.wVk = (WORD)key.getKeyCode();
-    ip.ki.dwFlags = 0; // 0 for key press
-    SendInput(1, &ip, sizeof(INPUT));
-#else
-    ModifierKeys mk = key.getModifiers();
-    CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-    CGEventRef d = CGEventCreateKeyboardEvent(source, key.getKeyCode(), true);
-    uint64_t flags = UINT64_C(0);
-    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
-    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
-    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0))
-        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-    CGEventPost(kCGHIDEventTap, d);
-    CFRelease(d);
-#endif
-}
-
-void LR_IPC_OUT::handleShortCutKeyUp(KeyPress key)
-{
-#ifdef _WIN32
-    // input event.
-    INPUT ip;
-    ModifierKeys mk = key.getModifiers();
-    HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
-    if (hLRWnd)
-        ::SetForegroundWindow(hLRWnd);
-    // Set up a generic keyboard event.
-    ip.type = INPUT_KEYBOARD;
-    ip.ki.wScan = 0; // hardware scan code for key
-    ip.ki.time = 0;
-    ip.ki.dwExtraInfo = 0;
-    ip.ki.wVk = (WORD)key.getKeyCode();
-    // Release the key
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    SendInput(1, &ip, sizeof(INPUT));
-    if (mk.isCtrlDown())
-    {
-        ip.ki.wVk = VK_CONTROL;
-        ip.ki.dwFlags = KEYEVENTF_KEYUP;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isShiftDown())
-    {
-        ip.ki.wVk = VK_SHIFT;
-        ip.ki.dwFlags = KEYEVENTF_KEYUP;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isAltDown())
-    {
-        ip.ki.wVk = VK_MENU;
-        ip.ki.dwFlags = KEYEVENTF_KEYUP;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-#else
-    ModifierKeys mk = key.getModifiers();
-    CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-    CGEventRef u = CGEventCreateKeyboardEvent(source, key.getKeyCode(), false);
-    uint64_t flags = UINT64_C(0);
-    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
-    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
-    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0))
-        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-    CGEventPost(kCGHIDEventTap, u);
     CFRelease(u);
 #endif
 }
