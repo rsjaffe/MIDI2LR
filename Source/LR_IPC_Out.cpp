@@ -72,7 +72,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
     { "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
     { "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
     { "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
-    { "KPBeforeAfter", KeyPress::createFromDescription("\\")},
+    { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
     {"KPAutoTone", KeyPress::createFromDescription("ctrl + u")},
     { "KPClipping", KeyPress::createFromDescription("j") },
     { "KPIncreaseSize", KeyPress::createFromDescription("]") },
@@ -273,6 +273,8 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     // input event.
     INPUT ip;
     ModifierKeys mk = key.getModifiers();
+    HKL languageID = GetKeyboardLayout(0);
+    SHORT vkCodeAndShift = VkKeyScanEx(key.getKeyCode(), languageID);
     HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
     if (hLRWnd)
         ::SetForegroundWindow(hLRWnd);
@@ -281,25 +283,25 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     ip.ki.wScan = 0; // hardware scan code for key
     ip.ki.time = 0;
     ip.ki.dwExtraInfo = 0;
-    if (mk.isCtrlDown())
+    if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
     {
         ip.ki.wVk = VK_CONTROL;
         ip.ki.dwFlags = 0;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    if (mk.isShiftDown())
+    if (mk.isShiftDown() || (vkCodeAndShift & 0x100))
     {
         ip.ki.wVk = VK_SHIFT;
         ip.ki.dwFlags = 0;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    if (mk.isAltDown())
+    if (mk.isAltDown() || (vkCodeAndShift & 0x400))
     {
         ip.ki.wVk = VK_MENU;
         ip.ki.dwFlags = 0;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    ip.ki.wVk = (WORD)key.getKeyCode();
+    ip.ki.wVk = static_cast<WORD>(vkCodeAndShift & 0xFF);
     ip.ki.dwFlags = 0; // 0 for key press
     SendInput(1, &ip, sizeof(INPUT));
     // Release the key
