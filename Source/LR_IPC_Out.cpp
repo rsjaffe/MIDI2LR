@@ -308,19 +308,19 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     Sleep(30); //add 30 msec between press and release
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
-    if (mk.isCtrlDown())
+    if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
     {
         ip.ki.wVk = VK_CONTROL;
         ip.ki.dwFlags = KEYEVENTF_KEYUP;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    if (mk.isShiftDown())
+    if (mk.isShiftDown() || (vkCodeAndShift & 0x100))
     {
         ip.ki.wVk = VK_SHIFT;
         ip.ki.dwFlags = KEYEVENTF_KEYUP;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    if (mk.isAltDown())
+    if (mk.isAltDown() || (vkCodeAndShift & 0x400))
     {
         ip.ki.wVk = VK_MENU;
         ip.ki.dwFlags = KEYEVENTF_KEYUP;
