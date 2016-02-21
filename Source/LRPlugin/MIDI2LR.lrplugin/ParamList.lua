@@ -1,4 +1,4 @@
---[[----------------------------------------------------------------------------
+  --[[----------------------------------------------------------------------------
 
   ParamList.lua
 
@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with
   MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
   ------------------------------------------------------------------------------]]
-local SelectivePasteMenu = {
+  local SelectivePasteMenu = {
   {
     "ProcessVersion",
     "Process Version"
@@ -584,7 +584,7 @@ local SelectivePasteMenu = {
     "TrimStart"
   }
 }
-local SelectivePasteHidden = {
+  local SelectivePasteHidden = {
   Clarity2012 = "Clarity",
   Contrast2012 = "Contrast",
   Exposure2012 = "Exposure",
@@ -595,7 +595,7 @@ local SelectivePasteHidden = {
   ToneCurvePV2012Green = "ToneCurve",
   ToneCurvePV2012Red = "ToneCurve"
 }
-local SelectivePasteIteration = {
+  local SelectivePasteIteration = {
   "ProcessVersion",
   "WhiteBalance",
   "AutoBrightness",
@@ -747,7 +747,7 @@ local SelectivePasteIteration = {
   "TrimEnd",
   "TrimStart"
 }
-local SelectivePasteGroups = {
+  local SelectivePasteGroups = {
   basicTone = {
     "ProcessVersion",
     "WhiteBalance",
@@ -908,7 +908,7 @@ local SelectivePasteGroups = {
     "ParametricHighlightSplit"
   }
 }
-local LimitEligible = {
+  local LimitEligible = {
   Blacks = {
     "Blacks",
     29
@@ -1398,7 +1398,7 @@ local LimitEligible = {
     372
   }
 }
-local SendToMidi = {
+  local SendToMidi = {
   "Temperature",
   "Tint",
   "Exposure",
@@ -1522,7 +1522,7 @@ local SendToMidi = {
   "CropRight",
   "CropTop"
 }
-local ProfileMap = {
+  local ProfileMap = {
   AutoLateralCA = "lensCorrectionsPanel",
   Blacks = "adjustPanel",
   BlueHue = "calibratePanel",
@@ -1827,12 +1827,12 @@ local ProfileMap = {
   WhiteBalanceTungsten = "adjustPanel",
   Whites = "adjustPanel"
 }
-return {
-  SelectivePasteMenu = SelectivePasteMenu,
-  SelectivePasteHidden = SelectivePasteHidden,
-  SelectivePasteIteration = SelectivePasteIteration,
-  SelectivePasteGroups = SelectivePasteGroups,
-  LimitEligible = LimitEligible,
-  SendToMidi = SendToMidi,
-  ProfileMap = ProfileMap,
-}
+  return {
+    SelectivePasteMenu = SelectivePasteMenu,
+    SelectivePasteHidden = SelectivePasteHidden,
+    SelectivePasteIteration = SelectivePasteIteration,
+    SelectivePasteGroups = SelectivePasteGroups,
+    LimitEligible = LimitEligible,
+    SendToMidi = SendToMidi,
+    ProfileMap = ProfileMap,
+    }

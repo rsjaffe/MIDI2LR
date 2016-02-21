@@ -58,7 +58,7 @@ for _,v in ipairs(Database.DataBase) do
     file:write('"'..v[8]..'",\n')
   end
 end
-file:write("\n};\n\nconst std::vector<String> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
+file:write("};\n\nconst std::vector<String> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
 menulocation = ""
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
@@ -69,7 +69,7 @@ for _,v in ipairs(Database.DataBase) do
     file:write('"'..v[1]..'",\n')
   end
 end
-file:write("\n};")
+file:write("};")
 
 file:write("\n\nKey Press Mappings\n\n\nconst std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {\n#ifdef _WIN32\n")
 local macmappings = ''
