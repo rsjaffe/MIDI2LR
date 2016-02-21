@@ -273,17 +273,19 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     // input event.
     INPUT ip;
     ModifierKeys mk = key.getModifiers();
+    // Translate key code to keyboard-dependent scan code
     HKL languageID = GetKeyboardLayout(0);
     SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
+    // Bring Lightroom to foreground if it isn't already there
     HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
     if (hLRWnd)
         ::SetForegroundWindow(hLRWnd);
     // Set up a generic keyboard event.
     ip.type = INPUT_KEYBOARD;
-    ip.ki.wScan = 0; // hardware scan code for key
-    ip.ki.time = 0;
     ip.ki.dwExtraInfo = 0;
-    ip.ki.dwFlags = 0;
+    ip.ki.dwFlags = 0; // 0 for key press
+    ip.ki.time = 0;
+    ip.ki.wScan = 0;
     if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
     {
         ip.ki.wVk = VK_CONTROL;
@@ -299,11 +301,12 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
         ip.ki.wVk = VK_MENU;
         SendInput(1, &ip, sizeof(INPUT));
     }
+    //press the key
     ip.ki.wVk = static_cast<WORD>(vkCodeAndShift & 0xFF);
-    ip.ki.dwFlags = 0; // 0 for key press
     SendInput(1, &ip, sizeof(INPUT));
+    //add 30 msec between press and release
+    Sleep(30); 
     // Release the key
-    Sleep(30); //add 30 msec between press and release
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
     if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
