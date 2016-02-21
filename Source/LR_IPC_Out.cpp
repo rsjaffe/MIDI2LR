@@ -270,17 +270,25 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
 {
 #ifdef _WIN32
-    // input event.
-    INPUT ip;
-    ModifierKeys mk = key.getModifiers();
-    // Translate key code to keyboard-dependent scan code
-    HKL languageID = GetKeyboardLayout(0);
-    SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
+    HKL languageID;
     // Bring Lightroom to foreground if it isn't already there
     HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
     if (hLRWnd)
+    {
         ::SetForegroundWindow(hLRWnd);
-    // Set up a generic keyboard event.
+        // get language that LR is using (if hLrWnd is found)
+        DWORD threadId = GetWindowThreadProcessId(hLRWnd, NULL);
+        languageID = GetKeyboardLayout(threadId);
+    }
+    else
+    {   // use keyboard of MIDI2LR app
+        languageID = GetKeyboardLayout(0);
+    }
+    // Translate key code to keyboard-dependent scan code
+    SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
+    ModifierKeys mk = key.getModifiers();
+    // input event.
+    INPUT ip;
     ip.type = INPUT_KEYBOARD;
     ip.ki.dwExtraInfo = 0;
     ip.ki.dwFlags = 0; // 0 for key press
@@ -338,6 +346,7 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
     if (flags != UINT64_C(0))
     {
+        flags |= CGEventGetFlags(d); //in case KeyCode has associated flag
         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
