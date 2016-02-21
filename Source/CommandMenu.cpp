@@ -28,15 +28,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<unsigned int>::max()),
 TextButton("Unmapped"), m_commandMap(nullptr),
-m_menus({ "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W", "Split Toning",
-    "Detail", "Lens Corrections", "Effects", "Camera Calibration", "Photo Actions", "Develop Presets",
-    "Local Adjustments", "Miscellaneous", "Go to Tool, Module, or Panel", "View Modes", "Profiles", "Next/Prev Profile" }),
+m_menus({ "General", "Library", "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
+    "Split Toning", "Detail", "Lens Corrections", "Effects", "Camera Calibration", "Photo Actions", 
+    "Develop Presets", "Local Adjustments", "Miscellaneous", "Go to Tool, Module, or Panel", "View Modes",
+    "Profiles", "Next/Prev Profile" }),
 
-m_menuEntries({ LRCommandList::AdjustmentStringList,LRCommandList::ToneStringList,LRCommandList::MixerStringList,
-    LRCommandList::ResetMixerStringList,LRCommandList::SplitToningStringList,LRCommandList::DetailStringList,
-    LRCommandList::LensCorrectionStringList,LRCommandList::EffectsStringList,LRCommandList::CalibrateStringList,
-    LRCommandList::SelectionList,LRCommandList::PresetsList,LRCommandList::LocalList,LRCommandList::MiscList,
-    LRCommandList::TMPList,LRCommandList::ViewModesList,LRCommandList::ProfilesList,LRCommandList::NextPrevProfile })
+m_menuEntries({ LRCommandList::General, LRCommandList::Library, LRCommandList::BasicAdjustments, 
+    LRCommandList::ToneCurve, LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning, 
+    LRCommandList::Detail, LRCommandList::LensCorrections, LRCommandList::Effects, LRCommandList::Calibration, 
+    LRCommandList::SelectionList, LRCommandList::DevelopPresets, LRCommandList::LocalAdjustments, LRCommandList::Misc, 
+    LRCommandList::TMPList, LRCommandList::ViewModes, LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile })
+
 {
 
 }

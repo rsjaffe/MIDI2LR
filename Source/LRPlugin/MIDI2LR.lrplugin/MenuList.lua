@@ -20,6 +20,438 @@
   ------------------------------------------------------------------------------]]
   local MenuList = {
   {
+    "ShoVwgrid",
+    "Primary Display Grid",
+    "General",
+    true
+  },
+  {
+    "KPIncreaseGridSize",
+    "Increase Grid Size",
+    "General",
+    true
+  },
+  {
+    "KPDecreaseGridSize",
+    "Decrease Grid Size",
+    "General",
+    true
+  },
+  {
+    "KPShowExtras",
+    "Show Extras",
+    "General",
+    true
+  },
+  {
+    "KPShowBadges",
+    "Show Badges",
+    "General",
+    true
+  },
+  {
+    "KPCycleViewStyle",
+    "Cycle Grid View Style",
+    "General",
+    true
+  },
+  {
+    "ShoVwloupe",
+    "Primary Display Loupe",
+    "General",
+    true
+  },
+  {
+    "ShoVwcompare",
+    "Primary Display Compare",
+    "General",
+    true
+  },
+  {
+    "KPSwapImages",
+    "Swap Images",
+    "General",
+    true
+  },
+  {
+    "ShoVwsurvey",
+    "Primary Display Survey",
+    "General",
+    true
+  },
+  {
+    "ToggleZoomOffOn",
+    "Enable/Disable Zoom",
+    "General",
+    true
+  },
+  {
+    "ZoomInLargeStep",
+    "Zoom In",
+    "General",
+    true
+  },
+  {
+    "ZoomInSmallStep",
+    "Zoom In Some",
+    "General",
+    true
+  },
+  {
+    "ZoomOutSmallStep",
+    "Zoom Out Some",
+    "General",
+    true
+  },
+  {
+    "ZoomOutLargeStep",
+    "Zoom Out",
+    "General",
+    true
+  },
+  {
+    "KPHideToolbar",
+    "Show/Hide Toolbar",
+    "General",
+    true
+  },
+  {
+    "KPHidePanels",
+    "Show/Hide Side Panels",
+    "General",
+    true
+  },
+  {
+    "KPHideAllPanels",
+    "Show/Hide All Panels",
+    "General",
+    true
+  },
+  {
+    "KPSelectAll",
+    "Select All",
+    "General",
+    true
+  },
+  {
+    "KPSelectNone",
+    "Select None",
+    "General",
+    true
+  },
+  {
+    "KPSelectActive",
+    "Select Only Active Photo",
+    "General",
+    true
+  },
+  {
+    "KPDeselectActive",
+    "Deselect Active Photo",
+    "General",
+    true
+  },
+  {
+    "KPSelectFlagged",
+    "Select Flagged Photos",
+    "General",
+    true
+  },
+  {
+    "KPDeselectUnflagged",
+    "Deselect Unflagged Photos",
+    "General",
+    true
+  },
+  {
+    "KPPrevSelected",
+    "Previous Selected Photo",
+    "General",
+    true
+  },
+  {
+    "KPNextSelected",
+    "Next Selected Photo",
+    "General",
+    true
+  },
+  {
+    "KPGoNormalMode",
+    "Go Normal Mode",
+    "General",
+    true
+  },
+  {
+    "KPFullScrHidePanles",
+    "Full Screen Hide Panels",
+    "General",
+    true
+  },
+  {
+    "KPFullScrPreview",
+    "Full Screen Preview",
+    "General",
+    true
+  },
+  {
+    "KPCycleLightsOut",
+    "Cycle Lights Out",
+    "General",
+    true
+  },
+  {
+    "KPGoLightsOutDim",
+    "Go Lights Out Dim",
+    "General",
+    true
+  },
+  {
+    "KPMergeHDR",
+    "HDR...",
+    "General",
+    true
+  },
+  {
+    "KPMergeHDRnoDlg",
+    "HDR",
+    "General",
+    true
+  },
+  {
+    "KPMergePano",
+    "Panorama...",
+    "General",
+    true
+  },
+  {
+    "KPMergePanonoDlg",
+    "Panorama",
+    "General",
+    true
+  },
+  {
+    "KPEditInPhotoshop",
+    "Edit in Photoshop",
+    "General",
+    true
+  },
+  {
+    "KPEditInOther",
+    "Edit in Other",
+    "General",
+    true
+  },
+  {
+    "SwToMlibrary",
+    "Show Library",
+    "Library",
+    true
+  },
+  {
+    "KPAddToQuickCollection",
+    "Add To Quick Collection",
+    "Library",
+    true
+  },
+  {
+    "KPAddToQuickCollectionAndNext",
+    "Add to Quick Collection/Next",
+    "Library",
+    true
+  },
+  {
+    "KPShowQuickCollection",
+    "Show Quick Collection",
+    "Library",
+    true
+  },
+  {
+    "KPSaveQuickCollection",
+    "Save Quick Collection...",
+    "Library",
+    true
+  },
+  {
+    "KPClearQuickCollection",
+    "Clear Quick Collection",
+    "Library",
+    true
+  },
+  {
+    "KPTargetQuickCollection",
+    "Target Quick Collection",
+    "Library",
+    true
+  },
+  {
+    "KPGroupIntoStack",
+    "Stack Photos",
+    "Library",
+    true
+  },
+  {
+    "KPUnstack",
+    "Unstack Photos",
+    "Library",
+    true
+  },
+  {
+    "KPExpandStack",
+    "Toggle Stack",
+    "Library",
+    true
+  },
+  {
+    "KPToTopStack",
+    "Move to Stack Top",
+    "Library",
+    true
+  },
+  {
+    "KPUpInStack",
+    "Move Up in Stack",
+    "Library",
+    true
+  },
+  {
+    "KPDnInStack",
+    "Move Down in Stack",
+    "Library",
+    true
+  },
+  {
+    "Pick",
+    "Set Pick Flag",
+    "Library",
+    true
+  },
+  {
+    "Reject",
+    "Set Rejected Flag",
+    "Library",
+    true
+  },
+  {
+    "RemoveFlag",
+    "Unflagged",
+    "Library",
+    true
+  },
+  {
+    "SetRating0",
+    "0 Stars",
+    "Library",
+    true
+  },
+  {
+    "SetRating1",
+    "1 Star",
+    "Library",
+    true
+  },
+  {
+    "SetRating2",
+    "2 Stars",
+    "Library",
+    true
+  },
+  {
+    "SetRating3",
+    "3 Stars",
+    "Library",
+    true
+  },
+  {
+    "SetRating4",
+    "4 Stars",
+    "Library",
+    true
+  },
+  {
+    "SetRating5",
+    "5 Stars",
+    "Library",
+    true
+  },
+  {
+    "IncreaseRating",
+    "Increase Rating",
+    "Library",
+    true
+  },
+  {
+    "DecreaseRating",
+    "Decrease Rating",
+    "Library",
+    true
+  },
+  {
+    "ToggleBlue",
+    "Label Blue Enable/Disable",
+    "Library",
+    true
+  },
+  {
+    "ToggleGreen",
+    "Label Green Enable/Disable",
+    "Library",
+    true
+  },
+  {
+    "ToggleRed",
+    "Label Red Enable/Disable",
+    "Library",
+    true
+  },
+  {
+    "TogglePurple",
+    "Label Purple Enable/Disable",
+    "Library",
+    true
+  },
+  {
+    "ToggleYellow",
+    "Label Yellow Enable/Disable",
+    "Library",
+    true
+  },
+  {
+    "KPRotateLeft",
+    "Rotate Left",
+    "Library",
+    true
+  },
+  {
+    "KPRotateRight",
+    "Rotate Right",
+    "Library",
+    true
+  },
+  {
+    "KPDelete",
+    "Delete",
+    "Library",
+    true
+  },
+  {
+    "KPDeleteRej",
+    "Delete Rejected",
+    "Library",
+    true
+  },
+  {
+    "KPRemoveFromCat",
+    "Remove from Catalog",
+    "Library",
+    true
+  },
+  {
+    "KPTrash",
+    "Trash Photo",
+    "Library",
+    true
+  },
+  {
     "WhiteBalanceAs_Shot",
     "White Balance As Shot",
     "Basic Tone",
@@ -1490,18 +1922,6 @@
     true
   },
   {
-    "Pick",
-    "Set Pick Flag",
-    "Photo Actions",
-    true
-  },
-  {
-    "Reject",
-    "Set Rejected Flag",
-    "Photo Actions",
-    true
-  },
-  {
     "Next",
     "Next Photo",
     "Photo Actions",
@@ -1528,90 +1948,6 @@
   {
     "VirtualCopy",
     "Create Virtual Copy",
-    "Photo Actions",
-    true
-  },
-  {
-    "RemoveFlag",
-    "Unflagged",
-    "Photo Actions",
-    true
-  },
-  {
-    "IncreaseRating",
-    "Increase Rating",
-    "Photo Actions",
-    true
-  },
-  {
-    "DecreaseRating",
-    "Decrease Rating",
-    "Photo Actions",
-    true
-  },
-  {
-    "SetRating0",
-    "0 Stars",
-    "Photo Actions",
-    true
-  },
-  {
-    "SetRating1",
-    "1 Star",
-    "Photo Actions",
-    true
-  },
-  {
-    "SetRating2",
-    "2 Stars",
-    "Photo Actions",
-    true
-  },
-  {
-    "SetRating3",
-    "3 Stars",
-    "Photo Actions",
-    true
-  },
-  {
-    "SetRating4",
-    "4 Stars",
-    "Photo Actions",
-    true
-  },
-  {
-    "SetRating5",
-    "5 Stars",
-    "Photo Actions",
-    true
-  },
-  {
-    "ToggleBlue",
-    "Label Blue Enable/Disable",
-    "Photo Actions",
-    true
-  },
-  {
-    "ToggleGreen",
-    "Label Green Enable/Disable",
-    "Photo Actions",
-    true
-  },
-  {
-    "ToggleRed",
-    "Label Red Enable/Disable",
-    "Photo Actions",
-    true
-  },
-  {
-    "TogglePurple",
-    "Label Purple Enable/Disable",
-    "Photo Actions",
-    true
-  },
-  {
-    "ToggleYellow",
-    "Label Yellow Enable/Disable",
     "Photo Actions",
     true
   },
@@ -2042,36 +2378,6 @@
     true
   },
   {
-    "ZoomInLargeStep",
-    "Zoom In",
-    "Miscellaneous",
-    true
-  },
-  {
-    "ZoomInSmallStep",
-    "Zoom In Some",
-    "Miscellaneous",
-    true
-  },
-  {
-    "ZoomOutSmallStep",
-    "Zoom Out Some",
-    "Miscellaneous",
-    true
-  },
-  {
-    "ZoomOutLargeStep",
-    "Zoom Out",
-    "Miscellaneous",
-    true
-  },
-  {
-    "ToggleZoomOffOn",
-    "Enable/Disable Zoom",
-    "Miscellaneous",
-    true
-  },
-  {
     "straightenAngle",
     "Straighten Angle",
     "Miscellaneous",
@@ -2116,222 +2422,6 @@
   {
     "ResetstraightenAngle",
     "Reset Straighten Angle",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPIncreaseGridSize",
-    "Increase Grid Size",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDecreaseGridSize",
-    "Decrease Grid Size",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPHideToolbar",
-    "Show/Hide Toolbar",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPHidePanels",
-    "Show/Hide Side Panels",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPHideAllPanels",
-    "Show/Hide All Panels",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPSelectAll",
-    "Select All",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPSelectNone",
-    "Select None",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPSelectActive",
-    "Select Only Active Photo",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDeselectActive",
-    "Deselect Active Photo",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPSelectFlagged",
-    "Select Flagged Photos",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDeselectUnflagged",
-    "Deselect Unflagged Photos",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPPrevSelected",
-    "Previous Selected Photo",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPNextSelected",
-    "Next Selected Photo",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPGoNormalMode",
-    "Go Normal Mode",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPFullScrHidePanles",
-    "Full Screen Hide Panels",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPFullScrPreview",
-    "Full Screen Preview",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPCycleLightsOut",
-    "Cycle Lights Out",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPGoLightsOutDim",
-    "Go Lights Out Dim",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPAddToQuickCollection",
-    "Add To Quick Collection",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPAddToQuickCollectionAndNext",
-    "Add to Quick Collection/Next",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPShowQuickCollection",
-    "Show Quick Collection",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPSaveQuickCollection",
-    "Save Quick Collection...",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPClearQuickCollection",
-    "Clear Quick Collection",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPTargetQuickCollection",
-    "Target Quick Collection",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPGroupIntoStack",
-    "Stack Photos",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPUnstack",
-    "Unstack Photos",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPExpandStack",
-    "Toggle Stack",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPToTopStack",
-    "Move to Stack Top",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPUpInStack",
-    "Move Up in Stack",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDnInStack",
-    "Move Down in Stack",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPRotateLeft",
-    "Rotate Left",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPRotateRight",
-    "Rotate Right",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDelete",
-    "Delete",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDeleteRej",
-    "Delete Rejected",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPRemoveFromCat",
-    "Remove from Catalog",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPTrash",
-    "Trash Photo",
     "Miscellaneous",
     true
   },
@@ -2390,42 +2480,6 @@
     true
   },
   {
-    "KPMergeHDR",
-    "HDR...",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPMergeHDRnoDlg",
-    "HDR",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPMergePano",
-    "Panorama...",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPMergePanonoDlg",
-    "Panorama",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPEditInPhotoshop",
-    "Edit in Photoshop",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPEditInOther",
-    "Edit in Other",
-    "Miscellaneous",
-    true
-  },
-  {
     "Loupe",
     "Show Loupe",
     "Select Tools, Modules and Panels",
@@ -2464,12 +2518,6 @@
   {
     "AdjustmentBrush",
     "Show Brush Adjustments",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "SwToMlibrary",
-    "Show Library",
     "Select Tools, Modules and Panels",
     true
   },
@@ -2555,30 +2603,6 @@
     "RevealPanelCalibrate",
     "Show Calibration",
     "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "ShoVwloupe",
-    "Primary Display Loupe",
-    "View Modes",
-    true
-  },
-  {
-    "ShoVwgrid",
-    "Primary Display Grid",
-    "View Modes",
-    true
-  },
-  {
-    "ShoVwcompare",
-    "Primary Display Compare",
-    "View Modes",
-    true
-  },
-  {
-    "ShoVwsurvey",
-    "Primary Display Survey",
-    "View Modes",
     true
   },
   {

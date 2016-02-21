@@ -23,7 +23,87 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "CommandMap.h"
 
-const std::vector<String> LRCommandList::AdjustmentStringList = {
+const std::vector<String> LRCommandList::General = {
+    "Primary Display Grid",
+    "Increase Grid Size",
+    "Decrease Grid Size",
+    "Show Extras",
+    "Show Badges",
+    "Cycle Grid View Style",
+    "Primary Display Loupe",
+    "Primary Display Compare",
+    "Swap Images",
+    "Primary Display Survey",
+    "Enable/Disable Zoom",
+    "Zoom In",
+    "Zoom In Some",
+    "Zoom Out Some",
+    "Zoom Out",
+    "Show/Hide Toolbar",
+    "Show/Hide Side Panels",
+    "Show/Hide All Panels",
+    "Select All",
+    "Select None",
+    "Select Only Active Photo",
+    "Deselect Active Photo",
+    "Select Flagged Photos",
+    "Deselect Unflagged Photos",
+    "Previous Selected Photo",
+    "Next Selected Photo",
+    "Go Normal Mode",
+    "Full Screen Hide Panels",
+    "Full Screen Preview",
+    "Cycle Lights Out",
+    "Go Lights Out Dim",
+    "HDR...",
+    "HDR",
+    "Panorama...",
+    "Panorama",
+    "Edit in Photoshop",
+    "Edit in Other",
+
+};
+
+const std::vector<String> LRCommandList::Library = {
+    "Show Library",
+    "Add To Quick Collection",
+    "Add to Quick Collection/Next",
+    "Show Quick Collection",
+    "Save Quick Collection...",
+    "Clear Quick Collection",
+    "Target Quick Collection",
+    "Stack Photos",
+    "Unstack Photos",
+    "Toggle Stack",
+    "Move to Stack Top",
+    "Move Up in Stack",
+    "Move Down in Stack",
+    "Set Pick Flag",
+    "Set Rejected Flag",
+    "Unflagged",
+    "0 Stars",
+    "1 Star",
+    "2 Stars",
+    "3 Stars",
+    "4 Stars",
+    "5 Stars",
+    "Increase Rating",
+    "Decrease Rating",
+    "Label Blue Enable/Disable",
+    "Label Green Enable/Disable",
+    "Label Red Enable/Disable",
+    "Label Purple Enable/Disable",
+    "Label Yellow Enable/Disable",
+    "Rotate Left",
+    "Rotate Right",
+    "Delete",
+    "Delete Rejected",
+    "Remove from Catalog",
+    "Trash Photo",
+
+};
+
+const std::vector<String> LRCommandList::BasicAdjustments = {
     "White Balance As Shot",
     "White Balance Auto",
     "White Balance Cloudy",
@@ -58,7 +138,7 @@ const std::vector<String> LRCommandList::AdjustmentStringList = {
 
 };
 
-const std::vector<String> LRCommandList::ToneStringList = {
+const std::vector<String> LRCommandList::ToneCurve = {
     "Enable Tone Curve",
     "Dark Tones",
     "Light Tones",
@@ -77,7 +157,7 @@ const std::vector<String> LRCommandList::ToneStringList = {
 
 };
 
-const std::vector<String> LRCommandList::MixerStringList = {
+const std::vector<String> LRCommandList::Mixer = {
     "Enable Color Adjustments",
     "Saturation Adjustment Red",
     "Saturation Adjustment Orange",
@@ -116,7 +196,7 @@ const std::vector<String> LRCommandList::MixerStringList = {
 
 };
 
-const std::vector<String> LRCommandList::ResetMixerStringList = {
+const std::vector<String> LRCommandList::ResetMixer = {
     "Reset Saturation Adjustment Red",
     "Reset Saturation Adjustment Orange",
     "Reset Saturation Adjustment Yellow",
@@ -152,7 +232,7 @@ const std::vector<String> LRCommandList::ResetMixerStringList = {
 
 };
 
-const std::vector<String> LRCommandList::SplitToningStringList = {
+const std::vector<String> LRCommandList::SplitToning = {
     "Enable Split Toning",
     "Shadow Hue",
     "Shadow Saturation",
@@ -167,7 +247,7 @@ const std::vector<String> LRCommandList::SplitToningStringList = {
 
 };
 
-const std::vector<String> LRCommandList::DetailStringList = {
+const std::vector<String> LRCommandList::Detail = {
     "Enable Detail",
     "Sharpness",
     "Sharpen Radius",
@@ -192,7 +272,7 @@ const std::vector<String> LRCommandList::DetailStringList = {
 
 };
 
-const std::vector<String> LRCommandList::LensCorrectionStringList = {
+const std::vector<String> LRCommandList::LensCorrections = {
     "Enable Lens Corrections",
     "Lens Profile Enable",
     "Remove Chromatic Aberration",
@@ -239,7 +319,7 @@ const std::vector<String> LRCommandList::LensCorrectionStringList = {
 
 };
 
-const std::vector<String> LRCommandList::EffectsStringList = {
+const std::vector<String> LRCommandList::Effects = {
     "Enable Effects",
     "Dehaze Amount",
     "Post Crop Vignette Amount",
@@ -264,7 +344,7 @@ const std::vector<String> LRCommandList::EffectsStringList = {
 
 };
 
-const std::vector<String> LRCommandList::CalibrateStringList = {
+const std::vector<String> LRCommandList::Calibration = {
     "Enable Calibration",
     "Adobe Standard",
     "Camera Clear",
@@ -305,27 +385,11 @@ const std::vector<String> LRCommandList::CalibrateStringList = {
 };
 
 const std::vector<String> LRCommandList::SelectionList = {
-    "Set Pick Flag",
-    "Set Rejected Flag",
     "Next Photo",
     "Previous Photo",
     "Add to Selection Left",
     "Add to Selection Right",
     "Create Virtual Copy",
-    "Unflagged",
-    "Increase Rating",
-    "Decrease Rating",
-    "0 Stars",
-    "1 Star",
-    "2 Stars",
-    "3 Stars",
-    "4 Stars",
-    "5 Stars",
-    "Label Blue Enable/Disable",
-    "Label Green Enable/Disable",
-    "Label Red Enable/Disable",
-    "Label Purple Enable/Disable",
-    "Label Yellow Enable/Disable",
     "Reset Settings",
     "Reset Last Modified",
     "Increase Last Modified",
@@ -338,7 +402,7 @@ const std::vector<String> LRCommandList::SelectionList = {
 
 };
 
-const std::vector<String> LRCommandList::PresetsList = {
+const std::vector<String> LRCommandList::DevelopPresets = {
     "Develop Preset 1",
     "Develop Preset 2",
     "Develop Preset 3",
@@ -362,7 +426,7 @@ const std::vector<String> LRCommandList::PresetsList = {
 
 };
 
-const std::vector<String> LRCommandList::LocalList = {
+const std::vector<String> LRCommandList::LocalAdjustments = {
     "Local Adjustments Temp. (PV2012)",
     "Local Adjustments Tint (PV2012)",
     "Local Adjustments Exposure (PV2010 and PV2012)",
@@ -408,12 +472,7 @@ const std::vector<String> LRCommandList::LocalList = {
 
 };
 
-const std::vector<String> LRCommandList::MiscList = {
-    "Zoom In",
-    "Zoom In Some",
-    "Zoom Out Some",
-    "Zoom Out",
-    "Enable/Disable Zoom",
+const std::vector<String> LRCommandList::Misc = {
     "Straighten Angle",
     "Crop Angle",
     "Crop - Bottom",
@@ -422,42 +481,6 @@ const std::vector<String> LRCommandList::MiscList = {
     "Crop - Top",
     "Reset Crop",
     "Reset Straighten Angle",
-    "Increase Grid Size",
-    "Decrease Grid Size",
-    "Show/Hide Toolbar",
-    "Show/Hide Side Panels",
-    "Show/Hide All Panels",
-    "Select All",
-    "Select None",
-    "Select Only Active Photo",
-    "Deselect Active Photo",
-    "Select Flagged Photos",
-    "Deselect Unflagged Photos",
-    "Previous Selected Photo",
-    "Next Selected Photo",
-    "Go Normal Mode",
-    "Full Screen Hide Panels",
-    "Full Screen Preview",
-    "Cycle Lights Out",
-    "Go Lights Out Dim",
-    "Add To Quick Collection",
-    "Add to Quick Collection/Next",
-    "Show Quick Collection",
-    "Save Quick Collection...",
-    "Clear Quick Collection",
-    "Target Quick Collection",
-    "Stack Photos",
-    "Unstack Photos",
-    "Toggle Stack",
-    "Move to Stack Top",
-    "Move Up in Stack",
-    "Move Down in Stack",
-    "Rotate Left",
-    "Rotate Right",
-    "Delete",
-    "Delete Rejected",
-    "Remove from Catalog",
-    "Trash Photo",
     "Paste From Previous",
     "Match Exposures",
     "Before/After",
@@ -467,12 +490,6 @@ const std::vector<String> LRCommandList::MiscList = {
     "Decrease Size",
     "Increase Feathering",
     "Decrease Feathering",
-    "HDR...",
-    "HDR",
-    "Panorama...",
-    "Panorama",
-    "Edit in Photoshop",
-    "Edit in Other",
 
 };
 
@@ -484,7 +501,6 @@ const std::vector<String> LRCommandList::TMPList = {
     "Show Graduated Filters",
     "Show Radial Filters",
     "Show Brush Adjustments",
-    "Show Library",
     "Show Develop",
     "Show Map",
     "Show Book",
@@ -502,11 +518,7 @@ const std::vector<String> LRCommandList::TMPList = {
 
 };
 
-const std::vector<String> LRCommandList::ViewModesList = {
-    "Primary Display Loupe",
-    "Primary Display Grid",
-    "Primary Display Compare",
-    "Primary Display Survey",
+const std::vector<String> LRCommandList::ViewModes = {
     "Primary Display People",
     "Primary Display Loupe",
     "Primary Display Before/After Left/Right",
@@ -523,7 +535,7 @@ const std::vector<String> LRCommandList::ViewModesList = {
 
 };
 
-const std::vector<String> LRCommandList::ProfilesList = {
+const std::vector<String> LRCommandList::ProgramProfiles = {
     "Profile: 1",
     "Profile: 2",
     "Profile: 3",
@@ -534,11 +546,84 @@ const std::vector<String> LRCommandList::ProfilesList = {
     "Profile: 8",
     "Profile: 9",
     "Profile: 10",
-
 };
 
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
+    /* General */
+    "ShoVwgrid",
+    "KPIncreaseGridSize",
+    "KPDecreaseGridSize",
+    "KPShowExtras",
+    "KPShowBadges",
+    "KPCycleViewStyle",
+    "ShoVwloupe",
+    "ShoVwcompare",
+    "KPSwapImages",
+    "ShoVwsurvey",
+    "ToggleZoomOffOn",
+    "ZoomInLargeStep",
+    "ZoomInSmallStep",
+    "ZoomOutSmallStep",
+    "ZoomOutLargeStep",
+    "KPHideToolbar",
+    "KPHidePanels",
+    "KPHideAllPanels",
+    "KPSelectAll",
+    "KPSelectNone",
+    "KPSelectActive",
+    "KPDeselectActive",
+    "KPSelectFlagged",
+    "KPDeselectUnflagged",
+    "KPPrevSelected",
+    "KPNextSelected",
+    "KPGoNormalMode",
+    "KPFullScrHidePanles",
+    "KPFullScrPreview",
+    "KPCycleLightsOut",
+    "KPGoLightsOutDim",
+    "KPMergeHDR",
+    "KPMergeHDRnoDlg",
+    "KPMergePano",
+    "KPMergePanonoDlg",
+    "KPEditInPhotoshop",
+    "KPEditInOther",
+    /* Library */
+    "SwToMlibrary",
+    "KPAddToQuickCollection",
+    "KPAddToQuickCollectionAndNext",
+    "KPShowQuickCollection",
+    "KPSaveQuickCollection",
+    "KPClearQuickCollection",
+    "KPTargetQuickCollection",
+    "KPGroupIntoStack",
+    "KPUnstack",
+    "KPExpandStack",
+    "KPToTopStack",
+    "KPUpInStack",
+    "KPDnInStack",
+    "Pick",
+    "Reject",
+    "RemoveFlag",
+    "SetRating0",
+    "SetRating1",
+    "SetRating2",
+    "SetRating3",
+    "SetRating4",
+    "SetRating5",
+    "IncreaseRating",
+    "DecreaseRating",
+    "ToggleBlue",
+    "ToggleGreen",
+    "ToggleRed",
+    "TogglePurple",
+    "ToggleYellow",
+    "KPRotateLeft",
+    "KPRotateRight",
+    "KPDelete",
+    "KPDeleteRej",
+    "KPRemoveFromCat",
+    "KPTrash",
     /* Basic Tone */
     "WhiteBalanceAs_Shot",
     "WhiteBalanceAuto",
@@ -794,27 +879,11 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetBlueHue",
     "ResetBlueSaturation",
     /* Photo Actions */
-    "Pick",
-    "Reject",
     "Next",
     "Prev",
     "Select1Left",
     "Select1Right",
     "VirtualCopy",
-    "RemoveFlag",
-    "IncreaseRating",
-    "DecreaseRating",
-    "SetRating0",
-    "SetRating1",
-    "SetRating2",
-    "SetRating3",
-    "SetRating4",
-    "SetRating5",
-    "ToggleBlue",
-    "ToggleGreen",
-    "ToggleRed",
-    "TogglePurple",
-    "ToggleYellow",
     "ResetAll",
     "ResetLast",
     "IncrementLastDevelopParameter",
@@ -889,11 +958,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetRedeye",
     "ResetSpotRem",
     /* Miscellaneous */
-    "ZoomInLargeStep",
-    "ZoomInSmallStep",
-    "ZoomOutSmallStep",
-    "ZoomOutLargeStep",
-    "ToggleZoomOffOn",
     "straightenAngle",
     "CropAngle",
     "CropBottom",
@@ -902,42 +966,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "CropTop",
     "ResetCrop",
     "ResetstraightenAngle",
-    "KPIncreaseGridSize",
-    "KPDecreaseGridSize",
-    "KPHideToolbar",
-    "KPHidePanels",
-    "KPHideAllPanels",
-    "KPSelectAll",
-    "KPSelectNone",
-    "KPSelectActive",
-    "KPDeselectActive",
-    "KPSelectFlagged",
-    "KPDeselectUnflagged",
-    "KPPrevSelected",
-    "KPNextSelected",
-    "KPGoNormalMode",
-    "KPFullScrHidePanles",
-    "KPFullScrPreview",
-    "KPCycleLightsOut",
-    "KPGoLightsOutDim",
-    "KPAddToQuickCollection",
-    "KPAddToQuickCollectionAndNext",
-    "KPShowQuickCollection",
-    "KPSaveQuickCollection",
-    "KPClearQuickCollection",
-    "KPTargetQuickCollection",
-    "KPGroupIntoStack",
-    "KPUnstack",
-    "KPExpandStack",
-    "KPToTopStack",
-    "KPUpInStack",
-    "KPDnInStack",
-    "KPRotateLeft",
-    "KPRotateRight",
-    "KPDelete",
-    "KPDeleteRej",
-    "KPRemoveFromCat",
-    "KPTrash",
     "KPPasteFromPrevious",
     "KPMatchExposures",
     "KPBeforeAfter",
@@ -947,12 +975,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "KPDecreaseSize",
     "KPIncreaseFeather",
     "KPDecreaseFeather",
-    "KPMergeHDR",
-    "KPMergeHDRnoDlg",
-    "KPMergePano",
-    "KPMergePanonoDlg",
-    "KPEditInPhotoshop",
-    "KPEditInOther",
     /* Select Tools, Modules and Panels */
     "Loupe",
     "CropOverlay",
@@ -961,7 +983,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "GraduatedFilter",
     "RadialFilter",
     "AdjustmentBrush",
-    "SwToMlibrary",
     "SwToMdevelop",
     "SwToMmap",
     "SwToMbook",
@@ -977,10 +998,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "RevealPanelEffects",
     "RevealPanelCalibrate",
     /* View Modes */
-    "ShoVwloupe",
-    "ShoVwgrid",
-    "ShoVwcompare",
-    "ShoVwsurvey",
     "ShoVwpeople",
     "ShoVwdevelop_loupe",
     "ShoVwdevelop_before_after_horiz",
@@ -1006,7 +1023,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile9",
     "profile10",
 };
-
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
