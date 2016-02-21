@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef _WIN32
 #include "Windows.h"
 #else
+#import <AppKit/AppKit.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #endif
@@ -350,8 +351,19 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
-    CGEventPost(kCGHIDEventTap, d);
-    CGEventPost(kCGHIDEventTap, u);
+    NSArray<NSRunningApplication *> apps = runningApplicationsWithBundleIdentifier('com.Adobe.Lightroom');
+    if apps[0] != nullptr
+    {
+        ProcessSerialNumber psn = { kNoProcess, kNoProcess };
+        GetProcessForPID(apps[0].processIdentifier, &psn);
+        CGEventPostToPSN(&psn, d);
+        CGEventPostToPSN(&psn, u);
+    }
+    else
+    {
+        CGEventPost(kCGHIDEventTap, d);
+        CGEventPost(kCGHIDEventTap, u);
+    }
     CFRelease(d);
     CFRelease(u);
 #endif
