@@ -326,11 +326,12 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     }
 #else
     ModifierKeys mk = key.getModifiers();
+    UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
     CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
     CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
-    CGEventKeyboardSetUnicodeString(d, 1, &key.getKeyCode());
-    CGEventKeyboardSetUnicodeString(u, 1, &key.getKeyCode());
+    CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
+    CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
     uint64_t flags = UINT64_C(0);
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
