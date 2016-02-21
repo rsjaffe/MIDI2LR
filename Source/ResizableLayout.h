@@ -1,3 +1,4 @@
+#pragma once
 /*******************************************************************************
 "A Collection of Useful C++ Classes for Digital Signal Processing"
 By Vinnie Falco

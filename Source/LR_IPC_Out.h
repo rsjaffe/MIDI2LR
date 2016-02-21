@@ -1,3 +1,4 @@
+#pragma once
 /*
   ==============================================================================
 
@@ -63,6 +64,8 @@ public:
 	virtual void handleMidiCC(int midiChannel, int controller, int value) override;
 	virtual void handleMidiNote(int midiChannel, int note) override;
 
+
+
 	// AsyncUpdater interface
 	virtual void handleAsyncUpdate() override;
 
@@ -70,11 +73,14 @@ public:
 	virtual void timerCallback() override;
 	void Init(CommandMap *mapCommand, MIDIProcessor *midiProcessor);
 private:
-	
+    const static unordered_map<String, KeyPress> KPMappings;
 	CommandMap *m_commandMap;
 	Array<LRConnectionListener *> _listeners;
 	int _valueToSend;
 	String _commandToSend;
+    // Send key commands
+    void handleKPCommand(void);
+    void handleShortCutKeyDownUp(KeyPress key);
 };
 
 

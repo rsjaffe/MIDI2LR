@@ -16,7 +16,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include <unordered_map>
@@ -36,10 +36,10 @@ const std::vector<String> LRCommandList::AdjustmentStringList = {
     "Tint",
     "Exposure",
     "Contrast",
-    "Highlights(Recovery in PV2003 and PV2010)",
+    "Highlights (Highlight Recovery in PV2003 and PV2010)",
     "Brightness",
-    "Shadows(Fill Light in PV2003 and PV2010)",
-    "Whites(no effect in PV2003 and PV2010)",
+    "Shadows (Fill Light in PV2003 and PV2010)",
+    "Whites (no effect in PV2003 and PV2010)",
     "Blacks",
     "Clarity",
     "Vibrance",
@@ -55,6 +55,7 @@ const std::vector<String> LRCommandList::AdjustmentStringList = {
     "Reset Clarity",
     "Reset Vibrance",
     "Reset Saturation",
+
 };
 
 const std::vector<String> LRCommandList::ToneStringList = {
@@ -73,6 +74,7 @@ const std::vector<String> LRCommandList::ToneStringList = {
     "Reset Shadow Split",
     "Reset Midtone Split",
     "Reset Highlight Split",
+
 };
 
 const std::vector<String> LRCommandList::MixerStringList = {
@@ -111,6 +113,7 @@ const std::vector<String> LRCommandList::MixerStringList = {
     "Gray Mixer Blue",
     "Gray Mixer Purple",
     "Gray Mixer Magenta",
+
 };
 
 const std::vector<String> LRCommandList::ResetMixerStringList = {
@@ -146,6 +149,7 @@ const std::vector<String> LRCommandList::ResetMixerStringList = {
     "Reset Gray Mixer Blue",
     "Reset Gray Mixer Purple",
     "Reset Gray Mixer Magenta",
+
 };
 
 const std::vector<String> LRCommandList::SplitToningStringList = {
@@ -185,6 +189,7 @@ const std::vector<String> LRCommandList::DetailStringList = {
     "Reset Color Noise Reduction",
     "Reset Color Noise Reduction Detail",
     "Reset Color Noise Reduction Smoothness",
+
 };
 
 const std::vector<String> LRCommandList::LensCorrectionStringList = {
@@ -231,6 +236,7 @@ const std::vector<String> LRCommandList::LensCorrectionStringList = {
     "Reset Perspective Aspect",
     "Reset Vignette Amount",
     "Reset Vignette Midpoint",
+
 };
 
 const std::vector<String> LRCommandList::EffectsStringList = {
@@ -255,19 +261,32 @@ const std::vector<String> LRCommandList::EffectsStringList = {
     "Reset Grain Amount",
     "Reset Grain Size",
     "Reset Grain Roughness",
+
 };
 
 const std::vector<String> LRCommandList::CalibrateStringList = {
     "Enable Calibration",
     "Adobe Standard",
     "Camera Clear",
+    "Camera Darker Skin Tone",
     "Camera Deep",
+    "Camera Faithful",
+    "Camera Flat",
     "Camera Landscape",
     "Camera Light",
+    "Camera Lighter Skin Tone",
+    "Camera Monochrome",
+    "Camera Monotone",
+    "Camera Muted",
+    "Camera Natural",
     "Camera Neutral",
     "Camera Portrait",
+    "Camera Positive Film",
     "Camera Standard",
     "Camera Vivid",
+    "Camera Vivid Blue",
+    "Camera Vivid Green",
+    "Camera Vivid Red",
     "Shadow Tint Calibration",
     "Red Hue Calibration",
     "Red Saturation Calibration",
@@ -282,6 +301,7 @@ const std::vector<String> LRCommandList::CalibrateStringList = {
     "Reset Green Saturation Calibration",
     "Reset Blue Hue Calibration",
     "Reset Blue Saturation Calibration",
+
 };
 
 const std::vector<String> LRCommandList::SelectionList = {
@@ -315,6 +335,7 @@ const std::vector<String> LRCommandList::SelectionList = {
     "Copy Settings",
     "Paste Settings",
     "Paste Selected Settings",
+
 };
 
 const std::vector<String> LRCommandList::PresetsList = {
@@ -338,40 +359,41 @@ const std::vector<String> LRCommandList::PresetsList = {
     "Develop Preset 18",
     "Develop Preset 19",
     "Develop Preset 20",
+
 };
 
 const std::vector<String> LRCommandList::LocalList = {
-    "Local Temperature (PV2012)",
-    "Local Tint (PV2012)",
-    "Local Exposure (PV2010 and PV2012)",
-    "Local Contrast (PV2010 and PV2012)",
-    "Local Highlights (PV2012)",
-    "Local Shadows (PV2012)",
-    "Local Whites (PV2012)",
-    "Local Blacks (PV2012)",
-    "Local Clarity (PV2010 and PV2012)",
-    "Local Dehaze (PV2012)",
-    "Local Saturation (PV2010 and PV2012)",
-    "Local Sharpness (PV2010 and PV 2012)",
-    "Local Luminance Noise (PV2012)",
-    "Local Moire (PV2012)",
-    "Local Defringe (PV2012)",
+    "Local Adjustments Temp. (PV2012)",
+    "Local Adjustments Tint (PV2012)",
+    "Local Adjustments Exposure (PV2010 and PV2012)",
+    "Local Adjustments Contrast (PV2010 and PV2012)",
+    "Local Adjustments Highlights (PV2012)",
+    "Local Adjustments Shadows (PV2012)",
+    "Local Adjustments Whites (PV2012)",
+    "Local Adjustments Blacks (PV2012)",
+    "Local Adjustments Clarity (PV2010 and PV2012)",
+    "Local Adjustments Dehaze (PV2012)",
+    "Local Adjustments Saturation (PV2010 and PV2012)",
+    "Local Adjustments Sharpness (PV2010 and PV2012)",
+    "Local Adjustments Luminence Noise Reduction (PV2012)",
+    "Local Adjustments Moire (PV2012)",
+    "Local Adjustments Defringe (PV2012)",
     "Local Toning Luminance (PV2010)",
-    "Reset Local Temperature (PV2012)",
-    "Reset Local Tint (PV2012)",
-    "Reset Local Exposure (PV2010 and PV2012)",
-    "Reset Local Contrast (PV2010 and PV2012)",
-    "Reset Local Highlights (PV2012)",
-    "Reset Local Shadows (PV2012)",
-    "Reset Local Whites (PV2012)",
-    "Reset Local Blacks (PV2012)",
-    "Reset Local Clarity (PV2010 and PV2012)",
-    "Reset Local Dehaze (PV2012)",
-    "Reset Local Saturation (PV2010 and PV2012)",
-    "Reset Local Sharpness (PV2010 and PV 2012)",
-    "Reset Local Luminance Noise (PV2012)",
-    "Reset Local Moire (PV2012)",
-    "Reset Local Defringe (PV2012)",
+    "Reset Local Adjustments Temp. (PV2012)",
+    "Reset Local Adjustments Tint (PV2012)",
+    "Reset Local Adjustments Exposure (PV2010 and PV2012)",
+    "Reset Local Adjustments Contrast (PV2010 and PV2012)",
+    "Reset Local Adjustments Highlights (PV2012)",
+    "Reset Local Adjustments Shadows (PV2012)",
+    "Reset Local Adjustments Whites (PV2012)",
+    "Reset Local Adjustments Blacks (PV2012)",
+    "Reset Local Adjustments Clarity (PV2010 and PV2012)",
+    "Reset Local Adjustments Dehaze (PV2012)",
+    "Reset Local Adjustments Saturation (PV2010 and PV2012)",
+    "Reset Local Adjustments Sharpness (PV2010 and PV2012)",
+    "Reset Local Adjustments Luminence Noise Reduction (PV2012)",
+    "Reset Local Adjustments Moire (PV2012)",
+    "Reset Local Adjustments Defringe (PV2012)",
     "Reset Local Toning Luminance (PV2010)",
     "Enable Radial Filter",
     "Enable Graduated Filter",
@@ -400,6 +422,58 @@ const std::vector<String> LRCommandList::MiscList = {
     "Crop - Top",
     "Reset Crop",
     "Reset Straighten Angle",
+    "Increase Grid Size",
+    "Decrease Grid Size",
+    "Show/Hide Toolbar",
+    "Show/Hide Side Panels",
+    "Show/Hide All Panels",
+    "Select All",
+    "Select None",
+    "Select Only Active Photo",
+    "Deselect Active Photo",
+    "Select Flagged Photos",
+    "Deselect Unflagged Photos",
+    "Previous Selected Photo",
+    "Next Selected Photo",
+    "Go Normal Mode",
+    "Full Screen Hide Panels",
+    "Full Screen Preview",
+    "Cycle Lights Out",
+    "Go Lights Out Dim",
+    "Add To Quick Collection",
+    "Add to Quick Collection/Next",
+    "Show Quick Collection",
+    "Save Quick Collection...",
+    "Clear Quick Collection",
+    "Target Quick Collection",
+    "Stack Photos",
+    "Unstack Photos",
+    "Toggle Stack",
+    "Move to Stack Top",
+    "Move Up in Stack",
+    "Move Down in Stack",
+    "Rotate Left",
+    "Rotate Right",
+    "Delete",
+    "Delete Rejected",
+    "Remove from Catalog",
+    "Trash Photo",
+    "Paste From Previous",
+    "Match Exposures",
+    "Before/After",
+    "Auto Tone",
+    "Show Clipping",
+    "Increase Size",
+    "Decrease Size",
+    "Increase Feathering",
+    "Decrease Feathering",
+    "HDR...",
+    "HDR",
+    "Panorama...",
+    "Panorama",
+    "Edit in Photoshop",
+    "Edit in Other",
+
 };
 
 const std::vector<String> LRCommandList::TMPList = {
@@ -425,6 +499,7 @@ const std::vector<String> LRCommandList::TMPList = {
     "Show Lens Corrections",
     "Show Effects",
     "Show Calibration",
+
 };
 
 const std::vector<String> LRCommandList::ViewModesList = {
@@ -445,21 +520,22 @@ const std::vector<String> LRCommandList::ViewModesList = {
     "Secondary Display Survey",
     "Secondary Display Slideshow",
     "Secondary Display Show",
+
 };
 
 const std::vector<String> LRCommandList::ProfilesList = {
-    "Profile 1",
-    "Profile 2",
-    "Profile 3",
-    "Profile 4",
-    "Profile 5",
-    "Profile 6",
-    "Profile 7",
-    "Profile 8",
-    "Profile 9",
-    "Profile 10",
-};
+    "Profile: 1",
+    "Profile: 2",
+    "Profile: 3",
+    "Profile: 4",
+    "Profile: 5",
+    "Profile: 6",
+    "Profile: 7",
+    "Profile: 8",
+    "Profile: 9",
+    "Profile: 10",
 
+};
 
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
@@ -684,13 +760,25 @@ const std::vector<String> LRCommandList::LRStringList = {
     "EnableCalibration",
     "Profile_Adobe_Standard",
     "Profile_Camera_Clear",
+    "Profile_Camera_Darker_Skin_Tone",
     "Profile_Camera_Deep",
+    "Profile_Camera_Faithful",
+    "Profile_Camera_Flat",
     "Profile_Camera_Landscape",
     "Profile_Camera_Light",
+    "Profile_Camera_Lighter_Skin_Tone",
+    "Profile_Camera_Monochrome",
+    "Profile_Camera_Monotone",
+    "Profile_Camera_Muted",
+    "Profile_Camera_Natural",
     "Profile_Camera_Neutral",
     "Profile_Camera_Portrait",
+    "Profile_Camera_Positive_Film",
     "Profile_Camera_Standard",
     "Profile_Camera_Vivid",
+    "Profile_Camera_Vivid_Blue",
+    "Profile_Camera_Vivid_Green",
+    "Profile_Camera_Vivid_Red",
     "ShadowTint",
     "RedHue",
     "RedSaturation",
@@ -814,6 +902,57 @@ const std::vector<String> LRCommandList::LRStringList = {
     "CropTop",
     "ResetCrop",
     "ResetstraightenAngle",
+    "KPIncreaseGridSize",
+    "KPDecreaseGridSize",
+    "KPHideToolbar",
+    "KPHidePanels",
+    "KPHideAllPanels",
+    "KPSelectAll",
+    "KPSelectNone",
+    "KPSelectActive",
+    "KPDeselectActive",
+    "KPSelectFlagged",
+    "KPDeselectUnflagged",
+    "KPPrevSelected",
+    "KPNextSelected",
+    "KPGoNormalMode",
+    "KPFullScrHidePanles",
+    "KPFullScrPreview",
+    "KPCycleLightsOut",
+    "KPGoLightsOutDim",
+    "KPAddToQuickCollection",
+    "KPAddToQuickCollectionAndNext",
+    "KPShowQuickCollection",
+    "KPSaveQuickCollection",
+    "KPClearQuickCollection",
+    "KPTargetQuickCollection",
+    "KPGroupIntoStack",
+    "KPUnstack",
+    "KPExpandStack",
+    "KPToTopStack",
+    "KPUpInStack",
+    "KPDnInStack",
+    "KPRotateLeft",
+    "KPRotateRight",
+    "KPDelete",
+    "KPDeleteRej",
+    "KPRemoveFromCat",
+    "KPTrash",
+    "KPPasteFromPrevious",
+    "KPMatchExposures",
+    "KPBeforeAfter",
+    "KPAutoTone",
+    "KPClipping",
+    "KPIncreaseSize",
+    "KPDecreaseSize",
+    "KPIncreaseFeather",
+    "KPDecreaseFeather",
+    "KPMergeHDR",
+    "KPMergeHDRnoDlg",
+    "KPMergePano",
+    "KPMergePanonoDlg",
+    "KPEditInPhotoshop",
+    "KPEditInOther",
     /* Select Tools, Modules and Panels */
     "Loupe",
     "CropOverlay",
@@ -877,7 +1016,7 @@ int LRCommandList::getIndexOfCommand(const String& command)
 {
     static std::unordered_map<String, int> indexMap;
 
-	// better to check for empty then lenght, as empty has a constant run time behavior.
+    // better to check for empty then lenght, as empty has a constant run time behavior.
     if (indexMap.empty())
     {
         int idx = 0;

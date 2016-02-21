@@ -1,3 +1,4 @@
+#pragma once
 /*
   ==============================================================================
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.

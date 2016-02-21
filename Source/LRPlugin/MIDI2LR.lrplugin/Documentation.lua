@@ -44,18 +44,21 @@ for _,v in ipairs(Database.DataBase) do
   end
 end
 
+menulocation = ""
 file:write("\n\nApplication menu entries\n")
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
     if v[9] ~= menulocation then
+      if menulocation~="" then
+        file:write("\n};\n\n")
+      end
+      file:write("const std::vector<String> LRCommandList::"..Database.cppvectors[v[9]].." = {\n")
       menulocation = v[9]
-      file:write("New menu "..menulocation.."\n")
     end
     file:write('"'..v[8]..'",\n')
   end
 end
-
-file:write("\n\nCommand strings\n")
+file:write("\n};\n\nconst std::vector<String> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
 menulocation = ""
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
@@ -66,6 +69,17 @@ for _,v in ipairs(Database.DataBase) do
     file:write('"'..v[1]..'",\n')
   end
 end
+file:write("\n};")
+
+file:write("\n\nKey Press Mappings\n\n\nconst std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {\n#ifdef _WIN32\n")
+local macmappings = ''
+for _,v in ipairs(Database.DataBase) do
+  if v[12] then
+    file:write('    {"',v[1],'", KeyPress::createFromDescription("',v[13],'")},\n')
+    macmappings = macmappings .. '    {"' .. v[1] .. '", KeyPress::createFromDescription("' .. v[14] .. '")},\n'
+  end
+end
+file:write('#else\n',macmappings,'#endif\n};')
 
 file:write("\n\nLimits codes for documentation\n\n")
 for _,v in ipairs(Database.DataBase) do
