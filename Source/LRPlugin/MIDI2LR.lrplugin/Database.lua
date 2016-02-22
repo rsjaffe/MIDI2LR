@@ -90,18 +90,18 @@ local DataBase = {
   --General Workspace
   --workspace: grid view options
   {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),general,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
-  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),general, 'Increase grid size (=). *button*','',true,'=','='},
-  {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),general, 'Decrease grid size (-). *button*','',true,'-','-'},
-  {'KPShowExtras', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowExtras=Show Extras"):gsub("&",""),general, 'Show/Hide extras (control/command shift h). *button*','',true,'ctrl + shift + h','command + shift + h'},
-  {'KPShowBadges', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowBadges=Show Badges"):gsub("&",""),general, 'Show/Hide badges (control/command alt/option shift h). *button*','',true,'ctrl + alt + shift + h','command + option + shift + h'},
-  {'KPCycleViewStyle', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/CycleViewStyle=Cycle Grid View Style"):gsub("&",""),general, 'Cycle grid view style (-). *button*','',true,'j','j'},
+  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),general, 'Increase grid size (**=**). *button*','',true,'=','='},
+  {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),general, 'Decrease grid size (**-**). *button*','',true,'-','-'},
+  {'KPShowExtras', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowExtras=Show Extras"):gsub("&",""),general, 'Show/Hide extras (**control/command shift h**). *button*','',true,'ctrl + shift + h','command + shift + h'},
+  {'KPShowBadges', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowBadges=Show Badges"):gsub("&",""),general, 'Show/Hide badges (**control/command alt/option shift h**). *button*','',true,'ctrl + alt + shift + h','command + option + shift + h'},
+  {'KPCycleViewStyle', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/CycleViewStyle=Cycle Grid View Style"):gsub("&",""),general, 'Cycle grid view style (**-**). *button*','',true,'j','j'},
 
 
   --workspace: loupe view
   {"ShoVwloupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe"),general,"Displays a single photo. Zoom levels up to 11:1 are available. *button*"},  --workspace: compare view
   --workspace: compare view
   {"ShoVwcompare",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Compare=Compare"),general,"Displays photos side by side so that you can evaluate them. *button*"},
-  {"KPSwapImages",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Compare2up/SwapImages=Swap Images"),general,"Swaps select and candidate in compare view (down arrow). *button*",'',true,'cursor down','cursor down'},
+  {"KPSwapImages",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Compare2up/SwapImages=Swap Images"),general,"Swaps select and candidate in compare view (**down arrow**). *button*",'',true,'cursor down','cursor down'},
   --workspace: survey 
   {"ShoVwsurvey",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Survey=Survey"),general,"Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell. *button*"},
   --workspace: zoom
@@ -111,52 +111,52 @@ local DataBase = {
   {"ZoomOutSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some"),general,"*button*"},
   {"ZoomOutLargeStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out"),general,"*button*"},
   --workspace: view options
-  {'KPHideToolbar', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowToolbar=Show/Hide Toolbar"),general, 'Show/Hide toolbar (t). *button*','',true,'t','t'},
+  {'KPHideToolbar', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowToolbar=Show/Hide Toolbar"),general, 'Show/Hide toolbar (**t**). *button*','',true,'t','t'},
   --workspace: panels
-  {'KPHidePanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Show_HideTheSidePanels=Show/Hide Side Panels"),general, 'Show/Hide side panels (tab). *button*','',true,'tab','tab'},
-  {'KPHideAllPanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowAllThePanels=Show/Hide All Panels"),general, 'Show/Hide all panels (shift tab). *button*','',true,'shift + tab','shift + tab'},
+  {'KPHidePanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Show_HideTheSidePanels=Show/Hide Side Panels"),general, 'Show/Hide side panels (**tab**). *button*','',true,'tab','tab'},
+  {'KPHideAllPanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowAllThePanels=Show/Hide All Panels"),general, 'Show/Hide all panels (**shift tab**). *button*','',true,'shift + tab','shift + tab'},
   --workspace: Selections
-  {'KPSelectAll', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectAll=Select All"),general,'Select all photos (control/command a). *button*','',true,'ctrl + a','command + a'},
-  {'KPSelectNone', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectNone=Select None"),general,'Select no photos (control/command d). *button*','',true,'ctrl + d','command + d'},
-  {'KPSelectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectOnlyActive=Select Only Active Photo"):gsub("&",""),general,'Select active photo only (control/command shift d). *button*','',true,'ctrl + shift + d','command + shift + d'},
-  {'KPDeselectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectActive=Deselect Active Photo"):gsub("&",""),general,'Deselect active photo (shift d). *button*','',true,'shift + d','shift + d'},
-  {'KPSelectFlagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectFlaggedPhotos=Select Flagged Photos"):gsub("&",""),general,'Select flagged photos (control/command alt/option a). *button*','',true,'ctrl + alt + a','command + option + a'},
-  {'KPDeselectUnflagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectUnflaggedPhotos=Deselect Unflagged Photos"):gsub("&",""),general,'Deselect unflagged photos (control/command alt/option shift d). *button*','',true,'ctrl + alt + shift + d','command + option + shift + d'},
-  {'KPPrevSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PreviousSelectedPhoto=Previous Selected Photo"):gsub("&",""),general,'Go to previous selected photo (control/command cursor left). *button*','',true,'ctrl + cursor left','command + cursor left'},
-  {'KPNextSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/NextSelectedPhoto=Next Selected Photo"):gsub("&",""),general,'Go to next selected photo (control/command cursor right). *button*','',true,'ctrl + cursor right','command + cursor right'},
+  {'KPSelectAll', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectAll=Select All"),general,'Select all photos (**control/command a**). *button*','',true,'ctrl + a','command + a'},
+  {'KPSelectNone', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectNone=Select None"),general,'Select no photos (**control/command d**). *button*','',true,'ctrl + d','command + d'},
+  {'KPSelectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectOnlyActive=Select Only Active Photo"):gsub("&",""),general,'Select active photo only (**control/command shift d**). *button*','',true,'ctrl + shift + d','command + shift + d'},
+  {'KPDeselectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectActive=Deselect Active Photo"):gsub("&",""),general,'Deselect active photo (**shift d**). *button*','',true,'shift + d','shift + d'},
+  {'KPSelectFlagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectFlaggedPhotos=Select Flagged Photos"):gsub("&",""),general,'Select flagged photos (**control/command alt/option a**). *button*','',true,'ctrl + alt + a','command + option + a'},
+  {'KPDeselectUnflagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectUnflaggedPhotos=Deselect Unflagged Photos"):gsub("&",""),general,'Deselect unflagged photos (**control/command alt/option shift d**). *button*','',true,'ctrl + alt + shift + d','command + option + shift + d'},
+  {'KPPrevSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PreviousSelectedPhoto=Previous Selected Photo"):gsub("&",""),general,'Go to previous selected photo (**control/command cursor left**). *button*','',true,'ctrl + cursor left','command + cursor left'},
+  {'KPNextSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/NextSelectedPhoto=Next Selected Photo"):gsub("&",""),general,'Go to next selected photo (**control/command cursor right**). *button*','',true,'ctrl + cursor right','command + cursor right'},
   --workspace: screen mode
-  {'KPGoNormalMode', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoNormalMode=Go Normal Mode"),general, 'Go normal mode (control/command alt/option f). *button*','',true,'ctrl + alt + f','command + option + f'},
-  {'KPFullScrHidePanles', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullScreenHidePanels=Full Screen Hide Panels"):gsub("&",""),general, 'Full screen hide panels (control/command shift f). *button*','',true,'ctrl + shift + f','command + shift + f'},
-  {'KPFullScrPreview', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullscreenPreview=Full Screen Preview"):gsub("&",""),general, 'Full screen preview (f). *button*','',true,'f','f'},
+  {'KPGoNormalMode', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoNormalMode=Go Normal Mode"),general, 'Go normal mode (**control/command alt/option f**). *button*','',true,'ctrl + alt + f','command + option + f'},
+  {'KPFullScrHidePanles', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullScreenHidePanels=Full Screen Hide Panels"):gsub("&",""),general, 'Full screen hide panels (**control/command shift f**). *button*','',true,'ctrl + shift + f','command + shift + f'},
+  {'KPFullScrPreview', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullscreenPreview=Full Screen Preview"):gsub("&",""),general, 'Full screen preview (**f**). *button*','',true,'f','f'},
   --workspace: Lights Out
-  {'KPCycleLightsOut', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/CycleLightsOut=Cycle Lights Out"),general, 'Cycle lights out (l). *button*','',true,'l','l'},
-  {'KPGoLightsOutDim', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoLightsOutDim=Go Lights Out Dim"),general, 'Go lights out dim (control/command shift l). *button*','',true,'ctrl + shift + l','command + shift + l'},
+  {'KPCycleLightsOut', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/CycleLightsOut=Cycle Lights Out"),general, 'Cycle lights out (**l**). *button*','',true,'l','l'},
+  {'KPGoLightsOutDim', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoLightsOutDim=Go Lights Out Dim"),general, 'Go lights out dim (**control/command shift l**). *button*','',true,'ctrl + shift + l','command + shift + l'},
   --photomerge
-  {'KPMergeHDR', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDR=HDR..."),general, 'Merge to HDR with Dialog (control/command h). *button*','',true,'ctrl + h','command + h'},
-  {'KPMergeHDRnoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDRHeadless=HDR"),general, 'Merge to HDR, skip dialog (control/command shift h). *button*','',true,'ctrl + shift + h','command + shift + h'},
-  {'KPMergePano', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/Panorama=Panorama..."),general, 'Merge to Panorama with dialog (control/command m). *button*','',true,'ctrl + m','command + m'},
-  {'KPMergePanonoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/PanoramaHeadless=Panorama"),general, 'Merge to Panorama, skip dialog (control/command shift m). *button*','',true,'ctrl + shift + m','command + shift + m'},
+  {'KPMergeHDR', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDR=HDR..."),general, 'Merge to HDR with Dialog (**control/command h**). *button*','',true,'ctrl + h','command + h'},
+  {'KPMergeHDRnoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDRHeadless=HDR"),general, 'Merge to HDR, skip dialog (**control/command shift h**). *button*','',true,'ctrl + shift + h','command + shift + h'},
+  {'KPMergePano', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/Panorama=Panorama..."),general, 'Merge to Panorama with dialog (**control/command m**). *button*','',true,'ctrl + m','command + m'},
+  {'KPMergePanonoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/PanoramaHeadless=Panorama"),general, 'Merge to Panorama, skip dialog (**control/command shift m**). *button*','',true,'ctrl + shift + m','command + shift + m'},
   --edit in
-  {'KPEditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),general, 'Edit in Photoshop (control/command e). *button*','',true,'ctrl + e','command + e'},
-  {'KPEditInOther', false,false,true,false,true,false,'Edit in Other',general, 'Edit in Other Application (control/command alt/option e). *button*','',true,'ctrl + alt + e','command + option + e'},
+  {'KPEditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),general, 'Edit in Photoshop (**control/command e**). *button*','',true,'ctrl + e','command + e'},
+  {'KPEditInOther', false,false,true,false,true,false,'Edit in Other',general, 'Edit in Other Application (**control/command alt/option e**). *button*','',true,'ctrl + alt + e','command + option + e'},
 
 
   --Library
   {"SwToMlibrary",false,false,true,false,true,false,show..' '..LOC("$$$/AgLibraryModule/ModuleTitle=Library"),library,"Switch to Library module. *button*"},
   --library: quick collection
-  {'KPAddToQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollection=Add To Quick Collection"):gsub("&",""),library, 'Add to quick collection (b). *button*','',true,'b','b'},
-  {'KPAddToQuickCollectionAndNext', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollectionAndNext=Add to Quick Collection/Next"):gsub("&",""),library, 'Add to quick collection, go to next photo (shift b). *button*','',true,'shift + b','shift + b'},
-  {'KPShowQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ShowQuickCollection=Show Quick Collection"):gsub("&",""),library, 'Show quick collection (control/command b). *button*','',true,'ctrl + b','command + b'},
-  {'KPSaveQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/SaveQuickCollection=Save Quick Collection..."):gsub("&",""),library, 'Save quick collection (control/command alt/option b). *button*','',true,'ctrl + alt + b','command + option + b'},
-  {'KPClearQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ClearQuickCollection=Clear Quick Collection"):gsub("&",""),library, 'Clear quick collection (control/command shift b). *button*','',true,'ctrl + shift + b','command + shift + b'},
-  {'KPTargetQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/TargetQuickCollection=Target Quick Collection"):gsub("&",""),library, 'Set quick collection as the target collection (control/command alt/option shift b). *button*','',true,'ctrl + alt + shift + b','command + option + shift + b'},
+  {'KPAddToQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollection=Add To Quick Collection"):gsub("&",""),library, 'Add to quick collection (**b**). *button*','',true,'b','b'},
+  {'KPAddToQuickCollectionAndNext', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollectionAndNext=Add to Quick Collection/Next"):gsub("&",""),library, 'Add to quick collection, go to next photo (**shift b**). *button*','',true,'shift + b','shift + b'},
+  {'KPShowQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ShowQuickCollection=Show Quick Collection"):gsub("&",""),library, 'Show quick collection (**control/command b**). *button*','',true,'ctrl + b','command + b'},
+  {'KPSaveQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/SaveQuickCollection=Save Quick Collection..."):gsub("&",""),library, 'Save quick collection (**control/command alt/option b**). *button*','',true,'ctrl + alt + b','command + option + b'},
+  {'KPClearQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ClearQuickCollection=Clear Quick Collection"):gsub("&",""),library, 'Clear quick collection (**control/command shift b**). *button*','',true,'ctrl + shift + b','command + shift + b'},
+  {'KPTargetQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/TargetQuickCollection=Target Quick Collection"):gsub("&",""),library, 'Set quick collection as the target collection (**control/command alt/option shift b**). *button*','',true,'ctrl + alt + shift + b','command + option + shift + b'},
   --library: stacking
-  {'KPGroupIntoStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/StackImages=Stack Photos"),library,'Group into stack (control/command g). *button*','',true,'ctrl + g','command + g'},
-  {'KPUnstack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/UnstackImages=Unstack Photos"),library,'Unstack (control/command shift g). *button*','',true,'ctrl + shift + g','command + shift + g'},
-  {'KPExpandStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/ToggleStack=Toggle Stack"):gsub("&",""),library,'Collapse/Expand stack (s). *button*','',true,'s','s'},
-  {'KPToTopStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveToTop=Move to Stack Top"):gsub("&",""),library,'Move to top of stack (shift s). *button*','',true,'shift + s','shift + s'},
-  {'KPUpInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveUp=Move Up in Stack"):gsub("&",""),library,'Move up in stack (shift [). *button*','',true,'shift + [','shift + ['},
-  {'KPDnInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveDown=Move Down in Stack"):gsub("&",""),library,'Move down in stack (shift ]). *button*','',true,'shift + ]','shift + ]'},
+  {'KPGroupIntoStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/StackImages=Stack Photos"),library,'Group into stack (**control/command g**). *button*','',true,'ctrl + g','command + g'},
+  {'KPUnstack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/UnstackImages=Unstack Photos"),library,'Unstack (**control/command shift g**). *button*','',true,'ctrl + shift + g','command + shift + g'},
+  {'KPExpandStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/ToggleStack=Toggle Stack"):gsub("&",""),library,'Collapse/Expand stack (**s**). *button*','',true,'s','s'},
+  {'KPToTopStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveToTop=Move to Stack Top"):gsub("&",""),library,'Move to top of stack (**shift s**). *button*','',true,'shift + s','shift + s'},
+  {'KPUpInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveUp=Move Up in Stack"):gsub("&",""),library,'Move up in stack (**shift [**). *button*','',true,'shift + [','shift + ['},
+  {'KPDnInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveDown=Move Down in Stack"):gsub("&",""),library,'Move down in stack (**shift ]**). *button*','',true,'shift + ]','shift + ]'},
   --library: flags
   {"Pick",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag"),library,"*button*"},
   {"Reject",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag"),library,"*button*"},
@@ -177,13 +177,13 @@ local DataBase = {
   {"TogglePurple",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelPurple=Purple")),library,"*button*"},
   {"ToggleYellow",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelYellow=Yellow")),library,"*button*"},
   --library: rotation
-  {'KPRotateLeft', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_left=Rotate Left"),library, 'Rotate left (control/command [). *button*','',true,'ctrl + [','command + ['},
-  {'KPRotateRight', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_right=Rotate Right"),library, 'Rotate right (control command ]. *button*','',true,'ctrl + ]','command + ]'},
+  {'KPRotateLeft', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_left=Rotate Left"),library, 'Rotate left (**control/command [**). *button*','',true,'ctrl + [','command + ['},
+  {'KPRotateRight', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_right=Rotate Right"),library, 'Rotate right (**control command ]**). *button*','',true,'ctrl + ]','command + ]'},
   --library: delete
-  {'KPDelete', false,false,true,false,true,false,'Delete',library, 'Delete photo (delete). *button*','',true,'delete','delete'},
-  {'KPDeleteRej', false,false,true,false,true,false,'Delete Rejected',library, 'Delete rejected photos (control/command delete). *button*','',true,'ctrl + delete','command + delete'},
-  {'KPRemoveFromCat', false,false,true,false,true,false,'Remove from Catalog',library, 'Remove photo from catalog (alt/option delete). *button*','',true,'alt + delete','option + delete'},
-  {'KPTrash', false,false,true,false,true,false,'Trash Photo',library, 'Remove and trash photo (control/command alt/option shift delete). *button*','',true,'ctrl + alt + shift + delete','command + option + shift + delete'},
+  {'KPDelete', false,false,true,false,true,false,'Delete',library, 'Delete photo (**delete**). *button*','',true,'delete','delete'},
+  {'KPDeleteRej', false,false,true,false,true,false,'Delete Rejected',library, 'Delete rejected photos (**control/command delete**). *button*','',true,'ctrl + delete','command + delete'},
+  {'KPRemoveFromCat', false,false,true,false,true,false,'Remove from Catalog',library, 'Remove photo from catalog (**alt/option delete**). *button*','',true,'alt + delete','option + delete'},
+  {'KPTrash', false,false,true,false,true,false,'Trash Photo',library, 'Remove and trash photo (**control/command alt/option shift delete**). *button*','',true,'ctrl + alt + shift + delete','command + option + shift + delete'},
 
   --Develop
 
@@ -551,19 +551,19 @@ local DataBase = {
   {'ResetstraightenAngle',false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),miscellaneous,"Reset crop angle. *button*"},
 
   --develop: copy paste sync
-  {'KPPasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),miscellaneous, 'Paste settings from previous (control/command alt/option v). *button*','',true,'ctrl + alt + v','command + option + v'},
-  {'KPMatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),miscellaneous, 'Match exposures (control/command alt/option shift m). *button*','',true,'ctrl + alt + shift + m','command + option + shift + m'},
+  {'KPPasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),miscellaneous, 'Paste settings from previous (**control/command alt/option v**). *button*','',true,'ctrl + alt + v','command + option + v'},
+  {'KPMatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),miscellaneous, 'Match exposures (**control/command alt/option shift m**). *button*','',true,'ctrl + alt + shift + m','command + option + shift + m'},
   --develop: before/after previews
-  {'KPBeforeAfter', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/BeforeAfter=Before/After"):gsub("&",""),miscellaneous, 'Show before and after (\\). *button*','',true,'\\\\','\\\\'},--need two \\ for C++ so it results in one \
+  {'KPBeforeAfter', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/BeforeAfter=Before/After"):gsub("&",""),miscellaneous, 'Show before and after (**\\**). *button*','',true,'\\\\','\\\\'},--need two \\ for C++ so it results in one \
   --develop: auto
-  {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Auto tone (control/command u). *button*','',true,'ctrl + u','command + u'},
+  {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Auto tone (**control/command u**). *button*','',true,'ctrl + u','command + u'},
   --develop: clipping indicators
-  {'KPClipping', false,false,true,false,true,false,LOC("$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show Clipping"),miscellaneous, 'Show clipping (j). *button*','',true,'j','j'},
+  {'KPClipping', false,false,true,false,true,false,LOC("$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show Clipping"),miscellaneous, 'Show clipping (**j**). *button*','',true,'j','j'},
   --develop: spot and brush
-  {'KPIncreaseSize', false,false,true,false,true,false,'Increase Size',miscellaneous, 'Increase Spot or Brush size (]). *button*','',true,']',']'},
-  {'KPDecreaseSize', false,false,true,false,true,false,'Decrease Size',miscellaneous, 'Decrease Spot or Brush size ([). *button*','',true,'[','['},
-  {'KPIncreaseFeather', false,false,true,false,true,false,'Increase Feathering',miscellaneous, 'Increase brush feathering (shift ]). *button*','',true,'shift + ]','shift + ]'},
-  {'KPDecreaseFeather', false,false,true,false,true,false,'Decrease Feathering',miscellaneous, 'Decrease brush feathering (shift [. *button*','',true,'shift + [','shift + ['},
+  {'KPIncreaseSize', false,false,true,false,true,false,'Increase Size',miscellaneous, 'Increase Spot or Brush size (**]**). *button*','',true,']',']'},
+  {'KPDecreaseSize', false,false,true,false,true,false,'Decrease Size',miscellaneous, 'Decrease Spot or Brush size (**[**). *button*','',true,'[','['},
+  {'KPIncreaseFeather', false,false,true,false,true,false,'Increase Feathering',miscellaneous, 'Increase brush feathering (**shift ]**). *button*','',true,'shift + ]','shift + ]'},
+  {'KPDecreaseFeather', false,false,true,false,true,false,'Decrease Feathering',miscellaneous, 'Decrease brush feathering (**shift [**). *button*','',true,'shift + [','shift + ['},
 
   {"Loupe",false,false,true,false,true,false,show..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),gotoToolModulePanel,"Select Loupe View mode in Develop Module. Repeated press toggles in and out of Loupe View. *button*",'loupe'},
   {"CropOverlay",false,false,true,false,true,false,show..' '..crop,gotoToolModulePanel,"Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View. *button*"},

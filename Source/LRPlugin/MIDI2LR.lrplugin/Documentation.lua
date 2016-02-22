@@ -37,7 +37,7 @@ for _,v in ipairs(Database.DataBase) do
   if v[4] then
     if v[9] ~= menulocation then
       menulocation = v[9]
-      file:write("New menu "..menulocation.."\n")
+      file:write("\n| "..menulocation.." |  |\n| ---- | ---- |\n")
     end
     local experimental = ""
     if v[7]  then 
@@ -48,12 +48,12 @@ for _,v in ipairs(Database.DataBase) do
 end
 
 menulocation = ""
-file:write("\n\nApplication menu entries\n")
+file:write("\n\nApplication menu entries for LRCommands.cpp\n")
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
     if v[9] ~= menulocation then
       if menulocation~="" then
-        file:write("\n};\n\n")
+        file:write("};\n\n")
       end
       file:write("const std::vector<String> LRCommandList::"..Database.cppvectors[v[9]][1].." = {\n")
       menulocation = v[9]
@@ -81,7 +81,7 @@ for _,v in ipairs(Database.DataBase) do
 end
 file:write("};")
 
-file:write("\n\nKey Press Mappings\n\n\nconst std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {\n#ifdef _WIN32\n")
+file:write("\n\nKey Press Mappings for LR_IPC_Out.cpp\n\n\nconst std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {\n#ifdef _WIN32\n")
 local macmappings = ''
 for _,v in ipairs(Database.DataBase) do
   if v[12] then
@@ -102,7 +102,7 @@ for _,v in ipairs(Database.DataBase) do
   end
 end
 
-file:write("\n\nRunning Tests\n\n",Database.RunTests(),"\n")
+file:write("\n\nRunning Tests\n\n",Database.RunTests(),"\nTests Completed")
 file:close()
 
 
