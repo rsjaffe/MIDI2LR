@@ -44,12 +44,16 @@ const std::vector<String> LRCommandList::General = {
     "Show/Hide All Panels",
     "Select All",
     "Select None",
+    "Add to Selection Left",
+    "Add to Selection Right",
     "Select Only Active Photo",
     "Deselect Active Photo",
     "Select Flagged Photos",
     "Deselect Unflagged Photos",
     "Previous Selected Photo",
     "Next Selected Photo",
+    "Next Photo",
+    "Previous Photo",
     "Go Normal Mode",
     "Full Screen Hide Panels",
     "Full Screen Preview",
@@ -61,7 +65,6 @@ const std::vector<String> LRCommandList::General = {
     "Panorama",
     "Edit in Photoshop",
     "Edit in Other",
-
 };
 
 const std::vector<String> LRCommandList::Library = {
@@ -100,10 +103,34 @@ const std::vector<String> LRCommandList::Library = {
     "Delete Rejected",
     "Remove from Catalog",
     "Trash Photo",
+    "Primary Display People",
+};
 
+const std::vector<String> LRCommandList::Develop = {
+    "Show Develop",
+    "Copy Settings",
+    "Paste Settings",
+    "Paste Selected Settings",
+    "Paste From Previous",
+    "Match Exposures",
+    "Create Virtual Copy",
+    "Reset Settings",
+    "Reset Last Modified",
+    "Increase Last Modified",
+    "Decrease Last Modified",
+    "Undo",
+    "Redo",
+    "Primary Display Before/After Left/Right",
+    "Primary Display Before/After Top/Bottom",
+    "Primary Display Before",
+    "Before/After",
+    "Auto Tone",
+    "Show Clipping",
+    "Primary Display Loupe",
 };
 
 const std::vector<String> LRCommandList::BasicAdjustments = {
+    "Show Basic Tone",
     "White Balance As Shot",
     "White Balance Auto",
     "White Balance Cloudy",
@@ -135,10 +162,10 @@ const std::vector<String> LRCommandList::BasicAdjustments = {
     "Reset Clarity",
     "Reset Vibrance",
     "Reset Saturation",
-
 };
 
 const std::vector<String> LRCommandList::ToneCurve = {
+    "Show Tone Curve",
     "Enable Tone Curve",
     "Dark Tones",
     "Light Tones",
@@ -154,10 +181,10 @@ const std::vector<String> LRCommandList::ToneCurve = {
     "Reset Shadow Split",
     "Reset Midtone Split",
     "Reset Highlight Split",
-
 };
 
 const std::vector<String> LRCommandList::Mixer = {
+    "Show Color Adjustments",
     "Enable Color Adjustments",
     "Saturation Adjustment Red",
     "Saturation Adjustment Orange",
@@ -193,7 +220,6 @@ const std::vector<String> LRCommandList::Mixer = {
     "Gray Mixer Blue",
     "Gray Mixer Purple",
     "Gray Mixer Magenta",
-
 };
 
 const std::vector<String> LRCommandList::ResetMixer = {
@@ -229,10 +255,10 @@ const std::vector<String> LRCommandList::ResetMixer = {
     "Reset Gray Mixer Blue",
     "Reset Gray Mixer Purple",
     "Reset Gray Mixer Magenta",
-
 };
 
 const std::vector<String> LRCommandList::SplitToning = {
+    "Show Split Toning",
     "Enable Split Toning",
     "Shadow Hue",
     "Shadow Saturation",
@@ -244,10 +270,10 @@ const std::vector<String> LRCommandList::SplitToning = {
     "Reset Highlight Hue",
     "Reset Highlight Saturation",
     "Reset Split Toning Balance",
-
 };
 
 const std::vector<String> LRCommandList::Detail = {
+    "Show Detail",
     "Enable Detail",
     "Sharpness",
     "Sharpen Radius",
@@ -269,10 +295,10 @@ const std::vector<String> LRCommandList::Detail = {
     "Reset Color Noise Reduction",
     "Reset Color Noise Reduction Detail",
     "Reset Color Noise Reduction Smoothness",
-
 };
 
 const std::vector<String> LRCommandList::LensCorrections = {
+    "Show Lens Corrections",
     "Enable Lens Corrections",
     "Lens Profile Enable",
     "Remove Chromatic Aberration",
@@ -316,10 +342,10 @@ const std::vector<String> LRCommandList::LensCorrections = {
     "Reset Perspective Aspect",
     "Reset Vignette Amount",
     "Reset Vignette Midpoint",
-
 };
 
 const std::vector<String> LRCommandList::Effects = {
+    "Show Effects",
     "Enable Effects",
     "Dehaze Amount",
     "Post Crop Vignette Amount",
@@ -341,10 +367,10 @@ const std::vector<String> LRCommandList::Effects = {
     "Reset Grain Amount",
     "Reset Grain Size",
     "Reset Grain Roughness",
-
 };
 
 const std::vector<String> LRCommandList::Calibration = {
+    "Show Calibration",
     "Enable Calibration",
     "Adobe Standard",
     "Camera Clear",
@@ -381,25 +407,6 @@ const std::vector<String> LRCommandList::Calibration = {
     "Reset Green Saturation Calibration",
     "Reset Blue Hue Calibration",
     "Reset Blue Saturation Calibration",
-
-};
-
-const std::vector<String> LRCommandList::SelectionList = {
-    "Next Photo",
-    "Previous Photo",
-    "Add to Selection Left",
-    "Add to Selection Right",
-    "Create Virtual Copy",
-    "Reset Settings",
-    "Reset Last Modified",
-    "Increase Last Modified",
-    "Decrease Last Modified",
-    "Undo",
-    "Redo",
-    "Copy Settings",
-    "Paste Settings",
-    "Paste Selected Settings",
-
 };
 
 const std::vector<String> LRCommandList::DevelopPresets = {
@@ -423,10 +430,18 @@ const std::vector<String> LRCommandList::DevelopPresets = {
     "Develop Preset 18",
     "Develop Preset 19",
     "Develop Preset 20",
-
 };
 
 const std::vector<String> LRCommandList::LocalAdjustments = {
+    "Show Graduated Filters",
+    "Show Radial Filters",
+    "Show Red-Eye Correction",
+    "Show Spot Removal",
+    "Show Brush Adjustments",
+    "Increase Size",
+    "Decrease Size",
+    "Increase Feathering",
+    "Decrease Feathering",
     "Local Adjustments Temp. (PV2012)",
     "Local Adjustments Tint (PV2012)",
     "Local Adjustments Exposure (PV2010 and PV2012)",
@@ -469,10 +484,9 @@ const std::vector<String> LRCommandList::LocalAdjustments = {
     "Reset Brush Corrections",
     "Reset Red-Eye",
     "Reset Spot Removal",
-
 };
 
-const std::vector<String> LRCommandList::Misc = {
+const std::vector<String> LRCommandList::Crop = {
     "Straighten Angle",
     "Crop Angle",
     "Crop - Bottom",
@@ -481,49 +495,19 @@ const std::vector<String> LRCommandList::Misc = {
     "Crop - Top",
     "Reset Crop",
     "Reset Straighten Angle",
-    "Paste From Previous",
-    "Match Exposures",
-    "Before/After",
-    "Auto Tone",
-    "Show Clipping",
-    "Increase Size",
-    "Decrease Size",
-    "Increase Feathering",
-    "Decrease Feathering",
-
+    "Show Crop",
 };
 
 const std::vector<String> LRCommandList::TMPList = {
     "Show Loupe",
-    "Show Crop",
-    "Show Spot Removal",
-    "Show Red-Eye Correction",
-    "Show Graduated Filters",
-    "Show Radial Filters",
-    "Show Brush Adjustments",
-    "Show Develop",
     "Show Map",
     "Show Book",
     "Show Slideshow",
     "Show Print",
     "Show Web",
-    "Show Basic Tone",
-    "Show Tone Curve",
-    "Show Color Adjustments",
-    "Show Split Toning",
-    "Show Detail",
-    "Show Lens Corrections",
-    "Show Effects",
-    "Show Calibration",
-
 };
 
 const std::vector<String> LRCommandList::ViewModes = {
-    "Primary Display People",
-    "Primary Display Loupe",
-    "Primary Display Before/After Left/Right",
-    "Primary Display Before/After Top/Bottom",
-    "Primary Display Before",
     "Secondary Display Loupe",
     "Secondary Display Live Loupe",
     "Secondary Display Locked Loupe",
@@ -532,7 +516,6 @@ const std::vector<String> LRCommandList::ViewModes = {
     "Secondary Display Survey",
     "Secondary Display Slideshow",
     "Secondary Display Show",
-
 };
 
 const std::vector<String> LRCommandList::ProgramProfiles = {
@@ -571,12 +554,16 @@ const std::vector<String> LRCommandList::LRStringList = {
     "KPHideAllPanels",
     "KPSelectAll",
     "KPSelectNone",
+    "Select1Left",
+    "Select1Right",
     "KPSelectActive",
     "KPDeselectActive",
     "KPSelectFlagged",
     "KPDeselectUnflagged",
     "KPPrevSelected",
     "KPNextSelected",
+    "Next",
+    "Prev",
     "KPGoNormalMode",
     "KPFullScrHidePanles",
     "KPFullScrPreview",
@@ -624,7 +611,30 @@ const std::vector<String> LRCommandList::LRStringList = {
     "KPDeleteRej",
     "KPRemoveFromCat",
     "KPTrash",
+    "ShoVwpeople",
+    /* Develop */
+    "SwToMdevelop",
+    "CopySettings",
+    "PasteSettings",
+    "PasteSelectedSettings",
+    "KPPasteFromPrevious",
+    "KPMatchExposures",
+    "VirtualCopy",
+    "ResetAll",
+    "ResetLast",
+    "IncrementLastDevelopParameter",
+    "DecrementLastDevelopParameter",
+    "Undo",
+    "Redo",
+    "ShoVwdevelop_before_after_horiz",
+    "ShoVwdevelop_before_after_vert",
+    "ShoVwdevelop_before",
+    "KPBeforeAfter",
+    "KPAutoTone",
+    "KPClipping",
+    "ShoVwdevelop_loupe",
     /* Basic Tone */
+    "RevealPanelAdjust",
     "WhiteBalanceAs_Shot",
     "WhiteBalanceAuto",
     "WhiteBalanceCloudy",
@@ -657,6 +667,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetVibrance",
     "ResetSaturation",
     /* Tone Curve */
+    "RevealPanelTone",
     "EnableToneCurve",
     "ParametricDarks",
     "ParametricLights",
@@ -673,6 +684,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetParametricMidtoneSplit",
     "ResetParametricHighlightSplit",
     /* Color Adjustments */
+    "RevealPanelMixer",
     "EnableColorAdjustments",
     "SaturationAdjustmentRed",
     "SaturationAdjustmentOrange",
@@ -742,6 +754,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetGrayMixerPurple",
     "ResetGrayMixerMagenta",
     /* Split Toning */
+    "RevealPanelSplit",
     "EnableSplitToning",
     "SplitToningShadowHue",
     "SplitToningShadowSaturation",
@@ -754,6 +767,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetSplitToningHighlightSaturation",
     "ResetSplitToningBalance",
     /* Detail */
+    "RevealPanelDetail",
     "EnableDetail",
     "Sharpness",
     "SharpenRadius",
@@ -776,6 +790,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetColorNoiseReductionDetail",
     "ResetColorNoiseReductionSmoothness",
     /* Lens Corrections */
+    "RevealPanelLens",
     "EnableLensCorrections",
     "LensProfileEnable",
     "AutoLateralCA",
@@ -820,6 +835,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetVignetteAmount",
     "ResetVignetteMidpoint",
     /* Effects */
+    "RevealPanelEffects",
     "EnableEffects",
     "Dehaze",
     "PostCropVignetteAmount",
@@ -842,6 +858,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetGrainSize",
     "ResetGrainFrequency",
     /* Calibration */
+    "RevealPanelCalibrate",
     "EnableCalibration",
     "Profile_Adobe_Standard",
     "Profile_Camera_Clear",
@@ -878,21 +895,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetGreenSaturation",
     "ResetBlueHue",
     "ResetBlueSaturation",
-    /* Photo Actions */
-    "Next",
-    "Prev",
-    "Select1Left",
-    "Select1Right",
-    "VirtualCopy",
-    "ResetAll",
-    "ResetLast",
-    "IncrementLastDevelopParameter",
-    "DecrementLastDevelopParameter",
-    "Undo",
-    "Redo",
-    "CopySettings",
-    "PasteSettings",
-    "PasteSelectedSettings",
     /* Develop Presets */
     "Preset_1",
     "Preset_2",
@@ -915,6 +917,15 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Preset_19",
     "Preset_20",
     /* Local Adjustments */
+    "GraduatedFilter",
+    "RadialFilter",
+    "RedEye",
+    "SpotRemoval",
+    "AdjustmentBrush",
+    "KPIncreaseSize",
+    "KPDecreaseSize",
+    "KPIncreaseFeather",
+    "KPDecreaseFeather",
     "local_Temperature",
     "local_Tint",
     "local_Exposure",
@@ -957,7 +968,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetBrushing",
     "ResetRedeye",
     "ResetSpotRem",
-    /* Miscellaneous */
+    /* Crop */
     "straightenAngle",
     "CropAngle",
     "CropBottom",
@@ -966,43 +977,15 @@ const std::vector<String> LRCommandList::LRStringList = {
     "CropTop",
     "ResetCrop",
     "ResetstraightenAngle",
-    "KPPasteFromPrevious",
-    "KPMatchExposures",
-    "KPBeforeAfter",
-    "KPAutoTone",
-    "KPClipping",
-    "KPIncreaseSize",
-    "KPDecreaseSize",
-    "KPIncreaseFeather",
-    "KPDecreaseFeather",
+    "CropOverlay",
     /* Select Tools, Modules and Panels */
     "Loupe",
-    "CropOverlay",
-    "SpotRemoval",
-    "RedEye",
-    "GraduatedFilter",
-    "RadialFilter",
-    "AdjustmentBrush",
-    "SwToMdevelop",
     "SwToMmap",
     "SwToMbook",
     "SwToMslideshow",
     "SwToMprint",
     "SwToMweb",
-    "RevealPanelAdjust",
-    "RevealPanelTone",
-    "RevealPanelMixer",
-    "RevealPanelSplit",
-    "RevealPanelDetail",
-    "RevealPanelLens",
-    "RevealPanelEffects",
-    "RevealPanelCalibrate",
     /* View Modes */
-    "ShoVwpeople",
-    "ShoVwdevelop_loupe",
-    "ShoVwdevelop_before_after_horiz",
-    "ShoVwdevelop_before_after_vert",
-    "ShoVwdevelop_before",
     "ShoScndVwloupe",
     "ShoScndVwlive_loupe",
     "ShoScndVwlocked_loupe",
@@ -1023,6 +1006,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile9",
     "profile10",
 };
+
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",

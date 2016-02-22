@@ -140,6 +140,18 @@
     true
   },
   {
+    "Select1Left",
+    "Add to Selection Left",
+    "General",
+    true
+  },
+  {
+    "Select1Right",
+    "Add to Selection Right",
+    "General",
+    true
+  },
+  {
     "KPSelectActive",
     "Select Only Active Photo",
     "General",
@@ -172,6 +184,18 @@
   {
     "KPNextSelected",
     "Next Selected Photo",
+    "General",
+    true
+  },
+  {
+    "Next",
+    "Next Photo",
+    "General",
+    true
+  },
+  {
+    "Prev",
+    "Previous Photo",
     "General",
     true
   },
@@ -452,6 +476,138 @@
     true
   },
   {
+    "ShoVwpeople",
+    "Primary Display People",
+    "Library",
+    true
+  },
+  {
+    "SwToMdevelop",
+    "Show Develop",
+    "Develop",
+    true
+  },
+  {
+    "CopySettings",
+    "Copy Settings",
+    "Develop",
+    true
+  },
+  {
+    "PasteSettings",
+    "Paste Settings",
+    "Develop",
+    true
+  },
+  {
+    "PasteSelectedSettings",
+    "Paste Selected Settings",
+    "Develop",
+    true
+  },
+  {
+    "KPPasteFromPrevious",
+    "Paste From Previous",
+    "Develop",
+    true
+  },
+  {
+    "KPMatchExposures",
+    "Match Exposures",
+    "Develop",
+    true
+  },
+  {
+    "VirtualCopy",
+    "Create Virtual Copy",
+    "Develop",
+    true
+  },
+  {
+    "ResetAll",
+    "Reset Settings",
+    "Develop",
+    true
+  },
+  {
+    "ResetLast",
+    "Reset Last Modified",
+    "Develop",
+    true
+  },
+  {
+    "IncrementLastDevelopParameter",
+    "Increase Last Modified",
+    "Develop",
+    true
+  },
+  {
+    "DecrementLastDevelopParameter",
+    "Decrease Last Modified",
+    "Develop",
+    true
+  },
+  {
+    "Undo",
+    "Undo",
+    "Develop",
+    true
+  },
+  {
+    "Redo",
+    "Redo",
+    "Develop",
+    true
+  },
+  {
+    "ShoVwdevelop_before_after_horiz",
+    "Primary Display Before/After Left/Right",
+    "Develop",
+    true
+  },
+  {
+    "ShoVwdevelop_before_after_vert",
+    "Primary Display Before/After Top/Bottom",
+    "Develop",
+    true
+  },
+  {
+    "ShoVwdevelop_before",
+    "Primary Display Before",
+    "Develop",
+    true
+  },
+  {
+    "KPBeforeAfter",
+    "Before/After",
+    "Develop",
+    true
+  },
+  {
+    "KPAutoTone",
+    "Auto Tone",
+    "Develop",
+    true
+  },
+  {
+    "KPClipping",
+    "Show Clipping",
+    "Develop",
+    true
+  },
+  {
+    "ShoVwdevelop_loupe",
+    "Primary Display Loupe",
+    "Develop",
+    true
+  },
+  {
+    "RevealPanelAdjust",
+    "Show Basic Tone",
+    "Basic Tone",
+    true
+  },
+  {
     "WhiteBalanceAs_Shot",
     "White Balance As Shot",
     "Basic Tone",
@@ -638,6 +794,12 @@
     true
   },
   {
+    "RevealPanelTone",
+    "Show Tone Curve",
+    "Tone Curve",
+    true
+  },
+  {
     "EnableToneCurve",
     "Enable Tone Curve",
     "Tone Curve",
@@ -725,6 +887,12 @@
     "ResetParametricHighlightSplit",
     "Reset Highlight Split",
     "Tone Curve",
+    true
+  },
+  {
+    "RevealPanelMixer",
+    "Show Color Adjustments",
+    "Color Adjustments",
     true
   },
   {
@@ -1130,6 +1298,12 @@
     true
   },
   {
+    "RevealPanelSplit",
+    "Show Split Toning",
+    "Split Toning",
+    true
+  },
+  {
     "EnableSplitToning",
     "Enable Split Toning",
     "Split Toning",
@@ -1193,6 +1367,12 @@
     "ResetSplitToningBalance",
     "Reset Split Toning Balance",
     "Split Toning",
+    true
+  },
+  {
+    "RevealPanelDetail",
+    "Show Detail",
+    "Detail",
     true
   },
   {
@@ -1319,6 +1499,12 @@
     "ResetColorNoiseReductionSmoothness",
     "Reset Color Noise Reduction Smoothness",
     "Detail",
+    true
+  },
+  {
+    "RevealPanelLens",
+    "Show Lens Corrections",
+    "Lens Corrections",
     true
   },
   {
@@ -1580,6 +1766,12 @@
     true
   },
   {
+    "RevealPanelEffects",
+    "Show Effects",
+    "Effects",
+    true
+  },
+  {
     "EnableEffects",
     "Enable Effects",
     "Effects",
@@ -1703,6 +1895,12 @@
     "ResetGrainFrequency",
     "Reset Grain Roughness",
     "Effects",
+    true
+  },
+  {
+    "RevealPanelCalibrate",
+    "Show Calibration",
+    "Calibration",
     true
   },
   {
@@ -1922,90 +2120,6 @@
     true
   },
   {
-    "Next",
-    "Next Photo",
-    "Photo Actions",
-    true
-  },
-  {
-    "Prev",
-    "Previous Photo",
-    "Photo Actions",
-    true
-  },
-  {
-    "Select1Left",
-    "Add to Selection Left",
-    "Photo Actions",
-    true
-  },
-  {
-    "Select1Right",
-    "Add to Selection Right",
-    "Photo Actions",
-    true
-  },
-  {
-    "VirtualCopy",
-    "Create Virtual Copy",
-    "Photo Actions",
-    true
-  },
-  {
-    "ResetAll",
-    "Reset Settings",
-    "Photo Actions",
-    true
-  },
-  {
-    "ResetLast",
-    "Reset Last Modified",
-    "Photo Actions",
-    true
-  },
-  {
-    "IncrementLastDevelopParameter",
-    "Increase Last Modified",
-    "Photo Actions",
-    true
-  },
-  {
-    "DecrementLastDevelopParameter",
-    "Decrease Last Modified",
-    "Photo Actions",
-    true
-  },
-  {
-    "Undo",
-    "Undo",
-    "Photo Actions",
-    true
-  },
-  {
-    "Redo",
-    "Redo",
-    "Photo Actions",
-    true
-  },
-  {
-    "CopySettings",
-    "Copy Settings",
-    "Photo Actions",
-    true
-  },
-  {
-    "PasteSettings",
-    "Paste Settings",
-    "Photo Actions",
-    true
-  },
-  {
-    "PasteSelectedSettings",
-    "Paste Selected Settings",
-    "Photo Actions",
-    true
-  },
-  {
     "Preset_1",
     "Develop Preset 1",
     "Develop Presets",
@@ -2123,6 +2237,60 @@
     "Preset_20",
     "Develop Preset 20",
     "Develop Presets",
+    true
+  },
+  {
+    "GraduatedFilter",
+    "Show Graduated Filters",
+    "Local Adjustments",
+    true
+  },
+  {
+    "RadialFilter",
+    "Show Radial Filters",
+    "Local Adjustments",
+    true
+  },
+  {
+    "RedEye",
+    "Show Red-Eye Correction",
+    "Local Adjustments",
+    true
+  },
+  {
+    "SpotRemoval",
+    "Show Spot Removal",
+    "Local Adjustments",
+    true
+  },
+  {
+    "AdjustmentBrush",
+    "Show Brush Adjustments",
+    "Local Adjustments",
+    true
+  },
+  {
+    "KPIncreaseSize",
+    "Increase Size",
+    "Local Adjustments",
+    true
+  },
+  {
+    "KPDecreaseSize",
+    "Decrease Size",
+    "Local Adjustments",
+    true
+  },
+  {
+    "KPIncreaseFeather",
+    "Increase Feathering",
+    "Local Adjustments",
+    true
+  },
+  {
+    "KPDecreaseFeather",
+    "Decrease Feathering",
+    "Local Adjustments",
     true
   },
   {
@@ -2380,150 +2548,60 @@
   {
     "straightenAngle",
     "Straighten Angle",
-    "Miscellaneous",
+    "Crop",
     false
   },
   {
     "CropAngle",
     "Crop Angle",
-    "Miscellaneous",
+    "Crop",
     false
   },
   {
     "CropBottom",
     "Crop - Bottom",
-    "Miscellaneous",
+    "Crop",
     false
   },
   {
     "CropLeft",
     "Crop - Left",
-    "Miscellaneous",
+    "Crop",
     false
   },
   {
     "CropRight",
     "Crop - Right",
-    "Miscellaneous",
+    "Crop",
     false
   },
   {
     "CropTop",
     "Crop - Top",
-    "Miscellaneous",
+    "Crop",
     false
   },
   {
     "ResetCrop",
     "Reset Crop",
-    "Miscellaneous",
+    "Crop",
     true
   },
   {
     "ResetstraightenAngle",
     "Reset Straighten Angle",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPPasteFromPrevious",
-    "Paste From Previous",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPMatchExposures",
-    "Match Exposures",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPBeforeAfter",
-    "Before/After",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPAutoTone",
-    "Auto Tone",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPClipping",
-    "Show Clipping",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPIncreaseSize",
-    "Increase Size",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDecreaseSize",
-    "Decrease Size",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPIncreaseFeather",
-    "Increase Feathering",
-    "Miscellaneous",
-    true
-  },
-  {
-    "KPDecreaseFeather",
-    "Decrease Feathering",
-    "Miscellaneous",
-    true
-  },
-  {
-    "Loupe",
-    "Show Loupe",
-    "Select Tools, Modules and Panels",
+    "Crop",
     true
   },
   {
     "CropOverlay",
     "Show Crop",
-    "Select Tools, Modules and Panels",
+    "Crop",
     true
   },
   {
-    "SpotRemoval",
-    "Show Spot Removal",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RedEye",
-    "Show Red-Eye Correction",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "GraduatedFilter",
-    "Show Graduated Filters",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RadialFilter",
-    "Show Radial Filters",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "AdjustmentBrush",
-    "Show Brush Adjustments",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "SwToMdevelop",
-    "Show Develop",
+    "Loupe",
+    "Show Loupe",
     "Select Tools, Modules and Panels",
     true
   },
@@ -2555,84 +2633,6 @@
     "SwToMweb",
     "Show Web",
     "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelAdjust",
-    "Show Basic Tone",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelTone",
-    "Show Tone Curve",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelMixer",
-    "Show Color Adjustments",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelSplit",
-    "Show Split Toning",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelDetail",
-    "Show Detail",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelLens",
-    "Show Lens Corrections",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelEffects",
-    "Show Effects",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "RevealPanelCalibrate",
-    "Show Calibration",
-    "Select Tools, Modules and Panels",
-    true
-  },
-  {
-    "ShoVwpeople",
-    "Primary Display People",
-    "View Modes",
-    true
-  },
-  {
-    "ShoVwdevelop_loupe",
-    "Primary Display Loupe",
-    "View Modes",
-    true
-  },
-  {
-    "ShoVwdevelop_before_after_horiz",
-    "Primary Display Before/After Left/Right",
-    "View Modes",
-    true
-  },
-  {
-    "ShoVwdevelop_before_after_vert",
-    "Primary Display Before/After Top/Bottom",
-    "View Modes",
-    true
-  },
-  {
-    "ShoVwdevelop_before",
-    "Primary Display Before",
-    "View Modes",
     true
   },
   {

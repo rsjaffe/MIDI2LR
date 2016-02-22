@@ -35,6 +35,7 @@ public:
 	// Sectioned and readable develop param strings
     static const std::vector<String> General;
     static const std::vector<String> Library;
+    static const std::vector<String> Develop;
     static const std::vector<String> BasicAdjustments;
     static const std::vector<String> ToneCurve;
     static const std::vector<String> Mixer;
@@ -44,10 +45,9 @@ public:
     static const std::vector<String> LensCorrections;
     static const std::vector<String> Effects;
     static const std::vector<String> Calibration;
-    static const std::vector<String> SelectionList;
     static const std::vector<String> DevelopPresets;
     static const std::vector<String> LocalAdjustments;
-    static const std::vector<String> Misc;
+    static const std::vector<String> Crop;
     static const std::vector<String> TMPList;
     static const std::vector<String> ViewModes;
     static const std::vector<String> ProgramProfiles;
