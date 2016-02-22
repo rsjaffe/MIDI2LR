@@ -279,9 +279,11 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
 {
 #ifdef _WIN32
+    //Lightroom handle
+    const HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
+    const ModifierKeys mk = key.getModifiers();
     HKL languageID;
     // Bring Lightroom to foreground if it isn't already there
-    HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
     if (hLRWnd)
     {
         ::SetForegroundWindow(hLRWnd);
@@ -294,8 +296,7 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
         languageID = GetKeyboardLayout(0);
     }
     // Translate key code to keyboard-dependent scan code
-    SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
-    ModifierKeys mk = key.getModifiers();
+    const SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
     // input event.
     INPUT ip;
     ip.type = INPUT_KEYBOARD;
@@ -342,9 +343,9 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
         SendInput(1, &ip, sizeof(INPUT));
     }
 #else
-    ModifierKeys mk = key.getModifiers();
-    UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
-    CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+    const ModifierKeys mk = key.getModifiers();
+    const UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
+    const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
     CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
@@ -362,7 +363,7 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     NSArray<NSRunningApplication *> apps = runningApplicationsWithBundleIdentifier('com.Adobe.Lightroom');
     if apps[0] != nullptr
     {
-        ProcessSerialNumber psn = { kNoProcess, kNoProcess };
+        const ProcessSerialNumber psn = { kNoProcess, kNoProcess };
         GetProcessForPID(apps[0].processIdentifier, &psn);
         CGEventPostToPSN(&psn, d);
         CGEventPostToPSN(&psn, u);
