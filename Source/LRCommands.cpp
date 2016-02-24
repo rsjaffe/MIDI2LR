@@ -300,8 +300,6 @@ const std::vector<String> LRCommandList::Detail = {
 const std::vector<String> LRCommandList::LensCorrections = {
     "Show Lens Corrections",
     "Enable Lens Corrections",
-    "Lens Profile Enable",
-    "Remove Chromatic Aberration",
     "Perspective Correction Off",
     "Perspective Correction Auto",
     "Perspective Correction Level",
@@ -498,7 +496,7 @@ const std::vector<String> LRCommandList::Crop = {
     "Show Crop",
 };
 
-const std::vector<String> LRCommandList::TMPList = {
+const std::vector<String> LRCommandList::ToolModulePanel = {
     "Show Loupe",
     "Show Map",
     "Show Book",
@@ -792,8 +790,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     /* Lens Corrections */
     "RevealPanelLens",
     "EnableLensCorrections",
-    "LensProfileEnable",
-    "AutoLateralCA",
     "UprightOff",
     "UprightAuto",
     "UprightLevel",
@@ -1006,7 +1002,6 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile9",
     "profile10",
 };
-
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",

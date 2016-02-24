@@ -48,7 +48,7 @@ public:
     static const std::vector<String> DevelopPresets;
     static const std::vector<String> LocalAdjustments;
     static const std::vector<String> Crop;
-    static const std::vector<String> TMPList;
+    static const std::vector<String> ToolModulePanel;
     static const std::vector<String> ViewModes;
     static const std::vector<String> ProgramProfiles;
     // MIDI2LR commands
