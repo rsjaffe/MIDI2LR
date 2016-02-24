@@ -1523,7 +1523,6 @@
   "CropTop"
 }
   local ProfileMap = {
-  AutoLateralCA = "lensCorrectionsPanel",
   Blacks = "adjustPanel",
   BlueHue = "calibratePanel",
   BlueSaturation = "calibratePanel",
@@ -1635,7 +1634,6 @@
   LensManualDistortionAmount = "lensCorrectionsPanel",
   LensProfileChromaticAberrationScale = "lensCorrectionsPanel",
   LensProfileDistortionScale = "lensCorrectionsPanel",
-  LensProfileEnable = "lensCorrectionsPanel",
   LensProfileVignettingScale = "lensCorrectionsPanel",
   Loupe = "loupe",
   LuminanceAdjustmentAqua = "mixerPanel",

@@ -1514,18 +1514,6 @@
     true
   },
   {
-    "LensProfileEnable",
-    "Lens Profile Enable",
-    "Lens Corrections",
-    true
-  },
-  {
-    "AutoLateralCA",
-    "Remove Chromatic Aberration",
-    "Lens Corrections",
-    true
-  },
-  {
     "UprightOff",
     "Perspective Correction Off",
     "Lens Corrections",
