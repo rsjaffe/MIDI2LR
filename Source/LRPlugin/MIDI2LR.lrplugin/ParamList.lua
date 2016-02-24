@@ -1,4 +1,4 @@
---[[----------------------------------------------------------------------------
+  --[[----------------------------------------------------------------------------
 
   ParamList.lua
 
@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with
   MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
   ------------------------------------------------------------------------------]]
-local SelectivePasteMenu = {
+  local SelectivePasteMenu = {
   {
     "ProcessVersion",
     "Process Version"
@@ -520,6 +520,10 @@ local SelectivePasteMenu = {
     "Blue Saturation Calibration"
   },
   {
+    "RedEyeInfo",
+    "Red-Eye Information"
+  },
+  {
     "EnableCircularGradientBasedCorrections",
     "Enable Radial Filter"
   },
@@ -572,10 +576,6 @@ local SelectivePasteMenu = {
     "Crop - Top"
   },
   {
-    "RedEyeInfo",
-    "Red-Eye Information"
-  },
-  {
     "TrimEnd",
     "TrimEnd"
   },
@@ -584,7 +584,7 @@ local SelectivePasteMenu = {
     "TrimStart"
   }
 }
-local SelectivePasteHidden = {
+  local SelectivePasteHidden = {
   Clarity2012 = "Clarity",
   Contrast2012 = "Contrast",
   Exposure2012 = "Exposure",
@@ -595,7 +595,7 @@ local SelectivePasteHidden = {
   ToneCurvePV2012Green = "ToneCurve",
   ToneCurvePV2012Red = "ToneCurve"
 }
-local SelectivePasteIteration = {
+  local SelectivePasteIteration = {
   "ProcessVersion",
   "WhiteBalance",
   "AutoBrightness",
@@ -730,6 +730,7 @@ local SelectivePasteIteration = {
   "GreenSaturation",
   "BlueHue",
   "BlueSaturation",
+  "RedEyeInfo",
   "EnableCircularGradientBasedCorrections",
   "EnableGradientBasedCorrections",
   "EnablePaintBasedCorrections",
@@ -743,11 +744,10 @@ local SelectivePasteIteration = {
   "CropLeft",
   "CropRight",
   "CropTop",
-  "RedEyeInfo",
   "TrimEnd",
   "TrimStart"
 }
-local SelectivePasteGroups = {
+  local SelectivePasteGroups = {
   basicTone = {
     "ProcessVersion",
     "WhiteBalance",
@@ -871,13 +871,13 @@ local SelectivePasteGroups = {
     "VignetteMidpoint"
   },
   localizedAdjustments = {
+    "RedEyeInfo",
     "EnableCircularGradientBasedCorrections",
     "EnableGradientBasedCorrections",
     "EnablePaintBasedCorrections",
     "EnableRedEye",
     "EnableRetouch",
-    "RetouchInfo",
-    "RedEyeInfo"
+    "RetouchInfo"
   },
   miscellaneous = {
     "orientation",
@@ -908,497 +908,497 @@ local SelectivePasteGroups = {
     "ParametricHighlightSplit"
   }
 }
-local LimitEligible = {
+  local LimitEligible = {
   Blacks = {
     "Blacks",
-    29
+    127
   },
   BlueHue = {
     "Blue Hue Calibration",
-    263
+    368
   },
   BlueSaturation = {
     "Blue Saturation Calibration",
-    264
+    369
   },
   Brightness = {
     "Brightness",
-    22
+    120
   },
   Clarity = {
     "Clarity",
-    31
+    129
   },
   ColorNoiseReduction = {
     "Color Noise Reduction",
-    154
+    256
   },
   ColorNoiseReductionDetail = {
     "Color Noise Reduction Detail",
-    155
+    257
   },
   ColorNoiseReductionSmoothness = {
     "Color Noise Reduction Smoothness",
-    156
+    258
   },
   Contrast = {
     "Contrast",
-    19
+    117
   },
   CropAngle = {
     "Crop Angle",
-    373
+    453
   },
   CropBottom = {
     "Crop - Bottom",
-    374
+    454
   },
   CropLeft = {
     "Crop - Left",
-    375
+    455
   },
   CropRight = {
     "Crop - Right",
-    376
+    456
   },
   CropTop = {
     "Crop - Top",
-    377
+    457
   },
   DefringeGreenAmount = {
     "Defringe Green Amount",
-    189
+    292
   },
   DefringeGreenHueHi = {
     "Defringe Green Hue - High",
-    191
+    294
   },
   DefringeGreenHueLo = {
     "Defringe Green Hue - Low",
-    190
+    293
   },
   DefringePurpleAmount = {
     "Defringe Purple Amount",
-    186
+    289
   },
   DefringePurpleHueHi = {
     "Defringe Purple Hue - High",
-    188
+    291
   },
   DefringePurpleHueLo = {
     "Defringe Purple Hue - Low",
-    187
+    290
   },
   Dehaze = {
     "Dehaze Amount",
-    215
+    319
   },
   Exposure = {
     "Exposure",
-    17
+    115
   },
   GrainAmount = {
     "Grain Amount",
-    222
+    326
   },
   GrainFrequency = {
     "Grain Roughness",
-    224
+    328
   },
   GrainSize = {
     "Grain Size",
-    223
+    327
   },
   GrayMixerAqua = {
     "Gray Mixer Aqua",
-    99
+    199
   },
   GrayMixerBlue = {
     "Gray Mixer Blue",
-    100
+    200
   },
   GrayMixerGreen = {
     "Gray Mixer Green",
-    98
+    198
   },
   GrayMixerMagenta = {
     "Gray Mixer Magenta",
-    102
+    202
   },
   GrayMixerOrange = {
     "Gray Mixer Orange",
-    96
+    196
   },
   GrayMixerPurple = {
     "Gray Mixer Purple",
-    101
+    201
   },
   GrayMixerRed = {
     "Gray Mixer Red",
-    95
+    195
   },
   GrayMixerYellow = {
     "Gray Mixer Yellow",
-    97
+    197
   },
   GreenHue = {
     "Green Hue Calibration",
-    261
+    366
   },
   GreenSaturation = {
     "Green Saturation Calibration",
-    262
+    367
   },
   Highlights = {
     "Highlights (Highlight Recovery in PV2003 and PV2010)",
-    21
+    119
   },
   HueAdjustmentAqua = {
     "Hue Adjustment Aqua",
-    81
+    181
   },
   HueAdjustmentBlue = {
     "Hue Adjustment Blue",
-    82
+    182
   },
   HueAdjustmentGreen = {
     "Hue Adjustment Green",
-    80
+    180
   },
   HueAdjustmentMagenta = {
     "Hue Adjustment Magenta",
-    84
+    184
   },
   HueAdjustmentOrange = {
     "Hue Adjustment Orange",
-    78
+    178
   },
   HueAdjustmentPurple = {
     "Hue Adjustment Purple",
-    83
+    183
   },
   HueAdjustmentRed = {
     "Hue Adjustment Red",
-    77
+    177
   },
   HueAdjustmentYellow = {
     "Hue Adjustment Yellow",
-    79
+    179
   },
   LensManualDistortionAmount = {
     "Lens Manual Distortion Amount",
-    198
+    301
   },
   LensProfileChromaticAberrationScale = {
     "Lens Profile Chromatic Aberration Scale",
-    181
+    284
   },
   LensProfileDistortionScale = {
     "Lens Profile Distortion Scale",
-    180
+    283
   },
   LensProfileVignettingScale = {
     "Lens Profile Vignetting Scale",
-    182
+    285
   },
   LuminanceAdjustmentAqua = {
     "Luminance Adjustment Aqua",
-    89
+    189
   },
   LuminanceAdjustmentBlue = {
     "Luminance Adjustment Blue",
-    90
+    190
   },
   LuminanceAdjustmentGreen = {
     "Luminance Adjustment Green",
-    88
+    188
   },
   LuminanceAdjustmentMagenta = {
     "Luminance Adjustment Magenta",
-    92
+    192
   },
   LuminanceAdjustmentOrange = {
     "Luminance Adjustment Orange",
-    86
+    186
   },
   LuminanceAdjustmentPurple = {
     "Luminance Adjustment Purple",
-    91
+    191
   },
   LuminanceAdjustmentRed = {
     "Luminance Adjustment Red",
-    85
+    185
   },
   LuminanceAdjustmentYellow = {
     "Luminance Adjustment Yellow",
-    87
+    187
   },
   LuminanceNoiseReductionContrast = {
     "Luminance Contrast",
-    153
+    255
   },
   LuminanceNoiseReductionDetail = {
     "Luminance Detail",
-    152
+    254
   },
   LuminanceSmoothing = {
     "Luminance Smoothing",
-    151
+    253
   },
   ParametricDarks = {
     "Dark Tones",
-    54
+    153
   },
   ParametricHighlightSplit = {
     "Highlight Split",
-    60
+    159
   },
   ParametricHighlights = {
     "Highlight Tones",
-    57
+    156
   },
   ParametricLights = {
     "Light Tones",
-    55
+    154
   },
   ParametricMidtoneSplit = {
     "Midtone Split",
-    59
+    158
   },
   ParametricShadowSplit = {
     "Shadow Split",
-    58
+    157
   },
   ParametricShadows = {
     "Shadow Tones",
-    56
+    155
   },
   PerspectiveAspect = {
     "Perspective Aspect",
-    203
+    306
   },
   PerspectiveHorizontal = {
     "Perspective Horizontal",
-    200
+    303
   },
   PerspectiveRotate = {
     "Perspective Rotate",
-    201
+    304
   },
   PerspectiveScale = {
     "Perspective Scale",
-    202
+    305
   },
   PerspectiveVertical = {
     "Perspective Vertical",
-    199
+    302
   },
   PostCropVignetteAmount = {
     "Post Crop Vignette Amount",
-    216
+    320
   },
   PostCropVignetteFeather = {
     "Post Crop Vignette Feather",
-    218
+    322
   },
   PostCropVignetteHighlightContrast = {
     "Post Crop Vignette Highlight Contrast",
-    221
+    325
   },
   PostCropVignetteMidpoint = {
     "Post Crop Vignette Midpoint",
-    217
+    321
   },
   PostCropVignetteRoundness = {
     "Post Crop Vignette Roundness",
-    219
+    323
   },
   PostCropVignetteStyle = {
     "Post Crop Vignette Style",
-    220
+    324
   },
   RedHue = {
     "Red Hue Calibration",
-    259
+    364
   },
   RedSaturation = {
     "Red Saturation Calibration",
-    260
+    365
   },
   Saturation = {
     "Saturation",
-    34
+    132
   },
   SaturationAdjustmentAqua = {
     "Saturation Adjustment Aqua",
-    73
+    173
   },
   SaturationAdjustmentBlue = {
     "Saturation Adjustment Blue",
-    74
+    174
   },
   SaturationAdjustmentGreen = {
     "Saturation Adjustment Green",
-    72
+    172
   },
   SaturationAdjustmentMagenta = {
     "Saturation Adjustment Magenta",
-    76
+    176
   },
   SaturationAdjustmentOrange = {
     "Saturation Adjustment Orange",
-    70
+    170
   },
   SaturationAdjustmentPurple = {
     "Saturation Adjustment Purple",
-    75
+    175
   },
   SaturationAdjustmentRed = {
     "Saturation Adjustment Red",
-    69
+    169
   },
   SaturationAdjustmentYellow = {
     "Saturation Adjustment Yellow",
-    71
+    171
   },
   ShadowTint = {
     "Shadow Tint Calibration",
-    258
+    363
   },
   Shadows = {
     "Shadows (Fill Light in PV2003 and PV2010)",
-    24
+    122
   },
   SharpenDetail = {
     "Sharpen Detail",
-    149
+    251
   },
   SharpenEdgeMasking = {
     "Sharpen Edge Masking",
-    150
+    252
   },
   SharpenRadius = {
     "Sharpen Radius",
-    148
+    250
   },
   Sharpness = {
     "Sharpness",
-    147
+    249
   },
   SplitToningBalance = {
     "Split Toning Balance",
-    140
+    241
   },
   SplitToningHighlightHue = {
     "Highlight Hue",
-    138
+    239
   },
   SplitToningHighlightSaturation = {
     "Highlight Saturation",
-    139
+    240
   },
   SplitToningShadowHue = {
     "Shadow Hue",
-    136
+    237
   },
   SplitToningShadowSaturation = {
     "Shadow Saturation",
-    137
+    238
   },
   Temperature = {
     "Temperature",
-    15
+    113
   },
   Tint = {
     "Tint",
-    16
+    114
   },
   Vibrance = {
     "Vibrance",
-    33
+    131
   },
   VignetteAmount = {
     "Vignette Amount",
-    204
+    307
   },
   VignetteMidpoint = {
     "Vignette Midpoint",
-    205
+    308
   },
   Whites = {
     "Whites (no effect in PV2003 and PV2010)",
-    27
+    125
   },
   local_Blacks2012 = {
     "Local Adjustments Blacks (PV2012)",
-    329
+    414
   },
   local_Clarity = {
     "Local Adjustments Clarity (PV2010 and PV2012)",
-    330
+    415
   },
   local_Contrast = {
     "Local Adjustments Contrast (PV2010 and PV2012)",
-    325
+    410
   },
   local_Defringe = {
     "Local Adjustments Defringe (PV2012)",
-    336
+    421
   },
   local_Dehaze = {
     "Local Adjustments Dehaze (PV2012)",
-    331
+    416
   },
   local_Exposure = {
     "Local Adjustments Exposure (PV2010 and PV2012)",
-    324
+    409
   },
   local_Highlights = {
     "Local Adjustments Highlights (PV2012)",
-    326
+    411
   },
   local_LuminanceNoise = {
     "Local Adjustments Luminence Noise Reduction (PV2012)",
-    334
+    419
   },
   local_Moire = {
     "Local Adjustments Moire (PV2012)",
-    335
+    420
   },
   local_Saturation = {
     "Local Adjustments Saturation (PV2010 and PV2012)",
-    332
+    417
   },
   local_Shadows = {
     "Local Adjustments Shadows (PV2012)",
-    327
+    412
   },
   local_Sharpness = {
     "Local Adjustments Sharpness (PV2010 and PV2012)",
-    333
+    418
   },
   local_Temperature = {
     "Local Adjustments Temp. (PV2012)",
-    322
+    407
   },
   local_Tint = {
     "Local Adjustments Tint (PV2012)",
-    323
+    408
   },
   local_ToningLuminance = {
     "Local Toning Luminance (PV2010)",
-    337
+    422
   },
   local_Whites2012 = {
     "Local Adjustments Whites (PV2012)",
-    328
+    413
   },
   straightenAngle = {
     "Straighten Angle",
-    372
+    452
   }
 }
-local SendToMidi = {
+  local SendToMidi = {
   "Temperature",
   "Tint",
   "Exposure",
@@ -1522,8 +1522,7 @@ local SendToMidi = {
   "CropRight",
   "CropTop"
 }
-local ProfileMap = {
-  AutoLateralCA = "lensCorrectionsPanel",
+  local ProfileMap = {
   Blacks = "adjustPanel",
   BlueHue = "calibratePanel",
   BlueSaturation = "calibratePanel",
@@ -1584,6 +1583,7 @@ local ProfileMap = {
   KPClearQuickCollection = "",
   KPClipping = "",
   KPCycleLightsOut = "",
+  KPCycleViewStyle = "",
   KPDecreaseFeather = "",
   KPDecreaseGridSize = "",
   KPDecreaseSize = "",
@@ -1622,7 +1622,10 @@ local ProfileMap = {
   KPSelectAll = "",
   KPSelectFlagged = "",
   KPSelectNone = "",
+  KPShowBadges = "",
+  KPShowExtras = "",
   KPShowQuickCollection = "",
+  KPSwapImages = "",
   KPTargetQuickCollection = "",
   KPToTopStack = "",
   KPTrash = "",
@@ -1631,7 +1634,6 @@ local ProfileMap = {
   LensManualDistortionAmount = "lensCorrectionsPanel",
   LensProfileChromaticAberrationScale = "lensCorrectionsPanel",
   LensProfileDistortionScale = "lensCorrectionsPanel",
-  LensProfileEnable = "lensCorrectionsPanel",
   LensProfileVignettingScale = "lensCorrectionsPanel",
   Loupe = "loupe",
   LuminanceAdjustmentAqua = "mixerPanel",
@@ -1827,12 +1829,12 @@ local ProfileMap = {
   WhiteBalanceTungsten = "adjustPanel",
   Whites = "adjustPanel"
 }
-return {
-  SelectivePasteMenu = SelectivePasteMenu,
-  SelectivePasteHidden = SelectivePasteHidden,
-  SelectivePasteIteration = SelectivePasteIteration,
-  SelectivePasteGroups = SelectivePasteGroups,
-  LimitEligible = LimitEligible,
-  SendToMidi = SendToMidi,
-  ProfileMap = ProfileMap,
-}
+  return {
+    SelectivePasteMenu = SelectivePasteMenu,
+    SelectivePasteHidden = SelectivePasteHidden,
+    SelectivePasteIteration = SelectivePasteIteration,
+    SelectivePasteGroups = SelectivePasteGroups,
+    LimitEligible = LimitEligible,
+    SendToMidi = SendToMidi,
+    ProfileMap = ProfileMap,
+    }

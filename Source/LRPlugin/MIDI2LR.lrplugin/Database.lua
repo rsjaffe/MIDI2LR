@@ -25,12 +25,14 @@ local calibration = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Calibratio
 local colorAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments")
 local crop = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop")
 local detail = LOC("$$$/AgDevelop/Panel/Detail=Detail")
+local develop = LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop")
 local developPreset = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset")
 local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets")
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
-local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")
-..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
+local general = LOC("$$$/WFCatSearch/TermCategories/General=General")
+local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
+local library = LOC("$$$/AgLibraryModule/ModuleTitle=Library")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
 local miscellaneous = "Miscellaneous"
 local photoActions = "Photo Actions"
@@ -86,8 +88,139 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
   ------------------------------------------------------------------------------]]
 
 local DataBase = {
+  --General Workspace
+  --workspace: grid view options
+  {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),general,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
+  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),general, 'Increase grid size (**=**). *button*','',true,'=','='},
+  {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),general, 'Decrease grid size (**-**). *button*','',true,'-','-'},
+  {'KPShowExtras', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowExtras=Show Extras"):gsub("&",""),general, 'Show/Hide extras (**control/command shift h**). *button*','',true,'ctrl + shift + h','command + shift + h'},
+  {'KPShowBadges', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowBadges=Show Badges"):gsub("&",""),general, 'Show/Hide badges (**control/command alt/option shift h**). *button*','',true,'ctrl + alt + shift + h','command + option + shift + h'},
+  {'KPCycleViewStyle', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/CycleViewStyle=Cycle Grid View Style"):gsub("&",""),general, 'Cycle grid view style (**-**). *button*','',true,'j','j'},
+  --workspace: loupe view
+  {"ShoVwloupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe"),general,"Displays a single photo. Zoom levels up to 11:1 are available. *button*"},  --workspace: compare view
+  --workspace: compare view
+  {"ShoVwcompare",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Compare=Compare"),general,"Displays photos side by side so that you can evaluate them. *button*"},
+  {"KPSwapImages",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Compare2up/SwapImages=Swap Images"),general,"Swaps select and candidate in compare view (**down arrow**). *button*",'',true,'cursor down','cursor down'},
+  --workspace: survey 
+  {"ShoVwsurvey",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Survey=Survey"),general,"Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell. *button*"},
+  --workspace: zoom
+  {"ToggleZoomOffOn",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom"):gsub("&",""),general,"*button*"},
+  {"ZoomInLargeStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In"),general,"*button*"},
+  {"ZoomInSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some"),general,"*button*"},
+  {"ZoomOutSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some"),general,"*button*"},
+  {"ZoomOutLargeStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out"),general,"*button*"},
+  --workspace: view options
+  {'KPHideToolbar', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowToolbar=Show/Hide Toolbar"),general, 'Show/Hide toolbar (**t**). *button*','',true,'t','t'},
+  --workspace: panels
+  {'KPHidePanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Show_HideTheSidePanels=Show/Hide Side Panels"),general, 'Show/Hide side panels (**tab**). *button*','',true,'tab','tab'},
+  {'KPHideAllPanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowAllThePanels=Show/Hide All Panels"),general, 'Show/Hide all panels (**shift tab**). *button*','',true,'shift + tab','shift + tab'},
+  --workspace: Selections
+  {'KPSelectAll', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectAll=Select All"),general,'Select all photos (**control/command a**). *button*','',true,'ctrl + a','command + a'},
+  {'KPSelectNone', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectNone=Select None"),general,'Select no photos (**control/command d**). *button*','',true,'ctrl + d','command + d'},
+  {"Select1Left",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Left=Left"),general,"Extend selection one picture to the left. *button*"},
+  {"Select1Right",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Right=Right"),general,"Extend selection one picture to the right. *button*"},
+
+  {'KPSelectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectOnlyActive=Select Only Active Photo"):gsub("&",""),general,'Select active photo only (**control/command shift d**). *button*','',true,'ctrl + shift + d','command + shift + d'},
+  {'KPDeselectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectActive=Deselect Active Photo"):gsub("&",""),general,'Deselect active photo (**shift d**). *button*','',true,'shift + d','shift + d'},
+  {'KPSelectFlagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectFlaggedPhotos=Select Flagged Photos"):gsub("&",""),general,'Select flagged photos (**control/command alt/option a**). *button*','',true,'ctrl + alt + a','command + option + a'},
+  {'KPDeselectUnflagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectUnflaggedPhotos=Deselect Unflagged Photos"):gsub("&",""),general,'Deselect unflagged photos (**control/command alt/option shift d**). *button*','',true,'ctrl + alt + shift + d','command + option + shift + d'},
+  {'KPPrevSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PreviousSelectedPhoto=Previous Selected Photo"):gsub("&",""),general,'Go to previous selected photo (**control/command cursor left**). *button*','',true,'ctrl + cursor left','command + cursor left'},
+  {'KPNextSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/NextSelectedPhoto=Next Selected Photo"):gsub("&",""),general,'Go to next selected photo (**control/command cursor right**). *button*','',true,'ctrl + cursor right','command + cursor right'},
+  {"Next",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Next_Photo=Next Photo"),general,"*button*"},
+  {"Prev",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo"),general,"*button*"},
+
+  --workspace: screen mode
+  {'KPGoNormalMode', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoNormalMode=Go Normal Mode"),general, 'Go normal mode (**control/command alt/option f**). *button*','',true,'ctrl + alt + f','command + option + f'},
+  {'KPFullScrHidePanles', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullScreenHidePanels=Full Screen Hide Panels"):gsub("&",""),general, 'Full screen hide panels (**control/command shift f**). *button*','',true,'ctrl + shift + f','command + shift + f'},
+  {'KPFullScrPreview', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullscreenPreview=Full Screen Preview"):gsub("&",""),general, 'Full screen preview (**f**). *button*','',true,'f','f'},
+  --workspace: Lights Out
+  {'KPCycleLightsOut', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/CycleLightsOut=Cycle Lights Out"),general, 'Cycle lights out (**l**). *button*','',true,'l','l'},
+  {'KPGoLightsOutDim', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoLightsOutDim=Go Lights Out Dim"),general, 'Go lights out dim (**control/command shift l**). *button*','',true,'ctrl + shift + l','command + shift + l'},
+  --photomerge
+  {'KPMergeHDR', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDR=HDR..."),general, 'Merge to HDR with Dialog (**control/command h**). *button*','',true,'ctrl + h','command + h'},
+  {'KPMergeHDRnoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDRHeadless=HDR"),general, 'Merge to HDR, skip dialog (**control/command shift h**). *button*','',true,'ctrl + shift + h','command + shift + h'},
+  {'KPMergePano', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/Panorama=Panorama..."),general, 'Merge to Panorama with dialog (**control/command m**). *button*','',true,'ctrl + m','command + m'},
+  {'KPMergePanonoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/PanoramaHeadless=Panorama"),general, 'Merge to Panorama, skip dialog (**control/command shift m**). *button*','',true,'ctrl + shift + m','command + shift + m'},
+  --edit in
+  {'KPEditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),general, 'Edit in Photoshop (**control/command e**). *button*','',true,'ctrl + e','command + e'},
+  {'KPEditInOther', false,false,true,false,true,false,'Edit in Other',general, 'Edit in Other Application (**control/command alt/option e**). *button*','',true,'ctrl + alt + e','command + option + e'},
+
+  --Library
+  {"SwToMlibrary",false,false,true,false,true,false,show..' '..LOC("$$$/AgLibraryModule/ModuleTitle=Library"),library,"Switch to Library module. *button*"},
+  --library: quick collection
+  {'KPAddToQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollection=Add To Quick Collection"):gsub("&",""),library, 'Add to quick collection (**b**). *button*','',true,'b','b'},
+  {'KPAddToQuickCollectionAndNext', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollectionAndNext=Add to Quick Collection/Next"):gsub("&",""),library, 'Add to quick collection, go to next photo (**shift b**). *button*','',true,'shift + b','shift + b'},
+  {'KPShowQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ShowQuickCollection=Show Quick Collection"):gsub("&",""),library, 'Show quick collection (**control/command b**). *button*','',true,'ctrl + b','command + b'},
+  {'KPSaveQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/SaveQuickCollection=Save Quick Collection..."):gsub("&",""),library, 'Save quick collection (**control/command alt/option b**). *button*','',true,'ctrl + alt + b','command + option + b'},
+  {'KPClearQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ClearQuickCollection=Clear Quick Collection"):gsub("&",""),library, 'Clear quick collection (**control/command shift b**). *button*','',true,'ctrl + shift + b','command + shift + b'},
+  {'KPTargetQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/TargetQuickCollection=Target Quick Collection"):gsub("&",""),library, 'Set quick collection as the target collection (**control/command alt/option shift b**). *button*','',true,'ctrl + alt + shift + b','command + option + shift + b'},
+  --library: stacking
+  {'KPGroupIntoStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/StackImages=Stack Photos"),library,'Group into stack (**control/command g**). *button*','',true,'ctrl + g','command + g'},
+  {'KPUnstack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/UnstackImages=Unstack Photos"),library,'Unstack (**control/command shift g**). *button*','',true,'ctrl + shift + g','command + shift + g'},
+  {'KPExpandStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/ToggleStack=Toggle Stack"):gsub("&",""),library,'Collapse/Expand stack (**s**). *button*','',true,'s','s'},
+  {'KPToTopStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveToTop=Move to Stack Top"):gsub("&",""),library,'Move to top of stack (**shift s**). *button*','',true,'shift + s','shift + s'},
+  {'KPUpInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveUp=Move Up in Stack"):gsub("&",""),library,'Move up in stack (**shift [**). *button*','',true,'shift + [','shift + ['},
+  {'KPDnInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveDown=Move Down in Stack"):gsub("&",""),library,'Move down in stack (**shift ]**). *button*','',true,'shift + ]','shift + ]'},
+  --library: flags
+  {"Pick",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag"),library,"*button*"},
+  {"Reject",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag"),library,"*button*"},
+  {"RemoveFlag",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetPick/Unflagged=Unflagged"):gsub('&',''),library,"*button*"},
+  --library: ratings
+  {"SetRating0",false,false,true,false,true,false,LOC("$$$/AgLibrary/Filter/Stars=^1 Stars",'0'),library,"*button*"},
+  {"SetRating1",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating1=1 Star"):gsub('&',''),library,"*button*"},
+  {"SetRating2",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating2=&2 Stars"):gsub('&',''),library,"*button*"},
+  {"SetRating3",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating3=&3 Stars"):gsub('&',''),library,"*button*"},
+  {"SetRating4",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating4=&4 Stars"):gsub('&',''),library,"*button*"},
+  {"SetRating5",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating5=&5 Stars"):gsub('&',''),library,"*button*"},
+  {"IncreaseRating",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/IncreaseRating=Increase Rating"),library,"*button*"},
+  {"DecreaseRating",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating"),library,"*button*"},
+  --library: color flags
+  {"ToggleBlue",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelBlue=Blue")),library,"*button*"},
+  {"ToggleGreen",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelGreen=Green")),library,"*button*"},
+  {"ToggleRed",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelRed=Red")),library,"*button*"},
+  {"TogglePurple",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelPurple=Purple")),library,"*button*"},
+  {"ToggleYellow",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelYellow=Yellow")),library,"*button*"},
+  --library: rotation
+  {'KPRotateLeft', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_left=Rotate Left"),library, 'Rotate left (**control/command [**). *button*','',true,'ctrl + [','command + ['},
+  {'KPRotateRight', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_right=Rotate Right"),library, 'Rotate right (**control command ]**). *button*','',true,'ctrl + ]','command + ]'},
+  --library: delete
+  {'KPDelete', false,false,true,false,true,false,'Delete',library, 'Delete photo (**delete**). *button*','',true,'delete','delete'},
+  {'KPDeleteRej', false,false,true,false,true,false,'Delete Rejected',library, 'Delete rejected photos (**control/command delete**). *button*','',true,'ctrl + delete','command + delete'},
+  {'KPRemoveFromCat', false,false,true,false,true,false,'Remove from Catalog',library, 'Remove photo from catalog (**alt/option delete**). *button*','',true,'alt + delete','option + delete'},
+  {'KPTrash', false,false,true,false,true,false,'Trash Photo',library, 'Remove and trash photo (**control/command alt/option shift delete**). *button*','',true,'ctrl + alt + shift + delete','command + option + shift + delete'},
+  --library: face recognition
+  {"ShoVwpeople",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/People=People"),library,"In the People view, the different faces are organized by people stacks. *button*"},
+
+  --Develop
+  {"SwToMdevelop",false,false,true,false,true,false,show..' '..LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),develop,"Switch to Develop module. *button*"},
+  --develop: copy paste sync
+  {"CopySettings",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
+  {"PasteSettings",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Pastes all develop settings. *button*"},
+  {"PasteSelectedSettings",false,false,true,false,true,false,"Paste Selected Settings",develop,"Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},
+  {'KPPasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),develop, 'Paste settings from previous (**control/command alt/option v**). *button*','',true,'ctrl + alt + v','command + option + v'},
+  {'KPMatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),develop, 'Match exposures (**control/command alt/option shift m**). *button*','',true,'ctrl + alt + shift + m','command + option + shift + m'},
+  {"VirtualCopy",false,false,true,false,true,false,LOC("$$$/AgLibrary/Bezel/CreateVirtualCopy=Create Virtual Copy"):gsub('&',''),develop,"Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected. *button*"},
+  {"ResetAll",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings"),develop,"Reset to defaults. *button*"},
+  {"ResetLast",false,false,true,false,true,false,reset..' '..LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified"):gsub(':',''),develop,"Resets the last parameter that was adjusted by an encoder or fader to default. *button*"},
+  {"IncrementLastDevelopParameter",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2",'',LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified")):gsub(':',''):gsub("^%s*(.-)%s*$", "%1"),develop,"Increments the last parameter that was adjusted by an encoder or fader. *button*"},
+  {"DecrementLastDevelopParameter",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2",'',LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified")):gsub(':',''):gsub("^%s*(.-)%s*$", "%1"),develop,"Decrements the last parameter that was adjusted by an encoder or fader. *button*"},
+  {"Undo",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo"),develop,"*button*"},
+  {"Redo",false,false,true,false,true,false,LOC("$$$/Bezel/RedoTitle=Redo"),develop,"*button*"},
+  --develop: before/after previews
+  {"ShoVwdevelop_before_after_horiz",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right"),develop,"*button*"},
+  {"ShoVwdevelop_before_after_vert",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterTB=Before/After Top/Bottom"),develop,"*button*"},
+  {"ShoVwdevelop_before",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Before=Before"),develop,"*button*"},
+  {'KPBeforeAfter', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/BeforeAfter=Before/After"):gsub("&",""),develop, 'Show before and after (**\\**). *button*','',true,'\\\\','\\\\'},--need two \\ for C++ so it results in one \
+  --develop: auto
+  {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),develop, 'Auto tone (**control/command u**). *button*','',true,'ctrl + u','command + u'},
+  --develop: clipping indicators
+  {'KPClipping', false,false,true,false,true,false,LOC("$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show Clipping"),develop, 'Show clipping (**j**). *button*','',true,'j','j'},
+  --develop: views
+  {"ShoVwdevelop_loupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),develop,"*button*"},
+
   {"ProcessVersion",'basicTone',true,false,false,true,false,LOC("$$$/AgDevelop/Menu/ProcessVersion=Process Version")},
   {"WhiteBalance",'basicTone',true,false,false,true,false,whiteBalance},
+  {"RevealPanelAdjust",false,false,true,false,true,false,show..' '..basicTone,basicTone,"Open Basic Adjustments Panel in Develop Module. *button*"},
   {"WhiteBalanceAs_Shot",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/AsShot=As Shot"),basicTone,"Use Temperature and Tint as determined by camera. *button*",'adjustPanel'},
   {"WhiteBalanceAuto",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Auto=Auto"),basicTone,"Have Lightroom determine Temperature and Tint. *button*",'adjustPanel'},
   {"WhiteBalanceCloudy",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Cloudy=Cloudy"),basicTone,"Use cloudy white balance. *button*",'adjustPanel'},
@@ -131,6 +264,7 @@ local DataBase = {
   {"ResetClarity",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Clarity=Clarity"),basicTone,"Reset to default. *button*",'adjustPanel'},
   {"ResetVibrance",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawUI/Vibrance=Vibrance"),basicTone,"Reset to default. *button*",'adjustPanel'},
   {"ResetSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawUI/Saturation=Saturation"),basicTone,"Reset to default. *button*",'adjustPanel'},
+  {"RevealPanelTone",false,false,true,false,true,false,show..' '..toneCurve,toneCurve,"Open Tone Curve Panel in Develop Module. *button*"},
   {"EnableToneCurve",'toneCurve',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableToneCurve=Enable Tone Curve"),toneCurve,"Enable or disable tone curve. *button*",'tonePanel'},
   {"ToneCurve",'toneCurve',true,false,false,true,false,toneCurve},
   {"ToneCurveName",false,true,false,false,true,false,"ToneCurve"},
@@ -153,6 +287,7 @@ local DataBase = {
   {"ResetParametricShadowSplit",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneShadowSplit=Shadow Split"),toneCurve,"Reset to default. *button*",'tonePanel'},
   {"ResetParametricMidtoneSplit",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneMidtoneSplit=Midtone Split"),toneCurve,"Reset to default. *button*",'tonePanel'},
   {"ResetParametricHighlightSplit",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneHighlightSplit=Highlight Split"),toneCurve,"Reset to default. *button*",'tonePanel'},
+  {"RevealPanelMixer",false,false,true,false,true,false,show..' '..colorAdjustments,colorAdjustments,"Open Mixer Panel in Develop Module. *button*"},
   {"EnableColorAdjustments",'colorAdjustments',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableColorAdjustments=Enable Color Adjustments"),colorAdjustments,"Enable or disable color adjustments. *button*",'mixerPanel'},
   {"SaturationAdjustmentRed",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentRed=Saturation Adjustment Red"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
   {"SaturationAdjustmentOrange",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentOrange=Saturation Adjustment Orange"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
@@ -220,6 +355,7 @@ local DataBase = {
   {"ResetGrayMixerBlue",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerBlue=Gray Mixer Blue"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetGrayMixerPurple",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerPurple=Gray Mixer Purple"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetGrayMixerMagenta",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerMagenta=Gray Mixer Magenta"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
+  {"RevealPanelSplit",false,false,true,false,true,false,show..' '..splitToning,splitToning,"Open Split Toning Panel in Develop Module. *button*"},
   {"EnableSplitToning",'splitToningPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSplitToning=Enable Split Toning"),splitToning,"Enable or disable split toning effects. *button*",'splitToningPanel'},
   {"SplitToningShadowHue",'splitToningPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue"),splitToning,"Color of the tone for shadows.",'splitToningPanel'},
   {"SplitToningShadowSaturation",'splitToningPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowSaturation=Shadow Saturation"),splitToning,"Strength of the effect.",'splitToningPanel'},
@@ -231,6 +367,7 @@ local DataBase = {
   {"ResetSplitToningHighlightHue",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue"),splitToning,"Reset to default. *button*",'splitToningPanel'},
   {"ResetSplitToningHighlightSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightSaturation=Highlight Saturation"),splitToning,"Reset to default. *button*",'splitToningPanel'},
   {"ResetSplitToningBalance",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningBalance=Split Toning Balance"),splitToning,"Reset to default. *button*",'splitToningPanel'},
+  {"RevealPanelDetail",false,false,true,false,true,false,show..' '..detail,detail,"Open Detail Panel in Develop Module. *button*"},
   {"EnableDetail",'detailPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableDetail=Enable Detail"),detail,"Enable or disable noise reduction and sharpening. *button*",'detailPanel'},
   {"Sharpness",'detailPanel',true,true,true,false,false,LOC("$$$/AgDevelop/Localized/Sharpness=Sharpness"),detail,"Adjusts edge definition. Increase the Amount value to increase sharpening. A value of zero (0) turns off sharpening. In general, set Amount to a lower value for cleaner images. The adjustment locates pixels that differ from surrounding pixels based on the threshold you specify and increases the pixelsâ€™ contrast by the amount you specify.",'detailPanel'},
   {"SharpenRadius",'detailPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SharpenRadius=Sharpen Radius"),detail,"Adjusts the size of the details that sharpening is applied to. Photos with very fine details may need a lower radius setting. Photos with larger details may be able to use a larger radius. Using too large a radius generally results in unnatural-looking results.",'detailPanel'},
@@ -252,10 +389,13 @@ local DataBase = {
   {"ResetColorNoiseReduction",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReduction=Color Noise Reduction"),detail,"Reset to default. *button*",'detailPanel'},
   {"ResetColorNoiseReductionDetail",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReductionDetail=Color Noise Reduction Detail"),detail,"Reset to default. *button*",'detailPanel'},
   {"ResetColorNoiseReductionSmoothness",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReductionSmoothness=Color Noise Reduction Smoothness"),detail,"Reset to default. *button*",'detailPanel'},
+  {"RevealPanelLens",false,false,true,false,true,false,show..' '..lensCorrections,lensCorrections,"Open Lens Corrections Panel in Develop Module. *button*"},
   {"EnableLensCorrections",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableLensCorrections=Enable Lens Corrections"),lensCorrections,"Enable or disable all lens corrections. *button*",'lensCorrectionsPanel'},
-  {"LensProfileEnable",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Lens Profile Enable"),lensCorrections,"Automatic correction using a stored lens profile.",'lensCorrectionsPanel'},
+  -- LR not responding to this, so leave in selective paste, take out of LR commands
+  {"LensProfileEnable",'lensCorrectionsPanel',true,false,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Lens Profile Enable")},
   {"LensProfileSetup",'lensCorrectionsPanel',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileSetup=Lens Profile Setup")},
-  {"AutoLateralCA",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration"),lensCorrections,"Automatically corrects blue-yellow and red-green fringes (lateral chromatic aberration).",'lensCorrectionsPanel'},
+  -- LR not responding to this, so leave in selective paste, take out of LR commands
+  {"AutoLateralCA",'lensCorrectionsPanel',true,false,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration")},
   {"ChromaticAberrationB",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationB=Blue Chromatic Aberration")},
   {"ChromaticAberrationR",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationR=Red Chromatic Aberration")},
   {"PerspectiveUpright",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveUpright=Perspective Upright")},
@@ -299,6 +439,7 @@ local DataBase = {
   {"ResetPerspectiveAspect",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
   {"ResetVignetteAmount",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteAmount=Vignette Amount"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
   {"ResetVignetteMidpoint",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteMidpoint=Vignette Midpoint"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
+  {"RevealPanelEffects",false,false,true,false,true,false,show..' '..effects,effects,"Open Effects Panel in Develop Module. *button*"},
   {"EnableEffects",'effectsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableEffects=Enable Effects"),effects,"Enable or disable effects. *button*",'effectsPanel'},
   {"Dehaze",'effectsPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount"),effects,"Controls the amount of haze in a photograph. Drag to the right to remove haze; drag to the left to add haze.",'effectsPanel'},
   {"PostCropVignetteAmount",'effectsPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteAmount=Post Crop Vignette Amount"),effects,"Negative values darken the corners of the photo. Positive values lighten the corners.",'effectsPanel'},
@@ -325,6 +466,7 @@ local DataBase = {
   {"ResetGrainAmount",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainAmount=Grain Amount"),effects,"Reset to default. *button*",'effectsPanel'},
   {"ResetGrainSize",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainSize=Grain Size"),effects,"Reset to default. *button*",'effectsPanel'},
   {"ResetGrainFrequency",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainRoughness=Grain Roughness"),effects,"Reset to default. *button*",'effectsPanel'},
+  {"RevealPanelCalibrate",false,false,true,false,true,false,show..' '..calibration,calibration,"Open Camera Calibration Panel in Develop Module. *button*"},
   {"EnableCalibration",'calibratePanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableCalibration=Enable Calibration"),calibration,"Enable or disable custom camera calibration. *button*",'calibratePanel'},
   {"CameraProfile",'calibratePanel',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CameraProfile=Camera Profile")},
   {"Profile_Adobe_Standard",false,false,true,false,true,true,LOC("$$$/CRaw/Style/Profile/AdobeStandard=Adobe Standard"),calibration,"Applies the Adobe Standard profile. *button*",'calibratePanel'},
@@ -362,36 +504,6 @@ local DataBase = {
   {"ResetGreenSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenSaturationCalibration=Green Saturation Calibration"),calibration,"Reset to default. *button*",'calibratePanel'},
   {"ResetBlueHue",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueHueCalibration=Blue Hue Calibration"),calibration,"Reset to default. *button*",'calibratePanel'},
   {"ResetBlueSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueSaturationCalibration=Blue Saturation Calibration"),calibration,"Reset to default. *button*",'calibratePanel'},
-  {"Pick",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag"),photoActions,"*button*"},
-  {"Reject",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag"),photoActions,"*button*"},
-  {"Next",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Next_Photo=Next Photo"),photoActions,"*button*"},
-  {"Prev",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo"),photoActions,"*button*"},
-  {"Select1Left",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Left=Left"),'Photo Actions',"Extend selection one picture to the left. *button*"},
-  {"Select1Right",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Right=Right"),'Photo Actions',"Extend selection one picture to the right. *button*"},
-  {"VirtualCopy",false,false,true,false,true,false,LOC("$$$/AgLibrary/Bezel/CreateVirtualCopy=Create Virtual Copy"):gsub('&',''),photoActions,"Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected. *button*"},
-  {"RemoveFlag",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetPick/Unflagged=Unflagged"):gsub('&',''),photoActions,"*button*"},
-  {"IncreaseRating",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/IncreaseRating=Increase Rating"),photoActions,"*button*"},
-  {"DecreaseRating",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating"),photoActions,"*button*"},
-  {"SetRating0",false,false,true,false,true,false,LOC("$$$/AgLibrary/Filter/Stars=^1 Stars",'0'),photoActions,"*button*"},
-  {"SetRating1",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating1=1 Star"):gsub('&',''),photoActions,"*button*"},
-  {"SetRating2",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating2=&2 Stars"):gsub('&',''),photoActions,"*button*"},
-  {"SetRating3",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating3=&3 Stars"):gsub('&',''),photoActions,"*button*"},
-  {"SetRating4",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating4=&4 Stars"):gsub('&',''),photoActions,"*button*"},
-  {"SetRating5",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating5=&5 Stars"):gsub('&',''),photoActions,"*button*"},
-  {"ToggleBlue",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelBlue=Blue")),photoActions,"*button*"},
-  {"ToggleGreen",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelGreen=Green")),photoActions,"*button*"},
-  {"ToggleRed",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelRed=Red")),photoActions,"*button*"},
-  {"TogglePurple",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelPurple=Purple")),photoActions,"*button*"},
-  {"ToggleYellow",false,false,true,false,true,false,LOC("$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable",LOC("$$$/LibraryImporter/ColorLabelYellow=Yellow")),photoActions,"*button*"},
-  {"ResetAll",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings"),photoActions,"Reset to defaults. *button*"},
-  {"ResetLast",false,false,true,false,true,false,reset..' '..LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified"):gsub(':',''),photoActions,"Resets the last parameter that was adjusted by an encoder or fader to default. *button*"},
-  {"IncrementLastDevelopParameter",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2",'',LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified")):gsub(':',''):gsub("^%s*(.-)%s*$", "%1"),photoActions,"Increments the last parameter that was adjusted by an encoder or fader. *button*"},
-  {"DecrementLastDevelopParameter",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2",'',LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified")):gsub(':',''):gsub("^%s*(.-)%s*$", "%1"),photoActions,"Decrements the last parameter that was adjusted by an encoder or fader. *button*"},
-  {"Undo",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo"),photoActions,"*button*"},
-  {"Redo",false,false,true,false,true,false,LOC("$$$/Bezel/RedoTitle=Redo"),photoActions,"*button*"},
-  {"CopySettings",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),photoActions,"Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
-  {"PasteSettings",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),photoActions,"Pastes all develop settings. *button*"},
-  {"PasteSelectedSettings",false,false,true,false,true,false,"Paste Selected Settings",photoActions,"Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},
   {"Preset_1",false,false,true,false,true,false,developPreset.." 1",developPresets,""},
   {"Preset_2",false,false,true,false,true,false,developPreset.." 2",developPresets,""},
   {"Preset_3",false,false,true,false,true,false,developPreset.." 3",developPresets,""},
@@ -412,6 +524,16 @@ local DataBase = {
   {"Preset_18",false,false,true,false,true,false,developPreset.." 18",developPresets,""},
   {"Preset_19",false,false,true,false,true,false,developPreset.." 19",developPresets,""},
   {"Preset_20",false,false,true,false,true,false,developPreset.." 20",developPresets,""},
+  --develop: spot and brush
+  {"GraduatedFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),localizedAdjustments,"Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"RadialFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),localizedAdjustments,"Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"RedEyeInfo",'localizedAdjustments',true,false,false,true,false,LOC("$$$/MIDI2LR/Parameters/RedEyeInfo=Red-Eye Information")},{"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),localizedAdjustments,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"SpotRemoval",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),localizedAdjustments,"Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"AdjustmentBrush",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),localizedAdjustments,"Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {'KPIncreaseSize', false,false,true,false,true,false,'Increase Size',localizedAdjustments, 'Increase Spot or Brush size (**]**). *button*','',true,']',']'},
+  {'KPDecreaseSize', false,false,true,false,true,false,'Decrease Size',localizedAdjustments, 'Decrease Spot or Brush size (**[**). *button*','',true,'[','['},
+  {'KPIncreaseFeather', false,false,true,false,true,false,'Increase Feathering',localizedAdjustments, 'Increase brush feathering (**shift ]**). *button*','',true,'shift + ]','shift + ]'},
+  {'KPDecreaseFeather', false,false,true,false,true,false,'Decrease Feathering',localizedAdjustments, 'Decrease brush feathering (**shift [**). *button*','',true,'shift + [','shift + ['},
   {"local_Temperature",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Temperature=Temp.").." (PV2012)",localizedAdjustments,"Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Tint",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Tint=Tint").." (PV2012)",localizedAdjustments,"Adjust Tint for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Exposure",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Exposure=Exposure").." (PV2010 and PV2012)",localizedAdjustments,"Adjust Exposure for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
@@ -454,122 +576,24 @@ local DataBase = {
   {"ResetBrushing",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections"),localizedAdjustments,"Delete brush adjustments. *button*"},
   {"ResetRedeye",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye"),localizedAdjustments,"Delete red eye correction. *button*"},
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
-  {"ZoomInLargeStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In"),miscellaneous,"*button*"},
-  {"ZoomInSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some"),miscellaneous,"*button*"},
-  {"ZoomOutSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some"),miscellaneous,"*button*"},
-  {"ZoomOutLargeStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out"),miscellaneous,"*button*"},
-  {"ToggleZoomOffOn",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom"):gsub("&",""),miscellaneous,"*button*"},
   {"orientation",'miscellaneous',true,false,false,true,false,"orientation"},
   {"CropConstrainToWarp",'miscellaneous',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropConstrainToWarp=Constrain to Warp")},
-  {'straightenAngle',false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),miscellaneous,"Rotate crop angle. Moves angle in crop tool panel from -45 to 45."},
-  {"CropAngle",'miscellaneous',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropAngle=Crop Angle"),miscellaneous,"Use *Straighten Angle* (above) instead. This control remains listed as a legacy item. Rotate crop rectangle. This control is constrained to picture boundaries even when \226\128\156constrain to image\226\128\157 is not selected. It also causes the aspect ratio of the crop to change.",'crop'},
-  {"CropBottom",'miscellaneous',true,true,true,false,true,crop..' - '.. LOC("$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom"),miscellaneous,"Adjust bottom of crop rectangle.",'crop'},
-  {"CropLeft",'miscellaneous',true,true,true,false,true,crop..' - '..LOC("$$$/AgWatermarking/Alignment/Left=Left"),miscellaneous,"Adjust left side of crop rectangle.",'crop'},
-  {"CropRight",'miscellaneous',true,true,true,false,true,crop..' - '..LOC("$$$/AgWatermarking/Alignment/Right=Right"),miscellaneous,"Adjust right side of crop rectangle.",'crop'},
-  {"CropTop",'miscellaneous',true,true,true,false,true,crop..' - '..LOC("$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Top=Top"),miscellaneous,"Adjust top of crop rectangle.",'crop'},
-  {"ResetCrop",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetCrop=Reset Crop"),miscellaneous,"Reset the crop angle and frame for the current photo. *button*",'crop'},
-  {'ResetstraightenAngle',false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),miscellaneous,"Reset crop angle. *button*"},
-
-  --workspace: grid view options
-  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),miscellaneous, 'Increase grid size (=). *button*','',true,'=','='},
-  {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),miscellaneous, 'Decrease grid size (-). *button*','',true,'-','-'},
-  --workspace: view options
-  {'KPHideToolbar', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowToolbar=Show/Hide Toolbar"),miscellaneous, 'Show/Hide toolbar (t). *button*','',true,'t','t'},
-  --workspace: panels
-  {'KPHidePanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Show_HideTheSidePanels=Show/Hide Side Panels"),miscellaneous, 'Show/Hide side panels (tab). *button*','',true,'tab','tab'},
-  {'KPHideAllPanels', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ShowAllThePanels=Show/Hide All Panels"),miscellaneous, 'Show/Hide all panels (shift tab). *button*','',true,'shift + tab','shift + tab'},
-  --workspace: Selections
-  {'KPSelectAll', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectAll=Select All"),miscellaneous,'Select all photos (control/command a). *button*','',true,'ctrl + a','command + a'},
-  {'KPSelectNone', false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/SelectNone=Select None"),miscellaneous,'Select no photos (control/command d). *button*','',true,'ctrl + d','command + d'},
-  {'KPSelectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectOnlyActive=Select Only Active Photo"):gsub("&",""),miscellaneous,'Select active photo only (control/command shift d). *button*','',true,'ctrl + shift + d','command + shift + d'},
-  {'KPDeselectActive', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectActive=Deselect Active Photo"):gsub("&",""),miscellaneous,'Deselect active photo (shift d). *button*','',true,'shift + d','shift + d'},
-  {'KPSelectFlagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/SelectFlaggedPhotos=Select Flagged Photos"):gsub("&",""),miscellaneous,'Select flagged photos (control/command alt/option a). *button*','',true,'ctrl + alt + a','command + option + a'},
-  {'KPDeselectUnflagged', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/File/Edit/DeselectUnflaggedPhotos=Deselect Unflagged Photos"):gsub("&",""),miscellaneous,'Deselect unflagged photos (control/command alt/option shift d). *button*','',true,'ctrl + alt + shift + d','command + option + shift + d'},
-  {'KPPrevSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PreviousSelectedPhoto=Previous Selected Photo"):gsub("&",""),miscellaneous,'Go to previous selected photo (control/command cursor left). *button*','',true,'ctrl + cursor left','command + cursor left'},
-  {'KPNextSelected', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/NextSelectedPhoto=Next Selected Photo"):gsub("&",""),miscellaneous,'Go to next selected photo (control/command cursor right). *button*','',true,'ctrl + cursor right','command + cursor right'},
-  --workspace: screen mode
-  {'KPGoNormalMode', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoNormalMode=Go Normal Mode"),miscellaneous, 'Go normal mode (control/command alt/option f). *button*','',true,'ctrl + alt + f','command + option + f'},
-  {'KPFullScrHidePanles', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullScreenHidePanels=Full Screen Hide Panels"):gsub("&",""),miscellaneous, 'Full screen hide panels (control/command shift f). *button*','',true,'ctrl + shift + f','command + shift + f'},
-  {'KPFullScrPreview', false,false,true,false,true,false,LOC("$$$/Application/Menu/Window/FullscreenPreview=Full Screen Preview"):gsub("&",""),miscellaneous, 'Full screen preview (f). *button*','',true,'f','f'},
-  --workspace: Lights Out
-  {'KPCycleLightsOut', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/CycleLightsOut=Cycle Lights Out"),miscellaneous, 'Cycle lights out (l). *button*','',true,'l','l'},
-  {'KPGoLightsOutDim', false,false,true,false,true,false,LOC("$$$/WPG/Help/Shortcuts/Mode/GoLightsOutDim=Go Lights Out Dim"),miscellaneous, 'Go lights out dim (control/command shift l). *button*','',true,'ctrl + shift + l','command + shift + l'},
-  --library: quick collection
-  {'KPAddToQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollection=Add To Quick Collection"):gsub("&",""),miscellaneous, 'Add to quick collection (b). *button*','',true,'b','b'},
-  {'KPAddToQuickCollectionAndNext', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/AddToQuickCollectionAndNext=Add to Quick Collection/Next"):gsub("&",""),miscellaneous, 'Add to quick collection, go to next photo (shift b). *button*','',true,'shift + b','shift + b'},
-  {'KPShowQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ShowQuickCollection=Show Quick Collection"):gsub("&",""),miscellaneous, 'Show quick collection (control/command b). *button*','',true,'ctrl + b','command + b'},
-  {'KPSaveQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/SaveQuickCollection=Save Quick Collection..."):gsub("&",""),miscellaneous, 'Save quick collection (control/command alt/option b). *button*','',true,'ctrl + alt + b','command + option + b'},
-  {'KPClearQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/ClearQuickCollection=Clear Quick Collection"):gsub("&",""),miscellaneous, 'Clear quick collection (control/command shift b). *button*','',true,'ctrl + shift + b','command + shift + b'},
-  {'KPTargetQuickCollection', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Shared/TargetQuickCollection=Target Quick Collection"):gsub("&",""),miscellaneous, 'Set quick collection as the target collection (control/command alt/option shift b). *button*','',true,'ctrl + alt + shift + b','command + option + shift + b'},
-  --library: stacking
-  {'KPGroupIntoStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/StackImages=Stack Photos"),miscellaneous,'Group into stack (control/command g). *button*','',true,'ctrl + g','command + g'},
-  {'KPUnstack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/UnstackImages=Unstack Photos"),miscellaneous,'Unstack (control/command shift g). *button*','',true,'ctrl + shift + g','command + shift + g'},
-  {'KPExpandStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/ToggleStack=Toggle Stack"):gsub("&",""),miscellaneous,'Collapse/Expand stack (s). *button*','',true,'s','s'},
-  {'KPToTopStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveToTop=Move to Stack Top"):gsub("&",""),miscellaneous,'Move to top of stack (shift s). *button*','',true,'shift + s','shift + s'},
-  {'KPUpInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveUp=Move Up in Stack"):gsub("&",""),miscellaneous,'Move up in stack (shift [). *button*','',true,'shift + [','shift + ['},
-  {'KPDnInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveDown=Move Down in Stack"):gsub("&",""),miscellaneous,'Move down in stack (shift ]). *button*','',true,'shift + ]','shift + ]'},
-  --library: rotation
-  {'KPRotateLeft', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_left=Rotate Left"),miscellaneous, 'Rotate left (control/command [). *button*','',true,'ctrl + [','command + ['},
-  {'KPRotateRight', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Rotate_right=Rotate Right"),miscellaneous, 'Rotate right (control command ]. *button*','',true,'ctrl + ]','command + ]'},
-  --library: delete
-  {'KPDelete', false,false,true,false,true,false,'Delete',miscellaneous, 'Delete photo (delete). *button*','',true,'delete','delete'},
-  {'KPDeleteRej', false,false,true,false,true,false,'Delete Rejected',miscellaneous, 'Delete rejected photos (control/command delete). *button*','',true,'ctrl + delete','command + delete'},
-  {'KPRemoveFromCat', false,false,true,false,true,false,'Remove from Catalog',miscellaneous, 'Remove photo from catalog (alt/option delete). *button*','',true,'alt + delete','option + delete'},
-  {'KPTrash', false,false,true,false,true,false,'Trash Photo',miscellaneous, 'Remove and trash photo (control/command alt/option shift delete). *button*','',true,'ctrl + alt + shift + delete','command + option + shift + delete'},
-  --develop: copy paste sync
-  {'KPPasteFromPrevious', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Develop/PasteFromPrevious=Paste From Previous"):gsub("&",""),miscellaneous, 'Paste settings from previous (control/command alt/option v). *button*','',true,'ctrl + alt + v','command + option + v'},
-  {'KPMatchExposures',false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/MatchExposures=Match Exposures"):gsub("&",""),miscellaneous, 'Match exposures (control/command alt/option shift m). *button*','',true,'ctrl + alt + shift + m','command + option + shift + m'},
-  --develop: before/after previews
-  {'KPBeforeAfter', false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/BeforeAfter=Before/After"):gsub("&",""),miscellaneous, 'Show before and after (\\). *button*','',true,'\\\\','\\\\'},--need two \\ for C++ so it results in one \
-  --develop: auto
-  {'KPAutoTone', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone"),miscellaneous, 'Auto tone (control/command u). *button*','',true,'ctrl + u','command + u'},
-  --develop: clipping indicators
-  {'KPClipping', false,false,true,false,true,false,LOC("$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show Clipping"),miscellaneous, 'Show clipping (j). *button*','',true,'j','j'},
-  --develop: spot and brush
-  {'KPIncreaseSize', false,false,true,false,true,false,'Increase Size',miscellaneous, 'Increase Spot or Brush size (]). *button*','',true,']',']'},
-  {'KPDecreaseSize', false,false,true,false,true,false,'Decrease Size',miscellaneous, 'Decrease Spot or Brush size ([). *button*','',true,'[','['},
-  {'KPIncreaseFeather', false,false,true,false,true,false,'Increase Feathering',miscellaneous, 'Increase brush feathering (shift ]). *button*','',true,'shift + ]','shift + ]'},
-  {'KPDecreaseFeather', false,false,true,false,true,false,'Decrease Feathering',miscellaneous, 'Decrease brush feathering (shift [. *button*','',true,'shift + [','shift + ['},
-  --photomerge
-  {'KPMergeHDR', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDR=HDR..."),miscellaneous, 'Merge to HDR with Dialog (control/command h). *button*','',true,'ctrl + h','command + h'},
-  {'KPMergeHDRnoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/HDRHeadless=HDR"),miscellaneous, 'Merge to HDR, skip dialog (control/command shift h). *button*','',true,'ctrl + shift + h','command + shift + h'},
-  {'KPMergePano', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/Panorama=Panorama..."),miscellaneous, 'Merge to Panorama with dialog (control/command m). *button*','',true,'ctrl + m','command + m'},
-  {'KPMergePanonoDlg', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Library/PhotoMerge/PanoramaHeadless=Panorama"),miscellaneous, 'Merge to Panorama, skip dialog (control/command shift m). *button*','',true,'ctrl + shift + m','command + shift + m'},
-  --edit in
-  {'KPEditInPhotoshop', false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),miscellaneous, 'Edit in Photoshop (control/command e). *button*','',true,'ctrl + e','command + e'},
-  {'KPEditInOther', false,false,true,false,true,false,'Edit in Other',miscellaneous, 'Edit in Other Application (control/command alt/option e). *button*','',true,'ctrl + alt + e','command + option + e'},
+  {'straightenAngle',false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),crop,"Rotate crop angle. Moves angle in crop tool panel from -45 to 45."},
+  {"CropAngle",'miscellaneous',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropAngle=Crop Angle"),crop,"Use *Straighten Angle* (above) instead. This control remains listed as a legacy item. Rotate crop rectangle. This control is constrained to picture boundaries even when \226\128\156constrain to image\226\128\157 is not selected. It also causes the aspect ratio of the crop to change.",'crop'},
+  {"CropBottom",'miscellaneous',true,true,true,false,true,crop..' - '.. LOC("$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom"),crop,"Adjust bottom of crop rectangle.",'crop'},
+  {"CropLeft",'miscellaneous',true,true,true,false,true,crop..' - '..LOC("$$$/AgWatermarking/Alignment/Left=Left"),crop,"Adjust left side of crop rectangle.",'crop'},
+  {"CropRight",'miscellaneous',true,true,true,false,true,crop..' - '..LOC("$$$/AgWatermarking/Alignment/Right=Right"),crop,"Adjust right side of crop rectangle.",'crop'},
+  {"CropTop",'miscellaneous',true,true,true,false,true,crop..' - '..LOC("$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Top=Top"),crop,"Adjust top of crop rectangle.",'crop'},
+  {"ResetCrop",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetCrop=Reset Crop"),crop,"Reset the crop angle and frame for the current photo. *button*",'crop'},
+  {'ResetstraightenAngle',false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),crop,"Reset crop angle. *button*"},
+  {"CropOverlay",false,false,true,false,true,false,show..' '..crop,crop,"Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View. *button*"},
 
   {"Loupe",false,false,true,false,true,false,show..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),gotoToolModulePanel,"Select Loupe View mode in Develop Module. Repeated press toggles in and out of Loupe View. *button*",'loupe'},
-  {"CropOverlay",false,false,true,false,true,false,show..' '..crop,gotoToolModulePanel,"Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"SpotRemoval",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),gotoToolModulePanel,"Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"RedEyeInfo",'localizedAdjustments',true,false,false,true,false,LOC("$$$/MIDI2LR/Parameters/RedEyeInfo=Red-Eye Information")},{"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),gotoToolModulePanel,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"GraduatedFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),gotoToolModulePanel,"Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"RadialFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),gotoToolModulePanel,"Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"AdjustmentBrush",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),gotoToolModulePanel,"Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"SwToMlibrary",false,false,true,false,true,false,show..' '..LOC("$$$/AgLibraryModule/ModuleTitle=Library"),gotoToolModulePanel,"Switch to Library module. *button*"},
-  {"SwToMdevelop",false,false,true,false,true,false,show..' '..LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),gotoToolModulePanel,"Switch to Develop module. *button*"},
   {"SwToMmap",false,false,true,false,true,false,show..' '..LOC("$$$/AgLocation/ModuleTitle=Map"),gotoToolModulePanel,"Switch to Map module. *button*"},
   {"SwToMbook",false,false,true,false,true,false,show..' '..LOC("$$$/Ag/Layout/Book/ModuleTitle=Book"),gotoToolModulePanel,"Switch to Book module. *button*"},
   {"SwToMslideshow",false,false,true,false,true,false,show..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),gotoToolModulePanel,"Switch to Slideshow module. *button*"},
   {"SwToMprint",false,false,true,false,true,false,show..' '..LOC("$$$/AgPrint/Menu/File/Print=Print"),gotoToolModulePanel,"Switch to Print module. *button*"},
   {"SwToMweb",false,false,true,false,true,false,show..' '..LOC("$$$/WPG/Help/Shortcuts/WebHeader=Web"),gotoToolModulePanel,"Switch to Web module. *button*"},
-  {"RevealPanelAdjust",false,false,true,false,true,false,show..' '..basicTone,gotoToolModulePanel,"Open Basic Adjustments Panel in Develop Module. *button*"},
-  {"RevealPanelTone",false,false,true,false,true,false,show..' '..toneCurve,gotoToolModulePanel,"Open Tone Curve Panel in Develop Module. *button*"},
-  {"RevealPanelMixer",false,false,true,false,true,false,show..' '..colorAdjustments,gotoToolModulePanel,"Open Mixer Panel in Develop Module. *button*"},
-  {"RevealPanelSplit",false,false,true,false,true,false,show..' '..splitToning,gotoToolModulePanel,"Open Split Toning Panel in Develop Module. *button*"},
-  {"RevealPanelDetail",false,false,true,false,true,false,show..' '..detail,gotoToolModulePanel,"Open Detail Panel in Develop Module. *button*"},
-  {"RevealPanelLens",false,false,true,false,true,false,show..' '..lensCorrections,gotoToolModulePanel,"Open Lens Corrections Panel in Develop Module. *button*"},
-  {"RevealPanelEffects",false,false,true,false,true,false,show..' '..effects,gotoToolModulePanel,"Open Effects Panel in Develop Module. *button*"},
-  {"RevealPanelCalibrate",false,false,true,false,true,false,show..' '..calibration,gotoToolModulePanel,"Open Camera Calibration Panel in Develop Module. *button*"},
-  {"ShoVwloupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe"),viewModes,"Displays a single photo. Zoom levels up to 11:1 are available. *button*"},
-  {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),viewModes,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
-  {"ShoVwcompare",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Compare=Compare"),viewModes,"Displays photos side by side so that you can evaluate them. *button*"},
-  {"ShoVwsurvey",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Survey=Survey"),viewModes,"Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell. *button*"},
-  {"ShoVwpeople",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/People=People"),viewModes,"In the People view, the different faces are organized by people stacks. *button*"},
-  {"ShoVwdevelop_loupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),viewModes,"*button*"},
-  {"ShoVwdevelop_before_after_horiz",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right"),viewModes,"*button*"},
-  {"ShoVwdevelop_before_after_vert",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterTB=Before/After Top/Bottom"),viewModes,"*button*"},
-  {"ShoVwdevelop_before",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Before=Before"),viewModes,"*button*"},
   {"ShoScndVwloupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Loupe=Loupe"),viewModes,"Shows Loupe view on the secondary screen, or hides the secondary screen if Loupe view was previously being shown. *button*"},
   {"ShoScndVwlive_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LiveLoupe=Live Loupe"),viewModes,"Shows Live Loupe view on the secondary screen, or hides the secondary screen if Live Loupe view was previously being shown. *button*"},
   {"ShoScndVwlocked_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LockedLoupe=Locked Loupe"),viewModes,"Shows Locked Loupe view on the secondary screen, or hides the secondary screen if Locked Loupe view was previously being shown. *button*"},
@@ -764,22 +788,26 @@ local function RunTests()
 end
 
 local cppvectors ={
-  [basicTone]='AdjustmentStringList',
-  [toneCurve]='ToneStringList',
-  [colorAdjustments]='MixerStringList',
-  [resetColorAdjustments]='ResetMixerStringList',
-  [splitToning]='SplitToningStringList',
-  [detail]='DetailStringList',
-  [lensCorrections]='LensCorrectionStringList',
-  [effects]='EffectsStringList',
-  [calibration]='CalibrateStringList',
-  [photoActions]='SelectionList',
-  [developPresets]='PresetsList',
-  [localizedAdjustments]='LocalList',
-  [miscellaneous]='MiscList',
-  [gotoToolModulePanel]='TMPList',
-  [viewModes]='ViewModesList',
-  [profiles]='ProfilesList',
+  [basicTone]={'BasicAdjustments','Basic'},
+  [calibration]={'Calibration','Camera Calibration'},
+  [colorAdjustments]={'Mixer','HSL / Color / B&W'},
+  [crop]={'Crop',crop},
+  [detail]={'Detail','Detail'},
+  [developPresets]={'DevelopPresets','Develop Presets'},
+  [develop]={'Develop',develop},
+  [effects]={'Effects','Effects'},
+  [general]={'General',general},
+  [gotoToolModulePanel]={'ToolModulePanel','Go to Tool, Module, or Panel'},
+  [lensCorrections]={'LensCorrections','Lens Corrections'},
+  [library]={'Library',library},
+  [localizedAdjustments]={'LocalAdjustments','Local Adjustments'},
+  [miscellaneous]={'Misc','Miscellaneous'},
+  [photoActions]={'SelectionList','Photo Actions'},
+  [profiles]={'ProgramProfiles','Profiles'},
+  [resetColorAdjustments]={'ResetMixer','Reset HSL / Color / B&W'},
+  [splitToning]={'SplitToning','Split Toning'},
+  [toneCurve]={'ToneCurve','Tone Curve'},
+  [viewModes]={'ViewModes','View Modes'},
 }
 
 

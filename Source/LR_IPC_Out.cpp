@@ -34,112 +34,119 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #ifdef _WIN32
-    { "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
-    { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
-    { "KPHideToolbar", KeyPress::createFromDescription("t") },
-    { "KPHidePanels", KeyPress::createFromDescription("tab") },
-    { "KPHideAllPanels", KeyPress::createFromDescription("shift + tab") },
-    { "KPSelectAll", KeyPress::createFromDescription("ctrl + a") },
-    { "KPSelectNone", KeyPress::createFromDescription("ctrl + d") },
-    { "KPSelectActive", KeyPress::createFromDescription("ctrl + shift + d") },
-    { "KPDeselectActive", KeyPress::createFromDescription("shift + d") },
-    { "KPSelectFlagged", KeyPress::createFromDescription("ctrl + alt + a") },
-    { "KPDeselectUnflagged", KeyPress::createFromDescription("ctrl + alt + shift + d") },
-    { "KPPrevSelected", KeyPress::createFromDescription("ctrl + cursor left") },
-    { "KPNextSelected", KeyPress::createFromDescription("ctrl + cursor right") },
-    { "KPGoNormalMode", KeyPress::createFromDescription("ctrl + alt + f") },
-    { "KPFullScrHidePanles", KeyPress::createFromDescription("ctrl + shift + f") },
-    { "KPFullScrPreview", KeyPress::createFromDescription("f") },
-    { "KPCycleLightsOut", KeyPress::createFromDescription("l") },
-    { "KPGoLightsOutDim", KeyPress::createFromDescription("ctrl + shift + l") },
-    { "KPAddToQuickCollection", KeyPress::createFromDescription("b") },
-    { "KPAddToQuickCollectionAndNext", KeyPress::createFromDescription("shift + b") },
-    { "KPShowQuickCollection", KeyPress::createFromDescription("ctrl + b") },
-    { "KPSaveQuickCollection", KeyPress::createFromDescription("ctrl + alt + b") },
-    { "KPClearQuickCollection", KeyPress::createFromDescription("ctrl + shift + b") },
-    { "KPTargetQuickCollection", KeyPress::createFromDescription("ctrl + alt + shift + b") },
-    { "KPGroupIntoStack", KeyPress::createFromDescription("ctrl + g") },
-    { "KPUnstack", KeyPress::createFromDescription("ctrl + shift + g") },
-    { "KPExpandStack", KeyPress::createFromDescription("s") },
-    { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-    { "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-    { "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
-    { "KPRotateLeft", KeyPress::createFromDescription("ctrl + [") },
-    { "KPRotateRight", KeyPress::createFromDescription("ctrl + ]") },
-    { "KPDelete", KeyPress::createFromDescription("delete") },
-    { "KPDeleteRej", KeyPress::createFromDescription("ctrl + delete") },
-    { "KPRemoveFromCat", KeyPress::createFromDescription("alt + delete") },
-    { "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
-    { "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
-    { "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
-    { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
-    {"KPAutoTone", KeyPress::createFromDescription("ctrl + u")},
-    { "KPClipping", KeyPress::createFromDescription("j") },
-    { "KPIncreaseSize", KeyPress::createFromDescription("]") },
-    { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-    { "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-    { "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
-    { "KPMergeHDR", KeyPress::createFromDescription("ctrl + h") },
-    { "KPMergeHDRnoDlg", KeyPress::createFromDescription("ctrl + shift + h") },
-    { "KPMergePano", KeyPress::createFromDescription("ctrl + m") },
-    { "KPMergePanonoDlg", KeyPress::createFromDescription("ctrl + shift + m") },
-    { "KPEditInPhotoshop", KeyPress::createFromDescription("ctrl + e") },
-    { "KPEditInOther", KeyPress::createFromDescription("ctrl + alt + e") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
+{ "KPShowExtras", KeyPress::createFromDescription("ctrl + shift + h") },
+{ "KPShowBadges", KeyPress::createFromDescription("ctrl + alt + shift + h") },
+{ "KPCycleViewStyle", KeyPress::createFromDescription("j") },
+{ "KPSwapImages", KeyPress::createFromDescription("cursor down") },
+{ "KPHideToolbar", KeyPress::createFromDescription("t") },
+{ "KPHidePanels", KeyPress::createFromDescription("tab") },
+{ "KPHideAllPanels", KeyPress::createFromDescription("shift + tab") },
+{ "KPSelectAll", KeyPress::createFromDescription("ctrl + a") },
+{ "KPSelectNone", KeyPress::createFromDescription("ctrl + d") },
+{ "KPSelectActive", KeyPress::createFromDescription("ctrl + shift + d") },
+{ "KPDeselectActive", KeyPress::createFromDescription("shift + d") },
+{ "KPSelectFlagged", KeyPress::createFromDescription("ctrl + alt + a") },
+{ "KPDeselectUnflagged", KeyPress::createFromDescription("ctrl + alt + shift + d") },
+{ "KPPrevSelected", KeyPress::createFromDescription("ctrl + cursor left") },
+{ "KPNextSelected", KeyPress::createFromDescription("ctrl + cursor right") },
+{ "KPGoNormalMode", KeyPress::createFromDescription("ctrl + alt + f") },
+{ "KPFullScrHidePanles", KeyPress::createFromDescription("ctrl + shift + f") },
+{ "KPFullScrPreview", KeyPress::createFromDescription("f") },
+{ "KPCycleLightsOut", KeyPress::createFromDescription("l") },
+{ "KPGoLightsOutDim", KeyPress::createFromDescription("ctrl + shift + l") },
+{ "KPMergeHDR", KeyPress::createFromDescription("ctrl + h") },
+{ "KPMergeHDRnoDlg", KeyPress::createFromDescription("ctrl + shift + h") },
+{ "KPMergePano", KeyPress::createFromDescription("ctrl + m") },
+{ "KPMergePanonoDlg", KeyPress::createFromDescription("ctrl + shift + m") },
+{ "KPEditInPhotoshop", KeyPress::createFromDescription("ctrl + e") },
+{ "KPEditInOther", KeyPress::createFromDescription("ctrl + alt + e") },
+{ "KPAddToQuickCollection", KeyPress::createFromDescription("b") },
+{ "KPAddToQuickCollectionAndNext", KeyPress::createFromDescription("shift + b") },
+{ "KPShowQuickCollection", KeyPress::createFromDescription("ctrl + b") },
+{ "KPSaveQuickCollection", KeyPress::createFromDescription("ctrl + alt + b") },
+{ "KPClearQuickCollection", KeyPress::createFromDescription("ctrl + shift + b") },
+{ "KPTargetQuickCollection", KeyPress::createFromDescription("ctrl + alt + shift + b") },
+{ "KPGroupIntoStack", KeyPress::createFromDescription("ctrl + g") },
+{ "KPUnstack", KeyPress::createFromDescription("ctrl + shift + g") },
+{ "KPExpandStack", KeyPress::createFromDescription("s") },
+{ "KPToTopStack", KeyPress::createFromDescription("shift + s") },
+{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
+{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPRotateLeft", KeyPress::createFromDescription("ctrl + [") },
+{ "KPRotateRight", KeyPress::createFromDescription("ctrl + ]") },
+{ "KPDelete", KeyPress::createFromDescription("delete") },
+{ "KPDeleteRej", KeyPress::createFromDescription("ctrl + delete") },
+{ "KPRemoveFromCat", KeyPress::createFromDescription("alt + delete") },
+{ "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
+{ "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
+{ "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
+{ "KPBeforeAfter", KeyPress::createFromDescription("\\") },
+{ "KPAutoTone", KeyPress::createFromDescription("ctrl + u") },
+{ "KPClipping", KeyPress::createFromDescription("j") },
+{ "KPIncreaseSize", KeyPress::createFromDescription("]") },
+{ "KPDecreaseSize", KeyPress::createFromDescription("[") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
 #else
-    { "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
-    { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
-    { "KPHideToolbar", KeyPress::createFromDescription("t") },
-    { "KPHidePanels", KeyPress::createFromDescription("tab") },
-    { "KPHideAllPanels", KeyPress::createFromDescription("shift + tab") },
-    { "KPSelectAll", KeyPress::createFromDescription("command + a") },
-    { "KPSelectNone", KeyPress::createFromDescription("command + d") },
-    { "KPSelectActive", KeyPress::createFromDescription("command + shift + d") },
-    { "KPDeselectActive", KeyPress::createFromDescription("shift + d") },
-    { "KPSelectFlagged", KeyPress::createFromDescription("command + option + a") },
-    { "KPDeselectUnflagged", KeyPress::createFromDescription("command + option + shift + d") },
-    { "KPPrevSelected", KeyPress::createFromDescription("command + cursor left") },
-    { "KPNextSelected", KeyPress::createFromDescription("command + cursor right") },
-    { "KPGoNormalMode", KeyPress::createFromDescription("command + option + f") },
-    { "KPFullScrHidePanles", KeyPress::createFromDescription("command + shift + f") },
-    { "KPFullScrPreview", KeyPress::createFromDescription("f") },
-    { "KPCycleLightsOut", KeyPress::createFromDescription("l") },
-    { "KPGoLightsOutDim", KeyPress::createFromDescription("command + shift + l") },
-    { "KPAddToQuickCollection", KeyPress::createFromDescription("b") },
-    { "KPAddToQuickCollectionAndNext", KeyPress::createFromDescription("shift + b") },
-    { "KPShowQuickCollection", KeyPress::createFromDescription("command + b") },
-    { "KPSaveQuickCollection", KeyPress::createFromDescription("command + option + b") },
-    { "KPClearQuickCollection", KeyPress::createFromDescription("command + shift + b") },
-    { "KPTargetQuickCollection", KeyPress::createFromDescription("command + option + shift + b") },
-    { "KPGroupIntoStack", KeyPress::createFromDescription("command + g") },
-    { "KPUnstack", KeyPress::createFromDescription("command + shift + g") },
-    { "KPExpandStack", KeyPress::createFromDescription("s") },
-    { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-    { "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-    { "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
-    { "KPRotateLeft", KeyPress::createFromDescription("command + [") },
-    { "KPRotateRight", KeyPress::createFromDescription("command + ]") },
-    { "KPDelete", KeyPress::createFromDescription("delete") },
-    { "KPDeleteRej", KeyPress::createFromDescription("command + delete") },
-    { "KPRemoveFromCat", KeyPress::createFromDescription("option + delete") },
-    { "KPTrash", KeyPress::createFromDescription("command + option + shift + delete") },
-    { "KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v") },
-    { "KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m") },
-    { "KPBeforeAfter", KeyPress::createFromDescription("\\")},
-    {"KPAutoTone", KeyPress::createFromDescription("command + u")},
-    { "KPClipping", KeyPress::createFromDescription("j") },
-    { "KPIncreaseSize", KeyPress::createFromDescription("]") },
-    { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-    { "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-    { "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
-    { "KPMergeHDR", KeyPress::createFromDescription("command + h") },
-    { "KPMergeHDRnoDlg", KeyPress::createFromDescription("command + shift + h") },
-    { "KPMergePano", KeyPress::createFromDescription("command + m") },
-    { "KPMergePanonoDlg", KeyPress::createFromDescription("command + shift + m") },
-    { "KPEditInPhotoshop", KeyPress::createFromDescription("command + e") },
-    { "KPEditInOther", KeyPress::createFromDescription("command + option + e") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
+{ "KPShowExtras", KeyPress::createFromDescription("command + shift + h") },
+{ "KPShowBadges", KeyPress::createFromDescription("command + option + shift + h") },
+{ "KPCycleViewStyle", KeyPress::createFromDescription("j") },
+{ "KPSwapImages", KeyPress::createFromDescription("cursor down") },
+{ "KPHideToolbar", KeyPress::createFromDescription("t") },
+{ "KPHidePanels", KeyPress::createFromDescription("tab") },
+{ "KPHideAllPanels", KeyPress::createFromDescription("shift + tab") },
+{ "KPSelectAll", KeyPress::createFromDescription("command + a") },
+{ "KPSelectNone", KeyPress::createFromDescription("command + d") },
+{ "KPSelectActive", KeyPress::createFromDescription("command + shift + d") },
+{ "KPDeselectActive", KeyPress::createFromDescription("shift + d") },
+{ "KPSelectFlagged", KeyPress::createFromDescription("command + option + a") },
+{ "KPDeselectUnflagged", KeyPress::createFromDescription("command + option + shift + d") },
+{ "KPPrevSelected", KeyPress::createFromDescription("command + cursor left") },
+{ "KPNextSelected", KeyPress::createFromDescription("command + cursor right") },
+{ "KPGoNormalMode", KeyPress::createFromDescription("command + option + f") },
+{ "KPFullScrHidePanles", KeyPress::createFromDescription("command + shift + f") },
+{ "KPFullScrPreview", KeyPress::createFromDescription("f") },
+{ "KPCycleLightsOut", KeyPress::createFromDescription("l") },
+{ "KPGoLightsOutDim", KeyPress::createFromDescription("command + shift + l") },
+{ "KPMergeHDR", KeyPress::createFromDescription("command + h") },
+{ "KPMergeHDRnoDlg", KeyPress::createFromDescription("command + shift + h") },
+{ "KPMergePano", KeyPress::createFromDescription("command + m") },
+{ "KPMergePanonoDlg", KeyPress::createFromDescription("command + shift + m") },
+{ "KPEditInPhotoshop", KeyPress::createFromDescription("command + e") },
+{ "KPEditInOther", KeyPress::createFromDescription("command + option + e") },
+{ "KPAddToQuickCollection", KeyPress::createFromDescription("b") },
+{ "KPAddToQuickCollectionAndNext", KeyPress::createFromDescription("shift + b") },
+{ "KPShowQuickCollection", KeyPress::createFromDescription("command + b") },
+{ "KPSaveQuickCollection", KeyPress::createFromDescription("command + option + b") },
+{ "KPClearQuickCollection", KeyPress::createFromDescription("command + shift + b") },
+{ "KPTargetQuickCollection", KeyPress::createFromDescription("command + option + shift + b") },
+{ "KPGroupIntoStack", KeyPress::createFromDescription("command + g") },
+{ "KPUnstack", KeyPress::createFromDescription("command + shift + g") },
+{ "KPExpandStack", KeyPress::createFromDescription("s") },
+{ "KPToTopStack", KeyPress::createFromDescription("shift + s") },
+{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
+{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPRotateLeft", KeyPress::createFromDescription("command + [") },
+{ "KPRotateRight", KeyPress::createFromDescription("command + ]") },
+{ "KPDelete", KeyPress::createFromDescription("delete") },
+{ "KPDeleteRej", KeyPress::createFromDescription("command + delete") },
+{ "KPRemoveFromCat", KeyPress::createFromDescription("option + delete") },
+{ "KPTrash", KeyPress::createFromDescription("command + option + shift + delete") },
+{ "KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v") },
+{ "KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m") },
+{ "KPBeforeAfter", KeyPress::createFromDescription("\\") },
+{ "KPAutoTone", KeyPress::createFromDescription("command + u") },
+{ "KPClipping", KeyPress::createFromDescription("j") },
+{ "KPIncreaseSize", KeyPress::createFromDescription("]") },
+{ "KPDecreaseSize", KeyPress::createFromDescription("[") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
 #endif
 };
-
 
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
 {
@@ -270,17 +277,26 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
 {
 #ifdef _WIN32
+    //Lightroom handle
+    const HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
+    const ModifierKeys mk = key.getModifiers();
+    HKL languageID;
+    // Bring Lightroom to foreground if it isn't already there
+    if (hLRWnd)
+    {
+        ::SetForegroundWindow(hLRWnd);
+        // get language that LR is using (if hLrWnd is found)
+        DWORD threadId = GetWindowThreadProcessId(hLRWnd, NULL);
+        languageID = GetKeyboardLayout(threadId);
+    }
+    else
+    {   // use keyboard of MIDI2LR app
+        languageID = GetKeyboardLayout(0);
+    }
+    // Translate key code to keyboard-dependent scan code
+    const SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
     // input event.
     INPUT ip;
-    ModifierKeys mk = key.getModifiers();
-    // Translate key code to keyboard-dependent scan code
-    HKL languageID = GetKeyboardLayout(0);
-    SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
-    // Bring Lightroom to foreground if it isn't already there
-    HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
-    if (hLRWnd)
-        ::SetForegroundWindow(hLRWnd);
-    // Set up a generic keyboard event.
     ip.type = INPUT_KEYBOARD;
     ip.ki.dwExtraInfo = 0;
     ip.ki.dwFlags = 0; // 0 for key press
@@ -325,9 +341,9 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
         SendInput(1, &ip, sizeof(INPUT));
     }
 #else
-    ModifierKeys mk = key.getModifiers();
-    UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
-    CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+    const ModifierKeys mk = key.getModifiers();
+    const UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
+    const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
     CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
@@ -338,11 +354,13 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
     if (flags != UINT64_C(0))
     {
+        flags |= CGEventGetFlags(d); //in case KeyCode has associated flag
         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
+
     CFRelease(d);
     CFRelease(u);
 #endif

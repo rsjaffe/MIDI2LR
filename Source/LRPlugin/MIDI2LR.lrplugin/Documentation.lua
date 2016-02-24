@@ -26,6 +26,9 @@ local LrPathUtils  = import 'LrPathUtils'
 local datafile     = LrPathUtils.child(_PLUGIN.path, 'Documentation.txt')
 local file         = io.open(datafile,'w')
 local menulocation = ""
+local m_menus = 'm_menus({ '
+local m_menuEntries = 'm_menuEntries({ '
+local lrcommandsh = ''
 
 
 
@@ -34,7 +37,7 @@ for _,v in ipairs(Database.DataBase) do
   if v[4] then
     if v[9] ~= menulocation then
       menulocation = v[9]
-      file:write("New menu "..menulocation.."\n")
+      file:write("\n| "..menulocation.." |  |\n| ---- | ---- |\n")
     end
     local experimental = ""
     if v[7]  then 
@@ -45,20 +48,27 @@ for _,v in ipairs(Database.DataBase) do
 end
 
 menulocation = ""
-file:write("\n\nApplication menu entries\n")
+file:write("\n\nApplication menu entries for LRCommands.cpp\n")
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
     if v[9] ~= menulocation then
       if menulocation~="" then
-        file:write("\n};\n\n")
+        file:write("};\n\n")
       end
-      file:write("const std::vector<String> LRCommandList::"..Database.cppvectors[v[9]].." = {\n")
+      file:write("const std::vector<String> LRCommandList::"..Database.cppvectors[v[9]][1].." = {\n")
       menulocation = v[9]
+      m_menus = m_menus .. '"' .. Database.cppvectors[v[9]][2] .. '", '
+      m_menuEntries = m_menuEntries .. 'LRCommandList::' .. Database.cppvectors[v[9]][1] .. ', '
+      lrcommandsh = lrcommandsh .. '\nstatic const std::vector<String> ' .. Database.cppvectors[v[9]][1] ..';'
     end
     file:write('"'..v[8]..'",\n')
   end
 end
-file:write("\n};\n\nconst std::vector<String> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
+m_menus = m_menus .. '"Next/Prev Profile" })'
+m_menuEntries = m_menuEntries .. 'LRCommandList::NextPrevProfile })'
+lrcommandsh = lrcommandsh .. '\n'
+
+file:write("};\n\nconst std::vector<String> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
 menulocation = ""
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
@@ -69,9 +79,9 @@ for _,v in ipairs(Database.DataBase) do
     file:write('"'..v[1]..'",\n')
   end
 end
-file:write("\n};")
+file:write("};")
 
-file:write("\n\nKey Press Mappings\n\n\nconst std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {\n#ifdef _WIN32\n")
+file:write("\n\nKey Press Mappings for LR_IPC_Out.cpp\n\n\nconst std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {\n#ifdef _WIN32\n")
 local macmappings = ''
 for _,v in ipairs(Database.DataBase) do
   if v[12] then
@@ -81,6 +91,10 @@ for _,v in ipairs(Database.DataBase) do
 end
 file:write('#else\n',macmappings,'#endif\n};')
 
+file:write ('\n\nITEMS FOR COMMANDMENU.CPP INITIALIZERS\n',m_menus,',\n\n',m_menuEntries)
+
+file:write('\n\nLRCommands.h strings declarations between LRStringList and NextPrevProfile',lrcommandsh)
+
 file:write("\n\nLimits codes for documentation\n\n")
 for _,v in ipairs(Database.DataBase) do
   if v[4] and v[5] and v[6]==false then
@@ -88,7 +102,7 @@ for _,v in ipairs(Database.DataBase) do
   end
 end
 
-file:write("\n\nRunning Tests\n\n",Database.RunTests(),"\n")
+file:write("\n\nRunning Tests\n\n",Database.RunTests(),"\nTests Completed")
 file:close()
 
 

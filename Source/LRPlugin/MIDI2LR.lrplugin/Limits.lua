@@ -181,12 +181,14 @@ local function EndDialog(obstable, status)
     local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
     --assign limits
     if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
-      for p in pairs(Parameters) do
-        if obstable['Limits'..p..'Low'] > obstable['Limits'..p..'High'] then --swap values
-          obstable['Limits'..p..'Low'], obstable['Limits'..p..'High'] = obstable['Limits'..p..'High'], obstable['Limits'..p..'Low']
+      for _,p in ipairs(DisplayOrder) do
+        if obstable['Limits'..p..'Low'] ~= nil and obstable['Limits'..p..'High'] ~= nil then
+          if obstable['Limits'..p..'Low'] > obstable['Limits'..p..'High'] then --swap values
+            obstable['Limits'..p..'Low'], obstable['Limits'..p..'High'] = obstable['Limits'..p..'High'], obstable['Limits'..p..'Low']
+          end
+          local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
+          ProgramPreferences.Limits[p][max] = {obstable['Limits'..p..'Low'], obstable['Limits'..p..'High']}
         end
-        local _,max = LrDevelopController.getRange(p) --limitsCanBeSet only when in Develop module, no need to check again
-        ProgramPreferences.Limits[p][max] = {obstable['Limits'..p..'Low'], obstable['Limits'..p..'High']}
       end
     end --if limitsCanBeSet
   end

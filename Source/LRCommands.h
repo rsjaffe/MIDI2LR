@@ -33,24 +33,24 @@ public:
 	static const std::vector<String> LRStringList;
 
 	// Sectioned and readable develop param strings
-	static const std::vector<String> AdjustmentStringList;
-	static const std::vector<String> ToneStringList;
-	static const std::vector<String> MixerStringList;
-	static const std::vector<String> ResetMixerStringList;
-	static const std::vector<String> SplitToningStringList;
-	static const std::vector<String> DetailStringList;
-	static const std::vector<String> EffectsStringList;
-	static const std::vector<String> LensCorrectionStringList;
-	static const std::vector<String> CalibrateStringList;
-
-	// Sectioned and readable LR tool string
-	static const std::vector<String> SelectionList;
-    static const std::vector<String> PresetsList;
-    static const std::vector<String> LocalList;
-	static const std::vector<String> MiscList;
-	static const std::vector<String> TMPList;
-    static const std::vector<String> ViewModesList;
-    static const std::vector<String> ProfilesList;
+    static const std::vector<String> General;
+    static const std::vector<String> Library;
+    static const std::vector<String> Develop;
+    static const std::vector<String> BasicAdjustments;
+    static const std::vector<String> ToneCurve;
+    static const std::vector<String> Mixer;
+    static const std::vector<String> ResetMixer;
+    static const std::vector<String> SplitToning;
+    static const std::vector<String> Detail;
+    static const std::vector<String> LensCorrections;
+    static const std::vector<String> Effects;
+    static const std::vector<String> Calibration;
+    static const std::vector<String> DevelopPresets;
+    static const std::vector<String> LocalAdjustments;
+    static const std::vector<String> Crop;
+    static const std::vector<String> ToolModulePanel;
+    static const std::vector<String> ViewModes;
+    static const std::vector<String> ProgramProfiles;
     // MIDI2LR commands
 	static const std::vector<String> NextPrevProfile;
 
