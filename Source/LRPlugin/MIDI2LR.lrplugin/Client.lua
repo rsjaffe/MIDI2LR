@@ -322,7 +322,8 @@ LrTasks.startAsyncTask(
           end
         end
         -- LR bug, doesn't reveal panel when Contrast adjusted
-        if param=='Contrast' then LrDevelopController.revealPanel(adjustPanel) end
+        -- but changing panel before or after adjusting contrast causes all sorts of buggy behavior in LR, so just live with the bug
+        -- if param=='Contrast' then LrDevelopController.revealPanel(adjustPanel) end
         if ParamList.ProfileMap[param] then
           Profiles.changeProfile(ParamList.ProfileMap[param])
         end
