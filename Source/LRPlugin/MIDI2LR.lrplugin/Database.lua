@@ -391,9 +391,11 @@ local DataBase = {
   {"ResetColorNoiseReductionSmoothness",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReductionSmoothness=Color Noise Reduction Smoothness"),detail,"Reset to default. *button*",'detailPanel'},
   {"RevealPanelLens",false,false,true,false,true,false,show..' '..lensCorrections,lensCorrections,"Open Lens Corrections Panel in Develop Module. *button*"},
   {"EnableLensCorrections",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableLensCorrections=Enable Lens Corrections"),lensCorrections,"Enable or disable all lens corrections. *button*",'lensCorrectionsPanel'},
-  {"LensProfileEnable",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Lens Profile Enable"),lensCorrections,"Automatic correction using a stored lens profile.",'lensCorrectionsPanel'},
+  -- LR not responding to this
+  --{"LensProfileEnable",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Lens Profile Enable"),lensCorrections,"Automatic correction using a stored lens profile.",'lensCorrectionsPanel'},
   {"LensProfileSetup",'lensCorrectionsPanel',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileSetup=Lens Profile Setup")},
-  {"AutoLateralCA",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration"),lensCorrections,"Automatically corrects blue-yellow and red-green fringes (lateral chromatic aberration).",'lensCorrectionsPanel'},
+  -- LR not responding to this
+  --{"AutoLateralCA",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration"),lensCorrections,"Automatically corrects blue-yellow and red-green fringes (lateral chromatic aberration).",'lensCorrectionsPanel'},
   {"ChromaticAberrationB",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationB=Blue Chromatic Aberration")},
   {"ChromaticAberrationR",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationR=Red Chromatic Aberration")},
   {"PerspectiveUpright",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveUpright=Perspective Upright")},
@@ -575,7 +577,8 @@ local DataBase = {
   {"ResetRedeye",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye"),localizedAdjustments,"Delete red eye correction. *button*"},
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
   {"orientation",'miscellaneous',true,false,false,true,false,"orientation"},
-  {"CropConstrainToWarp",'miscellaneous',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropConstrainToWarp=Constrain to Warp")},
+  -- Not working in LR
+  -- {"CropConstrainToWarp",'miscellaneous',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropConstrainToWarp=Constrain to Warp")},
   {'straightenAngle',false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),crop,"Rotate crop angle. Moves angle in crop tool panel from -45 to 45."},
   {"CropAngle",'miscellaneous',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropAngle=Crop Angle"),crop,"Use *Straighten Angle* (above) instead. This control remains listed as a legacy item. Rotate crop rectangle. This control is constrained to picture boundaries even when \226\128\156constrain to image\226\128\157 is not selected. It also causes the aspect ratio of the crop to change.",'crop'},
   {"CropBottom",'miscellaneous',true,true,true,false,true,crop..' - '.. LOC("$$$/Layout/Panel/Panel/OutputFormat/PageNumber/Bottom=Bottom"),crop,"Adjust bottom of crop rectangle.",'crop'},
