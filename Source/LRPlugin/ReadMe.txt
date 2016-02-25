@@ -64,3 +64,8 @@ Changelog
 =========
 
 See https://github.com/rsjaffe/MIDI2LR/wiki/Version-History
+
+=======
+Support
+=======
+Donations Welcome: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YWHT4JMA42RXN
