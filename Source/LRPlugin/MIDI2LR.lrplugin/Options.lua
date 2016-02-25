@@ -59,6 +59,7 @@ local function setOptions()
             title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
             identifier = 'othersettings',
             f:view(Limits.StartDialog(properties,f)),
+            f:separator {fill_horizontal = 0.9},
             f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')}
           }, -- tab_view_item
         }, -- tab_view
