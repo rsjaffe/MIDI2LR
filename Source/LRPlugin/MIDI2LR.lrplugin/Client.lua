@@ -280,6 +280,7 @@ LrTasks.startAsyncTask(
       return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
     end
 
+    --called within LrRecursionGuard for setting
     local function updateParam() --closure
       local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
       return function(param, midi_value)
@@ -340,8 +341,9 @@ LrTasks.startAsyncTask(
         local LrRecursionGuard    = import 'LrRecursionGuard'
         local LrShell             = import 'LrShell'
         local LrSocket            = import 'LrSocket'
-        local guard = LrRecursionGuard('AdjustmentChangeObserver')
-        --call following within guard
+        local guardreading = LrRecursionGuard('reading')
+        local guardsetting = LrRecursionGuard('setting')
+        --call following within guard for reading
         local function AdjustmentChangeObserver(observer)
           for _,param in ipairs(ParamList.SendToMidi) do
             local lrvalue = LrDevelopController.getValue(param)
@@ -386,7 +388,7 @@ LrTasks.startAsyncTask(
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter
-                updateParam(param, tonumber(value))
+                guardsetting:performWithGuard(updateParam,param,tonumber(value))
               end
             end
           end,
@@ -420,7 +422,7 @@ LrTasks.startAsyncTask(
         -- will drop out of loop if loadversion changes or if in develop module with selected photo
         while (loadVersion == currentLoadVersion) and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
           LrTasks.sleep ( .29 )
-          Profiles.checkProfile()
+          guardsetting:performWithGuard(Profiles.checkProfile)
         end --sleep away until ended or until develop module activated
         if loadVersion == currentLoadVersion then --didn't drop out of loop because of program termination
           LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
@@ -429,13 +431,13 @@ LrTasks.startAsyncTask(
             MIDI2LR.PARAM_OBSERVER, 
             function ( observer ) 
               if LrApplicationView.getCurrentModuleName() == 'develop' then
-                guard:performWithGuard(AdjustmentChangeObserver,observer)
+                guardreading:performWithGuard(AdjustmentChangeObserver,observer)
               end
             end 
           )
           while (loadVersion == currentLoadVersion)  do --detect halt or reload
             LrTasks.sleep( .29 )
-            Profiles.checkProfile()
+            guardsetting:performWithGuard(Profiles.checkProfile)
           end
         end
         client:close()
