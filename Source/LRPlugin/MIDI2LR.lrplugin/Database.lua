@@ -89,17 +89,19 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
 
 local DataBase = {
   --General Workspace
+  {'KPImportImages',false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ImportImages=Import Photos and Videos"),general,"Imports photos and videos (**control/command shift i**). *button*",'',true,'ctrl + shift + i','command + shift + i'},
+  {'KPExportImages',false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Export_Image=Export"),general,"Exports photos and videos (**control/command shift e**). *button*",'',true,'control + shift + e','command + shift + e'},
   --workspace: grid view options
   {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),general,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
   {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),general, 'Increase grid size (**=**). *button*','',true,'=','='},
   {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),general, 'Decrease grid size (**-**). *button*','',true,'-','-'},
   {'KPShowExtras', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowExtras=Show Extras"):gsub("&",""),general, 'Show/Hide extras (**control/command shift h**). *button*','',true,'ctrl + shift + h','command + shift + h'},
   {'KPShowBadges', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowBadges=Show Badges"):gsub("&",""),general, 'Show/Hide badges (**control/command alt/option shift h**). *button*','',true,'ctrl + alt + shift + h','command + option + shift + h'},
-  {'KPCycleViewStyle', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/CycleViewStyle=Cycle Grid View Style"):gsub("&",""),general, 'Cycle grid view style (**-**). *button*','',true,'j','j'},
+  {'KPCycleViewStyle', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/CycleViewStyle=Cycle Grid View Style"):gsub("&",""),general, 'Cycle grid view style (**j**). *button*','',true,'j','j'},
   --workspace: loupe view
   {"ShoVwloupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe"),general,"Displays a single photo. Zoom levels up to 11:1 are available. *button*"},  --workspace: compare view
-  {"ShoInfoLoupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgLibrary/Menu/View/LoupeViewInfo/ShowExtras=Show Information"):gsub("&",""),general,"Show/Hide information overlay in Loupe view (**control/command + i**). *button*"},  
-  {"ShoCycleInfoStyle",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgLibrary/Menu/View/LoupeViewInfo/CycleViewStyle=Cycle Info Display"):gsub("&",""),general,"Cycle information display in Loupe view (**i**). *button*"},  
+  {"ShoInfoLoupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgLibrary/Menu/View/LoupeViewInfo/ShowExtras=Show Information"):gsub("&",""),general,"Show/Hide information overlay in Loupe view (**control/command + i**). *button*",'',true,'ctrl + i','command + i'},  
+  {"ShoCycleInfoStyle",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgLibrary/Menu/View/LoupeViewInfo/CycleViewStyle=Cycle Info Display"):gsub("&",""),general,"Cycle information display in Loupe view (**i**). *button*",'',true,'i','i'},  
 
   --workspace: compare view
   {"ShoVwcompare",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Compare=Compare"),general,"Displays photos side by side so that you can evaluate them. *button*"},
