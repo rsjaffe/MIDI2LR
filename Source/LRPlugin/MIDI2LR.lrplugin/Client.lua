@@ -148,6 +148,26 @@ LrTasks.startAsyncTask(
       Preset_18                = CU.fApplyPreset(18),
       Preset_19                = CU.fApplyPreset(19),
       Preset_20                = CU.fApplyPreset(20),
+      Preset_21                = CU.fApplyPreset(21),
+      Preset_22                = CU.fApplyPreset(22),
+      Preset_23                = CU.fApplyPreset(23),
+      Preset_24                = CU.fApplyPreset(24),
+      Preset_25                = CU.fApplyPreset(25),
+      Preset_26                = CU.fApplyPreset(26),
+      Preset_27                = CU.fApplyPreset(27),
+      Preset_28                = CU.fApplyPreset(28),
+      Preset_29                = CU.fApplyPreset(29),
+      Preset_30                = CU.fApplyPreset(30),
+      Preset_31                = CU.fApplyPreset(31),
+      Preset_32                = CU.fApplyPreset(32),
+      Preset_33                = CU.fApplyPreset(33),
+      Preset_34                = CU.fApplyPreset(34),
+      Preset_35                = CU.fApplyPreset(35),
+      Preset_36                = CU.fApplyPreset(36),
+      Preset_37                = CU.fApplyPreset(37),
+      Preset_38                = CU.fApplyPreset(38),
+      Preset_39                = CU.fApplyPreset(39),
+      Preset_40                = CU.fApplyPreset(40),
       Prev                     = LrSelection.previousPhoto,
       Profile_Adobe_Standard          = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
       Profile_Camera_Clear            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
@@ -280,6 +300,7 @@ LrTasks.startAsyncTask(
       return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
     end
 
+    --called within LrRecursionGuard for setting
     local function updateParam() --closure
       local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
       return function(param, midi_value)
@@ -340,8 +361,9 @@ LrTasks.startAsyncTask(
         local LrRecursionGuard    = import 'LrRecursionGuard'
         local LrShell             = import 'LrShell'
         local LrSocket            = import 'LrSocket'
-        local guard = LrRecursionGuard('AdjustmentChangeObserver')
-        --call following within guard
+        local guardreading = LrRecursionGuard('reading')
+        local guardsetting = LrRecursionGuard('setting')
+        --call following within guard for reading
         local function AdjustmentChangeObserver(observer)
           for _,param in ipairs(ParamList.SendToMidi) do
             local lrvalue = LrDevelopController.getValue(param)
@@ -386,7 +408,7 @@ LrTasks.startAsyncTask(
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter
-                updateParam(param, tonumber(value))
+                guardsetting:performWithGuard(updateParam,param,tonumber(value))
               end
             end
           end,
@@ -420,7 +442,7 @@ LrTasks.startAsyncTask(
         -- will drop out of loop if loadversion changes or if in develop module with selected photo
         while (loadVersion == currentLoadVersion) and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
           LrTasks.sleep ( .29 )
-          Profiles.checkProfile()
+          guardsetting:performWithGuard(Profiles.checkProfile)
         end --sleep away until ended or until develop module activated
         if loadVersion == currentLoadVersion then --didn't drop out of loop because of program termination
           LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
@@ -429,13 +451,13 @@ LrTasks.startAsyncTask(
             MIDI2LR.PARAM_OBSERVER, 
             function ( observer ) 
               if LrApplicationView.getCurrentModuleName() == 'develop' then
-                guard:performWithGuard(AdjustmentChangeObserver,observer)
+                guardreading:performWithGuard(AdjustmentChangeObserver,observer)
               end
             end 
           )
           while (loadVersion == currentLoadVersion)  do --detect halt or reload
             LrTasks.sleep( .29 )
-            Profiles.checkProfile()
+            guardsetting:performWithGuard(Profiles.checkProfile)
           end
         end
         client:close()

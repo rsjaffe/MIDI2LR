@@ -20,6 +20,18 @@
   ------------------------------------------------------------------------------]]
   local MenuList = {
   {
+    "KPImportImages",
+    "Import Photos and Videos",
+    "General",
+    true
+  },
+  {
+    "KPExportImages",
+    "Export",
+    "General",
+    true
+  },
+  {
     "ShoVwgrid",
     "Primary Display Grid",
     "General",
@@ -58,6 +70,18 @@
   {
     "ShoVwloupe",
     "Primary Display Loupe",
+    "General",
+    true
+  },
+  {
+    "ShoInfoLoupe",
+    "Primary Display Show Information",
+    "General",
+    true
+  },
+  {
+    "ShoCycleInfoStyle",
+    "Primary Display Cycle Info Display",
     "General",
     true
   },
@@ -2224,6 +2248,126 @@
   {
     "Preset_20",
     "Develop Preset 20",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_21",
+    "Develop Preset 21",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_22",
+    "Develop Preset 22",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_23",
+    "Develop Preset 23",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_24",
+    "Develop Preset 24",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_25",
+    "Develop Preset 25",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_26",
+    "Develop Preset 26",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_27",
+    "Develop Preset 27",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_28",
+    "Develop Preset 28",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_29",
+    "Develop Preset 29",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_30",
+    "Develop Preset 30",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_31",
+    "Develop Preset 31",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_32",
+    "Develop Preset 32",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_33",
+    "Develop Preset 33",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_34",
+    "Develop Preset 34",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_35",
+    "Develop Preset 35",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_36",
+    "Develop Preset 36",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_37",
+    "Develop Preset 37",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_38",
+    "Develop Preset 38",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_39",
+    "Develop Preset 39",
+    "Develop Presets",
+    true
+  },
+  {
+    "Preset_40",
+    "Develop Preset 40",
     "Develop Presets",
     true
   },

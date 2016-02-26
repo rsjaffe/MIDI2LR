@@ -34,11 +34,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #ifdef _WIN32
+{ "KPImportImages", KeyPress::createFromDescription("ctrl + shift + i") },
+{ "KPExportImages", KeyPress::createFromDescription("control + shift + e") },
 { "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("ctrl + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("ctrl + alt + shift + h") },
 { "KPCycleViewStyle", KeyPress::createFromDescription("j") },
+{ "ShoInfoLoupe", KeyPress::createFromDescription("ctrl + i") },
+{ "ShoCycleInfoStyle", KeyPress::createFromDescription("i") },
 { "KPSwapImages", KeyPress::createFromDescription("cursor down") },
 { "KPHideToolbar", KeyPress::createFromDescription("t") },
 { "KPHidePanels", KeyPress::createFromDescription("tab") },
@@ -90,11 +94,15 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
 { "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
 #else
+{ "KPImportImages", KeyPress::createFromDescription("command + shift + i") },
+{ "KPExportImages", KeyPress::createFromDescription("command + shift + e") },
 { "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("command + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("command + option + shift + h") },
 { "KPCycleViewStyle", KeyPress::createFromDescription("j") },
+{ "ShoInfoLoupe", KeyPress::createFromDescription("command + i") },
+{ "ShoCycleInfoStyle", KeyPress::createFromDescription("i") },
 { "KPSwapImages", KeyPress::createFromDescription("cursor down") },
 { "KPHideToolbar", KeyPress::createFromDescription("t") },
 { "KPHidePanels", KeyPress::createFromDescription("tab") },

@@ -24,6 +24,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 
 const std::vector<String> LRCommandList::General = {
+    "Import Photos and Videos",
+    "Export",
     "Primary Display Grid",
     "Increase Grid Size",
     "Decrease Grid Size",
@@ -31,6 +33,8 @@ const std::vector<String> LRCommandList::General = {
     "Show Badges",
     "Cycle Grid View Style",
     "Primary Display Loupe",
+    "Primary Display Show Information",
+    "Primary Display Cycle Info Display",
     "Primary Display Compare",
     "Swap Images",
     "Primary Display Survey",
@@ -428,6 +432,26 @@ const std::vector<String> LRCommandList::DevelopPresets = {
     "Develop Preset 18",
     "Develop Preset 19",
     "Develop Preset 20",
+    "Develop Preset 21",
+    "Develop Preset 22",
+    "Develop Preset 23",
+    "Develop Preset 24",
+    "Develop Preset 25",
+    "Develop Preset 26",
+    "Develop Preset 27",
+    "Develop Preset 28",
+    "Develop Preset 29",
+    "Develop Preset 30",
+    "Develop Preset 31",
+    "Develop Preset 32",
+    "Develop Preset 33",
+    "Develop Preset 34",
+    "Develop Preset 35",
+    "Develop Preset 36",
+    "Develop Preset 37",
+    "Develop Preset 38",
+    "Develop Preset 39",
+    "Develop Preset 40",
 };
 
 const std::vector<String> LRCommandList::LocalAdjustments = {
@@ -532,6 +556,8 @@ const std::vector<String> LRCommandList::ProgramProfiles = {
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
     /* General */
+    "KPImportImages",
+    "KPExportImages",
     "ShoVwgrid",
     "KPIncreaseGridSize",
     "KPDecreaseGridSize",
@@ -539,6 +565,8 @@ const std::vector<String> LRCommandList::LRStringList = {
     "KPShowBadges",
     "KPCycleViewStyle",
     "ShoVwloupe",
+    "ShoInfoLoupe",
+    "ShoCycleInfoStyle",
     "ShoVwcompare",
     "KPSwapImages",
     "ShoVwsurvey",
@@ -912,6 +940,26 @@ const std::vector<String> LRCommandList::LRStringList = {
     "Preset_18",
     "Preset_19",
     "Preset_20",
+    "Preset_21",
+    "Preset_22",
+    "Preset_23",
+    "Preset_24",
+    "Preset_25",
+    "Preset_26",
+    "Preset_27",
+    "Preset_28",
+    "Preset_29",
+    "Preset_30",
+    "Preset_31",
+    "Preset_32",
+    "Preset_33",
+    "Preset_34",
+    "Preset_35",
+    "Preset_36",
+    "Preset_37",
+    "Preset_38",
+    "Preset_39",
+    "Preset_40",
     /* Local Adjustments */
     "GraduatedFilter",
     "RadialFilter",
@@ -1002,6 +1050,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile9",
     "profile10",
 };
+
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
