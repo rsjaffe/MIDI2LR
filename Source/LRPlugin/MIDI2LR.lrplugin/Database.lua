@@ -98,6 +98,9 @@ local DataBase = {
   {'KPCycleViewStyle', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/CycleViewStyle=Cycle Grid View Style"):gsub("&",""),general, 'Cycle grid view style (**-**). *button*','',true,'j','j'},
   --workspace: loupe view
   {"ShoVwloupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe"),general,"Displays a single photo. Zoom levels up to 11:1 are available. *button*"},  --workspace: compare view
+  {"ShoInfoLoupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgLibrary/Menu/View/LoupeViewInfo/ShowExtras=Show Information"):gsub("&",""),general,"Show/Hide information overlay in Loupe view (**control/command + i**). *button*"},  
+  {"ShoCycleInfoStyle",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgLibrary/Menu/View/LoupeViewInfo/CycleViewStyle=Cycle Info Display"):gsub("&",""),general,"Cycle information display in Loupe view (**i**). *button*"},  
+
   --workspace: compare view
   {"ShoVwcompare",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Compare=Compare"),general,"Displays photos side by side so that you can evaluate them. *button*"},
   {"KPSwapImages",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Compare2up/SwapImages=Swap Images"),general,"Swaps select and candidate in compare view (**down arrow**). *button*",'',true,'cursor down','cursor down'},
@@ -524,6 +527,27 @@ local DataBase = {
   {"Preset_18",false,false,true,false,true,false,developPreset.." 18",developPresets,""},
   {"Preset_19",false,false,true,false,true,false,developPreset.." 19",developPresets,""},
   {"Preset_20",false,false,true,false,true,false,developPreset.." 20",developPresets,""},
+  {"Preset_21",false,false,true,false,true,false,developPreset.." 21",developPresets,""},
+  {"Preset_22",false,false,true,false,true,false,developPreset.." 22",developPresets,""},
+  {"Preset_23",false,false,true,false,true,false,developPreset.." 23",developPresets,""},
+  {"Preset_24",false,false,true,false,true,false,developPreset.." 24",developPresets,""},
+  {"Preset_25",false,false,true,false,true,false,developPreset.." 25",developPresets,""},
+  {"Preset_26",false,false,true,false,true,false,developPreset.." 26",developPresets,""},
+  {"Preset_27",false,false,true,false,true,false,developPreset.." 27",developPresets,""},
+  {"Preset_28",false,false,true,false,true,false,developPreset.." 28",developPresets,""},
+  {"Preset_29",false,false,true,false,true,false,developPreset.." 29",developPresets,""},
+  {"Preset_30",false,false,true,false,true,false,developPreset.." 30",developPresets,""},
+  {"Preset_31",false,false,true,false,true,false,developPreset.." 31",developPresets,""},
+  {"Preset_32",false,false,true,false,true,false,developPreset.." 32",developPresets,""},
+  {"Preset_33",false,false,true,false,true,false,developPreset.." 33",developPresets,""},
+  {"Preset_34",false,false,true,false,true,false,developPreset.." 34",developPresets,""},
+  {"Preset_35",false,false,true,false,true,false,developPreset.." 35",developPresets,""},
+  {"Preset_36",false,false,true,false,true,false,developPreset.." 36",developPresets,""},
+  {"Preset_37",false,false,true,false,true,false,developPreset.." 37",developPresets,""},
+  {"Preset_38",false,false,true,false,true,false,developPreset.." 38",developPresets,""},
+  {"Preset_39",false,false,true,false,true,false,developPreset.." 39",developPresets,""},
+  {"Preset_40",false,false,true,false,true,false,developPreset.." 40",developPresets,""},
+
   --develop: spot and brush
   {"GraduatedFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),localizedAdjustments,"Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"RadialFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),localizedAdjustments,"Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View. *button*"},

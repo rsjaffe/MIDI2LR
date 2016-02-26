@@ -22,7 +22,7 @@ local LrView        = import 'LrView'
 
 local function StartDialog(obstable,f)
   --populate table with presets
-  for i = 1,20 do
+  for i = 1,40 do
     obstable['preset'..i] = {}
     obstable['preset'..i][1] = ProgramPreferences.Presets[i]
   end
@@ -35,12 +35,25 @@ local function StartDialog(obstable,f)
     end -- '\226\134\146' is right arrow in utf8
   end
   -- set up presets list for the groupbox on the right of the presets selection dialog
-  local groupboxpresets = {title = LOC("$$$/AgIdentityPlates/MainDialog/Choose=Choose")..' '..LOC("$$$/SmartCollection/Criteria/DevelopPreset=develop preset")} 
+  local groupboxpresets = {}
   for i=1,20 do
     table.insert( 
       groupboxpresets, 
       f:static_text {fill_horizontal = 1,
-        width_in_chars = 50,
+        width_in_chars = 40,
+        truncation = 'head',
+        title = LrView.bind { key = 'preset'..i,
+          transform = function(value) return LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
+        },  -- title
+      } -- static_text
+    )
+  end
+  local groupboxpresets2 = {}
+  for i=21,40 do
+    table.insert( 
+      groupboxpresets2, 
+      f:static_text {fill_horizontal = 1,
+        width_in_chars = 40,
         truncation = 'head',
         title = LrView.bind { key = 'preset'..i,
           transform = function(value) return LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
@@ -50,13 +63,13 @@ local function StartDialog(obstable,f)
   end
   -- set up groups of preset listings
   local tabviewitems = {} 
-  local psrows, pscolumns = 4,5
-  for group=1, pscolumns do
-    tabviewitems[group] = f:tab_view_item {title = (LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..(group*psrows-pscolumns)..'-'..(group*psrows)), identifier = ('presets-'..(group*psrows-pscolumns)..'-'..(group*psrows)),}
-    for i=(1-psrows),0 do
-      table.insert(tabviewitems[group],f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..(group*psrows+i)) })
+  local psrows, pscolumns = 4,10
+  for column=1, pscolumns do
+    tabviewitems[column] = f:tab_view_item {title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..((column-1)*psrows+1)..'-'..(column*psrows), identifier = 'presets-'..((column-1)*psrows+1)..'-'..(column*psrows),}
+    for row=1, psrows do
+      table.insert(tabviewitems[column],f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..((column-1)*psrows+row)) })
     end
-    tabviewitems[group] = f:tab_view_item (tabviewitems[group]) -- prepare for use in f:tabview below
+    tabviewitems[column] = f:tab_view_item (tabviewitems[column]) -- prepare for use in f:tabview below
   end 
   return 
   f:row {
@@ -69,7 +82,14 @@ local function StartDialog(obstable,f)
       f:spacer {
         height = f:control_spacing() * 2,
       }, -- spacer
-      f:group_box (groupboxpresets), -- group_box
+      unpack (groupboxpresets), -- list of 20
+    }, -- column
+    f:column{ -- for the display of chosen presets
+      spacing = f:control_spacing(),
+      f:spacer {
+        height = f:control_spacing() * 2,
+      }, -- spacer
+      unpack (groupboxpresets2), -- list of 20
     }, -- column
   } -- row
 end
@@ -77,7 +97,7 @@ end
 local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.Presets = {} -- empty out prior settings
-    for i = 1,20 do
+    for i = 1,40 do
       if type(obstable['preset'..i])=='table' then -- simple_list should return a table
         ProgramPreferences.Presets[i] = obstable['preset'..i][1]
       end
