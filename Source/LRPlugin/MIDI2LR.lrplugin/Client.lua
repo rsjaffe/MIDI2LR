@@ -297,7 +297,10 @@ LrTasks.startAsyncTask(
     local function LRValueToMIDIValue(param)
       -- map develop parameter range to midi range
       local min,max = Limits.GetMinMax(param)
-      return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+      local retval = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+      if retval > MIDI2LR.CONTROL_MAX then retval = MIDI2LR.CONTROL_MAX
+      elseif retval < 0 then retval = 0 end
+      return retval
     end
 
     --called within LrRecursionGuard for setting
