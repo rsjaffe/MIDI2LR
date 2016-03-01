@@ -199,6 +199,7 @@ local DataBase = {
   --Develop
   {"SwToMdevelop",false,false,true,false,true,false,show..' '..LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),develop,"Switch to Develop module. *button*"},
   --develop: copy paste sync
+  {"KPAutoSync", false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Photo/AutoSync=Enable Auto Sync"):gsub("&",""),develop,'Toggle Auto Sync (**control/command alt/option shift a**). *button*','',true,'ctrl + alt + shift + a','command + option + shift + a'},
   {"CopySettings",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
   {"PasteSettings",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Pastes all develop settings. *button*"},
   {"PasteSelectedSettings",false,false,true,false,true,false,"Paste Selected Settings",develop,"Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},
@@ -613,6 +614,8 @@ local DataBase = {
   {"ResetCrop",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetCrop=Reset Crop"),crop,"Reset the crop angle and frame for the current photo. *button*",'crop'},
   {'ResetstraightenAngle',false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),crop,"Reset crop angle. *button*"},
   {"CropOverlay",false,false,true,false,true,false,show..' '..crop,crop,"Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"KPRotateCropAspect", false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Photo/RotateCropAspect=Switch Crop Orientation"),crop, 'Switch crop between portrait and landscape orientation (**x**). *button*','',true,'x','x'},
+  
 
   {"Loupe",false,false,true,false,true,false,show..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),gotoToolModulePanel,"Select Loupe View mode in Develop Module. Repeated press toggles in and out of Loupe View. *button*",'loupe'},
   {"SwToMmap",false,false,true,false,true,false,show..' '..LOC("$$$/AgLocation/ModuleTitle=Map"),gotoToolModulePanel,"Switch to Map module. *button*"},
@@ -620,14 +623,14 @@ local DataBase = {
   {"SwToMslideshow",false,false,true,false,true,false,show..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),gotoToolModulePanel,"Switch to Slideshow module. *button*"},
   {"SwToMprint",false,false,true,false,true,false,show..' '..LOC("$$$/AgPrint/Menu/File/Print=Print"),gotoToolModulePanel,"Switch to Print module. *button*"},
   {"SwToMweb",false,false,true,false,true,false,show..' '..LOC("$$$/WPG/Help/Shortcuts/WebHeader=Web"),gotoToolModulePanel,"Switch to Web module. *button*"},
-  {"ShoScndVwloupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Loupe=Loupe"),viewModes,"Shows Loupe view on the secondary screen, or hides the secondary screen if Loupe view was previously being shown. *button*"},
-  {"ShoScndVwlive_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LiveLoupe=Live Loupe"),viewModes,"Shows Live Loupe view on the secondary screen, or hides the secondary screen if Live Loupe view was previously being shown. *button*"},
-  {"ShoScndVwlocked_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LockedLoupe=Locked Loupe"),viewModes,"Shows Locked Loupe view on the secondary screen, or hides the secondary screen if Locked Loupe view was previously being shown. *button*"},
-  {"ShoScndVwgrid",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Grid=Grid"),viewModes,"Shows Grid view on the secondary screen, or hides the secondary screen if Grid view was previously being shown. *button*"},
-  {"ShoScndVwcompare",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Compare=Compare"),viewModes,"Shows Compare view on the secondary screen, or hides the secondary screen if Compare view was previously being shown. *button*"},
-  {"ShoScndVwsurvey",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Survey=Survey"),viewModes,"Shows Survey view on the secondary screen, or hides the secondary screen if Survey view was previously being shown. *button*"},
-  {"ShoScndVwslideshow",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),viewModes,"Shows Slideshow view on the secondary screen, or hides the secondary screen if Slideshow view was previously being shown. *button*"},
-  {"ToggleScreenTwo",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Show=Show"),viewModes,"Toggles the the secondary window on/off. *button*"},
+  {"ShoScndVwloupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Loupe=Loupe"),secondaryDisplay,"Shows Loupe view on the secondary screen, or hides the secondary screen if Loupe view was previously being shown. *button*"},
+  {"ShoScndVwlive_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LiveLoupe=Live Loupe"),secondaryDisplay,"Shows Live Loupe view on the secondary screen, or hides the secondary screen if Live Loupe view was previously being shown. *button*"},
+  {"ShoScndVwlocked_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LockedLoupe=Locked Loupe"),secondaryDisplay,"Shows Locked Loupe view on the secondary screen, or hides the secondary screen if Locked Loupe view was previously being shown. *button*"},
+  {"ShoScndVwgrid",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Grid=Grid"),secondaryDisplay,"Shows Grid view on the secondary screen, or hides the secondary screen if Grid view was previously being shown. *button*"},
+  {"ShoScndVwcompare",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Compare=Compare"),secondaryDisplay,"Shows Compare view on the secondary screen, or hides the secondary screen if Compare view was previously being shown. *button*"},
+  {"ShoScndVwsurvey",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Survey=Survey"),secondaryDisplay,"Shows Survey view on the secondary screen, or hides the secondary screen if Survey view was previously being shown. *button*"},
+  {"ShoScndVwslideshow",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),secondaryDisplay,"Shows Slideshow view on the secondary screen, or hides the secondary screen if Slideshow view was previously being shown. *button*"},
+  {"ToggleScreenTwo",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Show=Show"),secondaryDisplay,"Toggles the the secondary window on/off. *button*"},
   {"profile1",false,false,true,false,true,false,profile.." 1",profiles,""},
   {"profile2",false,false,true,false,true,false,profile.." 2",profiles,""},
   {"profile3",false,false,true,false,true,false,profile.." 3",profiles,""},
@@ -831,9 +834,9 @@ local cppvectors ={
   [photoActions]={'SelectionList','Photo Actions'},
   [profiles]={'ProgramProfiles','Profiles'},
   [resetColorAdjustments]={'ResetMixer','Reset HSL / Color / B&W'},
+  [secondaryDisplay]={'SecondaryDisplay',secondaryDisplay},
   [splitToning]={'SplitToning','Split Toning'},
   [toneCurve]={'ToneCurve','Tone Curve'},
-  [viewModes]={'ViewModes','View Modes'},
 }
 
 
