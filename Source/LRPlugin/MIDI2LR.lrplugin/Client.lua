@@ -89,7 +89,7 @@ LrTasks.startAsyncTask(
     MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CONTROL_MAX = 127 } --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
-    local PickupEnabled       = true
+    local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
     --local constants--may edit these to change program behaviors
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
@@ -285,7 +285,13 @@ LrTasks.startAsyncTask(
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
       ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
-      Pickup             = function(enabled) PickupEnabled = (tonumber(enabled) == 1) end, 
+      Pickup             = function(enabled) 
+        if tonumber(enabled) == 1 then -- state machine
+          UpdateParam = UpdateParamPickup
+        else
+          UpdateParam = UpdateParamNoPickup
+        end
+      end, 
     }
 
     local function MIDIValueToLRValue(param, midi_value)
@@ -304,57 +310,55 @@ LrTasks.startAsyncTask(
     end
 
     --called within LrRecursionGuard for setting
-    local function updateParam() --closure
-      local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
+    function UpdateParamPickup() --closure
+      local paramlastmoved = {}
       return function(param, midi_value)
         local value
-        -- this function does a 'pickup' type of check
-        -- that is, it will ensure the develop parameter is close 
-        -- to what the inputted command value is before updating it
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
         end
-        -- if pickup mode, keep LR value within pickup limits so pickup can work
-        if Limits.Parameters[param] and PickupEnabled then
+        if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        -- enable movement if pickup mode is off; controller is within pickup range; 
-        -- or control was last used recently and rapidly moved out of pickup range
-        if(
-          (not PickupEnabled) or
-          (math.abs(midi_value - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or
-          (lastclock + 0.5 > os.clock() and lastparam == param) 
-        )
-        then
-          if PickupEnabled then -- update info to use for detecting fast control changes
-            lastclock = os.clock()
-            lastparam = param
-          end
+        if((math.abs(midi_value - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
+          paramlastmoved[param] = os.clock()
           value = MIDIValueToLRValue(param, midi_value)
           MIDI2LR.PARAM_OBSERVER[param] = value
           LrDevelopController.setValue(param, value)
           LastParam = param
-        end
-        if ProgramPreferences.ClientShowBezelOnChange then
-          if value == nil then -- didn't do an update--pickup failed, so show target value as well
-            value = MIDIValueToLRValue(param, midi_value)
-            local actualvalue = LrDevelopController.getValue(param)
-            local precision = Ut.precision(value)
-            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
-          else
+          if ProgramPreferences.ClientShowBezelOnChange then
             LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
-        end
-        -- LR bug, doesn't reveal panel when Contrast adjusted
-        -- but changing panel before or after adjusting contrast causes all sorts of buggy behavior in LR, so just live with the bug
-        -- if param=='Contrast' then LrDevelopController.revealPanel(adjustPanel) end
-        if ParamList.ProfileMap[param] then
-          Profiles.changeProfile(ParamList.ProfileMap[param])
-        end
+          if ParamList.ProfileMap[param] then
+            Profiles.changeProfile(ParamList.ProfileMap[param])
+          end
+        elseif ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
+          value = MIDIValueToLRValue(param, midi_value)
+          local actualvalue = LrDevelopController.getValue(param)
+          local precision = Ut.precision(value)
+          LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+        end -- end of if pickup/elseif bezel group
+      end -- end of returned function
+    end
+    UpdateParamPickup = UpdateParamPickup() --complete closure
+    --called within LrRecursionGuard for setting
+    function UpdateParamNoPickup(param, midi_value) 
+      local value
+      if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+        LrApplicationView.switchToModule('develop')
+      end
+      value = MIDIValueToLRValue(param, midi_value)
+      MIDI2LR.PARAM_OBSERVER[param] = value
+      LrDevelopController.setValue(param, value)
+      LastParam = param
+      if ProgramPreferences.ClientShowBezelOnChange then
+        LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+      end
+      if ParamList.ProfileMap[param] then
+        Profiles.changeProfile(ParamList.ProfileMap[param])
       end
     end
-    updateParam = updateParam() --complete closure
-
+    UpdateParam = UpdateParamPickup --initial state
 
 
     LrFunctionContext.callWithContext( 
@@ -366,17 +370,23 @@ LrTasks.startAsyncTask(
         local LrSocket            = import 'LrSocket'
         local guardreading = LrRecursionGuard('reading')
         local guardsetting = LrRecursionGuard('setting')
+        local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver(observer)
-          for _,param in ipairs(ParamList.SendToMidi) do
-            local lrvalue = LrDevelopController.getValue(param)
-            if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-              MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
-              observer[param] = lrvalue
-              LastParam = param
+          if LrApplicationView.getCurrentModuleName() == 'develop' then
+            for _,param in ipairs(ParamList.SendToMidi) do
+              local lrvalue = LrDevelopController.getValue(param)
+              if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
+                observer[param] = lrvalue
+                LastParam = param
+              end
             end
           end
         end
+        local function InactiveObserver() end
+        CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
+        
         -- wrapped in function so can be called when connection lost
         local function startServer(context)
           MIDI2LR.SERVER = LrSocket.bind {
@@ -411,7 +421,7 @@ LrTasks.startAsyncTask(
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter
-                guardsetting:performWithGuard(updateParam,param,tonumber(value))
+                guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
               end
             end
           end,
@@ -453,9 +463,7 @@ LrTasks.startAsyncTask(
             context, 
             MIDI2LR.PARAM_OBSERVER, 
             function ( observer ) 
-              if LrApplicationView.getCurrentModuleName() == 'develop' then
-                guardreading:performWithGuard(AdjustmentChangeObserver,observer)
-              end
+              guardreading:performWithGuard(CurrentObserver,observer)
             end 
           )
           while (loadVersion == currentLoadVersion)  do --detect halt or reload
