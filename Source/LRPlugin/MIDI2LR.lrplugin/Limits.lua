@@ -42,16 +42,16 @@ local DisplayOrder           = {'Temperature','Tint','Exposure'}
 --------------------------------------------------------------------------------
 -- Table listing parameter names managed by Limits module.
 --------------------------------------------------------------------------------
-local Parameters           = {}--{Temperature = true, Tint = true, Exposure = true}
+local LimitParameters           = {}--{Temperature = true, Tint = true, Exposure = true}
 for _, p in ipairs(DisplayOrder) do
-  Parameters[p] = true
+  LimitParameters[p] = true
 end
 
 --clean up the preferences of discarded Limits and fix label and order
 --has to be done after init and after loading full limits file
 
 for k in pairs(ProgramPreferences.Limits) do
-  if Parameters[k] then
+  if LimitParameters[k] then
     ProgramPreferences.Limits[k]['label'] = ParamList.LimitEligible[k][1]
     ProgramPreferences.Limits[k]['order'] = ParamList.LimitEligible[k][2]
   else
@@ -70,7 +70,7 @@ end
 -- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
-  if Parameters[param] == nil or LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
+  if LimitParameters[param] == nil or LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
   local _, rangemax = LrDevelopController.getRange(param)
   local min, max = unpack(ProgramPreferences.Limits[param][rangemax])
   local value = LrDevelopController.getValue(param)
@@ -153,12 +153,10 @@ end
 -- @return max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
-  --if LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil,nil end
-  local rangemin, rangemax = LrDevelopController.getRange(param)
-  if Parameters[param] then
-    return unpack(ProgramPreferences.Limits[param][rangemax])
+  if LimitParameters[param] then
+    return ProgramPreferences.Limits[param][rangemax][1], ProgramPreferences.Limits[param][rangemax][2]
   else
-    return rangemin,rangemax
+    return LrDevelopController.getRange(param)
   end
 end
 
@@ -199,6 +197,6 @@ return { --table of exports, setting table member name and module function it po
   ClampValue  = ClampValue,
   EndDialog   = EndDialog,
   GetMinMax   = GetMinMax,
-  Parameters  = Parameters,
+  Parameters  = LimitParameters,
   StartDialog = StartDialog,
 }
