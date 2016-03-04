@@ -371,5 +371,6 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
 
     CFRelease(d);
     CFRelease(u);
+    CFRelease(source);
 #endif
 }
