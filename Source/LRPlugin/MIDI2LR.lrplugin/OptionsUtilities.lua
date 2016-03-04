@@ -32,6 +32,7 @@ local function slider(f,obstable,title,widthshare,binding,low,high,default)
       min = low, 
       max = high,
       width = LrView.share(widthshare .. '_slider'),
+      integral = high - 10 > low
     }, -- slider
     f:static_text {
       title = LrView.bind(binding),
