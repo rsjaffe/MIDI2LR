@@ -34,9 +34,9 @@ local ProfileTypes        = require 'ProfileTypes'
 --Limits.lua
 --------------note: test if can use t in place of t.param in metalimit2
 local metalimit2 = { --assumes only new table members for each parameter are numeric, representing ranges
-  __index = function(t,k) -- key is high value for the range -- always return t[k]!
-    t[k] = {}
+  __index = function(t,k) -- key is high value for the range -- return t[k] or nil
     if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then 
+      t[k] = {}
       local lo,hi = LrDevelopController.getRange(t.param)
       if k == hi then
         if t.param == 'Temperature' and k == 50000 then
@@ -45,8 +45,9 @@ local metalimit2 = { --assumes only new table members for each parameter are num
           t[k] = {lo,hi}
         end
       end
+      return t[k]
     end
-    return t[k]
+    return nil,nil --don't initialize t[k] so that __index reruns on next access
   end,
 }
 
