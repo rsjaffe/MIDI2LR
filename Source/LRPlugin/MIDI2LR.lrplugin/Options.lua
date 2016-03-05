@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local Limits            = require 'Limits' 
+local OU                = require 'OptionsUtilities'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
 local Presets           = require 'Presets'
@@ -34,6 +35,7 @@ local function setOptions()
       local properties = LrBinding.makePropertyTable( context )
       --following not managed by another module
       properties.ClientShowBezelOnChange = ProgramPreferences.ClientShowBezelOnChange
+      properties.TrackingDelay = ProgramPreferences.TrackingDelay
 
       -- assemble dialog box contents
       local contents = 
@@ -60,7 +62,8 @@ local function setOptions()
             identifier = 'othersettings',
             f:view(Limits.StartDialog(properties,f)),
             f:separator {fill_horizontal = 0.9},
-            f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')}
+            f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')},
+            OU.slider(f,properties,LOC("$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"),'slidersets','TrackingDelay',0,3,2),
           }, -- tab_view_item
         }, -- tab_view
       } -- view
@@ -76,9 +79,15 @@ local function setOptions()
       Paste.EndDialog(properties,result)
       Profiles.EndDialog(properties,result)
       if result == 'ok' then
-        Preferences.Save()
         --following not managed by another module
         ProgramPreferences.ClientShowBezelOnChange = properties.ClientShowBezelOnChange
+        ProgramPreferences.TrackingDelay = properties.TrackingDelay
+        if ProgramPreferences.TrackingDelay ~= nil then
+          local LrDevelopController = import 'LrDevelopController'
+          LrDevelopController.setTrackingDelay(ProgramPreferences.TrackingDelay)
+        end
+        --then save preferences
+        Preferences.Save()
       end -- if result ok
       -- finished with assigning values from dialog
     end

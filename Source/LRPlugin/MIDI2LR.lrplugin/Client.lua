@@ -386,7 +386,7 @@ LrTasks.startAsyncTask(
         end
         local function InactiveObserver() end
         CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
-        
+
         -- wrapped in function so can be called when connection lost
         local function startServer(context)
           MIDI2LR.SERVER = LrSocket.bind {
@@ -459,6 +459,9 @@ LrTasks.startAsyncTask(
         end --sleep away until ended or until develop module activated
         if loadVersion == currentLoadVersion then --didn't drop out of loop because of program termination
           LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+          if ProgramPreferences.TrackingDelay ~= nil then
+            LrDevelopController.setTrackingDelay(ProgramPreferences.TrackingDelay)
+          end
           LrDevelopController.addAdjustmentChangeObserver(
             context, 
             MIDI2LR.PARAM_OBSERVER, 
