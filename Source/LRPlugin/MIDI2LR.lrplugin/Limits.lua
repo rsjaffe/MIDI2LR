@@ -153,10 +153,11 @@ end
 -- @return max for given param and mode.
 --------------------------------------------------------------------------------
 local function GetMinMax(param)
-  if LimitParameters[param] then
+  local low,rangemax = LrDevelopController.getRange(param)
+  if LimitParameters[param] and rangemax ~= nil then -- B&W picture may not have temperature, tint. This avoids indexing a nil rangemax and blowing up the metatable _index
     return ProgramPreferences.Limits[param][rangemax][1], ProgramPreferences.Limits[param][rangemax][2]
   else
-    return LrDevelopController.getRange(param)
+    return low,rangemax
   end
 end
 
