@@ -7,12 +7,13 @@ How to submit an issue. Please type on the blank lines below each heading (### i
 ### Steps to reproduce the behavior
 
 ### System information
-Operating system (Windows or OS X) and version:
-MIDI2LR version:
-Lightroom version:
-Lightroom language:
-Keyboard language:
-MIDI controller:
+
+* Operating system (Windows or OS X) and version:
+* MIDI2LR version:
+* Lightroom version:
+* Lightroom language:
+* Keyboard language:
+* MIDI controller:
 
 ### Additional comments
 
