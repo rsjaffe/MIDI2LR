@@ -1,4 +1,4 @@
-How to submit an issue. Please type on the blank lines below each heading (### identifies the headings), and include the information requested under "System Information". Delete these instructions when done. If you are submitting a feature request, delete everything here and just start writing. Thanks.
+How to submit an issue. Please type on the blank lines below each heading (### identifies the headings), and include the information requested under "System Information". Delete these instructions when done. If you are submitting a feature request or comment, delete everything here and just start writing. Thanks.
  
 ### Expected behavior
 
