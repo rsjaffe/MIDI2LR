@@ -36,7 +36,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #ifdef _WIN32
 { "KPImportImages", KeyPress::createFromDescription("ctrl + shift + i") },
 { "KPExportImages", KeyPress::createFromDescription("control + shift + e") },
-{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("+") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("ctrl + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("ctrl + alt + shift + h") },
@@ -76,14 +76,15 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPUnstack", KeyPress::createFromDescription("ctrl + shift + g") },
 { "KPExpandStack", KeyPress::createFromDescription("s") },
 { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPUpInStack", KeyPress::createFromDescription("{") },
+{ "KPDnInStack", KeyPress::createFromDescription("}") },
 { "KPRotateLeft", KeyPress::createFromDescription("ctrl + [") },
 { "KPRotateRight", KeyPress::createFromDescription("ctrl + ]") },
 { "KPDelete", KeyPress::createFromDescription("delete") },
 { "KPDeleteRej", KeyPress::createFromDescription("ctrl + delete") },
 { "KPRemoveFromCat", KeyPress::createFromDescription("alt + delete") },
 { "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
+{ "KPAutoSync", KeyPress::createFromDescription("ctrl + alt + shift + a") },
 { "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
 { "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
 { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
@@ -91,12 +92,13 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPClipping", KeyPress::createFromDescription("j") },
 { "KPIncreaseSize", KeyPress::createFromDescription("]") },
 { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("}") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("{") },
+{ "KPRotateCropAspect", KeyPress::createFromDescription("x") },
 #else
 { "KPImportImages", KeyPress::createFromDescription("command + shift + i") },
 { "KPExportImages", KeyPress::createFromDescription("command + shift + e") },
-{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("+") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("command + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("command + option + shift + h") },
@@ -136,14 +138,15 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPUnstack", KeyPress::createFromDescription("command + shift + g") },
 { "KPExpandStack", KeyPress::createFromDescription("s") },
 { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPUpInStack", KeyPress::createFromDescription("{") },
+{ "KPDnInStack", KeyPress::createFromDescription("}") },
 { "KPRotateLeft", KeyPress::createFromDescription("command + [") },
 { "KPRotateRight", KeyPress::createFromDescription("command + ]") },
 { "KPDelete", KeyPress::createFromDescription("delete") },
 { "KPDeleteRej", KeyPress::createFromDescription("command + delete") },
 { "KPRemoveFromCat", KeyPress::createFromDescription("option + delete") },
 { "KPTrash", KeyPress::createFromDescription("command + option + shift + delete") },
+{ "KPAutoSync", KeyPress::createFromDescription("command + option + shift + a") },
 { "KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v") },
 { "KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m") },
 { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
@@ -151,8 +154,9 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPClipping", KeyPress::createFromDescription("j") },
 { "KPIncreaseSize", KeyPress::createFromDescription("]") },
 { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("}") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("{") },
+{ "KPRotateCropAspect", KeyPress::createFromDescription("x") },
 #endif
 };
 
@@ -303,6 +307,9 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     }
     // Translate key code to keyboard-dependent scan code
     const SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
+    const WORD vk = LOBYTE(vkCodeAndShift);
+    const WORD vk_modifiers = HIBYTE(vkCodeAndShift);
+
     // input event.
     INPUT ip;
     ip.type = INPUT_KEYBOARD;
@@ -310,43 +317,71 @@ void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
     ip.ki.dwFlags = 0; // 0 for key press
     ip.ki.time = 0;
     ip.ki.wScan = 0;
-    if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
+    if ((vk_modifiers & 0x06) == 0x06) //using AltGr key
     {
-        ip.ki.wVk = VK_CONTROL;
+        ip.ki.wVk = VK_RMENU;
+        SendInput(1, &ip, sizeof(INPUT));
+        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        {
+            ip.ki.wVk = VK_SHIFT;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
+        //press the key
+        ip.ki.wVk = vk;
+        SendInput(1, &ip, sizeof(INPUT));
+        //add 30 msec between press and release
+        Sleep(30);
+        // Release the key
+        ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+        SendInput(1, &ip, sizeof(INPUT));
+        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        {
+            ip.ki.wVk = VK_SHIFT;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
+        ip.ki.wVk = VK_RMENU;
         SendInput(1, &ip, sizeof(INPUT));
     }
-    if (mk.isShiftDown() || (vkCodeAndShift & 0x100))
-    {
-        ip.ki.wVk = VK_SHIFT;
+    else //not using AltGr key
+    { 
+        if (mk.isCtrlDown() || (vk_modifiers & 0x2))
+        {
+            ip.ki.wVk = VK_CONTROL;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
+        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        {
+            ip.ki.wVk = VK_SHIFT;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
+        if (mk.isAltDown() || (vk_modifiers & 0x4))
+        {
+            ip.ki.wVk = VK_MENU;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
+        //press the key
+        ip.ki.wVk = vk;
         SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isAltDown() || (vkCodeAndShift & 0x400))
-    {
-        ip.ki.wVk = VK_MENU;
+        //add 30 msec between press and release
+        Sleep(30);
+        // Release the key
+        ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
         SendInput(1, &ip, sizeof(INPUT));
-    }
-    //press the key
-    ip.ki.wVk = static_cast<WORD>(vkCodeAndShift & 0xFF);
-    SendInput(1, &ip, sizeof(INPUT));
-    //add 30 msec between press and release
-    Sleep(30); 
-    // Release the key
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    SendInput(1, &ip, sizeof(INPUT));
-    if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
-    {
-        ip.ki.wVk = VK_CONTROL;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isShiftDown() || (vkCodeAndShift & 0x100))
-    {
-        ip.ki.wVk = VK_SHIFT;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isAltDown() || (vkCodeAndShift & 0x400))
-    {
-        ip.ki.wVk = VK_MENU;
-        SendInput(1, &ip, sizeof(INPUT));
+        if (mk.isCtrlDown() || (vk_modifiers & 0x2))
+        {
+            ip.ki.wVk = VK_CONTROL;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
+        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        {
+            ip.ki.wVk = VK_SHIFT;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
+        if (mk.isAltDown() || (vk_modifiers & 0x4))
+        {
+            ip.ki.wVk = VK_MENU;
+            SendInput(1, &ip, sizeof(INPUT));
+        }
     }
 #else
     const ModifierKeys mk = key.getModifiers();
