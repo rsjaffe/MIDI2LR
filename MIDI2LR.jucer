@@ -47,6 +47,8 @@
             file="Source/ResizableLayout.cpp"/>
       <FILE id="s4VIaO" name="ResizableLayout.h" compile="0" resource="0"
             file="Source/ResizableLayout.h"/>
+      <FILE id="kES39X" name="SendKeys.cpp" compile="1" resource="0" file="Source/SendKeys.cpp"/>
+      <FILE id="Sgq8EC" name="SendKeys.h" compile="0" resource="0" file="Source/SendKeys.h"/>
       <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
             file="Source/SettingsComponent.cpp"/>
       <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"

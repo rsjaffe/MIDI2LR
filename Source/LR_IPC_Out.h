@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "CommandMap.h"
 
+
 class LRConnectionListener
 {
 public:
@@ -80,7 +81,6 @@ private:
 	String _commandToSend;
     // Send key commands
     void handleKPCommand(void);
-    void handleShortCutKeyDownUp(KeyPress key);
 };
 
 
