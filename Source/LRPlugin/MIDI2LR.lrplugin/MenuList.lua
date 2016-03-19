@@ -512,6 +512,12 @@
     true
   },
   {
+    "KPAutoSync",
+    "Enable Auto Sync",
+    "Develop",
+    true
+  },
+  {
     "CopySettings",
     "Copy Settings",
     "Develop",
@@ -2732,6 +2738,12 @@
     true
   },
   {
+    "KPRotateCropAspect",
+    "Switch Crop Orientation",
+    "Crop",
+    true
+  },
+  {
     "Loupe",
     "Show Loupe",
     "Select Tools, Modules and Panels",
@@ -2770,49 +2782,49 @@
   {
     "ShoScndVwloupe",
     "Secondary Display Loupe",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {
     "ShoScndVwlive_loupe",
     "Secondary Display Live Loupe",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {
     "ShoScndVwlocked_loupe",
     "Secondary Display Locked Loupe",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {
     "ShoScndVwgrid",
     "Secondary Display Grid",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {
     "ShoScndVwcompare",
     "Secondary Display Compare",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {
     "ShoScndVwsurvey",
     "Secondary Display Survey",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {
     "ShoScndVwslideshow",
     "Secondary Display Slideshow",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {
     "ToggleScreenTwo",
     "Secondary Display Show",
-    "View Modes",
+    "Secondary Display",
     true
   },
   {

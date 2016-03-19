@@ -32,7 +32,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #ifdef _WIN32
 { "KPImportImages", KeyPress::createFromDescription("ctrl + shift + i") },
 { "KPExportImages", KeyPress::createFromDescription("control + shift + e") },
-{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("+") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("ctrl + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("ctrl + alt + shift + h") },
@@ -72,14 +72,15 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPUnstack", KeyPress::createFromDescription("ctrl + shift + g") },
 { "KPExpandStack", KeyPress::createFromDescription("s") },
 { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPUpInStack", KeyPress::createFromDescription("{") },
+{ "KPDnInStack", KeyPress::createFromDescription("}") },
 { "KPRotateLeft", KeyPress::createFromDescription("ctrl + [") },
 { "KPRotateRight", KeyPress::createFromDescription("ctrl + ]") },
 { "KPDelete", KeyPress::createFromDescription("delete") },
 { "KPDeleteRej", KeyPress::createFromDescription("ctrl + delete") },
 { "KPRemoveFromCat", KeyPress::createFromDescription("alt + delete") },
 { "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
+{ "KPAutoSync", KeyPress::createFromDescription("ctrl + alt + shift + a") },
 { "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
 { "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
 { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
@@ -87,12 +88,13 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPClipping", KeyPress::createFromDescription("j") },
 { "KPIncreaseSize", KeyPress::createFromDescription("]") },
 { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("}") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("{") },
+{ "KPRotateCropAspect", KeyPress::createFromDescription("x") },
 #else
 { "KPImportImages", KeyPress::createFromDescription("command + shift + i") },
 { "KPExportImages", KeyPress::createFromDescription("command + shift + e") },
-{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("+") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("command + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("command + option + shift + h") },
@@ -132,14 +134,15 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPUnstack", KeyPress::createFromDescription("command + shift + g") },
 { "KPExpandStack", KeyPress::createFromDescription("s") },
 { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPUpInStack", KeyPress::createFromDescription("{") },
+{ "KPDnInStack", KeyPress::createFromDescription("}") },
 { "KPRotateLeft", KeyPress::createFromDescription("command + [") },
 { "KPRotateRight", KeyPress::createFromDescription("command + ]") },
 { "KPDelete", KeyPress::createFromDescription("delete") },
 { "KPDeleteRej", KeyPress::createFromDescription("command + delete") },
 { "KPRemoveFromCat", KeyPress::createFromDescription("option + delete") },
 { "KPTrash", KeyPress::createFromDescription("command + option + shift + delete") },
+{ "KPAutoSync", KeyPress::createFromDescription("command + option + shift + a") },
 { "KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v") },
 { "KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m") },
 { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
@@ -147,8 +150,9 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPClipping", KeyPress::createFromDescription("j") },
 { "KPIncreaseSize", KeyPress::createFromDescription("]") },
 { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("}") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("{") },
+{ "KPRotateCropAspect", KeyPress::createFromDescription("x") },
 #endif
 };
 
@@ -277,4 +281,3 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
         handleAsyncUpdate();
     }
 }
-
