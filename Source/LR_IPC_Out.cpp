@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 #include "Tools.h"
-#include "SendKeys.h"
+
 
 // define the port used to 
 #define LR_OUT_PORT 58763 
@@ -152,7 +152,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #endif
 };
 
-LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
+LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection(), m_SendKeys()
 {
 
 
@@ -221,7 +221,7 @@ void LR_IPC_OUT::sendCommand(const String &command)
 void LR_IPC_OUT::handleKPCommand()
 {
     if (_valueToSend == 127)
-        SendKeys::handleShortCutKeyDownUp(KPMappings.at(_commandToSend));
+        m_SendKeys.handleShortCutKeyDownUp(KPMappings.at(_commandToSend));
 }
 
 void LR_IPC_OUT::handleAsyncUpdate()

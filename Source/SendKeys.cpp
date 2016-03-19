@@ -10,7 +10,7 @@ std::mutex SendKeys::m_mtxSending{};
 
 void SendKeys::handleShortCutKeyDownUp(KeyPress key)
 {
-
+    std::lock_guard< std::mutex > lock(SendKeys::m_mtxSending);
 #ifdef _WIN32
     //Lightroom handle
     const HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
@@ -37,7 +37,6 @@ void SendKeys::handleShortCutKeyDownUp(KeyPress key)
     ip.ki.dwFlags = 0; // 0 for key press
     ip.ki.time = 0;
     ip.ki.wScan = 0;
-    std::lock_guard< std::mutex > lock(SendKeys::m_mtxSending);
     if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
     {
         ip.ki.wVk = VK_CONTROL;
@@ -94,11 +93,10 @@ void SendKeys::handleShortCutKeyDownUp(KeyPress key)
         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
-    { //limit lock duration with these braces
-        std::lock_guard< std::mutex > lock(SendKeys::m_mtxSending);
-        CGEventPost(kCGHIDEventTap, d);
-        CGEventPost(kCGHIDEventTap, u);
-    }
+
+    CGEventPost(kCGHIDEventTap, d);
+    CGEventPost(kCGHIDEventTap, u);
+
     CFRelease(d);
     CFRelease(u);
     CFRelease(source);

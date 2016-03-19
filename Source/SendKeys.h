@@ -8,7 +8,7 @@ public:
     {};
     ~SendKeys()
     {};
-    static void handleShortCutKeyDownUp(KeyPress key);
+    void handleShortCutKeyDownUp(KeyPress key);
 private:
     static std::mutex m_mtxSending;
 };
