@@ -9,12 +9,14 @@ A lr ipc out.
 
 {\ttfamily \#include $<$L\+R\+\_\+\+I\+P\+C\+\_\+\+Out.\+h$>$}
 
-Inheritance diagram for L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT\+:\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[height=1.818182cm]{class_l_r___i_p_c___o_u_t}
-\end{center}
-\end{figure}
+
+
+Inheritance diagram for L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT\+:
+% FIG 0
+
+
+Collaboration diagram for L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT\+:
+% FIG 1
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -33,9 +35,9 @@ virtual void \hyperlink{class_l_r___i_p_c___o_u_t_a83d07e7eb695c511a5bcaa1634148
 virtual void \hyperlink{class_l_r___i_p_c___o_u_t_a7fcdee71f2811557b6bf4d1a6c8f243a}{message\+Received} (const Memory\+Block \&msg) override
 \begin{DoxyCompactList}\small\item\em Message received. \end{DoxyCompactList}\item 
 virtual void \hyperlink{class_l_r___i_p_c___o_u_t_ad2d2b544157950b3b74ff6f7791c98cc}{handle\+Midi\+CC} (int midi\+Channel, int controller, int value) override
-\begin{DoxyCompactList}\small\item\em Handles the M\+I\+DI Cc. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Handles M\+I\+DI CC messages. \end{DoxyCompactList}\item 
 virtual void \hyperlink{class_l_r___i_p_c___o_u_t_ab586f83cf46e3a10ab03a934c749d60d}{handle\+Midi\+Note} (int midi\+Channel, int note) override
-\begin{DoxyCompactList}\small\item\em Handles the M\+I\+DI note. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Handles M\+I\+DI note messages. \end{DoxyCompactList}\item 
 virtual void \hyperlink{class_l_r___i_p_c___o_u_t_ad51f33b2ec43f590ac2d3fc60c129134}{handle\+Async\+Update} () override
 \begin{DoxyCompactList}\small\item\em Handles the asynchronous update. \end{DoxyCompactList}\item 
 virtual void \hyperlink{class_l_r___i_p_c___o_u_t_ada29129823f7840fef72598342806f53}{timer\+Callback} () override
@@ -173,6 +175,18 @@ Rory
 
 Definition at line 349 of file L\+R\+\_\+\+I\+P\+C\+\_\+\+Out.\+cpp.
 
+
+
+Here is the call graph for this function\+:
+% FIG 2
+
+
+
+
+Here is the caller graph for this function\+:
+% FIG 3
+
+
 \index{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}!handle\+Midi\+CC@{handle\+Midi\+CC}}
 \index{handle\+Midi\+CC@{handle\+Midi\+CC}!L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}}
 \subsubsection[{\texorpdfstring{handle\+Midi\+C\+C(int midi\+Channel, int controller, int value) override}{handleMidiCC(int midiChannel, int controller, int value) override}}]{\setlength{\rightskip}{0pt plus 5cm}void L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+U\+T\+::handle\+Midi\+CC (
@@ -184,7 +198,7 @@ Definition at line 349 of file L\+R\+\_\+\+I\+P\+C\+\_\+\+Out.\+cpp.
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_l_r___i_p_c___o_u_t_ad2d2b544157950b3b74ff6f7791c98cc}{}\label{class_l_r___i_p_c___o_u_t_ad2d2b544157950b3b74ff6f7791c98cc}
 
 
-Handles the M\+I\+DI Cc. 
+Handles M\+I\+DI CC messages. 
 
 \begin{DoxyAuthor}{Author}
 Rory 
@@ -209,6 +223,12 @@ Implements \hyperlink{class_m_i_d_i_command_listener}{M\+I\+D\+I\+Command\+Liste
 
 Definition at line 377 of file L\+R\+\_\+\+I\+P\+C\+\_\+\+Out.\+cpp.
 
+
+
+Here is the call graph for this function\+:
+% FIG 4
+
+
 \index{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}!handle\+Midi\+Note@{handle\+Midi\+Note}}
 \index{handle\+Midi\+Note@{handle\+Midi\+Note}!L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}}
 \subsubsection[{\texorpdfstring{handle\+Midi\+Note(int midi\+Channel, int note) override}{handleMidiNote(int midiChannel, int note) override}}]{\setlength{\rightskip}{0pt plus 5cm}void L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+U\+T\+::handle\+Midi\+Note (
@@ -219,7 +239,7 @@ Definition at line 377 of file L\+R\+\_\+\+I\+P\+C\+\_\+\+Out.\+cpp.
 )\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}\hypertarget{class_l_r___i_p_c___o_u_t_ab586f83cf46e3a10ab03a934c749d60d}{}\label{class_l_r___i_p_c___o_u_t_ab586f83cf46e3a10ab03a934c749d60d}
 
 
-Handles the M\+I\+DI note. 
+Handles M\+I\+DI note messages. 
 
 \begin{DoxyAuthor}{Author}
 Rory 
@@ -241,6 +261,12 @@ Implements \hyperlink{class_m_i_d_i_command_listener}{M\+I\+D\+I\+Command\+Liste
 
 
 Definition at line 408 of file L\+R\+\_\+\+I\+P\+C\+\_\+\+Out.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+% FIG 5
+
 
 \index{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}!Init@{Init}}
 \index{Init@{Init}!L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}}
@@ -322,6 +348,12 @@ Rory
 
 
 Definition at line 316 of file L\+R\+\_\+\+I\+P\+C\+\_\+\+Out.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+% FIG 6
+
 
 \index{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}!shutdown@{shutdown}}
 \index{shutdown@{shutdown}!L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT@{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT}}
