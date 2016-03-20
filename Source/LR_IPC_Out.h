@@ -26,6 +26,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MIDIProcessor.h"
 #include "CommandMap.h"
+#include "SendKeys.h"
+
 
 class LRConnectionListener
 {
@@ -80,7 +82,7 @@ private:
 	String _commandToSend;
     // Send key commands
     void handleKPCommand(void);
-    void handleShortCutKeyDownUp(KeyPress key);
+    SendKeys m_SendKeys;
 };
 
 

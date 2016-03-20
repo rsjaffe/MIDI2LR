@@ -135,7 +135,6 @@
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>
     <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
-    <ClCompile Include="..\..\Source\Logger.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
     <ClCompile Include="..\..\Source\LRCommands.cpp"/>
@@ -147,6 +146,7 @@
     <ClCompile Include="..\..\Source\Pattern\Observer.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
+    <ClCompile Include="..\..\Source\SendKeys.cpp"/>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp"/>
     <ClCompile Include="..\..\Source\SettingsManager.cpp"/>
     <ClCompile Include="..\..\Source\Pattern\Subject.cpp"/>
@@ -1196,7 +1196,6 @@
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
     <ClInclude Include="..\..\Source\CommandTableModel.h"/>
-    <ClInclude Include="..\..\Source\Logger.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>
     <ClInclude Include="..\..\Source\LRCommands.h"/>
@@ -1207,6 +1206,7 @@
     <ClInclude Include="..\..\Source\Pattern\Observer.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\ResizableLayout.h"/>
+    <ClInclude Include="..\..\Source\SendKeys.h"/>
     <ClInclude Include="..\..\Source\SettingsComponent.h"/>
     <ClInclude Include="..\..\Source\SettingsManager.h"/>
     <ClInclude Include="..\..\Source\Pattern\Subject.h"/>

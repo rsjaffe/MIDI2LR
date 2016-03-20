@@ -16,4 +16,4 @@ void Dummy()
 {
     // access to unique instance of MySingleton object and call Method()
     MySingleton::GetInstance().Method();
-}
+}

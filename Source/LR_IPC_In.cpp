@@ -22,8 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 
 
-#include "Logger.h"
-
 //define the communication port
 #define LR_IN_PORT 58764
 
