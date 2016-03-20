@@ -114,13 +114,12 @@ void SendKeys::handleShortCutKeyDownUp(KeyPress key)
     CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
     CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-    uint64_t flags = UINT64_C(0);
+    uint64_t flags = CGEventGetFlags(d); //in case KeyCode has associated flag
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
     if (flags != UINT64_C(0))
     {
-        flags |= CGEventGetFlags(d); //in case KeyCode has associated flag
         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
