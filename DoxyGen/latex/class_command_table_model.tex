@@ -1,0 +1,54 @@
+\hypertarget{class_command_table_model}{}\section{Command\+Table\+Model Class Reference}
+\label{class_command_table_model}\index{Command\+Table\+Model@{Command\+Table\+Model}}
+Inheritance diagram for Command\+Table\+Model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_command_table_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual int {\bfseries get\+Num\+Rows} () override\hypertarget{class_command_table_model_ae89ca7ee2106ffe3a8d326da313e3bf2}{}\label{class_command_table_model_ae89ca7ee2106ffe3a8d326da313e3bf2}
+
+\item 
+virtual void {\bfseries paint\+Row\+Background} (Graphics \&, int row\+Number, int width, int height, bool row\+Is\+Selected) override\hypertarget{class_command_table_model_a288a0dec11b5bbfb6fdb5bcd9c4a81ec}{}\label{class_command_table_model_a288a0dec11b5bbfb6fdb5bcd9c4a81ec}
+
+\item 
+virtual void {\bfseries paint\+Cell} (Graphics \&, int row\+Number, int column\+Id, int width, int height, bool row\+Is\+Selected) override\hypertarget{class_command_table_model_a291f0a2ace126893e8639efaa1d817a3}{}\label{class_command_table_model_a291f0a2ace126893e8639efaa1d817a3}
+
+\item 
+virtual Component $\ast$ {\bfseries refresh\+Component\+For\+Cell} (int row\+Number, int column\+Id, bool is\+Row\+Selected, Component $\ast$existing\+Component\+To\+Update) override\hypertarget{class_command_table_model_a46ef1923c37173d28bf25c840403af69}{}\label{class_command_table_model_a46ef1923c37173d28bf25c840403af69}
+
+\item 
+void {\bfseries add\+Row} (int midi\+\_\+channel, int midi\+\_\+data, bool is\+CC)\hypertarget{class_command_table_model_a34e3b342c1741fe6363e2873b68171b1}{}\label{class_command_table_model_a34e3b342c1741fe6363e2873b68171b1}
+
+\item 
+void {\bfseries remove\+Row} (int row)\hypertarget{class_command_table_model_aedd06c409a9326aa50077244c10f5dbd}{}\label{class_command_table_model_aedd06c409a9326aa50077244c10f5dbd}
+
+\item 
+void {\bfseries remove\+All\+Rows} ()\hypertarget{class_command_table_model_aa49fc1e19a98cd9c315d0faa5592758b}{}\label{class_command_table_model_aa49fc1e19a98cd9c315d0faa5592758b}
+
+\item 
+void {\bfseries build\+From\+Xml} (Xml\+Element $\ast$elem)\hypertarget{class_command_table_model_a6e319303b8e10392dec65e70607d8998}{}\label{class_command_table_model_a6e319303b8e10392dec65e70607d8998}
+
+\item 
+int {\bfseries get\+Row\+For\+Message} (int midi\+\_\+channel, int midi\+\_\+data, bool is\+CC) const \hypertarget{class_command_table_model_a718bd444e2e6a23b7ca4375ac3a94b39}{}\label{class_command_table_model_a718bd444e2e6a23b7ca4375ac3a94b39}
+
+\item 
+void {\bfseries Init} (\hyperlink{class_command_map}{Command\+Map} $\ast$map\+Command)\hypertarget{class_command_table_model_a8d9162b964812e0bb75d853abc980db8}{}\label{class_command_table_model_a8d9162b964812e0bb75d853abc980db8}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 26 of file Command\+Table\+Model.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Q\+:/\+Documents/\+Git\+Hub/\+M\+I\+D\+I2\+L\+R/\+Source/Command\+Table\+Model.\+h\item 
+Q\+:/\+Documents/\+Git\+Hub/\+M\+I\+D\+I2\+L\+R/\+Source/Command\+Table\+Model.\+cpp\end{DoxyCompactItemize}

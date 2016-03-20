@@ -28,6 +28,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "SendKeys.h"
 
+/**********************************************************************************************//**
+ * @class   LRConnectionListener
+ *
+ * @brief   A lr connection listener.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
 
 class LRConnectionListener
 {
@@ -39,7 +47,17 @@ public:
 	virtual void disconnected() = 0;
 
 	virtual ~LRConnectionListener() {};
+///< .
 };
+
+/**********************************************************************************************//**
+ * @class   LR_IPC_OUT
+ *
+ * @brief   A lr ipc out.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
 
 class LR_IPC_OUT : public InterprocessConnection,
 	public MIDICommandListener,
@@ -83,6 +101,7 @@ private:
     // Send key commands
     void handleKPCommand(void);
     SendKeys m_SendKeys;
+///< .
 };
 
 

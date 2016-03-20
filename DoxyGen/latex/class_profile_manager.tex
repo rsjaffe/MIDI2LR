@@ -1,0 +1,63 @@
+\hypertarget{class_profile_manager}{}\section{Profile\+Manager Class Reference}
+\label{class_profile_manager}\index{Profile\+Manager@{Profile\+Manager}}
+Inheritance diagram for Profile\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_profile_manager}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries add\+Listener} (\hyperlink{class_profile_change_listener}{Profile\+Change\+Listener} $\ast$listener)\hypertarget{class_profile_manager_ab10b542da25d23277371cd2103316098}{}\label{class_profile_manager_ab10b542da25d23277371cd2103316098}
+
+\item 
+void {\bfseries set\+Profile\+Directory} (const File \&dir)\hypertarget{class_profile_manager_a1529c4a30042187372c455729d917cd5}{}\label{class_profile_manager_a1529c4a30042187372c455729d917cd5}
+
+\item 
+const String\+Array \& {\bfseries get\+Menu\+Items} () const \hypertarget{class_profile_manager_a29c905a98315b3f30ec72d542d68fd28}{}\label{class_profile_manager_a29c905a98315b3f30ec72d542d68fd28}
+
+\item 
+void {\bfseries switch\+To\+Profile} (int profile\+Idx)\hypertarget{class_profile_manager_a2744c8c215043462fa1805eb489d0232}{}\label{class_profile_manager_a2744c8c215043462fa1805eb489d0232}
+
+\item 
+void {\bfseries switch\+To\+Profile} (const String \&profile)\hypertarget{class_profile_manager_a9014037000e5a643c080e42f0c0e250e}{}\label{class_profile_manager_a9014037000e5a643c080e42f0c0e250e}
+
+\item 
+void {\bfseries switch\+To\+Next\+Profile} ()\hypertarget{class_profile_manager_a7644e0703d1bdb3172271cec13e86662}{}\label{class_profile_manager_a7644e0703d1bdb3172271cec13e86662}
+
+\item 
+void {\bfseries switch\+To\+Previous\+Profile} ()\hypertarget{class_profile_manager_a778eb208053cbcb18a7056b4066632ec}{}\label{class_profile_manager_a778eb208053cbcb18a7056b4066632ec}
+
+\item 
+virtual void {\bfseries handle\+Midi\+CC} (int midi\+Channel, int controller, int value) override\hypertarget{class_profile_manager_af96e39d2bbd4b14492698c0ecb39b4e0}{}\label{class_profile_manager_af96e39d2bbd4b14492698c0ecb39b4e0}
+
+\item 
+virtual void {\bfseries handle\+Midi\+Note} (int midi\+Channel, int note) override\hypertarget{class_profile_manager_a6515de39866335b7ef722a771767bfb6}{}\label{class_profile_manager_a6515de39866335b7ef722a771767bfb6}
+
+\item 
+virtual void {\bfseries handle\+Async\+Update} () override\hypertarget{class_profile_manager_a06dda29b41856d4c2e9e85132a79da5a}{}\label{class_profile_manager_a06dda29b41856d4c2e9e85132a79da5a}
+
+\item 
+virtual void {\bfseries connected} () override\hypertarget{class_profile_manager_acdf4ad1cdaf3e5f3178cd48604471117}{}\label{class_profile_manager_acdf4ad1cdaf3e5f3178cd48604471117}
+
+\item 
+virtual void {\bfseries disconnected} () override\hypertarget{class_profile_manager_a2012de57ea041dcf2680a824bf68a423}{}\label{class_profile_manager_a2012de57ea041dcf2680a824bf68a423}
+
+\item 
+void {\bfseries Init} (\hyperlink{class_l_r___i_p_c___o_u_t}{L\+R\+\_\+\+I\+P\+C\+\_\+\+O\+UT} $\ast$out, \hyperlink{class_command_map}{Command\+Map} $\ast$command\+Map, \hyperlink{class_m_i_d_i_processor}{M\+I\+D\+I\+Processor} $\ast$midi\+Processor)\hypertarget{class_profile_manager_a76dc54676ec7097b7bc8adf0bdfed9b4}{}\label{class_profile_manager_a76dc54676ec7097b7bc8adf0bdfed9b4}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 40 of file Profile\+Manager.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Q\+:/\+Documents/\+Git\+Hub/\+M\+I\+D\+I2\+L\+R/\+Source/Profile\+Manager.\+h\item 
+Q\+:/\+Documents/\+Git\+Hub/\+M\+I\+D\+I2\+L\+R/\+Source/Profile\+Manager.\+cpp\end{DoxyCompactItemize}

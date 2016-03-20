@@ -26,6 +26,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 
 // define the port used to 
+
+/**********************************************************************************************//**
+ * @def LR_OUT_PORT
+ *
+ * @brief   A macro that defines lr out port.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
+
 #define LR_OUT_PORT 58763 
 
 const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
@@ -156,11 +166,29 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #endif
 };
 
+/**********************************************************************************************//**
+ * @fn  LR_IPC_OUT::LR_IPC_OUT()
+ *
+ * @brief   Default constructor.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
+
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection(), m_SendKeys()
 {
 
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::shutdown()
+ *
+ * @brief   Shuts down this object and frees any resources it is using.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
 
 void LR_IPC_OUT::shutdown()
 {
@@ -168,11 +196,32 @@ void LR_IPC_OUT::shutdown()
         disconnect();
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::timerCallback()
+ *
+ * @brief   Callback, called when the timer.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
+
 void LR_IPC_OUT::timerCallback()
 {
     if (!isConnected())
         connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
+ *
+ * @brief   S.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ *
+ * @param [in,out]  mapCommand      If non-null, the map command.
+ * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ **************************************************************************************************/
 
 void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
 {
@@ -191,10 +240,30 @@ void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
 
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::addListener(LRConnectionListener *listener)
+ *
+ * @brief   Adds a listener.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ *
+ * @param [in,out]  listener    If non-null, the listener.
+ **************************************************************************************************/
+
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
 {
     _listeners.addIfNotAlreadyThere(listener);
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::connectionMade()
+ *
+ * @brief   Connection made.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
 
 void LR_IPC_OUT::connectionMade()
 {
@@ -202,16 +271,47 @@ void LR_IPC_OUT::connectionMade()
         listener->connected();
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::connectionLost()
+ *
+ * @brief   Connection lost.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
+
 void LR_IPC_OUT::connectionLost()
 {
     for (auto listener : _listeners)
         listener->disconnected();
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
+ *
+ * @brief   Message received.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ *
+ * @param   UNUSED_ARG(msg) The unused argument (msg)
+ **************************************************************************************************/
+
 void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
 {
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::sendCommand(const String &command)
+ *
+ * @brief   Sends a command.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ *
+ * @param   command The command.
+ **************************************************************************************************/
 
 void LR_IPC_OUT::sendCommand(const String &command)
 {
@@ -222,11 +322,29 @@ void LR_IPC_OUT::sendCommand(const String &command)
     }
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleKPCommand()
+ *
+ * @brief   Handles KP (key press) commands.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
+
 void LR_IPC_OUT::handleKPCommand()
 {
     if (_valueToSend == 127)
         m_SendKeys.handleShortCutKeyDownUp(KPMappings.at(_commandToSend));
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleAsyncUpdate()
+ *
+ * @brief   Handles the asynchronous update.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ **************************************************************************************************/
 
 void LR_IPC_OUT::handleAsyncUpdate()
 {
@@ -242,6 +360,19 @@ void LR_IPC_OUT::handleAsyncUpdate()
         }
     }
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
+ *
+ * @brief   Handles MIDI CC messages.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   controller  The controller.
+ * @param   value       The value.
+ **************************************************************************************************/
 
 void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
@@ -261,6 +392,18 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
         handleAsyncUpdate();
     }
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
+ *
+ * @brief   Handles MIDI note messages.
+ *
+ * @author  Rory
+ * @date    3/20/2016
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   note        The note.
+ **************************************************************************************************/
 
 void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 {

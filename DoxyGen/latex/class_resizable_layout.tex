@@ -1,0 +1,99 @@
+\hypertarget{class_resizable_layout}{}\section{Resizable\+Layout Class Reference}
+\label{class_resizable_layout}\index{Resizable\+Layout@{Resizable\+Layout}}
+Inheritance diagram for Resizable\+Layout\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_resizable_layout}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ {\bfseries anchor\+Unit} = 100
+ \}\hypertarget{class_resizable_layout_ab060b861a48a7de097545c90518e57d9}{}\label{class_resizable_layout_ab060b861a48a7de097545c90518e57d9}
+
+\item 
+enum {\bfseries Style} \{ {\bfseries style\+Stretch}, 
+{\bfseries style\+Fixed\+Aspect}
+ \}\hypertarget{class_resizable_layout_aff762c8fee36d1ee99283fac47eaf9a8}{}\label{class_resizable_layout_aff762c8fee36d1ee99283fac47eaf9a8}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Resizable\+Layout} (Component $\ast$owner)\hypertarget{class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3}{}\label{class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3}
+
+\item 
+void {\bfseries add\+To\+Layout} (Component $\ast$component, const Point$<$ int $>$ \&top\+Left, const Point$<$ int $>$ \&bottom\+Right=anchor\+None, Style style=style\+Stretch)\hypertarget{class_resizable_layout_ab78c732d14d0ac2f4afd7b76f20ec6c9}{}\label{class_resizable_layout_ab78c732d14d0ac2f4afd7b76f20ec6c9}
+
+\item 
+void {\bfseries remove\+From\+Layout} (Component $\ast$component)\hypertarget{class_resizable_layout_addf2cdc690e1c6b4cea5fdf37547f84a}{}\label{class_resizable_layout_addf2cdc690e1c6b4cea5fdf37547f84a}
+
+\item 
+void {\bfseries activate\+Layout} (bool is\+Active=true)\hypertarget{class_resizable_layout_a5b5d3846e9bff81de103f0097763cedb}{}\label{class_resizable_layout_a5b5d3846e9bff81de103f0097763cedb}
+
+\item 
+void {\bfseries update\+Layout\+For} (Component $\ast$component)\hypertarget{class_resizable_layout_abaf331423c7c8994bd5945893f1e212d}{}\label{class_resizable_layout_abaf331423c7c8994bd5945893f1e212d}
+
+\item 
+void {\bfseries recalculate\+Layout} ()\hypertarget{class_resizable_layout_a14d9dad6dfc415e8d49f1e858f8abc26}{}\label{class_resizable_layout_a14d9dad6dfc415e8d49f1e858f8abc26}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Rectangle$<$ int $>$ {\bfseries calc\+Bounds\+Of\+Children} (Component $\ast$parent)\hypertarget{class_resizable_layout_acc37523bda0ff4d250d4024c599207cc}{}\label{class_resizable_layout_acc37523bda0ff4d250d4024c599207cc}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+None}\hypertarget{class_resizable_layout_abce74413941372b048841736701d502b}{}\label{class_resizable_layout_abce74413941372b048841736701d502b}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Top\+Left}\hypertarget{class_resizable_layout_a90210bba2e6bf70f0809e6247f8456fd}{}\label{class_resizable_layout_a90210bba2e6bf70f0809e6247f8456fd}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Top\+Center}\hypertarget{class_resizable_layout_a8a3531e2f855d5f0bd1853810ec6433d}{}\label{class_resizable_layout_a8a3531e2f855d5f0bd1853810ec6433d}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Top\+Right}\hypertarget{class_resizable_layout_a1d575831c569628868e960db24f37397}{}\label{class_resizable_layout_a1d575831c569628868e960db24f37397}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Mid\+Left}\hypertarget{class_resizable_layout_a4d19f1f0f2f03555f9dd88f5aaf591a4}{}\label{class_resizable_layout_a4d19f1f0f2f03555f9dd88f5aaf591a4}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Mid\+Center}\hypertarget{class_resizable_layout_ad1ab269eda949795945f8b989c9c8ba5}{}\label{class_resizable_layout_ad1ab269eda949795945f8b989c9c8ba5}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Mid\+Right}\hypertarget{class_resizable_layout_a01a1484282b237f3275003ee4808ed51}{}\label{class_resizable_layout_a01a1484282b237f3275003ee4808ed51}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Bottom\+Left}\hypertarget{class_resizable_layout_a1b288f975b0c381a804481f22e2d210d}{}\label{class_resizable_layout_a1b288f975b0c381a804481f22e2d210d}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Bottom\+Center}\hypertarget{class_resizable_layout_a778d3ca9fec5a324830da19b3bbe11d0}{}\label{class_resizable_layout_a778d3ca9fec5a324830da19b3bbe11d0}
+
+\item 
+static const Point$<$ int $>$ {\bfseries anchor\+Bottom\+Right}\hypertarget{class_resizable_layout_afa82aa0e719c90476a7999e755758149}{}\label{class_resizable_layout_afa82aa0e719c90476a7999e755758149}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Top\+Level\+Resizable\+Layout}\hypertarget{class_resizable_layout_af7f3636f234d1cdf71500ab6a6963b6f}{}\label{class_resizable_layout_af7f3636f234d1cdf71500ab6a6963b6f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 133 of file Resizable\+Layout.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Q\+:/\+Documents/\+Git\+Hub/\+M\+I\+D\+I2\+L\+R/\+Source/Resizable\+Layout.\+h\item 
+Q\+:/\+Documents/\+Git\+Hub/\+M\+I\+D\+I2\+L\+R/\+Source/Resizable\+Layout.\+cpp\end{DoxyCompactItemize}
