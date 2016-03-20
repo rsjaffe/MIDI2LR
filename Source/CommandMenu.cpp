@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "CommandMenu.h"
 #include "LRCommands.h"
-#include "Tools.h"
+
 
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
 _selectedItem(std::numeric_limits<unsigned int>::max()),
@@ -51,7 +51,7 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
     _msg = msg;
 }
 
-void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
+void CommandMenu::buttonClicked(Button* /*button*/)
 {
     size_t idx = 1;
     bool subMenuTickSet = false;

@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
-#include "Tools.h"
+
 
 
 // define the port used to 
@@ -208,7 +208,7 @@ void LR_IPC_OUT::connectionLost()
         listener->disconnected();
 }
 
-void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
+void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)
 {
 
 }

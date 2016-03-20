@@ -57,7 +57,7 @@
             file="Source/SettingsManager.h"/>
       <FILE id="UHBX0M" name="Subject.cpp" compile="1" resource="0" file="Source/Pattern/Subject.cpp"/>
       <FILE id="JaAyyB" name="Subject.h" compile="0" resource="0" file="Source/Pattern/Subject.h"/>
-      <FILE id="YOlp5P" name="Tools.h" compile="0" resource="0" file="Source/Tools.h"/>
+      <FILE id="dTl5Rg" name="Utilities.h" compile="0" resource="0" file="Source/Utilities.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
@@ -65,7 +65,8 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="WdgQGt" bigIcon="WdgQGt">
+    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="WdgQGt" bigIcon="WdgQGt"
+            extraCompilerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" binaryPath="Source\LRPlugin\MIDI2LR.lrplugin"/>

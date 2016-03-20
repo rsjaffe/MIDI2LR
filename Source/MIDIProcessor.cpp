@@ -20,7 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
-#include "Tools.h"
+
 
 MIDIProcessor::MIDIProcessor()
 {
@@ -58,7 +58,7 @@ void MIDIProcessor::rescanDevices()
     initDevices();
 }
 
-void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
+void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &msg)
 {
 	if (msg.isController())
 	{
