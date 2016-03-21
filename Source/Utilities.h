@@ -32,7 +32,7 @@ namespace MIDI2LR
 /*
 Usage:
 
-class X : counter<X>
+class X :  MIDI2LR::counter<X>
 {
 // ...
 };
