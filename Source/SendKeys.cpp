@@ -8,7 +8,7 @@
 
 std::mutex SendKeys::m_mtxSending{};
 
-void SendKeys::handleShortCutKeyDownUp(KeyPress key)
+void SendKeys::SendKeyDownUp(KeyPress key)
 {
     std::lock_guard< std::mutex > lock(SendKeys::m_mtxSending);
 #ifdef _WIN32

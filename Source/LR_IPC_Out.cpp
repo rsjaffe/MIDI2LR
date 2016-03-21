@@ -225,7 +225,7 @@ void LR_IPC_OUT::sendCommand(const String &command)
 void LR_IPC_OUT::handleKPCommand()
 {
     if (_valueToSend == 127)
-        m_SendKeys.handleShortCutKeyDownUp(KPMappings.at(_commandToSend));
+        m_SendKeys.SendKeyDownUp(KPMappings.at(_commandToSend));
 }
 
 void LR_IPC_OUT::handleAsyncUpdate()
