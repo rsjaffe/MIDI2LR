@@ -22,6 +22,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MainWindow.h"
 
+/**********************************************************************************************//**
+ * @fn  void MainWindow::timerCallback(void)
+ *
+ * @brief   Callback, called when the timer.
+ *
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void MainWindow::timerCallback(void)
 {
 	bool decreasedValue = false;
@@ -53,6 +62,23 @@ void MainWindow::timerCallback(void)
 	
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
+ *
+ * @brief   S.
+ *
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  commandMap      If non-null, the command map.
+ * @param [in,out]  in              If non-null, the in.
+ * @param [in,out]  out             If non-null, the out.
+ * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ * @param [in,out]  profileManager  If non-null, manager for profile.
+ * @param [in,out]  settingsManager If non-null, manager for settings.
+ * @param [in,out]  midiSender      If non-null, the MIDI sender.
+ **************************************************************************************************/
 
 void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
 {

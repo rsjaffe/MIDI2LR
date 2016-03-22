@@ -36,6 +36,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #define SHUT_DOWN_STRING "--LRSHUTDOWN"
 
+/**********************************************************************************************//**
+ * @class   MIDI2LRApplication
+ *
+ * @brief   A MIDI 2 lr application.
+ *
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 class MIDI2LRApplication : public JUCEApplication
 {
 public:

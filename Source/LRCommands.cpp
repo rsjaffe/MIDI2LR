@@ -1056,6 +1056,19 @@ const std::vector<String> LRCommandList::NextPrevProfile = {
   "Next Profile",
 };
 
+/**********************************************************************************************//**
+ * @fn  int LRCommandList::getIndexOfCommand(const String& command)
+ *
+ * @brief   Gets index of command.
+ *
+ *
+ * @date    3/22/2016
+ *
+ * @param   command The command.
+ *
+ * @return  The index of command.
+ **************************************************************************************************/
+
 int LRCommandList::getIndexOfCommand(const String& command)
 {
     static std::unordered_map<String, int> indexMap;

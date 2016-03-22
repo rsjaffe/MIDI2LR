@@ -22,19 +22,59 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Subject.h"
 
+/**********************************************************************************************//**
+ * @fn  Subject::Subject()
+ *
+ * @brief   Default constructor.
+ *
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 Subject::Subject()
 {
 }
 
+/**********************************************************************************************//**
+ * @fn  Subject::~Subject()
+ *
+ * @brief   Destructor.
+ *
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 Subject::~Subject()
 {
 }
+
+/**********************************************************************************************//**
+ * @fn  void Subject::RegisterObserver(Observer * observer)
+ *
+ * @brief   Registers the observer described by observer.
+ *
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  observer    If non-null, the observer.
+ **************************************************************************************************/
 
 void Subject::RegisterObserver(Observer * observer)
 {
 	//add to the vector
 	m_observerArray.push_back(observer);
 }
+
+/**********************************************************************************************//**
+ * @fn  void Subject::UnregisterObserver(Observer *observer)
+ *
+ * @brief   Unregisters the observer described by observer.
+ *
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  observer    If non-null, the observer.
+ **************************************************************************************************/
 
 void Subject::UnregisterObserver(Observer *observer)
 {
@@ -49,6 +89,15 @@ void Subject::UnregisterObserver(Observer *observer)
 		}
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void Subject::Notify(void)
+ *
+ * @brief   Notifies this object.
+ *
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
 
 void Subject::Notify(void)
 {

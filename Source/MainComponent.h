@@ -36,11 +36,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
 #include "SettingsManager.h"
-//==============================================================================
-/*
-    This component lives inside our window, and this is where you should put all
-    your controls and content.
-*/
 
 /**********************************************************************************************//**
 * @class   MainContentComponent

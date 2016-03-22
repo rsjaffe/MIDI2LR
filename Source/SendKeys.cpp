@@ -8,6 +8,17 @@
 
 std::mutex SendKeys::m_mtxSending{};
 
+/**********************************************************************************************//**
+ * @fn  void SendKeys::handleShortCutKeyDownUp(KeyPress key)
+ *
+ * @brief   Handles the short cut key down up described by key.
+ *
+ *
+ * @date    3/22/2016
+ *
+ * @param   key The keystroke to send.
+ **************************************************************************************************/
+
 void SendKeys::handleShortCutKeyDownUp(KeyPress key)
 {
     std::lock_guard< std::mutex > lock(SendKeys::m_mtxSending);

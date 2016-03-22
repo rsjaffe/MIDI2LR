@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   Default constructor.
  *
- * @author  Rory Jaffe
+ *
  * @date    3/21/2016
  **************************************************************************************************/
 
@@ -41,7 +41,7 @@ MIDIProcessor::MIDIProcessor()
  *
  * @brief   Destructor.
  *
- * @author  Rory Jaffe
+ *
  * @date    3/21/2016
  **************************************************************************************************/
 
@@ -55,7 +55,7 @@ MIDIProcessor::~MIDIProcessor()
  *
  * @brief   S this object.
  *
- * @author  Rory Jaffe
+ *
  * @date    3/21/2016
  **************************************************************************************************/
 
@@ -69,7 +69,7 @@ void MIDIProcessor::Init(void)
  *
  * @brief   Init devices.
  *
- * @author  Rory Jaffe
+ *
  * @date    3/21/2016
  **************************************************************************************************/
 
@@ -90,7 +90,7 @@ void MIDIProcessor::initDevices()
  *
  * @brief   Rescan devices.
  *
- * @author  Rory Jaffe
+ *
  * @date    3/21/2016
  **************************************************************************************************/
 
@@ -108,7 +108,7 @@ void MIDIProcessor::rescanDevices()
  *
  * @brief   Handles the incoming MIDI message.
  *
- * @author  Rory Jaffe
+ *
  * @date    3/21/2016
  *
  * @param [in,out]  UNUSED_ARG(device)  If non-null, the unused argument (device)
@@ -138,7 +138,7 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), co
  *
  * @brief   Adds a MIDI command listener.
  *
- * @author  Rory Jaffe
+ *
  * @date    3/21/2016
  *
  * @param [in,out]  listener    If non-null, the listener.

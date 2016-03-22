@@ -16,6 +16,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTable.h"
 
+/**********************************************************************************************//**
+ * @fn  CommandTable::CommandTable(const String& componentName, TableListBoxModel *model)
+ *
+ * @brief   Constructor.
+ *
+ *
+ * @date    3/22/2016
+ *
+ * @param   componentName   Name of the component.
+ * @param [in,out]  model   If non-null, the model.
+ **************************************************************************************************/
+
 CommandTable::CommandTable(const String& componentName, TableListBoxModel *model) : TableListBox(componentName, model)
 {
 	setHeader(new TableHeaderComponent());

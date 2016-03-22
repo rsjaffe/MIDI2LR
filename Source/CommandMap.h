@@ -28,7 +28,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "Pattern/Subject.h"
 
-// encapsulates a MIDI message (Note or CC)
+/**********************************************************************************************//**
+ * @struct  MIDI_Message
+ *
+ * @brief   encapsulates a MIDI message (Note or CC)
+ *
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 struct MIDI_Message
 {
 	bool isCC;
@@ -65,6 +73,16 @@ struct MIDI_Message
 
 // hash functions for MIDI_Message and String
 namespace std {
+
+    /**********************************************************************************************//**
+     * @struct  std::hash<MIDI_Message>
+     *
+     * @brief   A hash for MIDI messages.
+     *
+     *
+     * @date    3/22/2016
+     **************************************************************************************************/
+
 	template <>
 	struct hash<MIDI_Message>
 	{
@@ -73,6 +91,15 @@ namespace std {
 			return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^ (std::hash<int>()(k.data) << 1));
 		}
 	};
+
+    /**********************************************************************************************//**
+     * @struct  std::hash<String>
+     *
+     * @brief   A hash for Juce String.
+     *
+     *
+     * @date    3/22/2016
+     **************************************************************************************************/
 
 	template <>
 	struct hash<String>
@@ -83,6 +110,15 @@ namespace std {
 		}
 	};
 }
+
+/**********************************************************************************************//**
+ * @class   CommandMap
+ *
+ * @brief   A command map.
+ *
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
 
 class CommandMap : public Subject
 {
