@@ -8,7 +8,7 @@ public:
     {};
     ~SendKeys()
     {};
-    void SendKeyDownUp(KeyPress key);
+    void SendKeyDownUp(const KeyPress key) const;
 private:
     static std::mutex m_mtxSending;
 };
