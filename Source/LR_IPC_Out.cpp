@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   A macro that defines lr out port.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -171,7 +171,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
  *
  * @brief   Default constructor.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -186,7 +186,7 @@ LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection(), m_SendKeys()
  *
  * @brief   Shuts down this object and frees any resources it is using.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -201,7 +201,7 @@ void LR_IPC_OUT::shutdown()
  *
  * @brief   Callback, called when the timer.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -216,7 +216,7 @@ void LR_IPC_OUT::timerCallback()
  *
  * @brief   S.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  *
  * @param [in,out]  mapCommand      If non-null, the map command.
@@ -245,7 +245,7 @@ void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
  *
  * @brief   Adds a listener.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  *
  * @param [in,out]  listener    If non-null, the listener.
@@ -261,7 +261,7 @@ void LR_IPC_OUT::addListener(LRConnectionListener *listener)
  *
  * @brief   Connection made.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -276,7 +276,7 @@ void LR_IPC_OUT::connectionMade()
  *
  * @brief   Connection lost.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -291,7 +291,7 @@ void LR_IPC_OUT::connectionLost()
  *
  * @brief   Message received.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  *
  * @param   UNUSED_ARG(msg) The unused argument (msg)
@@ -307,7 +307,7 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
  *
  * @brief   Sends a command.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  *
  * @param   command The command.
@@ -327,7 +327,7 @@ void LR_IPC_OUT::sendCommand(const String &command)
  *
  * @brief   Handles KP (key press) commands.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -342,7 +342,7 @@ void LR_IPC_OUT::handleKPCommand()
  *
  * @brief   Handles the asynchronous update.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -366,7 +366,7 @@ void LR_IPC_OUT::handleAsyncUpdate()
  *
  * @brief   Handles MIDI CC messages.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  *
  * @param   midiChannel The MIDI channel.
@@ -398,7 +398,7 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
  *
  * @brief   Handles MIDI note messages.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  *
  * @param   midiChannel The MIDI channel.

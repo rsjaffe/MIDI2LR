@@ -27,11 +27,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainComponent.h"
 #include "SettingsManager.h"
-//==============================================================================
-    /*
-        This class implements the desktop window that contains an instance of
+
+/**********************************************************************************************//**
+* @class   MainWindow
+*
+* @brief   This class implements the desktop window that contains an instance of
         our MainContentComponent class.
-    */
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
     class MainWindow: public DocumentWindow, public Timer
     {
     public:

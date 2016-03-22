@@ -33,7 +33,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   A lr connection listener.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 
@@ -55,7 +55,7 @@ public:
  *
  * @brief   A lr ipc out.
  *
- * @author  Rory
+ * @author  Rory Jaffe
  * @date    3/20/2016
  **************************************************************************************************/
 

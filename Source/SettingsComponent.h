@@ -26,9 +26,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ResizableLayout.h"
 #include "SettingsManager.h"
-//==============================================================================
-/*
-*/
+
+/**********************************************************************************************//**
+* @class   SettingsComponent
+*
+* @brief   Settings Component.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class SettingsComponent : public Component,
 	public ButtonListener, ResizableLayout, public Slider::Listener
 {

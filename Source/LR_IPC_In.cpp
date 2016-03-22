@@ -23,7 +23,26 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //define the communication port
+
+/**********************************************************************************************//**
+ * @def LR_IN_PORT
+ *
+ * @brief   A macro that defines lr in port.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
+
 #define LR_IN_PORT 58764
+
+/**********************************************************************************************//**
+ * @fn  LR_IPC_IN::LR_IPC_IN()
+ *
+ * @brief   Default constructor.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
 
 LR_IPC_IN::LR_IPC_IN() : StreamingSocket(),
 Thread("LR_IPC_IN"), m_commandMap(nullptr), m_profileManager(nullptr), m_midiSender(nullptr)
@@ -31,12 +50,30 @@ Thread("LR_IPC_IN"), m_commandMap(nullptr), m_profileManager(nullptr), m_midiSen
 	
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_IN::shutdown()
+ *
+ * @brief   Shuts down this object and frees any resources it is using.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
+
 void LR_IPC_IN::shutdown()
 {
 	stopTimer();
 	stopThread(1000);
 	close();
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_IN::timerCallback()
+ *
+ * @brief   Callback, called when the timer.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
 
 void LR_IPC_IN::timerCallback()
 {
@@ -47,6 +84,19 @@ void LR_IPC_IN::timerCallback()
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager, MIDISender *midiSender)
+ *
+ * @brief   S.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ *
+ * @param [in,out]  mapCommand      If non-null, the map command.
+ * @param [in,out]  profileManager  If non-null, manager for profile.
+ * @param [in,out]  midiSender      If non-null, the MIDI sender.
+ **************************************************************************************************/
+
 void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager, MIDISender *midiSender)
 {
 	m_commandMap = mapCommand;
@@ -55,6 +105,15 @@ void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager, MI
 	//start the timer
 	startTimer(1000);
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_IN::run()
+ *
+ * @brief   Runs this object.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
 
 void LR_IPC_IN::run()
 {
@@ -88,6 +147,17 @@ void LR_IPC_IN::run()
 		}
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_IN::processLine(const String& line)
+ *
+ * @brief   Process the line described by line.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ *
+ * @param   line    The line.
+ **************************************************************************************************/
 
 void LR_IPC_IN::processLine(const String& line)
 {	
@@ -126,6 +196,15 @@ void LR_IPC_IN::processLine(const String& line)
 		}
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_IN::refreshMIDIOutput()
+ *
+ * @brief   Refresh MIDI output.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
 
 void LR_IPC_IN::refreshMIDIOutput()
 {

@@ -41,6 +41,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
+
+/**********************************************************************************************//**
+* @class   MainContentComponent
+*
+* @brief   This component lives inside our window, and this is where you should put all
+    your controls and content.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class MainContentComponent: public Component,
     public MIDICommandListener,
     public LRConnectionListener,

@@ -22,20 +22,56 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "Tools.h"
 
+/**********************************************************************************************//**
+ * @fn  MIDIProcessor::MIDIProcessor()
+ *
+ * @brief   Default constructor.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
+
 MIDIProcessor::MIDIProcessor()
 {
     
 }
+
+/**********************************************************************************************//**
+ * @fn  MIDIProcessor::~MIDIProcessor()
+ *
+ * @brief   Destructor.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
 
 MIDIProcessor::~MIDIProcessor()
 {
 
 }
 
+/**********************************************************************************************//**
+ * @fn  void MIDIProcessor::Init(void)
+ *
+ * @brief   S this object.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
+
 void MIDIProcessor::Init(void)
 {
 	initDevices();
 }
+
+/**********************************************************************************************//**
+ * @fn  void MIDIProcessor::initDevices()
+ *
+ * @brief   Init devices.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
 
 void MIDIProcessor::initDevices()
 {
@@ -49,6 +85,15 @@ void MIDIProcessor::initDevices()
     }
 }
 
+/**********************************************************************************************//**
+ * @fn  void MIDIProcessor::rescanDevices()
+ *
+ * @brief   Rescan devices.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ **************************************************************************************************/
+
 void MIDIProcessor::rescanDevices()
 {
     for (auto dev : _devices)
@@ -57,6 +102,18 @@ void MIDIProcessor::rescanDevices()
 
     initDevices();
 }
+
+/**********************************************************************************************//**
+ * @fn  void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
+ *
+ * @brief   Handles the incoming MIDI message.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ *
+ * @param [in,out]  UNUSED_ARG(device)  If non-null, the unused argument (device)
+ * @param   msg                         The message.
+ **************************************************************************************************/
 
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
 {
@@ -75,6 +132,17 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), co
 		}
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
+ *
+ * @brief   Adds a MIDI command listener.
+ *
+ * @author  Rory Jaffe
+ * @date    3/21/2016
+ *
+ * @param [in,out]  listener    If non-null, the listener.
+ **************************************************************************************************/
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
 {

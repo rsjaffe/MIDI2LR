@@ -26,6 +26,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 
+/**********************************************************************************************//**
+* @class   CommandMenu
+*
+* @brief   Command menu.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class CommandMenu : public TextButton,
 	protected ButtonListener
 {

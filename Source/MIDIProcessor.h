@@ -25,6 +25,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+/**********************************************************************************************//**
+* @class   MIDICommandListener
+*
+* @brief   MIDI Command Listener.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class MIDICommandListener
 {
 public:
@@ -33,6 +42,15 @@ public:
 
     virtual ~MIDICommandListener() {};
 };
+
+/**********************************************************************************************//**
+* @class   MIDIProcessor
+*
+* @brief   MIDI Processor.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
 
 class MIDIProcessor : public MidiInputCallback
 {
