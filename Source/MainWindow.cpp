@@ -2,8 +2,6 @@
   ==============================================================================
 
     MainWindow.cpp
-    Created: 22 Nov 2015 8:28:57pm
-    Author:  Jeffrey
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 

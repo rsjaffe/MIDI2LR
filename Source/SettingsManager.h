@@ -3,8 +3,6 @@
   ==============================================================================
 
 	SettingsManager.h
-	Created: 24 Aug 2015 7:11:29pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 

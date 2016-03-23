@@ -2,8 +2,6 @@
   ==============================================================================
 
     LR_IPC_OUT.cpp
-    Created: 2 Aug 2015 12:27:47am
-    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -24,8 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 
-
-// define the port used to 
 
 /**********************************************************************************************//**
  * @def LR_OUT_PORT

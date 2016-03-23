@@ -2,8 +2,6 @@
   ==============================================================================
 
     Subject.cpp
-    Created: 23 Jan 2016 9:00:58am
-    Author:  Jeffrey
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 

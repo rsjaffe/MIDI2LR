@@ -2,8 +2,6 @@
   ==============================================================================
 
     CommandMenu.cpp
-    Created: 3 Aug 2015 3:27:33pm
-    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 

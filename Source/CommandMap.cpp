@@ -2,8 +2,6 @@
   ==============================================================================
 
 	CommandMap.cpp
-	Created: 31 Jul 2015 9:16:41pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 

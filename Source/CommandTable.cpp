@@ -1,5 +1,8 @@
 /*
   ==============================================================================
+
+  CommandTable.cpp
+
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the

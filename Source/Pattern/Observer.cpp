@@ -2,8 +2,6 @@
   ==============================================================================
 
     Observer.cpp
-    Created: 23 Jan 2016 9:01:16am
-    Author:  Jeffrey
 
     This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 

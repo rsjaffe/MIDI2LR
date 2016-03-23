@@ -3,8 +3,6 @@
   ==============================================================================
 
 	ProfileManager.h
-	Created: 29 Aug 2015 10:27:13pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 

@@ -3,8 +3,6 @@
   ==============================================================================
 
 	VersionChecker.h
-	Created: 19 Aug 2015 1:21:14pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
