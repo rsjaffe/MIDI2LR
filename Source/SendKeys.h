@@ -3,13 +3,12 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 /**********************************************************************************************//**
-* @class   SendKeys
-*
-* @brief   Send keystrokes to Lightroom.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
+ * @class   SendKeys
+ *
+ * @brief   A send keys.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
 
 class SendKeys
 {
@@ -18,7 +17,7 @@ public:
     {};
     ~SendKeys()
     {};
-    void handleShortCutKeyDownUp(KeyPress key);
+    void SendKeyDownUp(const KeyPress& key) const;
 private:
     static std::mutex m_mtxSending;
 };

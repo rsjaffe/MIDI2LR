@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 #include "JuceHeader.h"
 #include "ResizableLayout.h"
-#include "Tools.h"
+
 
 const Point<int> ResizableLayout::anchorNone(-1, -1);
 const Point<int> ResizableLayout::anchorTopLeft(0, 0);
@@ -436,7 +436,7 @@ void ResizableLayout::recalculateLayout()
  **************************************************************************************************/
 
 void ResizableLayout::componentMovedOrResized(Component& component,
-	bool UNUSED_ARG(wasMoved),
+	bool /*wasMoved*/,
 	bool wasResized)
 {
 	if (&component == m_owner)

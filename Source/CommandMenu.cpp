@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "CommandMenu.h"
 #include "LRCommands.h"
-#include "Tools.h"
+
 
 /**********************************************************************************************//**
  * @fn  CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg), _selectedItem(std::numeric_limits<unsigned int>::max()), TextButton("Unmapped"), m_commandMap(nullptr), m_menus(
@@ -74,17 +74,16 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
 }
 
 /**********************************************************************************************//**
- * @fn  void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
+ * @fn  void CommandMenu::buttonClicked(Button* )
  *
  * @brief   Button clicked.
  *
- *
  * @date    3/22/2016
  *
- * @param [in,out]  UNUSED_ARG(button)  If non-null, the unused argument (button)
+ * @param [in,out]  parameter1  button)  If non-null, the unused argument (button)
  **************************************************************************************************/
 
-void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
+void CommandMenu::buttonClicked(Button* /*button*/)
 {
     size_t idx = 1;
     bool subMenuTickSet = false;

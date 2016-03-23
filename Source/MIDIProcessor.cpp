@@ -20,7 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
-#include "Tools.h"
+
 
 /**********************************************************************************************//**
  * @fn  MIDIProcessor::MIDIProcessor()
@@ -104,18 +104,17 @@ void MIDIProcessor::rescanDevices()
 }
 
 /**********************************************************************************************//**
- * @fn  void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
+ * @fn  void MIDIProcessor::handleIncomingMidiMessage(MidiInput * , const MidiMessage &msg)
  *
  * @brief   Handles the incoming MIDI message.
  *
- *
  * @date    3/21/2016
  *
- * @param [in,out]  UNUSED_ARG(device)  If non-null, the unused argument (device)
- * @param   msg                         The message.
+ * @param [in,out]  parameter1  device)  If non-null, the unused argument (device)
+ * @param   msg                 The message.
  **************************************************************************************************/
 
-void MIDIProcessor::handleIncomingMidiMessage(MidiInput * UNUSED_ARG(device), const MidiMessage &msg)
+void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &msg)
 {
 	if (msg.isController())
 	{

@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
-#include "Tools.h"
+
 
 
 // define the port used to 
@@ -287,17 +287,16 @@ void LR_IPC_OUT::connectionLost()
 }
 
 /**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
+ * @fn  void LR_IPC_OUT::messageReceived(const MemoryBlock& )
  *
  * @brief   Message received.
  *
- *
  * @date    3/20/2016
  *
- * @param   UNUSED_ARG(msg) The unused argument (msg)
+ * @param   parameter1  The unused argument (msg)
  **************************************************************************************************/
 
-void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
+void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)
 {
 
 }
@@ -334,7 +333,7 @@ void LR_IPC_OUT::sendCommand(const String &command)
 void LR_IPC_OUT::handleKPCommand()
 {
     if (_valueToSend == 127)
-        m_SendKeys.handleShortCutKeyDownUp(KPMappings.at(_commandToSend));
+        m_SendKeys.SendKeyDownUp(KPMappings.at(_commandToSend));
 }
 
 /**********************************************************************************************//**

@@ -6,20 +6,27 @@
 #import <CoreGraphics/CoreGraphics.h>
 #endif
 
+/**********************************************************************************************//**
+ * @property    std::mutex SendKeys::m_mtxSending
+ *
+ * @brief   Gets the mtx sending.
+ *
+ * @return  The m mtx sending.
+ **************************************************************************************************/
+
 std::mutex SendKeys::m_mtxSending{};
 
 /**********************************************************************************************//**
- * @fn  void SendKeys::handleShortCutKeyDownUp(KeyPress key)
+ * @fn  void SendKeys::SendKeyDownUp(const KeyPress& key) const
  *
- * @brief   Handles the short cut key down up described by key.
- *
+ * @brief   Sends a key down up.
  *
  * @date    3/22/2016
  *
- * @param   key The keystroke to send.
+ * @param   key The key.
  **************************************************************************************************/
 
-void SendKeys::handleShortCutKeyDownUp(KeyPress key)
+void SendKeys::SendKeyDownUp(const KeyPress& key) const
 {
     std::lock_guard< std::mutex > lock(SendKeys::m_mtxSending);
 #ifdef _WIN32

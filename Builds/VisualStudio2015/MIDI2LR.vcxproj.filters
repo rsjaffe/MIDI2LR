@@ -1494,7 +1494,7 @@
     <ClInclude Include="..\..\Source\Pattern\Subject.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Tools.h">
+    <ClInclude Include="..\..\Source\Utilities.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\VersionChecker.h">
