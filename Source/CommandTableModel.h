@@ -56,7 +56,7 @@ public:
 	void removeAllRows();
 
 	// builds the table from an XML file
-	void buildFromXml(XmlElement *elem);
+	void buildFromXml(const XmlElement * const elem);
 
 	// returns the index of the row associated to a particular MIDI message
 	int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;

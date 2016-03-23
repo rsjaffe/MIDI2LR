@@ -82,10 +82,9 @@ MIDISender::~MIDISender()
 }
 
 /**********************************************************************************************//**
- * @fn  void MIDISender::sendCC(int midi_channel, int controller, int value)
+ * @fn  void MIDISender::sendCC(int midi_channel, int controller, int value) const
  *
  * @brief   Sends a MIDI control change.
- *
  *
  * @date    3/22/2016
  *
@@ -94,7 +93,7 @@ MIDISender::~MIDISender()
  * @param   value           The value.
  **************************************************************************************************/
 
-void MIDISender::sendCC(int midi_channel, int controller, int value)
+void MIDISender::sendCC(int midi_channel, int controller, int value) const
 {
     for (auto dev : _outputDevices)
         dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));

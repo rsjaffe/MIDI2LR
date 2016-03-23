@@ -38,7 +38,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class ProfileChangeListener
 {
 public:
-	// called when the current profile is change
+	// called when the current profile is changed
 	virtual void profileChanged(XmlElement* elem, const String& filename) = 0;
 
 	virtual ~ProfileChangeListener() {};

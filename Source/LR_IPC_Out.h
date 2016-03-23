@@ -71,7 +71,7 @@ public:
 	void addListener(LRConnectionListener *listener);
 
 	// sends a command to the plugin
-	void sendCommand(const String& command);
+	void sendCommand(const String& command) const;
 
 	// IPC interface
 	virtual void connectionMade() override;
@@ -89,15 +89,15 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(CommandMap *mapCommand, MIDIProcessor *midiProcessor);
+	void Init(const CommandMap* const mapCommand, MIDIProcessor* const midiProcessor);
 private:
     const static unordered_map<String, KeyPress> KPMappings;
-	CommandMap *m_commandMap;
+	const CommandMap *m_commandMap;
 	Array<LRConnectionListener *> _listeners;
 	int _valueToSend;
 	String _commandToSend;
     // Send key commands
-    void handleKPCommand(void);
+    void handleKPCommand(void) const;
     SendKeys m_SendKeys;
 ///< .
 };

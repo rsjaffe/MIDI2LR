@@ -244,17 +244,16 @@ void CommandTableModel::removeAllRows()
 }
 
 /**********************************************************************************************//**
- * @fn  void CommandTableModel::buildFromXml(XmlElement *root)
+ * @fn  void CommandTableModel::buildFromXml(const XmlElement * const root)
  *
  * @brief   Builds from XML.
  *
- *
  * @date    3/22/2016
  *
- * @param [in,out]  root    If non-null, the root.
+ * @param   root    If non-null, the root.
  **************************************************************************************************/
 
-void CommandTableModel::buildFromXml(XmlElement *root)
+void CommandTableModel::buildFromXml(const XmlElement * const root)
 {
 	if (root->getTagName().compare("settings") != 0)
 		return;

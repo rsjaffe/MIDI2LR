@@ -208,18 +208,17 @@ void LR_IPC_OUT::timerCallback()
 }
 
 /**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
+ * @fn  void LR_IPC_OUT::Init(const CommandMap * const mapCommand, MIDIProcessor * const midiProcessor)
  *
  * @brief   S.
  *
- *
  * @date    3/20/2016
  *
- * @param [in,out]  mapCommand      If non-null, the map command.
+ * @param   mapCommand              If non-null, the map command.
  * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
  **************************************************************************************************/
 
-void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
+void LR_IPC_OUT::Init(const CommandMap * const mapCommand, MIDIProcessor * const midiProcessor)
 {
     //copy the pointer
     m_commandMap = mapCommand;
@@ -298,17 +297,16 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)
 }
 
 /**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::sendCommand(const String &command)
+ * @fn  void LR_IPC_OUT::sendCommand(const String &command) const
  *
  * @brief   Sends a command.
- *
  *
  * @date    3/20/2016
  *
  * @param   command The command.
  **************************************************************************************************/
 
-void LR_IPC_OUT::sendCommand(const String &command)
+void LR_IPC_OUT::sendCommand(const String &command) const
 {
     //check if there is a connection
     if (isConnected())
@@ -318,15 +316,14 @@ void LR_IPC_OUT::sendCommand(const String &command)
 }
 
 /**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::handleKPCommand()
+ * @fn  void LR_IPC_OUT::handleKPCommand() const
  *
  * @brief   Handles KP (key press) commands.
- *
  *
  * @date    3/20/2016
  **************************************************************************************************/
 
-void LR_IPC_OUT::handleKPCommand()
+void LR_IPC_OUT::handleKPCommand() const
 {
     if (_valueToSend == 127)
         m_SendKeys.SendKeyDownUp(KPMappings.at(_commandToSend));
