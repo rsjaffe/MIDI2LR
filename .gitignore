@@ -268,3 +268,4 @@ Source/LRPlugin/MIDI2LR.lrplugin/test.lua
 Source/LRPlugin/MIDI2LR.lrplugin/Documentation.txt
 Source/LRPlugin/MIDI2LR.lrplugin/Documentation.txt
 *.exe
+*.exe
