@@ -20,13 +20,57 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SettingsComponent.h"
 
+/**********************************************************************************************//**
+ * @def MAIN_WIDTH
+ *
+ * @brief   A macro that defines main width.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 #define MAIN_WIDTH 400
+
+/**********************************************************************************************//**
+ * @def MAIN_HEIGHT
+ *
+ * @brief   A macro that defines main height.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 #define MAIN_HEIGHT 650
+
+/**********************************************************************************************//**
+ * @def MAIN_LEFT
+ *
+ * @brief   A macro that defines main left.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 #define MAIN_LEFT 20
+
+/**********************************************************************************************//**
+ * @def SPACEBETWEENBUTTON
+ *
+ * @brief   A macro that defines spacebetweenbutton.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 #define SPACEBETWEENBUTTON 10
 
 
 //==============================================================================
+
+/**********************************************************************************************//**
+ * @fn  MainContentComponent::MainContentComponent(): ResizableLayout(this), _titleLabel("Title", "MIDI2LR"), _connectionLabel("Connection", "Not connected to LR"), _commandLabel("Command", ""), _commandTable("Table", nullptr), _commandTableModel(), _rescanButton("Rescan MIDI devices"), _removeRowButton("Remove selected row"), _saveButton("Save"), _loadButton("Load"), _versionLabel("Version", "Version " + String(ProjectInfo::versionString)), _settingsButton("Settings"), _profileNameLabel("ProfileNameLabel", ""), m_currentStatus("CurrentStatus", "no extra info"), m_commandMap(nullptr), m_lr_IPC_IN(nullptr), m_lr_IPC_OUT(nullptr), m_settingsManager(nullptr), m_midiProcessor(nullptr), m_midiSender(nullptr)
+ *
+ * @brief   Default constructor.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 MainContentComponent::MainContentComponent(): ResizableLayout(this), _titleLabel("Title", "MIDI2LR"),
 _connectionLabel("Connection", "Not connected to LR"),
 _commandLabel("Command", ""),
@@ -51,13 +95,41 @@ _versionLabel("Version", "Version " +
 	   
 }
 
+/**********************************************************************************************//**
+ * @fn  MainContentComponent::~MainContentComponent()
+ *
+ * @brief   Destructor.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 MainContentComponent::~MainContentComponent()
 {}
+
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::paint(Graphics& g)
+ *
+ * @brief   Paints the given g.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  g   The Graphics to process.
+ **************************************************************************************************/
 
 void MainContentComponent::paint(Graphics& g)
 {
     g.fillAll(Colours::white);
 }
+
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::SetLabelSettings(Label &lblToSet)
+ *
+ * @brief   Sets label settings.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  lblToSet    Set the label to belongs to.
+ **************************************************************************************************/
 
 void MainContentComponent::SetLabelSettings(Label &lblToSet)
 {
@@ -66,7 +138,14 @@ void MainContentComponent::SetLabelSettings(Label &lblToSet)
     lblToSet.setColour(Label::textColourId, Colours::darkgrey);
 }
 
-// Update MIDI command components
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::handleAsyncUpdate()
+ *
+ * @brief   Update MIDI command components.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void MainContentComponent::handleAsyncUpdate()
 {
     // Update the last command label and set its colour to green
@@ -79,6 +158,18 @@ void MainContentComponent::handleAsyncUpdate()
     _commandTable.selectRow(_rowToSelect);
 }
 
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
+ *
+ * @brief   Handles the MIDI Cc.
+ *
+ * @date    3/22/2016
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   controller  The controller.
+ * @param   value       The value.
+ **************************************************************************************************/
+
 void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
@@ -87,6 +178,17 @@ void MainContentComponent::handleMidiCC(int midiChannel, int controller, int val
     _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, controller, true);
     triggerAsyncUpdate();
 }
+
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::handleMidiNote(int midiChannel, int note)
+ *
+ * @brief   Handles the MIDI note.
+ *
+ * @date    3/22/2016
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   note        The note.
+ **************************************************************************************************/
 
 void MainContentComponent::handleMidiNote(int midiChannel, int note)
 {
@@ -97,11 +199,27 @@ void MainContentComponent::handleMidiNote(int midiChannel, int note)
     triggerAsyncUpdate();
 }
 
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::connected()
+ *
+ * @brief   Connected this object.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void MainContentComponent::connected()
 {
     _connectionLabel.setText("Connected to LR", NotificationType::dontSendNotification);
     _connectionLabel.setColour(Label::backgroundColourId, Colours::greenyellow);
 }
+
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::disconnected()
+ *
+ * @brief   Disconnect from the ed.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
 
 void MainContentComponent::disconnected()
 {
@@ -109,12 +227,30 @@ void MainContentComponent::disconnected()
     _connectionLabel.setColour(Label::backgroundColourId, Colours::red);
 }
 
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::timerCallback()
+ *
+ * @brief   Callback, called when the timer.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void MainContentComponent::timerCallback()
 {
     // reset the command label's background to white
     _commandLabel.setColour(Label::backgroundColourId, Colours::white);
     stopTimer();
 }
+
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::buttonClicked(Button* button)
+ *
+ * @brief   Button clicked.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  button  If non-null, the button.
+ **************************************************************************************************/
 
 void MainContentComponent::buttonClicked(Button* button)
 {
@@ -232,6 +368,17 @@ void MainContentComponent::buttonClicked(Button* button)
     }
 }
 
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
+ *
+ * @brief   Profile changed.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  elem    If non-null, the element.
+ * @param   filename        Filename of the file.
+ **************************************************************************************************/
+
 void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
 {
     _commandTableModel.buildFromXml(elem);
@@ -247,6 +394,16 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
 	}    
 }
 
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::SetTimerText(int timeValue)
+ *
+ * @brief   Sets timer text.
+ *
+ * @date    3/22/2016
+ *
+ * @param   timeValue   The time value.
+ **************************************************************************************************/
+
 void MainContentComponent::SetTimerText(int timeValue)
 {
 	if (timeValue > 0)
@@ -259,6 +416,22 @@ void MainContentComponent::SetTimerText(int timeValue)
 	}
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
+ *
+ * @brief   S.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  commandMap      If non-null, the command map.
+ * @param [in,out]  in              If non-null, the in.
+ * @param [in,out]  out             If non-null, the out.
+ * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ * @param [in,out]  profileManager  If non-null, manager for profile.
+ * @param [in,out]  settingsManager If non-null, manager for settings.
+ * @param [in,out]  midiSender      If non-null, the MIDI sender.
+ **************************************************************************************************/
 
 void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
 {

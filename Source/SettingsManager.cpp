@@ -22,9 +22,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "ProfileManager.h"
 
+/**********************************************************************************************//**
+ * @def AUTOHIDE_SECTION
+ *
+ * @brief   A macro that defines autohide section.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 #define AUTOHIDE_SECTION "autohide"
 
-
+/**********************************************************************************************//**
+ * @fn  SettingsManager::SettingsManager()
+ *
+ * @brief   Default constructor.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
 
 SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nullptr)
 {
@@ -38,6 +52,16 @@ SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nul
 	_propertiesFile = new PropertiesFile(opts);
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setPickupEnabled(bool enabled)
+ *
+ * @brief   Sets pickup enabled.
+ *
+ * @date    3/22/2016
+ *
+ * @param   enabled true to enable, false to disable.
+ **************************************************************************************************/
 
 void SettingsManager::setPickupEnabled(bool enabled)
 {
@@ -53,15 +77,45 @@ void SettingsManager::setPickupEnabled(bool enabled)
 	
 }
 
+/**********************************************************************************************//**
+ * @fn  bool SettingsManager::getPickupEnabled() const
+ *
+ * @brief   Gets pickup enabled.
+ *
+ * @date    3/22/2016
+ *
+ * @return  true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool SettingsManager::getPickupEnabled() const
 {
 	return _propertiesFile->getBoolValue("pickup_enabled", true);
 }
 
+/**********************************************************************************************//**
+ * @fn  String SettingsManager::getProfileDirectory() const
+ *
+ * @brief   Gets profile directory.
+ *
+ * @date    3/22/2016
+ *
+ * @return  The profile directory.
+ **************************************************************************************************/
+
 String SettingsManager::getProfileDirectory() const
 {
 	return _propertiesFile->getValue("profile_directory");
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setProfileDirectory(const String& profileDirStr)
+ *
+ * @brief   Sets profile directory.
+ *
+ * @date    3/22/2016
+ *
+ * @param   profileDirStr   The profile dir string.
+ **************************************************************************************************/
 
 void SettingsManager::setProfileDirectory(const String& profileDirStr)
 {
@@ -75,6 +129,14 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::connected()
+ *
+ * @brief   Connected this object.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void SettingsManager::connected()
 {
 	String command = String::formatted("Pickup %d\n", getPickupEnabled());
@@ -86,16 +148,45 @@ void SettingsManager::connected()
 	
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::disconnected()
+ *
+ * @brief   Disconnect from the ed.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void SettingsManager::disconnected()
 {
 
 }
+
+/**********************************************************************************************//**
+ * @fn  int SettingsManager::getAutoHideTime() const
+ *
+ * @brief   Gets automatic hide time.
+ *
+ * @date    3/22/2016
+ *
+ * @return  The automatic hide time.
+ **************************************************************************************************/
 
 int SettingsManager::getAutoHideTime() const
 {
 	return _propertiesFile->getIntValue(AUTOHIDE_SECTION, 0);
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setAutoHideTime(int newTime)
+ *
+ * @brief   Sets automatic hide time.
+ *
+ * @date    3/22/2016
+ *
+ * @param   newTime The new time.
+ **************************************************************************************************/
+
 void SettingsManager::setAutoHideTime(int newTime)
 {
 	_propertiesFile->setValue(AUTOHIDE_SECTION, newTime);
@@ -103,16 +194,47 @@ void SettingsManager::setAutoHideTime(int newTime)
 
 }
 
+/**********************************************************************************************//**
+ * @fn  int SettingsManager::getLastVersionFound() const
+ *
+ * @brief   Gets the last version found.
+ *
+ * @date    3/22/2016
+ *
+ * @return  The last version found.
+ **************************************************************************************************/
+
 int SettingsManager::getLastVersionFound() const
 {
     return _propertiesFile->getIntValue("LastVersionFound", 0);
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setLastVersionFound(int newversion)
+ *
+ * @brief   Sets last version found.
+ *
+ * @date    3/22/2016
+ *
+ * @param   newversion  The newversion.
+ **************************************************************************************************/
 
 void SettingsManager::setLastVersionFound(int newversion)
 {
     _propertiesFile->setValue("LastVersionFound", newversion);
     _propertiesFile->saveIfNeeded();
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
+ *
+ * @brief   S.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  lr_IPC_OUT      If non-null, the lr ipc out.
+ * @param [in,out]  profileManager  If non-null, manager for profile.
+ **************************************************************************************************/
 
 void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
 {

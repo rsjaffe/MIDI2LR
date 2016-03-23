@@ -22,11 +22,45 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsComponent.h"
 
+/**********************************************************************************************//**
+ * @def SETTINGS_LEFT
+ *
+ * @brief   A macro that defines settings left.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
 
 #define SETTINGS_LEFT 20
+
+/**********************************************************************************************//**
+ * @def SETTING_WIDTH
+ *
+ * @brief   A macro that defines setting width.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 #define SETTING_WIDTH 400
+
+/**********************************************************************************************//**
+ * @def SETTING_HEIGHT
+ *
+ * @brief   A macro that defines setting height.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 #define SETTING_HEIGHT 300
 //==============================================================================
+
+/**********************************************************************************************//**
+ * @fn  SettingsComponent::SettingsComponent()
+ *
+ * @brief   Default constructor.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 SettingsComponent::SettingsComponent() : ResizableLayout(this), _pickupEnabled("Enable Pickup Mode"),
 _pickupLabel("PickupLabel", ""),
 _profileLocationButton("Choose Profile Folder"),
@@ -41,15 +75,43 @@ m_settingsManager(nullptr)
 	
 }
 
+/**********************************************************************************************//**
+ * @fn  SettingsComponent::~SettingsComponent()
+ *
+ * @brief   Destructor.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 SettingsComponent::~SettingsComponent()
 {
 
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::paint(Graphics& g)
+ *
+ * @brief   Paints the given g.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  g   The Graphics to process.
+ **************************************************************************************************/
+
 void SettingsComponent::paint(Graphics& g)
 {
 	g.fillAll(Colours::white);   // clear the background
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::buttonClicked(Button* button)
+ *
+ * @brief   Button clicked.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  button  If non-null, the button.
+ **************************************************************************************************/
 
 void SettingsComponent::buttonClicked(Button* button)
 {
@@ -84,6 +146,16 @@ void SettingsComponent::buttonClicked(Button* button)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::sliderValueChanged(Slider* slider)
+ *
+ * @brief   Slider value changed.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  slider  If non-null, the slider.
+ **************************************************************************************************/
+
 void SettingsComponent::sliderValueChanged(Slider* slider)
 {
 	// NULL pointer check
@@ -102,6 +174,16 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
 	}
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::Init(SettingsManager *settingsManager)
+ *
+ * @brief   Inits the given settings manager.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  settingsManager If non-null, manager for settings.
+ **************************************************************************************************/
 
 void SettingsComponent::Init(SettingsManager *settingsManager)
 {

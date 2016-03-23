@@ -22,16 +22,44 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "LRCommands.h"
 
+/**********************************************************************************************//**
+ * @fn  ProfileManager::ProfileManager()
+ *
+ * @brief   Default constructor.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
 {
 	
    
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::addListener(ProfileChangeListener *listener)
+ *
+ * @brief   Adds a listener.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  listener    If non-null, the listener.
+ **************************************************************************************************/
+
 void ProfileManager::addListener(ProfileChangeListener *listener)
 {
 	_listeners.addIfNotAlreadyThere(listener);
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::setProfileDirectory(const File& dir)
+ *
+ * @brief   Sets profile directory.
+ *
+ * @date    3/22/2016
+ *
+ * @param   dir The dir.
+ **************************************************************************************************/
 
 void ProfileManager::setProfileDirectory(const File& dir)
 {
@@ -49,10 +77,30 @@ void ProfileManager::setProfileDirectory(const File& dir)
 		switchToProfile(_profiles[0]);
 }
 
+/**********************************************************************************************//**
+ * @fn  const StringArray& ProfileManager::getMenuItems() const
+ *
+ * @brief   Gets menu items.
+ *
+ * @date    3/22/2016
+ *
+ * @return  The menu items.
+ **************************************************************************************************/
+
 const StringArray& ProfileManager::getMenuItems() const
 {
 	return _profiles;
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToProfile(int profileIdx)
+ *
+ * @brief   Switch to profile.
+ *
+ * @date    3/22/2016
+ *
+ * @param   profileIdx  Zero-based index of the profile.
+ **************************************************************************************************/
 
 void ProfileManager::switchToProfile(int profileIdx)
 {
@@ -62,6 +110,16 @@ void ProfileManager::switchToProfile(int profileIdx)
 		_currentProfileIdx = profileIdx;
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToProfile(const String& profile)
+ *
+ * @brief   Switch to profile.
+ *
+ * @date    3/22/2016
+ *
+ * @param   profile The profile.
+ **************************************************************************************************/
 
 void ProfileManager::switchToProfile(const String& profile)
 {
@@ -84,6 +142,14 @@ void ProfileManager::switchToProfile(const String& profile)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToPreviousProfile()
+ *
+ * @brief   Switch to previous profile.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void ProfileManager::switchToPreviousProfile()
 {
 	_currentProfileIdx--;
@@ -92,6 +158,14 @@ void ProfileManager::switchToPreviousProfile()
 	switchToProfile(_currentProfileIdx);
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToNextProfile()
+ *
+ * @brief   Switch to next profile.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void ProfileManager::switchToNextProfile()
 {
 	_currentProfileIdx++;
@@ -99,6 +173,18 @@ void ProfileManager::switchToNextProfile()
 
 	switchToProfile(_currentProfileIdx);
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
+ *
+ * @brief   Handles the MIDI Cc.
+ *
+ * @date    3/22/2016
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   controller  The controller.
+ * @param   value       The value.
+ **************************************************************************************************/
 
 void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
@@ -122,6 +208,17 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 		}
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::handleMidiNote(int midiChannel, int note)
+ *
+ * @brief   Handles the MIDI note.
+ *
+ * @date    3/22/2016
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   note        The note.
+ **************************************************************************************************/
 
 void ProfileManager::handleMidiNote(int midiChannel, int note)
 {
@@ -147,6 +244,14 @@ void ProfileManager::handleMidiNote(int midiChannel, int note)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::handleAsyncUpdate()
+ *
+ * @brief   Handles the asynchronous update.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void ProfileManager::handleAsyncUpdate()
 {
 	switch (_switchState)
@@ -164,6 +269,14 @@ void ProfileManager::handleAsyncUpdate()
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::connected()
+ *
+ * @brief   Connected this object.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void ProfileManager::connected()
 {
     String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
@@ -173,10 +286,30 @@ void ProfileManager::connected()
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::disconnected()
+ *
+ * @brief   Disconnect from the ed.
+ *
+ * @date    3/22/2016
+ **************************************************************************************************/
+
 void ProfileManager::disconnected()
 {
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor)
+ *
+ * @brief   S.
+ *
+ * @date    3/22/2016
+ *
+ * @param [in,out]  out             If non-null, the out.
+ * @param [in,out]  commandMap      If non-null, the command map.
+ * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ **************************************************************************************************/
 
 void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor)
 {
