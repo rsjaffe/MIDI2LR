@@ -267,3 +267,4 @@ Source/LRPlugin/MIDI2LR.lrplugin/test.lua
 /DoxyGen/html
 Source/LRPlugin/MIDI2LR.lrplugin/Documentation.txt
 Source/LRPlugin/MIDI2LR.lrplugin/Documentation.txt
+*.exe
