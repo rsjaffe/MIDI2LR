@@ -209,17 +209,17 @@ void LR_IPC_OUT::timerCallback()
 }
 
 /**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::Init(const CommandMap * const mapCommand, MIDIProcessor * const midiProcessor)
+ * @fn  void LR_IPC_OUT::Init(const std::shared_ptr<const CommandMap> mapCommand, const std::shared_ptr<MIDIProcessor> midiProcessor)
  *
  * @brief   S.
  *
  * @date    3/20/2016
  *
- * @param   mapCommand              If non-null, the map command.
- * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ * @param   mapCommand      If non-null, the map command.
+ * @param   midiProcessor   If non-null, the MIDI processor.
  **************************************************************************************************/
 
-void LR_IPC_OUT::Init(const std::shared_ptr<const CommandMap> mapCommand, std::shared_ptr<MIDIProcessor> const midiProcessor)
+void LR_IPC_OUT::Init(const std::shared_ptr<const CommandMap> mapCommand, const std::shared_ptr<MIDIProcessor>  midiProcessor)
 {
     //copy the pointer
     m_commandMap = mapCommand;
