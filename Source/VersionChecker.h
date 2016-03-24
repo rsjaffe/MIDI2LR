@@ -39,7 +39,7 @@ class VersionChecker : public Thread,
 public:
 	VersionChecker();
 
-    void Init(SettingsManager *profileManager);
+    void Init(std::shared_ptr<SettingsManager> profileManager);
 	// Thread interface
 	virtual void run() override;
 
@@ -49,7 +49,7 @@ public:
 private:
 	int _newVersion;
 	ScopedPointer<DialogWindow> _dialog;
-    SettingsManager *m_settingsManager;
+    std::shared_ptr<SettingsManager> m_settingsManager;
 };
 
 

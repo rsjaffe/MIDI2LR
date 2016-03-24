@@ -183,7 +183,7 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
  * @param [in,out]  settingsManager If non-null, manager for settings.
  **************************************************************************************************/
 
-void SettingsComponent::Init(SettingsManager *settingsManager)
+void SettingsComponent::Init(std::shared_ptr<SettingsManager> settingsManager)
 {
 	//copy the pointer
 	m_settingsManager = settingsManager;

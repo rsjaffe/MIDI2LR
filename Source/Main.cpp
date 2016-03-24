@@ -51,7 +51,22 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MIDI2LRApplication : public JUCEApplication
 {
 public:
-	MIDI2LRApplication() {}
+	MIDI2LRApplication() {
+        m_commandMap = std::make_shared<CommandMap>();
+        m_profileManager = std::make_shared<ProfileManager>();
+        m_settingsManager = std::make_shared<SettingsManager>();
+        m_midiProcessor = std::make_shared<MIDIProcessor>();
+        m_midiSender = std::make_shared<MIDISender>();
+
+        m_lr_IPC_OUT = std::shared_ptr<LR_IPC_OUT>(new LR_IPC_OUT, [](LR_IPC_OUT* me)
+        {
+            me->shutdown();
+        });
+        m_lr_IPC_IN = std::shared_ptr<LR_IPC_IN>(new LR_IPC_IN, [](LR_IPC_IN* me)
+        {
+            me->shutdown();
+        });
+    }
 
 	const String getApplicationName() override { return ProjectInfo::projectName; }
 	const String getApplicationVersion() override { return ProjectInfo::versionString; }
@@ -63,23 +78,23 @@ public:
 		if (commandLine != SHUT_DOWN_STRING)
 		{
 			
-			m_midiProcessor.Init();
-			m_midiSender.Init();
+			m_midiProcessor->Init();
+			m_midiSender->Init();
 			
-			m_lr_IPC_OUT.Init(&m_commandMap, &m_midiProcessor);
+			m_lr_IPC_OUT->Init(m_commandMap, m_midiProcessor);
 			//set the reference to the command map
-			m_profileManager.Init(&m_lr_IPC_OUT, &m_commandMap, &m_midiProcessor);
+			m_profileManager->Init(m_lr_IPC_OUT, m_commandMap, m_midiProcessor);
 			//init the IPC_In
-			m_lr_IPC_IN.Init(&m_commandMap, &m_profileManager, &m_midiSender);
+			m_lr_IPC_IN->Init(m_commandMap, m_profileManager, m_midiSender);
 
 			// init the settings manager
-			m_settingsManager.Init(&m_lr_IPC_OUT, &m_profileManager);
+			m_settingsManager->Init(m_lr_IPC_OUT, m_profileManager);
 
 	        mainWindow = new MainWindow(getApplicationName());
-		    mainWindow->Init(&m_commandMap, &m_lr_IPC_IN, &m_lr_IPC_OUT, &m_midiProcessor, &m_profileManager, &m_settingsManager, &m_midiSender);
+		    mainWindow->Init(m_commandMap, m_lr_IPC_IN, m_lr_IPC_OUT, m_midiProcessor, m_profileManager, m_settingsManager, m_midiSender);
 			
 		    // Check for latest version
-            _versionChecker.Init(&m_settingsManager);
+            _versionChecker.Init(m_settingsManager);
 		    _versionChecker.startThread();
 		}
 		else
@@ -95,9 +110,11 @@ public:
 	{
 		// Save the current profile as default.xml
 		File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-		m_commandMap.toXMLDocument(defaultProfile);
-		m_lr_IPC_OUT.shutdown();
-		m_lr_IPC_IN.shutdown();
+		m_commandMap->toXMLDocument(defaultProfile);
+		//m_lr_IPC_OUT.shutdown();
+		//m_lr_IPC_IN.shutdown();
+        m_lr_IPC_OUT.reset(); //give it up
+        m_lr_IPC_IN.reset(); //give it up
 		mainWindow = nullptr; // (deletes our window)
 		quit();
 	}
@@ -129,14 +146,14 @@ private:
 	ScopedPointer<MainWindow> mainWindow;
 	VersionChecker _versionChecker;
 
-	// the array with the commands
-	CommandMap m_commandMap;
-	LR_IPC_IN m_lr_IPC_IN;
-	LR_IPC_OUT m_lr_IPC_OUT;
-	ProfileManager m_profileManager;
-	SettingsManager m_settingsManager;
-	MIDIProcessor m_midiProcessor;
-	MIDISender m_midiSender;
+
+    std::shared_ptr<CommandMap> m_commandMap;
+    std::shared_ptr<LR_IPC_IN> m_lr_IPC_IN;
+    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
+    std::shared_ptr<ProfileManager> m_profileManager;
+    std::shared_ptr<SettingsManager> m_settingsManager;
+    std::shared_ptr<MIDIProcessor> m_midiProcessor;
+    std::shared_ptr<MIDISender> m_midiSender;
 };
 
 //==============================================================================

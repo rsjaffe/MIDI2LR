@@ -165,7 +165,7 @@ void CommandMenu::setSelectedItem(unsigned int idx)
  * @param [in,out]  mapCommand  If non-null, the map command.
  **************************************************************************************************/
 
-void CommandMenu::Init(CommandMap *mapCommand)
+void CommandMenu::Init(std::shared_ptr<CommandMap> mapCommand)
 {
     //copy the pointer
     m_commandMap = mapCommand;

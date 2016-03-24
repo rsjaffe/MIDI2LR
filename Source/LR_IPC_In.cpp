@@ -62,6 +62,9 @@ void LR_IPC_IN::shutdown()
 	stopTimer();
 	stopThread(1000);
 	close();
+    m_commandMap.reset();
+    m_profileManager.reset();
+    m_midiSender.reset();
 }
 
 /**********************************************************************************************//**
@@ -95,7 +98,7 @@ void LR_IPC_IN::timerCallback()
  * @param [in,out]  midiSender      If non-null, the MIDI sender.
  **************************************************************************************************/
 
-void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager, MIDISender *midiSender)
+void LR_IPC_IN::Init(std::shared_ptr<CommandMap> mapCommand, std::shared_ptr<ProfileManager> profileManager, std::shared_ptr<MIDISender> midiSender)
 {
 	m_commandMap = mapCommand;
 	m_profileManager = profileManager;

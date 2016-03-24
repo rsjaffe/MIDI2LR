@@ -54,13 +54,13 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(CommandMap *mapCommand, ProfileManager *profileManager, MIDISender *midiSender);
+	void Init(std::shared_ptr<CommandMap> mapCommand, std::shared_ptr<ProfileManager> profileManager, std::shared_ptr<MIDISender> midiSender);
 private:
 	// process a line received from the socket
 	void processLine(const String& line);
-	CommandMap *m_commandMap;
-	ProfileManager *m_profileManager;
-	MIDISender *m_midiSender;
+    std::shared_ptr<CommandMap> m_commandMap;
+    std::shared_ptr<ProfileManager> m_profileManager;
+    std::shared_ptr<MIDISender> m_midiSender;
 	std::unordered_map<String, int> parameterMap;
 };
 

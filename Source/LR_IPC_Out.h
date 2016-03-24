@@ -89,10 +89,10 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(const CommandMap* const mapCommand, MIDIProcessor* const midiProcessor);
+	void Init(const std::shared_ptr<const CommandMap>  mapCommand, std::shared_ptr<MIDIProcessor> const midiProcessor);
 private:
     const static unordered_map<String, KeyPress> KPMappings;
-	const CommandMap *m_commandMap;
+	std::shared_ptr<const CommandMap> m_commandMap;
 	Array<LRConnectionListener *> _listeners;
 	int _valueToSend;
 	String _commandToSend;

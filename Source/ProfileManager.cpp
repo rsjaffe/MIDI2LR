@@ -309,7 +309,7 @@ void ProfileManager::disconnected()
  * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
  **************************************************************************************************/
 
-void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor)
+void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor)
 {
 	//copy the pointers
 	m_commandMap = commandMap;

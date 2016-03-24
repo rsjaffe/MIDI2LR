@@ -234,7 +234,7 @@ void SettingsManager::setLastVersionFound(int newversion)
  * @param [in,out]  profileManager  If non-null, manager for profile.
  **************************************************************************************************/
 
-void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>lr_IPC_OUT, std::shared_ptr<ProfileManager> profileManager)
 {
 	m_lr_IPC_OUT = lr_IPC_OUT;
 

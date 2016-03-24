@@ -190,6 +190,7 @@ void LR_IPC_OUT::shutdown()
 {
     stopTimer(),
         disconnect();
+    m_commandMap.reset();
 }
 
 /**********************************************************************************************//**
@@ -218,7 +219,7 @@ void LR_IPC_OUT::timerCallback()
  * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
  **************************************************************************************************/
 
-void LR_IPC_OUT::Init(const CommandMap * const mapCommand, MIDIProcessor * const midiProcessor)
+void LR_IPC_OUT::Init(const std::shared_ptr<const CommandMap> mapCommand, std::shared_ptr<MIDIProcessor> const midiProcessor)
 {
     //copy the pointer
     m_commandMap = mapCommand;

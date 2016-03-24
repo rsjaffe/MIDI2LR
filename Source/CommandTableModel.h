@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define COMMANDTABLEMODEL_H
 
 #include <vector>
+#include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
@@ -60,11 +61,11 @@ public:
 
 	// returns the index of the row associated to a particular MIDI message
 	int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
-	void Init(CommandMap *mapCommand);
+	void Init(std::shared_ptr<CommandMap> mapCommand);
 private:
 	int _rows;
 	std::vector<MIDI_Message> _commands;
-	CommandMap *m_commandMap;
+    std::shared_ptr<CommandMap> m_commandMap;
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

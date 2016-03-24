@@ -308,7 +308,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
  * @param [in,out]  mapCommand  If non-null, the map command.
  **************************************************************************************************/
 
-void CommandTableModel::Init(CommandMap *mapCommand)
+void CommandTableModel::Init(std::shared_ptr<CommandMap> mapCommand)
 {
 	//copy the pointer
 	m_commandMap = mapCommand;

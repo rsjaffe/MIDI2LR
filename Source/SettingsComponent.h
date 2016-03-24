@@ -48,7 +48,7 @@ public:
 	virtual void buttonClicked(Button* button) override;
 
 	virtual void sliderValueChanged(Slider* slider);
-	void Init(SettingsManager *settingsManager);
+	void Init(std::shared_ptr<SettingsManager>settingsManager);
 private:
 	ToggleButton _pickupEnabled;
 	Label _pickupLabel;
@@ -60,7 +60,7 @@ private:
 	GroupComponent m_autoHideGroup;
 	GroupComponent m_pickupGroup;
 	GroupComponent m_profileGroup;
-	SettingsManager *m_settingsManager;
+    std::shared_ptr<SettingsManager> m_settingsManager;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
