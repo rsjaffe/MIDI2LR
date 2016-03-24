@@ -174,13 +174,13 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
 }
 
 /**********************************************************************************************//**
- * @fn  void SettingsComponent::Init(SettingsManager *settingsManager)
+ * @fn  void SettingsComponent::Init(std::shared_ptr<SettingsManager> settingsManager)
  *
  * @brief   Inits the given settings manager.
  *
  * @date    3/22/2016
  *
- * @param [in,out]  settingsManager If non-null, manager for settings.
+ * @param   settingsManager If non-null, manager for settings.
  **************************************************************************************************/
 
 void SettingsComponent::Init(std::shared_ptr<SettingsManager> settingsManager)

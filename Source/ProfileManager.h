@@ -48,7 +48,7 @@ class ProfileManager : public MIDICommandListener,
 	public AsyncUpdater, public LRConnectionListener
 {
 public:	
-	ProfileManager();
+	ProfileManager() noexcept;
 	virtual ~ProfileManager() {};
 	void addListener(ProfileChangeListener *listener);
 
@@ -56,7 +56,7 @@ public:
 	void setProfileDirectory(const File& dir);
 
 	// returns an array of profile names
-	const StringArray& getMenuItems() const;
+	const StringArray& getMenuItems() const noexcept;
 
 	// switches to a profile defined by an index
 	void switchToProfile(int profileIdx);

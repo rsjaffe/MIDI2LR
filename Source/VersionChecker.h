@@ -37,7 +37,7 @@ class VersionChecker : public Thread,
 	public AsyncUpdater
 {
 public:
-	VersionChecker();
+	VersionChecker() noexcept;
 
     void Init(std::shared_ptr<SettingsManager> profileManager);
 	// Thread interface

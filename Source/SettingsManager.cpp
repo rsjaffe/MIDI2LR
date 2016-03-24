@@ -224,14 +224,14 @@ void SettingsManager::setLastVersionFound(int newversion)
 }
 
 /**********************************************************************************************//**
- * @fn  void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
+ * @fn  void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>lr_IPC_OUT, std::shared_ptr<ProfileManager> profileManager)
  *
  * @brief   S.
  *
  * @date    3/22/2016
  *
- * @param [in,out]  lr_IPC_OUT      If non-null, the lr ipc out.
- * @param [in,out]  profileManager  If non-null, manager for profile.
+ * @param   parameter1      If non-null, the lr ipc out.
+ * @param   profileManager  If non-null, manager for profile.
  **************************************************************************************************/
 
 void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>lr_IPC_OUT, std::shared_ptr<ProfileManager> profileManager)

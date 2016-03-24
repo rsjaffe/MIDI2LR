@@ -121,7 +121,7 @@ namespace std {
 class CommandMap : public Subject
 {
 public:
-	CommandMap();
+	CommandMap() noexcept;
 	virtual ~CommandMap() {}
 
 	// adds an entry to the msg:command map, and a corresponding entry to the command:msg map
@@ -138,7 +138,7 @@ public:
 	void removeMessage(const MIDI_Message &msg);
 
 	// clears both msg:command and command:msg maps
-	void clearMap();
+	void clearMap() noexcept;
 
 	// returns true if there is a mapping for a particular MIDI message
 	bool messageExistsInMap(const MIDI_Message &msg) const;

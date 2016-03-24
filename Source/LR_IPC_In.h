@@ -54,7 +54,8 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(std::shared_ptr<CommandMap> mapCommand, std::shared_ptr<ProfileManager> profileManager, std::shared_ptr<MIDISender> midiSender);
+	void Init(std::shared_ptr<CommandMap> mapCommand, std::shared_ptr<ProfileManager> profileManager, 
+        std::shared_ptr<MIDISender> midiSender) noexcept;
 private:
 	// process a line received from the socket
 	void processLine(const String& line);

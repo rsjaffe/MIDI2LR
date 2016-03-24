@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class SendKeys
 {
 public:
-    SendKeys()
+    SendKeys() noexcept
     {};
     ~SendKeys()
     {};

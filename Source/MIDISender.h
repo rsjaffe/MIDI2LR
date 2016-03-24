@@ -35,7 +35,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MIDISender
 {
 public:
-	MIDISender();
+	MIDISender() noexcept;
 	virtual ~MIDISender();	
 	// sends a CC message to all output devices
     void sendCC(int midi_channel, int controller, int value) const ;

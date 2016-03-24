@@ -40,11 +40,11 @@ public:
 	SettingsManager();
 	virtual ~SettingsManager() {};
 
-	bool getPickupEnabled() const;
+	bool getPickupEnabled() const noexcept;
 	void setPickupEnabled(bool enabled);
 
 	void setProfileDirectory(const String& profileDirectory);
-	String getProfileDirectory() const;
+	String getProfileDirectory() const noexcept;
 
 
 

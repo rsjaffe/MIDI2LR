@@ -62,20 +62,19 @@ void MainWindow::timerCallback(void)
 }
 
 /**********************************************************************************************//**
- * @fn  void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
+ * @fn  void MainWindow::Init(std::shared_ptr<CommandMap> commandMap, std::shared_ptr<LR_IPC_IN> in, std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<MIDIProcessor> midiProcessor, std::shared_ptr<ProfileManager> profileManager, std::shared_ptr<SettingsManager> settingsManager, std::shared_ptr<MIDISender> midiSender)
  *
  * @brief   S.
  *
- *
  * @date    3/22/2016
  *
- * @param [in,out]  commandMap      If non-null, the command map.
- * @param [in,out]  in              If non-null, the in.
- * @param [in,out]  out             If non-null, the out.
- * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
- * @param [in,out]  profileManager  If non-null, manager for profile.
- * @param [in,out]  settingsManager If non-null, manager for settings.
- * @param [in,out]  midiSender      If non-null, the MIDI sender.
+ * @param   commandMap      If non-null, the command map.
+ * @param   in              If non-null, the in.
+ * @param   out             If non-null, the out.
+ * @param   midiProcessor   If non-null, the MIDI processor.
+ * @param   profileManager  If non-null, manager for profile.
+ * @param   settingsManager If non-null, manager for settings.
+ * @param   midiSender      If non-null, the MIDI sender.
  **************************************************************************************************/
 
 void MainWindow::Init(std::shared_ptr<CommandMap> commandMap, std::shared_ptr<LR_IPC_IN> in, std::shared_ptr<LR_IPC_OUT> out, 

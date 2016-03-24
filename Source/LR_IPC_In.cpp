@@ -86,16 +86,15 @@ void LR_IPC_IN::timerCallback()
 }
 
 /**********************************************************************************************//**
- * @fn  void LR_IPC_IN::Init(CommandMap * mapCommand, ProfileManager *profileManager, MIDISender *midiSender)
+ * @fn  void LR_IPC_IN::Init(std::shared_ptr<CommandMap> mapCommand, std::shared_ptr<ProfileManager> profileManager, std::shared_ptr<MIDISender> midiSender)
  *
  * @brief   S.
  *
- *
  * @date    3/21/2016
  *
- * @param [in,out]  mapCommand      If non-null, the map command.
- * @param [in,out]  profileManager  If non-null, manager for profile.
- * @param [in,out]  midiSender      If non-null, the MIDI sender.
+ * @param   mapCommand      If non-null, the map command.
+ * @param   profileManager  If non-null, manager for profile.
+ * @param   midiSender      If non-null, the MIDI sender.
  **************************************************************************************************/
 
 void LR_IPC_IN::Init(std::shared_ptr<CommandMap> mapCommand, std::shared_ptr<ProfileManager> profileManager, std::shared_ptr<MIDISender> midiSender)

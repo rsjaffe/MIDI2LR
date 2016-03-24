@@ -53,7 +53,7 @@ public:
 class MIDIProcessor : public MidiInputCallback
 {
 public:
-	MIDIProcessor();
+	MIDIProcessor() noexcept;
 	virtual ~MIDIProcessor();
     
     // overriden from MidiInputCallback

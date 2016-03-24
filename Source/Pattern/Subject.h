@@ -41,7 +41,7 @@ class Observer;
 class Subject
 {
 public:
-	Subject();
+	Subject() noexcept;
 	virtual ~Subject();	
 	void RegisterObserver(Observer *observer);
 	void UnregisterObserver(Observer *observer);
