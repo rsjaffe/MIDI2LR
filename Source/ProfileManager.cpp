@@ -21,14 +21,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 /**********************************************************************************************//**
- * @fn  ProfileManager::ProfileManager()
+ * @fn  ProfileManager::ProfileManager() noexcept
  *
  * @brief   Default constructor.
  *
  * @date    3/22/2016
  **************************************************************************************************/
 
-ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
+ProfileManager::ProfileManager() noexcept : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
 {
 	
    
@@ -76,7 +76,7 @@ void ProfileManager::setProfileDirectory(const File& dir)
 }
 
 /**********************************************************************************************//**
- * @fn  const StringArray& ProfileManager::getMenuItems() const
+ * @fn  const StringArray& ProfileManager::getMenuItems() const noexcept
  *
  * @brief   Gets menu items.
  *
@@ -85,7 +85,7 @@ void ProfileManager::setProfileDirectory(const File& dir)
  * @return  The menu items.
  **************************************************************************************************/
 
-const StringArray& ProfileManager::getMenuItems() const
+const StringArray& ProfileManager::getMenuItems() const noexcept
 {
 	return _profiles;
 }

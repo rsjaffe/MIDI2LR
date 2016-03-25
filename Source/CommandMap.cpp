@@ -22,15 +22,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 /**********************************************************************************************//**
- * @fn  CommandMap::CommandMap()
+ * @fn  CommandMap::CommandMap() noexcept
  *
  * @brief   Default constructor.
- *
  *
  * @date    3/22/2016
  **************************************************************************************************/
 
-CommandMap::CommandMap() : Subject()
+CommandMap::CommandMap() noexcept : Subject()
 {
 
 }
@@ -168,15 +167,14 @@ void CommandMap::removeMessage(const MIDI_Message &msg)
 }
 
 /**********************************************************************************************//**
- * @fn  void CommandMap::clearMap()
+ * @fn  void CommandMap::clearMap() noexcept
  *
  * @brief   Clears the map.
- *
  *
  * @date    3/22/2016
  **************************************************************************************************/
 
-void CommandMap::clearMap()
+void CommandMap::clearMap() noexcept
 {
 	_commandStringMap.clear();
 	_messageMap.clear();

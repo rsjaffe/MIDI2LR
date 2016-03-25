@@ -89,7 +89,7 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(const std::shared_ptr<const CommandMap>  mapCommand, const std::shared_ptr<MIDIProcessor>  midiProcessor);
+	void Init(std::shared_ptr<CommandMap>&  mapCommand, std::shared_ptr<MIDIProcessor>&  midiProcessor);
 private:
     const static unordered_map<String, KeyPress> KPMappings;
 	std::shared_ptr<const CommandMap> m_commandMap;

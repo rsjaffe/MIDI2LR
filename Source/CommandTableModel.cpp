@@ -21,15 +21,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 /**********************************************************************************************//**
- * @fn  CommandTableModel::CommandTableModel()
+ * @fn  CommandTableModel::CommandTableModel() noexcept
  *
  * @brief   Default constructor.
- *
  *
  * @date    3/22/2016
  **************************************************************************************************/
 
-CommandTableModel::CommandTableModel() : _rows(0), m_commandMap(nullptr)
+CommandTableModel::CommandTableModel() noexcept : _rows(0), m_commandMap(nullptr)
 {
 }
 
@@ -298,17 +297,16 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
 }
 
 /**********************************************************************************************//**
- * @fn  void CommandTableModel::Init(CommandMap *mapCommand)
+ * @fn  void CommandTableModel::Init(std::shared_ptr<CommandMap>& mapCommand)
  *
  * @brief   Inits the given map command.
- *
  *
  * @date    3/22/2016
  *
  * @param [in,out]  mapCommand  If non-null, the map command.
  **************************************************************************************************/
 
-void CommandTableModel::Init(std::shared_ptr<CommandMap> mapCommand)
+void CommandTableModel::Init(std::shared_ptr<CommandMap>& mapCommand) noexcept
 {
 	//copy the pointer
 	m_commandMap = mapCommand;

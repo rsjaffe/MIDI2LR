@@ -48,7 +48,7 @@ public:
 	virtual void buttonClicked(Button* button) override;
 
 	virtual void sliderValueChanged(Slider* slider);
-	void Init(std::shared_ptr<SettingsManager>settingsManager);
+	void Init(std::shared_ptr<SettingsManager>& settingsManager);
 private:
 	ToggleButton _pickupEnabled;
 	Label _pickupLabel;

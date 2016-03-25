@@ -61,8 +61,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
             JUCEApplication::getInstance()->systemRequestedQuit();
         }
 
-		void Init(std::shared_ptr<CommandMap> commandMap, std::shared_ptr<LR_IPC_IN> in, std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<MIDIProcessor> midiProcessor, 
-            std::shared_ptr<ProfileManager> profileManager, std::shared_ptr<SettingsManager> settingsManager, std::shared_ptr<MIDISender> midiSender);
+		void Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, 
+            std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender);
 
         /* Note: Be careful if you override any DocumentWindow methods - the base
            class uses a lot of them, so by overriding you might break its functionality.

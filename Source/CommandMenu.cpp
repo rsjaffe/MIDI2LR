@@ -155,17 +155,16 @@ void CommandMenu::setSelectedItem(unsigned int idx)
 }
 
 /**********************************************************************************************//**
- * @fn  void CommandMenu::Init(CommandMap *mapCommand)
+ * @fn  void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand)
  *
  * @brief   Inits the given map command.
- *
  *
  * @date    3/22/2016
  *
  * @param [in,out]  mapCommand  If non-null, the map command.
  **************************************************************************************************/
 
-void CommandMenu::Init(std::shared_ptr<CommandMap> mapCommand)
+void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand)
 {
     //copy the pointer
     m_commandMap = mapCommand;

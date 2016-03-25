@@ -20,30 +20,29 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 
 /**********************************************************************************************//**
- * @fn  VersionChecker::VersionChecker()
+ * @fn  VersionChecker::VersionChecker() noexcept
  *
  * @brief   Default constructor.
- *
  *
  * @date    3/22/2016
  **************************************************************************************************/
 
-VersionChecker::VersionChecker() : Thread("VersionChecker")
+VersionChecker::VersionChecker() noexcept : Thread("VersionChecker")
 {
 
 }
 
 /**********************************************************************************************//**
- * @fn  void VersionChecker::Init(std::shared_ptr<SettingsManager> settingsManager)
+ * @fn  void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager)
  *
  * @brief   Inits the given settings manager.
  *
  * @date    3/22/2016
  *
- * @param   settingsManager If non-null, manager for settings.
+ * @param [in,out]  settingsManager If non-null, manager for settings.
  **************************************************************************************************/
 
-void VersionChecker::Init(std::shared_ptr<SettingsManager> settingsManager)
+void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager)
 {
     m_settingsManager = settingsManager;
 }

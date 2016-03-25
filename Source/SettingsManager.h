@@ -58,7 +58,7 @@ public:
     void setLastVersionFound(int versionnumber);
     int getLastVersionFound() const;
 
-	void Init(std::shared_ptr<LR_IPC_OUT> lr_IPC_OUT, std::shared_ptr<ProfileManager> profileManager);
+	void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager);
 private:
 
     std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;

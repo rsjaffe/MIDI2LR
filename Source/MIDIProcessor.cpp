@@ -19,17 +19,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDIProcessor.h"
 
-
 /**********************************************************************************************//**
- * @fn  MIDIProcessor::MIDIProcessor()
+ * @fn  MIDIProcessor::MIDIProcessor() noexcept
  *
  * @brief   Default constructor.
- *
  *
  * @date    3/21/2016
  **************************************************************************************************/
 
-MIDIProcessor::MIDIProcessor()
+MIDIProcessor::MIDIProcessor() noexcept
 {
     
 }

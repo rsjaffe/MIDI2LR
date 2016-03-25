@@ -47,7 +47,7 @@ public:
 
 	// ButtonListener interface
 	virtual void buttonClicked(Button* button) override;
-	void Init(std::shared_ptr<CommandMap> mapCommand);
+	void Init(std::shared_ptr<CommandMap>& mapCommand);
 private:
 	MIDI_Message _msg;
 	size_t _selectedItem;

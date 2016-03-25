@@ -76,7 +76,7 @@ void SettingsManager::setPickupEnabled(bool enabled)
 }
 
 /**********************************************************************************************//**
- * @fn  bool SettingsManager::getPickupEnabled() const
+ * @fn  bool SettingsManager::getPickupEnabled() const noexcept
  *
  * @brief   Gets pickup enabled.
  *
@@ -85,13 +85,13 @@ void SettingsManager::setPickupEnabled(bool enabled)
  * @return  true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool SettingsManager::getPickupEnabled() const
+bool SettingsManager::getPickupEnabled() const noexcept
 {
 	return _propertiesFile->getBoolValue("pickup_enabled", true);
 }
 
 /**********************************************************************************************//**
- * @fn  String SettingsManager::getProfileDirectory() const
+ * @fn  String SettingsManager::getProfileDirectory() const noexcept
  *
  * @brief   Gets profile directory.
  *
@@ -100,7 +100,7 @@ bool SettingsManager::getPickupEnabled() const
  * @return  The profile directory.
  **************************************************************************************************/
 
-String SettingsManager::getProfileDirectory() const
+String SettingsManager::getProfileDirectory() const noexcept
 {
 	return _propertiesFile->getValue("profile_directory");
 }
@@ -224,17 +224,17 @@ void SettingsManager::setLastVersionFound(int newversion)
 }
 
 /**********************************************************************************************//**
- * @fn  void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>lr_IPC_OUT, std::shared_ptr<ProfileManager> profileManager)
+ * @fn  void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
  *
  * @brief   S.
  *
  * @date    3/22/2016
  *
- * @param   parameter1      If non-null, the lr ipc out.
- * @param   profileManager  If non-null, manager for profile.
+ * @param [in,out]  lr_IPC_OUT      If non-null, the lr ipc out.
+ * @param [in,out]  profileManager  If non-null, manager for profile.
  **************************************************************************************************/
 
-void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>lr_IPC_OUT, std::shared_ptr<ProfileManager> profileManager)
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
 {
 	m_lr_IPC_OUT = lr_IPC_OUT;
 
