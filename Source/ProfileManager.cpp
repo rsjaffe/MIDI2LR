@@ -125,9 +125,9 @@ void ProfileManager::switchToProfile(const String& profile)
 
 	if (profileFile.exists())
 	{
-		ScopedPointer<XmlElement> elem = XmlDocument::parse(profileFile);
+        std::unique_ptr<XmlElement> elem{ XmlDocument::parse(profileFile) };
 		for (auto listener : _listeners)
-			listener->profileChanged(elem, profile);
+			listener->profileChanged(elem.get(), profile);
         
 		if (m_lr_IPC_OUT)
 		{

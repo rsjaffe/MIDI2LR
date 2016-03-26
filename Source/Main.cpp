@@ -57,15 +57,8 @@ public:
         m_settingsManager = std::make_shared<SettingsManager>();
         m_midiProcessor = std::make_shared<MIDIProcessor>();
         m_midiSender = std::make_shared<MIDISender>();
-
-        m_lr_IPC_OUT = std::shared_ptr<LR_IPC_OUT>(new LR_IPC_OUT, [](LR_IPC_OUT* me)
-        {
-            me->shutdown();
-        });
-        m_lr_IPC_IN = std::shared_ptr<LR_IPC_IN>(new LR_IPC_IN, [](LR_IPC_IN* me)
-        {
-            me->shutdown();
-        });
+        m_lr_IPC_OUT = std::shared_ptr<LR_IPC_OUT>(new LR_IPC_OUT, [](LR_IPC_OUT* me){me->shutdown();});
+        m_lr_IPC_IN = std::shared_ptr<LR_IPC_IN>(new LR_IPC_IN, [](LR_IPC_IN* me){me->shutdown();});
     }
 
 	const String getApplicationName() override { return ProjectInfo::projectName; }
@@ -77,22 +70,17 @@ public:
 	{
 		if (commandLine != SHUT_DOWN_STRING)
 		{
-			
 			m_midiProcessor->Init();
 			m_midiSender->Init();
-			
 			m_lr_IPC_OUT->Init(m_commandMap, m_midiProcessor);
 			//set the reference to the command map
 			m_profileManager->Init(m_lr_IPC_OUT, m_commandMap, m_midiProcessor);
 			//init the IPC_In
 			m_lr_IPC_IN->Init(m_commandMap, m_profileManager, m_midiSender);
-
 			// init the settings manager
 			m_settingsManager->Init(m_lr_IPC_OUT, m_profileManager);
-
-	        mainWindow = new MainWindow(getApplicationName());
+	        mainWindow = std::make_unique<MainWindow>(getApplicationName());
 		    mainWindow->Init(m_commandMap, m_lr_IPC_IN, m_lr_IPC_OUT, m_midiProcessor, m_profileManager, m_settingsManager, m_midiSender);
-			
 		    // Check for latest version
             _versionChecker.Init(m_settingsManager);
 		    _versionChecker.startThread();
@@ -136,21 +124,16 @@ public:
 		// When another instance of the app is launched while this one is running,
 		// this method is invoked, and the commandLine parameter tells you what
 		// the other instance's command-line arguments were.
-
 		if (commandLine == SHUT_DOWN_STRING)
 		{
 			//shutting down
 			this->shutdown();
 		}
-
 	}
 
-
 private:
-	ScopedPointer<MainWindow> mainWindow;
+	std::unique_ptr<MainWindow> mainWindow;
 	VersionChecker _versionChecker;
-
-
     std::shared_ptr<CommandMap> m_commandMap;
     std::shared_ptr<LR_IPC_IN> m_lr_IPC_IN;
     std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;

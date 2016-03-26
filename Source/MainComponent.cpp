@@ -338,7 +338,7 @@ void MainContentComponent::buttonClicked(Button* button)
 
         if (dialogBox.show())
         {
-            ScopedPointer<XmlElement> elem = XmlDocument::parse(browser.getSelectedFile(0));
+            std::unique_ptr<XmlElement> elem{ XmlDocument::parse(browser.getSelectedFile(0)) };
             if (elem)
             {
                 File newprofile = browser.getSelectedFile(0);
@@ -349,7 +349,7 @@ void MainContentComponent::buttonClicked(Button* button)
 					m_lr_IPC_OUT->sendCommand(command);
 				}
                 _profileNameLabel.setText(newprofile.getFileName(), NotificationType::dontSendNotification);
-                _commandTableModel.buildFromXml(elem);
+                _commandTableModel.buildFromXml(elem.get());
                 _commandTable.updateContent();
                 _commandTable.repaint();
             }
@@ -575,10 +575,10 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::sh
 		if (m_settingsManager->getProfileDirectory().isEmpty())
 		{
 			File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-			ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
+            std::unique_ptr<XmlElement> elem{ XmlDocument::parse(defaultProfile) };
 			if (elem)
 			{
-				_commandTableModel.buildFromXml(elem);
+				_commandTableModel.buildFromXml(elem.get());
 				_commandTable.updateContent();
 			}
 		}

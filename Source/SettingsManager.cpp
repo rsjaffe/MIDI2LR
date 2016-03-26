@@ -47,7 +47,7 @@ SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nul
 	opts.osxLibrarySubFolder = "Application Support/MIDI2LR";
 	opts.storageFormat = PropertiesFile::storeAsXML;
 
-	_propertiesFile = new PropertiesFile(opts);
+	_propertiesFile = std::make_unique<PropertiesFile>(opts);
 
 }
 

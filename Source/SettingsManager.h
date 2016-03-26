@@ -63,7 +63,7 @@ private:
 
     std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
     std::shared_ptr<ProfileManager> m_profileManager;
-	ScopedPointer<PropertiesFile> _propertiesFile;
+	std::unique_ptr<PropertiesFile> _propertiesFile;
 };
 
 
