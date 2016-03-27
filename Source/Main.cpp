@@ -37,7 +37,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "MIDISender.h"
 
-#define SHUT_DOWN_STRING "--LRSHUTDOWN"
+constexpr const auto ShutDownString{ "--LRSHUTDOWN" };
 
 /**********************************************************************************************//**
  * @class   MIDI2LRApplication
@@ -68,7 +68,7 @@ public:
 	//==============================================================================
 	void initialise(const String& commandLine) override
 	{
-		if (commandLine != SHUT_DOWN_STRING)
+		if (commandLine != ShutDownString)
 		{
 			m_midiProcessor->Init();
 			m_midiSender->Init();
@@ -124,7 +124,7 @@ public:
 		// When another instance of the app is launched while this one is running,
 		// this method is invoked, and the commandLine parameter tells you what
 		// the other instance's command-line arguments were.
-		if (commandLine == SHUT_DOWN_STRING)
+		if (commandLine == ShutDownString)
 		{
 			//shutting down
 			this->shutdown();

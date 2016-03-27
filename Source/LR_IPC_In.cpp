@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 //define the communication port
 
 /**********************************************************************************************//**
- * @def LR_IN_PORT
+ * @def LrInPort
  *
  * @brief   A macro that defines lr in port.
  *
@@ -31,7 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @date    3/21/2016
  **************************************************************************************************/
 
-#define LR_IN_PORT 58764
+constexpr auto LrInPort = 58764;
 
 /**********************************************************************************************//**
  * @fn  LR_IPC_IN::LR_IPC_IN()
@@ -80,7 +80,7 @@ void LR_IPC_IN::timerCallback()
 {
 	if (!isConnected())
 	{
-		if (connect("127.0.0.1", LR_IN_PORT, 100))
+		if (connect("127.0.0.1", LrInPort, 100))
 			startThread();
 	}
 }
