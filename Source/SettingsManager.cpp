@@ -20,15 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "ProfileManager.h"
 
-/**********************************************************************************************//**
- * @def AUTOHIDE_SECTION
- *
- * @brief   A macro that defines autohide section.
- *
- * @date    3/22/2016
- **************************************************************************************************/
 
-#define AUTOHIDE_SECTION "autohide"
+constexpr const auto AutoHideSection{ "autohide" };
 
 /**********************************************************************************************//**
  * @fn  SettingsManager::SettingsManager()
@@ -66,7 +59,7 @@ void SettingsManager::setPickupEnabled(bool enabled)
 	_propertiesFile->setValue("pickup_enabled", enabled);
 	_propertiesFile->saveIfNeeded();
 
-	String command = String::formatted("Pickup %d\n", enabled);
+	auto command = String::formatted("Pickup %d\n", enabled);
 
 	if (m_lr_IPC_OUT)
 	{
@@ -137,7 +130,7 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 
 void SettingsManager::connected()
 {
-	String command = String::formatted("Pickup %d\n", getPickupEnabled());
+	auto command = String::formatted("Pickup %d\n", getPickupEnabled());
 
 	if (m_lr_IPC_OUT)
 	{
@@ -171,7 +164,7 @@ void SettingsManager::disconnected()
 
 int SettingsManager::getAutoHideTime() const
 {
-	return _propertiesFile->getIntValue(AUTOHIDE_SECTION, 0);
+	return _propertiesFile->getIntValue(AutoHideSection, 0);
 
 }
 
@@ -187,7 +180,7 @@ int SettingsManager::getAutoHideTime() const
 
 void SettingsManager::setAutoHideTime(int newTime)
 {
-	_propertiesFile->setValue(AUTOHIDE_SECTION, newTime);
+	_propertiesFile->setValue(AutoHideSection, newTime);
 	_propertiesFile->saveIfNeeded();
 
 }

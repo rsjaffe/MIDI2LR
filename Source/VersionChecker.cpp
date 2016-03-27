@@ -96,6 +96,6 @@ void VersionChecker::handleAsyncUpdate()
     dwOpt.content->setSize(300, 100);
     ((HyperlinkButton *)dwOpt.content.get())->setFont(Font(18.f), false);
     dwOpt.escapeKeyTriggersCloseButton = true;
-    _dialog = dwOpt.create();
+    _dialog.reset(dwOpt.create());
     _dialog->setVisible(true);
 }

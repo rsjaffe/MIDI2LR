@@ -328,7 +328,7 @@ void MainContentComponent::buttonClicked(Button* button)
         dwOpt.content->setSize(400, 300);
         dwOpt.escapeKeyTriggersCloseButton = true;
         dwOpt.useNativeTitleBar = false;
-        _settingsDialog = dwOpt.create();
+        _settingsDialog.reset(dwOpt.create());
         _settingsDialog->setVisible(true);
     }
 }

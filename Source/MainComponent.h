@@ -104,7 +104,7 @@ private:
     CommandTableModel _commandTableModel;
     Label _profileNameLabel;
 
-    ScopedPointer<DialogWindow> _settingsDialog;
+    std::unique_ptr<DialogWindow> _settingsDialog;
 //  SystemTrayIconComponent _systemTrayComponent;
 
     String _lastCommand;

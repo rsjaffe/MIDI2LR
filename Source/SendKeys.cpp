@@ -66,9 +66,9 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
         languageID = GetKeyboardLayout(0);
     }
     // Translate key code to keyboard-dependent scan code
-    const SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
-    const WORD vk = LOBYTE(vkCodeAndShift);
-    const WORD vk_modifiers = HIBYTE(vkCodeAndShift);
+    const auto vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
+    const auto vk = LOBYTE(vkCodeAndShift);
+    const auto vk_modifiers = HIBYTE(vkCodeAndShift);
 
     // input event.
     INPUT ip;

@@ -121,7 +121,7 @@ void ProfileManager::switchToProfile(int profileIdx)
 
 void ProfileManager::switchToProfile(const String& profile)
 {
-	File profileFile = _profileLocation.getChildFile(profile);
+	auto profileFile = _profileLocation.getChildFile(profile);
 
 	if (profileFile.exists())
 	{
@@ -131,7 +131,7 @@ void ProfileManager::switchToProfile(const String& profile)
         
 		if (m_lr_IPC_OUT)
 		{
-			String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+			auto command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
 			m_lr_IPC_OUT->sendCommand(command);
 			command = String("ChangedToFile ") + profile + String("\n");
 			m_lr_IPC_OUT->sendCommand(command);
@@ -277,7 +277,7 @@ void ProfileManager::handleAsyncUpdate()
 
 void ProfileManager::connected()
 {
-    String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+    auto command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
 	if (m_lr_IPC_OUT)
 	{
 		m_lr_IPC_OUT->sendCommand(command);

@@ -48,7 +48,7 @@ public:
 
 private:
 	int _newVersion;
-	ScopedPointer<DialogWindow> _dialog;
+	std::unique_ptr<DialogWindow> _dialog;
     std::shared_ptr<SettingsManager> m_settingsManager;
 };
 
