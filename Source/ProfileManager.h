@@ -48,7 +48,7 @@ class ProfileManager : public MIDICommandListener,
 	public AsyncUpdater, public LRConnectionListener
 {
 public:	
-	ProfileManager();
+	ProfileManager() noexcept;
 	virtual ~ProfileManager() {};
 	void addListener(ProfileChangeListener *listener);
 
@@ -56,7 +56,7 @@ public:
 	void setProfileDirectory(const File& dir);
 
 	// returns an array of profile names
-	const StringArray& getMenuItems() const;
+	const StringArray& getMenuItems() const noexcept;
 
 	// switches to a profile defined by an index
 	void switchToProfile(int profileIdx);
@@ -80,7 +80,7 @@ public:
     // LRConnectionListener interface
     virtual void connected() override;
     virtual void disconnected() override;	
-	void Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor);
+	void Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor);
 private:
 	enum class SWITCH_STATE
 	{
@@ -99,8 +99,8 @@ private:
 	Array<ProfileChangeListener *> _listeners;
 	int _currentProfileIdx;
 	SWITCH_STATE _switchState;
-	CommandMap *m_commandMap;
-	LR_IPC_OUT *m_lr_IPC_OUT;
+    std::shared_ptr<CommandMap> m_commandMap;
+    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
 };
 
 

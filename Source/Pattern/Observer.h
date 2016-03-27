@@ -39,7 +39,7 @@ class Subject;
 class Observer
 {
 public:
-	Observer() {}
+	Observer() noexcept {}
 	virtual ~Observer() {}
 	// the changed function is pure virtual as the overloaded object needs to implement it.
 	virtual void Changed(Subject *changed) = 0;

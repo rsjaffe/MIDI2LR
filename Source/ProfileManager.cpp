@@ -21,14 +21,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 /**********************************************************************************************//**
- * @fn  ProfileManager::ProfileManager()
+ * @fn  ProfileManager::ProfileManager() noexcept
  *
  * @brief   Default constructor.
  *
  * @date    3/22/2016
  **************************************************************************************************/
 
-ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
+ProfileManager::ProfileManager() noexcept : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
 {
 	
    
@@ -76,7 +76,7 @@ void ProfileManager::setProfileDirectory(const File& dir)
 }
 
 /**********************************************************************************************//**
- * @fn  const StringArray& ProfileManager::getMenuItems() const
+ * @fn  const StringArray& ProfileManager::getMenuItems() const noexcept
  *
  * @brief   Gets menu items.
  *
@@ -85,7 +85,7 @@ void ProfileManager::setProfileDirectory(const File& dir)
  * @return  The menu items.
  **************************************************************************************************/
 
-const StringArray& ProfileManager::getMenuItems() const
+const StringArray& ProfileManager::getMenuItems() const noexcept
 {
 	return _profiles;
 }
@@ -125,9 +125,9 @@ void ProfileManager::switchToProfile(const String& profile)
 
 	if (profileFile.exists())
 	{
-		ScopedPointer<XmlElement> elem = XmlDocument::parse(profileFile);
+        std::unique_ptr<XmlElement> elem{ XmlDocument::parse(profileFile) };
 		for (auto listener : _listeners)
-			listener->profileChanged(elem, profile);
+			listener->profileChanged(elem.get(), profile);
         
 		if (m_lr_IPC_OUT)
 		{
@@ -309,7 +309,7 @@ void ProfileManager::disconnected()
  * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
  **************************************************************************************************/
 
-void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor)
+void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor)
 {
 	//copy the pointers
 	m_commandMap = commandMap;

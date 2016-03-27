@@ -47,7 +47,7 @@ SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nul
 	opts.osxLibrarySubFolder = "Application Support/MIDI2LR";
 	opts.storageFormat = PropertiesFile::storeAsXML;
 
-	_propertiesFile = new PropertiesFile(opts);
+	_propertiesFile = std::make_unique<PropertiesFile>(opts);
 
 }
 
@@ -76,7 +76,7 @@ void SettingsManager::setPickupEnabled(bool enabled)
 }
 
 /**********************************************************************************************//**
- * @fn  bool SettingsManager::getPickupEnabled() const
+ * @fn  bool SettingsManager::getPickupEnabled() const noexcept
  *
  * @brief   Gets pickup enabled.
  *
@@ -85,13 +85,13 @@ void SettingsManager::setPickupEnabled(bool enabled)
  * @return  true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool SettingsManager::getPickupEnabled() const
+bool SettingsManager::getPickupEnabled() const noexcept
 {
 	return _propertiesFile->getBoolValue("pickup_enabled", true);
 }
 
 /**********************************************************************************************//**
- * @fn  String SettingsManager::getProfileDirectory() const
+ * @fn  String SettingsManager::getProfileDirectory() const noexcept
  *
  * @brief   Gets profile directory.
  *
@@ -100,7 +100,7 @@ bool SettingsManager::getPickupEnabled() const
  * @return  The profile directory.
  **************************************************************************************************/
 
-String SettingsManager::getProfileDirectory() const
+String SettingsManager::getProfileDirectory() const noexcept
 {
 	return _propertiesFile->getValue("profile_directory");
 }
@@ -224,7 +224,7 @@ void SettingsManager::setLastVersionFound(int newversion)
 }
 
 /**********************************************************************************************//**
- * @fn  void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
+ * @fn  void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
  *
  * @brief   S.
  *
@@ -234,7 +234,7 @@ void SettingsManager::setLastVersionFound(int newversion)
  * @param [in,out]  profileManager  If non-null, manager for profile.
  **************************************************************************************************/
 
-void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
 {
 	m_lr_IPC_OUT = lr_IPC_OUT;
 

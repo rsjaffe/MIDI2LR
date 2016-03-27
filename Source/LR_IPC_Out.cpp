@@ -21,18 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-
-
-/**********************************************************************************************//**
- * @def LR_OUT_PORT
- *
- * @brief   A macro that defines lr out port.
- *
- *
- * @date    3/20/2016
- **************************************************************************************************/
-
-#define LR_OUT_PORT 58763 
+constexpr auto LrOutPort = 58763;
 
 const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #ifdef _WIN32
@@ -190,6 +179,7 @@ void LR_IPC_OUT::shutdown()
 {
     stopTimer(),
         disconnect();
+    m_commandMap.reset();
 }
 
 /**********************************************************************************************//**
@@ -204,21 +194,21 @@ void LR_IPC_OUT::shutdown()
 void LR_IPC_OUT::timerCallback()
 {
     if (!isConnected())
-        connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
+        connectToSocket("127.0.0.1", LrOutPort, 100);
 }
 
 /**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::Init(const CommandMap * const mapCommand, MIDIProcessor * const midiProcessor)
+ * @fn  void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<MIDIProcessor>& midiProcessor)
  *
  * @brief   S.
  *
  * @date    3/20/2016
  *
- * @param   mapCommand              If non-null, the map command.
+ * @param [in,out]  mapCommand      If non-null, the map command.
  * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
  **************************************************************************************************/
 
-void LR_IPC_OUT::Init(const CommandMap * const mapCommand, MIDIProcessor * const midiProcessor)
+void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<MIDIProcessor>& midiProcessor)
 {
     //copy the pointer
     m_commandMap = mapCommand;

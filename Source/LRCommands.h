@@ -65,7 +65,7 @@ public:
 	static int getIndexOfCommand(const String& command);
 
 private:
-	LRCommandList();
+	LRCommandList() noexcept;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED

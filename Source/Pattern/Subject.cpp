@@ -21,15 +21,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Subject.h"
 
 /**********************************************************************************************//**
- * @fn  Subject::Subject()
+ * @fn  Subject::Subject() noexcept
  *
  * @brief   Default constructor.
- *
  *
  * @date    3/22/2016
  **************************************************************************************************/
 
-Subject::Subject()
+Subject::Subject() noexcept
 {
 }
 

@@ -36,13 +36,13 @@ namespace MIDI2LR
         static std::atomic_int objects_created;
         static std::atomic_int objects_alive;
 
-        counter()
+        counter() noexcept
         {
             ++objects_created;
             ++objects_alive;
         }
 
-        counter(const counter&)
+        counter(const counter&) noexcept
         {
             ++objects_created;
             ++objects_alive;

@@ -23,48 +23,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SettingsComponent.h"
 
-/**********************************************************************************************//**
- * @def MAIN_WIDTH
- *
- * @brief   A macro that defines main width.
- *
- * @date    3/22/2016
- **************************************************************************************************/
-
-#define MAIN_WIDTH 400
-
-/**********************************************************************************************//**
- * @def MAIN_HEIGHT
- *
- * @brief   A macro that defines main height.
- *
- * @date    3/22/2016
- **************************************************************************************************/
-
-#define MAIN_HEIGHT 650
-
-/**********************************************************************************************//**
- * @def MAIN_LEFT
- *
- * @brief   A macro that defines main left.
- *
- * @date    3/22/2016
- **************************************************************************************************/
-
-#define MAIN_LEFT 20
-
-/**********************************************************************************************//**
- * @def SPACEBETWEENBUTTON
- *
- * @brief   A macro that defines spacebetweenbutton.
- *
- * @date    3/22/2016
- **************************************************************************************************/
-
-#define SPACEBETWEENBUTTON 10
-
-
-//==============================================================================
+constexpr auto MainWidth = 400;
+constexpr auto MainHeight = 650;
+constexpr auto MainLeft = 20;
+constexpr auto SpaceBetweenButton = 10;
 
 /**********************************************************************************************//**
  * @fn  MainContentComponent::MainContentComponent(): ResizableLayout(this), _titleLabel("Title", "MIDI2LR"), _connectionLabel("Connection", "Not connected to LR"), _commandLabel("Command", ""), _commandTable("Table", nullptr), _commandTableModel(), _rescanButton("Rescan MIDI devices"), _removeRowButton("Remove selected row"), _saveButton("Save"), _loadButton("Load"), _versionLabel("Version", "Version " + String(ProjectInfo::versionString)), _settingsButton("Settings"), _profileNameLabel("ProfileNameLabel", ""), m_currentStatus("CurrentStatus", "no extra info"), m_commandMap(nullptr), m_lr_IPC_IN(nullptr), m_lr_IPC_OUT(nullptr), m_settingsManager(nullptr), m_midiProcessor(nullptr), m_midiSender(nullptr)
@@ -338,7 +300,7 @@ void MainContentComponent::buttonClicked(Button* button)
 
         if (dialogBox.show())
         {
-            ScopedPointer<XmlElement> elem = XmlDocument::parse(browser.getSelectedFile(0));
+            std::unique_ptr<XmlElement> elem{ XmlDocument::parse(browser.getSelectedFile(0)) };
             if (elem)
             {
                 File newprofile = browser.getSelectedFile(0);
@@ -349,7 +311,7 @@ void MainContentComponent::buttonClicked(Button* button)
 					m_lr_IPC_OUT->sendCommand(command);
 				}
                 _profileNameLabel.setText(newprofile.getFileName(), NotificationType::dontSendNotification);
-                _commandTableModel.buildFromXml(elem);
+                _commandTableModel.buildFromXml(elem.get());
                 _commandTable.updateContent();
                 _commandTable.repaint();
             }
@@ -421,7 +383,7 @@ void MainContentComponent::SetTimerText(int timeValue)
 }
 
 /**********************************************************************************************//**
- * @fn  void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
+ * @fn  void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
  *
  * @brief   S.
  *
@@ -436,7 +398,9 @@ void MainContentComponent::SetTimerText(int timeValue)
  * @param [in,out]  midiSender      If non-null, the MIDI sender.
  **************************************************************************************************/
 
-void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
+void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, 
+    std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager, 
+    std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
 {
 	//copy the pointers
 	m_commandMap = commandMap;
@@ -468,20 +432,20 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	}
 
 	//Set the component size
-	setSize(MAIN_WIDTH, MAIN_HEIGHT);
+	setSize(MainWidth, MainHeight);
 
 	// Main title
 	_titleLabel.setFont(Font(36.f, Font::bold));
 	_titleLabel.setEditable(false);
 	_titleLabel.setColour(Label::textColourId, Colours::darkgrey);
 	_titleLabel.setComponentEffect(&_titleShadow);
-	_titleLabel.setBounds(MAIN_LEFT, 10, MAIN_WIDTH - 2 * MAIN_LEFT, 30);
+	_titleLabel.setBounds(MainLeft, 10, MainWidth - 2 * MainLeft, 30);
 	addToLayout(&_titleLabel, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_titleLabel);
 
 	// Version label
 	SetLabelSettings(_versionLabel);
-	_versionLabel.setBounds(MAIN_LEFT, 40, MAIN_WIDTH - 2 * MAIN_LEFT, 10);
+	_versionLabel.setBounds(MainLeft, 40, MainWidth - 2 * MainLeft, 10);
 	addToLayout(&_versionLabel, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_versionLabel);
 
@@ -492,28 +456,28 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	_connectionLabel.setColour(Label::backgroundColourId, Colours::red);
 	_connectionLabel.setColour(Label::textColourId, Colours::black);
 	_connectionLabel.setJustificationType(Justification::centred);
-	_connectionLabel.setBounds(200, 15, MAIN_WIDTH - MAIN_LEFT - 200, 20);
+	_connectionLabel.setBounds(200, 15, MainWidth - MainLeft - 200, 20);
 	addToLayout(&_connectionLabel, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_connectionLabel);
 
 	//get the button width
-	long buttonWidth = (MAIN_WIDTH - 2 * MAIN_LEFT - SPACEBETWEENBUTTON * 2) / 3;
+	long buttonWidth = (MainWidth - 2 * MainLeft - SpaceBetweenButton * 2) / 3;
 
 	// Load button
 	_loadButton.addListener(this);
-	_loadButton.setBounds(MAIN_LEFT, 60, buttonWidth, 20);
+	_loadButton.setBounds(MainLeft, 60, buttonWidth, 20);
 	addToLayout(&_loadButton, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_loadButton);
 
 	// Save button
 	_saveButton.addListener(this);
-	_saveButton.setBounds(MAIN_LEFT + buttonWidth + SPACEBETWEENBUTTON, 60, buttonWidth, 20);
+	_saveButton.setBounds(MainLeft + buttonWidth + SpaceBetweenButton, 60, buttonWidth, 20);
 	addToLayout(&_saveButton, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_saveButton);
 
 	// Settings button
 	_settingsButton.addListener(this);
-	_settingsButton.setBounds(MAIN_LEFT + buttonWidth * 2 + SPACEBETWEENBUTTON * 2, 60, buttonWidth, 20);
+	_settingsButton.setBounds(MainLeft + buttonWidth * 2 + SpaceBetweenButton * 2, 60, buttonWidth, 20);
 	addToLayout(&_settingsButton, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_settingsButton);
 
@@ -521,17 +485,17 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 
 	// Command Table
 	_commandTable.setModel(&_commandTableModel);
-	_commandTable.setBounds(MAIN_LEFT, 100, MAIN_WIDTH - MAIN_LEFT * 2, MAIN_HEIGHT - 210);
+	_commandTable.setBounds(MainLeft, 100, MainWidth - MainLeft * 2, MainHeight - 210);
 	addToLayout(&_commandTable, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_commandTable);
 
 
-	long labelWidth = (MAIN_WIDTH - MAIN_LEFT * 2) / 2;
+	long labelWidth = (MainWidth - MainLeft * 2) / 2;
 
 
 	// Profile name label
 	SetLabelSettings(_profileNameLabel);
-	_profileNameLabel.setBounds(MAIN_LEFT, MAIN_HEIGHT - 100, labelWidth, 20);
+	_profileNameLabel.setBounds(MainLeft, MainHeight - 100, labelWidth, 20);
 	addToLayout(&_profileNameLabel, anchorMidLeft, anchorMidRight);
 	_profileNameLabel.setJustificationType(Justification::centred);
 	addAndMakeVisible(_profileNameLabel);
@@ -540,25 +504,25 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 	_commandLabel.setFont(Font(12.f, Font::bold));
 	_commandLabel.setEditable(false);
 	_commandLabel.setColour(Label::textColourId, Colours::darkgrey);
-	_commandLabel.setBounds(MAIN_LEFT + labelWidth, MAIN_HEIGHT - 100, labelWidth, 20);
+	_commandLabel.setBounds(MainLeft + labelWidth, MainHeight - 100, labelWidth, 20);
 	addToLayout(&_commandLabel, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_commandLabel);
 
 	// Remove row button
 	_removeRowButton.addListener(this);
-	_removeRowButton.setBounds(MAIN_LEFT, MAIN_HEIGHT - 75, MAIN_WIDTH - MAIN_LEFT * 2, 20);
+	_removeRowButton.setBounds(MainLeft, MainHeight - 75, MainWidth - MainLeft * 2, 20);
 	addToLayout(&_removeRowButton, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_removeRowButton);
 
 
 	// Rescan MIDI button
 	_rescanButton.addListener(this);
-	_rescanButton.setBounds(MAIN_LEFT, MAIN_HEIGHT - 50, MAIN_WIDTH - MAIN_LEFT * 2, 20);
+	_rescanButton.setBounds(MainLeft, MainHeight - 50, MainWidth - MainLeft * 2, 20);
 	addToLayout(&_rescanButton, anchorMidLeft, anchorMidRight);
 	addAndMakeVisible(_rescanButton);
 
 	// adding the current status label, used for counting down.
-	m_currentStatus.setBounds(MAIN_LEFT, MAIN_HEIGHT - 30, MAIN_WIDTH - MAIN_LEFT * 2, 20);
+	m_currentStatus.setBounds(MainLeft, MainHeight - 30, MainWidth - MainLeft * 2, 20);
 	addToLayout(&m_currentStatus, anchorMidLeft, anchorMidRight);
 	m_currentStatus.setJustificationType(Justification::centred);
 	SetLabelSettings(m_currentStatus);
@@ -573,10 +537,10 @@ void MainContentComponent::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OU
 		if (m_settingsManager->getProfileDirectory().isEmpty())
 		{
 			File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-			ScopedPointer<XmlElement> elem = XmlDocument::parse(defaultProfile);
+            std::unique_ptr<XmlElement> elem{ XmlDocument::parse(defaultProfile) };
 			if (elem)
 			{
-				_commandTableModel.buildFromXml(elem);
+				_commandTableModel.buildFromXml(elem.get());
 				_commandTable.updateContent();
 			}
 		}

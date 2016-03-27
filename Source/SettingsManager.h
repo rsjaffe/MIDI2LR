@@ -40,11 +40,11 @@ public:
 	SettingsManager();
 	virtual ~SettingsManager() {};
 
-	bool getPickupEnabled() const;
+	bool getPickupEnabled() const noexcept;
 	void setPickupEnabled(bool enabled);
 
 	void setProfileDirectory(const String& profileDirectory);
-	String getProfileDirectory() const;
+	String getProfileDirectory() const noexcept;
 
 
 
@@ -58,12 +58,12 @@ public:
     void setLastVersionFound(int versionnumber);
     int getLastVersionFound() const;
 
-	void Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager);
+	void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager);
 private:
 
-	LR_IPC_OUT *m_lr_IPC_OUT;
-	ProfileManager *m_profileManager;
-	ScopedPointer<PropertiesFile> _propertiesFile;
+    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
+    std::shared_ptr<ProfileManager> m_profileManager;
+	std::unique_ptr<PropertiesFile> _propertiesFile;
 };
 
 

@@ -20,36 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsComponent.h"
 
-/**********************************************************************************************//**
- * @def SETTINGS_LEFT
- *
- * @brief   A macro that defines settings left.
- *
- * @date    3/22/2016
- **************************************************************************************************/
-
-#define SETTINGS_LEFT 20
-
-/**********************************************************************************************//**
- * @def SETTING_WIDTH
- *
- * @brief   A macro that defines setting width.
- *
- * @date    3/22/2016
- **************************************************************************************************/
-
-#define SETTING_WIDTH 400
-
-/**********************************************************************************************//**
- * @def SETTING_HEIGHT
- *
- * @brief   A macro that defines setting height.
- *
- * @date    3/22/2016
- **************************************************************************************************/
-
-#define SETTING_HEIGHT 300
-//==============================================================================
+constexpr auto SettingsLeft = 20;
+constexpr auto SettingsWidth = 400;
+constexpr auto SettingsHeight = 300;
 
 /**********************************************************************************************//**
  * @fn  SettingsComponent::SettingsComponent()
@@ -174,7 +147,7 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
 }
 
 /**********************************************************************************************//**
- * @fn  void SettingsComponent::Init(SettingsManager *settingsManager)
+ * @fn  void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
  *
  * @brief   Inits the given settings manager.
  *
@@ -183,25 +156,25 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
  * @param [in,out]  settingsManager If non-null, manager for settings.
  **************************************************************************************************/
 
-void SettingsComponent::Init(SettingsManager *settingsManager)
+void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
 {
 	//copy the pointer
 	m_settingsManager = settingsManager;
 
 	// for layouts to work you must start at some size
 	// place controls in a location that is initially correct.
-	setSize(SETTING_WIDTH, SETTING_HEIGHT);
+	setSize(SettingsWidth, SettingsHeight);
 
 	if (m_settingsManager)
 	{
 		m_pickupGroup.setText("Pick up");
-		m_pickupGroup.setBounds(0, 0, SETTING_WIDTH, 100);
+		m_pickupGroup.setBounds(0, 0, SettingsWidth, 100);
 		addToLayout(&m_pickupGroup, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(m_pickupGroup);
 
 		_pickupLabel.setFont(Font(12.f, Font::bold));
 		_pickupLabel.setText("Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements", NotificationType::dontSendNotification);
-		_pickupLabel.setBounds(SETTINGS_LEFT, 15, SETTING_WIDTH - 2 * SETTINGS_LEFT, 50);
+		_pickupLabel.setBounds(SettingsLeft, 15, SettingsWidth - 2 * SettingsLeft, 50);
 		addToLayout(&_pickupLabel, anchorMidLeft, anchorMidRight);
 		_pickupLabel.setEditable(false);
 		_pickupLabel.setColour(Label::textColourId, Colours::darkgrey);
@@ -210,24 +183,24 @@ void SettingsComponent::Init(SettingsManager *settingsManager)
 
 		_pickupEnabled.addListener(this);
 		_pickupEnabled.setToggleState(m_settingsManager->getPickupEnabled(), NotificationType::dontSendNotification);
-		_pickupEnabled.setBounds(SETTINGS_LEFT, 60, SETTING_WIDTH - 2 * SETTINGS_LEFT, 32);
+		_pickupEnabled.setBounds(SettingsLeft, 60, SettingsWidth - 2 * SettingsLeft, 32);
 		addToLayout(&_pickupEnabled, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(_pickupEnabled);
 
 		// ---------------------------- profile section -----------------------------------
 		m_profileGroup.setText("Profile");
-		m_profileGroup.setBounds(0, 100, SETTING_WIDTH, 100);
+		m_profileGroup.setBounds(0, 100, SettingsWidth, 100);
 		addToLayout(&m_profileGroup, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(m_profileGroup);
 
 
 		_profileLocationButton.addListener(this);
-		_profileLocationButton.setBounds(SETTINGS_LEFT, 120, SETTING_WIDTH - 2 * SETTINGS_LEFT, 25);
+		_profileLocationButton.setBounds(SettingsLeft, 120, SettingsWidth - 2 * SettingsLeft, 25);
 		addToLayout(&_profileLocationButton, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(_profileLocationButton);
 
 		_profileLocationLabel.setEditable(false);
-		_profileLocationLabel.setBounds(SETTINGS_LEFT, 145, SETTING_WIDTH - 2 * SETTINGS_LEFT, 30);
+		_profileLocationLabel.setBounds(SettingsLeft, 145, SettingsWidth - 2 * SettingsLeft, 30);
 		addToLayout(&_profileLocationLabel, anchorMidLeft, anchorMidRight);
 		_profileLocationLabel.setColour(Label::textColourId, Colours::darkgrey);
 		addAndMakeVisible(_profileLocationLabel);
@@ -236,21 +209,21 @@ void SettingsComponent::Init(SettingsManager *settingsManager)
 
 		////// ----------------------- auto hide section ------------------------------------
 		m_autoHideGroup.setText("Auto hide");
-		m_autoHideGroup.setBounds(0, 200, SETTING_WIDTH, 100);
+		m_autoHideGroup.setBounds(0, 200, SettingsWidth, 100);
 		addToLayout(&m_autoHideGroup, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(m_autoHideGroup);
 
 
 		m_autoHideExplainLabel.setFont(Font(12.f, Font::bold));
 		m_autoHideExplainLabel.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", NotificationType::dontSendNotification);
-		m_autoHideExplainLabel.setBounds(SETTINGS_LEFT, 215, SETTING_WIDTH - 2 * SETTINGS_LEFT, 50);
+		m_autoHideExplainLabel.setBounds(SettingsLeft, 215, SettingsWidth - 2 * SettingsLeft, 50);
 		addToLayout(&m_autoHideExplainLabel, anchorMidLeft, anchorMidRight);
 		m_autoHideExplainLabel.setEditable(false);
 		m_autoHideExplainLabel.setFont(Font(12.f, Font::bold));
 		m_autoHideExplainLabel.setColour(Label::textColourId, Colours::darkgrey);
 		addAndMakeVisible(m_autoHideExplainLabel);
 
-		m_autoHideSetting.setBounds(SETTINGS_LEFT, 245, SETTING_WIDTH - 2 * SETTINGS_LEFT, 50);
+		m_autoHideSetting.setBounds(SettingsLeft, 245, SettingsWidth - 2 * SettingsLeft, 50);
 		m_autoHideSetting.setRange(0, 10, 1);
 		m_autoHideSetting.setValue(m_settingsManager->getAutoHideTime(), NotificationType::dontSendNotification);
 

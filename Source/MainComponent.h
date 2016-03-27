@@ -82,7 +82,10 @@ public:
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
     void SetTimerText(int timeValue);
-	void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender);
+	void Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, 
+        std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, 
+        std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, 
+        std::shared_ptr<MIDISender>& midiSender);
 protected:
     void SetLabelSettings(Label &lblToSet);
     
@@ -108,12 +111,12 @@ private:
     int _rowToSelect;
     Label m_currentStatus;
 
-	CommandMap *m_commandMap;
-	LR_IPC_IN *m_lr_IPC_IN;
-	LR_IPC_OUT *m_lr_IPC_OUT;
-	SettingsManager *m_settingsManager;
-	MIDIProcessor *m_midiProcessor;
-	MIDISender *m_midiSender;
+    std::shared_ptr<CommandMap> m_commandMap;
+    std::shared_ptr<LR_IPC_IN> m_lr_IPC_IN;
+    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
+    std::shared_ptr<SettingsManager> m_settingsManager;
+    std::shared_ptr<MIDIProcessor> m_midiProcessor;
+    std::shared_ptr<MIDISender> m_midiSender;
 
 
     //==============================================================================
