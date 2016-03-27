@@ -42,6 +42,7 @@ ProgramPreferences = {}
 
 local function UseDefaults()
   ProgramPreferences = {}
+  Init.UseDefaultsKeys()
   Init.UseDefaultsLimits()
   Init.UseDefaultsPaste()
   Init.UseDefaultsPresets()
@@ -130,6 +131,7 @@ end
 local function LoadShell() --encapsulates all loading, allowing post-processing
   local loaded = Load()
   if loaded then
+    Init.LoadedKeys()
     Init.LoadedLimits()
     Init.LoadedPaste()
     Init.LoadedPresets()

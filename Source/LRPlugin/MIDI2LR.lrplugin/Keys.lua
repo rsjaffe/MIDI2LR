@@ -49,23 +49,54 @@ end
 local function validate(_,value)
   value = LrStringUtils.trimWhitespace(value)
   local _, count = value:gsub( "[^\128-\193]", "") -- UTF-8 characters
-  if count == 1 then return true,value end
+  if count < 2 then return true,value end --one key or empty string
   value = LrStringUtils.lower(value)
   if legalanswers[value] then return true,value end
   return false, '', 'Value must be single character or spell out an F key (F1-F16) or: spacebar, return, escape, backspace, cursor left, cursor right, cursor up, cursor down, page up, page down, home, end, delete, insert, tab, play, stop, fast forward, rewind.'
 end
+
+
 --startdialog nowhere near ready--do not use yet!
 local function StartDialog(obstable,f)
-  local row = { 
-    f:checkbox{title = 'control', value = LrView.bind('control')},
-    f:checkbox{title = 'alt', value = LrView.bind('alt')},
-    f:checkbox{title = 'shift', value = LrView.bind('shift')},
-    f:edit_field{value = LrView.bind('key'), validate = validate, immediate = false, auto_completion = true, completion = completion, width_in_chars = maxlength} }
-  return row
+  local internalview1 = {}
+  for i = 1,20 do
+    obstable['Keyscontrol'..i] = ProgramPreferences.Keys[i]['control']
+    obstable['Keysalt'..i] = ProgramPreferences.Keys[i]['alt']
+    obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
+    obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
+    table.insert(internalview1,f:row{
+        f:static_text{title = 'Shortcut Key '..i,width = LrView.share('key_name')},
+        f:checkbox{title = 'control', value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = 'alt', value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = 'shift', value = LrView.bind('Keysshift'..i)},
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, immediate = false, auto_completion = true, completion = completion, width_in_chars = maxlength} } )
+  end
+  local internalview2 = {}
+  for i = 21,40 do
+    obstable['Keyscontrol'..i] = ProgramPreferences.Keys[i]['control']
+    obstable['Keysalt'..i] = ProgramPreferences.Keys[i]['alt']
+    obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
+    obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
+    table.insert(internalview2,f:row{
+        f:static_text{title = 'Shortcut Key '..i,width = LrView.share('key_name')},
+        f:checkbox{title = 'control', value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = 'alt', value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = 'shift', value = LrView.bind('Keysshift'..i)},
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, immediate = false, auto_completion = true, completion = completion, width_in_chars = maxlength} } )
+  end
+  return f:row{ f:column (internalview1), f:column (internalview2) }
 end
 
 local function EndDialog(obstable, status)
   if status == 'ok' then
+    ProgramPreferences.Keys = {} -- empty out prior settings
+    for i = 1,40 do
+      ProgramPreferences.Keys[i] = {}
+      ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i]
+      ProgramPreferences.Keys[i]['alt'] = obstable['Keysalt'..i]
+      ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i]
+      ProgramPreferences.Keys[i]['key'] = obstable['Keyskey'..i]
+    end
   end
 end
 

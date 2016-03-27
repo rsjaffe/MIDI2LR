@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local Keys              = require 'Keys'
 local Limits            = require 'Limits' 
 local OU                = require 'OptionsUtilities'
 local Paste             = require 'Paste'
@@ -64,6 +65,8 @@ local function setOptions()
             f:separator {fill_horizontal = 0.9},
             f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')},
             OU.slider(f,properties,LOC("$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"),'slidersets','TrackingDelay',0,3,2),
+            f:separator {fill_horizontal = 0.9},
+            Keys.StartDialog(properties,f),
           }, -- tab_view_item
         }, -- tab_view
       } -- view
@@ -73,7 +76,7 @@ local function setOptions()
         title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
         contents = contents,
       }
-
+      Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)
       Presets.EndDialog(properties,result)
       Paste.EndDialog(properties,result)

@@ -89,6 +89,9 @@ local function UseDefaultsPaste()
   ProgramPreferences.PastePopup = false
 end
 local function LoadedPaste()
+  if type(ProgramPreferences.PasteList) ~= 'table' then
+    UseDefaultsPaste()
+  end
 end
 
 --Presets.lua
@@ -96,6 +99,9 @@ local function UseDefaultsPresets()
   ProgramPreferences.Presets = {}
 end
 local function LoadedPresets()
+  if type(ProgramPreferences.Presets) ~= 'table' then
+    UseDefaultsPresets()
+  end
 end
 
 --Profiles.lua
@@ -106,13 +112,32 @@ local function UseDefaultsProfiles()
   end
 end
 local function LoadedProfiles()
+  if type(ProgramPreferences.Profiles) ~= 'table' then
+    UseDefaultsProfiles()
+  end
 end
 
+--Keys.lua
+local function UseDefaultsKeys()
+  ProgramPreferences.Keys = {}
+  for i = 1, 40 do
+    ProgramPreferences.Keys[i] = {control = false, alt = false, shift = false, key = ''}
+  end
+end
+local function LoadedKeys()
+  if type(ProgramPreferences.Keys) ~= 'table' then
+    UseDefaultsKeys()
+  end
+end
+
+
 return {
+  LoadedKeys          = LoadedKeys,
   LoadedLimits        = LoadedLimits,
   LoadedPaste         = LoadedPaste,
   LoadedPresets       = LoadedPresets,
   LoadedProfiles      = LoadedProfiles,
+  UseDefaultsKeys     = UseDefaultsKeys,
   UseDefaultsLimits   = UseDefaultsLimits,
   UseDefaultsPaste    = UseDefaultsPaste,
   UseDefaultsPresets  = UseDefaultsPresets,
