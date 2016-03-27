@@ -47,7 +47,7 @@ std::mutex SendKeys::m_mtxSending{};
 
 void SendKeys::SendKeyDownUp(const KeyPress& key) const
 {
-    std::lock_guard< std::mutex > lock(SendKeys::m_mtxSending);
+    std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
 #ifdef _WIN32
     //Lightroom handle
     const HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
