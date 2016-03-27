@@ -86,15 +86,15 @@ void VersionChecker::handleAsyncUpdate()
     DialogWindow::LaunchOptions dwOpt;
     dwOpt.dialogTitle = "New Version Available!";
 
-    int major = (_newVersion & 0xF0000) >> 16;
-    int minor = (_newVersion & 0x00F00) >> 8;
-    int rev = (_newVersion & 0x0000F);
-    String versionString = String::formatted("New version %d.%d.%d available", major, minor, rev);
+    auto major = (_newVersion & 0xF0000) >> 16;
+    auto minor = (_newVersion & 0x00F00) >> 8;
+    auto rev = (_newVersion & 0x0000F);
+    auto versionString = String::formatted("New version %d.%d.%d available", major, minor, rev);
     URL downloadURL("https://github.com/rsjaffe/MIDI2LR/releases/latest");
 
     dwOpt.content.setOwned(new HyperlinkButton(versionString, downloadURL));
     dwOpt.content->setSize(300, 100);
-    ((HyperlinkButton *)dwOpt.content.get())->setFont(Font(18.f), false);
+    (static_cast<HyperlinkButton *>(dwOpt.content.get()))->setFont(Font(18.f), false);
     dwOpt.escapeKeyTriggersCloseButton = true;
     _dialog.reset(dwOpt.create());
     _dialog->setVisible(true);

@@ -337,7 +337,7 @@ void LR_IPC_OUT::handleAsyncUpdate()
             handleKPCommand();
         else
         {
-            String command(_commandToSend + String::formatted(" %d\n", _valueToSend));
+            auto command(_commandToSend + String::formatted(" %d\n", _valueToSend));
             sendCommand(command);
         }
     }

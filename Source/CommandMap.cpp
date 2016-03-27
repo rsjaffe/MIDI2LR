@@ -197,7 +197,7 @@ void CommandMap::toXMLDocument(File& file) const
 	XmlElement root("settings");
 	for (auto mapEntry : _messageMap)
 	{
-		XmlElement* setting = new XmlElement("setting");
+		auto* setting = new XmlElement("setting");
 		setting->setAttribute("channel", mapEntry.first.channel);
 
 

@@ -31,7 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 void MainWindow::timerCallback(void)
 {
-	bool decreasedValue = false;
+	auto decreasedValue = false;
 
 	if (m_autoHideCounter > 0)
 	{

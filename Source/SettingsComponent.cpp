@@ -107,7 +107,7 @@ void SettingsComponent::buttonClicked(Button* button)
 
 		if (dialogBox.show())
 		{
-			String profileLoc = browser.getSelectedFile(0).getFullPathName();
+			auto profileLoc = browser.getSelectedFile(0).getFullPathName();
 			if (m_settingsManager)
 			{
 				m_settingsManager->setProfileDirectory(profileLoc);

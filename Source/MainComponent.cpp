@@ -303,8 +303,8 @@ void MainContentComponent::buttonClicked(Button* button)
             std::unique_ptr<XmlElement> elem{ XmlDocument::parse(browser.getSelectedFile(0)) };
             if (elem)
             {
-                File newprofile = browser.getSelectedFile(0);
-                String command = String("ChangedToFullPath ") + newprofile.getFullPathName() + "\n";
+                auto newprofile = browser.getSelectedFile(0);
+                auto command = String("ChangedToFullPath ") + newprofile.getFullPathName() + "\n";
 
 				if (m_lr_IPC_OUT)
 				{
@@ -322,7 +322,7 @@ void MainContentComponent::buttonClicked(Button* button)
         DialogWindow::LaunchOptions dwOpt;
         dwOpt.dialogTitle = "Settings";
 		//create new object
-		SettingsComponent *comp = new SettingsComponent();
+		auto *comp = new SettingsComponent();
 		comp->Init(m_settingsManager);
         dwOpt.content.setOwned(comp);
         dwOpt.content->setSize(400, 300);

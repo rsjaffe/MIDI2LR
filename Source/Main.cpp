@@ -97,7 +97,7 @@ public:
 	void shutdown() override
 	{
 		// Save the current profile as default.xml
-		File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+		auto defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
 		m_commandMap->toXMLDocument(defaultProfile);
         m_lr_IPC_OUT.reset();
         m_lr_IPC_IN.reset();

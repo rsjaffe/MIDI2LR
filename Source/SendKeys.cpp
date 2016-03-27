@@ -50,15 +50,15 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
 #ifdef _WIN32
     //Lightroom handle
-    const HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
-    const ModifierKeys mk = key.getModifiers();
+    const auto hLRWnd = ::FindWindow(NULL, "Lightroom");
+    const auto mk = key.getModifiers();
     HKL languageID;
     // Bring Lightroom to foreground if it isn't already there
     if (hLRWnd)
     {
         ::SetForegroundWindow(hLRWnd);
         // get language that LR is using (if hLrWnd is found)
-        DWORD threadId = GetWindowThreadProcessId(hLRWnd, NULL);
+        auto threadId = GetWindowThreadProcessId(hLRWnd, NULL);
         languageID = GetKeyboardLayout(threadId);
     }
     else

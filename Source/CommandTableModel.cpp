@@ -259,7 +259,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
 
 	removeAllRows();
 
-	XmlElement* setting = root->getFirstChildElement();
+	auto* setting = root->getFirstChildElement();
 	while ((setting) && (m_commandMap))
 	{
 		if (setting->hasAttribute("controller"))

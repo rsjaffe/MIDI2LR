@@ -84,7 +84,7 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
 void CommandMenu::buttonClicked(Button* /*button*/)
 {
     size_t idx = 1;
-    bool subMenuTickSet = false;
+    auto subMenuTickSet = false;
     PopupMenu mainMenu;
     mainMenu.addItem(idx, "Unmapped", true, subMenuTickSet = (idx == _selectedItem));
     idx++;
@@ -115,7 +115,7 @@ void CommandMenu::buttonClicked(Button* /*button*/)
         subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
     }
 
-    unsigned int result = mainMenu.show();
+    auto result = static_cast<size_t>(mainMenu.show());
     if ((result) && (m_commandMap))
     {
         // user chose a different command, remove previous command mapping associated to this menu
