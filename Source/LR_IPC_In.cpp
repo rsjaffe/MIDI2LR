@@ -121,8 +121,8 @@ void LR_IPC_IN::run()
 	while (!threadShouldExit())
 	{
 		char line[256] = { '\0' };
-		int sizeRead = 0;
-		bool canReadLine = true;
+		auto sizeRead = 0;
+		auto canReadLine = true;
 
 		// parse input until we have a line, then process that line
 		while (!String(line).endsWithChar('\n') && !threadShouldExit())
@@ -164,9 +164,9 @@ void LR_IPC_IN::processLine(const String& line)
 {	
 	// process input into [parameter] [Value]
 	line.trimEnd();
-	String command = line.upToFirstOccurrenceOf(" ", false, false);
-	String valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
-	auto value = valueString.getIntValue();
+	const auto command = line.upToFirstOccurrenceOf(" ", false, false);
+	const auto valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
+	const auto value = valueString.getIntValue();
 
 	if (m_commandMap)
 	{
@@ -178,6 +178,10 @@ void LR_IPC_IN::processLine(const String& line)
 				m_profileManager->switchToProfile(valueString.trim());
 			}
 		}
+        else if (command == String("SendKey"))
+        {
+            m_SendKeys.SendKeyDownUp(KeyPress::createFromDescription(valueString));
+        }
 		else
 		{
 

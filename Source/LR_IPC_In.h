@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ProfileManager.h"
 #include "MIDISender.h"
+#include "SendKeys.h"
 
 /**********************************************************************************************//**
 * @class   LR_IPC_IN
@@ -63,6 +64,7 @@ private:
     std::shared_ptr<ProfileManager> m_profileManager;
     std::shared_ptr<MIDISender> m_midiSender;
 	std::unordered_map<String, int> parameterMap;
+    SendKeys m_SendKeys;
 };
 
 
