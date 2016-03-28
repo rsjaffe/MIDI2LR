@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @date    3/22/2016
  **************************************************************************************************/
 
-VersionChecker::VersionChecker() noexcept : Thread("VersionChecker")
+VersionChecker::VersionChecker() noexcept : Thread{ "VersionChecker" }
 {
 
 }
@@ -58,7 +58,7 @@ void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager)
 
 void VersionChecker::run()
 {
-    URL versionURL("http://rsjaffe.github.io/MIDI2LR/version.xml");
+    URL versionURL{ "http://rsjaffe.github.io/MIDI2LR/version.xml" };
     unique_ptr<XmlElement> versionElem{ versionURL.readEntireXmlStream() };
     int lastchecked = 0;
     if (m_settingsManager)
@@ -90,11 +90,11 @@ void VersionChecker::handleAsyncUpdate()
     auto minor = (_newVersion & 0x00F00) >> 8;
     auto rev = (_newVersion & 0x0000F);
     auto versionString = String::formatted("New version %d.%d.%d available", major, minor, rev);
-    URL downloadURL("https://github.com/rsjaffe/MIDI2LR/releases/latest");
+    URL downloadURL{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
 
-    dwOpt.content.setOwned(new HyperlinkButton(versionString, downloadURL));
+    dwOpt.content.setOwned(new HyperlinkButton{ versionString, downloadURL });
     dwOpt.content->setSize(300, 100);
-    (static_cast<HyperlinkButton *>(dwOpt.content.get()))->setFont(Font(18.f), false);
+    (static_cast<HyperlinkButton *>(dwOpt.content.get()))->setFont(Font{ 18.f }, false);
     dwOpt.escapeKeyTriggersCloseButton = true;
     _dialog.reset(dwOpt.create());
     _dialog->setVisible(true);

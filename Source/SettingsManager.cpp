@@ -31,7 +31,7 @@ constexpr const auto AutoHideSection{ "autohide" };
  * @date    3/22/2016
  **************************************************************************************************/
 
-SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nullptr)
+SettingsManager::SettingsManager(): m_lr_IPC_OUT{ nullptr }, m_profileManager{ nullptr }
 {
 	PropertiesFile::Options opts;
 	opts.applicationName = "MIDI2LR";
@@ -115,7 +115,7 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 
 	if (m_profileManager)
 	{
-		File profileDir(profileDirStr);
+        File profileDir{ profileDirStr };
 		m_profileManager->setProfileDirectory(profileDir);
 	}
 }
@@ -242,7 +242,7 @@ void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_
 	if (m_profileManager)
 	{
 		// set the profile directory
-		File profileDir(getProfileDirectory());
+        File profileDir{ getProfileDirectory() };
 		profileManager->setProfileDirectory(profileDir);
 	}
 

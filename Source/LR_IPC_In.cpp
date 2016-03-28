@@ -20,17 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 
 
-//define the communication port
-
-/**********************************************************************************************//**
- * @def LrInPort
- *
- * @brief   A macro that defines lr in port.
- *
- *
- * @date    3/21/2016
- **************************************************************************************************/
-
+/** @brief   define the communication port. */
 constexpr auto LrInPort = 58764;
 
 /**********************************************************************************************//**
@@ -38,12 +28,11 @@ constexpr auto LrInPort = 58764;
  *
  * @brief   Default constructor.
  *
- *
  * @date    3/21/2016
  **************************************************************************************************/
 
-LR_IPC_IN::LR_IPC_IN() : StreamingSocket(),
-Thread("LR_IPC_IN"), m_commandMap(nullptr), m_profileManager(nullptr), m_midiSender(nullptr)
+LR_IPC_IN::LR_IPC_IN(): StreamingSocket{},
+Thread{ "LR_IPC_IN" }, m_commandMap{ nullptr }, m_profileManager{ nullptr }, m_midiSender{ nullptr }
 {
 	
 }
@@ -52,7 +41,6 @@ Thread("LR_IPC_IN"), m_commandMap(nullptr), m_profileManager(nullptr), m_midiSen
  * @fn  void LR_IPC_IN::shutdown()
  *
  * @brief   Shuts down this object and frees any resources it is using.
- *
  *
  * @date    3/21/2016
  **************************************************************************************************/
@@ -71,7 +59,6 @@ void LR_IPC_IN::shutdown()
  * @fn  void LR_IPC_IN::timerCallback()
  *
  * @brief   Callback, called when the timer.
- *
  *
  * @date    3/21/2016
  **************************************************************************************************/
@@ -112,7 +99,6 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<Pr
  *
  * @brief   Runs this object.
  *
- *
  * @date    3/21/2016
  **************************************************************************************************/
 
@@ -143,7 +129,7 @@ void LR_IPC_IN::run()
 
 		if (canReadLine)
 		{
-			String param(line);
+            String param{ line };
 			processLine(param);
 		}
 	}
@@ -153,7 +139,6 @@ void LR_IPC_IN::run()
  * @fn  void LR_IPC_IN::processLine(const String& line)
  *
  * @brief   Process the line described by line.
- *
  *
  * @date    3/21/2016
  *
@@ -171,14 +156,14 @@ void LR_IPC_IN::processLine(const String& line)
 	if (m_commandMap)
 	{
 
-		if (command == String("SwitchProfile"))
+        if (command == String{ "SwitchProfile" })
 		{
 			if (m_profileManager)
 			{
 				m_profileManager->switchToProfile(valueString.trim());
 			}
 		}
-        else if (command == String("SendKey"))
+        else if (command == String{ "SendKey" })
         {
             m_SendKeys.SendKeyDownUp(KeyPress::createFromDescription(valueString));
         }
@@ -191,7 +176,7 @@ void LR_IPC_IN::processLine(const String& line)
 			// send associated CC messages to MIDI OUT devices
 			if (m_commandMap->commandHasAssociatedMessage(command))
 			{
-				const MIDI_Message& msg = m_commandMap->getMessageForCommand(command);
+				const auto& msg = m_commandMap->getMessageForCommand(command);
 
 				if (m_midiSender)
 				{
@@ -207,7 +192,6 @@ void LR_IPC_IN::processLine(const String& line)
  *
  * @brief   Refresh MIDI output.
  *
- *
  * @date    3/21/2016
  **************************************************************************************************/
 
@@ -220,7 +204,7 @@ void LR_IPC_IN::refreshMIDIOutput()
 		{
 			if ((m_commandMap->commandHasAssociatedMessage(mapEntry.first)) && (m_midiSender))
 			{
-				const MIDI_Message& msg = m_commandMap->getMessageForCommand(mapEntry.first);
+				const auto& msg = m_commandMap->getMessageForCommand(mapEntry.first);
 				m_midiSender->sendCC(msg.channel, msg.controller, mapEntry.second);
 			}
 		}

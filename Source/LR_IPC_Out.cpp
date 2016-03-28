@@ -358,7 +358,7 @@ void LR_IPC_OUT::handleAsyncUpdate()
 
 void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
-    MIDI_Message cc(midiChannel, controller, true);
+    MIDI_Message cc{ midiChannel, controller, true };
 
     if (m_commandMap)
     {
@@ -389,7 +389,7 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 
 void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 {
-    MIDI_Message note_msg(midiChannel, note, false);
+    MIDI_Message note_msg{ midiChannel, note, false };
 
     if (m_commandMap)
     {

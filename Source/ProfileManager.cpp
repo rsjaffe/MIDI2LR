@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @date    3/22/2016
  **************************************************************************************************/
 
-ProfileManager::ProfileManager() noexcept : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
+ProfileManager::ProfileManager() noexcept : _currentProfileIdx{ 0 }, m_commandMap{ nullptr }, m_lr_IPC_OUT{ nullptr }
 {
 	
    
@@ -131,7 +131,7 @@ void ProfileManager::switchToProfile(const String& profile)
         
 		if (m_lr_IPC_OUT)
 		{
-			auto command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+            auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(_profileLocation.getFullPathName()) + String{ "\n" };
 			m_lr_IPC_OUT->sendCommand(command);
 			command = String("ChangedToFile ") + profile + String("\n");
 			m_lr_IPC_OUT->sendCommand(command);
@@ -186,7 +186,7 @@ void ProfileManager::switchToNextProfile()
 
 void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
-	const MIDI_Message cc(midiChannel, controller, true);
+    const MIDI_Message cc{ midiChannel, controller, true };
 
 	if (m_commandMap)
 	{
@@ -220,7 +220,7 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 
 void ProfileManager::handleMidiNote(int midiChannel, int note)
 {
-	const MIDI_Message note_msg(midiChannel, note, false);
+    const MIDI_Message note_msg{ midiChannel, note, false };
 
 	if (m_commandMap)
 	{
@@ -277,7 +277,7 @@ void ProfileManager::handleAsyncUpdate()
 
 void ProfileManager::connected()
 {
-    auto command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+    auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(_profileLocation.getFullPathName()) + String{ "\n" };
 	if (m_lr_IPC_OUT)
 	{
 		m_lr_IPC_OUT->sendCommand(command);

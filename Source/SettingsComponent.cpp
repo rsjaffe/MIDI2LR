@@ -32,15 +32,15 @@ constexpr auto SettingsHeight = 300;
  * @date    3/22/2016
  **************************************************************************************************/
 
-SettingsComponent::SettingsComponent() : ResizableLayout(this), _pickupEnabled("Enable Pickup Mode"),
-_pickupLabel("PickupLabel", ""),
-_profileLocationButton("Choose Profile Folder"),
-_profileLocationLabel("Profile Label"),
-m_autoHideGroup(),
-m_pickupGroup(),
-m_profileGroup(),
-m_autoHideExplainLabel(),
-m_settingsManager(nullptr)
+SettingsComponent::SettingsComponent(): ResizableLayout{ this }, _pickupEnabled{ "Enable Pickup Mode" },
+_pickupLabel{ "PickupLabel", "" },
+_profileLocationButton{ "Choose Profile Folder" },
+_profileLocationLabel{ "Profile Label" },
+m_autoHideGroup{},
+m_pickupGroup{},
+m_profileGroup{},
+m_autoHideExplainLabel{},
+m_settingsManager{ nullptr }
 {
 
 	
@@ -95,15 +95,15 @@ void SettingsComponent::buttonClicked(Button* button)
 	}
 	else if (button == &_profileLocationButton)
 	{
-		FileBrowserComponent browser(FileBrowserComponent::canSelectDirectories | FileBrowserComponent::openMode,
-			File::getCurrentWorkingDirectory(),
-			nullptr,
-			nullptr);
-		FileChooserDialogBox dialogBox("Select Profile Folder",
-			"Select a folder containing MIDI2LR Profiles",
-			browser,
-			true,
-			Colours::lightgrey);
+        FileBrowserComponent browser{ FileBrowserComponent::canSelectDirectories | FileBrowserComponent::openMode,
+            File::getCurrentWorkingDirectory(),
+            nullptr,
+            nullptr };
+        FileChooserDialogBox dialogBox{ "Select Profile Folder",
+            "Select a folder containing MIDI2LR Profiles",
+            browser,
+            true,
+            Colours::lightgrey };
 
 		if (dialogBox.show())
 		{
@@ -135,7 +135,7 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
 		if (&m_autoHideSetting == slider)
 		{
 			//get the rounded setting
-			int newSetting = (int)m_autoHideSetting.getValue();
+			int newSetting = static_cast<int>(m_autoHideSetting.getValue());
 
 			if (m_settingsManager)
 			{
@@ -172,7 +172,7 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
 		addToLayout(&m_pickupGroup, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(m_pickupGroup);
 
-		_pickupLabel.setFont(Font(12.f, Font::bold));
+        _pickupLabel.setFont(Font{ 12.f, Font::bold });
 		_pickupLabel.setText("Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements", NotificationType::dontSendNotification);
 		_pickupLabel.setBounds(SettingsLeft, 15, SettingsWidth - 2 * SettingsLeft, 50);
 		addToLayout(&_pickupLabel, anchorMidLeft, anchorMidRight);
@@ -214,12 +214,12 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
 		addAndMakeVisible(m_autoHideGroup);
 
 
-		m_autoHideExplainLabel.setFont(Font(12.f, Font::bold));
+        m_autoHideExplainLabel.setFont(Font{ 12.f, Font::bold });
 		m_autoHideExplainLabel.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", NotificationType::dontSendNotification);
 		m_autoHideExplainLabel.setBounds(SettingsLeft, 215, SettingsWidth - 2 * SettingsLeft, 50);
 		addToLayout(&m_autoHideExplainLabel, anchorMidLeft, anchorMidRight);
 		m_autoHideExplainLabel.setEditable(false);
-		m_autoHideExplainLabel.setFont(Font(12.f, Font::bold));
+        m_autoHideExplainLabel.setFont(Font{ 12.f, Font::bold });
 		m_autoHideExplainLabel.setColour(Label::textColourId, Colours::darkgrey);
 		addAndMakeVisible(m_autoHideExplainLabel);
 

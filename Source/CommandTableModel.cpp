@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @date    3/22/2016
  **************************************************************************************************/
 
-CommandTableModel::CommandTableModel() noexcept : _rows(0), m_commandMap(nullptr)
+CommandTableModel::CommandTableModel() noexcept : _rows{ 0 }, m_commandMap{ nullptr }
 {
 }
 
@@ -127,7 +127,7 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
 		// create a new command menu
 		if (commandSelect == nullptr)
 		{
-			commandSelect = new CommandMenu(_commands[rowNumber]);
+            commandSelect = new CommandMenu{ _commands[rowNumber] };
 			commandSelect->Init(m_commandMap);
 		}
 		else
@@ -160,7 +160,7 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
 
 void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
 {
-	MIDI_Message msg(midi_channel, midi_data, isCC);
+    MIDI_Message msg{ midi_channel, midi_data, isCC };
 	if (m_commandMap)
 	{
 		if (!m_commandMap->messageExistsInMap(msg))
@@ -264,7 +264,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
 	{
 		if (setting->hasAttribute("controller"))
 		{
-			MIDI_Message cc(setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true);
+            MIDI_Message cc{ setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true };
 			addRow(cc.channel, cc.controller, true);
 
 			// older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
@@ -279,7 +279,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
 		}
 		else if (setting->hasAttribute("note"))
 		{
-			MIDI_Message note(setting->getIntAttribute("channel"), setting->getIntAttribute("note"), false);
+            MIDI_Message note{ setting->getIntAttribute("channel"), setting->getIntAttribute("note"), false };
 			addRow(note.channel, note.pitch, false);
 
 			// older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well

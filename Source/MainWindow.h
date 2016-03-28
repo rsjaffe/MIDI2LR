@@ -39,13 +39,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
     class MainWindow: public DocumentWindow, public Timer
     {
     public:
-        MainWindow(String name): DocumentWindow(name,
+        MainWindow(String name): DocumentWindow{ name,
             Colours::lightgrey,
             DocumentWindow::minimiseButton |
-            DocumentWindow::closeButton) , Timer()
+            DocumentWindow::closeButton }, Timer()
         {
             setUsingNativeTitleBar(true);
-			m_windowContent = new MainContentComponent();
+            m_windowContent = new MainContentComponent{};
 			
             setContentOwned(m_windowContent, true);
 

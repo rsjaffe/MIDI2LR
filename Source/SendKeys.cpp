@@ -58,7 +58,7 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     {
         ::SetForegroundWindow(hLRWnd);
         // get language that LR is using (if hLrWnd is found)
-        auto threadId = GetWindowThreadProcessId(hLRWnd, NULL);
+        const auto threadId = GetWindowThreadProcessId(hLRWnd, NULL);
         languageID = GetKeyboardLayout(threadId);
     }
     else

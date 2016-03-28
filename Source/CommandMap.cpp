@@ -29,7 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @date    3/22/2016
  **************************************************************************************************/
 
-CommandMap::CommandMap() noexcept : Subject()
+CommandMap::CommandMap() noexcept : Subject{}
 {
 
 }
@@ -194,10 +194,10 @@ void CommandMap::clearMap() noexcept
 void CommandMap::toXMLDocument(File& file) const
 {
 	// save the contents of the command map to an xml file
-	XmlElement root("settings");
+    XmlElement root{ "settings" };
 	for (auto mapEntry : _messageMap)
 	{
-		auto* setting = new XmlElement("setting");
+        auto* setting = new XmlElement{ "setting" };
 		setting->setAttribute("channel", mapEntry.first.channel);
 
 
