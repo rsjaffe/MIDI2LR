@@ -45,6 +45,15 @@ for k in pairs(legalanswers) do
   table.insert(completion,k)
 end
 
+local control, alt
+local shift = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift")
+if(WIN_ENV) then
+  control = LOC("$$$/AgBezels/KeyRemapping/WinControl=Control")
+  alt = LOC("$$$/AgBezels/KeyRemapping/WinAlt=Alt")
+else
+  control = LOC("$$$/AgBezels/KeyRemapping/MacCommand=Command")
+  alt = LOC("$$$/AgBezels/KeyRemapping/MacOption=Option")
+end
 
 local function validate(_,value)
   value = LrStringUtils.trimWhitespace(value)
@@ -66,9 +75,9 @@ local function StartDialog(obstable,f)
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
     table.insert(internalview1,f:row{
         f:static_text{title = 'Shortcut Key '..i,width = LrView.share('key_name')},
-        f:checkbox{title = 'control', value = LrView.bind('Keyscontrol'..i)},
-        f:checkbox{title = 'alt', value = LrView.bind('Keysalt'..i)},
-        f:checkbox{title = 'shift', value = LrView.bind('Keysshift'..i)},
+        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
         f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, immediate = false, auto_completion = true, completion = completion, width_in_chars = maxlength} } )
   end
   local internalview2 = {}
@@ -79,9 +88,9 @@ local function StartDialog(obstable,f)
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
     table.insert(internalview2,f:row{
         f:static_text{title = 'Shortcut Key '..i,width = LrView.share('key_name')},
-        f:checkbox{title = 'control', value = LrView.bind('Keyscontrol'..i)},
-        f:checkbox{title = 'alt', value = LrView.bind('Keysalt'..i)},
-        f:checkbox{title = 'shift', value = LrView.bind('Keysshift'..i)},
+        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
         f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, immediate = false, auto_completion = true, completion = completion, width_in_chars = maxlength} } )
   end
   return f:row{ f:column (internalview1), f:column (internalview2) }
@@ -100,9 +109,9 @@ local function EndDialog(obstable, status)
   end
 end
 
-local function GetKey(number)
-  if number < 1 or number > 40 then return nil end
-  retval = ''
+local function GetKey(i)
+  if i < 1 or i > 40 then return nil end
+  local retval = ''
   if(WIN_ENV) then
     if ProgramPreferences.Keys[i]['control'] then
       retval = retval .. 'control + '
