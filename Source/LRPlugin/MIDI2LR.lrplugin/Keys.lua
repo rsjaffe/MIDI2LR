@@ -100,7 +100,39 @@ local function EndDialog(obstable, status)
   end
 end
 
+local function GetKey(number)
+  if number < 1 or number > 40 then return nil end
+  retval = ''
+  if(WIN_ENV) then
+    if ProgramPreferences.Keys[i]['control'] then
+      retval = retval .. 'control + '
+    end
+    if ProgramPreferences.Keys[i]['alt'] then
+      retval = retval .. 'alt + '
+    end
+    if ProgramPreferences.Keys[i]['shift'] then
+      retval = retval .. 'shift + '
+    end
+    retval = retval .. ProgramPreferences.Keys[i]['key']
+    return retval
+  else
+    if ProgramPreferences.Keys[i]['control'] then
+      retval = retval .. 'command + '
+    end
+    if ProgramPreferences.Keys[i]['alt'] then
+      retval = retval .. 'option + '
+    end
+    if ProgramPreferences.Keys[i]['shift'] then
+      retval = retval .. 'shift + '
+    end
+    retval = retval .. ProgramPreferences.Keys[i]['key']
+    return retval
+  end
+end
+
+
 return { --table of exports, setting table member name and module function it points to
   EndDialog   = EndDialog,
   StartDialog = StartDialog,
+  GetKey = GetKey,
 }
