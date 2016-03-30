@@ -1060,7 +1060,7 @@ const std::vector<String> LRCommandList::NextPrevProfile = {
  * @brief   Gets index of command.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   command The command.
  *

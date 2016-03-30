@@ -157,7 +157,7 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
  * @brief   Default constructor.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection(), m_SendKeys()
@@ -172,7 +172,7 @@ LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection(), m_SendKeys()
  * @brief   Shuts down this object and frees any resources it is using.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_OUT::shutdown()
@@ -188,7 +188,7 @@ void LR_IPC_OUT::shutdown()
  * @brief   Callback, called when the timer.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_OUT::timerCallback()
@@ -202,7 +202,7 @@ void LR_IPC_OUT::timerCallback()
  *
  * @brief   S.
  *
- * @date    3/20/2016
+ *
  *
  * @param [in,out]  mapCommand      If non-null, the map command.
  * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
@@ -231,7 +231,7 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<M
  * @brief   Adds a listener.
  *
  *
- * @date    3/20/2016
+ *
  *
  * @param [in,out]  listener    If non-null, the listener.
  **************************************************************************************************/
@@ -247,7 +247,7 @@ void LR_IPC_OUT::addListener(LRConnectionListener *listener)
  * @brief   Connection made.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_OUT::connectionMade()
@@ -262,7 +262,7 @@ void LR_IPC_OUT::connectionMade()
  * @brief   Connection lost.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_OUT::connectionLost()
@@ -276,7 +276,7 @@ void LR_IPC_OUT::connectionLost()
  *
  * @brief   Message received.
  *
- * @date    3/20/2016
+ *
  *
  * @param   parameter1  The unused argument (msg)
  **************************************************************************************************/
@@ -291,7 +291,7 @@ void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)
  *
  * @brief   Sends a command.
  *
- * @date    3/20/2016
+ *
  *
  * @param   command The command.
  **************************************************************************************************/
@@ -310,7 +310,7 @@ void LR_IPC_OUT::sendCommand(const String &command) const
  *
  * @brief   Handles KP (key press) commands.
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_OUT::handleKPCommand() const
@@ -325,7 +325,7 @@ void LR_IPC_OUT::handleKPCommand() const
  * @brief   Handles the asynchronous update.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_OUT::handleAsyncUpdate()
@@ -349,7 +349,7 @@ void LR_IPC_OUT::handleAsyncUpdate()
  * @brief   Handles MIDI CC messages.
  *
  *
- * @date    3/20/2016
+ *
  *
  * @param   midiChannel The MIDI channel.
  * @param   controller  The controller.
@@ -381,7 +381,7 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
  * @brief   Handles MIDI note messages.
  *
  *
- * @date    3/20/2016
+ *
  *
  * @param   midiChannel The MIDI channel.
  * @param   note        The note.

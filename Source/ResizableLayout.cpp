@@ -44,7 +44,7 @@ const Point<int> ResizableLayout::anchorBottomRight(anchorUnit, anchorUnit);
  *
  * @brief   Constructor.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  component_  If non-null, the component.
  **************************************************************************************************/
@@ -61,7 +61,7 @@ ResizableLayout::Anchor::Anchor(Component* component_)
  *
  * @brief   Equality operator.
  *
- * @date    3/22/2016
+ *
  *
  * @param   rhs The right hand side.
  *
@@ -78,7 +78,7 @@ bool ResizableLayout::Anchor::operator== (const Anchor& rhs) const
  *
  * @brief   Greater-than-or-equal comparison operator.
  *
- * @date    3/22/2016
+ *
  *
  * @param   rhs The right hand side.
  *
@@ -95,7 +95,7 @@ bool ResizableLayout::Anchor::operator>= (const Anchor& rhs) const
  *
  * @brief   Less-than comparison operator.
  *
- * @date    3/22/2016
+ *
  *
  * @param   rhs The right hand side.
  *
@@ -112,7 +112,7 @@ bool ResizableLayout::Anchor::operator< (const Anchor& rhs) const
  *
  * @brief   Constructor.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  component_  If non-null, the component.
  **************************************************************************************************/
@@ -128,7 +128,7 @@ ResizableLayout::State::State(Component* component_)
  *
  * @brief   Copy constructor.
  *
- * @date    3/22/2016
+ *
  *
  * @param   other   The other.
  **************************************************************************************************/
@@ -145,7 +145,7 @@ ResizableLayout::State::State(const State& other)
  *
  * @brief   Equality operator.
  *
- * @date    3/22/2016
+ *
  *
  * @param   rhs The right hand side.
  *
@@ -162,7 +162,7 @@ bool ResizableLayout::State::operator== (const State& rhs) const
  *
  * @brief   Greater-than-or-equal comparison operator.
  *
- * @date    3/22/2016
+ *
  *
  * @param   rhs The right hand side.
  *
@@ -179,7 +179,7 @@ bool ResizableLayout::State::operator>= (const State& rhs) const
  *
  * @brief   Less-than comparison operator.
  *
- * @date    3/22/2016
+ *
  *
  * @param   rhs The right hand side.
  *
@@ -198,7 +198,7 @@ bool ResizableLayout::State::operator< (const State& rhs) const
  *
  * @brief   Constructor.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  owner   If non-null, the owner.
  **************************************************************************************************/
@@ -217,7 +217,7 @@ ResizableLayout::ResizableLayout(Component* owner)
  *
  * @brief   Destructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 ResizableLayout::~ResizableLayout()
@@ -229,7 +229,7 @@ ResizableLayout::~ResizableLayout()
  *
  * @brief   Adds to layout.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  component   If non-null, the component.
  * @param   topLeft             The top left.
@@ -262,7 +262,7 @@ void ResizableLayout::addToLayout(Component* component,
  *
  * @brief   Removes from layout described by component.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  component   If non-null, the component.
  **************************************************************************************************/
@@ -278,7 +278,7 @@ void ResizableLayout::removeFromLayout(Component* component)
  *
  * @brief   Activates the layout described by isActive.
  *
- * @date    3/22/2016
+ *
  *
  * @param   isActive    true if this object is active.
  **************************************************************************************************/
@@ -302,7 +302,7 @@ void ResizableLayout::activateLayout(bool isActive)
  *
  * @brief   Updates the layout.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ResizableLayout::updateLayout()
@@ -317,7 +317,7 @@ void ResizableLayout::updateLayout()
  *
  * @brief   Updates the layout for described by component.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  component   If non-null, the component.
  **************************************************************************************************/
@@ -333,7 +333,7 @@ void ResizableLayout::updateLayoutFor(Component *component)
  *
  * @brief   Adds a state for.
  *
- * @date    3/22/2016
+ *
  *
  * @param   anchor  The anchor.
  **************************************************************************************************/
@@ -364,7 +364,7 @@ void ResizableLayout::addStateFor(const Anchor& anchor)
  * @brief   Recalculate the position and size of all the controls in the layout, based on the
  *  owner Component size.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ResizableLayout::recalculateLayout()
@@ -428,7 +428,7 @@ void ResizableLayout::recalculateLayout()
  *
  * @brief   Component moved or resized.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  component       The component.
  * @param   UNUSED_ARG(wasMoved)    true to unused argument (was moved)
@@ -457,7 +457,7 @@ void ResizableLayout::componentMovedOrResized(Component& component,
  *
  * @brief   Component being deleted.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  component   The component.
  **************************************************************************************************/
@@ -476,7 +476,7 @@ void ResizableLayout::componentBeingDeleted(Component& component)
  *
  * @brief   Calculates the bounds of children.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  parent  If non-null, the parent.
  *
@@ -498,7 +498,7 @@ Rectangle<int> ResizableLayout::calcBoundsOfChildren(Component* parent)
  *
  * @brief   Resize start.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ResizableLayout::resizeStart()
@@ -570,7 +570,7 @@ void ResizableLayout::resizeStart()
  *
  * @brief   Constructor.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  owner   If non-null, the owner.
  **************************************************************************************************/
@@ -585,7 +585,7 @@ TopLevelResizableLayout::Constrainer::Constrainer(TopLevelResizableLayout* owner
  *
  * @brief   Resize start.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void TopLevelResizableLayout::Constrainer::resizeStart()
@@ -606,7 +606,7 @@ void TopLevelResizableLayout::Constrainer::resizeStart()
  *
  * @brief   Constructor.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  owner   If non-null, the owner.
  **************************************************************************************************/
@@ -623,7 +623,7 @@ TopLevelResizableLayout::TopLevelResizableLayout(Component* owner)
  *
  * @brief   Sets as constrainer for.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  window  If non-null, the window.
  **************************************************************************************************/

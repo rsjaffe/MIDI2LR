@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   Default constructor.
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 MIDIProcessor::MIDIProcessor() noexcept
@@ -38,7 +38,7 @@ MIDIProcessor::MIDIProcessor() noexcept
  * @brief   Destructor.
  *
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 MIDIProcessor::~MIDIProcessor()
@@ -52,7 +52,7 @@ MIDIProcessor::~MIDIProcessor()
  * @brief   S this object.
  *
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 void MIDIProcessor::Init(void)
@@ -66,7 +66,7 @@ void MIDIProcessor::Init(void)
  * @brief   Init devices.
  *
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 void MIDIProcessor::initDevices()
@@ -87,7 +87,7 @@ void MIDIProcessor::initDevices()
  * @brief   Rescan devices.
  *
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 void MIDIProcessor::rescanDevices()
@@ -104,7 +104,7 @@ void MIDIProcessor::rescanDevices()
  *
  * @brief   Handles the incoming MIDI message.
  *
- * @date    3/21/2016
+ *
  *
  * @param [in,out]  parameter1  device)  If non-null, the unused argument (device)
  * @param   msg                 The message.
@@ -134,7 +134,7 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const Midi
  * @brief   Adds a MIDI command listener.
  *
  *
- * @date    3/21/2016
+ *
  *
  * @param [in,out]  listener    If non-null, the listener.
  **************************************************************************************************/

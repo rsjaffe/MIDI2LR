@@ -28,7 +28,7 @@ constexpr auto LrInPort = 58764;
  *
  * @brief   Default constructor.
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{},
@@ -42,7 +42,7 @@ Thread{ "LR_IPC_IN" }, m_commandMap{ nullptr }, m_profileManager{ nullptr }, m_m
  *
  * @brief   Shuts down this object and frees any resources it is using.
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_IN::shutdown()
@@ -60,7 +60,7 @@ void LR_IPC_IN::shutdown()
  *
  * @brief   Callback, called when the timer.
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_IN::timerCallback()
@@ -77,7 +77,7 @@ void LR_IPC_IN::timerCallback()
  *
  * @brief   S.
  *
- * @date    3/21/2016
+ *
  *
  * @param [in,out]  mapCommand      If non-null, the map command.
  * @param [in,out]  profileManager  If non-null, manager for profile.
@@ -99,7 +99,7 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<Pr
  *
  * @brief   Runs this object.
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_IN::run()
@@ -140,7 +140,7 @@ void LR_IPC_IN::run()
  *
  * @brief   Process the line described by line.
  *
- * @date    3/21/2016
+ *
  *
  * @param   line    The line.
  **************************************************************************************************/
@@ -192,7 +192,7 @@ void LR_IPC_IN::processLine(const String& line)
  *
  * @brief   Refresh MIDI output.
  *
- * @date    3/21/2016
+ *
  **************************************************************************************************/
 
 void LR_IPC_IN::refreshMIDIOutput()

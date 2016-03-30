@@ -29,7 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @brief   Constructor.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   msg The message.
  **************************************************************************************************/
@@ -61,7 +61,7 @@ m_menus{ { "General", "Library", "Develop", "Basic", "Tone Curve", "HSL / Color 
  * @brief   Sets a message.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   msg The message.
  **************************************************************************************************/
@@ -76,7 +76,7 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
  *
  * @brief   Button clicked.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  parameter1  button)  If non-null, the unused argument (button)
  **************************************************************************************************/
@@ -140,7 +140,7 @@ void CommandMenu::buttonClicked(Button* /*button*/)
  * @brief   Sets selected item.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   idx The index.
  **************************************************************************************************/
@@ -159,7 +159,7 @@ void CommandMenu::setSelectedItem(unsigned int idx)
  *
  * @brief   Inits the given map command.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  mapCommand  If non-null, the map command.
  **************************************************************************************************/

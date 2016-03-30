@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 Subject::Subject() noexcept
@@ -38,7 +38,7 @@ Subject::Subject() noexcept
  * @brief   Destructor.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 Subject::~Subject()
@@ -51,7 +51,7 @@ Subject::~Subject()
  * @brief   Registers the observer described by observer.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  observer    If non-null, the observer.
  **************************************************************************************************/
@@ -68,7 +68,7 @@ void Subject::RegisterObserver(Observer * observer)
  * @brief   Unregisters the observer described by observer.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  observer    If non-null, the observer.
  **************************************************************************************************/
@@ -93,7 +93,7 @@ void Subject::UnregisterObserver(Observer *observer)
  * @brief   Notifies this object.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void Subject::Notify(void)

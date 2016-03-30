@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @brief   A lr connection listener.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 class LRConnectionListener
@@ -54,7 +54,7 @@ public:
  * @brief   A lr ipc out.
  *
  *
- * @date    3/20/2016
+ *
  **************************************************************************************************/
 
 class LR_IPC_OUT : public InterprocessConnection,

@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 CommandTableModel::CommandTableModel() noexcept : _rows{ 0 }, m_commandMap{ nullptr }
@@ -38,7 +38,7 @@ CommandTableModel::CommandTableModel() noexcept : _rows{ 0 }, m_commandMap{ null
  * @brief   Gets number rows.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @return  The number rows.
  **************************************************************************************************/
@@ -54,7 +54,7 @@ int CommandTableModel::getNumRows()
  * @brief   Paints the row background.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  g       The Graphics to process.
  * @param   parameter2      The second parameter.
@@ -75,7 +75,7 @@ void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/, int /
  * @brief   Paints the cell.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  g   The Graphics to process.
  * @param   rowNumber   The row number.
@@ -107,7 +107,7 @@ void CommandTableModel::paintCell(Graphics &g, int rowNumber, int columnId, int 
  * @brief   Refresh component for cell.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   rowNumber                           The row number.
  * @param   columnId                            Identifier for the column.
@@ -151,7 +151,7 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
  * @brief   Adds a row.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   midi_channel    The MIDI channel.
  * @param   midi_data       Information describing the MIDI.
@@ -178,7 +178,7 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
  * @brief   return value -1 means can not find.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   midi_channel    The MIDI channel.
  * @param   midi_data       Information describing the MIDI.
@@ -205,7 +205,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
  * @brief   Removes the row described by row.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   row The row.
  **************************************************************************************************/
@@ -227,7 +227,7 @@ void CommandTableModel::removeRow(int row)
  * @brief   Removes all rows.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void CommandTableModel::removeAllRows()
@@ -247,7 +247,7 @@ void CommandTableModel::removeAllRows()
  *
  * @brief   Builds from XML.
  *
- * @date    3/22/2016
+ *
  *
  * @param   root    If non-null, the root.
  **************************************************************************************************/
@@ -301,7 +301,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
  *
  * @brief   Inits the given map command.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  mapCommand  If non-null, the map command.
  **************************************************************************************************/

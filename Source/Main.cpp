@@ -45,7 +45,7 @@ constexpr const auto ShutDownString{ "--LRSHUTDOWN" };
  * @brief   A MIDI 2 lr application.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 class MIDI2LRApplication : public JUCEApplication

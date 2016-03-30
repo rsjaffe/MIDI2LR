@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 ProfileManager::ProfileManager() noexcept : _currentProfileIdx{ 0 }, m_commandMap{ nullptr }, m_lr_IPC_OUT{ nullptr }
@@ -39,7 +39,7 @@ ProfileManager::ProfileManager() noexcept : _currentProfileIdx{ 0 }, m_commandMa
  *
  * @brief   Adds a listener.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  listener    If non-null, the listener.
  **************************************************************************************************/
@@ -54,7 +54,7 @@ void ProfileManager::addListener(ProfileChangeListener *listener)
  *
  * @brief   Sets profile directory.
  *
- * @date    3/22/2016
+ *
  *
  * @param   dir The dir.
  **************************************************************************************************/
@@ -80,7 +80,7 @@ void ProfileManager::setProfileDirectory(const File& dir)
  *
  * @brief   Gets menu items.
  *
- * @date    3/22/2016
+ *
  *
  * @return  The menu items.
  **************************************************************************************************/
@@ -95,7 +95,7 @@ const StringArray& ProfileManager::getMenuItems() const noexcept
  *
  * @brief   Switch to profile.
  *
- * @date    3/22/2016
+ *
  *
  * @param   profileIdx  Zero-based index of the profile.
  **************************************************************************************************/
@@ -114,7 +114,7 @@ void ProfileManager::switchToProfile(int profileIdx)
  *
  * @brief   Switch to profile.
  *
- * @date    3/22/2016
+ *
  *
  * @param   profile The profile.
  **************************************************************************************************/
@@ -145,7 +145,7 @@ void ProfileManager::switchToProfile(const String& profile)
  *
  * @brief   Switch to previous profile.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ProfileManager::switchToPreviousProfile()
@@ -161,7 +161,7 @@ void ProfileManager::switchToPreviousProfile()
  *
  * @brief   Switch to next profile.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ProfileManager::switchToNextProfile()
@@ -177,7 +177,7 @@ void ProfileManager::switchToNextProfile()
  *
  * @brief   Handles the MIDI Cc.
  *
- * @date    3/22/2016
+ *
  *
  * @param   midiChannel The MIDI channel.
  * @param   controller  The controller.
@@ -212,7 +212,7 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
  *
  * @brief   Handles the MIDI note.
  *
- * @date    3/22/2016
+ *
  *
  * @param   midiChannel The MIDI channel.
  * @param   note        The note.
@@ -247,7 +247,7 @@ void ProfileManager::handleMidiNote(int midiChannel, int note)
  *
  * @brief   Handles the asynchronous update.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ProfileManager::handleAsyncUpdate()
@@ -272,7 +272,7 @@ void ProfileManager::handleAsyncUpdate()
  *
  * @brief   Connected this object.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ProfileManager::connected()
@@ -289,7 +289,7 @@ void ProfileManager::connected()
  *
  * @brief   Disconnect from the ed.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void ProfileManager::disconnected()
@@ -302,7 +302,7 @@ void ProfileManager::disconnected()
  *
  * @brief   S.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  out             If non-null, the out.
  * @param [in,out]  commandMap      If non-null, the command map.

@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   A send keys.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 class SendKeys

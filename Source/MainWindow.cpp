@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @brief   Callback, called when the timer.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MainWindow::timerCallback(void)
@@ -66,7 +66,7 @@ void MainWindow::timerCallback(void)
  *
  * @brief   S.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  commandMap      If non-null, the command map.
  * @param [in,out]  in              If non-null, the in.

@@ -40,7 +40,7 @@ std::mutex SendKeys::m_mtxSending{};
  *
  * @brief   Sends a key down up.
  *
- * @date    3/22/2016
+ *
  *
  * @param   key The key.
  **************************************************************************************************/

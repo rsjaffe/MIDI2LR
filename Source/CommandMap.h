@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  * @brief   encapsulates a MIDI message (Note or CC)
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 struct MIDI_Message
@@ -78,7 +78,7 @@ namespace std {
      * @brief   A hash for MIDI messages.
      *
      *
-     * @date    3/22/2016
+     *
      **************************************************************************************************/
 
 	template <>
@@ -96,7 +96,7 @@ namespace std {
      * @brief   A hash for Juce String.
      *
      *
-     * @date    3/22/2016
+     *
      **************************************************************************************************/
 
 	template <>
@@ -115,7 +115,7 @@ namespace std {
  * @brief   A command map.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 class CommandMap : public Subject

@@ -29,7 +29,7 @@ constexpr auto SettingsHeight = 300;
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 SettingsComponent::SettingsComponent(): ResizableLayout{ this }, _pickupEnabled{ "Enable Pickup Mode" },
@@ -51,7 +51,7 @@ m_settingsManager{ nullptr }
  *
  * @brief   Destructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 SettingsComponent::~SettingsComponent()
@@ -64,7 +64,7 @@ SettingsComponent::~SettingsComponent()
  *
  * @brief   Paints the given g.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  g   The Graphics to process.
  **************************************************************************************************/
@@ -79,7 +79,7 @@ void SettingsComponent::paint(Graphics& g)
  *
  * @brief   Button clicked.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  button  If non-null, the button.
  **************************************************************************************************/
@@ -122,7 +122,7 @@ void SettingsComponent::buttonClicked(Button* button)
  *
  * @brief   Slider value changed.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  slider  If non-null, the slider.
  **************************************************************************************************/
@@ -151,7 +151,7 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
  *
  * @brief   Inits the given settings manager.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  settingsManager If non-null, manager for settings.
  **************************************************************************************************/

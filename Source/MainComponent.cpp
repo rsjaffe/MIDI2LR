@@ -33,7 +33,7 @@ constexpr auto SpaceBetweenButton = 10;
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 MainContentComponent::MainContentComponent(): ResizableLayout{ this }, _titleLabel{ "Title", "MIDI2LR" },
@@ -65,7 +65,7 @@ _versionLabel{ "Version", "Version " +
  *
  * @brief   Destructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 MainContentComponent::~MainContentComponent()
@@ -76,7 +76,7 @@ MainContentComponent::~MainContentComponent()
  *
  * @brief   Paints the given g.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  g   The Graphics to process.
  **************************************************************************************************/
@@ -91,7 +91,7 @@ void MainContentComponent::paint(Graphics& g)
  *
  * @brief   Sets label settings.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  lblToSet    Set the label to belongs to.
  **************************************************************************************************/
@@ -108,7 +108,7 @@ void MainContentComponent::SetLabelSettings(Label &lblToSet)
  *
  * @brief   Update MIDI command components.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MainContentComponent::handleAsyncUpdate()
@@ -128,7 +128,7 @@ void MainContentComponent::handleAsyncUpdate()
  *
  * @brief   Handles the MIDI Cc.
  *
- * @date    3/22/2016
+ *
  *
  * @param   midiChannel The MIDI channel.
  * @param   controller  The controller.
@@ -149,7 +149,7 @@ void MainContentComponent::handleMidiCC(int midiChannel, int controller, int val
  *
  * @brief   Handles the MIDI note.
  *
- * @date    3/22/2016
+ *
  *
  * @param   midiChannel The MIDI channel.
  * @param   note        The note.
@@ -169,7 +169,7 @@ void MainContentComponent::handleMidiNote(int midiChannel, int note)
  *
  * @brief   Connected this object.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MainContentComponent::connected()
@@ -183,7 +183,7 @@ void MainContentComponent::connected()
  *
  * @brief   Disconnect from the ed.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MainContentComponent::disconnected()
@@ -197,7 +197,7 @@ void MainContentComponent::disconnected()
  *
  * @brief   Callback, called when the timer.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MainContentComponent::timerCallback()
@@ -212,7 +212,7 @@ void MainContentComponent::timerCallback()
  *
  * @brief   Button clicked.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  button  If non-null, the button.
  **************************************************************************************************/
@@ -338,7 +338,7 @@ void MainContentComponent::buttonClicked(Button* button)
  *
  * @brief   Profile changed.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  elem    If non-null, the element.
  * @param   filename        Filename of the file.
@@ -364,7 +364,7 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
  *
  * @brief   Sets timer text.
  *
- * @date    3/22/2016
+ *
  *
  * @param   timeValue   The time value.
  **************************************************************************************************/
@@ -387,7 +387,7 @@ void MainContentComponent::SetTimerText(int timeValue)
  *
  * @brief   S.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  commandMap      If non-null, the command map.
  * @param [in,out]  in              If non-null, the in.

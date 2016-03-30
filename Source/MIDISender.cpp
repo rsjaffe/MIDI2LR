@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 MIDISender::MIDISender() noexcept
@@ -38,7 +38,7 @@ MIDISender::MIDISender() noexcept
  * @brief   Init devices.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MIDISender::initDevices()
@@ -57,7 +57,7 @@ void MIDISender::initDevices()
  * @brief   Rescan devices.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MIDISender::rescanDevices()
@@ -72,7 +72,7 @@ void MIDISender::rescanDevices()
  * @brief   Destructor.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 MIDISender::~MIDISender()
@@ -85,7 +85,7 @@ MIDISender::~MIDISender()
  *
  * @brief   Sends a MIDI control change.
  *
- * @date    3/22/2016
+ *
  *
  * @param   midi_channel    The MIDI channel.
  * @param   controller      The controller.
@@ -104,7 +104,7 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const
  * @brief   S this object.
  *
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void MIDISender::Init(void)

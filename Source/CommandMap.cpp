@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 CommandMap::CommandMap() noexcept : Subject{}
@@ -40,7 +40,7 @@ CommandMap::CommandMap() noexcept : Subject{}
  * @brief   Adds a commandfor message to 'msg'.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   command The command.
  * @param   msg     The message.
@@ -64,7 +64,7 @@ void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &
  * @brief   Adds a commandfor message to 'msg'.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   command The command.
  * @param   msg     The message.
@@ -82,7 +82,7 @@ void CommandMap::addCommandforMessage(const String& command, const MIDI_Message 
  * @brief   Gets commandfor message.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   msg The message.
  *
@@ -100,7 +100,7 @@ const String& CommandMap::getCommandforMessage(const MIDI_Message &msg) const
  * @brief   Gets message for command.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   command The command.
  *
@@ -118,7 +118,7 @@ const MIDI_Message& CommandMap::getMessageForCommand(const String &command) cons
  * @brief   Message exists in map.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   msg The message.
  *
@@ -136,7 +136,7 @@ bool CommandMap::messageExistsInMap(const MIDI_Message &msg) const
  * @brief   Command has associated message.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   command The command.
  *
@@ -154,7 +154,7 @@ bool CommandMap::commandHasAssociatedMessage(const String &command) const
  * @brief   Removes the message described by msg.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param   msg The message.
  **************************************************************************************************/
@@ -171,7 +171,7 @@ void CommandMap::removeMessage(const MIDI_Message &msg)
  *
  * @brief   Clears the map.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void CommandMap::clearMap() noexcept
@@ -186,7 +186,7 @@ void CommandMap::clearMap() noexcept
  * @brief   Converts a file to an XML document.
  *
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  file    The file.
  **************************************************************************************************/

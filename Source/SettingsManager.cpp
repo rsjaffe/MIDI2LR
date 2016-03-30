@@ -28,7 +28,7 @@ constexpr const auto AutoHideSection{ "autohide" };
  *
  * @brief   Default constructor.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 SettingsManager::SettingsManager(): m_lr_IPC_OUT{ nullptr }, m_profileManager{ nullptr }
@@ -49,7 +49,7 @@ SettingsManager::SettingsManager(): m_lr_IPC_OUT{ nullptr }, m_profileManager{ n
  *
  * @brief   Sets pickup enabled.
  *
- * @date    3/22/2016
+ *
  *
  * @param   enabled true to enable, false to disable.
  **************************************************************************************************/
@@ -73,7 +73,7 @@ void SettingsManager::setPickupEnabled(bool enabled)
  *
  * @brief   Gets pickup enabled.
  *
- * @date    3/22/2016
+ *
  *
  * @return  true if it succeeds, false if it fails.
  **************************************************************************************************/
@@ -88,7 +88,7 @@ bool SettingsManager::getPickupEnabled() const noexcept
  *
  * @brief   Gets profile directory.
  *
- * @date    3/22/2016
+ *
  *
  * @return  The profile directory.
  **************************************************************************************************/
@@ -103,7 +103,7 @@ String SettingsManager::getProfileDirectory() const noexcept
  *
  * @brief   Sets profile directory.
  *
- * @date    3/22/2016
+ *
  *
  * @param   profileDirStr   The profile dir string.
  **************************************************************************************************/
@@ -125,7 +125,7 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
  *
  * @brief   Connected this object.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void SettingsManager::connected()
@@ -144,7 +144,7 @@ void SettingsManager::connected()
  *
  * @brief   Disconnect from the ed.
  *
- * @date    3/22/2016
+ *
  **************************************************************************************************/
 
 void SettingsManager::disconnected()
@@ -157,7 +157,7 @@ void SettingsManager::disconnected()
  *
  * @brief   Gets automatic hide time.
  *
- * @date    3/22/2016
+ *
  *
  * @return  The automatic hide time.
  **************************************************************************************************/
@@ -173,7 +173,7 @@ int SettingsManager::getAutoHideTime() const
  *
  * @brief   Sets automatic hide time.
  *
- * @date    3/22/2016
+ *
  *
  * @param   newTime The new time.
  **************************************************************************************************/
@@ -190,7 +190,7 @@ void SettingsManager::setAutoHideTime(int newTime)
  *
  * @brief   Gets the last version found.
  *
- * @date    3/22/2016
+ *
  *
  * @return  The last version found.
  **************************************************************************************************/
@@ -205,7 +205,7 @@ int SettingsManager::getLastVersionFound() const
  *
  * @brief   Sets last version found.
  *
- * @date    3/22/2016
+ *
  *
  * @param   newversion  The newversion.
  **************************************************************************************************/
@@ -221,7 +221,7 @@ void SettingsManager::setLastVersionFound(int newversion)
  *
  * @brief   S.
  *
- * @date    3/22/2016
+ *
  *
  * @param [in,out]  lr_IPC_OUT      If non-null, the lr ipc out.
  * @param [in,out]  profileManager  If non-null, manager for profile.
