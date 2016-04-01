@@ -40,6 +40,7 @@ public:
 	static const std::vector<String> LRStringList;
 
 	// Sectioned and readable develop param strings
+    static const std::vector<String> KeyShortcuts;
     static const std::vector<String> General;
     static const std::vector<String> Library;
     static const std::vector<String> Develop;
@@ -56,8 +57,9 @@ public:
     static const std::vector<String> LocalAdjustments;
     static const std::vector<String> Crop;
     static const std::vector<String> ToolModulePanel;
-    static const std::vector<String> ViewModes;
+    static const std::vector<String> SecondaryDisplay;
     static const std::vector<String> ProgramProfiles;
+
     // MIDI2LR commands
 	static const std::vector<String> NextPrevProfile;
 

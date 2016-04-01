@@ -20,6 +20,246 @@
   ------------------------------------------------------------------------------]]
   local MenuList = {
   {
+    "Key1",
+    "Key 1",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key2",
+    "Key 2",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key3",
+    "Key 3",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key4",
+    "Key 4",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key5",
+    "Key 5",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key6",
+    "Key 6",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key7",
+    "Key 7",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key8",
+    "Key 8",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key9",
+    "Key 9",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key10",
+    "Key 10",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key11",
+    "Key 11",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key12",
+    "Key 12",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key13",
+    "Key 13",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key14",
+    "Key 14",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key15",
+    "Key 15",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key16",
+    "Key 16",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key17",
+    "Key 17",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key18",
+    "Key 18",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key19",
+    "Key 19",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key20",
+    "Key 20",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key21",
+    "Key 21",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key22",
+    "Key 22",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key23",
+    "Key 23",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key24",
+    "Key 24",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key25",
+    "Key 25",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key26",
+    "Key 26",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key27",
+    "Key 27",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key28",
+    "Key 28",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key29",
+    "Key 29",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key30",
+    "Key 30",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key31",
+    "Key 31",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key32",
+    "Key 32",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key33",
+    "Key 33",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key34",
+    "Key 34",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key35",
+    "Key 35",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key36",
+    "Key 36",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key37",
+    "Key 37",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key38",
+    "Key 38",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key39",
+    "Key 39",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
+    "Key40",
+    "Key 40",
+    "Keyboard Shortcuts for User",
+    true
+  },
+  {
     "KPImportImages",
     "Import Photos and Videos",
     "General",

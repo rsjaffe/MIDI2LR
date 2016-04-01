@@ -31,6 +31,7 @@ local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/P
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
 local general = LOC("$$$/WFCatSearch/TermCategories/General=General")
 local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
+local keyshortcuts = LOC("$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User")
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
 local library = LOC("$$$/AgLibraryModule/ModuleTitle=Library")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
@@ -67,6 +68,8 @@ DataBase structure
 13. keypress pc
 14. keypress mac
 
+make sure to add section to cppvectors if new
+
 errors if:
 2=not false, 3=false
 4=false, 5=true
@@ -88,6 +91,47 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
   ------------------------------------------------------------------------------]]
 
 local DataBase = {
+  --Keyboard shortcuts
+  {'Key1',false,false,true,false,true,false,'Key 1',keyshortcuts,'Key 1. *button*'},
+  {'Key2',false,false,true,false,true,false,'Key 2',keyshortcuts,'Key 2. *button*'},
+  {'Key3',false,false,true,false,true,false,'Key 3',keyshortcuts,'Key 3. *button*'},
+  {'Key4',false,false,true,false,true,false,'Key 4',keyshortcuts,'Key 4. *button*'},
+  {'Key5',false,false,true,false,true,false,'Key 5',keyshortcuts,'Key 5. *button*'},
+  {'Key6',false,false,true,false,true,false,'Key 6',keyshortcuts,'Key 6. *button*'},
+  {'Key7',false,false,true,false,true,false,'Key 7',keyshortcuts,'Key 7. *button*'},
+  {'Key8',false,false,true,false,true,false,'Key 8',keyshortcuts,'Key 8. *button*'},
+  {'Key9',false,false,true,false,true,false,'Key 9',keyshortcuts,'Key 9. *button*'},
+  {'Key10',false,false,true,false,true,false,'Key 10',keyshortcuts,'Key 10. *button*'},
+  {'Key11',false,false,true,false,true,false,'Key 11',keyshortcuts,'Key 11. *button*'},
+  {'Key12',false,false,true,false,true,false,'Key 12',keyshortcuts,'Key 12. *button*'},
+  {'Key13',false,false,true,false,true,false,'Key 13',keyshortcuts,'Key 13. *button*'},
+  {'Key14',false,false,true,false,true,false,'Key 14',keyshortcuts,'Key 14. *button*'},
+  {'Key15',false,false,true,false,true,false,'Key 15',keyshortcuts,'Key 15. *button*'},
+  {'Key16',false,false,true,false,true,false,'Key 16',keyshortcuts,'Key 16. *button*'},
+  {'Key17',false,false,true,false,true,false,'Key 17',keyshortcuts,'Key 17. *button*'},
+  {'Key18',false,false,true,false,true,false,'Key 18',keyshortcuts,'Key 18. *button*'},
+  {'Key19',false,false,true,false,true,false,'Key 19',keyshortcuts,'Key 19. *button*'},
+  {'Key20',false,false,true,false,true,false,'Key 20',keyshortcuts,'Key 20. *button*'},
+  {'Key21',false,false,true,false,true,false,'Key 21',keyshortcuts,'Key 21. *button*'},
+  {'Key22',false,false,true,false,true,false,'Key 22',keyshortcuts,'Key 22. *button*'},
+  {'Key23',false,false,true,false,true,false,'Key 23',keyshortcuts,'Key 23. *button*'},
+  {'Key24',false,false,true,false,true,false,'Key 24',keyshortcuts,'Key 24. *button*'},
+  {'Key25',false,false,true,false,true,false,'Key 25',keyshortcuts,'Key 25. *button*'},
+  {'Key26',false,false,true,false,true,false,'Key 26',keyshortcuts,'Key 26. *button*'},
+  {'Key27',false,false,true,false,true,false,'Key 27',keyshortcuts,'Key 27. *button*'},
+  {'Key28',false,false,true,false,true,false,'Key 28',keyshortcuts,'Key 28. *button*'},
+  {'Key29',false,false,true,false,true,false,'Key 29',keyshortcuts,'Key 29. *button*'},
+  {'Key30',false,false,true,false,true,false,'Key 30',keyshortcuts,'Key 30. *button*'},
+  {'Key31',false,false,true,false,true,false,'Key 31',keyshortcuts,'Key 31. *button*'},
+  {'Key32',false,false,true,false,true,false,'Key 32',keyshortcuts,'Key 32. *button*'},
+  {'Key33',false,false,true,false,true,false,'Key 33',keyshortcuts,'Key 33. *button*'},
+  {'Key34',false,false,true,false,true,false,'Key 34',keyshortcuts,'Key 34. *button*'},
+  {'Key35',false,false,true,false,true,false,'Key 35',keyshortcuts,'Key 35. *button*'},
+  {'Key36',false,false,true,false,true,false,'Key 36',keyshortcuts,'Key 36. *button*'},
+  {'Key37',false,false,true,false,true,false,'Key 37',keyshortcuts,'Key 37. *button*'},
+  {'Key38',false,false,true,false,true,false,'Key 38',keyshortcuts,'Key 38. *button*'},
+  {'Key39',false,false,true,false,true,false,'Key 39',keyshortcuts,'Key 39. *button*'},
+  {'Key40',false,false,true,false,true,false,'Key 40',keyshortcuts,'Key 40. *button*'},
   --General Workspace
   {'KPImportImages',false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ImportImages=Import Photos and Videos"),general,"Imports photos and videos (**control/command shift i**). *button*",'',true,'ctrl + shift + i','command + shift + i'},
   {'KPExportImages',false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Export_Image=Export"),general,"Exports photos and videos (**control/command shift e**). *button*",'',true,'control + shift + e','command + shift + e'},
@@ -827,6 +871,7 @@ local cppvectors ={
   [effects]={'Effects','Effects'},
   [general]={'General',general},
   [gotoToolModulePanel]={'ToolModulePanel','Go to Tool, Module, or Panel'},
+  [keyshortcuts]={'KeyShortcuts',keyshortcuts},
   [lensCorrections]={'LensCorrections','Lens Corrections'},
   [library]={'Library',library},
   [localizedAdjustments]={'LocalAdjustments','Local Adjustments'},
