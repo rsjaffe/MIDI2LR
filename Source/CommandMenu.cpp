@@ -76,9 +76,7 @@ void CommandMenu::setMsg(const MIDI_Message& msg)
  *
  * @brief   Button clicked.
  *
- *
- *
- * @param [in,out]  parameter1  button)  If non-null, the unused argument (button)
+ * @param [in,out]  button  button)  If non-null, the unused argument (button)
  **************************************************************************************************/
 
 void CommandMenu::buttonClicked(Button* /*button*/)

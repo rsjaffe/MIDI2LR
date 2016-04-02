@@ -278,7 +278,7 @@ void LR_IPC_OUT::connectionLost()
  *
  *
  *
- * @param   parameter1  The unused argument (msg)
+ * @param   msg  The message.
  **************************************************************************************************/
 
 void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)

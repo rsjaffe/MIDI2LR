@@ -104,9 +104,7 @@ void MIDIProcessor::rescanDevices()
  *
  * @brief   Handles the incoming MIDI message.
  *
- *
- *
- * @param [in,out]  parameter1  device)  If non-null, the unused argument (device)
+ * @param [in,out]  device      If non-null, the device.
  * @param   msg                 The message.
  **************************************************************************************************/
 

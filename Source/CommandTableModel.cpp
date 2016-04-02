@@ -57,9 +57,9 @@ int CommandTableModel::getNumRows()
  *
  *
  * @param [in,out]  g       The Graphics to process.
- * @param   parameter2      The second parameter.
- * @param   parameter3      The third parameter.
- * @param   parameter4      The fourth parameter.
+ * @param   rowNumber      Row number.
+ * @param   width      Row width.
+ * @param   height      Row height
  * @param   rowIsSelected   true if row is selected.
  **************************************************************************************************/
 
@@ -82,7 +82,7 @@ void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/, int /
  * @param   columnId    Identifier for the column.
  * @param   width       The width.
  * @param   height      The height.
- * @param   parameter6  true to parameter 6.
+ * @param   rowIsSelected  True if row is selected.
  **************************************************************************************************/
 
 void CommandTableModel::paintCell(Graphics &g, int rowNumber, int columnId, int width, int height, bool /*rowIsSelected*/)
@@ -111,7 +111,7 @@ void CommandTableModel::paintCell(Graphics &g, int rowNumber, int columnId, int 
  *
  * @param   rowNumber                           The row number.
  * @param   columnId                            Identifier for the column.
- * @param   parameter3                          true to parameter 3.
+ * @param   isRowSelected                       True when row is selected.
  * @param [in,out]  existingComponentToUpdate   If non-null, the existing component to update.
  *
  * @return  null if it fails, else a pointer to a Component.
@@ -176,9 +176,6 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
  * @fn  int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC) const
  *
  * @brief   return value -1 means can not find.
- *
- *
- *
  *
  * @param   midi_channel    The MIDI channel.
  * @param   midi_data       Information describing the MIDI.
