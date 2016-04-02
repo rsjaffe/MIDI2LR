@@ -268,3 +268,4 @@ DoxyGen/html
 DoxyGen/rtf
 Source/LRPlugin/MIDI2LR.lrplugin/Documentation.txt
 Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.exe
+Source/LRPlugin/MIDI2LR.lrplugin/default.xml
