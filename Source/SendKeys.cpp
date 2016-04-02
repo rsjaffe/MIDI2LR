@@ -152,7 +152,7 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
     CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-    uint64_t flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+    uint64_t flags = UINT64_C(0); // having trouble with keycode flags:: CGEventGetFlags(d); //in case KeyCode has associated flag
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
