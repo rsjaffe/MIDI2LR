@@ -32,15 +32,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 * @date    3/20/2016
 **************************************************************************************************/
 
-class CommandTable : public TableListBox
+class CommandTable: public TableListBox
 {
 public:
-	CommandTable(const String& componentName, TableListBoxModel *model);
+    CommandTable(const String& componentName, TableListBoxModel *model);
 
 private:
 
-	//==============================================================================
-	JUCE_DECLARE_NON_COPYABLE(CommandTable)
+    //==============================================================================
+    JUCE_DECLARE_NON_COPYABLE(CommandTable)
 };
 
 #endif

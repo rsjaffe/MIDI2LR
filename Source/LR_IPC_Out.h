@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-	LR_IPC_OUT.h
+    LR_IPC_OUT.h
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -15,7 +15,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #ifndef LR_IPC_OUT_H_INCLUDED
@@ -38,13 +38,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class LRConnectionListener
 {
 public:
-	// sent when a connection to the LR plugin is made
-	virtual void connected() = 0;
+    // sent when a connection to the LR plugin is made
+    virtual void connected() = 0;
 
-	// sent if disconnected from the LR plugin
-	virtual void disconnected() = 0;
+    // sent if disconnected from the LR plugin
+    virtual void disconnected() = 0;
 
-	virtual ~LRConnectionListener() {};
+    virtual ~LRConnectionListener()
+    {};
 ///< .
 };
 
@@ -57,45 +58,46 @@ public:
  *
  **************************************************************************************************/
 
-class LR_IPC_OUT : public InterprocessConnection,
-	public MIDICommandListener,
-	public AsyncUpdater,
-	public Timer
+class LR_IPC_OUT: public InterprocessConnection,
+    public MIDICommandListener,
+    public AsyncUpdater,
+    public Timer
 {
 public:
-	LR_IPC_OUT();
-	virtual ~LR_IPC_OUT() {};
-	// closes the socket
-	void shutdown();
+    LR_IPC_OUT();
+    virtual ~LR_IPC_OUT()
+    {};
+// closes the socket
+    void shutdown();
 
-	void addListener(LRConnectionListener *listener);
+    void addListener(LRConnectionListener *listener);
 
-	// sends a command to the plugin
-	void sendCommand(const String& command) const;
+    // sends a command to the plugin
+    void sendCommand(const String& command) const;
 
-	// IPC interface
-	virtual void connectionMade() override;
-	virtual void connectionLost() override;
-	virtual void messageReceived(const MemoryBlock& msg) override;
+    // IPC interface
+    virtual void connectionMade() override;
+    virtual void connectionLost() override;
+    virtual void messageReceived(const MemoryBlock& msg) override;
 
-	// MIDICommandListener interface
-	virtual void handleMidiCC(int midiChannel, int controller, int value) override;
-	virtual void handleMidiNote(int midiChannel, int note) override;
+    // MIDICommandListener interface
+    virtual void handleMidiCC(int midiChannel, int controller, int value) override;
+    virtual void handleMidiNote(int midiChannel, int note) override;
 
 
 
-	// AsyncUpdater interface
-	virtual void handleAsyncUpdate() override;
+    // AsyncUpdater interface
+    virtual void handleAsyncUpdate() override;
 
-	// Timer callback
-	virtual void timerCallback() override;
-	void Init(std::shared_ptr<CommandMap>&  mapCommand, std::shared_ptr<MIDIProcessor>&  midiProcessor);
+    // Timer callback
+    virtual void timerCallback() override;
+    void Init(std::shared_ptr<CommandMap>&  mapCommand, std::shared_ptr<MIDIProcessor>&  midiProcessor);
 private:
     const static unordered_map<String, KeyPress> KPMappings;
-	std::shared_ptr<const CommandMap> m_commandMap;
-	Array<LRConnectionListener *> _listeners;
-	int _valueToSend;
-	String _commandToSend;
+    std::shared_ptr<const CommandMap> m_commandMap;
+    Array<LRConnectionListener *> _listeners;
+    int _valueToSend;
+    String _commandToSend;
     // Send key commands
     void handleKPCommand(void) const;
     SendKeys m_SendKeys;

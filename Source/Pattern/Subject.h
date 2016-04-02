@@ -41,14 +41,14 @@ class Observer;
 class Subject
 {
 public:
-	Subject() noexcept;
-	virtual ~Subject();	
-	void RegisterObserver(Observer *observer);
-	void UnregisterObserver(Observer *observer);
+    Subject() noexcept;
+    virtual ~Subject();
+    void RegisterObserver(Observer *observer);
+    void UnregisterObserver(Observer *observer);
 protected:
-	void Notify(void);
+    void Notify(void);
 private:
-	vector<Observer *> m_observerArray;
+    vector<Observer *> m_observerArray;
 };
 
 

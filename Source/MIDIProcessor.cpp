@@ -14,7 +14,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
@@ -29,7 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 MIDIProcessor::MIDIProcessor() noexcept
 {
-    
+
 }
 
 /**********************************************************************************************//**
@@ -57,7 +57,7 @@ MIDIProcessor::~MIDIProcessor()
 
 void MIDIProcessor::Init(void)
 {
-	initDevices();
+    initDevices();
 }
 
 /**********************************************************************************************//**
@@ -71,9 +71,9 @@ void MIDIProcessor::Init(void)
 
 void MIDIProcessor::initDevices()
 {
-    for(auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
+    for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
     {
-        if(_devices.set(idx, MidiInput::openDevice(idx, this)))
+        if (_devices.set(idx, MidiInput::openDevice(idx, this)))
         {
             _devices[idx]->start();
             DBG(_devices[idx]->getName());
@@ -110,20 +110,20 @@ void MIDIProcessor::rescanDevices()
 
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &msg)
 {
-	if (msg.isController())
-	{
-		for (auto listener : _listeners)
-		{
-			listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
-		}
-	}
-	else if (msg.isNoteOn())
-	{
-		for (auto listener : _listeners)
-		{
-			listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
-		}
-	}
+    if (msg.isController())
+    {
+        for (auto listener : _listeners)
+        {
+            listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
+        }
+    }
+    else if (msg.isNoteOn())
+    {
+        for (auto listener : _listeners)
+        {
+            listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
+        }
+    }
 }
 
 /**********************************************************************************************//**

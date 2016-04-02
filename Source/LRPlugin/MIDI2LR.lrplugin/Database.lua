@@ -659,7 +659,7 @@ local DataBase = {
   {'ResetstraightenAngle',false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),crop,"Reset crop angle. *button*"},
   {"CropOverlay",false,false,true,false,true,false,show..' '..crop,crop,"Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"KPRotateCropAspect", false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Photo/RotateCropAspect=Switch Crop Orientation"),crop, 'Switch crop between portrait and landscape orientation (**x**). *button*','',true,'x','x'},
-  
+
 
   {"Loupe",false,false,true,false,true,false,show..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),gotoToolModulePanel,"Select Loupe View mode in Develop Module. Repeated press toggles in and out of Loupe View. *button*",'loupe'},
   {"SwToMmap",false,false,true,false,true,false,show..' '..LOC("$$$/AgLocation/ModuleTitle=Map"),gotoToolModulePanel,"Switch to Map module. *button*"},

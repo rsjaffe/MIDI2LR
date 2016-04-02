@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-	SettingsManager.cpp
+    SettingsManager.cpp
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -14,7 +14,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "SettingsManager.h"
@@ -22,11 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef _WIN32
 //missing make_unique (C++14) in XCode
-namespace std {
+namespace std
+{
     template<typename T, typename... Args>
     unique_ptr<T> make_unique(Args&&... args)
     {
-        return unique_ptr<T>{new T{args...}};
+        return unique_ptr<T>{new T{ args... }};
     }
 }
 #endif
@@ -44,14 +45,14 @@ const juce::String AutoHideSection{ "autohide" };
 
 SettingsManager::SettingsManager(): m_lr_IPC_OUT{ nullptr }, m_profileManager{ nullptr }
 {
-	PropertiesFile::Options opts;
-	opts.applicationName = "MIDI2LR";
-	opts.commonToAllUsers = false;
-	opts.filenameSuffix = "xml";
-	opts.osxLibrarySubFolder = "Application Support/MIDI2LR";
-	opts.storageFormat = PropertiesFile::storeAsXML;
+    PropertiesFile::Options opts;
+    opts.applicationName = "MIDI2LR";
+    opts.commonToAllUsers = false;
+    opts.filenameSuffix = "xml";
+    opts.osxLibrarySubFolder = "Application Support/MIDI2LR";
+    opts.storageFormat = PropertiesFile::storeAsXML;
 
-	_propertiesFile = std::make_unique<PropertiesFile>(opts);
+    _propertiesFile = std::make_unique<PropertiesFile>(opts);
 
 }
 
@@ -67,16 +68,16 @@ SettingsManager::SettingsManager(): m_lr_IPC_OUT{ nullptr }, m_profileManager{ n
 
 void SettingsManager::setPickupEnabled(bool enabled)
 {
-	_propertiesFile->setValue("pickup_enabled", enabled);
-	_propertiesFile->saveIfNeeded();
+    _propertiesFile->setValue("pickup_enabled", enabled);
+    _propertiesFile->saveIfNeeded();
 
-	auto command = String::formatted("Pickup %d\n", enabled);
+    auto command = String::formatted("Pickup %d\n", enabled);
 
-	if (m_lr_IPC_OUT)
-	{
-		m_lr_IPC_OUT->sendCommand(command);
-	}
-	
+    if (m_lr_IPC_OUT)
+    {
+        m_lr_IPC_OUT->sendCommand(command);
+    }
+
 }
 
 /**********************************************************************************************//**
@@ -91,7 +92,7 @@ void SettingsManager::setPickupEnabled(bool enabled)
 
 bool SettingsManager::getPickupEnabled() const noexcept
 {
-	return _propertiesFile->getBoolValue("pickup_enabled", true);
+    return _propertiesFile->getBoolValue("pickup_enabled", true);
 }
 
 /**********************************************************************************************//**
@@ -106,7 +107,7 @@ bool SettingsManager::getPickupEnabled() const noexcept
 
 String SettingsManager::getProfileDirectory() const noexcept
 {
-	return _propertiesFile->getValue("profile_directory");
+    return _propertiesFile->getValue("profile_directory");
 }
 
 /**********************************************************************************************//**
@@ -121,14 +122,14 @@ String SettingsManager::getProfileDirectory() const noexcept
 
 void SettingsManager::setProfileDirectory(const String& profileDirStr)
 {
-	_propertiesFile->setValue("profile_directory", profileDirStr);
-	_propertiesFile->saveIfNeeded();
+    _propertiesFile->setValue("profile_directory", profileDirStr);
+    _propertiesFile->saveIfNeeded();
 
-	if (m_profileManager)
-	{
+    if (m_profileManager)
+    {
         File profileDir{ profileDirStr };
-		m_profileManager->setProfileDirectory(profileDir);
-	}
+        m_profileManager->setProfileDirectory(profileDir);
+    }
 }
 
 /**********************************************************************************************//**
@@ -141,13 +142,13 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 
 void SettingsManager::connected()
 {
-	auto command = String::formatted("Pickup %d\n", getPickupEnabled());
+    auto command = String::formatted("Pickup %d\n", getPickupEnabled());
 
-	if (m_lr_IPC_OUT)
-	{
-		m_lr_IPC_OUT->sendCommand(command);
-	}
-	
+    if (m_lr_IPC_OUT)
+    {
+        m_lr_IPC_OUT->sendCommand(command);
+    }
+
 }
 
 /**********************************************************************************************//**
@@ -175,7 +176,7 @@ void SettingsManager::disconnected()
 
 int SettingsManager::getAutoHideTime() const
 {
-	return _propertiesFile->getIntValue(AutoHideSection, 0);
+    return _propertiesFile->getIntValue(AutoHideSection, 0);
 
 }
 
@@ -191,8 +192,8 @@ int SettingsManager::getAutoHideTime() const
 
 void SettingsManager::setAutoHideTime(int newTime)
 {
-	_propertiesFile->setValue(AutoHideSection, newTime);
-	_propertiesFile->saveIfNeeded();
+    _propertiesFile->setValue(AutoHideSection, newTime);
+    _propertiesFile->saveIfNeeded();
 
 }
 
@@ -240,21 +241,21 @@ void SettingsManager::setLastVersionFound(int newversion)
 
 void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
 {
-	m_lr_IPC_OUT = lr_IPC_OUT;
+    m_lr_IPC_OUT = lr_IPC_OUT;
 
-	if (m_lr_IPC_OUT)
-	{
-		// add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
-		m_lr_IPC_OUT->addListener(this);
-	}
+    if (m_lr_IPC_OUT)
+    {
+        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
+        m_lr_IPC_OUT->addListener(this);
+    }
 
-	m_profileManager = profileManager;
+    m_profileManager = profileManager;
 
-	if (m_profileManager)
-	{
-		// set the profile directory
+    if (m_profileManager)
+    {
+        // set the profile directory
         File profileDir{ getProfileDirectory() };
-		profileManager->setProfileDirectory(profileDir);
-	}
+        profileManager->setProfileDirectory(profileDir);
+    }
 
 }

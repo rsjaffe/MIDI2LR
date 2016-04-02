@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-	SettingsComponent.cpp
+    SettingsComponent.cpp
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -14,7 +14,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -43,7 +43,7 @@ m_autoHideExplainLabel{},
 m_settingsManager{ nullptr }
 {
 
-	
+
 }
 
 /**********************************************************************************************//**
@@ -71,7 +71,7 @@ SettingsComponent::~SettingsComponent()
 
 void SettingsComponent::paint(Graphics& g)
 {
-	g.fillAll(Colours::white);   // clear the background
+    g.fillAll(Colours::white);   // clear the background
 }
 
 /**********************************************************************************************//**
@@ -86,15 +86,15 @@ void SettingsComponent::paint(Graphics& g)
 
 void SettingsComponent::buttonClicked(Button* button)
 {
-	if (button == &_pickupEnabled)
-	{
-		if (m_settingsManager)
-		{
-			m_settingsManager->setPickupEnabled(_pickupEnabled.getToggleState());
-		}		
-	}
-	else if (button == &_profileLocationButton)
-	{
+    if (button == &_pickupEnabled)
+    {
+        if (m_settingsManager)
+        {
+            m_settingsManager->setPickupEnabled(_pickupEnabled.getToggleState());
+        }
+    }
+    else if (button == &_profileLocationButton)
+    {
         FileBrowserComponent browser{ FileBrowserComponent::canSelectDirectories | FileBrowserComponent::openMode,
             File::getCurrentWorkingDirectory(),
             nullptr,
@@ -105,16 +105,16 @@ void SettingsComponent::buttonClicked(Button* button)
             true,
             Colours::lightgrey };
 
-		if (dialogBox.show())
-		{
-			auto profileLoc = browser.getSelectedFile(0).getFullPathName();
-			if (m_settingsManager)
-			{
-				m_settingsManager->setProfileDirectory(profileLoc);
-			}			
-			_profileLocationLabel.setText(profileLoc, NotificationType::dontSendNotification);
-		}
-	}
+        if (dialogBox.show())
+        {
+            auto profileLoc = browser.getSelectedFile(0).getFullPathName();
+            if (m_settingsManager)
+            {
+                m_settingsManager->setProfileDirectory(profileLoc);
+            }
+            _profileLocationLabel.setText(profileLoc, NotificationType::dontSendNotification);
+        }
+    }
 }
 
 /**********************************************************************************************//**
@@ -129,20 +129,20 @@ void SettingsComponent::buttonClicked(Button* button)
 
 void SettingsComponent::sliderValueChanged(Slider* slider)
 {
-	// NULL pointer check
-	if (slider)
-	{
-		if (&m_autoHideSetting == slider)
-		{
-			//get the rounded setting
-			int newSetting = static_cast<int>(m_autoHideSetting.getValue());
+    // NULL pointer check
+    if (slider)
+    {
+        if (&m_autoHideSetting == slider)
+        {
+            //get the rounded setting
+            int newSetting = static_cast<int>(m_autoHideSetting.getValue());
 
-			if (m_settingsManager)
-			{
-				m_settingsManager->setAutoHideTime(newSetting);
-			}			
-		}
-	}
+            if (m_settingsManager)
+            {
+                m_settingsManager->setAutoHideTime(newSetting);
+            }
+        }
+    }
 
 }
 
@@ -158,80 +158,80 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
 
 void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
 {
-	//copy the pointer
-	m_settingsManager = settingsManager;
+    //copy the pointer
+    m_settingsManager = settingsManager;
 
-	// for layouts to work you must start at some size
-	// place controls in a location that is initially correct.
-	setSize(SettingsWidth, SettingsHeight);
+    // for layouts to work you must start at some size
+    // place controls in a location that is initially correct.
+    setSize(SettingsWidth, SettingsHeight);
 
-	if (m_settingsManager)
-	{
-		m_pickupGroup.setText("Pick up");
-		m_pickupGroup.setBounds(0, 0, SettingsWidth, 100);
-		addToLayout(&m_pickupGroup, anchorMidLeft, anchorMidRight);
-		addAndMakeVisible(m_pickupGroup);
+    if (m_settingsManager)
+    {
+        m_pickupGroup.setText("Pick up");
+        m_pickupGroup.setBounds(0, 0, SettingsWidth, 100);
+        addToLayout(&m_pickupGroup, anchorMidLeft, anchorMidRight);
+        addAndMakeVisible(m_pickupGroup);
 
         _pickupLabel.setFont(Font{ 12.f, Font::bold });
-		_pickupLabel.setText("Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements", NotificationType::dontSendNotification);
-		_pickupLabel.setBounds(SettingsLeft, 15, SettingsWidth - 2 * SettingsLeft, 50);
-		addToLayout(&_pickupLabel, anchorMidLeft, anchorMidRight);
-		_pickupLabel.setEditable(false);
-		_pickupLabel.setColour(Label::textColourId, Colours::darkgrey);
-		addAndMakeVisible(_pickupLabel);
+        _pickupLabel.setText("Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements", NotificationType::dontSendNotification);
+        _pickupLabel.setBounds(SettingsLeft, 15, SettingsWidth - 2 * SettingsLeft, 50);
+        addToLayout(&_pickupLabel, anchorMidLeft, anchorMidRight);
+        _pickupLabel.setEditable(false);
+        _pickupLabel.setColour(Label::textColourId, Colours::darkgrey);
+        addAndMakeVisible(_pickupLabel);
 
 
-		_pickupEnabled.addListener(this);
-		_pickupEnabled.setToggleState(m_settingsManager->getPickupEnabled(), NotificationType::dontSendNotification);
-		_pickupEnabled.setBounds(SettingsLeft, 60, SettingsWidth - 2 * SettingsLeft, 32);
-		addToLayout(&_pickupEnabled, anchorMidLeft, anchorMidRight);
-		addAndMakeVisible(_pickupEnabled);
+        _pickupEnabled.addListener(this);
+        _pickupEnabled.setToggleState(m_settingsManager->getPickupEnabled(), NotificationType::dontSendNotification);
+        _pickupEnabled.setBounds(SettingsLeft, 60, SettingsWidth - 2 * SettingsLeft, 32);
+        addToLayout(&_pickupEnabled, anchorMidLeft, anchorMidRight);
+        addAndMakeVisible(_pickupEnabled);
 
-		// ---------------------------- profile section -----------------------------------
-		m_profileGroup.setText("Profile");
-		m_profileGroup.setBounds(0, 100, SettingsWidth, 100);
-		addToLayout(&m_profileGroup, anchorMidLeft, anchorMidRight);
-		addAndMakeVisible(m_profileGroup);
+        // ---------------------------- profile section -----------------------------------
+        m_profileGroup.setText("Profile");
+        m_profileGroup.setBounds(0, 100, SettingsWidth, 100);
+        addToLayout(&m_profileGroup, anchorMidLeft, anchorMidRight);
+        addAndMakeVisible(m_profileGroup);
 
 
-		_profileLocationButton.addListener(this);
-		_profileLocationButton.setBounds(SettingsLeft, 120, SettingsWidth - 2 * SettingsLeft, 25);
-		addToLayout(&_profileLocationButton, anchorMidLeft, anchorMidRight);
-		addAndMakeVisible(_profileLocationButton);
+        _profileLocationButton.addListener(this);
+        _profileLocationButton.setBounds(SettingsLeft, 120, SettingsWidth - 2 * SettingsLeft, 25);
+        addToLayout(&_profileLocationButton, anchorMidLeft, anchorMidRight);
+        addAndMakeVisible(_profileLocationButton);
 
-		_profileLocationLabel.setEditable(false);
-		_profileLocationLabel.setBounds(SettingsLeft, 145, SettingsWidth - 2 * SettingsLeft, 30);
-		addToLayout(&_profileLocationLabel, anchorMidLeft, anchorMidRight);
-		_profileLocationLabel.setColour(Label::textColourId, Colours::darkgrey);
-		addAndMakeVisible(_profileLocationLabel);
-		_profileLocationLabel.setText(m_settingsManager->getProfileDirectory(), NotificationType::dontSendNotification);
-		
+        _profileLocationLabel.setEditable(false);
+        _profileLocationLabel.setBounds(SettingsLeft, 145, SettingsWidth - 2 * SettingsLeft, 30);
+        addToLayout(&_profileLocationLabel, anchorMidLeft, anchorMidRight);
+        _profileLocationLabel.setColour(Label::textColourId, Colours::darkgrey);
+        addAndMakeVisible(_profileLocationLabel);
+        _profileLocationLabel.setText(m_settingsManager->getProfileDirectory(), NotificationType::dontSendNotification);
 
-		////// ----------------------- auto hide section ------------------------------------
-		m_autoHideGroup.setText("Auto hide");
-		m_autoHideGroup.setBounds(0, 200, SettingsWidth, 100);
-		addToLayout(&m_autoHideGroup, anchorMidLeft, anchorMidRight);
-		addAndMakeVisible(m_autoHideGroup);
+
+        ////// ----------------------- auto hide section ------------------------------------
+        m_autoHideGroup.setText("Auto hide");
+        m_autoHideGroup.setBounds(0, 200, SettingsWidth, 100);
+        addToLayout(&m_autoHideGroup, anchorMidLeft, anchorMidRight);
+        addAndMakeVisible(m_autoHideGroup);
 
 
         m_autoHideExplainLabel.setFont(Font{ 12.f, Font::bold });
-		m_autoHideExplainLabel.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", NotificationType::dontSendNotification);
-		m_autoHideExplainLabel.setBounds(SettingsLeft, 215, SettingsWidth - 2 * SettingsLeft, 50);
-		addToLayout(&m_autoHideExplainLabel, anchorMidLeft, anchorMidRight);
-		m_autoHideExplainLabel.setEditable(false);
+        m_autoHideExplainLabel.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", NotificationType::dontSendNotification);
+        m_autoHideExplainLabel.setBounds(SettingsLeft, 215, SettingsWidth - 2 * SettingsLeft, 50);
+        addToLayout(&m_autoHideExplainLabel, anchorMidLeft, anchorMidRight);
+        m_autoHideExplainLabel.setEditable(false);
         m_autoHideExplainLabel.setFont(Font{ 12.f, Font::bold });
-		m_autoHideExplainLabel.setColour(Label::textColourId, Colours::darkgrey);
-		addAndMakeVisible(m_autoHideExplainLabel);
+        m_autoHideExplainLabel.setColour(Label::textColourId, Colours::darkgrey);
+        addAndMakeVisible(m_autoHideExplainLabel);
 
-		m_autoHideSetting.setBounds(SettingsLeft, 245, SettingsWidth - 2 * SettingsLeft, 50);
-		m_autoHideSetting.setRange(0, 10, 1);
-		m_autoHideSetting.setValue(m_settingsManager->getAutoHideTime(), NotificationType::dontSendNotification);
+        m_autoHideSetting.setBounds(SettingsLeft, 245, SettingsWidth - 2 * SettingsLeft, 50);
+        m_autoHideSetting.setRange(0, 10, 1);
+        m_autoHideSetting.setValue(m_settingsManager->getAutoHideTime(), NotificationType::dontSendNotification);
 
-		addToLayout(&m_autoHideSetting, anchorMidLeft, anchorMidRight);
-		//add this as the lister for the data
-		m_autoHideSetting.addListener(this);
-		addAndMakeVisible(m_autoHideSetting);
-		// turn it on
-		activateLayout();
-	}
+        addToLayout(&m_autoHideSetting, anchorMidLeft, anchorMidRight);
+        //add this as the lister for the data
+        m_autoHideSetting.addListener(this);
+        addAndMakeVisible(m_autoHideSetting);
+        // turn it on
+        activateLayout();
+    }
 }

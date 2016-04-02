@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-	VersionChecker.h
+    VersionChecker.h
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -15,7 +15,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #ifndef VERSIONCHECKER_H_INCLUDED
@@ -32,23 +32,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 * @author  Rory Jaffe
 * @date    3/20/2016
 **************************************************************************************************/
- 
-class VersionChecker : public Thread,
-	public AsyncUpdater
+
+class VersionChecker: public Thread,
+    public AsyncUpdater
 {
 public:
-	VersionChecker() noexcept;
+    VersionChecker() noexcept;
 
     void Init(std::shared_ptr<SettingsManager>& profileManager);
-	// Thread interface
-	virtual void run() override;
+    // Thread interface
+    virtual void run() override;
 
-	// AsyncUpdater interface
-	virtual void handleAsyncUpdate() override;
+    // AsyncUpdater interface
+    virtual void handleAsyncUpdate() override;
 
 private:
-	int _newVersion;
-	std::unique_ptr<DialogWindow> _dialog;
+    int _newVersion;
+    std::unique_ptr<DialogWindow> _dialog;
     std::shared_ptr<SettingsManager> m_settingsManager;
 };
 

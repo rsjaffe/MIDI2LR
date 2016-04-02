@@ -31,33 +31,33 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 void MainWindow::timerCallback(void)
 {
-	auto decreasedValue = false;
+    auto decreasedValue = false;
 
-	if (m_autoHideCounter > 0)
-	{
-		//decrement counter
-		--m_autoHideCounter;
-		decreasedValue = true;
-	}
-	
-	//set the new timer text
-	m_windowContent->SetTimerText(m_autoHideCounter);
+    if (m_autoHideCounter > 0)
+    {
+        //decrement counter
+        --m_autoHideCounter;
+        decreasedValue = true;
+    }
 
-	if (m_autoHideCounter == 0)
-	{
-		//first stop the timer so it will not be called again
-		this->stopTimer();
+    //set the new timer text
+    m_windowContent->SetTimerText(m_autoHideCounter);
 
-		//check if the window is not already minimized
-		if (!this->isMinimised())
-		{
-			if (decreasedValue)
-			{
-				this->minimiseButtonPressed();
-			}
-		}
-	}
-	
+    if (m_autoHideCounter == 0)
+    {
+        //first stop the timer so it will not be called again
+        this->stopTimer();
+
+        //check if the window is not already minimized
+        if (!this->isMinimised())
+        {
+            if (decreasedValue)
+            {
+                this->minimiseButtonPressed();
+            }
+        }
+    }
+
 
 }
 
@@ -77,26 +77,26 @@ void MainWindow::timerCallback(void)
  * @param [in,out]  midiSender      If non-null, the MIDI sender.
  **************************************************************************************************/
 
-void MainWindow::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, 
-    std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager, 
+void MainWindow::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out,
+    std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager,
     std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
 {
-	
-	// get the auto time setting
-	if (settingsManager)
-	{
-		m_autoHideCounter = settingsManager->getAutoHideTime();
-	}
-	else
-	{
-		m_autoHideCounter = 0;
-	}
-	
-	//start timing
-	this->startTimer(1000);	
-	
-	if (m_windowContent)
-	{
-		m_windowContent->Init(commandMap,in, out, midiProcessor, profileManager, settingsManager, midiSender);
-	}
+
+    // get the auto time setting
+    if (settingsManager)
+    {
+        m_autoHideCounter = settingsManager->getAutoHideTime();
+    }
+    else
+    {
+        m_autoHideCounter = 0;
+    }
+
+    //start timing
+    this->startTimer(1000);
+
+    if (m_windowContent)
+    {
+        m_windowContent->Init(commandMap, in, out, midiProcessor, profileManager, settingsManager, midiSender);
+    }
 }

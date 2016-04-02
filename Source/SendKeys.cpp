@@ -142,7 +142,7 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
             ip.ki.wVk = VK_MENU;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        }
+    }
 #else
     const ModifierKeys mk = key.getModifiers();
     const UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
