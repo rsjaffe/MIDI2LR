@@ -165,7 +165,7 @@ void LR_IPC_IN::processLine(const String& line)
 		}
         else if (command == String{ "SendKey" })
         {
-            m_SendKeys.SendKeyDownUp(KeyPress::createFromDescription(valueString));
+            m_SendKeys.SendKeyDownUp(KeyPress::createFromDescription(valueString.trim()));
         }
 		else
 		{
@@ -177,6 +177,7 @@ void LR_IPC_IN::processLine(const String& line)
 			if (m_commandMap->commandHasAssociatedMessage(command))
 			{
 				const auto& msg = m_commandMap->getMessageForCommand(command);
+
 
 				if (m_midiSender)
 				{
