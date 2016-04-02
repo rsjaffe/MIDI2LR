@@ -1,0 +1,5 @@
+<map id="ProfileManager::switchToProfile" name="ProfileManager::switchToProfile">
+<area shape="rect" id="node2" href="$class_profile_manager.html#a7644e0703d1bdb3172271cec13e86662" title="Switch to next profile. " alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node4" href="$class_profile_manager.html#a778eb208053cbcb18a7056b4066632ec" title="Switch to previous profile. " alt="" coords="220,71,387,112"/>
+<area shape="rect" id="node3" href="$class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a" title="Handles the asynchronous update. " alt="" coords="435,39,625,80"/>
+</map>

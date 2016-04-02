@@ -1,0 +1,4 @@
+<map id="SettingsComponent" name="SettingsComponent">
+<area shape="rect" id="node4" href="$class_resizable_layout.html" title="Derive your Component from this class if you want to be able to put anchors on children. " alt="" coords="249,80,367,107"/>
+<area shape="rect" id="node5" href="$class_resizable_child.html" title="Derive your child Component from this class if you want to be able to set size limits per&#45;item..." alt="" coords="182,5,290,32"/>
+</map>

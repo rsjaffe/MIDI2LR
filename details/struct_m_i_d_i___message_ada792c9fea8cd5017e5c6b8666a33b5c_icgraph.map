@@ -1,0 +1,7 @@
+<map id="MIDI_Message::MIDI_Message" name="MIDI_Message::MIDI_Message">
+<area shape="rect" id="node2" href="$class_command_table_model.html#a34e3b342c1741fe6363e2873b68171b1" title="Adds a row. " alt="" coords="221,5,376,47"/>
+<area shape="rect" id="node3" href="$class_profile_manager.html#af96e39d2bbd4b14492698c0ecb39b4e0" title="Handles the MIDI Cc. " alt="" coords="201,71,397,98"/>
+<area shape="rect" id="node4" href="$class_l_r___i_p_c___o_u_t.html#ad2d2b544157950b3b74ff6f7791c98cc" title="Handles MIDI CC messages. " alt="" coords="205,122,392,149"/>
+<area shape="rect" id="node5" href="$class_profile_manager.html#a6515de39866335b7ef722a771767bfb6" title="Handles the MIDI note. " alt="" coords="196,173,401,199"/>
+<area shape="rect" id="node6" href="$class_l_r___i_p_c___o_u_t.html#ab586f83cf46e3a10ab03a934c749d60d" title="Handles MIDI note messages. " alt="" coords="201,223,397,250"/>
+</map>
