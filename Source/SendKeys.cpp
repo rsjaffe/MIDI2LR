@@ -68,7 +68,8 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     // Translate key code to keyboard-dependent scan code
     const auto vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
     const auto vk = LOBYTE(vkCodeAndShift);
-    const auto vk_modifiers = HIBYTE(vkCodeAndShift);
+    const auto vk_modifiers = static_cast<BYTE>(0);// HIBYTE(vkCodeAndShift); shift key coming through inappropriately
+   
 
     // input event.
     INPUT ip;
