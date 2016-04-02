@@ -3,8 +3,6 @@
   ==============================================================================
 
 	LRCommands.h
-	Created: 31 Jul 2015 10:21:12pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -26,6 +24,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <vector>
 
+/**********************************************************************************************//**
+* @class   LRCommandList
+*
+* @brief   Lightroom command list.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class LRCommandList
 {
 public:
@@ -33,6 +40,7 @@ public:
 	static const std::vector<String> LRStringList;
 
 	// Sectioned and readable develop param strings
+    static const std::vector<String> KeyShortcuts;
     static const std::vector<String> General;
     static const std::vector<String> Library;
     static const std::vector<String> Develop;
@@ -49,8 +57,9 @@ public:
     static const std::vector<String> LocalAdjustments;
     static const std::vector<String> Crop;
     static const std::vector<String> ToolModulePanel;
-    static const std::vector<String> ViewModes;
+    static const std::vector<String> SecondaryDisplay;
     static const std::vector<String> ProgramProfiles;
+
     // MIDI2LR commands
 	static const std::vector<String> NextPrevProfile;
 
@@ -58,7 +67,7 @@ public:
 	static int getIndexOfCommand(const String& command);
 
 private:
-	LRCommandList();
+	LRCommandList() noexcept;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED

@@ -2,8 +2,6 @@
   ==============================================================================
 
     Subject.cpp
-    Created: 23 Jan 2016 9:00:58am
-    Author:  Jeffrey
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,19 +20,58 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Subject.h"
 
-Subject::Subject()
+/**********************************************************************************************//**
+ * @fn  Subject::Subject() noexcept
+ *
+ * @brief   Default constructor.
+ *
+ *
+ **************************************************************************************************/
+
+Subject::Subject() noexcept
 {
 }
+
+/**********************************************************************************************//**
+ * @fn  Subject::~Subject()
+ *
+ * @brief   Destructor.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 Subject::~Subject()
 {
 }
+
+/**********************************************************************************************//**
+ * @fn  void Subject::RegisterObserver(Observer * observer)
+ *
+ * @brief   Registers the observer described by observer.
+ *
+ *
+ *
+ *
+ * @param [in,out]  observer    If non-null, the observer.
+ **************************************************************************************************/
 
 void Subject::RegisterObserver(Observer * observer)
 {
 	//add to the vector
 	m_observerArray.push_back(observer);
 }
+
+/**********************************************************************************************//**
+ * @fn  void Subject::UnregisterObserver(Observer *observer)
+ *
+ * @brief   Unregisters the observer described by observer.
+ *
+ *
+ *
+ *
+ * @param [in,out]  observer    If non-null, the observer.
+ **************************************************************************************************/
 
 void Subject::UnregisterObserver(Observer *observer)
 {
@@ -49,6 +86,15 @@ void Subject::UnregisterObserver(Observer *observer)
 		}
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void Subject::Notify(void)
+ *
+ * @brief   Notifies this object.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 void Subject::Notify(void)
 {

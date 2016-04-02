@@ -2,8 +2,6 @@
   ==============================================================================
 
 	SettingsComponent.cpp
-	Created: 24 Aug 2015 11:43:59am
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,34 +20,69 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsComponent.h"
 
+constexpr auto SettingsLeft = 20;
+constexpr auto SettingsWidth = 400;
+constexpr auto SettingsHeight = 300;
 
-#define SETTINGS_LEFT 20
-#define SETTING_WIDTH 400
-#define SETTING_HEIGHT 300
-//==============================================================================
-SettingsComponent::SettingsComponent() : ResizableLayout(this), _pickupEnabled("Enable Pickup Mode"),
-_pickupLabel("PickupLabel", ""),
-_profileLocationButton("Choose Profile Folder"),
-_profileLocationLabel("Profile Label"),
-m_autoHideGroup(),
-m_pickupGroup(),
-m_profileGroup(),
-m_autoHideExplainLabel(),
-m_settingsManager(nullptr)
+/**********************************************************************************************//**
+ * @fn  SettingsComponent::SettingsComponent()
+ *
+ * @brief   Default constructor.
+ *
+ *
+ **************************************************************************************************/
+
+SettingsComponent::SettingsComponent(): ResizableLayout{ this }, _pickupEnabled{ "Enable Pickup Mode" },
+_pickupLabel{ "PickupLabel", "" },
+_profileLocationButton{ "Choose Profile Folder" },
+_profileLocationLabel{ "Profile Label" },
+m_autoHideGroup{},
+m_pickupGroup{},
+m_profileGroup{},
+m_autoHideExplainLabel{},
+m_settingsManager{ nullptr }
 {
 
 	
 }
+
+/**********************************************************************************************//**
+ * @fn  SettingsComponent::~SettingsComponent()
+ *
+ * @brief   Destructor.
+ *
+ *
+ **************************************************************************************************/
 
 SettingsComponent::~SettingsComponent()
 {
 
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::paint(Graphics& g)
+ *
+ * @brief   Paints the given g.
+ *
+ *
+ *
+ * @param [in,out]  g   The Graphics to process.
+ **************************************************************************************************/
+
 void SettingsComponent::paint(Graphics& g)
 {
 	g.fillAll(Colours::white);   // clear the background
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::buttonClicked(Button* button)
+ *
+ * @brief   Button clicked.
+ *
+ *
+ *
+ * @param [in,out]  button  If non-null, the button.
+ **************************************************************************************************/
 
 void SettingsComponent::buttonClicked(Button* button)
 {
@@ -62,19 +95,19 @@ void SettingsComponent::buttonClicked(Button* button)
 	}
 	else if (button == &_profileLocationButton)
 	{
-		FileBrowserComponent browser(FileBrowserComponent::canSelectDirectories | FileBrowserComponent::openMode,
-			File::getCurrentWorkingDirectory(),
-			nullptr,
-			nullptr);
-		FileChooserDialogBox dialogBox("Select Profile Folder",
-			"Select a folder containing MIDI2LR Profiles",
-			browser,
-			true,
-			Colours::lightgrey);
+        FileBrowserComponent browser{ FileBrowserComponent::canSelectDirectories | FileBrowserComponent::openMode,
+            File::getCurrentWorkingDirectory(),
+            nullptr,
+            nullptr };
+        FileChooserDialogBox dialogBox{ "Select Profile Folder",
+            "Select a folder containing MIDI2LR Profiles",
+            browser,
+            true,
+            Colours::lightgrey };
 
 		if (dialogBox.show())
 		{
-			String profileLoc = browser.getSelectedFile(0).getFullPathName();
+			auto profileLoc = browser.getSelectedFile(0).getFullPathName();
 			if (m_settingsManager)
 			{
 				m_settingsManager->setProfileDirectory(profileLoc);
@@ -84,6 +117,16 @@ void SettingsComponent::buttonClicked(Button* button)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::sliderValueChanged(Slider* slider)
+ *
+ * @brief   Slider value changed.
+ *
+ *
+ *
+ * @param [in,out]  slider  If non-null, the slider.
+ **************************************************************************************************/
+
 void SettingsComponent::sliderValueChanged(Slider* slider)
 {
 	// NULL pointer check
@@ -92,7 +135,7 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
 		if (&m_autoHideSetting == slider)
 		{
 			//get the rounded setting
-			int newSetting = (int)m_autoHideSetting.getValue();
+			int newSetting = static_cast<int>(m_autoHideSetting.getValue());
 
 			if (m_settingsManager)
 			{
@@ -103,25 +146,35 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
 
 }
 
-void SettingsComponent::Init(SettingsManager *settingsManager)
+/**********************************************************************************************//**
+ * @fn  void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
+ *
+ * @brief   Inits the given settings manager.
+ *
+ *
+ *
+ * @param [in,out]  settingsManager If non-null, manager for settings.
+ **************************************************************************************************/
+
+void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
 {
 	//copy the pointer
 	m_settingsManager = settingsManager;
 
 	// for layouts to work you must start at some size
 	// place controls in a location that is initially correct.
-	setSize(SETTING_WIDTH, SETTING_HEIGHT);
+	setSize(SettingsWidth, SettingsHeight);
 
 	if (m_settingsManager)
 	{
 		m_pickupGroup.setText("Pick up");
-		m_pickupGroup.setBounds(0, 0, SETTING_WIDTH, 100);
+		m_pickupGroup.setBounds(0, 0, SettingsWidth, 100);
 		addToLayout(&m_pickupGroup, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(m_pickupGroup);
 
-		_pickupLabel.setFont(Font(12.f, Font::bold));
+        _pickupLabel.setFont(Font{ 12.f, Font::bold });
 		_pickupLabel.setText("Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements", NotificationType::dontSendNotification);
-		_pickupLabel.setBounds(SETTINGS_LEFT, 15, SETTING_WIDTH - 2 * SETTINGS_LEFT, 50);
+		_pickupLabel.setBounds(SettingsLeft, 15, SettingsWidth - 2 * SettingsLeft, 50);
 		addToLayout(&_pickupLabel, anchorMidLeft, anchorMidRight);
 		_pickupLabel.setEditable(false);
 		_pickupLabel.setColour(Label::textColourId, Colours::darkgrey);
@@ -130,24 +183,24 @@ void SettingsComponent::Init(SettingsManager *settingsManager)
 
 		_pickupEnabled.addListener(this);
 		_pickupEnabled.setToggleState(m_settingsManager->getPickupEnabled(), NotificationType::dontSendNotification);
-		_pickupEnabled.setBounds(SETTINGS_LEFT, 60, SETTING_WIDTH - 2 * SETTINGS_LEFT, 32);
+		_pickupEnabled.setBounds(SettingsLeft, 60, SettingsWidth - 2 * SettingsLeft, 32);
 		addToLayout(&_pickupEnabled, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(_pickupEnabled);
 
 		// ---------------------------- profile section -----------------------------------
 		m_profileGroup.setText("Profile");
-		m_profileGroup.setBounds(0, 100, SETTING_WIDTH, 100);
+		m_profileGroup.setBounds(0, 100, SettingsWidth, 100);
 		addToLayout(&m_profileGroup, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(m_profileGroup);
 
 
 		_profileLocationButton.addListener(this);
-		_profileLocationButton.setBounds(SETTINGS_LEFT, 120, SETTING_WIDTH - 2 * SETTINGS_LEFT, 25);
+		_profileLocationButton.setBounds(SettingsLeft, 120, SettingsWidth - 2 * SettingsLeft, 25);
 		addToLayout(&_profileLocationButton, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(_profileLocationButton);
 
 		_profileLocationLabel.setEditable(false);
-		_profileLocationLabel.setBounds(SETTINGS_LEFT, 145, SETTING_WIDTH - 2 * SETTINGS_LEFT, 30);
+		_profileLocationLabel.setBounds(SettingsLeft, 145, SettingsWidth - 2 * SettingsLeft, 30);
 		addToLayout(&_profileLocationLabel, anchorMidLeft, anchorMidRight);
 		_profileLocationLabel.setColour(Label::textColourId, Colours::darkgrey);
 		addAndMakeVisible(_profileLocationLabel);
@@ -156,21 +209,21 @@ void SettingsComponent::Init(SettingsManager *settingsManager)
 
 		////// ----------------------- auto hide section ------------------------------------
 		m_autoHideGroup.setText("Auto hide");
-		m_autoHideGroup.setBounds(0, 200, SETTING_WIDTH, 100);
+		m_autoHideGroup.setBounds(0, 200, SettingsWidth, 100);
 		addToLayout(&m_autoHideGroup, anchorMidLeft, anchorMidRight);
 		addAndMakeVisible(m_autoHideGroup);
 
 
-		m_autoHideExplainLabel.setFont(Font(12.f, Font::bold));
+        m_autoHideExplainLabel.setFont(Font{ 12.f, Font::bold });
 		m_autoHideExplainLabel.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", NotificationType::dontSendNotification);
-		m_autoHideExplainLabel.setBounds(SETTINGS_LEFT, 215, SETTING_WIDTH - 2 * SETTINGS_LEFT, 50);
+		m_autoHideExplainLabel.setBounds(SettingsLeft, 215, SettingsWidth - 2 * SettingsLeft, 50);
 		addToLayout(&m_autoHideExplainLabel, anchorMidLeft, anchorMidRight);
 		m_autoHideExplainLabel.setEditable(false);
-		m_autoHideExplainLabel.setFont(Font(12.f, Font::bold));
+        m_autoHideExplainLabel.setFont(Font{ 12.f, Font::bold });
 		m_autoHideExplainLabel.setColour(Label::textColourId, Colours::darkgrey);
 		addAndMakeVisible(m_autoHideExplainLabel);
 
-		m_autoHideSetting.setBounds(SETTINGS_LEFT, 245, SETTING_WIDTH - 2 * SETTINGS_LEFT, 50);
+		m_autoHideSetting.setBounds(SettingsLeft, 245, SettingsWidth - 2 * SettingsLeft, 50);
 		m_autoHideSetting.setRange(0, 10, 1);
 		m_autoHideSetting.setValue(m_settingsManager->getAutoHideTime(), NotificationType::dontSendNotification);
 

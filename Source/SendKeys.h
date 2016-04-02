@@ -1,7 +1,8 @@
+#pragma once
 /*
-  ==============================================================================
+==============================================================================
 
-  CommandTable.cpp
+SendKeys.h
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -15,25 +16,28 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
-  ==============================================================================
+==============================================================================
 */
-#include "CommandTable.h"
+#include <mutex>
+#include "../JuceLibraryCode/JuceHeader.h"
 
 /**********************************************************************************************//**
- * @fn  CommandTable::CommandTable(const String& componentName, TableListBoxModel *model)
+ * @class   SendKeys
  *
- * @brief   Constructor.
- *
- *
+ * @brief   A send keys.
  *
  *
- * @param   componentName   Name of the component.
- * @param [in,out]  model   If non-null, the model.
  **************************************************************************************************/
 
-CommandTable::CommandTable(const String& componentName, TableListBoxModel *model): TableListBox{ componentName, model }
+class SendKeys
 {
-    setHeader(new TableHeaderComponent{});
-	getHeader().addColumn("MIDI Command", 1, 150, 30, -1, TableHeaderComponent::notResizableOrSortable);
-	getHeader().addColumn("LR Command", 2, 150, 30, -1, TableHeaderComponent::notResizableOrSortable);
-}
+public:
+    SendKeys() noexcept
+    {};
+    ~SendKeys()
+    {};
+    void SendKeyDownUp(const KeyPress& key) const;
+private:
+    static std::mutex m_mtxSending;
+};
+

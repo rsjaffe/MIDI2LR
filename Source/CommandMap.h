@@ -3,8 +3,6 @@
   ==============================================================================
 
 	CommandMap.h
-	Created: 31 Jul 2015 9:16:41pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -28,7 +26,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "Pattern/Subject.h"
 
-// encapsulates a MIDI message (Note or CC)
+/**********************************************************************************************//**
+ * @struct  MIDI_Message
+ *
+ * @brief   encapsulates a MIDI message (Note or CC)
+ *
+ *
+ *
+ **************************************************************************************************/
+
 struct MIDI_Message
 {
 	bool isCC;
@@ -65,6 +71,16 @@ struct MIDI_Message
 
 // hash functions for MIDI_Message and String
 namespace std {
+
+    /**********************************************************************************************//**
+     * @struct  std::hash<MIDI_Message>
+     *
+     * @brief   A hash for MIDI messages.
+     *
+     *
+     *
+     **************************************************************************************************/
+
 	template <>
 	struct hash<MIDI_Message>
 	{
@@ -73,6 +89,15 @@ namespace std {
 			return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^ (std::hash<int>()(k.data) << 1));
 		}
 	};
+
+    /**********************************************************************************************//**
+     * @struct  std::hash<String>
+     *
+     * @brief   A hash for Juce String.
+     *
+     *
+     *
+     **************************************************************************************************/
 
 	template <>
 	struct hash<String>
@@ -84,10 +109,19 @@ namespace std {
 	};
 }
 
+/**********************************************************************************************//**
+ * @class   CommandMap
+ *
+ * @brief   A command map.
+ *
+ *
+ *
+ **************************************************************************************************/
+
 class CommandMap : public Subject
 {
 public:
-	CommandMap();
+	CommandMap() noexcept;
 	virtual ~CommandMap() {}
 
 	// adds an entry to the msg:command map, and a corresponding entry to the command:msg map
@@ -104,7 +138,7 @@ public:
 	void removeMessage(const MIDI_Message &msg);
 
 	// clears both msg:command and command:msg maps
-	void clearMap();
+	void clearMap() noexcept;
 
 	// returns true if there is a mapping for a particular MIDI message
 	bool messageExistsInMap(const MIDI_Message &msg) const;

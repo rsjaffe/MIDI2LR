@@ -3,8 +3,6 @@
   ==============================================================================
 
 	SettingsManager.h
-	Created: 24 Aug 2015 7:11:29pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -27,17 +25,26 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
 
+/**********************************************************************************************//**
+* @class   SettingsManager
+*
+* @brief   Settings Manager.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class SettingsManager : public LRConnectionListener
 {
 public:
 	SettingsManager();
 	virtual ~SettingsManager() {};
 
-	bool getPickupEnabled() const;
+	bool getPickupEnabled() const noexcept;
 	void setPickupEnabled(bool enabled);
 
 	void setProfileDirectory(const String& profileDirectory);
-	String getProfileDirectory() const;
+	String getProfileDirectory() const noexcept;
 
 
 
@@ -51,12 +58,12 @@ public:
     void setLastVersionFound(int versionnumber);
     int getLastVersionFound() const;
 
-	void Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager);
+	void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager);
 private:
 
-	LR_IPC_OUT *m_lr_IPC_OUT;
-	ProfileManager *m_profileManager;
-	ScopedPointer<PropertiesFile> _propertiesFile;
+    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
+    std::shared_ptr<ProfileManager> m_profileManager;
+	std::unique_ptr<PropertiesFile> _propertiesFile;
 };
 
 

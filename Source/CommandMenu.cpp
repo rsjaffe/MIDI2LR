@@ -2,8 +2,6 @@
   ==============================================================================
 
     CommandMenu.cpp
-    Created: 3 Aug 2015 3:27:33pm
-    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -23,38 +21,70 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "CommandMenu.h"
 #include "LRCommands.h"
-#include "Tools.h"
 
-CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg),
-_selectedItem(std::numeric_limits<unsigned int>::max()),
-TextButton("Unmapped"), m_commandMap(nullptr),
-m_menus({ "General", "Library", "Develop", "Basic", "Tone Curve", "HSL / Color / B&W",
-    "Reset HSL / Color / B&W", "Split Toning", "Detail", "Lens Corrections", "Effects",
-    "Camera Calibration", "Develop Presets", "Local Adjustments", "Crop",
-    "Go to Tool, Module, or Panel", "View Modes", "Profiles", "Next/Prev Profile" }),
 
-m_menuEntries({ LRCommandList::General, LRCommandList::Library, LRCommandList::Develop,
-    LRCommandList::BasicAdjustments, LRCommandList::ToneCurve, LRCommandList::Mixer, 
-    LRCommandList::ResetMixer, LRCommandList::SplitToning, LRCommandList::Detail,
+/**********************************************************************************************//**
+ * @fn  CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg), _selectedItem(std::numeric_limits<unsigned int>::max()), TextButton("Unmapped"), m_commandMap(nullptr), m_menus(
+ *
+ * @brief   Constructor.
+ *
+ *
+ *
+ *
+ * @param   msg The message.
+ **************************************************************************************************/
+
+CommandMenu::CommandMenu(const MIDI_Message& msg): _msg{ msg },
+_selectedItem{ std::numeric_limits<unsigned int>::max() },
+TextButton{ "Unmapped" }, m_commandMap{ nullptr },
+m_menus({ "Keyboard Shortcuts for User", "General", "Library", "Develop", "Basic", "Tone Curve", 
+    "HSL / Color / B&W", "Reset HSL / Color / B&W", "Split Toning", "Detail", "Lens Corrections", 
+    "Effects", "Camera Calibration", "Develop Presets", "Local Adjustments", "Crop", 
+    "Go to Tool, Module, or Panel", "Secondary Display", "Profiles", "Next/Prev Profile" }),
+
+m_menuEntries({ LRCommandList::KeyShortcuts, LRCommandList::General, LRCommandList::Library, 
+    LRCommandList::Develop, LRCommandList::BasicAdjustments, LRCommandList::ToneCurve, 
+    LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning, LRCommandList::Detail, 
     LRCommandList::LensCorrections, LRCommandList::Effects, LRCommandList::Calibration, 
     LRCommandList::DevelopPresets, LRCommandList::LocalAdjustments, LRCommandList::Crop, 
-    LRCommandList::ToolModulePanel, LRCommandList::ViewModes, 
-    LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile })
+    LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay, LRCommandList::ProgramProfiles,
+    LRCommandList::NextPrevProfile })
 
 
 {
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void CommandMenu::setMsg(const MIDI_Message& msg)
+ *
+ * @brief   Sets a message.
+ *
+ *
+ *
+ *
+ * @param   msg The message.
+ **************************************************************************************************/
 
 void CommandMenu::setMsg(const MIDI_Message& msg)
 {
     _msg = msg;
 }
 
-void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
+/**********************************************************************************************//**
+ * @fn  void CommandMenu::buttonClicked(Button* )
+ *
+ * @brief   Button clicked.
+ *
+ *
+ *
+ * @param [in,out]  parameter1  button)  If non-null, the unused argument (button)
+ **************************************************************************************************/
+
+void CommandMenu::buttonClicked(Button* /*button*/)
 {
     size_t idx = 1;
-    bool subMenuTickSet = false;
+    auto subMenuTickSet = false;
     PopupMenu mainMenu;
     mainMenu.addItem(idx, "Unmapped", true, subMenuTickSet = (idx == _selectedItem));
     idx++;
@@ -65,7 +95,7 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
         PopupMenu subMenu;
         for (auto cmd : m_menuEntries[menuIdx])
         {
-            bool alreadyMapped = false;
+            auto alreadyMapped = false;
             if ((idx - 1 < LRCommandList::LRStringList.size()) && (m_commandMap))
             {
                 alreadyMapped = m_commandMap->commandHasAssociatedMessage(LRCommandList::LRStringList[idx - 1]);
@@ -85,7 +115,7 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
         subMenuTickSet |= (_selectedItem < idx && !subMenuTickSet);
     }
 
-    unsigned int result = mainMenu.show();
+    auto result = static_cast<size_t>(mainMenu.show());
     if ((result) && (m_commandMap))
     {
         // user chose a different command, remove previous command mapping associated to this menu
@@ -104,6 +134,17 @@ void CommandMenu::buttonClicked(Button* UNUSED_ARG(button))
     }
 }
 
+/**********************************************************************************************//**
+ * @fn  void CommandMenu::setSelectedItem(unsigned int idx)
+ *
+ * @brief   Sets selected item.
+ *
+ *
+ *
+ *
+ * @param   idx The index.
+ **************************************************************************************************/
+
 void CommandMenu::setSelectedItem(unsigned int idx)
 {
     _selectedItem = idx;
@@ -113,7 +154,17 @@ void CommandMenu::setSelectedItem(unsigned int idx)
         setButtonText(LRCommandList::NextPrevProfile[idx - 1 - LRCommandList::LRStringList.size()]);
 }
 
-void CommandMenu::Init(CommandMap *mapCommand)
+/**********************************************************************************************//**
+ * @fn  void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand)
+ *
+ * @brief   Inits the given map command.
+ *
+ *
+ *
+ * @param [in,out]  mapCommand  If non-null, the map command.
+ **************************************************************************************************/
+
+void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand)
 {
     //copy the pointer
     m_commandMap = mapCommand;

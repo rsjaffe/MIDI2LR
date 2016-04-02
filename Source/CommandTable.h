@@ -1,6 +1,9 @@
 #pragma once
 /*
   ==============================================================================
+
+  CommandTable.h
+
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -19,6 +22,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define COMMANDTABLE_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+
+/**********************************************************************************************//**
+* @class   CommandTable
+*
+* @brief   Command Table.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class CommandTable : public TableListBox
 {
 public:

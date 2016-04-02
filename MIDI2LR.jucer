@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.9.9"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="0.9.10"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.1.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com">
@@ -17,8 +17,6 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
-      <FILE id="WR6usH" name="Logger.cpp" compile="1" resource="0" file="Source/Logger.cpp"/>
-      <FILE id="am8Hik" name="Logger.h" compile="0" resource="0" file="Source/Logger.h"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>
       <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
       <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
@@ -47,6 +45,8 @@
             file="Source/ResizableLayout.cpp"/>
       <FILE id="s4VIaO" name="ResizableLayout.h" compile="0" resource="0"
             file="Source/ResizableLayout.h"/>
+      <FILE id="kES39X" name="SendKeys.cpp" compile="1" resource="0" file="Source/SendKeys.cpp"/>
+      <FILE id="Sgq8EC" name="SendKeys.h" compile="0" resource="0" file="Source/SendKeys.h"/>
       <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
             file="Source/SettingsComponent.cpp"/>
       <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"
@@ -57,7 +57,7 @@
             file="Source/SettingsManager.h"/>
       <FILE id="UHBX0M" name="Subject.cpp" compile="1" resource="0" file="Source/Pattern/Subject.cpp"/>
       <FILE id="JaAyyB" name="Subject.h" compile="0" resource="0" file="Source/Pattern/Subject.h"/>
-      <FILE id="YOlp5P" name="Tools.h" compile="0" resource="0" file="Source/Tools.h"/>
+      <FILE id="dTl5Rg" name="Utilities.h" compile="0" resource="0" file="Source/Utilities.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
@@ -65,12 +65,13 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="WdgQGt" bigIcon="WdgQGt">
+    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="WdgQGt" bigIcon="WdgQGt"
+            extraCompilerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="MIDI2LR" binaryPath="Source\LRPlugin\MIDI2LR.lrplugin"/>
+                       isDebug="1" optimisation="1" targetName="MIDI2LR" binaryPath=""/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="MIDI2LR" binaryPath="Source\LRPlugin\MIDI2LR.lrplugin"/>
+                       isDebug="0" optimisation="3" targetName="MIDI2LR" binaryPath=""/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>

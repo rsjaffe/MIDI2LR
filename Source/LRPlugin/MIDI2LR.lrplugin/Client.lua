@@ -74,6 +74,7 @@ LrTasks.startAsyncTask(
 
     --delay loading most modules until after data structure refreshed
     local CU              = require 'ClientUtilities'
+    local Keys            = require 'Keys'
     local Limits          = require 'Limits'
     local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
@@ -89,7 +90,7 @@ LrTasks.startAsyncTask(
     MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CONTROL_MAX = 127 } --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
-    local PickupEnabled       = true
+    local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
     --local constants--may edit these to change program behaviors
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
@@ -122,6 +123,46 @@ LrTasks.startAsyncTask(
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
       IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,LastParam) end,
+      Key1  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(1))) end,
+      Key2  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(2))) end,
+      Key3  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(3))) end,
+      Key4  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(4))) end,
+      Key5  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(5))) end,
+      Key6  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(6))) end,
+      Key7  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(7))) end,
+      Key8  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(8))) end,
+      Key9  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(9))) end,
+      Key10 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(10))) end,
+      Key11 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(11))) end,
+      Key12 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(12))) end,
+      Key13 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(13))) end,
+      Key14 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(14))) end,
+      Key15 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(15))) end,
+      Key16 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(16))) end,
+      Key17 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(17))) end,
+      Key18 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(18))) end,
+      Key19 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(19))) end,
+      Key20 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(20))) end,
+      Key21 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(21))) end,
+      Key22 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(22))) end,
+      Key23 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(23))) end,
+      Key24 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(24))) end,
+      Key25 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(25))) end,
+      Key26 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(26))) end,
+      Key27 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(27))) end,
+      Key28 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(28))) end,
+      Key29 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(29))) end,
+      Key30 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(30))) end,
+      Key31 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(31))) end,
+      Key32 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(32))) end,
+      Key33 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(33))) end,
+      Key34 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(34))) end,
+      Key35 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(35))) end,
+      Key36 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(36))) end,
+      Key37 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(37))) end,
+      Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
+      Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
+      Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
       LensProfileEnable        = CU.fToggle01('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,
@@ -285,7 +326,13 @@ LrTasks.startAsyncTask(
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
       ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
-      Pickup             = function(enabled) PickupEnabled = (tonumber(enabled) == 1) end, 
+      Pickup             = function(enabled) 
+        if tonumber(enabled) == 1 then -- state machine
+          UpdateParam = UpdateParamPickup
+        else
+          UpdateParam = UpdateParamNoPickup
+        end
+      end, 
     }
 
     local function MIDIValueToLRValue(param, midi_value)
@@ -297,61 +344,62 @@ LrTasks.startAsyncTask(
     local function LRValueToMIDIValue(param)
       -- map develop parameter range to midi range
       local min,max = Limits.GetMinMax(param)
-      return (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+      local retval = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
+      if retval > MIDI2LR.CONTROL_MAX then return MIDI2LR.CONTROL_MAX end
+      if retval < 0 then return 0 end
+      return retval
     end
 
     --called within LrRecursionGuard for setting
-    local function updateParam() --closure
-      local lastclock, lastparam --tracking for pickup when scrubbing control rapidly
+    function UpdateParamPickup() --closure
+      local paramlastmoved = {}
       return function(param, midi_value)
         local value
-        -- this function does a 'pickup' type of check
-        -- that is, it will ensure the develop parameter is close 
-        -- to what the inputted command value is before updating it
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
         end
-        -- if pickup mode, keep LR value within pickup limits so pickup can work
-        if Limits.Parameters[param] and PickupEnabled then
+        if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        -- enable movement if pickup mode is off; controller is within pickup range; 
-        -- or control was last used recently and rapidly moved out of pickup range
-        if(
-          (not PickupEnabled) or
-          (math.abs(midi_value - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or
-          (lastclock + 0.5 > os.clock() and lastparam == param) 
-        )
-        then
-          if PickupEnabled then -- update info to use for detecting fast control changes
-            lastclock = os.clock()
-            lastparam = param
-          end
+        if((math.abs(midi_value - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
+          paramlastmoved[param] = os.clock()
           value = MIDIValueToLRValue(param, midi_value)
           MIDI2LR.PARAM_OBSERVER[param] = value
           LrDevelopController.setValue(param, value)
           LastParam = param
-        end
-        if ProgramPreferences.ClientShowBezelOnChange then
-          if value == nil then -- didn't do an update--pickup failed, so show target value as well
-            value = MIDIValueToLRValue(param, midi_value)
-            local actualvalue = LrDevelopController.getValue(param)
-            local precision = Ut.precision(value)
-            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
-          else
+          if ProgramPreferences.ClientShowBezelOnChange then
             LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
-        end
-        -- LR bug, doesn't reveal panel when Contrast adjusted
-        -- but changing panel before or after adjusting contrast causes all sorts of buggy behavior in LR, so just live with the bug
-        -- if param=='Contrast' then LrDevelopController.revealPanel(adjustPanel) end
-        if ParamList.ProfileMap[param] then
-          Profiles.changeProfile(ParamList.ProfileMap[param])
-        end
+          if ParamList.ProfileMap[param] then
+            Profiles.changeProfile(ParamList.ProfileMap[param])
+          end
+        elseif ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
+          value = MIDIValueToLRValue(param, midi_value)
+          local actualvalue = LrDevelopController.getValue(param)
+          local precision = Ut.precision(value)
+          LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+        end -- end of if pickup/elseif bezel group
+      end -- end of returned function
+    end
+    UpdateParamPickup = UpdateParamPickup() --complete closure
+    --called within LrRecursionGuard for setting
+    function UpdateParamNoPickup(param, midi_value) 
+      local value
+      if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+        LrApplicationView.switchToModule('develop')
+      end
+      value = MIDIValueToLRValue(param, midi_value)
+      MIDI2LR.PARAM_OBSERVER[param] = value
+      LrDevelopController.setValue(param, value)
+      LastParam = param
+      if ProgramPreferences.ClientShowBezelOnChange then
+        LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+      end
+      if ParamList.ProfileMap[param] then
+        Profiles.changeProfile(ParamList.ProfileMap[param])
       end
     end
-    updateParam = updateParam() --complete closure
-
+    UpdateParam = UpdateParamPickup --initial state
 
 
     LrFunctionContext.callWithContext( 
@@ -363,17 +411,23 @@ LrTasks.startAsyncTask(
         local LrSocket            = import 'LrSocket'
         local guardreading = LrRecursionGuard('reading')
         local guardsetting = LrRecursionGuard('setting')
+        local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver(observer)
-          for _,param in ipairs(ParamList.SendToMidi) do
-            local lrvalue = LrDevelopController.getValue(param)
-            if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-              MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
-              observer[param] = lrvalue
-              LastParam = param
+          if LrApplicationView.getCurrentModuleName() == 'develop' then
+            for _,param in ipairs(ParamList.SendToMidi) do
+              local lrvalue = LrDevelopController.getValue(param)
+              if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
+                observer[param] = lrvalue
+                LastParam = param
+              end
             end
           end
         end
+        local function InactiveObserver() end
+        CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
+
         -- wrapped in function so can be called when connection lost
         local function startServer(context)
           MIDI2LR.SERVER = LrSocket.bind {
@@ -408,7 +462,7 @@ LrTasks.startAsyncTask(
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter
-                guardsetting:performWithGuard(updateParam,param,tonumber(value))
+                guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
               end
             end
           end,
@@ -446,13 +500,14 @@ LrTasks.startAsyncTask(
         end --sleep away until ended or until develop module activated
         if loadVersion == currentLoadVersion then --didn't drop out of loop because of program termination
           LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+          if ProgramPreferences.TrackingDelay ~= nil then
+            LrDevelopController.setTrackingDelay(ProgramPreferences.TrackingDelay)
+          end
           LrDevelopController.addAdjustmentChangeObserver(
             context, 
             MIDI2LR.PARAM_OBSERVER, 
             function ( observer ) 
-              if LrApplicationView.getCurrentModuleName() == 'develop' then
-                guardreading:performWithGuard(AdjustmentChangeObserver,observer)
-              end
+              guardreading:performWithGuard(CurrentObserver,observer)
             end 
           )
           while (loadVersion == currentLoadVersion)  do --detect halt or reload

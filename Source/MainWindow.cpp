@@ -2,8 +2,6 @@
   ==============================================================================
 
     MainWindow.cpp
-    Created: 22 Nov 2015 8:28:57pm
-    Author:  Jeffrey
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,9 +20,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MainWindow.h"
 
+/**********************************************************************************************//**
+ * @fn  void MainWindow::timerCallback(void)
+ *
+ * @brief   Callback, called when the timer.
+ *
+ *
+ *
+ **************************************************************************************************/
+
 void MainWindow::timerCallback(void)
 {
-	bool decreasedValue = false;
+	auto decreasedValue = false;
 
 	if (m_autoHideCounter > 0)
 	{
@@ -54,7 +61,25 @@ void MainWindow::timerCallback(void)
 
 }
 
-void MainWindow::Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender)
+/**********************************************************************************************//**
+ * @fn  void MainWindow::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
+ *
+ * @brief   S.
+ *
+ *
+ *
+ * @param [in,out]  commandMap      If non-null, the command map.
+ * @param [in,out]  in              If non-null, the in.
+ * @param [in,out]  out             If non-null, the out.
+ * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ * @param [in,out]  profileManager  If non-null, manager for profile.
+ * @param [in,out]  settingsManager If non-null, manager for settings.
+ * @param [in,out]  midiSender      If non-null, the MIDI sender.
+ **************************************************************************************************/
+
+void MainWindow::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, 
+    std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager, 
+    std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
 {
 	
 	// get the auto time setting

@@ -3,8 +3,6 @@
   ==============================================================================
 
 	LR_IPC_In.h
-	Created: 22 Aug 2015 9:44:03pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -28,6 +26,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ProfileManager.h"
 #include "MIDISender.h"
+#include "SendKeys.h"
+
+/**********************************************************************************************//**
+* @class   LR_IPC_IN
+*
+* @brief   A lr ipc in.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
 
 class LR_IPC_IN : public StreamingSocket,
 	public Timer,
@@ -47,14 +55,16 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(CommandMap *mapCommand, ProfileManager *profileManager, MIDISender *midiSender);
+	void Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<ProfileManager>& profileManager, 
+        std::shared_ptr<MIDISender>& midiSender) noexcept;
 private:
 	// process a line received from the socket
 	void processLine(const String& line);
-	CommandMap *m_commandMap;
-	ProfileManager *m_profileManager;
-	MIDISender *m_midiSender;
+    std::shared_ptr<CommandMap> m_commandMap;
+    std::shared_ptr<ProfileManager> m_profileManager;
+    std::shared_ptr<MIDISender> m_midiSender;
 	std::unordered_map<String, int> parameterMap;
+    SendKeys m_SendKeys;
 };
 
 

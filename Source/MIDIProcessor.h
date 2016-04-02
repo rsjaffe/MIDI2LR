@@ -3,8 +3,6 @@
   ==============================================================================
 
     MIDIProcessor.h
-    Created: 31 Jul 2015 11:56:19pm
-    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -25,6 +23,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+/**********************************************************************************************//**
+* @class   MIDICommandListener
+*
+* @brief   MIDI Command Listener.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class MIDICommandListener
 {
 public:
@@ -34,10 +41,19 @@ public:
     virtual ~MIDICommandListener() {};
 };
 
+/**********************************************************************************************//**
+* @class   MIDIProcessor
+*
+* @brief   MIDI Processor.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class MIDIProcessor : public MidiInputCallback
 {
 public:
-	MIDIProcessor();
+	MIDIProcessor() noexcept;
 	virtual ~MIDIProcessor();
     
     // overriden from MidiInputCallback

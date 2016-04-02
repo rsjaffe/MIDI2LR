@@ -2,8 +2,6 @@
   ==============================================================================
 
 	SettingsManager.cpp
-	Created: 24 Aug 2015 7:11:29pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,11 +20,29 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "ProfileManager.h"
 
-#define AUTOHIDE_SECTION "autohide"
+#ifndef _WIN32
+//missing make_unique (C++14) in XCode
+namespace std {
+    template<typename T, typename... Args>
+    unique_ptr<T> make_unique(Args&&... args)
+    {
+        return unique_ptr<T>{new T{args...}};
+    }
+}
+#endif
 
+//constexpr and auto don't work in XCode
+const juce::String AutoHideSection{ "autohide" };
 
+/**********************************************************************************************//**
+ * @fn  SettingsManager::SettingsManager()
+ *
+ * @brief   Default constructor.
+ *
+ *
+ **************************************************************************************************/
 
-SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nullptr)
+SettingsManager::SettingsManager(): m_lr_IPC_OUT{ nullptr }, m_profileManager{ nullptr }
 {
 	PropertiesFile::Options opts;
 	opts.applicationName = "MIDI2LR";
@@ -35,16 +51,26 @@ SettingsManager::SettingsManager() : m_lr_IPC_OUT(nullptr), m_profileManager(nul
 	opts.osxLibrarySubFolder = "Application Support/MIDI2LR";
 	opts.storageFormat = PropertiesFile::storeAsXML;
 
-	_propertiesFile = new PropertiesFile(opts);
+	_propertiesFile = std::make_unique<PropertiesFile>(opts);
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setPickupEnabled(bool enabled)
+ *
+ * @brief   Sets pickup enabled.
+ *
+ *
+ *
+ * @param   enabled true to enable, false to disable.
+ **************************************************************************************************/
 
 void SettingsManager::setPickupEnabled(bool enabled)
 {
 	_propertiesFile->setValue("pickup_enabled", enabled);
 	_propertiesFile->saveIfNeeded();
 
-	String command = String::formatted("Pickup %d\n", enabled);
+	auto command = String::formatted("Pickup %d\n", enabled);
 
 	if (m_lr_IPC_OUT)
 	{
@@ -53,15 +79,45 @@ void SettingsManager::setPickupEnabled(bool enabled)
 	
 }
 
-bool SettingsManager::getPickupEnabled() const
+/**********************************************************************************************//**
+ * @fn  bool SettingsManager::getPickupEnabled() const noexcept
+ *
+ * @brief   Gets pickup enabled.
+ *
+ *
+ *
+ * @return  true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool SettingsManager::getPickupEnabled() const noexcept
 {
 	return _propertiesFile->getBoolValue("pickup_enabled", true);
 }
 
-String SettingsManager::getProfileDirectory() const
+/**********************************************************************************************//**
+ * @fn  String SettingsManager::getProfileDirectory() const noexcept
+ *
+ * @brief   Gets profile directory.
+ *
+ *
+ *
+ * @return  The profile directory.
+ **************************************************************************************************/
+
+String SettingsManager::getProfileDirectory() const noexcept
 {
 	return _propertiesFile->getValue("profile_directory");
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setProfileDirectory(const String& profileDirStr)
+ *
+ * @brief   Sets profile directory.
+ *
+ *
+ *
+ * @param   profileDirStr   The profile dir string.
+ **************************************************************************************************/
 
 void SettingsManager::setProfileDirectory(const String& profileDirStr)
 {
@@ -70,14 +126,22 @@ void SettingsManager::setProfileDirectory(const String& profileDirStr)
 
 	if (m_profileManager)
 	{
-		File profileDir(profileDirStr);
+        File profileDir{ profileDirStr };
 		m_profileManager->setProfileDirectory(profileDir);
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::connected()
+ *
+ * @brief   Connected this object.
+ *
+ *
+ **************************************************************************************************/
+
 void SettingsManager::connected()
 {
-	String command = String::formatted("Pickup %d\n", getPickupEnabled());
+	auto command = String::formatted("Pickup %d\n", getPickupEnabled());
 
 	if (m_lr_IPC_OUT)
 	{
@@ -86,27 +150,76 @@ void SettingsManager::connected()
 	
 }
 
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::disconnected()
+ *
+ * @brief   Disconnect from the ed.
+ *
+ *
+ **************************************************************************************************/
+
 void SettingsManager::disconnected()
 {
 
 }
 
+/**********************************************************************************************//**
+ * @fn  int SettingsManager::getAutoHideTime() const
+ *
+ * @brief   Gets automatic hide time.
+ *
+ *
+ *
+ * @return  The automatic hide time.
+ **************************************************************************************************/
+
 int SettingsManager::getAutoHideTime() const
 {
-	return _propertiesFile->getIntValue(AUTOHIDE_SECTION, 0);
+	return _propertiesFile->getIntValue(AutoHideSection, 0);
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setAutoHideTime(int newTime)
+ *
+ * @brief   Sets automatic hide time.
+ *
+ *
+ *
+ * @param   newTime The new time.
+ **************************************************************************************************/
+
 void SettingsManager::setAutoHideTime(int newTime)
 {
-	_propertiesFile->setValue(AUTOHIDE_SECTION, newTime);
+	_propertiesFile->setValue(AutoHideSection, newTime);
 	_propertiesFile->saveIfNeeded();
 
 }
+
+/**********************************************************************************************//**
+ * @fn  int SettingsManager::getLastVersionFound() const
+ *
+ * @brief   Gets the last version found.
+ *
+ *
+ *
+ * @return  The last version found.
+ **************************************************************************************************/
 
 int SettingsManager::getLastVersionFound() const
 {
     return _propertiesFile->getIntValue("LastVersionFound", 0);
 }
+
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::setLastVersionFound(int newversion)
+ *
+ * @brief   Sets last version found.
+ *
+ *
+ *
+ * @param   newversion  The newversion.
+ **************************************************************************************************/
 
 void SettingsManager::setLastVersionFound(int newversion)
 {
@@ -114,7 +227,18 @@ void SettingsManager::setLastVersionFound(int newversion)
     _propertiesFile->saveIfNeeded();
 }
 
-void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManager)
+/**********************************************************************************************//**
+ * @fn  void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
+ *
+ * @brief   S.
+ *
+ *
+ *
+ * @param [in,out]  lr_IPC_OUT      If non-null, the lr ipc out.
+ * @param [in,out]  profileManager  If non-null, manager for profile.
+ **************************************************************************************************/
+
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
 {
 	m_lr_IPC_OUT = lr_IPC_OUT;
 
@@ -129,7 +253,7 @@ void SettingsManager::Init(LR_IPC_OUT *lr_IPC_OUT, ProfileManager *profileManage
 	if (m_profileManager)
 	{
 		// set the profile directory
-		File profileDir(getProfileDirectory());
+        File profileDir{ getProfileDirectory() };
 		profileManager->setProfileDirectory(profileDir);
 	}
 

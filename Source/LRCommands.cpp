@@ -2,8 +2,6 @@
   ==============================================================================
 
     LRCommands.cpp
-    Created: 31 Jul 2015 10:21:12pm
-    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,6 +20,49 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "LRCommands.h"
 #include "CommandMap.h"
+
+const std::vector<String> LRCommandList::KeyShortcuts = {
+    "Key 1",
+    "Key 2",
+    "Key 3",
+    "Key 4",
+    "Key 5",
+    "Key 6",
+    "Key 7",
+    "Key 8",
+    "Key 9",
+    "Key 10",
+    "Key 11",
+    "Key 12",
+    "Key 13",
+    "Key 14",
+    "Key 15",
+    "Key 16",
+    "Key 17",
+    "Key 18",
+    "Key 19",
+    "Key 20",
+    "Key 21",
+    "Key 22",
+    "Key 23",
+    "Key 24",
+    "Key 25",
+    "Key 26",
+    "Key 27",
+    "Key 28",
+    "Key 29",
+    "Key 30",
+    "Key 31",
+    "Key 32",
+    "Key 33",
+    "Key 34",
+    "Key 35",
+    "Key 36",
+    "Key 37",
+    "Key 38",
+    "Key 39",
+    "Key 40",
+};
 
 const std::vector<String> LRCommandList::General = {
     "Import Photos and Videos",
@@ -112,6 +153,7 @@ const std::vector<String> LRCommandList::Library = {
 
 const std::vector<String> LRCommandList::Develop = {
     "Show Develop",
+    "Enable Auto Sync",
     "Copy Settings",
     "Paste Settings",
     "Paste Selected Settings",
@@ -518,6 +560,7 @@ const std::vector<String> LRCommandList::Crop = {
     "Reset Crop",
     "Reset Straighten Angle",
     "Show Crop",
+    "Switch Crop Orientation",
 };
 
 const std::vector<String> LRCommandList::ToolModulePanel = {
@@ -529,7 +572,7 @@ const std::vector<String> LRCommandList::ToolModulePanel = {
     "Show Web",
 };
 
-const std::vector<String> LRCommandList::ViewModes = {
+const std::vector<String> LRCommandList::SecondaryDisplay = {
     "Secondary Display Loupe",
     "Secondary Display Live Loupe",
     "Secondary Display Locked Loupe",
@@ -555,6 +598,47 @@ const std::vector<String> LRCommandList::ProgramProfiles = {
 
 const std::vector<String> LRCommandList::LRStringList = {
     "Unmapped",
+    /* Keyboard Shortcuts for User */
+    "Key1",
+    "Key2",
+    "Key3",
+    "Key4",
+    "Key5",
+    "Key6",
+    "Key7",
+    "Key8",
+    "Key9",
+    "Key10",
+    "Key11",
+    "Key12",
+    "Key13",
+    "Key14",
+    "Key15",
+    "Key16",
+    "Key17",
+    "Key18",
+    "Key19",
+    "Key20",
+    "Key21",
+    "Key22",
+    "Key23",
+    "Key24",
+    "Key25",
+    "Key26",
+    "Key27",
+    "Key28",
+    "Key29",
+    "Key30",
+    "Key31",
+    "Key32",
+    "Key33",
+    "Key34",
+    "Key35",
+    "Key36",
+    "Key37",
+    "Key38",
+    "Key39",
+    "Key40",
     /* General */
     "KPImportImages",
     "KPExportImages",
@@ -640,6 +724,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ShoVwpeople",
     /* Develop */
     "SwToMdevelop",
+    "KPAutoSync",
     "CopySettings",
     "PasteSettings",
     "PasteSelectedSettings",
@@ -1022,6 +1107,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "ResetCrop",
     "ResetstraightenAngle",
     "CropOverlay",
+    "KPRotateCropAspect",
     /* Select Tools, Modules and Panels */
     "Loupe",
     "SwToMmap",
@@ -1029,7 +1115,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "SwToMslideshow",
     "SwToMprint",
     "SwToMweb",
-    /* View Modes */
+    /* Secondary Display */
     "ShoScndVwloupe",
     "ShoScndVwlive_loupe",
     "ShoScndVwlocked_loupe",
@@ -1055,6 +1141,19 @@ const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
 };
+
+/**********************************************************************************************//**
+ * @fn  int LRCommandList::getIndexOfCommand(const String& command)
+ *
+ * @brief   Gets index of command.
+ *
+ *
+ *
+ *
+ * @param   command The command.
+ *
+ * @return  The index of command.
+ **************************************************************************************************/
 
 int LRCommandList::getIndexOfCommand(const String& command)
 {

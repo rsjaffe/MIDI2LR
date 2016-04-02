@@ -3,8 +3,6 @@
   ==============================================================================
 
     MIDISender.h
-    Created: 22 Aug 2015 9:44:21pm
-    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -25,13 +23,22 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+/**********************************************************************************************//**
+* @class   MIDISender
+*
+* @brief   MIDI sender.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class MIDISender
 {
 public:
-	MIDISender();
+	MIDISender() noexcept;
 	virtual ~MIDISender();	
 	// sends a CC message to all output devices
-    void sendCC(int midi_channel, int controller, int value);
+    void sendCC(int midi_channel, int controller, int value) const ;
 
     // re-enumerates MIDI OUT devices
     void rescanDevices();

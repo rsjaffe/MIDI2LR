@@ -3,8 +3,6 @@
   ==============================================================================
 
     MainWindow.h
-    Created: 22 Nov 2015 8:28:57pm
-    Author:  Jeffrey
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -27,21 +25,27 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainComponent.h"
 #include "SettingsManager.h"
-//==============================================================================
-    /*
-        This class implements the desktop window that contains an instance of
+
+/**********************************************************************************************//**
+* @class   MainWindow
+*
+* @brief   This class implements the desktop window that contains an instance of
         our MainContentComponent class.
-    */
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
     class MainWindow: public DocumentWindow, public Timer
     {
     public:
-        MainWindow(String name): DocumentWindow(name,
+        MainWindow(String name): DocumentWindow{ name,
             Colours::lightgrey,
             DocumentWindow::minimiseButton |
-            DocumentWindow::closeButton) , Timer()
+            DocumentWindow::closeButton }, Timer()
         {
             setUsingNativeTitleBar(true);
-			m_windowContent = new MainContentComponent();
+            m_windowContent = new MainContentComponent{};
 			
             setContentOwned(m_windowContent, true);
 
@@ -57,7 +61,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
             JUCEApplication::getInstance()->systemRequestedQuit();
         }
 
-		void Init(CommandMap *commandMap, LR_IPC_IN *in, LR_IPC_OUT *out, MIDIProcessor *midiProcessor, ProfileManager *profileManager, SettingsManager *settingsManager, MIDISender *midiSender);
+		void Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, 
+            std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender);
 
         /* Note: Be careful if you override any DocumentWindow methods - the base
            class uses a lot of them, so by overriding you might break its functionality.
@@ -67,7 +72,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
         */
         
         // the timer callback function
-        virtual void timerCallback();
+        virtual void timerCallback() override;
         
     private:
 		int m_autoHideCounter;

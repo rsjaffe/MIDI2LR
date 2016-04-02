@@ -2,8 +2,6 @@
   ==============================================================================
 
     LR_IPC_OUT.cpp
-    Created: 2 Aug 2015 12:27:47am
-    Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,21 +20,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
-#include "Tools.h"
-#ifdef _WIN32
-#include "Windows.h"
-#else
-#import <CoreFoundation/CoreFoundation.h>
-#import <CoreGraphics/CoreGraphics.h>
-#endif
-// define the port used to 
-#define LR_OUT_PORT 58763 
+
+constexpr auto LrOutPort = 58763;
 
 const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 #ifdef _WIN32
 { "KPImportImages", KeyPress::createFromDescription("ctrl + shift + i") },
 { "KPExportImages", KeyPress::createFromDescription("control + shift + e") },
-{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("+") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("ctrl + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("ctrl + alt + shift + h") },
@@ -76,14 +67,15 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPUnstack", KeyPress::createFromDescription("ctrl + shift + g") },
 { "KPExpandStack", KeyPress::createFromDescription("s") },
 { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPUpInStack", KeyPress::createFromDescription("{") },
+{ "KPDnInStack", KeyPress::createFromDescription("}") },
 { "KPRotateLeft", KeyPress::createFromDescription("ctrl + [") },
 { "KPRotateRight", KeyPress::createFromDescription("ctrl + ]") },
 { "KPDelete", KeyPress::createFromDescription("delete") },
 { "KPDeleteRej", KeyPress::createFromDescription("ctrl + delete") },
 { "KPRemoveFromCat", KeyPress::createFromDescription("alt + delete") },
 { "KPTrash", KeyPress::createFromDescription("ctrl + alt + shift + delete") },
+{ "KPAutoSync", KeyPress::createFromDescription("ctrl + alt + shift + a") },
 { "KPPasteFromPrevious", KeyPress::createFromDescription("ctrl + alt + v") },
 { "KPMatchExposures", KeyPress::createFromDescription("ctrl + alt + shift + m") },
 { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
@@ -91,12 +83,13 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPClipping", KeyPress::createFromDescription("j") },
 { "KPIncreaseSize", KeyPress::createFromDescription("]") },
 { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("}") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("{") },
+{ "KPRotateCropAspect", KeyPress::createFromDescription("x") },
 #else
 { "KPImportImages", KeyPress::createFromDescription("command + shift + i") },
 { "KPExportImages", KeyPress::createFromDescription("command + shift + e") },
-{ "KPIncreaseGridSize", KeyPress::createFromDescription("=") },
+{ "KPIncreaseGridSize", KeyPress::createFromDescription("+") },
 { "KPDecreaseGridSize", KeyPress::createFromDescription("-") },
 { "KPShowExtras", KeyPress::createFromDescription("command + shift + h") },
 { "KPShowBadges", KeyPress::createFromDescription("command + option + shift + h") },
@@ -136,14 +129,15 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPUnstack", KeyPress::createFromDescription("command + shift + g") },
 { "KPExpandStack", KeyPress::createFromDescription("s") },
 { "KPToTopStack", KeyPress::createFromDescription("shift + s") },
-{ "KPUpInStack", KeyPress::createFromDescription("shift + [") },
-{ "KPDnInStack", KeyPress::createFromDescription("shift + ]") },
+{ "KPUpInStack", KeyPress::createFromDescription("{") },
+{ "KPDnInStack", KeyPress::createFromDescription("}") },
 { "KPRotateLeft", KeyPress::createFromDescription("command + [") },
 { "KPRotateRight", KeyPress::createFromDescription("command + ]") },
 { "KPDelete", KeyPress::createFromDescription("delete") },
 { "KPDeleteRej", KeyPress::createFromDescription("command + delete") },
 { "KPRemoveFromCat", KeyPress::createFromDescription("option + delete") },
 { "KPTrash", KeyPress::createFromDescription("command + option + shift + delete") },
+{ "KPAutoSync", KeyPress::createFromDescription("command + option + shift + a") },
 { "KPPasteFromPrevious", KeyPress::createFromDescription("command + option + v") },
 { "KPMatchExposures", KeyPress::createFromDescription("command + option + shift + m") },
 { "KPBeforeAfter", KeyPress::createFromDescription("\\") },
@@ -151,30 +145,70 @@ const std::unordered_map<String, KeyPress> LR_IPC_OUT::KPMappings = {
 { "KPClipping", KeyPress::createFromDescription("j") },
 { "KPIncreaseSize", KeyPress::createFromDescription("]") },
 { "KPDecreaseSize", KeyPress::createFromDescription("[") },
-{ "KPIncreaseFeather", KeyPress::createFromDescription("shift + ]") },
-{ "KPDecreaseFeather", KeyPress::createFromDescription("shift + [") },
+{ "KPIncreaseFeather", KeyPress::createFromDescription("}") },
+{ "KPDecreaseFeather", KeyPress::createFromDescription("{") },
+{ "KPRotateCropAspect", KeyPress::createFromDescription("x") },
 #endif
 };
 
-LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
+/**********************************************************************************************//**
+ * @fn  LR_IPC_OUT::LR_IPC_OUT()
+ *
+ * @brief   Default constructor.
+ *
+ *
+ *
+ **************************************************************************************************/
+
+LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection(), m_SendKeys()
 {
 
 
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::shutdown()
+ *
+ * @brief   Shuts down this object and frees any resources it is using.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 void LR_IPC_OUT::shutdown()
 {
     stopTimer(),
         disconnect();
+    m_commandMap.reset();
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::timerCallback()
+ *
+ * @brief   Callback, called when the timer.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 void LR_IPC_OUT::timerCallback()
 {
     if (!isConnected())
-        connectToSocket("127.0.0.1", LR_OUT_PORT, 100);
+        connectToSocket("127.0.0.1", LrOutPort, 100);
 }
 
-void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<MIDIProcessor>& midiProcessor)
+ *
+ * @brief   S.
+ *
+ *
+ *
+ * @param [in,out]  mapCommand      If non-null, the map command.
+ * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ **************************************************************************************************/
+
+void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<MIDIProcessor>& midiProcessor)
 {
     //copy the pointer
     m_commandMap = mapCommand;
@@ -191,10 +225,30 @@ void LR_IPC_OUT::Init(CommandMap * mapCommand, MIDIProcessor *midiProcessor)
 
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::addListener(LRConnectionListener *listener)
+ *
+ * @brief   Adds a listener.
+ *
+ *
+ *
+ *
+ * @param [in,out]  listener    If non-null, the listener.
+ **************************************************************************************************/
+
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
 {
     _listeners.addIfNotAlreadyThere(listener);
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::connectionMade()
+ *
+ * @brief   Connection made.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 void LR_IPC_OUT::connectionMade()
 {
@@ -202,18 +256,47 @@ void LR_IPC_OUT::connectionMade()
         listener->connected();
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::connectionLost()
+ *
+ * @brief   Connection lost.
+ *
+ *
+ *
+ **************************************************************************************************/
+
 void LR_IPC_OUT::connectionLost()
 {
     for (auto listener : _listeners)
         listener->disconnected();
 }
 
-void LR_IPC_OUT::messageReceived(const MemoryBlock& UNUSED_ARG(msg))
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::messageReceived(const MemoryBlock& )
+ *
+ * @brief   Message received.
+ *
+ *
+ *
+ * @param   parameter1  The unused argument (msg)
+ **************************************************************************************************/
+
+void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)
 {
 
 }
 
-void LR_IPC_OUT::sendCommand(const String &command)
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::sendCommand(const String &command) const
+ *
+ * @brief   Sends a command.
+ *
+ *
+ *
+ * @param   command The command.
+ **************************************************************************************************/
+
+void LR_IPC_OUT::sendCommand(const String &command) const
 {
     //check if there is a connection
     if (isConnected())
@@ -222,11 +305,28 @@ void LR_IPC_OUT::sendCommand(const String &command)
     }
 }
 
-void LR_IPC_OUT::handleKPCommand()
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleKPCommand() const
+ *
+ * @brief   Handles KP (key press) commands.
+ *
+ *
+ **************************************************************************************************/
+
+void LR_IPC_OUT::handleKPCommand() const
 {
     if (_valueToSend == 127)
-        handleShortCutKeyDownUp(KPMappings.at(_commandToSend));
+        m_SendKeys.SendKeyDownUp(KPMappings.at(_commandToSend));
 }
+
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleAsyncUpdate()
+ *
+ * @brief   Handles the asynchronous update.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 void LR_IPC_OUT::handleAsyncUpdate()
 {
@@ -237,15 +337,28 @@ void LR_IPC_OUT::handleAsyncUpdate()
             handleKPCommand();
         else
         {
-            String command(_commandToSend + String::formatted(" %d\n", _valueToSend));
+            auto command(_commandToSend + String::formatted(" %d\n", _valueToSend));
             sendCommand(command);
         }
     }
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
+ *
+ * @brief   Handles MIDI CC messages.
+ *
+ *
+ *
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   controller  The controller.
+ * @param   value       The value.
+ **************************************************************************************************/
+
 void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
-    MIDI_Message cc(midiChannel, controller, true);
+    MIDI_Message cc{ midiChannel, controller, true };
 
     if (m_commandMap)
     {
@@ -262,9 +375,21 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
     }
 }
 
+/**********************************************************************************************//**
+ * @fn  void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
+ *
+ * @brief   Handles MIDI note messages.
+ *
+ *
+ *
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   note        The note.
+ **************************************************************************************************/
+
 void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 {
-    MIDI_Message note_msg(midiChannel, note, false);
+    MIDI_Message note_msg{ midiChannel, note, false };
 
     if (m_commandMap)
     {
@@ -280,96 +405,4 @@ void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
         _valueToSend = 127;
         handleAsyncUpdate();
     }
-}
-
-void LR_IPC_OUT::handleShortCutKeyDownUp(KeyPress key)
-{
-#ifdef _WIN32
-    //Lightroom handle
-    const HWND hLRWnd = ::FindWindow(NULL, "Lightroom");
-    const ModifierKeys mk = key.getModifiers();
-    HKL languageID;
-    // Bring Lightroom to foreground if it isn't already there
-    if (hLRWnd)
-    {
-        ::SetForegroundWindow(hLRWnd);
-        // get language that LR is using (if hLrWnd is found)
-        DWORD threadId = GetWindowThreadProcessId(hLRWnd, NULL);
-        languageID = GetKeyboardLayout(threadId);
-    }
-    else
-    {   // use keyboard of MIDI2LR app
-        languageID = GetKeyboardLayout(0);
-    }
-    // Translate key code to keyboard-dependent scan code
-    const SHORT vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
-    // input event.
-    INPUT ip;
-    ip.type = INPUT_KEYBOARD;
-    ip.ki.dwExtraInfo = 0;
-    ip.ki.dwFlags = 0; // 0 for key press
-    ip.ki.time = 0;
-    ip.ki.wScan = 0;
-    if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
-    {
-        ip.ki.wVk = VK_CONTROL;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isShiftDown() || (vkCodeAndShift & 0x100))
-    {
-        ip.ki.wVk = VK_SHIFT;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isAltDown() || (vkCodeAndShift & 0x400))
-    {
-        ip.ki.wVk = VK_MENU;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    //press the key
-    ip.ki.wVk = static_cast<WORD>(vkCodeAndShift & 0xFF);
-    SendInput(1, &ip, sizeof(INPUT));
-    //add 30 msec between press and release
-    Sleep(30); 
-    // Release the key
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    SendInput(1, &ip, sizeof(INPUT));
-    if (mk.isCtrlDown() || (vkCodeAndShift & 0x200))
-    {
-        ip.ki.wVk = VK_CONTROL;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isShiftDown() || (vkCodeAndShift & 0x100))
-    {
-        ip.ki.wVk = VK_SHIFT;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (mk.isAltDown() || (vkCodeAndShift & 0x400))
-    {
-        ip.ki.wVk = VK_MENU;
-        SendInput(1, &ip, sizeof(INPUT));
-    }
-#else
-    const ModifierKeys mk = key.getModifiers();
-    const UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
-    const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-    CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
-    CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
-    CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
-    CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-    uint64_t flags = UINT64_C(0);
-    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
-    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
-    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0))
-    {
-        flags |= CGEventGetFlags(d); //in case KeyCode has associated flag
-        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-    }
-    CGEventPost(kCGHIDEventTap, d);
-    CGEventPost(kCGHIDEventTap, u);
-
-    CFRelease(d);
-    CFRelease(u);
-#endif
 }

@@ -3,8 +3,6 @@
   ==============================================================================
 
 	VersionChecker.h
-	Created: 19 Aug 2015 1:21:14pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -26,14 +24,22 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsManager.h"
 
-// checks to see if we are running the latest version or not
+/**********************************************************************************************//**
+* @class   VersionChecker
+*
+* @brief   Checks to see if we are running the latest version or not.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+ 
 class VersionChecker : public Thread,
 	public AsyncUpdater
 {
 public:
-	VersionChecker();
+	VersionChecker() noexcept;
 
-    void Init(SettingsManager *profileManager);
+    void Init(std::shared_ptr<SettingsManager>& profileManager);
 	// Thread interface
 	virtual void run() override;
 
@@ -42,8 +48,8 @@ public:
 
 private:
 	int _newVersion;
-	ScopedPointer<DialogWindow> _dialog;
-    SettingsManager *m_settingsManager;
+	std::unique_ptr<DialogWindow> _dialog;
+    std::shared_ptr<SettingsManager> m_settingsManager;
 };
 
 

@@ -3,8 +3,6 @@
   ==============================================================================
 
     Subject.h
-    Created: 23 Jan 2016 9:00:58am
-    Author:  Jeffrey
 
     This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -31,10 +29,19 @@ using namespace std;
 
 class Observer;
 
+/**********************************************************************************************//**
+* @class   Subject
+*
+* @brief   Subject.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class Subject
 {
 public:
-	Subject();
+	Subject() noexcept;
 	virtual ~Subject();	
 	void RegisterObserver(Observer *observer);
 	void UnregisterObserver(Observer *observer);

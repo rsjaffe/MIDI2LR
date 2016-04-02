@@ -3,8 +3,6 @@
   ==============================================================================
 
 	LR_IPC_OUT.h
-	Created: 2 Aug 2015 12:27:47am
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -26,6 +24,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MIDIProcessor.h"
 #include "CommandMap.h"
+#include "SendKeys.h"
+
+/**********************************************************************************************//**
+ * @class   LRConnectionListener
+ *
+ * @brief   A lr connection listener.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 class LRConnectionListener
 {
@@ -37,7 +45,17 @@ public:
 	virtual void disconnected() = 0;
 
 	virtual ~LRConnectionListener() {};
+///< .
 };
+
+/**********************************************************************************************//**
+ * @class   LR_IPC_OUT
+ *
+ * @brief   A lr ipc out.
+ *
+ *
+ *
+ **************************************************************************************************/
 
 class LR_IPC_OUT : public InterprocessConnection,
 	public MIDICommandListener,
@@ -53,7 +71,7 @@ public:
 	void addListener(LRConnectionListener *listener);
 
 	// sends a command to the plugin
-	void sendCommand(const String& command);
+	void sendCommand(const String& command) const;
 
 	// IPC interface
 	virtual void connectionMade() override;
@@ -71,16 +89,17 @@ public:
 
 	// Timer callback
 	virtual void timerCallback() override;
-	void Init(CommandMap *mapCommand, MIDIProcessor *midiProcessor);
+	void Init(std::shared_ptr<CommandMap>&  mapCommand, std::shared_ptr<MIDIProcessor>&  midiProcessor);
 private:
     const static unordered_map<String, KeyPress> KPMappings;
-	CommandMap *m_commandMap;
+	std::shared_ptr<const CommandMap> m_commandMap;
 	Array<LRConnectionListener *> _listeners;
 	int _valueToSend;
 	String _commandToSend;
     // Send key commands
-    void handleKPCommand(void);
-    void handleShortCutKeyDownUp(KeyPress key);
+    void handleKPCommand(void) const;
+    SendKeys m_SendKeys;
+///< .
 };
 
 

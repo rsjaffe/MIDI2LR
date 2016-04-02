@@ -38,10 +38,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\Source\LRPlugin\MIDI2LR.lrplugin\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MIDI2LR</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\Source\LRPlugin\MIDI2LR.lrplugin\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MIDI2LR</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <PlatformToolset>v140</PlatformToolset>
@@ -58,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.9;JUCE_APP_VERSION_HEX=0x909;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.10;JUCE_APP_VERSION_HEX=0x90a;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -99,7 +97,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.9;JUCE_APP_VERSION_HEX=0x909;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCER_VS2015_78A5022=1;JUCE_APP_VERSION=0.9.10;JUCE_APP_VERSION_HEX=0x90a;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -135,7 +133,6 @@
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>
     <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
-    <ClCompile Include="..\..\Source\Logger.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
     <ClCompile Include="..\..\Source\LRCommands.cpp"/>
@@ -147,6 +144,7 @@
     <ClCompile Include="..\..\Source\Pattern\Observer.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
+    <ClCompile Include="..\..\Source\SendKeys.cpp"/>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp"/>
     <ClCompile Include="..\..\Source\SettingsManager.cpp"/>
     <ClCompile Include="..\..\Source\Pattern\Subject.cpp"/>
@@ -1196,7 +1194,6 @@
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
     <ClInclude Include="..\..\Source\CommandTableModel.h"/>
-    <ClInclude Include="..\..\Source\Logger.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>
     <ClInclude Include="..\..\Source\LRCommands.h"/>
@@ -1207,10 +1204,11 @@
     <ClInclude Include="..\..\Source\Pattern\Observer.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\ResizableLayout.h"/>
+    <ClInclude Include="..\..\Source\SendKeys.h"/>
     <ClInclude Include="..\..\Source\SettingsComponent.h"/>
     <ClInclude Include="..\..\Source\SettingsManager.h"/>
     <ClInclude Include="..\..\Source\Pattern\Subject.h"/>
-    <ClInclude Include="..\..\Source\Tools.h"/>
+    <ClInclude Include="..\..\Source\Utilities.h"/>
     <ClInclude Include="..\..\Source\VersionChecker.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>

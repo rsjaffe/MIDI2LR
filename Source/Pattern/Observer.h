@@ -3,8 +3,6 @@
   ==============================================================================
 
     Observer.h
-    Created: 23 Jan 2016 9:01:16am
-    Author:  Jeffrey
 
     This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -29,10 +27,19 @@
 // forward declaration of the subject interface
 class Subject;
 
+/**********************************************************************************************//**
+* @class   Observer
+*
+* @brief   Observer.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class Observer
 {
 public:
-	Observer() {}
+	Observer() noexcept {}
 	virtual ~Observer() {}
 	// the changed function is pure virtual as the overloaded object needs to implement it.
 	virtual void Changed(Subject *changed) = 0;

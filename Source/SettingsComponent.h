@@ -3,8 +3,6 @@
   ==============================================================================
 
 	SettingsComponent.h
-	Created: 24 Aug 2015 11:43:59am
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -26,9 +24,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ResizableLayout.h"
 #include "SettingsManager.h"
-//==============================================================================
-/*
-*/
+
+/**********************************************************************************************//**
+* @class   SettingsComponent
+*
+* @brief   Settings Component.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class SettingsComponent : public Component,
 	public ButtonListener, ResizableLayout, public Slider::Listener
 {
@@ -36,14 +41,14 @@ public:
 	SettingsComponent();
 	~SettingsComponent();
 
-	void paint(Graphics&);
+	void paint(Graphics&) override;
 	//void resized();
 
 	// ButtonListener interface
 	virtual void buttonClicked(Button* button) override;
 
-	virtual void sliderValueChanged(Slider* slider);
-	void Init(SettingsManager *settingsManager);
+	virtual void sliderValueChanged(Slider* slider) override;
+	void Init(std::shared_ptr<SettingsManager>& settingsManager);
 private:
 	ToggleButton _pickupEnabled;
 	Label _pickupLabel;
@@ -55,7 +60,7 @@ private:
 	GroupComponent m_autoHideGroup;
 	GroupComponent m_pickupGroup;
 	GroupComponent m_profileGroup;
-	SettingsManager *m_settingsManager;
+    std::shared_ptr<SettingsManager> m_settingsManager;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

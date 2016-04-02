@@ -1,6 +1,9 @@
 #pragma once
 /*
   ==============================================================================
+
+  CommandTableModel.h
+
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -19,14 +22,24 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define COMMANDTABLEMODEL_H
 
 #include <vector>
+#include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
 
+/**********************************************************************************************//**
+* @class   CommandTableModel
+*
+* @brief   Command Table model.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class CommandTableModel : public TableListBoxModel
 {
 public:
-	CommandTableModel();
+	CommandTableModel() noexcept;
 
 	// TableListBoxModel overrides
 	virtual int getNumRows() override;
@@ -44,15 +57,15 @@ public:
 	void removeAllRows();
 
 	// builds the table from an XML file
-	void buildFromXml(XmlElement *elem);
+	void buildFromXml(const XmlElement * const elem);
 
 	// returns the index of the row associated to a particular MIDI message
 	int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
-	void Init(CommandMap *mapCommand);
+	void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
 private:
 	int _rows;
 	std::vector<MIDI_Message> _commands;
-	CommandMap *m_commandMap;
+    std::shared_ptr<CommandMap> m_commandMap;
 
 	//==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

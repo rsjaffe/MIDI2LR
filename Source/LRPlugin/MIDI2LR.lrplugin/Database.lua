@@ -31,6 +31,7 @@ local developPresets = LOC("$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/P
 local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects")
 local general = LOC("$$$/WFCatSearch/TermCategories/General=General")
 local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
+local keyshortcuts = LOC("$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User")
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
 local library = LOC("$$$/AgLibraryModule/ModuleTitle=Library")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
@@ -67,6 +68,8 @@ DataBase structure
 13. keypress pc
 14. keypress mac
 
+make sure to add section to cppvectors if new
+
 errors if:
 2=not false, 3=false
 4=false, 5=true
@@ -88,12 +91,53 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
   ------------------------------------------------------------------------------]]
 
 local DataBase = {
+  --Keyboard shortcuts
+  {'Key1',false,false,true,false,true,false,'Key 1',keyshortcuts,'Key 1. *button*'},
+  {'Key2',false,false,true,false,true,false,'Key 2',keyshortcuts,'Key 2. *button*'},
+  {'Key3',false,false,true,false,true,false,'Key 3',keyshortcuts,'Key 3. *button*'},
+  {'Key4',false,false,true,false,true,false,'Key 4',keyshortcuts,'Key 4. *button*'},
+  {'Key5',false,false,true,false,true,false,'Key 5',keyshortcuts,'Key 5. *button*'},
+  {'Key6',false,false,true,false,true,false,'Key 6',keyshortcuts,'Key 6. *button*'},
+  {'Key7',false,false,true,false,true,false,'Key 7',keyshortcuts,'Key 7. *button*'},
+  {'Key8',false,false,true,false,true,false,'Key 8',keyshortcuts,'Key 8. *button*'},
+  {'Key9',false,false,true,false,true,false,'Key 9',keyshortcuts,'Key 9. *button*'},
+  {'Key10',false,false,true,false,true,false,'Key 10',keyshortcuts,'Key 10. *button*'},
+  {'Key11',false,false,true,false,true,false,'Key 11',keyshortcuts,'Key 11. *button*'},
+  {'Key12',false,false,true,false,true,false,'Key 12',keyshortcuts,'Key 12. *button*'},
+  {'Key13',false,false,true,false,true,false,'Key 13',keyshortcuts,'Key 13. *button*'},
+  {'Key14',false,false,true,false,true,false,'Key 14',keyshortcuts,'Key 14. *button*'},
+  {'Key15',false,false,true,false,true,false,'Key 15',keyshortcuts,'Key 15. *button*'},
+  {'Key16',false,false,true,false,true,false,'Key 16',keyshortcuts,'Key 16. *button*'},
+  {'Key17',false,false,true,false,true,false,'Key 17',keyshortcuts,'Key 17. *button*'},
+  {'Key18',false,false,true,false,true,false,'Key 18',keyshortcuts,'Key 18. *button*'},
+  {'Key19',false,false,true,false,true,false,'Key 19',keyshortcuts,'Key 19. *button*'},
+  {'Key20',false,false,true,false,true,false,'Key 20',keyshortcuts,'Key 20. *button*'},
+  {'Key21',false,false,true,false,true,false,'Key 21',keyshortcuts,'Key 21. *button*'},
+  {'Key22',false,false,true,false,true,false,'Key 22',keyshortcuts,'Key 22. *button*'},
+  {'Key23',false,false,true,false,true,false,'Key 23',keyshortcuts,'Key 23. *button*'},
+  {'Key24',false,false,true,false,true,false,'Key 24',keyshortcuts,'Key 24. *button*'},
+  {'Key25',false,false,true,false,true,false,'Key 25',keyshortcuts,'Key 25. *button*'},
+  {'Key26',false,false,true,false,true,false,'Key 26',keyshortcuts,'Key 26. *button*'},
+  {'Key27',false,false,true,false,true,false,'Key 27',keyshortcuts,'Key 27. *button*'},
+  {'Key28',false,false,true,false,true,false,'Key 28',keyshortcuts,'Key 28. *button*'},
+  {'Key29',false,false,true,false,true,false,'Key 29',keyshortcuts,'Key 29. *button*'},
+  {'Key30',false,false,true,false,true,false,'Key 30',keyshortcuts,'Key 30. *button*'},
+  {'Key31',false,false,true,false,true,false,'Key 31',keyshortcuts,'Key 31. *button*'},
+  {'Key32',false,false,true,false,true,false,'Key 32',keyshortcuts,'Key 32. *button*'},
+  {'Key33',false,false,true,false,true,false,'Key 33',keyshortcuts,'Key 33. *button*'},
+  {'Key34',false,false,true,false,true,false,'Key 34',keyshortcuts,'Key 34. *button*'},
+  {'Key35',false,false,true,false,true,false,'Key 35',keyshortcuts,'Key 35. *button*'},
+  {'Key36',false,false,true,false,true,false,'Key 36',keyshortcuts,'Key 36. *button*'},
+  {'Key37',false,false,true,false,true,false,'Key 37',keyshortcuts,'Key 37. *button*'},
+  {'Key38',false,false,true,false,true,false,'Key 38',keyshortcuts,'Key 38. *button*'},
+  {'Key39',false,false,true,false,true,false,'Key 39',keyshortcuts,'Key 39. *button*'},
+  {'Key40',false,false,true,false,true,false,'Key 40',keyshortcuts,'Key 40. *button*'},
   --General Workspace
   {'KPImportImages',false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/ImportImages=Import Photos and Videos"),general,"Imports photos and videos (**control/command shift i**). *button*",'',true,'ctrl + shift + i','command + shift + i'},
   {'KPExportImages',false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/Export_Image=Export"),general,"Exports photos and videos (**control/command shift e**). *button*",'',true,'control + shift + e','command + shift + e'},
   --workspace: grid view options
   {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),general,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
-  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),general, 'Increase grid size (**=**). *button*','',true,'=','='},
+  {'KPIncreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/IncreaseGridSize=Increase Grid Size"),general, 'Increase grid size (**=**). *button*','',true,'+','+'},
   {'KPDecreaseGridSize', false,false,true,false,true,false,LOC("$$$/AgLayout/Menu/View/DecreaseGridSize=Decrease Grid Size"),general, 'Decrease grid size (**-**). *button*','',true,'-','-'},
   {'KPShowExtras', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowExtras=Show Extras"):gsub("&",""),general, 'Show/Hide extras (**control/command shift h**). *button*','',true,'ctrl + shift + h','command + shift + h'},
   {'KPShowBadges', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/GridViewStyle/ShowBadges=Show Badges"):gsub("&",""),general, 'Show/Hide badges (**control/command alt/option shift h**). *button*','',true,'ctrl + alt + shift + h','command + option + shift + h'},
@@ -164,8 +208,8 @@ local DataBase = {
   {'KPUnstack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/UnstackImages=Unstack Photos"),library,'Unstack (**control/command shift g**). *button*','',true,'ctrl + shift + g','command + shift + g'},
   {'KPExpandStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/ToggleStack=Toggle Stack"):gsub("&",""),library,'Collapse/Expand stack (**s**). *button*','',true,'s','s'},
   {'KPToTopStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveToTop=Move to Stack Top"):gsub("&",""),library,'Move to top of stack (**shift s**). *button*','',true,'shift + s','shift + s'},
-  {'KPUpInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveUp=Move Up in Stack"):gsub("&",""),library,'Move up in stack (**shift [**). *button*','',true,'shift + [','shift + ['},
-  {'KPDnInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveDown=Move Down in Stack"):gsub("&",""),library,'Move down in stack (**shift ]**). *button*','',true,'shift + ]','shift + ]'},
+  {'KPUpInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveUp=Move Up in Stack"):gsub("&",""),library,'Move up in stack (**shift [**). *button*','',true,'{','{'},
+  {'KPDnInStack', false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Photo/Stack/MoveDown=Move Down in Stack"):gsub("&",""),library,'Move down in stack (**shift ]**). *button*','',true,'}','}'},
   --library: flags
   {"Pick",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag"),library,"*button*"},
   {"Reject",false,false,true,false,true,false,LOC("$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag"),library,"*button*"},
@@ -199,6 +243,7 @@ local DataBase = {
   --Develop
   {"SwToMdevelop",false,false,true,false,true,false,show..' '..LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),develop,"Switch to Develop module. *button*"},
   --develop: copy paste sync
+  {"KPAutoSync", false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Photo/AutoSync=Enable Auto Sync"):gsub("&",""),develop,'Toggle Auto Sync (**control/command alt/option shift a**). *button*','',true,'ctrl + alt + shift + a','command + option + shift + a'},
   {"CopySettings",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
   {"PasteSettings",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Pastes all develop settings. *button*"},
   {"PasteSelectedSettings",false,false,true,false,true,false,"Paste Selected Settings",develop,"Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},
@@ -558,8 +603,8 @@ local DataBase = {
   {"AdjustmentBrush",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),localizedAdjustments,"Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {'KPIncreaseSize', false,false,true,false,true,false,'Increase Size',localizedAdjustments, 'Increase Spot or Brush size (**]**). *button*','',true,']',']'},
   {'KPDecreaseSize', false,false,true,false,true,false,'Decrease Size',localizedAdjustments, 'Decrease Spot or Brush size (**[**). *button*','',true,'[','['},
-  {'KPIncreaseFeather', false,false,true,false,true,false,'Increase Feathering',localizedAdjustments, 'Increase brush feathering (**shift ]**). *button*','',true,'shift + ]','shift + ]'},
-  {'KPDecreaseFeather', false,false,true,false,true,false,'Decrease Feathering',localizedAdjustments, 'Decrease brush feathering (**shift [**). *button*','',true,'shift + [','shift + ['},
+  {'KPIncreaseFeather', false,false,true,false,true,false,'Increase Feathering',localizedAdjustments, 'Increase brush feathering (**shift ]**). *button*','',true,'}','}'},
+  {'KPDecreaseFeather', false,false,true,false,true,false,'Decrease Feathering',localizedAdjustments, 'Decrease brush feathering (**shift [**). *button*','',true,'{','{'},
   {"local_Temperature",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Temperature=Temp.").." (PV2012)",localizedAdjustments,"Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Tint",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Tint=Tint").." (PV2012)",localizedAdjustments,"Adjust Tint for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Exposure",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Exposure=Exposure").." (PV2010 and PV2012)",localizedAdjustments,"Adjust Exposure for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
@@ -613,6 +658,8 @@ local DataBase = {
   {"ResetCrop",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetCrop=Reset Crop"),crop,"Reset the crop angle and frame for the current photo. *button*",'crop'},
   {'ResetstraightenAngle',false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),crop,"Reset crop angle. *button*"},
   {"CropOverlay",false,false,true,false,true,false,show..' '..crop,crop,"Select Crop Overlay mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"KPRotateCropAspect", false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/Photo/RotateCropAspect=Switch Crop Orientation"),crop, 'Switch crop between portrait and landscape orientation (**x**). *button*','',true,'x','x'},
+  
 
   {"Loupe",false,false,true,false,true,false,show..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),gotoToolModulePanel,"Select Loupe View mode in Develop Module. Repeated press toggles in and out of Loupe View. *button*",'loupe'},
   {"SwToMmap",false,false,true,false,true,false,show..' '..LOC("$$$/AgLocation/ModuleTitle=Map"),gotoToolModulePanel,"Switch to Map module. *button*"},
@@ -620,14 +667,14 @@ local DataBase = {
   {"SwToMslideshow",false,false,true,false,true,false,show..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),gotoToolModulePanel,"Switch to Slideshow module. *button*"},
   {"SwToMprint",false,false,true,false,true,false,show..' '..LOC("$$$/AgPrint/Menu/File/Print=Print"),gotoToolModulePanel,"Switch to Print module. *button*"},
   {"SwToMweb",false,false,true,false,true,false,show..' '..LOC("$$$/WPG/Help/Shortcuts/WebHeader=Web"),gotoToolModulePanel,"Switch to Web module. *button*"},
-  {"ShoScndVwloupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Loupe=Loupe"),viewModes,"Shows Loupe view on the secondary screen, or hides the secondary screen if Loupe view was previously being shown. *button*"},
-  {"ShoScndVwlive_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LiveLoupe=Live Loupe"),viewModes,"Shows Live Loupe view on the secondary screen, or hides the secondary screen if Live Loupe view was previously being shown. *button*"},
-  {"ShoScndVwlocked_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LockedLoupe=Locked Loupe"),viewModes,"Shows Locked Loupe view on the secondary screen, or hides the secondary screen if Locked Loupe view was previously being shown. *button*"},
-  {"ShoScndVwgrid",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Grid=Grid"),viewModes,"Shows Grid view on the secondary screen, or hides the secondary screen if Grid view was previously being shown. *button*"},
-  {"ShoScndVwcompare",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Compare=Compare"),viewModes,"Shows Compare view on the secondary screen, or hides the secondary screen if Compare view was previously being shown. *button*"},
-  {"ShoScndVwsurvey",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Survey=Survey"),viewModes,"Shows Survey view on the secondary screen, or hides the secondary screen if Survey view was previously being shown. *button*"},
-  {"ShoScndVwslideshow",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),viewModes,"Shows Slideshow view on the secondary screen, or hides the secondary screen if Slideshow view was previously being shown. *button*"},
-  {"ToggleScreenTwo",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Show=Show"),viewModes,"Toggles the the secondary window on/off. *button*"},
+  {"ShoScndVwloupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Loupe=Loupe"),secondaryDisplay,"Shows Loupe view on the secondary screen, or hides the secondary screen if Loupe view was previously being shown. *button*"},
+  {"ShoScndVwlive_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LiveLoupe=Live Loupe"),secondaryDisplay,"Shows Live Loupe view on the secondary screen, or hides the secondary screen if Live Loupe view was previously being shown. *button*"},
+  {"ShoScndVwlocked_loupe",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/LockedLoupe=Locked Loupe"),secondaryDisplay,"Shows Locked Loupe view on the secondary screen, or hides the secondary screen if Locked Loupe view was previously being shown. *button*"},
+  {"ShoScndVwgrid",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Grid=Grid"),secondaryDisplay,"Shows Grid view on the secondary screen, or hides the secondary screen if Grid view was previously being shown. *button*"},
+  {"ShoScndVwcompare",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Compare=Compare"),secondaryDisplay,"Shows Compare view on the secondary screen, or hides the secondary screen if Compare view was previously being shown. *button*"},
+  {"ShoScndVwsurvey",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Survey=Survey"),secondaryDisplay,"Shows Survey view on the secondary screen, or hides the secondary screen if Survey view was previously being shown. *button*"},
+  {"ShoScndVwslideshow",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),secondaryDisplay,"Shows Slideshow view on the secondary screen, or hides the secondary screen if Slideshow view was previously being shown. *button*"},
+  {"ToggleScreenTwo",false,false,true,false,true,false,secondaryDisplay..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Show=Show"),secondaryDisplay,"Toggles the the secondary window on/off. *button*"},
   {"profile1",false,false,true,false,true,false,profile.." 1",profiles,""},
   {"profile2",false,false,true,false,true,false,profile.." 2",profiles,""},
   {"profile3",false,false,true,false,true,false,profile.." 3",profiles,""},
@@ -824,6 +871,7 @@ local cppvectors ={
   [effects]={'Effects','Effects'},
   [general]={'General',general},
   [gotoToolModulePanel]={'ToolModulePanel','Go to Tool, Module, or Panel'},
+  [keyshortcuts]={'KeyShortcuts',keyshortcuts},
   [lensCorrections]={'LensCorrections','Lens Corrections'},
   [library]={'Library',library},
   [localizedAdjustments]={'LocalAdjustments','Local Adjustments'},
@@ -831,9 +879,9 @@ local cppvectors ={
   [photoActions]={'SelectionList','Photo Actions'},
   [profiles]={'ProgramProfiles','Profiles'},
   [resetColorAdjustments]={'ResetMixer','Reset HSL / Color / B&W'},
+  [secondaryDisplay]={'SecondaryDisplay',secondaryDisplay},
   [splitToning]={'SplitToning','Split Toning'},
   [toneCurve]={'ToneCurve','Tone Curve'},
-  [viewModes]={'ViewModes','View Modes'},
 }
 
 

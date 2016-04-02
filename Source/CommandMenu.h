@@ -3,8 +3,6 @@
   ==============================================================================
 
 	CommandMenu.h
-	Created: 3 Aug 2015 3:27:33pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,9 +20,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef COMMANDMENU_H_INCLUDED
 #define COMMANDMENU_H_INCLUDED
-
+#include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
+
+/**********************************************************************************************//**
+* @class   CommandMenu
+*
+* @brief   Command menu.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
 
 class CommandMenu : public TextButton,
 	protected ButtonListener
@@ -40,11 +47,11 @@ public:
 
 	// ButtonListener interface
 	virtual void buttonClicked(Button* button) override;
-	void Init(CommandMap *mapCommand);
+	void Init(std::shared_ptr<CommandMap>& mapCommand);
 private:
 	MIDI_Message _msg;
 	size_t _selectedItem;
-	CommandMap *m_commandMap;
+    std::shared_ptr<CommandMap> m_commandMap;
 
 	const std::vector<String> m_menus;
 	const std::vector<std::vector<String>> m_menuEntries;

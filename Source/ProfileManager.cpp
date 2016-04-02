@@ -2,8 +2,6 @@
   ==============================================================================
 
 	ProfileManager.cpp
-	Created: 29 Aug 2015 10:27:13pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -22,16 +20,44 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "LRCommands.h"
 
-ProfileManager::ProfileManager() : _currentProfileIdx(0), m_commandMap(nullptr), m_lr_IPC_OUT(nullptr)
+/**********************************************************************************************//**
+ * @fn  ProfileManager::ProfileManager() noexcept
+ *
+ * @brief   Default constructor.
+ *
+ *
+ **************************************************************************************************/
+
+ProfileManager::ProfileManager() noexcept : _currentProfileIdx{ 0 }, m_commandMap{ nullptr }, m_lr_IPC_OUT{ nullptr }
 {
 	
    
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::addListener(ProfileChangeListener *listener)
+ *
+ * @brief   Adds a listener.
+ *
+ *
+ *
+ * @param [in,out]  listener    If non-null, the listener.
+ **************************************************************************************************/
+
 void ProfileManager::addListener(ProfileChangeListener *listener)
 {
 	_listeners.addIfNotAlreadyThere(listener);
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::setProfileDirectory(const File& dir)
+ *
+ * @brief   Sets profile directory.
+ *
+ *
+ *
+ * @param   dir The dir.
+ **************************************************************************************************/
 
 void ProfileManager::setProfileDirectory(const File& dir)
 {
@@ -49,10 +75,30 @@ void ProfileManager::setProfileDirectory(const File& dir)
 		switchToProfile(_profiles[0]);
 }
 
-const StringArray& ProfileManager::getMenuItems() const
+/**********************************************************************************************//**
+ * @fn  const StringArray& ProfileManager::getMenuItems() const noexcept
+ *
+ * @brief   Gets menu items.
+ *
+ *
+ *
+ * @return  The menu items.
+ **************************************************************************************************/
+
+const StringArray& ProfileManager::getMenuItems() const noexcept
 {
 	return _profiles;
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToProfile(int profileIdx)
+ *
+ * @brief   Switch to profile.
+ *
+ *
+ *
+ * @param   profileIdx  Zero-based index of the profile.
+ **************************************************************************************************/
 
 void ProfileManager::switchToProfile(int profileIdx)
 {
@@ -63,19 +109,29 @@ void ProfileManager::switchToProfile(int profileIdx)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToProfile(const String& profile)
+ *
+ * @brief   Switch to profile.
+ *
+ *
+ *
+ * @param   profile The profile.
+ **************************************************************************************************/
+
 void ProfileManager::switchToProfile(const String& profile)
 {
-	File profileFile = _profileLocation.getChildFile(profile);
+	auto profileFile = _profileLocation.getChildFile(profile);
 
 	if (profileFile.exists())
 	{
-		ScopedPointer<XmlElement> elem = XmlDocument::parse(profileFile);
+        std::unique_ptr<XmlElement> elem{ XmlDocument::parse(profileFile) };
 		for (auto listener : _listeners)
-			listener->profileChanged(elem, profile);
+			listener->profileChanged(elem.get(), profile);
         
 		if (m_lr_IPC_OUT)
 		{
-			String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+            auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(_profileLocation.getFullPathName()) + String{ "\n" };
 			m_lr_IPC_OUT->sendCommand(command);
 			command = String("ChangedToFile ") + profile + String("\n");
 			m_lr_IPC_OUT->sendCommand(command);
@@ -83,6 +139,14 @@ void ProfileManager::switchToProfile(const String& profile)
 		        
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToPreviousProfile()
+ *
+ * @brief   Switch to previous profile.
+ *
+ *
+ **************************************************************************************************/
 
 void ProfileManager::switchToPreviousProfile()
 {
@@ -92,6 +156,14 @@ void ProfileManager::switchToPreviousProfile()
 	switchToProfile(_currentProfileIdx);
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::switchToNextProfile()
+ *
+ * @brief   Switch to next profile.
+ *
+ *
+ **************************************************************************************************/
+
 void ProfileManager::switchToNextProfile()
 {
 	_currentProfileIdx++;
@@ -100,9 +172,21 @@ void ProfileManager::switchToNextProfile()
 	switchToProfile(_currentProfileIdx);
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
+ *
+ * @brief   Handles the MIDI Cc.
+ *
+ *
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   controller  The controller.
+ * @param   value       The value.
+ **************************************************************************************************/
+
 void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 {
-	const MIDI_Message cc(midiChannel, controller, true);
+    const MIDI_Message cc{ midiChannel, controller, true };
 
 	if (m_commandMap)
 	{
@@ -123,9 +207,20 @@ void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::handleMidiNote(int midiChannel, int note)
+ *
+ * @brief   Handles the MIDI note.
+ *
+ *
+ *
+ * @param   midiChannel The MIDI channel.
+ * @param   note        The note.
+ **************************************************************************************************/
+
 void ProfileManager::handleMidiNote(int midiChannel, int note)
 {
-	const MIDI_Message note_msg(midiChannel, note, false);
+    const MIDI_Message note_msg{ midiChannel, note, false };
 
 	if (m_commandMap)
 	{
@@ -147,6 +242,14 @@ void ProfileManager::handleMidiNote(int midiChannel, int note)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::handleAsyncUpdate()
+ *
+ * @brief   Handles the asynchronous update.
+ *
+ *
+ **************************************************************************************************/
+
 void ProfileManager::handleAsyncUpdate()
 {
 	switch (_switchState)
@@ -164,21 +267,49 @@ void ProfileManager::handleAsyncUpdate()
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::connected()
+ *
+ * @brief   Connected this object.
+ *
+ *
+ **************************************************************************************************/
+
 void ProfileManager::connected()
 {
-    String command = String("ChangedToDirectory ") + File::addTrailingSeparator(_profileLocation.getFullPathName()) + String("\n");
+    auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(_profileLocation.getFullPathName()) + String{ "\n" };
 	if (m_lr_IPC_OUT)
 	{
 		m_lr_IPC_OUT->sendCommand(command);
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::disconnected()
+ *
+ * @brief   Disconnect from the ed.
+ *
+ *
+ **************************************************************************************************/
+
 void ProfileManager::disconnected()
 {
 
 }
 
-void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor)
+/**********************************************************************************************//**
+ * @fn  void ProfileManager::Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor)
+ *
+ * @brief   S.
+ *
+ *
+ *
+ * @param [in,out]  out             If non-null, the out.
+ * @param [in,out]  commandMap      If non-null, the command map.
+ * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
+ **************************************************************************************************/
+
+void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor)
 {
 	//copy the pointers
 	m_commandMap = commandMap;

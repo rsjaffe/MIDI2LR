@@ -265,9 +265,6 @@
     <ClCompile Include="..\..\Source\CommandTableModel.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Logger.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -299,6 +296,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SendKeys.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp">
@@ -1452,9 +1452,6 @@
     <ClInclude Include="..\..\Source\CommandTableModel.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Logger.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\LR_IPC_In.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1485,6 +1482,9 @@
     <ClInclude Include="..\..\Source\ResizableLayout.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\SendKeys.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\SettingsComponent.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1494,7 +1494,7 @@
     <ClInclude Include="..\..\Source\Pattern\Subject.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Tools.h">
+    <ClInclude Include="..\..\Source\Utilities.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\VersionChecker.h">

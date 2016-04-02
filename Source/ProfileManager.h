@@ -3,8 +3,6 @@
   ==============================================================================
 
 	ProfileManager.h
-	Created: 29 Aug 2015 10:27:13pm
-	Author:  Parth, Jaffe
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -28,10 +26,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 
+/**********************************************************************************************//**
+* @class   ProfileChangeListener
+*
+* @brief   Profile change listener.
+*
+* @author  Rory Jaffe
+* @date    3/20/2016
+**************************************************************************************************/
+
 class ProfileChangeListener
 {
 public:
-	// called when the current profile is change
+	// called when the current profile is changed
 	virtual void profileChanged(XmlElement* elem, const String& filename) = 0;
 
 	virtual ~ProfileChangeListener() {};
@@ -41,7 +48,7 @@ class ProfileManager : public MIDICommandListener,
 	public AsyncUpdater, public LRConnectionListener
 {
 public:	
-	ProfileManager();
+	ProfileManager() noexcept;
 	virtual ~ProfileManager() {};
 	void addListener(ProfileChangeListener *listener);
 
@@ -49,7 +56,7 @@ public:
 	void setProfileDirectory(const File& dir);
 
 	// returns an array of profile names
-	const StringArray& getMenuItems() const;
+	const StringArray& getMenuItems() const noexcept;
 
 	// switches to a profile defined by an index
 	void switchToProfile(int profileIdx);
@@ -73,7 +80,7 @@ public:
     // LRConnectionListener interface
     virtual void connected() override;
     virtual void disconnected() override;	
-	void Init(LR_IPC_OUT *out, CommandMap *commandMap, MIDIProcessor *midiProcessor);
+	void Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor);
 private:
 	enum class SWITCH_STATE
 	{
@@ -92,8 +99,8 @@ private:
 	Array<ProfileChangeListener *> _listeners;
 	int _currentProfileIdx;
 	SWITCH_STATE _switchState;
-	CommandMap *m_commandMap;
-	LR_IPC_OUT *m_lr_IPC_OUT;
+    std::shared_ptr<CommandMap> m_commandMap;
+    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
 };
 
 
