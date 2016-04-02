@@ -37,7 +37,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "MIDISender.h"
 
-constexpr const auto ShutDownString{ "--LRSHUTDOWN" };
+#ifndef _WIN32
+//missing make_unique (C++14) in XCode
+namespace std {
+template<typename T, typename... Args>
+unique_ptr<T> make_unique(Args&&... args)
+{
+    return unique_ptr<T>{new T{args...}};
+}
+}
+#endif
+
+//constexpr doesn't work in XCode for String; auto type deduction also fails
+const juce::String ShutDownString{ "--LRSHUTDOWN" };
 
 /**********************************************************************************************//**
  * @class   MIDI2LRApplication

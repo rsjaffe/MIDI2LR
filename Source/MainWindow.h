@@ -72,7 +72,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
         */
         
         // the timer callback function
-        virtual void timerCallback();
+        virtual void timerCallback() override;
         
     private:
 		int m_autoHideCounter;
