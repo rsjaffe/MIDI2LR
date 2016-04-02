@@ -14,6 +14,8 @@ Instructions: Please type on the blank lines below each heading (### identifies 
 * Lightroom language:
 * Keyboard language:
 * MIDI controller:
+* Plugin installation directory:
+* Profiles save directory:
 
 ### Additional comments
 
