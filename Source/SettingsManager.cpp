@@ -20,8 +20,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "ProfileManager.h"
 
+#ifndef _WIN32
+//missing make_unique (C++14) in XCode
+namespace std {
+    template<typename T, typename... Args>
+    unique_ptr<T> make_unique(Args&&... args)
+    {
+        return unique_ptr<T>{new T{args...}};
+    }
+}
+#endif
 
-constexpr const auto AutoHideSection{ "autohide" };
+//constexpr and auto don't work in XCode
+const juce::String AutoHideSection{ "autohide" };
 
 /**********************************************************************************************//**
  * @fn  SettingsManager::SettingsManager()
