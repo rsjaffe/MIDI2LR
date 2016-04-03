@@ -66,10 +66,9 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
         languageID = GetKeyboardLayout(0);
     }
     // Translate key code to keyboard-dependent scan code
-    const auto vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
+    const auto vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(CharacterFunctions::toLowerCase(key.getKeyCode())), languageID);
     const auto vk = LOBYTE(vkCodeAndShift);
-    const auto vk_modifiers = static_cast<BYTE>(0);// HIBYTE(vkCodeAndShift); shift key coming through inappropriately
-   
+    const auto vk_modifiers = HIBYTE(vkCodeAndShift);    
 
     // input event.
     INPUT ip;
@@ -146,13 +145,13 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     }
 #else
     const ModifierKeys mk = key.getModifiers();
-    const UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
+    const UniChar KeyCode = static_cast<UniChar>(CharacterFunctions::toLowerCase(key.getKeyCode()));
     const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
     CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
     CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-    uint64_t flags = UINT64_C(0); // having trouble with keycode flags:: CGEventGetFlags(d); //in case KeyCode has associated flag
+    uint64_t flags = CGEventGetFlags(d); //in case KeyCode has associated flag
     if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
     if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
     if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
