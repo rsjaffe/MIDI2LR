@@ -25,6 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreGraphics/CoreGraphics.h>
 #endif
 
+
+/** @brief   The send keys keymap. */
 const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 #ifdef _WIN32
 {"Page Up",	0x21},
@@ -105,13 +107,14 @@ const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 std::mutex SendKeys::m_mtxSending{};
 
 /**********************************************************************************************//**
- * @fn  void SendKeys::SendKeyDownUp(const KeyPress& key) const
+ * @fn  void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
  *
  * @brief   Sends a key down up.
  *
- *
- *
- * @param   key The key.
+ * @param   key     The key.
+ * @param   Alt     true to alternate.
+ * @param   Control true to control.
+ * @param   Shift   true to shift.
  **************************************************************************************************/
 
 void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
@@ -135,14 +138,19 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     }
     BYTE vk = 0;
     BYTE vk_modifiers = 0;
-    if (key.length() == 1)
-    {// Translate key code to keyboard-dependent scan code
-        const auto vkCodeAndShift = VkKeyScanExW(key[0], languageID);
+    if (SendKeys::keymap.count(key))
+        vk = SendKeys::keymap.at(key);
+    else
+    {// Translate key code to keyboard-dependent scan code, may be UTF-8
+        wchar_t fullchar;
+        const auto retval = MultiByteToWideChar(CP_UTF8, 0, key.data(), key.size(), &fullchar, 1);
+        if (retval == 0)
+            throw GetLastError();
+        const auto vkCodeAndShift = VkKeyScanExW(fullchar, languageID);
         vk = LOBYTE(vkCodeAndShift);
         vk_modifiers = HIBYTE(vkCodeAndShift);
     }
-    else
-        vk = SendKeys::keymap.at(key);
+
     // input event.
     INPUT ip;
     ip.type = INPUT_KEYBOARD;
@@ -196,7 +204,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
         ip.ki.wVk = vk;
         SendInput(1, &ip, sizeof(INPUT));
         //add 30 msec between press and release
-        Sleep(30);
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
         // Release the key
         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
         SendInput(1, &ip, sizeof(INPUT));
@@ -205,7 +213,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
             ip.ki.wVk = VK_CONTROL;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (Shift|| (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
@@ -217,40 +225,40 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
         }
     }
 #else
-const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-CGEventRef d;
-CGEventRef u;
-uint64_t flags = 0;
-if (key.length() == 1)
-{
-    d = CGEventCreateKeyboardEvent(source, 0, true);
-    u = CGEventCreateKeyboardEvent(source, 0, false);
-    CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
-    CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-    flags = CGEventGetFlags(d); //in case KeyCode has associated flag
-    if (Control) flags |= kCGEventFlagMaskCommand;
-    if (Alt) flags |= kCGEventFlagMaskAlternate;
-    if (Shift) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0))
+    const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+    CGEventRef d;
+    CGEventRef u;
+    uint64_t flags = 0;
+    if (key.length() == 1)
     {
-        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        d = CGEventCreateKeyboardEvent(source, 0, true);
+        u = CGEventCreateKeyboardEvent(source, 0, false);
+        CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
+        CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
+        flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+        if (Control) flags |= kCGEventFlagMaskCommand;
+        if (Alt) flags |= kCGEventFlagMaskAlternate;
+        if (Shift) flags |= kCGEventFlagMaskShift;
+        if (flags != UINT64_C(0))
+        {
+            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        }
     }
-}
-else
-{
-    auto vk = SendKeys::keymap.at(key);
-    d = CGEventCreateKeyboardEvent(source, vk, true);
-    u = CGEventCreateKeyboardEvent(source, vk, false);
-    if (Control) flags |= kCGEventFlagMaskCommand;
-    if (Alt) flags |= kCGEventFlagMaskAlternate;
-    if (Shift) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0))
+    else
     {
-        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        auto vk = SendKeys::keymap.at(key);
+        d = CGEventCreateKeyboardEvent(source, vk, true);
+        u = CGEventCreateKeyboardEvent(source, vk, false);
+        if (Control) flags |= kCGEventFlagMaskCommand;
+        if (Alt) flags |= kCGEventFlagMaskAlternate;
+        if (Shift) flags |= kCGEventFlagMaskShift;
+        if (flags != UINT64_C(0))
+        {
+            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        }
     }
-}
 
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
@@ -259,5 +267,5 @@ else
     CFRelease(u);
     CFRelease(source);
 #endif
-}
+    }
 

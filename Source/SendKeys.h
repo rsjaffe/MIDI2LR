@@ -19,7 +19,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <mutex>
-#include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
 
 /**********************************************************************************************//**

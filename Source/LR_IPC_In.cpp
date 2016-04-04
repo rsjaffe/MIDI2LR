@@ -165,7 +165,9 @@ void LR_IPC_IN::processLine(const String& line)
         }
         else if (command == String{ "SendKey" })
         {
-            m_SendKeys.SendKeyDownUp(KeyPress::createFromDescription(valueString.trim()));
+            const auto modifiers = valueString[0];
+            std::string  str{ valueString.substring(1).trim().toStdString() };
+            m_SendKeys.SendKeyDownUp(str, static_cast<bool>(modifiers & 0x1), static_cast<bool>(modifiers & 0x2), static_cast<bool>(modifiers & 0x4));
         }
         else
         {
