@@ -25,6 +25,75 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreGraphics/CoreGraphics.h>
 #endif
 
+const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
+#ifdef _WIN32
+{"Page Up",	0x21},
+{"Page Down",0x22},
+{ "End",	0x23 },
+{"Home",	0x24},
+{"Left Arrow",	0x25},
+{"Up Arrow",	0x26},
+{"Right Arrow",	0x27},
+{"Down Arrow",	0x28},
+{"Delete",	0x2E},
+{"Enter",	0x0D},
+{"Tab",	0x09},
+{"F1",	0x70},
+{"F2",	0x71},
+{"F3",	0x72},
+{"F4",	0x73},
+{"F5",	0x74},
+{"F6",	0x75},
+{"F7",	0x76},
+{"F8",	0x77},
+{"F9",	0x78},
+{"F10",	0x79},
+{"F11",	0x7A},
+{"F12",	0x7B},
+{"F13",	0x7C},
+{"F14",	0x7D},
+{"F15",	0x7E},
+{"F16",	0x7F},
+{"F17",	0x80},
+{"F18",	0x81},
+{"F19",	0x82},
+{"F20",	0x83}
+
+#else
+{ "Page Up",	0x74 },
+{"Page Down",	0x79 },
+{"End",	0x77 },
+{"Home",	0x73 },
+{"Left Arrow",	0x7B },
+{"Up Arrow",	0x7E },
+{"Right Arrow",	0x7C },
+{"Down Arrow",	0x7D },
+{"Delete",	0x33 },
+{"Enter",	0x24 },
+{"Tab",	0x30 },
+{"F1",	0x7A },
+{"F2",	0x78 },
+{"F3",	0x63 },
+{"F4",	0x76 },
+{"F5",	0x60 },
+{"F6",	0x61 },
+{"F7",	0x62 },
+{"F8",	0x64 },
+{"F9",	0x65 },
+{"F10",	0x6D },
+{"F11",	0x67 },
+{"F12",	0x6F },
+{"F13",	0x69 },
+{"F14",	0x6B },
+{"F15",	0x71 },
+{"F16",	0x6A },
+{"F17",	0x40 },
+{"F18",	0x4F },
+{"F19",	0x50 },
+{"F20",	0x5A }
+#endif
+};
+
 /**********************************************************************************************//**
  * @property    std::mutex SendKeys::m_mtxSending
  *
@@ -45,13 +114,12 @@ std::mutex SendKeys::m_mtxSending{};
  * @param   key The key.
  **************************************************************************************************/
 
-void SendKeys::SendKeyDownUp(const KeyPress& key) const
+void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
 {
     std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
 #ifdef _WIN32
     //Lightroom handle
     const auto hLRWnd = ::FindWindow(NULL, "Lightroom");
-    const auto mk = key.getModifiers();
     HKL languageID;
     // Bring Lightroom to foreground if it isn't already there
     if (hLRWnd)
@@ -65,11 +133,16 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     {   // use keyboard of MIDI2LR app
         languageID = GetKeyboardLayout(0);
     }
-    // Translate key code to keyboard-dependent scan code
-    const auto vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(CharacterFunctions::toLowerCase(key.getKeyCode())), languageID);
-    const auto vk = LOBYTE(vkCodeAndShift);
-    const auto vk_modifiers = HIBYTE(vkCodeAndShift);    
-
+    BYTE vk = 0;
+    BYTE vk_modifiers = 0;
+    if (key.length() == 1)
+    {// Translate key code to keyboard-dependent scan code
+        const auto vkCodeAndShift = VkKeyScanExW(key[0], languageID);
+        vk = LOBYTE(vkCodeAndShift);
+        vk_modifiers = HIBYTE(vkCodeAndShift);
+    }
+    else
+        vk = SendKeys::keymap.at(key);
     // input event.
     INPUT ip;
     ip.type = INPUT_KEYBOARD;
@@ -81,7 +154,7 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     {
         ip.ki.wVk = VK_RMENU;
         SendInput(1, &ip, sizeof(INPUT));
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
@@ -94,7 +167,7 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
         // Release the key
         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
         SendInput(1, &ip, sizeof(INPUT));
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
@@ -104,17 +177,17 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     }
     else //not using AltGr key
     {
-        if (mk.isCtrlDown() || (vk_modifiers & 0x2))
+        if (Control || (vk_modifiers & 0x2))
         {
             ip.ki.wVk = VK_CONTROL;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isAltDown() || (vk_modifiers & 0x4))
+        if (Alt || (vk_modifiers & 0x4))
         {
             ip.ki.wVk = VK_MENU;
             SendInput(1, &ip, sizeof(INPUT));
@@ -127,39 +200,58 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
         // Release the key
         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
         SendInput(1, &ip, sizeof(INPUT));
-        if (mk.isCtrlDown() || (vk_modifiers & 0x2))
+        if (Control || (vk_modifiers & 0x2))
         {
             ip.ki.wVk = VK_CONTROL;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift|| (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isAltDown() || (vk_modifiers & 0x4))
+        if (Alt || (vk_modifiers & 0x4))
         {
             ip.ki.wVk = VK_MENU;
             SendInput(1, &ip, sizeof(INPUT));
         }
     }
 #else
-    const ModifierKeys mk = key.getModifiers();
-    const UniChar KeyCode = static_cast<UniChar>(CharacterFunctions::toLowerCase(key.getKeyCode()));
-    const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-    CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
-    CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
+const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+CGEventRef d;
+CGEventRef u;
+uint64_t flags = 0;
+if (key.length() == 1)
+{
+    d = CGEventCreateKeyboardEvent(source, 0, true);
+    u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
     CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-    uint64_t flags = CGEventGetFlags(d); //in case KeyCode has associated flag
-    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
-    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
-    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
+    flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+    if (Control) flags |= kCGEventFlagMaskCommand;
+    if (Alt) flags |= kCGEventFlagMaskAlternate;
+    if (Shift) flags |= kCGEventFlagMaskShift;
     if (flags != UINT64_C(0))
     {
         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
+}
+else
+{
+    auto vk = SendKeys::keymap.at(key);
+    d = CGEventCreateKeyboardEvent(source, vk, true);
+    u = CGEventCreateKeyboardEvent(source, vk, false);
+    if (Control) flags |= kCGEventFlagMaskCommand;
+    if (Alt) flags |= kCGEventFlagMaskAlternate;
+    if (Shift) flags |= kCGEventFlagMaskShift;
+    if (flags != UINT64_C(0))
+    {
+        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+    }
+}
+
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
 
