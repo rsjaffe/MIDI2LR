@@ -23,9 +23,81 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+
+
+
 #endif
-
-
+std::wstring utf8_to_utf16(const std::string& utf8)
+{
+    std::vector<unsigned long> unicode;
+    size_t i = 0;
+    while (i < utf8.size())
+    {
+        unsigned long uni;
+        size_t todo;
+        bool error = false;
+        unsigned char ch = utf8[i++];
+        if (ch <= 0x7F)
+        {
+            uni = ch;
+            todo = 0;
+        }
+        else if (ch <= 0xBF)
+        {
+            throw std::logic_error("not a UTF-8 string");
+        }
+        else if (ch <= 0xDF)
+        {
+            uni = ch & 0x1F;
+            todo = 1;
+        }
+        else if (ch <= 0xEF)
+        {
+            uni = ch & 0x0F;
+            todo = 2;
+        }
+        else if (ch <= 0xF7)
+        {
+            uni = ch & 0x07;
+            todo = 3;
+        }
+        else
+        {
+            throw std::logic_error("not a UTF-8 string");
+        }
+        for (size_t j = 0; j < todo; ++j)
+        {
+            if (i == utf8.size())
+                throw std::logic_error("not a UTF-8 string");
+            unsigned char ch = utf8[i++];
+            if (ch < 0x80 || ch > 0xBF)
+                throw std::logic_error("not a UTF-8 string");
+            uni <<= 6;
+            uni += ch & 0x3F;
+        }
+        if (uni >= 0xD800 && uni <= 0xDFFF)
+            throw std::logic_error("not a UTF-8 string");
+        if (uni > 0x10FFFF)
+            throw std::logic_error("not a UTF-8 string");
+        unicode.push_back(uni);
+    }
+    std::wstring utf16;
+    for (size_t i = 0; i < unicode.size(); ++i)
+    {
+        unsigned long uni = unicode[i];
+        if (uni <= 0xFFFF)
+        {
+            utf16 += (wchar_t)uni;
+        }
+        else
+        {
+            uni -= 0x10000;
+            utf16 += (wchar_t)((uni >> 10) + 0xD800);
+            utf16 += (wchar_t)((uni & 0x3FF) + 0xDC00);
+        }
+    }
+    return utf16;
+}
 /** @brief   The send keys keymap. */
 const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 #ifdef _WIN32
@@ -229,23 +301,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     CGEventRef d;
     CGEventRef u;
     uint64_t flags = 0;
-    if (key.length() == 1)
-    {
-        d = CGEventCreateKeyboardEvent(source, 0, true);
-        u = CGEventCreateKeyboardEvent(source, 0, false);
-        CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
-        CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-        flags = CGEventGetFlags(d); //in case KeyCode has associated flag
-        if (Control) flags |= kCGEventFlagMaskCommand;
-        if (Alt) flags |= kCGEventFlagMaskAlternate;
-        if (Shift) flags |= kCGEventFlagMaskShift;
-        if (flags != UINT64_C(0))
-        {
-            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-        }
-    }
-    else
+    if (SendKeys::keymap.count(key))
     {
         auto vk = SendKeys::keymap.at(key);
         d = CGEventCreateKeyboardEvent(source, vk, true);
@@ -258,7 +314,27 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
             CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
             CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
         }
+
     }
+    else
+    {
+        const std::wstring utf16str{ utf8_to_utf16(key) };
+        d = CGEventCreateKeyboardEvent(source, 0, true);
+        u = CGEventCreateKeyboardEvent(source, 0, false);
+        CGEventKeyboardSetUnicodeString(d, utf16str.length(), utf16str.data());
+        CGEventKeyboardSetUnicodeString(u, utf16str.length(), utf16str.data());
+        flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+        if (Control) flags |= kCGEventFlagMaskCommand;
+        if (Alt) flags |= kCGEventFlagMaskAlternate;
+        if (Shift) flags |= kCGEventFlagMaskShift;
+        if (flags != UINT64_C(0))
+        {
+            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        }
+
+    }
+
 
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
@@ -267,5 +343,5 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     CFRelease(u);
     CFRelease(source);
 #endif
-    }
+}
 
