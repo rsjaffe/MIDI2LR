@@ -1,46 +1,9 @@
 local LrStringUtils = import 'LrStringUtils'
 local LrView = import 'LrView'
 
-local legalanswers = {
-  ['spacebar'] = true,
-  ['return'] = true,
-  ['escape'] = true,
-  ['backspace'] = true,
-  ['cursor left'] = true,
-  ['cursor right'] = true,
-  ['cursor up'] = true,
-  ['cursor down'] = true,
-  ['page up'] = true,
-  ['page down'] = true,
-  ['home'] = true,
-  ['end'] = true,
-  ['delete'] = true,
-  ['insert'] = true,
-  ['tab'] = true,
-  ['play'] = true,
-  ['stop'] = true,
-  ['fast forward'] = true,
-  ['rewind'] = true,
-  f1 = true,
-  f2 = true,
-  f3 = true,
-  f4 = true,
-  f5 = true,
-  f6 = true,
-  f7 = true,
-  f8 = true,
-  f9 = true,
-  f10 = true,
-  f11 = true,
-  f12 = true,
-  f13 = true,
-  f14 = true,
-  f15 = true,
-  f16 = true,
-}
+local legalanswers = {}
 local maxlength = 0
 local completion = {  
-  'backspace',
   'cursor down',
   'cursor left',
   'cursor right',
@@ -64,19 +27,18 @@ local completion = {
   'f14',
   'f15',
   'f16',
-  'fast forward',
+  'f17',
+  'f18',
+  'f19',
+  'f20',
   'home',
-  'insert',
   'page down',
   'page up',
-  'play',
   'return',
-  'rewind',
-  'spacebar',
-  'stop',
   'tab',}
-for k in pairs(legalanswers) do
+for _,k in ipairs(completion) do
   maxlength = math.max(k:len(),maxlength)
+  legalanswers[k] = true
 end
 
 local control, alt

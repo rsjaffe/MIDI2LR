@@ -25,76 +25,79 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #endif
-std::wstring utf8_to_utf16(const std::string& utf8)
+namespace
 {
-    std::vector<unsigned long> unicode;
-    size_t i = 0;
-    while (i < utf8.size())
+    std::wstring utf8_to_utf16(const std::string& utf8)
     {
-        unsigned long uni;
-        size_t todo;
-        bool error = false;
-        unsigned char ch = utf8[i++];
-        if (ch <= 0x7F)
+        std::vector<unsigned long> unicode;
+        size_t i = 0;
+        while (i < utf8.size())
         {
-            uni = ch;
-            todo = 0;
-        }
-        else if (ch <= 0xBF)
-        {
-            throw std::logic_error("not a UTF-8 string");
-        }
-        else if (ch <= 0xDF)
-        {
-            uni = ch & 0x1F;
-            todo = 1;
-        }
-        else if (ch <= 0xEF)
-        {
-            uni = ch & 0x0F;
-            todo = 2;
-        }
-        else if (ch <= 0xF7)
-        {
-            uni = ch & 0x07;
-            todo = 3;
-        }
-        else
-        {
-            throw std::logic_error("not a UTF-8 string");
-        }
-        for (size_t j = 0; j < todo; ++j)
-        {
-            if (i == utf8.size())
-                throw std::logic_error("not a UTF-8 string");
+            unsigned long uni;
+            size_t todo;
+            bool error = false;
             unsigned char ch = utf8[i++];
-            if (ch < 0x80 || ch > 0xBF)
-                throw std::logic_error("not a UTF-8 string");
-            uni <<= 6;
-            uni += ch & 0x3F;
+            if (ch <= 0x7F)
+            {
+                uni = ch;
+                todo = 0;
+            }
+            else if (ch <= 0xBF)
+            {
+                throw std::domain_error("not a UTF-8 string");
+            }
+            else if (ch <= 0xDF)
+            {
+                uni = ch & 0x1F;
+                todo = 1;
+            }
+            else if (ch <= 0xEF)
+            {
+                uni = ch & 0x0F;
+                todo = 2;
+            }
+            else if (ch <= 0xF7)
+            {
+                uni = ch & 0x07;
+                todo = 3;
+            }
+            else
+            {
+                throw std::domain_error("not a UTF-8 string");
+            }
+            for (size_t j = 0; j < todo; ++j)
+            {
+                if (i == utf8.size())
+                    throw std::domain_error("not a UTF-8 string");
+                unsigned char ch = utf8[i++];
+                if (ch < 0x80 || ch > 0xBF)
+                    throw std::domain_error("not a UTF-8 string");
+                uni <<= 6;
+                uni += ch & 0x3F;
+            }
+            if (uni >= 0xD800 && uni <= 0xDFFF)
+                throw std::domain_error("not a UTF-8 string");
+            if (uni > 0x10FFFF)
+                throw std::domain_error("not a UTF-8 string");
+            unicode.push_back(uni);
         }
-        if (uni >= 0xD800 && uni <= 0xDFFF)
-            throw std::logic_error("not a UTF-8 string");
-        if (uni > 0x10FFFF)
-            throw std::logic_error("not a UTF-8 string");
-        unicode.push_back(uni);
-    }
-    std::wstring utf16;
-    for (size_t i = 0; i < unicode.size(); ++i)
-    {
-        unsigned long uni = unicode[i];
-        if (uni <= 0xFFFF)
+        std::wstring utf16;
+        for (size_t i = 0; i < unicode.size(); ++i)
         {
-            utf16 += (wchar_t)uni;
+            unsigned long uni = unicode[i];
+            if (uni <= 0xFFFF)
+            {
+                utf16 += (wchar_t)uni;
+            }
+            else
+            {
+                uni -= 0x10000;
+                utf16 += (wchar_t)((uni >> 10) + 0xD800);
+                utf16 += (wchar_t)((uni & 0x3FF) + 0xDC00);
+            }
         }
-        else
-        {
-            uni -= 0x10000;
-            utf16 += (wchar_t)((uni >> 10) + 0xD800);
-            utf16 += (wchar_t)((uni & 0x3FF) + 0xDC00);
-        }
+        return utf16;
     }
-    return utf16;
 }
 /** @brief   The send keys keymap. */
 const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
@@ -131,7 +134,6 @@ const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 {"f18",	0x81},
 {"f19",	0x82},
 {"f20",	0x83}
-
 #else
 {"page up", 0x74 },
 {"page down", 0x79 },
@@ -220,7 +222,16 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
         wchar_t fullchar;
         const auto retval = MultiByteToWideChar(CP_UTF8, 0, key.data(), key.size(), &fullchar, 1);
         if (retval == 0)
-            throw GetLastError();
+        {
+            auto er = GetLastError();
+            if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
+                throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
+            if (er == ERROR_INSUFFICIENT_BUFFER)
+                throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
+            if (er == ERROR_NO_UNICODE_TRANSLATION)
+                throw std::domain_error("Unable to tranlate: MultiByteToWideChar.");
+            throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+        }
         const auto vkCodeAndShift = VkKeyScanExW(fullchar, languageID);
         vk = LOBYTE(vkCodeAndShift);
         vk_modifiers = HIBYTE(vkCodeAndShift);
