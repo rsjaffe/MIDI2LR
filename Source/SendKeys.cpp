@@ -18,14 +18,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "SendKeys.h"
+#include <cctype>
 #ifdef _WIN32
 #include "Windows.h"
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-
-
-
 #endif
 std::wstring utf8_to_utf16(const std::string& utf8)
 {
@@ -101,70 +99,70 @@ std::wstring utf8_to_utf16(const std::string& utf8)
 /** @brief   The send keys keymap. */
 const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 #ifdef _WIN32
-{"Page Up",	0x21},
-{"Page Down",0x22},
-{ "End",	0x23 },
-{"Home",	0x24},
-{"Left Arrow",	0x25},
-{"Up Arrow",	0x26},
-{"Right Arrow",	0x27},
-{"Down Arrow",	0x28},
-{"Delete",	0x2E},
-{"Enter",	0x0D},
-{"Tab",	0x09},
-{"F1",	0x70},
-{"F2",	0x71},
-{"F3",	0x72},
-{"F4",	0x73},
-{"F5",	0x74},
-{"F6",	0x75},
-{"F7",	0x76},
-{"F8",	0x77},
-{"F9",	0x78},
-{"F10",	0x79},
-{"F11",	0x7A},
-{"F12",	0x7B},
-{"F13",	0x7C},
-{"F14",	0x7D},
-{"F15",	0x7E},
-{"F16",	0x7F},
-{"F17",	0x80},
-{"F18",	0x81},
-{"F19",	0x82},
-{"F20",	0x83}
+{"page up",	0x21},
+{"page down",0x22},
+{ "end",	0x23 },
+{"home",	0x24},
+{"cursor left",	0x25},
+{"cursor up",	0x26},
+{"cursor right",	0x27},
+{"cursor down",	0x28},
+{"delete",	0x2E},
+{"return",	0x0D},
+{"tab",	0x09},
+{"f1",	0x70},
+{"f2",	0x71},
+{"f3",	0x72},
+{"f4",	0x73},
+{"f5",	0x74},
+{"f6",	0x75},
+{"f7",	0x76},
+{"f8",	0x77},
+{"f9",	0x78},
+{"f10",	0x79},
+{"f11",	0x7A},
+{"f12",	0x7B},
+{"f13",	0x7C},
+{"f14",	0x7D},
+{"f15",	0x7E},
+{"f16",	0x7F},
+{"f17",	0x80},
+{"f18",	0x81},
+{"f19",	0x82},
+{"f20",	0x83}
 
 #else
-{ "Page Up",	0x74 },
-{"Page Down",	0x79 },
-{"End",	0x77 },
-{"Home",	0x73 },
-{"Left Arrow",	0x7B },
-{"Up Arrow",	0x7E },
-{"Right Arrow",	0x7C },
-{"Down Arrow",	0x7D },
-{"Delete",	0x33 },
-{"Enter",	0x24 },
-{"Tab",	0x30 },
-{"F1",	0x7A },
-{"F2",	0x78 },
-{"F3",	0x63 },
-{"F4",	0x76 },
-{"F5",	0x60 },
-{"F6",	0x61 },
-{"F7",	0x62 },
-{"F8",	0x64 },
-{"F9",	0x65 },
-{"F10",	0x6D },
-{"F11",	0x67 },
-{"F12",	0x6F },
-{"F13",	0x69 },
-{"F14",	0x6B },
-{"F15",	0x71 },
-{"F16",	0x6A },
-{"F17",	0x40 },
-{"F18",	0x4F },
-{"F19",	0x50 },
-{"F20",	0x5A }
+{"page up", 0x74 },
+{"page down", 0x79 },
+{"end",	0x77 },
+{"home", 0x73 },
+{"cursor left",	0x7B },
+{"cursor up", 0x7E },
+{"cursor right", 0x7C },
+{"cursor down",	0x7D },
+{"delete", 0x33 },
+{"return", 0x24 },
+{"tab",	0x30 },
+{"f1", 0x7A },
+{"f2", 0x78 },
+{"f3", 0x63 },
+{"f4", 0x76 },
+{"f5", 0x60 },
+{"f6", 0x61 },
+{"f7", 0x62 },
+{"f8", 0x64 },
+{"f9", 0x65 },
+{"f10",	0x6D },
+{"f11",	0x67 },
+{"f12",	0x6F },
+{"f13",	0x69 },
+{"f14",	0x6B },
+{"f15",	0x71 },
+{"f16",	0x6A },
+{"f17",	0x40 },
+{"f18",	0x4F },
+{"f19",	0x50 },
+{"f20",	0x5A }
 #endif
 };
 
@@ -192,6 +190,9 @@ std::mutex SendKeys::m_mtxSending{};
 void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
 {
     std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
+    std::string lowerstring; //used for matching with key names
+    for (auto& c : key)
+        lowerstring.push_back(std::tolower(c));
 #ifdef _WIN32
     //Lightroom handle
     const auto hLRWnd = ::FindWindow(NULL, "Lightroom");
@@ -210,8 +211,8 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     }
     BYTE vk = 0;
     BYTE vk_modifiers = 0;
-    if (SendKeys::keymap.count(key))
-        vk = SendKeys::keymap.at(key);
+    if (SendKeys::keymap.count(lowerstring))
+        vk = SendKeys::keymap.at(lowerstring);
     else
     {// Translate key code to keyboard-dependent scan code, may be UTF-8
         wchar_t fullchar;
@@ -301,9 +302,9 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     CGEventRef d;
     CGEventRef u;
     uint64_t flags = 0;
-    if (SendKeys::keymap.count(key))
+    if (SendKeys::keymap.count(lowerstring))
     {
-        auto vk = SendKeys::keymap.at(key);
+        auto vk = SendKeys::keymap.at(lowerstring);
         d = CGEventCreateKeyboardEvent(source, vk, true);
         u = CGEventCreateKeyboardEvent(source, vk, false);
         if (Control) flags |= kCGEventFlagMaskCommand;
