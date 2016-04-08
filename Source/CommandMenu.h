@@ -40,7 +40,7 @@ public:
     CommandMenu(const MIDI_Message& msg);
 
     // sets the MIDI message associated to this menu component
-    void setMsg(const MIDI_Message& msg);
+    void setMsg(const MIDI_Message& msg) noexcept;
 
     // sets which item in the menu is selected
     void setSelectedItem(unsigned int idx);
