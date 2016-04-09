@@ -62,7 +62,7 @@ CommandMenu::CommandMenu(const MIDI_Message& msg): _msg{ msg },
  * @param   msg The message.
  **************************************************************************************************/
 
-void CommandMenu::setMsg(const MIDI_Message& msg)
+void CommandMenu::setMsg(const MIDI_Message& msg) noexcept
 {
     _msg = msg;
 }

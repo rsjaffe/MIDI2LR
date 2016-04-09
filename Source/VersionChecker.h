@@ -39,7 +39,7 @@ class VersionChecker: public Thread,
 public:
     VersionChecker() noexcept;
 
-    void Init(std::shared_ptr<SettingsManager>& profileManager);
+    void Init(std::shared_ptr<SettingsManager>& profileManager) noexcept;
     // Thread interface
     virtual void run() override;
 

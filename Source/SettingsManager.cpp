@@ -174,7 +174,7 @@ void SettingsManager::disconnected()
  * @return  The automatic hide time.
  **************************************************************************************************/
 
-int SettingsManager::getAutoHideTime() const
+int SettingsManager::getAutoHideTime() const noexcept
 {
     return _propertiesFile->getIntValue(AutoHideSection, 0);
 
@@ -207,7 +207,7 @@ void SettingsManager::setAutoHideTime(int newTime)
  * @return  The last version found.
  **************************************************************************************************/
 
-int SettingsManager::getLastVersionFound() const
+int SettingsManager::getLastVersionFound() const noexcept
 {
     return _propertiesFile->getIntValue("LastVersionFound", 0);
 }

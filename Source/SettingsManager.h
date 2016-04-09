@@ -53,11 +53,11 @@ public:
     virtual void connected() override;
     virtual void disconnected() override;
 
-    int getAutoHideTime() const;
+    int getAutoHideTime() const noexcept;
     void setAutoHideTime(int newTime);
 
     void setLastVersionFound(int versionnumber);
-    int getLastVersionFound() const;
+    int getLastVersionFound() const noexcept;
 
     void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager);
 private:
