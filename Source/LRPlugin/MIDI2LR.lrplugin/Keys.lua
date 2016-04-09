@@ -62,7 +62,7 @@ local function validate(_,value)
 end
 
 
---startdialog nowhere near ready--do not use yet!
+
 local function StartDialog(obstable,f)
   local internalview1 = {}
   for i = 1,20 do
@@ -115,32 +115,29 @@ end
 
 local function GetKey(i)
   if i < 1 or i > 40 then return nil end
-  local retval = ''
+  local modifiers = 0x0
   if(WIN_ENV) then
     if ProgramPreferences.Keys[i]['control'] then
-      retval = retval .. 'control + '
+      modifiers = 0x2
     end
     if ProgramPreferences.Keys[i]['alt'] then
-      retval = retval .. 'alt + '
+      modifiers = modifiers + 0x1
     end
     if ProgramPreferences.Keys[i]['shift'] then
-      retval = retval .. 'shift + '
+      modifiers = modifiers + 0x4
     end
-    retval = retval .. ProgramPreferences.Keys[i]['key']
-    return retval
   else
     if ProgramPreferences.Keys[i]['control'] then
-      retval = retval .. 'command + '
+      modifiers = 0x2
     end
     if ProgramPreferences.Keys[i]['alt'] then
-      retval = retval .. 'option + '
+      modifiers = modifiers + 0x1
     end
     if ProgramPreferences.Keys[i]['shift'] then
-      retval = retval .. 'shift + '
+      modifiers = modifiers + 0x4
     end
-    retval = retval .. ProgramPreferences.Keys[i]['key']
-    return retval
   end
+  return modifiers .. ProgramPreferences.Keys[i]['key']
 end
 
 
