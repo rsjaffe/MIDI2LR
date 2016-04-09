@@ -75,7 +75,7 @@ local function StartDialog(obstable,f)
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:combo_box{value = LrView.bind('Keyskey'..i), validate = validate, items = completion, width_in_chars = maxlength} } )
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } )
   end
   local internalview2 = {}
   for i = 21,40 do
@@ -88,7 +88,7 @@ local function StartDialog(obstable,f)
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:combo_box{value = LrView.bind('Keyskey'..i), validate = validate, items = completion, width_in_chars = maxlength} } )
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } )
   end
   return f:row{ f:column (internalview1), f:column (internalview2) }
 end
