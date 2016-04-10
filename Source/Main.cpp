@@ -125,19 +125,23 @@ public:
 
     void shutdown() override
     {
-        // Save the current profile as default.xml
-        auto defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-        m_commandMap->toXMLDocument(defaultProfile);
-        m_lr_IPC_OUT.reset();
-        m_lr_IPC_IN.reset();
-        //below resets added
-        m_commandMap.reset();
-        m_profileManager.reset();
-        m_settingsManager.reset();
-        m_midiProcessor.reset();
-        m_midiSender.reset();
-        mainWindow = nullptr; // (deletes our window)
-        quit();
+        std::call_once(ShutdownOnce,
+            [&]()
+        {
+            // Save the current profile as default.xml
+            auto defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+            m_commandMap->toXMLDocument(defaultProfile);
+            m_lr_IPC_OUT.reset();
+            m_lr_IPC_IN.reset();
+            //below resets added
+            m_commandMap.reset();
+            m_profileManager.reset();
+            m_settingsManager.reset();
+            m_midiProcessor.reset();
+            m_midiSender.reset();
+            mainWindow = nullptr; // (deletes our window)
+            quit();
+        });
     }
 
     //==============================================================================
@@ -170,6 +174,7 @@ private:
     std::shared_ptr<SettingsManager> m_settingsManager;
     std::shared_ptr<MIDIProcessor> m_midiProcessor;
     std::shared_ptr<MIDISender> m_midiSender;
+    std::once_flag ShutdownOnce;
 };
 
 //==============================================================================
