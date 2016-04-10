@@ -49,9 +49,13 @@ LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
 
 void LR_IPC_OUT::shutdown()
 {
-    stopTimer(),
-        disconnect();
-    m_commandMap.reset();
+    std::call_once(ShutdownOnce,
+        [&]()
+    {
+        stopTimer(),
+            disconnect();
+        m_commandMap.reset();
+    });
 }
 
 /**********************************************************************************************//**
