@@ -116,28 +116,16 @@ end
 local function GetKey(i)
   if i < 1 or i > 40 then return nil end
   local modifiers = 0x0
-  if(WIN_ENV) then
-    if ProgramPreferences.Keys[i]['control'] then
-      modifiers = 0x2
-    end
-    if ProgramPreferences.Keys[i]['alt'] then
-      modifiers = modifiers + 0x1
-    end
-    if ProgramPreferences.Keys[i]['shift'] then
-      modifiers = modifiers + 0x4
-    end
-  else
-    if ProgramPreferences.Keys[i]['control'] then
-      modifiers = 0x2
-    end
-    if ProgramPreferences.Keys[i]['alt'] then
-      modifiers = modifiers + 0x1
-    end
-    if ProgramPreferences.Keys[i]['shift'] then
-      modifiers = modifiers + 0x4
-    end
+  if ProgramPreferences.Keys[i]['alt'] then
+    modifiers = 0x1
   end
-  return modifiers .. ProgramPreferences.Keys[i]['key']
+  if ProgramPreferences.Keys[i]['control'] then
+    modifiers = modifiers + 0x2
+  end
+  if ProgramPreferences.Keys[i]['shift'] then
+    modifiers = modifiers + 0x4
+  end
+  return string.format('%u',modifiers) .. ProgramPreferences.Keys[i]['key']
 end
 
 
