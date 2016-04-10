@@ -18,6 +18,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
+#include <bitset>
 
 
 /** @brief   define the communication port. */
@@ -47,12 +48,16 @@ Thread{ "LR_IPC_IN" }, m_commandMap{ nullptr }, m_profileManager{ nullptr }, m_m
 
 void LR_IPC_IN::shutdown()
 {
-    stopTimer();
-    stopThread(1000);
-    close();
-    m_commandMap.reset();
-    m_profileManager.reset();
-    m_midiSender.reset();
+    std::call_once(ShutdownOnce,
+        [&]()
+    {
+        stopTimer();
+        stopThread(1000);
+        close();
+        m_commandMap.reset();
+        m_profileManager.reset();
+        m_midiSender.reset();
+    });
 }
 
 /**********************************************************************************************//**
@@ -97,7 +102,7 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<Pr
 /**********************************************************************************************//**
  * @fn  void LR_IPC_IN::run()
  *
- * @brief   Runs this object.
+ * @brief   The continuously running IPC in thread.
  *
  *
  **************************************************************************************************/
@@ -111,7 +116,7 @@ void LR_IPC_IN::run()
         auto canReadLine = true;
 
         // parse input until we have a line, then process that line
-        while (!String(line).endsWithChar('\n') && !threadShouldExit())
+        while (!juce::String(line).endsWithChar('\n') && !threadShouldExit())
         {
             auto waitStatus = waitUntilReady(true, 0);
             if (waitStatus < 0)
@@ -129,45 +134,46 @@ void LR_IPC_IN::run()
 
         if (canReadLine)
         {
-            String param{ line };
+            juce::String param{ line };
             processLine(param);
         }
     }
+    shutdown(); //exit thread
 }
 
 /**********************************************************************************************//**
  * @fn  void LR_IPC_IN::processLine(const String& line)
  *
- * @brief   Process the line described by line.
+ * @brief   Process the line into parameter value valuestring and act on parameter.
  *
  *
  *
  * @param   line    The line.
  **************************************************************************************************/
 
-void LR_IPC_IN::processLine(const String& line)
+void LR_IPC_IN::processLine(const juce::String& line)
 {
     // process input into [parameter] [Value]
-    line.trimEnd();
-    const auto command = line.upToFirstOccurrenceOf(" ", false, false);
-    const auto valueString = line.replace(line.upToFirstOccurrenceOf(" ", true, true), "", true);
+    const auto trimmedline = line.trim();
+    const auto command = trimmedline.upToFirstOccurrenceOf(" ", false, false);
+    const auto valueString = trimmedline.fromFirstOccurrenceOf(" ",false,false);
     const auto value = valueString.getIntValue();
 
     if (m_commandMap)
     {
 
-        if (command == String{ "SwitchProfile" })
+        if (command == juce::String{ "SwitchProfile" })
         {
             if (m_profileManager)
             {
-                m_profileManager->switchToProfile(valueString.trim());
+                m_profileManager->switchToProfile(valueString);
             }
         }
-        else if (command == String{ "SendKey" })
+        else if (command == juce::String{ "SendKey" })
         {
-            const auto modifiers = valueString[0];
-            std::string  str{ valueString.substring(1).trim().toStdString() };
-            m_SendKeys.SendKeyDownUp(str, static_cast<bool>(modifiers & 0x1), static_cast<bool>(modifiers & 0x2), static_cast<bool>(modifiers & 0x4));
+            std::bitset<3> modifiers{ value };
+            std::string str{ valueString.trimCharactersAtStart("0123456789 ").toStdString() };
+            m_SendKeys.SendKeyDownUp(str, modifiers[0], modifiers[1], modifiers[2]);
         }
         else
         {

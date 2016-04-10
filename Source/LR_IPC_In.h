@@ -66,6 +66,7 @@ private:
     std::shared_ptr<MIDISender> m_midiSender;
     std::unordered_map<String, int> parameterMap;
     SendKeys m_SendKeys;
+    std::once_flag ShutdownOnce;
 };
 
 
