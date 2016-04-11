@@ -98,7 +98,6 @@ private:
     Array<LRConnectionListener *> _listeners;
     int _valueToSend;
     String _commandToSend;
-    std::once_flag ShutdownOnce;
 ///< .
 };
 
