@@ -24,6 +24,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+#include <vector>
+#include <string>
 #endif
 namespace
 {
@@ -333,10 +335,11 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     else
     {
         const std::wstring utf16str{ utf8_to_utf16(key) };
+        const UniChar keychar = utf16str[0];
         d = CGEventCreateKeyboardEvent(source, 0, true);
         u = CGEventCreateKeyboardEvent(source, 0, false);
-        CGEventKeyboardSetUnicodeString(d, utf16str.length(), utf16str.data());
-        CGEventKeyboardSetUnicodeString(u, utf16str.length(), utf16str.data());
+        CGEventKeyboardSetUnicodeString(d, 1, &keychar);
+        CGEventKeyboardSetUnicodeString(u, 1, &keychar);
         flags = CGEventGetFlags(d); //in case KeyCode has associated flag
         if (Control) flags |= kCGEventFlagMaskCommand;
         if (Alt) flags |= kCGEventFlagMaskAlternate;
