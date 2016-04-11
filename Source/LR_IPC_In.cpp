@@ -48,16 +48,14 @@ Thread{ "LR_IPC_IN" }, m_commandMap{ nullptr }, m_profileManager{ nullptr }, m_m
 
 void LR_IPC_IN::shutdown()
 {
-    std::call_once(ShutdownOnce,
-        [&]()
-    {
-        stopTimer();
-        stopThread(1000);
-        close();
-        m_commandMap.reset();
-        m_profileManager.reset();
-        m_midiSender.reset();
-    });
+
+    stopTimer();
+    stopThread(1000);
+    close();
+    m_commandMap.reset();
+    m_profileManager.reset();
+    m_midiSender.reset();
+
 }
 
 /**********************************************************************************************//**
@@ -156,7 +154,7 @@ void LR_IPC_IN::processLine(const juce::String& line)
     // process input into [parameter] [Value]
     const auto trimmedline = line.trim();
     const auto command = trimmedline.upToFirstOccurrenceOf(" ", false, false);
-    const auto valueString = trimmedline.fromFirstOccurrenceOf(" ",false,false);
+    const auto valueString = trimmedline.fromFirstOccurrenceOf(" ", false, false);
     const auto value = valueString.getIntValue();
 
     if (m_commandMap)
@@ -171,7 +169,7 @@ void LR_IPC_IN::processLine(const juce::String& line)
         }
         else if (command == juce::String{ "SendKey" })
         {
-            std::bitset<3> modifiers{ value };
+            std::bitset<3> modifiers{ static_cast<decltype(modifiers)>(value) };
             std::string str{ valueString.trimCharactersAtStart("0123456789 ").toStdString() };
             m_SendKeys.SendKeyDownUp(str, modifiers[0], modifiers[1], modifiers[2]);
         }
