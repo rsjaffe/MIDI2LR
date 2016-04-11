@@ -51,6 +51,8 @@ void LR_IPC_IN::shutdown()
     std::call_once(ShutdownOnce,
         [&]()
     {
+        //wait for run loop to exit
+        std::lock_guard< decltype(ShutDownAfterRunEnds) > lock(ShutDownAfterRunEnds);
         stopTimer();
         stopThread(1000);
         close();
@@ -111,6 +113,7 @@ void LR_IPC_IN::run()
 {
     while (!threadShouldExit())
     {
+        std::lock_guard< decltype(ShutDownAfterRunEnds) > lock(ShutDownAfterRunEnds);
         char line[256] = { '\0' };
         auto sizeRead = 0;
         auto canReadLine = true;
@@ -156,7 +159,7 @@ void LR_IPC_IN::processLine(const juce::String& line)
     // process input into [parameter] [Value]
     const auto trimmedline = line.trim();
     const auto command = trimmedline.upToFirstOccurrenceOf(" ", false, false);
-    const auto valueString = trimmedline.fromFirstOccurrenceOf(" ",false,false);
+    const auto valueString = trimmedline.fromFirstOccurrenceOf(" ", false, false);
     const auto value = valueString.getIntValue();
 
     if (m_commandMap)
