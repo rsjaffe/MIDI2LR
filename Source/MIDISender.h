@@ -15,7 +15,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #ifndef MIDISENDER_H_INCLUDED
@@ -35,16 +35,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MIDISender
 {
 public:
-	MIDISender() noexcept;
-	virtual ~MIDISender();	
-	// sends a CC message to all output devices
-    void sendCC(int midi_channel, int controller, int value) const ;
+    MIDISender() noexcept;
+    virtual ~MIDISender();
+    // sends a CC message to all output devices
+    void sendCC(int midi_channel, int controller, int value) const;
 
     // re-enumerates MIDI OUT devices
     void rescanDevices();
-	void Init();
+    void Init();
 private:
-    
+
     OwnedArray<MidiOutput> _outputDevices;
 
     void initDevices();

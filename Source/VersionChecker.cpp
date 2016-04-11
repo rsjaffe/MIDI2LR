@@ -42,7 +42,7 @@ VersionChecker::VersionChecker() noexcept : Thread{ "VersionChecker" }
  * @param [in,out]  settingsManager If non-null, manager for settings.
  **************************************************************************************************/
 
-void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager)
+void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager) noexcept
 {
     m_settingsManager = settingsManager;
 }

@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-	LRCommands.h
+    LRCommands.h
 
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
@@ -15,7 +15,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.  
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #ifndef LRCOMMANDS_H_INCLUDED
@@ -36,10 +36,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class LRCommandList
 {
 public:
-	// Strings that LR uses
-	static const std::vector<String> LRStringList;
+    // Strings that LR uses
+    static const std::vector<String> LRStringList;
 
-	// Sectioned and readable develop param strings
+    // Sectioned and readable develop param strings
     static const std::vector<String> KeyShortcuts;
     static const std::vector<String> General;
     static const std::vector<String> Library;
@@ -61,13 +61,13 @@ public:
     static const std::vector<String> ProgramProfiles;
 
     // MIDI2LR commands
-	static const std::vector<String> NextPrevProfile;
+    static const std::vector<String> NextPrevProfile;
 
-	// Map of command strings to indices
-	static int getIndexOfCommand(const String& command);
+    // Map of command strings to indices
+    static int getIndexOfCommand(const String& command);
 
 private:
-	LRCommandList() noexcept;
+    LRCommandList() noexcept;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED

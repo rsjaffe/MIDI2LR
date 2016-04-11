@@ -304,7 +304,7 @@ void MainContentComponent::buttonClicked(Button* button)
             if (elem)
             {
                 auto newprofile = browser.getSelectedFile(0);
-                auto command = String{ "ChangedToFullPath " } + newprofile.getFullPathName() + "\n";
+                auto command = String{ "ChangedToFullPath " } +newprofile.getFullPathName() + "\n";
 
                 if (m_lr_IPC_OUT)
                 {

@@ -118,7 +118,10 @@ public:
 
     //==============================================================================
     /** Returns the number of strings in the array */
-    inline int size() const noexcept                                    { return strings.size(); };
+    inline int size() const noexcept                                    { return strings.size(); }
+
+    /** Returns true if the array is empty, false otherwise. */
+    inline bool isEmpty() const noexcept                                { return size() == 0; }
 
     /** Returns one of the strings from the array.
 
@@ -302,8 +305,8 @@ public:
     void remove (int index);
 
     /** Finds a string in the array and removes it.
-        This will remove the first occurrence of the given string from the array. The
-        comparison may be case-insensitive depending on the ignoreCase parameter.
+        This will remove all occurrences of the given string from the array.
+        The comparison may be case-insensitive depending on the ignoreCase parameter.
     */
     void removeString (StringRef stringToRemove,
                        bool ignoreCase = false);

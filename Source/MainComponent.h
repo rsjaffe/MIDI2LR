@@ -60,7 +60,7 @@ public:
     MainContentComponent();
     virtual ~MainContentComponent();
 
-    void paint (Graphics&) override;
+    void paint(Graphics&) override;
 
     // MIDICommandListener interface
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;
@@ -82,13 +82,13 @@ public:
     // ProfileChangeListener interface
     virtual void profileChanged(XmlElement* elem, const String& filename) override;
     void SetTimerText(int timeValue);
-	void Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, 
-        std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, 
-        std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, 
+    void Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in,
+        std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor,
+        std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager,
         std::shared_ptr<MIDISender>& midiSender);
 protected:
     void SetLabelSettings(Label &lblToSet);
-    
+
 private:
     Label _titleLabel;
     DropShadowEffect _titleShadow;

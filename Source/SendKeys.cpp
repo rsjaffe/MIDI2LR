@@ -18,12 +18,159 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "SendKeys.h"
+#include <cctype>
 #ifdef _WIN32
 #include "Windows.h"
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+#include <vector>
+#include <string>
 #endif
+namespace
+{
+    std::wstring utf8_to_utf16(const std::string& utf8)
+    {
+        std::vector<unsigned long> unicode;
+        size_t i = 0;
+        while (i < utf8.size())
+        {
+            unsigned long uni;
+            size_t todo;
+            bool error = false;
+            unsigned char ch = utf8[i++];
+            if (ch <= 0x7F)
+            {
+                uni = ch;
+                todo = 0;
+            }
+            else if (ch <= 0xBF)
+            {
+                throw std::domain_error("not a UTF-8 string");
+            }
+            else if (ch <= 0xDF)
+            {
+                uni = ch & 0x1F;
+                todo = 1;
+            }
+            else if (ch <= 0xEF)
+            {
+                uni = ch & 0x0F;
+                todo = 2;
+            }
+            else if (ch <= 0xF7)
+            {
+                uni = ch & 0x07;
+                todo = 3;
+            }
+            else
+            {
+                throw std::domain_error("not a UTF-8 string");
+            }
+            for (size_t j = 0; j < todo; ++j)
+            {
+                if (i == utf8.size())
+                    throw std::domain_error("not a UTF-8 string");
+                unsigned char ch = utf8[i++];
+                if (ch < 0x80 || ch > 0xBF)
+                    throw std::domain_error("not a UTF-8 string");
+                uni <<= 6;
+                uni += ch & 0x3F;
+            }
+            if (uni >= 0xD800 && uni <= 0xDFFF)
+                throw std::domain_error("not a UTF-8 string");
+            if (uni > 0x10FFFF)
+                throw std::domain_error("not a UTF-8 string");
+            unicode.push_back(uni);
+        }
+        std::wstring utf16;
+        for (size_t i = 0; i < unicode.size(); ++i)
+        {
+            unsigned long uni = unicode[i];
+            if (uni <= 0xFFFF)
+            {
+                utf16 += (wchar_t)uni;
+            }
+            else
+            {
+                uni -= 0x10000;
+                utf16 += (wchar_t)((uni >> 10) + 0xD800);
+                utf16 += (wchar_t)((uni & 0x3FF) + 0xDC00);
+            }
+        }
+        return utf16;
+    }
+}
+/** @brief   The send keys keymap. */
+const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
+#ifdef _WIN32
+{"page up",	0x21},
+{"page down",0x22},
+{ "end",	0x23 },
+{"home",	0x24},
+{"cursor left",	0x25},
+{"cursor up",	0x26},
+{"cursor right",	0x27},
+{"cursor down",	0x28},
+{"delete",	0x2E},
+{"return",	0x0D},
+{"tab",	0x09},
+{"escape", 0x1B},
+{"f1",	0x70},
+{"f2",	0x71},
+{"f3",	0x72},
+{"f4",	0x73},
+{"f5",	0x74},
+{"f6",	0x75},
+{"f7",	0x76},
+{"f8",	0x77},
+{"f9",	0x78},
+{"f10",	0x79},
+{"f11",	0x7A},
+{"f12",	0x7B},
+{"f13",	0x7C},
+{"f14",	0x7D},
+{"f15",	0x7E},
+{"f16",	0x7F},
+{"f17",	0x80},
+{"f18",	0x81},
+{"f19",	0x82},
+{"f20",	0x83}
+#else
+{"page up", 0x74 },
+{"page down", 0x79 },
+{"end",	0x77 },
+{"home", 0x73 },
+{"cursor left",	0x7B },
+{"cursor up", 0x7E },
+{"cursor right", 0x7C },
+{"cursor down",	0x7D },
+{"delete", 0x33 },
+{"return", 0x24 },
+{"tab",	0x30 },
+{"escape", 0x35},
+{"f1", 0x7A },
+{"f2", 0x78 },
+{"f3", 0x63 },
+{"f4", 0x76 },
+{"f5", 0x60 },
+{"f6", 0x61 },
+{"f7", 0x62 },
+{"f8", 0x64 },
+{"f9", 0x65 },
+{"f10",	0x6D },
+{"f11",	0x67 },
+{"f12",	0x6F },
+{"f13",	0x69 },
+{"f14",	0x6B },
+{"f15",	0x71 },
+{"f16",	0x6A },
+{"f17",	0x40 },
+{"f18",	0x4F },
+{"f19",	0x50 },
+{"f20",	0x5A }
+#endif
+};
 
 /**********************************************************************************************//**
  * @property    std::mutex SendKeys::m_mtxSending
@@ -36,22 +183,25 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 std::mutex SendKeys::m_mtxSending{};
 
 /**********************************************************************************************//**
- * @fn  void SendKeys::SendKeyDownUp(const KeyPress& key) const
+ * @fn  void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
  *
  * @brief   Sends a key down up.
  *
- *
- *
- * @param   key The key.
+ * @param   key     The key.
+ * @param   Alt     true to alternate.
+ * @param   Control true to control.
+ * @param   Shift   true to shift.
  **************************************************************************************************/
 
-void SendKeys::SendKeyDownUp(const KeyPress& key) const
+void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
 {
     std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
+    std::string lowerstring; //used for matching with key names
+    for (auto& c : key)
+        lowerstring.push_back(std::tolower(c));
 #ifdef _WIN32
     //Lightroom handle
     const auto hLRWnd = ::FindWindow(NULL, "Lightroom");
-    const auto mk = key.getModifiers();
     HKL languageID;
     // Bring Lightroom to foreground if it isn't already there
     if (hLRWnd)
@@ -65,11 +215,29 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     {   // use keyboard of MIDI2LR app
         languageID = GetKeyboardLayout(0);
     }
-    // Translate key code to keyboard-dependent scan code
-    const auto vkCodeAndShift = VkKeyScanExW(static_cast<WCHAR>(key.getKeyCode()), languageID);
-    const auto vk = LOBYTE(vkCodeAndShift);
-    const auto vk_modifiers = static_cast<BYTE>(0);// HIBYTE(vkCodeAndShift); shift key coming through inappropriately
-   
+    BYTE vk = 0;
+    BYTE vk_modifiers = 0;
+    if (SendKeys::keymap.count(lowerstring))
+        vk = SendKeys::keymap.at(lowerstring);
+    else
+    {// Translate key code to keyboard-dependent scan code, may be UTF-8
+        wchar_t fullchar;
+        const auto retval = MultiByteToWideChar(CP_UTF8, 0, key.data(), key.size(), &fullchar, 1);
+        if (retval == 0)
+        {
+            auto er = GetLastError();
+            if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
+                throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
+            if (er == ERROR_INSUFFICIENT_BUFFER)
+                throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
+            if (er == ERROR_NO_UNICODE_TRANSLATION)
+                throw std::domain_error("Unable to tranlate: MultiByteToWideChar.");
+            throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+        }
+        const auto vkCodeAndShift = VkKeyScanExW(fullchar, languageID);
+        vk = LOBYTE(vkCodeAndShift);
+        vk_modifiers = HIBYTE(vkCodeAndShift);
+    }
 
     // input event.
     INPUT ip;
@@ -82,7 +250,7 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     {
         ip.ki.wVk = VK_RMENU;
         SendInput(1, &ip, sizeof(INPUT));
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
@@ -95,7 +263,7 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
         // Release the key
         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
         SendInput(1, &ip, sizeof(INPUT));
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
@@ -105,17 +273,17 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
     }
     else //not using AltGr key
     {
-        if (mk.isCtrlDown() || (vk_modifiers & 0x2))
+        if (Control || (vk_modifiers & 0x2))
         {
             ip.ki.wVk = VK_CONTROL;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isAltDown() || (vk_modifiers & 0x4))
+        if (Alt || (vk_modifiers & 0x4))
         {
             ip.ki.wVk = VK_MENU;
             SendInput(1, &ip, sizeof(INPUT));
@@ -124,43 +292,67 @@ void SendKeys::SendKeyDownUp(const KeyPress& key) const
         ip.ki.wVk = vk;
         SendInput(1, &ip, sizeof(INPUT));
         //add 30 msec between press and release
-        Sleep(30);
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
         // Release the key
         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
         SendInput(1, &ip, sizeof(INPUT));
-        if (mk.isCtrlDown() || (vk_modifiers & 0x2))
+        if (Control || (vk_modifiers & 0x2))
         {
             ip.ki.wVk = VK_CONTROL;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isShiftDown() || (vk_modifiers & 0x1))
+        if (Shift || (vk_modifiers & 0x1))
         {
             ip.ki.wVk = VK_SHIFT;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        if (mk.isAltDown() || (vk_modifiers & 0x4))
+        if (Alt || (vk_modifiers & 0x4))
         {
             ip.ki.wVk = VK_MENU;
             SendInput(1, &ip, sizeof(INPUT));
         }
-        }
-#else
-    const ModifierKeys mk = key.getModifiers();
-    const UniChar KeyCode = static_cast<UniChar>(key.getKeyCode());
-    const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
-    CGEventRef d = CGEventCreateKeyboardEvent(source, 0, true);
-    CGEventRef u = CGEventCreateKeyboardEvent(source, 0, false);
-    CGEventKeyboardSetUnicodeString(d, 1, &KeyCode);
-    CGEventKeyboardSetUnicodeString(u, 1, &KeyCode);
-    uint64_t flags = CGEventGetFlags(d); //in case KeyCode has associated flag
-    if (mk.isCommandDown()) flags |= kCGEventFlagMaskCommand;
-    if (mk.isAltDown()) flags |= kCGEventFlagMaskAlternate;
-    if (mk.isShiftDown()) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0))
-    {
-        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
+#else
+    const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+    CGEventRef d;
+    CGEventRef u;
+    uint64_t flags = 0;
+    if (SendKeys::keymap.count(lowerstring))
+    {
+        auto vk = SendKeys::keymap.at(lowerstring);
+        d = CGEventCreateKeyboardEvent(source, vk, true);
+        u = CGEventCreateKeyboardEvent(source, vk, false);
+        if (Control) flags |= kCGEventFlagMaskCommand;
+        if (Alt) flags |= kCGEventFlagMaskAlternate;
+        if (Shift) flags |= kCGEventFlagMaskShift;
+        if (flags != UINT64_C(0))
+        {
+            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        }
+
+    }
+    else
+    {
+        const std::wstring utf16str{ utf8_to_utf16(key) };
+        const UniChar keychar = utf16str[0];
+        d = CGEventCreateKeyboardEvent(source, 0, true);
+        u = CGEventCreateKeyboardEvent(source, 0, false);
+        CGEventKeyboardSetUnicodeString(d, 1, &keychar);
+        CGEventKeyboardSetUnicodeString(u, 1, &keychar);
+        flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+        if (Control) flags |= kCGEventFlagMaskCommand;
+        if (Alt) flags |= kCGEventFlagMaskAlternate;
+        if (Shift) flags |= kCGEventFlagMaskShift;
+        if (flags != UINT64_C(0))
+        {
+            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        }
+
+    }
+
+
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
 

@@ -48,7 +48,7 @@ struct JUCE_API  MPEZone
                                       Must be between 1 and 15. Otherwise, the behaviour
                                       is undefined.
 
-        @param numChannelsUsed        The number of note channels that the new zone
+        @param numNoteChannels        The number of note channels that the new zone
                                       should use. The first note channel will be one higher
                                       than the master channel. The number of note channels
                                       must be at least 1 and no greater than 16 - masterChannel.
@@ -120,8 +120,14 @@ struct JUCE_API  MPEZone
     */
     bool truncateToFit (MPEZone zoneToAvoid) noexcept;
 
+    /** @returns true if this zone is equal to the one passed in. */
+    bool operator== (const MPEZone& other) const noexcept;
+
+    /** @returns true if this zone is not equal to the one passed in. */
+    bool operator!= (const MPEZone& other) const noexcept;
+
 private:
-    //==========================================================================
+    //==============================================================================
     int masterChannel;
     int numNoteChannels;
     int perNotePitchbendRange;

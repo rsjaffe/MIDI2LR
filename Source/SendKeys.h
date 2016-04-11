@@ -19,7 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <mutex>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <unordered_map>
 
 /**********************************************************************************************//**
  * @class   SendKeys
@@ -36,8 +36,9 @@ public:
     {};
     ~SendKeys()
     {};
-    void SendKeyDownUp(const KeyPress& key) const;
+    void SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const;
 private:
     static std::mutex m_mtxSending;
+    static const std::unordered_map<std::string, unsigned char> keymap;
 };
 

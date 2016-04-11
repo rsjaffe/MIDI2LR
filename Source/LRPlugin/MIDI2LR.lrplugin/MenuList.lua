@@ -260,50 +260,8 @@
     true
   },
   {
-    "KPImportImages",
-    "Import Photos and Videos",
-    "General",
-    true
-  },
-  {
-    "KPExportImages",
-    "Export",
-    "General",
-    true
-  },
-  {
     "ShoVwgrid",
     "Primary Display Grid",
-    "General",
-    true
-  },
-  {
-    "KPIncreaseGridSize",
-    "Increase Grid Size",
-    "General",
-    true
-  },
-  {
-    "KPDecreaseGridSize",
-    "Decrease Grid Size",
-    "General",
-    true
-  },
-  {
-    "KPShowExtras",
-    "Show Extras",
-    "General",
-    true
-  },
-  {
-    "KPShowBadges",
-    "Show Badges",
-    "General",
-    true
-  },
-  {
-    "KPCycleViewStyle",
-    "Cycle Grid View Style",
     "General",
     true
   },
@@ -314,26 +272,8 @@
     true
   },
   {
-    "ShoInfoLoupe",
-    "Primary Display Show Information",
-    "General",
-    true
-  },
-  {
-    "ShoCycleInfoStyle",
-    "Primary Display Cycle Info Display",
-    "General",
-    true
-  },
-  {
     "ShoVwcompare",
     "Primary Display Compare",
-    "General",
-    true
-  },
-  {
-    "KPSwapImages",
-    "Swap Images",
     "General",
     true
   },
@@ -374,36 +314,6 @@
     true
   },
   {
-    "KPHideToolbar",
-    "Show/Hide Toolbar",
-    "General",
-    true
-  },
-  {
-    "KPHidePanels",
-    "Show/Hide Side Panels",
-    "General",
-    true
-  },
-  {
-    "KPHideAllPanels",
-    "Show/Hide All Panels",
-    "General",
-    true
-  },
-  {
-    "KPSelectAll",
-    "Select All",
-    "General",
-    true
-  },
-  {
-    "KPSelectNone",
-    "Select None",
-    "General",
-    true
-  },
-  {
     "Select1Left",
     "Add to Selection Left",
     "General",
@@ -412,42 +322,6 @@
   {
     "Select1Right",
     "Add to Selection Right",
-    "General",
-    true
-  },
-  {
-    "KPSelectActive",
-    "Select Only Active Photo",
-    "General",
-    true
-  },
-  {
-    "KPDeselectActive",
-    "Deselect Active Photo",
-    "General",
-    true
-  },
-  {
-    "KPSelectFlagged",
-    "Select Flagged Photos",
-    "General",
-    true
-  },
-  {
-    "KPDeselectUnflagged",
-    "Deselect Unflagged Photos",
-    "General",
-    true
-  },
-  {
-    "KPPrevSelected",
-    "Previous Selected Photo",
-    "General",
-    true
-  },
-  {
-    "KPNextSelected",
-    "Next Selected Photo",
     "General",
     true
   },
@@ -464,146 +338,8 @@
     true
   },
   {
-    "KPGoNormalMode",
-    "Go Normal Mode",
-    "General",
-    true
-  },
-  {
-    "KPFullScrHidePanles",
-    "Full Screen Hide Panels",
-    "General",
-    true
-  },
-  {
-    "KPFullScrPreview",
-    "Full Screen Preview",
-    "General",
-    true
-  },
-  {
-    "KPCycleLightsOut",
-    "Cycle Lights Out",
-    "General",
-    true
-  },
-  {
-    "KPGoLightsOutDim",
-    "Go Lights Out Dim",
-    "General",
-    true
-  },
-  {
-    "KPMergeHDR",
-    "HDR...",
-    "General",
-    true
-  },
-  {
-    "KPMergeHDRnoDlg",
-    "HDR",
-    "General",
-    true
-  },
-  {
-    "KPMergePano",
-    "Panorama...",
-    "General",
-    true
-  },
-  {
-    "KPMergePanonoDlg",
-    "Panorama",
-    "General",
-    true
-  },
-  {
-    "KPEditInPhotoshop",
-    "Edit in Photoshop",
-    "General",
-    true
-  },
-  {
-    "KPEditInOther",
-    "Edit in Other",
-    "General",
-    true
-  },
-  {
     "SwToMlibrary",
     "Show Library",
-    "Library",
-    true
-  },
-  {
-    "KPAddToQuickCollection",
-    "Add To Quick Collection",
-    "Library",
-    true
-  },
-  {
-    "KPAddToQuickCollectionAndNext",
-    "Add to Quick Collection/Next",
-    "Library",
-    true
-  },
-  {
-    "KPShowQuickCollection",
-    "Show Quick Collection",
-    "Library",
-    true
-  },
-  {
-    "KPSaveQuickCollection",
-    "Save Quick Collection...",
-    "Library",
-    true
-  },
-  {
-    "KPClearQuickCollection",
-    "Clear Quick Collection",
-    "Library",
-    true
-  },
-  {
-    "KPTargetQuickCollection",
-    "Target Quick Collection",
-    "Library",
-    true
-  },
-  {
-    "KPGroupIntoStack",
-    "Stack Photos",
-    "Library",
-    true
-  },
-  {
-    "KPUnstack",
-    "Unstack Photos",
-    "Library",
-    true
-  },
-  {
-    "KPExpandStack",
-    "Toggle Stack",
-    "Library",
-    true
-  },
-  {
-    "KPToTopStack",
-    "Move to Stack Top",
-    "Library",
-    true
-  },
-  {
-    "KPUpInStack",
-    "Move Up in Stack",
-    "Library",
-    true
-  },
-  {
-    "KPDnInStack",
-    "Move Down in Stack",
     "Library",
     true
   },
@@ -704,42 +440,6 @@
     true
   },
   {
-    "KPRotateLeft",
-    "Rotate Left",
-    "Library",
-    true
-  },
-  {
-    "KPRotateRight",
-    "Rotate Right",
-    "Library",
-    true
-  },
-  {
-    "KPDelete",
-    "Delete",
-    "Library",
-    true
-  },
-  {
-    "KPDeleteRej",
-    "Delete Rejected",
-    "Library",
-    true
-  },
-  {
-    "KPRemoveFromCat",
-    "Remove from Catalog",
-    "Library",
-    true
-  },
-  {
-    "KPTrash",
-    "Trash Photo",
-    "Library",
-    true
-  },
-  {
     "ShoVwpeople",
     "Primary Display People",
     "Library",
@@ -748,12 +448,6 @@
   {
     "SwToMdevelop",
     "Show Develop",
-    "Develop",
-    true
-  },
-  {
-    "KPAutoSync",
-    "Enable Auto Sync",
     "Develop",
     true
   },
@@ -772,18 +466,6 @@
   {
     "PasteSelectedSettings",
     "Paste Selected Settings",
-    "Develop",
-    true
-  },
-  {
-    "KPPasteFromPrevious",
-    "Paste From Previous",
-    "Develop",
-    true
-  },
-  {
-    "KPMatchExposures",
-    "Match Exposures",
     "Develop",
     true
   },
@@ -844,24 +526,6 @@
   {
     "ShoVwdevelop_before",
     "Primary Display Before",
-    "Develop",
-    true
-  },
-  {
-    "KPBeforeAfter",
-    "Before/After",
-    "Develop",
-    true
-  },
-  {
-    "KPAutoTone",
-    "Auto Tone",
-    "Develop",
-    true
-  },
-  {
-    "KPClipping",
-    "Show Clipping",
     "Develop",
     true
   },
@@ -2648,30 +2312,6 @@
     true
   },
   {
-    "KPIncreaseSize",
-    "Increase Size",
-    "Local Adjustments",
-    true
-  },
-  {
-    "KPDecreaseSize",
-    "Decrease Size",
-    "Local Adjustments",
-    true
-  },
-  {
-    "KPIncreaseFeather",
-    "Increase Feathering",
-    "Local Adjustments",
-    true
-  },
-  {
-    "KPDecreaseFeather",
-    "Decrease Feathering",
-    "Local Adjustments",
-    true
-  },
-  {
     "local_Temperature",
     "Local Adjustments Temp. (PV2012)",
     "Local Adjustments",
@@ -2974,12 +2614,6 @@
   {
     "CropOverlay",
     "Show Crop",
-    "Crop",
-    true
-  },
-  {
-    "KPRotateCropAspect",
-    "Switch Crop Orientation",
     "Crop",
     true
   },

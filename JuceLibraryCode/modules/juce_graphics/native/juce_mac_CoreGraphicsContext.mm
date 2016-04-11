@@ -172,7 +172,7 @@ CoreGraphicsContext::CoreGraphicsContext (CGContextRef c, const float h, const f
       state (new SavedState())
 {
     CGContextRetain (context);
-    CGContextSaveGState(context);
+    CGContextSaveGState (context);
     CGContextSetShouldSmoothFonts (context, true);
     CGContextSetAllowsFontSmoothing (context, true);
     CGContextSetShouldAntialias (context, true);
@@ -545,7 +545,7 @@ void CoreGraphicsContext::drawLine (const Line<float>& line)
     {
         Path p;
         p.addLineSegment (line, 1.0f);
-        fillPath (p, AffineTransform::identity);
+        fillPath (p, AffineTransform());
     }
 }
 
@@ -656,7 +656,7 @@ bool CoreGraphicsContext::drawTextLayout (const AttributedString& text, const Re
     CoreTextTypeLayout::drawToCGContext (text, area, context, (float) flipHeight);
     return true;
    #else
-    (void) text; (void) area;
+    ignoreUnused (text, area);
     return false;
    #endif
 }
@@ -863,7 +863,7 @@ Image juce_loadWithCoreImage (InputStream& input)
         }
     }
 
-    return Image::null;
+    return Image();
 }
 #endif
 

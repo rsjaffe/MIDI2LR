@@ -1,48 +1,44 @@
 local LrStringUtils = import 'LrStringUtils'
 local LrView = import 'LrView'
 
-local legalanswers = {
-  ['spacebar'] = true,
-  ['return'] = true,
-  ['escape'] = true,
-  ['backspace'] = true,
-  ['cursor left'] = true,
-  ['cursor right'] = true,
-  ['cursor up'] = true,
-  ['cursor down'] = true,
-  ['page up'] = true,
-  ['page down'] = true,
-  ['home'] = true,
-  ['end'] = true,
-  ['delete'] = true,
-  ['insert'] = true,
-  ['tab'] = true,
-  ['play'] = true,
-  ['stop'] = true,
-  ['fast forward'] = true,
-  ['rewind'] = true,
-  f1 = true,
-  f2 = true,
-  f3 = true,
-  f4 = true,
-  f5 = true,
-  f6 = true,
-  f7 = true,
-  f8 = true,
-  f9 = true,
-  f10 = true,
-  f11 = true,
-  f12 = true,
-  f13 = true,
-  f14 = true,
-  f15 = true,
-  f16 = true,
-}
+local legalanswers = {}
 local maxlength = 0
-local completion = {}
-for k in pairs(legalanswers) do
+local completion = {  
+  'cursor down',
+  'cursor left',
+  'cursor right',
+  'cursor up',
+  'delete',
+  'end',
+  'escape',
+  'f1',
+  'f2',
+  'f3',
+  'f4',
+  'f5',
+  'f6',
+  'f7',
+  'f8',
+  'f9',
+  'f10',
+  'f11',
+  'f12',
+  'f13',
+  'f14',
+  'f15',
+  'f16',
+  'f17',
+  'f18',
+  'f19',
+  'f20',
+  'home',
+  'page down',
+  'page up',
+  'return',
+  'tab',}
+for _,k in ipairs(completion) do
   maxlength = math.max(k:len(),maxlength)
-  table.insert(completion,k)
+  legalanswers[k] = true
 end
 
 local control, alt
@@ -56,6 +52,7 @@ else
 end
 
 local function validate(_,value)
+  if value == nil then return true end
   value = LrStringUtils.trimWhitespace(value)
   local _, count = value:gsub( "[^\128-\193]", "") -- UTF-8 characters
   if count < 2 then return true,value end --one key or empty string
@@ -65,7 +62,7 @@ local function validate(_,value)
 end
 
 
---startdialog nowhere near ready--do not use yet!
+
 local function StartDialog(obstable,f)
   local internalview1 = {}
   for i = 1,20 do
@@ -78,7 +75,7 @@ local function StartDialog(obstable,f)
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, immediate = false, auto_completion = true, completion = completion, width_in_chars = maxlength} } )
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } )
   end
   local internalview2 = {}
   for i = 21,40 do
@@ -91,7 +88,7 @@ local function StartDialog(obstable,f)
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, immediate = false, auto_completion = true, completion = completion, width_in_chars = maxlength} } )
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } )
   end
   return f:row{ f:column (internalview1), f:column (internalview2) }
 end
@@ -101,42 +98,34 @@ local function EndDialog(obstable, status)
     ProgramPreferences.Keys = {} -- empty out prior settings
     for i = 1,40 do
       ProgramPreferences.Keys[i] = {}
-      ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i]
-      ProgramPreferences.Keys[i]['alt'] = obstable['Keysalt'..i]
-      ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i]
-      ProgramPreferences.Keys[i]['key'] = obstable['Keyskey'..i]
+      if obstable['Keyskey'..i] ~= nil and obstable['Keyskey'..i] ~= '' and validate(obstable['Keyskey'..i]) == true then
+        ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i]
+        ProgramPreferences.Keys[i]['alt'] = obstable['Keysalt'..i]
+        ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i]
+        ProgramPreferences.Keys[i]['key'] = obstable['Keyskey'..i]
+      else
+        ProgramPreferences.Keys[i]['control'] = false
+        ProgramPreferences.Keys[i]['alt'] = false
+        ProgramPreferences.Keys[i]['shift'] = false
+        ProgramPreferences.Keys[i]['key'] = ''
+      end
     end
   end
 end
 
 local function GetKey(i)
   if i < 1 or i > 40 then return nil end
-  local retval = ''
-  if(WIN_ENV) then
-    if ProgramPreferences.Keys[i]['control'] then
-      retval = retval .. 'control + '
-    end
-    if ProgramPreferences.Keys[i]['alt'] then
-      retval = retval .. 'alt + '
-    end
-    if ProgramPreferences.Keys[i]['shift'] then
-      retval = retval .. 'shift + '
-    end
-    retval = retval .. ProgramPreferences.Keys[i]['key']
-    return retval
-  else
-    if ProgramPreferences.Keys[i]['control'] then
-      retval = retval .. 'command + '
-    end
-    if ProgramPreferences.Keys[i]['alt'] then
-      retval = retval .. 'option + '
-    end
-    if ProgramPreferences.Keys[i]['shift'] then
-      retval = retval .. 'shift + '
-    end
-    retval = retval .. ProgramPreferences.Keys[i]['key']
-    return retval
+  local modifiers = 0x0
+  if ProgramPreferences.Keys[i]['alt'] then
+    modifiers = 0x1
   end
+  if ProgramPreferences.Keys[i]['control'] then
+    modifiers = modifiers + 0x2
+  end
+  if ProgramPreferences.Keys[i]['shift'] then
+    modifiers = modifiers + 0x4
+  end
+  return string.format('%u',modifiers) .. ProgramPreferences.Keys[i]['key']
 end
 
 
