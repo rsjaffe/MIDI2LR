@@ -127,9 +127,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac737490e031d37a7b8db1841618a2f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf2c41b2ff27d456eb06c80f07e9f6cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_send_keys.html#adf2c41b2ff27d456eb06c80f07e9f6cc">~SendKeys</a> ()</td></tr>
 <tr class="separator:adf2c41b2ff27d456eb06c80f07e9f6cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86bd1431f66d6ff6809ce93239052a59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_send_keys.html#a86bd1431f66d6ff6809ce93239052a59">SendKeyDownUp</a> (const KeyPress &amp;key) const </td></tr>
-<tr class="memdesc:a86bd1431f66d6ff6809ce93239052a59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a key down up.  <a href="#a86bd1431f66d6ff6809ce93239052a59">More...</a><br /></td></tr>
-<tr class="separator:a86bd1431f66d6ff6809ce93239052a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99c1e43fb969603390df580ef635a533"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_send_keys.html#a99c1e43fb969603390df580ef635a533">SendKeyDownUp</a> (const std::string &amp;key, bool Alt, bool Control, bool Shift) const </td></tr>
+<tr class="memdesc:a99c1e43fb969603390df580ef635a533"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a key down up.  <a href="#a99c1e43fb969603390df580ef635a533">More...</a><br /></td></tr>
+<tr class="separator:a99c1e43fb969603390df580ef635a533"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A send keys. </p>
@@ -159,18 +159,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_send_keys_8h_source.html#l00035">35</a> of file <a class="el" href="_send_keys_8h_source.html">SendKeys.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00163">LR_IPC_OUT::LR_IPC_OUT()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_send_keys_ac737490e031d37a7b8db1841618a2f54_icgraph.png" border="0" usemap="#class_send_keys_ac737490e031d37a7b8db1841618a2f54_icgraph" alt=""/></div>
-<map name="class_send_keys_ac737490e031d37a7b8db1841618a2f54_icgraph" id="class_send_keys_ac737490e031d37a7b8db1841618a2f54_icgraph">
-<area shape="rect" id="node2" href="class_l_r___i_p_c___o_u_t.html#a8842e5b48f3546b6269607aec979f916" title="Default constructor. " alt="" coords="204,5,388,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="adf2c41b2ff27d456eb06c80f07e9f6cc"></a>
@@ -199,16 +187,38 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a86bd1431f66d6ff6809ce93239052a59"></a>
+<a class="anchor" id="a99c1e43fb969603390df580ef635a533"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void SendKeys::SendKeyDownUp </td>
           <td>(</td>
-          <td class="paramtype">const KeyPress &amp;&#160;</td>
-          <td class="paramname"><em>key</em></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>Alt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>Control</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>Shift</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -217,11 +227,26 @@ Here is the caller graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>The key. </td></tr>
+    <tr><td class="paramname">Alt</td><td>true to alternate. </td></tr>
+    <tr><td class="paramname">Control</td><td>true to control. </td></tr>
+    <tr><td class="paramname">Shift</td><td>true to shift. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_send_keys_8cpp_source.html#l00048">48</a> of file <a class="el" href="_send_keys_8cpp_source.html">SendKeys.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_send_keys_8cpp_source.html#l00196">196</a> of file <a class="el" href="_send_keys_8cpp_source.html">SendKeys.cpp</a>.</p>
+
+<p>References <a class="el" href="_command_map_8h_source.html#l00106">std::hash&lt; String &gt;::operator()()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_send_keys_a99c1e43fb969603390df580ef635a533_cgraph.png" border="0" usemap="#class_send_keys_a99c1e43fb969603390df580ef635a533_cgraph" alt=""/></div>
+<map name="class_send_keys_a99c1e43fb969603390df580ef635a533_cgraph" id="class_send_keys_a99c1e43fb969603390df580ef635a533_cgraph">
+<area shape="rect" id="node2" href="structstd_1_1hash_3_01_string_01_4.html#a5b479a6a5664121276d804b4b0473d02" title="std::hash\&lt; String \&gt;\l::operator()" alt="" coords="244,29,379,71"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>

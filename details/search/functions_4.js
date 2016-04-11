@@ -2,11 +2,11 @@ var searchData=
 [
   ['getapplicationname',['getApplicationName',['../class_m_i_d_i2_l_r_application.html#ac53e19496aa202117c45cae154cf7489',1,'MIDI2LRApplication']]],
   ['getapplicationversion',['getApplicationVersion',['../class_m_i_d_i2_l_r_application.html#a51fc49ef00c85168d30427eb77d023c7',1,'MIDI2LRApplication']]],
-  ['getautohidetime',['getAutoHideTime',['../class_settings_manager.html#a537a0bf338c4020efa197188a0deec49',1,'SettingsManager']]],
+  ['getautohidetime',['getAutoHideTime',['../class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca',1,'SettingsManager']]],
   ['getcommandformessage',['getCommandforMessage',['../class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68',1,'CommandMap']]],
   ['getindexofcommand',['getIndexOfCommand',['../class_l_r_command_list.html#a37b96dd77211ce8f85b2d83beb6d6a51',1,'LRCommandList']]],
   ['getinstance',['GetInstance',['../classabstract.html#aca9929a78bea316bf71179d83f3512bb',1,'abstract']]],
-  ['getlastversionfound',['getLastVersionFound',['../class_settings_manager.html#ae5a55056fadea3ec3a015149ed5949a5',1,'SettingsManager']]],
+  ['getlastversionfound',['getLastVersionFound',['../class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8',1,'SettingsManager']]],
   ['getmaximumheight',['getMaximumHeight',['../class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e',1,'ResizableChild']]],
   ['getmaximumwidth',['getMaximumWidth',['../class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab',1,'ResizableChild']]],
   ['getmenuitems',['getMenuItems',['../class_profile_manager.html#aa987cef0d2777592539985d6b7370f71',1,'ProfileManager']]],

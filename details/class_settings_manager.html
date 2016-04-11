@@ -150,12 +150,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a607feb1bce6a53dc2907653566a43977"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a607feb1bce6a53dc2907653566a43977">disconnected</a> () override</td></tr>
 <tr class="memdesc:a607feb1bce6a53dc2907653566a43977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect from the ed.  <a href="#a607feb1bce6a53dc2907653566a43977">More...</a><br /></td></tr>
 <tr class="separator:a607feb1bce6a53dc2907653566a43977"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a537a0bf338c4020efa197188a0deec49"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a537a0bf338c4020efa197188a0deec49">getAutoHideTime</a> () const </td></tr>
-<tr class="memdesc:a537a0bf338c4020efa197188a0deec49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets automatic hide time.  <a href="#a537a0bf338c4020efa197188a0deec49">More...</a><br /></td></tr>
-<tr class="separator:a537a0bf338c4020efa197188a0deec49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5a55056fadea3ec3a015149ed5949a5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#ae5a55056fadea3ec3a015149ed5949a5">getLastVersionFound</a> () const </td></tr>
-<tr class="memdesc:ae5a55056fadea3ec3a015149ed5949a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the last version found.  <a href="#ae5a55056fadea3ec3a015149ed5949a5">More...</a><br /></td></tr>
-<tr class="separator:ae5a55056fadea3ec3a015149ed5949a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad32c1e7cb2d920a44ac4b98d764b40ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca">getAutoHideTime</a> () const  noexcept</td></tr>
+<tr class="memdesc:ad32c1e7cb2d920a44ac4b98d764b40ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets automatic hide time.  <a href="#ad32c1e7cb2d920a44ac4b98d764b40ca">More...</a><br /></td></tr>
+<tr class="separator:ad32c1e7cb2d920a44ac4b98d764b40ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4ac5e3e507fe8571d4c008ebc3b5ae8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8">getLastVersionFound</a> () const  noexcept</td></tr>
+<tr class="memdesc:aa4ac5e3e507fe8571d4c008ebc3b5ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the last version found.  <a href="#aa4ac5e3e507fe8571d4c008ebc3b5ae8">More...</a><br /></td></tr>
+<tr class="separator:aa4ac5e3e507fe8571d4c008ebc3b5ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a723bf06d5ec0c638b731c46140331c6d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d">getPickupEnabled</a> () const  noexcept</td></tr>
 <tr class="memdesc:a723bf06d5ec0c638b731c46140331c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets pickup enabled.  <a href="#a723bf06d5ec0c638b731c46140331c6d">More...</a><br /></td></tr>
 <tr class="separator:a723bf06d5ec0c638b731c46140331c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,7 +203,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Default constructor. </p>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00045">45</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00046">46</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -258,19 +258,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_l_r_connection_listener.html#a751cf0a273f7bdd3c9d1c56ca495dfe0">LRConnectionListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00142">142</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
-
-<p>References <a class="el" href="_settings_manager_8cpp_source.html#l00092">getPickupEnabled()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_settings_manager_a2d5e6d9c21a5ea7e574ca600a1d93719_cgraph.png" border="0" usemap="#class_settings_manager_a2d5e6d9c21a5ea7e574ca600a1d93719_cgraph" alt=""/></div>
-<map name="class_settings_manager_a2d5e6d9c21a5ea7e574ca600a1d93719_cgraph" id="class_settings_manager_a2d5e6d9c21a5ea7e574ca600a1d93719_cgraph">
-<area shape="rect" id="node2" href="class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d" title="Gets pickup enabled. " alt="" coords="241,5,428,47"/>
-</map>
-</div>
-</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00143">143</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -299,13 +287,16 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="class_l_r_connection_listener.html#a77600d9569cff2499b049687b3c1ac8f">LRConnectionListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00161">161</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00162">162</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a537a0bf338c4020efa197188a0deec49"></a>
+<a class="anchor" id="ad32c1e7cb2d920a44ac4b98d764b40ca"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int SettingsManager::getAutoHideTime </td>
@@ -314,18 +305,26 @@ Here is the call graph for this function:</div>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets automatic hide time. </p>
 <dl class="section return"><dt>Returns</dt><dd>The automatic hide time. </dd></dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00176">176</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00177">177</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ae5a55056fadea3ec3a015149ed5949a5"></a>
+<a class="anchor" id="aa4ac5e3e507fe8571d4c008ebc3b5ae8"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int SettingsManager::getLastVersionFound </td>
@@ -334,12 +333,17 @@ Here is the call graph for this function:</div>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets the last version found. </p>
 <dl class="section return"><dt>Returns</dt><dd>The last version found. </dd></dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00209">209</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00210">210</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -367,19 +371,7 @@ Here is the call graph for this function:</div>
 <p>Gets pickup enabled. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if it succeeds, false if it fails. </dd></dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00092">92</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
-
-<p>Referenced by <a class="el" href="_settings_manager_8cpp_source.html#l00142">connected()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_settings_manager_a723bf06d5ec0c638b731c46140331c6d_icgraph.png" border="0" usemap="#class_settings_manager_a723bf06d5ec0c638b731c46140331c6d_icgraph" alt=""/></div>
-<map name="class_settings_manager_a723bf06d5ec0c638b731c46140331c6d_icgraph" id="class_settings_manager_a723bf06d5ec0c638b731c46140331c6d_icgraph">
-<area shape="rect" id="node2" href="class_settings_manager.html#a2d5e6d9c21a5ea7e574ca600a1d93719" title="Connected this object. " alt="" coords="240,13,428,39"/>
-</map>
-</div>
-</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00093">93</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -407,7 +399,7 @@ Here is the caller graph for this function:</div>
 <p>Gets profile directory. </p>
 <dl class="section return"><dt>Returns</dt><dd>The profile directory. </dd></dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00107">107</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00108">108</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -444,7 +436,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00241">241</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00242">242</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -470,7 +462,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00192">192</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00193">193</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -496,7 +488,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00224">224</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00225">225</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -522,7 +514,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00068">68</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00069">69</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -548,7 +540,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00122">122</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00123">123</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>

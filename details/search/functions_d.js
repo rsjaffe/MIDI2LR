@@ -2,7 +2,7 @@ var searchData=
 [
   ['sendcc',['sendCC',['../class_m_i_d_i_sender.html#a8b6516aeba15fb543a5b2220e746102b',1,'MIDISender']]],
   ['sendcommand',['sendCommand',['../class_l_r___i_p_c___o_u_t.html#a1746617796e59435a24a13fb1b364718',1,'LR_IPC_OUT']]],
-  ['sendkeydownup',['SendKeyDownUp',['../class_send_keys.html#a86bd1431f66d6ff6809ce93239052a59',1,'SendKeys']]],
+  ['sendkeydownup',['SendKeyDownUp',['../class_send_keys.html#a99c1e43fb969603390df580ef635a533',1,'SendKeys']]],
   ['sendkeys',['SendKeys',['../class_send_keys.html#ac737490e031d37a7b8db1841618a2f54',1,'SendKeys']]],
   ['setasconstrainerfor',['setAsConstrainerFor',['../class_top_level_resizable_layout.html#a1b367be76ae2fe9e4caa14e3c1e3f150',1,'TopLevelResizableLayout']]],
   ['setautohidetime',['setAutoHideTime',['../class_settings_manager.html#a3b79a29f105519854b113d689e345f31',1,'SettingsManager']]],
@@ -14,7 +14,7 @@ var searchData=
   ['setminimumheight',['setMinimumHeight',['../class_resizable_child.html#a9a25c9c476e606c79a091ea171fde10d',1,'ResizableChild']]],
   ['setminimumsize',['setMinimumSize',['../class_resizable_child.html#a9859e8527b8f19602eedbd57834460f8',1,'ResizableChild']]],
   ['setminimumwidth',['setMinimumWidth',['../class_resizable_child.html#a43531c929c933e13b16f15d8d5b966e7',1,'ResizableChild']]],
-  ['setmsg',['setMsg',['../class_command_menu.html#abe597cac4bdbd0247b823d0b1d540838',1,'CommandMenu']]],
+  ['setmsg',['setMsg',['../class_command_menu.html#a54d0aac4391b6ae878651804a2dbfc32',1,'CommandMenu']]],
   ['setpickupenabled',['setPickupEnabled',['../class_settings_manager.html#a625341681109806d4ab2b2501ba30ab9',1,'SettingsManager']]],
   ['setprofiledirectory',['setProfileDirectory',['../class_profile_manager.html#a1529c4a30042187372c455729d917cd5',1,'ProfileManager::setProfileDirectory()'],['../class_settings_manager.html#a407dad99584114520c5aadc58b8bf941',1,'SettingsManager::setProfileDirectory()']]],
   ['setselecteditem',['setSelectedItem',['../class_command_menu.html#aca42c2d962a51a0ab0d4450492aa44a9',1,'CommandMenu']]],

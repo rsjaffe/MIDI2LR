@@ -145,7 +145,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af51e690dc3bc4e84d652642e5f2f1141"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refresh MIDI output.  <a href="#af51e690dc3bc4e84d652642e5f2f1141">More...</a><br /></td></tr>
 <tr class="separator:af51e690dc3bc4e84d652642e5f2f1141"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a328f5058bbfdbeba4345cc4d0b159bbb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___i_n.html#a328f5058bbfdbeba4345cc4d0b159bbb">run</a> () override</td></tr>
-<tr class="memdesc:a328f5058bbfdbeba4345cc4d0b159bbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs this object.  <a href="#a328f5058bbfdbeba4345cc4d0b159bbb">More...</a><br /></td></tr>
+<tr class="memdesc:a328f5058bbfdbeba4345cc4d0b159bbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The continuously running IPC in thread.  <a href="#a328f5058bbfdbeba4345cc4d0b159bbb">More...</a><br /></td></tr>
 <tr class="separator:a328f5058bbfdbeba4345cc4d0b159bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1eeca511d978f03330310e601390ddcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___i_n.html#a1eeca511d978f03330310e601390ddcc">shutdown</a> ()</td></tr>
 <tr class="memdesc:a1eeca511d978f03330310e601390ddcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down this object and frees any resources it is using.  <a href="#a1eeca511d978f03330310e601390ddcc">More...</a><br /></td></tr>
@@ -176,7 +176,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Default constructor. </p>
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00034">34</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00035">35</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
 </div>
 </div>
@@ -254,7 +254,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00087">87</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00090">90</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
 </div>
 </div>
@@ -273,7 +273,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Refresh MIDI output. </p>
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00199">199</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00205">205</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
 </div>
 </div>
@@ -298,9 +298,21 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Runs this object. </p>
+<p>The continuously running IPC in thread. </p>
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00105">105</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00108">108</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+
+<p>References <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00049">shutdown()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_r___i_p_c___i_n_a328f5058bbfdbeba4345cc4d0b159bbb_cgraph.png" border="0" usemap="#class_l_r___i_p_c___i_n_a328f5058bbfdbeba4345cc4d0b159bbb_cgraph" alt=""/></div>
+<map name="class_l_r___i_p_c___i_n_a328f5058bbfdbeba4345cc4d0b159bbb_cgraph" id="class_l_r___i_p_c___i_n_a328f5058bbfdbeba4345cc4d0b159bbb_cgraph">
+<area shape="rect" id="node2" href="class_l_r___i_p_c___i_n.html#a1eeca511d978f03330310e601390ddcc" title="Shuts down this object and frees any resources it is using. " alt="" coords="164,5,312,32"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -319,7 +331,19 @@ Public Member Functions</h2></td></tr>
 
 <p>Shuts down this object and frees any resources it is using. </p>
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00048">48</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00049">49</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+
+<p>Referenced by <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00108">run()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_r___i_p_c___i_n_a1eeca511d978f03330310e601390ddcc_icgraph.png" border="0" usemap="#class_l_r___i_p_c___i_n_a1eeca511d978f03330310e601390ddcc_icgraph" alt=""/></div>
+<map name="class_l_r___i_p_c___i_n_a1eeca511d978f03330310e601390ddcc_icgraph" id="class_l_r___i_p_c___i_n_a1eeca511d978f03330310e601390ddcc_icgraph">
+<area shape="rect" id="node2" href="class_l_r___i_p_c___i_n.html#a328f5058bbfdbeba4345cc4d0b159bbb" title="The continuously running IPC in thread. " alt="" coords="201,5,312,32"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -346,7 +370,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Callback, called when the timer. </p>
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00066">66</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00069">69</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
 </div>
 </div>

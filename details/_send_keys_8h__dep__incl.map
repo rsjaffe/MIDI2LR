@@ -1,20 +1,10 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/SendKeys.h" name="Q:/Documents/GitHub/MIDI2LR/Source/SendKeys.h">
-<area shape="rect" id="node2" href="$_l_r___i_p_c___out_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC_Out.h" alt="" coords="610,95,817,136"/>
-<area shape="rect" id="node4" href="$_l_r___i_p_c___in_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC_In.h" alt="" coords="163,288,359,329"/>
-<area shape="rect" id="node19" href="$_send_keys_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/SendKeys.cpp" alt="" coords="841,95,1050,136"/>
-<area shape="rect" id="node3" href="$_profile_manager_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/ProfileManager.h" alt="" coords="493,191,715,233"/>
-<area shape="rect" id="node6" href="$_main_component_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.h" alt="" coords="299,385,528,426"/>
-<area shape="rect" id="node7" href="$_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="1185,571,1362,612"/>
-<area shape="rect" id="node11" href="$_settings_manager_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/SettingsManager.h" alt="" coords="831,288,1065,329"/>
-<area shape="rect" id="node18" href="$_l_r___i_p_c___out_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC\l_Out.cpp" alt="" coords="739,184,907,240"/>
-<area shape="rect" id="node16" href="$_settings_manager_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/SettingsManager.cpp" alt="" coords="553,385,799,426"/>
-<area shape="rect" id="node17" href="$_profile_manager_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/ProfileManager.cpp" alt="" coords="487,288,721,329"/>
-<area shape="rect" id="node5" href="$_l_r___i_p_c___in_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC\l_In.cpp" alt="" coords="5,377,173,433"/>
-<area shape="rect" id="node10" href="$_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="299,481,541,523"/>
-<area shape="rect" id="node8" href="$_main_window_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.h" alt="" coords="853,481,1062,523"/>
-<area shape="rect" id="node9" href="$_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="846,571,1069,612"/>
-<area shape="rect" id="node12" href="$_version_checker_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/VersionChecker.h" alt="" coords="1148,385,1375,426"/>
-<area shape="rect" id="node14" href="$_settings_component_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/SettingsComponent.h" alt="" coords="823,385,1073,426"/>
-<area shape="rect" id="node13" href="$_version_checker_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/VersionChecker.cpp" alt="" coords="1086,481,1327,523"/>
-<area shape="rect" id="node15" href="$_settings_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/SettingsComponent.cpp" alt="" coords="566,481,829,523"/>
+<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC_In.h" alt="" coords="198,95,394,136"/>
+<area shape="rect" id="node9" href="$_send_keys_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/SendKeys.cpp" alt="" coords="418,95,627,136"/>
+<area shape="rect" id="node3" href="$_l_r___i_p_c___in_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC\l_In.cpp" alt="" coords="5,184,173,240"/>
+<area shape="rect" id="node4" href="$_main_component_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.h" alt="" coords="268,191,497,233"/>
+<area shape="rect" id="node5" href="$_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="147,377,325,419"/>
+<area shape="rect" id="node8" href="$_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="533,288,776,329"/>
+<area shape="rect" id="node6" href="$_main_window_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.h" alt="" coords="299,288,509,329"/>
+<area shape="rect" id="node7" href="$_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="349,377,571,419"/>
 </map>
