@@ -67,7 +67,6 @@ private:
     std::unordered_map<String, int> parameterMap;
     SendKeys m_SendKeys;
     std::once_flag ShutdownOnce;
-    std::mutex ShutDownAfterRunEnds;
 };
 
 
