@@ -104,6 +104,8 @@ namespace
 /** @brief   The send keys keymap. */
 const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 #ifdef _WIN32
+{"space", 0x20},
+{"backspace", 0x08},
 {"page up",	0x21},
 {"page down",0x22},
 { "end",	0x23 },
@@ -137,6 +139,8 @@ const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 {"f19",	0x82},
 {"f20",	0x83}
 #else
+{"space", 0x31},
+{"backspace", 0x33},
 {"page up", 0x74 },
 {"page down", 0x79 },
 {"end",	0x77 },
@@ -145,7 +149,7 @@ const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 {"cursor up", 0x7E },
 {"cursor right", 0x7C },
 {"cursor down",	0x7D },
-{"delete", 0x33 },
+{"delete", 0x75 },
 {"return", 0x24 },
 {"tab",	0x30 },
 {"escape", 0x35},
@@ -316,6 +320,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d;
     CGEventRef u;
+
     uint64_t flags = 0;
     if (SendKeys::keymap.count(lowerstring))
     {
@@ -351,13 +356,36 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
         }
 
     }
+    CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
+    CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
+    CGEventRef sftd = CGEventCreateKeyboardEvent(source, 0x38, true);
+    CGEventRef sftu = CGEventCreateKeyboardEvent(source, 0x38, false);
+    CGEventRef optd = CGEventCreateKeyboardEvent(source, 0x3A, true);
+    CGEventRef optu = CGEventCreateKeyboardEvent(source, 0x3A, false);
 
-
+    if (flags & kCGEventFlagMaskAlternate)
+        CGEventPost(kCGHIDEventTap, optd);
+    if (flags & kCGEventFlagMaskCommand)
+        CGEventPost(kCGHIDEventTap, cmdd);
+    if (flags & kCGEventFlagMaskShift)
+        CGEventPost(kCGHIDEventTap, sftd);
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
+    if (flags & kCGEventFlagMaskShift)
+        CGEventPost(kCGHIDEventTap, sftu);
+    if (flags & kCGEventFlagMaskCommand)
+        CGEventPost(kCGHIDEventTap, cmdu);
+    if (flags & kCGEventFlagMaskAlternate)
+        CGEventPost(kCGHIDEventTap, optu);
 
     CFRelease(d);
     CFRelease(u);
+    CFRelease(cmdd);
+    CFRelease(cmdu);
+    CFRelease(sftd);
+    CFRelease(sftu);
+    CFRelease(optd);
+    CFRelease(optu);
     CFRelease(source);
 #endif
 }

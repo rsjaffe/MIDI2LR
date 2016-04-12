@@ -4,6 +4,7 @@ local LrView = import 'LrView'
 local legalanswers = {}
 local maxlength = 0
 local completion = {  
+  'backspace',
   'cursor down',
   'cursor left',
   'cursor right',
@@ -35,6 +36,7 @@ local completion = {
   'page down',
   'page up',
   'return',
+  'space',
   'tab',}
 for _,k in ipairs(completion) do
   maxlength = math.max(k:len(),maxlength)
