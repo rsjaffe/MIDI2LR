@@ -358,34 +358,18 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     }
     CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
     CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
-    CGEventRef sftd = CGEventCreateKeyboardEvent(source, 0x38, true);
-    CGEventRef sftu = CGEventCreateKeyboardEvent(source, 0x38, false);
-    CGEventRef optd = CGEventCreateKeyboardEvent(source, 0x3A, true);
-    CGEventRef optu = CGEventCreateKeyboardEvent(source, 0x3A, false);
 
-    if (flags & kCGEventFlagMaskAlternate)
-        CGEventPost(kCGHIDEventTap, optd);
     if (flags & kCGEventFlagMaskCommand)
         CGEventPost(kCGHIDEventTap, cmdd);
-    if (flags & kCGEventFlagMaskShift)
-        CGEventPost(kCGHIDEventTap, sftd);
     CGEventPost(kCGHIDEventTap, d);
     CGEventPost(kCGHIDEventTap, u);
-    if (flags & kCGEventFlagMaskShift)
-        CGEventPost(kCGHIDEventTap, sftu);
     if (flags & kCGEventFlagMaskCommand)
         CGEventPost(kCGHIDEventTap, cmdu);
-    if (flags & kCGEventFlagMaskAlternate)
-        CGEventPost(kCGHIDEventTap, optu);
 
     CFRelease(d);
     CFRelease(u);
     CFRelease(cmdd);
     CFRelease(cmdu);
-    CFRelease(sftd);
-    CFRelease(sftu);
-    CFRelease(optd);
-    CFRelease(optu);
     CFRelease(source);
 #endif
 }
