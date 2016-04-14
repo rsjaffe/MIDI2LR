@@ -199,7 +199,7 @@ std::mutex SendKeys::m_mtxSending{};
 
 void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
 {
-    std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
+
     std::string lowerstring; //used for matching with key names
     for (auto& c : key)
         lowerstring.push_back(std::tolower(c));
@@ -250,6 +250,8 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     ip.ki.dwFlags = 0; // 0 for key press
     ip.ki.time = 0;
     ip.ki.wScan = 0;
+    //mutex lock for key sending events to keep in sequence
+    std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
     if ((vk_modifiers & 0x06) == 0x06) //using AltGr key
     {
         ip.ki.wVk = VK_RMENU;
@@ -358,13 +360,22 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     }
     CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
     CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
-
-    if (flags & kCGEventFlagMaskCommand)
-        CGEventPost(kCGHIDEventTap, cmdd);
-    CGEventPost(kCGHIDEventTap, d);
-    CGEventPost(kCGHIDEventTap, u);
-    if (flags & kCGEventFlagMaskCommand)
-        CGEventPost(kCGHIDEventTap, cmdu);
+    {   //restrict scope for mutex lock
+        std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
+        if (flags & kCGEventFlagMaskCommand)
+        {
+            CGEventPost(kCGHIDEventTap, cmdd);
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        }
+        CGEventPost(kCGHIDEventTap, d);
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        CGEventPost(kCGHIDEventTap, u);
+        if (flags & kCGEventFlagMaskCommand)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+            CGEventPost(kCGHIDEventTap, cmdu);
+        }
+    }
 
     CFRelease(d);
     CFRelease(u);
