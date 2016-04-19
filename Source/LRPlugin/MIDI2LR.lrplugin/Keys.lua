@@ -60,7 +60,7 @@ local function validate(_,value)
   if count < 2 then return true,value end --one key or empty string
   value = LrStringUtils.lower(value)
   if legalanswers[value] then return true,value end
-  return false, '', 'Value must be single character or spell out an F key (F1-F16) or: spacebar, return, escape, backspace, cursor left, cursor right, cursor up, cursor down, page up, page down, home, end, delete, insert, tab, play, stop, fast forward, rewind.'
+  return false, '', 'Value must be single character or spell out an F key (F1-F16) or: backspace (means delete in OS X), cursor down, cursor left, cursor right, cursor up, delete (means delete right in OS X), end, escape, home, page down, page up, return, space, or tab.'
 end
 
 
