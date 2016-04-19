@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreGraphics/CoreGraphics.h>
 #include <vector>
 #include <string>
+#include <thread>
 #endif
 namespace
 {
@@ -104,6 +105,8 @@ namespace
 /** @brief   The send keys keymap. */
 const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 #ifdef _WIN32
+{"space", 0x20},
+{"backspace", 0x08},
 {"page up",	0x21},
 {"page down",0x22},
 { "end",	0x23 },
@@ -137,6 +140,8 @@ const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 {"f19",	0x82},
 {"f20",	0x83}
 #else
+{"space", 0x31},
+{"backspace", 0x33},
 {"page up", 0x74 },
 {"page down", 0x79 },
 {"end",	0x77 },
@@ -145,7 +150,7 @@ const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 {"cursor up", 0x7E },
 {"cursor right", 0x7C },
 {"cursor down",	0x7D },
-{"delete", 0x33 },
+{"delete", 0x75 },
 {"return", 0x24 },
 {"tab",	0x30 },
 {"escape", 0x35},
@@ -195,7 +200,7 @@ std::mutex SendKeys::m_mtxSending{};
 
 void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
 {
-    std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
+
     std::string lowerstring; //used for matching with key names
     for (auto& c : key)
         lowerstring.push_back(std::tolower(c));
@@ -246,6 +251,8 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     ip.ki.dwFlags = 0; // 0 for key press
     ip.ki.time = 0;
     ip.ki.wScan = 0;
+    //mutex lock for key sending events to keep in sequence
+    std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
     if ((vk_modifiers & 0x06) == 0x06) //using AltGr key
     {
         ip.ki.wVk = VK_RMENU;
@@ -316,6 +323,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
     const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
     CGEventRef d;
     CGEventRef u;
+
     uint64_t flags = 0;
     if (SendKeys::keymap.count(lowerstring))
     {
@@ -351,13 +359,29 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, boo
         }
 
     }
-
-
-    CGEventPost(kCGHIDEventTap, d);
-    CGEventPost(kCGHIDEventTap, u);
+    CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
+    CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
+    {   //restrict scope for mutex lock
+        std::lock_guard< decltype(m_mtxSending) > lock(m_mtxSending);
+        if (flags & kCGEventFlagMaskCommand)
+        {
+            CGEventPost(kCGHIDEventTap, cmdd);
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        }
+        CGEventPost(kCGHIDEventTap, d);
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
+        CGEventPost(kCGHIDEventTap, u);
+        if (flags & kCGEventFlagMaskCommand)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+            CGEventPost(kCGHIDEventTap, cmdu);
+        }
+    }
 
     CFRelease(d);
     CFRelease(u);
+    CFRelease(cmdd);
+    CFRelease(cmdu);
     CFRelease(source);
 #endif
 }

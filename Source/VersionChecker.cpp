@@ -60,7 +60,7 @@ void VersionChecker::run()
 {
     URL versionURL{ "http://rsjaffe.github.io/MIDI2LR/version.xml" };
     unique_ptr<XmlElement> versionElem{ versionURL.readEntireXmlStream() };
-    int lastchecked = 0;
+    int lastchecked{ 0 };
     if (m_settingsManager)
         lastchecked = m_settingsManager->getLastVersionFound();
     if (versionElem != nullptr && (versionElem->getIntAttribute("latest") > ProjectInfo::versionNumber) && (versionElem->getIntAttribute("latest") != lastchecked))
@@ -86,11 +86,12 @@ void VersionChecker::handleAsyncUpdate()
     DialogWindow::LaunchOptions dwOpt;
     dwOpt.dialogTitle = "New Version Available!";
 
-    auto major = (_newVersion & 0xF0000) >> 16;
-    auto minor = (_newVersion & 0x00F00) >> 8;
-    auto rev = (_newVersion & 0x0000F);
-    auto versionString = String::formatted("New version %d.%d.%d available", major, minor, rev);
-    URL downloadURL{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
+    const auto major{ (_newVersion & 0xF000000) >> 24 };
+    const auto minor{ (_newVersion & 0x00F0000) >> 16 };
+    const auto rev{ (_newVersion & 0x0000F00) >> 8 };
+    const auto build{ (_newVersion & 0x00000FF) };
+    const auto versionString{ String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build) };
+    const URL downloadURL{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
 
     dwOpt.content.setOwned(new HyperlinkButton{ versionString, downloadURL });
     dwOpt.content->setSize(300, 100);
