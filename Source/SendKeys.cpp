@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreGraphics/CoreGraphics.h>
 #include <vector>
 #include <string>
+#include <thread>
 #endif
 namespace
 {
