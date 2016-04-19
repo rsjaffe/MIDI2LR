@@ -89,7 +89,7 @@ void VersionChecker::handleAsyncUpdate()
     const auto major{ (_newVersion & 0xF000000) >> 24 };
     const auto minor{ (_newVersion & 0x00F0000) >> 16 };
     const auto rev{ (_newVersion & 0x0000F00) >> 8 };
-    const auto build{ (_newVersion & 0x000000F) };
+    const auto build{ (_newVersion & 0x00000FF) };
     const auto versionString{ String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build) };
     const URL downloadURL{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
 
