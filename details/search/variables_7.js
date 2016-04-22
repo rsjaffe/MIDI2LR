@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['keyshortcuts',['KeyShortcuts',['../class_l_r_command_list.html#aab585f7cc9a9aa7fdd3bba296aa4c11a',1,'LRCommandList']]]
+  ['general',['General',['../classLRCommandList.html#a6596b402092771f06a67d73be1d0f52c',1,'LRCommandList']]],
+  ['greater',['greater',['../Documentation_8txt.html#a199ef2938d0e2e5f4d49b90c426efa03',1,'Documentation.txt']]]
 ];

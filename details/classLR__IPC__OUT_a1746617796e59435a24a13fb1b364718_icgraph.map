@@ -1,0 +1,5 @@
+<map id="LR_IPC_OUT::sendCommand" name="LR_IPC_OUT::sendCommand">
+<area shape="rect" id="node2" href="$classLR__IPC__OUT.html#ad51f33b2ec43f590ac2d3fc60c129134" title="Handles the asynchronous update. " alt="" coords="248,31,471,57"/>
+<area shape="rect" id="node3" href="$classLR__IPC__OUT.html#ad2d2b544157950b3b74ff6f7791c98cc" title="Handles MIDI CC messages. " alt="" coords="523,5,710,32"/>
+<area shape="rect" id="node4" href="$classLR__IPC__OUT.html#ab586f83cf46e3a10ab03a934c749d60d" title="Handles MIDI note messages. " alt="" coords="519,56,715,83"/>
+</map>

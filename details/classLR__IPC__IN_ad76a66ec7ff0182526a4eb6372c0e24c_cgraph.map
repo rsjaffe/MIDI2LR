@@ -1,0 +1,8 @@
+<map id="LR_IPC_IN::~LR_IPC_IN" name="LR_IPC_IN::~LR_IPC_IN">
+<area shape="rect" id="node2" href="$classLR__IPC__IN.html#a292c95a31841722d4bf514d27b44e732" title="S. " alt="" coords="261,5,371,32"/>
+<area shape="rect" id="node3" href="$classLR__IPC__IN.html#af51e690dc3bc4e84d652642e5f2f1141" title="Refresh MIDI output. " alt="" coords="217,56,415,83"/>
+<area shape="rect" id="node4" href="$classLR__IPC__IN.html#a328f5058bbfdbeba4345cc4d0b159bbb" title="The continuously running IPC in thread. " alt="" coords="261,157,371,184"/>
+<area shape="rect" id="node5" href="$classLR__IPC__IN.html#a1eeca511d978f03330310e601390ddcc" title="Shuts down this object and frees any resources it is using. " alt="" coords="484,107,632,133"/>
+<area shape="rect" id="node7" href="$classLR__IPC__IN.html#acdeca8e06bd01cb71ea026fca630823c" title="Callback, called when the timer. " alt="" coords="230,208,402,235"/>
+<area shape="rect" id="node6" href="$classSendKeys.html#a99c1e43fb969603390df580ef635a533" title="Sends a key down up. " alt="" coords="463,157,653,184"/>
+</map>

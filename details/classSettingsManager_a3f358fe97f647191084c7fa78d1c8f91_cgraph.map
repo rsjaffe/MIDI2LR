@@ -1,0 +1,13 @@
+<map id="SettingsManager::~SettingsManager" name="SettingsManager::~SettingsManager">
+<area shape="rect" id="node2" href="$classSettingsManager.html#a2d5e6d9c21a5ea7e574ca600a1d93719" title="Connected this object. " alt="" coords="246,5,434,32"/>
+<area shape="rect" id="node3" href="$classSettingsManager.html#a723bf06d5ec0c638b731c46140331c6d" title="Gets pickup enabled. " alt="" coords="491,23,677,65"/>
+<area shape="rect" id="node4" href="$classSettingsManager.html#a607feb1bce6a53dc2907653566a43977" title="Disconnect from the ed. " alt="" coords="237,107,443,133"/>
+<area shape="rect" id="node5" href="$classSettingsManager.html#ad32c1e7cb2d920a44ac4b98d764b40ca" title="Gets automatic hide time. " alt="" coords="253,158,427,199"/>
+<area shape="rect" id="node6" href="$classSettingsManager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8" title="Gets the last version found. " alt="" coords="255,223,425,265"/>
+<area shape="rect" id="node7" href="$classSettingsManager.html#a2c155d9a507a9bef20208359ed4b11f6" title="Gets profile directory. " alt="" coords="493,307,675,349"/>
+<area shape="rect" id="node8" href="$classSettingsManager.html#ab64f85e2d4154736ff3114cdbd4126bf" title="S. " alt="" coords="267,340,413,367"/>
+<area shape="rect" id="node9" href="$classSettingsManager.html#a3b79a29f105519854b113d689e345f31" title="Sets automatic hide time. " alt="" coords="253,391,427,433"/>
+<area shape="rect" id="node10" href="$classSettingsManager.html#ab66b7b0beeca459d573fe47b4a4f80b8" title="Sets last version found. " alt="" coords="255,457,425,498"/>
+<area shape="rect" id="node11" href="$classSettingsManager.html#a625341681109806d4ab2b2501ba30ab9" title="Sets pickup enabled. " alt="" coords="247,522,433,563"/>
+<area shape="rect" id="node12" href="$classSettingsManager.html#a407dad99584114520c5aadc58b8bf941" title="Sets profile directory. " alt="" coords="249,587,431,629"/>
+</map>

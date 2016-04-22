@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['timercallback',['timerCallback',['../class_l_r___i_p_c___i_n.html#acdeca8e06bd01cb71ea026fca630823c',1,'LR_IPC_IN::timerCallback()'],['../class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d',1,'MainContentComponent::timerCallback()'],['../class_main_window.html#a2c5579248bf8b2d75942957078b584e7',1,'MainWindow::timerCallback()'],['../class_l_r___i_p_c___o_u_t.html#ada29129823f7840fef72598342806f53',1,'LR_IPC_OUT::timerCallback()']]],
-  ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_top_level_resizable_layout.html#acaf570bc0eabd147a11f9cf1415d44c6',1,'TopLevelResizableLayout']]],
-  ['toxmldocument',['toXMLDocument',['../class_command_map.html#a86d35079d4397908aa26109e03e67c24',1,'CommandMap']]]
+  ['observer',['Observer',['../classObserver.html#a8011ffbb264d674a5605b94c6d1993fb',1,'Observer']]],
+  ['operator_28_29',['operator()',['../structstd_1_1hash_3_01MIDI__Message_01_4.html#a4595702cc8e8bcaf69278edb6df142b3',1,'std::hash&lt; MIDI_Message &gt;::operator()()'],['../structstd_1_1hash_3_01String_01_4.html#a5b479a6a5664121276d804b4b0473d02',1,'std::hash&lt; String &gt;::operator()()']]],
+  ['operator_3d_3d',['operator==',['../structMIDI__Message.html#a392801f089a416dcadcad02500f4bf8e',1,'MIDI_Message']]]
 ];

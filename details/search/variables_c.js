@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['pitch',['pitch',['../struct_m_i_d_i___message.html#aab10f0e8316478692b1adbfb0dc42f23',1,'MIDI_Message']]],
-  ['programprofiles',['ProgramProfiles',['../class_l_r_command_list.html#a7c9b1fa029a6e4bc9de3bca532d508af',1,'LRCommandList']]]
+  ['nextprevprofile',['NextPrevProfile',['../classLRCommandList.html#af072ea5a2006a79eb3dd6d3e7a206086',1,'LRCommandList']]],
+  ['not',['not',['../COPYING_8txt.html#a842224abbb72b50c9703a22030a36ee4',1,'COPYING.txt']]]
 ];

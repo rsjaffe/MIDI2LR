@@ -1,0 +1,4 @@
+<map id="TopLevelResizableLayout" name="TopLevelResizableLayout">
+<area shape="rect" id="node2" href="$classResizableLayout.html" title="Derive your Component from this class if you want to be able to put anchors on children. " alt="" coords="30,80,149,107"/>
+<area shape="rect" id="node3" href="$classResizableChild.html" title="Smoothly repositions and resizes child Components without rounding errors, according to caller provid..." alt="" coords="35,5,143,32"/>
+</map>

@@ -1,21 +1,6 @@
 var searchData=
 [
-  ['general',['General',['../class_l_r_command_list.html#a6596b402092771f06a67d73be1d0f52c',1,'LRCommandList']]],
-  ['getapplicationname',['getApplicationName',['../class_m_i_d_i2_l_r_application.html#ac53e19496aa202117c45cae154cf7489',1,'MIDI2LRApplication']]],
-  ['getapplicationversion',['getApplicationVersion',['../class_m_i_d_i2_l_r_application.html#a51fc49ef00c85168d30427eb77d023c7',1,'MIDI2LRApplication']]],
-  ['getautohidetime',['getAutoHideTime',['../class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca',1,'SettingsManager']]],
-  ['getcommandformessage',['getCommandforMessage',['../class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68',1,'CommandMap']]],
-  ['getindexofcommand',['getIndexOfCommand',['../class_l_r_command_list.html#a37b96dd77211ce8f85b2d83beb6d6a51',1,'LRCommandList']]],
-  ['getinstance',['GetInstance',['../classabstract.html#aca9929a78bea316bf71179d83f3512bb',1,'abstract']]],
-  ['getlastversionfound',['getLastVersionFound',['../class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8',1,'SettingsManager']]],
-  ['getmaximumheight',['getMaximumHeight',['../class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e',1,'ResizableChild']]],
-  ['getmaximumwidth',['getMaximumWidth',['../class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab',1,'ResizableChild']]],
-  ['getmenuitems',['getMenuItems',['../class_profile_manager.html#aa987cef0d2777592539985d6b7370f71',1,'ProfileManager']]],
-  ['getmessageforcommand',['getMessageForCommand',['../class_command_map.html#aeeef81aa7e1103a9e1012f2f4df35213',1,'CommandMap']]],
-  ['getminimumheight',['getMinimumHeight',['../class_resizable_child.html#a3dc554161d4b994494326227a96a644c',1,'ResizableChild']]],
-  ['getminimumwidth',['getMinimumWidth',['../class_resizable_child.html#a799c8cf06801b7da7fd6d987892740e1',1,'ResizableChild']]],
-  ['getnumrows',['getNumRows',['../class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2',1,'CommandTableModel']]],
-  ['getpickupenabled',['getPickupEnabled',['../class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d',1,'SettingsManager']]],
-  ['getprofiledirectory',['getProfileDirectory',['../class_settings_manager.html#a2c155d9a507a9bef20208359ed4b11f6',1,'SettingsManager']]],
-  ['getrowformessage',['getRowForMessage',['../class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39',1,'CommandTableModel']]]
+  ['effects',['Effects',['../classLRCommandList.html#a03a8a1a2c4063e93787410aef45838db',1,'LRCommandList']]],
+  ['english',['English',['../TRANSLATIONS_8txt.html#a8dfdda9a6eeaa39230276177cb02eca1',1,'TRANSLATIONS.txt']]],
+  ['exposure',['Exposure',['../Documentation_8txt.html#a0c2f3f0ddc0e6b9078f45b2c1259eeb4',1,'Documentation.txt']]]
 ];

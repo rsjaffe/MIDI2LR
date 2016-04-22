@@ -1,9 +1,21 @@
 var searchData=
 [
-  ['init',['Init',['../class_command_menu.html#acd64d52e3368e49676d2153130cc0117',1,'CommandMenu::Init()'],['../class_command_table_model.html#a840540a46e865e5ac59f6922bf1ef184',1,'CommandTableModel::Init()'],['../class_l_r___i_p_c___i_n.html#a292c95a31841722d4bf514d27b44e732',1,'LR_IPC_IN::Init()'],['../class_profile_manager.html#a3d8aa653a6a7be1b3fab6c5d8bb455ca',1,'ProfileManager::Init()'],['../class_m_i_d_i_processor.html#a5368c02640c7493c0119deadfe2feeba',1,'MIDIProcessor::Init()'],['../class_m_i_d_i_sender.html#ab563687fe6dd2b274a1694140ef7c08c',1,'MIDISender::Init()'],['../class_main_content_component.html#a34ad76f656a84f80ad2c044dd4ee3262',1,'MainContentComponent::Init()'],['../class_settings_manager.html#ab64f85e2d4154736ff3114cdbd4126bf',1,'SettingsManager::Init()'],['../class_version_checker.html#ad247a7e29740dbcf58089b901cfe73e4',1,'VersionChecker::Init()'],['../class_main_window.html#a463a6d09d5b6a183fa3c896952fb878c',1,'MainWindow::Init()'],['../class_settings_component.html#a7c93797c06a61716f670858ce3fdca6f',1,'SettingsComponent::Init()'],['../class_l_r___i_p_c___o_u_t.html#a60675a293f413269f491889cb2726867',1,'LR_IPC_OUT::Init()']]],
-  ['initialise',['initialise',['../class_m_i_d_i2_l_r_application.html#ae503f1d36a80e653cfb197664ab1bcdc',1,'MIDI2LRApplication']]],
-  ['iscc',['isCC',['../struct_m_i_d_i___message.html#a9483383e9b4594a7b018f70779a645e7',1,'MIDI_Message']]],
-  ['isingleton',['ISingleton',['../class_i_singleton.html',1,'']]],
-  ['isnrpn',['isNRPN',['../struct_m_i_d_i___message.html#a131f956eb4979db566c060b2dd902d37',1,'MIDI_Message']]],
-  ['isrelative',['isRelative',['../struct_m_i_d_i___message.html#a00bfe36050f78311ecad9311e2bfbb85',1,'MIDI_Message']]]
+  ['general',['General',['../classLRCommandList.html#a6596b402092771f06a67d73be1d0f52c',1,'LRCommandList']]],
+  ['german',['German',['../TRANSLATIONS_8txt.html#ad605e28f5002107c90105af41d64a8b8',1,'TRANSLATIONS.txt']]],
+  ['getautohidetime',['getAutoHideTime',['../classSettingsManager.html#ad32c1e7cb2d920a44ac4b98d764b40ca',1,'SettingsManager']]],
+  ['getcommandformessage',['getCommandforMessage',['../classCommandMap.html#aa7b751c5f0b16fb5f552b5c304f56c68',1,'CommandMap']]],
+  ['getindexofcommand',['getIndexOfCommand',['../classLRCommandList.html#a37b96dd77211ce8f85b2d83beb6d6a51',1,'LRCommandList']]],
+  ['getinstance',['GetInstance',['../classabstract.html#aca9929a78bea316bf71179d83f3512bb',1,'abstract']]],
+  ['getlastversionfound',['getLastVersionFound',['../classSettingsManager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8',1,'SettingsManager']]],
+  ['getmaximumheight',['getMaximumHeight',['../classResizableChild.html#afedf9f9fbe96c0bc1a0713b65b1cf55e',1,'ResizableChild']]],
+  ['getmaximumwidth',['getMaximumWidth',['../classResizableChild.html#a78a85e1a87e5d3c0071c8eb6aa673aab',1,'ResizableChild']]],
+  ['getmenuitems',['getMenuItems',['../classProfileManager.html#aa987cef0d2777592539985d6b7370f71',1,'ProfileManager']]],
+  ['getmessageforcommand',['getMessageForCommand',['../classCommandMap.html#aeeef81aa7e1103a9e1012f2f4df35213',1,'CommandMap']]],
+  ['getminimumheight',['getMinimumHeight',['../classResizableChild.html#a3dc554161d4b994494326227a96a644c',1,'ResizableChild']]],
+  ['getminimumwidth',['getMinimumWidth',['../classResizableChild.html#a799c8cf06801b7da7fd6d987892740e1',1,'ResizableChild']]],
+  ['getnumrows',['getNumRows',['../classCommandTableModel.html#ae89ca7ee2106ffe3a8d326da313e3bf2',1,'CommandTableModel']]],
+  ['getpickupenabled',['getPickupEnabled',['../classSettingsManager.html#a723bf06d5ec0c638b731c46140331c6d',1,'SettingsManager']]],
+  ['getprofiledirectory',['getProfileDirectory',['../classSettingsManager.html#a2c155d9a507a9bef20208359ed4b11f6',1,'SettingsManager']]],
+  ['getrowformessage',['getRowForMessage',['../classCommandTableModel.html#a718bd444e2e6a23b7ca4375ac3a94b39',1,'CommandTableModel']]],
+  ['greater',['greater',['../Documentation_8txt.html#a199ef2938d0e2e5f4d49b90c426efa03',1,'Documentation.txt']]]
 ];

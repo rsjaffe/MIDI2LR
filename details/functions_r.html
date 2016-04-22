@@ -8,14 +8,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-  $(document).ready(initResizable);
-  $(window).load(resizeHeight);
-</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -33,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">0.9.9</span>
+   &#160;<span id="projectnumber">1.0.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,7 +41,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -85,7 +76,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
-      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -113,20 +103,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-$(document).ready(function(){initNavTree('functions_r.html','');});
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -146,62 +122,56 @@ $(document).ready(function(){initNavTree('functions_r.html','');});
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>recalculateLayout()
-: <a class="el" href="class_resizable_layout.html#a14d9dad6dfc415e8d49f1e858f8abc26">ResizableLayout</a>
+: <a class="el" href="classResizableLayout.html#a14d9dad6dfc415e8d49f1e858f8abc26">ResizableLayout</a>
 </li>
 <li>refreshComponentForCell()
-: <a class="el" href="class_command_table_model.html#a46ef1923c37173d28bf25c840403af69">CommandTableModel</a>
+: <a class="el" href="classCommandTableModel.html#a46ef1923c37173d28bf25c840403af69">CommandTableModel</a>
 </li>
 <li>refreshMIDIOutput()
-: <a class="el" href="class_l_r___i_p_c___i_n.html#af51e690dc3bc4e84d652642e5f2f1141">LR_IPC_IN</a>
-</li>
-<li>Register()
-: <a class="el" href="classsealed.html#a67f2e982149c70b1ad52b6bc28fc14ed">sealed</a>
+: <a class="el" href="classLR__IPC__IN.html#af51e690dc3bc4e84d652642e5f2f1141">LR_IPC_IN</a>
 </li>
 <li>RegisterObserver()
-: <a class="el" href="class_subject.html#ae4254eab0892ed61dae71e01a394ded6">Subject</a>
+: <a class="el" href="classSubject.html#ae4254eab0892ed61dae71e01a394ded6">Subject</a>
 </li>
 <li>removeAllRows()
-: <a class="el" href="class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b">CommandTableModel</a>
+: <a class="el" href="classCommandTableModel.html#aa49fc1e19a98cd9c315d0faa5592758b">CommandTableModel</a>
 </li>
 <li>removeFromLayout()
-: <a class="el" href="class_resizable_layout.html#addf2cdc690e1c6b4cea5fdf37547f84a">ResizableLayout</a>
+: <a class="el" href="classResizableLayout.html#addf2cdc690e1c6b4cea5fdf37547f84a">ResizableLayout</a>
 </li>
 <li>removeMessage()
-: <a class="el" href="class_command_map.html#a4965760cbda2b82484b26f5df645c216">CommandMap</a>
+: <a class="el" href="classCommandMap.html#a4965760cbda2b82484b26f5df645c216">CommandMap</a>
 </li>
 <li>removeRow()
-: <a class="el" href="class_command_table_model.html#aedd06c409a9326aa50077244c10f5dbd">CommandTableModel</a>
+: <a class="el" href="classCommandTableModel.html#aedd06c409a9326aa50077244c10f5dbd">CommandTableModel</a>
 </li>
 <li>rescanDevices()
-: <a class="el" href="class_m_i_d_i_processor.html#a9b05a1d09a8cff97d6b158cb4270f2e7">MIDIProcessor</a>
-, <a class="el" href="class_m_i_d_i_sender.html#ad8590bd597858304c1a812b3b4988086">MIDISender</a>
+: <a class="el" href="classMIDIProcessor.html#a9b05a1d09a8cff97d6b158cb4270f2e7">MIDIProcessor</a>
+, <a class="el" href="classMIDISender.html#ad8590bd597858304c1a812b3b4988086">MIDISender</a>
 </li>
 <li>ResetMixer
-: <a class="el" href="class_l_r_command_list.html#ac803d1a946af08d1cee97d5442c32b1f">LRCommandList</a>
+: <a class="el" href="classLRCommandList.html#ac803d1a946af08d1cee97d5442c32b1f">LRCommandList</a>
 </li>
 <li>ResizableChild()
-: <a class="el" href="class_resizable_child.html#a7f1450e61061b26d05d786f5d9df9dfb">ResizableChild</a>
+: <a class="el" href="classResizableChild.html#a7f1450e61061b26d05d786f5d9df9dfb">ResizableChild</a>
 </li>
 <li>ResizableLayout()
-: <a class="el" href="class_resizable_layout.html#a234ea8d8a9594d6f2625e290b9fd4bb3">ResizableLayout</a>
+: <a class="el" href="classResizableLayout.html#a234ea8d8a9594d6f2625e290b9fd4bb3">ResizableLayout</a>
 </li>
 <li>resizeStart()
-: <a class="el" href="class_resizable_child.html#aab700a53db0ffaf68f75bf29fd824b20">ResizableChild</a>
+: <a class="el" href="classResizableChild.html#aab700a53db0ffaf68f75bf29fd824b20">ResizableChild</a>
 </li>
 <li>run()
-: <a class="el" href="class_l_r___i_p_c___i_n.html#a328f5058bbfdbeba4345cc4d0b159bbb">LR_IPC_IN</a>
-, <a class="el" href="class_version_checker.html#a04beca4aadd6a6df974c1c07f5113f7b">VersionChecker</a>
+: <a class="el" href="classLR__IPC__IN.html#a328f5058bbfdbeba4345cc4d0b159bbb">LR_IPC_IN</a>
+, <a class="el" href="classVersionChecker.html#a04beca4aadd6a6df974c1c07f5113f7b">VersionChecker</a>
 </li>
 </ul>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated on Thu Apr 21 2016 18:28:35 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
 </body>
 </html>

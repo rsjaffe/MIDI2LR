@@ -1,0 +1,9 @@
+<map id="MainContentComponent::buttonClicked" name="MainContentComponent::buttonClicked">
+<area shape="rect" id="node2" href="$classCommandTableModel.html#adc91632cd6ecd7f0b36332f43ed13f54" title="Builds from XML. " alt="" coords="218,71,373,112"/>
+<area shape="rect" id="node5" href="$classSettingsComponent.html#a7c93797c06a61716f670858ce3fdca6f" title="Inits the given settings manager. " alt="" coords="215,137,376,163"/>
+<area shape="rect" id="node8" href="$classCommandTableModel.html#aedd06c409a9326aa50077244c10f5dbd" title="Removes the row described by row. " alt="" coords="218,188,373,229"/>
+<area shape="rect" id="node3" href="$classCommandTableModel.html#a34e3b342c1741fe6363e2873b68171b1" title="Adds a row. " alt="" coords="447,5,601,47"/>
+<area shape="rect" id="node4" href="$classCommandTableModel.html#aa49fc1e19a98cd9c315d0faa5592758b" title="Removes all rows. " alt="" coords="447,71,601,112"/>
+<area shape="rect" id="node6" href="$classResizableLayout.html#ab78c732d14d0ac2f4afd7b76f20ec6c9" title="Adds to layout. " alt="" coords="424,137,624,163"/>
+<area shape="rect" id="node7" href="$classResizableLayout.html#a5b5d3846e9bff81de103f0097763cedb" title="Activates the layout described by isActive. " alt="" coords="439,188,609,229"/>
+</map>

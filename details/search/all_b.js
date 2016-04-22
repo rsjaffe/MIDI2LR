@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['nextprevprofile',['NextPrevProfile',['../class_l_r_command_list.html#af072ea5a2006a79eb3dd6d3e7a206086',1,'LRCommandList']]],
-  ['notify',['Notify',['../class_subject.html#ac8d74b2a80e2d4caa0a9a59e00a45219',1,'Subject']]]
+  ['keyshortcuts',['KeyShortcuts',['../classLRCommandList.html#aab585f7cc9a9aa7fdd3bba296aa4c11a',1,'LRCommandList']]],
+  ['korean',['Korean',['../TRANSLATIONS_8txt.html#af9cc6ae19fd79d6fb6bb4b2d4e6ac805',1,'TRANSLATIONS.txt']]]
 ];

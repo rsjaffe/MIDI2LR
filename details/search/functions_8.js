@@ -1,14 +1,5 @@
 var searchData=
 [
-  ['maincontentcomponent',['MainContentComponent',['../class_main_content_component.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb',1,'MainContentComponent']]],
-  ['mainwindow',['MainWindow',['../class_main_window.html#a6ef7a51f3acb124271f11eecb6df7a07',1,'MainWindow']]],
-  ['make_5funique',['make_unique',['../_main_8cpp.html#ad8e33b4f5067103f907b52cac6f2ffbd',1,'std']]],
-  ['messageexistsinmap',['messageExistsInMap',['../class_command_map.html#a72d2cbd00ada2715b07945253f00b8e7',1,'CommandMap']]],
-  ['messagereceived',['messageReceived',['../class_l_r___i_p_c___o_u_t.html#a7fcdee71f2811557b6bf4d1a6c8f243a',1,'LR_IPC_OUT']]],
-  ['method',['Method',['../classsealed.html#a650aa1f57c9fb820bb9f3ca702e0f149',1,'sealed']]],
-  ['midi2lrapplication',['MIDI2LRApplication',['../class_m_i_d_i2_l_r_application.html#a88492c86eb83772dffb248cbeff75667',1,'MIDI2LRApplication']]],
-  ['midi_5fmessage',['MIDI_Message',['../struct_m_i_d_i___message.html#a5203161658045934113461639328bba5',1,'MIDI_Message::MIDI_Message()'],['../struct_m_i_d_i___message.html#ada792c9fea8cd5017e5c6b8666a33b5c',1,'MIDI_Message::MIDI_Message(int ch, int dat, bool iscc)']]],
-  ['midiprocessor',['MIDIProcessor',['../class_m_i_d_i_processor.html#a52c8a40410e7bfc2c6b55427f0aa50a7',1,'MIDIProcessor']]],
-  ['midisender',['MIDISender',['../class_m_i_d_i_sender.html#a07403c04d637d685ed810aca8bd4579c',1,'MIDISender']]],
-  ['morethanoneinstanceallowed',['moreThanOneInstanceAllowed',['../class_m_i_d_i2_l_r_application.html#abd55f782b5d696a1d6df5ab3ee03f816',1,'MIDI2LRApplication']]]
+  ['init',['Init',['../classCommandMenu.html#acd64d52e3368e49676d2153130cc0117',1,'CommandMenu::Init()'],['../classCommandTableModel.html#a840540a46e865e5ac59f6922bf1ef184',1,'CommandTableModel::Init()'],['../classLR__IPC__IN.html#a292c95a31841722d4bf514d27b44e732',1,'LR_IPC_IN::Init()'],['../classLR__IPC__OUT.html#a60675a293f413269f491889cb2726867',1,'LR_IPC_OUT::Init()'],['../classMainContentComponent.html#a34ad76f656a84f80ad2c044dd4ee3262',1,'MainContentComponent::Init()'],['../classMainWindow.html#a463a6d09d5b6a183fa3c896952fb878c',1,'MainWindow::Init()'],['../classMIDIProcessor.html#a5368c02640c7493c0119deadfe2feeba',1,'MIDIProcessor::Init()'],['../classMIDISender.html#ab563687fe6dd2b274a1694140ef7c08c',1,'MIDISender::Init()'],['../classProfileManager.html#a3d8aa653a6a7be1b3fab6c5d8bb455ca',1,'ProfileManager::Init()'],['../classSettingsComponent.html#a7c93797c06a61716f670858ce3fdca6f',1,'SettingsComponent::Init()'],['../classSettingsManager.html#ab64f85e2d4154736ff3114cdbd4126bf',1,'SettingsManager::Init()'],['../classVersionChecker.html#ad247a7e29740dbcf58089b901cfe73e4',1,'VersionChecker::Init()']]],
+  ['italian',['Italian',['../TRANSLATIONS_8txt.html#a0dee40665e2da43c229bc4555a190d41',1,'TRANSLATIONS.txt']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['general',['General',['../class_l_r_command_list.html#a6596b402092771f06a67d73be1d0f52c',1,'LRCommandList']]]
+  ['effects',['Effects',['../classLRCommandList.html#a03a8a1a2c4063e93787410aef45838db',1,'LRCommandList']]],
+  ['exposure',['Exposure',['../Documentation_8txt.html#a0c2f3f0ddc0e6b9078f45b2c1259eeb4',1,'Documentation.txt']]]
 ];

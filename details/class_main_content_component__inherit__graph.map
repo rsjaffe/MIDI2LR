@@ -1,7 +1,0 @@
-<map id="MainContentComponent" name="MainContentComponent">
-<area shape="rect" id="node3" href="$class_m_i_d_i_command_listener.html" title="MIDI Command Listener. " alt="" coords="188,56,341,83"/>
-<area shape="rect" id="node4" href="$class_l_r_connection_listener.html" title="A lr connection listener. " alt="" coords="190,107,339,133"/>
-<area shape="rect" id="node8" href="$class_profile_change_listener.html" title="Profile change listener. " alt="" coords="191,309,339,336"/>
-<area shape="rect" id="node9" href="$class_resizable_layout.html" title="Derive your Component from this class if you want to be able to put anchors on children. " alt="" coords="205,360,324,387"/>
-<area shape="rect" id="node10" href="$class_resizable_child.html" title="Derive your child Component from this class if you want to be able to set size limits per&#45;item..." alt="" coords="19,335,127,361"/>
-</map>

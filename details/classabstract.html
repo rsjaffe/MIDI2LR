@@ -8,14 +8,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-  $(document).ready(initResizable);
-  $(window).load(resizeHeight);
-</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -33,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">0.9.9</span>
+   &#160;<span id="projectnumber">1.0.0.1</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,7 +41,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -78,21 +69,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
-</div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-$(document).ready(function(){initNavTree('classabstract.html','');});
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -107,34 +83,26 @@ $(document).ready(function(){initNavTree('classabstract.html','');});
 </iframe>
 </div>
 
+</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classabstract-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">abstract&lt; T &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="_singleton_8h_source.html">Singleton.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for abstract&lt; T &gt;:</div>
-<div class="dyncontent">
-<div class="center"><img src="classabstract__inherit__graph.png" border="0" usemap="#abstract_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
-<map name="abstract_3_01_t_01_4_inherit__map" id="abstract_3_01_t_01_4_inherit__map">
-<area shape="rect" id="node2" href="class_i_singleton.html" title="ISingleton [abstract] class. " alt="" coords="16,5,95,32"/>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for abstract&lt; T &gt;:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classabstract__inherit__graph.png" border="0" usemap="#abstract_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="abstract_3_01T_01_4_inherit__map" id="abstract_3_01T_01_4_inherit__map">
+<area shape="rect" id="node2" href="classISingleton.html" title="ISingleton [abstract] class. " alt="" coords="16,5,95,32"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for abstract&lt; T &gt;:</div>
-<div class="dyncontent">
-<div class="center"><img src="classabstract__coll__graph.png" border="0" usemap="#abstract_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="abstract_3_01_t_01_4_coll__map" id="abstract_3_01_t_01_4_coll__map">
-<area shape="rect" id="node2" href="class_i_singleton.html" title="ISingleton [abstract] class. " alt="" coords="16,5,95,32"/>
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -147,19 +115,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a2f284fc7aee834c223db05690397a04a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f3f510d4b8bb88a7678455ea07e1ec6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classabstract.html#a0f3f510d4b8bb88a7678455ea07e1ec6">Singleton</a> ()</td></tr>
 <tr class="separator:a0f3f510d4b8bb88a7678455ea07e1ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:abc6215f3bdb243af55a8a609d5b373e8"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classabstract.html#abc6215f3bdb243af55a8a609d5b373e8">SingletonMgr</a></td></tr>
-<tr class="separator:abc6215f3bdb243af55a8a609d5b373e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class T&gt;<br />
-class abstract&lt; T &gt;</h3>
-
-
-<p>Definition at line <a class="el" href="_singleton_8h_source.html#l00015">15</a> of file <a class="el" href="_singleton_8h_source.html">Singleton.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a2f284fc7aee834c223db05690397a04a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -170,7 +127,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classabstract.html">abstract</a>&lt; T &gt;::~<a class="el" href="class_i_singleton.html">ISingleton</a> </td>
+          <td class="memname">virtual <a class="el" href="classabstract.html">abstract</a>&lt; T &gt;::~<a class="el" href="classISingleton.html">ISingleton</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -178,16 +135,39 @@ template&lt;class T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_singleton_8h_source.html#l00020">20</a> of file <a class="el" href="_singleton_8h_source.html">Singleton.h</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a0f3f510d4b8bb88a7678455ea07e1ec6"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classabstract.html">abstract</a>&lt; T &gt;::<a class="el" href="classSingleton.html">Singleton</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aca9929a78bea316bf71179d83f3512bb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -206,80 +186,22 @@ template&lt;class T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_singleton_8h_source.html#l00086">86</a> of file <a class="el" href="_singleton_8h_source.html">Singleton.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0f3f510d4b8bb88a7678455ea07e1ec6"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classabstract.html">abstract</a>&lt; T &gt;::<a class="el" href="class_singleton.html">Singleton</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_singleton_8h_source.html#l00078">78</a> of file <a class="el" href="_singleton_8h_source.html">Singleton.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a class="anchor" id="abc6215f3bdb243af55a8a609d5b373e8"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="class_singleton_mgr.html">SingletonMgr</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_singleton_8h_source.html#l00017">17</a> of file <a class="el" href="_singleton_8h_source.html">Singleton.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>Q:/Documents/GitHub/MIDI2LR/Source/<a class="el" href="_singleton_8h_source.html">Singleton.h</a></li>
+<li>Q:/Documents/GitHub/MIDI2LR/Source/<a class="el" href="Singleton_8h.html">Singleton.h</a></li>
 </ul>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="navelem"><a class="el" href="classabstract.html">abstract</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated on Thu Apr 21 2016 18:28:33 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
 </body>
 </html>
