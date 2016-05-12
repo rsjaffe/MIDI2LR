@@ -38,14 +38,14 @@ local metalimit2 = { --assumes only new table members for each parameter are num
     if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then 
       t[k] = {}
       local lo,hi = LrDevelopController.getRange(t.param)
-      if lo ~= nil and hi ~= nil and lo ~= hi and k == hi then
+      if k == hi then
         if t.param == 'Temperature' and k == 50000 then
           t[k] = {3000,9000}
         else
           t[k] = {lo,hi}
         end
-        return t[k]
       end
+      return t[k]
     end
     return nil,nil --don't initialize t[k] so that __index reruns on next access
   end,
