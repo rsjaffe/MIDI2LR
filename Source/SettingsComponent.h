@@ -25,14 +25,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ResizableLayout.h"
 #include "SettingsManager.h"
 
-/**********************************************************************************************//**
-* @class   SettingsComponent
-*
-* @brief   Settings Component.
-*
-* @date    3/20/2016
-**************************************************************************************************/
-
 class SettingsComponent: public Component,
     public ButtonListener, ResizableLayout, public Slider::Listener
 {
@@ -47,22 +39,21 @@ public:
     virtual void buttonClicked(Button* button) override;
 
     virtual void sliderValueChanged(Slider* slider) override;
-    void Init(std::shared_ptr<SettingsManager>& settingsManager);
+    void Init(std::shared_ptr<SettingsManager>& settings_manager);
 private:
-    ToggleButton _pickupEnabled;
-    Label _pickupLabel;
+    ToggleButton pickup_enabled_;
+    Label pickup_label_;
 
-    TextButton _profileLocationButton;
-    Label _profileLocationLabel;
-    Label m_autoHideExplainLabel;
-    Slider m_autoHideSetting;
-    GroupComponent m_autoHideGroup;
-    GroupComponent m_pickupGroup;
-    GroupComponent m_profileGroup;
-    std::shared_ptr<SettingsManager> m_settingsManager;
+    TextButton profile_location_button_;
+    Label profile_location_label_;
+    Label autohide_explain_label_;
+    Slider autohide_setting_;
+    GroupComponent autohide_group_;
+    GroupComponent pickup_group_;
+    GroupComponent profile_group_;
+    std::shared_ptr<SettingsManager> settings_manager_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
-
 
 #endif  // SETTINGSCOMPONENT_H_INCLUDED

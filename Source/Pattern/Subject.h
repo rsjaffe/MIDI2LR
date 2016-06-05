@@ -29,15 +29,6 @@ using namespace std;
 
 class Observer;
 
-/**********************************************************************************************//**
-* @class   Subject
-*
-* @brief   Subject.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
 class Subject
 {
 public:
@@ -48,11 +39,7 @@ public:
 protected:
     void Notify(void);
 private:
-    vector<Observer *> m_observerArray;
+    vector<Observer *> observers_;
 };
-
-
-
-
 
 #endif  // SUBJECT_H_INCLUDED

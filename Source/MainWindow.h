@@ -45,9 +45,9 @@ public:
         DocumentWindow::closeButton }, Timer()
     {
         setUsingNativeTitleBar(true);
-        m_windowContent = new MainContentComponent{};
+        window_content_ = new MainContentComponent{};
 
-        setContentOwned(m_windowContent, true);
+        setContentOwned(window_content_, true);
 
         centreWithSize(getWidth(), getHeight());
         setVisible(true);
@@ -61,8 +61,8 @@ public:
         JUCEApplication::getInstance()->systemRequestedQuit();
     }
 
-    void Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor,
-        std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender);
+    void Init(std::shared_ptr<CommandMap>& command_map, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midi_processor,
+        std::shared_ptr<ProfileManager>& profile_manager, std::shared_ptr<SettingsManager>& settings_manager, std::shared_ptr<MIDISender>& midi_sender);
 
     /* Note: Be careful if you override any DocumentWindow methods - the base
        class uses a lot of them, so by overriding you might break its functionality.
@@ -75,11 +75,10 @@ public:
     virtual void timerCallback() override;
 
 private:
-    int m_autoHideCounter;
-    MainContentComponent *m_windowContent;
+    int auto_hide_counter_;
+    MainContentComponent *window_content_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };
-
 
 #endif  // MAINWINDOW_H_INCLUDED

@@ -26,15 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "Pattern/Subject.h"
 
-/**********************************************************************************************//**
- * @struct  MIDI_Message
- *
- * @brief   encapsulates a MIDI message (Note or CC)
- *
- *
- *
- **************************************************************************************************/
-
 struct MIDI_Message
 {
     bool isCC;
@@ -73,15 +64,6 @@ struct MIDI_Message
 namespace std
 {
 
-/**********************************************************************************************//**
- * @struct  std::hash<MIDI_Message>
- *
- * @brief   A hash for MIDI messages.
- *
- *
- *
- **************************************************************************************************/
-
     template <>
     struct hash<MIDI_Message>
     {
@@ -90,15 +72,6 @@ namespace std
             return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^ (std::hash<int>()(k.data) << 1));
         }
     };
-
-    /**********************************************************************************************//**
-     * @struct  std::hash<String>
-     *
-     * @brief   A hash for Juce String.
-     *
-     *
-     *
-     **************************************************************************************************/
 
     template <>
     struct hash<String>
@@ -109,15 +82,6 @@ namespace std
         }
     };
 }
-
-/**********************************************************************************************//**
- * @class   CommandMap
- *
- * @brief   A command map.
- *
- *
- *
- **************************************************************************************************/
 
 class CommandMap: public Subject
 {
@@ -156,9 +120,8 @@ public:
 
 private:
 
-    std::unordered_map<MIDI_Message, String> _messageMap;
-    std::unordered_map<String, MIDI_Message> _commandStringMap;
+    std::unordered_map<MIDI_Message, String> message_map_;
+    std::unordered_map<String, MIDI_Message> command_string_map_;
 };
-
 
 #endif  // COMMANDMAP_H_INCLUDED

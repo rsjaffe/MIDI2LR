@@ -1015,23 +1015,11 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile10",
 };
 
+
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
 };
-
-/**********************************************************************************************//**
- * @fn  int LRCommandList::getIndexOfCommand(const String& command)
- *
- * @brief   Gets index of command.
- *
- *
- *
- *
- * @param   command The command.
- *
- * @return  The index of command.
- **************************************************************************************************/
 
 int LRCommandList::getIndexOfCommand(const String& command)
 {

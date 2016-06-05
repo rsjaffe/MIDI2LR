@@ -19,95 +19,39 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDISender.h"
 
-/**********************************************************************************************//**
- * @fn  MIDISender::MIDISender() noexcept
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 MIDISender::MIDISender() noexcept
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDISender::initDevices()
- *
- * @brief   Init devices.
- *
- *
- *
- **************************************************************************************************/
-
-void MIDISender::initDevices()
+void MIDISender::InitDevices_()
 {
     for (auto idx = 0; idx < MidiOutput::getDevices().size(); idx++)
     {
         auto dev = MidiOutput::openDevice(idx);
         if (dev != nullptr)
-            _outputDevices.set(idx, dev);
+            output_devices.set(idx, dev);
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDISender::rescanDevices()
- *
- * @brief   Rescan devices.
- *
- *
- *
- **************************************************************************************************/
-
 void MIDISender::rescanDevices()
 {
-    _outputDevices.clear(true);
-    initDevices();
+    output_devices.clear(true);
+    InitDevices_();
 }
-
-/**********************************************************************************************//**
- * @fn  MIDISender::~MIDISender()
- *
- * @brief   Destructor.
- *
- *
- *
- **************************************************************************************************/
 
 MIDISender::~MIDISender()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDISender::sendCC(int midi_channel, int controller, int value) const
- *
- * @brief   Sends a MIDI control change.
- *
- *
- *
- * @param   midi_channel    The MIDI channel.
- * @param   controller      The controller.
- * @param   value           The value.
- **************************************************************************************************/
-
 void MIDISender::sendCC(int midi_channel, int controller, int value) const
 {
-    for (auto dev : _outputDevices)
+    for (auto dev : output_devices)
         dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDISender::Init(void)
- *
- * @brief   S this object.
- *
- *
- *
- **************************************************************************************************/
-
 void MIDISender::Init(void)
 {
-    initDevices();
+    InitDevices_();
 }

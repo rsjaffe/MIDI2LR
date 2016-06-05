@@ -23,15 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-/**********************************************************************************************//**
-* @class   MIDISender
-*
-* @brief   MIDI sender.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
 class MIDISender
 {
 public:
@@ -45,10 +36,9 @@ public:
     void Init();
 private:
 
-    OwnedArray<MidiOutput> _outputDevices;
+    OwnedArray<MidiOutput> output_devices;
 
-    void initDevices();
+    void InitDevices_();
 };
-
 
 #endif  // MIDISENDER_H_INCLUDED

@@ -23,537 +23,389 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SettingsComponent.h"
 
-constexpr auto MainWidth = 400;
-constexpr auto MainHeight = 650;
-constexpr auto MainLeft = 20;
-constexpr auto SpaceBetweenButton = 10;
+constexpr auto kMainWidth = 400;
+constexpr auto kMainHeight = 650;
+constexpr auto kMainLeft = 20;
+constexpr auto kSpaceBetweenButton = 10;
 
-/**********************************************************************************************//**
- * @fn  MainContentComponent::MainContentComponent(): ResizableLayout(this), _titleLabel("Title", "MIDI2LR"), _connectionLabel("Connection", "Not connected to LR"), _commandLabel("Command", ""), _commandTable("Table", nullptr), _commandTableModel(), _rescanButton("Rescan MIDI devices"), _removeRowButton("Remove selected row"), _saveButton("Save"), _loadButton("Load"), _versionLabel("Version", "Version " + String(ProjectInfo::versionString)), _settingsButton("Settings"), _profileNameLabel("ProfileNameLabel", ""), m_currentStatus("CurrentStatus", "no extra info"), m_commandMap(nullptr), m_lr_IPC_IN(nullptr), m_lr_IPC_OUT(nullptr), m_settingsManager(nullptr), m_midiProcessor(nullptr), m_midiSender(nullptr)
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
-MainContentComponent::MainContentComponent(): ResizableLayout{ this }, _titleLabel{ "Title", "MIDI2LR" },
-_connectionLabel{ "Connection", "Not connected to LR" },
-_commandLabel{ "Command", "" },
-_commandTable{ "Table", nullptr },
-_commandTableModel{},
-_rescanButton{ "Rescan MIDI devices" },
-_removeRowButton{ "Remove selected row" },
-_saveButton{ "Save" },
-_loadButton{ "Load" },
-_versionLabel{ "Version", "Version " +
+MainContentComponent::MainContentComponent(): ResizableLayout{ this }, title_label_{ "Title", "MIDI2LR" },
+connection_label_{ "Connection", "Not connected to LR" },
+command_label_{ "Command", "" },
+command_table_{ "Table", nullptr },
+command_table_model_{},
+rescan_button_{ "Rescan MIDI devices" },
+remove_row_button_{ "Remove selected row" },
+save_button_{ "Save" },
+load_button_{ "Load" },
+version_label_{ "Version", "Version " +
     String{ProjectInfo::versionString} },
-    _settingsButton{ "Settings" },
-    _profileNameLabel{ "ProfileNameLabel", "" },
-    m_currentStatus{ "CurrentStatus", "no extra info" },
-    m_commandMap{ nullptr },
-    m_lr_IPC_IN{ nullptr },
-    m_lr_IPC_OUT{ nullptr },
-    m_settingsManager{ nullptr },
-    m_midiProcessor{ nullptr },
-    m_midiSender{ nullptr }
+    settings_button_{ "Settings" },
+    profile_name_label_{ "ProfileNameLabel", "" },
+    current_status_{ "CurrentStatus", "no extra info" },
+    command_map_{ nullptr },
+    lr_ipc_in_{ nullptr },
+    lr_ipc_out_{ nullptr },
+    settings_manager_{ nullptr },
+    midi_processor_{ nullptr },
+    midi_sender_{ nullptr }
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn  MainContentComponent::~MainContentComponent()
- *
- * @brief   Destructor.
- *
- *
- **************************************************************************************************/
-
 MainContentComponent::~MainContentComponent()
 {}
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::paint(Graphics& g)
- *
- * @brief   Paints the given g.
- *
- *
- *
- * @param [in,out]  g   The Graphics to process.
- **************************************************************************************************/
 
 void MainContentComponent::paint(Graphics& g)
 {
     g.fillAll(Colours::white);
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::SetLabelSettings(Label &lblToSet)
- *
- * @brief   Sets label settings.
- *
- *
- *
- * @param [in,out]  lblToSet    Set the label to belongs to.
- **************************************************************************************************/
-
-void MainContentComponent::SetLabelSettings(Label &lblToSet)
+void MainContentComponent::SetLabelSettings(Label &label_to_set)
 {
-    lblToSet.setFont(Font{ 12.f, Font::bold });
-    lblToSet.setEditable(false);
-    lblToSet.setColour(Label::textColourId, Colours::darkgrey);
+    label_to_set.setFont(Font{ 12.f, Font::bold });
+    label_to_set.setEditable(false);
+    label_to_set.setColour(Label::textColourId, Colours::darkgrey);
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::handleAsyncUpdate()
- *
- * @brief   Update MIDI command components.
- *
- *
- **************************************************************************************************/
 
 void MainContentComponent::handleAsyncUpdate()
 {
     // Update the last command label and set its colour to green
-    _commandLabel.setText(_lastCommand, NotificationType::dontSendNotification);
-    _commandLabel.setColour(Label::backgroundColourId, Colours::greenyellow);
+    command_label_.setText(last_command_, NotificationType::dontSendNotification);
+    command_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
     startTimer(1000);
 
     // Update the command table to add and/or select row corresponding to midi command
-    _commandTable.updateContent();
-    _commandTable.selectRow(_rowToSelect);
+    command_table_.updateContent();
+    command_table_.selectRow(row_to_select_);
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
- *
- * @brief   Handles the MIDI Cc.
- *
- *
- *
- * @param   midiChannel The MIDI channel.
- * @param   controller  The controller.
- * @param   value       The value.
- **************************************************************************************************/
-
-void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
+void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    _lastCommand = String::formatted("%d: CC%d [%d]", midiChannel, controller, value);
-    _commandTableModel.addRow(midiChannel, controller, true);
-    _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, controller, true);
+    last_command_ = String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
+    command_table_model_.addRow(midi_channel, controller, true);
+    row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, true);
     triggerAsyncUpdate();
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::handleMidiNote(int midiChannel, int note)
- *
- * @brief   Handles the MIDI note.
- *
- *
- *
- * @param   midiChannel The MIDI channel.
- * @param   note        The note.
- **************************************************************************************************/
-
-void MainContentComponent::handleMidiNote(int midiChannel, int note)
+void MainContentComponent::handleMidiNote(int midi_channel, int note)
 {
     // Display the Note parameters and add/highlight row in table corresponding to the Note
-    _lastCommand = String::formatted("%d: Note [%d]", midiChannel, note);
-    _commandTableModel.addRow(midiChannel, note, false);
-    _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, note, false);
+    last_command_ = String::formatted("%d: Note [%d]", midi_channel, note);
+    command_table_model_.addRow(midi_channel, note, false);
+    row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, false);
     triggerAsyncUpdate();
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::connected()
- *
- * @brief   Connected this object.
- *
- *
- **************************************************************************************************/
 
 void MainContentComponent::connected()
 {
-    _connectionLabel.setText("Connected to LR", NotificationType::dontSendNotification);
-    _connectionLabel.setColour(Label::backgroundColourId, Colours::greenyellow);
+    connection_label_.setText("Connected to LR", NotificationType::dontSendNotification);
+    connection_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::disconnected()
- *
- * @brief   Disconnect from the ed.
- *
- *
- **************************************************************************************************/
 
 void MainContentComponent::disconnected()
 {
-    _connectionLabel.setText("Not connected to LR", NotificationType::dontSendNotification);
-    _connectionLabel.setColour(Label::backgroundColourId, Colours::red);
+    connection_label_.setText("Not connected to LR", NotificationType::dontSendNotification);
+    connection_label_.setColour(Label::backgroundColourId, Colours::red);
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::timerCallback()
- *
- * @brief   Callback, called when the timer.
- *
- *
- **************************************************************************************************/
 
 void MainContentComponent::timerCallback()
 {
     // reset the command label's background to white
-    _commandLabel.setColour(Label::backgroundColourId, Colours::white);
+    command_label_.setColour(Label::backgroundColourId, Colours::white);
     stopTimer();
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::buttonClicked(Button* button)
- *
- * @brief   Button clicked.
- *
- *
- *
- * @param [in,out]  button  If non-null, the button.
- **************************************************************************************************/
-
 void MainContentComponent::buttonClicked(Button* button)
 {
-    if (button == &_rescanButton)
+    if (button == &rescan_button_)
     {
         // Re-enumerate MIDI IN and OUT devices	
 
-        if (m_midiProcessor)
+        if (midi_processor_)
         {
-            m_midiProcessor->rescanDevices();
+            midi_processor_->rescanDevices();
         }
 
-        if (m_midiSender)
+        if (midi_sender_)
         {
-            m_midiSender->rescanDevices();
+            midi_sender_->rescanDevices();
         }
         // Send new CC parameters to MIDI Out devices
-        if (m_lr_IPC_IN)
+        if (lr_ipc_in_)
         {
-            m_lr_IPC_IN->refreshMIDIOutput();
+            lr_ipc_in_->refreshMIDIOutput();
         }
     }
-    else if (button == &_removeRowButton)
+    else if (button == &remove_row_button_)
     {
-        if (_commandTable.getSelectedRow() != -1)
+        if (command_table_.getSelectedRow() != -1)
         {
-            _commandTableModel.removeRow(_commandTable.getSelectedRow());
-            _commandTable.updateContent();
+            command_table_model_.removeRow(command_table_.getSelectedRow());
+            command_table_.updateContent();
         }
     }
-    else if (button == &_saveButton)
+    else if (button == &save_button_)
     {
 
-        File profileDir;
+        File profile_directory;
 
-        if (m_settingsManager)
+        if (settings_manager_)
         {
-            profileDir = m_settingsManager->getProfileDirectory();
+            profile_directory = settings_manager_->getProfileDirectory();
         }
 
-        if (!profileDir.exists())
+        if (!profile_directory.exists())
         {
-            profileDir = File::getCurrentWorkingDirectory();
+            profile_directory = File::getCurrentWorkingDirectory();
         }
 
-        WildcardFileFilter wildcardFilter{ "*.xml", String::empty, "MIDI2LR profiles" };
+        WildcardFileFilter wildcard_filter{ "*.xml", String::empty, "MIDI2LR profiles" };
         FileBrowserComponent browser{ FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode |
-            FileBrowserComponent::warnAboutOverwriting, profileDir, &wildcardFilter, nullptr };
-        FileChooserDialogBox dialogBox{ "Save profile",
+            FileBrowserComponent::warnAboutOverwriting, profile_directory, &wildcard_filter, nullptr };
+        FileChooserDialogBox dialog_box{ "Save profile",
             "Enter filename to save profile",
             browser,
             true,
             Colours::lightgrey };
-        if (dialogBox.show())
+        if (dialog_box.show())
         {
-            File selectedFile = browser.getSelectedFile(0).withFileExtension("xml");
+            File selected_file = browser.getSelectedFile(0).withFileExtension("xml");
 
-            if (m_commandMap)
+            if (command_map_)
             {
-                m_commandMap->toXMLDocument(selectedFile);
+                command_map_->toXMLDocument(selected_file);
             }
         }
     }
-    else if (button == &_loadButton)
+    else if (button == &load_button_)
     {
-        File profileDir;
+        File profile_directory;
 
-        if (m_settingsManager)
+        if (settings_manager_)
         {
-            profileDir = m_settingsManager->getProfileDirectory();
+            profile_directory = settings_manager_->getProfileDirectory();
         }
 
-        if (!profileDir.exists())
+        if (!profile_directory.exists())
         {
-            profileDir = File::getCurrentWorkingDirectory();
+            profile_directory = File::getCurrentWorkingDirectory();
         }
 
+        WildcardFileFilter wildcard_filter{ "*.xml", String::empty, "MIDI2LR profiles" };
+        FileBrowserComponent browser{ FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode, profile_directory, &wildcard_filter, nullptr };
+        FileChooserDialogBox dialog_box{ "Open profile", "Select a profile to open", browser, true, Colours::lightgrey };
 
-        WildcardFileFilter wildcardFilter{ "*.xml", String::empty, "MIDI2LR profiles" };
-        FileBrowserComponent browser{ FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode, profileDir, &wildcardFilter, nullptr };
-        FileChooserDialogBox dialogBox{ "Open profile", "Select a profile to open", browser, true, Colours::lightgrey };
-
-        if (dialogBox.show())
+        if (dialog_box.show())
         {
-            std::unique_ptr<XmlElement> elem{ XmlDocument::parse(browser.getSelectedFile(0)) };
-            if (elem)
+            std::unique_ptr<XmlElement> xml_element{ XmlDocument::parse(browser.getSelectedFile(0)) };
+            if (xml_element)
             {
-                auto newprofile = browser.getSelectedFile(0);
-                auto command = String{ "ChangedToFullPath " } +newprofile.getFullPathName() + "\n";
+                auto new_profile = browser.getSelectedFile(0);
+                auto command = String{ "ChangedToFullPath " } +new_profile.getFullPathName() + "\n";
 
-                if (m_lr_IPC_OUT)
+                if (lr_ipc_out_)
                 {
-                    m_lr_IPC_OUT->sendCommand(command);
+                    lr_ipc_out_->sendCommand(command);
                 }
-                _profileNameLabel.setText(newprofile.getFileName(), NotificationType::dontSendNotification);
-                _commandTableModel.buildFromXml(elem.get());
-                _commandTable.updateContent();
-                _commandTable.repaint();
+                profile_name_label_.setText(new_profile.getFileName(), NotificationType::dontSendNotification);
+                command_table_model_.buildFromXml(xml_element.get());
+                command_table_.updateContent();
+                command_table_.repaint();
             }
         }
     }
-    else if (button == &_settingsButton)
+    else if (button == &settings_button_)
     {
-        DialogWindow::LaunchOptions dwOpt;
-        dwOpt.dialogTitle = "Settings";
+        DialogWindow::LaunchOptions dialog_options;
+        dialog_options.dialogTitle = "Settings";
         //create new object
-        auto *comp = new SettingsComponent{};
-        comp->Init(m_settingsManager);
-        dwOpt.content.setOwned(comp);
-        dwOpt.content->setSize(400, 300);
-        dwOpt.escapeKeyTriggersCloseButton = true;
-        dwOpt.useNativeTitleBar = false;
-        _settingsDialog.reset(dwOpt.create());
-        _settingsDialog->setVisible(true);
+        auto *component = new SettingsComponent{};
+        component->Init(settings_manager_);
+        dialog_options.content.setOwned(component);
+        dialog_options.content->setSize(400, 300);
+        dialog_options.escapeKeyTriggersCloseButton = true;
+        dialog_options.useNativeTitleBar = false;
+        settings_dialog_.reset(dialog_options.create());
+        settings_dialog_->setVisible(true);
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
- *
- * @brief   Profile changed.
- *
- *
- *
- * @param [in,out]  elem    If non-null, the element.
- * @param   filename        Filename of the file.
- **************************************************************************************************/
-
-void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
+void MainContentComponent::profileChanged(XmlElement* xml_element, const String& file_name)
 {
-    _commandTableModel.buildFromXml(elem);
-    _commandTable.updateContent();
-    _commandTable.repaint();
-    _profileNameLabel.setText(filename, NotificationType::dontSendNotification);
+    command_table_model_.buildFromXml(xml_element);
+    command_table_.updateContent();
+    command_table_.repaint();
+    profile_name_label_.setText(file_name, NotificationType::dontSendNotification);
 //  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
     // Send new CC parameters to MIDI Out devices
-    if (m_lr_IPC_IN)
+    if (lr_ipc_in_)
     {
-        m_lr_IPC_IN->refreshMIDIOutput();
+        lr_ipc_in_->refreshMIDIOutput();
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::SetTimerText(int timeValue)
- *
- * @brief   Sets timer text.
- *
- *
- *
- * @param   timeValue   The time value.
- **************************************************************************************************/
-
-void MainContentComponent::SetTimerText(int timeValue)
+void MainContentComponent::SetTimerText(int time_value)
 {
-    if (timeValue > 0)
+    if (time_value > 0)
     {
-        m_currentStatus.setText(String::formatted("Hiding in %i Sec.", timeValue), NotificationType::dontSendNotification);
+        current_status_.setText(String::formatted("Hiding in %i Sec.", time_value), NotificationType::dontSendNotification);
     }
     else
     {
-        m_currentStatus.setText("", NotificationType::dontSendNotification);
+        current_status_.setText("", NotificationType::dontSendNotification);
     }
 
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
- *
- * @brief   S.
- *
- *
- *
- * @param [in,out]  commandMap      If non-null, the command map.
- * @param [in,out]  in              If non-null, the in.
- * @param [in,out]  out             If non-null, the out.
- * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
- * @param [in,out]  profileManager  If non-null, manager for profile.
- * @param [in,out]  settingsManager If non-null, manager for settings.
- * @param [in,out]  midiSender      If non-null, the MIDI sender.
- **************************************************************************************************/
-
-void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in,
-    std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager,
-    std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
+void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map, std::shared_ptr<LR_IPC_IN>& lr_ipc_in,
+    std::shared_ptr<LR_IPC_OUT>& lr_ipc_out, std::shared_ptr<MIDIProcessor>& midi_processor, std::shared_ptr<ProfileManager>& profile_manager,
+    std::shared_ptr<SettingsManager>& settings_manager, std::shared_ptr<MIDISender>& midi_sender)
 {
     //copy the pointers
-    m_commandMap = commandMap;
-    m_lr_IPC_IN = in;
-    m_lr_IPC_OUT = out;
-    m_settingsManager = settingsManager;
-    m_midiProcessor = midiProcessor;
-    m_midiSender = midiSender;
+    command_map_ = command_map;
+    lr_ipc_in_ = lr_ipc_in;
+    lr_ipc_out_ = lr_ipc_out;
+    settings_manager_ = settings_manager;
+    midi_processor_ = midi_processor;
+    midi_sender_ = midi_sender;
 
     //call the function of the sub component.
-    _commandTableModel.Init(commandMap);
+    command_table_model_.Init(command_map);
 
-    if (midiProcessor)
+    if (midi_processor)
     {
         // Add ourselves as a listener for MIDI commands
-        midiProcessor->addMIDICommandListener(this);
+        midi_processor->addMIDICommandListener(this);
     }
 
-    if (m_lr_IPC_OUT)
+    if (lr_ipc_out_)
     {
         // Add ourselves as a listener for LR_IPC_OUT events
-        m_lr_IPC_OUT->addListener(this);
+        lr_ipc_out_->addListener(this);
     }
 
-    if (profileManager)
+    if (profile_manager)
     {
         // Add ourselves as a listener for profile changes
-        profileManager->addListener(this);
+        profile_manager->addListener(this);
     }
 
     //Set the component size
-    setSize(MainWidth, MainHeight);
+    setSize(kMainWidth, kMainHeight);
 
     // Main title
-    _titleLabel.setFont(Font{ 36.f, Font::bold });
-    _titleLabel.setEditable(false);
-    _titleLabel.setColour(Label::textColourId, Colours::darkgrey);
-    _titleLabel.setComponentEffect(&_titleShadow);
-    _titleLabel.setBounds(MainLeft, 10, MainWidth - 2 * MainLeft, 30);
-    addToLayout(&_titleLabel, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_titleLabel);
+    title_label_.setFont(Font{ 36.f, Font::bold });
+    title_label_.setEditable(false);
+    title_label_.setColour(Label::textColourId, Colours::darkgrey);
+    title_label_.setComponentEffect(&title_shadow_);
+    title_label_.setBounds(kMainLeft, 10, kMainWidth - 2 * kMainLeft, 30);
+    addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(title_label_);
 
     // Version label
-    SetLabelSettings(_versionLabel);
-    _versionLabel.setBounds(MainLeft, 40, MainWidth - 2 * MainLeft, 10);
-    addToLayout(&_versionLabel, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_versionLabel);
-
+    SetLabelSettings(version_label_);
+    version_label_.setBounds(kMainLeft, 40, kMainWidth - 2 * kMainLeft, 10);
+    addToLayout(&version_label_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(version_label_);
 
     // Connection status
-    _connectionLabel.setFont(Font{ 12.f, Font::bold });
-    _connectionLabel.setEditable(false);
-    _connectionLabel.setColour(Label::backgroundColourId, Colours::red);
-    _connectionLabel.setColour(Label::textColourId, Colours::black);
-    _connectionLabel.setJustificationType(Justification::centred);
-    _connectionLabel.setBounds(200, 15, MainWidth - MainLeft - 200, 20);
-    addToLayout(&_connectionLabel, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_connectionLabel);
+    connection_label_.setFont(Font{ 12.f, Font::bold });
+    connection_label_.setEditable(false);
+    connection_label_.setColour(Label::backgroundColourId, Colours::red);
+    connection_label_.setColour(Label::textColourId, Colours::black);
+    connection_label_.setJustificationType(Justification::centred);
+    connection_label_.setBounds(200, 15, kMainWidth - kMainLeft - 200, 20);
+    addToLayout(&connection_label_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(connection_label_);
 
     //get the button width
-    long buttonWidth = (MainWidth - 2 * MainLeft - SpaceBetweenButton * 2) / 3;
+    long button_width = (kMainWidth - 2 * kMainLeft - kSpaceBetweenButton * 2) / 3;
 
     // Load button
-    _loadButton.addListener(this);
-    _loadButton.setBounds(MainLeft, 60, buttonWidth, 20);
-    addToLayout(&_loadButton, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_loadButton);
+    load_button_.addListener(this);
+    load_button_.setBounds(kMainLeft, 60, button_width, 20);
+    addToLayout(&load_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(load_button_);
 
     // Save button
-    _saveButton.addListener(this);
-    _saveButton.setBounds(MainLeft + buttonWidth + SpaceBetweenButton, 60, buttonWidth, 20);
-    addToLayout(&_saveButton, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_saveButton);
+    save_button_.addListener(this);
+    save_button_.setBounds(kMainLeft + button_width + kSpaceBetweenButton, 60, button_width, 20);
+    addToLayout(&save_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(save_button_);
 
     // Settings button
-    _settingsButton.addListener(this);
-    _settingsButton.setBounds(MainLeft + buttonWidth * 2 + SpaceBetweenButton * 2, 60, buttonWidth, 20);
-    addToLayout(&_settingsButton, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_settingsButton);
-
-
+    settings_button_.addListener(this);
+    settings_button_.setBounds(kMainLeft + button_width * 2 + kSpaceBetweenButton * 2, 60, button_width, 20);
+    addToLayout(&settings_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(settings_button_);
 
     // Command Table
-    _commandTable.setModel(&_commandTableModel);
-    _commandTable.setBounds(MainLeft, 100, MainWidth - MainLeft * 2, MainHeight - 210);
-    addToLayout(&_commandTable, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_commandTable);
+    command_table_.setModel(&command_table_model_);
+    command_table_.setBounds(kMainLeft, 100, kMainWidth - kMainLeft * 2, kMainHeight - 210);
+    addToLayout(&command_table_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(command_table_);
 
-
-    long labelWidth = (MainWidth - MainLeft * 2) / 2;
-
+    long label_width = (kMainWidth - kMainLeft * 2) / 2;
 
     // Profile name label
-    SetLabelSettings(_profileNameLabel);
-    _profileNameLabel.setBounds(MainLeft, MainHeight - 100, labelWidth, 20);
-    addToLayout(&_profileNameLabel, anchorMidLeft, anchorMidRight);
-    _profileNameLabel.setJustificationType(Justification::centred);
-    addAndMakeVisible(_profileNameLabel);
+    SetLabelSettings(profile_name_label_);
+    profile_name_label_.setBounds(kMainLeft, kMainHeight - 100, label_width, 20);
+    addToLayout(&profile_name_label_, anchorMidLeft, anchorMidRight);
+    profile_name_label_.setJustificationType(Justification::centred);
+    addAndMakeVisible(profile_name_label_);
 
     // Last MIDI command
-    _commandLabel.setFont(Font{ 12.f, Font::bold });
-    _commandLabel.setEditable(false);
-    _commandLabel.setColour(Label::textColourId, Colours::darkgrey);
-    _commandLabel.setBounds(MainLeft + labelWidth, MainHeight - 100, labelWidth, 20);
-    addToLayout(&_commandLabel, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_commandLabel);
+    command_label_.setFont(Font{ 12.f, Font::bold });
+    command_label_.setEditable(false);
+    command_label_.setColour(Label::textColourId, Colours::darkgrey);
+    command_label_.setBounds(kMainLeft + label_width, kMainHeight - 100, label_width, 20);
+    addToLayout(&command_label_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(command_label_);
 
     // Remove row button
-    _removeRowButton.addListener(this);
-    _removeRowButton.setBounds(MainLeft, MainHeight - 75, MainWidth - MainLeft * 2, 20);
-    addToLayout(&_removeRowButton, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_removeRowButton);
-
+    remove_row_button_.addListener(this);
+    remove_row_button_.setBounds(kMainLeft, kMainHeight - 75, kMainWidth - kMainLeft * 2, 20);
+    addToLayout(&remove_row_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(remove_row_button_);
 
     // Rescan MIDI button
-    _rescanButton.addListener(this);
-    _rescanButton.setBounds(MainLeft, MainHeight - 50, MainWidth - MainLeft * 2, 20);
-    addToLayout(&_rescanButton, anchorMidLeft, anchorMidRight);
-    addAndMakeVisible(_rescanButton);
+    rescan_button_.addListener(this);
+    rescan_button_.setBounds(kMainLeft, kMainHeight - 50, kMainWidth - kMainLeft * 2, 20);
+    addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(rescan_button_);
 
     // adding the current status label, used for counting down.
-    m_currentStatus.setBounds(MainLeft, MainHeight - 30, MainWidth - MainLeft * 2, 20);
-    addToLayout(&m_currentStatus, anchorMidLeft, anchorMidRight);
-    m_currentStatus.setJustificationType(Justification::centred);
-    SetLabelSettings(m_currentStatus);
-    addAndMakeVisible(m_currentStatus);
+    current_status_.setBounds(kMainLeft, kMainHeight - 30, kMainWidth - kMainLeft * 2, 20);
+    addToLayout(&current_status_, anchorMidLeft, anchorMidRight);
+    current_status_.setJustificationType(Justification::centred);
+    SetLabelSettings(current_status_);
+    addAndMakeVisible(current_status_);
 
 //	_systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
 
-
-    if (m_settingsManager)
+    if (settings_manager_)
     {
         // Try to load a default.xml if the user has not set a profile directory
-        if (m_settingsManager->getProfileDirectory().isEmpty())
+        if (settings_manager_->getProfileDirectory().isEmpty())
         {
-            File defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-            std::unique_ptr<XmlElement> elem{ XmlDocument::parse(defaultProfile) };
-            if (elem)
+            File default_profile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+            std::unique_ptr<XmlElement> xml_element{ XmlDocument::parse(default_profile) };
+            if (xml_element)
             {
-                _commandTableModel.buildFromXml(elem.get());
-                _commandTable.updateContent();
+                command_table_model_.buildFromXml(xml_element.get());
+                command_table_.updateContent();
             }
         }
-        else if (profileManager)
+        else if (profile_manager)
         {
 
             // otherwise use the last profile from the profile directory
-            profileManager->switchToProfile(0);
+            profile_manager->switchToProfile(0);
         }
     }
     // turn it on
     activateLayout();
-
-
 
 }

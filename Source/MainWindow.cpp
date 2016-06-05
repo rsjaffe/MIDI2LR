@@ -20,30 +20,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MainWindow.h"
 
-/**********************************************************************************************//**
- * @fn  void MainWindow::timerCallback(void)
- *
- * @brief   Callback, called when the timer.
- *
- *
- *
- **************************************************************************************************/
-
 void MainWindow::timerCallback(void)
 {
-    auto decreasedValue = false;
+    auto decreased_value = false;
 
-    if (m_autoHideCounter > 0)
+    if (auto_hide_counter_ > 0)
     {
         //decrement counter
-        --m_autoHideCounter;
-        decreasedValue = true;
+        --auto_hide_counter_;
+        decreased_value = true;
     }
 
     //set the new timer text
-    m_windowContent->SetTimerText(m_autoHideCounter);
+    window_content_->SetTimerText(auto_hide_counter_);
 
-    if (m_autoHideCounter == 0)
+    if (auto_hide_counter_ == 0)
     {
         //first stop the timer so it will not be called again
         this->stopTimer();
@@ -51,52 +42,35 @@ void MainWindow::timerCallback(void)
         //check if the window is not already minimized
         if (!this->isMinimised())
         {
-            if (decreasedValue)
+            if (decreased_value)
             {
                 this->minimiseButtonPressed();
             }
         }
     }
 
-
 }
 
-/**********************************************************************************************//**
- * @fn  void MainWindow::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
- *
- * @brief   S.
- *
- *
- *
- * @param [in,out]  commandMap      If non-null, the command map.
- * @param [in,out]  in              If non-null, the in.
- * @param [in,out]  out             If non-null, the out.
- * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
- * @param [in,out]  profileManager  If non-null, manager for profile.
- * @param [in,out]  settingsManager If non-null, manager for settings.
- * @param [in,out]  midiSender      If non-null, the MIDI sender.
- **************************************************************************************************/
-
-void MainWindow::Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out,
-    std::shared_ptr<MIDIProcessor>& midiProcessor, std::shared_ptr<ProfileManager>& profileManager,
-    std::shared_ptr<SettingsManager>& settingsManager, std::shared_ptr<MIDISender>& midiSender)
+void MainWindow::Init(std::shared_ptr<CommandMap>& command_map, std::shared_ptr<LR_IPC_IN>& lr_ipc_in, std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
+    std::shared_ptr<MIDIProcessor>& midi_processor, std::shared_ptr<ProfileManager>& profile_manager,
+    std::shared_ptr<SettingsManager>& settings_manager, std::shared_ptr<MIDISender>& midi_sender)
 {
 
     // get the auto time setting
-    if (settingsManager)
+    if (settings_manager)
     {
-        m_autoHideCounter = settingsManager->getAutoHideTime();
+        auto_hide_counter_ = settings_manager->getAutoHideTime();
     }
     else
     {
-        m_autoHideCounter = 0;
+        auto_hide_counter_ = 0;
     }
 
     //start timing
     this->startTimer(1000);
 
-    if (m_windowContent)
+    if (window_content_)
     {
-        m_windowContent->Init(commandMap, in, out, midiProcessor, profileManager, settingsManager, midiSender);
+        window_content_->Init(command_map, lr_ipc_in, lr_ipc_out, midi_processor, profile_manager, settings_manager, midi_sender);
     }
 }

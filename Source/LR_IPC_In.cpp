@@ -20,31 +20,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include <bitset>
 
-
 /** @brief   define the communication port. */
-constexpr auto LrInPort = 58764;
-
-/**********************************************************************************************//**
- * @fn  LR_IPC_IN::LR_IPC_IN()
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
+constexpr auto kLrInPort = 58764;
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{},
-Thread{ "LR_IPC_IN" }, m_commandMap{ nullptr }, m_profileManager{ nullptr }, m_midiSender{ nullptr }
+Thread{ "LR_IPC_IN" }, command_map_{ nullptr }, profile_manager_{ nullptr }, midi_sender_{ nullptr }
 {
 
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::shutdown()
- *
- * @brief   Shuts down this object and frees any resources it is using.
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_IN::shutdown()
 {
@@ -52,85 +35,60 @@ void LR_IPC_IN::shutdown()
     stopTimer();
     stopThread(1000);
     close();
-    m_commandMap.reset();
-    m_profileManager.reset();
-    m_midiSender.reset();
+    command_map_.reset();
+    profile_manager_.reset();
+    midi_sender_.reset();
 
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::timerCallback()
- *
- * @brief   Callback, called when the timer.
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_IN::timerCallback()
 {
     if (!isConnected())
     {
-        if (connect("127.0.0.1", LrInPort, 100))
+        if (connect("127.0.0.1", kLrInPort, 100))
             startThread();
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<MIDISender>& midiSender) noexcept
- *
- * @brief   S.
- *
- *
- *
- * @param [in,out]  mapCommand      If non-null, the map command.
- * @param [in,out]  profileManager  If non-null, manager for profile.
- * @param [in,out]  midiSender      If non-null, the MIDI sender.
- **************************************************************************************************/
-
-void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<ProfileManager>& profileManager,
-    std::shared_ptr<MIDISender>& midiSender) noexcept
+void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command, std::shared_ptr<ProfileManager>& profile_manager,
+    std::shared_ptr<MIDISender>& midi_sender) noexcept
 {
-    m_commandMap = mapCommand;
-    m_profileManager = profileManager;
-    m_midiSender = midiSender;
+    command_map_ = map_command;
+    profile_manager_ = profile_manager;
+    midi_sender_ = midi_sender;
     //start the timer
     startTimer(1000);
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::run()
- *
- * @brief   The continuously running IPC in thread.
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_IN::run()
 {
     while (!threadShouldExit())
     {
-        char line[256] = { '\0' };
-        auto sizeRead = 0;
-        auto canReadLine = true;
+        constexpr auto kBufferSize = 256;
+        char line[kBufferSize + 1] = { '\0' };//plus one for \0 at end
+        auto size_read = 0;
+        auto can_read_line = true;
 
         // parse input until we have a line, then process that line
         while (!juce::String(line).endsWithChar('\n') && !threadShouldExit())
         {
-            auto waitStatus = waitUntilReady(true, 0);
-            if (waitStatus < 0)
+            auto wait_status = waitUntilReady(true, 0);
+            if (wait_status < 0)
             {
-                canReadLine = false;
+                can_read_line = false;
                 break;
             }
-            else if (waitStatus == 0)
+            else if (wait_status == 0)
             {
                 wait(100);
                 continue;
             }
-            sizeRead += read(line + sizeRead, 1, false);
+            if (size_read == kBufferSize)
+                throw std::out_of_range("Buffer overflow in LR_IPC_IN");
+            size_read += read(line + size_read, 1, false);
         }
 
-        if (canReadLine)
+        if (can_read_line)
         {
             juce::String param{ line };
             processLine(param);
@@ -139,80 +97,61 @@ void LR_IPC_IN::run()
     shutdown(); //exit thread
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::processLine(const String& line)
- *
- * @brief   Process the line into parameter value valuestring and act on parameter.
- *
- *
- *
- * @param   line    The line.
- **************************************************************************************************/
-
 void LR_IPC_IN::processLine(const juce::String& line)
 {
     // process input into [parameter] [Value]
-    const auto trimmedline = line.trim();
-    const auto command = trimmedline.upToFirstOccurrenceOf(" ", false, false);
-    const auto valueString = trimmedline.fromFirstOccurrenceOf(" ", false, false);
-    const auto value = valueString.getIntValue();
+    const auto trimmed_line = line.trim();
+    const auto command = trimmed_line.upToFirstOccurrenceOf(" ", false, false);
+    const auto value_string = trimmed_line.fromFirstOccurrenceOf(" ", false, false);
+    const auto value = value_string.getIntValue();
 
-    if (m_commandMap)
+    if (command_map_)
     {
 
         if (command == juce::String{ "SwitchProfile" })
         {
-            if (m_profileManager)
+            if (profile_manager_)
             {
-                m_profileManager->switchToProfile(valueString);
+                profile_manager_->switchToProfile(value_string);
             }
         }
         else if (command == juce::String{ "SendKey" })
         {
             std::bitset<3> modifiers{ static_cast<decltype(modifiers)>(value) };
-            std::string str{ valueString.trimCharactersAtStart("0123456789 ").toStdString() };
-            m_SendKeys.SendKeyDownUp(str, modifiers[0], modifiers[1], modifiers[2]);
+            std::string str{ value_string.trimCharactersAtStart("0123456789 ").toStdString() };
+            send_keys_.SendKeyDownUp(str, modifiers[0], modifiers[1], modifiers[2]);
         }
         else
         {
 
             // store updates in map
-            parameterMap[command] = value;
+            parameter_map_[command] = value;
 
             // send associated CC messages to MIDI OUT devices
-            if (m_commandMap->commandHasAssociatedMessage(command))
+            if (command_map_->commandHasAssociatedMessage(command))
             {
-                const auto& msg = m_commandMap->getMessageForCommand(command);
+                const auto& msg = command_map_->getMessageForCommand(command);
 
-
-                if (m_midiSender)
+                if (midi_sender_)
                 {
-                    m_midiSender->sendCC(msg.channel, msg.controller, value);
+                    midi_sender_->sendCC(msg.channel, msg.controller, value);
                 }
             }
         }
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::refreshMIDIOutput()
- *
- * @brief   Refresh MIDI output.
- *
- *
- **************************************************************************************************/
-
 void LR_IPC_IN::refreshMIDIOutput()
 {
-    if (m_commandMap)
+    if (command_map_)
     {
         // send associated CC messages to MIDI OUT devices
-        for (auto mapEntry : parameterMap)
+        for (auto map_entry : parameter_map_)
         {
-            if ((m_commandMap->commandHasAssociatedMessage(mapEntry.first)) && (m_midiSender))
+            if ((command_map_->commandHasAssociatedMessage(map_entry.first)) && (midi_sender_))
             {
-                const auto& msg = m_commandMap->getMessageForCommand(mapEntry.first);
-                m_midiSender->sendCC(msg.channel, msg.controller, mapEntry.second);
+                const auto& msg = command_map_->getMessageForCommand(map_entry.first);
+                midi_sender_->sendCC(msg.channel, msg.controller, map_entry.second);
             }
         }
     }

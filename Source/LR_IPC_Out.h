@@ -26,15 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include <mutex>
 
-/**********************************************************************************************//**
- * @class   LRConnectionListener
- *
- * @brief   A lr connection listener.
- *
- *
- *
- **************************************************************************************************/
-
 class LRConnectionListener
 {
 public:
@@ -48,15 +39,6 @@ public:
     {};
 ///< .
 };
-
-/**********************************************************************************************//**
- * @class   LR_IPC_OUT
- *
- * @brief   A lr ipc out.
- *
- *
- *
- **************************************************************************************************/
 
 class LR_IPC_OUT: public InterprocessConnection,
     public MIDICommandListener,
@@ -84,8 +66,6 @@ public:
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;
     virtual void handleMidiNote(int midiChannel, int note) override;
 
-
-
     // AsyncUpdater interface
     virtual void handleAsyncUpdate() override;
 
@@ -93,13 +73,11 @@ public:
     virtual void timerCallback() override;
     void Init(std::shared_ptr<CommandMap>&  mapCommand, std::shared_ptr<MIDIProcessor>&  midiProcessor);
 private:
-    const static unordered_map<String, KeyPress> KPMappings;
-    std::shared_ptr<const CommandMap> m_commandMap;
-    Array<LRConnectionListener *> _listeners;
-    int _valueToSend;
-    String _commandToSend;
-///< .
+    const static unordered_map<String, KeyPress> keypress_mappings_;
+    std::shared_ptr<const CommandMap> command_map_;
+    Array<LRConnectionListener *> listeners_;
+    int value_to_send_;
+    String command_to_send_;
 };
-
 
 #endif  // LR_IPC_OUT_H_INCLUDED

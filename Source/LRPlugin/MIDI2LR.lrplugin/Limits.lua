@@ -35,7 +35,7 @@ local LrView              = import 'LrView'
 local ParamList           = require 'ParamList'
 
 --hidden 
-local DisplayOrder           = {'Temperature','Tint','Exposure'}
+local DisplayOrder           = {'Temperature','Tint','Exposure','straightenAngle'}
 
 --public--each must be in table of exports
 
@@ -60,6 +60,29 @@ for k in pairs(ProgramPreferences.Limits) do
 end
 
 --------------------------------------------------------------------------------
+-- Provides min and max for given parameter and mode.
+-- @param param Which parameter is being adjusted.
+-- @return min for given param and mode.
+-- @return max for given param and mode.
+--------------------------------------------------------------------------------
+local function GetMinMax(param)
+  local low,rangemax = LrDevelopController.getRange(param)
+  if LimitParameters[param] then --should have limits
+    if type(ProgramPreferences.Limits[param]) == 'table' and rangemax ~= nil then -- B&W picture may not have temperature, tint. This avoids indexing a nil rangemax and blowing up the metatable _index
+      if type(ProgramPreferences.Limits[param][rangemax]) == 'table' then
+        return ProgramPreferences.Limits[param][rangemax][1], ProgramPreferences.Limits[param][rangemax][2]
+      else
+        ProgramPreferences.Limits[param][rangemax] = {low, rangemax}
+      end
+    else
+      ProgramPreferences.Limits[param] = {param = param, label = ParamList.LimitEligible[param][1],
+        order = ParamList.LimitEligible[param][2], rangemax = {low,rangemax}}
+    end
+  end
+  return low, rangemax
+end
+
+--------------------------------------------------------------------------------
 -- Limits a given parameter to the min,max set up.
 -- This function is used to avoid the bug in pickup mode, in which the parameter's
 -- value may be too low or high to be picked up by the limited control range. By
@@ -71,8 +94,7 @@ end
 --------------------------------------------------------------------------------
 local function ClampValue(param)
   if LimitParameters[param] == nil or LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
-  local _, rangemax = LrDevelopController.getRange(param)
-  local min, max = unpack(ProgramPreferences.Limits[param][rangemax])
+  local min, max = GetMinMax(param)
   local value = LrDevelopController.getValue(param)
   if value < min then      
     MIDI2LR.PARAM_OBSERVER[param] = min
@@ -146,20 +168,7 @@ local function OptionsRows(f,obstable)
   return retval -- array of rows
 end
 
---------------------------------------------------------------------------------
--- Provides min and max for given parameter and mode.
--- @param param Which parameter is being adjusted.
--- @return min for given param and mode.
--- @return max for given param and mode.
---------------------------------------------------------------------------------
-local function GetMinMax(param)
-  local low,rangemax = LrDevelopController.getRange(param)
-  if LimitParameters[param] and rangemax ~= nil then -- B&W picture may not have temperature, tint. This avoids indexing a nil rangemax and blowing up the metatable _index
-    return ProgramPreferences.Limits[param][rangemax][1], ProgramPreferences.Limits[param][rangemax][2]
-  else
-    return low,rangemax
-  end
-end
+
 
 
 local function StartDialog(obstable,f)

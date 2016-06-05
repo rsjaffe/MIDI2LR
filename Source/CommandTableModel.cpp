@@ -20,233 +20,112 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include "LRCommands.h"
 
-/**********************************************************************************************//**
- * @fn  CommandTableModel::CommandTableModel() noexcept
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
-CommandTableModel::CommandTableModel() noexcept : _rows{ 0 }, m_commandMap{ nullptr }
+CommandTableModel::CommandTableModel() noexcept : rows_{ 0 }, command_map_{ nullptr }
 {}
-
-/**********************************************************************************************//**
- * @fn  int CommandTableModel::getNumRows()
- *
- * @brief   Gets number rows.
- *
- *
- *
- *
- * @return  The number rows.
- **************************************************************************************************/
 
 int CommandTableModel::getNumRows()
 {
-    return _rows;
+    return rows_;
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::paintRowBackground(Graphics &g, int , int , int , bool rowIsSelected)
- *
- * @brief   Paints the row background.
- *
- *
- *
- *
- * @param [in,out]  g       The Graphics to process.
- * @param   rowNumber      Row number.
- * @param   width      Row width.
- * @param   height      Row height
- * @param   rowIsSelected   true if row is selected.
- **************************************************************************************************/
-
-void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/, int /*width*/, int /*height*/, bool rowIsSelected)
+void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/, int /*width*/, int /*height*/, bool row_is_selected)
 {
-    if (rowIsSelected)
+    if (row_is_selected)
         g.fillAll(Colours::lightblue);
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::paintCell(Graphics &g, int rowNumber, int columnId, int width, int height, bool )
- *
- * @brief   Paints the cell.
- *
- *
- *
- *
- * @param [in,out]  g   The Graphics to process.
- * @param   rowNumber   The row number.
- * @param   columnId    Identifier for the column.
- * @param   width       The width.
- * @param   height      The height.
- * @param   rowIsSelected  True if row is selected.
- **************************************************************************************************/
-
-void CommandTableModel::paintCell(Graphics &g, int rowNumber, int columnId, int width, int height, bool /*rowIsSelected*/)
+void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id, int width, int height, bool /*rowIsSelected*/)
 {
     g.setColour(Colours::black);
     g.setFont(12.0f);
 
-    if (columnId == 1) // write the MIDI message in the MIDI command column
+    if (column_id == 1) // write the MIDI message in the MIDI command column
     {
-        if (_commands[rowNumber].isCC)
-            g.drawText(String::formatted("%d | CC: %d", _commands[rowNumber].channel,
-            _commands[rowNumber].controller), 0, 0, width, height, Justification::centred);
+        if (commands_[row_number].isCC)
+            g.drawText(String::formatted("%d | CC: %d", commands_[row_number].channel,
+            commands_[row_number].controller), 0, 0, width, height, Justification::centred);
         else
-            g.drawText(String::formatted("%d | Note: %d", _commands[rowNumber].channel,
-            _commands[rowNumber].pitch), 0, 0, width, height, Justification::centred);
+            g.drawText(String::formatted("%d | Note: %d", commands_[row_number].channel,
+            commands_[row_number].pitch), 0, 0, width, height, Justification::centred);
     }
 }
 
-/**********************************************************************************************//**
- * @fn  Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnId, bool , Component *existingComponentToUpdate)
- *
- * @brief   Refresh component for cell.
- *
- *
- *
- *
- * @param   rowNumber                           The row number.
- * @param   columnId                            Identifier for the column.
- * @param   isRowSelected                       True when row is selected.
- * @param [in,out]  existingComponentToUpdate   If non-null, the existing component to update.
- *
- * @return  null if it fails, else a pointer to a Component.
- **************************************************************************************************/
-
-Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnId, bool /*isRowSelected*/, Component *existingComponentToUpdate)
+Component *CommandTableModel::refreshComponentForCell(int row_number, int column_id, bool /*isRowSelected*/, Component *existing_component_to_update)
 {
-    if (columnId == 2) // LR command column
+    if (column_id == 2) // LR command column
     {
         // because Juce recycles these components when scrolling, we need to reset their properties		
-        CommandMenu* commandSelect = dynamic_cast<CommandMenu *>(existingComponentToUpdate);
+        CommandMenu* command_select = dynamic_cast<CommandMenu *>(existing_component_to_update);
 
         // create a new command menu
-        if (commandSelect == nullptr)
+        if (command_select == nullptr)
         {
-            commandSelect = new CommandMenu{ _commands[rowNumber] };
-            commandSelect->Init(m_commandMap);
+            command_select = new CommandMenu{ commands_[row_number] };
+            command_select->Init(command_map_);
         }
         else
-            commandSelect->setMsg(_commands[rowNumber]);
+            command_select->setMsg(commands_[row_number]);
 
-        if (m_commandMap)
+        if (command_map_)
         {
             // add 1 because 0 is reserved for no selection
-            commandSelect->setSelectedItem(LRCommandList::getIndexOfCommand(m_commandMap->getCommandforMessage(_commands[rowNumber])) + 1);
+            command_select->setSelectedItem(LRCommandList::getIndexOfCommand(command_map_->getCommandforMessage(commands_[row_number])) + 1);
         }
 
-        return commandSelect;
+        return command_select;
     }
     else
         return nullptr;
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
- *
- * @brief   Adds a row.
- *
- *
- *
- *
- * @param   midi_channel    The MIDI channel.
- * @param   midi_data       Information describing the MIDI.
- * @param   isCC            true if this object is Cc.
- **************************************************************************************************/
-
-void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
+void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc)
 {
-    MIDI_Message msg{ midi_channel, midi_data, isCC };
-    if (m_commandMap)
+    MIDI_Message msg{ midi_channel, midi_data, is_cc };
+    if (command_map_)
     {
-        if (!m_commandMap->messageExistsInMap(msg))
+        if (!command_map_->messageExistsInMap(msg))
         {
-            _commands.push_back(msg);
-            m_commandMap->addCommandforMessage(0, msg); // add an entry for 'no command'
-            _rows++;
+            commands_.push_back(msg);
+            command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
+            rows_++;
         }
     }
 }
 
-/**********************************************************************************************//**
- * @fn  int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC) const
- *
- * @brief   return value -1 means can not find.
- *
- * @param   midi_channel    The MIDI channel.
- * @param   midi_data       Information describing the MIDI.
- * @param   isCC            true if this object is Cc.
- *
- * @return  The row for message.
- **************************************************************************************************/
-
-int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC) const
+int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const
 {
-    for (auto idx = 0; idx < _rows; idx++)
+    for (auto idx = 0; idx < rows_; idx++)
     {
-        if (_commands[idx].channel == midi_channel && _commands[idx].controller == midi_data
-            && _commands[idx].isCC == isCC)
+        if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
+            && commands_[idx].isCC == is_cc)
             return idx;
     }
     //could not find 
     return -1;
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::removeRow(int row)
- *
- * @brief   Removes the row described by row.
- *
- *
- *
- *
- * @param   row The row.
- **************************************************************************************************/
-
 void CommandTableModel::removeRow(int row)
 {
-    MIDI_Message msg = _commands[row];
-    _commands.erase(_commands.begin() + row);
-    if (m_commandMap)
+    MIDI_Message msg = commands_[row];
+    commands_.erase(commands_.begin() + row);
+    if (command_map_)
     {
-        m_commandMap->removeMessage(msg);
+        command_map_->removeMessage(msg);
     }
-    _rows--;
+    rows_--;
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::removeAllRows()
- *
- * @brief   Removes all rows.
- *
- *
- *
- **************************************************************************************************/
 
 void CommandTableModel::removeAllRows()
 {
-    _commands.clear();
+    commands_.clear();
 
-    if (m_commandMap)
+    if (command_map_)
     {
-        m_commandMap->clearMap();
+        command_map_->clearMap();
     }
 
-    _rows = 0;
+    rows_ = 0;
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::buildFromXml(const XmlElement * const root)
- *
- * @brief   Builds from XML.
- *
- *
- *
- * @param   root    If non-null, the root.
- **************************************************************************************************/
 
 void CommandTableModel::buildFromXml(const XmlElement * const root)
 {
@@ -256,21 +135,21 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
     removeAllRows();
 
     auto* setting = root->getFirstChildElement();
-    while ((setting) && (m_commandMap))
+    while ((setting) && (command_map_))
     {
         if (setting->hasAttribute("controller"))
         {
-            MIDI_Message cc{ setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true };
-            addRow(cc.channel, cc.controller, true);
+            MIDI_Message message{ setting->getIntAttribute("channel"), setting->getIntAttribute("controller"), true };
+            addRow(message.channel, message.controller, true);
 
             // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
             if (setting->getIntAttribute("command", -1) != -1)
             {
-                m_commandMap->addCommandforMessage(setting->getIntAttribute("command"), cc);
+                command_map_->addCommandforMessage(setting->getIntAttribute("command"), message);
             }
             else
             {
-                m_commandMap->addCommandforMessage(setting->getStringAttribute("command_string"), cc);
+                command_map_->addCommandforMessage(setting->getStringAttribute("command_string"), message);
             }
         }
         else if (setting->hasAttribute("note"))
@@ -281,29 +160,19 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
             // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
             if (setting->getIntAttribute("command", -1) != -1)
             {
-                m_commandMap->addCommandforMessage(setting->getIntAttribute("command"), note);
+                command_map_->addCommandforMessage(setting->getIntAttribute("command"), note);
             }
             else
             {
-                m_commandMap->addCommandforMessage(setting->getStringAttribute("command_string"), note);
+                command_map_->addCommandforMessage(setting->getStringAttribute("command_string"), note);
             }
         }
         setting = setting->getNextElement();
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::Init(std::shared_ptr<CommandMap>& mapCommand)
- *
- * @brief   Inits the given map command.
- *
- *
- *
- * @param [in,out]  mapCommand  If non-null, the map command.
- **************************************************************************************************/
-
-void CommandTableModel::Init(std::shared_ptr<CommandMap>& mapCommand) noexcept
+void CommandTableModel::Init(std::shared_ptr<CommandMap>& map_command) noexcept
 {
     //copy the pointer
-    m_commandMap = mapCommand;
+    command_map_ = map_command;
 }

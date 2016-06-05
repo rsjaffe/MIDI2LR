@@ -19,125 +19,61 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDIProcessor.h"
 
-/**********************************************************************************************//**
- * @fn  MIDIProcessor::MIDIProcessor() noexcept
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 MIDIProcessor::MIDIProcessor() noexcept
 {
 
 }
-
-/**********************************************************************************************//**
- * @fn  MIDIProcessor::~MIDIProcessor()
- *
- * @brief   Destructor.
- *
- *
- *
- **************************************************************************************************/
 
 MIDIProcessor::~MIDIProcessor()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::Init(void)
- *
- * @brief   S this object.
- *
- *
- *
- **************************************************************************************************/
-
 void MIDIProcessor::Init(void)
 {
-    initDevices();
+    InitDevices_();
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::initDevices()
- *
- * @brief   Init devices.
- *
- *
- *
- **************************************************************************************************/
-
-void MIDIProcessor::initDevices()
+void MIDIProcessor::InitDevices_()
 {
     for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
     {
-        if (_devices.set(idx, MidiInput::openDevice(idx, this)))
+        if (devices_.set(idx, MidiInput::openDevice(idx, this)))
         {
-            _devices[idx]->start();
-            DBG(_devices[idx]->getName());
+            devices_[idx]->start();
+            DBG(devices_[idx]->getName());
         }
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::rescanDevices()
- *
- * @brief   Rescan devices.
- *
- *
- *
- **************************************************************************************************/
 
 void MIDIProcessor::rescanDevices()
 {
-    for (auto dev : _devices)
+    for (auto dev : devices_)
         dev->stop();
-    _devices.clear(true);
+    devices_.clear(true);
 
-    initDevices();
+    InitDevices_();
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::handleIncomingMidiMessage(MidiInput * , const MidiMessage &msg)
- *
- * @brief   Handles the incoming MIDI message.
- *
- * @param [in,out]  device      If non-null, the device.
- * @param   msg                 The message.
- **************************************************************************************************/
-
-void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &msg)
+void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &message)
 {
-    if (msg.isController())
+    if (message.isController())
     {
-        for (auto listener : _listeners)
+        for (auto listener : listeners_)
         {
-            listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
+            listener->handleMidiCC(message.getChannel(), message.getControllerNumber(), message.getControllerValue());
         }
     }
-    else if (msg.isNoteOn())
+    else if (message.isNoteOn())
     {
-        for (auto listener : _listeners)
+        for (auto listener : listeners_)
         {
-            listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
+            listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
         }
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
- *
- * @brief   Adds a MIDI command listener.
- *
- *
- *
- *
- * @param [in,out]  listener    If non-null, the listener.
- **************************************************************************************************/
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
 {
-    _listeners.addIfNotAlreadyThere(listener);
+    listeners_.addIfNotAlreadyThere(listener);
 }

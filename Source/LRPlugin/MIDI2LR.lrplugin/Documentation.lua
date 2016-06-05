@@ -26,8 +26,8 @@ local LrPathUtils  = import 'LrPathUtils'
 local datafile     = LrPathUtils.child(_PLUGIN.path, 'Documentation.txt')
 local file         = io.open(datafile,'w')
 local menulocation = ""
-local m_menus = 'm_menus({ '
-local m_menuEntries = 'm_menuEntries({ '
+local m_menus = 'menus_({ '
+local m_menuEntries = 'menu_entries_({ '
 local lrcommandsh = ''
 
 
