@@ -23,7 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMap::CommandMap() noexcept : Subject{}
 {
-
 }
 
 void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message)

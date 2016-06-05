@@ -111,7 +111,6 @@ public:
             main_window_ = nullptr; // (deletes our window)
             quit();
         }
-
     }
 
     void shutdown() override

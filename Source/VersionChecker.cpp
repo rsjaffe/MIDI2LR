@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 VersionChecker::VersionChecker() noexcept : Thread{ "VersionChecker" }
 {
-
 }
 
 void VersionChecker::Init(std::shared_ptr<SettingsManager>& settings_manager) noexcept

@@ -48,14 +48,12 @@ void MainWindow::timerCallback(void)
             }
         }
     }
-
 }
 
 void MainWindow::Init(std::shared_ptr<CommandMap>& command_map, std::shared_ptr<LR_IPC_IN>& lr_ipc_in, std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
     std::shared_ptr<MIDIProcessor>& midi_processor, std::shared_ptr<ProfileManager>& profile_manager,
     std::shared_ptr<SettingsManager>& settings_manager, std::shared_ptr<MIDISender>& midi_sender)
 {
-
     // get the auto time setting
     if (settings_manager)
     {

@@ -63,7 +63,6 @@ struct MIDI_Message
 // hash functions for MIDI_Message and String
 namespace std
 {
-
     template <>
     struct hash<MIDI_Message>
     {

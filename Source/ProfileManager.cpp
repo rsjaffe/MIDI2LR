@@ -22,7 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 ProfileManager::ProfileManager() noexcept : current_profile_index_{ 0 }, command_map_{ nullptr }, lr_ipc_out_{ nullptr }
 {
-
 }
 
 void ProfileManager::addListener(ProfileChangeListener *listener)
@@ -77,7 +76,6 @@ void ProfileManager::switchToProfile(const String& profile)
             command = String("ChangedToFile ") + profile + String("\n");
             lr_ipc_out_->sendCommand(command);
         }
-
     }
 }
 
@@ -126,7 +124,6 @@ void ProfileManager::handleMidiNote(int midi_channel, int note)
 
     if (command_map_)
     {
-
         // return if the command isn't a valid profile-related command
         if (!command_map_->messageExistsInMap(note_msg))
             return;
@@ -172,7 +169,6 @@ void ProfileManager::connected()
 
 void ProfileManager::disconnected()
 {
-
 }
 
 void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor)

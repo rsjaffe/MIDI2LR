@@ -25,7 +25,6 @@ constexpr auto kLrOutPort = 58763;
 
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
 {
-
 }
 
 void LR_IPC_OUT::shutdown()
@@ -53,7 +52,6 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& map_command, std::shared_ptr<
 
     //start the timer
     startTimer(1000);
-
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
@@ -75,7 +73,6 @@ void LR_IPC_OUT::connectionLost()
 
 void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)
 {
-
 }
 
 void LR_IPC_OUT::sendCommand(const String &command) const
@@ -122,7 +119,6 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note)
 
     if (command_map_)
     {
-
         if (!command_map_->messageExistsInMap(message) ||
             command_map_->getCommandforMessage(message) == "Unmapped" ||
             find(LRCommandList::NextPrevProfile.begin(),

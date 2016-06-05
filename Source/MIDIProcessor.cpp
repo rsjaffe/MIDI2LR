@@ -21,12 +21,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 MIDIProcessor::MIDIProcessor() noexcept
 {
-
 }
 
 MIDIProcessor::~MIDIProcessor()
 {
-
 }
 
 void MIDIProcessor::Init(void)

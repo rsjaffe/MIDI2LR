@@ -19,4 +19,3 @@
 */
 
 #include "Observer.h"
-

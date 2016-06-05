@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 MIDISender::MIDISender() noexcept
 {
-
 }
 
 void MIDISender::InitDevices_()
@@ -42,7 +41,6 @@ void MIDISender::rescanDevices()
 
 MIDISender::~MIDISender()
 {
-
 }
 
 void MIDISender::sendCC(int midi_channel, int controller, int value) const

@@ -49,7 +49,6 @@ version_label_{ "Version", "Version " +
     midi_processor_{ nullptr },
     midi_sender_{ nullptr }
 {
-
 }
 
 MainContentComponent::~MainContentComponent()
@@ -120,7 +119,7 @@ void MainContentComponent::buttonClicked(Button* button)
 {
     if (button == &rescan_button_)
     {
-        // Re-enumerate MIDI IN and OUT devices	
+        // Re-enumerate MIDI IN and OUT devices
 
         if (midi_processor_)
         {
@@ -147,7 +146,6 @@ void MainContentComponent::buttonClicked(Button* button)
     }
     else if (button == &save_button_)
     {
-
         File profile_directory;
 
         if (settings_manager_)
@@ -256,7 +254,6 @@ void MainContentComponent::SetTimerText(int time_value)
     {
         current_status_.setText("", NotificationType::dontSendNotification);
     }
-
 }
 
 void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map, std::shared_ptr<LR_IPC_IN>& lr_ipc_in,
@@ -400,12 +397,10 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map, std::s
         }
         else if (profile_manager)
         {
-
             // otherwise use the last profile from the profile directory
             profile_manager->switchToProfile(0);
         }
     }
     // turn it on
     activateLayout();
-
 }

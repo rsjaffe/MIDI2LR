@@ -51,6 +51,5 @@ void Subject::Notify(void)
     //check if the array is not empty.
     if (!observers_.empty())
     {
-
     }
 }

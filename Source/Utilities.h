@@ -55,7 +55,6 @@ namespace MIDI2LR
     };
     template <typename T> std::atomic_int counter<T>::objects_created(0);
     template <typename T> std::atomic_int counter<T>::objects_alive(0);
-
 }
 /*
 Usage:

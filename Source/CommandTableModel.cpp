@@ -54,7 +54,7 @@ Component *CommandTableModel::refreshComponentForCell(int row_number, int column
 {
     if (column_id == 2) // LR command column
     {
-        // because Juce recycles these components when scrolling, we need to reset their properties		
+        // because Juce recycles these components when scrolling, we need to reset their properties
         CommandMenu* command_select = dynamic_cast<CommandMenu *>(existing_component_to_update);
 
         // create a new command menu
@@ -100,7 +100,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
             && commands_[idx].isCC == is_cc)
             return idx;
     }
-    //could not find 
+    //could not find
     return -1;
 }
 

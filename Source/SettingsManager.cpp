@@ -45,7 +45,6 @@ SettingsManager::SettingsManager(): lr_ipc_out_{ nullptr }, profile_manager_{ nu
     file_options.storageFormat = PropertiesFile::storeAsXML;
 
     properties_file_ = std::make_unique<PropertiesFile>(file_options);
-
 }
 
 void SettingsManager::setPickupEnabled(bool enabled)
@@ -59,7 +58,6 @@ void SettingsManager::setPickupEnabled(bool enabled)
     {
         lr_ipc_out_->sendCommand(command);
     }
-
 }
 
 bool SettingsManager::getPickupEnabled() const noexcept
@@ -92,25 +90,21 @@ void SettingsManager::connected()
     {
         lr_ipc_out_->sendCommand(command);
     }
-
 }
 
 void SettingsManager::disconnected()
 {
-
 }
 
 int SettingsManager::getAutoHideTime() const noexcept
 {
     return properties_file_->getIntValue(AutoHideSection, 0);
-
 }
 
 void SettingsManager::setAutoHideTime(int new_time)
 {
     properties_file_->setValue(AutoHideSection, new_time);
     properties_file_->saveIfNeeded();
-
 }
 
 int SettingsManager::getLastVersionFound() const noexcept
@@ -142,5 +136,4 @@ void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out, std::shared_
         File profile_directory{ getProfileDirectory() };
         profile_manager->setProfileDirectory(profile_directory);
     }
-
 }

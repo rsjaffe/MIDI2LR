@@ -181,7 +181,6 @@ std::mutex SendKeys::mutex_sending_{};
 
 void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, bool shift) const
 {
-
     std::string lower_string; //used for matching with key names
     for (auto& c : key)
         lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
@@ -319,7 +318,6 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
             CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
             CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
         }
-
     }
     else
     {
@@ -338,7 +336,6 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
             CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
             CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
         }
-
     }
     CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
     CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
@@ -366,4 +363,3 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
     CFRelease(source);
 #endif
 }
-

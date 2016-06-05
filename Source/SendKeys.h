@@ -33,4 +33,3 @@ private:
     static std::mutex mutex_sending_;
     static const std::unordered_map<std::string, unsigned char> key_map_;
 };
-

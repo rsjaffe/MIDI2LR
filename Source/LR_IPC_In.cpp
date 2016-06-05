@@ -25,20 +25,16 @@ constexpr auto kLrInPort = 58764;
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{},
 Thread{ "LR_IPC_IN" }, command_map_{ nullptr }, profile_manager_{ nullptr }, midi_sender_{ nullptr }
-{
-
-}
+{}
 
 void LR_IPC_IN::shutdown()
 {
-
     stopTimer();
     stopThread(1000);
     close();
     command_map_.reset();
     profile_manager_.reset();
     midi_sender_.reset();
-
 }
 
 void LR_IPC_IN::timerCallback()
@@ -107,7 +103,6 @@ void LR_IPC_IN::processLine(const juce::String& line)
 
     if (command_map_)
     {
-
         if (command == juce::String{ "SwitchProfile" })
         {
             if (profile_manager_)
@@ -123,7 +118,6 @@ void LR_IPC_IN::processLine(const juce::String& line)
         }
         else
         {
-
             // store updates in map
             parameter_map_[command] = value;
 

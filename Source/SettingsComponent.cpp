@@ -34,12 +34,10 @@ profile_group_{},
 autohide_explain_label_{},
 settings_manager_{ nullptr }
 {
-
 }
 
 SettingsComponent::~SettingsComponent()
 {
-
 }
 
 void SettingsComponent::paint(Graphics& g)
@@ -96,7 +94,6 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
             }
         }
     }
-
 }
 
 void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
