@@ -1015,6 +1015,7 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile10",
 };
 
+
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
