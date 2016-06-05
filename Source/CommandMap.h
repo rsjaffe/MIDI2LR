@@ -73,15 +73,6 @@ namespace std
         }
     };
 
-    /**********************************************************************************************//**
-     * @struct  std::hash<String>
-     *
-     * @brief   A hash for Juce String.
-     *
-     *
-     *
-     **************************************************************************************************/
-
     template <>
     struct hash<String>
     {
@@ -129,8 +120,8 @@ public:
 
 private:
 
-    std::unordered_map<MIDI_Message, String> _messageMap;
-    std::unordered_map<String, MIDI_Message> _commandStringMap;
+    std::unordered_map<MIDI_Message, String> message_map_;
+    std::unordered_map<String, MIDI_Message> command_string_map_;
 };
 
 #endif  // COMMANDMAP_H_INCLUDED

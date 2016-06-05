@@ -35,7 +35,7 @@ public:
     bool getPickupEnabled() const noexcept;
     void setPickupEnabled(bool enabled);
 
-    void setProfileDirectory(const String& profileDirectory);
+    void setProfileDirectory(const String& profile_directory);
     String getProfileDirectory() const noexcept;
 
     // LRConnectionListener interface
@@ -43,17 +43,17 @@ public:
     virtual void disconnected() override;
 
     int getAutoHideTime() const noexcept;
-    void setAutoHideTime(int newTime);
+    void setAutoHideTime(int new_time);
 
-    void setLastVersionFound(int versionnumber);
+    void setLastVersionFound(int version_number);
     int getLastVersionFound() const noexcept;
 
-    void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager);
+    void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profile_manager);
 private:
 
-    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
-    std::shared_ptr<ProfileManager> m_profileManager;
-    std::unique_ptr<PropertiesFile> _propertiesFile;
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
+    std::shared_ptr<ProfileManager> profile_manager_;
+    std::unique_ptr<PropertiesFile> properties_file_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED

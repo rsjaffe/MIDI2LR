@@ -31,49 +31,49 @@ MIDIProcessor::~MIDIProcessor()
 
 void MIDIProcessor::Init(void)
 {
-    initDevices();
+    InitDevices_();
 }
 
-void MIDIProcessor::initDevices()
+void MIDIProcessor::InitDevices_()
 {
     for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
     {
-        if (_devices.set(idx, MidiInput::openDevice(idx, this)))
+        if (devices_.set(idx, MidiInput::openDevice(idx, this)))
         {
-            _devices[idx]->start();
-            DBG(_devices[idx]->getName());
+            devices_[idx]->start();
+            DBG(devices_[idx]->getName());
         }
     }
 }
 
 void MIDIProcessor::rescanDevices()
 {
-    for (auto dev : _devices)
+    for (auto dev : devices_)
         dev->stop();
-    _devices.clear(true);
+    devices_.clear(true);
 
-    initDevices();
+    InitDevices_();
 }
 
-void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &msg)
+void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &message)
 {
-    if (msg.isController())
+    if (message.isController())
     {
-        for (auto listener : _listeners)
+        for (auto listener : listeners_)
         {
-            listener->handleMidiCC(msg.getChannel(), msg.getControllerNumber(), msg.getControllerValue());
+            listener->handleMidiCC(message.getChannel(), message.getControllerNumber(), message.getControllerValue());
         }
     }
-    else if (msg.isNoteOn())
+    else if (message.isNoteOn())
     {
-        for (auto listener : _listeners)
+        for (auto listener : listeners_)
         {
-            listener->handleMidiNote(msg.getChannel(), msg.getNoteNumber());
+            listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
         }
     }
 }
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
 {
-    _listeners.addIfNotAlreadyThere(listener);
+    listeners_.addIfNotAlreadyThere(listener);
 }

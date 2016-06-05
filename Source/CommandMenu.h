@@ -38,14 +38,14 @@ public:
 
     // ButtonListener interface
     virtual void buttonClicked(Button* button) override;
-    void Init(std::shared_ptr<CommandMap>& mapCommand);
+    void Init(std::shared_ptr<CommandMap>& map_command);
 private:
-    MIDI_Message _msg;
-    size_t _selectedItem;
-    std::shared_ptr<CommandMap> m_commandMap;
+    MIDI_Message message_;
+    size_t selected_item_;
+    std::shared_ptr<CommandMap> command_map_;
 
-    const std::vector<String> m_menus;
-    const std::vector<std::vector<String>> m_menuEntries;
+    const std::vector<String> menus_;
+    const std::vector<std::vector<String>> menu_entries_;
 };
 
 #endif  // COMMANDMENU_H_INCLUDED

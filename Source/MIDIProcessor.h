@@ -26,8 +26,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MIDICommandListener
 {
 public:
-    virtual void handleMidiCC(int midiChannel, int controller, int value) = 0;
-    virtual void handleMidiNote(int midiChannel, int note) = 0;
+    virtual void handleMidiCC(int midi_channel, int controller, int value) = 0;
+    virtual void handleMidiNote(int midi_channel, int note) = 0;
 
     virtual ~MIDICommandListener()
     {};
@@ -49,10 +49,10 @@ public:
     void Init(void);
 private:
 
-    void initDevices();
+    void InitDevices_();
 
-    Array<MIDICommandListener *> _listeners;
-    OwnedArray<MidiInput> _devices;
+    Array<MIDICommandListener *> listeners_;
+    OwnedArray<MidiInput> devices_;
 };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED

@@ -73,12 +73,11 @@ public:
     virtual void timerCallback() override;
     void Init(std::shared_ptr<CommandMap>&  mapCommand, std::shared_ptr<MIDIProcessor>&  midiProcessor);
 private:
-    const static unordered_map<String, KeyPress> KPMappings;
-    std::shared_ptr<const CommandMap> m_commandMap;
-    Array<LRConnectionListener *> _listeners;
-    int _valueToSend;
-    String _commandToSend;
-///< .
+    const static unordered_map<String, KeyPress> keypress_mappings_;
+    std::shared_ptr<const CommandMap> command_map_;
+    Array<LRConnectionListener *> listeners_;
+    int value_to_send_;
+    String command_to_send_;
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

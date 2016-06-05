@@ -36,9 +36,9 @@ public:
     void Init();
 private:
 
-    OwnedArray<MidiOutput> _outputDevices;
+    OwnedArray<MidiOutput> output_devices;
 
-    void initDevices();
+    void InitDevices_();
 };
 
 #endif  // MIDISENDER_H_INCLUDED

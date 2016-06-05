@@ -26,75 +26,75 @@ CommandMap::CommandMap() noexcept : Subject{}
 
 }
 
-void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &msg)
+void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message)
 {
     // adds a msg to the msg:command map, and it's associated command to the command:msg map
     if (command < LRCommandList::LRStringList.size())
     {
-        _messageMap[msg] = LRCommandList::LRStringList[command];
-        _commandStringMap[LRCommandList::LRStringList[command]] = msg;
+        message_map_[message] = LRCommandList::LRStringList[command];
+        command_string_map_[LRCommandList::LRStringList[command]] = message;
     }
     else
-        _messageMap[msg] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
+        message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
 }
 
-void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &msg)
+void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &message)
 {
-    _messageMap[msg] = command;
-    _commandStringMap[command] = msg;
+    message_map_[message] = command;
+    command_string_map_[command] = message;
 }
 
-const String& CommandMap::getCommandforMessage(const MIDI_Message &msg) const
+const String& CommandMap::getCommandforMessage(const MIDI_Message &message) const
 {
-    return _messageMap.at(msg);
+    return message_map_.at(message);
 }
 
 const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const
 {
-    return _commandStringMap.at(command);
+    return command_string_map_.at(command);
 }
 
-bool CommandMap::messageExistsInMap(const MIDI_Message &msg) const
+bool CommandMap::messageExistsInMap(const MIDI_Message &message) const
 {
-    return _messageMap.count(msg) > 0 ? true : false;
+    return message_map_.count(message) > 0 ? true : false;
 }
 
 bool CommandMap::commandHasAssociatedMessage(const String &command) const
 {
-    return _commandStringMap.count(command) > 0 ? true : false;
+    return command_string_map_.count(command) > 0 ? true : false;
 }
 
-void CommandMap::removeMessage(const MIDI_Message &msg)
+void CommandMap::removeMessage(const MIDI_Message &message)
 {
     // removes msg from the msg:command map, and it's associated command from the command:msg map
-    _commandStringMap.erase(_messageMap[msg]);
-    _messageMap.erase(msg);
+    command_string_map_.erase(message_map_[message]);
+    message_map_.erase(message);
 }
 
 void CommandMap::clearMap() noexcept
 {
-    _commandStringMap.clear();
-    _messageMap.clear();
+    command_string_map_.clear();
+    message_map_.clear();
 }
 
 void CommandMap::toXMLDocument(File& file) const
 {
     // save the contents of the command map to an xml file
     XmlElement root{ "settings" };
-    for (auto mapEntry : _messageMap)
+    for (auto map_entry : message_map_)
     {
         auto* setting = new XmlElement{ "setting" };
-        setting->setAttribute("channel", mapEntry.first.channel);
+        setting->setAttribute("channel", map_entry.first.channel);
 
-        setting->setAttribute("NRPN", (mapEntry.first.isNRPN) ? "True" : "False");
-        setting->setAttribute("Relative", (mapEntry.first.isRelative) ? "True" : "False");
+        setting->setAttribute("NRPN", (map_entry.first.isNRPN) ? "True" : "False");
+        setting->setAttribute("Relative", (map_entry.first.isRelative) ? "True" : "False");
 
-        if (mapEntry.first.isCC)
-            setting->setAttribute("controller", mapEntry.first.controller);
+        if (map_entry.first.isCC)
+            setting->setAttribute("controller", map_entry.first.controller);
         else
-            setting->setAttribute("note", mapEntry.first.pitch);
+            setting->setAttribute("note", map_entry.first.pitch);
 
-        setting->setAttribute("command_string", mapEntry.second);
+        setting->setAttribute("command_string", map_entry.second);
 
         root.addChildElement(setting);
     }

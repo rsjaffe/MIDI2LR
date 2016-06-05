@@ -57,16 +57,16 @@ class MIDI2LRApplication: public JUCEApplication
 public:
     MIDI2LRApplication()
     {
-        m_commandMap = std::make_shared<CommandMap>();
-        m_profileManager = std::make_shared<ProfileManager>();
-        m_settingsManager = std::make_shared<SettingsManager>();
-        m_midiProcessor = std::make_shared<MIDIProcessor>();
-        m_midiSender = std::make_shared<MIDISender>();
-        m_lr_IPC_OUT = std::shared_ptr<LR_IPC_OUT>(new LR_IPC_OUT, [](LR_IPC_OUT* me)
+        command_map_ = std::make_shared<CommandMap>();
+        profile_manager_ = std::make_shared<ProfileManager>();
+        settings_manager_ = std::make_shared<SettingsManager>();
+        midi_processor_ = std::make_shared<MIDIProcessor>();
+        midi_sender_ = std::make_shared<MIDISender>();
+        lr_ipc_out_ = std::shared_ptr<LR_IPC_OUT>(new LR_IPC_OUT, [](LR_IPC_OUT* me)
         {
             me->shutdown();
         });
-        m_lr_IPC_IN = std::shared_ptr<LR_IPC_IN>(new LR_IPC_IN, [](LR_IPC_IN* me)
+        lr_ipc_in_ = std::shared_ptr<LR_IPC_IN>(new LR_IPC_IN, [](LR_IPC_IN* me)
         {
             me->shutdown();
         });
@@ -86,29 +86,29 @@ public:
     }
 
 //==============================================================================
-    void initialise(const String& commandLine) override
+    void initialise(const String& command_line) override
     {
-        if (commandLine != ShutDownString)
+        if (command_line != ShutDownString)
         {
-            m_midiProcessor->Init();
-            m_midiSender->Init();
-            m_lr_IPC_OUT->Init(m_commandMap, m_midiProcessor);
+            midi_processor_->Init();
+            midi_sender_->Init();
+            lr_ipc_out_->Init(command_map_, midi_processor_);
             //set the reference to the command map
-            m_profileManager->Init(m_lr_IPC_OUT, m_commandMap, m_midiProcessor);
+            profile_manager_->Init(lr_ipc_out_, command_map_, midi_processor_);
             //init the IPC_In
-            m_lr_IPC_IN->Init(m_commandMap, m_profileManager, m_midiSender);
+            lr_ipc_in_->Init(command_map_, profile_manager_, midi_sender_);
             // init the settings manager
-            m_settingsManager->Init(m_lr_IPC_OUT, m_profileManager);
-            mainWindow = std::make_unique<MainWindow>(getApplicationName());
-            mainWindow->Init(m_commandMap, m_lr_IPC_IN, m_lr_IPC_OUT, m_midiProcessor, m_profileManager, m_settingsManager, m_midiSender);
+            settings_manager_->Init(lr_ipc_out_, profile_manager_);
+            main_window_ = std::make_unique<MainWindow>(getApplicationName());
+            main_window_->Init(command_map_, lr_ipc_in_, lr_ipc_out_, midi_processor_, profile_manager_, settings_manager_, midi_sender_);
             // Check for latest version
-            _versionChecker.Init(m_settingsManager);
-            _versionChecker.startThread();
+            version_checker_.Init(settings_manager_);
+            version_checker_.startThread();
         }
         else
         {
             // apparently the appication is already terminated
-            mainWindow = nullptr; // (deletes our window)
+            main_window_ = nullptr; // (deletes our window)
             quit();
         }
 
@@ -117,17 +117,17 @@ public:
     void shutdown() override
     {
         // Save the current profile as default.xml
-        auto defaultProfile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-        m_commandMap->toXMLDocument(defaultProfile);
-        m_lr_IPC_OUT.reset();
-        m_lr_IPC_IN.reset();
+        auto default_profile = File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+        command_map_->toXMLDocument(default_profile);
+        lr_ipc_out_.reset();
+        lr_ipc_in_.reset();
         //below resets added
-        m_commandMap.reset();
-        m_profileManager.reset();
-        m_settingsManager.reset();
-        m_midiProcessor.reset();
-        m_midiSender.reset();
-        mainWindow = nullptr; // (deletes our window)
+        command_map_.reset();
+        profile_manager_.reset();
+        settings_manager_.reset();
+        midi_processor_.reset();
+        midi_sender_.reset();
+        main_window_ = nullptr; // (deletes our window)
         quit();
     }
 
@@ -139,12 +139,12 @@ public:
         this->shutdown();
     }
 
-    void anotherInstanceStarted(const String& commandLine) override
+    void anotherInstanceStarted(const String& command_line) override
     {
         // When another instance of the app is launched while this one is running,
         // this method is invoked, and the commandLine parameter tells you what
         // the other instance's command-line arguments were.
-        if (commandLine == ShutDownString)
+        if (command_line == ShutDownString)
         {
             //shutting down
             this->shutdown();
@@ -152,15 +152,15 @@ public:
     }
 
 private:
-    std::unique_ptr<MainWindow> mainWindow;
-    VersionChecker _versionChecker;
-    std::shared_ptr<CommandMap> m_commandMap;
-    std::shared_ptr<LR_IPC_IN> m_lr_IPC_IN;
-    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
-    std::shared_ptr<ProfileManager> m_profileManager;
-    std::shared_ptr<SettingsManager> m_settingsManager;
-    std::shared_ptr<MIDIProcessor> m_midiProcessor;
-    std::shared_ptr<MIDISender> m_midiSender;
+    std::unique_ptr<MainWindow> main_window_;
+    VersionChecker version_checker_;
+    std::shared_ptr<CommandMap> command_map_;
+    std::shared_ptr<LR_IPC_IN> lr_ipc_in_;
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
+    std::shared_ptr<ProfileManager> profile_manager_;
+    std::shared_ptr<SettingsManager> settings_manager_;
+    std::shared_ptr<MIDIProcessor> midi_processor_;
+    std::shared_ptr<MIDISender> midi_sender_;
 };
 
 //==============================================================================

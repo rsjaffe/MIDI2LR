@@ -24,23 +24,23 @@ VersionChecker::VersionChecker() noexcept : Thread{ "VersionChecker" }
 
 }
 
-void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager) noexcept
+void VersionChecker::Init(std::shared_ptr<SettingsManager>& settings_manager) noexcept
 {
-    m_settingsManager = settingsManager;
+    settings_manager_ = settings_manager;
 }
 
 void VersionChecker::run()
 {
-    URL versionURL{ "http://rsjaffe.github.io/MIDI2LR/version.xml" };
-    unique_ptr<XmlElement> versionElem{ versionURL.readEntireXmlStream() };
-    int lastchecked{ 0 };
-    if (m_settingsManager)
-        lastchecked = m_settingsManager->getLastVersionFound();
-    if (versionElem != nullptr && (versionElem->getIntAttribute("latest") > ProjectInfo::versionNumber) && (versionElem->getIntAttribute("latest") != lastchecked))
+    URL version_url{ "http://rsjaffe.github.io/MIDI2LR/version.xml" };
+    unique_ptr<XmlElement> version_xml_element{ version_url.readEntireXmlStream() };
+    int last_checked{ 0 };
+    if (settings_manager_)
+        last_checked = settings_manager_->getLastVersionFound();
+    if (version_xml_element != nullptr && (version_xml_element->getIntAttribute("latest") > ProjectInfo::versionNumber) && (version_xml_element->getIntAttribute("latest") != last_checked))
     {
-        _newVersion = versionElem->getIntAttribute("latest");
-        if (m_settingsManager)
-            m_settingsManager->setLastVersionFound(_newVersion);
+        new_version_ = version_xml_element->getIntAttribute("latest");
+        if (settings_manager_)
+            settings_manager_->setLastVersionFound(new_version_);
         triggerAsyncUpdate();
     }
 }
@@ -48,20 +48,20 @@ void VersionChecker::run()
 void VersionChecker::handleAsyncUpdate()
 {
     // show a dialog box indicating there is a newer version available
-    DialogWindow::LaunchOptions dwOpt;
-    dwOpt.dialogTitle = "New Version Available!";
+    DialogWindow::LaunchOptions dialog_options;
+    dialog_options.dialogTitle = "New Version Available!";
 
-    const auto major{ (_newVersion & 0xF000000) >> 24 };
-    const auto minor{ (_newVersion & 0x00F0000) >> 16 };
-    const auto rev{ (_newVersion & 0x0000F00) >> 8 };
-    const auto build{ (_newVersion & 0x00000FF) };
-    const auto versionString{ String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build) };
-    const URL downloadURL{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
+    const auto major{ (new_version_ & 0xF000000) >> 24 };
+    const auto minor{ (new_version_ & 0x00F0000) >> 16 };
+    const auto rev{ (new_version_ & 0x0000F00) >> 8 };
+    const auto build{ (new_version_ & 0x00000FF) };
+    const auto version_string{ String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build) };
+    const URL download_url{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
 
-    dwOpt.content.setOwned(new HyperlinkButton{ versionString, downloadURL });
-    dwOpt.content->setSize(300, 100);
-    (static_cast<HyperlinkButton *>(dwOpt.content.get()))->setFont(Font{ 18.f }, false);
-    dwOpt.escapeKeyTriggersCloseButton = true;
-    _dialog.reset(dwOpt.create());
-    _dialog->setVisible(true);
+    dialog_options.content.setOwned(new HyperlinkButton{ version_string, download_url });
+    dialog_options.content->setSize(300, 100);
+    (static_cast<HyperlinkButton *>(dialog_options.content.get()))->setFont(Font{ 18.f }, false);
+    dialog_options.escapeKeyTriggersCloseButton = true;
+    dialog_.reset(dialog_options.create());
+    dialog_->setVisible(true);
 }

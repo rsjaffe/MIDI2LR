@@ -63,8 +63,8 @@ public:
     void paint(Graphics&) override;
 
     // MIDICommandListener interface
-    virtual void handleMidiCC(int midiChannel, int controller, int value) override;
-    virtual void handleMidiNote(int midiChannel, int note) override;
+    virtual void handleMidiCC(int midi_channel, int controller, int value) override;
+    virtual void handleMidiNote(int midi_channel, int note) override;
 
     // LRConnectionListener interface
     virtual void connected() override;
@@ -80,43 +80,42 @@ public:
     virtual void buttonClicked(Button* button) override;
 
     // ProfileChangeListener interface
-    virtual void profileChanged(XmlElement* elem, const String& filename) override;
-    void SetTimerText(int timeValue);
-    void Init(std::shared_ptr<CommandMap>& commandMap, std::shared_ptr<LR_IPC_IN>& in,
-        std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midiProcessor,
-        std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<SettingsManager>& settingsManager,
-        std::shared_ptr<MIDISender>& midiSender);
+    virtual void profileChanged(XmlElement* elem, const String& file_name) override;
+    void SetTimerText(int time_value);
+    void Init(std::shared_ptr<CommandMap>& command_map, std::shared_ptr<LR_IPC_IN>& in,
+        std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midi_processor,
+        std::shared_ptr<ProfileManager>& profile_manager, std::shared_ptr<SettingsManager>& settings_manager,
+        std::shared_ptr<MIDISender>& midi_sender);
 protected:
     void SetLabelSettings(Label &lblToSet);
 
 private:
-    Label _titleLabel;
-    DropShadowEffect _titleShadow;
-    Label _commandLabel;
-    Label _connectionLabel;
-    TextButton _rescanButton;
-    TextButton _removeRowButton;
-    TextButton _saveButton;
-    TextButton _loadButton;
-    TextButton _settingsButton;
-    Label _versionLabel;
-    CommandTable _commandTable;
-    CommandTableModel _commandTableModel;
-    Label _profileNameLabel;
+    Label title_label_;
+    DropShadowEffect title_shadow_;
+    Label command_label_;
+    Label connection_label_;
+    TextButton rescan_button_;
+    TextButton remove_row_button_;
+    TextButton save_button_;
+    TextButton load_button_;
+    TextButton settings_button_;
+    Label version_label_;
+    CommandTable command_table_;
+    CommandTableModel command_table_model_;
+    Label profile_name_label_;
 
-    std::unique_ptr<DialogWindow> _settingsDialog;
-//  SystemTrayIconComponent _systemTrayComponent;
+    std::unique_ptr<DialogWindow> settings_dialog_;
 
-    String _lastCommand;
-    int _rowToSelect;
-    Label m_currentStatus;
+    String last_command_;
+    int row_to_select_;
+    Label current_status_;
 
-    std::shared_ptr<CommandMap> m_commandMap;
-    std::shared_ptr<LR_IPC_IN> m_lr_IPC_IN;
-    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
-    std::shared_ptr<SettingsManager> m_settingsManager;
-    std::shared_ptr<MIDIProcessor> m_midiProcessor;
-    std::shared_ptr<MIDISender> m_midiSender;
+    std::shared_ptr<CommandMap> command_map_;
+    std::shared_ptr<LR_IPC_IN> lr_ipc_in_;
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
+    std::shared_ptr<SettingsManager> settings_manager_;
+    std::shared_ptr<MIDIProcessor> midi_processor_;
+    std::shared_ptr<MIDISender> midi_sender_;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

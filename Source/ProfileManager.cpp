@@ -20,62 +20,62 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "LRCommands.h"
 
-ProfileManager::ProfileManager() noexcept : _currentProfileIdx{ 0 }, m_commandMap{ nullptr }, m_lr_IPC_OUT{ nullptr }
+ProfileManager::ProfileManager() noexcept : current_profile_index_{ 0 }, command_map_{ nullptr }, lr_ipc_out_{ nullptr }
 {
 
 }
 
 void ProfileManager::addListener(ProfileChangeListener *listener)
 {
-    _listeners.addIfNotAlreadyThere(listener);
+    listeners_.addIfNotAlreadyThere(listener);
 }
 
-void ProfileManager::setProfileDirectory(const File& dir)
+void ProfileManager::setProfileDirectory(const File& directory)
 {
-    _profileLocation = dir;
+    profile_location_ = directory;
 
-    Array<File> fileArray;
-    dir.findChildFiles(fileArray, File::findFiles, false, "*.xml");
+    Array<File> file_array;
+    directory.findChildFiles(file_array, File::findFiles, false, "*.xml");
 
-    _currentProfileIdx = 0;
-    _profiles.clear();
-    for (auto file : fileArray)
-        _profiles.add(file.getFileName());
+    current_profile_index_ = 0;
+    profiles_.clear();
+    for (auto file : file_array)
+        profiles_.add(file.getFileName());
 
-    if (_profiles.size() > 0)
-        switchToProfile(_profiles[0]);
+    if (profiles_.size() > 0)
+        switchToProfile(profiles_[0]);
 }
 
 const StringArray& ProfileManager::getMenuItems() const noexcept
 {
-    return _profiles;
+    return profiles_;
 }
 
-void ProfileManager::switchToProfile(int profileIdx)
+void ProfileManager::switchToProfile(int profile_index)
 {
-    if (profileIdx >= 0 && profileIdx < _profiles.size())
+    if (profile_index >= 0 && profile_index < profiles_.size())
     {
-        switchToProfile(_profiles[profileIdx]);
-        _currentProfileIdx = profileIdx;
+        switchToProfile(profiles_[profile_index]);
+        current_profile_index_ = profile_index;
     }
 }
 
 void ProfileManager::switchToProfile(const String& profile)
 {
-    auto profileFile = _profileLocation.getChildFile(profile);
+    auto profile_file = profile_location_.getChildFile(profile);
 
-    if (profileFile.exists())
+    if (profile_file.exists())
     {
-        std::unique_ptr<XmlElement> elem{ XmlDocument::parse(profileFile) };
-        for (auto listener : _listeners)
-            listener->profileChanged(elem.get(), profile);
+        std::unique_ptr<XmlElement> xml_element{ XmlDocument::parse(profile_file) };
+        for (auto listener : listeners_)
+            listener->profileChanged(xml_element.get(), profile);
 
-        if (m_lr_IPC_OUT)
+        if (lr_ipc_out_)
         {
-            auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(_profileLocation.getFullPathName()) + String{ "\n" };
-            m_lr_IPC_OUT->sendCommand(command);
+            auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(profile_location_.getFullPathName()) + String{ "\n" };
+            lr_ipc_out_->sendCommand(command);
             command = String("ChangedToFile ") + profile + String("\n");
-            m_lr_IPC_OUT->sendCommand(command);
+            lr_ipc_out_->sendCommand(command);
         }
 
     }
@@ -83,62 +83,62 @@ void ProfileManager::switchToProfile(const String& profile)
 
 void ProfileManager::switchToPreviousProfile()
 {
-    _currentProfileIdx--;
-    if (_currentProfileIdx < 0) _currentProfileIdx = _profiles.size() - 1;
+    current_profile_index_--;
+    if (current_profile_index_ < 0) current_profile_index_ = profiles_.size() - 1;
 
-    switchToProfile(_currentProfileIdx);
+    switchToProfile(current_profile_index_);
 }
 
 void ProfileManager::switchToNextProfile()
 {
-    _currentProfileIdx++;
-    if (_currentProfileIdx == _profiles.size()) _currentProfileIdx = 0;
+    current_profile_index_++;
+    if (current_profile_index_ == profiles_.size()) current_profile_index_ = 0;
 
-    switchToProfile(_currentProfileIdx);
+    switchToProfile(current_profile_index_);
 }
 
-void ProfileManager::handleMidiCC(int midiChannel, int controller, int value)
+void ProfileManager::handleMidiCC(int midi_channel, int controller, int value)
 {
-    const MIDI_Message cc{ midiChannel, controller, true };
+    const MIDI_Message cc{ midi_channel, controller, true };
 
-    if (m_commandMap)
+    if (command_map_)
     {
         // return if the value isn't 0 or 127, or the command isn't a valid profile-related command
-        if ((value != 127) || !m_commandMap->messageExistsInMap(cc))
+        if ((value != 127) || !command_map_->messageExistsInMap(cc))
             return;
 
-        if (m_commandMap->getCommandforMessage(cc) == "Previous Profile")
+        if (command_map_->getCommandforMessage(cc) == "Previous Profile")
         {
-            _switchState = SWITCH_STATE::PREV;
+            switch_state_ = SWITCH_STATE::PREV;
             triggerAsyncUpdate();
         }
-        else if (m_commandMap->getCommandforMessage(cc) == "Next Profile")
+        else if (command_map_->getCommandforMessage(cc) == "Next Profile")
         {
-            _switchState = SWITCH_STATE::NEXT;
+            switch_state_ = SWITCH_STATE::NEXT;
             triggerAsyncUpdate();
         }
     }
 }
 
-void ProfileManager::handleMidiNote(int midiChannel, int note)
+void ProfileManager::handleMidiNote(int midi_channel, int note)
 {
-    const MIDI_Message note_msg{ midiChannel, note, false };
+    const MIDI_Message note_msg{ midi_channel, note, false };
 
-    if (m_commandMap)
+    if (command_map_)
     {
 
         // return if the command isn't a valid profile-related command
-        if (!m_commandMap->messageExistsInMap(note_msg))
+        if (!command_map_->messageExistsInMap(note_msg))
             return;
 
-        if (m_commandMap->getCommandforMessage(note_msg) == "Previous Profile")
+        if (command_map_->getCommandforMessage(note_msg) == "Previous Profile")
         {
-            _switchState = SWITCH_STATE::PREV;
+            switch_state_ = SWITCH_STATE::PREV;
             triggerAsyncUpdate();
         }
-        else if (m_commandMap->getCommandforMessage(note_msg) == "Next Profile")
+        else if (command_map_->getCommandforMessage(note_msg) == "Next Profile")
         {
-            _switchState = SWITCH_STATE::NEXT;
+            switch_state_ = SWITCH_STATE::NEXT;
             triggerAsyncUpdate();
         }
     }
@@ -146,15 +146,15 @@ void ProfileManager::handleMidiNote(int midiChannel, int note)
 
 void ProfileManager::handleAsyncUpdate()
 {
-    switch (_switchState)
+    switch (switch_state_)
     {
         case SWITCH_STATE::PREV:
             switchToPreviousProfile();
-            _switchState = SWITCH_STATE::NONE;
+            switch_state_ = SWITCH_STATE::NONE;
             break;
         case SWITCH_STATE::NEXT:
             switchToNextProfile();
-            _switchState = SWITCH_STATE::NONE;
+            switch_state_ = SWITCH_STATE::NONE;
             break;
         default:
             break;
@@ -163,10 +163,10 @@ void ProfileManager::handleAsyncUpdate()
 
 void ProfileManager::connected()
 {
-    auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(_profileLocation.getFullPathName()) + String{ "\n" };
-    if (m_lr_IPC_OUT)
+    auto command = String{ "ChangedToDirectory " } +File::addTrailingSeparator(profile_location_.getFullPathName()) + String{ "\n" };
+    if (lr_ipc_out_)
     {
-        m_lr_IPC_OUT->sendCommand(command);
+        lr_ipc_out_->sendCommand(command);
     }
 }
 
@@ -178,13 +178,13 @@ void ProfileManager::disconnected()
 void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor)
 {
     //copy the pointers
-    m_commandMap = commandMap;
-    m_lr_IPC_OUT = out;
+    command_map_ = commandMap;
+    lr_ipc_out_ = out;
 
-    if (m_lr_IPC_OUT)
+    if (lr_ipc_out_)
     {
         // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
-        m_lr_IPC_OUT->addListener(this);
+        lr_ipc_out_->addListener(this);
     }
 
     if (midiProcessor)

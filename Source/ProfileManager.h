@@ -30,7 +30,7 @@ class ProfileChangeListener
 {
 public:
     // called when the current profile is changed
-    virtual void profileChanged(XmlElement* elem, const String& filename) = 0;
+    virtual void profileChanged(XmlElement* elem, const String& file_name) = 0;
 
     virtual ~ProfileChangeListener()
     {};
@@ -64,8 +64,8 @@ public:
     void switchToPreviousProfile();
 
     // MIDICommandListener interface
-    virtual void handleMidiCC(int midiChannel, int controller, int value) override;
-    virtual void handleMidiNote(int midiChannel, int note) override;
+    virtual void handleMidiCC(int midi_channel, int controller, int value) override;
+    virtual void handleMidiNote(int midi_channel, int note) override;
 
     // AsyncUpdate interface
     virtual void handleAsyncUpdate() override;
@@ -73,7 +73,7 @@ public:
     // LRConnectionListener interface
     virtual void connected() override;
     virtual void disconnected() override;
-    void Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> commandMap, std::shared_ptr<MIDIProcessor> midiProcessor);
+    void Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> command_map, std::shared_ptr<MIDIProcessor> midi_processor);
 private:
     enum class SWITCH_STATE
     {
@@ -85,13 +85,13 @@ private:
     ProfileManager(ProfileManager const&) = delete;
     void operator=(ProfileManager const&) = delete;
 
-    File _profileLocation;
-    StringArray _profiles;
-    Array<ProfileChangeListener *> _listeners;
-    int _currentProfileIdx;
-    SWITCH_STATE _switchState;
-    std::shared_ptr<CommandMap> m_commandMap;
-    std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
+    File profile_location_;
+    StringArray profiles_;
+    Array<ProfileChangeListener *> listeners_;
+    int current_profile_index_;
+    SWITCH_STATE switch_state_;
+    std::shared_ptr<CommandMap> command_map_;
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

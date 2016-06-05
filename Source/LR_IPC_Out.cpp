@@ -21,7 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-constexpr auto LrOutPort = 58763;
+constexpr auto kLrOutPort = 58763;
 
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
 {
@@ -32,23 +32,23 @@ void LR_IPC_OUT::shutdown()
 {
     stopTimer(),
         disconnect();
-    m_commandMap.reset();
+    command_map_.reset();
 }
 
 void LR_IPC_OUT::timerCallback()
 {
     if (!isConnected())
-        connectToSocket("127.0.0.1", LrOutPort, 100);
+        connectToSocket("127.0.0.1", kLrOutPort, 100);
 }
 
-void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<MIDIProcessor>& midiProcessor)
+void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& map_command, std::shared_ptr<MIDIProcessor>& midi_processor)
 {
     //copy the pointer
-    m_commandMap = mapCommand;
+    command_map_ = map_command;
 
-    if (midiProcessor)
+    if (midi_processor)
     {
-        midiProcessor->addMIDICommandListener(this);
+        midi_processor->addMIDICommandListener(this);
     }
 
     //start the timer
@@ -58,18 +58,18 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<M
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
 {
-    _listeners.addIfNotAlreadyThere(listener);
+    listeners_.addIfNotAlreadyThere(listener);
 }
 
 void LR_IPC_OUT::connectionMade()
 {
-    for (auto listener : _listeners)
+    for (auto listener : listeners_)
         listener->connected();
 }
 
 void LR_IPC_OUT::connectionLost()
 {
-    for (auto listener : _listeners)
+    for (auto listener : listeners_)
         listener->disconnected();
 }
 
@@ -92,46 +92,46 @@ void LR_IPC_OUT::handleAsyncUpdate()
     //check if there is a connection
     if (isConnected())
     {
-        auto command(_commandToSend + String::formatted(" %d\n", _valueToSend));
+        auto command(command_to_send_ + String::formatted(" %d\n", value_to_send_));
         sendCommand(command);
     }
 }
 
-void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
+void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value)
 {
-    MIDI_Message cc{ midiChannel, controller, true };
+    MIDI_Message message{ midi_channel, controller, true };
 
-    if (m_commandMap)
+    if (command_map_)
     {
-        if (!m_commandMap->messageExistsInMap(cc) ||
-            m_commandMap->getCommandforMessage(cc) == "Unmapped" ||
+        if (!command_map_->messageExistsInMap(message) ||
+            command_map_->getCommandforMessage(message) == "Unmapped" ||
             find(LRCommandList::NextPrevProfile.begin(),
             LRCommandList::NextPrevProfile.end(),
-            m_commandMap->getCommandforMessage(cc)) != LRCommandList::NextPrevProfile.end())
+            command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
             return;
 
-        _commandToSend = m_commandMap->getCommandforMessage(cc);
-        _valueToSend = value;
+        command_to_send_ = command_map_->getCommandforMessage(message);
+        value_to_send_ = value;
         handleAsyncUpdate();
     }
 }
 
-void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
+void LR_IPC_OUT::handleMidiNote(int midi_channel, int note)
 {
-    MIDI_Message note_msg{ midiChannel, note, false };
+    MIDI_Message message{ midi_channel, note, false };
 
-    if (m_commandMap)
+    if (command_map_)
     {
 
-        if (!m_commandMap->messageExistsInMap(note_msg) ||
-            m_commandMap->getCommandforMessage(note_msg) == "Unmapped" ||
+        if (!command_map_->messageExistsInMap(message) ||
+            command_map_->getCommandforMessage(message) == "Unmapped" ||
             find(LRCommandList::NextPrevProfile.begin(),
             LRCommandList::NextPrevProfile.end(),
-            m_commandMap->getCommandforMessage(note_msg)) != LRCommandList::NextPrevProfile.end())
+            command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
             return;
 
-        _commandToSend = m_commandMap->getCommandforMessage(note_msg);
-        _valueToSend = 127;
+        command_to_send_ = command_map_->getCommandforMessage(message);
+        value_to_send_ = 127;
         handleAsyncUpdate();
     }
 }

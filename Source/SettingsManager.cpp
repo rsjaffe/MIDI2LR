@@ -35,52 +35,52 @@ namespace std
 //constexpr and auto don't work in XCode
 const juce::String AutoHideSection{ "autohide" };
 
-SettingsManager::SettingsManager(): m_lr_IPC_OUT{ nullptr }, m_profileManager{ nullptr }
+SettingsManager::SettingsManager(): lr_ipc_out_{ nullptr }, profile_manager_{ nullptr }
 {
-    PropertiesFile::Options opts;
-    opts.applicationName = "MIDI2LR";
-    opts.commonToAllUsers = false;
-    opts.filenameSuffix = "xml";
-    opts.osxLibrarySubFolder = "Application Support/MIDI2LR";
-    opts.storageFormat = PropertiesFile::storeAsXML;
+    PropertiesFile::Options file_options;
+    file_options.applicationName = "MIDI2LR";
+    file_options.commonToAllUsers = false;
+    file_options.filenameSuffix = "xml";
+    file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
+    file_options.storageFormat = PropertiesFile::storeAsXML;
 
-    _propertiesFile = std::make_unique<PropertiesFile>(opts);
+    properties_file_ = std::make_unique<PropertiesFile>(file_options);
 
 }
 
 void SettingsManager::setPickupEnabled(bool enabled)
 {
-    _propertiesFile->setValue("pickup_enabled", enabled);
-    _propertiesFile->saveIfNeeded();
+    properties_file_->setValue("pickup_enabled", enabled);
+    properties_file_->saveIfNeeded();
 
     auto command = String::formatted("Pickup %d\n", enabled);
 
-    if (m_lr_IPC_OUT)
+    if (lr_ipc_out_)
     {
-        m_lr_IPC_OUT->sendCommand(command);
+        lr_ipc_out_->sendCommand(command);
     }
 
 }
 
 bool SettingsManager::getPickupEnabled() const noexcept
 {
-    return _propertiesFile->getBoolValue("pickup_enabled", true);
+    return properties_file_->getBoolValue("pickup_enabled", true);
 }
 
 String SettingsManager::getProfileDirectory() const noexcept
 {
-    return _propertiesFile->getValue("profile_directory");
+    return properties_file_->getValue("profile_directory");
 }
 
-void SettingsManager::setProfileDirectory(const String& profileDirStr)
+void SettingsManager::setProfileDirectory(const String& profile_directory_name)
 {
-    _propertiesFile->setValue("profile_directory", profileDirStr);
-    _propertiesFile->saveIfNeeded();
+    properties_file_->setValue("profile_directory", profile_directory_name);
+    properties_file_->saveIfNeeded();
 
-    if (m_profileManager)
+    if (profile_manager_)
     {
-        File profileDir{ profileDirStr };
-        m_profileManager->setProfileDirectory(profileDir);
+        File profileDir{ profile_directory_name };
+        profile_manager_->setProfileDirectory(profileDir);
     }
 }
 
@@ -88,9 +88,9 @@ void SettingsManager::connected()
 {
     auto command = String::formatted("Pickup %d\n", getPickupEnabled());
 
-    if (m_lr_IPC_OUT)
+    if (lr_ipc_out_)
     {
-        m_lr_IPC_OUT->sendCommand(command);
+        lr_ipc_out_->sendCommand(command);
     }
 
 }
@@ -102,45 +102,45 @@ void SettingsManager::disconnected()
 
 int SettingsManager::getAutoHideTime() const noexcept
 {
-    return _propertiesFile->getIntValue(AutoHideSection, 0);
+    return properties_file_->getIntValue(AutoHideSection, 0);
 
 }
 
-void SettingsManager::setAutoHideTime(int newTime)
+void SettingsManager::setAutoHideTime(int new_time)
 {
-    _propertiesFile->setValue(AutoHideSection, newTime);
-    _propertiesFile->saveIfNeeded();
+    properties_file_->setValue(AutoHideSection, new_time);
+    properties_file_->saveIfNeeded();
 
 }
 
 int SettingsManager::getLastVersionFound() const noexcept
 {
-    return _propertiesFile->getIntValue("LastVersionFound", 0);
+    return properties_file_->getIntValue("LastVersionFound", 0);
 }
 
-void SettingsManager::setLastVersionFound(int newversion)
+void SettingsManager::setLastVersionFound(int new_version)
 {
-    _propertiesFile->setValue("LastVersionFound", newversion);
-    _propertiesFile->saveIfNeeded();
+    properties_file_->setValue("LastVersionFound", new_version);
+    properties_file_->saveIfNeeded();
 }
 
-void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profileManager)
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out, std::shared_ptr<ProfileManager>& profile_manager)
 {
-    m_lr_IPC_OUT = lr_IPC_OUT;
+    lr_ipc_out_ = lr_ipc_out;
 
-    if (m_lr_IPC_OUT)
+    if (lr_ipc_out_)
     {
         // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
-        m_lr_IPC_OUT->addListener(this);
+        lr_ipc_out_->addListener(this);
     }
 
-    m_profileManager = profileManager;
+    profile_manager_ = profile_manager;
 
-    if (m_profileManager)
+    if (profile_manager_)
     {
         // set the profile directory
-        File profileDir{ getProfileDirectory() };
-        profileManager->setProfileDirectory(profileDir);
+        File profile_directory{ getProfileDirectory() };
+        profile_manager->setProfileDirectory(profile_directory);
     }
 
 }

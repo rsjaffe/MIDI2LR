@@ -39,7 +39,7 @@ public:
 protected:
     void Notify(void);
 private:
-    vector<Observer *> m_observerArray;
+    vector<Observer *> observers_;
 };
 
 #endif  // SUBJECT_H_INCLUDED

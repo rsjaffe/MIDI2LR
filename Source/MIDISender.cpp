@@ -24,20 +24,20 @@ MIDISender::MIDISender() noexcept
 
 }
 
-void MIDISender::initDevices()
+void MIDISender::InitDevices_()
 {
     for (auto idx = 0; idx < MidiOutput::getDevices().size(); idx++)
     {
         auto dev = MidiOutput::openDevice(idx);
         if (dev != nullptr)
-            _outputDevices.set(idx, dev);
+            output_devices.set(idx, dev);
     }
 }
 
 void MIDISender::rescanDevices()
 {
-    _outputDevices.clear(true);
-    initDevices();
+    output_devices.clear(true);
+    InitDevices_();
 }
 
 MIDISender::~MIDISender()
@@ -47,11 +47,11 @@ MIDISender::~MIDISender()
 
 void MIDISender::sendCC(int midi_channel, int controller, int value) const
 {
-    for (auto dev : _outputDevices)
+    for (auto dev : output_devices)
         dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller, value));
 }
 
 void MIDISender::Init(void)
 {
-    initDevices();
+    InitDevices_();
 }

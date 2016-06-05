@@ -30,7 +30,7 @@ class VersionChecker: public Thread,
 public:
     VersionChecker() noexcept;
 
-    void Init(std::shared_ptr<SettingsManager>& profileManager) noexcept;
+    void Init(std::shared_ptr<SettingsManager>& profile_manager) noexcept;
     // Thread interface
     virtual void run() override;
 
@@ -38,9 +38,9 @@ public:
     virtual void handleAsyncUpdate() override;
 
 private:
-    int _newVersion;
-    std::unique_ptr<DialogWindow> _dialog;
-    std::shared_ptr<SettingsManager> m_settingsManager;
+    int new_version_;
+    std::unique_ptr<DialogWindow> dialog_;
+    std::shared_ptr<SettingsManager> settings_manager_;
 };
 
 #endif  // VERSIONCHECKER_H_INCLUDED

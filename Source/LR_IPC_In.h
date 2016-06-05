@@ -52,11 +52,11 @@ public:
 private:
     // process a line received from the socket
     void processLine(const String& line);
-    std::shared_ptr<CommandMap> m_commandMap;
-    std::shared_ptr<ProfileManager> m_profileManager;
-    std::shared_ptr<MIDISender> m_midiSender;
-    std::unordered_map<String, int> parameterMap;
-    SendKeys m_SendKeys;
+    std::shared_ptr<CommandMap> command_map_;
+    std::shared_ptr<ProfileManager> profile_manager_;
+    std::shared_ptr<MIDISender> midi_sender_;
+    std::unordered_map<String, int> parameter_map_;
+    SendKeys send_keys_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED
