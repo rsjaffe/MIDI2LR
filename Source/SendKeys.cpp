@@ -184,7 +184,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
 
     std::string lower_string; //used for matching with key names
     for (auto& c : key)
-        lower_string.push_back(std::tolower(c));
+        lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
 #ifdef _WIN32
     //Lightroom handle
     const auto hLRWnd = ::FindWindow(NULL, "Lightroom");
