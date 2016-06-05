@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keyshortcuts',['KeyShortcuts',['../classLRCommandList.html#aab585f7cc9a9aa7fdd3bba296aa4c11a',1,'LRCommandList']]]
+  ['mixer',['Mixer',['../class_l_r_command_list.html#abc8fa08c7dfe651990e16a5c7cb44be7',1,'LRCommandList']]]
 ];

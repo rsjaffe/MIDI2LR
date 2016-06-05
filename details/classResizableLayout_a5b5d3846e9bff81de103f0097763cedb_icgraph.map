@@ -1,7 +1,0 @@
-<map id="ResizableLayout::activateLayout" name="ResizableLayout::activateLayout">
-<area shape="rect" id="node2" href="$classSettingsComponent.html#a7c93797c06a61716f670858ce3fdca6f" title="Inits the given settings manager. " alt="" coords="224,13,385,39"/>
-<area shape="rect" id="node4" href="$classMainContentComponent.html#a34ad76f656a84f80ad2c044dd4ee3262" title="S. " alt="" coords="224,64,385,105"/>
-<area shape="rect" id="node3" href="$classMainContentComponent.html#a72d6b006f4d4a6c4de2ca2e1bde18fc6" title="Button clicked. " alt="" coords="433,5,595,47"/>
-<area shape="rect" id="node5" href="$classMainWindow.html#a463a6d09d5b6a183fa3c896952fb878c" title="S. " alt="" coords="453,71,575,98"/>
-<area shape="rect" id="node6" href="$classMainWindow.html#a50d2e609ff67f40e10806605f8281bc4" title="MainWindow::closeButtonPressed" alt="" coords="643,71,864,98"/>
-</map>

@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.0.1</span>
+   &#160;<span id="projectnumber">1.0.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -41,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -76,6 +85,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_func.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -92,73 +115,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="contents">
 &#160;<ul>
-<li>Copyright()
-: <a class="el" href="COPYING_8txt.html#aa3ed601dee313116393d6e5efc58d658">COPYING.txt</a>
-</li>
 <li>Dummy()
-: <a class="el" href="Singleton_8cpp.html#a975718305e9fbdc265357603e03c145c">Singleton.cpp</a>
-</li>
-<li>Dutch()
-: <a class="el" href="TRANSLATIONS_8txt.html#a688be9d3c101db3ac61b5cc39606b2cb">TRANSLATIONS.txt</a>
-</li>
-<li>English()
-: <a class="el" href="TRANSLATIONS_8txt.html#a8dfdda9a6eeaa39230276177cb02eca1">TRANSLATIONS.txt</a>
-</li>
-<li>folder()
-: <a class="el" href="ReadMe_8txt.html#ab16c9f9bd0debc8ae158ffe3c991ef3c">ReadMe.txt</a>
-</li>
-<li>French()
-: <a class="el" href="TRANSLATIONS_8txt.html#a25719a39d2baaf24b4a9cbc996a3be97">TRANSLATIONS.txt</a>
-</li>
-<li>German()
-: <a class="el" href="TRANSLATIONS_8txt.html#ad605e28f5002107c90105af41d64a8b8">TRANSLATIONS.txt</a>
-</li>
-<li>Highlights()
-: <a class="el" href="Documentation_8txt.html#a621970e528db0601dd1d44cc59fc70ce">Documentation.txt</a>
-</li>
-<li>Italian()
-: <a class="el" href="TRANSLATIONS_8txt.html#a0dee40665e2da43c229bc4555a190d41">TRANSLATIONS.txt</a>
-</li>
-<li>Japanese()
-: <a class="el" href="TRANSLATIONS_8txt.html#a053dd9f222c92bb3c079147fd7477893">TRANSLATIONS.txt</a>
-</li>
-<li>Korean()
-: <a class="el" href="TRANSLATIONS_8txt.html#af9cc6ae19fd79d6fb6bb4b2d4e6ac805">TRANSLATIONS.txt</a>
-</li>
-<li>m_menus()
-: <a class="el" href="Documentation_8txt.html#a378bca3b3e6882c14cb7f803ec366d60">Documentation.txt</a>
-</li>
-<li>plugin()
-: <a class="el" href="TRANSLATIONS_8txt.html#a6c3936a601a9aa1c9657ca920c389059">TRANSLATIONS.txt</a>
-</li>
-<li>Portuguese()
-: <a class="el" href="TRANSLATIONS_8txt.html#a696fa88c7770e885b43e47e87644f878">TRANSLATIONS.txt</a>
-</li>
-<li>right()
-: <a class="el" href="Documentation_8txt.html#a84c2156fb19888d929e4655286003772">Documentation.txt</a>
-</li>
-<li>Shadows()
-: <a class="el" href="Documentation_8txt.html#a4251da29070e7ae4f559e0010b2b7b91">Documentation.txt</a>
-</li>
-<li>Spanish()
-: <a class="el" href="TRANSLATIONS_8txt.html#add4a15d52d6e1c4550938d518dbde094">TRANSLATIONS.txt</a>
-</li>
-<li>Swedish()
-: <a class="el" href="TRANSLATIONS_8txt.html#af8f8da54daa1c4f1e19d89ee0ffb331c">TRANSLATIONS.txt</a>
-</li>
-<li>Whites()
-: <a class="el" href="Documentation_8txt.html#a1573f705b58ce567d5b8b777b003c5e2">Documentation.txt</a>
-</li>
-<li>zero()
-: <a class="el" href="Documentation_8txt.html#a204924ec190ece77c4a7954ceb228a21">Documentation.txt</a>
+: <a class="el" href="_singleton_8cpp.html#a975718305e9fbdc265357603e03c145c">Singleton.cpp</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2016 18:28:36 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

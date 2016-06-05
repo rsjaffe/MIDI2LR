@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['observer',['Observer',['../classObserver.html',1,'']]]
+  ['observer',['Observer',['../class_observer.html',1,'']]]
 ];

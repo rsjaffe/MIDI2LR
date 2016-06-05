@@ -1,9 +1,20 @@
 var searchData=
 [
-  ['init',['Init',['../classCommandMenu.html#acd64d52e3368e49676d2153130cc0117',1,'CommandMenu::Init()'],['../classCommandTableModel.html#a840540a46e865e5ac59f6922bf1ef184',1,'CommandTableModel::Init()'],['../classLR__IPC__IN.html#a292c95a31841722d4bf514d27b44e732',1,'LR_IPC_IN::Init()'],['../classLR__IPC__OUT.html#a60675a293f413269f491889cb2726867',1,'LR_IPC_OUT::Init()'],['../classMainContentComponent.html#a34ad76f656a84f80ad2c044dd4ee3262',1,'MainContentComponent::Init()'],['../classMainWindow.html#a463a6d09d5b6a183fa3c896952fb878c',1,'MainWindow::Init()'],['../classMIDIProcessor.html#a5368c02640c7493c0119deadfe2feeba',1,'MIDIProcessor::Init()'],['../classMIDISender.html#ab563687fe6dd2b274a1694140ef7c08c',1,'MIDISender::Init()'],['../classProfileManager.html#a3d8aa653a6a7be1b3fab6c5d8bb455ca',1,'ProfileManager::Init()'],['../classSettingsComponent.html#a7c93797c06a61716f670858ce3fdca6f',1,'SettingsComponent::Init()'],['../classSettingsManager.html#ab64f85e2d4154736ff3114cdbd4126bf',1,'SettingsManager::Init()'],['../classVersionChecker.html#ad247a7e29740dbcf58089b901cfe73e4',1,'VersionChecker::Init()']]],
-  ['iscc',['isCC',['../structMIDI__Message.html#a9483383e9b4594a7b018f70779a645e7',1,'MIDI_Message']]],
-  ['isingleton',['ISingleton',['../classISingleton.html',1,'']]],
-  ['isnrpn',['isNRPN',['../structMIDI__Message.html#a131f956eb4979db566c060b2dd902d37',1,'MIDI_Message']]],
-  ['isrelative',['isRelative',['../structMIDI__Message.html#a00bfe36050f78311ecad9311e2bfbb85',1,'MIDI_Message']]],
-  ['italian',['Italian',['../TRANSLATIONS_8txt.html#a0dee40665e2da43c229bc4555a190d41',1,'TRANSLATIONS.txt']]]
+  ['lenscorrections',['LensCorrections',['../class_l_r_command_list.html#a536555bd29c161ad70ea5bdf9cdc8159',1,'LRCommandList']]],
+  ['library',['Library',['../class_l_r_command_list.html#a7c252ee33565d85c1b3180ef4e20db3b',1,'LRCommandList']]],
+  ['localadjustments',['LocalAdjustments',['../class_l_r_command_list.html#a4f90d55a091e66e130b3eaa736155acb',1,'LRCommandList']]],
+  ['lr_5fipc_5fin',['LR_IPC_IN',['../class_l_r___i_p_c___i_n.html',1,'LR_IPC_IN'],['../class_l_r___i_p_c___i_n.html#a15a4d6b2b058793bdd6d37ce81880d5b',1,'LR_IPC_IN::LR_IPC_IN()']]],
+  ['lr_5fipc_5fin_2ecpp',['LR_IPC_In.cpp',['../_l_r___i_p_c___in_8cpp.html',1,'']]],
+  ['lr_5fipc_5fin_2eh',['LR_IPC_In.h',['../_l_r___i_p_c___in_8h.html',1,'']]],
+  ['lr_5fipc_5fin_5fh_5fincluded',['LR_IPC_IN_H_INCLUDED',['../_l_r___i_p_c___in_8h.html#a76b70bf1d15c92bc0578f8e92c90f831',1,'LR_IPC_In.h']]],
+  ['lr_5fipc_5fout',['LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html',1,'LR_IPC_OUT'],['../class_l_r___i_p_c___o_u_t.html#a8842e5b48f3546b6269607aec979f916',1,'LR_IPC_OUT::LR_IPC_OUT()']]],
+  ['lr_5fipc_5fout_2ecpp',['LR_IPC_Out.cpp',['../_l_r___i_p_c___out_8cpp.html',1,'']]],
+  ['lr_5fipc_5fout_2eh',['LR_IPC_Out.h',['../_l_r___i_p_c___out_8h.html',1,'']]],
+  ['lr_5fipc_5fout_5fh_5fincluded',['LR_IPC_OUT_H_INCLUDED',['../_l_r___i_p_c___out_8h.html#a37190a0b9119ae1f3d5f9a8a5f2dd331',1,'LR_IPC_Out.h']]],
+  ['lrcommandlist',['LRCommandList',['../class_l_r_command_list.html',1,'']]],
+  ['lrcommands_2ecpp',['LRCommands.cpp',['../_l_r_commands_8cpp.html',1,'']]],
+  ['lrcommands_2eh',['LRCommands.h',['../_l_r_commands_8h.html',1,'']]],
+  ['lrcommands_5fh_5fincluded',['LRCOMMANDS_H_INCLUDED',['../_l_r_commands_8h.html#aabfc6baa2affc49247fe84f677018d69',1,'LRCommands.h']]],
+  ['lrconnectionlistener',['LRConnectionListener',['../class_l_r_connection_listener.html',1,'']]],
+  ['lrstringlist',['LRStringList',['../class_l_r_command_list.html#a95a8249becc79b12099005403f927a3d',1,'LRCommandList']]]
 ];

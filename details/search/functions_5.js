@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['folder',['folder',['../ReadMe_8txt.html#ab16c9f9bd0debc8ae158ffe3c991ef3c',1,'ReadMe.txt']]],
-  ['french',['French',['../TRANSLATIONS_8txt.html#a25719a39d2baaf24b4a9cbc996a3be97',1,'TRANSLATIONS.txt']]]
+  ['handleasyncupdate',['handleAsyncUpdate',['../class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a',1,'ProfileManager::handleAsyncUpdate()'],['../class_main_content_component.html#a9be726b895f68c0e9163d618ee4d20f6',1,'MainContentComponent::handleAsyncUpdate()'],['../class_version_checker.html#a3be0b90040969fec02cc547f7012accc',1,'VersionChecker::handleAsyncUpdate()'],['../class_l_r___i_p_c___o_u_t.html#ad51f33b2ec43f590ac2d3fc60c129134',1,'LR_IPC_OUT::handleAsyncUpdate()']]],
+  ['handleincomingmidimessage',['handleIncomingMidiMessage',['../class_m_i_d_i_processor.html#a373aab7c369e94b1f1a59ca78f78111e',1,'MIDIProcessor']]],
+  ['handlemidicc',['handleMidiCC',['../class_profile_manager.html#a32fc121bb66f360e911800c246ca33a6',1,'ProfileManager::handleMidiCC()'],['../class_m_i_d_i_command_listener.html#a9bfd81e80280c1889411b60d4c676ea2',1,'MIDICommandListener::handleMidiCC()'],['../class_main_content_component.html#a707968b7a37aa4d5aa1a4fe57f44e86e',1,'MainContentComponent::handleMidiCC()'],['../class_l_r___i_p_c___o_u_t.html#ad2d2b544157950b3b74ff6f7791c98cc',1,'LR_IPC_OUT::handleMidiCC()']]],
+  ['handlemidinote',['handleMidiNote',['../class_profile_manager.html#aa6cab044e89f88926dbc57ca5bfd6b4e',1,'ProfileManager::handleMidiNote()'],['../class_m_i_d_i_command_listener.html#ae2f4c3f606f9f18906f56b3c3bf1fb42',1,'MIDICommandListener::handleMidiNote()'],['../class_main_content_component.html#a406b8dd5a8d7510f7688e83a69b58ed1',1,'MainContentComponent::handleMidiNote()'],['../class_l_r___i_p_c___o_u_t.html#ab586f83cf46e3a10ab03a934c749d60d',1,'LR_IPC_OUT::handleMidiNote()']]]
 ];

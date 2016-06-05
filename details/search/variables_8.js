@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['iscc',['isCC',['../structMIDI__Message.html#a9483383e9b4594a7b018f70779a645e7',1,'MIDI_Message']]],
-  ['isnrpn',['isNRPN',['../structMIDI__Message.html#a131f956eb4979db566c060b2dd902d37',1,'MIDI_Message']]],
-  ['isrelative',['isRelative',['../structMIDI__Message.html#a00bfe36050f78311ecad9311e2bfbb85',1,'MIDI_Message']]]
+  ['lenscorrections',['LensCorrections',['../class_l_r_command_list.html#a536555bd29c161ad70ea5bdf9cdc8159',1,'LRCommandList']]],
+  ['library',['Library',['../class_l_r_command_list.html#a7c252ee33565d85c1b3180ef4e20db3b',1,'LRCommandList']]],
+  ['localadjustments',['LocalAdjustments',['../class_l_r_command_list.html#a4f90d55a091e66e130b3eaa736155acb',1,'LRCommandList']]],
+  ['lrstringlist',['LRStringList',['../class_l_r_command_list.html#a95a8249becc79b12099005403f927a3d',1,'LRCommandList']]]
 ];

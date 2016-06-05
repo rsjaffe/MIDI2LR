@@ -1,24 +1,11 @@
 var searchData=
 [
-  ['lenscorrections',['LensCorrections',['../classLRCommandList.html#a536555bd29c161ad70ea5bdf9cdc8159',1,'LRCommandList']]],
-  ['level',['level',['../Documentation_8txt.html#acafe4b73f1e0805d913361d5b7ca738e',1,'level():&#160;Documentation.txt'],['../Documentation_8txt.html#ab6830a4f8ae73af2172bef6668845106',1,'Level():&#160;Documentation.txt']]],
-  ['library',['Library',['../classLRCommandList.html#a7c252ee33565d85c1b3180ef4e20db3b',1,'LRCommandList']]],
-  ['light',['Light',['../Documentation_8txt.html#ab0f1c730d37eacd8745daee5aabd8c8f',1,'Documentation.txt']]],
-  ['localadjustments',['LocalAdjustments',['../classLRCommandList.html#a4f90d55a091e66e130b3eaa736155acb',1,'LRCommandList']]],
-  ['lr_5fipc_5fin',['LR_IPC_IN',['../classLR__IPC__IN.html',1,'LR_IPC_IN'],['../classLR__IPC__IN.html#a15a4d6b2b058793bdd6d37ce81880d5b',1,'LR_IPC_IN::LR_IPC_IN()']]],
-  ['lr_5fipc_5fin_2ecpp',['LR_IPC_In.cpp',['../LR__IPC__In_8cpp.html',1,'']]],
-  ['lr_5fipc_5fin_2eh',['LR_IPC_In.h',['../LR__IPC__In_8h.html',1,'']]],
-  ['lr_5fipc_5fin_5fh_5fincluded',['LR_IPC_IN_H_INCLUDED',['../LR__IPC__In_8h.html#a76b70bf1d15c92bc0578f8e92c90f831',1,'LR_IPC_In.h']]],
-  ['lr_5fipc_5fout',['LR_IPC_OUT',['../classLR__IPC__OUT.html',1,'LR_IPC_OUT'],['../classLR__IPC__OUT.html#a8842e5b48f3546b6269607aec979f916',1,'LR_IPC_OUT::LR_IPC_OUT()']]],
-  ['lr_5fipc_5fout_2ecpp',['LR_IPC_Out.cpp',['../LR__IPC__Out_8cpp.html',1,'']]],
-  ['lr_5fipc_5fout_2eh',['LR_IPC_Out.h',['../LR__IPC__Out_8h.html',1,'']]],
-  ['lr_5fipc_5fout_5fh_5fincluded',['LR_IPC_OUT_H_INCLUDED',['../LR__IPC__Out_8h.html#a37190a0b9119ae1f3d5f9a8a5f2dd331',1,'LR_IPC_Out.h']]],
-  ['lrcommandlist',['LRCommandList',['../classLRCommandList.html',1,'']]],
-  ['lrcommands_2ecpp',['LRCommands.cpp',['../LRCommands_8cpp.html',1,'']]],
-  ['lrcommands_2eh',['LRCommands.h',['../LRCommands_8h.html',1,'']]],
-  ['lrcommands_5fh_5fincluded',['LRCOMMANDS_H_INCLUDED',['../LRCommands_8h.html#aabfc6baa2affc49247fe84f677018d69',1,'LRCommands.h']]],
-  ['lrconnectionlistener',['LRConnectionListener',['../classLRConnectionListener.html',1,'']]],
-  ['lrinport',['LrInPort',['../LR__IPC__In_8cpp.html#ae70bd48b5bbe3d3edd1f8e62ea824ae0',1,'LR_IPC_In.cpp']]],
-  ['lroutport',['LrOutPort',['../LR__IPC__Out_8cpp.html#a2024e399f6b0f06d258db3e0822e66ca',1,'LR_IPC_Out.cpp']]],
-  ['lrstringlist',['LRStringList',['../classLRCommandList.html#a95a8249becc79b12099005403f927a3d',1,'LRCommandList']]]
+  ['objects_5falive',['objects_alive',['../struct_m_i_d_i2_l_r_1_1counter.html#a4aba958a9b75e103eb41f9ff98ab9520',1,'MIDI2LR::counter']]],
+  ['objects_5fcreated',['objects_created',['../struct_m_i_d_i2_l_r_1_1counter.html#a6d720b6afe4f49ebe0a72bb8bf51cc95',1,'MIDI2LR::counter']]],
+  ['observer',['Observer',['../class_observer.html',1,'Observer'],['../class_observer.html#a8011ffbb264d674a5605b94c6d1993fb',1,'Observer::Observer()']]],
+  ['observer_2ecpp',['Observer.cpp',['../_observer_8cpp.html',1,'']]],
+  ['observer_2eh',['Observer.h',['../_observer_8h.html',1,'']]],
+  ['observer_5fh_5fincluded',['OBSERVER_H_INCLUDED',['../_observer_8h.html#aae3c34531276e1aeb14374b40435adca',1,'Observer.h']]],
+  ['operator_28_29',['operator()',['../structstd_1_1hash_3_01_m_i_d_i___message_01_4.html#a4595702cc8e8bcaf69278edb6df142b3',1,'std::hash&lt; MIDI_Message &gt;::operator()()'],['../structstd_1_1hash_3_01_string_01_4.html#a5b479a6a5664121276d804b4b0473d02',1,'std::hash&lt; String &gt;::operator()()']]],
+  ['operator_3d_3d',['operator==',['../struct_m_i_d_i___message.html#a392801f089a416dcadcad02500f4bf8e',1,'MIDI_Message']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['resizablechild',['ResizableChild',['../classResizableChild.html',1,'']]],
-  ['resizablelayout',['ResizableLayout',['../classResizableLayout.html',1,'']]]
+  ['resizablechild',['ResizableChild',['../class_resizable_child.html',1,'']]],
+  ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html',1,'']]]
 ];

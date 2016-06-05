@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.0.1</span>
+   &#160;<span id="projectnumber">1.0.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -41,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -76,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -101,6 +111,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_func.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -120,497 +144,528 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
 <li>activateLayout()
-: <a class="el" href="classResizableLayout.html#a5b5d3846e9bff81de103f0097763cedb">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#a5b5d3846e9bff81de103f0097763cedb">ResizableLayout</a>
 </li>
 <li>addCommandforMessage()
-: <a class="el" href="classCommandMap.html#a3b44b67f2167475bba282b8a185018c6">CommandMap</a>
+: <a class="el" href="class_command_map.html#a3b44b67f2167475bba282b8a185018c6">CommandMap</a>
 </li>
 <li>addListener()
-: <a class="el" href="classLR__IPC__OUT.html#adbfa161730bad89c9e761cf60b6909ad">LR_IPC_OUT</a>
-, <a class="el" href="classProfileManager.html#ab10b542da25d23277371cd2103316098">ProfileManager</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#adbfa161730bad89c9e761cf60b6909ad">LR_IPC_OUT</a>
+, <a class="el" href="class_profile_manager.html#ab10b542da25d23277371cd2103316098">ProfileManager</a>
 </li>
 <li>addMIDICommandListener()
-: <a class="el" href="classMIDIProcessor.html#a9b05cdfb5dc81f134ae7d88873b44ade">MIDIProcessor</a>
+: <a class="el" href="class_m_i_d_i_processor.html#a9b05cdfb5dc81f134ae7d88873b44ade">MIDIProcessor</a>
 </li>
 <li>addRow()
-: <a class="el" href="classCommandTableModel.html#a34e3b342c1741fe6363e2873b68171b1">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a34e3b342c1741fe6363e2873b68171b1">CommandTableModel</a>
 </li>
 <li>addToLayout()
-: <a class="el" href="classResizableLayout.html#ab78c732d14d0ac2f4afd7b76f20ec6c9">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#ab78c732d14d0ac2f4afd7b76f20ec6c9">ResizableLayout</a>
+</li>
+<li>anotherInstanceStarted()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a701269de3e548d0ace48a2370b6a7aec">MIDI2LRApplication</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
 <li>buildFromXml()
-: <a class="el" href="classCommandTableModel.html#adc91632cd6ecd7f0b36332f43ed13f54">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#adc91632cd6ecd7f0b36332f43ed13f54">CommandTableModel</a>
 </li>
 <li>buttonClicked()
-: <a class="el" href="classCommandMenu.html#a1e345fe4c3a136cb5500b4d17b63e6c7">CommandMenu</a>
-, <a class="el" href="classMainContentComponent.html#a72d6b006f4d4a6c4de2ca2e1bde18fc6">MainContentComponent</a>
-, <a class="el" href="classSettingsComponent.html#ad65a9529807a9ff304ba994399f55c55">SettingsComponent</a>
+: <a class="el" href="class_command_menu.html#a1e345fe4c3a136cb5500b4d17b63e6c7">CommandMenu</a>
+, <a class="el" href="class_main_content_component.html#a72d6b006f4d4a6c4de2ca2e1bde18fc6">MainContentComponent</a>
+, <a class="el" href="class_settings_component.html#ad65a9529807a9ff304ba994399f55c55">SettingsComponent</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>calcBoundsOfChildren()
-: <a class="el" href="classResizableLayout.html#acc37523bda0ff4d250d4024c599207cc">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#acc37523bda0ff4d250d4024c599207cc">ResizableLayout</a>
 </li>
 <li>Changed()
-: <a class="el" href="classObserver.html#a04804fdd8d8f8e58878346df139f7cfd">Observer</a>
+: <a class="el" href="class_observer.html#a04804fdd8d8f8e58878346df139f7cfd">Observer</a>
 </li>
 <li>clearMap()
-: <a class="el" href="classCommandMap.html#a0c2d2b3cf78355b900858a92a8945ea6">CommandMap</a>
+: <a class="el" href="class_command_map.html#a0c2d2b3cf78355b900858a92a8945ea6">CommandMap</a>
 </li>
 <li>closeButtonPressed()
-: <a class="el" href="classMainWindow.html#a50d2e609ff67f40e10806605f8281bc4">MainWindow</a>
+: <a class="el" href="class_main_window.html#a50d2e609ff67f40e10806605f8281bc4">MainWindow</a>
 </li>
 <li>commandHasAssociatedMessage()
-: <a class="el" href="classCommandMap.html#af295badce32ec027c9a4addef8c05bc2">CommandMap</a>
+: <a class="el" href="class_command_map.html#af295badce32ec027c9a4addef8c05bc2">CommandMap</a>
 </li>
 <li>CommandMap()
-: <a class="el" href="classCommandMap.html#a17917c3a5fb0f352b09b4a42344e4d11">CommandMap</a>
+: <a class="el" href="class_command_map.html#a17917c3a5fb0f352b09b4a42344e4d11">CommandMap</a>
 </li>
 <li>CommandMenu()
-: <a class="el" href="classCommandMenu.html#a927cb9d3c584384039ac60f0aa12c250">CommandMenu</a>
+: <a class="el" href="class_command_menu.html#a927cb9d3c584384039ac60f0aa12c250">CommandMenu</a>
 </li>
 <li>CommandTable()
-: <a class="el" href="classCommandTable.html#ab59f0a5853c0de7a5812291cbf5ff5af">CommandTable</a>
+: <a class="el" href="class_command_table.html#a0a17865f451fcab9b61139f50931436d">CommandTable</a>
 </li>
 <li>CommandTableModel()
-: <a class="el" href="classCommandTableModel.html#a8d3504f4bea9dbc35e2d17930508b921">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a8d3504f4bea9dbc35e2d17930508b921">CommandTableModel</a>
 </li>
 <li>connected()
-: <a class="el" href="classLRConnectionListener.html#a751cf0a273f7bdd3c9d1c56ca495dfe0">LRConnectionListener</a>
-, <a class="el" href="classMainContentComponent.html#a17a320849296be1f080bb24d92c069e4">MainContentComponent</a>
-, <a class="el" href="classProfileManager.html#acdf4ad1cdaf3e5f3178cd48604471117">ProfileManager</a>
-, <a class="el" href="classSettingsManager.html#a2d5e6d9c21a5ea7e574ca600a1d93719">SettingsManager</a>
+: <a class="el" href="class_l_r_connection_listener.html#a751cf0a273f7bdd3c9d1c56ca495dfe0">LRConnectionListener</a>
+, <a class="el" href="class_main_content_component.html#a17a320849296be1f080bb24d92c069e4">MainContentComponent</a>
+, <a class="el" href="class_profile_manager.html#acdf4ad1cdaf3e5f3178cd48604471117">ProfileManager</a>
+, <a class="el" href="class_settings_manager.html#a2d5e6d9c21a5ea7e574ca600a1d93719">SettingsManager</a>
 </li>
 <li>connectionLost()
-: <a class="el" href="classLR__IPC__OUT.html#a83d07e7eb695c511a5bcaa16341488f4">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a83d07e7eb695c511a5bcaa16341488f4">LR_IPC_OUT</a>
 </li>
 <li>connectionMade()
-: <a class="el" href="classLR__IPC__OUT.html#a4711a84655cbcdd923ce8f271109941e">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a4711a84655cbcdd923ce8f271109941e">LR_IPC_OUT</a>
 </li>
 <li>counter()
-: <a class="el" href="structMIDI2LR_1_1counter.html#a4bb7b6279bf83ddb94f57607d89a696b">MIDI2LR::counter&lt; T &gt;</a>
+: <a class="el" href="struct_m_i_d_i2_l_r_1_1counter.html#a4bb7b6279bf83ddb94f57607d89a696b">MIDI2LR::counter&lt; T &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>disconnected()
-: <a class="el" href="classLRConnectionListener.html#a77600d9569cff2499b049687b3c1ac8f">LRConnectionListener</a>
-, <a class="el" href="classMainContentComponent.html#a06efe52a519e42c8f1170a3035a160d6">MainContentComponent</a>
-, <a class="el" href="classProfileManager.html#a2012de57ea041dcf2680a824bf68a423">ProfileManager</a>
-, <a class="el" href="classSettingsManager.html#a607feb1bce6a53dc2907653566a43977">SettingsManager</a>
+: <a class="el" href="class_l_r_connection_listener.html#a77600d9569cff2499b049687b3c1ac8f">LRConnectionListener</a>
+, <a class="el" href="class_main_content_component.html#a06efe52a519e42c8f1170a3035a160d6">MainContentComponent</a>
+, <a class="el" href="class_profile_manager.html#a2012de57ea041dcf2680a824bf68a423">ProfileManager</a>
+, <a class="el" href="class_settings_manager.html#a607feb1bce6a53dc2907653566a43977">SettingsManager</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
+<li>getApplicationName()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#ac53e19496aa202117c45cae154cf7489">MIDI2LRApplication</a>
+</li>
+<li>getApplicationVersion()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a51fc49ef00c85168d30427eb77d023c7">MIDI2LRApplication</a>
+</li>
 <li>getAutoHideTime()
-: <a class="el" href="classSettingsManager.html#ad32c1e7cb2d920a44ac4b98d764b40ca">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca">SettingsManager</a>
 </li>
 <li>getCommandforMessage()
-: <a class="el" href="classCommandMap.html#aa7b751c5f0b16fb5f552b5c304f56c68">CommandMap</a>
+: <a class="el" href="class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68">CommandMap</a>
 </li>
 <li>getIndexOfCommand()
-: <a class="el" href="classLRCommandList.html#a37b96dd77211ce8f85b2d83beb6d6a51">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#a37b96dd77211ce8f85b2d83beb6d6a51">LRCommandList</a>
 </li>
 <li>GetInstance()
 : <a class="el" href="classabstract.html#aca9929a78bea316bf71179d83f3512bb">abstract&lt; T &gt;</a>
 </li>
 <li>getLastVersionFound()
-: <a class="el" href="classSettingsManager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8">SettingsManager</a>
 </li>
 <li>getMaximumHeight()
-: <a class="el" href="classResizableChild.html#afedf9f9fbe96c0bc1a0713b65b1cf55e">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e">ResizableChild</a>
 </li>
 <li>getMaximumWidth()
-: <a class="el" href="classResizableChild.html#a78a85e1a87e5d3c0071c8eb6aa673aab">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab">ResizableChild</a>
 </li>
 <li>getMenuItems()
-: <a class="el" href="classProfileManager.html#aa987cef0d2777592539985d6b7370f71">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#aa987cef0d2777592539985d6b7370f71">ProfileManager</a>
 </li>
 <li>getMessageForCommand()
-: <a class="el" href="classCommandMap.html#aeeef81aa7e1103a9e1012f2f4df35213">CommandMap</a>
+: <a class="el" href="class_command_map.html#aeeef81aa7e1103a9e1012f2f4df35213">CommandMap</a>
 </li>
 <li>getMinimumHeight()
-: <a class="el" href="classResizableChild.html#a3dc554161d4b994494326227a96a644c">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a3dc554161d4b994494326227a96a644c">ResizableChild</a>
 </li>
 <li>getMinimumWidth()
-: <a class="el" href="classResizableChild.html#a799c8cf06801b7da7fd6d987892740e1">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a799c8cf06801b7da7fd6d987892740e1">ResizableChild</a>
 </li>
 <li>getNumRows()
-: <a class="el" href="classCommandTableModel.html#ae89ca7ee2106ffe3a8d326da313e3bf2">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2">CommandTableModel</a>
 </li>
 <li>getPickupEnabled()
-: <a class="el" href="classSettingsManager.html#a723bf06d5ec0c638b731c46140331c6d">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d">SettingsManager</a>
 </li>
 <li>getProfileDirectory()
-: <a class="el" href="classSettingsManager.html#a2c155d9a507a9bef20208359ed4b11f6">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a2c155d9a507a9bef20208359ed4b11f6">SettingsManager</a>
 </li>
 <li>getRowForMessage()
-: <a class="el" href="classCommandTableModel.html#a718bd444e2e6a23b7ca4375ac3a94b39">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39">CommandTableModel</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
 <li>handleAsyncUpdate()
-: <a class="el" href="classLR__IPC__OUT.html#ad51f33b2ec43f590ac2d3fc60c129134">LR_IPC_OUT</a>
-, <a class="el" href="classMainContentComponent.html#a9be726b895f68c0e9163d618ee4d20f6">MainContentComponent</a>
-, <a class="el" href="classProfileManager.html#a06dda29b41856d4c2e9e85132a79da5a">ProfileManager</a>
-, <a class="el" href="classVersionChecker.html#a3be0b90040969fec02cc547f7012accc">VersionChecker</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#ad51f33b2ec43f590ac2d3fc60c129134">LR_IPC_OUT</a>
+, <a class="el" href="class_main_content_component.html#a9be726b895f68c0e9163d618ee4d20f6">MainContentComponent</a>
+, <a class="el" href="class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a">ProfileManager</a>
+, <a class="el" href="class_version_checker.html#a3be0b90040969fec02cc547f7012accc">VersionChecker</a>
 </li>
 <li>handleIncomingMidiMessage()
-: <a class="el" href="classMIDIProcessor.html#a373aab7c369e94b1f1a59ca78f78111e">MIDIProcessor</a>
+: <a class="el" href="class_m_i_d_i_processor.html#a373aab7c369e94b1f1a59ca78f78111e">MIDIProcessor</a>
 </li>
 <li>handleMidiCC()
-: <a class="el" href="classLR__IPC__OUT.html#ad2d2b544157950b3b74ff6f7791c98cc">LR_IPC_OUT</a>
-, <a class="el" href="classMainContentComponent.html#a156f68ecd352b481d8ab6b9daeeb1917">MainContentComponent</a>
-, <a class="el" href="classMIDICommandListener.html#aad409d33d03ab49939b381d62db36e94">MIDICommandListener</a>
-, <a class="el" href="classProfileManager.html#af96e39d2bbd4b14492698c0ecb39b4e0">ProfileManager</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#ad2d2b544157950b3b74ff6f7791c98cc">LR_IPC_OUT</a>
+, <a class="el" href="class_main_content_component.html#a707968b7a37aa4d5aa1a4fe57f44e86e">MainContentComponent</a>
+, <a class="el" href="class_m_i_d_i_command_listener.html#a9bfd81e80280c1889411b60d4c676ea2">MIDICommandListener</a>
+, <a class="el" href="class_profile_manager.html#a32fc121bb66f360e911800c246ca33a6">ProfileManager</a>
 </li>
 <li>handleMidiNote()
-: <a class="el" href="classLR__IPC__OUT.html#ab586f83cf46e3a10ab03a934c749d60d">LR_IPC_OUT</a>
-, <a class="el" href="classMainContentComponent.html#a45a06f0b1ac2b7f97d759f70be3cc1d8">MainContentComponent</a>
-, <a class="el" href="classMIDICommandListener.html#a21e88217460746b8c568ab563ada630d">MIDICommandListener</a>
-, <a class="el" href="classProfileManager.html#a6515de39866335b7ef722a771767bfb6">ProfileManager</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#ab586f83cf46e3a10ab03a934c749d60d">LR_IPC_OUT</a>
+, <a class="el" href="class_main_content_component.html#a406b8dd5a8d7510f7688e83a69b58ed1">MainContentComponent</a>
+, <a class="el" href="class_m_i_d_i_command_listener.html#ae2f4c3f606f9f18906f56b3c3bf1fb42">MIDICommandListener</a>
+, <a class="el" href="class_profile_manager.html#aa6cab044e89f88926dbc57ca5bfd6b4e">ProfileManager</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>Init()
-: <a class="el" href="classCommandMenu.html#acd64d52e3368e49676d2153130cc0117">CommandMenu</a>
-, <a class="el" href="classCommandTableModel.html#a840540a46e865e5ac59f6922bf1ef184">CommandTableModel</a>
-, <a class="el" href="classLR__IPC__IN.html#a292c95a31841722d4bf514d27b44e732">LR_IPC_IN</a>
-, <a class="el" href="classLR__IPC__OUT.html#a60675a293f413269f491889cb2726867">LR_IPC_OUT</a>
-, <a class="el" href="classMainContentComponent.html#a34ad76f656a84f80ad2c044dd4ee3262">MainContentComponent</a>
-, <a class="el" href="classMainWindow.html#a463a6d09d5b6a183fa3c896952fb878c">MainWindow</a>
-, <a class="el" href="classMIDIProcessor.html#a5368c02640c7493c0119deadfe2feeba">MIDIProcessor</a>
-, <a class="el" href="classMIDISender.html#ab563687fe6dd2b274a1694140ef7c08c">MIDISender</a>
-, <a class="el" href="classProfileManager.html#a3d8aa653a6a7be1b3fab6c5d8bb455ca">ProfileManager</a>
-, <a class="el" href="classSettingsComponent.html#a7c93797c06a61716f670858ce3fdca6f">SettingsComponent</a>
-, <a class="el" href="classSettingsManager.html#ab64f85e2d4154736ff3114cdbd4126bf">SettingsManager</a>
-, <a class="el" href="classVersionChecker.html#ad247a7e29740dbcf58089b901cfe73e4">VersionChecker</a>
+: <a class="el" href="class_command_menu.html#a6e997c5bc08689f1fdb46443edaf9720">CommandMenu</a>
+, <a class="el" href="class_command_table_model.html#a840540a46e865e5ac59f6922bf1ef184">CommandTableModel</a>
+, <a class="el" href="class_l_r___i_p_c___i_n.html#a292c95a31841722d4bf514d27b44e732">LR_IPC_IN</a>
+, <a class="el" href="class_l_r___i_p_c___o_u_t.html#a60675a293f413269f491889cb2726867">LR_IPC_OUT</a>
+, <a class="el" href="class_main_content_component.html#ad7c85e5006cda0c85847ec4bf061ca49">MainContentComponent</a>
+, <a class="el" href="class_main_window.html#ab59d787ce3dfff9cfb96180cc7824d55">MainWindow</a>
+, <a class="el" href="class_m_i_d_i_processor.html#a5368c02640c7493c0119deadfe2feeba">MIDIProcessor</a>
+, <a class="el" href="class_m_i_d_i_sender.html#ab563687fe6dd2b274a1694140ef7c08c">MIDISender</a>
+, <a class="el" href="class_profile_manager.html#a20be849e7aff4d13ad1239f8ec8f52b5">ProfileManager</a>
+, <a class="el" href="class_settings_component.html#ab2f785563d41ee6ea2b229bd7e0d5217">SettingsComponent</a>
+, <a class="el" href="class_settings_manager.html#a347f95534d4e6dc572d2ce5ca0eecff1">SettingsManager</a>
+, <a class="el" href="class_version_checker.html#a4860ead85c77924fcddd2e683116ae6b">VersionChecker</a>
+</li>
+<li>initialise()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#aead549ec6f22571ad779fc91f33c218c">MIDI2LRApplication</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
 <li>LR_IPC_IN()
-: <a class="el" href="classLR__IPC__IN.html#a15a4d6b2b058793bdd6d37ce81880d5b">LR_IPC_IN</a>
+: <a class="el" href="class_l_r___i_p_c___i_n.html#a15a4d6b2b058793bdd6d37ce81880d5b">LR_IPC_IN</a>
 </li>
 <li>LR_IPC_OUT()
-: <a class="el" href="classLR__IPC__OUT.html#a8842e5b48f3546b6269607aec979f916">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a8842e5b48f3546b6269607aec979f916">LR_IPC_OUT</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
 <li>MainContentComponent()
-: <a class="el" href="classMainContentComponent.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb">MainContentComponent</a>
+: <a class="el" href="class_main_content_component.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb">MainContentComponent</a>
 </li>
 <li>MainWindow()
-: <a class="el" href="classMainWindow.html#a6ef7a51f3acb124271f11eecb6df7a07">MainWindow</a>
+: <a class="el" href="class_main_window.html#a6ef7a51f3acb124271f11eecb6df7a07">MainWindow</a>
 </li>
 <li>messageExistsInMap()
-: <a class="el" href="classCommandMap.html#a72d2cbd00ada2715b07945253f00b8e7">CommandMap</a>
+: <a class="el" href="class_command_map.html#a72d2cbd00ada2715b07945253f00b8e7">CommandMap</a>
 </li>
 <li>messageReceived()
-: <a class="el" href="classLR__IPC__OUT.html#a7fcdee71f2811557b6bf4d1a6c8f243a">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a7fcdee71f2811557b6bf4d1a6c8f243a">LR_IPC_OUT</a>
+</li>
+<li>Method()
+: <a class="el" href="classsealed.html#a650aa1f57c9fb820bb9f3ca702e0f149">sealed</a>
+</li>
+<li>MIDI2LRApplication()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a88492c86eb83772dffb248cbeff75667">MIDI2LRApplication</a>
 </li>
 <li>MIDI_Message()
-: <a class="el" href="structMIDI__Message.html#a5203161658045934113461639328bba5">MIDI_Message</a>
+: <a class="el" href="struct_m_i_d_i___message.html#a5203161658045934113461639328bba5">MIDI_Message</a>
 </li>
 <li>MIDIProcessor()
-: <a class="el" href="classMIDIProcessor.html#a52c8a40410e7bfc2c6b55427f0aa50a7">MIDIProcessor</a>
+: <a class="el" href="class_m_i_d_i_processor.html#a52c8a40410e7bfc2c6b55427f0aa50a7">MIDIProcessor</a>
 </li>
 <li>MIDISender()
-: <a class="el" href="classMIDISender.html#a07403c04d637d685ed810aca8bd4579c">MIDISender</a>
+: <a class="el" href="class_m_i_d_i_sender.html#a07403c04d637d685ed810aca8bd4579c">MIDISender</a>
+</li>
+<li>moreThanOneInstanceAllowed()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#abd55f782b5d696a1d6df5ab3ee03f816">MIDI2LRApplication</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
 <li>Notify()
-: <a class="el" href="classSubject.html#ac8d74b2a80e2d4caa0a9a59e00a45219">Subject</a>
+: <a class="el" href="class_subject.html#ac8d74b2a80e2d4caa0a9a59e00a45219">Subject</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
 <li>Observer()
-: <a class="el" href="classObserver.html#a8011ffbb264d674a5605b94c6d1993fb">Observer</a>
+: <a class="el" href="class_observer.html#a8011ffbb264d674a5605b94c6d1993fb">Observer</a>
 </li>
 <li>operator()()
-: <a class="el" href="structstd_1_1hash_3_01MIDI__Message_01_4.html#a4595702cc8e8bcaf69278edb6df142b3">std::hash&lt; MIDI_Message &gt;</a>
-, <a class="el" href="structstd_1_1hash_3_01String_01_4.html#a5b479a6a5664121276d804b4b0473d02">std::hash&lt; String &gt;</a>
+: <a class="el" href="structstd_1_1hash_3_01_m_i_d_i___message_01_4.html#a4595702cc8e8bcaf69278edb6df142b3">std::hash&lt; MIDI_Message &gt;</a>
+, <a class="el" href="structstd_1_1hash_3_01_string_01_4.html#a5b479a6a5664121276d804b4b0473d02">std::hash&lt; String &gt;</a>
 </li>
 <li>operator==()
-: <a class="el" href="structMIDI__Message.html#a392801f089a416dcadcad02500f4bf8e">MIDI_Message</a>
+: <a class="el" href="struct_m_i_d_i___message.html#a392801f089a416dcadcad02500f4bf8e">MIDI_Message</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
 <li>paint()
-: <a class="el" href="classMainContentComponent.html#a0af252af3c939295508407c8d4d5e6d0">MainContentComponent</a>
-, <a class="el" href="classSettingsComponent.html#aeecb2f821a561e7eb5e80d3fac66b57d">SettingsComponent</a>
+: <a class="el" href="class_main_content_component.html#a0af252af3c939295508407c8d4d5e6d0">MainContentComponent</a>
+, <a class="el" href="class_settings_component.html#aeecb2f821a561e7eb5e80d3fac66b57d">SettingsComponent</a>
 </li>
 <li>paintCell()
-: <a class="el" href="classCommandTableModel.html#a291f0a2ace126893e8639efaa1d817a3">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a291f0a2ace126893e8639efaa1d817a3">CommandTableModel</a>
 </li>
 <li>paintRowBackground()
-: <a class="el" href="classCommandTableModel.html#a288a0dec11b5bbfb6fdb5bcd9c4a81ec">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a288a0dec11b5bbfb6fdb5bcd9c4a81ec">CommandTableModel</a>
 </li>
 <li>profileChanged()
-: <a class="el" href="classMainContentComponent.html#adcb1797e988cf44e5c1811a1ae8144d5">MainContentComponent</a>
-, <a class="el" href="classProfileChangeListener.html#a73fd7f608cfd6f31ac1dc8d7d1da5756">ProfileChangeListener</a>
+: <a class="el" href="class_main_content_component.html#ac3b13700502f915f5a4e0536fae40367">MainContentComponent</a>
+, <a class="el" href="class_profile_change_listener.html#a4b1e2edf1cf6d3849af2aeb1e0142d8f">ProfileChangeListener</a>
 </li>
 <li>ProfileManager()
-: <a class="el" href="classProfileManager.html#a760f9ac84abea0c2f5435238fc274970">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#a760f9ac84abea0c2f5435238fc274970">ProfileManager</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>recalculateLayout()
-: <a class="el" href="classResizableLayout.html#a14d9dad6dfc415e8d49f1e858f8abc26">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#a14d9dad6dfc415e8d49f1e858f8abc26">ResizableLayout</a>
 </li>
 <li>refreshComponentForCell()
-: <a class="el" href="classCommandTableModel.html#a46ef1923c37173d28bf25c840403af69">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a46ef1923c37173d28bf25c840403af69">CommandTableModel</a>
 </li>
 <li>refreshMIDIOutput()
-: <a class="el" href="classLR__IPC__IN.html#af51e690dc3bc4e84d652642e5f2f1141">LR_IPC_IN</a>
+: <a class="el" href="class_l_r___i_p_c___i_n.html#af51e690dc3bc4e84d652642e5f2f1141">LR_IPC_IN</a>
+</li>
+<li>Register()
+: <a class="el" href="classsealed.html#a67f2e982149c70b1ad52b6bc28fc14ed">sealed</a>
 </li>
 <li>RegisterObserver()
-: <a class="el" href="classSubject.html#ae4254eab0892ed61dae71e01a394ded6">Subject</a>
+: <a class="el" href="class_subject.html#ae4254eab0892ed61dae71e01a394ded6">Subject</a>
 </li>
 <li>removeAllRows()
-: <a class="el" href="classCommandTableModel.html#aa49fc1e19a98cd9c315d0faa5592758b">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b">CommandTableModel</a>
 </li>
 <li>removeFromLayout()
-: <a class="el" href="classResizableLayout.html#addf2cdc690e1c6b4cea5fdf37547f84a">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#addf2cdc690e1c6b4cea5fdf37547f84a">ResizableLayout</a>
 </li>
 <li>removeMessage()
-: <a class="el" href="classCommandMap.html#a4965760cbda2b82484b26f5df645c216">CommandMap</a>
+: <a class="el" href="class_command_map.html#a4965760cbda2b82484b26f5df645c216">CommandMap</a>
 </li>
 <li>removeRow()
-: <a class="el" href="classCommandTableModel.html#aedd06c409a9326aa50077244c10f5dbd">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#aedd06c409a9326aa50077244c10f5dbd">CommandTableModel</a>
 </li>
 <li>rescanDevices()
-: <a class="el" href="classMIDIProcessor.html#a9b05a1d09a8cff97d6b158cb4270f2e7">MIDIProcessor</a>
-, <a class="el" href="classMIDISender.html#ad8590bd597858304c1a812b3b4988086">MIDISender</a>
+: <a class="el" href="class_m_i_d_i_processor.html#a9b05a1d09a8cff97d6b158cb4270f2e7">MIDIProcessor</a>
+, <a class="el" href="class_m_i_d_i_sender.html#ad8590bd597858304c1a812b3b4988086">MIDISender</a>
 </li>
 <li>ResizableChild()
-: <a class="el" href="classResizableChild.html#a7f1450e61061b26d05d786f5d9df9dfb">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a7f1450e61061b26d05d786f5d9df9dfb">ResizableChild</a>
 </li>
 <li>ResizableLayout()
-: <a class="el" href="classResizableLayout.html#a234ea8d8a9594d6f2625e290b9fd4bb3">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#a234ea8d8a9594d6f2625e290b9fd4bb3">ResizableLayout</a>
 </li>
 <li>resizeStart()
-: <a class="el" href="classResizableChild.html#aab700a53db0ffaf68f75bf29fd824b20">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#aab700a53db0ffaf68f75bf29fd824b20">ResizableChild</a>
 </li>
 <li>run()
-: <a class="el" href="classLR__IPC__IN.html#a328f5058bbfdbeba4345cc4d0b159bbb">LR_IPC_IN</a>
-, <a class="el" href="classVersionChecker.html#a04beca4aadd6a6df974c1c07f5113f7b">VersionChecker</a>
+: <a class="el" href="class_l_r___i_p_c___i_n.html#a328f5058bbfdbeba4345cc4d0b159bbb">LR_IPC_IN</a>
+, <a class="el" href="class_version_checker.html#a04beca4aadd6a6df974c1c07f5113f7b">VersionChecker</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>sendCC()
-: <a class="el" href="classMIDISender.html#a8b6516aeba15fb543a5b2220e746102b">MIDISender</a>
+: <a class="el" href="class_m_i_d_i_sender.html#a8b6516aeba15fb543a5b2220e746102b">MIDISender</a>
 </li>
 <li>sendCommand()
-: <a class="el" href="classLR__IPC__OUT.html#a1746617796e59435a24a13fb1b364718">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a1746617796e59435a24a13fb1b364718">LR_IPC_OUT</a>
 </li>
 <li>SendKeyDownUp()
-: <a class="el" href="classSendKeys.html#a99c1e43fb969603390df580ef635a533">SendKeys</a>
+: <a class="el" href="class_send_keys.html#a76f34fe4c8731016c267c0f2574164d9">SendKeys</a>
 </li>
 <li>SendKeys()
-: <a class="el" href="classSendKeys.html#ac737490e031d37a7b8db1841618a2f54">SendKeys</a>
+: <a class="el" href="class_send_keys.html#ac737490e031d37a7b8db1841618a2f54">SendKeys</a>
 </li>
 <li>setAsConstrainerFor()
-: <a class="el" href="classTopLevelResizableLayout.html#a1b367be76ae2fe9e4caa14e3c1e3f150">TopLevelResizableLayout</a>
+: <a class="el" href="class_top_level_resizable_layout.html#a1b367be76ae2fe9e4caa14e3c1e3f150">TopLevelResizableLayout</a>
 </li>
 <li>setAutoHideTime()
-: <a class="el" href="classSettingsManager.html#a3b79a29f105519854b113d689e345f31">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a80df2a9511ce4c0c1846600e080f13dc">SettingsManager</a>
 </li>
 <li>SetLabelSettings()
-: <a class="el" href="classMainContentComponent.html#a3591717702eb6417ff1d2646a7b59e90">MainContentComponent</a>
+: <a class="el" href="class_main_content_component.html#a3591717702eb6417ff1d2646a7b59e90">MainContentComponent</a>
 </li>
 <li>setLastVersionFound()
-: <a class="el" href="classSettingsManager.html#ab66b7b0beeca459d573fe47b4a4f80b8">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#abc3ac0226eb063f6cecc17a9b76833bc">SettingsManager</a>
 </li>
 <li>setMaximumHeight()
-: <a class="el" href="classResizableChild.html#a2b7b79d443e5d8f9220f9fa2e5a48e3d">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a2b7b79d443e5d8f9220f9fa2e5a48e3d">ResizableChild</a>
 </li>
 <li>setMaximumSize()
-: <a class="el" href="classResizableChild.html#ab2e6df2570a948fba95123abe5864a27">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#ab2e6df2570a948fba95123abe5864a27">ResizableChild</a>
 </li>
 <li>setMaximumWidth()
-: <a class="el" href="classResizableChild.html#af320c3d8d97e1a29871b83a161970530">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#af320c3d8d97e1a29871b83a161970530">ResizableChild</a>
 </li>
 <li>setMinimumHeight()
-: <a class="el" href="classResizableChild.html#a9a25c9c476e606c79a091ea171fde10d">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a9a25c9c476e606c79a091ea171fde10d">ResizableChild</a>
 </li>
 <li>setMinimumSize()
-: <a class="el" href="classResizableChild.html#a9859e8527b8f19602eedbd57834460f8">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a9859e8527b8f19602eedbd57834460f8">ResizableChild</a>
 </li>
 <li>setMinimumWidth()
-: <a class="el" href="classResizableChild.html#a43531c929c933e13b16f15d8d5b966e7">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a43531c929c933e13b16f15d8d5b966e7">ResizableChild</a>
 </li>
 <li>setMsg()
-: <a class="el" href="classCommandMenu.html#a54d0aac4391b6ae878651804a2dbfc32">CommandMenu</a>
+: <a class="el" href="class_command_menu.html#a54d0aac4391b6ae878651804a2dbfc32">CommandMenu</a>
 </li>
 <li>setPickupEnabled()
-: <a class="el" href="classSettingsManager.html#a625341681109806d4ab2b2501ba30ab9">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a625341681109806d4ab2b2501ba30ab9">SettingsManager</a>
 </li>
 <li>setProfileDirectory()
-: <a class="el" href="classProfileManager.html#a1529c4a30042187372c455729d917cd5">ProfileManager</a>
-, <a class="el" href="classSettingsManager.html#a407dad99584114520c5aadc58b8bf941">SettingsManager</a>
+: <a class="el" href="class_profile_manager.html#a1529c4a30042187372c455729d917cd5">ProfileManager</a>
+, <a class="el" href="class_settings_manager.html#af6cf44339a570e457f3882ddfaf7b7a7">SettingsManager</a>
 </li>
 <li>setSelectedItem()
-: <a class="el" href="classCommandMenu.html#aca42c2d962a51a0ab0d4450492aa44a9">CommandMenu</a>
+: <a class="el" href="class_command_menu.html#aca42c2d962a51a0ab0d4450492aa44a9">CommandMenu</a>
 </li>
 <li>setSizeLimits()
-: <a class="el" href="classResizableChild.html#a398c4578e8a3a95aab126e565ddaba83">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a398c4578e8a3a95aab126e565ddaba83">ResizableChild</a>
 </li>
 <li>SetTimerText()
-: <a class="el" href="classMainContentComponent.html#a45f89996ceeb2243081dec7964f8a8c0">MainContentComponent</a>
+: <a class="el" href="class_main_content_component.html#aa9dec1def96f43a3ae9110c70154a2ba">MainContentComponent</a>
 </li>
 <li>SettingsComponent()
-: <a class="el" href="classSettingsComponent.html#a67f2ee68d8a77e0529ac6394e19513c9">SettingsComponent</a>
+: <a class="el" href="class_settings_component.html#a67f2ee68d8a77e0529ac6394e19513c9">SettingsComponent</a>
 </li>
 <li>SettingsManager()
-: <a class="el" href="classSettingsManager.html#a07295ed235508bb4dcd0e7a040ef01db">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a07295ed235508bb4dcd0e7a040ef01db">SettingsManager</a>
 </li>
 <li>shutdown()
-: <a class="el" href="classLR__IPC__IN.html#a1eeca511d978f03330310e601390ddcc">LR_IPC_IN</a>
-, <a class="el" href="classLR__IPC__OUT.html#a3a88e19600489b202fa50e4c10fcdcba">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___i_n.html#a1eeca511d978f03330310e601390ddcc">LR_IPC_IN</a>
+, <a class="el" href="class_l_r___i_p_c___o_u_t.html#a3a88e19600489b202fa50e4c10fcdcba">LR_IPC_OUT</a>
+, <a class="el" href="class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f">MIDI2LRApplication</a>
 </li>
 <li>Singleton()
 : <a class="el" href="classabstract.html#a0f3f510d4b8bb88a7678455ea07e1ec6">abstract&lt; T &gt;</a>
 </li>
 <li>sliderValueChanged()
-: <a class="el" href="classSettingsComponent.html#adf22dac22695d32df04865872b20b217">SettingsComponent</a>
+: <a class="el" href="class_settings_component.html#adf22dac22695d32df04865872b20b217">SettingsComponent</a>
 </li>
 <li>Subject()
-: <a class="el" href="classSubject.html#a5b0b384612fdeabd5db3229b97e89f79">Subject</a>
+: <a class="el" href="class_subject.html#a5b0b384612fdeabd5db3229b97e89f79">Subject</a>
 </li>
 <li>switchToNextProfile()
-: <a class="el" href="classProfileManager.html#a7644e0703d1bdb3172271cec13e86662">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#a7644e0703d1bdb3172271cec13e86662">ProfileManager</a>
 </li>
 <li>switchToPreviousProfile()
-: <a class="el" href="classProfileManager.html#a778eb208053cbcb18a7056b4066632ec">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#a778eb208053cbcb18a7056b4066632ec">ProfileManager</a>
 </li>
 <li>switchToProfile()
-: <a class="el" href="classProfileManager.html#a2744c8c215043462fa1805eb489d0232">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#a9014037000e5a643c080e42f0c0e250e">ProfileManager</a>
+</li>
+<li>systemRequestedQuit()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f">MIDI2LRApplication</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>timerCallback()
-: <a class="el" href="classLR__IPC__IN.html#acdeca8e06bd01cb71ea026fca630823c">LR_IPC_IN</a>
-, <a class="el" href="classLR__IPC__OUT.html#ada29129823f7840fef72598342806f53">LR_IPC_OUT</a>
-, <a class="el" href="classMainContentComponent.html#a5b7e48a7423f17bc799fc2990f48e38d">MainContentComponent</a>
-, <a class="el" href="classMainWindow.html#a2c5579248bf8b2d75942957078b584e7">MainWindow</a>
+: <a class="el" href="class_l_r___i_p_c___i_n.html#acdeca8e06bd01cb71ea026fca630823c">LR_IPC_IN</a>
+, <a class="el" href="class_l_r___i_p_c___o_u_t.html#ada29129823f7840fef72598342806f53">LR_IPC_OUT</a>
+, <a class="el" href="class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d">MainContentComponent</a>
+, <a class="el" href="class_main_window.html#a2c5579248bf8b2d75942957078b584e7">MainWindow</a>
 </li>
 <li>TopLevelResizableLayout()
-: <a class="el" href="classTopLevelResizableLayout.html#acaf570bc0eabd147a11f9cf1415d44c6">TopLevelResizableLayout</a>
+: <a class="el" href="class_top_level_resizable_layout.html#acaf570bc0eabd147a11f9cf1415d44c6">TopLevelResizableLayout</a>
 </li>
 <li>toXMLDocument()
-: <a class="el" href="classCommandMap.html#a86d35079d4397908aa26109e03e67c24">CommandMap</a>
+: <a class="el" href="class_command_map.html#a86d35079d4397908aa26109e03e67c24">CommandMap</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
 <li>UnregisterObserver()
-: <a class="el" href="classSubject.html#a7106918d1c2b9a7e274bf2bd2004bbfb">Subject</a>
+: <a class="el" href="class_subject.html#a7106918d1c2b9a7e274bf2bd2004bbfb">Subject</a>
 </li>
 <li>updateLayoutFor()
-: <a class="el" href="classResizableLayout.html#abaf331423c7c8994bd5945893f1e212d">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#abaf331423c7c8994bd5945893f1e212d">ResizableLayout</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
 <li>VersionChecker()
-: <a class="el" href="classVersionChecker.html#a1178ce4bbfaa3b00a921ae48717d257a">VersionChecker</a>
+: <a class="el" href="class_version_checker.html#a1178ce4bbfaa3b00a921ae48717d257a">VersionChecker</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_0x7e"></a>- ~ -</h3><ul>
 <li>~CommandMap()
-: <a class="el" href="classCommandMap.html#aaf94ac25cd2791e0217ce40e09248ce9">CommandMap</a>
+: <a class="el" href="class_command_map.html#aaf94ac25cd2791e0217ce40e09248ce9">CommandMap</a>
 </li>
 <li>~counter()
-: <a class="el" href="structMIDI2LR_1_1counter.html#a2dbaa7fd189dc1151f0029bf59e74aa9">MIDI2LR::counter&lt; T &gt;</a>
+: <a class="el" href="struct_m_i_d_i2_l_r_1_1counter.html#a2dbaa7fd189dc1151f0029bf59e74aa9">MIDI2LR::counter&lt; T &gt;</a>
 </li>
 <li>~ISingleton()
 : <a class="el" href="classabstract.html#a2f284fc7aee834c223db05690397a04a">abstract&lt; T &gt;</a>
 </li>
 <li>~LR_IPC_IN()
-: <a class="el" href="classLR__IPC__IN.html#ad76a66ec7ff0182526a4eb6372c0e24c">LR_IPC_IN</a>
+: <a class="el" href="class_l_r___i_p_c___i_n.html#ad76a66ec7ff0182526a4eb6372c0e24c">LR_IPC_IN</a>
 </li>
 <li>~LR_IPC_OUT()
-: <a class="el" href="classLR__IPC__OUT.html#ade9cdcaa60a2039d9bca2e4761a35b85">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#ade9cdcaa60a2039d9bca2e4761a35b85">LR_IPC_OUT</a>
 </li>
 <li>~LRConnectionListener()
-: <a class="el" href="classLRConnectionListener.html#a4fcfdb79c8a18f09cf5f6abf053af4bc">LRConnectionListener</a>
+: <a class="el" href="class_l_r_connection_listener.html#a4fcfdb79c8a18f09cf5f6abf053af4bc">LRConnectionListener</a>
 </li>
 <li>~MainContentComponent()
-: <a class="el" href="classMainContentComponent.html#a7769da539c2bc4d2c66b2a0f200dad18">MainContentComponent</a>
+: <a class="el" href="class_main_content_component.html#a7769da539c2bc4d2c66b2a0f200dad18">MainContentComponent</a>
 </li>
 <li>~MIDICommandListener()
-: <a class="el" href="classMIDICommandListener.html#a538e7c50bd6e0f36187f10b3ec70c2b6">MIDICommandListener</a>
+: <a class="el" href="class_m_i_d_i_command_listener.html#a538e7c50bd6e0f36187f10b3ec70c2b6">MIDICommandListener</a>
 </li>
 <li>~MIDIProcessor()
-: <a class="el" href="classMIDIProcessor.html#a372684eef733797c7fe3c7384fbf1357">MIDIProcessor</a>
+: <a class="el" href="class_m_i_d_i_processor.html#a372684eef733797c7fe3c7384fbf1357">MIDIProcessor</a>
 </li>
 <li>~MIDISender()
-: <a class="el" href="classMIDISender.html#a15940ffa7e647bf49b1bae8ff8f17717">MIDISender</a>
+: <a class="el" href="class_m_i_d_i_sender.html#a15940ffa7e647bf49b1bae8ff8f17717">MIDISender</a>
 </li>
 <li>~Observer()
-: <a class="el" href="classObserver.html#afcc6b67be6c386f2f3d2c363aa59cb47">Observer</a>
+: <a class="el" href="class_observer.html#afcc6b67be6c386f2f3d2c363aa59cb47">Observer</a>
 </li>
 <li>~ProfileChangeListener()
-: <a class="el" href="classProfileChangeListener.html#a5b0672ab10ebb2cd22f9d79f75e48be5">ProfileChangeListener</a>
+: <a class="el" href="class_profile_change_listener.html#a5b0672ab10ebb2cd22f9d79f75e48be5">ProfileChangeListener</a>
 </li>
 <li>~ProfileManager()
-: <a class="el" href="classProfileManager.html#a29f66b82d8f081dbb11a9634493458f3">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#a29f66b82d8f081dbb11a9634493458f3">ProfileManager</a>
 </li>
 <li>~ResizableLayout()
-: <a class="el" href="classResizableLayout.html#a05aab7565920919ed1a7c62e8a4544bc">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc">ResizableLayout</a>
 </li>
 <li>~SendKeys()
-: <a class="el" href="classSendKeys.html#adf2c41b2ff27d456eb06c80f07e9f6cc">SendKeys</a>
+: <a class="el" href="class_send_keys.html#adf2c41b2ff27d456eb06c80f07e9f6cc">SendKeys</a>
 </li>
 <li>~SettingsComponent()
-: <a class="el" href="classSettingsComponent.html#a2ed5c4f0e9f7a6e0425d244d03d31dcf">SettingsComponent</a>
+: <a class="el" href="class_settings_component.html#a2ed5c4f0e9f7a6e0425d244d03d31dcf">SettingsComponent</a>
 </li>
 <li>~SettingsManager()
-: <a class="el" href="classSettingsManager.html#a3f358fe97f647191084c7fa78d1c8f91">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a3f358fe97f647191084c7fa78d1c8f91">SettingsManager</a>
 </li>
 <li>~Subject()
-: <a class="el" href="classSubject.html#a7c4f522850f718466e5be7eb55ba1969">Subject</a>
+: <a class="el" href="class_subject.html#a7c4f522850f718466e5be7eb55ba1969">Subject</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2016 18:28:35 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

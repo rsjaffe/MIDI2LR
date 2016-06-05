@@ -1,7 +1,0 @@
-<map id="ResizableLayout::calcBoundsOfChildren" name="ResizableLayout::calcBoundsOfChildren">
-<area shape="rect" id="node2" href="$classResizableChild.html#a3dc554161d4b994494326227a96a644c" title="ResizableChild::getMinimum\lHeight" alt="" coords="248,5,435,47"/>
-<area shape="rect" id="node3" href="$classResizableChild.html#a799c8cf06801b7da7fd6d987892740e1" title="ResizableChild::getMinimum\lWidth" alt="" coords="248,71,435,112"/>
-<area shape="rect" id="node4" href="$classResizableChild.html#aab700a53db0ffaf68f75bf29fd824b20" title="ResizableChild::resizeStart" alt="" coords="252,137,431,163"/>
-<area shape="rect" id="node5" href="$classResizableChild.html#a9a25c9c476e606c79a091ea171fde10d" title="ResizableChild::setMinimum\lHeight" alt="" coords="248,188,435,229"/>
-<area shape="rect" id="node6" href="$classResizableChild.html#a43531c929c933e13b16f15d8d5b966e7" title="ResizableChild::setMinimum\lWidth" alt="" coords="248,253,435,295"/>
-</map>

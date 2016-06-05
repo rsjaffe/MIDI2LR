@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.0.1</span>
+   &#160;<span id="projectnumber">1.0.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -41,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -76,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -103,6 +113,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_c.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -122,66 +146,69 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>calcBoundsOfChildren()
-: <a class="el" href="classResizableLayout.html#acc37523bda0ff4d250d4024c599207cc">ResizableLayout</a>
+: <a class="el" href="class_resizable_layout.html#acc37523bda0ff4d250d4024c599207cc">ResizableLayout</a>
 </li>
 <li>Calibration
-: <a class="el" href="classLRCommandList.html#acc1538e546c20e2a87cac7d9d50618a1">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#acc1538e546c20e2a87cac7d9d50618a1">LRCommandList</a>
 </li>
 <li>Changed()
-: <a class="el" href="classObserver.html#a04804fdd8d8f8e58878346df139f7cfd">Observer</a>
+: <a class="el" href="class_observer.html#a04804fdd8d8f8e58878346df139f7cfd">Observer</a>
 </li>
 <li>channel
-: <a class="el" href="structMIDI__Message.html#aef8c0d76db2303f5b184ed3f0cec0034">MIDI_Message</a>
+: <a class="el" href="struct_m_i_d_i___message.html#aef8c0d76db2303f5b184ed3f0cec0034">MIDI_Message</a>
 </li>
 <li>clearMap()
-: <a class="el" href="classCommandMap.html#a0c2d2b3cf78355b900858a92a8945ea6">CommandMap</a>
+: <a class="el" href="class_command_map.html#a0c2d2b3cf78355b900858a92a8945ea6">CommandMap</a>
 </li>
 <li>closeButtonPressed()
-: <a class="el" href="classMainWindow.html#a50d2e609ff67f40e10806605f8281bc4">MainWindow</a>
+: <a class="el" href="class_main_window.html#a50d2e609ff67f40e10806605f8281bc4">MainWindow</a>
 </li>
 <li>commandHasAssociatedMessage()
-: <a class="el" href="classCommandMap.html#af295badce32ec027c9a4addef8c05bc2">CommandMap</a>
+: <a class="el" href="class_command_map.html#af295badce32ec027c9a4addef8c05bc2">CommandMap</a>
 </li>
 <li>CommandMap()
-: <a class="el" href="classCommandMap.html#a17917c3a5fb0f352b09b4a42344e4d11">CommandMap</a>
+: <a class="el" href="class_command_map.html#a17917c3a5fb0f352b09b4a42344e4d11">CommandMap</a>
 </li>
 <li>CommandMenu()
-: <a class="el" href="classCommandMenu.html#a927cb9d3c584384039ac60f0aa12c250">CommandMenu</a>
+: <a class="el" href="class_command_menu.html#a927cb9d3c584384039ac60f0aa12c250">CommandMenu</a>
 </li>
 <li>CommandTable()
-: <a class="el" href="classCommandTable.html#ab59f0a5853c0de7a5812291cbf5ff5af">CommandTable</a>
+: <a class="el" href="class_command_table.html#a0a17865f451fcab9b61139f50931436d">CommandTable</a>
 </li>
 <li>CommandTableModel()
-: <a class="el" href="classCommandTableModel.html#a8d3504f4bea9dbc35e2d17930508b921">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a8d3504f4bea9dbc35e2d17930508b921">CommandTableModel</a>
 </li>
 <li>connected()
-: <a class="el" href="classLRConnectionListener.html#a751cf0a273f7bdd3c9d1c56ca495dfe0">LRConnectionListener</a>
-, <a class="el" href="classMainContentComponent.html#a17a320849296be1f080bb24d92c069e4">MainContentComponent</a>
-, <a class="el" href="classProfileManager.html#acdf4ad1cdaf3e5f3178cd48604471117">ProfileManager</a>
-, <a class="el" href="classSettingsManager.html#a2d5e6d9c21a5ea7e574ca600a1d93719">SettingsManager</a>
+: <a class="el" href="class_l_r_connection_listener.html#a751cf0a273f7bdd3c9d1c56ca495dfe0">LRConnectionListener</a>
+, <a class="el" href="class_main_content_component.html#a17a320849296be1f080bb24d92c069e4">MainContentComponent</a>
+, <a class="el" href="class_profile_manager.html#acdf4ad1cdaf3e5f3178cd48604471117">ProfileManager</a>
+, <a class="el" href="class_settings_manager.html#a2d5e6d9c21a5ea7e574ca600a1d93719">SettingsManager</a>
 </li>
 <li>connectionLost()
-: <a class="el" href="classLR__IPC__OUT.html#a83d07e7eb695c511a5bcaa16341488f4">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a83d07e7eb695c511a5bcaa16341488f4">LR_IPC_OUT</a>
 </li>
 <li>connectionMade()
-: <a class="el" href="classLR__IPC__OUT.html#a4711a84655cbcdd923ce8f271109941e">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a4711a84655cbcdd923ce8f271109941e">LR_IPC_OUT</a>
 </li>
 <li>controller
-: <a class="el" href="structMIDI__Message.html#a184e7207758a5b321936d26cbd5da4f3">MIDI_Message</a>
+: <a class="el" href="struct_m_i_d_i___message.html#a184e7207758a5b321936d26cbd5da4f3">MIDI_Message</a>
 </li>
 <li>counter()
-: <a class="el" href="structMIDI2LR_1_1counter.html#a4b780776e50127569c89391fd3969610">MIDI2LR::counter&lt; T &gt;</a>
+: <a class="el" href="struct_m_i_d_i2_l_r_1_1counter.html#a4bb7b6279bf83ddb94f57607d89a696b">MIDI2LR::counter&lt; T &gt;</a>
 </li>
 <li>Crop
-: <a class="el" href="classLRCommandList.html#af9b40cf46ccb927ac3fcc425b31f7cfc">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#af9b40cf46ccb927ac3fcc425b31f7cfc">LRCommandList</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2016 18:28:35 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

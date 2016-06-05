@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.0.1</span>
+   &#160;<span id="projectnumber">1.0.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -41,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -68,6 +77,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('files.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -91,56 +114,59 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="levels">[detail level <span onclick="javascript:toggleLevel(1);">1</span><span onclick="javascript:toggleLevel(2);">2</span><span onclick="javascript:toggleLevel(3);">3</span>]</div><table class="directory">
 <tr id="row_0_" class="even"><td class="entry"><span style="width:0px;display:inline-block;">&#160;</span><span id="arr_0_" class="arrow" onclick="toggleFolder('0_')">&#9660;</span><span id="img_0_" class="iconfopen" onclick="toggleFolder('0_')">&#160;</span><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html" target="_self">Source</a></td><td class="desc"></td></tr>
 <tr id="row_0_0_"><td class="entry"><span style="width:16px;display:inline-block;">&#160;</span><span id="arr_0_0_" class="arrow" onclick="toggleFolder('0_0_')">&#9660;</span><span id="img_0_0_" class="iconfopen" onclick="toggleFolder('0_0_')">&#160;</span><a class="el" href="dir_12045cf841a8afc287f914411e13db75.html" target="_self">Pattern</a></td><td class="desc"></td></tr>
-<tr id="row_0_0_0_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Observer_8cpp.html" target="_self">Observer.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_0_1_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Observer_8h.html" target="_self">Observer.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_0_2_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Subject_8cpp.html" target="_self">Subject.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_0_3_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Subject_8h.html" target="_self">Subject.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_1_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandMap_8cpp.html" target="_self">CommandMap.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_2_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandMap_8h.html" target="_self">CommandMap.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_3_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandMenu_8cpp.html" target="_self">CommandMenu.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_4_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandMenu_8h.html" target="_self">CommandMenu.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_5_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandTable_8cpp.html" target="_self">CommandTable.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_6_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandTable_8h.html" target="_self">CommandTable.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_7_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandTableModel_8cpp.html" target="_self">CommandTableModel.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_8_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="CommandTableModel_8h.html" target="_self">CommandTableModel.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_9_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="LR__IPC__In_8cpp.html" target="_self">LR_IPC_In.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_10_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="LR__IPC__In_8h.html" target="_self">LR_IPC_In.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_11_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="LR__IPC__Out_8cpp.html" target="_self">LR_IPC_Out.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_12_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="LR__IPC__Out_8h.html" target="_self">LR_IPC_Out.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_13_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="LRCommands_8cpp.html" target="_self">LRCommands.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_14_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="LRCommands_8h.html" target="_self">LRCommands.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_15_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Main_8cpp.html" target="_self">Main.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_16_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MainComponent_8cpp.html" target="_self">MainComponent.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_17_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MainComponent_8h.html" target="_self">MainComponent.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_18_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MainWindow_8cpp.html" target="_self">MainWindow.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_19_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MainWindow_8h.html" target="_self">MainWindow.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_20_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MIDIProcessor_8cpp.html" target="_self">MIDIProcessor.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_21_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MIDIProcessor_8h.html" target="_self">MIDIProcessor.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_22_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MIDISender_8cpp.html" target="_self">MIDISender.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_23_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="MIDISender_8h.html" target="_self">MIDISender.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_24_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="ProfileManager_8cpp.html" target="_self">ProfileManager.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_25_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="ProfileManager_8h.html" target="_self">ProfileManager.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_26_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="ResizableLayout_8cpp.html" target="_self">ResizableLayout.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_27_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="ResizableLayout_8h.html" target="_self">ResizableLayout.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_28_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="SendKeys_8cpp.html" target="_self">SendKeys.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_29_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="SendKeys_8h.html" target="_self">SendKeys.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_30_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="SettingsComponent_8cpp.html" target="_self">SettingsComponent.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_31_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="SettingsComponent_8h.html" target="_self">SettingsComponent.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_32_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="SettingsManager_8cpp.html" target="_self">SettingsManager.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_33_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="SettingsManager_8h.html" target="_self">SettingsManager.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_34_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Singleton_8cpp.html" target="_self">Singleton.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_35_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Singleton_8h.html" target="_self">Singleton.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_36_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="Utilities_8h.html" target="_self">Utilities.h</a></td><td class="desc"></td></tr>
-<tr id="row_0_37_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="VersionChecker_8cpp.html" target="_self">VersionChecker.cpp</a></td><td class="desc"></td></tr>
-<tr id="row_0_38_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icondoc"></span><a class="el" href="VersionChecker_8h.html" target="_self">VersionChecker.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_0_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="_observer_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_observer_8cpp.html" target="_self">Observer.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_1_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="_observer_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_observer_8h.html" target="_self">Observer.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_2_" class="even"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="_subject_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_subject_8cpp.html" target="_self">Subject.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_0_3_"><td class="entry"><span style="width:48px;display:inline-block;">&#160;</span><a href="_subject_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_subject_8h.html" target="_self">Subject.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_1_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_map_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_command_map_8cpp.html" target="_self">CommandMap.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_2_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_map_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_command_map_8h.html" target="_self">CommandMap.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_3_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_menu_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_command_menu_8cpp.html" target="_self">CommandMenu.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_4_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_menu_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_command_menu_8h.html" target="_self">CommandMenu.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_5_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_table_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_command_table_8cpp.html" target="_self">CommandTable.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_6_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_table_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_command_table_8h.html" target="_self">CommandTable.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_7_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_table_model_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_command_table_model_8cpp.html" target="_self">CommandTableModel.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_8_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_command_table_model_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_command_table_model_8h.html" target="_self">CommandTableModel.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_9_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_l_r___i_p_c___in_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_l_r___i_p_c___in_8cpp.html" target="_self">LR_IPC_In.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_10_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_l_r___i_p_c___in_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_l_r___i_p_c___in_8h.html" target="_self">LR_IPC_In.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_11_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_l_r___i_p_c___out_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_l_r___i_p_c___out_8cpp.html" target="_self">LR_IPC_Out.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_12_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_l_r___i_p_c___out_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_l_r___i_p_c___out_8h.html" target="_self">LR_IPC_Out.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_13_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_l_r_commands_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_l_r_commands_8cpp.html" target="_self">LRCommands.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_14_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_l_r_commands_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_l_r_commands_8h.html" target="_self">LRCommands.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_15_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_main_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_main_8cpp.html" target="_self">Main.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_16_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_main_component_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_main_component_8cpp.html" target="_self">MainComponent.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_17_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_main_component_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_main_component_8h.html" target="_self">MainComponent.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_18_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_main_window_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_main_window_8cpp.html" target="_self">MainWindow.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_19_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_main_window_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_main_window_8h.html" target="_self">MainWindow.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_20_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_m_i_d_i_processor_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_m_i_d_i_processor_8cpp.html" target="_self">MIDIProcessor.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_21_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_m_i_d_i_processor_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_m_i_d_i_processor_8h.html" target="_self">MIDIProcessor.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_22_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_m_i_d_i_sender_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_m_i_d_i_sender_8cpp.html" target="_self">MIDISender.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_23_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_m_i_d_i_sender_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_m_i_d_i_sender_8h.html" target="_self">MIDISender.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_24_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_profile_manager_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_profile_manager_8cpp.html" target="_self">ProfileManager.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_25_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_profile_manager_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_profile_manager_8h.html" target="_self">ProfileManager.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_26_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_resizable_layout_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_resizable_layout_8cpp.html" target="_self">ResizableLayout.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_27_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_resizable_layout_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_resizable_layout_8h.html" target="_self">ResizableLayout.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_28_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_send_keys_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_send_keys_8cpp.html" target="_self">SendKeys.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_29_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_send_keys_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_send_keys_8h.html" target="_self">SendKeys.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_30_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_settings_component_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_settings_component_8cpp.html" target="_self">SettingsComponent.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_31_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_settings_component_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_settings_component_8h.html" target="_self">SettingsComponent.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_32_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_settings_manager_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_settings_manager_8cpp.html" target="_self">SettingsManager.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_33_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_settings_manager_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_settings_manager_8h.html" target="_self">SettingsManager.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_34_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_singleton_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_singleton_8cpp.html" target="_self">Singleton.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_35_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_singleton_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_singleton_8h.html" target="_self">Singleton.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_36_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_utilities_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_utilities_8h.html" target="_self">Utilities.h</a></td><td class="desc"></td></tr>
+<tr id="row_0_37_" class="even"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_version_checker_8cpp_source.html"><span class="icondoc"></span></a><a class="el" href="_version_checker_8cpp.html" target="_self">VersionChecker.cpp</a></td><td class="desc"></td></tr>
+<tr id="row_0_38_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><a href="_version_checker_8h_source.html"><span class="icondoc"></span></a><a class="el" href="_version_checker_8h.html" target="_self">VersionChecker.h</a></td><td class="desc"></td></tr>
 </table>
 </div><!-- directory -->
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2016 18:28:36 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

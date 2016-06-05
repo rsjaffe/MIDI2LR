@@ -1,19 +1,8 @@
 var searchData=
 [
-  ['paint',['paint',['../classMainContentComponent.html#a0af252af3c939295508407c8d4d5e6d0',1,'MainContentComponent::paint()'],['../classSettingsComponent.html#aeecb2f821a561e7eb5e80d3fac66b57d',1,'SettingsComponent::paint()']]],
-  ['paintcell',['paintCell',['../classCommandTableModel.html#a291f0a2ace126893e8639efaa1d817a3',1,'CommandTableModel']]],
-  ['paintrowbackground',['paintRowBackground',['../classCommandTableModel.html#a288a0dec11b5bbfb6fdb5bcd9c4a81ec',1,'CommandTableModel']]],
-  ['pastesel',['pastesel',['../TranslatedStrings__de_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_de.txt'],['../TranslatedStrings__en_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_en.txt'],['../TranslatedStrings__es_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_es.txt'],['../TranslatedStrings__fr_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_fr.txt'],['../TranslatedStrings__it_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_it.txt'],['../TranslatedStrings__ko_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_ko.txt'],['../TranslatedStrings__nl_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_nl.txt'],['../TranslatedStrings__pt_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_pt.txt'],['../TranslatedStrings__sv_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd',1,'pastesel():&#160;TranslatedStrings_sv.txt']]],
-  ['photos',['photos',['../ReadMe_8txt.html#a4ef920d72561650134e6a341d1eee0ad',1,'ReadMe.txt']]],
-  ['pitch',['pitch',['../structMIDI__Message.html#aab10f0e8316478692b1adbfb0dc42f23',1,'MIDI_Message']]],
-  ['plugin',['plugin',['../TRANSLATIONS_8txt.html#a6c3936a601a9aa1c9657ca920c389059',1,'TRANSLATIONS.txt']]],
-  ['portuguese',['Portuguese',['../TRANSLATIONS_8txt.html#a696fa88c7770e885b43e47e87644f878',1,'TRANSLATIONS.txt']]],
-  ['profilechanged',['profileChanged',['../classMainContentComponent.html#adcb1797e988cf44e5c1811a1ae8144d5',1,'MainContentComponent::profileChanged()'],['../classProfileChangeListener.html#a73fd7f608cfd6f31ac1dc8d7d1da5756',1,'ProfileChangeListener::profileChanged()']]],
-  ['profilechangelistener',['ProfileChangeListener',['../classProfileChangeListener.html',1,'']]],
-  ['profilemanager',['ProfileManager',['../classProfileManager.html',1,'ProfileManager'],['../classProfileManager.html#a760f9ac84abea0c2f5435238fc274970',1,'ProfileManager::ProfileManager()']]],
-  ['profilemanager_2ecpp',['ProfileManager.cpp',['../ProfileManager_8cpp.html',1,'']]],
-  ['profilemanager_2eh',['ProfileManager.h',['../ProfileManager_8h.html',1,'']]],
-  ['profilemanager_5fh_5fincluded',['PROFILEMANAGER_H_INCLUDED',['../ProfileManager_8h.html#a0b23e478115c51d09aaae064ee97e276',1,'ProfileManager.h']]],
-  ['programprofiles',['ProgramProfiles',['../classLRCommandList.html#a7c9b1fa029a6e4bc9de3bca532d508af',1,'LRCommandList']]],
-  ['project',['project',['../TRANSLATIONS_8txt.html#ae9ff7d39db704b40db363f580b3195bd',1,'TRANSLATIONS.txt']]]
+  ['timercallback',['timerCallback',['../class_l_r___i_p_c___i_n.html#acdeca8e06bd01cb71ea026fca630823c',1,'LR_IPC_IN::timerCallback()'],['../class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d',1,'MainContentComponent::timerCallback()'],['../class_main_window.html#a2c5579248bf8b2d75942957078b584e7',1,'MainWindow::timerCallback()'],['../class_l_r___i_p_c___o_u_t.html#ada29129823f7840fef72598342806f53',1,'LR_IPC_OUT::timerCallback()']]],
+  ['tonecurve',['ToneCurve',['../class_l_r_command_list.html#a40a38744d580f1999e6cb959e334bceb',1,'LRCommandList']]],
+  ['toolmodulepanel',['ToolModulePanel',['../class_l_r_command_list.html#a3a2bf6260b3a0611793e9a2d501ecc60',1,'LRCommandList']]],
+  ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_top_level_resizable_layout.html',1,'TopLevelResizableLayout'],['../class_resizable_layout.html#af7f3636f234d1cdf71500ab6a6963b6f',1,'ResizableLayout::TopLevelResizableLayout()'],['../class_top_level_resizable_layout.html#acaf570bc0eabd147a11f9cf1415d44c6',1,'TopLevelResizableLayout::TopLevelResizableLayout()']]],
+  ['toxmldocument',['toXMLDocument',['../class_command_map.html#a86d35079d4397908aa26109e03e67c24',1,'CommandMap']]]
 ];

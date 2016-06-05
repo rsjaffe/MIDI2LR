@@ -1,4 +1,0 @@
-<map id="SettingsComponent" name="SettingsComponent">
-<area shape="rect" id="node2" href="$classResizableLayout.html" title="Derive your Component from this class if you want to be able to put anchors on children. " alt="" coords="14,80,133,107"/>
-<area shape="rect" id="node3" href="$classResizableChild.html" title="Smoothly repositions and resizes child Components without rounding errors, according to caller provid..." alt="" coords="19,5,127,32"/>
-</map>

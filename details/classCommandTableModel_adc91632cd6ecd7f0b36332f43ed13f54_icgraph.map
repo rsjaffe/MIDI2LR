@@ -1,7 +1,0 @@
-<map id="CommandTableModel::buildFromXml" name="CommandTableModel::buildFromXml">
-<area shape="rect" id="node2" href="$classMainContentComponent.html#a72d6b006f4d4a6c4de2ca2e1bde18fc6" title="Button clicked. " alt="" coords="208,5,369,47"/>
-<area shape="rect" id="node3" href="$classMainContentComponent.html#a34ad76f656a84f80ad2c044dd4ee3262" title="S. " alt="" coords="208,71,369,112"/>
-<area shape="rect" id="node6" href="$classMainContentComponent.html#adcb1797e988cf44e5c1811a1ae8144d5" title="Profile changed. " alt="" coords="208,136,369,177"/>
-<area shape="rect" id="node4" href="$classMainWindow.html#a463a6d09d5b6a183fa3c896952fb878c" title="S. " alt="" coords="417,78,539,105"/>
-<area shape="rect" id="node5" href="$classMainWindow.html#a50d2e609ff67f40e10806605f8281bc4" title="MainWindow::closeButtonPressed" alt="" coords="587,78,808,105"/>
-</map>

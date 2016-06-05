@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.0.1</span>
+   &#160;<span id="projectnumber">1.0.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -41,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -76,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -103,6 +113,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_t.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -122,30 +146,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>timerCallback()
-: <a class="el" href="classLR__IPC__IN.html#acdeca8e06bd01cb71ea026fca630823c">LR_IPC_IN</a>
-, <a class="el" href="classLR__IPC__OUT.html#ada29129823f7840fef72598342806f53">LR_IPC_OUT</a>
-, <a class="el" href="classMainContentComponent.html#a5b7e48a7423f17bc799fc2990f48e38d">MainContentComponent</a>
-, <a class="el" href="classMainWindow.html#a2c5579248bf8b2d75942957078b584e7">MainWindow</a>
+: <a class="el" href="class_l_r___i_p_c___i_n.html#acdeca8e06bd01cb71ea026fca630823c">LR_IPC_IN</a>
+, <a class="el" href="class_l_r___i_p_c___o_u_t.html#ada29129823f7840fef72598342806f53">LR_IPC_OUT</a>
+, <a class="el" href="class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d">MainContentComponent</a>
+, <a class="el" href="class_main_window.html#a2c5579248bf8b2d75942957078b584e7">MainWindow</a>
 </li>
 <li>ToneCurve
-: <a class="el" href="classLRCommandList.html#a40a38744d580f1999e6cb959e334bceb">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#a40a38744d580f1999e6cb959e334bceb">LRCommandList</a>
 </li>
 <li>ToolModulePanel
-: <a class="el" href="classLRCommandList.html#a3a2bf6260b3a0611793e9a2d501ecc60">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#a3a2bf6260b3a0611793e9a2d501ecc60">LRCommandList</a>
 </li>
-<li>TopLevelResizableLayout()
-: <a class="el" href="classTopLevelResizableLayout.html#acaf570bc0eabd147a11f9cf1415d44c6">TopLevelResizableLayout</a>
+<li>TopLevelResizableLayout
+: <a class="el" href="class_resizable_layout.html#af7f3636f234d1cdf71500ab6a6963b6f">ResizableLayout</a>
+, <a class="el" href="class_top_level_resizable_layout.html#acaf570bc0eabd147a11f9cf1415d44c6">TopLevelResizableLayout</a>
 </li>
 <li>toXMLDocument()
-: <a class="el" href="classCommandMap.html#a86d35079d4397908aa26109e03e67c24">CommandMap</a>
+: <a class="el" href="class_command_map.html#a86d35079d4397908aa26109e03e67c24">CommandMap</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2016 18:28:35 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

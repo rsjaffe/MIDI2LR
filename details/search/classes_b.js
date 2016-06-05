@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['versionchecker',['VersionChecker',['../classVersionChecker.html',1,'']]]
+  ['versionchecker',['VersionChecker',['../class_version_checker.html',1,'']]]
 ];

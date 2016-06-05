@@ -1,6 +1,0 @@
-<map id="ResizableLayout" name="ResizableLayout">
-<area shape="rect" id="node3" href="$classMainContentComponent.html" title="This component lives inside our window, and this is where you should put all your controls and conten..." alt="" coords="5,155,167,181"/>
-<area shape="rect" id="node4" href="$classSettingsComponent.html" title="Settings Component. " alt="" coords="191,155,327,181"/>
-<area shape="rect" id="node5" href="$classTopLevelResizableLayout.html" title="Derive your content component from this class (i.e. " alt="" coords="351,155,519,181"/>
-<area shape="rect" id="node2" href="$classResizableChild.html" title="Smoothly repositions and resizes child Components without rounding errors, according to caller provid..." alt="" coords="205,5,313,32"/>
-</map>

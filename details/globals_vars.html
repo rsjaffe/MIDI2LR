@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.0.1</span>
+   &#160;<span id="projectnumber">1.0.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -41,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -75,30 +84,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
-  <div id="navrow4" class="tabs3">
-    <ul class="tablist">
-      <li><a href="#index__"><span>_</span></a></li>
-      <li><a href="#index_a"><span>a</span></a></li>
-      <li><a href="#index_b"><span>b</span></a></li>
-      <li><a href="#index_c"><span>c</span></a></li>
-      <li><a href="#index_d"><span>d</span></a></li>
-      <li><a href="#index_e"><span>e</span></a></li>
-      <li><a href="#index_f"><span>f</span></a></li>
-      <li><a href="#index_g"><span>g</span></a></li>
-      <li><a href="#index_l"><span>l</span></a></li>
-      <li><a href="#index_m"><span>m</span></a></li>
-      <li><a href="#index_n"><span>n</span></a></li>
-      <li><a href="#index_o"><span>o</span></a></li>
-      <li><a href="#index_p"><span>p</span></a></li>
-      <li><a href="#index_r"><span>r</span></a></li>
-      <li><a href="#index_s"><span>s</span></a></li>
-      <li><a href="#index_t"><span>t</span></a></li>
-      <li><a href="#index_u"><span>u</span></a></li>
-      <li><a href="#index_v"><span>v</span></a></li>
-      <li class="current"><a href="#index_w"><span>w</span></a></li>
-    </ul>
-  </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_vars.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -114,256 +114,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-&#160;
-
-<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
-<li>__pad0__
-: <a class="el" href="read_01me_8txt.html#a10dd19ea3c4756c6f62313fbf8450794">read me.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
-<li>aan
-: <a class="el" href="TranslatedStrings__nl_8txt.html#aac16eee68b818aa2a9d8fb6e7943a344">TranslatedStrings_nl.txt</a>
-</li>
+&#160;<ul>
 <li>AutoHideSection
-: <a class="el" href="SettingsManager_8cpp.html#a6d293829dbd5f95e332ef2d26e08010b">SettingsManager.cpp</a>
+: <a class="el" href="_settings_manager_8cpp.html#a6d293829dbd5f95e332ef2d26e08010b">SettingsManager.cpp</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
-<li>brightness
-: <a class="el" href="Documentation_8txt.html#af50713129caad9b942290608859b205a">Documentation.txt</a>
+<li>kLrInPort
+: <a class="el" href="_l_r___i_p_c___in_8cpp.html#a0c6f0c23a74565693201c1e1ae8702e1">LR_IPC_In.cpp</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
-<li>camera
-: <a class="el" href="Documentation_8txt.html#acc2082e43c6cc31ae4c81ca0d8401447">Documentation.txt</a>
+<li>kLrOutPort
+: <a class="el" href="_l_r___i_p_c___out_8cpp.html#a2d04bb43be69c00ddb6a898480193dd6">LR_IPC_Out.cpp</a>
 </li>
-<li>cells
-: <a class="el" href="Documentation_8txt.html#a7f5221bfcc65abe291308f62f42c6588">Documentation.txt</a>
+<li>kMainHeight
+: <a class="el" href="_main_component_8cpp.html#a399a887ed03f8783740e798d85a845da">MainComponent.cpp</a>
 </li>
-<li>clipping
-: <a class="el" href="Documentation_8txt.html#a5550f5ab87119781c89deafba97a4559">Documentation.txt</a>
+<li>kMainLeft
+: <a class="el" href="_main_component_8cpp.html#a59100962a15a3aafe90f1ebf4228e219">MainComponent.cpp</a>
 </li>
-<li>closed
-: <a class="el" href="ReadMe_8txt.html#ae03cef72e12f5e6937b42f1177e5f1b0">ReadMe.txt</a>
+<li>kMainWidth
+: <a class="el" href="_main_component_8cpp.html#ac7f2a60585d2dd0da927ea69e37d2ba0">MainComponent.cpp</a>
 </li>
-<li>contrast
-: <a class="el" href="Documentation_8txt.html#ac28606ebcaa7945a0b07d9d4e431f074">Documentation.txt</a>
+<li>kSpaceBetweenButton
+: <a class="el" href="_main_component_8cpp.html#a84934ec86d7c7c69f6be595eb387e31f">MainComponent.cpp</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
-<li>darker
-: <a class="el" href="Documentation_8txt.html#a339a3159ae5cec6d34816717aa0a39fb">Documentation.txt</a>
-</li>
-<li>distortion
-: <a class="el" href="Documentation_8txt.html#a76bf93b35946e474be4e4b724e9e457c">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
-<li>Exposure
-: <a class="el" href="Documentation_8txt.html#a0c2f3f0ddc0e6b9078f45b2c1259eeb4">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
-<li>F1
-: <a class="el" href="BCF2000_8txt.html#a2182df791639fe038a618844ef4a65e5">BCF2000.txt</a>
-</li>
-<li>Firmware
-: <a class="el" href="BCF2000_8txt.html#ab88f829b5dc34f0d33d785a545e8dc80">BCF2000.txt</a>
-, <a class="el" href="BCR2000_8txt.html#ab88f829b5dc34f0d33d785a545e8dc80">BCR2000.txt</a>
-</li>
-<li>folder
-: <a class="el" href="ReadMe_8txt.html#ac4c4e9a8cdf0f17f97db9d003d28abed">ReadMe.txt</a>
-</li>
-<li>fringing
-: <a class="el" href="Documentation_8txt.html#a28fdafc01310d31453d64e975996cc0b">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
-<li>greater
-: <a class="el" href="Documentation_8txt.html#a199ef2938d0e2e5f4d49b90c426efa03">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
-<li>level
-: <a class="el" href="Documentation_8txt.html#acafe4b73f1e0805d913361d5b7ca738e">Documentation.txt</a>
-</li>
-<li>Level
-: <a class="el" href="Documentation_8txt.html#ab6830a4f8ae73af2172bef6668845106">Documentation.txt</a>
-</li>
-<li>Light
-: <a class="el" href="Documentation_8txt.html#ab0f1c730d37eacd8745daee5aabd8c8f">Documentation.txt</a>
-</li>
-<li>LrInPort
-: <a class="el" href="LR__IPC__In_8cpp.html#ae70bd48b5bbe3d3edd1f8e62ea824ae0">LR_IPC_In.cpp</a>
-</li>
-<li>LrOutPort
-: <a class="el" href="LR__IPC__Out_8cpp.html#a2024e399f6b0f06d258db3e0822e66ca">LR_IPC_Out.cpp</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>MainHeight
-: <a class="el" href="MainComponent_8cpp.html#ad2ee791515e606d8fcd81de62d062a78">MainComponent.cpp</a>
-</li>
-<li>MainLeft
-: <a class="el" href="MainComponent_8cpp.html#ab85b867277f0c1be9c3157f6c9071c7b">MainComponent.cpp</a>
-</li>
-<li>MainWidth
-: <a class="el" href="MainComponent_8cpp.html#a8b8d52ddc7a5ad5a0bd764447c7bcb13">MainComponent.cpp</a>
-</li>
-<li>mappings
-: <a class="el" href="ReadMe_8txt.html#a69b1022f48c18594dcc25fd0cbd179df">ReadMe.txt</a>
-</li>
-<li>MIDI2LR
-: <a class="el" href="TranslatedStrings__nl_8txt.html#ae6ed76e8c19b76a9a0924202f1538df0">TranslatedStrings_nl.txt</a>
-, <a class="el" href="TranslatedStrings__it_8txt.html#a7df26cd62f657edc13c828488d5810f4">TranslatedStrings_it.txt</a>
-, <a class="el" href="TranslatedStrings__fr_8txt.html#abf7c1385053afc1fcb7b8d81782cde59">TranslatedStrings_fr.txt</a>
-, <a class="el" href="TranslatedStrings__es_8txt.html#ac3963d218300f5382d7f17b0a23e42e5">TranslatedStrings_es.txt</a>
-, <a class="el" href="TranslatedStrings__en_8txt.html#a5b74052e00df5ec785cbcbc427c046ec">TranslatedStrings_en.txt</a>
-, <a class="el" href="BCR2000_8txt.html#a3f564c86c165d61100992f0a2b6897cb">BCR2000.txt</a>
-, <a class="el" href="BCF2000_8txt.html#a3f564c86c165d61100992f0a2b6897cb">BCF2000.txt</a>
-, <a class="el" href="ReadMe_8txt.html#aab109a8d790c11319754eb3d36a03a3f">ReadMe.txt</a>
-, <a class="el" href="TranslatedStrings__sv_8txt.html#a3b9f4c9257793f3062c89b950af5b922">TranslatedStrings_sv.txt</a>
-, <a class="el" href="TranslatedStrings__pt_8txt.html#a2a8b5babecb40609ff9c9ccdaf01c8d7">TranslatedStrings_pt.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
-<li>not
-: <a class="el" href="COPYING_8txt.html#a842224abbb72b50c9703a22030a36ee4">COPYING.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
-<li>of
-: <a class="el" href="Documentation_8txt.html#a07f137c5baa9140d2c7e430e1b540841">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
-<li>pastesel
-: <a class="el" href="TranslatedStrings__de_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_de.txt</a>
-, <a class="el" href="TranslatedStrings__en_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_en.txt</a>
-, <a class="el" href="TranslatedStrings__sv_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_sv.txt</a>
-, <a class="el" href="TranslatedStrings__es_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_es.txt</a>
-, <a class="el" href="TranslatedStrings__pt_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_pt.txt</a>
-, <a class="el" href="TranslatedStrings__nl_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_nl.txt</a>
-, <a class="el" href="TranslatedStrings__ko_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_ko.txt</a>
-, <a class="el" href="TranslatedStrings__fr_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_fr.txt</a>
-, <a class="el" href="TranslatedStrings__it_8txt.html#a73f4847c4d6ac589f643e91c1067c6fd">TranslatedStrings_it.txt</a>
-</li>
-<li>photos
-: <a class="el" href="ReadMe_8txt.html#a4ef920d72561650134e6a341d1eee0ad">ReadMe.txt</a>
-</li>
-<li>project
-: <a class="el" href="TRANSLATIONS_8txt.html#ae9ff7d39db704b40db363f580b3195bd">TRANSLATIONS.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
-<li>R1
-: <a class="el" href="BCR2000_8txt.html#abc0f879839fe47325a350683b5f75fc2">BCR2000.txt</a>
-</li>
-<li>ratio
-: <a class="el" href="Documentation_8txt.html#acf6b551c0612c7b36ae2994f6536c7a8">Documentation.txt</a>
-</li>
-<li>Recovery
-: <a class="el" href="Documentation_8txt.html#a3cece0bd7e4efed7c1b60ed0092815db">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>SettingsHeight
-: <a class="el" href="SettingsComponent_8cpp.html#ad77c3a83a344575edb045d501b318819">SettingsComponent.cpp</a>
+: <a class="el" href="_settings_component_8cpp.html#ad77c3a83a344575edb045d501b318819">SettingsComponent.cpp</a>
 </li>
 <li>SettingsLeft
-: <a class="el" href="SettingsComponent_8cpp.html#a46816d9a064bd48e076418ffdb29c612">SettingsComponent.cpp</a>
+: <a class="el" href="_settings_component_8cpp.html#a46816d9a064bd48e076418ffdb29c612">SettingsComponent.cpp</a>
 </li>
 <li>SettingsWidth
-: <a class="el" href="SettingsComponent_8cpp.html#a0beeb760c702385eb1076dc6e1dc2c08">SettingsComponent.cpp</a>
-</li>
-<li>shadows
-: <a class="el" href="Documentation_8txt.html#a54f265d9fc352728298edf96a8d7d02a">Documentation.txt</a>
+: <a class="el" href="_settings_component_8cpp.html#a0beeb760c702385eb1076dc6e1dc2c08">SettingsComponent.cpp</a>
 </li>
 <li>ShutDownString
-: <a class="el" href="Main_8cpp.html#af3606c5611f0c27e8a2f8ba5e0dc775e">Main.cpp</a>
-</li>
-<li>SpaceBetweenButton
-: <a class="el" href="MainComponent_8cpp.html#a4d21119fd07b9f43ea1822122b3ec2c2">MainComponent.cpp</a>
-</li>
-<li>starten
-: <a class="el" href="TranslatedStrings__de_8txt.html#aade304b349c6bcd8ec7a4571ce7f374f">TranslatedStrings_de.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
-<li>thin
-: <a class="el" href="Documentation_8txt.html#aec7acb25f36d5adab07f75b4a63ccfa4">Documentation.txt</a>
-</li>
-<li>through
-: <a class="el" href="Documentation_8txt.html#aa352831977ee4e14476bee30fee077e3">Documentation.txt</a>
-</li>
-<li>to
-: <a class="el" href="Documentation_8txt.html#a2764d99455cd20ba6e197573f76c4d81">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
-<li>uniform
-: <a class="el" href="Documentation_8txt.html#ada929178a212effb7f14a413cfe9c4ff">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
-<li>Version
-: <a class="el" href="COPYING_8txt.html#a457a10a82940188536c43461775a7244">COPYING.txt</a>
-</li>
-<li>Vertical
-: <a class="el" href="Documentation_8txt.html#a3cdd4e5093055da6c1895413ac5ee954">Documentation.txt</a>
-</li>
-<li>vignetting
-: <a class="el" href="Documentation_8txt.html#a53c27b72ed77f49329abd1b67941102e">Documentation.txt</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
-<li>way
-: <a class="el" href="ReadMe_8txt.html#af58ed1d3949ee0d8a1423a3114c7141e">ReadMe.txt</a>
+: <a class="el" href="_main_8cpp.html#af3606c5611f0c27e8a2f8ba5e0dc775e">Main.cpp</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2016 18:28:36 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

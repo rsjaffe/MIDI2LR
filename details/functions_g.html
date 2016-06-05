@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -25,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.0.1</span>
+   &#160;<span id="projectnumber">1.0.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -41,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -76,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -103,6 +113,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_g.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -122,60 +146,69 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>General
-: <a class="el" href="classLRCommandList.html#a6596b402092771f06a67d73be1d0f52c">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#a6596b402092771f06a67d73be1d0f52c">LRCommandList</a>
+</li>
+<li>getApplicationName()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#ac53e19496aa202117c45cae154cf7489">MIDI2LRApplication</a>
+</li>
+<li>getApplicationVersion()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a51fc49ef00c85168d30427eb77d023c7">MIDI2LRApplication</a>
 </li>
 <li>getAutoHideTime()
-: <a class="el" href="classSettingsManager.html#ad32c1e7cb2d920a44ac4b98d764b40ca">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca">SettingsManager</a>
 </li>
 <li>getCommandforMessage()
-: <a class="el" href="classCommandMap.html#aa7b751c5f0b16fb5f552b5c304f56c68">CommandMap</a>
+: <a class="el" href="class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68">CommandMap</a>
 </li>
 <li>getIndexOfCommand()
-: <a class="el" href="classLRCommandList.html#a37b96dd77211ce8f85b2d83beb6d6a51">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#a37b96dd77211ce8f85b2d83beb6d6a51">LRCommandList</a>
 </li>
 <li>GetInstance()
 : <a class="el" href="classabstract.html#aca9929a78bea316bf71179d83f3512bb">abstract&lt; T &gt;</a>
 </li>
 <li>getLastVersionFound()
-: <a class="el" href="classSettingsManager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8">SettingsManager</a>
 </li>
 <li>getMaximumHeight()
-: <a class="el" href="classResizableChild.html#afedf9f9fbe96c0bc1a0713b65b1cf55e">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e">ResizableChild</a>
 </li>
 <li>getMaximumWidth()
-: <a class="el" href="classResizableChild.html#a78a85e1a87e5d3c0071c8eb6aa673aab">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab">ResizableChild</a>
 </li>
 <li>getMenuItems()
-: <a class="el" href="classProfileManager.html#aa987cef0d2777592539985d6b7370f71">ProfileManager</a>
+: <a class="el" href="class_profile_manager.html#aa987cef0d2777592539985d6b7370f71">ProfileManager</a>
 </li>
 <li>getMessageForCommand()
-: <a class="el" href="classCommandMap.html#aeeef81aa7e1103a9e1012f2f4df35213">CommandMap</a>
+: <a class="el" href="class_command_map.html#aeeef81aa7e1103a9e1012f2f4df35213">CommandMap</a>
 </li>
 <li>getMinimumHeight()
-: <a class="el" href="classResizableChild.html#a3dc554161d4b994494326227a96a644c">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a3dc554161d4b994494326227a96a644c">ResizableChild</a>
 </li>
 <li>getMinimumWidth()
-: <a class="el" href="classResizableChild.html#a799c8cf06801b7da7fd6d987892740e1">ResizableChild</a>
+: <a class="el" href="class_resizable_child.html#a799c8cf06801b7da7fd6d987892740e1">ResizableChild</a>
 </li>
 <li>getNumRows()
-: <a class="el" href="classCommandTableModel.html#ae89ca7ee2106ffe3a8d326da313e3bf2">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2">CommandTableModel</a>
 </li>
 <li>getPickupEnabled()
-: <a class="el" href="classSettingsManager.html#a723bf06d5ec0c638b731c46140331c6d">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d">SettingsManager</a>
 </li>
 <li>getProfileDirectory()
-: <a class="el" href="classSettingsManager.html#a2c155d9a507a9bef20208359ed4b11f6">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a2c155d9a507a9bef20208359ed4b11f6">SettingsManager</a>
 </li>
 <li>getRowForMessage()
-: <a class="el" href="classCommandTableModel.html#a718bd444e2e6a23b7ca4375ac3a94b39">CommandTableModel</a>
+: <a class="el" href="class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39">CommandTableModel</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2016 18:28:35 for MIDI2LR by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>
