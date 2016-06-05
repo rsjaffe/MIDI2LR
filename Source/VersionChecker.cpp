@@ -51,10 +51,10 @@ void VersionChecker::handleAsyncUpdate()
     DialogWindow::LaunchOptions dialog_options;
     dialog_options.dialogTitle = "New Version Available!";
 
-    const auto major{ (new_version_ & 0xF000000) >> 24 };
-    const auto minor{ (new_version_ & 0x00F0000) >> 16 };
-    const auto rev{ (new_version_ & 0x0000F00) >> 8 };
-    const auto build{ (new_version_ & 0x00000FF) };
+    const auto major{ (new_version_ & 0xFF000000) >> 24 };
+    const auto minor{ (new_version_ & 0xFF0000) >> 16 };
+    const auto rev{ (new_version_ & 0xFF00) >> 8 };
+    const auto build{ (new_version_ & 0xFF) };
     const auto version_string{ String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build) };
     const URL download_url{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
 
