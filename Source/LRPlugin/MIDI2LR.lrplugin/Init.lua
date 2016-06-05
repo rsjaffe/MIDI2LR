@@ -32,40 +32,17 @@ local ParamList           = require 'ParamList'
 local ProfileTypes        = require 'ProfileTypes'
 
 --Limits.lua
---------------note: test if can use t in place of t.param in metalimit2
-local metalimit2 = { --assumes only new table members for each parameter are numeric, representing ranges
-  __index = function(t,k) -- key is high value for the range -- return t[k] or nil
-    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then 
-      t[k] = {}
-      local lo,hi = LrDevelopController.getRange(t.param)
-      if k == hi then
-        if t.param == 'Temperature' and k == 50000 then
-          t[k] = {3000,9000}
-        else
-          t[k] = {lo,hi}
-        end
-      end
-      return t[k]
-    end
-    return nil,nil --don't initialize t[k] so that __index reruns on next access
-  end,
-}
-
-local metalimit1 = {
-  __index = function(t,k)--key is the name of the parameter
-    t[k] = setmetatable({param = k,label = ParamList.LimitEligible[k][1], order = ParamList.LimitEligible[k][2]},metalimit2) 
-    return t[k]
-  end,
-}
 
 local function UseDefaultsLimits()
-  ProgramPreferences.Limits = setmetatable({},metalimit1)
-  ProgramPreferences.Limits.Temperature= {[50000] = {3000,9000}}
+  ProgramPreferences.Limits = {}
+  ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = ParamList.LimitEligible.Temperature[1],
+    order = ParamList.LimitEligible.Temperature[2], [50000] = {3000,9000}}
 end
+
+
 local function LoadedLimits()
   if ProgramPreferences.Limits == nil or type(ProgramPreferences.Limits)~='table' then
-    ProgramPreferences.Limits = {}
-    ProgramPreferences.Limits.Temperature = {[50000] = {3000,9000}}
+    UseDefaultsLimits()
   else --following is just in cases we loaded historic limits, which may have a missing value--no harm in checking carefully
     for _,v in pairs(ProgramPreferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
       for kk,vv in pairs(v) do -- for each highlimittable kk, look at vv(limit values table) 
@@ -73,12 +50,6 @@ local function LoadedLimits()
           vv[1],vv[2]=nil,nil --guard against corrupted data when only one bound gets initialized
         end
       end
-    end
-  end
-  if getmetatable(ProgramPreferences.Limits)==nil then
-    setmetatable(ProgramPreferences.Limits,metalimit1)
-    for k in pairs(ProgramPreferences.Limits) do -- k is parameter name, v is table under name
-      setmetatable(ProgramPreferences.Limits[k],metalimit2)
     end
   end
 end
