@@ -62,7 +62,7 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command, std::shared_ptr<P
 
 void LR_IPC_IN::run()
 {
-    while (!threadShouldExit())
+    while (!threadShouldExit() && isConnected())
     {
         constexpr auto kBufferSize = 256;
         char line[kBufferSize + 1] = { '\0' };//plus one for \0 at end
@@ -70,7 +70,7 @@ void LR_IPC_IN::run()
         auto can_read_line = true;
 
         // parse input until we have a line, then process that line
-        while (!juce::String(line).endsWithChar('\n') && !threadShouldExit())
+        while (!juce::String(line).endsWithChar('\n') && isConnected() && !threadShouldExit())
         {
             auto wait_status = waitUntilReady(true, 0);
             if (wait_status < 0)
@@ -88,7 +88,7 @@ void LR_IPC_IN::run()
             size_read += read(line + size_read, 1, false);
         }
 
-        if (can_read_line)
+        if (can_read_line && isConnected())
         {
             juce::String param{ line };
             processLine(param);
