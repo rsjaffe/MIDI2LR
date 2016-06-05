@@ -25,14 +25,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ResizableLayout.h"
 #include "SettingsManager.h"
 
-/**********************************************************************************************//**
-* @class   SettingsComponent
-*
-* @brief   Settings Component.
-*
-* @date    3/20/2016
-**************************************************************************************************/
-
 class SettingsComponent: public Component,
     public ButtonListener, ResizableLayout, public Slider::Listener
 {
@@ -63,6 +55,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
-
 
 #endif  // SETTINGSCOMPONENT_H_INCLUDED

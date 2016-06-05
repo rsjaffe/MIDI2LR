@@ -19,55 +19,20 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDIProcessor.h"
 
-/**********************************************************************************************//**
- * @fn  MIDIProcessor::MIDIProcessor() noexcept
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 MIDIProcessor::MIDIProcessor() noexcept
 {
 
 }
-
-/**********************************************************************************************//**
- * @fn  MIDIProcessor::~MIDIProcessor()
- *
- * @brief   Destructor.
- *
- *
- *
- **************************************************************************************************/
 
 MIDIProcessor::~MIDIProcessor()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::Init(void)
- *
- * @brief   S this object.
- *
- *
- *
- **************************************************************************************************/
-
 void MIDIProcessor::Init(void)
 {
     initDevices();
 }
-
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::initDevices()
- *
- * @brief   Init devices.
- *
- *
- *
- **************************************************************************************************/
 
 void MIDIProcessor::initDevices()
 {
@@ -81,15 +46,6 @@ void MIDIProcessor::initDevices()
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::rescanDevices()
- *
- * @brief   Rescan devices.
- *
- *
- *
- **************************************************************************************************/
-
 void MIDIProcessor::rescanDevices()
 {
     for (auto dev : _devices)
@@ -98,15 +54,6 @@ void MIDIProcessor::rescanDevices()
 
     initDevices();
 }
-
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::handleIncomingMidiMessage(MidiInput * , const MidiMessage &msg)
- *
- * @brief   Handles the incoming MIDI message.
- *
- * @param [in,out]  device      If non-null, the device.
- * @param   msg                 The message.
- **************************************************************************************************/
 
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &msg)
 {
@@ -125,17 +72,6 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const Midi
         }
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
- *
- * @brief   Adds a MIDI command listener.
- *
- *
- *
- *
- * @param [in,out]  listener    If non-null, the listener.
- **************************************************************************************************/
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
 {

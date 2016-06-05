@@ -27,15 +27,6 @@
 // forward declaration of the subject interface
 class Subject;
 
-/**********************************************************************************************//**
-* @class   Observer
-*
-* @brief   Observer.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
 class Observer
 {
 public:
@@ -48,7 +39,5 @@ public:
 protected:
 private:
 };
-
-
 
 #endif  // OBSERVER_H_INCLUDED

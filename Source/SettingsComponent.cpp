@@ -24,14 +24,6 @@ constexpr auto SettingsLeft = 20;
 constexpr auto SettingsWidth = 400;
 constexpr auto SettingsHeight = 300;
 
-/**********************************************************************************************//**
- * @fn  SettingsComponent::SettingsComponent()
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 SettingsComponent::SettingsComponent(): ResizableLayout{ this }, _pickupEnabled{ "Enable Pickup Mode" },
 _pickupLabel{ "PickupLabel", "" },
 _profileLocationButton{ "Choose Profile Folder" },
@@ -43,46 +35,17 @@ m_autoHideExplainLabel{},
 m_settingsManager{ nullptr }
 {
 
-
 }
-
-/**********************************************************************************************//**
- * @fn  SettingsComponent::~SettingsComponent()
- *
- * @brief   Destructor.
- *
- *
- **************************************************************************************************/
 
 SettingsComponent::~SettingsComponent()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn  void SettingsComponent::paint(Graphics& g)
- *
- * @brief   Paints the given g.
- *
- *
- *
- * @param [in,out]  g   The Graphics to process.
- **************************************************************************************************/
-
 void SettingsComponent::paint(Graphics& g)
 {
     g.fillAll(Colours::white);   // clear the background
 }
-
-/**********************************************************************************************//**
- * @fn  void SettingsComponent::buttonClicked(Button* button)
- *
- * @brief   Button clicked.
- *
- *
- *
- * @param [in,out]  button  If non-null, the button.
- **************************************************************************************************/
 
 void SettingsComponent::buttonClicked(Button* button)
 {
@@ -117,16 +80,6 @@ void SettingsComponent::buttonClicked(Button* button)
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void SettingsComponent::sliderValueChanged(Slider* slider)
- *
- * @brief   Slider value changed.
- *
- *
- *
- * @param [in,out]  slider  If non-null, the slider.
- **************************************************************************************************/
-
 void SettingsComponent::sliderValueChanged(Slider* slider)
 {
     // NULL pointer check
@@ -145,16 +98,6 @@ void SettingsComponent::sliderValueChanged(Slider* slider)
     }
 
 }
-
-/**********************************************************************************************//**
- * @fn  void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
- *
- * @brief   Inits the given settings manager.
- *
- *
- *
- * @param [in,out]  settingsManager If non-null, manager for settings.
- **************************************************************************************************/
 
 void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
 {
@@ -180,7 +123,6 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
         _pickupLabel.setColour(Label::textColourId, Colours::darkgrey);
         addAndMakeVisible(_pickupLabel);
 
-
         _pickupEnabled.addListener(this);
         _pickupEnabled.setToggleState(m_settingsManager->getPickupEnabled(), NotificationType::dontSendNotification);
         _pickupEnabled.setBounds(SettingsLeft, 60, SettingsWidth - 2 * SettingsLeft, 32);
@@ -192,7 +134,6 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
         m_profileGroup.setBounds(0, 100, SettingsWidth, 100);
         addToLayout(&m_profileGroup, anchorMidLeft, anchorMidRight);
         addAndMakeVisible(m_profileGroup);
-
 
         _profileLocationButton.addListener(this);
         _profileLocationButton.setBounds(SettingsLeft, 120, SettingsWidth - 2 * SettingsLeft, 25);
@@ -206,13 +147,11 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settingsManager)
         addAndMakeVisible(_profileLocationLabel);
         _profileLocationLabel.setText(m_settingsManager->getProfileDirectory(), NotificationType::dontSendNotification);
 
-
         ////// ----------------------- auto hide section ------------------------------------
         m_autoHideGroup.setText("Auto hide");
         m_autoHideGroup.setBounds(0, 200, SettingsWidth, 100);
         addToLayout(&m_autoHideGroup, anchorMidLeft, anchorMidRight);
         addAndMakeVisible(m_autoHideGroup);
-
 
         m_autoHideExplainLabel.setFont(Font{ 12.f, Font::bold });
         m_autoHideExplainLabel.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", NotificationType::dontSendNotification);

@@ -20,15 +20,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MainWindow.h"
 
-/**********************************************************************************************//**
- * @fn  void MainWindow::timerCallback(void)
- *
- * @brief   Callback, called when the timer.
- *
- *
- *
- **************************************************************************************************/
-
 void MainWindow::timerCallback(void)
 {
     auto decreasedValue = false;
@@ -57,7 +48,6 @@ void MainWindow::timerCallback(void)
             }
         }
     }
-
 
 }
 

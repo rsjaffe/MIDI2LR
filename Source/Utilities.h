@@ -65,5 +65,4 @@ class X :  MIDI2LR::counter<X>
 // ...
 };
 
-
 */

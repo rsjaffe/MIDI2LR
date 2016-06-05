@@ -26,15 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include <mutex>
 
-/**********************************************************************************************//**
- * @class   LRConnectionListener
- *
- * @brief   A lr connection listener.
- *
- *
- *
- **************************************************************************************************/
-
 class LRConnectionListener
 {
 public:
@@ -48,15 +39,6 @@ public:
     {};
 ///< .
 };
-
-/**********************************************************************************************//**
- * @class   LR_IPC_OUT
- *
- * @brief   A lr ipc out.
- *
- *
- *
- **************************************************************************************************/
 
 class LR_IPC_OUT: public InterprocessConnection,
     public MIDICommandListener,
@@ -84,8 +66,6 @@ public:
     virtual void handleMidiCC(int midiChannel, int controller, int value) override;
     virtual void handleMidiNote(int midiChannel, int note) override;
 
-
-
     // AsyncUpdater interface
     virtual void handleAsyncUpdate() override;
 
@@ -100,6 +80,5 @@ private:
     String _commandToSend;
 ///< .
 };
-
 
 #endif  // LR_IPC_OUT_H_INCLUDED

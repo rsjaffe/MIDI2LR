@@ -21,30 +21,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-/**********************************************************************************************//**
- * @fn  CommandMap::CommandMap() noexcept
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 CommandMap::CommandMap() noexcept : Subject{}
 {
 
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &msg)
- *
- * @brief   Adds a commandfor message to 'msg'.
- *
- *
- *
- *
- * @param   command The command.
- * @param   msg     The message.
- **************************************************************************************************/
 
 void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &msg)
 {
@@ -58,106 +38,31 @@ void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &
         _messageMap[msg] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &msg)
- *
- * @brief   Adds a commandfor message to 'msg'.
- *
- *
- *
- *
- * @param   command The command.
- * @param   msg     The message.
- **************************************************************************************************/
-
 void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &msg)
 {
     _messageMap[msg] = command;
     _commandStringMap[command] = msg;
 }
 
-/**********************************************************************************************//**
- * @fn  const String& CommandMap::getCommandforMessage(const MIDI_Message &msg) const
- *
- * @brief   Gets commandfor message.
- *
- *
- *
- *
- * @param   msg The message.
- *
- * @return  The commandfor message.
- **************************************************************************************************/
-
 const String& CommandMap::getCommandforMessage(const MIDI_Message &msg) const
 {
     return _messageMap.at(msg);
 }
-
-/**********************************************************************************************//**
- * @fn  const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const
- *
- * @brief   Gets message for command.
- *
- *
- *
- *
- * @param   command The command.
- *
- * @return  The message for command.
- **************************************************************************************************/
 
 const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const
 {
     return _commandStringMap.at(command);
 }
 
-/**********************************************************************************************//**
- * @fn  bool CommandMap::messageExistsInMap(const MIDI_Message &msg) const
- *
- * @brief   Message exists in map.
- *
- *
- *
- *
- * @param   msg The message.
- *
- * @return  true if it succeeds, false if it fails.
- **************************************************************************************************/
-
 bool CommandMap::messageExistsInMap(const MIDI_Message &msg) const
 {
     return _messageMap.count(msg) > 0 ? true : false;
 }
 
-/**********************************************************************************************//**
- * @fn  bool CommandMap::commandHasAssociatedMessage(const String &command) const
- *
- * @brief   Command has associated message.
- *
- *
- *
- *
- * @param   command The command.
- *
- * @return  true if it succeeds, false if it fails.
- **************************************************************************************************/
-
 bool CommandMap::commandHasAssociatedMessage(const String &command) const
 {
     return _commandStringMap.count(command) > 0 ? true : false;
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandMap::removeMessage(const MIDI_Message &msg)
- *
- * @brief   Removes the message described by msg.
- *
- *
- *
- *
- * @param   msg The message.
- **************************************************************************************************/
 
 void CommandMap::removeMessage(const MIDI_Message &msg)
 {
@@ -166,30 +71,11 @@ void CommandMap::removeMessage(const MIDI_Message &msg)
     _messageMap.erase(msg);
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandMap::clearMap() noexcept
- *
- * @brief   Clears the map.
- *
- *
- **************************************************************************************************/
-
 void CommandMap::clearMap() noexcept
 {
     _commandStringMap.clear();
     _messageMap.clear();
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandMap::toXMLDocument(File& file) const
- *
- * @brief   Converts a file to an XML document.
- *
- *
- *
- *
- * @param [in,out]  file    The file.
- **************************************************************************************************/
 
 void CommandMap::toXMLDocument(File& file) const
 {
@@ -199,7 +85,6 @@ void CommandMap::toXMLDocument(File& file) const
     {
         auto* setting = new XmlElement{ "setting" };
         setting->setAttribute("channel", mapEntry.first.channel);
-
 
         setting->setAttribute("NRPN", (mapEntry.first.isNRPN) ? "True" : "False");
         setting->setAttribute("Relative", (mapEntry.first.isRelative) ? "True" : "False");

@@ -177,26 +177,7 @@ const std::unordered_map<std::string, unsigned char> SendKeys::keymap = {
 #endif
 };
 
-/**********************************************************************************************//**
- * @property    std::mutex SendKeys::m_mtxSending
- *
- * @brief   Gets the mtx sending.
- *
- * @return  The m mtx sending.
- **************************************************************************************************/
-
 std::mutex SendKeys::m_mtxSending{};
-
-/**********************************************************************************************//**
- * @fn  void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
- *
- * @brief   Sends a key down up.
- *
- * @param   key     The key.
- * @param   Alt     true to alternate.
- * @param   Control true to control.
- * @param   Shift   true to shift.
- **************************************************************************************************/
 
 void SendKeys::SendKeyDownUp(const std::string& key, bool Alt, bool Control, bool Shift) const
 {

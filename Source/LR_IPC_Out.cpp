@@ -23,29 +23,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 constexpr auto LrOutPort = 58763;
 
-/**********************************************************************************************//**
- * @fn  LR_IPC_OUT::LR_IPC_OUT()
- *
- * @brief   Default constructor.
- *
- *
- *
- **************************************************************************************************/
-
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection()
 {
 
-
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::shutdown()
- *
- * @brief   Shuts down this object and frees any resources it is using.
- *
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_OUT::shutdown()
 {
@@ -54,31 +35,11 @@ void LR_IPC_OUT::shutdown()
     m_commandMap.reset();
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::timerCallback()
- *
- * @brief   Callback, called when the timer.
- *
- *
- *
- **************************************************************************************************/
-
 void LR_IPC_OUT::timerCallback()
 {
     if (!isConnected())
         connectToSocket("127.0.0.1", LrOutPort, 100);
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<MIDIProcessor>& midiProcessor)
- *
- * @brief   S.
- *
- *
- *
- * @param [in,out]  mapCommand      If non-null, the map command.
- * @param [in,out]  midiProcessor   If non-null, the MIDI processor.
- **************************************************************************************************/
 
 void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<MIDIProcessor>& midiProcessor)
 {
@@ -90,37 +51,15 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<M
         midiProcessor->addMIDICommandListener(this);
     }
 
-
     //start the timer
     startTimer(1000);
 
-
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::addListener(LRConnectionListener *listener)
- *
- * @brief   Adds a listener.
- *
- *
- *
- *
- * @param [in,out]  listener    If non-null, the listener.
- **************************************************************************************************/
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener)
 {
     _listeners.addIfNotAlreadyThere(listener);
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::connectionMade()
- *
- * @brief   Connection made.
- *
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_OUT::connectionMade()
 {
@@ -128,45 +67,16 @@ void LR_IPC_OUT::connectionMade()
         listener->connected();
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::connectionLost()
- *
- * @brief   Connection lost.
- *
- *
- *
- **************************************************************************************************/
-
 void LR_IPC_OUT::connectionLost()
 {
     for (auto listener : _listeners)
         listener->disconnected();
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::messageReceived(const MemoryBlock& )
- *
- * @brief   Message received.
- *
- *
- *
- * @param   msg  The message.
- **************************************************************************************************/
-
 void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/)
 {
 
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::sendCommand(const String &command) const
- *
- * @brief   Sends a command.
- *
- *
- *
- * @param   command The command.
- **************************************************************************************************/
 
 void LR_IPC_OUT::sendCommand(const String &command) const
 {
@@ -177,15 +87,6 @@ void LR_IPC_OUT::sendCommand(const String &command) const
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::handleAsyncUpdate()
- *
- * @brief   Handles the asynchronous update.
- *
- *
- *
- **************************************************************************************************/
-
 void LR_IPC_OUT::handleAsyncUpdate()
 {
     //check if there is a connection
@@ -195,19 +96,6 @@ void LR_IPC_OUT::handleAsyncUpdate()
         sendCommand(command);
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
- *
- * @brief   Handles MIDI CC messages.
- *
- *
- *
- *
- * @param   midiChannel The MIDI channel.
- * @param   controller  The controller.
- * @param   value       The value.
- **************************************************************************************************/
 
 void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
 {
@@ -227,18 +115,6 @@ void LR_IPC_OUT::handleMidiCC(int midiChannel, int controller, int value)
         handleAsyncUpdate();
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
- *
- * @brief   Handles MIDI note messages.
- *
- *
- *
- *
- * @param   midiChannel The MIDI channel.
- * @param   note        The note.
- **************************************************************************************************/
 
 void LR_IPC_OUT::handleMidiNote(int midiChannel, int note)
 {

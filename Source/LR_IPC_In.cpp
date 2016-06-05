@@ -20,31 +20,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include <bitset>
 
-
 /** @brief   define the communication port. */
 constexpr auto LrInPort = 58764;
-
-/**********************************************************************************************//**
- * @fn  LR_IPC_IN::LR_IPC_IN()
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{},
 Thread{ "LR_IPC_IN" }, m_commandMap{ nullptr }, m_profileManager{ nullptr }, m_midiSender{ nullptr }
 {
 
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::shutdown()
- *
- * @brief   Shuts down this object and frees any resources it is using.
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_IN::shutdown()
 {
@@ -58,14 +41,6 @@ void LR_IPC_IN::shutdown()
 
 }
 
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::timerCallback()
- *
- * @brief   Callback, called when the timer.
- *
- *
- **************************************************************************************************/
-
 void LR_IPC_IN::timerCallback()
 {
     if (!isConnected())
@@ -74,18 +49,6 @@ void LR_IPC_IN::timerCallback()
             startThread();
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<ProfileManager>& profileManager, std::shared_ptr<MIDISender>& midiSender) noexcept
- *
- * @brief   S.
- *
- *
- *
- * @param [in,out]  mapCommand      If non-null, the map command.
- * @param [in,out]  profileManager  If non-null, manager for profile.
- * @param [in,out]  midiSender      If non-null, the MIDI sender.
- **************************************************************************************************/
 
 void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<ProfileManager>& profileManager,
     std::shared_ptr<MIDISender>& midiSender) noexcept
@@ -96,14 +59,6 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<Pr
     //start the timer
     startTimer(1000);
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::run()
- *
- * @brief   The continuously running IPC in thread.
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_IN::run()
 {
@@ -138,16 +93,6 @@ void LR_IPC_IN::run()
     }
     shutdown(); //exit thread
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::processLine(const String& line)
- *
- * @brief   Process the line into parameter value valuestring and act on parameter.
- *
- *
- *
- * @param   line    The line.
- **************************************************************************************************/
 
 void LR_IPC_IN::processLine(const juce::String& line)
 {
@@ -184,7 +129,6 @@ void LR_IPC_IN::processLine(const juce::String& line)
             {
                 const auto& msg = m_commandMap->getMessageForCommand(command);
 
-
                 if (m_midiSender)
                 {
                     m_midiSender->sendCC(msg.channel, msg.controller, value);
@@ -193,14 +137,6 @@ void LR_IPC_IN::processLine(const juce::String& line)
         }
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void LR_IPC_IN::refreshMIDIOutput()
- *
- * @brief   Refresh MIDI output.
- *
- *
- **************************************************************************************************/
 
 void LR_IPC_IN::refreshMIDIOutput()
 {

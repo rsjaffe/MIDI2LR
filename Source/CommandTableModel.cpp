@@ -20,27 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include "LRCommands.h"
 
-/**********************************************************************************************//**
- * @fn  CommandTableModel::CommandTableModel() noexcept
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 CommandTableModel::CommandTableModel() noexcept : _rows{ 0 }, m_commandMap{ nullptr }
 {}
-
-/**********************************************************************************************//**
- * @fn  int CommandTableModel::getNumRows()
- *
- * @brief   Gets number rows.
- *
- *
- *
- *
- * @return  The number rows.
- **************************************************************************************************/
 
 int CommandTableModel::getNumRows()
 {
@@ -144,19 +125,6 @@ Component *CommandTableModel::refreshComponentForCell(int rowNumber, int columnI
         return nullptr;
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
- *
- * @brief   Adds a row.
- *
- *
- *
- *
- * @param   midi_channel    The MIDI channel.
- * @param   midi_data       Information describing the MIDI.
- * @param   isCC            true if this object is Cc.
- **************************************************************************************************/
-
 void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
 {
     MIDI_Message msg{ midi_channel, midi_data, isCC };
@@ -171,18 +139,6 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool isCC)
     }
 }
 
-/**********************************************************************************************//**
- * @fn  int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC) const
- *
- * @brief   return value -1 means can not find.
- *
- * @param   midi_channel    The MIDI channel.
- * @param   midi_data       Information describing the MIDI.
- * @param   isCC            true if this object is Cc.
- *
- * @return  The row for message.
- **************************************************************************************************/
-
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool isCC) const
 {
     for (auto idx = 0; idx < _rows; idx++)
@@ -195,17 +151,6 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
     return -1;
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::removeRow(int row)
- *
- * @brief   Removes the row described by row.
- *
- *
- *
- *
- * @param   row The row.
- **************************************************************************************************/
-
 void CommandTableModel::removeRow(int row)
 {
     MIDI_Message msg = _commands[row];
@@ -216,15 +161,6 @@ void CommandTableModel::removeRow(int row)
     }
     _rows--;
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::removeAllRows()
- *
- * @brief   Removes all rows.
- *
- *
- *
- **************************************************************************************************/
 
 void CommandTableModel::removeAllRows()
 {
@@ -237,16 +173,6 @@ void CommandTableModel::removeAllRows()
 
     _rows = 0;
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::buildFromXml(const XmlElement * const root)
- *
- * @brief   Builds from XML.
- *
- *
- *
- * @param   root    If non-null, the root.
- **************************************************************************************************/
 
 void CommandTableModel::buildFromXml(const XmlElement * const root)
 {
@@ -291,16 +217,6 @@ void CommandTableModel::buildFromXml(const XmlElement * const root)
         setting = setting->getNextElement();
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandTableModel::Init(std::shared_ptr<CommandMap>& mapCommand)
- *
- * @brief   Inits the given map command.
- *
- *
- *
- * @param [in,out]  mapCommand  If non-null, the map command.
- **************************************************************************************************/
 
 void CommandTableModel::Init(std::shared_ptr<CommandMap>& mapCommand) noexcept
 {

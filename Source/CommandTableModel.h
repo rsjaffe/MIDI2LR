@@ -27,15 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "CommandMenu.h"
 
-/**********************************************************************************************//**
-* @class   CommandTableModel
-*
-* @brief   Command Table model.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
 class CommandTableModel: public TableListBoxModel
 {
 public:

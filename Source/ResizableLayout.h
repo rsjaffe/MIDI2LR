@@ -73,15 +73,6 @@ activateLayout();
 }
 */
 
-
-/**********************************************************************************************//**
- * @class   ResizableChild
- *
- * @brief   Derive your child Component from this class if you want to be able to set size limits
- *  per-item.
- *
- **************************************************************************************************/
-
 class ResizableChild
 {
 public:
@@ -130,14 +121,6 @@ private:
 	int m_minH;
 	int m_maxH;
 };
-
-/**********************************************************************************************//**
- * @class   ResizableLayout
- *
- * @brief   Derive your Component from this class if you want to be able to put anchors on
- *  children.
- *
- **************************************************************************************************/
 
 class ResizableLayout
 	: public ResizableChild
@@ -275,15 +258,6 @@ private:
 	bool m_bFirstTime;
 	bool m_isActive;
 };
-
-
-/**********************************************************************************************//**
- * @class   TopLevelResizableLayout
- *
- * @brief   Derive your content component from this class (i.e. the component that you stick in a
- *  ResizableWindow) in order to allow it to apply size limits automatically.
- *
- **************************************************************************************************/
 
 class TopLevelResizableLayout
 	: public ResizableLayout

@@ -21,14 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <mutex>
 #include <unordered_map>
 
-/**********************************************************************************************//**
- * @class   SendKeys
- *
- * @brief   A send keys.
- *
- *
- **************************************************************************************************/
-
 class SendKeys
 {
 public:

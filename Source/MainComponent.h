@@ -118,10 +118,8 @@ private:
     std::shared_ptr<MIDIProcessor> m_midiProcessor;
     std::shared_ptr<MIDISender> m_midiSender;
 
-
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
 };
-
 
 #endif  // MAINCOMPONENT_H_INCLUDED

@@ -22,18 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMenu.h"
 #include "LRCommands.h"
 
-
-/**********************************************************************************************//**
- * @fn  CommandMenu::CommandMenu(const MIDI_Message& msg): _msg(msg), _selectedItem(std::numeric_limits<unsigned int>::max()), TextButton("Unmapped"), m_commandMap(nullptr), m_menus(
- *
- * @brief   Constructor.
- *
- *
- *
- *
- * @param   msg The message.
- **************************************************************************************************/
-
 CommandMenu::CommandMenu(const MIDI_Message& msg): _msg{ msg },
     _selectedItem{ std::numeric_limits<unsigned int>::max() },
     TextButton{ "Unmapped" }, m_commandMap{ nullptr },
@@ -51,29 +39,10 @@ CommandMenu::CommandMenu(const MIDI_Message& msg): _msg{ msg },
         LRCommandList::NextPrevProfile })
 {}
 
-/**********************************************************************************************//**
- * @fn  void CommandMenu::setMsg(const MIDI_Message& msg)
- *
- * @brief   Sets a message.
- *
- *
- *
- *
- * @param   msg The message.
- **************************************************************************************************/
-
 void CommandMenu::setMsg(const MIDI_Message& msg) noexcept
 {
     _msg = msg;
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandMenu::buttonClicked(Button* )
- *
- * @brief   Button clicked.
- *
- * @param [in,out]  button  button)  If non-null, the unused argument (button)
- **************************************************************************************************/
 
 void CommandMenu::buttonClicked(Button* /*button*/)
 {
@@ -128,17 +97,6 @@ void CommandMenu::buttonClicked(Button* /*button*/)
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void CommandMenu::setSelectedItem(unsigned int idx)
- *
- * @brief   Sets selected item.
- *
- *
- *
- *
- * @param   idx The index.
- **************************************************************************************************/
-
 void CommandMenu::setSelectedItem(unsigned int idx)
 {
     _selectedItem = idx;
@@ -147,16 +105,6 @@ void CommandMenu::setSelectedItem(unsigned int idx)
     else
         setButtonText(LRCommandList::NextPrevProfile[idx - 1 - LRCommandList::LRStringList.size()]);
 }
-
-/**********************************************************************************************//**
- * @fn  void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand)
- *
- * @brief   Inits the given map command.
- *
- *
- *
- * @param [in,out]  mapCommand  If non-null, the map command.
- **************************************************************************************************/
 
 void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand)
 {

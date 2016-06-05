@@ -52,15 +52,6 @@ namespace std
 //constexpr doesn't work in XCode for String; auto type deduction also fails
 const juce::String ShutDownString{ "--LRSHUTDOWN" };
 
-/**********************************************************************************************//**
- * @class   MIDI2LRApplication
- *
- * @brief   A MIDI 2 lr application.
- *
- *
- *
- **************************************************************************************************/
-
 class MIDI2LRApplication: public JUCEApplication
 {
 public:

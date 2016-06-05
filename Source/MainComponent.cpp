@@ -28,14 +28,6 @@ constexpr auto MainHeight = 650;
 constexpr auto MainLeft = 20;
 constexpr auto SpaceBetweenButton = 10;
 
-/**********************************************************************************************//**
- * @fn  MainContentComponent::MainContentComponent(): ResizableLayout(this), _titleLabel("Title", "MIDI2LR"), _connectionLabel("Connection", "Not connected to LR"), _commandLabel("Command", ""), _commandTable("Table", nullptr), _commandTableModel(), _rescanButton("Rescan MIDI devices"), _removeRowButton("Remove selected row"), _saveButton("Save"), _loadButton("Load"), _versionLabel("Version", "Version " + String(ProjectInfo::versionString)), _settingsButton("Settings"), _profileNameLabel("ProfileNameLabel", ""), m_currentStatus("CurrentStatus", "no extra info"), m_commandMap(nullptr), m_lr_IPC_IN(nullptr), m_lr_IPC_OUT(nullptr), m_settingsManager(nullptr), m_midiProcessor(nullptr), m_midiSender(nullptr)
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 MainContentComponent::MainContentComponent(): ResizableLayout{ this }, _titleLabel{ "Title", "MIDI2LR" },
 _connectionLabel{ "Connection", "Not connected to LR" },
 _commandLabel{ "Command", "" },
@@ -60,41 +52,13 @@ _versionLabel{ "Version", "Version " +
 
 }
 
-/**********************************************************************************************//**
- * @fn  MainContentComponent::~MainContentComponent()
- *
- * @brief   Destructor.
- *
- *
- **************************************************************************************************/
-
 MainContentComponent::~MainContentComponent()
 {}
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::paint(Graphics& g)
- *
- * @brief   Paints the given g.
- *
- *
- *
- * @param [in,out]  g   The Graphics to process.
- **************************************************************************************************/
 
 void MainContentComponent::paint(Graphics& g)
 {
     g.fillAll(Colours::white);
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::SetLabelSettings(Label &lblToSet)
- *
- * @brief   Sets label settings.
- *
- *
- *
- * @param [in,out]  lblToSet    Set the label to belongs to.
- **************************************************************************************************/
 
 void MainContentComponent::SetLabelSettings(Label &lblToSet)
 {
@@ -102,14 +66,6 @@ void MainContentComponent::SetLabelSettings(Label &lblToSet)
     lblToSet.setEditable(false);
     lblToSet.setColour(Label::textColourId, Colours::darkgrey);
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::handleAsyncUpdate()
- *
- * @brief   Update MIDI command components.
- *
- *
- **************************************************************************************************/
 
 void MainContentComponent::handleAsyncUpdate()
 {
@@ -123,18 +79,6 @@ void MainContentComponent::handleAsyncUpdate()
     _commandTable.selectRow(_rowToSelect);
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
- *
- * @brief   Handles the MIDI Cc.
- *
- *
- *
- * @param   midiChannel The MIDI channel.
- * @param   controller  The controller.
- * @param   value       The value.
- **************************************************************************************************/
-
 void MainContentComponent::handleMidiCC(int midiChannel, int controller, int value)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
@@ -143,17 +87,6 @@ void MainContentComponent::handleMidiCC(int midiChannel, int controller, int val
     _rowToSelect = _commandTableModel.getRowForMessage(midiChannel, controller, true);
     triggerAsyncUpdate();
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::handleMidiNote(int midiChannel, int note)
- *
- * @brief   Handles the MIDI note.
- *
- *
- *
- * @param   midiChannel The MIDI channel.
- * @param   note        The note.
- **************************************************************************************************/
 
 void MainContentComponent::handleMidiNote(int midiChannel, int note)
 {
@@ -164,27 +97,11 @@ void MainContentComponent::handleMidiNote(int midiChannel, int note)
     triggerAsyncUpdate();
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::connected()
- *
- * @brief   Connected this object.
- *
- *
- **************************************************************************************************/
-
 void MainContentComponent::connected()
 {
     _connectionLabel.setText("Connected to LR", NotificationType::dontSendNotification);
     _connectionLabel.setColour(Label::backgroundColourId, Colours::greenyellow);
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::disconnected()
- *
- * @brief   Disconnect from the ed.
- *
- *
- **************************************************************************************************/
 
 void MainContentComponent::disconnected()
 {
@@ -192,30 +109,12 @@ void MainContentComponent::disconnected()
     _connectionLabel.setColour(Label::backgroundColourId, Colours::red);
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::timerCallback()
- *
- * @brief   Callback, called when the timer.
- *
- *
- **************************************************************************************************/
-
 void MainContentComponent::timerCallback()
 {
     // reset the command label's background to white
     _commandLabel.setColour(Label::backgroundColourId, Colours::white);
     stopTimer();
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::buttonClicked(Button* button)
- *
- * @brief   Button clicked.
- *
- *
- *
- * @param [in,out]  button  If non-null, the button.
- **************************************************************************************************/
 
 void MainContentComponent::buttonClicked(Button* button)
 {
@@ -293,7 +192,6 @@ void MainContentComponent::buttonClicked(Button* button)
             profileDir = File::getCurrentWorkingDirectory();
         }
 
-
         WildcardFileFilter wildcardFilter{ "*.xml", String::empty, "MIDI2LR profiles" };
         FileBrowserComponent browser{ FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode, profileDir, &wildcardFilter, nullptr };
         FileChooserDialogBox dialogBox{ "Open profile", "Select a profile to open", browser, true, Colours::lightgrey };
@@ -333,17 +231,6 @@ void MainContentComponent::buttonClicked(Button* button)
     }
 }
 
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
- *
- * @brief   Profile changed.
- *
- *
- *
- * @param [in,out]  elem    If non-null, the element.
- * @param   filename        Filename of the file.
- **************************************************************************************************/
-
 void MainContentComponent::profileChanged(XmlElement* elem, const String& filename)
 {
     _commandTableModel.buildFromXml(elem);
@@ -358,16 +245,6 @@ void MainContentComponent::profileChanged(XmlElement* elem, const String& filena
         m_lr_IPC_IN->refreshMIDIOutput();
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void MainContentComponent::SetTimerText(int timeValue)
- *
- * @brief   Sets timer text.
- *
- *
- *
- * @param   timeValue   The time value.
- **************************************************************************************************/
 
 void MainContentComponent::SetTimerText(int timeValue)
 {
@@ -449,7 +326,6 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::sh
     addToLayout(&_versionLabel, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(_versionLabel);
 
-
     // Connection status
     _connectionLabel.setFont(Font{ 12.f, Font::bold });
     _connectionLabel.setEditable(false);
@@ -481,17 +357,13 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::sh
     addToLayout(&_settingsButton, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(_settingsButton);
 
-
-
     // Command Table
     _commandTable.setModel(&_commandTableModel);
     _commandTable.setBounds(MainLeft, 100, MainWidth - MainLeft * 2, MainHeight - 210);
     addToLayout(&_commandTable, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(_commandTable);
 
-
     long labelWidth = (MainWidth - MainLeft * 2) / 2;
-
 
     // Profile name label
     SetLabelSettings(_profileNameLabel);
@@ -514,7 +386,6 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::sh
     addToLayout(&_removeRowButton, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(_removeRowButton);
 
-
     // Rescan MIDI button
     _rescanButton.addListener(this);
     _rescanButton.setBounds(MainLeft, MainHeight - 50, MainWidth - MainLeft * 2, 20);
@@ -529,7 +400,6 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::sh
     addAndMakeVisible(m_currentStatus);
 
 //	_systemTrayComponent.setIconImage(ImageCache::getFromMemory(BinaryData::MIDI2LR_png, BinaryData::MIDI2LR_pngSize));
-
 
     if (m_settingsManager)
     {
@@ -553,7 +423,5 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& commandMap, std::sh
     }
     // turn it on
     activateLayout();
-
-
 
 }

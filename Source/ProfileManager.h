@@ -26,15 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 
-/**********************************************************************************************//**
-* @class   ProfileChangeListener
-*
-* @brief   Profile change listener.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
 class ProfileChangeListener
 {
 public:
@@ -91,8 +82,6 @@ private:
         NEXT,
     };
 
-
-
     ProfileManager(ProfileManager const&) = delete;
     void operator=(ProfileManager const&) = delete;
 
@@ -104,6 +93,5 @@ private:
     std::shared_ptr<CommandMap> m_commandMap;
     std::shared_ptr<LR_IPC_OUT> m_lr_IPC_OUT;
 };
-
 
 #endif  // PROFILEMANAGER_H_INCLUDED

@@ -23,15 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-/**********************************************************************************************//**
-* @class   CommandTable
-*
-* @brief   Command Table.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
 class CommandTable: public TableListBox
 {
 public:

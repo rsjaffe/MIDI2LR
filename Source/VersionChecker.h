@@ -24,15 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsManager.h"
 
-/**********************************************************************************************//**
-* @class   VersionChecker
-*
-* @brief   Checks to see if we are running the latest version or not.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
 class VersionChecker: public Thread,
     public AsyncUpdater
 {
@@ -51,7 +42,5 @@ private:
     std::unique_ptr<DialogWindow> _dialog;
     std::shared_ptr<SettingsManager> m_settingsManager;
 };
-
-
 
 #endif  // VERSIONCHECKER_H_INCLUDED

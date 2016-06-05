@@ -19,42 +19,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "VersionChecker.h"
 
-/**********************************************************************************************//**
- * @fn  VersionChecker::VersionChecker() noexcept
- *
- * @brief   Default constructor.
- *
- *
- **************************************************************************************************/
-
 VersionChecker::VersionChecker() noexcept : Thread{ "VersionChecker" }
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn  void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager)
- *
- * @brief   Inits the given settings manager.
- *
- *
- *
- * @param [in,out]  settingsManager If non-null, manager for settings.
- **************************************************************************************************/
-
 void VersionChecker::Init(std::shared_ptr<SettingsManager>& settingsManager) noexcept
 {
     m_settingsManager = settingsManager;
 }
-
-/**********************************************************************************************//**
- * @fn  void VersionChecker::run()
- *
- * @brief   Runs this object.
- *
- *
- *
- **************************************************************************************************/
 
 void VersionChecker::run()
 {
@@ -71,14 +44,6 @@ void VersionChecker::run()
         triggerAsyncUpdate();
     }
 }
-
-/**********************************************************************************************//**
- * @fn  void VersionChecker::handleAsyncUpdate()
- *
- * @brief   Handles the asynchronous update.
- *
- *
- **************************************************************************************************/
 
 void VersionChecker::handleAsyncUpdate()
 {
