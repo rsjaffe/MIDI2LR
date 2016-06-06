@@ -28,18 +28,19 @@ constexpr auto kMainHeight = 650;
 constexpr auto kMainLeft = 20;
 constexpr auto kSpaceBetweenButton = 10;
 
-MainContentComponent::MainContentComponent(): ResizableLayout{ this }, title_label_{ "Title", "MIDI2LR" },
-connection_label_{ "Connection", "Not connected to LR" },
-command_label_{ "Command", "" },
-command_table_{ "Table", nullptr },
-command_table_model_{},
-rescan_button_{ "Rescan MIDI devices" },
-remove_row_button_{ "Remove selected row" },
-save_button_{ "Save" },
-load_button_{ "Load" },
-version_label_{ "Version", "Version " +
-    String{ProjectInfo::versionString} },
+MainContentComponent::MainContentComponent(): 
+    ResizableLayout{ this }, 
+    title_label_{ "Title", "MIDI2LR" },
+    command_label_{ "Command", "" },
+    connection_label_{ "Connection", "Not connected to LR" },
+    command_table_{ "Table", nullptr },
+    rescan_button_{ "Rescan MIDI devices" },
+    command_table_model_{},
+    remove_row_button_{ "Remove selected row" },
+    save_button_{ "Save" },
+    load_button_{ "Load" },
     settings_button_{ "Settings" },
+    version_label_{ "Version", "Version " + String{ProjectInfo::versionString} },
     profile_name_label_{ "ProfileNameLabel", "" },
     current_status_{ "CurrentStatus", "no extra info" },
     command_map_{ nullptr },
@@ -48,8 +49,7 @@ version_label_{ "Version", "Version " +
     settings_manager_{ nullptr },
     midi_processor_{ nullptr },
     midi_sender_{ nullptr }
-{
-}
+{}
 
 MainContentComponent::~MainContentComponent()
 {}

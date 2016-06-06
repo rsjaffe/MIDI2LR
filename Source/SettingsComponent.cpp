@@ -24,21 +24,21 @@ constexpr auto SettingsLeft = 20;
 constexpr auto SettingsWidth = 400;
 constexpr auto SettingsHeight = 300;
 
-SettingsComponent::SettingsComponent(): ResizableLayout{ this }, pickup_enabled_{ "Enable Pickup Mode" },
-pickup_label_{ "PickupLabel", "" },
-profile_location_button_{ "Choose Profile Folder" },
-profile_location_label_{ "Profile Label" },
-autohide_group_{},
-pickup_group_{},
-profile_group_{},
-autohide_explain_label_{},
-settings_manager_{ nullptr }
-{
-}
+SettingsComponent::SettingsComponent(): 
+    ResizableLayout{ this }, 
+    pickup_enabled_{ "Enable Pickup Mode" },
+    pickup_label_{ "PickupLabel", "" },
+    profile_location_button_{ "Choose Profile Folder" },
+    profile_location_label_{ "Profile Label" },
+    autohide_group_{},
+    pickup_group_{},
+    autohide_explain_label_{},
+    profile_group_{},
+    settings_manager_{ nullptr }
+{}
 
 SettingsComponent::~SettingsComponent()
-{
-}
+{}
 
 void SettingsComponent::paint(Graphics& g)
 {

@@ -23,8 +23,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 CommandMenu::CommandMenu(const MIDI_Message& message): message_{ message },
-selected_item_{ std::numeric_limits<unsigned int>::max() },
-TextButton{ "Unmapped" }, command_map_{ nullptr },
+TextButton{ "Unmapped" }, selected_item_{ std::numeric_limits<unsigned int>::max() }, 
+command_map_{ nullptr },
+
 menus_({ "Keyboard Shortcuts for User", "General", "Library", "Develop", "Basic",
 "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W", "Split Toning", "Detail",
 "Lens Corrections", "Effects", "Camera Calibration", "Develop Presets",

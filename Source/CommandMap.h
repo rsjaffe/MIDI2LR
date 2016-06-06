@@ -48,8 +48,8 @@ struct MIDI_Message
     {}
 
     MIDI_Message(int ch, int dat, bool iscc): channel(ch),
-        data(dat),
         isCC(iscc),
+        data(dat),
         isNRPN(0),
         isRelative(0)
     {}
