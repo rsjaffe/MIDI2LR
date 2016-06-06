@@ -26,58 +26,55 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include <mutex>
 
-class LRConnectionListener
-{
+class LRConnectionListener {
 public:
     // sent when a connection to the LR plugin is made
-    virtual void connected() = 0;
+  virtual void connected() = 0;
 
-    // sent if disconnected from the LR plugin
-    virtual void disconnected() = 0;
+  // sent if disconnected from the LR plugin
+  virtual void disconnected() = 0;
 
-    virtual ~LRConnectionListener()
-    {};
+  virtual ~LRConnectionListener() {};
 ///< .
 };
 
 class LR_IPC_OUT: public InterprocessConnection,
-    public MIDICommandListener,
-    public AsyncUpdater,
-    public Timer
-{
+  public MIDICommandListener,
+  public AsyncUpdater,
+  public Timer {
 public:
-    LR_IPC_OUT();
-    virtual ~LR_IPC_OUT()
-    {};
+  LR_IPC_OUT();
+  virtual ~LR_IPC_OUT() {};
 // closes the socket
-    void shutdown();
+  void shutdown();
 
-    void addListener(LRConnectionListener *listener);
+  void addListener(LRConnectionListener *listener);
 
-    // sends a command to the plugin
-    void sendCommand(const String& command) const;
+  // sends a command to the plugin
+  void sendCommand(const String& command) const;
 
-    // IPC interface
-    virtual void connectionMade() override;
-    virtual void connectionLost() override;
-    virtual void messageReceived(const MemoryBlock& msg) override;
+  // IPC interface
+  virtual void connectionMade() override;
+  virtual void connectionLost() override;
+  virtual void messageReceived(const MemoryBlock& msg) override;
 
-    // MIDICommandListener interface
-    virtual void handleMidiCC(int midiChannel, int controller, int value) override;
-    virtual void handleMidiNote(int midiChannel, int note) override;
+  // MIDICommandListener interface
+  virtual void handleMidiCC(int midiChannel, int controller, int value) override;
+  virtual void handleMidiNote(int midiChannel, int note) override;
 
-    // AsyncUpdater interface
-    virtual void handleAsyncUpdate() override;
+  // AsyncUpdater interface
+  virtual void handleAsyncUpdate() override;
 
-    // Timer callback
-    virtual void timerCallback() override;
-    void Init(std::shared_ptr<CommandMap>&  mapCommand, std::shared_ptr<MIDIProcessor>&  midiProcessor);
+  // Timer callback
+  virtual void timerCallback() override;
+  void Init(std::shared_ptr<CommandMap>&  mapCommand, 
+    std::shared_ptr<MIDIProcessor>&  midiProcessor);
 private:
-    const static unordered_map<String, KeyPress> keypress_mappings_;
-    std::shared_ptr<const CommandMap> command_map_;
-    Array<LRConnectionListener *> listeners_;
-    int value_to_send_;
-    String command_to_send_;
+  const static unordered_map<String, KeyPress> keypress_mappings_;
+  std::shared_ptr<const CommandMap> command_map_;
+  Array<LRConnectionListener *> listeners_;
+  int value_to_send_;
+  String command_to_send_;
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

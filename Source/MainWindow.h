@@ -26,59 +26,51 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-/**********************************************************************************************//**
-* @class   MainWindow
-*
-* @brief   This class implements the desktop window that contains an instance of
-        our MainContentComponent class.
-*
-* @author  Rory Jaffe
-* @date    3/20/2016
-**************************************************************************************************/
-
-class MainWindow: public DocumentWindow, public Timer
-{
+class MainWindow: public DocumentWindow, public Timer {
 public:
-    MainWindow(String name): DocumentWindow{ name,
-        Colours::lightgrey,
-        DocumentWindow::minimiseButton |
-        DocumentWindow::closeButton }, Timer()
-    {
-        setUsingNativeTitleBar(true);
-        window_content_ = new MainContentComponent{};
+  MainWindow(String name): DocumentWindow{name,
+      Colours::lightgrey,
+      DocumentWindow::minimiseButton |
+      DocumentWindow::closeButton}, Timer()
+  {
+    setUsingNativeTitleBar(true);
+    window_content_ = new MainContentComponent{};
 
-        setContentOwned(window_content_, true);
+    setContentOwned(window_content_, true);
 
-        centreWithSize(getWidth(), getHeight());
-        setVisible(true);
-    }
+    centreWithSize(getWidth(), getHeight());
+    setVisible(true);
+  }
 
-    void closeButtonPressed() override
-    {
-        // This is called when the user tries to close this window. Here, we'll just
-        // ask the app to quit when this happens, but you can change this to do
-        // whatever you need.
-        JUCEApplication::getInstance()->systemRequestedQuit();
-    }
+  void closeButtonPressed() override {
+      // This is called when the user tries to close this window. Here, we'll just
+      // ask the app to quit when this happens, but you can change this to do
+      // whatever you need.
+    JUCEApplication::getInstance()->systemRequestedQuit();
+  }
 
-    void Init(std::shared_ptr<CommandMap>& command_map, std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, std::shared_ptr<MIDIProcessor>& midi_processor,
-        std::shared_ptr<ProfileManager>& profile_manager, std::shared_ptr<SettingsManager>& settings_manager, std::shared_ptr<MIDISender>& midi_sender);
+  void Init(std::shared_ptr<CommandMap>& command_map, 
+    std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, 
+    std::shared_ptr<MIDIProcessor>& midi_processor,
+    std::shared_ptr<ProfileManager>& profile_manager, 
+    std::shared_ptr<SettingsManager>& settings_manager, 
+    std::shared_ptr<MIDISender>& midi_sender);
 
-    /* Note: Be careful if you override any DocumentWindow methods - the base
-       class uses a lot of them, so by overriding you might break its functionality.
-       It's best to do all your work in your content component instead, but if
-       you really have to override any DocumentWindow methods, make sure your
-       subclass also calls the superclass's method.
-    */
+/* Note: Be careful if you override any DocumentWindow methods - the base
+   class uses a lot of them, so by overriding you might break its functionality.
+   It's best to do all your work in your content component instead, but if
+   you really have to override any DocumentWindow methods, make sure your
+   subclass also calls the superclass's method.
+*/
 
-    // the timer callback function
-    virtual void timerCallback() override;
+// the timer callback function
+  virtual void timerCallback() override;
 
 private:
-    int auto_hide_counter_;
-    MainContentComponent *window_content_;
+  int auto_hide_counter_;
+  MainContentComponent *window_content_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };
 
 #endif  // MAINWINDOW_H_INCLUDED

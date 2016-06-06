@@ -24,23 +24,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsManager.h"
 
-class VersionChecker: public Thread,
-    public AsyncUpdater
-{
+class VersionChecker: public Thread, public AsyncUpdater {
 public:
-    VersionChecker() noexcept;
+  VersionChecker() noexcept;
 
-    void Init(std::shared_ptr<SettingsManager>& profile_manager) noexcept;
-    // Thread interface
-    virtual void run() override;
+  void Init(std::shared_ptr<SettingsManager>& profile_manager) noexcept;
+  // Thread interface
+  virtual void run() override;
 
-    // AsyncUpdater interface
-    virtual void handleAsyncUpdate() override;
+  // AsyncUpdater interface
+  virtual void handleAsyncUpdate() override;
 
 private:
-    int new_version_;
-    std::unique_ptr<DialogWindow> dialog_;
-    std::shared_ptr<SettingsManager> settings_manager_;
+  int new_version_;
+  std::unique_ptr<DialogWindow> dialog_;
+  std::shared_ptr<SettingsManager> settings_manager_;
 };
 
 #endif  // VERSIONCHECKER_H_INCLUDED

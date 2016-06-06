@@ -24,41 +24,40 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <vector>
 
-class LRCommandList
-{
+class LRCommandList {
 public:
     // Strings that LR uses
-    static const std::vector<String> LRStringList;
+  static const std::vector<String> LRStringList;
 
-    // Sectioned and readable develop param strings
-    static const std::vector<String> KeyShortcuts;
-    static const std::vector<String> General;
-    static const std::vector<String> Library;
-    static const std::vector<String> Develop;
-    static const std::vector<String> BasicAdjustments;
-    static const std::vector<String> ToneCurve;
-    static const std::vector<String> Mixer;
-    static const std::vector<String> ResetMixer;
-    static const std::vector<String> SplitToning;
-    static const std::vector<String> Detail;
-    static const std::vector<String> LensCorrections;
-    static const std::vector<String> Effects;
-    static const std::vector<String> Calibration;
-    static const std::vector<String> DevelopPresets;
-    static const std::vector<String> LocalAdjustments;
-    static const std::vector<String> Crop;
-    static const std::vector<String> ToolModulePanel;
-    static const std::vector<String> SecondaryDisplay;
-    static const std::vector<String> ProgramProfiles;
+  // Sectioned and readable develop param strings
+  static const std::vector<String> KeyShortcuts;
+  static const std::vector<String> General;
+  static const std::vector<String> Library;
+  static const std::vector<String> Develop;
+  static const std::vector<String> BasicAdjustments;
+  static const std::vector<String> ToneCurve;
+  static const std::vector<String> Mixer;
+  static const std::vector<String> ResetMixer;
+  static const std::vector<String> SplitToning;
+  static const std::vector<String> Detail;
+  static const std::vector<String> LensCorrections;
+  static const std::vector<String> Effects;
+  static const std::vector<String> Calibration;
+  static const std::vector<String> DevelopPresets;
+  static const std::vector<String> LocalAdjustments;
+  static const std::vector<String> Crop;
+  static const std::vector<String> ToolModulePanel;
+  static const std::vector<String> SecondaryDisplay;
+  static const std::vector<String> ProgramProfiles;
 
-    // MIDI2LR commands
-    static const std::vector<String> NextPrevProfile;
+  // MIDI2LR commands
+  static const std::vector<String> NextPrevProfile;
 
-    // Map of command strings to indices
-    static int getIndexOfCommand(const String& command);
+  // Map of command strings to indices
+  static int getIndexOfCommand(const String& command);
 
 private:
-    LRCommandList() noexcept;
+  LRCommandList() noexcept;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED

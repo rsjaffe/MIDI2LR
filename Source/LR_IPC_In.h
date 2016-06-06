@@ -29,34 +29,33 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SendKeys.h"
 
 class LR_IPC_IN: public StreamingSocket,
-    public Timer,
-    public Thread
-{
+  public Timer,
+  public Thread {
 public:
-    LR_IPC_IN();
-    virtual ~LR_IPC_IN()
-    {};
+  LR_IPC_IN();
+  virtual ~LR_IPC_IN() {};
 // closes the socket
-    void shutdown();
+  void shutdown();
 
-    // re-enumerates MIDI OUT devices
-    void refreshMIDIOutput();
+  // re-enumerates MIDI OUT devices
+  void refreshMIDIOutput();
 
-    // Thread interface
-    virtual void run() override;
+  // Thread interface
+  virtual void run() override;
 
-    // Timer callback
-    virtual void timerCallback() override;
-    void Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<ProfileManager>& profileManager,
-        std::shared_ptr<MIDISender>& midiSender) noexcept;
+  // Timer callback
+  virtual void timerCallback() override;
+  void Init(std::shared_ptr<CommandMap>& mapCommand,
+    std::shared_ptr<ProfileManager>& profileManager,
+    std::shared_ptr<MIDISender>& midiSender) noexcept;
 private:
     // process a line received from the socket
-    void processLine(const String& line);
-    std::shared_ptr<CommandMap> command_map_{ nullptr };
-    std::shared_ptr<ProfileManager> profile_manager_{ nullptr };
-    std::shared_ptr<MIDISender> midi_sender_{ nullptr };
-    std::unordered_map<String, int> parameter_map_;
-    SendKeys send_keys_;
+  void processLine(const String& line);
+  std::shared_ptr<CommandMap> command_map_{nullptr};
+  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
+  std::shared_ptr<MIDISender> midi_sender_{nullptr};
+  std::unordered_map<String, int> parameter_map_;
+  SendKeys send_keys_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

@@ -25,35 +25,34 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
 
-class SettingsManager: public LRConnectionListener
-{
+class SettingsManager: public LRConnectionListener {
 public:
-    SettingsManager();
-    virtual ~SettingsManager()
-    {};
+  SettingsManager();
+  virtual ~SettingsManager() {};
 
-    bool getPickupEnabled() const noexcept;
-    void setPickupEnabled(bool enabled);
+  bool getPickupEnabled() const noexcept;
+  void setPickupEnabled(bool enabled);
 
-    void setProfileDirectory(const String& profile_directory);
-    String getProfileDirectory() const noexcept;
+  void setProfileDirectory(const String& profile_directory);
+  String getProfileDirectory() const noexcept;
 
-    // LRConnectionListener interface
-    virtual void connected() override;
-    virtual void disconnected() override;
+  // LRConnectionListener interface
+  virtual void connected() override;
+  virtual void disconnected() override;
 
-    int getAutoHideTime() const noexcept;
-    void setAutoHideTime(int new_time);
+  int getAutoHideTime() const noexcept;
+  void setAutoHideTime(int new_time);
 
-    void setLastVersionFound(int version_number);
-    int getLastVersionFound() const noexcept;
+  void setLastVersionFound(int version_number);
+  int getLastVersionFound() const noexcept;
 
-    void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profile_manager);
+  void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, 
+    std::shared_ptr<ProfileManager>& profile_manager);
 private:
 
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{ nullptr };
-    std::shared_ptr<ProfileManager> profile_manager_{ nullptr };
-    std::unique_ptr<PropertiesFile> properties_file_;
+  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
+  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
+  std::unique_ptr<PropertiesFile> properties_file_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED

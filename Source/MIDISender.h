@@ -23,22 +23,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class MIDISender
-{
+class MIDISender {
 public:
-    MIDISender() noexcept;
-    virtual ~MIDISender();
-    // sends a CC message to all output devices
-    void sendCC(int midi_channel, int controller, int value) const;
+  MIDISender() noexcept;
+  virtual ~MIDISender();
+  // sends a CC message to all output devices
+  void sendCC(int midi_channel, int controller, int value) const;
 
-    // re-enumerates MIDI OUT devices
-    void rescanDevices();
-    void Init();
+  // re-enumerates MIDI OUT devices
+  void rescanDevices();
+  void Init();
 private:
 
-    OwnedArray<MidiOutput> output_devices;
+  OwnedArray<MidiOutput> output_devices;
 
-    void InitDevices_();
+  void InitDevices_();
 };
 
 #endif  // MIDISENDER_H_INCLUDED

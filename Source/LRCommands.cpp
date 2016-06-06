@@ -1020,20 +1020,18 @@ const std::vector<String> LRCommandList::NextPrevProfile = {
   "Next Profile",
 };
 
-int LRCommandList::getIndexOfCommand(const String& command)
-{
-    static std::unordered_map<String, int> indexMap;
+int LRCommandList::getIndexOfCommand(const String& command) {
+  static std::unordered_map<String, int> indexMap;
 
-    // better to check for empty then lenght, as empty has a constant run time behavior.
-    if (indexMap.empty())
-    {
-        int idx = 0;
-        for (auto &str : LRStringList)
-            indexMap[str] = idx++;
+  // better to check for empty then length, as empty has a constant run time behavior.
+  if (indexMap.empty()) {
+    int idx = 0;
+    for (auto &str : LRStringList)
+      indexMap[str] = idx++;
 
-        for (auto &str : NextPrevProfile)
-            indexMap[str] = idx++;
-    }
+    for (auto &str : NextPrevProfile)
+      indexMap[str] = idx++;
+  }
 
-    return indexMap[command];
+  return indexMap[command];
 }

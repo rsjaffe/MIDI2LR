@@ -19,9 +19,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTable.h"
 
-CommandTable::CommandTable(const String& component_name, TableListBoxModel *model): TableListBox{ component_name, model }
-{
-    setHeader(new TableHeaderComponent{});
-    getHeader().addColumn("MIDI Command", 1, 150, 30, -1, TableHeaderComponent::notResizableOrSortable);
-    getHeader().addColumn("LR Command", 2, 150, 30, -1, TableHeaderComponent::notResizableOrSortable);
+CommandTable::CommandTable(const String& component_name, TableListBoxModel *model): 
+  TableListBox{component_name, model} {
+  setHeader(new TableHeaderComponent{});
+  getHeader().addColumn("MIDI Command", 1, 150, 30, -1, 
+    TableHeaderComponent::notResizableOrSortable);
+  getHeader().addColumn("LR Command", 2, 150, 30, -1, 
+    TableHeaderComponent::notResizableOrSortable);
 }

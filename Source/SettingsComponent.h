@@ -26,34 +26,33 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 class SettingsComponent: public Component,
-    public ButtonListener, ResizableLayout, public Slider::Listener
-{
+  public ButtonListener, ResizableLayout, public Slider::Listener {
 public:
-    SettingsComponent();
-    ~SettingsComponent();
+  SettingsComponent();
+  ~SettingsComponent();
 
-    void paint(Graphics&) override;
-    //void resized();
+  void paint(Graphics&) override;
+  //void resized();
 
-    // ButtonListener interface
-    virtual void buttonClicked(Button* button) override;
+  // ButtonListener interface
+  virtual void buttonClicked(Button* button) override;
 
-    virtual void sliderValueChanged(Slider* slider) override;
-    void Init(std::shared_ptr<SettingsManager>& settings_manager);
+  virtual void sliderValueChanged(Slider* slider) override;
+  void Init(std::shared_ptr<SettingsManager>& settings_manager);
 private:
-    ToggleButton pickup_enabled_{ "Enable Pickup Mode" };
-    Label pickup_label_{ "PickupLabel", "" };
+  ToggleButton pickup_enabled_{"Enable Pickup Mode"};
+  Label pickup_label_{"PickupLabel", ""};
 
-    TextButton profile_location_button_{ "Choose Profile Folder" };
-    Label profile_location_label_{ "Profile Label" };
-    Label autohide_explain_label_{};
-    Slider autohide_setting_;
-    GroupComponent autohide_group_{};
-    GroupComponent pickup_group_{};
-    GroupComponent profile_group_{};
-    std::shared_ptr<SettingsManager> settings_manager_{ nullptr };
+  TextButton profile_location_button_{"Choose Profile Folder"};
+  Label profile_location_label_{"Profile Label"};
+  Label autohide_explain_label_{};
+  Slider autohide_setting_;
+  GroupComponent autohide_group_{};
+  GroupComponent pickup_group_{};
+  GroupComponent profile_group_{};
+  std::shared_ptr<SettingsManager> settings_manager_{nullptr};
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
 
 #endif  // SETTINGSCOMPONENT_H_INCLUDED

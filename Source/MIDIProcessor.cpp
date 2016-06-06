@@ -19,59 +19,46 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDIProcessor.h"
 
-MIDIProcessor::MIDIProcessor() noexcept
-{
+MIDIProcessor::MIDIProcessor() noexcept {}
+
+MIDIProcessor::~MIDIProcessor() {}
+
+void MIDIProcessor::Init(void) {
+  InitDevices_();
 }
 
-MIDIProcessor::~MIDIProcessor()
-{
-}
-
-void MIDIProcessor::Init(void)
-{
-    InitDevices_();
-}
-
-void MIDIProcessor::InitDevices_()
-{
-    for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++)
-    {
-        if (devices_.set(idx, MidiInput::openDevice(idx, this)))
-        {
-            devices_[idx]->start();
-            DBG(devices_[idx]->getName());
-        }
+void MIDIProcessor::InitDevices_() {
+  for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++) {
+    if (devices_.set(idx, MidiInput::openDevice(idx, this))) {
+      devices_[idx]->start();
+      DBG(devices_[idx]->getName());
     }
+  }
 }
 
-void MIDIProcessor::rescanDevices()
-{
-    for (auto dev : devices_)
-        dev->stop();
-    devices_.clear(true);
+void MIDIProcessor::rescanDevices() {
+  for (auto dev : devices_)
+    dev->stop();
+  devices_.clear(true);
 
-    InitDevices_();
+  InitDevices_();
 }
 
-void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/, const MidiMessage &message)
-{
-    if (message.isController())
-    {
-        for (auto listener : listeners_)
-        {
-            listener->handleMidiCC(message.getChannel(), message.getControllerNumber(), message.getControllerValue());
-        }
+void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
+  const MidiMessage &message) {
+  if (message.isController()) {
+    for (auto listener : listeners_) {
+      listener->handleMidiCC(message.getChannel(),
+        message.getControllerNumber(), message.getControllerValue());
     }
-    else if (message.isNoteOn())
-    {
-        for (auto listener : listeners_)
-        {
-            listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
-        }
+  }
+  else if (message.isNoteOn()) {
+    for (auto listener : listeners_) {
+      listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
     }
+  }
 }
 
-void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener)
-{
-    listeners_.addIfNotAlreadyThere(listener);
+void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener) {
+  listeners_.addIfNotAlreadyThere(listener);
 }

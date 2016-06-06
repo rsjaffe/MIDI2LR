@@ -18,43 +18,30 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <atomic>
-namespace MIDI2LR
-{
-    /**********************************************************************************************//**
-     * @struct  counter
-     *
-     * @brief   A counter.
-     *
-     *
-     *
-     * @tparam  T   Generic type parameter.
-     **************************************************************************************************/
+namespace MIDI2LR {
 
-    template <typename T>
-    struct counter
+  template <typename T>
+  struct counter {
+    static std::atomic_int objects_created;
+    static std::atomic_int objects_alive;
+
+    counter() noexcept {
+      ++objects_created;
+      ++objects_alive;
+    }
+
+    counter(const counter&) noexcept {
+      ++objects_created;
+      ++objects_alive;
+    }
+  protected:
+    ~counter() // objects should never be removed through pointers of this type
     {
-        static std::atomic_int objects_created;
-        static std::atomic_int objects_alive;
-
-        counter() noexcept
-        {
-            ++objects_created;
-            ++objects_alive;
-        }
-
-        counter(const counter&) noexcept
-        {
-            ++objects_created;
-            ++objects_alive;
-        }
-    protected:
-        ~counter() // objects should never be removed through pointers of this type
-        {
-            --objects_alive;
-        }
-    };
-    template <typename T> std::atomic_int counter<T>::objects_created(0);
-    template <typename T> std::atomic_int counter<T>::objects_alive(0);
+      --objects_alive;
+    }
+  };
+  template <typename T> std::atomic_int counter<T>::objects_created(0);
+  template <typename T> std::atomic_int counter<T>::objects_alive(0);
 }
 /*
 Usage:

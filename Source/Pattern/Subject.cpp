@@ -20,36 +20,28 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Subject.h"
 
-Subject::Subject() noexcept
-{}
+Subject::Subject() noexcept {}
 
-Subject::~Subject()
-{}
+Subject::~Subject() {}
 
-void Subject::RegisterObserver(Observer * observer)
-{
+void Subject::RegisterObserver(Observer * observer) {
     //add to the vector
-    observers_.push_back(observer);
+  observers_.push_back(observer);
 }
 
-void Subject::UnregisterObserver(Observer *observer)
-{
+void Subject::UnregisterObserver(Observer *observer) {
     // using the for loop instead of the for ( auto &i : v ) as items will be removed
-    for (vector<Observer *>::iterator it = observers_.begin(); it != observers_.end(); ++it)
-    {
-        //check if the pointers are the same
-        if ((*it) == observer)
-        {
-            //erase and assign the iterator to the new position
-            it = observers_.erase(it);
-        }
+  for (vector<Observer *>::iterator it = observers_.begin(); it != observers_.end(); ++it) {
+      //check if the pointers are the same
+    if ((*it) == observer) {
+        //erase and assign the iterator to the new position
+      it = observers_.erase(it);
     }
+  }
 }
 
-void Subject::Notify(void)
-{
+void Subject::Notify(void) {
     //check if the array is not empty.
-    if (!observers_.empty())
-    {
-    }
+  if (!observers_.empty()) {
+  }
 }

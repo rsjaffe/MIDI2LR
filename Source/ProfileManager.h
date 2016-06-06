@@ -26,72 +26,69 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
 
-class ProfileChangeListener
-{
+class ProfileChangeListener {
 public:
     // called when the current profile is changed
-    virtual void profileChanged(XmlElement* elem, const String& file_name) = 0;
+  virtual void profileChanged(XmlElement* elem, const String& file_name) = 0;
 
-    virtual ~ProfileChangeListener()
-    {};
+  virtual ~ProfileChangeListener() {};
 };
 
 class ProfileManager: public MIDICommandListener,
-    public AsyncUpdater, public LRConnectionListener
-{
+  public AsyncUpdater, public LRConnectionListener {
 public:
-    ProfileManager() noexcept;
-    virtual ~ProfileManager()
-    {};
-    void addListener(ProfileChangeListener *listener);
+  ProfileManager() noexcept;
+  virtual ~ProfileManager() {};
+  void addListener(ProfileChangeListener *listener);
 
-    // sets the default profile directory and scans its contents for profiles
-    void setProfileDirectory(const File& dir);
+  // sets the default profile directory and scans its contents for profiles
+  void setProfileDirectory(const File& dir);
 
-    // returns an array of profile names
-    const StringArray& getMenuItems() const noexcept;
+  // returns an array of profile names
+  const StringArray& getMenuItems() const noexcept;
 
-    // switches to a profile defined by an index
-    void switchToProfile(int profileIdx);
+  // switches to a profile defined by an index
+  void switchToProfile(int profileIdx);
 
-    // switches to a profile defined by a name
-    void switchToProfile(const String& profile);
+  // switches to a profile defined by a name
+  void switchToProfile(const String& profile);
 
-    // swithces to the next profile
-    void switchToNextProfile();
+  // swithces to the next profile
+  void switchToNextProfile();
 
-    // switches to the previous profile
-    void switchToPreviousProfile();
+  // switches to the previous profile
+  void switchToPreviousProfile();
 
-    // MIDICommandListener interface
-    virtual void handleMidiCC(int midi_channel, int controller, int value) override;
-    virtual void handleMidiNote(int midi_channel, int note) override;
+  // MIDICommandListener interface
+  virtual void handleMidiCC(int midi_channel, int controller, int value) override;
+  virtual void handleMidiNote(int midi_channel, int note) override;
 
-    // AsyncUpdate interface
-    virtual void handleAsyncUpdate() override;
+  // AsyncUpdate interface
+  virtual void handleAsyncUpdate() override;
 
-    // LRConnectionListener interface
-    virtual void connected() override;
-    virtual void disconnected() override;
-    void Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> command_map, std::shared_ptr<MIDIProcessor> midi_processor);
+  // LRConnectionListener interface
+  virtual void connected() override;
+  virtual void disconnected() override;
+  void Init(std::shared_ptr<LR_IPC_OUT> out, 
+    std::shared_ptr<CommandMap> command_map, 
+    std::shared_ptr<MIDIProcessor> midi_processor);
 private:
-    enum class SWITCH_STATE
-    {
-        NONE,
-        PREV,
-        NEXT,
-    };
+  enum class SWITCH_STATE {
+    NONE,
+    PREV,
+    NEXT,
+  };
 
-    ProfileManager(ProfileManager const&) = delete;
-    void operator=(ProfileManager const&) = delete;
+  ProfileManager(ProfileManager const&) = delete;
+  void operator=(ProfileManager const&) = delete;
 
-    File profile_location_;
-    StringArray profiles_;
-    Array<ProfileChangeListener *> listeners_;
-    int current_profile_index_{ 0 };
-    SWITCH_STATE switch_state_;
-    std::shared_ptr<CommandMap> command_map_{ nullptr };
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{ nullptr };
+  File profile_location_;
+  StringArray profiles_;
+  Array<ProfileChangeListener *> listeners_;
+  int current_profile_index_{0};
+  SWITCH_STATE switch_state_;
+  std::shared_ptr<CommandMap> command_map_{nullptr};
+  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

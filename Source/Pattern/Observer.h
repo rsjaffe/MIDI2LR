@@ -27,15 +27,12 @@
 // forward declaration of the subject interface
 class Subject;
 
-class Observer
-{
+class Observer {
 public:
-    Observer() noexcept
-    {}
-    virtual ~Observer()
-    {}
+  Observer() noexcept {}
+  virtual ~Observer() {}
 // the changed function is pure virtual as the overloaded object needs to implement it.
-    virtual void Changed(Subject *changed) = 0;
+  virtual void Changed(Subject *changed) = 0;
 protected:
 private:
 };

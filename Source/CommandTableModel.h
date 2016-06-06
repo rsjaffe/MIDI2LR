@@ -27,39 +27,41 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "CommandMenu.h"
 
-class CommandTableModel: public TableListBoxModel
-{
+class CommandTableModel: public TableListBoxModel {
 public:
-    CommandTableModel() noexcept;
+  CommandTableModel() noexcept;
 
-    // TableListBoxModel overrides
-    virtual int getNumRows() override;
-    virtual void paintRowBackground(Graphics &, int rowNumber, int width, int height, bool rowIsSelected) override;
-    virtual void paintCell(Graphics &, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override;
-    virtual Component *refreshComponentForCell(int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate) override;
+  // TableListBoxModel overrides
+  virtual int getNumRows() override;
+  virtual void paintRowBackground(Graphics &, int rowNumber, int width, 
+    int height, bool rowIsSelected) override;
+  virtual void paintCell(Graphics &, int rowNumber, int columnId, int width, 
+    int height, bool rowIsSelected) override;
+  virtual Component *refreshComponentForCell(int rowNumber, int columnId,
+    bool isRowSelected, Component *existingComponentToUpdate) override;
 
-    // adds a row with a corresponding MIDI message to the table
-    void addRow(int midi_channel, int midi_data, bool isCC);
+  // adds a row with a corresponding MIDI message to the table
+  void addRow(int midi_channel, int midi_data, bool isCC);
 
-    // removes a row from the table
-    void removeRow(int row);
+  // removes a row from the table
+  void removeRow(int row);
 
-    // removes all rows from the table
-    void removeAllRows();
+  // removes all rows from the table
+  void removeAllRows();
 
-    // builds the table from an XML file
-    void buildFromXml(const XmlElement * const elem);
+  // builds the table from an XML file
+  void buildFromXml(const XmlElement * const elem);
 
-    // returns the index of the row associated to a particular MIDI message
-    int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
-    void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
+  // returns the index of the row associated to a particular MIDI message
+  int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
+  void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
 private:
-    int rows_{ 0 };
-    std::vector<MIDI_Message> commands_;
-    std::shared_ptr<CommandMap> command_map_{ nullptr };
+  int rows_{0};
+  std::vector<MIDI_Message> commands_;
+  std::shared_ptr<CommandMap> command_map_{nullptr};
 
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)
+  //==============================================================================
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)
 };
 
 #endif

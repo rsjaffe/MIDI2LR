@@ -29,17 +29,16 @@ using namespace std;
 
 class Observer;
 
-class Subject
-{
+class Subject {
 public:
-    Subject() noexcept;
-    virtual ~Subject();
-    void RegisterObserver(Observer *observer);
-    void UnregisterObserver(Observer *observer);
+  Subject() noexcept;
+  virtual ~Subject();
+  void RegisterObserver(Observer *observer);
+  void UnregisterObserver(Observer *observer);
 protected:
-    void Notify(void);
+  void Notify(void);
 private:
-    vector<Observer *> observers_;
+  vector<Observer *> observers_;
 };
 
 #endif  // SUBJECT_H_INCLUDED

@@ -23,36 +23,33 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class MIDICommandListener
-{
+class MIDICommandListener {
 public:
-    virtual void handleMidiCC(int midi_channel, int controller, int value) = 0;
-    virtual void handleMidiNote(int midi_channel, int note) = 0;
+  virtual void handleMidiCC(int midi_channel, int controller, int value) = 0;
+  virtual void handleMidiNote(int midi_channel, int note) = 0;
 
-    virtual ~MIDICommandListener()
-    {};
+  virtual ~MIDICommandListener() {};
 };
 
-class MIDIProcessor: public MidiInputCallback
-{
+class MIDIProcessor: public MidiInputCallback {
 public:
-    MIDIProcessor() noexcept;
-    virtual ~MIDIProcessor();
+  MIDIProcessor() noexcept;
+  virtual ~MIDIProcessor();
 
-    // overriden from MidiInputCallback
-    void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
+  // overriden from MidiInputCallback
+  void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
 
-    void addMIDICommandListener(MIDICommandListener*);
+  void addMIDICommandListener(MIDICommandListener*);
 
-    // re-enumerates MIDI IN devices
-    void rescanDevices();
-    void Init(void);
+  // re-enumerates MIDI IN devices
+  void rescanDevices();
+  void Init(void);
 private:
 
-    void InitDevices_();
+  void InitDevices_();
 
-    Array<MIDICommandListener *> listeners_;
-    OwnedArray<MidiInput> devices_;
+  Array<MIDICommandListener *> listeners_;
+  OwnedArray<MidiInput> devices_;
 };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED
