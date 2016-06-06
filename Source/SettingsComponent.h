@@ -41,17 +41,17 @@ public:
     virtual void sliderValueChanged(Slider* slider) override;
     void Init(std::shared_ptr<SettingsManager>& settings_manager);
 private:
-    ToggleButton pickup_enabled_;
-    Label pickup_label_;
+    ToggleButton pickup_enabled_{ "Enable Pickup Mode" };
+    Label pickup_label_{ "PickupLabel", "" };
 
-    TextButton profile_location_button_;
-    Label profile_location_label_;
-    Label autohide_explain_label_;
+    TextButton profile_location_button_{ "Choose Profile Folder" };
+    Label profile_location_label_{ "Profile Label" };
+    Label autohide_explain_label_{};
     Slider autohide_setting_;
-    GroupComponent autohide_group_;
-    GroupComponent pickup_group_;
-    GroupComponent profile_group_;
-    std::shared_ptr<SettingsManager> settings_manager_;
+    GroupComponent autohide_group_{};
+    GroupComponent pickup_group_{};
+    GroupComponent profile_group_{};
+    std::shared_ptr<SettingsManager> settings_manager_{ nullptr };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

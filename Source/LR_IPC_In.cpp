@@ -23,8 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 /** @brief   define the communication port. */
 constexpr auto kLrInPort = 58764;
 
-LR_IPC_IN::LR_IPC_IN(): StreamingSocket{},
-Thread{ "LR_IPC_IN" }, command_map_{ nullptr }, profile_manager_{ nullptr }, midi_sender_{ nullptr }
+LR_IPC_IN::LR_IPC_IN(): StreamingSocket{}, Thread{ "LR_IPC_IN" }
 {}
 
 void LR_IPC_IN::shutdown()

@@ -88,10 +88,10 @@ private:
     File profile_location_;
     StringArray profiles_;
     Array<ProfileChangeListener *> listeners_;
-    int current_profile_index_;
+    int current_profile_index_{ 0 };
     SWITCH_STATE switch_state_;
-    std::shared_ptr<CommandMap> command_map_;
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
+    std::shared_ptr<CommandMap> command_map_{ nullptr };
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{ nullptr };
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

@@ -20,7 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include "LRCommands.h"
 
-CommandTableModel::CommandTableModel() noexcept : rows_{ 0 }, command_map_{ nullptr }
+CommandTableModel::CommandTableModel() noexcept
 {}
 
 int CommandTableModel::getNumRows()

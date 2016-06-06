@@ -90,32 +90,29 @@ protected:
     void SetLabelSettings(Label &lblToSet);
 
 private:
-    Label title_label_;
+    Label title_label_{ "Title", "MIDI2LR" };
     DropShadowEffect title_shadow_;
-    Label command_label_;
-    Label connection_label_;
-    TextButton rescan_button_;
-    TextButton remove_row_button_;
-    TextButton save_button_;
-    TextButton load_button_;
-    TextButton settings_button_;
-    Label version_label_;
-    CommandTable command_table_;
-    CommandTableModel command_table_model_;
-    Label profile_name_label_;
-
+    Label command_label_{ "Command", "" };
+    Label connection_label_{ "Connection", "Not connected to LR" };
+    TextButton rescan_button_{ "Rescan MIDI devices" };
+    TextButton remove_row_button_{ "Remove selected row" };
+    TextButton save_button_{ "Save" };
+    TextButton load_button_{ "Load" };
+    TextButton settings_button_{ "Settings" };
+    Label version_label_{ "Version", "Version " + String{ ProjectInfo::versionString } };
+    CommandTable command_table_{ "Table", nullptr };
+    CommandTableModel command_table_model_{};
+    Label profile_name_label_{ "ProfileNameLabel", "" };
     std::unique_ptr<DialogWindow> settings_dialog_;
-
     String last_command_;
     int row_to_select_;
-    Label current_status_;
-
-    std::shared_ptr<CommandMap> command_map_;
-    std::shared_ptr<LR_IPC_IN> lr_ipc_in_;
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
-    std::shared_ptr<SettingsManager> settings_manager_;
-    std::shared_ptr<MIDIProcessor> midi_processor_;
-    std::shared_ptr<MIDISender> midi_sender_;
+    Label current_status_{ "CurrentStatus", "no extra info" };
+    std::shared_ptr<CommandMap> command_map_{ nullptr };
+    std::shared_ptr<LR_IPC_IN> lr_ipc_in_{ nullptr };
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{ nullptr };
+    std::shared_ptr<SettingsManager> settings_manager_{ nullptr };
+    std::shared_ptr<MIDIProcessor> midi_processor_{ nullptr };
+    std::shared_ptr<MIDISender> midi_sender_{ nullptr };
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

@@ -41,8 +41,8 @@ public:
     void Init(std::shared_ptr<CommandMap>& map_command);
 private:
     MIDI_Message message_;
-    size_t selected_item_;
-    std::shared_ptr<CommandMap> command_map_;
+    size_t selected_item_{ std::numeric_limits<unsigned int>::max() };
+    std::shared_ptr<CommandMap> command_map_{ nullptr };
 
     const std::vector<String> menus_;
     const std::vector<std::vector<String>> menu_entries_;

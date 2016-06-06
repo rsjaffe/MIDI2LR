@@ -35,7 +35,7 @@ namespace std
 //constexpr and auto don't work in XCode
 const juce::String AutoHideSection{ "autohide" };
 
-SettingsManager::SettingsManager(): lr_ipc_out_{ nullptr }, profile_manager_{ nullptr }
+SettingsManager::SettingsManager()
 {
     PropertiesFile::Options file_options;
     file_options.applicationName = "MIDI2LR";
@@ -93,8 +93,7 @@ void SettingsManager::connected()
 }
 
 void SettingsManager::disconnected()
-{
-}
+{}
 
 int SettingsManager::getAutoHideTime() const noexcept
 {

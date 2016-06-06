@@ -51,8 +51,8 @@ public:
     void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profile_manager);
 private:
 
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
-    std::shared_ptr<ProfileManager> profile_manager_;
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{ nullptr };
+    std::shared_ptr<ProfileManager> profile_manager_{ nullptr };
     std::unique_ptr<PropertiesFile> properties_file_;
 };
 

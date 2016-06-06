@@ -54,9 +54,9 @@ public:
     int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
     void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
 private:
-    int rows_;
+    int rows_{ 0 };
     std::vector<MIDI_Message> commands_;
-    std::shared_ptr<CommandMap> command_map_;
+    std::shared_ptr<CommandMap> command_map_{ nullptr };
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

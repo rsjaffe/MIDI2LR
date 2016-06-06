@@ -52,9 +52,9 @@ public:
 private:
     // process a line received from the socket
     void processLine(const String& line);
-    std::shared_ptr<CommandMap> command_map_;
-    std::shared_ptr<ProfileManager> profile_manager_;
-    std::shared_ptr<MIDISender> midi_sender_;
+    std::shared_ptr<CommandMap> command_map_{ nullptr };
+    std::shared_ptr<ProfileManager> profile_manager_{ nullptr };
+    std::shared_ptr<MIDISender> midi_sender_{ nullptr };
     std::unordered_map<String, int> parameter_map_;
     SendKeys send_keys_;
 };
