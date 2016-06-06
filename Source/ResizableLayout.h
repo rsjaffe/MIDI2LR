@@ -79,6 +79,8 @@ public:
     ResizableChild(): m_minW(0), m_maxW(0x3fffffff), m_minH(0), m_maxH(0x3fffffff)
     {}
 
+    virtual ~ResizableChild() = default;//added 6/2016 because there is a virtual member function
+
     void setMinimumWidth(int minimumWidth)
     {
         m_minW = minimumWidth;
