@@ -78,8 +78,7 @@ void LR_IPC_OUT::handleAsyncUpdate() {
   String command_copy;
   {
     std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-    command_copy {std::move(command_)};
-    command_ = String::empty; //unnecessary if move works, will test
+    command_copy = std::move(command_); //JUCE::String swaps in this case
   }
     //check if there is a connection
   if (isConnected()) {
