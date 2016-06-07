@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include <bitset>
 
-/** @brief   define the communication port. */
 constexpr auto kLrInPort = 58764;
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{}, Thread{"LR_IPC_IN"} {}
@@ -42,7 +41,7 @@ void LR_IPC_IN::timerCallback() {
   }
 }
 
-void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command, 
+void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<MIDISender>& midi_sender) noexcept {
   command_map_ = map_command;
@@ -53,14 +52,18 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
 }
 
 void LR_IPC_IN::run() {
-  while (!threadShouldExit() && isConnected()) {
+  while (!threadShouldExit()) {
     constexpr auto kBufferSize = 256;
     char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
     auto size_read = 0;
     auto can_read_line = true;
+    //as currently written can't exit loop without terminating permanently
+    //so, instead, check connection 3X/sec, test for exit, if not connected
+    if (!isConnected())
+      wait(333);
 
     // parse input until we have a line, then process that line
-    while (!juce::String(line).endsWithChar('\n') && isConnected() && 
+    while (!juce::String(line).endsWithChar('\n') && isConnected() &&
       !threadShouldExit()) {
       auto wait_status = waitUntilReady(true, 0);
       if (wait_status < 0) {
