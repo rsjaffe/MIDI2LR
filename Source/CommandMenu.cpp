@@ -19,8 +19,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
-#include <limits>
 #include "CommandMenu.h"
+#include <limits>
 #include "LRCommands.h"
 
 CommandMenu::CommandMenu(const MIDI_Message& message):

@@ -23,9 +23,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define PROFILEMANAGER_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MIDIProcessor.h"
-#include "LR_IPC_OUT.h"
 #include "CommandMap.h"
+#include "LR_IPC_OUT.h"
+#include "MIDIProcessor.h"
 
 class ProfileChangeListener {
 public:

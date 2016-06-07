@@ -22,9 +22,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef COMMANDMAP_H_INCLUDED
 #define COMMANDMAP_H_INCLUDED
-
-#include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
+#include "../JuceLibraryCode/JuceHeader.h"
 #include "Pattern/Subject.h"
 
 struct MIDI_Message {

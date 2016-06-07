@@ -27,15 +27,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MAINCOMPONENT_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "CommandMap.h"
 #include "CommandTable.h"
 #include "CommandTableModel.h"
-#include "MIDIProcessor.h"
-#include "LR_IPC_OUT.h"
-#include "ProfileManager.h"
-#include "ResizableLayout.h"
-#include "CommandMap.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
+#include "MIDIProcessor.h"
+#include "ProfileManager.h"
+#include "ResizableLayout.h"
 #include "SettingsManager.h"
 
 class MainContentComponent: public Component,

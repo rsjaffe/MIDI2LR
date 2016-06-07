@@ -22,8 +22,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LRCOMMANDS_H_INCLUDED
 #define LRCOMMANDS_H_INCLUDED
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include <vector>
+#include "../JuceLibraryCode/JuceHeader.h"
+
 
 class LRCommandList {
 public:

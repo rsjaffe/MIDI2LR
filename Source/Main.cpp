@@ -29,14 +29,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MainComponent.h"
-#include "LR_IPC_OUT.h"
-#include "LR_IPC_IN.h"
-#include "VersionChecker.h"
-#include "MainWindow.h"
 #include "CommandMap.h"
-#include "SettingsManager.h"
+#include "LR_IPC_IN.h"
+#include "LR_IPC_OUT.h"
+#include "MainComponent.h"
+#include "MainWindow.h"
 #include "MIDISender.h"
+#include "SettingsManager.h"
+#include "VersionChecker.h"
 
 #ifndef _WIN32
 //missing make_unique (C++14) in XCode

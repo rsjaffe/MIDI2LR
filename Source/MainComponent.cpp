@@ -19,9 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MainComponent.h"
-#include "LR_IPC_IN.h"
 #include "MIDISender.h"
-
 #include "SettingsComponent.h"
 
 constexpr auto kMainWidth = 400;

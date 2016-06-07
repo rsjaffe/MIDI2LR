@@ -23,8 +23,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SUBJECT_H_INCLUDED
 #define SUBJECT_H_INCLUDED
 
-#include "Observer.h"
 #include <vector>
+#include "Observer.h"
+
 
 using namespace std;
 

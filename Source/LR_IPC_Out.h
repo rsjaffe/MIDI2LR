@@ -22,10 +22,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LR_IPC_OUT_H_INCLUDED
 #define LR_IPC_OUT_H_INCLUDED
 
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "MIDIProcessor.h"
-#include "CommandMap.h"
 #include <mutex>
+#include "../JuceLibraryCode/JuceHeader.h"
+#include "CommandMap.h"
+#include "MIDIProcessor.h"
+
 
 class LRConnectionListener {
 public:

@@ -18,8 +18,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include "../JuceLibraryCode/JuceHeader.h"
+
 #include "SettingsComponent.h"
+#include "../JuceLibraryCode/JuceHeader.h"
+
 
 constexpr auto SettingsLeft = 20;
 constexpr auto SettingsWidth = 400;
