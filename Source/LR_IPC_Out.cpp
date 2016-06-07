@@ -75,7 +75,7 @@ void LR_IPC_OUT::sendCommand(const String &command) {
 }
 
 void LR_IPC_OUT::handleAsyncUpdate() {
-  string command_copy;
+  String command_copy;
   {
     std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
     command_copy {std::move(command_)};
