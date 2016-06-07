@@ -46,10 +46,8 @@ class LR_IPC_OUT: private InterprocessConnection,
   private Timer {
 public:
   LR_IPC_OUT();
-  virtual ~LR_IPC_OUT() {};
+  virtual ~LR_IPC_OUT();
 // closes the socket
-  void shutdown();
-
   void addListener(LRConnectionListener *listener);
 
   // sends a command to the plugin

@@ -16,7 +16,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -59,12 +59,9 @@ public:
     settings_manager_ = std::make_shared<SettingsManager>();
     midi_processor_ = std::make_shared<MIDIProcessor>();
     midi_sender_ = std::make_shared<MIDISender>();
-    lr_ipc_out_ = std::shared_ptr<LR_IPC_OUT>(new LR_IPC_OUT, [](LR_IPC_OUT* me) {
-      me->shutdown();
-    });
+    lr_ipc_out_ = std::make_shared<LR_IPC_OUT>();
     lr_ipc_in_ = std::shared_ptr<LR_IPC_IN>(new LR_IPC_IN, [](LR_IPC_IN* me) {
-      me->shutdown();
-    });
+      me->shutdown(); });
   }
 
   const String getApplicationName() override {
@@ -90,14 +87,14 @@ public:
       // init the settings manager
       settings_manager_->Init(lr_ipc_out_, profile_manager_);
       main_window_ = std::make_unique<MainWindow>(getApplicationName());
-      main_window_->Init(command_map_, lr_ipc_in_, lr_ipc_out_, midi_processor_, 
+      main_window_->Init(command_map_, lr_ipc_in_, lr_ipc_out_, midi_processor_,
         profile_manager_, settings_manager_, midi_sender_);
       // Check for latest version
       version_checker_.Init(settings_manager_);
       version_checker_.startThread();
     }
     else {
-        // apparently the appication is already terminated
+        // apparently the application is already terminated
       main_window_ = nullptr; // (deletes our window)
       quit();
     }
@@ -105,7 +102,7 @@ public:
 
   void shutdown() override {
       // Save the current profile as default.xml
-    auto default_profile = 
+    auto default_profile =
       File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
     command_map_->toXMLDocument(default_profile);
     lr_ipc_out_.reset();

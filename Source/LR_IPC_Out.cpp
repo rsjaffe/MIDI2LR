@@ -26,7 +26,7 @@ constexpr auto kLrOutPort = 58763;
 
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection() {}
 
-void LR_IPC_OUT::shutdown() {
+LR_IPC_OUT::~LR_IPC_OUT() {
   stopTimer();
   disconnect();
   command_map_.reset();
