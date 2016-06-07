@@ -75,13 +75,16 @@ void LR_IPC_OUT::sendCommand(const String &command) {
 }
 
 void LR_IPC_OUT::handleAsyncUpdate() {
-  //block changes to command_ string during this function
-  std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
+  string command_copy;
+  {
+    std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
+    command_copy {std::move(command_)};
+    command_ = String::empty; //unnecessary if move works, will test
+  }
     //check if there is a connection
   if (isConnected()) {
-    getSocket()->write(command_.getCharPointer(), command_.length());
+    getSocket()->write(command_copy.getCharPointer(), command_.length());
   }
-  command_ = "";
 }
 
 void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
