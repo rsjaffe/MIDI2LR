@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-MenuListPreTrans.lua
+Database.lua
 Source of translations and menu for app and plugin
  
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
