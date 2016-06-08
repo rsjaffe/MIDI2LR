@@ -82,7 +82,7 @@ void LR_IPC_OUT::handleAsyncUpdate() {
   }
     //check if there is a connection
   if (isConnected()) {
-    getSocket()->write(command_copy.getCharPointer(), command_.length());
+    getSocket()->write(command_copy.getCharPointer(), command_copy.length());
   }
 }
 
