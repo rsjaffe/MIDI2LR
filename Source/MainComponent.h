@@ -40,11 +40,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class MainContentComponent: public Component,
   public MIDICommandListener,
   public LRConnectionListener,
-  public AsyncUpdater,
-  public Timer,
+  private AsyncUpdater,
+  private Timer,
   public ButtonListener,
   public ProfileChangeListener,
-  public ResizableLayout {
+  private ResizableLayout {
 public:
   MainContentComponent();
   virtual ~MainContentComponent();
@@ -59,11 +59,7 @@ public:
   virtual void connected() override;
   virtual void disconnected() override;
 
-  // AsyncUpdater interface
-  virtual void handleAsyncUpdate() override;
 
-  // Timer interface
-  virtual void timerCallback() override;
 
   // Button interface
   virtual void buttonClicked(Button* button) override;
@@ -82,6 +78,11 @@ protected:
   void SetLabelSettings(Label &lblToSet);
 
 private:
+  // AsyncUpdater interface
+  virtual void handleAsyncUpdate() override;
+
+  // Timer interface
+  virtual void timerCallback() override;
   Label title_label_{"Title", "MIDI2LR"};
   DropShadowEffect title_shadow_;
   Label command_label_{"Command", ""};

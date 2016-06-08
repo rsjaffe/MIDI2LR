@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 class SettingsComponent: public Component,
-  public ButtonListener, ResizableLayout, public Slider::Listener {
+  public ButtonListener, private ResizableLayout, public Slider::Listener {
 public:
   SettingsComponent();
   ~SettingsComponent();

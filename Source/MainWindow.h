@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-class MainWindow: public DocumentWindow, public Timer {
+class MainWindow: public DocumentWindow, private Timer {
 public:
   MainWindow(String name): DocumentWindow{name,
       Colours::lightgrey,
@@ -64,10 +64,11 @@ public:
    subclass also calls the superclass's method.
 */
 
-// the timer callback function
-  virtual void timerCallback() override;
+
 
 private:
+  // the timer callback function
+  virtual void timerCallback() override;
   int auto_hide_counter_;
   MainContentComponent *window_content_;
 
