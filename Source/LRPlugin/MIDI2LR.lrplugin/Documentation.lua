@@ -26,8 +26,8 @@ local LrPathUtils  = import 'LrPathUtils'
 local datafile     = LrPathUtils.child(_PLUGIN.path, 'Documentation.txt')
 local file         = io.open(datafile,'w')
 local menulocation = ""
-local m_menus = 'menus_({ '
-local m_menuEntries = 'menu_entries_({ '
+local menus_ = 'menus_({ '
+local menu_entries_ = 'menu_entries_({ '
 local lrcommandsh = ''
 
 
@@ -57,15 +57,15 @@ for _,v in ipairs(Database.DataBase) do
       end
       file:write("const std::vector<String> LRCommandList::"..Database.cppvectors[v[9]][1].." = {\n")
       menulocation = v[9]
-      m_menus = m_menus .. '"' .. Database.cppvectors[v[9]][2] .. '", '
-      m_menuEntries = m_menuEntries .. 'LRCommandList::' .. Database.cppvectors[v[9]][1] .. ', '
+      menus_ = menus_ .. '"' .. Database.cppvectors[v[9]][2] .. '", '
+      menu_entries_ = menu_entries_ .. 'LRCommandList::' .. Database.cppvectors[v[9]][1] .. ', '
       lrcommandsh = lrcommandsh .. '\nstatic const std::vector<String> ' .. Database.cppvectors[v[9]][1] ..';'
     end
     file:write('"'..v[8]..'",\n')
   end
 end
-m_menus = m_menus .. '"Next/Prev Profile" })'
-m_menuEntries = m_menuEntries .. 'LRCommandList::NextPrevProfile })'
+menus_ = menus_ .. '"Next/Prev Profile" })'
+menu_entries_ = menu_entries_ .. 'LRCommandList::NextPrevProfile })'
 lrcommandsh = lrcommandsh .. '\n'
 
 file:write("};\n\nconst std::vector<String> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
@@ -91,7 +91,7 @@ for _,v in ipairs(Database.DataBase) do
 end
 file:write('#else\n',macmappings,'#endif\n};')
 
-file:write ('\n\nITEMS FOR COMMANDMENU.CPP INITIALIZERS\n',m_menus,',\n\n',m_menuEntries)
+file:write ('\n\nITEMS FOR COMMANDMENU.CPP INITIALIZERS\n',menus_,',\n\n',menu_entries_)
 
 file:write('\n\nLRCommands.h strings declarations between LRStringList and NextPrevProfile',lrcommandsh)
 
