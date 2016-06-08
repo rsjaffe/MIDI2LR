@@ -25,6 +25,11 @@ constexpr auto kLrInPort = 58764;
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{}, Thread{"LR_IPC_IN"} {}
 
+void LR_IPC_IN::PleaseStopThread() {
+  signalThreadShouldExit();
+  notify();
+}
+
 void LR_IPC_IN::shutdown() {
   stopTimer();
   stopThread(1000);

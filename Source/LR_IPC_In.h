@@ -34,6 +34,8 @@ class LR_IPC_IN: private StreamingSocket,
 public:
   LR_IPC_IN();
   virtual ~LR_IPC_IN() {};
+  //signal exit to thread
+  void PleaseStopThread(void);
   // re-enumerates MIDI OUT devices
   void refreshMIDIOutput();
   void Init(std::shared_ptr<CommandMap>& mapCommand,
