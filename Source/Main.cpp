@@ -101,10 +101,13 @@ public:
   }
 
   void shutdown() override {
+    if (lr_ipc_in_)
+      lr_ipc_in_->PleaseStopThread();
       // Save the current profile as default.xml
     auto default_profile =
       File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-    command_map_->toXMLDocument(default_profile);
+    if (command_map_)
+      command_map_->toXMLDocument(default_profile);
     lr_ipc_out_.reset();
     lr_ipc_in_.reset();
     //below resets added
