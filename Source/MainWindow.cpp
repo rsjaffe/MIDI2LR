@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -46,11 +46,11 @@ void MainWindow::timerCallback(void) {
   }
 }
 
-void MainWindow::Init(std::shared_ptr<CommandMap>& command_map, 
+void MainWindow::Init(std::shared_ptr<CommandMap>& command_map,
   std::shared_ptr<LR_IPC_IN>& lr_ipc_in, std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
-  std::shared_ptr<MIDIProcessor>& midi_processor, 
+  std::shared_ptr<MIDIProcessor>& midi_processor,
   std::shared_ptr<ProfileManager>& profile_manager,
-  std::shared_ptr<SettingsManager>& settings_manager, 
+  std::shared_ptr<SettingsManager>& settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
   // get the auto time setting
   if (settings_manager) {
@@ -64,7 +64,7 @@ void MainWindow::Init(std::shared_ptr<CommandMap>& command_map,
   this->startTimer(1000);
 
   if (window_content_) {
-    window_content_->Init(command_map, lr_ipc_in, lr_ipc_out, midi_processor, 
+    window_content_->Init(command_map, lr_ipc_in, lr_ipc_out, midi_processor,
       profile_manager, settings_manager, midi_sender);
   }
 }

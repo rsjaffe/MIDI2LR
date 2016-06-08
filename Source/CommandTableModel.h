@@ -8,7 +8,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -34,9 +34,9 @@ public:
 
   // TableListBoxModel overrides
   virtual int getNumRows() override;
-  virtual void paintRowBackground(Graphics &, int rowNumber, int width, 
+  virtual void paintRowBackground(Graphics &, int rowNumber, int width,
     int height, bool rowIsSelected) override;
-  virtual void paintCell(Graphics &, int rowNumber, int columnId, int width, 
+  virtual void paintCell(Graphics &, int rowNumber, int columnId, int width,
     int height, bool rowIsSelected) override;
   virtual Component *refreshComponentForCell(int rowNumber, int columnId,
     bool isRowSelected, Component *existingComponentToUpdate) override;

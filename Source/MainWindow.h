@@ -8,7 +8,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -50,11 +50,11 @@ public:
     JUCEApplication::getInstance()->systemRequestedQuit();
   }
 
-  void Init(std::shared_ptr<CommandMap>& command_map, 
-    std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out, 
+  void Init(std::shared_ptr<CommandMap>& command_map,
+    std::shared_ptr<LR_IPC_IN>& in, std::shared_ptr<LR_IPC_OUT>& out,
     std::shared_ptr<MIDIProcessor>& midi_processor,
-    std::shared_ptr<ProfileManager>& profile_manager, 
-    std::shared_ptr<SettingsManager>& settings_manager, 
+    std::shared_ptr<ProfileManager>& profile_manager,
+    std::shared_ptr<SettingsManager>& settings_manager,
     std::shared_ptr<MIDISender>& midi_sender);
 
 /* Note: Be careful if you override any DocumentWindow methods - the base
@@ -63,8 +63,6 @@ public:
    you really have to override any DocumentWindow methods, make sure your
    subclass also calls the superclass's method.
 */
-
-
 
 private:
   // the timer callback function

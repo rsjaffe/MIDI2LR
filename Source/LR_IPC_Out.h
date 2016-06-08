@@ -27,7 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "MIDIProcessor.h"
 
-
 class LRConnectionListener {
 public:
     // sent when a connection to the LR plugin is made

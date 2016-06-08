@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -118,9 +118,9 @@ void MainContentComponent::buttonClicked(Button* button) {
     }
 
     WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
-    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles | 
+    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
       FileBrowserComponent::saveMode |
-        FileBrowserComponent::warnAboutOverwriting, profile_directory, 
+        FileBrowserComponent::warnAboutOverwriting, profile_directory,
       &wildcard_filter, nullptr};
     FileChooserDialogBox dialog_box{"Save profile",
         "Enter filename to save profile",
@@ -147,10 +147,10 @@ void MainContentComponent::buttonClicked(Button* button) {
     }
 
     WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
-    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles | 
-      FileBrowserComponent::openMode, profile_directory, 
+    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
+      FileBrowserComponent::openMode, profile_directory,
       &wildcard_filter, nullptr};
-    FileChooserDialogBox dialog_box{"Open profile", "Select a profile to open", 
+    FileChooserDialogBox dialog_box{"Open profile", "Select a profile to open",
       browser, true, Colours::lightgrey};
 
     if (dialog_box.show()) {
@@ -162,7 +162,7 @@ void MainContentComponent::buttonClicked(Button* button) {
         if (lr_ipc_out_) {
           lr_ipc_out_->sendCommand(command);
         }
-        profile_name_label_.setText(new_profile.getFileName(), 
+        profile_name_label_.setText(new_profile.getFileName(),
           NotificationType::dontSendNotification);
         command_table_model_.buildFromXml(xml_element.get());
         command_table_.updateContent();
@@ -200,7 +200,7 @@ void MainContentComponent::profileChanged(XmlElement* xml_element, const String&
 
 void MainContentComponent::SetTimerText(int time_value) {
   if (time_value > 0) {
-    current_status_.setText(String::formatted("Hiding in %i Sec.", time_value), 
+    current_status_.setText(String::formatted("Hiding in %i Sec.", time_value),
       NotificationType::dontSendNotification);
   }
   else {
@@ -208,12 +208,12 @@ void MainContentComponent::SetTimerText(int time_value) {
   }
 }
 
-void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map, 
+void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   std::shared_ptr<LR_IPC_IN>& lr_ipc_in,
-  std::shared_ptr<LR_IPC_OUT>& lr_ipc_out, 
-  std::shared_ptr<MIDIProcessor>& midi_processor, 
+  std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
+  std::shared_ptr<MIDIProcessor>& midi_processor,
   std::shared_ptr<ProfileManager>& profile_manager,
-  std::shared_ptr<SettingsManager>& settings_manager, 
+  std::shared_ptr<SettingsManager>& settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
   //copy the pointers
   command_map_ = command_map;
@@ -280,21 +280,21 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
 
   // Save button
   save_button_.addListener(this);
-  save_button_.setBounds(kMainLeft + button_width + kSpaceBetweenButton, 60, 
+  save_button_.setBounds(kMainLeft + button_width + kSpaceBetweenButton, 60,
     button_width, 20);
   addToLayout(&save_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(save_button_);
 
   // Settings button
   settings_button_.addListener(this);
-  settings_button_.setBounds(kMainLeft + button_width * 2 + kSpaceBetweenButton * 2, 
+  settings_button_.setBounds(kMainLeft + button_width * 2 + kSpaceBetweenButton * 2,
     60, button_width, 20);
   addToLayout(&settings_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(settings_button_);
 
   // Command Table
   command_table_.setModel(&command_table_model_);
-  command_table_.setBounds(kMainLeft, 100, kMainWidth - kMainLeft * 2, 
+  command_table_.setBounds(kMainLeft, 100, kMainWidth - kMainLeft * 2,
     kMainHeight - 210);
   addToLayout(&command_table_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(command_table_);
@@ -312,27 +312,27 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   command_label_.setFont(Font{12.f, Font::bold});
   command_label_.setEditable(false);
   command_label_.setColour(Label::textColourId, Colours::darkgrey);
-  command_label_.setBounds(kMainLeft + label_width, kMainHeight - 100, 
+  command_label_.setBounds(kMainLeft + label_width, kMainHeight - 100,
     label_width, 20);
   addToLayout(&command_label_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(command_label_);
 
   // Remove row button
   remove_row_button_.addListener(this);
-  remove_row_button_.setBounds(kMainLeft, kMainHeight - 75, 
+  remove_row_button_.setBounds(kMainLeft, kMainHeight - 75,
     kMainWidth - kMainLeft * 2, 20);
   addToLayout(&remove_row_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(remove_row_button_);
 
   // Rescan MIDI button
   rescan_button_.addListener(this);
-  rescan_button_.setBounds(kMainLeft, kMainHeight - 50, 
+  rescan_button_.setBounds(kMainLeft, kMainHeight - 50,
     kMainWidth - kMainLeft * 2, 20);
   addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(rescan_button_);
 
   // adding the current status label, used for counting down.
-  current_status_.setBounds(kMainLeft, kMainHeight - 30, 
+  current_status_.setBounds(kMainLeft, kMainHeight - 30,
     kMainWidth - kMainLeft * 2, 20);
   addToLayout(&current_status_, anchorMidLeft, anchorMidRight);
   current_status_.setJustificationType(Justification::centred);
@@ -342,7 +342,7 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   if (settings_manager_) {
       // Try to load a default.xml if the user has not set a profile directory
     if (settings_manager_->getProfileDirectory().isEmpty()) {
-      File default_profile = 
+      File default_profile =
         File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
       std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(default_profile)};
       if (xml_element) {

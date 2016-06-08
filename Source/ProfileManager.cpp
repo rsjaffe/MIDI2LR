@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -63,7 +63,7 @@ void ProfileManager::switchToProfile(const String& profile) {
 
     if (lr_ipc_out_) {
       auto command = String{"ChangedToDirectory "} +
-        File::addTrailingSeparator(profile_location_.getFullPathName()) + 
+        File::addTrailingSeparator(profile_location_.getFullPathName()) +
         String{"\n"};
       lr_ipc_out_->sendCommand(command);
       command = String("ChangedToFile ") + profile + String("\n");
@@ -90,7 +90,8 @@ void ProfileManager::handleMidiCC(int midi_channel, int controller, int value) {
   const MIDI_Message cc{midi_channel, controller, true};
 
   if (command_map_) {
-      // return if the value isn't 0 or 127, or the command isn't a valid profile-related command
+      // return if the value isn't 0 or 127, or the command isn't a valid
+      // profile-related command
     if ((value != 127) || !command_map_->messageExistsInMap(cc))
       return;
 
@@ -141,7 +142,7 @@ void ProfileManager::handleAsyncUpdate() {
 
 void ProfileManager::connected() {
   auto command = String{"ChangedToDirectory "} +
-    File::addTrailingSeparator(profile_location_.getFullPathName()) + 
+    File::addTrailingSeparator(profile_location_.getFullPathName()) +
     String{"\n"};
   if (lr_ipc_out_) {
     lr_ipc_out_->sendCommand(command);
@@ -150,15 +151,16 @@ void ProfileManager::connected() {
 
 void ProfileManager::disconnected() {}
 
-void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out, 
-  std::shared_ptr<CommandMap> commandMap, 
+void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out,
+  std::shared_ptr<CommandMap> commandMap,
   std::shared_ptr<MIDIProcessor> midiProcessor) {
     //copy the pointers
   command_map_ = commandMap;
   lr_ipc_out_ = out;
 
   if (lr_ipc_out_) {
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
+      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+      // settings on connection
     lr_ipc_out_->addListener(this);
   }
 

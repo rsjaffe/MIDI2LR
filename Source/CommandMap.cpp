@@ -25,7 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 CommandMap::CommandMap() noexcept : Subject{} {}
 
 void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message) {
-    // adds a msg to the msg:command map, and it's associated command to the command:msg map
+    // adds a msg to the msg:command map, and it's associated command to the
+    // command:msg map
   if (command < LRCommandList::LRStringList.size()) {
     message_map_[message] = LRCommandList::LRStringList[command];
     command_string_map_[LRCommandList::LRStringList[command]] = message;
@@ -56,7 +57,8 @@ bool CommandMap::commandHasAssociatedMessage(const String &command) const {
 }
 
 void CommandMap::removeMessage(const MIDI_Message &message) {
-    // removes msg from the msg:command map, and it's associated command from the command:msg map
+    // removes msg from the msg:command map, and it's associated command from the
+    // command:msg map
   command_string_map_.erase(message_map_[message]);
   message_map_.erase(message);
 }

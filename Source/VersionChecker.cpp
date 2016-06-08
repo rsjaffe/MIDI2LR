@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -32,8 +32,8 @@ void VersionChecker::run() {
   int last_checked{0};
   if (settings_manager_)
     last_checked = settings_manager_->getLastVersionFound();
-  if (version_xml_element != nullptr && 
-    (version_xml_element->getIntAttribute("latest") > ProjectInfo::versionNumber) && 
+  if (version_xml_element != nullptr &&
+    (version_xml_element->getIntAttribute("latest") > ProjectInfo::versionNumber) &&
     (version_xml_element->getIntAttribute("latest") != last_checked)) {
     new_version_ = version_xml_element->getIntAttribute("latest");
     if (settings_manager_)
@@ -53,7 +53,6 @@ void VersionChecker::handleAsyncUpdate() {
   const auto build{(new_version_ & 0xFF)};
   const auto version_string{String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build)};
   const URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
-
   dialog_options.content.setOwned(new HyperlinkButton{version_string, download_url});
   dialog_options.content->setSize(300, 100);
   (static_cast<HyperlinkButton *>(dialog_options.content.get()))->setFont(Font{18.f}, false);

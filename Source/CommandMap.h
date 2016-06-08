@@ -8,7 +8,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -61,7 +61,7 @@ namespace std {
   template <>
   struct hash<MIDI_Message> {
     std::size_t operator()(const MIDI_Message& k) const noexcept {
-      return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^ 
+      return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^
         (std::hash<int>()(k.data) << 1));
     }
   };
@@ -79,17 +79,20 @@ public:
   CommandMap() noexcept;
   virtual ~CommandMap() {}
 
-// adds an entry to the msg:command map, and a corresponding entry to the command:msg map
-// will look up the string by the index (but it is preferred to directly use the String)
+// adds an entry to the msg:command map, and a corresponding entry to the
+// command:msg map will look up the string by the index (but it is preferred to
+// directly use the String)
   void addCommandforMessage(unsigned int command, const MIDI_Message &cc);
 
-  // adds an entry to the msg:command map, and a corresponding entry to the command:msg map
+  // adds an entry to the msg:command map, and a corresponding entry to the
+  // command:msg map
   void addCommandforMessage(const String &command, const MIDI_Message &cc);
 
   // gets the LR command associated to a MIDI message
   const String& getCommandforMessage(const MIDI_Message &msg) const;
 
-  // removes a MIDI message from the msg:command map, and it's associated entry in the command:msg map
+  // removes a MIDI message from the msg:command map, and it's associated entry
+  // in the command:msg map
   void removeMessage(const MIDI_Message &msg);
 
   // clears both msg:command and command:msg maps

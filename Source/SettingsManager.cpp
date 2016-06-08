@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -102,12 +102,13 @@ void SettingsManager::setLastVersionFound(int new_version) {
   properties_file_->saveIfNeeded();
 }
 
-void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out, 
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
   std::shared_ptr<ProfileManager>& profile_manager) {
   lr_ipc_out_ = lr_ipc_out;
 
   if (lr_ipc_out_) {
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
+      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+      // settings on connection
     lr_ipc_out_->addListener(this);
   }
 

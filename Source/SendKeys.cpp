@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -193,7 +193,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
     vk = SendKeys::key_map_.at(lower_string);
   else {// Translate key code to keyboard-dependent scan code, may be UTF-8
     wchar_t full_character;
-    const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(), 
+    const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
       key.size(), &full_character, 1);
     if (return_value == 0) {
       auto er = GetLastError();

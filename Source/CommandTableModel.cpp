@@ -7,7 +7,7 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later 
+Foundation, either version 3 of the License, or (at your option) any later
 version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -27,13 +27,13 @@ int CommandTableModel::getNumRows() {
   return rows_;
 }
 
-void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/, 
+void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/,
   int /*width*/, int /*height*/, bool row_is_selected) {
   if (row_is_selected)
     g.fillAll(Colours::lightblue);
 }
 
-void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id, 
+void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
   g.setColour(Colours::black);
   g.setFont(12.0f);
@@ -49,11 +49,11 @@ void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id,
   }
 }
 
-Component *CommandTableModel::refreshComponentForCell(int row_number, 
+Component *CommandTableModel::refreshComponentForCell(int row_number,
   int column_id, bool /*isRowSelected*/, Component *existing_component_to_update) {
   if (column_id == 2) // LR command column
   {
-      // because Juce recycles these components when scrolling, we need to reset their properties
+    // because Juce recycles these components when scrolling, we need to reset their properties
     CommandMenu* command_select = dynamic_cast<CommandMenu *>(existing_component_to_update);
 
     // create a new command menu
@@ -125,7 +125,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
   auto* setting = root->getFirstChildElement();
   while ((setting) && (command_map_)) {
     if (setting->hasAttribute("controller")) {
-      MIDI_Message message{setting->getIntAttribute("channel"), 
+      MIDI_Message message{setting->getIntAttribute("channel"),
         setting->getIntAttribute("controller"), true};
       addRow(message.channel, message.controller, true);
 
@@ -140,13 +140,13 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
       }
     }
     else if (setting->hasAttribute("note")) {
-      MIDI_Message note{setting->getIntAttribute("channel"), 
+      MIDI_Message note{setting->getIntAttribute("channel"),
         setting->getIntAttribute("note"), false};
       addRow(note.channel, note.pitch, false);
 
       // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
       if (setting->getIntAttribute("command", -1) != -1) {
-        command_map_->addCommandforMessage(setting->getIntAttribute("command"), 
+        command_map_->addCommandforMessage(setting->getIntAttribute("command"),
           note);
       }
       else {
