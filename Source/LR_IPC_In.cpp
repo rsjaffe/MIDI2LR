@@ -58,37 +58,51 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
 
 void LR_IPC_IN::run() {
   while (!threadShouldExit()) {
-    constexpr auto kBufferSize = 256;
-    char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
-    auto size_read = 0;
-    auto can_read_line = true;
-    //as currently written can't exit loop without terminating permanently
-    //so, instead, check connection 3X/sec, test for exit, if not connected
-    if (!isConnected())
+    //if not connected, executes a wait 333 then goes back to while
+    //if connected, tries to read a line, checks thread status and connection
+    //status before each read attempt
+    //doesn't terminate thread if disconnected, as currently don't have graceful
+    //way to restart thread
+    if (!isConnected()) {
       wait(333);
+    } //end if (is not connected)
+    else {
+      constexpr auto kBufferSize = 256;
+      char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
+      auto size_read = 0;
+      auto can_read_line = true;
+      // parse input until we have a line, then process that line, quit if
+      // connection lost
+      while (!juce::String(line).endsWithChar('\n') && isConnected()) {
+        if (threadShouldExit())
+          goto threadExit;//break out of nested whiles
+        auto wait_status = waitUntilReady(true, 0);
+        switch (wait_status) {
+          case -1:
+            can_read_line = false;
+            goto dumpLine; //read line failed, break out of switch and while         
+          case 0:
+            wait(100);
+            break; //try again to read until char shows up
+          case 1:
+            if (size_read == kBufferSize)
+              throw std::out_of_range("Buffer overflow in LR_IPC_IN");
+            size_read += read(line + size_read, 1, false);
+            break;
+          default:
+            throw std::invalid_argument("waitUntilReady returned unexpected value");
+        }
+      } // end while !\n and is connected
 
-    // parse input until we have a line, then process that line
-    while (!juce::String(line).endsWithChar('\n') && isConnected() &&
-      !threadShouldExit()) {
-      auto wait_status = waitUntilReady(true, 0);
-      if (wait_status < 0) {
-        can_read_line = false;
-        break;
+      // if lose connection, line may not be terminated
+      if (can_read_line && juce::String(line).endsWithChar('\n')) {
+        juce::String param{line};
+        processLine(param);
       }
-      else if (wait_status == 0) {
-        wait(100);
-        continue;
-      }
-      if (size_read == kBufferSize)
-        throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-      size_read += read(line + size_read, 1, false);
-    }
-
-    if (can_read_line && isConnected()) {
-      juce::String param{line};
-      processLine(param);
-    }
-  }
+    dumpLine:
+    } //end else (is connected)
+  } //while not threadshouldexit
+threadExit:
   shutdown(); //exit thread
 }
 
