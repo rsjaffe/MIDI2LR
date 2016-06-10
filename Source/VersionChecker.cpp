@@ -43,6 +43,7 @@ void VersionChecker::run() {
     if (settings_manager_)
       settings_manager_->setLastVersionFound(new_version_);
     triggerAsyncUpdate();
+    settings_manager_.reset(); //pointer no longer needed
   }
 }
 
