@@ -60,8 +60,7 @@ public:
     midi_processor_ = std::make_shared<MIDIProcessor>();
     midi_sender_ = std::make_shared<MIDISender>();
     lr_ipc_out_ = std::make_shared<LR_IPC_OUT>();
-    lr_ipc_in_ = std::shared_ptr<LR_IPC_IN>(new LR_IPC_IN, [](LR_IPC_IN* me) {
-      me->shutdown(); });
+    lr_ipc_in_ = std::make_shared<LR_IPC_IN>();
   }
 
   const String getApplicationName() override {
@@ -100,7 +99,7 @@ public:
     }
   }
 
-  void shutdown() override {
+  void shutdown() override {//automatically invoked after quit
     if (lr_ipc_in_)
       lr_ipc_in_->PleaseStopThread();
       // Save the current profile as default.xml
@@ -117,15 +116,14 @@ public:
     midi_processor_.reset();
     midi_sender_.reset();
     main_window_ = nullptr; // (deletes our window)
-    quit();
-  }
+}
 
   //==============================================================================
   void systemRequestedQuit() override {
       // This is called when the application is being asked to quit: you can
       // ignore this request and let the application carry on running, or call
       // quit() to allow the application to close.
-    this->shutdown();
+    quit();
   }
 
   void anotherInstanceStarted(const String& command_line) override {
