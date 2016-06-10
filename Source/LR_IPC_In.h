@@ -33,7 +33,7 @@ class LR_IPC_IN: private StreamingSocket,
   private Thread {
 public:
   LR_IPC_IN();
-  virtual ~LR_IPC_IN() {};
+  virtual ~LR_IPC_IN();
   //signal exit to thread
   void PleaseStopThread(void);
   // re-enumerates MIDI OUT devices
@@ -41,8 +41,6 @@ public:
   void Init(std::shared_ptr<CommandMap>& mapCommand,
     std::shared_ptr<ProfileManager>& profileManager,
     std::shared_ptr<MIDISender>& midiSender) noexcept;
-  // closes the socket
-  void shutdown();
 private:
   // Thread interface
   virtual void run() override;
@@ -55,6 +53,8 @@ private:
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
   std::unordered_map<String, int> parameter_map_;
   SendKeys send_keys_;
+  std::mutex in_timer_;
+  bool thread_started_{false};
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

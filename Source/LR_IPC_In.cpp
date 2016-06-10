@@ -25,12 +25,7 @@ constexpr auto kLrInPort = 58764;
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{}, Thread{"LR_IPC_IN"} {}
 
-void LR_IPC_IN::PleaseStopThread() {
-  signalThreadShouldExit();
-  notify();
-}
-
-void LR_IPC_IN::shutdown() {
+LR_IPC_IN::~LR_IPC_IN() {
   stopTimer();
   stopThread(1000);
   close();
@@ -39,10 +34,19 @@ void LR_IPC_IN::shutdown() {
   midi_sender_.reset();
 }
 
+void LR_IPC_IN::PleaseStopThread() {
+  signalThreadShouldExit();
+  notify();
+}
+
 void LR_IPC_IN::timerCallback() {
+  std::lock_guard< decltype(in_timer_) > lock(in_timer_);
   if (!isConnected()) {
     if (connect("127.0.0.1", kLrInPort, 100))
-      startThread();
+      if (!thread_started_) {
+        startThread(); //avoid starting thread during shutdown
+        thread_started_ = true;
+      }
   }
 }
 
@@ -99,11 +103,13 @@ void LR_IPC_IN::run() {
         juce::String param{line};
         processLine(param);
       }
-    dumpLine:
+    dumpLine: /* empty statement */;
     } //end else (is connected)
   } //while not threadshouldexit
-threadExit:
-  shutdown(); //exit thread
+threadExit: /* empty statement */;
+  std::lock_guard< decltype(in_timer_) > lock(in_timer_);
+  stopTimer();
+  //thread_started_ = false; //don't change flag while depending upon it
 }
 
 void LR_IPC_IN::processLine(const juce::String& line) {

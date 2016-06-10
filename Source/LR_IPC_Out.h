@@ -73,6 +73,8 @@ private:
   Array<LRConnectionListener *> listeners_;
   String command_;
   std::mutex command_mutex_;
+  std::mutex timer_mutex_; //fix race during shutdown
+  bool timer_off_{false};
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

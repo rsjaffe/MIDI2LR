@@ -27,13 +27,18 @@ constexpr auto kLrOutPort = 58763;
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection() {}
 
 LR_IPC_OUT::~LR_IPC_OUT() {
-  stopTimer();
-  disconnect();
+  {
+    std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+    timer_off_ = true;
+    stopTimer();
+    disconnect();
+  }
   command_map_.reset();
 }
 
 void LR_IPC_OUT::timerCallback() {
-  if (!isConnected())
+  std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+  if (!isConnected() && !timer_off_)
     connectToSocket("127.0.0.1", kLrOutPort, 100);
 }
 
