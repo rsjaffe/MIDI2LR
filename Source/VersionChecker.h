@@ -28,6 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class VersionChecker: public Thread, private AsyncUpdater {
 public:
   VersionChecker() noexcept;
+  ~VersionChecker();
 
   void Init(std::shared_ptr<SettingsManager>& profile_manager) noexcept;
 
