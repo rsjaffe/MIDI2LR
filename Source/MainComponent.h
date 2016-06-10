@@ -44,7 +44,7 @@ class MainContentComponent: public Component,
   private Timer,
   public ButtonListener,
   public ProfileChangeListener,
-  private ResizableLayout {
+  public ResizableLayout {
 public:
   MainContentComponent();
   virtual ~MainContentComponent();
