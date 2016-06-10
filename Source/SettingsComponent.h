@@ -51,7 +51,7 @@ private:
   GroupComponent autohide_group_{};
   GroupComponent pickup_group_{};
   GroupComponent profile_group_{};
-  std::shared_ptr<SettingsManager> settings_manager_{nullptr};
+  std::weak_ptr<SettingsManager> settings_manager_;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

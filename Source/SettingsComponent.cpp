@@ -36,8 +36,8 @@ void SettingsComponent::paint(Graphics& g) {
 
 void SettingsComponent::buttonClicked(Button* button) {
   if (button == &pickup_enabled_) {
-    if (settings_manager_) {
-      settings_manager_->setPickupEnabled(pickup_enabled_.getToggleState());
+    if (auto ptr = settings_manager_.lock()) {
+      ptr->setPickupEnabled(pickup_enabled_.getToggleState());
     }
   }
   else if (button == &profile_location_button_) {
@@ -54,8 +54,8 @@ void SettingsComponent::buttonClicked(Button* button) {
 
     if (dialog_box.show()) {
       auto profile_location = browser.getSelectedFile(0).getFullPathName();
-      if (settings_manager_) {
-        settings_manager_->setProfileDirectory(profile_location);
+      if (auto ptr = settings_manager_.lock()) {
+        ptr->setProfileDirectory(profile_location);
       }
       profile_location_label_.setText(profile_location,
         NotificationType::dontSendNotification);
@@ -70,8 +70,8 @@ void SettingsComponent::sliderValueChanged(Slider* slider) {
         //get the rounded setting
       int new_setting = static_cast<int>(autohide_setting_.getValue());
 
-      if (settings_manager_) {
-        settings_manager_->setAutoHideTime(new_setting);
+      if (auto ptr= settings_manager_.lock()) {
+        ptr->setAutoHideTime(new_setting);
       }
     }
   }
@@ -85,7 +85,7 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
   // place controls in a location that is initially correct.
   setSize(SettingsWidth, SettingsHeight);
 
-  if (settings_manager_) {
+  if (auto ptr = settings_manager_.lock()) {
     pickup_group_.setText("Pick up");
     pickup_group_.setBounds(0, 0, SettingsWidth, 100);
     addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
@@ -100,7 +100,7 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
     addAndMakeVisible(pickup_label_);
 
     pickup_enabled_.addListener(this);
-    pickup_enabled_.setToggleState(settings_manager_->getPickupEnabled(), NotificationType::dontSendNotification);
+    pickup_enabled_.setToggleState(ptr->getPickupEnabled(), NotificationType::dontSendNotification);
     pickup_enabled_.setBounds(SettingsLeft, 60, SettingsWidth - 2 * SettingsLeft, 32);
     addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(pickup_enabled_);
@@ -121,7 +121,7 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
     addToLayout(&profile_location_label_, anchorMidLeft, anchorMidRight);
     profile_location_label_.setColour(Label::textColourId, Colours::darkgrey);
     addAndMakeVisible(profile_location_label_);
-    profile_location_label_.setText(settings_manager_->getProfileDirectory(), NotificationType::dontSendNotification);
+    profile_location_label_.setText(ptr->getProfileDirectory(), NotificationType::dontSendNotification);
 
     ////// ----------------------- auto hide section ------------------------------------
     autohide_group_.setText("Auto hide");
@@ -140,7 +140,7 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
 
     autohide_setting_.setBounds(SettingsLeft, 245, SettingsWidth - 2 * SettingsLeft, 50);
     autohide_setting_.setRange(0, 10, 1);
-    autohide_setting_.setValue(settings_manager_->getAutoHideTime(), NotificationType::dontSendNotification);
+    autohide_setting_.setValue(ptr->getAutoHideTime(), NotificationType::dontSendNotification);
 
     addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
     //add this as the lister for the data
