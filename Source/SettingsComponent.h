@@ -31,27 +31,26 @@ class SettingsComponent: public Component,
 public:
   SettingsComponent();
   ~SettingsComponent();
+  void Init(std::shared_ptr<SettingsManager>& settings_manager);
 
   void paint(Graphics&) override;
   //void resized();
 
   // ButtonListener interface
   virtual void buttonClicked(Button* button) override;
-
   virtual void sliderValueChanged(Slider* slider) override;
-  void Init(std::shared_ptr<SettingsManager>& settings_manager);
-private:
-  ToggleButton pickup_enabled_{"Enable Pickup Mode"};
-  Label pickup_label_{"PickupLabel", ""};
 
-  TextButton profile_location_button_{"Choose Profile Folder"};
-  Label profile_location_label_{"Profile Label"};
-  Label autohide_explain_label_{};
-  Slider autohide_setting_;
+private:
   GroupComponent autohide_group_{};
   GroupComponent pickup_group_{};
   GroupComponent profile_group_{};
+  Label autohide_explain_label_{};
+  Label pickup_label_{"PickupLabel", ""};
+  Label profile_location_label_{"Profile Label"};
+  Slider autohide_setting_;
   std::weak_ptr<SettingsManager> settings_manager_;
+  TextButton profile_location_button_{"Choose Profile Folder"};
+  ToggleButton pickup_enabled_{"Enable Pickup Mode"};
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

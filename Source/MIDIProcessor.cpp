@@ -28,23 +28,6 @@ void MIDIProcessor::Init(void) {
   InitDevices_();
 }
 
-void MIDIProcessor::InitDevices_() {
-  for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++) {
-    if (devices_.set(idx, MidiInput::openDevice(idx, this))) {
-      devices_[idx]->start();
-      DBG(devices_[idx]->getName());
-    }
-  }
-}
-
-void MIDIProcessor::rescanDevices() {
-  for (auto dev : devices_)
-    dev->stop();
-  devices_.clear(true);
-
-  InitDevices_();
-}
-
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
   const MidiMessage &message) {
   if (message.isController()) {
@@ -62,4 +45,21 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener) {
   listeners_.addIfNotAlreadyThere(listener);
+}
+
+void MIDIProcessor::rescanDevices() {
+  for (auto dev : devices_)
+    dev->stop();
+  devices_.clear(true);
+
+  InitDevices_();
+}
+
+void MIDIProcessor::InitDevices_() {
+  for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++) {
+    if (devices_.set(idx, MidiInput::openDevice(idx, this))) {
+      devices_[idx]->start();
+      DBG(devices_[idx]->getName());
+    }
+  }
 }

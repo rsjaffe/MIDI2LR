@@ -45,6 +45,29 @@ SettingsManager::SettingsManager() {
   properties_file_ = std::make_unique<PropertiesFile>(file_options);
 }
 
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
+  std::shared_ptr<ProfileManager>& profile_manager) {
+  lr_ipc_out_ = lr_ipc_out;
+
+  if (lr_ipc_out_) {
+      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+      // settings on connection
+    lr_ipc_out_->addListener(this);
+  }
+
+  profile_manager_ = profile_manager;
+
+  if (profile_manager_) {
+      // set the profile directory
+    File profile_directory{getProfileDirectory()};
+    profile_manager->setProfileDirectory(profile_directory);
+  }
+}
+
+bool SettingsManager::getPickupEnabled() const noexcept {
+  return properties_file_->getBoolValue("pickup_enabled", true);
+}
+
 void SettingsManager::setPickupEnabled(bool enabled) {
   properties_file_->setValue("pickup_enabled", enabled);
   properties_file_->saveIfNeeded();
@@ -55,11 +78,6 @@ void SettingsManager::setPickupEnabled(bool enabled) {
     lr_ipc_out_->sendCommand(command);
   }
 }
-
-bool SettingsManager::getPickupEnabled() const noexcept {
-  return properties_file_->getBoolValue("pickup_enabled", true);
-}
-
 String SettingsManager::getProfileDirectory() const noexcept {
   return properties_file_->getValue("profile_directory");
 }
@@ -100,23 +118,4 @@ int SettingsManager::getLastVersionFound() const noexcept {
 void SettingsManager::setLastVersionFound(int new_version) {
   properties_file_->setValue("LastVersionFound", new_version);
   properties_file_->saveIfNeeded();
-}
-
-void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
-  std::shared_ptr<ProfileManager>& profile_manager) {
-  lr_ipc_out_ = lr_ipc_out;
-
-  if (lr_ipc_out_) {
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-      // settings on connection
-    lr_ipc_out_->addListener(this);
-  }
-
-  profile_manager_ = profile_manager;
-
-  if (profile_manager_) {
-      // set the profile directory
-    File profile_directory{getProfileDirectory()};
-    profile_manager->setProfileDirectory(profile_directory);
-  }
 }

@@ -30,12 +30,14 @@ class SettingsManager: public LRConnectionListener {
 public:
   SettingsManager();
   virtual ~SettingsManager() {};
+  void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT,
+    std::shared_ptr<ProfileManager>& profile_manager);
 
   bool getPickupEnabled() const noexcept;
   void setPickupEnabled(bool enabled);
 
-  void setProfileDirectory(const String& profile_directory);
   String getProfileDirectory() const noexcept;
+  void setProfileDirectory(const String& profile_directory);
 
   // LRConnectionListener interface
   virtual void connected() override;
@@ -44,11 +46,9 @@ public:
   int getAutoHideTime() const noexcept;
   void setAutoHideTime(int new_time);
 
-  void setLastVersionFound(int version_number);
   int getLastVersionFound() const noexcept;
+  void setLastVersionFound(int version_number);
 
-  void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT,
-    std::shared_ptr<ProfileManager>& profile_manager);
 private:
 
   std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};

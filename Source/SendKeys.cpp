@@ -184,7 +184,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
     const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
     language_id = GetKeyboardLayout(thread_id);
   }
-  else {   // use keyboard of MIDI2LR app
+  else {   // use keyboard of MIDI2LR application
     language_id = GetKeyboardLayout(0);
   }
   BYTE vk = 0;
@@ -202,7 +202,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
       if (er == ERROR_INSUFFICIENT_BUFFER)
         throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
       if (er == ERROR_NO_UNICODE_TRANSLATION)
-        throw std::domain_error("Unable to tranlate: MultiByteToWideChar.");
+        throw std::domain_error("Unable to translate: MultiByteToWideChar.");
       throw std::runtime_error("Unknown error: MultiByteToWideChar.");
     }
     const auto vk_code_and_shift = VkKeyScanExW(full_character, language_id);

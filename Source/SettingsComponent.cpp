@@ -30,53 +30,6 @@ SettingsComponent::SettingsComponent(): ResizableLayout{this} {}
 
 SettingsComponent::~SettingsComponent() {}
 
-void SettingsComponent::paint(Graphics& g) {
-  g.fillAll(Colours::white);   // clear the background
-}
-
-void SettingsComponent::buttonClicked(Button* button) {
-  if (button == &pickup_enabled_) {
-    if (auto ptr = settings_manager_.lock()) {
-      ptr->setPickupEnabled(pickup_enabled_.getToggleState());
-    }
-  }
-  else if (button == &profile_location_button_) {
-    FileBrowserComponent browser{FileBrowserComponent::canSelectDirectories |
-      FileBrowserComponent::openMode,
-        File::getCurrentWorkingDirectory(),
-        nullptr,
-        nullptr};
-    FileChooserDialogBox dialog_box{"Select Profile Folder",
-        "Select a folder containing MIDI2LR Profiles",
-        browser,
-        true,
-        Colours::lightgrey};
-
-    if (dialog_box.show()) {
-      auto profile_location = browser.getSelectedFile(0).getFullPathName();
-      if (auto ptr = settings_manager_.lock()) {
-        ptr->setProfileDirectory(profile_location);
-      }
-      profile_location_label_.setText(profile_location,
-        NotificationType::dontSendNotification);
-    }
-  }
-}
-
-void SettingsComponent::sliderValueChanged(Slider* slider) {
-    // NULL pointer check
-  if (slider) {
-    if (&autohide_setting_ == slider) {
-        //get the rounded setting
-      int new_setting = static_cast<int>(autohide_setting_.getValue());
-
-      if (auto ptr= settings_manager_.lock()) {
-        ptr->setAutoHideTime(new_setting);
-      }
-    }
-  }
-}
-
 void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager) {
     //copy the pointer
   settings_manager_ = settings_manager;
@@ -148,5 +101,52 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
     addAndMakeVisible(autohide_setting_);
     // turn it on
     activateLayout();
+  }
+}
+
+void SettingsComponent::paint(Graphics& g) {
+  g.fillAll(Colours::white);   // clear the background
+}
+
+void SettingsComponent::buttonClicked(Button* button) {
+  if (button == &pickup_enabled_) {
+    if (auto ptr = settings_manager_.lock()) {
+      ptr->setPickupEnabled(pickup_enabled_.getToggleState());
+    }
+  }
+  else if (button == &profile_location_button_) {
+    FileBrowserComponent browser{FileBrowserComponent::canSelectDirectories |
+      FileBrowserComponent::openMode,
+        File::getCurrentWorkingDirectory(),
+        nullptr,
+        nullptr};
+    FileChooserDialogBox dialog_box{"Select Profile Folder",
+        "Select a folder containing MIDI2LR Profiles",
+        browser,
+        true,
+        Colours::lightgrey};
+
+    if (dialog_box.show()) {
+      auto profile_location = browser.getSelectedFile(0).getFullPathName();
+      if (auto ptr = settings_manager_.lock()) {
+        ptr->setProfileDirectory(profile_location);
+      }
+      profile_location_label_.setText(profile_location,
+        NotificationType::dontSendNotification);
+    }
+  }
+}
+
+void SettingsComponent::sliderValueChanged(Slider* slider) {
+    // NULL pointer check
+  if (slider) {
+    if (&autohide_setting_ == slider) {
+        //get the rounded setting
+      int new_setting = static_cast<int>(autohide_setting_.getValue());
+
+      if (auto ptr= settings_manager_.lock()) {
+        ptr->setAutoHideTime(new_setting);
+      }
+    }
   }
 }

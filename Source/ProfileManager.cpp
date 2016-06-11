@@ -23,6 +23,24 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 ProfileManager::ProfileManager() noexcept {}
 
+void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out,
+  std::shared_ptr<CommandMap> commandMap,
+  std::shared_ptr<MIDIProcessor> midiProcessor) {
+    //copy the pointers
+  command_map_ = commandMap;
+  lr_ipc_out_ = out;
+
+  if (lr_ipc_out_) {
+      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+      // settings on connection
+    lr_ipc_out_->addListener(this);
+  }
+
+  if (midiProcessor) {
+    midiProcessor->addMIDICommandListener(this);
+  }
+}
+
 void ProfileManager::addListener(ProfileChangeListener *listener) {
   listeners_.addIfNotAlreadyThere(listener);
 }
@@ -72,16 +90,16 @@ void ProfileManager::switchToProfile(const String& profile) {
   }
 }
 
-void ProfileManager::switchToPreviousProfile() {
-  current_profile_index_--;
-  if (current_profile_index_ < 0) current_profile_index_ = profiles_.size() - 1;
+void ProfileManager::switchToNextProfile() {
+  current_profile_index_++;
+  if (current_profile_index_ == profiles_.size()) current_profile_index_ = 0;
 
   switchToProfile(current_profile_index_);
 }
 
-void ProfileManager::switchToNextProfile() {
-  current_profile_index_++;
-  if (current_profile_index_ == profiles_.size()) current_profile_index_ = 0;
+void ProfileManager::switchToPreviousProfile() {
+  current_profile_index_--;
+  if (current_profile_index_ < 0) current_profile_index_ = profiles_.size() - 1;
 
   switchToProfile(current_profile_index_);
 }
@@ -125,6 +143,17 @@ void ProfileManager::handleMidiNote(int midi_channel, int note) {
   }
 }
 
+void ProfileManager::connected() {
+  auto command = String{"ChangedToDirectory "} +
+    File::addTrailingSeparator(profile_location_.getFullPathName()) +
+    String{"\n"};
+  if (lr_ipc_out_) {
+    lr_ipc_out_->sendCommand(command);
+  }
+}
+
+void ProfileManager::disconnected() {}
+
 void ProfileManager::handleAsyncUpdate() {
   switch (switch_state_) {
     case SWITCH_STATE::PREV:
@@ -137,34 +166,5 @@ void ProfileManager::handleAsyncUpdate() {
       break;
     default:
       break;
-  }
-}
-
-void ProfileManager::connected() {
-  auto command = String{"ChangedToDirectory "} +
-    File::addTrailingSeparator(profile_location_.getFullPathName()) +
-    String{"\n"};
-  if (lr_ipc_out_) {
-    lr_ipc_out_->sendCommand(command);
-  }
-}
-
-void ProfileManager::disconnected() {}
-
-void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out,
-  std::shared_ptr<CommandMap> commandMap,
-  std::shared_ptr<MIDIProcessor> midiProcessor) {
-    //copy the pointers
-  command_map_ = commandMap;
-  lr_ipc_out_ = out;
-
-  if (lr_ipc_out_) {
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-      // settings on connection
-    lr_ipc_out_->addListener(this);
-  }
-
-  if (midiProcessor) {
-    midiProcessor->addMIDICommandListener(this);
   }
 }

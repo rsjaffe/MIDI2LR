@@ -36,19 +36,18 @@ class MIDIProcessor: public MidiInputCallback {
 public:
   MIDIProcessor() noexcept;
   virtual ~MIDIProcessor();
+  void Init(void);
 
-  // overriden from MidiInputCallback
+  // overridden from MidiInputCallback
   void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
 
   void addMIDICommandListener(MIDICommandListener*);
 
   // re-enumerates MIDI IN devices
   void rescanDevices();
-  void Init(void);
+
 private:
-
   void InitDevices_();
-
   Array<MIDICommandListener *> listeners_;
   OwnedArray<MidiInput> devices_;
 };

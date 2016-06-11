@@ -34,22 +34,6 @@ LR_IPC_IN::~LR_IPC_IN() {
   midi_sender_.reset();
 }
 
-void LR_IPC_IN::PleaseStopThread() {
-  signalThreadShouldExit();
-  notify();
-}
-
-void LR_IPC_IN::timerCallback() {
-  std::lock_guard< decltype(in_timer_) > lock(in_timer_);
-  if (!isConnected()) {
-    if (connect("127.0.0.1", kLrInPort, 100))
-      if (!thread_started_) {
-        startThread(); //avoid starting thread during shutdown
-        thread_started_ = true;
-      }
-  }
-}
-
 void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<MIDISender>& midi_sender) noexcept {
@@ -58,6 +42,24 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
   midi_sender_ = midi_sender;
   //start the timer
   startTimer(1000);
+}
+
+void LR_IPC_IN::refreshMIDIOutput() {
+  if (command_map_) {
+      // send associated CC messages to MIDI OUT devices
+    for (auto map_entry : parameter_map_) {
+      if ((command_map_->commandHasAssociatedMessage(map_entry.first)) &&
+        (midi_sender_)) {
+        const auto& msg = command_map_->getMessageForCommand(map_entry.first);
+        midi_sender_->sendCC(msg.channel, msg.controller, map_entry.second);
+      }
+    }
+  }
+}
+
+void LR_IPC_IN::PleaseStopThread() {
+  signalThreadShouldExit();
+  notify();
 }
 
 void LR_IPC_IN::run() {
@@ -107,11 +109,21 @@ void LR_IPC_IN::run() {
     } //end else (is connected)
   } //while not threadshouldexit
 threadExit: /* empty statement */;
-  std::lock_guard< decltype(in_timer_) > lock(in_timer_);
+  std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
   stopTimer();
   //thread_started_ = false; //don't change flag while depending upon it
 }
 
+void LR_IPC_IN::timerCallback() {
+  std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
+  if (!isConnected()) {
+    if (connect("127.0.0.1", kLrInPort, 100))
+      if (!thread_started_) {
+        startThread(); //avoid starting thread during shutdown
+        thread_started_ = true;
+      }
+  }
+}
 void LR_IPC_IN::processLine(const juce::String& line) {
     // process input into [parameter] [Value]
   const auto trimmed_line = line.trim();
@@ -141,19 +153,6 @@ void LR_IPC_IN::processLine(const juce::String& line) {
         if (midi_sender_) {
           midi_sender_->sendCC(msg.channel, msg.controller, value);
         }
-      }
-    }
-  }
-}
-
-void LR_IPC_IN::refreshMIDIOutput() {
-  if (command_map_) {
-      // send associated CC messages to MIDI OUT devices
-    for (auto map_entry : parameter_map_) {
-      if ((command_map_->commandHasAssociatedMessage(map_entry.first)) &&
-        (midi_sender_)) {
-        const auto& msg = command_map_->getMessageForCommand(map_entry.first);
-        midi_sender_->sendCC(msg.channel, msg.controller, map_entry.second);
       }
     }
   }

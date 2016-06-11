@@ -48,6 +48,13 @@ class MainContentComponent: public Component,
 public:
   MainContentComponent();
   virtual ~MainContentComponent();
+  void Init(std::shared_ptr<CommandMap>& command_map,
+    std::shared_ptr<LR_IPC_IN>& in,
+    std::shared_ptr<LR_IPC_OUT>& out,
+    std::shared_ptr<MIDIProcessor>& midi_processor,
+    std::shared_ptr<ProfileManager>& profile_manager,
+    std::shared_ptr<SettingsManager>& settings_manager,
+    std::shared_ptr<MIDISender>& midi_sender);
 
   void paint(Graphics&) override;
 
@@ -65,13 +72,7 @@ public:
   // ProfileChangeListener interface
   virtual void profileChanged(XmlElement* elem, const String& file_name) override;
   void SetTimerText(int time_value);
-  void Init(std::shared_ptr<CommandMap>& command_map,
-    std::shared_ptr<LR_IPC_IN>& in,
-    std::shared_ptr<LR_IPC_OUT>& out,
-    std::shared_ptr<MIDIProcessor>& midi_processor,
-    std::shared_ptr<ProfileManager>& profile_manager,
-    std::shared_ptr<SettingsManager>& settings_manager,
-    std::shared_ptr<MIDISender>& midi_sender);
+
 protected:
   void SetLabelSettings(Label &lblToSet);
 
@@ -81,29 +82,30 @@ private:
 
   // Timer interface
   virtual void timerCallback() override;
-  Label title_label_{"Title", "MIDI2LR"};
-  DropShadowEffect title_shadow_;
-  Label command_label_{"Command", ""};
-  Label connection_label_{"Connection", "Not connected to LR"};
-  TextButton rescan_button_{"Rescan MIDI devices"};
-  TextButton remove_row_button_{"Remove selected row"};
-  TextButton save_button_{"Save"};
-  TextButton load_button_{"Load"};
-  TextButton settings_button_{"Settings"};
-  Label version_label_{"Version", "Version " + String{ ProjectInfo::versionString }};
+
   CommandTable command_table_{"Table", nullptr};
   CommandTableModel command_table_model_{};
-  Label profile_name_label_{"ProfileNameLabel", ""};
-  std::unique_ptr<DialogWindow> settings_dialog_;
-  String last_command_;
+  DropShadowEffect title_shadow_;
   int row_to_select_;
+  Label command_label_{"Command", ""};
+  Label connection_label_{"Connection", "Not connected to LR"};
   Label current_status_{"CurrentStatus", "no extra info"};
+  Label profile_name_label_{"ProfileNameLabel", ""};
+  Label title_label_{"Title", "MIDI2LR"};
+  Label version_label_{"Version", "Version " + String{ ProjectInfo::versionString }};
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::shared_ptr<LR_IPC_IN> lr_ipc_in_{nullptr};
   std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
-  std::shared_ptr<SettingsManager> settings_manager_{nullptr};
   std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
+  std::shared_ptr<SettingsManager> settings_manager_{nullptr};
+  std::unique_ptr<DialogWindow> settings_dialog_;
+  String last_command_;
+  TextButton load_button_{"Load"};
+  TextButton remove_row_button_{"Remove selected row"};
+  TextButton rescan_button_{"Rescan MIDI devices"};
+  TextButton save_button_{"Save"};
+  TextButton settings_button_{"Settings"};
 
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)

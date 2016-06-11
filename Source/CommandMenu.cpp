@@ -42,8 +42,22 @@ CommandMenu::CommandMenu(const MIDI_Message& message):
   LRCommandList::NextPrevProfile})
 {}
 
+void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) {
+    //copy the pointer
+  command_map_ = mapCommand;
+  addListener(this);
+}
+
 void CommandMenu::setMsg(const MIDI_Message& message) noexcept {
   message_ = message;
+}
+
+void CommandMenu::setSelectedItem(unsigned int index) {
+  selected_item_ = index;
+  if (index - 1 < LRCommandList::LRStringList.size())
+    setButtonText(LRCommandList::LRStringList[index - 1]);
+  else
+    setButtonText(LRCommandList::NextPrevProfile[index - 1 - LRCommandList::LRStringList.size()]);
 }
 
 void CommandMenu::buttonClicked(Button* /*button*/) {
@@ -98,18 +112,4 @@ void CommandMenu::buttonClicked(Button* /*button*/) {
     // Map the selected command to the CC
     command_map_->addCommandforMessage(result - 1, message_);
   }
-}
-
-void CommandMenu::setSelectedItem(unsigned int index) {
-  selected_item_ = index;
-  if (index - 1 < LRCommandList::LRStringList.size())
-    setButtonText(LRCommandList::LRStringList[index - 1]);
-  else
-    setButtonText(LRCommandList::NextPrevProfile[index - 1 - LRCommandList::LRStringList.size()]);
-}
-
-void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) {
-    //copy the pointer
-  command_map_ = mapCommand;
-  addListener(this);
 }

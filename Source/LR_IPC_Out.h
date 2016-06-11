@@ -46,7 +46,10 @@ class LR_IPC_OUT: private InterprocessConnection,
 public:
   LR_IPC_OUT();
   virtual ~LR_IPC_OUT();
-// closes the socket
+  void Init(std::shared_ptr<CommandMap>&  mapCommand,
+    std::shared_ptr<MIDIProcessor>&  midiProcessor);
+
+  // closes the socket
   void addListener(LRConnectionListener *listener);
 
   // sends a command to the plugin
@@ -56,8 +59,6 @@ public:
   virtual void handleMidiCC(int midiChannel, int controller, int value) override;
   virtual void handleMidiNote(int midiChannel, int note) override;
 
-  void Init(std::shared_ptr<CommandMap>&  mapCommand,
-    std::shared_ptr<MIDIProcessor>&  midiProcessor);
 private:
   // IPC interface
   virtual void connectionMade() override;
@@ -68,13 +69,13 @@ private:
   // Timer callback
   virtual void timerCallback() override;
 
-  const static unordered_map<String, KeyPress> keypress_mappings_;
-  std::shared_ptr<const CommandMap> command_map_;
   Array<LRConnectionListener *> listeners_;
-  String command_;
-  std::mutex command_mutex_;
-  std::mutex timer_mutex_; //fix race during shutdown
   bool timer_off_{false};
+  const static unordered_map<String, KeyPress> keypress_mappings_;
+  mutable std::mutex command_mutex_;
+  mutable std::mutex timer_mutex_; //fix race during shutdown
+  std::shared_ptr<const CommandMap> command_map_;
+  String command_;
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

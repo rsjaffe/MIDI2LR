@@ -38,9 +38,10 @@ private:
 
   // AsyncUpdater interface
   virtual void handleAsyncUpdate() override;
+
   int new_version_;
-  std::unique_ptr<DialogWindow> dialog_;
   std::shared_ptr<SettingsManager> settings_manager_;
+  std::unique_ptr<DialogWindow> dialog_;
 };
 
 #endif  // VERSIONCHECKER_H_INCLUDED

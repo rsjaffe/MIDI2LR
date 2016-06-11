@@ -29,7 +29,7 @@ class CommandMenu: public TextButton,
   protected ButtonListener {
 public:
   CommandMenu(const MIDI_Message& msg);
-
+  void Init(std::shared_ptr<CommandMap>& map_command);
   // sets the MIDI message associated to this menu component
   void setMsg(const MIDI_Message& msg) noexcept;
 
@@ -38,14 +38,13 @@ public:
 
   // ButtonListener interface
   virtual void buttonClicked(Button* button) override;
-  void Init(std::shared_ptr<CommandMap>& map_command);
+
 private:
+  const std::vector<std::vector<String>> menu_entries_;
+  const std::vector<String> menus_;
   MIDI_Message message_;
   size_t selected_item_{std::numeric_limits<unsigned int>::max()};
   std::shared_ptr<CommandMap> command_map_{nullptr};
-
-  const std::vector<String> menus_;
-  const std::vector<std::vector<String>> menu_entries_;
 };
 
 #endif  // COMMANDMENU_H_INCLUDED

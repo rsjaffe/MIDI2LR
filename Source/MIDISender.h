@@ -28,17 +28,17 @@ class MIDISender {
 public:
   MIDISender() noexcept;
   virtual ~MIDISender();
+  void Init();
+
   // sends a CC message to all output devices
   void sendCC(int midi_channel, int controller, int value) const;
 
   // re-enumerates MIDI OUT devices
   void rescanDevices();
-  void Init();
+
 private:
-
-  OwnedArray<MidiOutput> output_devices;
-
   void InitDevices_();
+  OwnedArray<MidiOutput> output_devices;
 };
 
 #endif  // MIDISENDER_H_INCLUDED

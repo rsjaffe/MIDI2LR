@@ -34,13 +34,13 @@ class LR_IPC_IN: private StreamingSocket,
 public:
   LR_IPC_IN();
   virtual ~LR_IPC_IN();
-  //signal exit to thread
-  void PleaseStopThread(void);
-  // re-enumerates MIDI OUT devices
-  void refreshMIDIOutput();
   void Init(std::shared_ptr<CommandMap>& mapCommand,
     std::shared_ptr<ProfileManager>& profileManager,
     std::shared_ptr<MIDISender>& midiSender) noexcept;
+  // re-enumerates MIDI OUT devices
+  void refreshMIDIOutput();
+  //signal exit to thread
+  void PleaseStopThread(void);
 private:
   // Thread interface
   virtual void run() override;
@@ -48,13 +48,14 @@ private:
   virtual void timerCallback() override;
   // process a line received from the socket
   void processLine(const String& line);
-  std::shared_ptr<CommandMap> command_map_{nullptr};
-  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
-  std::shared_ptr<MIDISender> midi_sender_{nullptr};
-  std::unordered_map<String, int> parameter_map_;
-  SendKeys send_keys_;
-  std::mutex in_timer_;
+
   bool thread_started_{false};
+  mutable std::mutex timer_mutex_;
+  SendKeys send_keys_;
+  std::shared_ptr<CommandMap> command_map_{nullptr};
+  std::shared_ptr<MIDISender> midi_sender_{nullptr};
+  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
+  std::unordered_map<String, int> parameter_map_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

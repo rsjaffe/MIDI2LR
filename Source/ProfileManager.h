@@ -40,6 +40,10 @@ class ProfileManager: public MIDICommandListener,
 public:
   ProfileManager() noexcept;
   virtual ~ProfileManager() {};
+  void Init(std::shared_ptr<LR_IPC_OUT> out,
+    std::shared_ptr<CommandMap> command_map,
+    std::shared_ptr<MIDIProcessor> midi_processor);
+
   void addListener(ProfileChangeListener *listener);
 
   // sets the default profile directory and scans its contents for profiles
@@ -54,7 +58,7 @@ public:
   // switches to a profile defined by a name
   void switchToProfile(const String& profile);
 
-  // swithces to the next profile
+  // switches to the next profile
   void switchToNextProfile();
 
   // switches to the previous profile
@@ -67,9 +71,7 @@ public:
   // LRConnectionListener interface
   virtual void connected() override;
   virtual void disconnected() override;
-  void Init(std::shared_ptr<LR_IPC_OUT> out,
-    std::shared_ptr<CommandMap> command_map,
-    std::shared_ptr<MIDIProcessor> midi_processor);
+
 private:
   // AsyncUpdate interface
   virtual void handleAsyncUpdate() override;
@@ -82,13 +84,13 @@ private:
   ProfileManager(ProfileManager const&) = delete;
   void operator=(ProfileManager const&) = delete;
 
-  File profile_location_;
-  StringArray profiles_;
   Array<ProfileChangeListener *> listeners_;
+  File profile_location_;
   int current_profile_index_{0};
-  SWITCH_STATE switch_state_;
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
+  StringArray profiles_;
+  SWITCH_STATE switch_state_;
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

@@ -21,31 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MainWindow.h"
 
-void MainWindow::timerCallback(void) {
-  auto decreased_value = false;
-
-  if (auto_hide_counter_ > 0) {
-      //decrement counter
-    --auto_hide_counter_;
-    decreased_value = true;
-  }
-
-  //set the new timer text
-  window_content_->SetTimerText(auto_hide_counter_);
-
-  if (auto_hide_counter_ == 0) {
-      //first stop the timer so it will not be called again
-    this->stopTimer();
-
-    //check if the window is not already minimized
-    if (!this->isMinimised()) {
-      if (decreased_value) {
-        this->minimiseButtonPressed();
-      }
-    }
-  }
-}
-
 void MainWindow::Init(std::shared_ptr<CommandMap>& command_map,
   std::shared_ptr<LR_IPC_IN>& lr_ipc_in, std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
   std::shared_ptr<MIDIProcessor>& midi_processor,
@@ -66,5 +41,30 @@ void MainWindow::Init(std::shared_ptr<CommandMap>& command_map,
   if (window_content_) {
     window_content_->Init(command_map, lr_ipc_in, lr_ipc_out, midi_processor,
       profile_manager, settings_manager, midi_sender);
+  }
+}
+
+void MainWindow::timerCallback(void) {
+  auto decreased_value = false;
+
+  if (auto_hide_counter_ > 0) {
+    //decrement counter
+    --auto_hide_counter_;
+    decreased_value = true;
+  }
+
+  //set the new timer text
+  window_content_->SetTimerText(auto_hide_counter_);
+
+  if (auto_hide_counter_ == 0) {
+    //first stop the timer so it will not be called again
+    this->stopTimer();
+
+    //check if the window is not already minimized
+    if (!this->isMinimised()) {
+      if (decreased_value) {
+        this->minimiseButtonPressed();
+      }
+    }
   }
 }

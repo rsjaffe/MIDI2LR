@@ -137,15 +137,15 @@ public:
   }
 
 private:
-  std::unique_ptr<MainWindow> main_window_;
-  VersionChecker version_checker_;
   std::shared_ptr<CommandMap> command_map_;
   std::shared_ptr<LR_IPC_IN> lr_ipc_in_;
   std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
-  std::shared_ptr<ProfileManager> profile_manager_;
-  std::shared_ptr<SettingsManager> settings_manager_;
   std::shared_ptr<MIDIProcessor> midi_processor_;
   std::shared_ptr<MIDISender> midi_sender_;
+  std::shared_ptr<ProfileManager> profile_manager_;
+  std::shared_ptr<SettingsManager> settings_manager_;
+  std::unique_ptr<MainWindow> main_window_;
+  VersionChecker version_checker_;
 };
 
 //==============================================================================

@@ -28,6 +28,6 @@ public:
   ~SendKeys() {};
   void SendKeyDownUp(const std::string& key, bool alt, bool control, bool shift) const;
 private:
-  static std::mutex mutex_sending_;
   static const std::unordered_map<std::string, unsigned char> key_map_;
+  static std::mutex mutex_sending_;
 };

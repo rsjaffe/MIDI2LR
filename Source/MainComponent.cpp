@@ -31,183 +31,6 @@ MainContentComponent::MainContentComponent(): ResizableLayout{this} {}
 
 MainContentComponent::~MainContentComponent() {}
 
-void MainContentComponent::paint(Graphics& g) {
-  g.fillAll(Colours::white);
-}
-
-void MainContentComponent::SetLabelSettings(Label &label_to_set) {
-  label_to_set.setFont(Font{12.f, Font::bold});
-  label_to_set.setEditable(false);
-  label_to_set.setColour(Label::textColourId, Colours::darkgrey);
-}
-
-void MainContentComponent::handleAsyncUpdate() {
-    // Update the last command label and set its colour to green
-  command_label_.setText(last_command_, NotificationType::dontSendNotification);
-  command_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
-  startTimer(1000);
-
-  // Update the command table to add and/or select row corresponding to midi command
-  command_table_.updateContent();
-  command_table_.selectRow(row_to_select_);
-}
-
-void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value) {
-    // Display the CC parameters and add/highlight row in table corresponding to the CC
-  last_command_ = String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
-  command_table_model_.addRow(midi_channel, controller, true);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, true);
-  triggerAsyncUpdate();
-}
-
-void MainContentComponent::handleMidiNote(int midi_channel, int note) {
-    // Display the Note parameters and add/highlight row in table corresponding to the Note
-  last_command_ = String::formatted("%d: Note [%d]", midi_channel, note);
-  command_table_model_.addRow(midi_channel, note, false);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, false);
-  triggerAsyncUpdate();
-}
-
-void MainContentComponent::connected() {
-  connection_label_.setText("Connected to LR", NotificationType::dontSendNotification);
-  connection_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
-}
-
-void MainContentComponent::disconnected() {
-  connection_label_.setText("Not connected to LR", NotificationType::dontSendNotification);
-  connection_label_.setColour(Label::backgroundColourId, Colours::red);
-}
-
-void MainContentComponent::timerCallback() {
-    // reset the command label's background to white
-  command_label_.setColour(Label::backgroundColourId, Colours::white);
-  stopTimer();
-}
-
-void MainContentComponent::buttonClicked(Button* button) {
-  if (button == &rescan_button_) {
-      // Re-enumerate MIDI IN and OUT devices
-
-    if (midi_processor_) {
-      midi_processor_->rescanDevices();
-    }
-
-    if (midi_sender_) {
-      midi_sender_->rescanDevices();
-    }
-    // Send new CC parameters to MIDI Out devices
-    if (lr_ipc_in_) {
-      lr_ipc_in_->refreshMIDIOutput();
-    }
-  }
-  else if (button == &remove_row_button_) {
-    if (command_table_.getSelectedRow() != -1) {
-      command_table_model_.removeRow(command_table_.getSelectedRow());
-      command_table_.updateContent();
-    }
-  }
-  else if (button == &save_button_) {
-    File profile_directory;
-
-    if (settings_manager_) {
-      profile_directory = settings_manager_->getProfileDirectory();
-    }
-
-    if (!profile_directory.exists()) {
-      profile_directory = File::getCurrentWorkingDirectory();
-    }
-
-    WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
-    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
-      FileBrowserComponent::saveMode |
-        FileBrowserComponent::warnAboutOverwriting, profile_directory,
-      &wildcard_filter, nullptr};
-    FileChooserDialogBox dialog_box{"Save profile",
-        "Enter filename to save profile",
-        browser,
-        true,
-        Colours::lightgrey};
-    if (dialog_box.show()) {
-      File selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-
-      if (command_map_) {
-        command_map_->toXMLDocument(selected_file);
-      }
-    }
-  }
-  else if (button == &load_button_) {
-    File profile_directory;
-
-    if (settings_manager_) {
-      profile_directory = settings_manager_->getProfileDirectory();
-    }
-
-    if (!profile_directory.exists()) {
-      profile_directory = File::getCurrentWorkingDirectory();
-    }
-
-    WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
-    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
-      FileBrowserComponent::openMode, profile_directory,
-      &wildcard_filter, nullptr};
-    FileChooserDialogBox dialog_box{"Open profile", "Select a profile to open",
-      browser, true, Colours::lightgrey};
-
-    if (dialog_box.show()) {
-      std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(browser.getSelectedFile(0))};
-      if (xml_element) {
-        auto new_profile = browser.getSelectedFile(0);
-        auto command = String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
-
-        if (lr_ipc_out_) {
-          lr_ipc_out_->sendCommand(command);
-        }
-        profile_name_label_.setText(new_profile.getFileName(),
-          NotificationType::dontSendNotification);
-        command_table_model_.buildFromXml(xml_element.get());
-        command_table_.updateContent();
-        command_table_.repaint();
-      }
-    }
-  }
-  else if (button == &settings_button_) {
-    DialogWindow::LaunchOptions dialog_options;
-    dialog_options.dialogTitle = "Settings";
-    //create new object
-    auto *component = new SettingsComponent{};
-    component->Init(settings_manager_);
-    dialog_options.content.setOwned(component);
-    dialog_options.content->setSize(400, 300);
-    dialog_options.escapeKeyTriggersCloseButton = true;
-    dialog_options.useNativeTitleBar = false;
-    settings_dialog_.reset(dialog_options.create());
-    settings_dialog_->setVisible(true);
-  }
-}
-
-void MainContentComponent::profileChanged(XmlElement* xml_element, const String& file_name) {
-  command_table_model_.buildFromXml(xml_element);
-  command_table_.updateContent();
-  command_table_.repaint();
-  profile_name_label_.setText(file_name, NotificationType::dontSendNotification);
-//  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
-
-    // Send new CC parameters to MIDI Out devices
-  if (lr_ipc_in_) {
-    lr_ipc_in_->refreshMIDIOutput();
-  }
-}
-
-void MainContentComponent::SetTimerText(int time_value) {
-  if (time_value > 0) {
-    current_status_.setText(String::formatted("Hiding in %i Sec.", time_value),
-      NotificationType::dontSendNotification);
-  }
-  else {
-    current_status_.setText("", NotificationType::dontSendNotification);
-  }
-}
-
 void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   std::shared_ptr<LR_IPC_IN>& lr_ipc_in,
   std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
@@ -357,4 +180,181 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   }
   // turn it on
   activateLayout();
+}
+
+void MainContentComponent::paint(Graphics& g) {
+  g.fillAll(Colours::white);
+}
+
+void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value) {
+    // Display the CC parameters and add/highlight row in table corresponding to the CC
+  last_command_ = String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
+  command_table_model_.addRow(midi_channel, controller, true);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, true);
+  triggerAsyncUpdate();
+}
+
+void MainContentComponent::handleMidiNote(int midi_channel, int note) {
+    // Display the Note parameters and add/highlight row in table corresponding to the Note
+  last_command_ = String::formatted("%d: Note [%d]", midi_channel, note);
+  command_table_model_.addRow(midi_channel, note, false);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, false);
+  triggerAsyncUpdate();
+}
+
+void MainContentComponent::connected() {
+  connection_label_.setText("Connected to LR", NotificationType::dontSendNotification);
+  connection_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
+}
+
+void MainContentComponent::disconnected() {
+  connection_label_.setText("Not connected to LR", NotificationType::dontSendNotification);
+  connection_label_.setColour(Label::backgroundColourId, Colours::red);
+}
+
+void MainContentComponent::buttonClicked(Button* button) {
+  if (button == &rescan_button_) {
+      // Re-enumerate MIDI IN and OUT devices
+
+    if (midi_processor_) {
+      midi_processor_->rescanDevices();
+    }
+
+    if (midi_sender_) {
+      midi_sender_->rescanDevices();
+    }
+    // Send new CC parameters to MIDI Out devices
+    if (lr_ipc_in_) {
+      lr_ipc_in_->refreshMIDIOutput();
+    }
+  }
+  else if (button == &remove_row_button_) {
+    if (command_table_.getSelectedRow() != -1) {
+      command_table_model_.removeRow(command_table_.getSelectedRow());
+      command_table_.updateContent();
+    }
+  }
+  else if (button == &save_button_) {
+    File profile_directory;
+
+    if (settings_manager_) {
+      profile_directory = settings_manager_->getProfileDirectory();
+    }
+
+    if (!profile_directory.exists()) {
+      profile_directory = File::getCurrentWorkingDirectory();
+    }
+
+    WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
+    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
+      FileBrowserComponent::saveMode |
+        FileBrowserComponent::warnAboutOverwriting, profile_directory,
+      &wildcard_filter, nullptr};
+    FileChooserDialogBox dialog_box{"Save profile",
+        "Enter filename to save profile",
+        browser,
+        true,
+        Colours::lightgrey};
+    if (dialog_box.show()) {
+      File selected_file = browser.getSelectedFile(0).withFileExtension("xml");
+
+      if (command_map_) {
+        command_map_->toXMLDocument(selected_file);
+      }
+    }
+  }
+  else if (button == &load_button_) {
+    File profile_directory;
+
+    if (settings_manager_) {
+      profile_directory = settings_manager_->getProfileDirectory();
+    }
+
+    if (!profile_directory.exists()) {
+      profile_directory = File::getCurrentWorkingDirectory();
+    }
+
+    WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
+    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
+      FileBrowserComponent::openMode, profile_directory,
+      &wildcard_filter, nullptr};
+    FileChooserDialogBox dialog_box{"Open profile", "Select a profile to open",
+      browser, true, Colours::lightgrey};
+
+    if (dialog_box.show()) {
+      std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(browser.getSelectedFile(0))};
+      if (xml_element) {
+        auto new_profile = browser.getSelectedFile(0);
+        auto command = String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
+
+        if (lr_ipc_out_) {
+          lr_ipc_out_->sendCommand(command);
+        }
+        profile_name_label_.setText(new_profile.getFileName(),
+          NotificationType::dontSendNotification);
+        command_table_model_.buildFromXml(xml_element.get());
+        command_table_.updateContent();
+        command_table_.repaint();
+      }
+    }
+  }
+  else if (button == &settings_button_) {
+    DialogWindow::LaunchOptions dialog_options;
+    dialog_options.dialogTitle = "Settings";
+    //create new object
+    auto *component = new SettingsComponent{};
+    component->Init(settings_manager_);
+    dialog_options.content.setOwned(component);
+    dialog_options.content->setSize(400, 300);
+    dialog_options.escapeKeyTriggersCloseButton = true;
+    dialog_options.useNativeTitleBar = false;
+    settings_dialog_.reset(dialog_options.create());
+    settings_dialog_->setVisible(true);
+  }
+}
+
+void MainContentComponent::profileChanged(XmlElement* xml_element, const String& file_name) {
+  command_table_model_.buildFromXml(xml_element);
+  command_table_.updateContent();
+  command_table_.repaint();
+  profile_name_label_.setText(file_name, NotificationType::dontSendNotification);
+//  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
+
+    // Send new CC parameters to MIDI Out devices
+  if (lr_ipc_in_) {
+    lr_ipc_in_->refreshMIDIOutput();
+  }
+}
+
+void MainContentComponent::SetTimerText(int time_value) {
+  if (time_value > 0) {
+    current_status_.setText(String::formatted("Hiding in %i Sec.", time_value),
+      NotificationType::dontSendNotification);
+  }
+  else {
+    current_status_.setText("", NotificationType::dontSendNotification);
+  }
+}
+
+void MainContentComponent::SetLabelSettings(Label &label_to_set) {
+  label_to_set.setFont(Font{12.f, Font::bold});
+  label_to_set.setEditable(false);
+  label_to_set.setColour(Label::textColourId, Colours::darkgrey);
+}
+
+void MainContentComponent::handleAsyncUpdate() {
+    // Update the last command label and set its colour to green
+  command_label_.setText(last_command_, NotificationType::dontSendNotification);
+  command_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
+  startTimer(1000);
+
+  // Update the command table to add and/or select row corresponding to midi command
+  command_table_.updateContent();
+  command_table_.selectRow(row_to_select_);
+}
+
+void MainContentComponent::timerCallback() {
+    // reset the command label's background to white
+  command_label_.setColour(Label::backgroundColourId, Colours::white);
+  stopTimer();
 }

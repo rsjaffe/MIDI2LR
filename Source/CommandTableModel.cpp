@@ -23,6 +23,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandTableModel::CommandTableModel() noexcept {}
 
+void CommandTableModel::Init(std::shared_ptr<CommandMap>& map_command) noexcept {
+    //copy the pointer
+  command_map_ = map_command;
+}
+
 int CommandTableModel::getNumRows() {
   return rows_;
 }
@@ -87,16 +92,6 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
   }
 }
 
-int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const {
-  for (auto idx = 0; idx < rows_; idx++) {
-    if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
-      && commands_[idx].isCC == is_cc)
-      return idx;
-  }
-  //could not find
-  return -1;
-}
-
 void CommandTableModel::removeRow(int row) {
   MIDI_Message msg = commands_[row];
   commands_.erase(commands_.begin() + row);
@@ -158,7 +153,12 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
   }
 }
 
-void CommandTableModel::Init(std::shared_ptr<CommandMap>& map_command) noexcept {
-    //copy the pointer
-  command_map_ = map_command;
+int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const {
+  for (auto idx = 0; idx < rows_; idx++) {
+    if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
+      && commands_[idx].isCC == is_cc)
+      return idx;
+  }
+  //could not find
+  return -1;
 }

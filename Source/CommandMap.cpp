@@ -25,8 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 CommandMap::CommandMap() noexcept : Subject{} {}
 
 void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message) {
-    // adds a msg to the msg:command map, and it's associated command to the
-    // command:msg map
+    // adds a message to the message:command map, and its associated command to the
+    // command:message map
   if (command < LRCommandList::LRStringList.size()) {
     message_map_[message] = LRCommandList::LRStringList[command];
     command_string_map_[LRCommandList::LRStringList[command]] = message;
@@ -44,21 +44,9 @@ const String& CommandMap::getCommandforMessage(const MIDI_Message &message) cons
   return message_map_.at(message);
 }
 
-const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const {
-  return command_string_map_.at(command);
-}
-
-bool CommandMap::messageExistsInMap(const MIDI_Message &message) const {
-  return message_map_.count(message) > 0 ? true : false;
-}
-
-bool CommandMap::commandHasAssociatedMessage(const String &command) const {
-  return command_string_map_.count(command) > 0 ? true : false;
-}
-
 void CommandMap::removeMessage(const MIDI_Message &message) {
-    // removes msg from the msg:command map, and it's associated command from the
-    // command:msg map
+    // removes message from the message:command map, and its associated command from
+    // the command:message map
   command_string_map_.erase(message_map_[message]);
   message_map_.erase(message);
 }
@@ -68,6 +56,16 @@ void CommandMap::clearMap() noexcept {
   message_map_.clear();
 }
 
+bool CommandMap::messageExistsInMap(const MIDI_Message &message) const {
+  return message_map_.count(message) > 0 ? true : false;
+}
+
+const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const {
+  return command_string_map_.at(command);
+}
+bool CommandMap::commandHasAssociatedMessage(const String &command) const {
+  return command_string_map_.count(command) > 0 ? true : false;
+}
 void CommandMap::toXMLDocument(File& file) const {
   if (message_map_.size()) {//don't bother if map is empty
     // save the contents of the command map to an xml file

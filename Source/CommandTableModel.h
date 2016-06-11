@@ -31,6 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class CommandTableModel: public TableListBoxModel {
 public:
   CommandTableModel() noexcept;
+  void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
 
   // TableListBoxModel overrides
   virtual int getNumRows() override;
@@ -55,11 +56,11 @@ public:
 
   // returns the index of the row associated to a particular MIDI message
   int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
-  void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
+
 private:
   int rows_{0};
-  std::vector<MIDI_Message> commands_;
   std::shared_ptr<CommandMap> command_map_{nullptr};
+  std::vector<MIDI_Message> commands_;
 
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

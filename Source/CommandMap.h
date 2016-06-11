@@ -79,27 +79,27 @@ public:
   CommandMap() noexcept;
   virtual ~CommandMap() {}
 
-// adds an entry to the msg:command map, and a corresponding entry to the
-// command:msg map will look up the string by the index (but it is preferred to
+// adds an entry to the message:command map, and a corresponding entry to the
+// command:message map will look up the string by the index (but it is preferred to
 // directly use the String)
   void addCommandforMessage(unsigned int command, const MIDI_Message &cc);
 
-  // adds an entry to the msg:command map, and a corresponding entry to the
-  // command:msg map
+  // adds an entry to the message:command map, and a corresponding entry to the
+  // command:message map
   void addCommandforMessage(const String &command, const MIDI_Message &cc);
 
   // gets the LR command associated to a MIDI message
-  const String& getCommandforMessage(const MIDI_Message &msg) const;
+  const String& getCommandforMessage(const MIDI_Message &message) const;
 
-  // removes a MIDI message from the msg:command map, and it's associated entry
-  // in the command:msg map
-  void removeMessage(const MIDI_Message &msg);
+  // in the command:message map
+  // removes a MIDI message from the message:command map, and it's associated entry
+  void removeMessage(const MIDI_Message &message);
 
-  // clears both msg:command and command:msg maps
+  // clears both message:command and command:message maps
   void clearMap() noexcept;
 
   // returns true if there is a mapping for a particular MIDI message
-  bool messageExistsInMap(const MIDI_Message &msg) const;
+  bool messageExistsInMap(const MIDI_Message &message) const;
 
   // gets the MIDI message associated to a LR command
   const MIDI_Message& getMessageForCommand(const String &command) const;
@@ -107,7 +107,7 @@ public:
   // returns true if there is a mapping for a particular LR command
   bool commandHasAssociatedMessage(const String &command) const;
 
-  // saves the msg:command map as an XML file
+  // saves the message:command map as an XML file
   void toXMLDocument(File& file) const;
 
 private:

@@ -22,20 +22,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 MIDISender::MIDISender() noexcept {}
 
-void MIDISender::InitDevices_() {
-  for (auto idx = 0; idx < MidiOutput::getDevices().size(); idx++) {
-    auto dev = MidiOutput::openDevice(idx);
-    if (dev != nullptr)
-      output_devices.set(idx, dev);
-  }
-}
+MIDISender::~MIDISender() {}
 
-void MIDISender::rescanDevices() {
-  output_devices.clear(true);
+void MIDISender::Init(void) {
   InitDevices_();
 }
-
-MIDISender::~MIDISender() {}
 
 void MIDISender::sendCC(int midi_channel, int controller, int value) const {
   for (auto dev : output_devices)
@@ -43,6 +34,15 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const {
     value));
 }
 
-void MIDISender::Init(void) {
+void MIDISender::rescanDevices() {
+  output_devices.clear(true);
   InitDevices_();
+}
+
+void MIDISender::InitDevices_() {
+  for (auto idx = 0; idx < MidiOutput::getDevices().size(); idx++) {
+    auto dev = MidiOutput::openDevice(idx);
+    if (dev != nullptr)
+      output_devices.set(idx, dev);
+  }
 }

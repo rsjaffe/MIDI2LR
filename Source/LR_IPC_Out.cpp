@@ -36,12 +36,6 @@ LR_IPC_OUT::~LR_IPC_OUT() {
   command_map_.reset();
 }
 
-void LR_IPC_OUT::timerCallback() {
-  std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-  if (!isConnected() && !timer_off_)
-    connectToSocket("127.0.0.1", kLrOutPort, 100);
-}
-
 void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
   std::shared_ptr<MIDIProcessor>& midi_processor) {
     //copy the pointer
@@ -59,36 +53,12 @@ void LR_IPC_OUT::addListener(LRConnectionListener *listener) {
   listeners_.addIfNotAlreadyThere(listener);
 }
 
-void LR_IPC_OUT::connectionMade() {
-  for (auto listener : listeners_)
-    listener->connected();
-}
-
-void LR_IPC_OUT::connectionLost() {
-  for (auto listener : listeners_)
-    listener->disconnected();
-}
-
-void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/) {}
-
 void LR_IPC_OUT::sendCommand(const String &command) {
   {
     std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
     command_ += command;
   }
   triggerAsyncUpdate();
-}
-
-void LR_IPC_OUT::handleAsyncUpdate() {
-  String command_copy;
-  {
-    std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-    command_copy = std::move(command_); //JUCE::String swaps in this case
-  }
-    //check if there is a connection
-  if (isConnected()) {
-    getSocket()->write(command_copy.getCharPointer(), command_copy.length());
-  }
 }
 
 void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
@@ -131,4 +101,34 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
     }
     triggerAsyncUpdate();
   }
+}
+
+void LR_IPC_OUT::connectionMade() {
+  for (auto listener : listeners_)
+    listener->connected();
+}
+
+void LR_IPC_OUT::connectionLost() {
+  for (auto listener : listeners_)
+    listener->disconnected();
+}
+
+void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/) {}
+
+void LR_IPC_OUT::handleAsyncUpdate() {
+  String command_copy;
+  {
+    std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
+    command_copy = std::move(command_); //JUCE::String swaps in this case
+  }
+    //check if there is a connection
+  if (isConnected()) {
+    getSocket()->write(command_copy.getCharPointer(), command_copy.length());
+  }
+}
+
+void LR_IPC_OUT::timerCallback() {
+  std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+  if (!isConnected() && !timer_off_)
+    connectToSocket("127.0.0.1", kLrOutPort, 100);
 }
