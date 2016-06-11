@@ -615,7 +615,6 @@ public:
         wheel.isSmooth = false;
         wheel.isInertial = false;
 
-       #if ! JUCE_PPC
         @try
         {
            #if defined (MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
@@ -644,7 +643,6 @@ public:
         }
         @catch (...)
         {}
-       #endif
 
         if (wheel.deltaX == 0 && wheel.deltaY == 0)
         {
@@ -1001,8 +999,10 @@ public:
     {
         if (constrainer != nullptr && ! isKioskMode())
         {
-            Rectangle<int> pos      (convertToRectInt (flippedScreenRect (r)));
-            Rectangle<int> original (convertToRectInt (flippedScreenRect ([window frame])));
+            const float scale = getComponent().getDesktopScaleFactor();
+
+            Rectangle<int> pos      = ScalingHelpers::unscaledScreenPosToScaled (scale, convertToRectInt (flippedScreenRect (r)));
+            Rectangle<int> original = ScalingHelpers::unscaledScreenPosToScaled (scale, convertToRectInt (flippedScreenRect ([window frame])));
 
             const Rectangle<int> screenBounds (Desktop::getInstance().getDisplays().getTotalBounds (true));
 
@@ -1024,6 +1024,8 @@ public:
                                           pos.getY() == original.getY() && pos.getBottom() != original.getBottom(),
                                           pos.getX() == original.getX() && pos.getRight()  != original.getRight());
             }
+
+            pos = ScalingHelpers::scaledScreenPosToUnscaled (scale, pos);
 
             r = flippedScreenRect (makeNSRect (pos));
         }
