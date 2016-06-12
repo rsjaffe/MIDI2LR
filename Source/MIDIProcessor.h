@@ -21,7 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef MIDIPROCESSOR_H_INCLUDED
 #define MIDIPROCESSOR_H_INCLUDED
-
+#include <array>
+#include <bitset>
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class MIDICommandListener {
@@ -50,6 +51,26 @@ private:
   void InitDevices_();
   Array<MIDICommandListener *> listeners_;
   OwnedArray<MidiInput> devices_;
+  juce::MidiRPNDetector nrpn_detector_;
+  std::bitset<16> processing_nrpn_; //default init false
+  std::array<juce::MidiRPNMessage, 16> nrpn_messages_{{
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true},
+    {0,0,0,true,true}
+    }};//double braces needed in C++11!
 };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED
