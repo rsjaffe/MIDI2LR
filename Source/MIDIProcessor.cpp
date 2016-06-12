@@ -31,13 +31,13 @@ void MIDIProcessor::Init(void) {
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
   const MidiMessage &message) {
   if (message.isController()) {
-    auto channel = message.getChannel();
+    auto channel = message.getChannel(); // 1-based
     auto control = message.getControllerNumber();
     auto value = message.getControllerValue();
-    if (processing_nrpn_[channel] || control == 98 || control == 99) {
-      if (!processing_nrpn_[channel]) { //starting nrpn parsing
-        processing_nrpn_[channel] = true;
-        nrpn_messages_[channel] = {0,0,0,true,true};
+    if (processing_nrpn_[channel-1] || control == 98 || control == 99) {
+      if (!processing_nrpn_[channel-1]) { //starting nrpn parsing
+        processing_nrpn_[channel-1] = true;
+        nrpn_messages_[channel-1] = {0,0,0,true,true};
       }
       switch (control) {
         case 6: /* drop through */
@@ -46,13 +46,13 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
         case 99: //process nrpn message
         {
           auto done = nrpn_detector_.parseControllerMessage(channel,
-            control, value, nrpn_messages_[channel]);
+            control, value, nrpn_messages_[channel-1]);
           if (done) {
             for (auto listener : listeners_)
               listener->handleMidiCC(channel,
-              nrpn_messages_[channel].parameterNumber,
-              nrpn_messages_[channel].value);
-            processing_nrpn_[channel] = false;
+              nrpn_messages_[channel-1].parameterNumber,
+              nrpn_messages_[channel-1].value);
+            processing_nrpn_[channel-1] = false;
           }
         }
         default: //try to recover if missed signal
