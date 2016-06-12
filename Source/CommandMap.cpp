@@ -73,8 +73,6 @@ void CommandMap::toXMLDocument(File& file) const {
     for (auto map_entry : message_map_) {
       auto* setting = new XmlElement{"setting"};
       setting->setAttribute("channel", map_entry.first.channel);
-      setting->setAttribute("NRPN", (map_entry.first.isNRPN) ? "True" : "False");
-      setting->setAttribute("Relative", (map_entry.first.isRelative) ? "True" : "False");
       if (map_entry.first.isCC)
         setting->setAttribute("controller", map_entry.first.controller);
       else

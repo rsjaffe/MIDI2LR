@@ -28,8 +28,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 struct MIDI_Message {
   bool isCC;
-  bool isNRPN;
-  bool isRelative;
   int channel;
   union {
     int controller;
@@ -38,8 +36,6 @@ struct MIDI_Message {
   };
 
   MIDI_Message(): isCC(0),
-    isNRPN(0),
-    isRelative(0),
     channel(0),
     data(0)
 
@@ -47,9 +43,7 @@ struct MIDI_Message {
 
   MIDI_Message(int ch, int dat, bool iscc): channel(ch),
     isCC(iscc),
-    data(dat),
-    isNRPN(0),
-    isRelative(0) {}
+    data(dat) {}
 
   bool operator==(const MIDI_Message &other) const {
     return (isCC == other.isCC && channel == other.channel && data == other.data);
