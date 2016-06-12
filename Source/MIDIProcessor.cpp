@@ -31,9 +31,9 @@ void MIDIProcessor::Init(void) {
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
   const MidiMessage &message) {
   if (message.isController()) {
-    auto channel = message.getChannel(); // 1-based
-    auto control = message.getControllerNumber();
-    auto value = message.getControllerValue();
+    const auto channel = message.getChannel(); // 1-based
+    const auto control = message.getControllerNumber();
+    const auto value = message.getControllerValue();
     if (processing_nrpn_[channel-1] || control == 98 || control == 99) {
       if (!processing_nrpn_[channel-1]) { //starting nrpn parsing
         processing_nrpn_[channel-1] = true;
@@ -45,7 +45,7 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
         case 98: /* drop through */
         case 99: //process nrpn message
         {
-          auto done = nrpn_detector_.parseControllerMessage(channel,
+          const auto done = nrpn_detector_.parseControllerMessage(channel,
             control, value, nrpn_messages_[channel-1]);
           if (done) {
             for (auto listener : listeners_)
