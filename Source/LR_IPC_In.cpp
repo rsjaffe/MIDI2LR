@@ -47,7 +47,7 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
 void LR_IPC_IN::refreshMIDIOutput() {
   if (command_map_) {
       // send associated CC messages to MIDI OUT devices
-    for (auto map_entry : parameter_map_) {
+    for (const auto& map_entry : parameter_map_) {
       if ((command_map_->commandHasAssociatedMessage(map_entry.first)) &&
         (midi_sender_)) {
         const auto& msg = command_map_->getMessageForCommand(map_entry.first);
@@ -82,7 +82,7 @@ void LR_IPC_IN::run() {
       while (!juce::String(line).endsWithChar('\n') && isConnected()) {
         if (threadShouldExit())
           goto threadExit;//break out of nested whiles
-        auto wait_status = waitUntilReady(true, 0);
+        const auto wait_status = waitUntilReady(true, 0);
         switch (wait_status) {
           case -1:
             can_read_line = false;

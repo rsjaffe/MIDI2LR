@@ -171,7 +171,7 @@ std::mutex SendKeys::mutex_sending_{};
 
 void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, bool shift) const {
   std::string lower_string; //used for matching with key names
-  for (auto& c : key)
+  for (const auto& c : key)
     lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
 #ifdef _WIN32
     //Lightroom handle

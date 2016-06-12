@@ -70,7 +70,7 @@ void CommandMenu::buttonClicked(Button* /*button*/) {
   // add each submenu
   for (size_t menu_index = 0; menu_index < menus_.size(); menu_index++) {
     PopupMenu subMenu;
-    for (auto command : menu_entries_[menu_index]) {
+    for (const auto& command : menu_entries_[menu_index]) {
       auto already_mapped = false;
       if ((index - 1 < LRCommandList::LRStringList.size()) && (command_map_)) {
         already_mapped =
@@ -95,7 +95,7 @@ void CommandMenu::buttonClicked(Button* /*button*/) {
     submenu_tick_set |= (selected_item_ < index && !submenu_tick_set);
   }
 
-  auto result = static_cast<size_t>(main_menu.show());
+  const auto result = static_cast<size_t>(main_menu.show());
   if ((result) && (command_map_)) {
       // user chose a different command, remove previous command mapping
       // associated to this menu

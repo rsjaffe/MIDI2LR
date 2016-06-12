@@ -72,8 +72,8 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
       command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
-    auto command_to_send_ = command_map_->getCommandforMessage(message);
-    auto value_to_send_ = value;
+    const auto command_to_send_ = command_map_->getCommandforMessage(message);
+    const auto value_to_send_ = value;
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
       command_ += command_to_send_ + String::formatted(" %d\n", value_to_send_);
