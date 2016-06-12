@@ -7,7 +7,8 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
@@ -17,8 +18,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include <unordered_map>
 #include "LRCommands.h"
+#include <unordered_map>
 #include "CommandMap.h"
 
 const std::vector<String> LRCommandList::KeyShortcuts = {
@@ -1015,27 +1016,23 @@ const std::vector<String> LRCommandList::LRStringList = {
     "profile10",
 };
 
-
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
 };
 
-int LRCommandList::getIndexOfCommand(const String& command)
-{
-    static std::unordered_map<String, int> indexMap;
+int LRCommandList::getIndexOfCommand(const String& command) {
+  static std::unordered_map<String, int> indexMap;
 
-    // better to check for empty then lenght, as empty has a constant run time behavior.
-    if (indexMap.empty())
-    {
-        int idx = 0;
-        for (auto &str : LRStringList)
-            indexMap[str] = idx++;
+  // better to check for empty then length, as empty has a constant run time behavior.
+  if (indexMap.empty()) {
+    int idx = 0;
+    for (auto &str : LRStringList)
+      indexMap[str] = idx++;
 
-        for (auto &str : NextPrevProfile)
-            indexMap[str] = idx++;
-    }
+    for (auto &str : NextPrevProfile)
+      indexMap[str] = idx++;
+  }
 
-    return indexMap[command];
-
+  return indexMap[command];
 }

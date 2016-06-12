@@ -8,7 +8,8 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
@@ -23,22 +24,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class MIDISender
-{
+class MIDISender {
 public:
-    MIDISender() noexcept;
-    virtual ~MIDISender();
-    // sends a CC message to all output devices
-    void sendCC(int midi_channel, int controller, int value) const;
+  MIDISender() noexcept;
+  virtual ~MIDISender();
+  void Init();
 
-    // re-enumerates MIDI OUT devices
-    void rescanDevices();
-    void Init();
+  // sends a CC message to all output devices
+  void sendCC(int midi_channel, int controller, int value) const;
+
+  // re-enumerates MIDI OUT devices
+  void rescanDevices();
+
 private:
-
-    OwnedArray<MidiOutput> output_devices;
-
-    void InitDevices_();
+  void InitDevices_();
+  OwnedArray<MidiOutput> output_devices;
 };
 
 #endif  // MIDISENDER_H_INCLUDED

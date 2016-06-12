@@ -8,7 +8,8 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
@@ -20,43 +21,41 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef LR_IPC_IN_H_INCLUDED
 #define LR_IPC_IN_H_INCLUDED
-
-#include "../JuceLibraryCode/JuceHeader.h"
 #include <unordered_map>
+#include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
-#include "ProfileManager.h"
 #include "MIDISender.h"
+#include "ProfileManager.h"
 #include "SendKeys.h"
 
-class LR_IPC_IN: public StreamingSocket,
-    public Timer,
-    public Thread
-{
+class LR_IPC_IN: private StreamingSocket,
+  private Timer,
+  private Thread {
 public:
-    LR_IPC_IN();
-    virtual ~LR_IPC_IN()
-    {};
-// closes the socket
-    void shutdown();
-
-    // re-enumerates MIDI OUT devices
-    void refreshMIDIOutput();
-
-    // Thread interface
-    virtual void run() override;
-
-    // Timer callback
-    virtual void timerCallback() override;
-    void Init(std::shared_ptr<CommandMap>& mapCommand, std::shared_ptr<ProfileManager>& profileManager,
-        std::shared_ptr<MIDISender>& midiSender) noexcept;
+  LR_IPC_IN();
+  virtual ~LR_IPC_IN();
+  void Init(std::shared_ptr<CommandMap>& mapCommand,
+    std::shared_ptr<ProfileManager>& profileManager,
+    std::shared_ptr<MIDISender>& midiSender) noexcept;
+  // re-enumerates MIDI OUT devices
+  void refreshMIDIOutput();
+  //signal exit to thread
+  void PleaseStopThread(void);
 private:
-    // process a line received from the socket
-    void processLine(const String& line);
-    std::shared_ptr<CommandMap> command_map_;
-    std::shared_ptr<ProfileManager> profile_manager_;
-    std::shared_ptr<MIDISender> midi_sender_;
-    std::unordered_map<String, int> parameter_map_;
-    SendKeys send_keys_;
+  // Thread interface
+  virtual void run() override;
+  // Timer callback
+  virtual void timerCallback() override;
+  // process a line received from the socket
+  void processLine(const String& line);
+
+  bool thread_started_{false};
+  mutable std::mutex timer_mutex_;
+  SendKeys send_keys_;
+  std::shared_ptr<CommandMap> command_map_{nullptr};
+  std::shared_ptr<MIDISender> midi_sender_{nullptr};
+  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
+  std::unordered_map<String, int> parameter_map_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

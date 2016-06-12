@@ -7,7 +7,8 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
@@ -22,125 +23,99 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef _WIN32
 //missing make_unique (C++14) in XCode
-namespace std
-{
-    template<typename T, typename... Args>
-    unique_ptr<T> make_unique(Args&&... args)
-    {
-        return unique_ptr<T>{new T{ forward<Args>(args)... }};
-    }
+namespace std {
+  template<typename T, typename... Args>
+  unique_ptr<T> make_unique(Args&&... args) {
+    return unique_ptr<T>{new T{forward<Args>(args)...}};
+  }
 }
 #endif
 
 //constexpr and auto don't work in XCode
-const juce::String AutoHideSection{ "autohide" };
+const juce::String AutoHideSection{"autohide"};
 
-SettingsManager::SettingsManager(): lr_ipc_out_{ nullptr }, profile_manager_{ nullptr }
-{
-    PropertiesFile::Options file_options;
-    file_options.applicationName = "MIDI2LR";
-    file_options.commonToAllUsers = false;
-    file_options.filenameSuffix = "xml";
-    file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
-    file_options.storageFormat = PropertiesFile::storeAsXML;
+SettingsManager::SettingsManager() {
+  PropertiesFile::Options file_options;
+  file_options.applicationName = "MIDI2LR";
+  file_options.commonToAllUsers = false;
+  file_options.filenameSuffix = "xml";
+  file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
+  file_options.storageFormat = PropertiesFile::storeAsXML;
 
-    properties_file_ = std::make_unique<PropertiesFile>(file_options);
-
+  properties_file_ = std::make_unique<PropertiesFile>(file_options);
 }
 
-void SettingsManager::setPickupEnabled(bool enabled)
-{
-    properties_file_->setValue("pickup_enabled", enabled);
-    properties_file_->saveIfNeeded();
+void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
+  std::shared_ptr<ProfileManager>& profile_manager) {
+  lr_ipc_out_ = lr_ipc_out;
 
-    auto command = String::formatted("Pickup %d\n", enabled);
+  if (lr_ipc_out_) {
+      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+      // settings on connection
+    lr_ipc_out_->addListener(this);
+  }
 
-    if (lr_ipc_out_)
-    {
-        lr_ipc_out_->sendCommand(command);
-    }
+  profile_manager_ = profile_manager;
 
+  if (profile_manager_) {
+      // set the profile directory
+    File profile_directory{getProfileDirectory()};
+    profile_manager->setProfileDirectory(profile_directory);
+  }
 }
 
-bool SettingsManager::getPickupEnabled() const noexcept
-{
-    return properties_file_->getBoolValue("pickup_enabled", true);
+bool SettingsManager::getPickupEnabled() const noexcept {
+  return properties_file_->getBoolValue("pickup_enabled", true);
 }
 
-String SettingsManager::getProfileDirectory() const noexcept
-{
-    return properties_file_->getValue("profile_directory");
+void SettingsManager::setPickupEnabled(bool enabled) {
+  properties_file_->setValue("pickup_enabled", enabled);
+  properties_file_->saveIfNeeded();
+
+  auto command = String::formatted("Pickup %d\n", enabled);
+
+  if (lr_ipc_out_) {
+    lr_ipc_out_->sendCommand(command);
+  }
+}
+String SettingsManager::getProfileDirectory() const noexcept {
+  return properties_file_->getValue("profile_directory");
 }
 
-void SettingsManager::setProfileDirectory(const String& profile_directory_name)
-{
-    properties_file_->setValue("profile_directory", profile_directory_name);
-    properties_file_->saveIfNeeded();
+void SettingsManager::setProfileDirectory(const String& profile_directory_name) {
+  properties_file_->setValue("profile_directory", profile_directory_name);
+  properties_file_->saveIfNeeded();
 
-    if (profile_manager_)
-    {
-        File profileDir{ profile_directory_name };
-        profile_manager_->setProfileDirectory(profileDir);
-    }
+  if (profile_manager_) {
+    File profileDir{profile_directory_name};
+    profile_manager_->setProfileDirectory(profileDir);
+  }
 }
 
-void SettingsManager::connected()
-{
-    auto command = String::formatted("Pickup %d\n", getPickupEnabled());
+void SettingsManager::connected() {
+  auto command = String::formatted("Pickup %d\n", getPickupEnabled());
 
-    if (lr_ipc_out_)
-    {
-        lr_ipc_out_->sendCommand(command);
-    }
-
+  if (lr_ipc_out_) {
+    lr_ipc_out_->sendCommand(command);
+  }
 }
 
-void SettingsManager::disconnected()
-{
+void SettingsManager::disconnected() {}
 
+int SettingsManager::getAutoHideTime() const noexcept {
+  return properties_file_->getIntValue(AutoHideSection, 0);
 }
 
-int SettingsManager::getAutoHideTime() const noexcept
-{
-    return properties_file_->getIntValue(AutoHideSection, 0);
-
+void SettingsManager::setAutoHideTime(int new_time) {
+  properties_file_->setValue(AutoHideSection, new_time);
+  properties_file_->saveIfNeeded();
 }
 
-void SettingsManager::setAutoHideTime(int new_time)
-{
-    properties_file_->setValue(AutoHideSection, new_time);
-    properties_file_->saveIfNeeded();
-
+int SettingsManager::getLastVersionFound() const noexcept {
+  return properties_file_->getIntValue("LastVersionFound", 0);
 }
 
-int SettingsManager::getLastVersionFound() const noexcept
-{
-    return properties_file_->getIntValue("LastVersionFound", 0);
-}
-
-void SettingsManager::setLastVersionFound(int new_version)
-{
-    properties_file_->setValue("LastVersionFound", new_version);
-    properties_file_->saveIfNeeded();
-}
-
-void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out, std::shared_ptr<ProfileManager>& profile_manager)
-{
-    lr_ipc_out_ = lr_ipc_out;
-
-    if (lr_ipc_out_)
-    {
-        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin settings on connection
-        lr_ipc_out_->addListener(this);
-    }
-
-    profile_manager_ = profile_manager;
-
-    if (profile_manager_)
-    {
-        // set the profile directory
-        File profile_directory{ getProfileDirectory() };
-        profile_manager->setProfileDirectory(profile_directory);
-    }
-
+void SettingsManager::setLastVersionFound(int new_version) {
+  properties_file_->setValue("LastVersionFound", new_version);
+  properties_file_->saveIfNeeded();
 }

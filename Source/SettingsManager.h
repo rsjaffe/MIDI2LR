@@ -8,7 +8,8 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
@@ -25,35 +26,34 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
 
-class SettingsManager: public LRConnectionListener
-{
+class SettingsManager: public LRConnectionListener {
 public:
-    SettingsManager();
-    virtual ~SettingsManager()
-    {};
+  SettingsManager();
+  virtual ~SettingsManager() {};
+  void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT,
+    std::shared_ptr<ProfileManager>& profile_manager);
 
-    bool getPickupEnabled() const noexcept;
-    void setPickupEnabled(bool enabled);
+  bool getPickupEnabled() const noexcept;
+  void setPickupEnabled(bool enabled);
 
-    void setProfileDirectory(const String& profile_directory);
-    String getProfileDirectory() const noexcept;
+  String getProfileDirectory() const noexcept;
+  void setProfileDirectory(const String& profile_directory);
 
-    // LRConnectionListener interface
-    virtual void connected() override;
-    virtual void disconnected() override;
+  // LRConnectionListener interface
+  virtual void connected() override;
+  virtual void disconnected() override;
 
-    int getAutoHideTime() const noexcept;
-    void setAutoHideTime(int new_time);
+  int getAutoHideTime() const noexcept;
+  void setAutoHideTime(int new_time);
 
-    void setLastVersionFound(int version_number);
-    int getLastVersionFound() const noexcept;
+  int getLastVersionFound() const noexcept;
+  void setLastVersionFound(int version_number);
 
-    void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT, std::shared_ptr<ProfileManager>& profile_manager);
 private:
 
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
-    std::shared_ptr<ProfileManager> profile_manager_;
-    std::unique_ptr<PropertiesFile> properties_file_;
+  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
+  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
+  std::unique_ptr<PropertiesFile> properties_file_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED

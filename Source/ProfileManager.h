@@ -8,7 +8,8 @@ This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later version.
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 
 MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
@@ -22,76 +23,74 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define PROFILEMANAGER_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MIDIProcessor.h"
-#include "LR_IPC_OUT.h"
 #include "CommandMap.h"
+#include "LR_IPC_OUT.h"
+#include "MIDIProcessor.h"
 
-class ProfileChangeListener
-{
+class ProfileChangeListener {
 public:
     // called when the current profile is changed
-    virtual void profileChanged(XmlElement* elem, const String& file_name) = 0;
+  virtual void profileChanged(XmlElement* elem, const String& file_name) = 0;
 
-    virtual ~ProfileChangeListener()
-    {};
+  virtual ~ProfileChangeListener() {};
 };
 
 class ProfileManager: public MIDICommandListener,
-    public AsyncUpdater, public LRConnectionListener
-{
+  private AsyncUpdater, public LRConnectionListener {
 public:
-    ProfileManager() noexcept;
-    virtual ~ProfileManager()
-    {};
-    void addListener(ProfileChangeListener *listener);
+  ProfileManager() noexcept;
+  virtual ~ProfileManager() {};
+  void Init(std::shared_ptr<LR_IPC_OUT> out,
+    std::shared_ptr<CommandMap> command_map,
+    std::shared_ptr<MIDIProcessor> midi_processor);
 
-    // sets the default profile directory and scans its contents for profiles
-    void setProfileDirectory(const File& dir);
+  void addListener(ProfileChangeListener *listener);
 
-    // returns an array of profile names
-    const StringArray& getMenuItems() const noexcept;
+  // sets the default profile directory and scans its contents for profiles
+  void setProfileDirectory(const File& dir);
 
-    // switches to a profile defined by an index
-    void switchToProfile(int profileIdx);
+  // returns an array of profile names
+  const StringArray& getMenuItems() const noexcept;
 
-    // switches to a profile defined by a name
-    void switchToProfile(const String& profile);
+  // switches to a profile defined by an index
+  void switchToProfile(int profileIdx);
 
-    // swithces to the next profile
-    void switchToNextProfile();
+  // switches to a profile defined by a name
+  void switchToProfile(const String& profile);
 
-    // switches to the previous profile
-    void switchToPreviousProfile();
+  // switches to the next profile
+  void switchToNextProfile();
 
-    // MIDICommandListener interface
-    virtual void handleMidiCC(int midi_channel, int controller, int value) override;
-    virtual void handleMidiNote(int midi_channel, int note) override;
+  // switches to the previous profile
+  void switchToPreviousProfile();
 
-    // AsyncUpdate interface
-    virtual void handleAsyncUpdate() override;
+  // MIDICommandListener interface
+  virtual void handleMidiCC(int midi_channel, int controller, int value) override;
+  virtual void handleMidiNote(int midi_channel, int note) override;
 
-    // LRConnectionListener interface
-    virtual void connected() override;
-    virtual void disconnected() override;
-    void Init(std::shared_ptr<LR_IPC_OUT> out, std::shared_ptr<CommandMap> command_map, std::shared_ptr<MIDIProcessor> midi_processor);
+  // LRConnectionListener interface
+  virtual void connected() override;
+  virtual void disconnected() override;
+
 private:
-    enum class SWITCH_STATE
-    {
-        NONE,
-        PREV,
-        NEXT,
-    };
+  // AsyncUpdate interface
+  virtual void handleAsyncUpdate() override;
+  enum class SWITCH_STATE {
+    NONE,
+    PREV,
+    NEXT,
+  };
 
-    ProfileManager(ProfileManager const&) = delete;
-    void operator=(ProfileManager const&) = delete;
+  ProfileManager(ProfileManager const&) = delete;
+  void operator=(ProfileManager const&) = delete;
 
-    File profile_location_;
-    StringArray profiles_;
-    Array<ProfileChangeListener *> listeners_;
-    int current_profile_index_;
-    SWITCH_STATE switch_state_;
-    std::shared_ptr<CommandMap> command_map_;
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
+  Array<ProfileChangeListener *> listeners_;
+  File profile_location_;
+  int current_profile_index_{0};
+  std::shared_ptr<CommandMap> command_map_{nullptr};
+  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
+  StringArray profiles_;
+  SWITCH_STATE switch_state_;
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

@@ -588,6 +588,7 @@
   Clarity2012 = "Clarity",
   Contrast2012 = "Contrast",
   Exposure2012 = "Exposure",
+  Highlights2012 = "Highlights",
   ToneCurveName = "ToneCurve",
   ToneCurveName2012 = "ToneCurve",
   ToneCurvePV2012 = "ToneCurve",
