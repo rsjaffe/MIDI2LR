@@ -94,8 +94,7 @@ public:
     }
     else {
         // apparently the application is already terminated
-      main_window_ = nullptr; // (deletes our window)
-      quit();
+      systemRequestedQuit();
     }
   }
 
@@ -116,9 +115,9 @@ public:
     midi_processor_.reset();
     midi_sender_.reset();
     main_window_ = nullptr; // (deletes our window)
-}
+  }
 
-  //==============================================================================
+    //==============================================================================
   void systemRequestedQuit() override {
       // This is called when the application is being asked to quit: you can
       // ignore this request and let the application carry on running, or call
@@ -132,7 +131,7 @@ public:
       // what the other instance's command-line arguments were.
     if (command_line == ShutDownString) {
         //shutting down
-      this->shutdown();
+      systemRequestedQuit();
     }
   }
 
