@@ -2450,8 +2450,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.1.0.0",
-					"JUCE_APP_VERSION_HEX=0x1010000", );
+					"JUCE_APP_VERSION=1.1.1.0",
+					"JUCE_APP_VERSION_HEX=0x1010100", );
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../JuceLibraryCode/modules", "$(inherited)");
@@ -2475,8 +2475,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.1.0.0",
-					"JUCE_APP_VERSION_HEX=0x1010000", );
+					"JUCE_APP_VERSION=1.1.1.0",
+					"JUCE_APP_VERSION_HEX=0x1010100", );
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../JuceLibraryCode/modules", "$(inherited)");
