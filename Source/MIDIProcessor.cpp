@@ -34,32 +34,30 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
     const auto channel = message.getChannel(); // 1-based
     const auto control = message.getControllerNumber();
     const auto value = message.getControllerValue();
-    if (processing_nrpn_[channel-1] || control == 98 || control == 99) {
-      if (!processing_nrpn_[channel-1]) { //starting nrpn parsing
-        processing_nrpn_[channel-1] = true;
-        nrpn_messages_[channel-1] = {0,0,0,true,true};
-      }
+    auto& nrpn = nrpn_messages_[channel - 1];
+    if (nrpn.InProcess() || control == 98 || control == 99) {
       switch (control) {
-        case 6: /* drop through */
-        case 38: /* drop through */
-        case 98: /* drop through */
-        case 99: //process nrpn message
-        {
-          const auto done = nrpn_detector_.parseControllerMessage(channel,
-            control, value, nrpn_messages_[channel-1]);
-          if (done) {
-            for (auto listener : listeners_)
-              listener->handleMidiCC(channel,
-              nrpn_messages_[channel-1].parameterNumber,
-              nrpn_messages_[channel-1].value);
-            processing_nrpn_[channel-1] = false;
-          }
-        }
+        case 6:
+          nrpn.SetValueMSB(value);
+          break;
+        case 38:
+          nrpn.SetValueLSB(value);
+          break;
+        case 98:
+          nrpn.SetControlLSB(value);
+          break;
+        case 99:
+          nrpn.SetControlMSB(value);
+          break;
         default: //try to recover if missed signal
-          processing_nrpn_.reset();
-          nrpn_detector_.reset(); //reset all channels
+          nrpn.Clear();
           for (auto listener : listeners_) //handle as regular message
             listener->handleMidiCC(channel, control, value);
+      }
+      if (nrpn.Ready()) {
+        for (auto listener : listeners_)
+          listener->handleMidiCC(channel, nrpn.GetControl(), nrpn.GetValue());
+        nrpn.Clear();
       }
     }
     else //regular message

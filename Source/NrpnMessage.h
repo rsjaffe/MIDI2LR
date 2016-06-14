@@ -21,55 +21,57 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 class NRPN_Message {
 public:
-  NRPN_Message() noexcept {}
-  NRPN_Message(unsigned short int cmsb, unsigned short int clsb = 0,
-    unsigned short int vmsb = 0, unsigned short int vlsb = 0) noexcept {
-    assert(cmsb <= 0x7F && clsb <= 0x7F && vmsb <= 0x7F && vlsb <= 0x7F);
-    channel_msb_ = cmsb & 0x7F;
-    channel_lsb_ = clsb & 0x7F;
-    value_msb_ = vmsb & 0x7F;
-    value_lsb_ = vlsb & 0x7F;
-  }
+  NRPN_Message() noexcept {};
+  ~NRPN_Message() {};
   void Clear() noexcept {
     ready_ = 0;
-    channel_msb_ = 0;
-    channel_lsb_ = 0;
+    control_msb_ = 0;
+    control_lsb_ = 0;
     value_msb_ = 0;
     value_lsb_ = 0;
-  }
+    in_process_ = false;
+  };
   inline bool Ready() noexcept {
     return ready_ == 0b1111;
-  }
-  void SetChannelMSB(unsigned short int val) noexcept {
+  };
+  void SetControlMSB(unsigned short int val) noexcept {
     assert(val <= 0x7F);
-    channel_msb_ = val & 0x7F;
+    control_msb_ = val & 0x7F;
     ready_ |= 0b1;
-  }
-  void SetChannelLSB(unsigned short int val) noexcept {
+    in_process_ = true;
+  };
+  void SetControlLSB(unsigned short int val) noexcept {
     assert(val <= 0x7F);
-    channel_lsb_ = val & 0x7F;
+    control_lsb_ = val & 0x7F;
     ready_ |= 0b10;
-  }
+    in_process_ = true;
+  };
   void SetValueMSB(unsigned short int val) noexcept {
     assert(val <= 0x7F);
     value_msb_ = val & 0x7F;
     ready_ |= 0b100;
-  }
+    in_process_ = true;
+  };
   void SetValueLSB(unsigned short int val) noexcept {
-    assert(val <= 0x7F);
+     assert(val <= 0x7F);
     value_lsb_ = val & 0x7F;
     ready_ |= 0b1000;
-  }
+    in_process_ = true;
+  };
   inline unsigned short int GetValue() noexcept const {
     return value_msb_ << 7 + value_lsb_;
-  }
-  inline unsigned short int GetChannel() noexcept const {
-    return channel_msb_ << 7 + channel_lsb_;
-  }
+  };
+  inline unsigned short int GetControl() noexcept const {
+    return control_msb_ << 7 + control_lsb_;
+  };
+  inline bool InProcess() noexcept const {
+    return in_process_;
+  };
 private:
-  uchar ready_{0};
-  unsigned short int channel_msb_{0};
-  unsigned short int channel_lsb_{0};
+  unsigned char ready_{0};
+  bool in_process_{false};
+  unsigned short int control_msb_{0};
+  unsigned short int control_lsb_{0};
   unsigned short int value_msb_{0};
   unsigned short int value_lsb_{0};
 };
