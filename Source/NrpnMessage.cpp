@@ -20,16 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "NrpnMessage.h"
 
-void NRPN_Message::Clear() noexcept {
-  ready_ = 0;
-  control_msb_ = 0;
-  control_lsb_ = 0;
-  value_msb_ = 0;
-  value_lsb_ = 0;
-  in_process_ = false;
-}
-
-bool NRPN_Message::ProcessMidi(unsigned short int control, unsigned short int value) noexcept {
+bool NRPN_Message::ProcessMidi(unsigned short int control, 
+    unsigned short int value) noexcept(ndebug) {
   auto ret_val = true;
   switch (control) {
     case 6:
@@ -50,36 +42,40 @@ bool NRPN_Message::ProcessMidi(unsigned short int control, unsigned short int va
     case 99:
       SetControlMSB(value);
       break;
-    default: //try to recover if missed signal
+    default: //not an expected nrpn control #, handle as typical midi message
       ret_val = false;
   }
   return ret_val;
 }
 
-void NRPN_Message::SetControlMSB(unsigned short int val) noexcept {
+void NRPN_Message::Clear() noexcept {
+  ready_ = 0;
+  control_msb_ = 0;
+  control_lsb_ = 0;
+  value_msb_ = 0;
+  value_lsb_ = 0;
+}
+
+void NRPN_Message::SetControlMSB(unsigned short int val) noexcept(ndebug) {
   assert(val <= 0x7F);
   control_msb_ = val & 0x7F;
   ready_ |= 0b1;
-  in_process_ = true;
 }
 
-void NRPN_Message::SetControlLSB(unsigned short int val) noexcept {
+void NRPN_Message::SetControlLSB(unsigned short int val) noexcept(ndebug) {
   assert(val <= 0x7F);
   control_lsb_ = val & 0x7F;
   ready_ |= 0b10;
-  in_process_ = true;
 }
 
-void NRPN_Message::SetValueMSB(unsigned short int val) noexcept {
+void NRPN_Message::SetValueMSB(unsigned short int val) noexcept(ndebug) {
   assert(val <= 0x7F);
   value_msb_ = val & 0x7F;
   ready_ |= 0b100;
-  in_process_ = true;
 }
 
-void NRPN_Message::SetValueLSB(unsigned short int val) noexcept {
+void NRPN_Message::SetValueLSB(unsigned short int val) noexcept(ndebug) {
   assert(val <= 0x7F);
   value_lsb_ = val & 0x7F;
   ready_ |= 0b1000;
-  in_process_ = true;
 }
