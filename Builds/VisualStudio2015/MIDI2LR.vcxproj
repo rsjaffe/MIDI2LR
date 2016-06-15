@@ -141,6 +141,7 @@
     <ClCompile Include="..\..\Source\MainWindow.cpp"/>
     <ClCompile Include="..\..\Source\MIDIProcessor.cpp"/>
     <ClCompile Include="..\..\Source\MIDISender.cpp"/>
+    <ClCompile Include="..\..\Source\NrpnMessage.cpp"/>
     <ClCompile Include="..\..\Source\Pattern\Observer.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
@@ -1573,6 +1574,7 @@
     <ClInclude Include="..\..\Source\MainWindow.h"/>
     <ClInclude Include="..\..\Source\MIDIProcessor.h"/>
     <ClInclude Include="..\..\Source\MIDISender.h"/>
+    <ClInclude Include="..\..\Source\NrpnMessage.h"/>
     <ClInclude Include="..\..\Source\Pattern\Observer.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\ResizableLayout.h"/>

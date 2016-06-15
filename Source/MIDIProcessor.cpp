@@ -35,7 +35,7 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
     const auto control = message.getControllerNumber();
     const auto value = message.getControllerValue();
     auto& nrpn = nrpn_messages_[channel - 1];
-    if (nrpn.InProcess() || control == 98 || control == 99) {
+    if (nrpn.IsInProcess() || control == 98 || control == 99) {
       switch (control) {
         case 6:
           nrpn.SetValueMSB(value);
@@ -54,7 +54,7 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
           for (auto listener : listeners_) //handle as regular message
             listener->handleMidiCC(channel, control, value);
       }
-      if (nrpn.Ready()) {
+      if (nrpn.IsReady()) {
         for (auto listener : listeners_)
           listener->handleMidiCC(channel, nrpn.GetControl(), nrpn.GetValue());
         nrpn.Clear();

@@ -337,6 +337,9 @@
     <ClCompile Include="..\..\Source\MIDISender.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\NrpnMessage.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Pattern\Observer.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1918,6 +1921,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MIDISender.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\NrpnMessage.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Pattern\Observer.h">
