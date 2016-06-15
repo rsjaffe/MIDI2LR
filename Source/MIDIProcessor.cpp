@@ -32,11 +32,11 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
   const MidiMessage &message) {
   if (message.isController()) {
     const auto channel =
-      static_cast<unsigned short>(message.getChannel()); // 1-based
+      static_cast<unsigned short int>(message.getChannel()); // 1-based
     const auto control =
-      static_cast<unsigned short>(message.getControllerNumber());
+      static_cast<unsigned short int>(message.getControllerNumber());
     const auto value =
-      static_cast<unsigned short>(message.getControllerValue());
+      static_cast<unsigned short int>(message.getControllerValue());
     if (nrpn_filter_.ProcessMidi(channel, control, value)) { //true if nrpn piece
       if (nrpn_filter_.IsReady(channel)) { //send when finished
         for (auto listener : listeners_)
