@@ -24,22 +24,22 @@ bool NRPN_Message::ProcessMidi(unsigned short int control,
     unsigned short int value) noexcept(ndebug) {
   auto ret_val = true;
   switch (control) {
-    case 6:
-      if (ready_ >= 0b11)
+    case 6u:
+      if (ready_ >= 0b11u)
         SetValueMSB(value);
       else
         ret_val = false;
       break;
-    case 38:
-      if (ready_ >= 0b11)
+    case 38u:
+      if (ready_ >= 0b11u)
         SetValueLSB(value);
       else
         ret_val = false;
       break;
-    case 98:
+    case 98u:
       SetControlLSB(value);
       break;
-    case 99:
+    case 99u:
       SetControlMSB(value);
       break;
     default: //not an expected nrpn control #, handle as typical midi message
@@ -49,33 +49,33 @@ bool NRPN_Message::ProcessMidi(unsigned short int control,
 }
 
 void NRPN_Message::Clear() noexcept {
-  ready_ = 0;
-  control_msb_ = 0;
-  control_lsb_ = 0;
-  value_msb_ = 0;
-  value_lsb_ = 0;
+  ready_ = 0u;
+  control_msb_ = 0u;
+  control_lsb_ = 0u;
+  value_msb_ = 0u;
+  value_lsb_ = 0u;
 }
 
 void NRPN_Message::SetControlMSB(unsigned short int val) noexcept(ndebug) {
-  assert(val <= 0x7F);
-  control_msb_ = val & 0x7F;
-  ready_ |= 0b1;
+  assert(val <= 0x7Fu);
+  control_msb_ = val & 0x7Fu;
+  ready_ |= 0b1u;
 }
 
 void NRPN_Message::SetControlLSB(unsigned short int val) noexcept(ndebug) {
-  assert(val <= 0x7F);
-  control_lsb_ = val & 0x7F;
-  ready_ |= 0b10;
+  assert(val <= 0x7Fu);
+  control_lsb_ = val & 0x7Fu;
+  ready_ |= 0b10u;
 }
 
 void NRPN_Message::SetValueMSB(unsigned short int val) noexcept(ndebug) {
-  assert(val <= 0x7F);
-  value_msb_ = val & 0x7F;
-  ready_ |= 0b100;
+  assert(val <= 0x7Fu);
+  value_msb_ = val & 0x7Fu;
+  ready_ |= 0b100u;
 }
 
 void NRPN_Message::SetValueLSB(unsigned short int val) noexcept(ndebug) {
-  assert(val <= 0x7F);
-  value_lsb_ = val & 0x7F;
-  ready_ |= 0b1000;
+  assert(val <= 0x7Fu);
+  value_lsb_ = val & 0x7Fu;
+  ready_ |= 0b1000u;
 }
