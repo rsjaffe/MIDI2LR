@@ -25,12 +25,12 @@ namespace MIDI2LR {
     static std::atomic_int objects_created;
     static std::atomic_int objects_alive;
 
-    counter() noexcept {
+    counter() noexcept(ndebug) {
       ++objects_created;
       ++objects_alive;
     }
 
-    counter(const counter&) noexcept {
+    counter(const counter&) noexcept(ndebug) {
       ++objects_created;
       ++objects_alive;
     }
@@ -52,3 +52,9 @@ class X :  MIDI2LR::counter<X>
 };
 
 */
+
+#ifdef NDEBUG    // asserts disabled
+static constexpr bool ndebug = true;
+#else            // asserts enabled
+static constexpr bool ndebug = false;
+#endif
