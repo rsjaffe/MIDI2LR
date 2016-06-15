@@ -52,8 +52,7 @@ private:
   void InitDevices_();
   Array<MIDICommandListener *> listeners_;
   OwnedArray<MidiInput> devices_;
-  juce::MidiRPNDetector nrpn_detector_;
-  std::array<NRPN_Message, 16> nrpn_messages_;
+  NRPN_Filter nrpn_filter_;
  };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED

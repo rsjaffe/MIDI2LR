@@ -31,33 +31,18 @@ void MIDIProcessor::Init(void) {
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
   const MidiMessage &message) {
   if (message.isController()) {
-    const auto channel = message.getChannel(); // 1-based
-    const auto control = message.getControllerNumber();
-    const auto value = message.getControllerValue();
-    auto& nrpn = nrpn_messages_[channel - 1];
-    if (nrpn.IsInProcess() || control == 98 || control == 99) {
-      switch (control) {
-        case 6:
-          nrpn.SetValueMSB(value);
-          break;
-        case 38:
-          nrpn.SetValueLSB(value);
-          break;
-        case 98:
-          nrpn.SetControlLSB(value);
-          break;
-        case 99:
-          nrpn.SetControlMSB(value);
-          break;
-        default: //try to recover if missed signal
-          nrpn.Clear();
-          for (auto listener : listeners_) //handle as regular message
-            listener->handleMidiCC(channel, control, value);
-      }
-      if (nrpn.IsReady()) {
+    const auto channel =
+      static_cast<unsigned short>(message.getChannel()); // 1-based
+    const auto control =
+      static_cast<unsigned short>(message.getControllerNumber());
+    const auto value =
+      static_cast<unsigned short>(message.getControllerValue());
+    if (nrpn_filter_.ProcessMidi(channel, control, value)) { //true if nrpn piece
+      if (nrpn_filter_.IsReady(channel)) { //send when finished
         for (auto listener : listeners_)
-          listener->handleMidiCC(channel, nrpn.GetControl(), nrpn.GetValue());
-        nrpn.Clear();
+          listener->handleMidiCC(channel, nrpn_filter_.GetControl(channel),
+          nrpn_filter_.GetValue(channel));
+        nrpn_filter_.Clear(channel);
       }
     }
     else //regular message
