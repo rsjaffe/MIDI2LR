@@ -28,7 +28,7 @@ public:
   NRPN_Message() noexcept {};
   ~NRPN_Message() {};
 
-  bool ProcessMidi(unsigned short int control, unsigned short int value) 
+  bool ProcessMidi(unsigned short int control, unsigned short int value)
     noexcept(ndebug);
   void Clear() noexcept;
   void SetControlLSB(unsigned short int val) noexcept(ndebug);
@@ -36,19 +36,19 @@ public:
   void SetValueLSB(unsigned short int val) noexcept(ndebug);
   void SetValueMSB(unsigned short int val) noexcept(ndebug);
 
-  const inline bool IsInProcess() noexcept {
+  inline bool IsInProcess() const noexcept {
     return ready_ != 0;
   };
 
-  const inline bool IsReady() noexcept {
+  inline bool IsReady() const noexcept {
     return ready_ == 0b1111;
   };
 
-  const inline unsigned short int GetValue() noexcept {
+  inline unsigned short int GetValue() const noexcept {
     return (value_msb_ << 7) + value_lsb_;
   };
 
-  const inline unsigned short int GetControl() noexcept {
+  inline unsigned short int GetControl() const noexcept {
     return (control_msb_ << 7) + control_lsb_;
   };
 
@@ -83,33 +83,33 @@ public:
     assert(channel < 16);
     return nrpn_messages_[channel - 1].SetControlMSB(val);
   };
-  inline void SetValueLSB(unsigned short int channel, unsigned short int val) 
+  inline void SetValueLSB(unsigned short int channel, unsigned short int val)
     noexcept(ndebug) {
     assert(channel < 16);
     return nrpn_messages_[channel - 1].SetValueLSB(val);
   };
-  inline void SetValueMSB(unsigned short int channel, unsigned short int val) 
+  inline void SetValueMSB(unsigned short int channel, unsigned short int val)
     noexcept(ndebug) {
     assert(channel < 16);
     return nrpn_messages_[channel - 1].SetValueMSB(val);
   };
-  const inline bool IsInProcess(unsigned short int channel) noexcept(ndebug) {
+  const inline bool IsInProcess(unsigned short int channel) const noexcept(ndebug) {
     assert(channel < 16);
     return nrpn_messages_[channel - 1].IsInProcess();
   };
 
-  const inline bool IsReady(unsigned short int channel) noexcept(ndebug) {
+  const inline bool IsReady(unsigned short int channel) const noexcept(ndebug) {
     assert(channel < 16);
     return nrpn_messages_[channel - 1].IsReady();
   };
 
-  const inline unsigned short int GetValue(unsigned short int channel) 
+  const inline unsigned short int GetValue(unsigned short int channel) const
     noexcept(ndebug) {
     assert(channel < 16);
     return nrpn_messages_[channel - 1].GetValue();
   };
 
-  const inline unsigned short int GetControl(unsigned short int channel) 
+  const inline unsigned short int GetControl(unsigned short int channel) const
     noexcept(ndebug) {
     assert(channel < 16);
     return nrpn_messages_[channel - 1].GetControl();
