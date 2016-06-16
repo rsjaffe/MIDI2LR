@@ -1896,6 +1896,9 @@
     <ClInclude Include="..\..\Source\Utilities\GSL.h">
       <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Utilities\Utilities.h">
+      <Filter>MIDI2LR\Source\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\CommandMap.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1951,9 +1954,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Pattern\Subject.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Utilities.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\VersionChecker.h">

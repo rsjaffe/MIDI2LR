@@ -8,6 +8,7 @@
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{64A53798-7D11-73F5-9678-76E2C116E917}" name="Utilities">
         <FILE id="vNnHnW" name="GSL.h" compile="0" resource="0" file="Source/Utilities/GSL.h"/>
+        <FILE id="HksVIV" name="Utilities.h" compile="0" resource="0" file="Source/Utilities/Utilities.h"/>
       </GROUP>
       <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
       <FILE id="xs42Pd" name="CommandMap.h" compile="0" resource="0" file="Source/CommandMap.h"/>
@@ -62,7 +63,6 @@
             file="Source/SettingsManager.h"/>
       <FILE id="UHBX0M" name="Subject.cpp" compile="1" resource="0" file="Source/Pattern/Subject.cpp"/>
       <FILE id="JaAyyB" name="Subject.h" compile="0" resource="0" file="Source/Pattern/Subject.h"/>
-      <FILE id="dTl5Rg" name="Utilities.h" compile="0" resource="0" file="Source/Utilities.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
