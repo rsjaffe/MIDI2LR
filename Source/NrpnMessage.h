@@ -21,7 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <array>
 #include <cassert>
-#include "Utilities.h"
+#include "Utilities/Utilities.h"
 
 class NRPN_Message {
 public:
