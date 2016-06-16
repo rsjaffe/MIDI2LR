@@ -18,19 +18,25 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#ifdef NDEBUG    // asserts disabled
+static constexpr bool ndebug = true;
+#else            // asserts enabled
+static constexpr bool ndebug = false;
+#endif
+
 #include <atomic>
-namespace MIDI2LR {
+namespace RSJ {
   template <typename T>
   struct counter {
     static std::atomic_int objects_created;
     static std::atomic_int objects_alive;
 
-    counter() noexcept(ndebug) {
+    counter() noexcept {
       ++objects_created;
       ++objects_alive;
     }
 
-    counter(const counter&) noexcept(ndebug) {
+    counter(const counter&) noexcept {
       ++objects_created;
       ++objects_alive;
     }
@@ -46,15 +52,11 @@ namespace MIDI2LR {
 /*
 Usage:
 
-class X :  MIDI2LR::counter<X>
+class X :  RSJ::counter<X>
 {
 // ...
 };
 
 */
 
-#ifdef NDEBUG    // asserts disabled
-static constexpr bool ndebug = true;
-#else            // asserts enabled
-static constexpr bool ndebug = false;
-#endif
+

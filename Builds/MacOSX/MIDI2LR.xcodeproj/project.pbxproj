@@ -444,6 +444,7 @@
 		5726DB2E0593480F3D437F08 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_LocalisedStrings.cpp"; path = "../../JuceLibraryCode/modules/juce_core/text/juce_LocalisedStrings.cpp"; sourceTree = "SOURCE_ROOT"; };
 		574F5A195EE48101BF325155 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_LagrangeInterpolator.cpp"; path = "../../JuceLibraryCode/modules/juce_audio_basics/effects/juce_LagrangeInterpolator.cpp"; sourceTree = "SOURCE_ROOT"; };
 		57F9DC2F485BBF3581E87B2D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_win32_SystemTrayIcon.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_SystemTrayIcon.cpp"; sourceTree = "SOURCE_ROOT"; };
+		58066C9BCAFFE6B9CC18F8DD = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSL.h; path = ../../Source/Utilities/GSL.h; sourceTree = "SOURCE_ROOT"; };
 		5810B7A3DDDCC0B18BD37AC8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_CustomTypeface.cpp"; path = "../../JuceLibraryCode/modules/juce_graphics/fonts/juce_CustomTypeface.cpp"; sourceTree = "SOURCE_ROOT"; };
 		58CCE04F15FC382523D9667F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_TableHeaderComponent.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_basics/widgets/juce_TableHeaderComponent.cpp"; sourceTree = "SOURCE_ROOT"; };
 		58F404BBC273A21AD98BEF31 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_DocumentWindow.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_basics/windows/juce_DocumentWindow.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -1140,7 +1141,10 @@
 		FE96A71294288F34D6194FCC = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_RelativePoint.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_basics/positioning/juce_RelativePoint.cpp"; sourceTree = "SOURCE_ROOT"; };
 		FF770DBF67389ED40B9CEBF9 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_ModalComponentManager.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_basics/components/juce_ModalComponentManager.cpp"; sourceTree = "SOURCE_ROOT"; };
 		FFA41BC763316E256DFB4D95 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_win32_DirectWriteTypeface.cpp"; path = "../../JuceLibraryCode/modules/juce_graphics/native/juce_win32_DirectWriteTypeface.cpp"; sourceTree = "SOURCE_ROOT"; };
+		3A2ACD2C7AF27315DB53ADC3 = {isa = PBXGroup; children = (
+					58066C9BCAFFE6B9CC18F8DD, ); name = Utilities; sourceTree = "<group>"; };
 		55BA6062DF892191C9E9B3BE = {isa = PBXGroup; children = (
+					3A2ACD2C7AF27315DB53ADC3,
 					80AD4E80805D14FC930C2AE8,
 					0DE6A1845E62083EB881160E,
 					C58E726D80235E018C2E6235,
