@@ -1,0 +1,31 @@
+BY: krakozavr Dec 9, 2015
+Hi friends :)
+I spend alot of time with setting my BCF :)
+I believe I did not bad job. Here is my templates and MIDI2LR configs.
+
+MIDI2LR 0.7.0
+LR CC 2015 (6.3)
+
+https://www.dropbox.com/s/4z4w49wolrb4j91/AlexArtPhoto_BehringerBCF2000_MIDI2LR.zip?dl=0
+
+In this archive, you will found:
+- system templates (saved in different formats, include the native BC Manager - I recommend this app, free for download http://mountainutilities.eu/news/bc-manager-3-0-0-os-x-and-windows-released, to edit any settings of the controller and upload the templates)
+- settings for MIDI2LR
+
+You will have to upload the system template firstly with BC Manager, then load the config with MIDI2LR
+
+I did some reprogramming of the controller to create more useful layouts. My config include 3 presets which you can switching with the "preset" control at the controller. System buttons (edit, store. learn and exit) are reprogramming and they are used for LR options for these presets. Indication's method at knobs was changed for better usability. Channels assignments for some buttons and knobs was reprogrammed to keep main system options at the same control through all presets - all buttons at the right side and the top row of buttons under the knobs will be assigned for same LR actions for all presets, so even you will switching between different tasks like color correction, tonal correction, grayscale conversion, special effects - you will have your main actions at your fingers.
+
+The main layout is the preset 2, and it include all main controls.
+At left from the main layout (preset 1) the grayscale controls (at the sliders) and advanced curve control (at knobs) are located 
+At the right from the main layout (preset 3) advanced controls are located, include effects, lens corrections, details.
+
+All 4 encoder groups are used at the each layout (preset).
+
+You may found some configuration wired, for example, some controls are grouped not according the LightRoom order. I did it for usability - for example, counting of some controls from right to left designed to positioning the most important (at least for me) controls closed to the main buttons (some photo actions, located at buttons at the right side of the device), and to easier handling (for example, when two group of controls located at one knob's row together, you will count the one from right, and the other from left, starting from a main options of the group). 
+
+Anyway, you can remap controls with MIDI2LR an reprogram the controller with BC Editor according your needs.
+
+https://www.dropbox.com/s/4z4w49wolrb4j91/AlexArtPhoto_BehringerBCF2000_MIDI2LR.zip?dl=0
+
+Any comments, suggestions, especially about layout's usability, and mistake's corrections are strongly appreciated :)
