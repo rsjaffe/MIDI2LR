@@ -160,13 +160,10 @@
 # define implicit
 #endif
 
-//edited by RJ to include ndebug variable for use in noexcept outside of gsl
 #if !gsl_HAVE_NOEXCEPT || gsl_CONFIG_THROWS_FOR_TESTING
 # define gsl_noexcept /*noexcept*/
-static constexpr bool ndebug = false;
 #else
 # define gsl_noexcept noexcept
-static constexpr bool ndebug = true;
 #endif
 
 #define gsl_DIMENSION_OF( a ) ( sizeof(a) / sizeof(0[a]) )
@@ -885,6 +882,22 @@ namespace gsl {
 # endif
 
 } // namespace gsl
+
+//outside of namespace so define and variable are same symbol
+//this is for use in noexcept specification when using Expects or Ensures
+#if gsl_CONFIG_THROWS_FOR_TESTING
+#if gsl_HAVE_CONSTEXPR_11
+static constexpr bool gsl_ndebug = false;
+#else
+# define gsl_ndebug (false)
+#endif
+#else
+#if gsl_HAVE_CONSTEXPR_11
+static constexpr bool gsl_ndebug = true;
+#else
+# define gsl_ndebug (true)
+#endif
+#endif
 
 #endif // GSL_GSL_LITE_H_INCLUDED
 
