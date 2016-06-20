@@ -16,6 +16,12 @@ Setup
 
 1. In Lightroom, add the MIDI2LR plugin by going to File→Plugin-Manager→Add
    and navigating to and selecting the MIDI2LR.lrplugin folder.
+   
+1. If using OS X, to avoid the "unidentified developer" warning, right-click on the
+   .lrplugin (whose location you can find in the LR Plugin Manager if you don't know 
+   it) and "Show Package Contents" then you will see there is a Mac executable in 
+   there called MIDI2LR. Right click on this and then Open it, agree to the OSX 
+   security question. Only needs to be done once.
 
 2. The MIDI2LR application should automatically launch. If it is closed,
    it can be launched by going to File→Plug-in Extras→Start MIDI2LR
