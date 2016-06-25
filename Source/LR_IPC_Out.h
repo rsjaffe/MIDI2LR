@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <mutex>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Utilities/Utilities.h"
 #include "CommandMap.h"
 #include "MIDIProcessor.h"
 
@@ -72,7 +73,7 @@ private:
   Array<LRConnectionListener *> listeners_;
   bool timer_off_{false};
   const static unordered_map<String, KeyPress> keypress_mappings_;
-  mutable std::mutex command_mutex_;
+  mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
   mutable std::mutex timer_mutex_; //fix race during shutdown
   std::shared_ptr<const CommandMap> command_map_;
   String command_;

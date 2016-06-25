@@ -337,6 +337,7 @@ LrTasks.startAsyncTask(
 
     local function MIDIValueToLRValue(param, midi_value)
       -- map midi range to develop parameter range
+      -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
       local min,max = Limits.GetMinMax(param)
       return midi_value * (max-min) + min
     end

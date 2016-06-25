@@ -72,13 +72,14 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
       command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
-    auto command_to_send_ = command_map_->getCommandforMessage(message);
-    command_to_send_ += String::formatted(" %g\n", 
-      midi_channel < 128 ? static_cast<double>(value)/(double)127 : 
-      static_cast<double>(value)/(double)16383 );
+    auto command_to_send = command_map_->getCommandforMessage(message);
+    double computed_value = value;
+    computed_value /= (controller < 128) ? 127.0 : 16383.0;
+    
+    command_to_send += String::formatted(" %g\n", computed_value);
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-      command_ += command_to_send_ ;
+      command_ += command_to_send;
     }
     triggerAsyncUpdate();
   }
@@ -95,11 +96,11 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
       command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
-    auto command_to_send_ = command_map_->getCommandforMessage(message);
-    command_to_send_ += String(" 1\n");
+    auto command_to_send = command_map_->getCommandforMessage(message);
+    command_to_send += String(" 1\n");
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-      command_ += command_to_send_;
+      command_ += command_to_send;
     }
     triggerAsyncUpdate();
   }
