@@ -45,7 +45,7 @@ local function doprofilechange(newprofile)
       local min,max = Limits.GetMinMax(param)
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
-        local midivalue = (lrvalue-min)/(max-min) * MIDI2LR.CONTROL_MAX
+        local midivalue = (lrvalue-min)/(max-min)
         MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
       end
     end
