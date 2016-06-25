@@ -278,7 +278,8 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
     }
   }
 #else
-  const CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+  const CGEventSourceRef source =
+    CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
   CGEventRef d;
   CGEventRef u;
 
@@ -313,18 +314,17 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
   }
   CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
   CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
+
+  constexpr CGEventTapLocation loc = kCGHIDEventTap; // kCGSessionEventTap also works
   {   //restrict scope for mutex lock
-    std::lock_guard< decltype(mutex_sending_) > lock(mutex_sending_);
-    if (flags & kCGEventFlagMaskCommand) {
-      CGEventPost(kCGHIDEventTap, cmdd);
-      std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
+    if (control) {
+      CGEventPost(loc, cmdd);
     }
-    CGEventPost(kCGHIDEventTap, d);
-    std::this_thread::sleep_for(std::chrono::milliseconds(30));
-    CGEventPost(kCGHIDEventTap, u);
-    if (flags & kCGEventFlagMaskCommand) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(30));
-      CGEventPost(kCGHIDEventTap, cmdu);
+    CGEventPost(loc, d);
+    CGEventPost(loc, u);
+    if (control) {
+      CGEventPost(loc, cmdu);
     }
   }
 
