@@ -35,10 +35,10 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const {
       value));
   }
   else { // NRPN
-    const auto parameterLSB = static_cast<uint8_t>(controller & 0x7f);
-    const auto parameterMSB = static_cast<uint8_t>(controller >> 7);
-    const auto valueLSB = static_cast<uint8_t>(value & 0x7f);
-    const auto valueMSB = static_cast<uint8_t>(value >> 7);
+    const auto parameterLSB = controller & 0x7f;
+    const auto parameterMSB = (controller >> 7) & 0x7F;
+    const auto valueLSB = value & 0x7f;
+    const auto valueMSB = (value >> 7) & 0x7F;
     for (auto dev : output_devices) {
       dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 99, parameterMSB));
       dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 98, parameterLSB));

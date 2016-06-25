@@ -87,15 +87,15 @@ LrTasks.startAsyncTask(
     local LrStringUtils       = import 'LrStringUtils'
     local LrUndo              = import 'LrUndo'
     --global variables
-    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CONTROL_MAX = 127 } --non-local but in MIDI2LR namespace
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}} --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
     --local constants--may edit these to change program behaviors
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
-    local PICKUP_THRESHOLD = 4
-    local BUTTON_ON        = 127
+    local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
+    local BUTTON_ON        = 0.99 -- sending 1.0, but use > BUTTON_ON in case of rounding error
 
     local ACTIONS = {
       --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
@@ -338,14 +338,14 @@ LrTasks.startAsyncTask(
     local function MIDIValueToLRValue(param, midi_value)
       -- map midi range to develop parameter range
       local min,max = Limits.GetMinMax(param)
-      return midi_value/MIDI2LR.CONTROL_MAX * (max-min) + min
+      return midi_value * (max-min) + min
     end
 
     local function LRValueToMIDIValue(param)
       -- map develop parameter range to midi range
       local min,max = Limits.GetMinMax(param)
-      local retval = (LrDevelopController.getValue(param)-min)/(max-min) * MIDI2LR.CONTROL_MAX
-      if retval > MIDI2LR.CONTROL_MAX then return MIDI2LR.CONTROL_MAX end
+      local retval = (LrDevelopController.getValue(param)-min)/(max-min)
+      if retval > 1 then return 1 end
       if retval < 0 then return 0 end
       return retval
     end
@@ -456,9 +456,9 @@ LrTasks.startAsyncTask(
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
               if(ACTIONS[param]) then -- perform a one time action
-                if(tonumber(value) == BUTTON_ON) then ACTIONS[param]() end
+                if(tonumber(value) > BUTTON_ON) then ACTIONS[param]() end
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-                if(tonumber(value) == BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
+                if(tonumber(value) > BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter
