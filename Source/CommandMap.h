@@ -35,8 +35,9 @@ struct MIDI_Message {
     int data;
   };
 
-  MIDI_Message(): isCC(0),
+  MIDI_Message():
     channel(0),
+    isCC(0),
     data(0)
 
   {}

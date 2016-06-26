@@ -24,8 +24,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 CommandMenu::CommandMenu(const MIDI_Message& message):
-  message_{message},
   TextButton{"Unmapped"},
+  message_{message},
 
   menus_({"Keyboard Shortcuts for User", "General", "Library", "Develop",
   "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
