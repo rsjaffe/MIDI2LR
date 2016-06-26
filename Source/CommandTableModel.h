@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "CommandMenu.h"
 
-class CommandTableModel: public TableListBoxModel {
+class CommandTableModel final: public TableListBoxModel {
 public:
   CommandTableModel() noexcept;
   void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;

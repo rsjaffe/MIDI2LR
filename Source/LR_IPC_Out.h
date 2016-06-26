@@ -40,7 +40,7 @@ public:
 ///< .
 };
 
-class LR_IPC_OUT: private InterprocessConnection,
+class LR_IPC_OUT final: private InterprocessConnection,
   public MIDICommandListener,
   private AsyncUpdater,
   private Timer {
@@ -50,7 +50,6 @@ public:
   void Init(std::shared_ptr<CommandMap>&  mapCommand,
     std::shared_ptr<MIDIProcessor>&  midiProcessor);
 
-  // closes the socket
   void addListener(LRConnectionListener *listener);
 
   // sends a command to the plugin

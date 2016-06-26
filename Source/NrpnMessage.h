@@ -64,7 +64,7 @@ class NRPN_Filter {
 public:
   NRPN_Filter() noexcept {};
   ~NRPN_Filter() {};
-  inline bool ProcessMidi(unsigned short int channel, 
+  inline bool ProcessMidi(unsigned short int channel,
     unsigned short int control, unsigned short int value) noexcept(ndebug) {
     assert(channel - 1u < 16u);
     return nrpn_messages_[channel - 1u].ProcessMidi(control, value);

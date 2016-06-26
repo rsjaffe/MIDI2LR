@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsManager.h"
 
-class VersionChecker: public Thread, private AsyncUpdater {
+class VersionChecker final: public Thread, private AsyncUpdater {
 public:
   VersionChecker() noexcept;
   ~VersionChecker();
