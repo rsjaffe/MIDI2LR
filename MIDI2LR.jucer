@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="1.1.1.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="1.2.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.2.1" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com">
@@ -39,7 +39,7 @@
       <FILE id="L4doqk" name="MIDIProcessor.h" compile="0" resource="0" file="Source/MIDIProcessor.h"/>
       <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
       <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
-      <FILE id="Vg4s1B" name="NrpnMessage.h" compile="1" resource="0" file="Source/NrpnMessage.h"/>
+      <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="Source/NrpnMessage.h"/>
       <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="Source/NrpnMessage.cpp"/>
       <FILE id="mWGqEu" name="Observer.cpp" compile="1" resource="0" file="Source/Pattern/Observer.cpp"/>
       <FILE id="iF9wfx" name="Observer.h" compile="0" resource="0" file="Source/Pattern/Observer.h"/>
@@ -94,10 +94,10 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
-                       binaryPath=""/>
+                       binaryPath="" cppLanguageStandard="c++14"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
-                       binaryPath=""/>
+                       binaryPath="" cppLanguageStandard="c++14"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
