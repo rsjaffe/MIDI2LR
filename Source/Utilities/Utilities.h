@@ -62,10 +62,11 @@ namespace RSJ {
   class spinlock {
     std::atomic_flag flag{ATOMIC_FLAG_INIT};
   public:
-    void lock() {
-      while (flag.test_and_set(std::memory_order_acquire));
+    inline void lock() noexcept {
+      while (flag.test_and_set(std::memory_order_acquire))
+        /*empty statement--spin until flag is cleared*/;
     }
-    void unlock() {
+    inline void unlock() noexcept {
       flag.clear(std::memory_order_release);
     }
   };
@@ -73,8 +74,8 @@ namespace RSJ {
 /* Usage
 void foo()
 {
-static spinlock lock;
-lock_guard<spinlock> guard(lock);
+static RSJ::spinlock lock;
+lock_guard<RSJ::spinlock> guard(lock);
 // do job
 }
 */
