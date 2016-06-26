@@ -70,11 +70,9 @@ void CommandMap::toXMLDocument(File& file) const {
   if (message_map_.size()) {//don't bother if map is empty
     // save the contents of the command map to an xml file
     XmlElement root{"settings"};
-    for (auto map_entry : message_map_) {
+    for (const auto& map_entry : message_map_) {
       auto* setting = new XmlElement{"setting"};
       setting->setAttribute("channel", map_entry.first.channel);
-      setting->setAttribute("NRPN", (map_entry.first.isNRPN) ? "True" : "False");
-      setting->setAttribute("Relative", (map_entry.first.isRelative) ? "True" : "False");
       if (map_entry.first.isCC)
         setting->setAttribute("controller", map_entry.first.controller);
       else

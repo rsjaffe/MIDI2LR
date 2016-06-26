@@ -82,7 +82,7 @@ Component *CommandTableModel::refreshComponentForCell(int row_number,
 }
 
 void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
-  MIDI_Message msg{midi_channel, midi_data, is_cc};
+  const MIDI_Message msg{midi_channel, midi_data, is_cc};
   if (command_map_) {
     if (!command_map_->messageExistsInMap(msg)) {
       commands_.push_back(msg);
@@ -93,7 +93,7 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
 }
 
 void CommandTableModel::removeRow(int row) {
-  MIDI_Message msg = commands_[row];
+  const MIDI_Message msg = commands_[row];
   commands_.erase(commands_.begin() + row);
   if (command_map_) {
     command_map_->removeMessage(msg);
@@ -120,7 +120,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
   auto* setting = root->getFirstChildElement();
   while ((setting) && (command_map_)) {
     if (setting->hasAttribute("controller")) {
-      MIDI_Message message{setting->getIntAttribute("channel"),
+      const MIDI_Message message{setting->getIntAttribute("channel"),
         setting->getIntAttribute("controller"), true};
       addRow(message.channel, message.controller, true);
 
@@ -135,7 +135,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
       }
     }
     else if (setting->hasAttribute("note")) {
-      MIDI_Message note{setting->getIntAttribute("channel"),
+      const MIDI_Message note{setting->getIntAttribute("channel"),
         setting->getIntAttribute("note"), false};
       addRow(note.channel, note.pitch, false);
 

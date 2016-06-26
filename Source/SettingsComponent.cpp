@@ -38,7 +38,7 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
   // place controls in a location that is initially correct.
   setSize(SettingsWidth, SettingsHeight);
 
-  if (auto ptr = settings_manager_.lock()) {
+  if (const auto ptr = settings_manager_.lock()) {
     pickup_group_.setText("Pick up");
     pickup_group_.setBounds(0, 0, SettingsWidth, 100);
     addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
@@ -127,7 +127,7 @@ void SettingsComponent::buttonClicked(Button* button) {
         Colours::lightgrey};
 
     if (dialog_box.show()) {
-      auto profile_location = browser.getSelectedFile(0).getFullPathName();
+      const auto profile_location = browser.getSelectedFile(0).getFullPathName();
       if (auto ptr = settings_manager_.lock()) {
         ptr->setProfileDirectory(profile_location);
       }
@@ -142,7 +142,7 @@ void SettingsComponent::sliderValueChanged(Slider* slider) {
   if (slider) {
     if (&autohide_setting_ == slider) {
         //get the rounded setting
-      int new_setting = static_cast<int>(autohide_setting_.getValue());
+      const int new_setting = static_cast<int>(autohide_setting_.getValue());
 
       if (auto ptr= settings_manager_.lock()) {
         ptr->setAutoHideTime(new_setting);

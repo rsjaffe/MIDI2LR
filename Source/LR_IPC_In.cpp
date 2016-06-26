@@ -47,7 +47,7 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
 void LR_IPC_IN::refreshMIDIOutput() {
   if (command_map_) {
       // send associated CC messages to MIDI OUT devices
-    for (auto map_entry : parameter_map_) {
+    for (const auto& map_entry : parameter_map_) {
       if ((command_map_->commandHasAssociatedMessage(map_entry.first)) &&
         (midi_sender_)) {
         const auto& msg = command_map_->getMessageForCommand(map_entry.first);
@@ -82,11 +82,11 @@ void LR_IPC_IN::run() {
       while (!juce::String(line).endsWithChar('\n') && isConnected()) {
         if (threadShouldExit())
           goto threadExit;//break out of nested whiles
-        auto wait_status = waitUntilReady(true, 0);
+        const auto wait_status = waitUntilReady(true, 0);
         switch (wait_status) {
           case -1:
             can_read_line = false;
-            goto dumpLine; //read line failed, break out of switch and while         
+            goto dumpLine; //read line failed, break out of switch and while
           case 0:
             wait(100);
             break; //try again to read until char shows up
@@ -129,7 +129,6 @@ void LR_IPC_IN::processLine(const juce::String& line) {
   const auto trimmed_line = line.trim();
   const auto command = trimmed_line.upToFirstOccurrenceOf(" ", false, false);
   const auto value_string = trimmed_line.fromFirstOccurrenceOf(" ", false, false);
-  const auto value = value_string.getIntValue();
 
   if (command_map_) {
     if (command == juce::String{"SwitchProfile"}) {
@@ -138,17 +137,22 @@ void LR_IPC_IN::processLine(const juce::String& line) {
       }
     }
     else if (command == juce::String{"SendKey"}) {
-      std::bitset<3> modifiers{static_cast<decltype(modifiers)>(value)};
+      std::bitset<3> modifiers{static_cast<decltype(modifiers)>
+        (value_string.getIntValue())};
       std::string str{value_string.trimCharactersAtStart("0123456789 ").toStdString()};
       send_keys_.SendKeyDownUp(str, modifiers[0], modifiers[1], modifiers[2]);
     }
     else {
         // store updates in map
-      parameter_map_[command] = value;
+
+      const auto original_value = value_string.getDoubleValue();
+      parameter_map_[command] = static_cast<int>(round(original_value * 16383.0));
 
       // send associated CC messages to MIDI OUT devices
       if (command_map_->commandHasAssociatedMessage(command)) {
         const auto& msg = command_map_->getMessageForCommand(command);
+        const auto value = static_cast<int>(round(
+          ((msg.controller < 128) ? 127.0 : 16383.0) * original_value));
 
         if (midi_sender_) {
           midi_sender_->sendCC(msg.channel, msg.controller, value);

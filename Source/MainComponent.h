@@ -37,12 +37,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ResizableLayout.h"
 #include "SettingsManager.h"
 
-class MainContentComponent: public Component,
+class MainContentComponent final: public Component,
   public MIDICommandListener,
   public LRConnectionListener,
   private AsyncUpdater,
   private Timer,
-  public ButtonListener,
+  private ButtonListener,
   public ProfileChangeListener,
   public ResizableLayout {
 public:
@@ -56,8 +56,6 @@ public:
     std::shared_ptr<SettingsManager>& settings_manager,
     std::shared_ptr<MIDISender>& midi_sender);
 
-  void paint(Graphics&) override;
-
   // MIDICommandListener interface
   virtual void handleMidiCC(int midi_channel, int controller, int value) override;
   virtual void handleMidiNote(int midi_channel, int note) override;
@@ -65,9 +63,6 @@ public:
   // LRConnectionListener interface
   virtual void connected() override;
   virtual void disconnected() override;
-
-  // Button interface
-  virtual void buttonClicked(Button* button) override;
 
   // ProfileChangeListener interface
   virtual void profileChanged(XmlElement* elem, const String& file_name) override;
@@ -77,6 +72,9 @@ protected:
   void SetLabelSettings(Label &lblToSet);
 
 private:
+  void paint(Graphics&) override;
+  // Button interface
+  virtual void buttonClicked(Button* button) override;
   // AsyncUpdater interface
   virtual void handleAsyncUpdate() override;
 

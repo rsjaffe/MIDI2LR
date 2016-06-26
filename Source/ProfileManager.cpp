@@ -53,7 +53,7 @@ void ProfileManager::setProfileDirectory(const File& directory) {
 
   current_profile_index_ = 0;
   profiles_.clear();
-  for (auto file : file_array)
+  for (const auto file : file_array)
     profiles_.add(file.getFileName());
 
   if (profiles_.size() > 0)
@@ -72,7 +72,7 @@ void ProfileManager::switchToProfile(int profile_index) {
 }
 
 void ProfileManager::switchToProfile(const String& profile) {
-  auto profile_file = profile_location_.getChildFile(profile);
+  const auto profile_file = profile_location_.getChildFile(profile);
 
   if (profile_file.exists()) {
     std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(profile_file)};
@@ -144,7 +144,7 @@ void ProfileManager::handleMidiNote(int midi_channel, int note) {
 }
 
 void ProfileManager::connected() {
-  auto command = String{"ChangedToDirectory "} +
+  const auto command = String{"ChangedToDirectory "} +
     File::addTrailingSeparator(profile_location_.getFullPathName()) +
     String{"\n"};
   if (lr_ipc_out_) {

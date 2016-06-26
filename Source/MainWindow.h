@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-class MainWindow: public DocumentWindow, private Timer {
+class MainWindow final: private DocumentWindow, private Timer {
 public:
   MainWindow(String name): DocumentWindow{name,
       Colours::lightgrey,
@@ -50,13 +50,6 @@ public:
     std::shared_ptr<SettingsManager>& settings_manager,
     std::shared_ptr<MIDISender>& midi_sender);
 
-  void closeButtonPressed() override {
-      // This is called when the user tries to close this window. Here, we'll just
-      // ask the app to quit when this happens, but you can change this to do
-      // whatever you need.
-    JUCEApplication::getInstance()->systemRequestedQuit();
-  }
-
 /* Note: Be careful if you override any DocumentWindow methods - the base
    class uses a lot of them, so by overriding you might break its functionality.
    It's best to do all your work in your content component instead, but if
@@ -65,6 +58,12 @@ public:
 */
 
 private:
+  void closeButtonPressed() override {
+    // This is called when the user tries to close this window. Here, we'll just
+    // ask the app to quit when this happens, but you can change this to do
+    // whatever you need.
+    JUCEApplication::getInstance()->systemRequestedQuit();
+  }
   // the timer callback function
   virtual void timerCallback() override;
   int auto_hide_counter_;

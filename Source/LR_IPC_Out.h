@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <mutex>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Utilities/Utilities.h"
 #include "CommandMap.h"
 #include "MIDIProcessor.h"
 
@@ -39,7 +40,7 @@ public:
 ///< .
 };
 
-class LR_IPC_OUT: private InterprocessConnection,
+class LR_IPC_OUT final: private InterprocessConnection,
   public MIDICommandListener,
   private AsyncUpdater,
   private Timer {
@@ -49,7 +50,6 @@ public:
   void Init(std::shared_ptr<CommandMap>&  mapCommand,
     std::shared_ptr<MIDIProcessor>&  midiProcessor);
 
-  // closes the socket
   void addListener(LRConnectionListener *listener);
 
   // sends a command to the plugin
@@ -72,7 +72,7 @@ private:
   Array<LRConnectionListener *> listeners_;
   bool timer_off_{false};
   const static unordered_map<String, KeyPress> keypress_mappings_;
-  mutable std::mutex command_mutex_;
+  mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
   mutable std::mutex timer_mutex_; //fix race during shutdown
   std::shared_ptr<const CommandMap> command_map_;
   String command_;

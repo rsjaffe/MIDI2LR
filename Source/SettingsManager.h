@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
 
-class SettingsManager: public LRConnectionListener {
+class SettingsManager final: public LRConnectionListener {
 public:
   SettingsManager();
   virtual ~SettingsManager() {};

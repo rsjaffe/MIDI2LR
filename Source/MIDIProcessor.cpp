@@ -31,10 +31,23 @@ void MIDIProcessor::Init(void) {
 void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
   const MidiMessage &message) {
   if (message.isController()) {
-    for (auto listener : listeners_) {
-      listener->handleMidiCC(message.getChannel(),
-        message.getControllerNumber(), message.getControllerValue());
+    const auto channel =
+      static_cast<unsigned short int>(message.getChannel()); // 1-based
+    const auto control =
+      static_cast<unsigned short int>(message.getControllerNumber());
+    const auto value =
+      static_cast<unsigned short int>(message.getControllerValue());
+    if (nrpn_filter_.ProcessMidi(channel, control, value)) { //true if nrpn piece
+      if (nrpn_filter_.IsReady(channel)) { //send when finished
+        for (auto listener : listeners_)
+          listener->handleMidiCC(channel, nrpn_filter_.GetControl(channel),
+          nrpn_filter_.GetValue(channel));
+        nrpn_filter_.Clear(channel);
+      }
     }
+    else //regular message
+      for (auto listener : listeners_)
+        listener->handleMidiCC(channel, control, value);
   }
   else if (message.isNoteOn()) {
     for (auto listener : listeners_) {

@@ -93,7 +93,8 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   addAndMakeVisible(connection_label_);
 
   //get the button width
-  long button_width = (kMainWidth - 2 * kMainLeft - kSpaceBetweenButton * 2) / 3;
+  constexpr long button_width = 
+    (kMainWidth - 2 * kMainLeft - kSpaceBetweenButton * 2) / 3;
 
   // Load button
   load_button_.addListener(this);
@@ -122,7 +123,7 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   addToLayout(&command_table_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(command_table_);
 
-  long label_width = (kMainWidth - kMainLeft * 2) / 2;
+  constexpr long label_width = (kMainWidth - kMainLeft * 2) / 2;
 
   // Profile name label
   SetLabelSettings(profile_name_label_);
@@ -284,8 +285,8 @@ void MainContentComponent::buttonClicked(Button* button) {
     if (dialog_box.show()) {
       std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(browser.getSelectedFile(0))};
       if (xml_element) {
-        auto new_profile = browser.getSelectedFile(0);
-        auto command = String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
+        const auto new_profile = browser.getSelectedFile(0);
+        const auto command = String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
 
         if (lr_ipc_out_) {
           lr_ipc_out_->sendCommand(command);

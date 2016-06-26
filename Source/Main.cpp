@@ -38,20 +38,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "VersionChecker.h"
 
-#ifndef _WIN32
-//missing make_unique (C++14) in XCode
-namespace std {
-  template<typename T, typename... Args>
-  unique_ptr<T> make_unique(Args&&... args) {
-    return unique_ptr<T>{new T{forward<Args>(args)...}};
-  }
-}
-#endif
-
-//constexpr doesn't work in XCode for String; auto type deduction also fails
 const juce::String ShutDownString{"--LRSHUTDOWN"};
 
-class MIDI2LRApplication: public JUCEApplication {
+class MIDI2LRApplication final: public JUCEApplication {
 public:
   MIDI2LRApplication() {
     command_map_ = std::make_shared<CommandMap>();
@@ -108,7 +97,6 @@ public:
       command_map_->toXMLDocument(default_profile);
     lr_ipc_out_.reset();
     lr_ipc_in_.reset();
-    //below resets added
     command_map_.reset();
     profile_manager_.reset();
     settings_manager_.reset();

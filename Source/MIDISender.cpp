@@ -29,9 +29,23 @@ void MIDISender::Init(void) {
 }
 
 void MIDISender::sendCC(int midi_channel, int controller, int value) const {
-  for (auto dev : output_devices)
-    dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller,
-    value));
+  if (controller < 128) { // regular message
+    for (auto dev : output_devices)
+      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller,
+      value));
+  }
+  else { // NRPN
+    const auto parameterLSB = controller & 0x7f;
+    const auto parameterMSB = (controller >> 7) & 0x7F;
+    const auto valueLSB = value & 0x7f;
+    const auto valueMSB = (value >> 7) & 0x7F;
+    for (auto dev : output_devices) {
+      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 99, parameterMSB));
+      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 98, parameterLSB));
+      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 6, valueMSB));
+      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 38, valueLSB));
+    }
+  }
 }
 
 void MIDISender::rescanDevices() {
