@@ -27,19 +27,21 @@ CommandMenu::CommandMenu(const MIDI_Message& message):
   message_{message},
   TextButton{"Unmapped"},
 
-  menus_({"Keyboard Shortcuts for User", "General", "Library", "Develop", "Basic",
-  "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W", "Split Toning", "Detail",
-  "Lens Corrections", "Effects", "Camera Calibration", "Develop Presets",
-  "Local Adjustments", "Crop", "Go to Tool, Module, or Panel", "Secondary Display",
-  "Profiles", "Next/Prev Profile"}),
+  menus_({"Keyboard Shortcuts for User", "General", "Library", "Develop",
+  "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
+  "Split Toning", "Detail", "Lens Corrections", "Effects", "Camera Calibration",
+  "Develop Presets", "Local Adjustments", "Crop", "Go to Tool, Module, or Panel",
+  "Secondary Display", "Profiles", "Next/Prev Profile"}),
 
-  menu_entries_({LRCommandList::KeyShortcuts, LRCommandList::General, LRCommandList::Library,
-  LRCommandList::Develop, LRCommandList::BasicAdjustments, LRCommandList::ToneCurve,
-  LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning, LRCommandList::Detail,
-  LRCommandList::LensCorrections, LRCommandList::Effects, LRCommandList::Calibration,
-  LRCommandList::DevelopPresets, LRCommandList::LocalAdjustments, LRCommandList::Crop,
-  LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay, LRCommandList::ProgramProfiles,
-  LRCommandList::NextPrevProfile})
+  menu_entries_({LRCommandList::KeyShortcuts, LRCommandList::General,
+  LRCommandList::Library, LRCommandList::Develop,
+  LRCommandList::BasicAdjustments, LRCommandList::ToneCurve,
+  LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning,
+  LRCommandList::Detail, LRCommandList::LensCorrections, LRCommandList::Effects,
+  LRCommandList::Calibration, LRCommandList::DevelopPresets,
+  LRCommandList::LocalAdjustments, LRCommandList::Crop,
+  LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay,
+  LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile})
 {}
 
 void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) {
