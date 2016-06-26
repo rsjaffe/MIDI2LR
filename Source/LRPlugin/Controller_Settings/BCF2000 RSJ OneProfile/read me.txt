@@ -1,6 +1,6 @@
 Instructions:
 
-First, program the BCF2000 using the preset2.bcf file and BC Manager (http://mountainutilities.eu/bcmanager). The preset2.bcf file will set up your BCF so that the switches are "toggle off", and will assign the Store, Learn, Edit, and Exit buttons to MIDI controls, so that you have more buttons to work with.
+First, program the BCF2000 using the preset2.bcf file and BC Manager (http://mountainutilities.eu/bcmanager). The preset2.bcf file will set up your BCF so that the switches are "toggle off", and will assign the Store, Learn, Edit, and Exit buttons to MIDI controls, so that you have more buttons to work with. This programs program #2 on the BCF2000.
 
 The control layout is illustrated in the PDF, PNG and XSLX--they're all the same--some might prefer one visual over another.
 
