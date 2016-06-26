@@ -35,7 +35,7 @@ public:
   virtual ~ProfileChangeListener() {};
 };
 
-class ProfileManager: public MIDICommandListener,
+class ProfileManager final: public MIDICommandListener,
   private AsyncUpdater, public LRConnectionListener {
 public:
   ProfileManager() noexcept;

@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "SendKeys.h"
 
-class LR_IPC_IN: private StreamingSocket,
+class LR_IPC_IN final: private StreamingSocket,
   private Timer,
   private Thread {
 public:
