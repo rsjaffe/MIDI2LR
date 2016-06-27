@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "ProfileManager.h"
 
-//constexpr and auto don't work in XCode
 const juce::String AutoHideSection{"autohide"};
 
 SettingsManager::SettingsManager() {
