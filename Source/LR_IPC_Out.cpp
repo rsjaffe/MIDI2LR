@@ -50,7 +50,10 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener) {
-  listeners_.addIfNotAlreadyThere(listener);
+  for (auto current_listener : listeners_)
+    if (current_listener == listener)
+      return; //don't add duplicates
+  listeners_.push_back(listener);
 }
 
 void LR_IPC_OUT::sendCommand(const String &command) {

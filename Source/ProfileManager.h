@@ -84,7 +84,7 @@ private:
   ProfileManager(ProfileManager const&) = delete;
   void operator=(ProfileManager const&) = delete;
 
-  Array<ProfileChangeListener *> listeners_;
+  std::vector<ProfileChangeListener *> listeners_;
   File profile_location_;
   int current_profile_index_{0};
   std::shared_ptr<CommandMap> command_map_{nullptr};

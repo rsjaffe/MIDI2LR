@@ -69,7 +69,7 @@ private:
   // Timer callback
   virtual void timerCallback() override;
 
-  Array<LRConnectionListener *> listeners_;
+  std::vector<LRConnectionListener *> listeners_;
   bool timer_off_{false};
   const static unordered_map<String, KeyPress> keypress_mappings_;
   mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use

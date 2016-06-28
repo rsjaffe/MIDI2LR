@@ -42,7 +42,10 @@ void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out,
 }
 
 void ProfileManager::addListener(ProfileChangeListener *listener) {
-  listeners_.addIfNotAlreadyThere(listener);
+  for (auto current_listener : listeners_)
+    if (current_listener == listener)
+      return; //don't add duplicates
+  listeners_.push_back(listener);
 }
 
 void ProfileManager::setProfileDirectory(const File& directory) {

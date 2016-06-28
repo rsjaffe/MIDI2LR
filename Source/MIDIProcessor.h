@@ -50,7 +50,7 @@ private:
   void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
 
   void InitDevices_();
-  Array<MIDICommandListener *> listeners_;
+  std::vector<MIDICommandListener *> listeners_;
   OwnedArray<MidiInput> devices_;
   NRPN_Filter nrpn_filter_;
 };
