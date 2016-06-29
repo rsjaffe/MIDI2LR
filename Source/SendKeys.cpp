@@ -30,6 +30,24 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <thread>
 #endif
 namespace {
+#ifdef _WIN32
+  wchar_t MBtoWChar(const std::string& key) {
+    wchar_t full_character;
+    const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
+      key.size(), &full_character, 1);
+    if (return_value == 0) {
+      auto er = GetLastError();
+      if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
+        throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
+      if (er == ERROR_INSUFFICIENT_BUFFER)
+        throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
+      if (er == ERROR_NO_UNICODE_TRANSLATION)
+        throw std::domain_error("Unable to translate: MultiByteToWideChar.");
+      throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+    }
+    return full_character;
+  }
+#else
   std::wstring utf8_to_utf16(const std::string& utf8) {
     std::vector<unsigned long> unicode;
     size_t i = 0;
@@ -89,6 +107,7 @@ namespace {
     }
     return utf16;
   }
+#endif
 }
 
 const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
@@ -193,19 +212,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   if (SendKeys::key_map_.count(lower_string))
     vk = SendKeys::key_map_.at(lower_string);
   else {// Translate key code to keyboard-dependent scan code, may be UTF-8
-    wchar_t full_character;
-    const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
-      key.size(), &full_character, 1);
-    if (return_value == 0) {
-      auto er = GetLastError();
-      if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
-        throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
-      if (er == ERROR_INSUFFICIENT_BUFFER)
-        throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
-      if (er == ERROR_NO_UNICODE_TRANSLATION)
-        throw std::domain_error("Unable to translate: MultiByteToWideChar.");
-      throw std::runtime_error("Unknown error: MultiByteToWideChar.");
-    }
+    const auto full_character = MBtoWChar(key);
     const auto vk_code_and_shift = VkKeyScanExW(full_character, language_id);
     vk = LOBYTE(vk_code_and_shift);
     vk_modifiers = HIBYTE(vk_code_and_shift);
@@ -214,12 +221,10 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   // input event.
   INPUT ip;
   ip.type = INPUT_KEYBOARD;
-  ip.ki.dwExtraInfo = 0;
-  ip.ki.dwFlags = 0; // 0 for key press
-  ip.ki.time = 0;
-  ip.ki.wScan = 0;
+  //ki: wVk, wScan, dwFlags, time, dwExtraInfo
+  ip.ki = {0,0,0,0,0};
   //mutex lock for key sending events to keep in sequence
-  std::lock_guard< decltype(mutex_sending_) > lock(mutex_sending_);
+  std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
   if ((vk_modifiers & 0x06) == 0x06) //using AltGr key
   {
     ip.ki.wVk = VK_RMENU;
