@@ -169,17 +169,18 @@ const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
 
 std::mutex SendKeys::mutex_sending_{};
 
-void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, bool shift) const {
+void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
+  const bool control_cmd, const bool shift) const {
   std::string lower_string; //used for matching with key names
   for (const auto& c : key)
     lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
 #ifdef _WIN32
     //Lightroom handle
-  const auto hLRWnd = ::FindWindow(NULL, "Lightroom");
+  const auto hLRWnd = FindWindow(NULL, "Lightroom");
   HKL language_id;
   // Bring Lightroom to foreground if it isn't already there
   if (hLRWnd) {
-    ::SetForegroundWindow(hLRWnd);
+    SetForegroundWindow(hLRWnd);
     // get language that LR is using (if hLrWnd is found)
     const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
     language_id = GetKeyboardLayout(thread_id);
@@ -244,7 +245,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
   }
   else //not using AltGr key
   {
-    if (control || (vk_modifiers & 0x2)) {
+    if (control_cmd || (vk_modifiers & 0x2)) {
       ip.ki.wVk = VK_CONTROL;
       SendInput(1, &ip, sizeof(INPUT));
     }
@@ -252,7 +253,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
       ip.ki.wVk = VK_SHIFT;
       SendInput(1, &ip, sizeof(INPUT));
     }
-    if (alt || (vk_modifiers & 0x4)) {
+    if (alt_opt || (vk_modifiers & 0x4)) {
       ip.ki.wVk = VK_MENU;
       SendInput(1, &ip, sizeof(INPUT));
     }
@@ -264,7 +265,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
     // Release the key
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     SendInput(1, &ip, sizeof(INPUT));
-    if (control || (vk_modifiers & 0x2)) {
+    if (control_cmd || (vk_modifiers & 0x2)) {
       ip.ki.wVk = VK_CONTROL;
       SendInput(1, &ip, sizeof(INPUT));
     }
@@ -272,7 +273,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
       ip.ki.wVk = VK_SHIFT;
       SendInput(1, &ip, sizeof(INPUT));
     }
-    if (alt || (vk_modifiers & 0x4)) {
+    if (alt_opt || (vk_modifiers & 0x4)) {
       ip.ki.wVk = VK_MENU;
       SendInput(1, &ip, sizeof(INPUT));
     }
@@ -282,48 +283,42 @@ void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, boo
     CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
   CGEventRef d;
   CGEventRef u;
-
   uint64_t flags = 0;
+
   if (SendKeys::key_map_.count(lower_string)) {
     auto vk = SendKeys::key_map_.at(lower_string);
     d = CGEventCreateKeyboardEvent(source, vk, true);
     u = CGEventCreateKeyboardEvent(source, vk, false);
-    if (control) flags |= kCGEventFlagMaskCommand;
-    if (alt) flags |= kCGEventFlagMaskAlternate;
-    if (shift) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0)) {
-      CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-      CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-    }
   }
   else {
     const std::wstring utf16str{utf8_to_utf16(key)};
-    const UniChar key_character = utf16str[0];
+    const UniChar key_character{utf16str[0]};
     d = CGEventCreateKeyboardEvent(source, 0, true);
     u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &key_character);
     CGEventKeyboardSetUnicodeString(u, 1, &key_character);
     flags = CGEventGetFlags(d); //in case KeyCode has associated flag
-    if (control) flags |= kCGEventFlagMaskCommand;
-    if (alt) flags |= kCGEventFlagMaskAlternate;
-    if (shift) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0)) {
-      CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-      CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-    }
+  }
+
+  if (control_cmd) flags |= kCGEventFlagMaskCommand;
+  if (alt_opt) flags |= kCGEventFlagMaskAlternate;
+  if (shift) flags |= kCGEventFlagMaskShift;
+  if (flags) {
+    CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+    CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
   }
   CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
   CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
 
-  constexpr CGEventTapLocation loc = kCGHIDEventTap; // kCGSessionEventTap also works
   {   //restrict scope for mutex lock
+    constexpr CGEventTapLocation loc = kCGHIDEventTap; // kCGSessionEventTap also works
     std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-    if (control) {
+    if (control_cmd) {
       CGEventPost(loc, cmdd);
     }
     CGEventPost(loc, d);
     CGEventPost(loc, u);
-    if (control) {
+    if (control_cmd) {
       CGEventPost(loc, cmdu);
     }
   }
