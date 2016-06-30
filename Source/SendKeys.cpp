@@ -47,6 +47,22 @@ namespace {
     }
     return full_character;
   }
+
+  HKL GetLanguageAndFGApp(std::string program_name) {
+    const auto hLRWnd = FindWindow(NULL, program_name.c_str());
+    HKL language_id;
+    // Bring Lightroom to foreground if it isn't already there
+    if (hLRWnd) {
+      SetForegroundWindow(hLRWnd);
+      // get language that LR is using (if hLrWnd is found)
+      const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
+      language_id = GetKeyboardLayout(thread_id);
+    }
+    else {   // use keyboard of MIDI2LR application
+      language_id = GetKeyboardLayout(0);
+    }
+    return language_id;
+  }
 #else
   std::wstring utf8_to_utf16(const std::string& utf8) {
     std::vector<unsigned long> unicode;
@@ -195,93 +211,54 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
     lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
 #ifdef _WIN32
     //Lightroom handle
-  const auto hLRWnd = FindWindow(NULL, "Lightroom");
-  HKL language_id;
-  // Bring Lightroom to foreground if it isn't already there
-  if (hLRWnd) {
-    SetForegroundWindow(hLRWnd);
-    // get language that LR is using (if hLrWnd is found)
-    const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
-    language_id = GetKeyboardLayout(thread_id);
-  }
-  else {   // use keyboard of MIDI2LR application
-    language_id = GetKeyboardLayout(0);
-  }
+  HKL language_id = GetLanguageAndFGApp("Lightroom");
   BYTE vk = 0;
   BYTE vk_modifiers = 0;
   if (SendKeys::key_map_.count(lower_string))
     vk = SendKeys::key_map_.at(lower_string);
   else {// Translate key code to keyboard-dependent scan code, may be UTF-8
-    const auto full_character = MBtoWChar(key);
-    const auto vk_code_and_shift = VkKeyScanExW(full_character, language_id);
+    const auto vk_code_and_shift = VkKeyScanExW(MBtoWChar(key), language_id);
     vk = LOBYTE(vk_code_and_shift);
     vk_modifiers = HIBYTE(vk_code_and_shift);
   }
 
-  // input event.
+  //collect keystrokes
+  std::vector<unsigned int> strokes{vk};
+  if (shift || (vk_modifiers & 0x1)) {
+    strokes.push_back(VK_SHIFT);
+  }
+  if ((vk_modifiers & 0x06) == 0x06) {
+    strokes.push_back(VK_RMENU); //AltGr
+    if (control_cmd)
+      strokes.push_back(VK_CONTROL);
+    if (alt_opt)
+      strokes.push_back(VK_MENU);
+  }
+  else {
+    if (control_cmd || (vk_modifiers & 0x2)) {
+      strokes.push_back(VK_CONTROL);
+    }
+    if (alt_opt || (vk_modifiers & 0x4)) {
+      strokes.push_back(VK_MENU);
+    }
+  }
+
+  // construct input event.
   INPUT ip;
   ip.type = INPUT_KEYBOARD;
   //ki: wVk, wScan, dwFlags, time, dwExtraInfo
   ip.ki = {0,0,0,0,0};
-  //mutex lock for key sending events to keep in sequence
+  //send keystrokes
   std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-  if ((vk_modifiers & 0x06) == 0x06) //using AltGr key
-  {
-    ip.ki.wVk = VK_RMENU;
-    SendInput(1, &ip, sizeof(INPUT));
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    //press the key
-    ip.ki.wVk = vk;
-    SendInput(1, &ip, sizeof(INPUT));
-    //add 30 msec between press and release
-    Sleep(30);
-    // Release the key
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    SendInput(1, &ip, sizeof(INPUT));
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    ip.ki.wVk = VK_RMENU;
+  for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
+    ip.ki.wVk = *it;
     SendInput(1, &ip, sizeof(INPUT));
   }
-  else //not using AltGr key
-  {
-    if (control_cmd || (vk_modifiers & 0x2)) {
-      ip.ki.wVk = VK_CONTROL;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (alt_opt || (vk_modifiers & 0x4)) {
-      ip.ki.wVk = VK_MENU;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    //press the key
-    ip.ki.wVk = vk;
+  // Release the key
+  ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+  for (const auto it : strokes) {
+    ip.ki.wVk = it;
     SendInput(1, &ip, sizeof(INPUT));
-    //add 30 msec between press and release
-    std::this_thread::sleep_for(std::chrono::milliseconds(30));
-    // Release the key
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    SendInput(1, &ip, sizeof(INPUT));
-    if (control_cmd || (vk_modifiers & 0x2)) {
-      ip.ki.wVk = VK_CONTROL;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (alt_opt || (vk_modifiers & 0x4)) {
-      ip.ki.wVk = VK_MENU;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
   }
 #else
   const CGEventSourceRef source =
@@ -296,8 +273,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
     u = CGEventCreateKeyboardEvent(source, vk, false);
   }
   else {
-    const std::wstring utf16str{utf8_to_utf16(key)};
-    const UniChar key_character{utf16str[0]};
+    const UniChar key_character{utf8_to_utf16(key)[0]};
     d = CGEventCreateKeyboardEvent(source, 0, true);
     u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &key_character);
@@ -318,12 +294,12 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   {   //restrict scope for mutex lock
     constexpr CGEventTapLocation loc = kCGHIDEventTap; // kCGSessionEventTap also works
     std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-    if (control_cmd) {
+    if (flags & kCGEventFlagMaskCommand) {
       CGEventPost(loc, cmdd);
     }
     CGEventPost(loc, d);
     CGEventPost(loc, u);
-    if (control_cmd) {
+    if (flags & kCGEventFlagMaskCommand) {
       CGEventPost(loc, cmdu);
     }
   }
