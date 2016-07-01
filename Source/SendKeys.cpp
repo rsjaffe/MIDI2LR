@@ -169,7 +169,7 @@ const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
 {"cursor left",  kVK_LeftArrow},
 {"cursor right", kVK_RightArrow},
 {"cursor up",    kVK_UpArrow},
-{"delete",       kVK_Delete},
+{"delete",       kVK_ForwardDelete},
 {"end",	         kVK_End},
 {"escape",       kVK_Escape},
 {"home",         kVK_Home},
@@ -221,8 +221,8 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
     vk_modifiers = HIBYTE(vk_code_and_shift);
   }
 
-  //collect keystrokes
-  std::vector<unsigned int> strokes{vk};
+  //construct virtual keystroke sequence
+  std::vector<unsigned int> strokes{vk}; // start with actual key, then mods
   if (shift || (vk_modifiers & 0x1)) {
     strokes.push_back(VK_SHIFT);
   }
@@ -244,20 +244,22 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
   // construct input event.
   INPUT ip;
+  constexpr auto size_ip{sizeof(INPUT)};
   ip.type = INPUT_KEYBOARD;
   //ki: wVk, wScan, dwFlags, time, dwExtraInfo
   ip.ki = {0,0,0,0,0};
-  //send keystrokes
+
+  //send key down strokes
   std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
   for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
     ip.ki.wVk = *it;
-    SendInput(1, &ip, sizeof(INPUT));
+    SendInput(1, &ip, size_ip);
   }
-  // Release the key
+  //send key up strokes
   ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
   for (const auto it : strokes) {
     ip.ki.wVk = it;
-    SendInput(1, &ip, sizeof(INPUT));
+    SendInput(1, &ip, size_ip);
   }
 #else
   const CGEventSourceRef source =
