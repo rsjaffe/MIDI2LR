@@ -21,13 +21,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SendKeys.h"
 #include <cctype>
 #ifdef _WIN32
+#include <vector>
 #include "Windows.h"
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#include <vector>
 #include <string>
 #include <thread>
+#include <vector>
 #endif
 namespace {
 #ifdef _WIN32
