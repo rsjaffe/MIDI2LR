@@ -32,7 +32,7 @@ void VersionChecker::Init(std::shared_ptr<SettingsManager>& settings_manager) no
 
 void VersionChecker::run() {
   const URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
-  const unique_ptr<XmlElement> version_xml_element{version_url.readEntireXmlStream()};
+  const std::unique_ptr<XmlElement> version_xml_element{version_url.readEntireXmlStream()};
   int last_checked{0};
   if (auto smp = settings_manager_.lock())
     last_checked = smp->getLastVersionFound();

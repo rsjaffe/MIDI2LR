@@ -71,7 +71,7 @@ private:
 
   std::vector<LRConnectionListener *> listeners_;
   bool timer_off_{false};
-  const static unordered_map<String, KeyPress> keypress_mappings_;
+  const static std::unordered_map<String, KeyPress> keypress_mappings_;
   mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
   mutable std::mutex timer_mutex_; //fix race during shutdown
   std::shared_ptr<const CommandMap> command_map_;
