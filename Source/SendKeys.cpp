@@ -20,15 +20,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SendKeys.h"
 #include <cctype>
-#ifdef _WIN32
 #include <vector>
+#ifdef _WIN32
 #include "Windows.h"
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #include <string>
 #include <thread>
-#include <vector>
 #endif
 namespace {
 #ifdef _WIN32
@@ -244,7 +243,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
   // construct input event.
   INPUT ip;
-  constexpr auto size_ip{sizeof(INPUT)};
+  constexpr auto size_ip = sizeof(INPUT);
   ip.type = INPUT_KEYBOARD;
   //ki: wVk, wScan, dwFlags, time, dwExtraInfo
   ip.ki = {0,0,0,0,0};
@@ -252,13 +251,13 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   //send key down strokes
   std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
   for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
-    ip.ki.wVk = *it;
+    ip.ki.wVk = static_cast<WORD>(*it);
     SendInput(1, &ip, size_ip);
   }
   //send key up strokes
   ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
   for (const auto it : strokes) {
-    ip.ki.wVk = it;
+    ip.ki.wVk = static_cast<WORD>(it);
     SendInput(1, &ip, size_ip);
   }
 #else
