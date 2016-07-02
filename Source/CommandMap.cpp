@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-CommandMap::CommandMap() noexcept : Subject{} {}
+CommandMap::CommandMap() noexcept {}
 
 void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message) {
     // adds a message to the message:command map, and its associated command to the

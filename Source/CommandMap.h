@@ -69,7 +69,7 @@ namespace std {
   };
 }
 
-class CommandMap: public Subject {
+class CommandMap {
 public:
   CommandMap() noexcept;
   virtual ~CommandMap() {}
