@@ -135,7 +135,7 @@ void LR_IPC_IN::processLine(const juce::String& line) {
   const auto command = trimmed_line.upToFirstOccurrenceOf(" ", false, false);
   const auto value_string = trimmed_line.fromFirstOccurrenceOf(" ", false, false);
 
-  switch (cmds.at(command)) {
+  switch (cmds.count(command) ? cmds.at(command) : 0) {
     case 1: //SwitchProfile
       if (profile_manager_)
         profile_manager_->switchToProfile(value_string);
@@ -153,7 +153,7 @@ void LR_IPC_IN::processLine(const juce::String& line) {
       PleaseStopThread();
       JUCEApplication::getInstance()->systemRequestedQuit();
       break;
-    default:
+    case 0:
       // store updates in map
       const auto original_value = value_string.getDoubleValue();
       parameter_map_[command] = static_cast<int>(round(original_value * 16383.0));
