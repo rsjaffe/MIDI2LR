@@ -144,7 +144,7 @@ void SettingsComponent::sliderValueChanged(Slider* slider) {
         //get the rounded setting
       const int new_setting = static_cast<int>(autohide_setting_.getValue());
 
-      if (auto ptr= settings_manager_.lock()) {
+      if (auto ptr = settings_manager_.lock()) {
         ptr->setAutoHideTime(new_setting);
       }
     }

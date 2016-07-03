@@ -22,17 +22,8 @@ return {
     local LrPathUtils         = import 'LrPathUtils'
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
-
     progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
-    LrTasks.startAsyncTask(function()
-        if(WIN_ENV) then
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
-        else
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
-        end
-      end
-    )
-
+    MIDI2LR.SERVER:send('TerminateApplication 1\n')
 --    math.randomseed(os.time())
 --    currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
 --    currentLoadVersion = currentLoadVersion + 1 + math.random() --signal halt to main background function

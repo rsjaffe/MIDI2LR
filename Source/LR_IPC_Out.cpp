@@ -78,7 +78,7 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
     auto command_to_send = command_map_->getCommandforMessage(message);
     double computed_value = value;
     computed_value /= (controller < 128) ? 127.0 : 16383.0;
-    
+
     command_to_send += String::formatted(" %g\n", computed_value);
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);

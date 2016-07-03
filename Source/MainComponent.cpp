@@ -32,8 +32,8 @@ MainContentComponent::MainContentComponent(): ResizableLayout{this} {}
 MainContentComponent::~MainContentComponent() {}
 
 void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
-  std::shared_ptr<LR_IPC_IN>& lr_ipc_in,
-  std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
+  std::weak_ptr<LR_IPC_IN>& lr_ipc_in,
+  std::weak_ptr<LR_IPC_OUT>& lr_ipc_out,
   std::shared_ptr<MIDIProcessor>& midi_processor,
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<SettingsManager>& settings_manager,
@@ -54,9 +54,9 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
     midi_processor->addMIDICommandListener(this);
   }
 
-  if (lr_ipc_out_) {
+  if (auto ptr = lr_ipc_out_.lock()) {
       // Add ourselves as a listener for LR_IPC_OUT events
-    lr_ipc_out_->addListener(this);
+    ptr->addListener(this);
   }
 
   if (profile_manager) {
@@ -93,7 +93,7 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   addAndMakeVisible(connection_label_);
 
   //get the button width
-  constexpr long button_width = 
+  constexpr long button_width =
     (kMainWidth - 2 * kMainLeft - kSpaceBetweenButton * 2) / 3;
 
   // Load button
@@ -225,8 +225,8 @@ void MainContentComponent::buttonClicked(Button* button) {
       midi_sender_->rescanDevices();
     }
     // Send new CC parameters to MIDI Out devices
-    if (lr_ipc_in_) {
-      lr_ipc_in_->refreshMIDIOutput();
+    if (auto ptr = lr_ipc_in_.lock()) {
+      ptr->refreshMIDIOutput();
     }
   }
   else if (button == &remove_row_button_) {
@@ -288,8 +288,8 @@ void MainContentComponent::buttonClicked(Button* button) {
         const auto new_profile = browser.getSelectedFile(0);
         const auto command = String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
 
-        if (lr_ipc_out_) {
-          lr_ipc_out_->sendCommand(command);
+        if (auto ptr = lr_ipc_out_.lock()) {
+          ptr->sendCommand(command);
         }
         profile_name_label_.setText(new_profile.getFileName(),
           NotificationType::dontSendNotification);
@@ -322,8 +322,8 @@ void MainContentComponent::profileChanged(XmlElement* xml_element, const String&
 //  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
     // Send new CC parameters to MIDI Out devices
-  if (lr_ipc_in_) {
-    lr_ipc_in_->refreshMIDIOutput();
+  if (auto ptr = lr_ipc_in_.lock()) {
+    ptr->refreshMIDIOutput();
   }
 }
 

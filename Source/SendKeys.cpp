@@ -163,7 +163,9 @@ const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
 {"f19",	VK_F19},
 {"f20",	VK_F20}
 #else
-{"backspace",    kVK_Delete},
+{
+"backspace",    kVK_Delete
+},
 {"cursor down",	 kVK_DownArrow},
 {"cursor left",  kVK_LeftArrow},
 {"cursor right", kVK_RightArrow},

@@ -34,22 +34,22 @@ SettingsManager::SettingsManager() {
   properties_file_ = std::make_unique<PropertiesFile>(file_options);
 }
 
-void SettingsManager::Init(std::shared_ptr<LR_IPC_OUT>& lr_ipc_out,
-  std::shared_ptr<ProfileManager>& profile_manager) {
+void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT> lr_ipc_out,
+  std::weak_ptr<ProfileManager> profile_manager) {
   lr_ipc_out_ = lr_ipc_out;
 
-  if (lr_ipc_out_) {
+  if (auto ptr = lr_ipc_out_.lock()) {
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
       // settings on connection
-    lr_ipc_out_->addListener(this);
+    ptr->addListener(this);
   }
 
   profile_manager_ = profile_manager;
 
-  if (profile_manager_) {
+  if (auto ptr = profile_manager_.lock()) {
       // set the profile directory
     File profile_directory{getProfileDirectory()};
-    profile_manager->setProfileDirectory(profile_directory);
+    ptr->setProfileDirectory(profile_directory);
   }
 }
 
@@ -63,8 +63,8 @@ void SettingsManager::setPickupEnabled(bool enabled) {
 
   auto command = String::formatted("Pickup %d\n", enabled);
 
-  if (lr_ipc_out_) {
-    lr_ipc_out_->sendCommand(command);
+  if (auto ptr = lr_ipc_out_.lock()) {
+    ptr->sendCommand(command);
   }
 }
 String SettingsManager::getProfileDirectory() const noexcept {
@@ -75,17 +75,17 @@ void SettingsManager::setProfileDirectory(const String& profile_directory_name) 
   properties_file_->setValue("profile_directory", profile_directory_name);
   properties_file_->saveIfNeeded();
 
-  if (profile_manager_) {
+  if (auto ptr = profile_manager_.lock()) {
     File profileDir{profile_directory_name};
-    profile_manager_->setProfileDirectory(profileDir);
+    ptr->setProfileDirectory(profileDir);
   }
 }
 
 void SettingsManager::connected() {
   auto command = String::formatted("Pickup %d\n", getPickupEnabled());
 
-  if (lr_ipc_out_) {
-    lr_ipc_out_->sendCommand(command);
+  if (auto ptr = lr_ipc_out_.lock()) {
+    ptr->sendCommand(command);
   }
 }
 

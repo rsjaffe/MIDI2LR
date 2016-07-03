@@ -23,17 +23,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 ProfileManager::ProfileManager() noexcept {}
 
-void ProfileManager::Init(std::shared_ptr<LR_IPC_OUT> out,
+void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT> out,
   std::shared_ptr<CommandMap> commandMap,
   std::shared_ptr<MIDIProcessor> midiProcessor) {
     //copy the pointers
   command_map_ = commandMap;
   lr_ipc_out_ = out;
 
-  if (lr_ipc_out_) {
+  if (auto ptr = lr_ipc_out_.lock()) {
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
       // settings on connection
-    lr_ipc_out_->addListener(this);
+    ptr->addListener(this);
   }
 
   if (midiProcessor) {
@@ -82,13 +82,13 @@ void ProfileManager::switchToProfile(const String& profile) {
     for (auto listener : listeners_)
       listener->profileChanged(xml_element.get(), profile);
 
-    if (lr_ipc_out_) {
+    if (auto ptr = lr_ipc_out_.lock()) {
       auto command = String{"ChangedToDirectory "} +
         File::addTrailingSeparator(profile_location_.getFullPathName()) +
         String{"\n"};
-      lr_ipc_out_->sendCommand(command);
+      ptr->sendCommand(command);
       command = String("ChangedToFile ") + profile + String("\n");
-      lr_ipc_out_->sendCommand(command);
+      ptr->sendCommand(command);
     }
   }
 }
@@ -150,8 +150,8 @@ void ProfileManager::connected() {
   const auto command = String{"ChangedToDirectory "} +
     File::addTrailingSeparator(profile_location_.getFullPathName()) +
     String{"\n"};
-  if (lr_ipc_out_) {
-    lr_ipc_out_->sendCommand(command);
+  if (auto ptr = lr_ipc_out_.lock()) {
+    ptr->sendCommand(command);
   }
 }
 

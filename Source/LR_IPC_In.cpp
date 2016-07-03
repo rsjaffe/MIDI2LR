@@ -125,39 +125,45 @@ void LR_IPC_IN::timerCallback() {
   }
 }
 void LR_IPC_IN::processLine(const juce::String& line) {
+  const static std::unordered_map<juce::String, int> cmds = {
+    {juce::String{"SwitchProfile"},1},
+    {juce::String{"SendKey"},2},
+    {juce::String{"TerminateApplication"},3},
+  };
     // process input into [parameter] [Value]
   const auto trimmed_line = line.trim();
   const auto command = trimmed_line.upToFirstOccurrenceOf(" ", false, false);
   const auto value_string = trimmed_line.fromFirstOccurrenceOf(" ", false, false);
 
-  if (command_map_) {
-    if (command == juce::String{"SwitchProfile"}) {
-      if (profile_manager_) {
+  switch (cmds.at(command)) {
+    case 1: //SwitchProfile
+      if (profile_manager_)
         profile_manager_->switchToProfile(value_string);
-      }
-    }
-    else if (command == juce::String{"SendKey"}) {
+      break;
+    case 2: //SendKey
+    {
       std::bitset<3> modifiers{static_cast<decltype(modifiers)>
         (value_string.getIntValue())};
-      std::string str{value_string.trimCharactersAtStart("0123456789 ").toStdString()};
-      send_keys_.SendKeyDownUp(str, modifiers[0], modifiers[1], modifiers[2]);
+      send_keys_.SendKeyDownUp(value_string.
+        trimCharactersAtStart("0123456789").trimStart().toStdString(),
+        modifiers[0], modifiers[1], modifiers[2]);
+      break;
     }
-    else {
-        // store updates in map
-
+    case 3: //TerminateApplication
+      PleaseStopThread();
+      JUCEApplication::getInstance()->systemRequestedQuit();
+      break;
+    default:
+      // store updates in map
       const auto original_value = value_string.getDoubleValue();
       parameter_map_[command] = static_cast<int>(round(original_value * 16383.0));
-
       // send associated CC messages to MIDI OUT devices
-      if (command_map_->commandHasAssociatedMessage(command)) {
+      if (command_map_ && command_map_->commandHasAssociatedMessage(command)) {
         const auto& msg = command_map_->getMessageForCommand(command);
         const auto value = static_cast<int>(round(
           ((msg.controller < 128) ? 127.0 : 16383.0) * original_value));
-
-        if (midi_sender_) {
+        if (midi_sender_)
           midi_sender_->sendCC(msg.channel, msg.controller, value);
-        }
       }
-    }
   }
 }

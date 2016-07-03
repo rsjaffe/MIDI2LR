@@ -2,9 +2,9 @@
 Prerequisites
 =============
 
-- Lightroom 6+
+- Lightroom 6+ or CC
 - Windowws 7+ or OSX 10.9+
-- Any USB MIDI controller (eg: Korg nanoKONTROL, etc.)
+- A USB MIDI controller (eg: Korg nanoKONTROL, etc.)
 
 =====
 Setup
@@ -28,6 +28,9 @@ Setup
 
 3. Moving any controllers will populate the mapping table and allow you to
    set functions. You can also save/load mappings.
+
+4. Information on all the settings and options are in the wiki: 
+   https://github.com/rsjaffe/MIDI2LR/wiki.
 
 ================================
 Updating From A Previous Version
@@ -62,8 +65,8 @@ Notes
 Problems/Frequently Asked Questions
 ===================================
 
-First see the FAQ at https://github.com/rsjaffe/MIDI2LR/wiki. If you still have
-questions, post them at https://github.com/rsjaffe/MIDI2LR/issues.
+First see the FAQ at https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. If you
+still have questions, post them at https://groups.google.com/forum/#!forum/midi2lr.
 
 =========
 Changelog

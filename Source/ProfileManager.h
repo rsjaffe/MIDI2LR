@@ -40,7 +40,7 @@ class ProfileManager final: public MIDICommandListener,
 public:
   ProfileManager() noexcept;
   virtual ~ProfileManager() {};
-  void Init(std::shared_ptr<LR_IPC_OUT> out,
+  void Init(std::weak_ptr<LR_IPC_OUT> out,
     std::shared_ptr<CommandMap> command_map,
     std::shared_ptr<MIDIProcessor> midi_processor);
 
@@ -88,7 +88,7 @@ private:
   File profile_location_;
   int current_profile_index_{0};
   std::shared_ptr<CommandMap> command_map_{nullptr};
-  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
+  std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   StringArray profiles_;
   SWITCH_STATE switch_state_;
 };
