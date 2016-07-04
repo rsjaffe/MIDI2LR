@@ -71,8 +71,8 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
     if (!command_map_->messageExistsInMap(message) ||
       command_map_->getCommandforMessage(message) == "Unmapped" ||
       find(LRCommandList::NextPrevProfile.begin(),
-      LRCommandList::NextPrevProfile.end(),
-      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+        LRCommandList::NextPrevProfile.end(),
+        command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
@@ -95,8 +95,8 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
     if (!command_map_->messageExistsInMap(message) ||
       command_map_->getCommandforMessage(message) == "Unmapped" ||
       find(LRCommandList::NextPrevProfile.begin(),
-      LRCommandList::NextPrevProfile.end(),
-      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+        LRCommandList::NextPrevProfile.end(),
+        command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);

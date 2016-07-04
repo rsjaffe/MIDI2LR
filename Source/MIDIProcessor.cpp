@@ -41,7 +41,7 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
       if (nrpn_filter_.IsReady(channel)) { //send when finished
         for (auto const& listener : listeners_)
           listener->handleMidiCC(channel, nrpn_filter_.GetControl(channel),
-          nrpn_filter_.GetValue(channel));
+            nrpn_filter_.GetValue(channel));
         nrpn_filter_.Clear(channel);
       }
     }

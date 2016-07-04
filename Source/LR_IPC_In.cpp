@@ -141,14 +141,14 @@ void LR_IPC_IN::processLine(const juce::String& line) {
         profile_manager_->switchToProfile(value_string);
       break;
     case 2: //SendKey
-    {
-      std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-        (value_string.getIntValue())};
-      send_keys_.SendKeyDownUp(value_string.
-        trimCharactersAtStart("0123456789").trimStart().toStdString(),
-        modifiers[0], modifiers[1], modifiers[2]);
-      break;
-    }
+      {
+        std::bitset<3> modifiers{static_cast<decltype(modifiers)>
+          (value_string.getIntValue())};
+        send_keys_.SendKeyDownUp(value_string.
+          trimCharactersAtStart("0123456789").trimStart().toStdString(),
+          modifiers[0], modifiers[1], modifiers[2]);
+        break;
+      }
     case 3: //TerminateApplication
       PleaseStopThread();
       JUCEApplication::getInstance()->systemRequestedQuit();

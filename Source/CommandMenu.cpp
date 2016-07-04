@@ -84,7 +84,7 @@ void CommandMenu::buttonClicked(Button* /*button*/) {
 
       if (already_mapped)
         subMenu.addColouredItem(index, command, Colours::red, true,
-        index == selected_item_);
+          index == selected_item_);
       else
         subMenu.addItem(index, command, true, index == selected_item_);
 

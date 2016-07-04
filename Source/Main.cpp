@@ -158,8 +158,8 @@ public:
       // this pointer will be null.
     if (auto a = Logger::getCurrentLogger())
       Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
-      " line " + juce::String(lineNumber));
-      std::terminate(); // can't go on with the program
+        " line " + juce::String(lineNumber));
+    std::terminate(); // can't go on with the program
   }
 
 private:

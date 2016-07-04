@@ -83,6 +83,6 @@ void CommandMap::toXMLDocument(File& file) const {
     if (!root.writeToFile(file, ""))
         // Give feedback if file-save doesn't work
       AlertWindow::showMessageBox(AlertWindow::WarningIcon, "File Save Error",
-      "Unable to save file as specified. Please try again, and consider saving to a different location.");
+        "Unable to save file as specified. Please try again, and consider saving to a different location.");
   }
 }

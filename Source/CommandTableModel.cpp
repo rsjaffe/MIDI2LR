@@ -47,10 +47,10 @@ void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id,
   {
     if (commands_[row_number].isCC)
       g.drawText(String::formatted("%d | CC: %d", commands_[row_number].channel,
-      commands_[row_number].controller), 0, 0, width, height, Justification::centred);
+        commands_[row_number].controller), 0, 0, width, height, Justification::centred);
     else
       g.drawText(String::formatted("%d | Note: %d", commands_[row_number].channel,
-      commands_[row_number].pitch), 0, 0, width, height, Justification::centred);
+        commands_[row_number].pitch), 0, 0, width, height, Justification::centred);
   }
 }
 
