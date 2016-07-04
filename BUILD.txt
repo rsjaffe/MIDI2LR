@@ -1,8 +1,11 @@
 Prerequisites
 --------------------
 
-On Windows, you need to get Visual Studio 2015 (the Community edition is free).
+On Windows, you need to get Visual Studio 2015 (the Community edition is free). 
 On Mac, you need to install XCode, also free.
+
+The file, Visual Studio text editor settings.vssettings, should be loaded into
+Visual Studio to maintain the standard code formatting used in this project.
 
 There is a utility used to manage JUCE projects called the Introjucer, which is
 included when you download JUCE (http://www.juce.com/download) (you don't need
