@@ -28,12 +28,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "CommandMenu.h"
 
-class CommandTableModel final: public TableListBoxModel {
+class CommandTableModel final: public juce::TableListBoxModel {
 public:
   CommandTableModel() noexcept;
   void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
 
   // TableListBoxModel overrides
+  virtual void sortOrderChanged(int newSortColumnId, bool isForwards) override;
   virtual int getNumRows() override;
   virtual void paintRowBackground(Graphics &, int rowNumber, int width,
     int height, bool rowIsSelected) override;
@@ -58,9 +59,11 @@ public:
   int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
 
 private:
-  int rows_{0};
+  void Sort(bool always = false);
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::vector<MIDI_Message> commands_;
+  std::pair<int, bool> prior_sort{2,true};
+  std::pair<int, bool> current_sort{2,true};
 
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)
