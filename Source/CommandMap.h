@@ -50,11 +50,8 @@ struct MIDI_Message {
   }
 
   bool operator<(const MIDI_Message& other) const noexcept {
-    if (isCC < other.isCC) return true;
-    if (isCC == other.isCC) {
-      if (channel < other.channel) return true;
-      if (channel == other.channel && data < other.data) return true;
-    }
+    if (channel < other.channel ||
+      (channel == other.channel && data < other.data)) return true;
     return false;
   }
 };
