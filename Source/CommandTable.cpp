@@ -24,8 +24,8 @@ CommandTable::CommandTable(const String& component_name, TableListBoxModel *mode
   TableListBox{component_name, model} {
   setHeader(new TableHeaderComponent{});
   getHeader().addColumn("MIDI Command", 1, 150, 30, -1,
+    TableHeaderComponent::notResizable | TableHeaderComponent::sortable);
+  getHeader().addColumn("LR Command", 2, 150, 30, -1,
     TableHeaderComponent::notResizable | TableHeaderComponent::sortable |
     TableHeaderComponent::sortedForwards);
-  getHeader().addColumn("LR Command", 2, 150, 30, -1,
-    TableHeaderComponent::notResizable | TableHeaderComponent::sortable);
 }
