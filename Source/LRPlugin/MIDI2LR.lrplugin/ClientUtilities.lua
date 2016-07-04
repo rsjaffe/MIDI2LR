@@ -18,6 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
+local Limits     = require 'Limits'
 local ParamList  = require 'ParamList'
 local Paste      = require 'Paste'
 local Profiles   = require 'Profiles'
@@ -255,6 +256,17 @@ local function AddToCollection()
 end
 AddToCollection = AddToCollection() --closure
 
+local function FullRefresh()
+  for _,param in ipairs(ParamList.SendToMidi) do
+    local min,max = Limits.GetMinMax(param)
+    local lrvalue = LrDevelopController.getValue(param)
+    if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
+      local midivalue = (lrvalue-min)/(max-min)
+      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+    end
+  end
+end
+
 
 return {
   AddToCollection = AddToCollection,
@@ -265,6 +277,7 @@ return {
   fToggle01 = fToggle01,
   fToggleTF = fToggleTF,
   fToggleTool = fToggleTool,
+  FullRefresh = FullRefresh,
   PasteSelectedSettings = PasteSelectedSettings,
   PasteSettings = PasteSettings,
 

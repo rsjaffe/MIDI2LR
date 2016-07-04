@@ -120,6 +120,7 @@ LrTasks.startAsyncTask(
       EnableRetouch                          = CU.fToggleTF('EnableRetouch'),
       EnableSplitToning                      = CU.fToggleTF('EnableSplitToning'),
       EnableToneCurve                        = CU.fToggleTF('EnableToneCurve'),
+      FullRefresh                            = CU.FullRefresh,
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
       IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,LastParam) end,
