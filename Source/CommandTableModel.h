@@ -59,7 +59,7 @@ public:
   int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
 
 private:
-  void Sort(bool always = false);
+  void Sort();
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::vector<MIDI_Message> commands_;
   std::pair<int, bool> prior_sort{2,true};

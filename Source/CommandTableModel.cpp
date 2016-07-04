@@ -38,7 +38,6 @@ void CommandTableModel::sortOrderChanged(int newSortColumnId, bool isForwards) {
 
   // If you implement this, your method should re - sort the table using the
   // given column as the key.
-  prior_sort = current_sort;
   current_sort = std::make_pair(newSortColumnId, isForwards);
   Sort();
 }
@@ -143,7 +142,7 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
     if (!command_map_->messageExistsInMap(msg)) {
       commands_.push_back(msg);
       command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
-      Sort(true); //re-sort list
+      Sort(); //re-sort list
     }
   }
 }
@@ -204,7 +203,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
     }
     setting = setting->getNextElement();
   }
-  Sort(true);
+  Sort();
 }
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const {
@@ -217,25 +216,22 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
   return -1;
 }
 
-void CommandTableModel::Sort(bool always) {
+void CommandTableModel::Sort() {
   // use LRCommandList::getIndexOfCommand(string); to sort by command
   // sort the command map
-  if (always || prior_sort != current_sort) {
-    if (current_sort.first == 1)
-      if (current_sort.second)
-        std::sort(commands_.begin(), commands_.end());
-      else
-        std::sort(commands_.rbegin(), commands_.rend());
+  auto msg_index = [=](MIDI_Message a) {return LRCommandList::getIndexOfCommand
+  (command_map_->getCommandforMessage(a)); };
+
+  if (current_sort.first == 1)
+    if (current_sort.second)
+      std::sort(commands_.begin(), commands_.end());
     else
-      if (current_sort.second)
-        std::sort(commands_.begin(), commands_.end(), 
-          [this](MIDI_Message a, MIDI_Message b) 
-      { return LRCommandList::getIndexOfCommand(command_map_->getCommandforMessage(a)) <
-          LRCommandList::getIndexOfCommand(command_map_->getCommandforMessage(b)); });
-      else
-        std::sort(commands_.rbegin(), commands_.rend(),
-          [this](MIDI_Message a, MIDI_Message b) 
-      { return LRCommandList::getIndexOfCommand(command_map_->getCommandforMessage(a)) <
-          LRCommandList::getIndexOfCommand(command_map_->getCommandforMessage(b)); });
-  }
+      std::sort(commands_.rbegin(), commands_.rend());
+  else
+    if (current_sort.second)
+      std::sort(commands_.begin(), commands_.end(),
+        [&](MIDI_Message a, MIDI_Message b) { return msg_index(a) < msg_index(b); });
+    else
+      std::sort(commands_.rbegin(), commands_.rend(),
+        [&](MIDI_Message a, MIDI_Message b) { return msg_index(a) < msg_index(b); });
 }
