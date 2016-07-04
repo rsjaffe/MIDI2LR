@@ -159,7 +159,7 @@ public:
     if (auto a = Logger::getCurrentLogger())
       Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
       " line " + juce::String(lineNumber));
-    terminate(); // can't go on with the program
+      std::terminate(); // can't go on with the program
   }
 
 private:

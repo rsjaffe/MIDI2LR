@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import <Carbon/Carbon.h>
 #include <string>
 #include <thread>
 #endif
@@ -275,7 +276,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
     u = CGEventCreateKeyboardEvent(source, vk, false);
   }
   else {
-    const UniChar key_character{utf8_to_utf16(key)[0]};
+    const UniChar key_character(static_cast<UniChar>(utf8_to_utf16(key)[0]));
     d = CGEventCreateKeyboardEvent(source, 0, true);
     u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &key_character);
