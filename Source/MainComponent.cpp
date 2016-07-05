@@ -32,16 +32,16 @@ MainContentComponent::MainContentComponent(): ResizableLayout{this} {}
 MainContentComponent::~MainContentComponent() {}
 
 void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
-  std::weak_ptr<LR_IPC_IN>& lr_ipc_in,
-  std::weak_ptr<LR_IPC_OUT>& lr_ipc_out,
+  std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
+  std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
   std::shared_ptr<MIDIProcessor>& midi_processor,
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<SettingsManager>& settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
   //copy the pointers
   command_map_ = command_map;
-  lr_ipc_in_ = lr_ipc_in;
-  lr_ipc_out_ = lr_ipc_out;
+  lr_ipc_in_ = std::move(lr_ipc_in);
+  lr_ipc_out_ = std::move(lr_ipc_out);
   settings_manager_ = settings_manager;
   midi_processor_ = midi_processor;
   midi_sender_ = midi_sender;

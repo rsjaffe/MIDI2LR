@@ -30,7 +30,7 @@ public:
   VersionChecker() noexcept;
   ~VersionChecker();
 
-  void Init(std::shared_ptr<SettingsManager>& profile_manager) noexcept;
+  void Init(std::weak_ptr<SettingsManager>&& profile_manager) noexcept;
 
 private:
   // Thread interface

@@ -34,9 +34,9 @@ SettingsManager::SettingsManager() {
   properties_file_ = std::make_unique<PropertiesFile>(file_options);
 }
 
-void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT> lr_ipc_out,
-  std::weak_ptr<ProfileManager> profile_manager) {
-  lr_ipc_out_ = lr_ipc_out;
+void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
+  std::weak_ptr<ProfileManager>&& profile_manager) {
+  lr_ipc_out_ = std::move(lr_ipc_out);
 
   if (auto ptr = lr_ipc_out_.lock()) {
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
@@ -44,7 +44,7 @@ void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT> lr_ipc_out,
     ptr->addListener(this);
   }
 
-  profile_manager_ = profile_manager;
+  profile_manager_ = std::move(profile_manager);
 
   if (auto ptr = profile_manager_.lock()) {
       // set the profile directory

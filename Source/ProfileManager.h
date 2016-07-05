@@ -40,9 +40,9 @@ class ProfileManager final: public MIDICommandListener,
 public:
   ProfileManager() noexcept;
   virtual ~ProfileManager() {};
-  void Init(std::weak_ptr<LR_IPC_OUT> out,
-    std::shared_ptr<CommandMap> command_map,
-    std::shared_ptr<MIDIProcessor> midi_processor);
+  void Init(std::weak_ptr<LR_IPC_OUT>&& out,
+    std::shared_ptr<CommandMap>& command_map,
+    std::shared_ptr<MIDIProcessor>& midi_processor);
 
   void addListener(ProfileChangeListener *listener);
 

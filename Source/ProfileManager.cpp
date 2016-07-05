@@ -23,12 +23,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 ProfileManager::ProfileManager() noexcept {}
 
-void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT> out,
-  std::shared_ptr<CommandMap> commandMap,
-  std::shared_ptr<MIDIProcessor> midiProcessor) {
+void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
+  std::shared_ptr<CommandMap>& commandMap,
+  std::shared_ptr<MIDIProcessor>& midiProcessor) {
     //copy the pointers
   command_map_ = commandMap;
-  lr_ipc_out_ = out;
+  lr_ipc_out_ = std::move(out);
 
   if (auto ptr = lr_ipc_out_.lock()) {
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin

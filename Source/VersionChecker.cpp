@@ -26,8 +26,8 @@ VersionChecker::~VersionChecker() {
   stopThread(100);
 }
 
-void VersionChecker::Init(std::shared_ptr<SettingsManager>& settings_manager) noexcept {
-  settings_manager_ = settings_manager;
+void VersionChecker::Init(std::weak_ptr<SettingsManager>&& settings_manager) noexcept {
+  settings_manager_ = std::move(settings_manager);
 }
 
 void VersionChecker::run() {

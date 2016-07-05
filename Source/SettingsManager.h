@@ -30,8 +30,8 @@ class SettingsManager final: public LRConnectionListener {
 public:
   SettingsManager();
   virtual ~SettingsManager() {};
-  void Init(std::weak_ptr<LR_IPC_OUT> lr_IPC_OUT,
-    std::weak_ptr<ProfileManager> profile_manager);
+  void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT,
+    std::weak_ptr<ProfileManager>&& profile_manager);
 
   bool getPickupEnabled() const noexcept;
   void setPickupEnabled(bool enabled);

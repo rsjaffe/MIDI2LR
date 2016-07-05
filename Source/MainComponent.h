@@ -49,8 +49,8 @@ public:
   MainContentComponent();
   virtual ~MainContentComponent();
   void Init(std::shared_ptr<CommandMap>& command_map,
-    std::weak_ptr<LR_IPC_IN>& in,
-    std::weak_ptr<LR_IPC_OUT>& out,
+    std::weak_ptr<LR_IPC_IN>&& in,
+    std::weak_ptr<LR_IPC_OUT>&& out,
     std::shared_ptr<MIDIProcessor>& midi_processor,
     std::shared_ptr<ProfileManager>& profile_manager,
     std::shared_ptr<SettingsManager>& settings_manager,
