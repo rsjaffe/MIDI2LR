@@ -219,7 +219,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
 void CommandTableModel::Sort() {
   // use LRCommandList::getIndexOfCommand(string); to sort by command
   // sort the command map
-  auto msg_index = [=](MIDI_Message a) {return LRCommandList::getIndexOfCommand
+  auto msg_idx = [this](MIDI_Message a) {return LRCommandList::getIndexOfCommand
   (command_map_->getCommandforMessage(a)); };
 
   if (current_sort.first == 1)
@@ -230,8 +230,8 @@ void CommandTableModel::Sort() {
   else
     if (current_sort.second)
       std::sort(commands_.begin(), commands_.end(),
-        [&](MIDI_Message a, MIDI_Message b) { return msg_index(a) < msg_index(b); });
+        [&msg_idx](MIDI_Message a, MIDI_Message b) { return msg_idx(a) < msg_idx(b); });
     else
       std::sort(commands_.rbegin(), commands_.rend(),
-        [&](MIDI_Message a, MIDI_Message b) { return msg_index(a) < msg_index(b); });
+        [&msg_idx](MIDI_Message a, MIDI_Message b) { return msg_idx(a) < msg_idx(b); });
 }
