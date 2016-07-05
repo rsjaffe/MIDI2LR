@@ -30,9 +30,9 @@ SettingsComponent::SettingsComponent(): ResizableLayout{this} {}
 
 SettingsComponent::~SettingsComponent() {}
 
-void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager) {
+void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) {
     //copy the pointer
-  settings_manager_ = settings_manager;
+  settings_manager_ = std::move(settings_manager);
 
   // for layouts to work you must start at some size
   // place controls in a location that is initially correct.
