@@ -210,6 +210,14 @@ void MainContentComponent::handleMidiNote(int midi_channel, int note) {
   triggerAsyncUpdate();
 }
 
+void MainContentComponent::handlePitchWheel(int midi_channel, int value) {
+    // Display the Pitch Wheel parameters and add/highlight row in table corresponding to the value
+  last_command_ = String::formatted("%d: Pitch [%d]", midi_channel, value);
+  command_table_model_.addRow(midi_channel, midi_channel, true);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, midi_channel, true);
+  triggerAsyncUpdate();
+}
+
 void MainContentComponent::connected() {
   connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
   connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);

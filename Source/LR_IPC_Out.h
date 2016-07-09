@@ -63,6 +63,7 @@ public:
   // MIDICommandListener interface
   virtual void handleMidiCC(int midiChannel, int controller, int value) override;
   virtual void handleMidiNote(int midiChannel, int note) override;
+  virtual void handlePitchWheel(int midiChannel, int value) override;
 
 private:
   // IPC interface

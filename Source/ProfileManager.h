@@ -69,6 +69,7 @@ public:
   // MIDICommandListener interface
   virtual void handleMidiCC(int midi_channel, int controller, int value) override;
   virtual void handleMidiNote(int midi_channel, int note) override;
+  virtual void handlePitchWheel(int midi_channel, int value) override;
 
   // LRConnectionListener interface
   virtual void connected() override;

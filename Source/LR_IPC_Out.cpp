@@ -116,6 +116,10 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
   }
 }
 
+void LR_IPC_OUT::handlePitchWheel(int midi_channel, int value) {
+	MIDI_Message message{ midi_channel, value, true };
+}
+
 void LR_IPC_OUT::connectionMade() {
   for (const auto& listener : listeners_)
     listener->connected();

@@ -149,6 +149,10 @@ void ProfileManager::handleMidiNote(int midi_channel, int note) {
   }
 }
 
+void ProfileManager::handlePitchWheel(int midi_channel, int value) {
+
+}
+
 void ProfileManager::connected() {
   const std::string command = "ChangedToDirectory " +
     juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
