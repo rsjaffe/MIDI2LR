@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 constexpr auto SettingsLeft = 20;
 constexpr auto SettingsWidth = 400;
-constexpr auto SettingsHeight = 300;
+constexpr auto SettingsHeight = 470;
 
 SettingsComponent::SettingsComponent(): ResizableLayout{this} {}
 
@@ -99,6 +99,48 @@ void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager)
     //add this as the lister for the data
     autohide_setting_.addListener(this);
     addAndMakeVisible(autohide_setting_);
+
+    ////// ----------------------- controller section ------------------------------------
+    controllers_group_.setText("Controller Settings");
+    controllers_group_.setBounds(0, 300, SettingsWidth, 160);
+    addToLayout(&controllers_group_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(controllers_group_);
+
+    continuous_label_.setFont(Font{12.f, Font::bold});
+    continuous_label_.setText("Enable this, if your DAW controller uses continuous encoders. If disabled (default) encoders are expected to send absolute values between 0 and 127.", NotificationType::dontSendNotification);
+    continuous_label_.setBounds(SettingsLeft, 315, SettingsWidth - 2 * SettingsLeft, 50);
+    addToLayout(&continuous_label_, anchorMidLeft, anchorMidRight);
+    continuous_label_.setEditable(false);
+    continuous_label_.setColour(Label::textColourId, Colours::darkgrey);
+    addAndMakeVisible(continuous_label_);
+
+    continuous_enabled_.addListener(this);
+    continuous_enabled_.setToggleState(ptr->getContinuousEncoders(), NotificationType::dontSendNotification);
+    continuous_enabled_.setBounds(SettingsLeft, 360, SettingsWidth - 2 * SettingsLeft, 32);
+    addToLayout(&continuous_enabled_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(continuous_enabled_);
+
+    maxpitch_label_.setFont(Font{12.f, Font::bold});
+    maxpitch_label_.setText("Use this setting to enter the maximum value your pitch bend control is sending.", NotificationType::dontSendNotification);
+    maxpitch_label_.setBounds(SettingsLeft, 380, SettingsWidth - 2 * SettingsLeft, 50);
+    addToLayout(&maxpitch_label_, anchorMidLeft, anchorMidRight);
+    maxpitch_label_.setEditable(false);
+    maxpitch_label_.setColour(Label::textColourId, Colours::darkgrey);
+    addAndMakeVisible(maxpitch_label_);
+
+    pitch_max_value_.addListener(this);
+    pitch_max_value_.setBounds(SettingsLeft, 420, 100, 25);
+	pitch_max_value_.setColour(TextEditor::outlineColourId, Colours::darkgrey);
+	pitch_max_value_.setText(ptr->getPitchMaxValue(), NotificationType::dontSendNotification);
+    addToLayout(&pitch_max_value_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(pitch_max_value_);
+
+	// because I cannot get the TextEditor events to do anything I just add an apply button :-)
+	apply_button_.addListener(this);
+    apply_button_.setBounds(SettingsLeft + 120, 420, 100, 25);
+    addToLayout(&apply_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(apply_button_);
+
     // turn it on
     activateLayout();
   }
@@ -112,6 +154,16 @@ void SettingsComponent::buttonClicked(Button* button) {
   if (button == &pickup_enabled_) {
     if (auto ptr = settings_manager_.lock()) {
       ptr->setPickupEnabled(pickup_enabled_.getToggleState());
+    }
+  }
+  if (button == &continuous_enabled_) {
+    if (auto ptr = settings_manager_.lock()) {
+      ptr->setContinuousEncoders(continuous_enabled_.getToggleState());
+    }
+  }
+  if (button == &apply_button_) {
+    if (auto ptr = settings_manager_.lock()) {
+      ptr->setPitchMaxValue(pitch_max_value_.getText());
     }
   }
   else if (button == &profile_location_button_) {
@@ -150,3 +202,11 @@ void SettingsComponent::sliderValueChanged(Slider* slider) {
     }
   }
 }
+
+void SettingsComponent::textEditorTextChanged(TextEditor &editor) {
+    // ToDo: this event handler is never been called
+	// I don't have a clue about how this JUCE stuff is supposed to work at all.
+	if (true) {
+	}
+}
+

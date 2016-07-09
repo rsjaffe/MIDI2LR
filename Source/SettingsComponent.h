@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 class SettingsComponent final: public Component,
-  private ButtonListener, private ResizableLayout, private Slider::Listener {
+	private ButtonListener, private ResizableLayout, private Slider::Listener, private TextEditor::Listener {
 public:
   SettingsComponent();
   ~SettingsComponent();
@@ -36,17 +36,24 @@ private:
   void paint(Graphics&) override;
   virtual void buttonClicked(Button* button) override;
   virtual void sliderValueChanged(Slider* slider) override;
+  virtual void textEditorTextChanged(TextEditor &editor) override;
 
   GroupComponent autohide_group_{};
   GroupComponent pickup_group_{};
   GroupComponent profile_group_{};
+  GroupComponent controllers_group_{};
   Label autohide_explain_label_{};
   Label pickup_label_{"PickupLabel", ""};
   Label profile_location_label_{"Profile Label"};
+  Label continuous_label_{"ContinuousLabel", ""};
+  Label maxpitch_label_{"MaxPitchLabel", ""};
   Slider autohide_setting_;
   std::weak_ptr<SettingsManager> settings_manager_;
   TextButton profile_location_button_{"Choose Profile Folder"};
+  TextButton apply_button_{"Apply"};
   ToggleButton pickup_enabled_{"Enable Pickup Mode"};
+  ToggleButton continuous_enabled_{"Continuous Encoder Mode"};
+  TextEditor pitch_max_value_;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
