@@ -143,6 +143,10 @@ void ProfileManager::handleMidiNote(int midi_channel, int note) {
   }
 }
 
+void ProfileManager::handlePitchWheel(int midi_channel, int value) {
+
+}
+
 void ProfileManager::connected() {
   const auto command = String{"ChangedToDirectory "} +
     File::addTrailingSeparator(profile_location_.getFullPathName()) +

@@ -50,9 +50,16 @@ void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
         listener->handleMidiCC(channel, control, value);
   }
   else if (message.isNoteOn()) {
-    for (auto listener : listeners_) {
-      listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
-    }
+	  for (auto listener : listeners_) {
+		  listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
+	  }
+  }
+  else if (message.isPitchWheel()) {
+    const auto value =
+      static_cast<unsigned short int>(message.getPitchWheelValue());
+	  for (auto listener : listeners_) {
+		  listener->handlePitchWheel(message.getChannel(), value);
+	  }
   }
 }
 
