@@ -166,6 +166,15 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
           getStringAttribute("command_string"), note);
       }
     }
+    else if (setting->hasAttribute("pitchbend")) {
+      const MIDI_Message note{
+		  setting->getIntAttribute("channel"),
+          setting->getIntAttribute("pitchbend"),
+		  PITCHBEND};
+
+      addRow(note.channel, note.pitch, PITCHBEND);
+	  command_map_->addCommandforMessage(setting->getStringAttribute("command_string"), note);
+    }
     setting = setting->getNextElement();
   }
 }
