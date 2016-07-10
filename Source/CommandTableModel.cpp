@@ -40,17 +40,34 @@ void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/,
 
 void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
+
+	int value = 0, channel = 0;
+	String formatStr;
+	
   g.setColour(Colours::black);
   g.setFont(12.0f);
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
-    if (commands_[row_number].isCC)
-      g.drawText(String::formatted("%d | CC: %d", commands_[row_number].channel,
-      commands_[row_number].controller), 0, 0, width, height, Justification::centred);
-    else
-      g.drawText(String::formatted("%d | Note: %d", commands_[row_number].channel,
-      commands_[row_number].pitch), 0, 0, width, height, Justification::centred);
+	  switch (commands_[row_number].messageType)
+	  {
+	  case NOTE:
+		  formatStr = "%d | Note: %d";
+		  channel = commands_[row_number].channel;
+		  value = commands_[row_number].pitch;
+		  break;
+	  case CC:
+		  formatStr = "%d | CC: %d";
+		  channel = commands_[row_number].channel;
+		  value = commands_[row_number].controller;
+		  break;
+	  case PITCHBEND:
+		  formatStr = "%d | Pitch: %d";
+		  channel = commands_[row_number].channel;
+		  value = commands_[row_number].controller;
+		  break;
+	  }
+	  g.drawText(String::formatted(formatStr , channel, value), 0, 0, width, height, Justification::centred);
   }
 }
 
@@ -81,8 +98,8 @@ Component *CommandTableModel::refreshComponentForCell(int row_number,
     return nullptr;
 }
 
-void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
-  const MIDI_Message msg{midi_channel, midi_data, is_cc};
+void CommandTableModel::addRow(int midi_channel, int midi_data, MessageType msgType) {
+  const MIDI_Message msg{midi_channel, midi_data, msgType};
   if (command_map_) {
     if (!command_map_->messageExistsInMap(msg)) {
       commands_.push_back(msg);
@@ -121,8 +138,8 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
   while ((setting) && (command_map_)) {
     if (setting->hasAttribute("controller")) {
       const MIDI_Message message{setting->getIntAttribute("channel"),
-        setting->getIntAttribute("controller"), true};
-      addRow(message.channel, message.controller, true);
+        setting->getIntAttribute("controller"), CC};
+      addRow(message.channel, message.controller, CC);
 
       // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
       if (setting->getIntAttribute("command", -1) != -1) {
@@ -136,8 +153,8 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
     }
     else if (setting->hasAttribute("note")) {
       const MIDI_Message note{setting->getIntAttribute("channel"),
-        setting->getIntAttribute("note"), false};
-      addRow(note.channel, note.pitch, false);
+        setting->getIntAttribute("note"), NOTE};
+      addRow(note.channel, note.pitch, NOTE);
 
       // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
       if (setting->getIntAttribute("command", -1) != -1) {
@@ -149,14 +166,23 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
           getStringAttribute("command_string"), note);
       }
     }
+    else if (setting->hasAttribute("pitchbend")) {
+      const MIDI_Message note{
+		  setting->getIntAttribute("channel"),
+          setting->getIntAttribute("pitchbend"),
+		  PITCHBEND};
+
+      addRow(note.channel, note.pitch, PITCHBEND);
+	  command_map_->addCommandforMessage(setting->getStringAttribute("command_string"), note);
+    }
     setting = setting->getNextElement();
   }
 }
 
-int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const {
+int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, MessageType msgType) const {
   for (auto idx = 0; idx < rows_; idx++) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
-      && commands_[idx].isCC == is_cc)
+      && commands_[idx].messageType == msgType)
       return idx;
   }
   //could not find

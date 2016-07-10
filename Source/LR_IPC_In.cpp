@@ -155,7 +155,12 @@ void LR_IPC_IN::processLine(const juce::String& line) {
           ((msg.controller < 128) ? 127.0 : 16383.0) * original_value));
 
         if (midi_sender_) {
-          midi_sender_->sendCC(msg.channel, msg.controller, value);
+			switch (msg.messageType)
+			{
+				case NOTE: midi_sender_->sendCC(msg.channel, msg.controller, value); break;
+				case CC: midi_sender_->sendCC(msg.channel, msg.controller, value); break;
+				case PITCHBEND: midi_sender_->sendPitchBend(msg.channel, static_cast<int>(round(original_value * 15300.0))); break;
+			}
         }
       }
     }

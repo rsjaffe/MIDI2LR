@@ -62,7 +62,7 @@ void LR_IPC_OUT::sendCommand(const String &command) {
 }
 
 void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
-  MIDI_Message message{midi_channel, controller, true};
+  MIDI_Message message{midi_channel, controller, CC};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
@@ -86,7 +86,7 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
 }
 
 void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
-  MIDI_Message message{midi_channel, note, false};
+  MIDI_Message message{midi_channel, note, NOTE};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
@@ -98,6 +98,30 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
 
     auto command_to_send = command_map_->getCommandforMessage(message);
     command_to_send += String(" 1\n");
+    {
+      std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
+      command_ += command_to_send;
+    }
+    triggerAsyncUpdate();
+  }
+}
+
+void LR_IPC_OUT::handlePitchWheel(int midi_channel, int value) {
+  MIDI_Message message{midi_channel, midi_channel, PITCHBEND};
+
+  if (command_map_) {
+    if (!command_map_->messageExistsInMap(message) ||
+      command_map_->getCommandforMessage(message) == "Unmapped" ||
+      find(LRCommandList::NextPrevProfile.begin(),
+      LRCommandList::NextPrevProfile.end(),
+      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+      return;
+
+    auto command_to_send = command_map_->getCommandforMessage(message);
+    double computed_value = value;
+    computed_value /= 15300.0; // ToDo: make setter for this to push in the setting from the SettingsManager
+    
+    command_to_send += String::formatted(" %g\n", computed_value);
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
       command_ += command_to_send;

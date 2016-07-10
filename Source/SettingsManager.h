@@ -36,8 +36,14 @@ public:
   bool getPickupEnabled() const noexcept;
   void setPickupEnabled(bool enabled);
 
+  bool getContinuousEncoders() const noexcept;
+  void setContinuousEncoders(bool enabled);
+
   String getProfileDirectory() const noexcept;
   void setProfileDirectory(const String& profile_directory);
+
+  String getPitchMaxValue() const noexcept;
+  void setPitchMaxValue(const String& pitch_max_value);
 
   // LRConnectionListener interface
   virtual void connected() override;
