@@ -74,6 +74,7 @@ public:
   virtual void disconnected() override;
 
 private:
+	void mapCommand(MIDI_Message msg);
   // AsyncUpdate interface
   virtual void handleAsyncUpdate() override;
   enum class SWITCH_STATE {

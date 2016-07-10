@@ -26,8 +26,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Pattern/Subject.h"
 
+enum MessageType{NOTE, CC, PITCHBEND};
+
 struct MIDI_Message {
-  bool isCC;
+	MessageType messageType;
   int channel;
   union {
     int controller;
@@ -35,18 +37,18 @@ struct MIDI_Message {
     int data;
   };
 
-  MIDI_Message(): isCC(0),
+  MIDI_Message(): messageType(NOTE),
     channel(0),
     data(0)
 
   {}
 
-  MIDI_Message(int ch, int dat, bool iscc): channel(ch),
-    isCC(iscc),
+  MIDI_Message(int ch, int dat, MessageType msgType): channel(ch),
+    messageType(msgType),
     data(dat) {}
 
   bool operator==(const MIDI_Message &other) const {
-    return (isCC == other.isCC && channel == other.channel && data == other.data);
+    return (messageType == other.messageType && channel == other.channel && data == other.data);
   }
 };
 
@@ -55,7 +57,7 @@ namespace std {
   template <>
   struct hash<MIDI_Message> {
     std::size_t operator()(const MIDI_Message& k) const noexcept {
-      return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^
+      return (std::hash<int>()(k.messageType) ^ std::hash<int>()(k.channel) ^
         (std::hash<int>()(k.data) << 1));
     }
   };
