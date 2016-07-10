@@ -206,7 +206,13 @@ void SettingsComponent::sliderValueChanged(Slider* slider) {
 void SettingsComponent::textEditorTextChanged(TextEditor &editor) {
     // ToDo: this event handler is never been called
 	// I don't have a clue about how this JUCE stuff is supposed to work at all.
-	if (true) {
+
+    // NULL pointer check
+	if (&editor) {
+		// ToDo: input validation!
+		if (auto ptr = settings_manager_.lock()) {
+		  ptr->setPitchMaxValue(pitch_max_value_.getText());
+		}
 	}
 }
 
