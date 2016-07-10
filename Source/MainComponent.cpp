@@ -190,24 +190,24 @@ void MainContentComponent::paint(Graphics& g) {
 void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value) {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
   last_command_ = String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
-  command_table_model_.addRow(midi_channel, controller, true);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, true);
+  command_table_model_.addRow(midi_channel, controller, CC);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, CC);
   triggerAsyncUpdate();
 }
 
 void MainContentComponent::handleMidiNote(int midi_channel, int note) {
     // Display the Note parameters and add/highlight row in table corresponding to the Note
   last_command_ = String::formatted("%d: Note [%d]", midi_channel, note);
-  command_table_model_.addRow(midi_channel, note, false);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, false);
+  command_table_model_.addRow(midi_channel, note, NOTE);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, NOTE);
   triggerAsyncUpdate();
 }
 
 void MainContentComponent::handlePitchWheel(int midi_channel, int value) {
     // Display the Pitch Wheel parameters and add/highlight row in table corresponding to the value
   last_command_ = String::formatted("%d: Pitch [%d]", midi_channel, value);
-  command_table_model_.addRow(midi_channel, midi_channel, true);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, midi_channel, true);
+  command_table_model_.addRow(midi_channel, midi_channel, PITCHBEND);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, midi_channel, PITCHBEND);
   triggerAsyncUpdate();
 }
 
@@ -314,7 +314,7 @@ void MainContentComponent::buttonClicked(Button* button) {
     auto *component = new SettingsComponent{};
     component->Init(settings_manager_);
     dialog_options.content.setOwned(component);
-    dialog_options.content->setSize(400, 300);
+    //dialog_options.content->setSize(400, 300); Why would you want to do this? Breaks the window if new options are added.
     dialog_options.escapeKeyTriggersCloseButton = true;
     dialog_options.useNativeTitleBar = false;
     settings_dialog_.reset(dialog_options.create());
