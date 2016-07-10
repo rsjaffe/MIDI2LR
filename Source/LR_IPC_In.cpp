@@ -54,11 +54,10 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
 }
 
 void LR_IPC_IN::refreshMIDIOutput() {
-  if (command_map_) {
+  if (command_map_ && midi_sender_) {
       // send associated CC messages to MIDI OUT devices
     for (const auto& map_entry : parameter_map_) {
-      if ((command_map_->commandHasAssociatedMessage(map_entry.first)) &&
-        (midi_sender_)) {
+      if (command_map_->commandHasAssociatedMessage(map_entry.first)) {
         const auto& msg = command_map_->getMessageForCommand(map_entry.first);
         midi_sender_->sendCC(msg.channel, msg.controller, map_entry.second);
       }
