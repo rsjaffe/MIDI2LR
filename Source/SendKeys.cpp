@@ -20,16 +20,51 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SendKeys.h"
 #include <cctype>
+#include <vector>
 #ifdef _WIN32
 #include "Windows.h"
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#include <vector>
+#import <Carbon/Carbon.h>
 #include <string>
 #include <thread>
 #endif
 namespace {
+#ifdef _WIN32
+  wchar_t MBtoWChar(const std::string& key) {
+    wchar_t full_character;
+    const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
+      key.size(), &full_character, 1);
+    if (return_value == 0) {
+      auto er = GetLastError();
+      if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
+        throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
+      if (er == ERROR_INSUFFICIENT_BUFFER)
+        throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
+      if (er == ERROR_NO_UNICODE_TRANSLATION)
+        throw std::domain_error("Unable to translate: MultiByteToWideChar.");
+      throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+    }
+    return full_character;
+  }
+
+  HKL GetLanguageAndFGApp(std::string program_name) {
+    const auto hLRWnd = FindWindow(NULL, program_name.c_str());
+    HKL language_id;
+    // Bring Lightroom to foreground if it isn't already there
+    if (hLRWnd) {
+      SetForegroundWindow(hLRWnd);
+      // get language that LR is using (if hLrWnd is found)
+      const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
+      language_id = GetKeyboardLayout(thread_id);
+    }
+    else {   // use keyboard of MIDI2LR application
+      language_id = GetKeyboardLayout(0);
+    }
+    return language_id;
+  }
+#else
   std::wstring utf8_to_utf16(const std::string& utf8) {
     std::vector<unsigned long> unicode;
     size_t i = 0;
@@ -89,241 +124,185 @@ namespace {
     }
     return utf16;
   }
+#endif
 }
 
 const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
 #ifdef _WIN32
-{"space", 0x20},
-{"backspace", 0x08},
-{"page up",	0x21},
-{"page down",0x22},
-{ "end",	0x23 },
-{"home",	0x24},
-{"cursor left",	0x25},
-{"cursor up",	0x26},
-{"cursor right",	0x27},
-{"cursor down",	0x28},
-{"delete",	0x2E},
-{"return",	0x0D},
-{"tab",	0x09},
-{"escape", 0x1B},
-{"f1",	0x70},
-{"f2",	0x71},
-{"f3",	0x72},
-{"f4",	0x73},
-{"f5",	0x74},
-{"f6",	0x75},
-{"f7",	0x76},
-{"f8",	0x77},
-{"f9",	0x78},
-{"f10",	0x79},
-{"f11",	0x7A},
-{"f12",	0x7B},
-{"f13",	0x7C},
-{"f14",	0x7D},
-{"f15",	0x7E},
-{"f16",	0x7F},
-{"f17",	0x80},
-{"f18",	0x81},
-{"f19",	0x82},
-{"f20",	0x83}
+{"backspace",     VK_BACK},
+{"cursor down",	  VK_DOWN},
+{"cursor left",	  VK_LEFT},
+{"cursor right",	VK_RIGHT},
+{"cursor up",   	VK_UP},
+{"delete",	      VK_DELETE},
+{"end",         	VK_END},
+{"escape",        VK_ESCAPE},
+{"home",	        VK_HOME},
+{"page down",     VK_NEXT},
+{"page up",	      VK_PRIOR},
+{"return",	      VK_RETURN},
+{"space",         VK_SPACE},
+{"tab",	          VK_TAB},
+{"f1",	VK_F1},
+{"f2",	VK_F2},
+{"f3",	VK_F3},
+{"f4",	VK_F4},
+{"f5",	VK_F5},
+{"f6",	VK_F6},
+{"f7",	VK_F7},
+{"f8",	VK_F8},
+{"f9",	VK_F9},
+{"f10",	VK_F10},
+{"f11",	VK_F11},
+{"f12",	VK_F12},
+{"f13",	VK_F13},
+{"f14",	VK_F14},
+{"f15",	VK_F15},
+{"f16",	VK_F16},
+{"f17",	VK_F17},
+{"f18",	VK_F18},
+{"f19",	VK_F19},
+{"f20",	VK_F20}
 #else
 {
-"space", 0x31
+"backspace",    kVK_Delete
 },
-{"backspace", 0x33},
-{"page up", 0x74 },
-{"page down", 0x79 },
-{"end",	0x77 },
-{"home", 0x73 },
-{"cursor left",	0x7B },
-{"cursor up", 0x7E },
-{"cursor right", 0x7C },
-{"cursor down",	0x7D },
-{"delete", 0x75 },
-{"return", 0x24 },
-{"tab",	0x30 },
-{"escape", 0x35},
-{"f1", 0x7A },
-{"f2", 0x78 },
-{"f3", 0x63 },
-{"f4", 0x76 },
-{"f5", 0x60 },
-{"f6", 0x61 },
-{"f7", 0x62 },
-{"f8", 0x64 },
-{"f9", 0x65 },
-{"f10",	0x6D },
-{"f11",	0x67 },
-{"f12",	0x6F },
-{"f13",	0x69 },
-{"f14",	0x6B },
-{"f15",	0x71 },
-{"f16",	0x6A },
-{"f17",	0x40 },
-{"f18",	0x4F },
-{"f19",	0x50 },
-{"f20",	0x5A }
+{"cursor down",	 kVK_DownArrow},
+{"cursor left",  kVK_LeftArrow},
+{"cursor right", kVK_RightArrow},
+{"cursor up",    kVK_UpArrow},
+{"delete",       kVK_ForwardDelete},
+{"end",	         kVK_End},
+{"escape",       kVK_Escape},
+{"home",         kVK_Home},
+{"page down",    kVK_PageDown},
+{"page up",      kVK_PageUp},
+{"return",       kVK_Return},
+{"space",        kVK_Space},
+{"tab",	         kVK_Tab},
+{"f1", kVK_F1},
+{"f2", kVK_F2},
+{"f3", kVK_F3},
+{"f4", kVK_F4},
+{"f5", kVK_F5},
+{"f6", kVK_F6},
+{"f7", kVK_F7},
+{"f8", kVK_F8},
+{"f9", kVK_F9},
+{"f10",	kVK_F10},
+{"f11",	kVK_F11},
+{"f12",	kVK_F12},
+{"f13",	kVK_F13},
+{"f14",	kVK_F14},
+{"f15",	kVK_F15},
+{"f16",	kVK_F16},
+{"f17",	kVK_F17},
+{"f18",	kVK_F18},
+{"f19",	kVK_F19},
+{"f20",	kVK_F20}
 #endif
 };
 
 std::mutex SendKeys::mutex_sending_{};
 
-void SendKeys::SendKeyDownUp(const std::string& key, bool alt, bool control, bool shift) const {
+void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
+  const bool control_cmd, const bool shift) const {
   std::string lower_string; //used for matching with key names
   for (const auto& c : key)
     lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
 #ifdef _WIN32
     //Lightroom handle
-  const auto hLRWnd = ::FindWindow(NULL, "Lightroom");
-  HKL language_id;
-  // Bring Lightroom to foreground if it isn't already there
-  if (hLRWnd) {
-    ::SetForegroundWindow(hLRWnd);
-    // get language that LR is using (if hLrWnd is found)
-    const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
-    language_id = GetKeyboardLayout(thread_id);
-  }
-  else {   // use keyboard of MIDI2LR application
-    language_id = GetKeyboardLayout(0);
-  }
+  HKL language_id = GetLanguageAndFGApp("Lightroom");
   BYTE vk = 0;
   BYTE vk_modifiers = 0;
   if (SendKeys::key_map_.count(lower_string))
     vk = SendKeys::key_map_.at(lower_string);
   else {// Translate key code to keyboard-dependent scan code, may be UTF-8
-    wchar_t full_character;
-    const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
-      key.size(), &full_character, 1);
-    if (return_value == 0) {
-      auto er = GetLastError();
-      if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
-        throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
-      if (er == ERROR_INSUFFICIENT_BUFFER)
-        throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
-      if (er == ERROR_NO_UNICODE_TRANSLATION)
-        throw std::domain_error("Unable to translate: MultiByteToWideChar.");
-      throw std::runtime_error("Unknown error: MultiByteToWideChar.");
-    }
-    const auto vk_code_and_shift = VkKeyScanExW(full_character, language_id);
+    const auto vk_code_and_shift = VkKeyScanExW(MBtoWChar(key), language_id);
     vk = LOBYTE(vk_code_and_shift);
     vk_modifiers = HIBYTE(vk_code_and_shift);
   }
 
-  // input event.
-  INPUT ip;
-  ip.type = INPUT_KEYBOARD;
-  ip.ki.dwExtraInfo = 0;
-  ip.ki.dwFlags = 0; // 0 for key press
-  ip.ki.time = 0;
-  ip.ki.wScan = 0;
-  //mutex lock for key sending events to keep in sequence
-  std::lock_guard< decltype(mutex_sending_) > lock(mutex_sending_);
-  if ((vk_modifiers & 0x06) == 0x06) //using AltGr key
-  {
-    ip.ki.wVk = VK_RMENU;
-    SendInput(1, &ip, sizeof(INPUT));
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    //press the key
-    ip.ki.wVk = vk;
-    SendInput(1, &ip, sizeof(INPUT));
-    //add 30 msec between press and release
-    Sleep(30);
-    // Release the key
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    SendInput(1, &ip, sizeof(INPUT));
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    ip.ki.wVk = VK_RMENU;
-    SendInput(1, &ip, sizeof(INPUT));
+  //construct virtual keystroke sequence
+  std::vector<unsigned int> strokes{vk}; // start with actual key, then mods
+  if (shift || (vk_modifiers & 0x1)) {
+    strokes.push_back(VK_SHIFT);
   }
-  else //not using AltGr key
-  {
-    if (control || (vk_modifiers & 0x2)) {
-      ip.ki.wVk = VK_CONTROL;
-      SendInput(1, &ip, sizeof(INPUT));
+  if ((vk_modifiers & 0x06) == 0x06) {
+    strokes.push_back(VK_RMENU); //AltGr
+    if (control_cmd)
+      strokes.push_back(VK_CONTROL);
+    if (alt_opt)
+      strokes.push_back(VK_MENU);
+  }
+  else {
+    if (control_cmd || (vk_modifiers & 0x2)) {
+      strokes.push_back(VK_CONTROL);
     }
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
+    if (alt_opt || (vk_modifiers & 0x4)) {
+      strokes.push_back(VK_MENU);
     }
-    if (alt || (vk_modifiers & 0x4)) {
-      ip.ki.wVk = VK_MENU;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    //press the key
-    ip.ki.wVk = vk;
-    SendInput(1, &ip, sizeof(INPUT));
-    //add 30 msec between press and release
-    std::this_thread::sleep_for(std::chrono::milliseconds(30));
-    // Release the key
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    SendInput(1, &ip, sizeof(INPUT));
-    if (control || (vk_modifiers & 0x2)) {
-      ip.ki.wVk = VK_CONTROL;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (shift || (vk_modifiers & 0x1)) {
-      ip.ki.wVk = VK_SHIFT;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
-    if (alt || (vk_modifiers & 0x4)) {
-      ip.ki.wVk = VK_MENU;
-      SendInput(1, &ip, sizeof(INPUT));
-    }
+  }
+
+  // construct input event.
+  INPUT ip;
+  constexpr auto size_ip = sizeof(INPUT);
+  ip.type = INPUT_KEYBOARD;
+  //ki: wVk, wScan, dwFlags, time, dwExtraInfo
+  ip.ki = {0,0,0,0,0};
+
+  //send key down strokes
+  std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
+  for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
+    ip.ki.wVk = static_cast<WORD>(*it);
+    SendInput(1, &ip, size_ip);
+  }
+  //send key up strokes
+  ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+  for (const auto it : strokes) {
+    ip.ki.wVk = static_cast<WORD>(it);
+    SendInput(1, &ip, size_ip);
   }
 #else
   const CGEventSourceRef source =
     CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
   CGEventRef d;
   CGEventRef u;
-
   uint64_t flags = 0;
+
   if (SendKeys::key_map_.count(lower_string)) {
     auto vk = SendKeys::key_map_.at(lower_string);
     d = CGEventCreateKeyboardEvent(source, vk, true);
     u = CGEventCreateKeyboardEvent(source, vk, false);
-    if (control) flags |= kCGEventFlagMaskCommand;
-    if (alt) flags |= kCGEventFlagMaskAlternate;
-    if (shift) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0)) {
-      CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-      CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-    }
   }
   else {
-    const std::wstring utf16str{utf8_to_utf16(key)};
-    const UniChar key_character = utf16str[0];
+    const UniChar key_character(static_cast<UniChar>(utf8_to_utf16(key)[0]));
     d = CGEventCreateKeyboardEvent(source, 0, true);
     u = CGEventCreateKeyboardEvent(source, 0, false);
     CGEventKeyboardSetUnicodeString(d, 1, &key_character);
     CGEventKeyboardSetUnicodeString(u, 1, &key_character);
     flags = CGEventGetFlags(d); //in case KeyCode has associated flag
-    if (control) flags |= kCGEventFlagMaskCommand;
-    if (alt) flags |= kCGEventFlagMaskAlternate;
-    if (shift) flags |= kCGEventFlagMaskShift;
-    if (flags != UINT64_C(0)) {
-      CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-      CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-    }
   }
-  CGEventRef cmdd = CGEventCreateKeyboardEvent(source, 0x37, true);
-  CGEventRef cmdu = CGEventCreateKeyboardEvent(source, 0x37, false);
 
-  constexpr CGEventTapLocation loc = kCGHIDEventTap; // kCGSessionEventTap also works
+  if (control_cmd) flags |= kCGEventFlagMaskCommand;
+  if (alt_opt) flags |= kCGEventFlagMaskAlternate;
+  if (shift) flags |= kCGEventFlagMaskShift;
+  if (flags) {
+    CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+    CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+  }
+  CGEventRef cmdd = CGEventCreateKeyboardEvent(source, kVK_Command, true);
+  CGEventRef cmdu = CGEventCreateKeyboardEvent(source, kVK_Command, false);
+
   {   //restrict scope for mutex lock
+    constexpr CGEventTapLocation loc = kCGHIDEventTap; // kCGSessionEventTap also works
     std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-    if (control) {
+    if (flags & kCGEventFlagMaskCommand) {
       CGEventPost(loc, cmdd);
     }
     CGEventPost(loc, d);
     CGEventPost(loc, u);
-    if (control) {
+    if (flags & kCGEventFlagMaskCommand) {
       CGEventPost(loc, cmdu);
     }
   }

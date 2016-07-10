@@ -24,7 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define COMMANDMAP_H_INCLUDED
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Pattern/Subject.h"
 
 struct MIDI_Message {
   bool isCC;
@@ -35,8 +34,9 @@ struct MIDI_Message {
     int data;
   };
 
-  MIDI_Message(): isCC(0),
+  MIDI_Message():
     channel(0),
+    isCC(0),
     data(0)
 
   {}
@@ -45,8 +45,17 @@ struct MIDI_Message {
     isCC(iscc),
     data(dat) {}
 
-  bool operator==(const MIDI_Message &other) const {
+  bool operator==(const MIDI_Message &other) const noexcept {
     return (isCC == other.isCC && channel == other.channel && data == other.data);
+  }
+
+  bool operator<(const MIDI_Message& other) const noexcept {
+    if (channel < other.channel) return true;
+    if (channel == other.channel) {
+      if (data < other.data) return true;
+      if (data == other.data && isCC && !other.isCC) return true;
+    }
+    return false;
   }
 };
 
@@ -68,7 +77,7 @@ namespace std {
   };
 }
 
-class CommandMap: public Subject {
+class CommandMap {
 public:
   CommandMap() noexcept;
   virtual ~CommandMap() {}

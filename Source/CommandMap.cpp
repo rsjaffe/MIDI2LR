@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-CommandMap::CommandMap() noexcept : Subject{} {}
+CommandMap::CommandMap() noexcept {}
 
 void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message) {
     // adds a message to the message:command map, and its associated command to the
@@ -83,6 +83,6 @@ void CommandMap::toXMLDocument(File& file) const {
     if (!root.writeToFile(file, ""))
         // Give feedback if file-save doesn't work
       AlertWindow::showMessageBox(AlertWindow::WarningIcon, "File Save Error",
-      "Unable to save file as specified. Please try again, and consider saving to a different location.");
+        "Unable to save file as specified. Please try again, and consider saving to a different location.");
   }
 }

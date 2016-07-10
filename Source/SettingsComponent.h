@@ -26,12 +26,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ResizableLayout.h"
 #include "SettingsManager.h"
 
-class SettingsComponent final: public Component,
-  private ButtonListener, private ResizableLayout, private Slider::Listener {
+class SettingsComponent final: 
+  public Component,
+  private ButtonListener, 
+  private ResizableLayout, 
+  private Slider::Listener {
 public:
   SettingsComponent();
   ~SettingsComponent();
-  void Init(std::shared_ptr<SettingsManager>& settings_manager);
+  void Init(std::weak_ptr<SettingsManager>&& settings_manager);
 private:
   void paint(Graphics&) override;
   virtual void buttonClicked(Button* button) override;

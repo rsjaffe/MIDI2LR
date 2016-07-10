@@ -32,7 +32,7 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const {
   if (controller < 128) { // regular message
     for (auto dev : output_devices)
       dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller,
-      value));
+        value));
   }
   else { // NRPN
     const auto parameterLSB = controller & 0x7f;

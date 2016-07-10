@@ -30,7 +30,7 @@ public:
   VersionChecker() noexcept;
   ~VersionChecker();
 
-  void Init(std::shared_ptr<SettingsManager>& profile_manager) noexcept;
+  void Init(std::weak_ptr<SettingsManager>&& profile_manager) noexcept;
 
 private:
   // Thread interface
@@ -40,7 +40,7 @@ private:
   virtual void handleAsyncUpdate() override;
 
   int new_version_;
-  std::shared_ptr<SettingsManager> settings_manager_;
+  std::weak_ptr<SettingsManager> settings_manager_;
   std::unique_ptr<DialogWindow> dialog_;
 };
 

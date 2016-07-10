@@ -21,7 +21,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include <bitset>
 
-constexpr auto kLrInPort = 58764;
+namespace {
+  constexpr auto kBufferSize = 256;
+  constexpr auto kConnectTryTime = 100;
+  constexpr auto kEmptyWait = 100;
+  constexpr auto kLrInPort = 58764;
+  constexpr auto kMaxMIDI = 127.0;
+  constexpr auto kMaxNRPN = 16383.0;
+  constexpr auto kNotConnectedWait = 333;
+  constexpr auto kReadyWait = 0;
+}
 
 LR_IPC_IN::LR_IPC_IN(): StreamingSocket{}, Thread{"LR_IPC_IN"} {}
 
@@ -45,11 +54,10 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
 }
 
 void LR_IPC_IN::refreshMIDIOutput() {
-  if (command_map_) {
+  if (command_map_ && midi_sender_) {
       // send associated CC messages to MIDI OUT devices
     for (const auto& map_entry : parameter_map_) {
-      if ((command_map_->commandHasAssociatedMessage(map_entry.first)) &&
-        (midi_sender_)) {
+      if (command_map_->commandHasAssociatedMessage(map_entry.first)) {
         const auto& msg = command_map_->getMessageForCommand(map_entry.first);
         midi_sender_->sendCC(msg.channel, msg.controller, map_entry.second);
       }
@@ -70,10 +78,10 @@ void LR_IPC_IN::run() {
     //doesn't terminate thread if disconnected, as currently don't have graceful
     //way to restart thread
     if (!isConnected()) {
-      wait(333);
+      wait(kNotConnectedWait);
     } //end if (is not connected)
     else {
-      constexpr auto kBufferSize = 256;
+
       char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
       auto size_read = 0;
       auto can_read_line = true;
@@ -82,13 +90,13 @@ void LR_IPC_IN::run() {
       while (!juce::String(line).endsWithChar('\n') && isConnected()) {
         if (threadShouldExit())
           goto threadExit;//break out of nested whiles
-        const auto wait_status = waitUntilReady(true, 0);
+        const auto wait_status = waitUntilReady(true, kReadyWait);
         switch (wait_status) {
           case -1:
             can_read_line = false;
             goto dumpLine; //read line failed, break out of switch and while
           case 0:
-            wait(100);
+            wait(kEmptyWait);
             break; //try again to read until char shows up
           case 1:
             if (size_read == kBufferSize)
@@ -117,7 +125,7 @@ threadExit: /* empty statement */;
 void LR_IPC_IN::timerCallback() {
   std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
   if (!isConnected()) {
-    if (connect("127.0.0.1", kLrInPort, 100))
+    if (connect("127.0.0.1", kLrInPort, kConnectTryTime))
       if (!thread_started_) {
         startThread(); //avoid starting thread during shutdown
         thread_started_ = true;
@@ -125,39 +133,45 @@ void LR_IPC_IN::timerCallback() {
   }
 }
 void LR_IPC_IN::processLine(const juce::String& line) {
+  const static std::unordered_map<juce::String, int> cmds = {
+    {juce::String{"SwitchProfile"},1},
+    {juce::String{"SendKey"},2},
+    {juce::String{"TerminateApplication"},3},
+  };
     // process input into [parameter] [Value]
   const auto trimmed_line = line.trim();
   const auto command = trimmed_line.upToFirstOccurrenceOf(" ", false, false);
   const auto value_string = trimmed_line.fromFirstOccurrenceOf(" ", false, false);
 
-  if (command_map_) {
-    if (command == juce::String{"SwitchProfile"}) {
-      if (profile_manager_) {
+  switch (cmds.count(command) ? cmds.at(command) : 0) {
+    case 1: //SwitchProfile
+      if (profile_manager_)
         profile_manager_->switchToProfile(value_string);
+      break;
+    case 2: //SendKey
+      {
+        std::bitset<3> modifiers{static_cast<decltype(modifiers)>
+          (value_string.getIntValue())};
+        send_keys_.SendKeyDownUp(value_string.
+          trimCharactersAtStart("0123456789").trimStart().toStdString(),
+          modifiers[0], modifiers[1], modifiers[2]);
+        break;
       }
-    }
-    else if (command == juce::String{"SendKey"}) {
-      std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-        (value_string.getIntValue())};
-      std::string str{value_string.trimCharactersAtStart("0123456789 ").toStdString()};
-      send_keys_.SendKeyDownUp(str, modifiers[0], modifiers[1], modifiers[2]);
-    }
-    else {
-        // store updates in map
-
+    case 3: //TerminateApplication
+      PleaseStopThread();
+      JUCEApplication::getInstance()->systemRequestedQuit();
+      break;
+    case 0:
+      // store updates in map
       const auto original_value = value_string.getDoubleValue();
-      parameter_map_[command] = static_cast<int>(round(original_value * 16383.0));
-
+      parameter_map_[command] = static_cast<int>(round(original_value * kMaxNRPN));
       // send associated CC messages to MIDI OUT devices
-      if (command_map_->commandHasAssociatedMessage(command)) {
+      if (command_map_ && command_map_->commandHasAssociatedMessage(command)) {
         const auto& msg = command_map_->getMessageForCommand(command);
         const auto value = static_cast<int>(round(
-          ((msg.controller < 128) ? 127.0 : 16383.0) * original_value));
-
-        if (midi_sender_) {
+          ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
+        if (midi_sender_)
           midi_sender_->sendCC(msg.channel, msg.controller, value);
-        }
       }
-    }
   }
 }

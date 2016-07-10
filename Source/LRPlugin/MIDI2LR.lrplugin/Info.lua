@@ -24,7 +24,7 @@ return {
   LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
   LrSdkVersion = 6.0,
   LrShutdownApp = 'ShutDown.lua',
-  LrShutdownPlugin = 'ShutDown.lua',
+  LrShutdownPlugin = 'ShutDownPlugin.lua',
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = { -- Needs to provide at least a menu item
     {
@@ -46,5 +46,5 @@ return {
     },
     --]]
   },
-  VERSION = { major=1, minor=2, revision=0, build=0}
+  VERSION = { major=1, minor=3, revision=0, build=0}
 }

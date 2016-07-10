@@ -2,9 +2,9 @@
 Prerequisites
 =============
 
-- Lightroom 6+
+- Lightroom 6+ or CC
 - Windowws 7+ or OSX 10.9+
-- Any USB MIDI controller (eg: Korg nanoKONTROL, etc.)
+- A USB MIDI controller (eg: Korg nanoKONTROL, etc.)
 
 =====
 Setup
@@ -14,20 +14,27 @@ Setup
    administrator privileges to write to that folder—the plugin may crash if it
    is running in a restricted folder.
 
-1. In Lightroom, add the MIDI2LR plugin by going to File→Plugin-Manager→Add
+2. In Lightroom, add the MIDI2LR plugin by going to File→Plugin-Manager→Add
    and navigating to and selecting the MIDI2LR.lrplugin folder.
    
-1. If using OS X, to avoid the "unidentified developer" warning, right-click on the
+3. If using OS X, to avoid the "unidentified developer" warning, right-click on the
    .lrplugin (whose location you can find in the LR Plugin Manager if you don't know 
    it) and "Show Package Contents" then you will see there is a Mac executable in 
    there called MIDI2LR. Right click on this and then Open it, agree to the OSX 
    security question. Only needs to be done once.
 
-2. The MIDI2LR application should automatically launch. If it is closed,
+   Also, to avoid the "100% CPU utilization" bug, please shut down MIDI2LR app prior
+   to shutting down Lightroom. Debugging assistance welcome--I haven't found the
+   cause yet, and I don't have the setup to test this program in OS X.
+
+4. The MIDI2LR application should automatically launch. If it is closed,
    it can be launched by going to File→Plug-in Extras→Start MIDI2LR
 
-3. Moving any controllers will populate the mapping table and allow you to
+5. Moving any controllers will populate the mapping table and allow you to
    set functions. You can also save/load mappings.
+
+6. Information on all the settings and options are in the wiki: 
+   https://github.com/rsjaffe/MIDI2LR/wiki.
 
 ================================
 Updating From A Previous Version
@@ -62,8 +69,8 @@ Notes
 Problems/Frequently Asked Questions
 ===================================
 
-First see the FAQ at https://github.com/rsjaffe/MIDI2LR/wiki. If you still have
-questions, post them at https://github.com/rsjaffe/MIDI2LR/issues.
+First see the FAQ at https://github.com/rsjaffe/MIDI2LR/wiki#faqknown-issues. If you
+still have questions, post them at https://groups.google.com/forum/#!forum/midi2lr.
 
 =========
 Changelog

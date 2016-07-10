@@ -50,9 +50,10 @@ private:
   void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
 
   void InitDevices_();
-  Array<MIDICommandListener *> listeners_;
-  OwnedArray<MidiInput> devices_;
+
   NRPN_Filter nrpn_filter_;
+  OwnedArray<MidiInput> devices_;
+  std::vector<MIDICommandListener *> listeners_;
 };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED

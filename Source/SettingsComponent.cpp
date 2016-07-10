@@ -22,17 +22,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsComponent.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
-constexpr auto SettingsLeft = 20;
-constexpr auto SettingsWidth = 400;
-constexpr auto SettingsHeight = 300;
+namespace {
+  constexpr auto SettingsLeft = 20;
+  constexpr auto SettingsWidth = 400;
+  constexpr auto SettingsHeight = 300;
+}
 
 SettingsComponent::SettingsComponent(): ResizableLayout{this} {}
 
 SettingsComponent::~SettingsComponent() {}
 
-void SettingsComponent::Init(std::shared_ptr<SettingsManager>& settings_manager) {
+void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) {
     //copy the pointer
-  settings_manager_ = settings_manager;
+  settings_manager_ = std::move(settings_manager);
 
   // for layouts to work you must start at some size
   // place controls in a location that is initially correct.
@@ -110,21 +112,17 @@ void SettingsComponent::paint(Graphics& g) {
 
 void SettingsComponent::buttonClicked(Button* button) {
   if (button == &pickup_enabled_) {
-    if (auto ptr = settings_manager_.lock()) {
+    if (auto ptr = settings_manager_.lock())
       ptr->setPickupEnabled(pickup_enabled_.getToggleState());
-    }
   }
   else if (button == &profile_location_button_) {
-    FileBrowserComponent browser{FileBrowserComponent::canSelectDirectories |
-      FileBrowserComponent::openMode,
-        File::getCurrentWorkingDirectory(),
-        nullptr,
-        nullptr};
+    FileBrowserComponent browser{
+      FileBrowserComponent::canSelectDirectories | FileBrowserComponent::openMode,
+        File::getCurrentWorkingDirectory(), nullptr, nullptr};
+
     FileChooserDialogBox dialog_box{"Select Profile Folder",
         "Select a folder containing MIDI2LR Profiles",
-        browser,
-        true,
-        Colours::lightgrey};
+        browser, true, Colours::lightgrey};
 
     if (dialog_box.show()) {
       const auto profile_location = browser.getSelectedFile(0).getFullPathName();
@@ -138,15 +136,7 @@ void SettingsComponent::buttonClicked(Button* button) {
 }
 
 void SettingsComponent::sliderValueChanged(Slider* slider) {
-    // NULL pointer check
-  if (slider) {
-    if (&autohide_setting_ == slider) {
-        //get the rounded setting
-      const int new_setting = static_cast<int>(autohide_setting_.getValue());
-
-      if (auto ptr= settings_manager_.lock()) {
-        ptr->setAutoHideTime(new_setting);
-      }
-    }
-  }
+  if (slider && &autohide_setting_ == slider)
+    if (auto ptr = settings_manager_.lock())
+      ptr->setAutoHideTime(static_cast<int>(autohide_setting_.getValue()));
 }

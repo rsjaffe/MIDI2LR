@@ -30,8 +30,8 @@ class SettingsManager final: public LRConnectionListener {
 public:
   SettingsManager();
   virtual ~SettingsManager() {};
-  void Init(std::shared_ptr<LR_IPC_OUT>& lr_IPC_OUT,
-    std::shared_ptr<ProfileManager>& profile_manager);
+  void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT,
+    std::weak_ptr<ProfileManager>&& profile_manager);
 
   bool getPickupEnabled() const noexcept;
   void setPickupEnabled(bool enabled);
@@ -51,9 +51,9 @@ public:
 
 private:
 
-  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
-  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
   std::unique_ptr<PropertiesFile> properties_file_;
+  std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
+  std::weak_ptr<ProfileManager> profile_manager_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED

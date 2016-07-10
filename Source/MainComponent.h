@@ -49,8 +49,8 @@ public:
   MainContentComponent();
   virtual ~MainContentComponent();
   void Init(std::shared_ptr<CommandMap>& command_map,
-    std::shared_ptr<LR_IPC_IN>& in,
-    std::shared_ptr<LR_IPC_OUT>& out,
+    std::weak_ptr<LR_IPC_IN>&& in,
+    std::weak_ptr<LR_IPC_OUT>&& out,
     std::shared_ptr<MIDIProcessor>& midi_processor,
     std::shared_ptr<ProfileManager>& profile_manager,
     std::shared_ptr<SettingsManager>& settings_manager,
@@ -92,8 +92,8 @@ private:
   Label title_label_{"Title", "MIDI2LR"};
   Label version_label_{"Version", "Version " + String{ ProjectInfo::versionString }};
   std::shared_ptr<CommandMap> command_map_{nullptr};
-  std::shared_ptr<LR_IPC_IN> lr_ipc_in_{nullptr};
-  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
+  std::weak_ptr<LR_IPC_IN> lr_ipc_in_;
+  std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
   std::shared_ptr<SettingsManager> settings_manager_{nullptr};

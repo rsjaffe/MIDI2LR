@@ -20,8 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "NrpnMessage.h"
 
-bool NRPN_Message::ProcessMidi(unsigned short int control, 
-    unsigned short int value) noexcept(ndebug) {
+bool NRPN_Message::ProcessMidi(unsigned short int control,
+  unsigned short int value) noexcept(ndebug) {
   auto ret_val = true;
   switch (control) {
     case 6u:

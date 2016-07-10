@@ -343,9 +343,6 @@
     <ClCompile Include="..\..\Source\NrpnMessage.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Pattern\Observer.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\ProfileManager.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -359,9 +356,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SettingsManager.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Pattern\Subject.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\VersionChecker.cpp">
@@ -1935,9 +1929,6 @@
     <ClInclude Include="..\..\Source\NrpnMessage.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Pattern\Observer.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\ProfileManager.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1951,9 +1942,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SettingsManager.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Pattern\Subject.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\VersionChecker.h">

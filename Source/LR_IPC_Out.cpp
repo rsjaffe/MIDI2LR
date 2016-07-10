@@ -22,7 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-constexpr auto kLrOutPort = 58763;
+namespace {
+  constexpr auto kConnectTryTime = 100;
+  constexpr auto kLrOutPort = 58763;
+  constexpr auto kMaxMIDI = 127.0;
+  constexpr auto kMaxNRPN = 16383.0;
+}
 
 LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection() {}
 
@@ -50,7 +55,10 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener) {
-  listeners_.addIfNotAlreadyThere(listener);
+  for (auto current_listener : listeners_)
+    if (current_listener == listener)
+      return; //don't add duplicates
+  listeners_.push_back(listener);
 }
 
 void LR_IPC_OUT::sendCommand(const String &command) {
@@ -68,14 +76,14 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
     if (!command_map_->messageExistsInMap(message) ||
       command_map_->getCommandforMessage(message) == "Unmapped" ||
       find(LRCommandList::NextPrevProfile.begin(),
-      LRCommandList::NextPrevProfile.end(),
-      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+        LRCommandList::NextPrevProfile.end(),
+        command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
     double computed_value = value;
-    computed_value /= (controller < 128) ? 127.0 : 16383.0;
-    
+    computed_value /= (controller < 128) ? kMaxMIDI : kMaxNRPN;
+
     command_to_send += String::formatted(" %g\n", computed_value);
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
@@ -92,8 +100,8 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
     if (!command_map_->messageExistsInMap(message) ||
       command_map_->getCommandforMessage(message) == "Unmapped" ||
       find(LRCommandList::NextPrevProfile.begin(),
-      LRCommandList::NextPrevProfile.end(),
-      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+        LRCommandList::NextPrevProfile.end(),
+        command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
@@ -133,5 +141,5 @@ void LR_IPC_OUT::handleAsyncUpdate() {
 void LR_IPC_OUT::timerCallback() {
   std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
   if (!isConnected() && !timer_off_)
-    connectToSocket("127.0.0.1", kLrOutPort, 100);
+    connectToSocket("127.0.0.1", kLrOutPort, kConnectTryTime);
 }

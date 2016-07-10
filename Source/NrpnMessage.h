@@ -24,6 +24,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Utilities/Utilities.h"
 
 class NRPN_Message {
+  // This is a simplified NRPN message class, and assumes that all NRPN messages
+  // have 4 messages, though the NRPN standard allows ommission of the 4th 
+  // message. If the 4th message is dropped, this class silently consumes the
+  // message without emitting anything.
 public:
   NRPN_Message() noexcept {};
   ~NRPN_Message() {};
@@ -67,58 +71,58 @@ public:
   inline bool ProcessMidi(unsigned short int channel,
     unsigned short int control, unsigned short int value) noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].ProcessMidi(control, value);
+    return nrpn_messages_[(channel - 1u) & 0xF].ProcessMidi(control, value);
   };
 
   inline void Clear(unsigned short int channel) noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].Clear();
+    return nrpn_messages_[(channel - 1u) & 0xF].Clear();
   };
 
   inline void SetControlLSB(unsigned short int channel, unsigned short int val)
     noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].SetControlLSB(val);
+    return nrpn_messages_[(channel - 1u) & 0xF].SetControlLSB(val);
   };
 
   inline void SetControlMSB(unsigned short int channel, unsigned short int val)
     noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].SetControlMSB(val);
+    return nrpn_messages_[(channel - 1u) & 0xF].SetControlMSB(val);
   };
 
   inline void SetValueLSB(unsigned short int channel, unsigned short int val)
     noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].SetValueLSB(val);
+    return nrpn_messages_[(channel - 1u) & 0xF].SetValueLSB(val);
   };
 
   inline void SetValueMSB(unsigned short int channel, unsigned short int val)
     noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].SetValueMSB(val);
+    return nrpn_messages_[(channel - 1u) & 0xF].SetValueMSB(val);
   };
 
   inline bool IsInProcess(unsigned short int channel) const noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].IsInProcess();
+    return nrpn_messages_[(channel - 1u) & 0xF].IsInProcess();
   };
 
   inline bool IsReady(unsigned short int channel) const noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].IsReady();
+    return nrpn_messages_[(channel - 1u) & 0xF].IsReady();
   };
 
   inline unsigned short int GetValue(unsigned short int channel) const
     noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].GetValue();
+    return nrpn_messages_[(channel - 1u) & 0xF].GetValue();
   };
 
   inline unsigned short int GetControl(unsigned short int channel) const
     noexcept(ndebug) {
     assert(channel - 1u < 16u);
-    return nrpn_messages_[channel - 1u].GetControl();
+    return nrpn_messages_[(channel - 1u) & 0xF].GetControl();
   };
 
 private:

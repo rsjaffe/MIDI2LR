@@ -63,16 +63,31 @@ public:
   }
 
 //==============================================================================
+
   void initialise(const String& command_line) override {
+    //Called when the application starts.
+
+    // This will be called once to let the application do whatever initialization
+    // it needs, create its windows, etc.
+
+    // After the method returns, the normal event - dispatch loop will be run,
+    // until the quit() method is called, at which point the shutdown() method
+    // will be called to let the application clear up anything it needs to
+    // delete.
+
+    // If during the initialise() method, the application decides not to start -
+    // up after all, it can just call the quit() method and the event loop won't
+    // be run.
+
     if (command_line != ShutDownString) {
       midi_processor_->Init();
       midi_sender_->Init();
       lr_ipc_out_->Init(command_map_, midi_processor_);
       //set the reference to the command map
       profile_manager_->Init(lr_ipc_out_, command_map_, midi_processor_);
-      //init the IPC_In
+      //initialize the IPC_In
       lr_ipc_in_->Init(command_map_, profile_manager_, midi_sender_);
-      // init the settings manager
+      // initialize the settings manager
       settings_manager_->Init(lr_ipc_out_, profile_manager_);
       main_window_ = std::make_unique<MainWindow>(getApplicationName());
       main_window_->Init(command_map_, lr_ipc_in_, lr_ipc_out_, midi_processor_,
@@ -87,14 +102,16 @@ public:
     }
   }
 
-  void shutdown() override {//automatically invoked after quit
-    if (lr_ipc_in_)
-      lr_ipc_in_->PleaseStopThread();
-      // Save the current profile as default.xml
-    auto default_profile =
-      File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-    if (command_map_)
-      command_map_->toXMLDocument(default_profile);
+  void shutdown() override {
+    //Called to allow the application to clear up before exiting.
+
+    // After JUCEApplication::quit() has been called, the event - dispatch loop
+    // will terminate, and this method will get called to allow the application
+    // to sort itself out.
+
+    // Be careful that nothing happens in this method that might rely on messages
+    // being sent, or any kind of window activity, because the message loop is no
+    // longer running at this point.
     lr_ipc_out_.reset();
     lr_ipc_in_.reset();
     command_map_.reset();
@@ -110,6 +127,12 @@ public:
       // This is called when the application is being asked to quit: you can
       // ignore this request and let the application carry on running, or call
       // quit() to allow the application to close.
+    if (lr_ipc_in_)
+      lr_ipc_in_->PleaseStopThread();
+    auto default_profile =
+      File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+    if (command_map_)
+      command_map_->toXMLDocument(default_profile);
     quit();
   }
 
@@ -121,6 +144,22 @@ public:
         //shutting down
       systemRequestedQuit();
     }
+  }
+
+  void unhandledException(const std::exception * e,
+    const String & sourceFilename, int lineNumber
+  )	override {
+      // If any unhandled exceptions make it through to the message dispatch
+      // loop, this callback will be triggered, in case you want to log them or
+      // do some other type of error-handling.
+      //
+      // If the type of exception is derived from the std::exception class, the
+      // pointer passed-in will be valid. If the exception is of unknown type,
+      // this pointer will be null.
+    if (auto a = Logger::getCurrentLogger())
+      Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
+        " line " + juce::String(lineNumber));
+    std::terminate(); // can't go on with the program
   }
 
 private:

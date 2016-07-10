@@ -576,6 +576,7 @@ const std::vector<String> LRCommandList::ProgramProfiles = {
   "Profile: 8",
   "Profile: 9",
   "Profile: 10",
+  "Manual Update",
 };
 
 const std::vector<String> LRCommandList::LRStringList = {
@@ -1098,7 +1099,9 @@ const std::vector<String> LRCommandList::LRStringList = {
   "profile8",
   "profile9",
   "profile10",
+  "FullRefresh",
 };
+
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",

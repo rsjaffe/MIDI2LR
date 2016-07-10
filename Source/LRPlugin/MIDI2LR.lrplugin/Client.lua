@@ -45,9 +45,9 @@ LrTasks.startAsyncTask(
       local LrFileUtils    = import 'LrFileUtils'
       local LrLocalization = import 'LrLocalization'
       local Info           = require 'Info'
-      local versionmismatch = false
       local appdatafile     = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
       local plugindatafile  = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
+      local versionmismatch = false
 
       if ProgramPreferences.DataStructure == nil then
         versionmismatch = true
@@ -92,10 +92,10 @@ LrTasks.startAsyncTask(
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
     --local constants--may edit these to change program behaviors
+    local BUTTON_ON        = 0.99 -- sending 1.0, but use > BUTTON_ON in case of rounding error
+    local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
-    local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
-    local BUTTON_ON        = 0.99 -- sending 1.0, but use > BUTTON_ON in case of rounding error
 
     local ACTIONS = {
       --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
@@ -120,6 +120,7 @@ LrTasks.startAsyncTask(
       EnableRetouch                          = CU.fToggleTF('EnableRetouch'),
       EnableSplitToning                      = CU.fToggleTF('EnableSplitToning'),
       EnableToneCurve                        = CU.fToggleTF('EnableToneCurve'),
+      FullRefresh                            = CU.FullRefresh,
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
       IncrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.increment,LastParam) end,
@@ -396,6 +397,7 @@ LrTasks.startAsyncTask(
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
+      local lastfullrefresh = 0
       return function(param, midi_value)
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
@@ -416,11 +418,17 @@ LrTasks.startAsyncTask(
           if ParamList.ProfileMap[param] then
             Profiles.changeProfile(ParamList.ProfileMap[param])
           end
-        elseif ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
-          value = MIDIValueToLRValue(param, midi_value)
-          local actualvalue = LrDevelopController.getValue(param)
-          local precision = Ut.precision(value)
-          LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+        else --failed pickup
+          if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
+            value = MIDIValueToLRValue(param, midi_value)
+            local actualvalue = LrDevelopController.getValue(param)
+            local precision = Ut.precision(value)
+            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+          end
+          if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
+            CU.FullRefresh()
+            lastfullrefresh = os.clock()
+          end
         end -- end of if pickup/elseif bezel group
       end -- end of returned function
     end
