@@ -28,6 +28,7 @@ namespace {
   constexpr int kLrOutPort = 58763;
   constexpr double kMaxMIDI = 127.0;
   constexpr double kMaxNRPN = 16383.0;
+  constexpr double kMaxPitchBendNRPN = 15300.0; // for iConQcon in Samplitude mode. ToDo: make the value user-editable!
   constexpr int kTimerInterval = 1000;
 }
 
@@ -127,16 +128,14 @@ void LR_IPC_OUT::handlePitchWheel(int midi_channel, int value) {
       command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
-    auto command_to_send = command_map_->getCommandforMessage(message);
+    juce::String command_to_send = command_map_->getCommandforMessage(message);
     double computed_value = value;
-    computed_value /= 15300.0; // ToDo: make setter for this to push in the setting from the SettingsManager
+	computed_value /= kMaxPitchBendNRPN;
 
-    // see: kMaxNRPN
-
-    command_to_send += String::formatted(" %g\n", computed_value);
+    command_to_send += juce::String::formatted(" %g\n", computed_value);
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-      command_ += command_to_send;
+      command_ += command_to_send.toStdString();
     }
     juce::AsyncUpdater::triggerAsyncUpdate();
   }

@@ -162,12 +162,12 @@ void ProfileManager::handlePitchWheel(int midi_channel, int value) {
 }
 
 void ProfileManager::connected() {
-  const auto command = String{"ChangedToDirectory "} +
-    File::addTrailingSeparator(profile_location_.getFullPathName()) +
-    String{"\n"};
-  if (lr_ipc_out_) {
-    lr_ipc_out_->sendCommand(command);
-  }
+	const std::string command = "ChangedToDirectory " +
+		juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+		'\n';
+	if (const auto ptr = lr_ipc_out_.lock()) {
+		ptr->sendCommand(command);
+	}
 }
 
 void ProfileManager::disconnected() {}
