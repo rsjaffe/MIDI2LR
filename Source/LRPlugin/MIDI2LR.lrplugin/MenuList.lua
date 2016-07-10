@@ -3012,5 +3012,11 @@
     "Profile: 10",
     "Profiles",
     true
+  },
+  {
+    "FullRefresh",
+    "Manual Update",
+    "Profiles",
+    true
   }
 }
