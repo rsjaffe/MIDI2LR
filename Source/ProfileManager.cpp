@@ -111,7 +111,7 @@ void ProfileManager::handleMidiCC(int midi_channel, int controller, int value) {
   const MIDI_Message cc{midi_channel, controller, true};
 
   if (command_map_) {
-      // return if the value isn't 0 or 127, or the command isn't a valid
+      // return if the value isn't 127, or the command isn't a valid
       // profile-related command
     if ((value != 127) || !command_map_->messageExistsInMap(cc))
       return;

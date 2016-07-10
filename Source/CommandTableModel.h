@@ -60,10 +60,10 @@ public:
 
 private:
   void Sort();
+  std::pair<int, bool> current_sort{2,true};
+  std::pair<int, bool> prior_sort{2,true};
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::vector<MIDI_Message> commands_;
-  std::pair<int, bool> prior_sort{2,true};
-  std::pair<int, bool> current_sort{2,true};
 
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

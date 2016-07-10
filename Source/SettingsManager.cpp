@@ -48,8 +48,7 @@ void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
 
   if (auto ptr = profile_manager_.lock()) {
       // set the profile directory
-    File profile_directory{getProfileDirectory()};
-    ptr->setProfileDirectory(profile_directory);
+    ptr->setProfileDirectory(getProfileDirectory());
   }
 }
 
@@ -61,10 +60,8 @@ void SettingsManager::setPickupEnabled(bool enabled) {
   properties_file_->setValue("pickup_enabled", enabled);
   properties_file_->saveIfNeeded();
 
-  auto command = String::formatted("Pickup %d\n", enabled);
-
   if (auto ptr = lr_ipc_out_.lock()) {
-    ptr->sendCommand(command);
+    ptr->sendCommand(String::formatted("Pickup %d\n", enabled));
   }
 }
 String SettingsManager::getProfileDirectory() const noexcept {
@@ -74,18 +71,14 @@ String SettingsManager::getProfileDirectory() const noexcept {
 void SettingsManager::setProfileDirectory(const String& profile_directory_name) {
   properties_file_->setValue("profile_directory", profile_directory_name);
   properties_file_->saveIfNeeded();
-
   if (auto ptr = profile_manager_.lock()) {
-    File profileDir{profile_directory_name};
-    ptr->setProfileDirectory(profileDir);
+    ptr->setProfileDirectory(profile_directory_name);
   }
 }
 
 void SettingsManager::connected() {
-  auto command = String::formatted("Pickup %d\n", getPickupEnabled());
-
   if (auto ptr = lr_ipc_out_.lock()) {
-    ptr->sendCommand(command);
+    ptr->sendCommand(String::formatted("Pickup %d\n", getPickupEnabled()));
   }
 }
 

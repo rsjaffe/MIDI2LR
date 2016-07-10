@@ -51,9 +51,9 @@ public:
 
 private:
 
+  std::unique_ptr<PropertiesFile> properties_file_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::weak_ptr<ProfileManager> profile_manager_;
-  std::unique_ptr<PropertiesFile> properties_file_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED

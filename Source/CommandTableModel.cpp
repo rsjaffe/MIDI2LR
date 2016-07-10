@@ -138,20 +138,17 @@ Component *CommandTableModel::refreshComponentForCell(int row_number,
 
 void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
   const MIDI_Message msg{midi_channel, midi_data, is_cc};
-  if (command_map_) {
-    if (!command_map_->messageExistsInMap(msg)) {
-      commands_.push_back(msg);
-      command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
-      Sort(); //re-sort list
-    }
+  if (command_map_ && !command_map_->messageExistsInMap(msg)) {
+    commands_.push_back(msg);
+    command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
+    Sort(); //re-sort list
   }
 }
 
 void CommandTableModel::removeRow(int row) {
-  const MIDI_Message msg = commands_[row];
   commands_.erase(commands_.begin() + row);
   if (command_map_) {
-    command_map_->removeMessage(msg);
+    command_map_->removeMessage(commands_[row]);
   }
 }
 
