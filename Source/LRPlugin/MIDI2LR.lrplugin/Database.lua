@@ -49,6 +49,9 @@ local toneCurve = LOC("$$$/AgDevelop/CameraRawPanel/TargetName/ToneCurve=Tone Cu
 local viewModes = LOC("$$$/AgDevelop/Toolbar/ViewModesTool=View Modes")
 local whiteBalance = LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/WhiteBalance=White Balance")
 
+local coarse = LOC("$$$/AgPrint/CalibrationDialog/Coarse=Coarse")
+local fine = LOC("$$$/AgPrint/CalibrationDialog/Fine=Fine")
+
 --[[----------------------------------------------------------------------------
 
 DataBase structure
