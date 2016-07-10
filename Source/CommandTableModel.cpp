@@ -67,11 +67,13 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
 
 void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
+  int value = 0, channel = 0;
+  juce::String formatStr;  
   //This must draw one of the cells.
 
   // The graphics context's origin will already be set to the top-left of the
   // cell, whose size is specified by(width, height).
-
+	
   // Note that the rowNumber value may be greater than the number of rows in your
   // list, so be careful that you don't assume it's less than getNumRows().
   g.setColour(juce::Colours::black);
@@ -79,12 +81,25 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
-    if (commands_[static_cast<size_t>(row_number)].isCC) //-V108 int used as index because JUCE uses int
-      g.drawText(juce::String::formatted("%d | CC: %d", commands_[static_cast<size_t>(row_number)].channel,
-        commands_[static_cast<size_t>(row_number)].controller), 0, 0, width, height, juce::Justification::centred);
-    else
-      g.drawText(juce::String::formatted("%d | Note: %d", commands_[static_cast<size_t>(row_number)].channel,
-        commands_[static_cast<size_t>(row_number)].pitch), 0, 0, width, height, juce::Justification::centred);
+	  switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
+	  {
+	  case NOTE:
+		  formatStr = "%d | Note: %d";
+		  channel = commands_[static_cast<size_t>(row_number)].channel;
+		  value = commands_[static_cast<size_t>(row_number)].pitch;
+		  break;
+	  case CC:
+		  formatStr = "%d | CC: %d";
+		  channel = commands_[static_cast<size_t>(row_number)].channel;
+		  value = commands_[static_cast<size_t>(row_number)].controller;
+		  break;
+	  case PITCHBEND:
+		  formatStr = "%d | Pitch: %d";
+		  channel = commands_[static_cast<size_t>(row_number)].channel;
+		  value = commands_[static_cast<size_t>(row_number)].controller;
+		  break;
+	  }
+	  g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
   }
 }
 
@@ -138,11 +153,11 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
     return nullptr;
 }
 
-void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
-  const MIDI_Message_ID msg{midi_channel, midi_data, is_cc};
+void CommandTableModel::addRow(int midi_channel, int midi_data, MessageType msgType) {
+  const MIDI_Message_ID msg{midi_channel, midi_data, msgType};
   if (command_map_ && !command_map_->messageExistsInMap(msg)) {
-    commands_.push_back(msg);
-    command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
+      commands_.push_back(msg);
+      command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
     Sort(); //re-sort list
   }
 }
@@ -172,8 +187,8 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
   while ((setting) && (command_map_)) {
     if (setting->hasAttribute("controller")) {
       const MIDI_Message_ID message{setting->getIntAttribute("channel"),
-        setting->getIntAttribute("controller"), true};
-      addRow(message.channel, message.controller, true);
+        setting->getIntAttribute("controller"), CC};
+      addRow(message.channel, message.controller, CC);
 
       // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
       if (setting->getIntAttribute("command", -1) != -1) {
@@ -187,8 +202,8 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
     }
     else if (setting->hasAttribute("note")) {
       const MIDI_Message_ID note{setting->getIntAttribute("channel"),
-        setting->getIntAttribute("note"), false};
-      addRow(note.channel, note.pitch, false);
+        setting->getIntAttribute("note"), NOTE};
+      addRow(note.channel, note.pitch, NOTE);
 
       // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
       if (setting->getIntAttribute("command", -1) != -1) {
@@ -205,10 +220,10 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
   Sort();
 }
 
-size_t CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const {
-  for (size_t idx = 0u; idx < commands_.size(); idx++) {
+int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, MessageType msgType) const {
+ for (size_t idx = 0u; idx < commands_.size(); idx++) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
-      && commands_[idx].isCC == is_cc)
+      && commands_[idx].messageType == msgType)
       return idx;
   }
   //could not find

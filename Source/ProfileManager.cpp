@@ -110,8 +110,21 @@ void ProfileManager::switchToPreviousProfile() {
   switchToProfile(current_profile_index_);
 }
 
+
+void ProfileManager::mapCommand(MIDI_Message_ID msg) {
+
+    if (command_map_->getCommandforMessage(msg) == "Previous Profile") {
+      switch_state_ = SWITCH_STATE::PREV;
+      triggerAsyncUpdate();
+    }
+    else if (command_map_->getCommandforMessage(msg) == "Next Profile") {
+      switch_state_ = SWITCH_STATE::NEXT;
+      triggerAsyncUpdate();
+    }
+}
+
 void ProfileManager::handleMidiCC(int midi_channel, int controller, int value) {
-  const MIDI_Message_ID cc{midi_channel, controller, true};
+  const MIDI_Message_ID cc{midi_channel, controller, CC};
 
   if (command_map_) {
       // return if the value isn't 127, or the command isn't a valid
@@ -119,46 +132,41 @@ void ProfileManager::handleMidiCC(int midi_channel, int controller, int value) {
     if ((value != 127) || !command_map_->messageExistsInMap(cc))
       return;
 
-    if (command_map_->getCommandforMessage(cc) == "Previous Profile") {
-      switch_state_ = SWITCH_STATE::PREV;
-      triggerAsyncUpdate();
-    }
-    else if (command_map_->getCommandforMessage(cc) == "Next Profile") {
-      switch_state_ = SWITCH_STATE::NEXT;
-      triggerAsyncUpdate();
-    }
+	mapCommand(cc);
   }
 }
 
 void ProfileManager::handleMidiNote(int midi_channel, int note) {
-  const MIDI_Message_ID note_msg{midi_channel, note, false};
+  const MIDI_Message_ID note_msg{midi_channel, note, NOTE};
 
   if (command_map_) {
       // return if the command isn't a valid profile-related command
     if (!command_map_->messageExistsInMap(note_msg))
       return;
 
-    if (command_map_->getCommandforMessage(note_msg) == "Previous Profile") {
-      switch_state_ = SWITCH_STATE::PREV;
-      triggerAsyncUpdate();
-    }
-    else if (command_map_->getCommandforMessage(note_msg) == "Next Profile") {
-      switch_state_ = SWITCH_STATE::NEXT;
-      triggerAsyncUpdate();
-    }
+	mapCommand(note_msg);
   }
 }
 
 void ProfileManager::handlePitchWheel(int midi_channel, int value) {
+  const MIDI_Message_ID pb{midi_channel, midi_channel, PITCHBEND};
 
+  if (command_map_) {
+      // return if the value isn't 127, or the command isn't a valid
+      // profile-related command
+    if ((value != 127) || !command_map_->messageExistsInMap(pb))
+      return;
+
+	mapCommand(pb);
+  }
 }
 
 void ProfileManager::connected() {
-  const std::string command = "ChangedToDirectory " +
-    juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
-    '\n';
-  if (const auto ptr = lr_ipc_out_.lock()) {
-    ptr->sendCommand(command);
+  const auto command = String{"ChangedToDirectory "} +
+    File::addTrailingSeparator(profile_location_.getFullPathName()) +
+    String{"\n"};
+  if (lr_ipc_out_) {
+    lr_ipc_out_->sendCommand(command);
   }
 }
 
