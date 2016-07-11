@@ -63,17 +63,19 @@ void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener) {
   listeners_.push_back(listener);
 }
 
-void MIDIProcessor::rescanDevices() {
+void MIDIProcessor::RescanDevices() {
   for (auto const& dev : devices_)
     dev->stop();
-  devices_.clear(true);
+  devices_.clear();
 
   InitDevices_();
 }
 
 void MIDIProcessor::InitDevices_() {
   for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++) {
-    if (devices_.set(idx, MidiInput::openDevice(idx, this))) {
+    auto dev = MidiInput::openDevice(idx, this);
+    if (dev != nullptr) {
+      devices_.emplace_back(dev);
       devices_[idx]->start();
       DBG(devices_[idx]->getName());
     }

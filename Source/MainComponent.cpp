@@ -218,11 +218,11 @@ void MainContentComponent::buttonClicked(Button* button) {
       // Re-enumerate MIDI IN and OUT devices
 
     if (midi_processor_) {
-      midi_processor_->rescanDevices();
+      midi_processor_->RescanDevices();
     }
 
     if (midi_sender_) {
-      midi_sender_->rescanDevices();
+      midi_sender_->RescanDevices();
     }
     // Send new CC parameters to MIDI Out devices
     if (auto ptr = lr_ipc_in_.lock()) {

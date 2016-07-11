@@ -43,7 +43,7 @@ public:
   void addMIDICommandListener(MIDICommandListener*);
 
   // re-enumerates MIDI IN devices
-  void rescanDevices();
+  void RescanDevices();
 
 private:
   // overridden from MidiInputCallback
@@ -52,7 +52,7 @@ private:
   void InitDevices_();
 
   NRPN_Filter nrpn_filter_;
-  OwnedArray<MidiInput> devices_;
+  std::vector<std::unique_ptr<MidiInput>> devices_;
   std::vector<MIDICommandListener *> listeners_;
 };
 
