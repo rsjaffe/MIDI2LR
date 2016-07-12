@@ -146,10 +146,10 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
 }
 
 void CommandTableModel::removeRow(int row) {
-  commands_.erase(commands_.begin() + row);
   if (command_map_) {
     command_map_->removeMessage(commands_[row]);
   }
+  commands_.erase(commands_.cbegin() + row);
 }
 
 void CommandTableModel::removeAllRows() {
