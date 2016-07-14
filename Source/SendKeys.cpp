@@ -250,7 +250,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
   // construct input event.
   INPUT ip;
-  constexpr auto size_ip = sizeof(INPUT);
+  constexpr auto size_ip = sizeof(ip);
   ip.type = INPUT_KEYBOARD;
   //ki: wVk, wScan, dwFlags, time, dwExtraInfo
   ip.ki = {0,0,0,0,0};
