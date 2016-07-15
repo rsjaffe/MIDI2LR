@@ -64,8 +64,8 @@ namespace std {
   template <>
   struct hash<MIDI_Message> {
     std::size_t operator()(const MIDI_Message& k) const noexcept {
-      return (std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^
-        (std::hash<int>()(k.data) << 1));
+      return std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^
+        std::hash<int>()(k.data << 2);
     }
   };
 
