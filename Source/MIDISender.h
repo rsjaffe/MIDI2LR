@@ -34,11 +34,11 @@ public:
   void sendCC(int midi_channel, int controller, int value) const;
 
   // re-enumerates MIDI OUT devices
-  void rescanDevices();
+  void RescanDevices();
 
 private:
   void InitDevices_();
-  OwnedArray<MidiOutput> output_devices;
+  std::vector<std::unique_ptr<MidiOutput>> output_devices_;
 };
 
 #endif  // MIDISENDER_H_INCLUDED

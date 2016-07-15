@@ -50,7 +50,7 @@ public:
   void setProfileDirectory(const File& dir);
 
   // returns an array of profile names
-  const StringArray& getMenuItems() const noexcept;
+  const std::vector<juce::String>& getMenuItems() const noexcept;
 
   // switches to a profile defined by an index
   void switchToProfile(int profileIdx);
@@ -89,7 +89,7 @@ private:
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::vector<ProfileChangeListener *> listeners_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
-  StringArray profiles_;
+  std::vector<juce::String> profiles_;
   SWITCH_STATE switch_state_;
 };
 

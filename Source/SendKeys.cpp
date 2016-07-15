@@ -32,6 +32,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 namespace {
 #ifdef _WIN32
+  bool IsForegroundProcess() {
+    return (GetCurrentProcessId() ==
+      GetWindowThreadProcessId(GetForegroundWindow(), NULL));
+  }
+
   wchar_t MBtoWChar(const std::string& key) {
     wchar_t full_character;
     const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
@@ -51,18 +56,17 @@ namespace {
 
   HKL GetLanguageAndFGApp(std::string program_name) {
     const auto hLRWnd = FindWindow(NULL, program_name.c_str());
-    HKL language_id;
-    // Bring Lightroom to foreground if it isn't already there
     if (hLRWnd) {
-      SetForegroundWindow(hLRWnd);
+      // Bring Lightroom to foreground if MIDI2LR is in foreground
+      if (IsForegroundProcess())
+        SetForegroundWindow(hLRWnd);
       // get language that LR is using (if hLrWnd is found)
       const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
-      language_id = GetKeyboardLayout(thread_id);
+      return GetKeyboardLayout(thread_id);
     }
     else {   // use keyboard of MIDI2LR application
-      language_id = GetKeyboardLayout(0);
+      return GetKeyboardLayout(0);
     }
-    return language_id;
   }
 #else
   std::wstring utf8_to_utf16(const std::string& utf8) {
@@ -246,7 +250,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
   // construct input event.
   INPUT ip;
-  constexpr auto size_ip = sizeof(INPUT);
+  constexpr auto size_ip = sizeof(ip);
   ip.type = INPUT_KEYBOARD;
   //ki: wVk, wScan, dwFlags, time, dwExtraInfo
   ip.ki = {0,0,0,0,0};

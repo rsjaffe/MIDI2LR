@@ -30,7 +30,7 @@ void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
   command_map_ = commandMap;
   lr_ipc_out_ = std::move(out);
 
-  if (auto ptr = lr_ipc_out_.lock()) {
+  if (const auto ptr = lr_ipc_out_.lock()) {
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
       // settings on connection
     ptr->addListener(this);
@@ -57,18 +57,18 @@ void ProfileManager::setProfileDirectory(const File& directory) {
   current_profile_index_ = 0;
   profiles_.clear();
   for (const auto file : file_array)
-    profiles_.add(file.getFileName());
+    profiles_.emplace_back(file.getFileName());
 
   if (profiles_.size() > 0)
     switchToProfile(profiles_[0]);
 }
 
-const StringArray& ProfileManager::getMenuItems() const noexcept {
+const std::vector<juce::String>& ProfileManager::getMenuItems() const noexcept {
   return profiles_;
 }
 
 void ProfileManager::switchToProfile(int profile_index) {
-  if (profile_index >= 0 && profile_index < profiles_.size()) {
+  if (profile_index >= 0 && profile_index < static_cast<int>(profiles_.size())) {
     switchToProfile(profiles_[profile_index]);
     current_profile_index_ = profile_index;
   }
@@ -82,7 +82,7 @@ void ProfileManager::switchToProfile(const String& profile) {
     for (auto listener : listeners_)
       listener->profileChanged(xml_element.get(), profile);
 
-    if (auto ptr = lr_ipc_out_.lock()) {
+    if (const auto ptr = lr_ipc_out_.lock()) {
       auto command = String{"ChangedToDirectory "} +
         File::addTrailingSeparator(profile_location_.getFullPathName()) +
         String{"\n"};
@@ -95,7 +95,8 @@ void ProfileManager::switchToProfile(const String& profile) {
 
 void ProfileManager::switchToNextProfile() {
   current_profile_index_++;
-  if (current_profile_index_ == profiles_.size()) current_profile_index_ = 0;
+  if (current_profile_index_ == static_cast<int>(profiles_.size())) 
+    current_profile_index_ = 0;
 
   switchToProfile(current_profile_index_);
 }
@@ -150,7 +151,7 @@ void ProfileManager::connected() {
   const auto command = String{"ChangedToDirectory "} +
     File::addTrailingSeparator(profile_location_.getFullPathName()) +
     String{"\n"};
-  if (auto ptr = lr_ipc_out_.lock()) {
+  if (const auto ptr = lr_ipc_out_.lock()) {
     ptr->sendCommand(command);
   }
 }

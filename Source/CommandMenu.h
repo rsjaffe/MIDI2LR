@@ -43,7 +43,7 @@ private:
   const std::vector<String> menus_;
   const std::vector<std::vector<String>> menu_entries_;
   MIDI_Message message_;
-  size_t selected_item_{std::numeric_limits<unsigned int>::max()};
+  size_t selected_item_{std::numeric_limits<size_t>::max()};
   std::shared_ptr<CommandMap> command_map_{nullptr};
 };
 

@@ -112,7 +112,7 @@ void SettingsComponent::paint(Graphics& g) {
 
 void SettingsComponent::buttonClicked(Button* button) {
   if (button == &pickup_enabled_) {
-    if (auto ptr = settings_manager_.lock())
+    if (const auto ptr = settings_manager_.lock())
       ptr->setPickupEnabled(pickup_enabled_.getToggleState());
   }
   else if (button == &profile_location_button_) {
@@ -126,7 +126,7 @@ void SettingsComponent::buttonClicked(Button* button) {
 
     if (dialog_box.show()) {
       const auto profile_location = browser.getSelectedFile(0).getFullPathName();
-      if (auto ptr = settings_manager_.lock()) {
+      if (const auto ptr = settings_manager_.lock()) {
         ptr->setProfileDirectory(profile_location);
       }
       profile_location_label_.setText(profile_location,
@@ -137,6 +137,6 @@ void SettingsComponent::buttonClicked(Button* button) {
 
 void SettingsComponent::sliderValueChanged(Slider* slider) {
   if (slider && &autohide_setting_ == slider)
-    if (auto ptr = settings_manager_.lock())
+    if (const auto ptr = settings_manager_.lock())
       ptr->setAutoHideTime(static_cast<int>(autohide_setting_.getValue()));
 }
