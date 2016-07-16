@@ -55,7 +55,7 @@ private:
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
   std::shared_ptr<ProfileManager> profile_manager_{nullptr};
-  std::unordered_map<String, int> parameter_map_;
+  std::unordered_map<String, double> parameter_map_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

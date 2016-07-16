@@ -38,9 +38,6 @@ LR_IPC_IN::~LR_IPC_IN() {
   stopTimer();
   stopThread(1000);
   close();
-  command_map_.reset();
-  profile_manager_.reset();
-  midi_sender_.reset();
 }
 
 void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
@@ -59,7 +56,9 @@ void LR_IPC_IN::refreshMIDIOutput() {
     for (const auto& map_entry : parameter_map_) {
       if (command_map_->commandHasAssociatedMessage(map_entry.first)) {
         const auto& msg = command_map_->getMessageForCommand(map_entry.first);
-        midi_sender_->sendCC(msg.channel, msg.controller, map_entry.second);
+        const auto value = static_cast<int>(round(
+          ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * map_entry.second));
+        midi_sender_->sendCC(msg.channel, msg.controller, value);
       }
     }
   }
@@ -164,7 +163,7 @@ void LR_IPC_IN::processLine(const juce::String& line) {
     case 0:
       // store updates in map
       const auto original_value = value_string.getDoubleValue();
-      parameter_map_[command] = static_cast<int>(round(original_value * kMaxNRPN));
+      parameter_map_[command] = original_value;
       // send associated CC messages to MIDI OUT devices
       if (command_map_ && command_map_->commandHasAssociatedMessage(command)) {
         const auto& msg = command_map_->getMessageForCommand(command);
