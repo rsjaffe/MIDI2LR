@@ -29,7 +29,7 @@ void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &
     // command:message map
   if (command < LRCommandList::LRStringList.size()) {
     message_map_[message] = LRCommandList::LRStringList[command];
-    command_string_map_.insert(std::pair<String, MIDI_Message>(LRCommandList::LRStringList[command], message));
+    command_string_map_.insert({LRCommandList::LRStringList[command], message});
   }
   else
     message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
@@ -37,7 +37,7 @@ void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &
 
 void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &message) {
   message_map_[message] = command;
-  command_string_map_.insert(std::pair<String, MIDI_Message>(command, message));
+  command_string_map_.insert({command, message});
 }
 
 const String& CommandMap::getCommandforMessage(const MIDI_Message &message) const {
