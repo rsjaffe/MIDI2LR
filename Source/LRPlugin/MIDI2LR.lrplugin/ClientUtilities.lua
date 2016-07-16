@@ -32,7 +32,7 @@ local LrFunctionContext   = import 'LrFunctionContext'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 
-local function fApplyPreset(presetnumber,allselected)
+local function fApplyPreset(presetnumber)
   return function()
     local presetUuid = ProgramPreferences.Presets[presetnumber]
     if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -40,15 +40,7 @@ local function fApplyPreset(presetnumber,allselected)
     LrTasks.startAsyncTask ( function () 
         LrApplication.activeCatalog():withWriteAccessDo(
           'Apply preset '..preset:getName(), 
-          function() 
-            if allselected then
-              for _,p in ipairs(LrApplication.activeCatalog():getTargetPhotos()) do
-                p:applyDevelopPreset(preset)
-              end
-            else
-              LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) 
-            end
-          end,
+          function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
           { timeout = 4, 
             callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
             asynchronous = true }
@@ -103,7 +95,7 @@ local function fToggleTool(param)
 end
 
 
-local function PasteSelectedSettings (allselected)
+local function PasteSelectedSettings ()
   if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
   if ProgramPreferences.PastePopup then 
     LrFunctionContext.callWithContext( "checkPaste", 
@@ -127,48 +119,32 @@ local function PasteSelectedSettings (allselected)
   end
   LrTasks.startAsyncTask ( 
     function ()
-      local photos = {}
-      if allselected then
-        photos = LrApplication.activeCatalog():getTargetPhotos()
-      else
-        photos[1] = LrApplication.activeCatalog():getTargetPhoto()
-      end
-      for _,p in ipairs(photos) do
-        local TargetSettings = p:getDevelopSettings() 
-        for _,param in ipairs(ParamList.SelectivePasteIteration) do 
-          if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-            TargetSettings[param] = MIDI2LR.Copied_Settings[param]
-          end
+      local TargetSettings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
+      for _,param in ipairs(ParamList.SelectivePasteIteration) do 
+        if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
+          TargetSettings[param] = MIDI2LR.Copied_Settings[param]
         end
-        LrApplication.activeCatalog():withWriteAccessDo(
-          'MIDI2LR: Paste selected settings', 
-          function() p:applyDevelopSettings(TargetSettings) end,
-          { timeout = 4, 
-            callback = function() 
-              LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSelectedSettings') 
-            end, 
-            asynchronous = true 
-          }
-        )
       end
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'MIDI2LR: Paste selected settings', 
+        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(TargetSettings) end,
+        { timeout = 4, 
+          callback = function() 
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSelectedSettings') 
+          end, 
+          asynchronous = true 
+        }
+      )
     end
   ) 
 end
 
-local function PasteSettings  (allselected)
+local function PasteSettings  ()
   if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function () 
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Paste settings', 
-        function()
-          if allselected then
-            for _,p in ipairs(LrApplication.activeCatalog():getTargetPhotos()) do
-              p:applyDevelopSettings(MIDI2LR.Copied_Settings) 
-            end
-          else
-            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) 
-          end
-        end,
+        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
         { timeout = 4, 
           callback = function() 
             LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') 
