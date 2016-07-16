@@ -25,6 +25,8 @@ static constexpr bool ndebug = false;
 #endif
 
 #include <atomic>
+#include <mutex>
+#include <queue>
 namespace RSJ {
   template <typename T>
   struct counter {
