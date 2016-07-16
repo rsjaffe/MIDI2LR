@@ -37,8 +37,6 @@ public:
   void Init(std::shared_ptr<CommandMap>& mapCommand,
     std::shared_ptr<ProfileManager>& profileManager,
     std::shared_ptr<MIDISender>& midiSender) noexcept;
-  // re-enumerates MIDI OUT devices
-  void refreshMIDIOutput();
   //signal exit to thread
   void PleaseStopThread(void);
 private:
@@ -55,7 +53,6 @@ private:
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
   std::shared_ptr<ProfileManager> profile_manager_{nullptr};
-  std::unordered_map<String, int> parameter_map_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

@@ -225,8 +225,8 @@ void MainContentComponent::buttonClicked(Button* button) {
       midi_sender_->RescanDevices();
     }
     // Send new CC parameters to MIDI Out devices
-    if (const auto ptr = lr_ipc_in_.lock()) {
-      ptr->refreshMIDIOutput();
+    if (const auto ptr = lr_ipc_out_.lock()) {
+      ptr->sendCommand("FullRefresh 1\n");
     }
   }
   else if (button == &remove_row_button_) {
@@ -322,8 +322,8 @@ void MainContentComponent::profileChanged(XmlElement* xml_element, const String&
 //  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
     // Send new CC parameters to MIDI Out devices
-  if (const auto ptr = lr_ipc_in_.lock()) {
-    ptr->refreshMIDIOutput();
+  if (const auto ptr = lr_ipc_out_.lock()) {
+    ptr->sendCommand("FullRefresh 1\n");
   }
 }
 

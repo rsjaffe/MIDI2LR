@@ -104,6 +104,8 @@ public:
   // returns true if there is a mapping for a particular MIDI message
   bool messageExistsInMap(const MIDI_Message &message) const;
 
+  int getMessageCountForCommand(const String &command) const;
+  std::vector<MIDI_Message> getMessagesForCommand(const String &command) const;
   // gets the MIDI message associated to a LR command
   const MIDI_Message& getMessageForCommand(const String &command) const;
 
@@ -116,7 +118,7 @@ public:
 private:
 
   std::unordered_map<MIDI_Message, String> message_map_;
-  std::unordered_map<String, MIDI_Message> command_string_map_;
+  std::unordered_multimap<String, MIDI_Message> command_string_map_;
 };
 
 #endif  // COMMANDMAP_H_INCLUDED

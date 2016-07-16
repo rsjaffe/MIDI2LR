@@ -53,18 +53,6 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
   startTimer(1000);
 }
 
-void LR_IPC_IN::refreshMIDIOutput() {
-  if (command_map_ && midi_sender_) {
-      // send associated CC messages to MIDI OUT devices
-    for (const auto& map_entry : parameter_map_) {
-      if (command_map_->commandHasAssociatedMessage(map_entry.first)) {
-        const auto& msg = command_map_->getMessageForCommand(map_entry.first);
-        midi_sender_->sendCC(msg.channel, msg.controller, map_entry.second);
-      }
-    }
-  }
-}
-
 void LR_IPC_IN::PleaseStopThread() {
   signalThreadShouldExit();
   notify();
@@ -81,7 +69,6 @@ void LR_IPC_IN::run() {
       wait(kNotConnectedWait);
     } //end if (is not connected)
     else {
-
       char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
       auto size_read = 0;
       auto can_read_line = true;
@@ -162,16 +149,23 @@ void LR_IPC_IN::processLine(const juce::String& line) {
       JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
-      // store updates in map
-      const auto original_value = value_string.getDoubleValue();
-      parameter_map_[command] = static_cast<int>(round(original_value * kMaxNRPN));
       // send associated CC messages to MIDI OUT devices
-      if (command_map_ && command_map_->commandHasAssociatedMessage(command)) {
-        const auto& msg = command_map_->getMessageForCommand(command);
-        const auto value = static_cast<int>(round(
-          ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
-        if (midi_sender_)
+      if (command_map_ && midi_sender_ && command_map_->commandHasAssociatedMessage(command)) {
+        const auto original_value = value_string.getDoubleValue();
+        if (command_map_->getMessageCountForCommand(command) > 1) {
+          const std::vector<MIDI_Message> mm = command_map_->getMessagesForCommand(command);
+          for (const auto msg : mm) {
+            const auto value = static_cast<int>(round(
+              ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
+            midi_sender_->sendCC(msg.channel, msg.controller, value);
+          }
+        }
+        else {
+          const auto& msg = command_map_->getMessageForCommand(command);
+          const auto value = static_cast<int>(round(
+            ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
           midi_sender_->sendCC(msg.channel, msg.controller, value);
+        }
       }
   }
 }
