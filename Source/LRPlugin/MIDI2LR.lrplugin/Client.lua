@@ -22,10 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
--- signal for halt plugin if reloaded--LR doesn't kill main loop otherwise
-math.randomseed(os.time())
-currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
-currentLoadVersion = currentLoadVersion + 1 + math.random()
 
 local LrTasks = import 'LrTasks'
 -- Main task
@@ -87,7 +83,7 @@ LrTasks.startAsyncTask(
     local LrStringUtils       = import 'LrStringUtils'
     local LrUndo              = import 'LrUndo'
     --global variables
-    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}} --non-local but in MIDI2LR namespace
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, RUNNING = true} --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
@@ -497,17 +493,13 @@ LrTasks.startAsyncTask(
           LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app')) 
         end
 
-        math.randomseed(os.time())
-        currentLoadVersion = math.random() --in case currentLoadVersion gets initialized to 0 each load
-        local loadVersion = currentLoadVersion  
-
         -- add an observer for develop param changes--needs to occur in develop module
         -- will drop out of loop if loadversion changes or if in develop module with selected photo
-        while (loadVersion == currentLoadVersion) and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
+        while  MIDI2LR.RUNNING and ((LrApplicationView.getCurrentModuleName() ~= 'develop') or (LrApplication.activeCatalog():getTargetPhoto() == nil)) do
           LrTasks.sleep ( .29 )
           guardsetting:performWithGuard(Profiles.checkProfile)
         end --sleep away until ended or until develop module activated
-        if loadVersion == currentLoadVersion then --didn't drop out of loop because of program termination
+        if MIDI2LR.RUNNING then --didn't drop out of loop because of program termination
           LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
           if ProgramPreferences.TrackingDelay ~= nil then
             LrDevelopController.setTrackingDelay(ProgramPreferences.TrackingDelay)
@@ -519,11 +511,12 @@ LrTasks.startAsyncTask(
               guardreading:performWithGuard(CurrentObserver,observer)
             end 
           )
-          while (loadVersion == currentLoadVersion)  do --detect halt or reload
+          while MIDI2LR.RUNNING do --detect halt or reload
             LrTasks.sleep( .29 )
             guardsetting:performWithGuard(Profiles.checkProfile)
           end
         end
+        MIDI2LR.SERVER:send('TerminateApplication 1\n')
         client:close()
         MIDI2LR.SERVER:close()
       end 
