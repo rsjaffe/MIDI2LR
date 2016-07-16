@@ -1640,6 +1640,18 @@
     false
   },
   {
+    "PerspectiveX ",
+    "Perspective X",
+    "Lens Corrections",
+    false
+  },
+  {
+    "PerspectiveY ",
+    "Perspective Y",
+    "Lens Corrections",
+    false
+  },
+  {
     "VignetteAmount",
     "Vignette Amount",
     "Lens Corrections",
@@ -1684,6 +1696,18 @@
   {
     "ResetPerspectiveAspect",
     "Reset Perspective Aspect",
+    "Lens Corrections",
+    true
+  },
+  {
+    "ResetPerspectiveX",
+    "Reset Perspective X",
+    "Lens Corrections",
+    true
+  },
+  {
+    "ResetPerspectiveY",
+    "Reset Perspective Y",
     "Lens Corrections",
     true
   },

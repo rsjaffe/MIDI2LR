@@ -323,6 +323,8 @@ const std::vector<String> LRCommandList::LensCorrections = {
   "Perspective Rotate",
   "Perspective Scale",
   "Perspective Aspect",
+  "Perspective X",
+  "Perspective Y",
   "Vignette Amount",
   "Vignette Midpoint",
   "Reset Lens Manual Distortion Amount",
@@ -331,6 +333,8 @@ const std::vector<String> LRCommandList::LensCorrections = {
   "Reset Perspective Rotate",
   "Reset Perspective Scale",
   "Reset Perspective Aspect",
+  "Reset Perspective X",
+  "Reset Perspective Y",
   "Reset Vignette Amount",
   "Reset Vignette Midpoint",
 };
@@ -862,6 +866,8 @@ const std::vector<String> LRCommandList::LRStringList = {
   "PerspectiveRotate",
   "PerspectiveScale",
   "PerspectiveAspect",
+  "PerspectiveX ",
+  "PerspectiveY ",
   "VignetteAmount",
   "VignetteMidpoint",
   "ResetLensManualDistortionAmount",
@@ -870,6 +876,8 @@ const std::vector<String> LRCommandList::LRStringList = {
   "ResetPerspectiveRotate",
   "ResetPerspectiveScale",
   "ResetPerspectiveAspect",
+  "ResetPerspectiveX",
+  "ResetPerspectiveY",
   "ResetVignetteAmount",
   "ResetVignetteMidpoint",
   /* Effects */
@@ -1101,6 +1109,7 @@ const std::vector<String> LRCommandList::LRStringList = {
   "profile10",
   "FullRefresh",
 };
+
 
 const std::vector<String> LRCommandList::NextPrevProfile = {
   "Previous Profile",
