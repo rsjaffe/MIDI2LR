@@ -28,9 +28,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "SendKeys.h"
 
-class LR_IPC_IN final: private StreamingSocket,
-  private Timer,
-  private Thread {
+class LR_IPC_IN final:
+  private juce::StreamingSocket,
+  private juce::Timer,
+  private juce::Thread {
 public:
   LR_IPC_IN();
   virtual ~LR_IPC_IN();
@@ -47,7 +48,7 @@ private:
   // Timer callback
   virtual void timerCallback() override;
   // process a line received from the socket
-  void processLine(const String& line);
+  void processLine(const juce::String& line);
 
   bool thread_started_{false};
   mutable std::mutex timer_mutex_;
