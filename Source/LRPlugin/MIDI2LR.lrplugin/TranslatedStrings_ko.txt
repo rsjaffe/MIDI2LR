@@ -4,6 +4,7 @@
 "$$$/MIDI2LR/About/about=사용 방법 : MIDI 컨트롤러를 연결 MIDI2LR를 시작하고, 편집을 시작! 자세한 내용은 https://github.com/rsjaffe/MIDI2LR/wiki를 참조하십시오."
 "$$$/MIDI2LR/Preferences/cantload=기본 설정을로드 할 수 없습니다. 기본 설정을 사용."
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Shortcuts/Key=키"
 
 
 
