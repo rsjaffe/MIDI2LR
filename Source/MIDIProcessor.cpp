@@ -28,8 +28,8 @@ void MIDIProcessor::Init(void) {
   InitDevices_();
 }
 
-void MIDIProcessor::handleIncomingMidiMessage(MidiInput * /*device*/,
-  const MidiMessage &message) {
+void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
+  const juce::MidiMessage &message) {
   if (message.isController()) {
     const auto channel =
       static_cast<unsigned short int>(message.getChannel()); // 1-based
@@ -72,8 +72,8 @@ void MIDIProcessor::RescanDevices() {
 }
 
 void MIDIProcessor::InitDevices_() {
-  for (auto idx = 0; idx < MidiInput::getDevices().size(); idx++) {
-    auto dev = MidiInput::openDevice(idx, this);
+  for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); idx++) {
+    auto dev = juce::MidiInput::openDevice(idx, this);
     if (dev != nullptr) {
       devices_.emplace_back(dev);
       devices_[idx]->start();

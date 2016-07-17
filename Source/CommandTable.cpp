@@ -20,12 +20,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTable.h"
 
-CommandTable::CommandTable(const String& component_name, TableListBoxModel *model):
-  TableListBox{component_name, model} {
-  setHeader(new TableHeaderComponent{});
+CommandTable::CommandTable(const String& component_name, juce::TableListBoxModel *model):
+  juce::TableListBox::TableListBox{component_name, model} {
+  setHeader(new juce::TableHeaderComponent{});
   getHeader().addColumn("MIDI Command", 1, 150, 30, -1,
-    TableHeaderComponent::notResizable | TableHeaderComponent::sortable);
+    juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);
   getHeader().addColumn("LR Command", 2, 150, 30, -1,
-    TableHeaderComponent::notResizable | TableHeaderComponent::sortable |
-    TableHeaderComponent::sortedForwards);
+    juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable |
+    juce::TableHeaderComponent::sortedForwards);
 }

@@ -27,12 +27,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-class MainWindow final: private DocumentWindow, private Timer {
+class MainWindow final: private juce::DocumentWindow, private juce::Timer {
 public:
-  MainWindow(String name): DocumentWindow{name,
-      Colours::lightgrey,
-      DocumentWindow::minimiseButton |
-      DocumentWindow::closeButton}, Timer()
+  MainWindow(String name): juce::DocumentWindow{name,
+    juce::Colours::lightgrey,
+    juce::DocumentWindow::minimiseButton |
+    juce::DocumentWindow::closeButton}, juce::Timer()
   {
     setUsingNativeTitleBar(true);
     window_content_ = new MainContentComponent{};
@@ -62,7 +62,7 @@ private:
     // This is called when the user tries to close this window. Here, we'll just
     // ask the app to quit when this happens, but you can change this to do
     // whatever you need.
-    JUCEApplication::getInstance()->systemRequestedQuit();
+    juce::JUCEApplication::getInstance()->systemRequestedQuit();
   }
   // the timer callback function
   virtual void timerCallback() override;

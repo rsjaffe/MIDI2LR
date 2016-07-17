@@ -36,12 +36,12 @@ public:
   // TableListBoxModel overrides
   virtual void sortOrderChanged(int newSortColumnId, bool isForwards) override;
   virtual int getNumRows() override;
-  virtual void paintRowBackground(Graphics &, int rowNumber, int width,
+  virtual void paintRowBackground(juce::Graphics &, int rowNumber, int width,
     int height, bool rowIsSelected) override;
-  virtual void paintCell(Graphics &, int rowNumber, int columnId, int width,
+  virtual void paintCell(juce::Graphics &, int rowNumber, int columnId, int width,
     int height, bool rowIsSelected) override;
-  virtual Component *refreshComponentForCell(int rowNumber, int columnId,
-    bool isRowSelected, Component *existingComponentToUpdate) override;
+  virtual juce::Component *refreshComponentForCell(int rowNumber, int columnId,
+    bool isRowSelected, juce::Component *existingComponentToUpdate) override;
 
   // adds a row with a corresponding MIDI message to the table
   void addRow(int midi_channel, int midi_data, bool isCC);
@@ -53,7 +53,7 @@ public:
   void removeAllRows();
 
   // builds the table from an XML file
-  void buildFromXml(const XmlElement * const elem);
+  void buildFromXml(const juce::XmlElement * const elem);
 
   // returns the index of the row associated to a particular MIDI message
   int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;

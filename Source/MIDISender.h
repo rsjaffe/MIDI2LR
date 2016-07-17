@@ -38,7 +38,7 @@ public:
 
 private:
   void InitDevices_();
-  std::vector<std::unique_ptr<MidiOutput>> output_devices_;
+  std::vector<std::unique_ptr<juce::MidiOutput>> output_devices_;
 };
 
 #endif  // MIDISENDER_H_INCLUDED

@@ -35,12 +35,12 @@ void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &
     message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
 }
 
-void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &message) {
+void CommandMap::addCommandforMessage(const juce::String& command, const MIDI_Message &message) {
   message_map_[message] = command;
   command_string_map_[command] = message;
 }
 
-const String& CommandMap::getCommandforMessage(const MIDI_Message &message) const {
+const juce::String& CommandMap::getCommandforMessage(const MIDI_Message &message) const {
   return message_map_.at(message);
 }
 
@@ -60,18 +60,18 @@ bool CommandMap::messageExistsInMap(const MIDI_Message &message) const {
   return message_map_.count(message) > 0 ? true : false;
 }
 
-const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const {
+const MIDI_Message& CommandMap::getMessageForCommand(const juce::String &command) const {
   return command_string_map_.at(command);
 }
-bool CommandMap::commandHasAssociatedMessage(const String &command) const {
+bool CommandMap::commandHasAssociatedMessage(const juce::String &command) const {
   return command_string_map_.count(command) > 0 ? true : false;
 }
-void CommandMap::toXMLDocument(File& file) const {
+void CommandMap::toXMLDocument(juce::File& file) const {
   if (message_map_.size()) {//don't bother if map is empty
     // save the contents of the command map to an xml file
-    XmlElement root{"settings"};
+    juce::XmlElement root{"settings"};
     for (const auto& map_entry : message_map_) {
-      auto* setting = new XmlElement{"setting"};
+      auto* setting = new juce::XmlElement{"setting"};
       setting->setAttribute("channel", map_entry.first.channel);
       if (map_entry.first.isCC)
         setting->setAttribute("controller", map_entry.first.controller);
@@ -82,7 +82,7 @@ void CommandMap::toXMLDocument(File& file) const {
     }
     if (!root.writeToFile(file, ""))
         // Give feedback if file-save doesn't work
-      AlertWindow::showMessageBox(AlertWindow::WarningIcon, "File Save Error",
+      juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
         "Unable to save file as specified. Please try again, and consider saving to a different location.");
   }
 }

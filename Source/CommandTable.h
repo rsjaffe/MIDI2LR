@@ -24,9 +24,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class CommandTable final: public TableListBox {
+class CommandTable final: public juce::TableListBox {
 public:
-  CommandTable(const String& component_name, TableListBoxModel *model);
+  CommandTable(const juce::String& component_name, juce::TableListBoxModel *model);
 
 private:
 

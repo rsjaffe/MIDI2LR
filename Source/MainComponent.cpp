@@ -68,9 +68,9 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   setSize(kMainWidth, kMainHeight);
 
   // Main title
-  title_label_.setFont(Font{36.f, Font::bold});
+  title_label_.setFont(juce::Font{36.f, juce::Font::bold});
   title_label_.setEditable(false);
-  title_label_.setColour(Label::textColourId, Colours::darkgrey);
+  title_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
   title_label_.setComponentEffect(&title_shadow_);
   title_label_.setBounds(kMainLeft, 10, kMainWidth - 2 * kMainLeft, 30);
   addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
@@ -83,11 +83,11 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   addAndMakeVisible(version_label_);
 
   // Connection status
-  connection_label_.setFont(Font{12.f, Font::bold});
+  connection_label_.setFont(juce::Font{12.f, juce::Font::bold});
   connection_label_.setEditable(false);
-  connection_label_.setColour(Label::backgroundColourId, Colours::red);
-  connection_label_.setColour(Label::textColourId, Colours::black);
-  connection_label_.setJustificationType(Justification::centred);
+  connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
+  connection_label_.setColour(juce::Label::textColourId, juce::Colours::black);
+  connection_label_.setJustificationType(juce::Justification::centred);
   connection_label_.setBounds(200, 15, kMainWidth - kMainLeft - 200, 20);
   addToLayout(&connection_label_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(connection_label_);
@@ -129,13 +129,13 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   SetLabelSettings(profile_name_label_);
   profile_name_label_.setBounds(kMainLeft, kMainHeight - 100, label_width, 20);
   addToLayout(&profile_name_label_, anchorMidLeft, anchorMidRight);
-  profile_name_label_.setJustificationType(Justification::centred);
+  profile_name_label_.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(profile_name_label_);
 
   // Last MIDI command
-  command_label_.setFont(Font{12.f, Font::bold});
+  command_label_.setFont(juce::Font{12.f, juce::Font::bold});
   command_label_.setEditable(false);
-  command_label_.setColour(Label::textColourId, Colours::darkgrey);
+  command_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
   command_label_.setBounds(kMainLeft + label_width, kMainHeight - 100,
     label_width, 20);
   addToLayout(&command_label_, anchorMidLeft, anchorMidRight);
@@ -159,16 +159,16 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   current_status_.setBounds(kMainLeft, kMainHeight - 30,
     kMainWidth - kMainLeft * 2, 20);
   addToLayout(&current_status_, anchorMidLeft, anchorMidRight);
-  current_status_.setJustificationType(Justification::centred);
+  current_status_.setJustificationType(juce::Justification::centred);
   SetLabelSettings(current_status_);
   addAndMakeVisible(current_status_);
 
   if (settings_manager_) {
       // Try to load a default.xml if the user has not set a profile directory
     if (settings_manager_->getProfileDirectory().isEmpty()) {
-      File default_profile =
-        File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
-      std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(default_profile)};
+      juce::File default_profile =
+        juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
+      std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(default_profile)};
       if (xml_element) {
         command_table_model_.buildFromXml(xml_element.get());
         command_table_.updateContent();
@@ -183,13 +183,13 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   activateLayout();
 }
 
-void MainContentComponent::paint(Graphics& g) {
-  g.fillAll(Colours::white);
+void MainContentComponent::paint(juce::Graphics& g) {
+  g.fillAll(juce::Colours::white);
 }
 
 void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value) {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-  last_command_ = String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
+  last_command_ = juce::String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
   command_table_model_.addRow(midi_channel, controller, true);
   row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, true);
   triggerAsyncUpdate();
@@ -197,23 +197,23 @@ void MainContentComponent::handleMidiCC(int midi_channel, int controller, int va
 
 void MainContentComponent::handleMidiNote(int midi_channel, int note) {
     // Display the Note parameters and add/highlight row in table corresponding to the Note
-  last_command_ = String::formatted("%d: Note [%d]", midi_channel, note);
+  last_command_ = juce::String::formatted("%d: Note [%d]", midi_channel, note);
   command_table_model_.addRow(midi_channel, note, false);
   row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, false);
   triggerAsyncUpdate();
 }
 
 void MainContentComponent::connected() {
-  connection_label_.setText("Connected to LR", NotificationType::dontSendNotification);
-  connection_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
+  connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
+  connection_label_.setColour(juce::Label::backgroundColourId, Colours::greenyellow);
 }
 
 void MainContentComponent::disconnected() {
-  connection_label_.setText("Not connected to LR", NotificationType::dontSendNotification);
-  connection_label_.setColour(Label::backgroundColourId, Colours::red);
+  connection_label_.setText("Not connected to LR", juce::NotificationType::dontSendNotification);
+  connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
 }
 
-void MainContentComponent::buttonClicked(Button* button) {
+void MainContentComponent::buttonClicked(juce::Button* button) {
   if (button == &rescan_button_) {
       // Re-enumerate MIDI IN and OUT devices
 
@@ -243,21 +243,21 @@ void MainContentComponent::buttonClicked(Button* button) {
     }
 
     if (!profile_directory.exists()) {
-      profile_directory = File::getCurrentWorkingDirectory();
+      profile_directory = juce::File::getCurrentWorkingDirectory();
     }
 
-    WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
-    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
-      FileBrowserComponent::saveMode |
-        FileBrowserComponent::warnAboutOverwriting, profile_directory,
+    juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+    juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles |
+      juce::FileBrowserComponent::saveMode |
+      juce::FileBrowserComponent::warnAboutOverwriting, profile_directory,
       &wildcard_filter, nullptr};
-    FileChooserDialogBox dialog_box{"Save profile",
+    juce::FileChooserDialogBox dialog_box{"Save profile",
         "Enter filename to save profile",
         browser,
         true,
-        Colours::lightgrey};
+      juce::Colours::lightgrey};
     if (dialog_box.show()) {
-      File selected_file = browser.getSelectedFile(0).withFileExtension("xml");
+      juce::File selected_file = browser.getSelectedFile(0).withFileExtension("xml");
 
       if (command_map_) {
         command_map_->toXMLDocument(selected_file);
@@ -265,34 +265,34 @@ void MainContentComponent::buttonClicked(Button* button) {
     }
   }
   else if (button == &load_button_) {
-    File profile_directory;
+    juce::File profile_directory;
 
     if (settings_manager_) {
       profile_directory = settings_manager_->getProfileDirectory();
     }
 
     if (!profile_directory.exists()) {
-      profile_directory = File::getCurrentWorkingDirectory();
+      profile_directory = juce::File::getCurrentWorkingDirectory();
     }
 
-    WildcardFileFilter wildcard_filter{"*.xml", String::empty, "MIDI2LR profiles"};
-    FileBrowserComponent browser{FileBrowserComponent::canSelectFiles |
-      FileBrowserComponent::openMode, profile_directory,
+    juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+    juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles |
+      juce::FileBrowserComponent::openMode, profile_directory,
       &wildcard_filter, nullptr};
-    FileChooserDialogBox dialog_box{"Open profile", "Select a profile to open",
-      browser, true, Colours::lightgrey};
+    juce::FileChooserDialogBox dialog_box{"Open profile", "Select a profile to open",
+      browser, true, juce::Colours::lightgrey};
 
     if (dialog_box.show()) {
-      std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(browser.getSelectedFile(0))};
+      std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(browser.getSelectedFile(0))};
       if (xml_element) {
         const auto new_profile = browser.getSelectedFile(0);
-        const auto command = String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
+        const auto command = juce::String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
 
         if (const auto ptr = lr_ipc_out_.lock()) {
           ptr->sendCommand(command);
         }
         profile_name_label_.setText(new_profile.getFileName(),
-          NotificationType::dontSendNotification);
+          juce::NotificationType::dontSendNotification);
         command_table_model_.buildFromXml(xml_element.get());
         command_table_.updateContent();
         command_table_.repaint();
@@ -300,7 +300,7 @@ void MainContentComponent::buttonClicked(Button* button) {
     }
   }
   else if (button == &settings_button_) {
-    DialogWindow::LaunchOptions dialog_options;
+    juce::DialogWindow::LaunchOptions dialog_options;
     dialog_options.dialogTitle = "Settings";
     //create new object
     auto *component = new SettingsComponent{};
@@ -314,7 +314,7 @@ void MainContentComponent::buttonClicked(Button* button) {
   }
 }
 
-void MainContentComponent::profileChanged(XmlElement* xml_element, const String& file_name) {
+void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name) {
   command_table_model_.buildFromXml(xml_element);
   command_table_.updateContent();
   command_table_.repaint();
@@ -329,24 +329,24 @@ void MainContentComponent::profileChanged(XmlElement* xml_element, const String&
 
 void MainContentComponent::SetTimerText(int time_value) {
   if (time_value > 0) {
-    current_status_.setText(String::formatted("Hiding in %i Sec.", time_value),
-      NotificationType::dontSendNotification);
+    current_status_.setText(juce::String::formatted("Hiding in %i Sec.", time_value),
+      juce::NotificationType::dontSendNotification);
   }
   else {
-    current_status_.setText("", NotificationType::dontSendNotification);
+    current_status_.setText("", juce::NotificationType::dontSendNotification);
   }
 }
 
-void MainContentComponent::SetLabelSettings(Label &label_to_set) {
-  label_to_set.setFont(Font{12.f, Font::bold});
+void MainContentComponent::SetLabelSettings(juce::Label &label_to_set) {
+  label_to_set.setFont(juce::Font{12.f, juce::Font::bold});
   label_to_set.setEditable(false);
-  label_to_set.setColour(Label::textColourId, Colours::darkgrey);
+  label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
 }
 
 void MainContentComponent::handleAsyncUpdate() {
     // Update the last command label and set its colour to green
-  command_label_.setText(last_command_, NotificationType::dontSendNotification);
-  command_label_.setColour(Label::backgroundColourId, Colours::greenyellow);
+  command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
+  command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
   startTimer(1000);
 
   // Update the command table to add and/or select row corresponding to midi command
@@ -356,6 +356,6 @@ void MainContentComponent::handleAsyncUpdate() {
 
 void MainContentComponent::timerCallback() {
     // reset the command label's background to white
-  command_label_.setColour(Label::backgroundColourId, Colours::white);
+  command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::white);
   stopTimer();
 }

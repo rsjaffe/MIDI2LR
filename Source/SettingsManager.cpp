@@ -24,14 +24,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 const juce::String AutoHideSection{"autohide"};
 
 SettingsManager::SettingsManager() {
-  PropertiesFile::Options file_options;
+  juce::PropertiesFile::Options file_options;
   file_options.applicationName = "MIDI2LR";
   file_options.commonToAllUsers = false;
   file_options.filenameSuffix = "xml";
   file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
-  file_options.storageFormat = PropertiesFile::storeAsXML;
+  file_options.storageFormat = juce::PropertiesFile::storeAsXML;
 
-  properties_file_ = std::make_unique<PropertiesFile>(file_options);
+  properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
 }
 
 void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
@@ -61,14 +61,14 @@ void SettingsManager::setPickupEnabled(bool enabled) {
   properties_file_->saveIfNeeded();
 
   if (const auto ptr = lr_ipc_out_.lock()) {
-    ptr->sendCommand(String::formatted("Pickup %d\n", enabled));
+    ptr->sendCommand(juce::String::formatted("Pickup %d\n", enabled));
   }
 }
-String SettingsManager::getProfileDirectory() const noexcept {
+juce::String SettingsManager::getProfileDirectory() const noexcept {
   return properties_file_->getValue("profile_directory");
 }
 
-void SettingsManager::setProfileDirectory(const String& profile_directory_name) {
+void SettingsManager::setProfileDirectory(const juce::String& profile_directory_name) {
   properties_file_->setValue("profile_directory", profile_directory_name);
   properties_file_->saveIfNeeded();
   if (const auto ptr = profile_manager_.lock()) {
@@ -78,7 +78,7 @@ void SettingsManager::setProfileDirectory(const String& profile_directory_name) 
 
 void SettingsManager::connected() {
   if (const auto ptr = lr_ipc_out_.lock()) {
-    ptr->sendCommand(String::formatted("Pickup %d\n", getPickupEnabled()));
+    ptr->sendCommand(juce::String::formatted("Pickup %d\n", getPickupEnabled()));
   }
 }
 

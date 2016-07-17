@@ -46,16 +46,16 @@ void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) 
     addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(pickup_group_);
 
-    pickup_label_.setFont(Font{12.f, Font::bold});
+    pickup_label_.setFont(juce::Font{12.f, juce::Font::bold});
     pickup_label_.setText("Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements", NotificationType::dontSendNotification);
     pickup_label_.setBounds(SettingsLeft, 15, SettingsWidth - 2 * SettingsLeft, 50);
     addToLayout(&pickup_label_, anchorMidLeft, anchorMidRight);
     pickup_label_.setEditable(false);
-    pickup_label_.setColour(Label::textColourId, Colours::darkgrey);
+    pickup_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
     addAndMakeVisible(pickup_label_);
 
     pickup_enabled_.addListener(this);
-    pickup_enabled_.setToggleState(ptr->getPickupEnabled(), NotificationType::dontSendNotification);
+    pickup_enabled_.setToggleState(ptr->getPickupEnabled(), juce::NotificationType::dontSendNotification);
     pickup_enabled_.setBounds(SettingsLeft, 60, SettingsWidth - 2 * SettingsLeft, 32);
     addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(pickup_enabled_);
@@ -74,9 +74,9 @@ void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) 
     profile_location_label_.setEditable(false);
     profile_location_label_.setBounds(SettingsLeft, 145, SettingsWidth - 2 * SettingsLeft, 30);
     addToLayout(&profile_location_label_, anchorMidLeft, anchorMidRight);
-    profile_location_label_.setColour(Label::textColourId, Colours::darkgrey);
+    profile_location_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
     addAndMakeVisible(profile_location_label_);
-    profile_location_label_.setText(ptr->getProfileDirectory(), NotificationType::dontSendNotification);
+    profile_location_label_.setText(ptr->getProfileDirectory(), juce::NotificationType::dontSendNotification);
 
     ////// ----------------------- auto hide section ------------------------------------
     autohide_group_.setText("Auto hide");
@@ -84,18 +84,18 @@ void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) 
     addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(autohide_group_);
 
-    autohide_explain_label_.setFont(Font{12.f, Font::bold});
-    autohide_explain_label_.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", NotificationType::dontSendNotification);
+    autohide_explain_label_.setFont(juce::Font{12.f, juce::Font::bold});
+    autohide_explain_label_.setText("Autohide the plugin window in x seconds, select 0 for disabling autohide", juce::NotificationType::dontSendNotification);
     autohide_explain_label_.setBounds(SettingsLeft, 215, SettingsWidth - 2 * SettingsLeft, 50);
     addToLayout(&autohide_explain_label_, anchorMidLeft, anchorMidRight);
     autohide_explain_label_.setEditable(false);
-    autohide_explain_label_.setFont(Font{12.f, Font::bold});
-    autohide_explain_label_.setColour(Label::textColourId, Colours::darkgrey);
+    autohide_explain_label_.setFont(juce::Font{12.f, juce::Font::bold});
+    autohide_explain_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
     addAndMakeVisible(autohide_explain_label_);
 
     autohide_setting_.setBounds(SettingsLeft, 245, SettingsWidth - 2 * SettingsLeft, 50);
     autohide_setting_.setRange(0, 10, 1);
-    autohide_setting_.setValue(ptr->getAutoHideTime(), NotificationType::dontSendNotification);
+    autohide_setting_.setValue(ptr->getAutoHideTime(), juce::NotificationType::dontSendNotification);
 
     addToLayout(&autohide_setting_, anchorMidLeft, anchorMidRight);
     //add this as the lister for the data

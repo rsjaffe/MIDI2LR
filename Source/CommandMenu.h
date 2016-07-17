@@ -25,8 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 
-class CommandMenu final: public TextButton,
-  private ButtonListener {
+class CommandMenu final: public juce::TextButton,
+  private juce::ButtonListener {
 public:
   CommandMenu(const MIDI_Message& msg);
   void Init(std::shared_ptr<CommandMap>& map_command);
@@ -38,10 +38,10 @@ public:
 
 private:
   // ButtonListener interface
-  virtual void buttonClicked(Button* button) override;
+  virtual void buttonClicked(juce::Button* button) override;
 
-  const std::vector<String> menus_;
-  const std::vector<std::vector<String>> menu_entries_;
+  const std::vector<juce::String> menus_;
+  const std::vector<std::vector<juce::String>> menu_entries_;
   MIDI_Message message_;
   size_t selected_item_{std::numeric_limits<size_t>::max()};
   std::shared_ptr<CommandMap> command_map_{nullptr};

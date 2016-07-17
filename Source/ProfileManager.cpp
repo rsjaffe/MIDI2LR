@@ -48,11 +48,11 @@ void ProfileManager::addListener(ProfileChangeListener *listener) {
   listeners_.push_back(listener);
 }
 
-void ProfileManager::setProfileDirectory(const File& directory) {
+void ProfileManager::setProfileDirectory(const juce::File& directory) {
   profile_location_ = directory;
 
-  Array<File> file_array;
-  directory.findChildFiles(file_array, File::findFiles, false, "*.xml");
+  juce::Array<juce::File> file_array;
+  directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
 
   current_profile_index_ = 0;
   profiles_.clear();
@@ -74,20 +74,20 @@ void ProfileManager::switchToProfile(int profile_index) {
   }
 }
 
-void ProfileManager::switchToProfile(const String& profile) {
+void ProfileManager::switchToProfile(const juce::String& profile) {
   const auto profile_file = profile_location_.getChildFile(profile);
 
   if (profile_file.exists()) {
-    std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(profile_file)};
+    std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
     for (auto listener : listeners_)
       listener->profileChanged(xml_element.get(), profile);
 
     if (const auto ptr = lr_ipc_out_.lock()) {
-      auto command = String{"ChangedToDirectory "} +
-        File::addTrailingSeparator(profile_location_.getFullPathName()) +
-        String{"\n"};
+      auto command = juce::String{"ChangedToDirectory "} +
+        juce::File::addTrailingSeparator(profile_location_.getFullPathName()) +
+        juce::String{"\n"};
       ptr->sendCommand(command);
-      command = String("ChangedToFile ") + profile + String("\n");
+      command = juce::String("ChangedToFile ") + profile + juce::String("\n");
       ptr->sendCommand(command);
     }
   }
@@ -148,9 +148,9 @@ void ProfileManager::handleMidiNote(int midi_channel, int note) {
 }
 
 void ProfileManager::connected() {
-  const auto command = String{"ChangedToDirectory "} +
-    File::addTrailingSeparator(profile_location_.getFullPathName()) +
-    String{"\n"};
+  const auto command = juce::String{"ChangedToDirectory "} +
+    juce::File::addTrailingSeparator(profile_location_.getFullPathName()) +
+    juce::String{"\n"};
   if (const auto ptr = lr_ipc_out_.lock()) {
     ptr->sendCommand(command);
   }

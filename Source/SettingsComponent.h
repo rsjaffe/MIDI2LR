@@ -27,29 +27,29 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 class SettingsComponent final: 
-  public Component,
-  private ButtonListener, 
+  public juce::Component,
+  private juce::ButtonListener,
   private ResizableLayout, 
-  private Slider::Listener {
+  private juce::Slider::Listener {
 public:
   SettingsComponent();
   ~SettingsComponent();
   void Init(std::weak_ptr<SettingsManager>&& settings_manager);
 private:
-  void paint(Graphics&) override;
-  virtual void buttonClicked(Button* button) override;
-  virtual void sliderValueChanged(Slider* slider) override;
+  void paint(juce::Graphics&) override;
+  virtual void buttonClicked(juce::Button* button) override;
+  virtual void sliderValueChanged(juce::Slider* slider) override;
 
-  GroupComponent autohide_group_{};
-  GroupComponent pickup_group_{};
-  GroupComponent profile_group_{};
-  Label autohide_explain_label_{};
-  Label pickup_label_{"PickupLabel", ""};
-  Label profile_location_label_{"Profile Label"};
-  Slider autohide_setting_;
+  juce::GroupComponent autohide_group_{};
+  juce::GroupComponent pickup_group_{};
+  juce::GroupComponent profile_group_{};
+  juce::Label autohide_explain_label_{};
+  juce::Label pickup_label_{"PickupLabel", ""};
+  juce::Label profile_location_label_{"Profile Label"};
+  juce::Slider autohide_setting_;
   std::weak_ptr<SettingsManager> settings_manager_;
-  TextButton profile_location_button_{"Choose Profile Folder"};
-  ToggleButton pickup_enabled_{"Enable Pickup Mode"};
+  juce::TextButton profile_location_button_{"Choose Profile Folder"};
+  juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

@@ -34,7 +34,7 @@ public:
   virtual ~MIDICommandListener() {};
 };
 
-class MIDIProcessor final: private MidiInputCallback {
+class MIDIProcessor final: private juce::MidiInputCallback {
 public:
   MIDIProcessor() noexcept;
   virtual ~MIDIProcessor();
@@ -47,12 +47,12 @@ public:
 
 private:
   // overridden from MidiInputCallback
-  void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
+  void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
 
   void InitDevices_();
 
   NRPN_Filter nrpn_filter_;
-  std::vector<std::unique_ptr<MidiInput>> devices_;
+  std::vector<std::unique_ptr<juce::MidiInput>> devices_;
   std::vector<MIDICommandListener *> listeners_;
 };
 

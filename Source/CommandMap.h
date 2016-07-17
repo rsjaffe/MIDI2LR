@@ -70,7 +70,7 @@ namespace std {
   };
 
   template <>
-  struct hash<String> {
+  struct hash<juce::String> {
     std::size_t operator()(const String& k) const noexcept {
       return k.hash();
     }
@@ -89,10 +89,10 @@ public:
 
   // adds an entry to the message:command map, and a corresponding entry to the
   // command:message map
-  void addCommandforMessage(const String &command, const MIDI_Message &cc);
+  void addCommandforMessage(const juce::String &command, const MIDI_Message &cc);
 
   // gets the LR command associated to a MIDI message
-  const String& getCommandforMessage(const MIDI_Message &message) const;
+  const juce::String& getCommandforMessage(const MIDI_Message &message) const;
 
   // in the command:message map
   // removes a MIDI message from the message:command map, and it's associated entry
@@ -105,18 +105,18 @@ public:
   bool messageExistsInMap(const MIDI_Message &message) const;
 
   // gets the MIDI message associated to a LR command
-  const MIDI_Message& getMessageForCommand(const String &command) const;
+  const MIDI_Message& getMessageForCommand(const juce::String &command) const;
 
   // returns true if there is a mapping for a particular LR command
-  bool commandHasAssociatedMessage(const String &command) const;
+  bool commandHasAssociatedMessage(const juce::String &command) const;
 
   // saves the message:command map as an XML file
-  void toXMLDocument(File& file) const;
+  void toXMLDocument(juce::File& file) const;
 
 private:
 
-  std::unordered_map<MIDI_Message, String> message_map_;
-  std::unordered_map<String, MIDI_Message> command_string_map_;
+  std::unordered_map<MIDI_Message, juce::String> message_map_;
+  std::unordered_map<juce::String, MIDI_Message> command_string_map_;
 };
 
 #endif  // COMMANDMAP_H_INCLUDED
