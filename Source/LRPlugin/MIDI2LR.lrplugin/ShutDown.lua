@@ -22,10 +22,14 @@ return {
     local LrPathUtils         = import 'LrPathUtils'
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
-    
-    MIDI2LR.RUNNING = false
+
+
 
     progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+    LrTasks.startAsyncTask(function()
+        MIDI2LR.RUNNING = false
+      end
+    )
     LrTasks.startAsyncTask(function()
         if(WIN_ENV) then
           LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
@@ -34,6 +38,7 @@ return {
         end
       end
     )
+
     progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
     doneFunction()
   end
