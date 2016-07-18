@@ -48,7 +48,7 @@ private:
   // Timer callback
   virtual void timerCallback() override;
   // process a line received from the socket
-  void processLine(const juce::String& line);
+  void processLine(const std::string& line);
 
   bool thread_started_{false};
   mutable std::mutex timer_mutex_;
@@ -56,7 +56,7 @@ private:
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
   std::shared_ptr<ProfileManager> profile_manager_{nullptr};
-  std::unordered_map<String, double> parameter_map_;
+  std::unordered_map<std::string, double> parameter_map_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

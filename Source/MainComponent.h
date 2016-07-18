@@ -37,7 +37,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ResizableLayout.h"
 #include "SettingsManager.h"
 
-class MainContentComponent final: 
+class MainContentComponent final:
   public juce::Component,
   public MIDICommandListener,
   public LRConnectionListener,

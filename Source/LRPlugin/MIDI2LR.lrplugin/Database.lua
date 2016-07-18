@@ -46,6 +46,7 @@ local secondaryDisplay = LOC("$$$/AgApplication/Menu/Window/SecondaryDisplay=Sec
 local show = LOC("$$$/AgLibrary/LibraryInfo/Show=Show")
 local splitToning = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SplitToning=Split Toning")
 local toneCurve = LOC("$$$/AgDevelop/CameraRawPanel/TargetName/ToneCurve=Tone Curve")
+local transform = LOC("$$$/AgDevelop/CameraRawPanel/Transform=Transform")
 local viewModes = LOC("$$$/AgDevelop/Toolbar/ViewModesTool=View Modes")
 local whiteBalance = LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/WhiteBalance=White Balance")
 

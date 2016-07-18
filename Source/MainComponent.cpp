@@ -286,7 +286,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
       std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(browser.getSelectedFile(0))};
       if (xml_element) {
         const auto new_profile = browser.getSelectedFile(0);
-        const auto command = juce::String{"ChangedToFullPath "} +new_profile.getFullPathName() + "\n";
+        const std::string command = "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n';
 
         if (const auto ptr = lr_ipc_out_.lock()) {
           ptr->sendCommand(command);

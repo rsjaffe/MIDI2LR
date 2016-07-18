@@ -41,7 +41,7 @@ private:
   virtual void buttonClicked(juce::Button* button) override;
 
   const std::vector<juce::String> menus_;
-  const std::vector<std::vector<juce::String>> menu_entries_;
+  const std::vector<std::vector<std::string>> menu_entries_;
   MIDI_Message message_;
   size_t selected_item_{std::numeric_limits<size_t>::max()};
   std::shared_ptr<CommandMap> command_map_{nullptr};

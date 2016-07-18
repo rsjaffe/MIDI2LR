@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
+#include "Utilities/Utilities.h"
 #include <bitset>
 
 namespace {
@@ -85,7 +86,7 @@ void LR_IPC_IN::run() {
       auto can_read_line = true;
       // parse input until we have a line, then process that line, quit if
       // connection lost
-      while (!juce::String(line).endsWithChar('\n') && juce::StreamingSocket::isConnected()) {
+      while (std::string(line).back() != '\n' && juce::StreamingSocket::isConnected()) {
         if (juce::Thread::threadShouldExit())
           goto threadExit;//break out of nested whiles
         const auto wait_status = juce::StreamingSocket::waitUntilReady(true, kReadyWait);
@@ -101,16 +102,16 @@ void LR_IPC_IN::run() {
               throw std::out_of_range("Buffer overflow in LR_IPC_IN");
             size_read += juce::StreamingSocket::read(line + size_read, 1, false);
             break;
-          default:
-            throw std::invalid_argument("waitUntilReady returned unexpected value");
         }
       } // end while !\n and is connected
 
       // if lose connection, line may not be terminated
-      if (can_read_line && juce::String(line).endsWithChar('\n')) {
-        juce::String param{line};
-        processLine(param);
-      }
+      {
+        std::string param{line};
+        if (can_read_line && param.back() == '\n') {
+          processLine(param);
+        }
+      } //scope param
     dumpLine: /* empty statement */;
     } //end else (is connected)
   } //while not threadshouldexit
@@ -130,16 +131,16 @@ void LR_IPC_IN::timerCallback() {
       }
   }
 }
-void LR_IPC_IN::processLine(const juce::String& line) {
-  const static std::unordered_map<juce::String, int> cmds = {
-    {juce::String{"SwitchProfile"},1},
-    {juce::String{"SendKey"},2},
-    {juce::String{"TerminateApplication"},3},
+void LR_IPC_IN::processLine(const std::string& line) {
+  const static std::unordered_map<std::string, int> cmds = {
+    {"SwitchProfile",1},
+    {"SendKey",2},
+    {"TerminateApplication",3},
   };
     // process input into [parameter] [Value]
-  const auto trimmed_line = line.trim();
-  const auto command = trimmed_line.upToFirstOccurrenceOf(" ", false, false);
-  const auto value_string = trimmed_line.fromFirstOccurrenceOf(" ", false, false);
+  const auto trimmed_line = RSJ::trim(line);
+  const auto command = trimmed_line.substr(0, trimmed_line.find(' '));
+  const auto value_string = trimmed_line.substr(trimmed_line.find(' ') + 1);
 
   switch (cmds.count(command) ? cmds.at(command) : 0) {
     case 1: //SwitchProfile
@@ -149,9 +150,8 @@ void LR_IPC_IN::processLine(const juce::String& line) {
     case 2: //SendKey
       {
         std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-          (value_string.getIntValue())};
-        send_keys_.SendKeyDownUp(value_string.
-          trimCharactersAtStart("0123456789").trimStart().toStdString(),
+          (std::stoi(value_string))};
+        send_keys_.SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
           modifiers[0], modifiers[1], modifiers[2]);
         break;
       }
@@ -161,7 +161,7 @@ void LR_IPC_IN::processLine(const juce::String& line) {
       break;
     case 0:
       // store updates in map
-      const auto original_value = value_string.getDoubleValue();
+      const auto original_value = std::stod(value_string);
       parameter_map_[command] = original_value;
       // send associated CC messages to MIDI OUT devices
       if (command_map_ && command_map_->commandHasAssociatedMessage(command)) {

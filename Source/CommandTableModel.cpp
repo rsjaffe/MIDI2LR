@@ -180,7 +180,7 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
       }
       else {
         command_map_->addCommandforMessage(setting->
-          getStringAttribute("command_string"), message);
+          getStringAttribute("command_string").toStdString(), message);
       }
     }
     else if (setting->hasAttribute("note")) {
@@ -195,7 +195,7 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
       }
       else {
         command_map_->addCommandforMessage(setting->
-          getStringAttribute("command_string"), note);
+          getStringAttribute("command_string").toStdString(), note);
       }
     }
     setting = setting->getNextElement();

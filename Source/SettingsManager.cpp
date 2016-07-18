@@ -61,7 +61,7 @@ void SettingsManager::setPickupEnabled(bool enabled) {
   properties_file_->saveIfNeeded();
 
   if (const auto ptr = lr_ipc_out_.lock()) {
-    ptr->sendCommand(juce::String::formatted("Pickup %d\n", enabled));
+    ptr->sendCommand("Pickup " + std::to_string(static_cast<unsigned>(enabled)) + '\n');
   }
 }
 juce::String SettingsManager::getProfileDirectory() const noexcept {
@@ -78,7 +78,7 @@ void SettingsManager::setProfileDirectory(const juce::String& profile_directory_
 
 void SettingsManager::connected() {
   if (const auto ptr = lr_ipc_out_.lock()) {
-    ptr->sendCommand(juce::String::formatted("Pickup %d\n", getPickupEnabled()));
+    ptr->sendCommand("Pickup " + std::to_string(static_cast<unsigned>(getPickupEnabled())) + '\n');
   }
 }
 

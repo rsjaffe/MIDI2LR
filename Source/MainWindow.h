@@ -29,11 +29,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class MainWindow final: private juce::DocumentWindow, private juce::Timer {
 public:
-  MainWindow(String name): juce::DocumentWindow{name,
+  MainWindow(juce::String name): juce::DocumentWindow{name,
     juce::Colours::lightgrey,
     juce::DocumentWindow::minimiseButton |
-    juce::DocumentWindow::closeButton}, juce::Timer()
-  {
+    juce::DocumentWindow::closeButton}, juce::Timer() {
     setUsingNativeTitleBar(true);
     window_content_ = new MainContentComponent{};
 
