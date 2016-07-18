@@ -27,6 +27,22 @@ namespace {
   constexpr auto kMainHeight = 650;
   constexpr auto kMainLeft = 20;
   constexpr auto kSpaceBetweenButton = 10;
+  constexpr auto kStandardHeight = 20;
+  constexpr auto kFullWidth = kMainWidth - kMainLeft * 2;
+  constexpr auto kButtonWidth = (kFullWidth - kSpaceBetweenButton * 2) / 3;
+  constexpr auto kButtonXIncrement = kButtonWidth + kSpaceBetweenButton;
+  constexpr auto kConnectionLabelWidth = kMainWidth - kMainLeft - 200;
+  constexpr auto kFirstButtonX = kMainLeft;
+  constexpr auto kSecondButtonX = kMainLeft + kButtonXIncrement;
+  constexpr auto kThirdButtonX = kMainLeft + kButtonXIncrement * 2;
+  constexpr auto kCommandTableHeight = kMainHeight - 210;
+  constexpr auto kLabelWidth = kFullWidth / 2;
+  constexpr auto kProfileNameY = kMainHeight - 100;
+  constexpr auto kCommandLabelX = kMainLeft + kLabelWidth;
+  constexpr auto kCommandLabelY = kMainHeight - 100;
+  constexpr auto kRemoveRowY = kMainHeight - 75;
+  constexpr auto kRescanY = kMainHeight - 50;
+  constexpr auto kCurrentStatusY = kMainHeight - 30;
 }
 
 MainContentComponent::MainContentComponent(): ResizableLayout{this} {}
@@ -74,13 +90,13 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   title_label_.setEditable(false);
   title_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
   title_label_.setComponentEffect(&title_shadow_);
-  title_label_.setBounds(kMainLeft, 10, kMainWidth - 2 * kMainLeft, 30);
+  title_label_.setBounds(kMainLeft, 10, kFullWidth, 30);
   addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(title_label_);
 
   // Version label
   SetLabelSettings(version_label_);
-  version_label_.setBounds(kMainLeft, 40, kMainWidth - 2 * kMainLeft, 10);
+  version_label_.setBounds(kMainLeft, 40, kFullWidth, 10);
   addToLayout(&version_label_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(version_label_);
 
@@ -90,46 +106,37 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
   connection_label_.setColour(juce::Label::textColourId, juce::Colours::black);
   connection_label_.setJustificationType(juce::Justification::centred);
-  connection_label_.setBounds(200, 15, kMainWidth - kMainLeft - 200, 20);
+  connection_label_.setBounds(200, 15, kConnectionLabelWidth, kStandardHeight);
   addToLayout(&connection_label_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(connection_label_);
 
-  //get the button width
-  constexpr long button_width =
-    (kMainWidth - 2 * kMainLeft - kSpaceBetweenButton * 2) / 3;
-
   // Load button
   load_button_.addListener(this);
-  load_button_.setBounds(kMainLeft, 60, button_width, 20);
+  load_button_.setBounds(kFirstButtonX, 60, kButtonWidth, kStandardHeight);
   addToLayout(&load_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(load_button_);
 
   // Save button
   save_button_.addListener(this);
-  save_button_.setBounds(kMainLeft + button_width + kSpaceBetweenButton, 60,
-    button_width, 20);
+  save_button_.setBounds(kSecondButtonX, 60, kButtonWidth, kStandardHeight);
   addToLayout(&save_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(save_button_);
 
   // Settings button
   settings_button_.addListener(this);
-  settings_button_.setBounds(kMainLeft + button_width * 2 + kSpaceBetweenButton * 2,
-    60, button_width, 20);
+  settings_button_.setBounds(kThirdButtonX, 60, kButtonWidth, kStandardHeight);
   addToLayout(&settings_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(settings_button_);
 
   // Command Table
   command_table_.setModel(&command_table_model_);
-  command_table_.setBounds(kMainLeft, 100, kMainWidth - kMainLeft * 2,
-    kMainHeight - 210);
+  command_table_.setBounds(kMainLeft, 100, kFullWidth, kCommandTableHeight);
   addToLayout(&command_table_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(command_table_);
 
-  constexpr long label_width = (kMainWidth - kMainLeft * 2) / 2;
-
   // Profile name label
   SetLabelSettings(profile_name_label_);
-  profile_name_label_.setBounds(kMainLeft, kMainHeight - 100, label_width, 20);
+  profile_name_label_.setBounds(kMainLeft, kProfileNameY, kLabelWidth, kStandardHeight);
   addToLayout(&profile_name_label_, anchorMidLeft, anchorMidRight);
   profile_name_label_.setJustificationType(juce::Justification::centred);
   addAndMakeVisible(profile_name_label_);
@@ -138,28 +145,24 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   command_label_.setFont(juce::Font{12.f, juce::Font::bold});
   command_label_.setEditable(false);
   command_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
-  command_label_.setBounds(kMainLeft + label_width, kMainHeight - 100,
-    label_width, 20);
+  command_label_.setBounds(kCommandLabelX, kCommandLabelY, kLabelWidth, kStandardHeight);
   addToLayout(&command_label_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(command_label_);
 
   // Remove row button
   remove_row_button_.addListener(this);
-  remove_row_button_.setBounds(kMainLeft, kMainHeight - 75,
-    kMainWidth - kMainLeft * 2, 20);
+  remove_row_button_.setBounds(kMainLeft, kRemoveRowY, kFullWidth, kStandardHeight);
   addToLayout(&remove_row_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(remove_row_button_);
 
   // Rescan MIDI button
   rescan_button_.addListener(this);
-  rescan_button_.setBounds(kMainLeft, kMainHeight - 50,
-    kMainWidth - kMainLeft * 2, 20);
+  rescan_button_.setBounds(kMainLeft, kRescanY, kFullWidth, kStandardHeight);
   addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
   addAndMakeVisible(rescan_button_);
 
   // adding the current status label, used for counting down.
-  current_status_.setBounds(kMainLeft, kMainHeight - 30,
-    kMainWidth - kMainLeft * 2, 20);
+  current_status_.setBounds(kMainLeft, kCurrentStatusY, kFullWidth, kStandardHeight);
   addToLayout(&current_status_, anchorMidLeft, anchorMidRight);
   current_status_.setJustificationType(juce::Justification::centred);
   SetLabelSettings(current_status_);
