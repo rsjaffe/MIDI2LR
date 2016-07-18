@@ -36,8 +36,8 @@ LR_IPC_OUT::~LR_IPC_OUT() {
     std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
     timer_off_ = true;
     juce::Timer::stopTimer();
-    juce::InterprocessConnection::disconnect();
   }
+  juce::InterprocessConnection::disconnect();
   command_map_.reset();
 }
 

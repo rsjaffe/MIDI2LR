@@ -35,7 +35,11 @@ namespace {
 LR_IPC_IN::LR_IPC_IN(): juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"} {}
 
 LR_IPC_IN::~LR_IPC_IN() {
-  juce::Timer::stopTimer();
+  {
+    std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+    timer_off_ = true;
+    juce::Timer::stopTimer();
+  }
   juce::Thread::stopThread(1000);
   juce::StreamingSocket::close();
 }
@@ -116,13 +120,14 @@ void LR_IPC_IN::run() {
   } //while not threadshouldexit
 threadExit: /* empty statement */;
   std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+  timer_off_ = true;
   juce::Timer::stopTimer();
   //thread_started_ = false; //don't change flag while depending upon it
 }
 
 void LR_IPC_IN::timerCallback() {
   std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-  if (!juce::StreamingSocket::isConnected()) {
+  if (!juce::StreamingSocket::isConnected() && !timer_off_) {
     if (juce::StreamingSocket::connect("127.0.0.1", kLrInPort, kConnectTryTime))
       if (!thread_started_) {
         juce::Thread::startThread(); //avoid starting thread during shutdown

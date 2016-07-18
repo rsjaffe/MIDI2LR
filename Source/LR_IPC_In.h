@@ -51,6 +51,7 @@ private:
   void processLine(const juce::String& line);
 
   bool thread_started_{false};
+  bool timer_off_{false};
   mutable std::mutex timer_mutex_;
   SendKeys send_keys_;
   std::shared_ptr<CommandMap> command_map_{nullptr};

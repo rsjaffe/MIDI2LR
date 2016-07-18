@@ -357,5 +357,5 @@ void MainContentComponent::handleAsyncUpdate() {
 void MainContentComponent::timerCallback() {
     // reset the command label's background to white
   command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::white);
-  stopTimer();
+  juce::Timer::stopTimer();
 }
