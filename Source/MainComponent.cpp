@@ -22,10 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDISender.h"
 #include "SettingsComponent.h"
 
-constexpr auto kMainWidth = 400;
-constexpr auto kMainHeight = 650;
-constexpr auto kMainLeft = 20;
-constexpr auto kSpaceBetweenButton = 10;
+namespace {
+  constexpr auto kMainWidth = 400;
+  constexpr auto kMainHeight = 650;
+  constexpr auto kMainLeft = 20;
+  constexpr auto kSpaceBetweenButton = 10;
+}
 
 MainContentComponent::MainContentComponent(): ResizableLayout{this} {}
 
