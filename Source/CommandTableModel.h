@@ -22,8 +22,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef COMMANDTABLEMODEL_H
 #define COMMANDTABLEMODEL_H
 
-#include <vector>
 #include <memory>
+#include <utility>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"

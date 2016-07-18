@@ -21,6 +21,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef LR_IPC_IN_H_INCLUDED
 #define LR_IPC_IN_H_INCLUDED
+
+#include <memory>
+#include <mutex>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"

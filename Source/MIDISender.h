@@ -21,7 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef MIDISENDER_H_INCLUDED
 #define MIDISENDER_H_INCLUDED
-
+#include <memory>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class MIDISender {

@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef VERSIONCHECKER_H_INCLUDED
 #define VERSIONCHECKER_H_INCLUDED
 
+#include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SettingsManager.h"
 

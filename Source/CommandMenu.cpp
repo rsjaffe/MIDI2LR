@@ -47,7 +47,7 @@ CommandMenu::CommandMenu(const MIDI_Message& message):
 void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) {
     //copy the pointer
   command_map_ = mapCommand;
-  addListener(this);
+  juce::Button::addListener(this);
 }
 
 void CommandMenu::setMsg(const MIDI_Message& message) noexcept {

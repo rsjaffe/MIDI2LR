@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SETTINGSMANAGER_H_INCLUDED
 #define SETTINGSMANAGER_H_INCLUDED
 
+#include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"

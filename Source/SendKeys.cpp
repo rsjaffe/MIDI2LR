@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SendKeys.h"
 #include <cctype>
+#include <stdexcept>
 #include <vector>
 #ifdef _WIN32
 #include "Windows.h"

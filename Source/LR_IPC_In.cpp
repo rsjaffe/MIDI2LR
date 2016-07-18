@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 #include <bitset>
+#include <stdexcept>
 
 namespace {
   constexpr auto kBufferSize = 256;

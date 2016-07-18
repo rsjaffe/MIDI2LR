@@ -21,7 +21,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef COMMANDMENU_H_INCLUDED
 #define COMMANDMENU_H_INCLUDED
+
+#include <limits>
 #include <memory>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 

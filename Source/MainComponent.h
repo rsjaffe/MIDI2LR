@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MAINCOMPONENT_H_INCLUDED
 #define MAINCOMPONENT_H_INCLUDED
 
+#include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 #include "CommandTable.h"
