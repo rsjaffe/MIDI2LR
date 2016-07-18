@@ -137,13 +137,14 @@ public:
     return data_queue_.empty();
   }
 };
-
 namespace RSJ {
   static const std::string space = " \t\n\v\f\r";
   static const std::string blank = " \t";
   static const std::string digit = "0123456789";
-
-  std::string trim(const std::string& str, const std::string& what = RSJ::digit);
-  std::string ltrim(const std::string& str, const std::string& what = RSJ::digit);
-  std::string rtrim(const std::string& str, const std::string& what = RSJ::digit);
+  std::string trim(const std::string& str, const std::string& what = RSJ::space);
+  std::string ltrim(const std::string& str, const std::string& what = RSJ::space);
+  std::string rtrim(const std::string& str, const std::string& what = RSJ::space);
+  inline bool contains(const std::string& str, const std::string& what = RSJ::space) {
+    return str.find_first_of(what) != std::string::npos;
+  }
 };
