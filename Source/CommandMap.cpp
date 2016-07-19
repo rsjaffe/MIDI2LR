@@ -35,12 +35,12 @@ void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &
     message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
 }
 
-void CommandMap::addCommandforMessage(const juce::String& command, const MIDI_Message &message) {
+void CommandMap::addCommandforMessage(const std::string& command, const MIDI_Message &message) {
   message_map_[message] = command;
   command_string_map_[command] = message;
 }
 
-const juce::String& CommandMap::getCommandforMessage(const MIDI_Message &message) const {
+const std::string& CommandMap::getCommandforMessage(const MIDI_Message &message) const {
   return message_map_.at(message);
 }
 
@@ -60,10 +60,10 @@ bool CommandMap::messageExistsInMap(const MIDI_Message &message) const {
   return message_map_.count(message) > 0 ? true : false;
 }
 
-const MIDI_Message& CommandMap::getMessageForCommand(const juce::String &command) const {
+const MIDI_Message& CommandMap::getMessageForCommand(const std::string &command) const {
   return command_string_map_.at(command);
 }
-bool CommandMap::commandHasAssociatedMessage(const juce::String &command) const {
+bool CommandMap::commandHasAssociatedMessage(const std::string &command) const {
   return command_string_map_.count(command) > 0 ? true : false;
 }
 void CommandMap::toXMLDocument(juce::File& file) const {

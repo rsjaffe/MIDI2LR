@@ -129,6 +129,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp"/>
     <ClCompile Include="..\..\Source\CommandMap.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>

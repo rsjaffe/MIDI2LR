@@ -83,11 +83,11 @@ void ProfileManager::switchToProfile(const juce::String& profile) {
       listener->profileChanged(xml_element.get(), profile);
 
     if (const auto ptr = lr_ipc_out_.lock()) {
-      auto command = juce::String{"ChangedToDirectory "} +
-        juce::File::addTrailingSeparator(profile_location_.getFullPathName()) +
-        juce::String{"\n"};
+      std::string command = "ChangedToDirectory " +
+        juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+        '\n';
       ptr->sendCommand(command);
-      command = juce::String("ChangedToFile ") + profile + juce::String("\n");
+      command = "ChangedToFile " + profile.toStdString() + '\n';
       ptr->sendCommand(command);
     }
   }
@@ -95,7 +95,7 @@ void ProfileManager::switchToProfile(const juce::String& profile) {
 
 void ProfileManager::switchToNextProfile() {
   current_profile_index_++;
-  if (current_profile_index_ == static_cast<int>(profiles_.size())) 
+  if (current_profile_index_ == static_cast<int>(profiles_.size()))
     current_profile_index_ = 0;
 
   switchToProfile(current_profile_index_);
@@ -148,9 +148,9 @@ void ProfileManager::handleMidiNote(int midi_channel, int note) {
 }
 
 void ProfileManager::connected() {
-  const auto command = juce::String{"ChangedToDirectory "} +
-    juce::File::addTrailingSeparator(profile_location_.getFullPathName()) +
-    juce::String{"\n"};
+  const std::string command = "ChangedToDirectory " +
+    juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+    '\n';
   if (const auto ptr = lr_ipc_out_.lock()) {
     ptr->sendCommand(command);
   }

@@ -208,7 +208,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   for (const auto& c : key)
     lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
 #ifdef _WIN32
-    
+
   BYTE vk = 0;
   BYTE vk_modifiers = 0;
   if (SendKeys::key_map_.count(lower_string))

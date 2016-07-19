@@ -61,20 +61,13 @@ struct MIDI_Message {
   }
 };
 
-// hash functions for MIDI_Message and String
+// hash functions
 namespace std {
   template <>
   struct hash<MIDI_Message> {
     std::size_t operator()(const MIDI_Message& k) const noexcept {
       return std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^
         std::hash<int>()(k.data << 2);
-    }
-  };
-
-  template <>
-  struct hash<juce::String> {
-    std::size_t operator()(const String& k) const noexcept {
-      return k.hash();
     }
   };
 }
@@ -86,15 +79,15 @@ public:
 
 // adds an entry to the message:command map, and a corresponding entry to the
 // command:message map will look up the string by the index (but it is preferred to
-// directly use the String)
+// directly use the string)
   void addCommandforMessage(unsigned int command, const MIDI_Message &cc);
 
   // adds an entry to the message:command map, and a corresponding entry to the
   // command:message map
-  void addCommandforMessage(const juce::String &command, const MIDI_Message &cc);
+  void addCommandforMessage(const std::string &command, const MIDI_Message &cc);
 
   // gets the LR command associated to a MIDI message
-  const juce::String& getCommandforMessage(const MIDI_Message &message) const;
+  const std::string& getCommandforMessage(const MIDI_Message &message) const;
 
   // in the command:message map
   // removes a MIDI message from the message:command map, and it's associated entry
@@ -107,18 +100,18 @@ public:
   bool messageExistsInMap(const MIDI_Message &message) const;
 
   // gets the MIDI message associated to a LR command
-  const MIDI_Message& getMessageForCommand(const juce::String &command) const;
+  const MIDI_Message& getMessageForCommand(const std::string &command) const;
 
   // returns true if there is a mapping for a particular LR command
-  bool commandHasAssociatedMessage(const juce::String &command) const;
+  bool commandHasAssociatedMessage(const std::string &command) const;
 
   // saves the message:command map as an XML file
   void toXMLDocument(juce::File& file) const;
 
 private:
 
-  std::unordered_map<MIDI_Message, juce::String> message_map_;
-  std::unordered_map<juce::String, MIDI_Message> command_string_map_;
+  std::unordered_map<MIDI_Message, std::string> message_map_;
+  std::unordered_map<std::string, MIDI_Message> command_string_map_;
 };
 
 #endif  // COMMANDMAP_H_INCLUDED
