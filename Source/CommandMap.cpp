@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMap::CommandMap() noexcept {}
 
-void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message) {
+void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message& message) {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
   if (command < LRCommandList::LRStringList.size()) {
@@ -35,16 +35,16 @@ void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &
     message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
 }
 
-void CommandMap::addCommandforMessage(const std::string& command, const MIDI_Message &message) {
+void CommandMap::addCommandforMessage(const std::string& command, const MIDI_Message& message) {
   message_map_[message] = command;
   command_string_map_[command] = message;
 }
 
-const std::string& CommandMap::getCommandforMessage(const MIDI_Message &message) const {
+const std::string& CommandMap::getCommandforMessage(const MIDI_Message& message) const {
   return message_map_.at(message);
 }
 
-void CommandMap::removeMessage(const MIDI_Message &message) {
+void CommandMap::removeMessage(const MIDI_Message& message) {
     // removes message from the message:command map, and its associated command from
     // the command:message map
   command_string_map_.erase(message_map_[message]);
@@ -56,14 +56,14 @@ void CommandMap::clearMap() noexcept {
   message_map_.clear();
 }
 
-bool CommandMap::messageExistsInMap(const MIDI_Message &message) const {
+bool CommandMap::messageExistsInMap(const MIDI_Message& message) const {
   return message_map_.count(message) > 0 ? true : false;
 }
 
-const MIDI_Message& CommandMap::getMessageForCommand(const std::string &command) const {
+const MIDI_Message& CommandMap::getMessageForCommand(const std::string& command) const {
   return command_string_map_.at(command);
 }
-bool CommandMap::commandHasAssociatedMessage(const std::string &command) const {
+bool CommandMap::commandHasAssociatedMessage(const std::string& command) const {
   return command_string_map_.count(command) > 0 ? true : false;
 }
 void CommandMap::toXMLDocument(juce::File& file) const {

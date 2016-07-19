@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "CommandTableModel.h"
+#include <algorithm>
 #include "LRCommands.h"
 
 CommandTableModel::CommandTableModel() noexcept {}
@@ -50,7 +51,7 @@ int CommandTableModel::getNumRows() {
   return commands_.size();
 }
 
-void CommandTableModel::paintRowBackground(juce::Graphics &g, int /*rowNumber*/,
+void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
   int /*width*/, int /*height*/, bool row_is_selected) {
   //This must draw the background behind one of the rows in the table.
 
@@ -63,7 +64,7 @@ void CommandTableModel::paintRowBackground(juce::Graphics &g, int /*rowNumber*/,
     g.fillAll(juce::Colours::lightblue);
 }
 
-void CommandTableModel::paintCell(juce::Graphics &g, int row_number, int column_id,
+void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
   //This must draw one of the cells.
 

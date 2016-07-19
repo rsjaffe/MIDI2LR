@@ -19,6 +19,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "ProfileManager.h"
+#include <string>
+#include <utility>
 #include "LRCommands.h"
 
 ProfileManager::ProfileManager() noexcept {}
@@ -42,7 +44,7 @@ void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
 }
 
 void ProfileManager::addListener(ProfileChangeListener *listener) {
-  for (auto current_listener : listeners_)
+  for (const auto& current_listener : listeners_)
     if (current_listener == listener)
       return; //don't add duplicates
   listeners_.push_back(listener);
@@ -79,7 +81,7 @@ void ProfileManager::switchToProfile(const juce::String& profile) {
 
   if (profile_file.exists()) {
     std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
-    for (auto listener : listeners_)
+    for (const auto& listener : listeners_)
       listener->profileChanged(xml_element.get(), profile);
 
     if (const auto ptr = lr_ipc_out_.lock()) {

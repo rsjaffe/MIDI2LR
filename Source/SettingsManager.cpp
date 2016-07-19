@@ -19,6 +19,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "SettingsManager.h"
+#include <string>
+#include <utility>
 #include "ProfileManager.h"
 
 const juce::String AutoHideSection{"autohide"};

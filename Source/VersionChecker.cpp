@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "VersionChecker.h"
+#include <utility>
 
 VersionChecker::VersionChecker() noexcept : juce::Thread{"VersionChecker"} {}
 

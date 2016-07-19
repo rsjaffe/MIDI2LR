@@ -37,9 +37,9 @@ public:
   // TableListBoxModel overrides
   virtual void sortOrderChanged(int newSortColumnId, bool isForwards) override;
   virtual int getNumRows() override;
-  virtual void paintRowBackground(juce::Graphics &, int rowNumber, int width,
+  virtual void paintRowBackground(juce::Graphics&, int rowNumber, int width,
     int height, bool rowIsSelected) override;
-  virtual void paintCell(juce::Graphics &, int rowNumber, int columnId, int width,
+  virtual void paintCell(juce::Graphics&, int rowNumber, int columnId, int width,
     int height, bool rowIsSelected) override;
   virtual juce::Component *refreshComponentForCell(int rowNumber, int columnId,
     bool isRowSelected, juce::Component *existingComponentToUpdate) override;

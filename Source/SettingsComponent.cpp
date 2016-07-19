@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "SettingsComponent.h"
+#include <utility>
 #include "../JuceLibraryCode/JuceHeader.h"
 
 namespace {

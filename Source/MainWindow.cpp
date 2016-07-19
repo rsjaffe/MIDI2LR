@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "MainWindow.h"
+#include <utility>
 
 void MainWindow::Init(std::shared_ptr<CommandMap>& command_map,
   std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,

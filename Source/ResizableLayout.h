@@ -172,8 +172,8 @@ public:
   // use the constant anchorMidRight
   void addToLayout(
     Component *component,
-    const Point<int> &topLeft,
-    const Point<int> &bottomRight = anchorNone,
+    const Point<int>& topLeft,
+    const Point<int>& bottomRight = anchorNone,
     Style style = styleStretch);
 
 // Remove a Component from the Layout.
@@ -209,7 +209,7 @@ private:
     Rect(int top0, int left0, int bottom0, int right0) {
       top = top0; left = left0; bottom = bottom0; right = right0;
     }
-    Rect(const Rectangle<int> &r) {
+    Rect(const Rectangle<int>& r) {
       top = int(r.getY()); left = int(r.getX()); bottom = int(r.getBottom()); right = int(r.getRight());
     }
     operator Rectangle<int>() const {

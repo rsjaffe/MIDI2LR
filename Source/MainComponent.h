@@ -71,7 +71,7 @@ public:
   void SetTimerText(int time_value);
 
 protected:
-  void SetLabelSettings(juce::Label &lblToSet);
+  void SetLabelSettings(juce::Label& lblToSet);
 
 private:
   void paint(juce::Graphics&) override;

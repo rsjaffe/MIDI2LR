@@ -55,7 +55,7 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener) {
-  for (auto current_listener : listeners_)
+  for (const auto current_listener : listeners_)
     if (current_listener == listener)
       return; //don't add duplicates
   listeners_.push_back(listener);
@@ -115,12 +115,12 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
 }
 
 void LR_IPC_OUT::connectionMade() {
-  for (auto listener : listeners_)
+  for (const auto& listener : listeners_)
     listener->connected();
 }
 
 void LR_IPC_OUT::connectionLost() {
-  for (auto listener : listeners_)
+  for (const auto& listener : listeners_)
     listener->disconnected();
 }
 

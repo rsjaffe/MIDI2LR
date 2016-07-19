@@ -19,30 +19,32 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MainComponent.h"
+#include <string>
+#include <utility>
 #include "MIDISender.h"
 #include "SettingsComponent.h"
 
 namespace {
-  constexpr auto kMainWidth = 400;
-  constexpr auto kMainHeight = 650;
-  constexpr auto kMainLeft = 20;
-  constexpr auto kSpaceBetweenButton = 10;
-  constexpr auto kStandardHeight = 20;
-  constexpr auto kFullWidth = kMainWidth - kMainLeft * 2;
-  constexpr auto kButtonWidth = (kFullWidth - kSpaceBetweenButton * 2) / 3;
-  constexpr auto kButtonXIncrement = kButtonWidth + kSpaceBetweenButton;
-  constexpr auto kConnectionLabelWidth = kMainWidth - kMainLeft - 200;
-  constexpr auto kFirstButtonX = kMainLeft;
-  constexpr auto kSecondButtonX = kMainLeft + kButtonXIncrement;
-  constexpr auto kThirdButtonX = kMainLeft + kButtonXIncrement * 2;
-  constexpr auto kCommandTableHeight = kMainHeight - 210;
-  constexpr auto kLabelWidth = kFullWidth / 2;
-  constexpr auto kProfileNameY = kMainHeight - 100;
-  constexpr auto kCommandLabelX = kMainLeft + kLabelWidth;
-  constexpr auto kCommandLabelY = kMainHeight - 100;
-  constexpr auto kRemoveRowY = kMainHeight - 75;
-  constexpr auto kRescanY = kMainHeight - 50;
-  constexpr auto kCurrentStatusY = kMainHeight - 30;
+  constexpr int kMainWidth = 400;
+  constexpr int kMainHeight = 650;
+  constexpr int kMainLeft = 20;
+  constexpr int kSpaceBetweenButton = 10;
+  constexpr int kStandardHeight = 20;
+  constexpr int kFullWidth = kMainWidth - kMainLeft * 2;
+  constexpr int kButtonWidth = (kFullWidth - kSpaceBetweenButton * 2) / 3;
+  constexpr int kButtonXIncrement = kButtonWidth + kSpaceBetweenButton;
+  constexpr int kConnectionLabelWidth = kMainWidth - kMainLeft - 200;
+  constexpr int kFirstButtonX = kMainLeft;
+  constexpr int kSecondButtonX = kMainLeft + kButtonXIncrement;
+  constexpr int kThirdButtonX = kMainLeft + kButtonXIncrement * 2;
+  constexpr int kCommandTableHeight = kMainHeight - 210;
+  constexpr int kLabelWidth = kFullWidth / 2;
+  constexpr int kProfileNameY = kMainHeight - 100;
+  constexpr int kCommandLabelX = kMainLeft + kLabelWidth;
+  constexpr int kCommandLabelY = kMainHeight - 100;
+  constexpr int kRemoveRowY = kMainHeight - 75;
+  constexpr int kRescanY = kMainHeight - 50;
+  constexpr int kCurrentStatusY = kMainHeight - 30;
 }
 
 MainContentComponent::MainContentComponent(): ResizableLayout{this} {}
@@ -342,7 +344,7 @@ void MainContentComponent::SetTimerText(int time_value) {
   }
 }
 
-void MainContentComponent::SetLabelSettings(juce::Label &label_to_set) {
+void MainContentComponent::SetLabelSettings(juce::Label& label_to_set) {
   label_to_set.setFont(juce::Font{12.f, juce::Font::bold});
   label_to_set.setEditable(false);
   label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
