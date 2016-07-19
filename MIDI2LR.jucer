@@ -8,6 +8,7 @@
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{64A53798-7D11-73F5-9678-76E2C116E917}" name="Utilities">
         <FILE id="vNnHnW" name="GSL.h" compile="0" resource="0" file="Source/Utilities/GSL.h"/>
+        <FILE id="FNdro6" name="Utilities.cpp" compile="1" resource="0" file="Source/Utilities/Utilities.cpp"/>
         <FILE id="HksVIV" name="Utilities.h" compile="0" resource="0" file="Source/Utilities/Utilities.h"/>
       </GROUP>
       <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>

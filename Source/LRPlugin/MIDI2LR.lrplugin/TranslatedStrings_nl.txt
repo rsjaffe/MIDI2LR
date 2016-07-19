@@ -4,6 +4,7 @@
 "$$$/MIDI2LR/About/about=Hoe gebruik je; Sluit een MIDI controller aan, start MIDI2LR, en begin met bewerken! Zie https://github.com/rsjaffe/MIDI2LR/wiki voor meer gegevens."
 "$$$/MIDI2LR/Preferences/cantload=Het is niet mogelijk om de voorkeursinstellingen te laden. De standaard instellingen wordt gebruikt."
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Shortcuts/Key=Toets"
 
 
 

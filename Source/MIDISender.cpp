@@ -30,8 +30,8 @@ void MIDISender::Init(void) {
 
 void MIDISender::sendCC(int midi_channel, int controller, int value) const {
   if (controller < 128) { // regular message
-    for (auto& dev : output_devices_)
-      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, controller,
+    for (const auto& dev : output_devices_)
+      dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, controller,
         value));
   }
   else { // NRPN
@@ -39,11 +39,11 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const {
     const auto parameterMSB = (controller >> 7) & 0x7F;
     const auto valueLSB = value & 0x7f;
     const auto valueMSB = (value >> 7) & 0x7F;
-    for (auto& dev : output_devices_) {
-      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 99, parameterMSB));
-      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 98, parameterLSB));
-      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 6, valueMSB));
-      dev->sendMessageNow(MidiMessage::controllerEvent(midi_channel, 38, valueLSB));
+    for (const auto& dev : output_devices_) {
+      dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 99, parameterMSB));
+      dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 98, parameterLSB));
+      dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 6, valueMSB));
+      dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 38, valueLSB));
     }
   }
 }
@@ -54,8 +54,8 @@ void MIDISender::RescanDevices() {
 }
 
 void MIDISender::InitDevices_() {
-  for (auto idx = 0; idx < MidiOutput::getDevices().size(); idx++) {
-    auto dev = MidiOutput::openDevice(idx);
+  for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); idx++) {
+    auto dev = juce::MidiOutput::openDevice(idx);
     if (dev != nullptr)
       output_devices_.emplace_back(dev);
   }

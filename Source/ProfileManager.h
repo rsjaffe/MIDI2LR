@@ -22,6 +22,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROFILEMANAGER_H_INCLUDED
 #define PROFILEMANAGER_H_INCLUDED
 
+#include <memory>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 #include "LR_IPC_OUT.h"
@@ -30,13 +32,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class ProfileChangeListener {
 public:
     // called when the current profile is changed
-  virtual void profileChanged(XmlElement* elem, const String& file_name) = 0;
+  virtual void profileChanged(juce::XmlElement* elem, const juce::String& file_name) = 0;
 
   virtual ~ProfileChangeListener() {};
 };
 
 class ProfileManager final: public MIDICommandListener,
-  private AsyncUpdater, public LRConnectionListener {
+  private juce::AsyncUpdater, public LRConnectionListener {
 public:
   ProfileManager() noexcept;
   virtual ~ProfileManager() {};
@@ -47,7 +49,7 @@ public:
   void addListener(ProfileChangeListener *listener);
 
   // sets the default profile directory and scans its contents for profiles
-  void setProfileDirectory(const File& dir);
+  void setProfileDirectory(const juce::File& dir);
 
   // returns an array of profile names
   const std::vector<juce::String>& getMenuItems() const noexcept;
@@ -56,7 +58,7 @@ public:
   void switchToProfile(int profileIdx);
 
   // switches to a profile defined by a name
-  void switchToProfile(const String& profile);
+  void switchToProfile(const juce::String& profile);
 
   // switches to the next profile
   void switchToNextProfile();
@@ -84,7 +86,7 @@ private:
   ProfileManager(ProfileManager const&) = delete;
   void operator=(ProfileManager const&) = delete;
 
-  File profile_location_;
+  juce::File profile_location_;
   int current_profile_index_{0};
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::vector<ProfileChangeListener *> listeners_;

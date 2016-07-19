@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 --viewing this file.
 
 --imports
+local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 
@@ -86,6 +87,7 @@ local function wrapFOM(F,...)
     end
   end
   return function()
+    if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     if LrApplicationView.getCurrentModuleName() ~= openModule then
       LrApplicationView.switchToModule(openModule)
     end
@@ -111,6 +113,7 @@ local function wrapFCM(F,...)
     end
   end
   return function()
+    if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     local currentMod = LrApplicationView.getCurrentModuleName()
     if currentMod ~= openModule then
       LrApplicationView.switchToModule(openModule)
@@ -140,6 +143,7 @@ local function wrapFIM(F,Rnil,...)
     end
   end
   return function ()
+    if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return Rnil end
     if LrApplicationView.getCurrentModuleName() ~= openModule then
       return Rnil
     end
@@ -162,6 +166,7 @@ local function execFOM(F,...)
   if openModule == nil then
     return F(...) --proper tail call
   end
+  if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   if LrApplicationView.getCurrentModuleName() ~= openModule then
     LrApplicationView.switchToModule(openModule)
   end
@@ -183,6 +188,7 @@ local function execFCM(F,...)
   if openModule == nil then
     return F(...) --proper tail call
   end
+  if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   local retval 
   local currentMod = LrApplicationView.getCurrentModuleName()
   if currentMod ~= openModule then
@@ -206,6 +212,7 @@ end
 -- @treturn function Function closure.
 --------------------------------------------------------------------------------
 local function execFIM(F,Rnil,...)
+  if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return Rnil end
   local openModule = needsModule[F]['module']
   if openModule == nil or openModule == LrApplicationView.getCurrentModuleName() then
     return  F(...)  --proper tail call

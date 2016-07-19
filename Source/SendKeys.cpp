@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SendKeys.h"
 #include <cctype>
+#include <stdexcept>
 #include <vector>
 #ifdef _WIN32
 #include "Windows.h"
@@ -27,16 +28,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
-#include <string>
 #include <thread>
 #endif
 namespace {
 #ifdef _WIN32
-  bool IsForegroundProcess() {
-    return (GetCurrentProcessId() ==
-      GetWindowThreadProcessId(GetForegroundWindow(), NULL));
-  }
-
   wchar_t MBtoWChar(const std::string& key) {
     wchar_t full_character;
     const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
@@ -54,12 +49,9 @@ namespace {
     return full_character;
   }
 
-  HKL GetLanguageAndFGApp(std::string program_name) {
+  HKL GetLanguage(std::string program_name) {
     const auto hLRWnd = FindWindow(NULL, program_name.c_str());
     if (hLRWnd) {
-      // Bring Lightroom to foreground if MIDI2LR is in foreground
-      if (IsForegroundProcess())
-        SetForegroundWindow(hLRWnd);
       // get language that LR is using (if hLrWnd is found)
       const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
       return GetKeyboardLayout(thread_id);
@@ -215,13 +207,13 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   for (const auto& c : key)
     lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
 #ifdef _WIN32
-    //Lightroom handle
-  HKL language_id = GetLanguageAndFGApp("Lightroom");
+
   BYTE vk = 0;
   BYTE vk_modifiers = 0;
   if (SendKeys::key_map_.count(lower_string))
     vk = SendKeys::key_map_.at(lower_string);
   else {// Translate key code to keyboard-dependent scan code, may be UTF-8
+    const auto language_id = GetLanguage("Lightroom");
     const auto vk_code_and_shift = VkKeyScanExW(MBtoWChar(key), language_id);
     vk = LOBYTE(vk_code_and_shift);
     vk_modifiers = HIBYTE(vk_code_and_shift);

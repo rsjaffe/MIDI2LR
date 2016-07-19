@@ -19,7 +19,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
+#include "Utilities/Utilities.h"
 #include <bitset>
+#include <stdexcept>
 
 namespace {
   constexpr auto kBufferSize = 256;
@@ -32,15 +34,16 @@ namespace {
   constexpr auto kReadyWait = 0;
 }
 
-LR_IPC_IN::LR_IPC_IN(): StreamingSocket{}, Thread{"LR_IPC_IN"} {}
+LR_IPC_IN::LR_IPC_IN(): juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"} {}
 
 LR_IPC_IN::~LR_IPC_IN() {
-  stopTimer();
-  stopThread(1000);
-  close();
-  command_map_.reset();
-  profile_manager_.reset();
-  midi_sender_.reset();
+  {
+    std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+    timer_off_ = true;
+    juce::Timer::stopTimer();
+  }
+  juce::Thread::stopThread(1000);
+  juce::StreamingSocket::close();
 }
 
 void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
@@ -50,23 +53,23 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
   profile_manager_ = profile_manager;
   midi_sender_ = midi_sender;
   //start the timer
-  startTimer(1000);
+  juce::Timer::startTimer(1000);
 }
 
 void LR_IPC_IN::PleaseStopThread() {
-  signalThreadShouldExit();
-  notify();
+  juce::Thread::signalThreadShouldExit();
+  juce::Thread::notify();
 }
 
 void LR_IPC_IN::run() {
-  while (!threadShouldExit()) {
+  while (!juce::Thread::threadShouldExit()) {
     //if not connected, executes a wait 333 then goes back to while
     //if connected, tries to read a line, checks thread status and connection
     //status before each read attempt
     //doesn't terminate thread if disconnected, as currently don't have graceful
     //way to restart thread
-    if (!isConnected()) {
-      wait(kNotConnectedWait);
+    if (!juce::StreamingSocket::isConnected()) {
+      juce::Thread::wait(kNotConnectedWait);
     } //end if (is not connected)
     else {
       char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
@@ -74,61 +77,62 @@ void LR_IPC_IN::run() {
       auto can_read_line = true;
       // parse input until we have a line, then process that line, quit if
       // connection lost
-      while (!juce::String(line).endsWithChar('\n') && isConnected()) {
-        if (threadShouldExit())
+      while (std::string(line).back() != '\n' && juce::StreamingSocket::isConnected()) {
+        if (juce::Thread::threadShouldExit())
           goto threadExit;//break out of nested whiles
-        const auto wait_status = waitUntilReady(true, kReadyWait);
+        const auto wait_status = juce::StreamingSocket::waitUntilReady(true, kReadyWait);
         switch (wait_status) {
           case -1:
             can_read_line = false;
             goto dumpLine; //read line failed, break out of switch and while
           case 0:
-            wait(kEmptyWait);
+            juce::Thread::wait(kEmptyWait);
             break; //try again to read until char shows up
           case 1:
             if (size_read == kBufferSize)
               throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-            size_read += read(line + size_read, 1, false);
+            size_read += juce::StreamingSocket::read(line + size_read, 1, false);
             break;
-          default:
-            throw std::invalid_argument("waitUntilReady returned unexpected value");
         }
       } // end while !\n and is connected
 
       // if lose connection, line may not be terminated
-      if (can_read_line && juce::String(line).endsWithChar('\n')) {
-        juce::String param{line};
-        processLine(param);
-      }
+      {
+        std::string param{line};
+        if (can_read_line && param.back() == '\n') {
+          processLine(param);
+        }
+      } //scope param
     dumpLine: /* empty statement */;
     } //end else (is connected)
   } //while not threadshouldexit
 threadExit: /* empty statement */;
-  std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
-  stopTimer();
+  std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+  timer_off_ = true;
+  juce::Timer::stopTimer();
   //thread_started_ = false; //don't change flag while depending upon it
 }
 
 void LR_IPC_IN::timerCallback() {
-  std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
-  if (!isConnected()) {
-    if (connect("127.0.0.1", kLrInPort, kConnectTryTime))
+  std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+  if (!juce::StreamingSocket::isConnected() && !timer_off_) {
+    if (juce::StreamingSocket::connect("127.0.0.1", kLrInPort, kConnectTryTime))
       if (!thread_started_) {
-        startThread(); //avoid starting thread during shutdown
+        juce::Thread::startThread(); //avoid starting thread during shutdown
         thread_started_ = true;
       }
   }
 }
-void LR_IPC_IN::processLine(const juce::String& line) {
-  const static std::unordered_map<juce::String, int> cmds = {
-    {juce::String{"SwitchProfile"},1},
-    {juce::String{"SendKey"},2},
-    {juce::String{"TerminateApplication"},3},
+void LR_IPC_IN::processLine(const std::string& line) {
+  const static std::unordered_map<std::string, int> cmds = {
+    {"SwitchProfile",1},
+    {"SendKey",2},
+    {"TerminateApplication",3},
   };
     // process input into [parameter] [Value]
-  const auto trimmed_line = line.trim();
-  const auto command = trimmed_line.upToFirstOccurrenceOf(" ", false, false);
-  const auto value_string = trimmed_line.fromFirstOccurrenceOf(" ", false, false);
+  const auto trimmed_line = RSJ::trim(line);
+  const auto command = trimmed_line.substr(0, trimmed_line.find(' '));
+  const auto value_string = trimmed_line.substr(trimmed_line.find(' ') + 1);
 
   switch (cmds.count(command) ? cmds.at(command) : 0) {
     case 1: //SwitchProfile
@@ -138,9 +142,8 @@ void LR_IPC_IN::processLine(const juce::String& line) {
     case 2: //SendKey
       {
         std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-          (value_string.getIntValue())};
-        send_keys_.SendKeyDownUp(value_string.
-          trimCharactersAtStart("0123456789").trimStart().toStdString(),
+          (std::stoi(value_string))};
+        send_keys_.SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
           modifiers[0], modifiers[1], modifiers[2]);
         break;
       }
@@ -149,10 +152,11 @@ void LR_IPC_IN::processLine(const juce::String& line) {
       JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
+
       // send associated CC messages to MIDI OUT devices
       if (command_map_ && midi_sender_)
-        if (const auto cmd_count = command_map_->getMessageCountForCommand(command) > 0) {
-          const auto original_value = value_string.getDoubleValue();
+        if (const auto cmd_count = command_map_->getMessageCountForCommand(command)) {
+          const auto original_value = std::stod(value_string);
           if (cmd_count > 1) {
             const std::vector<MIDI_Message> mm = command_map_->getMessagesForCommand(command);
             for (const auto msg : mm) {

@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class NRPN_Message {
   // This is a simplified NRPN message class, and assumes that all NRPN messages
-  // have 4 messages, though the NRPN standard allows ommission of the 4th 
+  // have 4 messages, though the NRPN standard allows ommission of the 4th
   // message. If the 4th message is dropped, this class silently consumes the
   // message without emitting anything.
 public:

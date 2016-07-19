@@ -19,6 +19,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "ProfileManager.h"
+#include <string>
+#include <utility>
 #include "LRCommands.h"
 
 ProfileManager::ProfileManager() noexcept {}
@@ -42,17 +44,17 @@ void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
 }
 
 void ProfileManager::addListener(ProfileChangeListener *listener) {
-  for (auto current_listener : listeners_)
+  for (const auto& current_listener : listeners_)
     if (current_listener == listener)
       return; //don't add duplicates
   listeners_.push_back(listener);
 }
 
-void ProfileManager::setProfileDirectory(const File& directory) {
+void ProfileManager::setProfileDirectory(const juce::File& directory) {
   profile_location_ = directory;
 
-  Array<File> file_array;
-  directory.findChildFiles(file_array, File::findFiles, false, "*.xml");
+  juce::Array<juce::File> file_array;
+  directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
 
   current_profile_index_ = 0;
   profiles_.clear();
@@ -74,20 +76,20 @@ void ProfileManager::switchToProfile(int profile_index) {
   }
 }
 
-void ProfileManager::switchToProfile(const String& profile) {
+void ProfileManager::switchToProfile(const juce::String& profile) {
   const auto profile_file = profile_location_.getChildFile(profile);
 
   if (profile_file.exists()) {
-    std::unique_ptr<XmlElement> xml_element{XmlDocument::parse(profile_file)};
-    for (auto listener : listeners_)
+    std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
+    for (const auto& listener : listeners_)
       listener->profileChanged(xml_element.get(), profile);
 
     if (const auto ptr = lr_ipc_out_.lock()) {
-      auto command = String{"ChangedToDirectory "} +
-        File::addTrailingSeparator(profile_location_.getFullPathName()) +
-        String{"\n"};
+      std::string command = "ChangedToDirectory " +
+        juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+        '\n';
       ptr->sendCommand(command);
-      command = String("ChangedToFile ") + profile + String("\n");
+      command = "ChangedToFile " + profile.toStdString() + '\n';
       ptr->sendCommand(command);
     }
   }
@@ -95,7 +97,7 @@ void ProfileManager::switchToProfile(const String& profile) {
 
 void ProfileManager::switchToNextProfile() {
   current_profile_index_++;
-  if (current_profile_index_ == static_cast<int>(profiles_.size())) 
+  if (current_profile_index_ == static_cast<int>(profiles_.size()))
     current_profile_index_ = 0;
 
   switchToProfile(current_profile_index_);
@@ -148,9 +150,9 @@ void ProfileManager::handleMidiNote(int midi_channel, int note) {
 }
 
 void ProfileManager::connected() {
-  const auto command = String{"ChangedToDirectory "} +
-    File::addTrailingSeparator(profile_location_.getFullPathName()) +
-    String{"\n"};
+  const std::string command = "ChangedToDirectory " +
+    juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+    '\n';
   if (const auto ptr = lr_ipc_out_.lock()) {
     ptr->sendCommand(command);
   }
