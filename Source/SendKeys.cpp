@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "SendKeys.h"
+#include <algorithm>
 #include <cctype>
 #include <stdexcept>
 #include <vector>
@@ -31,6 +32,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <thread>
 #endif
 namespace {
+  std::string to_lower(const std::string& in) {
+    auto s = in;
+    std::transform(s.begin(), s.end(), s.begin(), std::tolower);
+    return s;
+  }
+
 #ifdef _WIN32
   wchar_t MBtoWChar(const std::string& key) {
     wchar_t full_character;
@@ -203,15 +210,16 @@ std::mutex SendKeys::mutex_sending_{};
 
 void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   const bool control_cmd, const bool shift) const {
-  std::string lower_string; //used for matching with key names
-  for (const auto& c : key)
-    lower_string.push_back(static_cast<char>(std::tolower(c))); //c is char but tolower returns int
+
+  const auto mapped_key = SendKeys::key_map_.find(to_lower(key));
+  const auto in_keymap = mapped_key != SendKeys::key_map_.end();
+
 #ifdef _WIN32
 
   BYTE vk = 0;
   BYTE vk_modifiers = 0;
-  if (SendKeys::key_map_.count(lower_string))
-    vk = SendKeys::key_map_.at(lower_string);
+  if (in_keymap)
+    vk = mapped_key->second;
   else {// Translate key code to keyboard-dependent scan code, may be UTF-8
     const auto language_id = GetLanguage("Lightroom");
     const auto vk_code_and_shift = VkKeyScanExW(MBtoWChar(key), language_id);
@@ -262,12 +270,17 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
 #else
   const CGEventSourceRef source =
     CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
+
   CGEventRef d;
   CGEventRef u;
+
+  CGEventRef cmdd = CGEventCreateKeyboardEvent(source, kVK_Command, true);
+  CGEventRef cmdu = CGEventCreateKeyboardEvent(source, kVK_Command, false);
+
   uint64_t flags = 0;
 
-  if (SendKeys::key_map_.count(lower_string)) {
-    auto vk = SendKeys::key_map_.at(lower_string);
+  if (in_keymap) {
+    auto vk = mapped_key->second;
     d = CGEventCreateKeyboardEvent(source, vk, true);
     u = CGEventCreateKeyboardEvent(source, vk, false);
   }
@@ -287,20 +300,19 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
     CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
     CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
   }
-  CGEventRef cmdd = CGEventCreateKeyboardEvent(source, kVK_Command, true);
-  CGEventRef cmdu = CGEventCreateKeyboardEvent(source, kVK_Command, false);
 
-  {   //restrict scope for mutex lock
-    constexpr CGEventTapLocation loc = kCGHIDEventTap; // kCGSessionEventTap also works
+  constexpr CGEventTapLocation loc = kCGSessionEventTap;
+  if (flags & kCGEventFlagMaskCommand) {
     std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-    if (flags & kCGEventFlagMaskCommand) {
-      CGEventPost(loc, cmdd);
-    }
+    CGEventPost(loc, cmdd);
     CGEventPost(loc, d);
     CGEventPost(loc, u);
-    if (flags & kCGEventFlagMaskCommand) {
-      CGEventPost(loc, cmdu);
-    }
+    CGEventPost(loc, cmdu);
+  }
+  else {
+    std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
+    CGEventPost(loc, d);
+    CGEventPost(loc, u);
   }
 
   CFRelease(d);
