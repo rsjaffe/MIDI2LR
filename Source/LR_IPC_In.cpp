@@ -24,14 +24,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdexcept>
 
 namespace {
-  constexpr auto kBufferSize = 256;
-  constexpr auto kConnectTryTime = 100;
-  constexpr auto kEmptyWait = 100;
-  constexpr auto kLrInPort = 58764;
-  constexpr auto kMaxMIDI = 127.0;
-  constexpr auto kMaxNRPN = 16383.0;
-  constexpr auto kNotConnectedWait = 333;
-  constexpr auto kReadyWait = 0;
+  constexpr int kBufferSize = 256;
+  constexpr int kConnectTryTime = 100;
+  constexpr int kEmptyWait = 100;
+  constexpr char * kHost = "127.0.0.1";
+  constexpr int kLrInPort = 58764;
+  constexpr double kMaxMIDI = 127.0;
+  constexpr double kMaxNRPN = 16383.0;
+  constexpr int kNotConnectedWait = 333;
+  constexpr int kReadyWait = 0;
+  constexpr int kStopWait = 1000;
+  constexpr int kTimerInterval = 1000;
 }
 
 LR_IPC_IN::LR_IPC_IN(): juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"} {}
@@ -42,7 +45,7 @@ LR_IPC_IN::~LR_IPC_IN() {
     timer_off_ = true;
     juce::Timer::stopTimer();
   }
-  juce::Thread::stopThread(1000);
+  juce::Thread::stopThread(kStopWait);
   juce::StreamingSocket::close();
 }
 
@@ -53,7 +56,7 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
   profile_manager_ = profile_manager;
   midi_sender_ = midi_sender;
   //start the timer
-  juce::Timer::startTimer(1000);
+  juce::Timer::startTimer(kTimerInterval);
 }
 
 void LR_IPC_IN::refreshMIDIOutput() {
@@ -129,14 +132,15 @@ threadExit: /* empty statement */;
 
 void LR_IPC_IN::timerCallback() {
   std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-  if (!juce::StreamingSocket::isConnected() && !timer_off_) {
-    if (juce::StreamingSocket::connect("127.0.0.1", kLrInPort, kConnectTryTime))
+  if (!timer_off_ && !juce::StreamingSocket::isConnected()) {
+    if (juce::StreamingSocket::connect(kHost, kLrInPort, kConnectTryTime))
       if (!thread_started_) {
         juce::Thread::startThread(); //avoid starting thread during shutdown
         thread_started_ = true;
       }
   }
 }
+
 void LR_IPC_IN::processLine(const std::string& line) {
   const static std::unordered_map<std::string, int> cmds = {
     {"SwitchProfile",1},

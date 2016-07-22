@@ -23,10 +23,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 namespace {
-  constexpr auto kConnectTryTime = 100;
-  constexpr auto kLrOutPort = 58763;
-  constexpr auto kMaxMIDI = 127.0;
-  constexpr auto kMaxNRPN = 16383.0;
+  constexpr int kConnectTryTime = 100;
+  constexpr char * kHost = "127.0.0.1";
+  constexpr int kLrOutPort = 58763;
+  constexpr double kMaxMIDI = 127.0;
+  constexpr double kMaxNRPN = 16383.0;
+  constexpr int kTimerInterval = 1000;
 }
 
 LR_IPC_OUT::LR_IPC_OUT(): juce::InterprocessConnection() {}
@@ -51,7 +53,7 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
   }
 
   //start the timer
-  juce::Timer::startTimer(1000);
+  juce::Timer::startTimer(kTimerInterval);
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener) {
@@ -141,6 +143,6 @@ void LR_IPC_OUT::handleAsyncUpdate() {
 
 void LR_IPC_OUT::timerCallback() {
   std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-  if (!juce::InterprocessConnection::isConnected() && !timer_off_)
-    juce::InterprocessConnection::connectToSocket("127.0.0.1", kLrOutPort, kConnectTryTime);
+  if (!timer_off_ && !juce::InterprocessConnection::isConnected())
+    juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
