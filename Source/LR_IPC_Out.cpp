@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace {
   constexpr int kConnectTryTime = 100;
-  constexpr char * kHost = "127.0.0.1";
+  constexpr auto kHost = "127.0.0.1";
   constexpr int kLrOutPort = 58763;
   constexpr double kMaxMIDI = 127.0;
   constexpr double kMaxNRPN = 16383.0;
