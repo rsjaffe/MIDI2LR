@@ -152,25 +152,14 @@ void LR_IPC_IN::processLine(const std::string& line) {
       JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
-
       // send associated CC messages to MIDI OUT devices
-      if (command_map_ && midi_sender_)
-        if (const auto cmd_count = command_map_->getMessageCountForCommand(command)) {
-          const auto original_value = std::stod(value_string);
-          if (cmd_count > 1) {
-            const std::vector<MIDI_Message> mm = command_map_->getMessagesForCommand(command);
-            for (const auto msg : mm) {
-              const auto value = static_cast<int>(round(
-                ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
-              midi_sender_->sendCC(msg.channel, msg.controller, value);
-            }
-          }
-          else {
-            const auto& msg = command_map_->getMessageForCommand(command);
-            const auto value = static_cast<int>(round(
-              ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
-            midi_sender_->sendCC(msg.channel, msg.controller, value);
-          }
+      if (command_map_ && midi_sender_ ) {
+        const auto original_value = std::stod(value_string);
+        for (const auto msg : command_map_->getMessagesForCommand(command)) {
+          const auto value = static_cast<int>(round(
+            ((msg->controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
+          midi_sender_->sendCC(msg->channel, msg->controller, value);
         }
+      }
   }
 }

@@ -60,24 +60,18 @@ bool CommandMap::messageExistsInMap(const MIDI_Message& message) const {
   return message_map_.count(message) > 0 ? true : false;
 }
 
-int CommandMap::getMessageCountForCommand(const std::string& command) const {
-  return command_string_map_.count(command);
-}
-
-std::vector<MIDI_Message> CommandMap::getMessagesForCommand(const std::string& command) const {
-  std::vector<MIDI_Message> mm;
+std::vector<const MIDI_Message*> CommandMap::getMessagesForCommand(const std::string& command) const {
+  std::vector<const MIDI_Message*> mm;
   const auto range = command_string_map_.equal_range(command);
   for (auto it = range.first; it != range.second; ++it)
-    mm.push_back(it->second);
+    mm.push_back(&it->second);
   return mm;
 }
- 
-const MIDI_Message& CommandMap::getMessageForCommand(const std::string& command) const {
-  return command_string_map_.at(command);
-}
+
 bool CommandMap::commandHasAssociatedMessage(const std::string& command) const {
-  return command_string_map_.count(command) > 0 ? true : false;
+  return command_string_map_.find(command) != command_string_map_.end();
 }
+
 void CommandMap::toXMLDocument(juce::File& file) const {
   if (message_map_.size()) {//don't bother if map is empty
     // save the contents of the command map to an xml file
