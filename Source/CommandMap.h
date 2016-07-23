@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define COMMANDMAP_H_INCLUDED
 
 #include <functional>
+#include <map>
 #include <string>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -100,8 +101,8 @@ public:
   // returns true if there is a mapping for a particular MIDI message
   bool messageExistsInMap(const MIDI_Message& message) const;
 
+  std::vector<const MIDI_Message*> getMessagesForCommand(const std::string& command) const;
   // gets the MIDI message associated to a LR command
-  const MIDI_Message& getMessageForCommand(const std::string& command) const;
 
   // returns true if there is a mapping for a particular LR command
   bool commandHasAssociatedMessage(const std::string& command) const;
@@ -112,7 +113,6 @@ public:
 private:
 
   std::unordered_map<MIDI_Message, std::string> message_map_;
-  std::unordered_map<std::string, MIDI_Message> command_string_map_;
+  std::multimap<std::string, MIDI_Message> command_string_map_;
 };
-
 #endif  // COMMANDMAP_H_INCLUDED

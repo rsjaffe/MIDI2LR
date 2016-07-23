@@ -59,20 +59,6 @@ void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
   juce::Timer::startTimer(kTimerInterval);
 }
 
-void LR_IPC_IN::refreshMIDIOutput() {
-  if (command_map_ && midi_sender_) {
-      // send associated CC messages to MIDI OUT devices
-    for (const auto& map_entry : parameter_map_) {
-      if (command_map_->commandHasAssociatedMessage(map_entry.first)) {
-        const auto& msg = command_map_->getMessageForCommand(map_entry.first);
-        const auto value = static_cast<int>(round(
-          ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * map_entry.second));
-        midi_sender_->sendCC(msg.channel, msg.controller, value);
-      }
-    }
-  }
-}
-
 void LR_IPC_IN::PleaseStopThread() {
   juce::Thread::signalThreadShouldExit();
   juce::Thread::notify();
@@ -170,16 +156,14 @@ void LR_IPC_IN::processLine(const std::string& line) {
       JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
-      // store updates in map
-      const auto original_value = std::stod(value_string);
-      parameter_map_[command] = original_value;
       // send associated CC messages to MIDI OUT devices
-      if (command_map_ && command_map_->commandHasAssociatedMessage(command)) {
-        const auto& msg = command_map_->getMessageForCommand(command);
-        const auto value = static_cast<int>(round(
-          ((msg.controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
-        if (midi_sender_)
-          midi_sender_->sendCC(msg.channel, msg.controller, value);
+      if (command_map_ && midi_sender_ ) {
+        const auto original_value = std::stod(value_string);
+        for (const auto msg : command_map_->getMessagesForCommand(command)) {
+          const auto value = static_cast<int>(round(
+            ((msg->controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
+          midi_sender_->sendCC(msg->channel, msg->controller, value);
+        }
       }
   }
 }
