@@ -310,7 +310,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
     juce::DialogWindow::LaunchOptions dialog_options;
     dialog_options.dialogTitle = "Settings";
     //create new object
-    auto *component = new SettingsComponent{};
+    auto* const component = new SettingsComponent{};
     component->Init(settings_manager_);
     dialog_options.content.setOwned(component);
     dialog_options.content->setSize(400, 300);
