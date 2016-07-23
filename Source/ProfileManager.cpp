@@ -111,7 +111,7 @@ void ProfileManager::switchToPreviousProfile() {
 }
 
 void ProfileManager::handleMidiCC(int midi_channel, int controller, int value) {
-  const MIDI_Message cc{midi_channel, controller, true};
+  const MIDI_Message_ID cc{midi_channel, controller, true};
 
   if (command_map_) {
       // return if the value isn't 127, or the command isn't a valid
@@ -131,7 +131,7 @@ void ProfileManager::handleMidiCC(int midi_channel, int controller, int value) {
 }
 
 void ProfileManager::handleMidiNote(int midi_channel, int note) {
-  const MIDI_Message note_msg{midi_channel, note, false};
+  const MIDI_Message_ID note_msg{midi_channel, note, false};
 
   if (command_map_) {
       // return if the command isn't a valid profile-related command

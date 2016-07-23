@@ -72,7 +72,7 @@ void LR_IPC_OUT::sendCommand(const std::string& command) {
 }
 
 void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
-  MIDI_Message message{midi_channel, controller, true};
+  MIDI_Message_ID message{midi_channel, controller, true};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
@@ -96,7 +96,7 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
 }
 
 void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
-  MIDI_Message message{midi_channel, note, false};
+  MIDI_Message_ID message{midi_channel, note, false};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||

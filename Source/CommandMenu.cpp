@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include "LRCommands.h"
 
-CommandMenu::CommandMenu(const MIDI_Message& message):
+CommandMenu::CommandMenu(const MIDI_Message_ID& message):
   juce::TextButton{"Unmapped"},
   message_{message},
 
@@ -50,7 +50,7 @@ void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) {
   juce::Button::addListener(this);
 }
 
-void CommandMenu::setMsg(const MIDI_Message& message) noexcept {
+void CommandMenu::setMsg(const MIDI_Message_ID& message) noexcept {
   message_ = message;
 }
 

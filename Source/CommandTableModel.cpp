@@ -138,7 +138,7 @@ juce::Component *CommandTableModel::refreshComponentForCell(int row_number,
 }
 
 void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
-  const MIDI_Message msg{midi_channel, midi_data, is_cc};
+  const MIDI_Message_ID msg{midi_channel, midi_data, is_cc};
   if (command_map_ && !command_map_->messageExistsInMap(msg)) {
     commands_.push_back(msg);
     command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
@@ -170,7 +170,7 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
   auto* setting = root->getFirstChildElement();
   while ((setting) && (command_map_)) {
     if (setting->hasAttribute("controller")) {
-      const MIDI_Message message{setting->getIntAttribute("channel"),
+      const MIDI_Message_ID message{setting->getIntAttribute("channel"),
         setting->getIntAttribute("controller"), true};
       addRow(message.channel, message.controller, true);
 
@@ -185,7 +185,7 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
       }
     }
     else if (setting->hasAttribute("note")) {
-      const MIDI_Message note{setting->getIntAttribute("channel"),
+      const MIDI_Message_ID note{setting->getIntAttribute("channel"),
         setting->getIntAttribute("note"), false};
       addRow(note.channel, note.pitch, false);
 
@@ -217,7 +217,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
 void CommandTableModel::Sort() {
   // use LRCommandList::getIndexOfCommand(string); to sort by command
   // sort the command map
-  auto msg_idx = [this](MIDI_Message a) {return LRCommandList::getIndexOfCommand
+  auto msg_idx = [this](MIDI_Message_ID a) {return LRCommandList::getIndexOfCommand
   (command_map_->getCommandforMessage(a)); };
 
   if (current_sort.first == 1)
@@ -228,8 +228,8 @@ void CommandTableModel::Sort() {
   else
     if (current_sort.second)
       std::sort(commands_.begin(), commands_.end(),
-        [&msg_idx](MIDI_Message a, MIDI_Message b) { return msg_idx(a) < msg_idx(b); });
+        [&msg_idx](MIDI_Message_ID a, MIDI_Message_ID b) { return msg_idx(a) < msg_idx(b); });
     else
       std::sort(commands_.rbegin(), commands_.rend(),
-        [&msg_idx](MIDI_Message a, MIDI_Message b) { return msg_idx(a) < msg_idx(b); });
+        [&msg_idx](MIDI_Message_ID a, MIDI_Message_ID b) { return msg_idx(a) < msg_idx(b); });
 }
