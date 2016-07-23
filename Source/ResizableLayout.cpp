@@ -91,8 +91,8 @@ ResizableLayout::ResizableLayout(Component* owner)
 ResizableLayout::~ResizableLayout() {}
 
 void ResizableLayout::addToLayout(Component* component,
-  const Point<int> &topLeft,
-  const Point<int> &bottomRight,
+  const Point<int>& topLeft,
+  const Point<int>& bottomRight,
   Style style) {
   jassert(topLeft != anchorNone);
 

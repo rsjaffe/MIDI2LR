@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "CommandMap.h"
 
-const std::vector<String> LRCommandList::KeyShortcuts = {
+const std::vector<std::string> LRCommandList::KeyShortcuts = {
   "Key 1",
   "Key 2",
   "Key 3",
@@ -65,7 +65,7 @@ const std::vector<String> LRCommandList::KeyShortcuts = {
   "Key 40",
 };
 
-const std::vector<String> LRCommandList::General = {
+const std::vector<std::string> LRCommandList::General = {
   "Primary Display Grid",
   "Primary Display Loupe",
   "Primary Display Compare",
@@ -81,7 +81,7 @@ const std::vector<String> LRCommandList::General = {
   "Previous Photo",
 };
 
-const std::vector<String> LRCommandList::Library = {
+const std::vector<std::string> LRCommandList::Library = {
   "Show Library",
   "Set Pick Flag",
   "Set Rejected Flag",
@@ -102,13 +102,11 @@ const std::vector<String> LRCommandList::Library = {
   "Primary Display People",
 };
 
-const std::vector<String> LRCommandList::Develop = {
+const std::vector<std::string> LRCommandList::Develop = {
   "Show Develop",
   "Copy Settings",
   "Paste Settings",
-  "Paste Settings Include selected photos",
   "Paste Selected Settings",
-  "Paste Selected Settings Include selected photos",
   "Create Virtual Copy",
   "Reset Settings",
   "Reset Last Modified",
@@ -122,7 +120,7 @@ const std::vector<String> LRCommandList::Develop = {
   "Primary Display Loupe",
 };
 
-const std::vector<String> LRCommandList::BasicAdjustments = {
+const std::vector<std::string> LRCommandList::BasicAdjustments = {
   "Show Basic Tone",
   "White Balance As Shot",
   "White Balance Auto",
@@ -157,7 +155,7 @@ const std::vector<String> LRCommandList::BasicAdjustments = {
   "Reset Saturation",
 };
 
-const std::vector<String> LRCommandList::ToneCurve = {
+const std::vector<std::string> LRCommandList::ToneCurve = {
   "Show Tone Curve",
   "Enable Tone Curve",
   "Dark Tones",
@@ -176,7 +174,7 @@ const std::vector<String> LRCommandList::ToneCurve = {
   "Reset Highlight Split",
 };
 
-const std::vector<String> LRCommandList::Mixer = {
+const std::vector<std::string> LRCommandList::Mixer = {
   "Show Color Adjustments",
   "Enable Color Adjustments",
   "Saturation Adjustment Red",
@@ -215,7 +213,7 @@ const std::vector<String> LRCommandList::Mixer = {
   "Gray Mixer Magenta",
 };
 
-const std::vector<String> LRCommandList::ResetMixer = {
+const std::vector<std::string> LRCommandList::ResetMixer = {
   "Reset Saturation Adjustment Red",
   "Reset Saturation Adjustment Orange",
   "Reset Saturation Adjustment Yellow",
@@ -250,7 +248,7 @@ const std::vector<String> LRCommandList::ResetMixer = {
   "Reset Gray Mixer Magenta",
 };
 
-const std::vector<String> LRCommandList::SplitToning = {
+const std::vector<std::string> LRCommandList::SplitToning = {
   "Show Split Toning",
   "Enable Split Toning",
   "Shadow Hue",
@@ -265,7 +263,7 @@ const std::vector<String> LRCommandList::SplitToning = {
   "Reset Split Toning Balance",
 };
 
-const std::vector<String> LRCommandList::Detail = {
+const std::vector<std::string> LRCommandList::Detail = {
   "Show Detail",
   "Enable Detail",
   "Sharpness",
@@ -290,7 +288,7 @@ const std::vector<String> LRCommandList::Detail = {
   "Reset Color Noise Reduction Smoothness",
 };
 
-const std::vector<String> LRCommandList::LensCorrections = {
+const std::vector<std::string> LRCommandList::LensCorrections = {
   "Show Lens Corrections",
   "Enable Lens Corrections",
   "Perspective Correction Off",
@@ -323,6 +321,8 @@ const std::vector<String> LRCommandList::LensCorrections = {
   "Perspective Rotate",
   "Perspective Scale",
   "Perspective Aspect",
+  "Perspective X",
+  "Perspective Y",
   "Vignette Amount",
   "Vignette Midpoint",
   "Reset Lens Manual Distortion Amount",
@@ -331,11 +331,13 @@ const std::vector<String> LRCommandList::LensCorrections = {
   "Reset Perspective Rotate",
   "Reset Perspective Scale",
   "Reset Perspective Aspect",
+  "Reset Perspective X",
+  "Reset Perspective Y",
   "Reset Vignette Amount",
   "Reset Vignette Midpoint",
 };
 
-const std::vector<String> LRCommandList::Effects = {
+const std::vector<std::string> LRCommandList::Effects = {
   "Show Effects",
   "Enable Effects",
   "Dehaze Amount",
@@ -360,7 +362,7 @@ const std::vector<String> LRCommandList::Effects = {
   "Reset Grain Roughness",
 };
 
-const std::vector<String> LRCommandList::Calibration = {
+const std::vector<std::string> LRCommandList::Calibration = {
   "Show Calibration",
   "Enable Calibration",
   "Adobe Standard",
@@ -400,7 +402,7 @@ const std::vector<String> LRCommandList::Calibration = {
   "Reset Blue Saturation Calibration",
 };
 
-const std::vector<String> LRCommandList::DevelopPresets = {
+const std::vector<std::string> LRCommandList::DevelopPresets = {
   "Develop Preset 1",
   "Develop Preset 2",
   "Develop Preset 3",
@@ -441,49 +443,9 @@ const std::vector<String> LRCommandList::DevelopPresets = {
   "Develop Preset 38",
   "Develop Preset 39",
   "Develop Preset 40",
-  "Develop Preset 1 Include selected photos",
-  "Develop Preset 2 Include selected photos",
-  "Develop Preset 3 Include selected photos",
-  "Develop Preset 4 Include selected photos",
-  "Develop Preset 5 Include selected photos",
-  "Develop Preset 6 Include selected photos",
-  "Develop Preset 7 Include selected photos",
-  "Develop Preset 8 Include selected photos",
-  "Develop Preset 9 Include selected photos",
-  "Develop Preset 10 Include selected photos",
-  "Develop Preset 11 Include selected photos",
-  "Develop Preset 12 Include selected photos",
-  "Develop Preset 13 Include selected photos",
-  "Develop Preset 14 Include selected photos",
-  "Develop Preset 15 Include selected photos",
-  "Develop Preset 16 Include selected photos",
-  "Develop Preset 17 Include selected photos",
-  "Develop Preset 18 Include selected photos",
-  "Develop Preset 19 Include selected photos",
-  "Develop Preset 20 Include selected photos",
-  "Develop Preset 21 Include selected photos",
-  "Develop Preset 22 Include selected photos",
-  "Develop Preset 23 Include selected photos",
-  "Develop Preset 24 Include selected photos",
-  "Develop Preset 25 Include selected photos",
-  "Develop Preset 26 Include selected photos",
-  "Develop Preset 27 Include selected photos",
-  "Develop Preset 28 Include selected photos",
-  "Develop Preset 29 Include selected photos",
-  "Develop Preset 30 Include selected photos",
-  "Develop Preset 31 Include selected photos",
-  "Develop Preset 32 Include selected photos",
-  "Develop Preset 33 Include selected photos",
-  "Develop Preset 34 Include selected photos",
-  "Develop Preset 35 Include selected photos",
-  "Develop Preset 36 Include selected photos",
-  "Develop Preset 37 Include selected photos",
-  "Develop Preset 38 Include selected photos",
-  "Develop Preset 39 Include selected photos",
-  "Develop Preset 40 Include selected photos",
 };
 
-const std::vector<String> LRCommandList::LocalAdjustments = {
+const std::vector<std::string> LRCommandList::LocalAdjustments = {
   "Show Graduated Filters",
   "Show Radial Filters",
   "Show Red-Eye Correction",
@@ -533,7 +495,7 @@ const std::vector<String> LRCommandList::LocalAdjustments = {
   "Reset Spot Removal",
 };
 
-const std::vector<String> LRCommandList::Crop = {
+const std::vector<std::string> LRCommandList::Crop = {
   "Straighten Angle",
   "Crop Angle",
   "Crop - Bottom",
@@ -545,7 +507,7 @@ const std::vector<String> LRCommandList::Crop = {
   "Show Crop",
 };
 
-const std::vector<String> LRCommandList::ToolModulePanel = {
+const std::vector<std::string> LRCommandList::ToolModulePanel = {
   "Show Loupe",
   "Show Map",
   "Show Book",
@@ -554,7 +516,7 @@ const std::vector<String> LRCommandList::ToolModulePanel = {
   "Show Web",
 };
 
-const std::vector<String> LRCommandList::SecondaryDisplay = {
+const std::vector<std::string> LRCommandList::SecondaryDisplay = {
   "Secondary Display Loupe",
   "Secondary Display Live Loupe",
   "Secondary Display Locked Loupe",
@@ -565,7 +527,7 @@ const std::vector<String> LRCommandList::SecondaryDisplay = {
   "Secondary Display Show",
 };
 
-const std::vector<String> LRCommandList::ProgramProfiles = {
+const std::vector<std::string> LRCommandList::ProgramProfiles = {
   "Profile: 1",
   "Profile: 2",
   "Profile: 3",
@@ -579,7 +541,7 @@ const std::vector<String> LRCommandList::ProgramProfiles = {
   "Manual Update",
 };
 
-const std::vector<String> LRCommandList::LRStringList = {
+const std::vector<std::string> LRCommandList::LRStringList = {
   "Unmapped",
   /* Keyboard Shortcuts for User */
   "Key1",
@@ -659,9 +621,7 @@ const std::vector<String> LRCommandList::LRStringList = {
   "SwToMdevelop",
   "CopySettings",
   "PasteSettings",
-  "PasteSettingsAllSel",
   "PasteSelectedSettings",
-  "PasteSelectedSettingsAllSel",
   "VirtualCopy",
   "ResetAll",
   "ResetLast",
@@ -862,6 +822,8 @@ const std::vector<String> LRCommandList::LRStringList = {
   "PerspectiveRotate",
   "PerspectiveScale",
   "PerspectiveAspect",
+  "PerspectiveX ",
+  "PerspectiveY ",
   "VignetteAmount",
   "VignetteMidpoint",
   "ResetLensManualDistortionAmount",
@@ -870,6 +832,8 @@ const std::vector<String> LRCommandList::LRStringList = {
   "ResetPerspectiveRotate",
   "ResetPerspectiveScale",
   "ResetPerspectiveAspect",
+  "ResetPerspectiveX",
+  "ResetPerspectiveY",
   "ResetVignetteAmount",
   "ResetVignetteMidpoint",
   /* Effects */
@@ -974,46 +938,6 @@ const std::vector<String> LRCommandList::LRStringList = {
   "Preset_38",
   "Preset_39",
   "Preset_40",
-  "Preset_1_AllSel",
-  "Preset_2_AllSel",
-  "Preset_3_AllSel",
-  "Preset_4_AllSel",
-  "Preset_5_AllSel",
-  "Preset_6_AllSel",
-  "Preset_7_AllSel",
-  "Preset_8_AllSel",
-  "Preset_9_AllSel",
-  "Preset_10_AllSel",
-  "Preset_11_AllSel",
-  "Preset_12_AllSel",
-  "Preset_13_AllSel",
-  "Preset_14_AllSel",
-  "Preset_15_AllSel",
-  "Preset_16_AllSel",
-  "Preset_17_AllSel",
-  "Preset_18_AllSel",
-  "Preset_19_AllSel",
-  "Preset_20_AllSel",
-  "Preset_21_AllSel",
-  "Preset_22_AllSel",
-  "Preset_23_AllSel",
-  "Preset_24_AllSel",
-  "Preset_25_AllSel",
-  "Preset_26_AllSel",
-  "Preset_27_AllSel",
-  "Preset_28_AllSel",
-  "Preset_29_AllSel",
-  "Preset_30_AllSel",
-  "Preset_31_AllSel",
-  "Preset_32_AllSel",
-  "Preset_33_AllSel",
-  "Preset_34_AllSel",
-  "Preset_35_AllSel",
-  "Preset_36_AllSel",
-  "Preset_37_AllSel",
-  "Preset_38_AllSel",
-  "Preset_39_AllSel",
-  "Preset_40_AllSel",
   /* Local Adjustments */
   "GraduatedFilter",
   "RadialFilter",
@@ -1102,21 +1026,21 @@ const std::vector<String> LRCommandList::LRStringList = {
   "FullRefresh",
 };
 
-const std::vector<String> LRCommandList::NextPrevProfile = {
+const std::vector <std::string> LRCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
 };
 
-int LRCommandList::getIndexOfCommand(const String& command) {
-  static std::unordered_map<String, int> indexMap;
+int LRCommandList::getIndexOfCommand(const std::string& command) {
+  static std::unordered_map<std::string, int> indexMap;
 
   // better to check for empty then length, as empty has a constant run time behavior.
   if (indexMap.empty()) {
     int idx = 0;
-    for (auto &str : LRStringList)
+    for (const auto& str : LRStringList)
       indexMap[str] = idx++;
 
-    for (auto &str : NextPrevProfile)
+    for (const auto& str : NextPrevProfile)
       indexMap[str] = idx++;
   }
 

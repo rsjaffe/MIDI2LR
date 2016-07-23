@@ -24,54 +24,31 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMap::CommandMap() noexcept {}
 
-void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message &message) {
+void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message_ID& message) {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
   if (command < LRCommandList::LRStringList.size()) {
     message_map_[message] = LRCommandList::LRStringList[command];
-    command_string_map_[LRCommandList::LRStringList[command]] = message;
+    command_string_map_.insert({LRCommandList::LRStringList[command], message});
   }
   else
     message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
 }
 
-void CommandMap::addCommandforMessage(const String& command, const MIDI_Message &message) {
-  message_map_[message] = command;
-  command_string_map_[command] = message;
+std::vector<const MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std::string& command) const {
+  std::vector<const MIDI_Message_ID*> mm;
+  const auto range = command_string_map_.equal_range(command);
+  for (auto it = range.first; it != range.second; ++it)
+    mm.push_back(&it->second);
+  return mm;
 }
 
-const String& CommandMap::getCommandforMessage(const MIDI_Message &message) const {
-  return message_map_.at(message);
-}
-
-void CommandMap::removeMessage(const MIDI_Message &message) {
-    // removes message from the message:command map, and its associated command from
-    // the command:message map
-  command_string_map_.erase(message_map_[message]);
-  message_map_.erase(message);
-}
-
-void CommandMap::clearMap() noexcept {
-  command_string_map_.clear();
-  message_map_.clear();
-}
-
-bool CommandMap::messageExistsInMap(const MIDI_Message &message) const {
-  return message_map_.count(message) > 0 ? true : false;
-}
-
-const MIDI_Message& CommandMap::getMessageForCommand(const String &command) const {
-  return command_string_map_.at(command);
-}
-bool CommandMap::commandHasAssociatedMessage(const String &command) const {
-  return command_string_map_.count(command) > 0 ? true : false;
-}
-void CommandMap::toXMLDocument(File& file) const {
+void CommandMap::toXMLDocument(juce::File& file) const {
   if (message_map_.size()) {//don't bother if map is empty
     // save the contents of the command map to an xml file
-    XmlElement root{"settings"};
+    juce::XmlElement root{"settings"};
     for (const auto& map_entry : message_map_) {
-      auto* setting = new XmlElement{"setting"};
+      auto* setting = new juce::XmlElement{"setting"};
       setting->setAttribute("channel", map_entry.first.channel);
       if (map_entry.first.isCC)
         setting->setAttribute("controller", map_entry.first.controller);
@@ -82,7 +59,7 @@ void CommandMap::toXMLDocument(File& file) const {
     }
     if (!root.writeToFile(file, ""))
         // Give feedback if file-save doesn't work
-      AlertWindow::showMessageBox(AlertWindow::WarningIcon, "File Save Error",
+      juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
         "Unable to save file as specified. Please try again, and consider saving to a different location.");
   }
 }

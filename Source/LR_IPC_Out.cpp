@@ -23,21 +23,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 
 namespace {
-  constexpr auto kConnectTryTime = 100;
-  constexpr auto kLrOutPort = 58763;
-  constexpr auto kMaxMIDI = 127.0;
-  constexpr auto kMaxNRPN = 16383.0;
+  constexpr int kConnectTryTime = 100;
+  constexpr auto kHost = "127.0.0.1";
+  constexpr int kLrOutPort = 58763;
+  constexpr double kMaxMIDI = 127.0;
+  constexpr double kMaxNRPN = 16383.0;
+  constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_OUT::LR_IPC_OUT(): InterprocessConnection() {}
+LR_IPC_OUT::LR_IPC_OUT(): juce::InterprocessConnection() {}
 
 LR_IPC_OUT::~LR_IPC_OUT() {
   {
     std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
     timer_off_ = true;
-    stopTimer();
-    disconnect();
+    juce::Timer::stopTimer();
   }
+  juce::InterprocessConnection::disconnect();
   command_map_.reset();
 }
 
@@ -51,26 +53,26 @@ void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
   }
 
   //start the timer
-  startTimer(1000);
+  juce::Timer::startTimer(kTimerInterval);
 }
 
 void LR_IPC_OUT::addListener(LRConnectionListener *listener) {
-  for (auto current_listener : listeners_)
+  for (const auto current_listener : listeners_)
     if (current_listener == listener)
       return; //don't add duplicates
   listeners_.push_back(listener);
 }
 
-void LR_IPC_OUT::sendCommand(const String &command) {
+void LR_IPC_OUT::sendCommand(const std::string& command) {
   {
     std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
     command_ += command;
   }
-  triggerAsyncUpdate();
+  juce::AsyncUpdater::triggerAsyncUpdate();
 }
 
 void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
-  MIDI_Message message{midi_channel, controller, true};
+  MIDI_Message_ID message{midi_channel, controller, true};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
@@ -84,17 +86,17 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
     double computed_value = value;
     computed_value /= (controller < 128) ? kMaxMIDI : kMaxNRPN;
 
-    command_to_send += String::formatted(" %g\n", computed_value);
+    command_to_send += ' ' + std::to_string(computed_value) + '\n';
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
       command_ += command_to_send;
     }
-    triggerAsyncUpdate();
+    juce::AsyncUpdater::triggerAsyncUpdate();
   }
 }
 
 void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
-  MIDI_Message message{midi_channel, note, false};
+  MIDI_Message_ID message{midi_channel, note, false};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
@@ -105,41 +107,42 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
-    command_to_send += String(" 1\n");
+    command_to_send += " 1\n";
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
       command_ += command_to_send;
     }
-    triggerAsyncUpdate();
+    juce::AsyncUpdater::triggerAsyncUpdate();
   }
 }
 
 void LR_IPC_OUT::connectionMade() {
-  for (auto listener : listeners_)
+  for (const auto& listener : listeners_)
     listener->connected();
 }
 
 void LR_IPC_OUT::connectionLost() {
-  for (auto listener : listeners_)
+  for (const auto& listener : listeners_)
     listener->disconnected();
 }
 
-void LR_IPC_OUT::messageReceived(const MemoryBlock& /*msg*/) {}
+void LR_IPC_OUT::messageReceived(const juce::MemoryBlock& /*msg*/) {}
 
 void LR_IPC_OUT::handleAsyncUpdate() {
-  String command_copy;
+  std::string command_copy;
   {
     std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-    command_copy = std::move(command_); //JUCE::String swaps in this case
+    command_copy.swap(command_);
   }
     //check if there is a connection
-  if (isConnected()) {
-    getSocket()->write(command_copy.getCharPointer(), command_copy.length());
+  if (juce::InterprocessConnection::isConnected()) {
+    juce::InterprocessConnection::getSocket()->
+      write(command_copy.c_str(), command_copy.length());
   }
 }
 
 void LR_IPC_OUT::timerCallback() {
   std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-  if (!isConnected() && !timer_off_)
-    connectToSocket("127.0.0.1", kLrOutPort, kConnectTryTime);
+  if (!timer_off_ && !juce::InterprocessConnection::isConnected())
+    juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }

@@ -22,8 +22,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef COMMANDTABLEMODEL_H
 #define COMMANDTABLEMODEL_H
 
-#include <vector>
 #include <memory>
+#include <utility>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
@@ -36,12 +37,12 @@ public:
   // TableListBoxModel overrides
   virtual void sortOrderChanged(int newSortColumnId, bool isForwards) override;
   virtual int getNumRows() override;
-  virtual void paintRowBackground(Graphics &, int rowNumber, int width,
+  virtual void paintRowBackground(juce::Graphics&, int rowNumber, int width,
     int height, bool rowIsSelected) override;
-  virtual void paintCell(Graphics &, int rowNumber, int columnId, int width,
+  virtual void paintCell(juce::Graphics&, int rowNumber, int columnId, int width,
     int height, bool rowIsSelected) override;
-  virtual Component *refreshComponentForCell(int rowNumber, int columnId,
-    bool isRowSelected, Component *existingComponentToUpdate) override;
+  virtual juce::Component *refreshComponentForCell(int rowNumber, int columnId,
+    bool isRowSelected, juce::Component *existingComponentToUpdate) override;
 
   // adds a row with a corresponding MIDI message to the table
   void addRow(int midi_channel, int midi_data, bool isCC);
@@ -53,7 +54,7 @@ public:
   void removeAllRows();
 
   // builds the table from an XML file
-  void buildFromXml(const XmlElement * const elem);
+  void buildFromXml(const juce::XmlElement * const elem);
 
   // returns the index of the row associated to a particular MIDI message
   int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
@@ -63,7 +64,7 @@ private:
   std::pair<int, bool> current_sort{2,true};
   std::pair<int, bool> prior_sort{2,true};
   std::shared_ptr<CommandMap> command_map_{nullptr};
-  std::vector<MIDI_Message> commands_;
+  std::vector<MIDI_Message_ID> commands_;
 
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

@@ -304,6 +304,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp">
+      <Filter>MIDI2LR\Source\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\CommandMap.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>

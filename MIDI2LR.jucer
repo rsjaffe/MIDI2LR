@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="1.3.0.1"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="1.4.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.2.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com">
@@ -8,6 +8,7 @@
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{64A53798-7D11-73F5-9678-76E2C116E917}" name="Utilities">
         <FILE id="vNnHnW" name="GSL.h" compile="0" resource="0" file="Source/Utilities/GSL.h"/>
+        <FILE id="FNdro6" name="Utilities.cpp" compile="1" resource="0" file="Source/Utilities/Utilities.cpp"/>
         <FILE id="HksVIV" name="Utilities.h" compile="0" resource="0" file="Source/Utilities/Utilities.h"/>
       </GROUP>
       <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
@@ -89,7 +90,7 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
-                       isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
+                       isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"

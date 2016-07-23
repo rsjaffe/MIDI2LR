@@ -18,7 +18,5 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 
-MIDI2LR.SERVER:send('TerminateApplication 1\n')
 MIDI2LR.SERVER:close()
-
-currentLoadVersion = currentLoadVersion + 1 --signal halt to main background function
+MIDI2LR.RUNNING = false

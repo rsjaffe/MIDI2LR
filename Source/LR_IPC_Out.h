@@ -22,7 +22,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LR_IPC_OUT_H_INCLUDED
 #define LR_IPC_OUT_H_INCLUDED
 
+#include <memory>
 #include <mutex>
+#include <string>
+#include <unordered_map>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Utilities/Utilities.h"
 #include "CommandMap.h"
@@ -40,10 +44,11 @@ public:
 ///< .
 };
 
-class LR_IPC_OUT final: private InterprocessConnection,
+class LR_IPC_OUT final:
+  private juce::InterprocessConnection,
   public MIDICommandListener,
-  private AsyncUpdater,
-  private Timer {
+  private juce::AsyncUpdater,
+  private juce::Timer {
 public:
   LR_IPC_OUT();
   virtual ~LR_IPC_OUT();
@@ -53,7 +58,7 @@ public:
   void addListener(LRConnectionListener *listener);
 
   // sends a command to the plugin
-  void sendCommand(const String& command);
+  void sendCommand(const std::string& command);
 
   // MIDICommandListener interface
   virtual void handleMidiCC(int midiChannel, int controller, int value) override;
@@ -63,7 +68,7 @@ private:
   // IPC interface
   virtual void connectionMade() override;
   virtual void connectionLost() override;
-  virtual void messageReceived(const MemoryBlock& msg) override;
+  virtual void messageReceived(const juce::MemoryBlock& msg) override;
   // AsyncUpdater interface
   virtual void handleAsyncUpdate() override;
   // Timer callback
@@ -71,11 +76,10 @@ private:
 
   std::vector<LRConnectionListener *> listeners_;
   bool timer_off_{false};
-  const static std::unordered_map<String, KeyPress> keypress_mappings_;
   mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
   mutable std::mutex timer_mutex_; //fix race during shutdown
   std::shared_ptr<const CommandMap> command_map_;
-  String command_;
+  std::string command_;
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

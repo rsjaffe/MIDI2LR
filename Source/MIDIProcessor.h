@@ -22,7 +22,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MIDIPROCESSOR_H_INCLUDED
 #define MIDIPROCESSOR_H_INCLUDED
 #include <array>
-#include <bitset>
+#include <memory>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "NrpnMessage.h"
 
@@ -34,7 +35,7 @@ public:
   virtual ~MIDICommandListener() {};
 };
 
-class MIDIProcessor final: private MidiInputCallback {
+class MIDIProcessor final: private juce::MidiInputCallback {
 public:
   MIDIProcessor() noexcept;
   virtual ~MIDIProcessor();
@@ -47,12 +48,12 @@ public:
 
 private:
   // overridden from MidiInputCallback
-  void handleIncomingMidiMessage(MidiInput*, const MidiMessage&) override;
+  void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
 
   void InitDevices_();
 
   NRPN_Filter nrpn_filter_;
-  std::vector<std::unique_ptr<MidiInput>> devices_;
+  std::vector<std::unique_ptr<juce::MidiInput>> devices_;
   std::vector<MIDICommandListener *> listeners_;
 };
 

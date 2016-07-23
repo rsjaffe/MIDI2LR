@@ -464,20 +464,8 @@
     true
   },
   {
-    "PasteSettingsAllSel",
-    "Paste Settings Include selected photos",
-    "Develop",
-    true
-  },
-  {
     "PasteSelectedSettings",
     "Paste Selected Settings",
-    "Develop",
-    true
-  },
-  {
-    "PasteSelectedSettingsAllSel",
-    "Paste Selected Settings Include selected photos",
     "Develop",
     true
   },
@@ -1640,6 +1628,18 @@
     false
   },
   {
+    "PerspectiveX ",
+    "Perspective X",
+    "Lens Corrections",
+    false
+  },
+  {
+    "PerspectiveY ",
+    "Perspective Y",
+    "Lens Corrections",
+    false
+  },
+  {
     "VignetteAmount",
     "Vignette Amount",
     "Lens Corrections",
@@ -1684,6 +1684,18 @@
   {
     "ResetPerspectiveAspect",
     "Reset Perspective Aspect",
+    "Lens Corrections",
+    true
+  },
+  {
+    "ResetPerspectiveX",
+    "Reset Perspective X",
+    "Lens Corrections",
+    true
+  },
+  {
+    "ResetPerspectiveY",
+    "Reset Perspective Y",
     "Lens Corrections",
     true
   },
@@ -2290,246 +2302,6 @@
   {
     "Preset_40",
     "Develop Preset 40",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_1_AllSel",
-    "Develop Preset 1 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_2_AllSel",
-    "Develop Preset 2 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_3_AllSel",
-    "Develop Preset 3 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_4_AllSel",
-    "Develop Preset 4 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_5_AllSel",
-    "Develop Preset 5 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_6_AllSel",
-    "Develop Preset 6 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_7_AllSel",
-    "Develop Preset 7 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_8_AllSel",
-    "Develop Preset 8 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_9_AllSel",
-    "Develop Preset 9 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_10_AllSel",
-    "Develop Preset 10 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_11_AllSel",
-    "Develop Preset 11 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_12_AllSel",
-    "Develop Preset 12 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_13_AllSel",
-    "Develop Preset 13 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_14_AllSel",
-    "Develop Preset 14 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_15_AllSel",
-    "Develop Preset 15 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_16_AllSel",
-    "Develop Preset 16 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_17_AllSel",
-    "Develop Preset 17 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_18_AllSel",
-    "Develop Preset 18 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_19_AllSel",
-    "Develop Preset 19 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_20_AllSel",
-    "Develop Preset 20 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_21_AllSel",
-    "Develop Preset 21 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_22_AllSel",
-    "Develop Preset 22 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_23_AllSel",
-    "Develop Preset 23 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_24_AllSel",
-    "Develop Preset 24 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_25_AllSel",
-    "Develop Preset 25 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_26_AllSel",
-    "Develop Preset 26 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_27_AllSel",
-    "Develop Preset 27 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_28_AllSel",
-    "Develop Preset 28 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_29_AllSel",
-    "Develop Preset 29 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_30_AllSel",
-    "Develop Preset 30 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_31_AllSel",
-    "Develop Preset 31 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_32_AllSel",
-    "Develop Preset 32 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_33_AllSel",
-    "Develop Preset 33 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_34_AllSel",
-    "Develop Preset 34 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_35_AllSel",
-    "Develop Preset 35 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_36_AllSel",
-    "Develop Preset 36 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_37_AllSel",
-    "Develop Preset 37 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_38_AllSel",
-    "Develop Preset 38 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_39_AllSel",
-    "Develop Preset 39 Include selected photos",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_40_AllSel",
-    "Develop Preset 40 Include selected photos",
     "Develop Presets",
     true
   },

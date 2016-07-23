@@ -28,6 +28,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
+#include <exception>
+#include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 #include "LR_IPC_IN.h"
@@ -40,7 +42,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 const juce::String ShutDownString{"--LRSHUTDOWN"};
 
-class MIDI2LRApplication final: public JUCEApplication {
+class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
   MIDI2LRApplication() {
     command_map_ = std::make_shared<CommandMap>();
@@ -52,10 +54,10 @@ public:
     lr_ipc_in_ = std::make_shared<LR_IPC_IN>();
   }
 
-  const String getApplicationName() override {
+  const juce::String getApplicationName() override {
     return ProjectInfo::projectName;
   }
-  const String getApplicationVersion() override {
+  const juce::String getApplicationVersion() override {
     return ProjectInfo::versionString;
   }
   bool moreThanOneInstanceAllowed() override {
@@ -64,7 +66,7 @@ public:
 
 //==============================================================================
 
-  void initialise(const String& command_line) override {
+  void initialise(const juce::String& command_line) override {
     //Called when the application starts.
 
     // This will be called once to let the application do whatever initialization
@@ -130,13 +132,13 @@ public:
     if (lr_ipc_in_)
       lr_ipc_in_->PleaseStopThread();
     auto default_profile =
-      File::getSpecialLocation(File::currentExecutableFile).getSiblingFile("default.xml");
+      juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
     if (command_map_)
       command_map_->toXMLDocument(default_profile);
     quit();
   }
 
-  void anotherInstanceStarted(const String& command_line) override {
+  void anotherInstanceStarted(const juce::String& command_line) override {
       // When another instance of the application is launched while this one is
       // running, this method is invoked, and the commandLine parameter tells you
       // what the other instance's command-line arguments were.
@@ -147,7 +149,7 @@ public:
   }
 
   void unhandledException(const std::exception * e,
-    const String & sourceFilename, int lineNumber
+    const juce::String& sourceFilename, int lineNumber
   )	override {
       // If any unhandled exceptions make it through to the message dispatch
       // loop, this callback will be triggered, in case you want to log them or
@@ -156,9 +158,13 @@ public:
       // If the type of exception is derived from the std::exception class, the
       // pointer passed-in will be valid. If the exception is of unknown type,
       // this pointer will be null.
-    if (auto a = Logger::getCurrentLogger())
-      Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
-        " line " + juce::String(lineNumber));
+    if (juce::Logger::getCurrentLogger())
+      if (e)
+        juce::Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
+          " line " + juce::String(lineNumber));
+      else
+        juce::Logger::writeToLog(sourceFilename + " line " + juce::String(lineNumber));
+
     std::terminate(); // can't go on with the program
   }
 

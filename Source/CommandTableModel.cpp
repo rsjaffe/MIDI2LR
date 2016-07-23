@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "CommandTableModel.h"
+#include <algorithm>
 #include "LRCommands.h"
 
 CommandTableModel::CommandTableModel() noexcept {}
@@ -50,7 +51,7 @@ int CommandTableModel::getNumRows() {
   return commands_.size();
 }
 
-void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/,
+void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
   int /*width*/, int /*height*/, bool row_is_selected) {
   //This must draw the background behind one of the rows in the table.
 
@@ -60,10 +61,10 @@ void CommandTableModel::paintRowBackground(Graphics &g, int /*rowNumber*/,
   // Note that the rowNumber value may be greater than the number of rows in your
   // list, so be careful that you don't assume it's less than getNumRows().
   if (row_is_selected)
-    g.fillAll(Colours::lightblue);
+    g.fillAll(juce::Colours::lightblue);
 }
 
-void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id,
+void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
   //This must draw one of the cells.
 
@@ -72,22 +73,22 @@ void CommandTableModel::paintCell(Graphics &g, int row_number, int column_id,
 
   // Note that the rowNumber value may be greater than the number of rows in your
   // list, so be careful that you don't assume it's less than getNumRows().
-  g.setColour(Colours::black);
+  g.setColour(juce::Colours::black);
   g.setFont(12.0f);
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
     if (commands_[row_number].isCC)
-      g.drawText(String::formatted("%d | CC: %d", commands_[row_number].channel,
-        commands_[row_number].controller), 0, 0, width, height, Justification::centred);
+      g.drawText(juce::String::formatted("%d | CC: %d", commands_[row_number].channel,
+        commands_[row_number].controller), 0, 0, width, height, juce::Justification::centred);
     else
       g.drawText(String::formatted("%d | Note: %d", commands_[row_number].channel,
         commands_[row_number].pitch), 0, 0, width, height, Justification::centred);
   }
 }
 
-Component *CommandTableModel::refreshComponentForCell(int row_number,
-  int column_id, bool /*isRowSelected*/, Component *existing_component_to_update) {
+juce::Component *CommandTableModel::refreshComponentForCell(int row_number,
+  int column_id, bool /*isRowSelected*/, juce::Component *existing_component_to_update) {
     //This is used to create or update a custom component to go in a cell.
 
     // Any cell may contain a custom component, or can just be drawn with the
@@ -137,7 +138,7 @@ Component *CommandTableModel::refreshComponentForCell(int row_number,
 }
 
 void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
-  const MIDI_Message msg{midi_channel, midi_data, is_cc};
+  const MIDI_Message_ID msg{midi_channel, midi_data, is_cc};
   if (command_map_ && !command_map_->messageExistsInMap(msg)) {
     commands_.push_back(msg);
     command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
@@ -160,7 +161,7 @@ void CommandTableModel::removeAllRows() {
   }
 }
 
-void CommandTableModel::buildFromXml(const XmlElement * const root) {
+void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
   if (root->getTagName().compare("settings") != 0)
     return;
 
@@ -169,7 +170,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
   auto* setting = root->getFirstChildElement();
   while ((setting) && (command_map_)) {
     if (setting->hasAttribute("controller")) {
-      const MIDI_Message message{setting->getIntAttribute("channel"),
+      const MIDI_Message_ID message{setting->getIntAttribute("channel"),
         setting->getIntAttribute("controller"), true};
       addRow(message.channel, message.controller, true);
 
@@ -180,11 +181,11 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
       }
       else {
         command_map_->addCommandforMessage(setting->
-          getStringAttribute("command_string"), message);
+          getStringAttribute("command_string").toStdString(), message);
       }
     }
     else if (setting->hasAttribute("note")) {
-      const MIDI_Message note{setting->getIntAttribute("channel"),
+      const MIDI_Message_ID note{setting->getIntAttribute("channel"),
         setting->getIntAttribute("note"), false};
       addRow(note.channel, note.pitch, false);
 
@@ -195,7 +196,7 @@ void CommandTableModel::buildFromXml(const XmlElement * const root) {
       }
       else {
         command_map_->addCommandforMessage(setting->
-          getStringAttribute("command_string"), note);
+          getStringAttribute("command_string").toStdString(), note);
       }
     }
     setting = setting->getNextElement();
@@ -216,7 +217,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
 void CommandTableModel::Sort() {
   // use LRCommandList::getIndexOfCommand(string); to sort by command
   // sort the command map
-  auto msg_idx = [this](MIDI_Message a) {return LRCommandList::getIndexOfCommand
+  auto msg_idx = [this](MIDI_Message_ID a) {return LRCommandList::getIndexOfCommand
   (command_map_->getCommandforMessage(a)); };
 
   if (current_sort.first == 1)
@@ -227,8 +228,8 @@ void CommandTableModel::Sort() {
   else
     if (current_sort.second)
       std::sort(commands_.begin(), commands_.end(),
-        [&msg_idx](MIDI_Message a, MIDI_Message b) { return msg_idx(a) < msg_idx(b); });
+        [&msg_idx](MIDI_Message_ID a, MIDI_Message_ID b) { return msg_idx(a) < msg_idx(b); });
     else
       std::sort(commands_.rbegin(), commands_.rend(),
-        [&msg_idx](MIDI_Message a, MIDI_Message b) { return msg_idx(a) < msg_idx(b); });
+        [&msg_idx](MIDI_Message_ID a, MIDI_Message_ID b) { return msg_idx(a) < msg_idx(b); });
 }

@@ -23,19 +23,22 @@ return {
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
 
+
+
     progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+    LrTasks.startAsyncTask(function()
+        MIDI2LR.RUNNING = false
+      end
+    )
     LrTasks.startAsyncTask(function()
         if(WIN_ENV) then
           LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
         else
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
+          LrTasks.execute('kill `pgrep MIDI2LR`') -- extreme, but maybe it'll work until I can close it more gracefully
         end
       end
     )
 
---    math.randomseed(os.time())
---    currentLoadVersion = rawget (_G, 'currentLoadVersion') or math.random()  
---    currentLoadVersion = currentLoadVersion + 1 + math.random() --signal halt to main background function
     progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
     doneFunction()
   end

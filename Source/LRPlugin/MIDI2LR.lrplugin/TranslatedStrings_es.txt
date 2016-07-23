@@ -4,6 +4,7 @@
 "$$$/MIDI2LR/About/about=Modo de empleo: conectar un controlador MIDI, lanzar MIDI2LR, y comenzar a editar! Ver https://github.com/rsjaffe/MIDI2LR/wiki para más detalles."
 "$$$/MIDI2LR/Preferences/cantload=No se puede cargar preferencias. Utilizando la configuración predeterminada."
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Shortcuts/Key=Tecla"
 
 
 

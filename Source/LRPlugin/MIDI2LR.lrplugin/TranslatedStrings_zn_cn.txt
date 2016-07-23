@@ -4,6 +4,7 @@
 "$$$/MIDI2LR/About/about=使用方法：连接MIDI控制器，启动MIDI2LR，并开始编辑！见https://github.com/rsjaffe/MIDI2LR/wiki了解详情。"
 "$$$/MIDI2LR/Preferences/cantload=无法加载偏好。使用默认设置。"
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Shortcuts/Key=鍵"
 
 
 

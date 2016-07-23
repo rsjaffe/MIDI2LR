@@ -4,6 +4,7 @@
 "$$$/MIDI2LR/About/about=使用方法：MIDIコントローラを接続し、MIDI2LRを起動し、編集を開始！詳細については、https://github.com/rsjaffe/MIDI2LR/wikiを参照してください。"
 "$$$/MIDI2LR/Preferences/cantload=環境設定を読み込むことができません。デフォルト設定を使用して。"
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Shortcuts/Key=キー"
 
 
 
