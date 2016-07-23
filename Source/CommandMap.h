@@ -39,14 +39,15 @@ struct MIDI_Message_ID {
   };
 
   MIDI_Message_ID():
-    channel(0),
     isCC(0),
+    channel(0),
     data(0)
 
   {}
 
-  MIDI_Message_ID(int ch, int dat, bool iscc): channel(ch),
+  MIDI_Message_ID(int ch, int dat, bool iscc):
     isCC(iscc),
+    channel(ch),
     data(dat) {}
 
   bool operator==(const MIDI_Message_ID& other) const noexcept {
