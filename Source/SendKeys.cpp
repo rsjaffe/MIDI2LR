@@ -44,7 +44,7 @@ namespace {
     const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
       key.size(), &full_character, 1);
     if (return_value == 0) {
-      auto er = GetLastError();
+      const auto er = GetLastError();
       if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
         throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
       if (er == ERROR_INSUFFICIENT_BUFFER)
@@ -280,7 +280,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   uint64_t flags = 0;
 
   if (in_keymap) {
-    auto vk = mapped_key->second;
+    const auto vk = mapped_key->second;
     d = CGEventCreateKeyboardEvent(source, vk, true);
     u = CGEventCreateKeyboardEvent(source, vk, false);
   }

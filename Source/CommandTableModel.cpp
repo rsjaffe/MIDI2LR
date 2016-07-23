@@ -217,7 +217,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is
 void CommandTableModel::Sort() {
   // use LRCommandList::getIndexOfCommand(string); to sort by command
   // sort the command map
-  auto msg_idx = [this](MIDI_Message_ID a) {return LRCommandList::getIndexOfCommand
+  const auto msg_idx = [this](MIDI_Message_ID a) {return LRCommandList::getIndexOfCommand
   (command_map_->getCommandforMessage(a)); };
 
   if (current_sort.first == 1)
