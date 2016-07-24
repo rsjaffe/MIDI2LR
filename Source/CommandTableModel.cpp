@@ -82,12 +82,12 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
       g.drawText(juce::String::formatted("%d | CC: %d", commands_[row_number].channel,
         commands_[row_number].controller), 0, 0, width, height, juce::Justification::centred);
     else
-      g.drawText(String::formatted("%d | Note: %d", commands_[row_number].channel,
-        commands_[row_number].pitch), 0, 0, width, height, Justification::centred);
+      g.drawText(juce::String::formatted("%d | Note: %d", commands_[row_number].channel,
+        commands_[row_number].pitch), 0, 0, width, height, juce::Justification::centred);
   }
 }
 
-juce::Component *CommandTableModel::refreshComponentForCell(int row_number,
+juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
   int column_id, bool /*isRowSelected*/, juce::Component *existing_component_to_update) {
     //This is used to create or update a custom component to go in a cell.
 

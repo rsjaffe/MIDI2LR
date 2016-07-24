@@ -212,7 +212,7 @@ void MainContentComponent::handleMidiNote(int midi_channel, int note) {
 
 void MainContentComponent::connected() {
   connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
-  connection_label_.setColour(juce::Label::backgroundColourId, Colours::greenyellow);
+  connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
 }
 
 void MainContentComponent::disconnected() {
@@ -243,7 +243,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
     }
   }
   else if (button == &save_button_) {
-    File profile_directory;
+    juce::File profile_directory;
 
     if (settings_manager_) {
       profile_directory = settings_manager_->getProfileDirectory();

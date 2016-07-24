@@ -153,7 +153,7 @@ void LR_IPC_IN::processLine(const std::string& line) {
       }
     case 3: //TerminateApplication
       PleaseStopThread();
-      JUCEApplication::getInstance()->systemRequestedQuit();
+      juce::JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
       // send associated CC messages to MIDI OUT devices
