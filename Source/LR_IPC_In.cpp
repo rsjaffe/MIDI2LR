@@ -75,7 +75,7 @@ void LR_IPC_IN::run() {
       juce::Thread::wait(kNotConnectedWait);
     } //end if (is not connected)
     else {
-      char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
+      char line[kBufferSize + 1] = {' '};//plus one for \0 at end
       auto size_read = 0;
       auto can_read_line = true;
       // parse input until we have a line, then process that line, quit if
