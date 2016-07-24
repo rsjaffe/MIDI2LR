@@ -100,7 +100,7 @@ public:
     }
     else {
         // apparently the application is already terminated
-      systemRequestedQuit();
+      quit();
     }
   }
 
@@ -131,10 +131,12 @@ public:
       // quit() to allow the application to close.
     if (lr_ipc_in_)
       lr_ipc_in_->PleaseStopThread();
-    auto default_profile =
-      juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
-    if (command_map_)
+    if (command_map_) {
+      auto default_profile =
+        juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+        getSiblingFile("default.xml");
       command_map_->toXMLDocument(default_profile);
+    }
     quit();
   }
 
