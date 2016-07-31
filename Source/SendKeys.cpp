@@ -74,7 +74,6 @@ namespace {
     while (i < utf8.size()) {
       unsigned long uni;
       size_t todo;
-      bool error = false;
       unsigned char ch = utf8[i++];
       if (ch <= 0x7F) {
         uni = ch;
