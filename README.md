@@ -2,7 +2,7 @@
 
 **MIDI2LR** is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the [Wiki](https://github.com/rsjaffe/MIDI2LR/wiki). Assistance on the code and design is welcome.
 
-<a href="https://scan.coverity.com/projects/rsjaffe-midi2lr">
+https://ci.appveyor.com/api/projects/status/7l1x58lx70mqg090?svg=true <a href="https://scan.coverity.com/projects/rsjaffe-midi2lr">
   <img alt="Coverity Scan Build Status"
        src="https://img.shields.io/coverity/scan/9739.svg"/>
 </a>
