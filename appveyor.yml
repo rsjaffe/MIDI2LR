@@ -5,6 +5,8 @@ branches:
 build:
   project: Builds/VisualStudio2015/MIDI2LR.sln
   verbosity: minimal
+after_test:
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
 - provider: Email
   to:
