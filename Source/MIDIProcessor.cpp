@@ -39,25 +39,25 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
       static_cast<unsigned short int>(message.getControllerValue());
     if (nrpn_filter_.ProcessMidi(channel, control, value)) { //true if nrpn piece
       if (nrpn_filter_.IsReady(channel)) { //send when finished
-        for (const auto& listener : listeners_)
+        for (const auto listener : listeners_)
           listener->handleMidiCC(channel, nrpn_filter_.GetControl(channel),
             nrpn_filter_.GetValue(channel));
         nrpn_filter_.Clear(channel);
       }
     }
     else //regular message
-      for (const auto& listener : listeners_)
+      for (const auto listener : listeners_)
         listener->handleMidiCC(channel, control, value);
   }
   else if (message.isNoteOn()) {
-    for (const auto& listener : listeners_) {
+    for (const auto listener : listeners_) {
       listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
     }
   }
 }
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener) {
-  for (const auto& current_listener : listeners_)
+  for (const auto current_listener : listeners_)
     if (current_listener == listener)
       return; //don't add duplicates
   listeners_.push_back(listener);
