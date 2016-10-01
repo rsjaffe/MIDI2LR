@@ -73,11 +73,10 @@ void MIDIProcessor::RescanDevices() {
 
 void MIDIProcessor::InitDevices_() {
   for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); idx++) {
-    auto dev = juce::MidiInput::openDevice(idx, this);
+    const auto dev = juce::MidiInput::openDevice(idx, this);
     if (dev != nullptr) {
       devices_.emplace_back(dev);
-      devices_[idx]->start();
-      DBG(devices_[idx]->getName());
+      dev->start();
     }
   }
 }
