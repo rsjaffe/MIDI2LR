@@ -78,11 +78,11 @@ class X :  RSJ::counter<X>
   class spinlock {
     std::atomic_flag flag{ATOMIC_FLAG_INIT};
   public:
-    inline void lock() noexcept {
+    void lock() noexcept {
       while (flag.test_and_set(std::memory_order_acquire))
         /*empty statement--spin until flag is cleared*/;
     }
-    inline void unlock() noexcept {
+    void unlock() noexcept {
       flag.clear(std::memory_order_release);
     }
   };
