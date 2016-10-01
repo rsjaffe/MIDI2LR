@@ -56,7 +56,7 @@ namespace {
     return full_character;
   }
 
-  HKL GetLanguage(std::string program_name) {
+  HKL GetLanguage(const std::string& program_name) {
     const auto hLRWnd = FindWindow(NULL, program_name.c_str());
     if (hLRWnd) {
       // get language that LR is using (if hLrWnd is found)

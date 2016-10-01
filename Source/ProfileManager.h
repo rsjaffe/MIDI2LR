@@ -92,7 +92,7 @@ private:
   std::vector<ProfileChangeListener *> listeners_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::vector<juce::String> profiles_;
-  SWITCH_STATE switch_state_;
+  SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

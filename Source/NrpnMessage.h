@@ -126,5 +126,5 @@ public:
   };
 
 private:
-  std::array<NRPN_Message, 16> nrpn_messages_;
+  std::array<NRPN_Message, 16> nrpn_messages_{};
 };
