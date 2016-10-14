@@ -37,27 +37,24 @@ namespace RSJ {
     static std::atomic_int objects_created;
     static std::atomic_int objects_alive;
 
-    counter() noexcept {
+    counter() noexcept { //constructor
       ++objects_created;
       ++objects_alive;
     }
 
-    counter(const counter&) noexcept {
+    counter(const counter&) noexcept { //copy constructor
       ++objects_created;
       ++objects_alive;
     }
 
-    counter& operator=(counter) noexcept {
-      ++objects_created;
-      ++objects_alive;
-      return *this;
-    }
+    counter& operator=(counter) noexcept {} //not a constructor, so no inc
 
     counter(counter&&) noexcept {} //don't increment on move
 
     counter& operator=(counter&&) noexcept {
       return *this;
     } //don't increment on move
+
 
   protected:
     ~counter() // objects should never be removed through pointers of this type
