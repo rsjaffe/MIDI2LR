@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMap::CommandMap() noexcept {}
 
-void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message_ID& message) {
+void CommandMap::addCommandforMessage(size_t command, const MIDI_Message_ID& message) {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
   if (command < LRCommandList::LRStringList.size()) {

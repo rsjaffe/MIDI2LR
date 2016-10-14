@@ -57,7 +57,7 @@ void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) 
 
     pickup_enabled_.addListener(this);
     pickup_enabled_.setToggleState(ptr->getPickupEnabled(), juce::NotificationType::dontSendNotification);
-    pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft, 32);
+    pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft, 32); //-V112
     addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(pickup_enabled_);
 
@@ -118,7 +118,7 @@ void SettingsComponent::buttonClicked(juce::Button* button) {
   }
   else if (button == &profile_location_button_) {
     juce::FileBrowserComponent browser{
-      juce::FileBrowserComponent::canSelectDirectories | 
+      juce::FileBrowserComponent::canSelectDirectories |
       juce::FileBrowserComponent::openMode,
         juce::File::getCurrentWorkingDirectory(), nullptr, nullptr};
 

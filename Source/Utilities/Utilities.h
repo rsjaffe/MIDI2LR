@@ -50,11 +50,14 @@ namespace RSJ {
     counter& operator=(counter) noexcept {
       ++objects_created;
       ++objects_alive;
+      return *this;
     }
 
     counter(counter&&) noexcept {} //don't increment on move
 
-    counter& operator=(counter&&) noexcept {} //don't increment on move
+    counter& operator=(counter&&) noexcept {
+      return *this;
+    } //don't increment on move
 
   protected:
     ~counter() // objects should never be removed through pointers of this type

@@ -48,7 +48,7 @@ public:
   void addRow(int midi_channel, int midi_data, bool isCC);
 
   // removes a row from the table
-  void removeRow(int row);
+  void removeRow(size_t row);
 
   // removes all rows from the table
   void removeAllRows();
@@ -57,7 +57,7 @@ public:
   void buildFromXml(const juce::XmlElement * const elem);
 
   // returns the index of the row associated to a particular MIDI message
-  int getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
+  size_t getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
 
 private:
   void Sort();

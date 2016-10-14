@@ -1031,12 +1031,12 @@ const std::vector <std::string> LRCommandList::NextPrevProfile = {
   "Next Profile",
 };
 
-int LRCommandList::getIndexOfCommand(const std::string& command) {
-  static std::unordered_map<std::string, int> indexMap;
+size_t LRCommandList::getIndexOfCommand(const std::string& command) {
+  static std::unordered_map<std::string, size_t> indexMap;
 
   // better to check for empty then length, as empty has a constant run time behavior.
   if (indexMap.empty()) {
-    int idx = 0;
+    size_t idx = 0;
     for (const auto& str : LRStringList)
       indexMap[str] = idx++;
 

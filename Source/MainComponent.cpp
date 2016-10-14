@@ -238,7 +238,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
   }
   else if (button == &remove_row_button_) {
     if (command_table_.getSelectedRow() != -1) {
-      command_table_model_.removeRow(command_table_.getSelectedRow());
+      command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
       command_table_.updateContent();
     }
   }
@@ -358,7 +358,7 @@ void MainContentComponent::handleAsyncUpdate() {
 
   // Update the command table to add and/or select row corresponding to midi command
   command_table_.updateContent();
-  command_table_.selectRow(row_to_select_);
+  command_table_.selectRow(static_cast<int>(row_to_select_));
 }
 
 void MainContentComponent::timerCallback() {

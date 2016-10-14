@@ -37,7 +37,7 @@ public:
   void setMsg(const MIDI_Message_ID& msg) noexcept;
 
   // sets which item in the menu is selected
-  void setSelectedItem(unsigned int idx);
+  void setSelectedItem(size_t idx);
 
 private:
   // ButtonListener interface

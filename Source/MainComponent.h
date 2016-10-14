@@ -86,7 +86,7 @@ private:
   CommandTable command_table_{"Table", nullptr};
   CommandTableModel command_table_model_{};
   juce::DropShadowEffect title_shadow_;
-  int row_to_select_{0};
+  size_t row_to_select_{0};
   juce::Label command_label_{"Command", ""};
   juce::Label connection_label_{"Connection", "Not connected to LR"};
   juce::Label current_status_{"CurrentStatus", "no extra info"};
