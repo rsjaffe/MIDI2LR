@@ -43,7 +43,7 @@ LR_IPC_OUT::~LR_IPC_OUT() {
   command_map_.reset();
 }
 
-void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
+void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map, //-V2009
   std::shared_ptr<MIDIProcessor>& midi_processor) {
     //copy the pointer
   command_map_ = command_map;

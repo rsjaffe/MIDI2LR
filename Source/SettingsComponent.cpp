@@ -107,11 +107,11 @@ void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) 
   }
 }
 
-void SettingsComponent::paint(juce::Graphics& g) {
+void SettingsComponent::paint(juce::Graphics& g) { //-V2009 overridden method
   g.fillAll(juce::Colours::white);   // clear the background
 }
 
-void SettingsComponent::buttonClicked(juce::Button* button) {
+void SettingsComponent::buttonClicked(juce::Button* button) { //-V2009 overridden method
   if (button == &pickup_enabled_) {
     if (const auto ptr = settings_manager_.lock())
       ptr->setPickupEnabled(pickup_enabled_.getToggleState());
@@ -137,8 +137,8 @@ void SettingsComponent::buttonClicked(juce::Button* button) {
   }
 }
 
-void SettingsComponent::sliderValueChanged(juce::Slider* slider) {
+void SettingsComponent::sliderValueChanged(juce::Slider* slider) { //-V2009 overridden method
   if (slider && &autohide_setting_ == slider)
     if (const auto ptr = settings_manager_.lock())
-      ptr->setAutoHideTime(static_cast<int>(autohide_setting_.getValue()));
+      ptr->setAutoHideTime(static_cast<int>(round(autohide_setting_.getValue()))); //-V2003 intentional cast double to int
 }

@@ -43,7 +43,7 @@ std::vector<const MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std:
   return mm;
 }
 
-void CommandMap::toXMLDocument(juce::File& file) const {
+void CommandMap::toXMLDocument(const juce::File& file) const {
   if (message_map_.size()) {//don't bother if map is empty
     // save the contents of the command map to an xml file
     juce::XmlElement root{"settings"};

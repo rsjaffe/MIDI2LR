@@ -109,7 +109,7 @@ public:
   bool commandHasAssociatedMessage(const std::string& command) const;
 
   // saves the message:command map as an XML file
-  void toXMLDocument(juce::File& file) const;
+  void toXMLDocument(const juce::File& file) const;
 
 private:
 

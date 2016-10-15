@@ -54,7 +54,7 @@ MainContentComponent::~MainContentComponent() {}
 void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
   std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-  std::shared_ptr<MIDIProcessor>& midi_processor,
+  std::shared_ptr<MIDIProcessor>& midi_processor, //-V2009
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<SettingsManager>& settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
@@ -190,7 +190,7 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   activateLayout();
 }
 
-void MainContentComponent::paint(juce::Graphics& g) {
+void MainContentComponent::paint(juce::Graphics& g) { //-V2009 overridden method
   g.fillAll(juce::Colours::white);
 }
 
@@ -220,7 +220,7 @@ void MainContentComponent::disconnected() {
   connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
 }
 
-void MainContentComponent::buttonClicked(juce::Button* button) {
+void MainContentComponent::buttonClicked(juce::Button* button) { //-V2009 overridden method
   if (button == &rescan_button_) {
       // Re-enumerate MIDI IN and OUT devices
 
@@ -321,7 +321,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
   }
 }
 
-void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name) {
+void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name) { //-V2009 overridden method
   command_table_model_.buildFromXml(xml_element);
   command_table_.updateContent();
   command_table_.repaint();

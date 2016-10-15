@@ -47,7 +47,9 @@ namespace RSJ {
       ++objects_alive;
     }
 
-    counter& operator=(counter) noexcept {} //not a constructor, so no inc
+    counter& operator=(counter) noexcept {
+      return *this;
+    } //not a constructor, so no inc
 
     counter(counter&&) noexcept {} //don't increment on move
 

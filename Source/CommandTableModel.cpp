@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandTableModel::CommandTableModel() noexcept {}
 
-void CommandTableModel::Init(std::shared_ptr<CommandMap>& map_command) noexcept {
+void CommandTableModel::Init(std::shared_ptr<CommandMap>& map_command) noexcept { //-V2009
     //copy the pointer
   command_map_ = map_command;
 }
@@ -52,7 +52,7 @@ int CommandTableModel::getNumRows() {
   return static_cast<int>(commands_.size());
 }
 
-void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
+void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/, //-V2009 overridden method
   int /*width*/, int /*height*/, bool row_is_selected) {
   //This must draw the background behind one of the rows in the table.
 

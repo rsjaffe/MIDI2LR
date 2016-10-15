@@ -44,7 +44,7 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
   LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile})
 {}
 
-void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) {
+void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) { //-V2009
     //copy the pointer
   command_map_ = mapCommand;
   juce::Button::addListener(this);

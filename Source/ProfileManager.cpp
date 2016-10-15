@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ProfileManager::ProfileManager() noexcept {}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
-  std::shared_ptr<CommandMap>& commandMap,
+  std::shared_ptr<CommandMap>& commandMap, //-V2009
   std::shared_ptr<MIDIProcessor>& midiProcessor) {
     //copy the pointers
   command_map_ = commandMap;

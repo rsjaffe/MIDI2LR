@@ -57,7 +57,7 @@ namespace {
   }
 
   HKL GetLanguage(const std::string& program_name) {
-    const auto hLRWnd = FindWindow(NULL, program_name.c_str());
+    const auto hLRWnd = FindWindow(NULL, program_name.c_str()); //-V2001
     if (hLRWnd) {
       // get language that LR is using (if hLrWnd is found)
       const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
