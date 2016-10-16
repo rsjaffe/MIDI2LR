@@ -321,7 +321,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) { //-V2009 overri
     auto* const component = new SettingsComponent{};
     component->Init(settings_manager_);
     dialog_options.content.setOwned(component);
-    dialog_options.content->setSize(400, 300);
+    dialog_options.content->setSize(400, 400);
     dialog_options.escapeKeyTriggersCloseButton = true;
     dialog_options.useNativeTitleBar = false;
     settings_dialog_.reset(dialog_options.create());
