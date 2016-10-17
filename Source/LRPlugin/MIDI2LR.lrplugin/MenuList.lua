@@ -1442,8 +1442,20 @@
     true
   },
   {
+    "RevealPanelTransform",
+    "Show Transform",
+    "Lens Corrections",
+    true
+  },
+  {
     "EnableLensCorrections",
     "Enable Lens Corrections",
+    "Lens Corrections",
+    true
+  },
+  {
+    "EnableTransform",
+    "Enable Transform",
     "Lens Corrections",
     true
   },
