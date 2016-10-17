@@ -290,7 +290,9 @@ const std::vector<std::string> LRCommandList::Detail = {
 
 const std::vector<std::string> LRCommandList::LensCorrections = {
   "Show Lens Corrections",
+  "Show Transform",
   "Enable Lens Corrections",
+  "Enable Transform",
   "Perspective Correction Off",
   "Perspective Correction Auto",
   "Perspective Correction Level",
@@ -791,7 +793,9 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetColorNoiseReductionSmoothness",
   /* Lens Corrections */
   "RevealPanelLens",
+  "RevealPanelTransform",
   "EnableLensCorrections",
+  "EnableTransform",
   "UprightOff",
   "UprightAuto",
   "UprightLevel",
