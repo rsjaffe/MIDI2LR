@@ -1807,6 +1807,7 @@
   WhiteBalanceFluorescent = "adjustPanel",
   WhiteBalanceShade = "adjustPanel",
   WhiteBalanceTungsten = "adjustPanel",
+  AutoTone = "adjustPanel",
   Whites = "adjustPanel"
 }
   return {

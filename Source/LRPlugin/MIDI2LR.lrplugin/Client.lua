@@ -315,6 +315,7 @@ LrTasks.startAsyncTask(
       WhiteBalanceFluorescent  = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
       WhiteBalanceShade        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
       WhiteBalanceTungsten     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      AutoTone                 = function() Ut.wrapFOM(LrDevelopController.setValue,'AutoTone',true)(); CU.FullRefresh() end,
       ZoomInLargeStep          = LrApplicationView.zoomIn,
       ZoomInSmallStep          = LrApplicationView.zoomInSome,
       ZoomOutLargeStep         = LrApplicationView.zoomOut,
