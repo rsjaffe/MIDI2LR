@@ -590,6 +590,12 @@
     true
   },
   {
+    "AutoTone",
+    "Auto Tone",
+    "Basic Tone",
+    true
+  },
+  {
     "Temperature",
     "Temperature",
     "Basic Tone",

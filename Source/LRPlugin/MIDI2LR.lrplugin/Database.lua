@@ -222,6 +222,7 @@ local DataBase = {
   {"WhiteBalanceFluorescent",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Fluorescent=Fluorescent"),basicTone,"Use fluorescent white balance. *button*",'adjustPanel'},
   {"WhiteBalanceShade",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Shade=Shade"),basicTone,"Use shade white balance. *button*",'adjustPanel'},
   {"WhiteBalanceTungsten",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Tungsten=Tungsten"),basicTone,"Use tungsten white balance. *button*",'adjustPanel'},
+  {"AutoTone",false,false,true,false,true,true,basicTone..' '..LOC("$$$/AgCameraRawUI/AutoTone=Auto Tone"),basicTone,"Auto Tone. *button*",'adjustPanel'},
   {"AutoBrightness",'basicTone',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoBrightness=Automatic Brightness")},
   {"AutoContrast",'basicTone',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoContrast=Automatic Contrast")},
   {"AutoExposure",'basicTone',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoExposure=Automatic Exposure")},
