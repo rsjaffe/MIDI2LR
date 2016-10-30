@@ -195,7 +195,6 @@ end
 
 
 return {
-  AddToCollection = AddToCollection,
   CopySettings = CopySettings,
   fApplyPreset = fApplyPreset,
   fChangeModule = fChangeModule,

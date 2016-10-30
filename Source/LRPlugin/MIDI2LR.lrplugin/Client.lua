@@ -101,8 +101,6 @@ LrTasks.startAsyncTask(
     end
 
     local ACTIONS = {
-      --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
-      --   AddToTargetCollection    = CU.addToCollection('target',LrApplication.activeCatalog():getTargetPhotos()),
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
