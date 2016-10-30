@@ -156,6 +156,23 @@ local function PasteSettings  ()
   )
 end
 
+local function ApplySettings(settings)
+  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+  LrTasks.startAsyncTask ( function ()
+    LrApplication.activeCatalog():withWriteAccessDo(
+      'MIDI2LR: Apply settings',
+      function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(settings) end,
+      { timeout = 4,
+        callback = function()
+          LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
+        end,
+        asynchronous = true
+      }
+    )
+  end
+  )
+end
+
 local function CopySettings ()
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( 
@@ -256,5 +273,5 @@ return {
   FullRefresh = FullRefresh,
   PasteSelectedSettings = PasteSelectedSettings,
   PasteSettings = PasteSettings,
-
+  ApplySettings = ApplySettings
 }

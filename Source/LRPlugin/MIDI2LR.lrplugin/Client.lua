@@ -93,6 +93,13 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
+    local function UpdatePointCurve(settings)
+      return function()
+        CU.fChangePanel('tonePanel')
+        CU.ApplySettings(settings)
+      end
+    end
+
     local ACTIONS = {
       --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
       --   AddToTargetCollection    = CU.addToCollection('target',LrApplication.activeCatalog():getTargetPhotos()),
@@ -320,6 +327,52 @@ LrTasks.startAsyncTask(
       ZoomInSmallStep          = LrApplicationView.zoomInSome,
       ZoomOutLargeStep         = LrApplicationView.zoomOut,
       ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
+      PointCurveLinear         = UpdatePointCurve({
+        ToneCurveName = "Linear",
+        ToneCurveName2012 = "Linear",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          255,
+          255,
+        }
+      }),
+      PointCurveMediumContrast = UpdatePointCurve({
+        ToneCurveName = "Medium Contrast",
+        ToneCurveName2012 = "Medium Contrast",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          32,
+          22,
+          64,
+          56,
+          128,
+          128,
+          192,
+          196,
+          255,
+          255,
+        }
+      }),
+      PointCurveStrongContrast = UpdatePointCurve({
+        ToneCurveName = "Strong Contrast",
+        ToneCurveName2012 = "Strong Contrast",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          32,
+          16,
+          64,
+          50,
+          128,
+          128,
+          192,
+          202,
+          255,
+          255,
+        }
+      }),
     }
 
     local SETTINGS = {

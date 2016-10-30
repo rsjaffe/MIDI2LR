@@ -830,6 +830,24 @@
     true
   },
   {
+    "PointCurveLinear",
+    "Linear Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
+    "PointCurveMediumContrast",
+    "Medium Contrast Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
+    "PointCurveStrongContrast",
+    "Strong Contrast Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
     "RevealPanelMixer",
     "Show Color Adjustments",
     "Color Adjustments",
