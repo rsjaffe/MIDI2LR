@@ -30,7 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class MainWindow final: private juce::DocumentWindow, private juce::Timer {
 public:
-  MainWindow(juce::String name): juce::DocumentWindow{name,
+  explicit MainWindow(juce::String name): juce::DocumentWindow{name,
     juce::Colours::lightgrey,
     juce::DocumentWindow::minimiseButton |
     juce::DocumentWindow::closeButton}, juce::Timer() {
@@ -66,7 +66,7 @@ private:
   }
   // the timer callback function
   virtual void timerCallback() override;
-  int auto_hide_counter_;
+  int auto_hide_counter_{0};
   MainContentComponent *window_content_;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)

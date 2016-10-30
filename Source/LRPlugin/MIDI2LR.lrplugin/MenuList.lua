@@ -590,6 +590,12 @@
     true
   },
   {
+    "AutoTone",
+    "Auto Tone",
+    "Basic Tone",
+    true
+  },
+  {
     "Temperature",
     "Temperature",
     "Basic Tone",
@@ -820,6 +826,24 @@
   {
     "ResetParametricHighlightSplit",
     "Reset Highlight Split",
+    "Tone Curve",
+    true
+  },
+  {
+    "PointCurveLinear",
+    "Linear Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
+    "PointCurveMediumContrast",
+    "Medium Contrast Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
+    "PointCurveStrongContrast",
+    "Strong Contrast Point Curve",
     "Tone Curve",
     true
   },
@@ -1442,8 +1466,20 @@
     true
   },
   {
+    "RevealPanelTransform",
+    "Show Transform",
+    "Lens Corrections",
+    true
+  },
+  {
     "EnableLensCorrections",
     "Enable Lens Corrections",
+    "Lens Corrections",
+    true
+  },
+  {
+    "EnableTransform",
+    "Enable Transform",
     "Lens Corrections",
     true
   },

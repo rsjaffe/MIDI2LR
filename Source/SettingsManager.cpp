@@ -48,7 +48,7 @@ void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
 
   profile_manager_ = std::move(profile_manager);
 
-  if (auto ptr = profile_manager_.lock()) {
+  if (const auto ptr = profile_manager_.lock()) {
       // set the profile directory
     ptr->setProfileDirectory(getProfileDirectory());
   }

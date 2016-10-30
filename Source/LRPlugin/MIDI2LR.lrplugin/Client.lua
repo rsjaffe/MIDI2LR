@@ -93,6 +93,13 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
+    local function UpdatePointCurve(settings)
+      return function()
+        CU.fChangePanel('tonePanel')
+        CU.ApplySettings(settings)
+      end
+    end
+
     local ACTIONS = {
       --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
       --   AddToTargetCollection    = CU.addToCollection('target',LrApplication.activeCatalog():getTargetPhotos()),
@@ -111,6 +118,7 @@ LrTasks.startAsyncTask(
       EnableGradientBasedCorrections         = CU.fToggleTF('EnableGradientBasedCorrections'),
       EnableGrayscaleMix                     = CU.fToggleTF('EnableGrayscaleMix'),
       EnableLensCorrections                  = CU.fToggleTF('EnableLensCorrections'),
+      EnableTransform                        = CU.fToggleTF('EnableTransform'),
       EnablePaintBasedCorrections            = CU.fToggleTF('EnablePaintBasedCorrections'),
       EnableRedEye                           = CU.fToggleTF('EnableRedEye'),
       EnableRetouch                          = CU.fToggleTF('EnableRetouch'),
@@ -256,6 +264,7 @@ LrTasks.startAsyncTask(
       RevealPanelDetail        = CU.fChangePanel('detailPanel'), 
       RevealPanelEffects       = CU.fChangePanel('effectsPanel'),
       RevealPanelLens          = CU.fChangePanel('lensCorrectionsPanel'),
+      RevealPanelTransform     = CU.fChangePanel('transformPanel'),
       RevealPanelMixer         = CU.fChangePanel('mixerPanel'),
       RevealPanelSplit         = CU.fChangePanel('splitToningPanel'),
       RevealPanelTone          = CU.fChangePanel('tonePanel'),
@@ -313,10 +322,57 @@ LrTasks.startAsyncTask(
       WhiteBalanceFluorescent  = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
       WhiteBalanceShade        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
       WhiteBalanceTungsten     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      AutoTone                 = function() Ut.wrapFOM(LrDevelopController.setValue,'AutoTone',true)(); CU.FullRefresh() end,
       ZoomInLargeStep          = LrApplicationView.zoomIn,
       ZoomInSmallStep          = LrApplicationView.zoomInSome,
       ZoomOutLargeStep         = LrApplicationView.zoomOut,
       ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
+      PointCurveLinear         = UpdatePointCurve({
+        ToneCurveName = "Linear",
+        ToneCurveName2012 = "Linear",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          255,
+          255,
+        }
+      }),
+      PointCurveMediumContrast = UpdatePointCurve({
+        ToneCurveName = "Medium Contrast",
+        ToneCurveName2012 = "Medium Contrast",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          32,
+          22,
+          64,
+          56,
+          128,
+          128,
+          192,
+          196,
+          255,
+          255,
+        }
+      }),
+      PointCurveStrongContrast = UpdatePointCurve({
+        ToneCurveName = "Strong Contrast",
+        ToneCurveName2012 = "Strong Contrast",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          32,
+          16,
+          64,
+          50,
+          128,
+          128,
+          192,
+          202,
+          255,
+          255,
+        }
+      }),
     }
 
     local SETTINGS = {

@@ -56,7 +56,7 @@ public:
   static const std::vector<std::string> NextPrevProfile;
 
   // Map of command strings to indices
-  static int getIndexOfCommand(const std::string& command);
+  static size_t getIndexOfCommand(const std::string& command);
 
 private:
   LRCommandList() noexcept;

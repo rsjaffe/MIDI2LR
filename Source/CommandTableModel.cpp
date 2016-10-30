@@ -20,11 +20,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTableModel.h"
 #include <algorithm>
+#include <limits>
 #include "LRCommands.h"
 
 CommandTableModel::CommandTableModel() noexcept {}
 
-void CommandTableModel::Init(std::shared_ptr<CommandMap>& map_command) noexcept {
+void CommandTableModel::Init(std::shared_ptr<CommandMap>& map_command) noexcept { //-V2009
     //copy the pointer
   command_map_ = map_command;
 }
@@ -48,10 +49,10 @@ int CommandTableModel::getNumRows() {
 
   // If the number of rows changes, you must call TableListBox::updateContent()
   // to cause it to refresh the list.
-  return commands_.size();
+  return static_cast<int>(commands_.size());
 }
 
-void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
+void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/, //-V2009 overridden method
   int /*width*/, int /*height*/, bool row_is_selected) {
   //This must draw the background behind one of the rows in the table.
 
@@ -78,16 +79,16 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
-    if (commands_[row_number].isCC)
-      g.drawText(juce::String::formatted("%d | CC: %d", commands_[row_number].channel,
-        commands_[row_number].controller), 0, 0, width, height, juce::Justification::centred);
+    if (commands_[static_cast<size_t>(row_number)].isCC) //-V108 int used as index because JUCE uses int
+      g.drawText(juce::String::formatted("%d | CC: %d", commands_[static_cast<size_t>(row_number)].channel,
+        commands_[static_cast<size_t>(row_number)].controller), 0, 0, width, height, juce::Justification::centred);
     else
-      g.drawText(String::formatted("%d | Note: %d", commands_[row_number].channel,
-        commands_[row_number].pitch), 0, 0, width, height, Justification::centred);
+      g.drawText(juce::String::formatted("%d | Note: %d", commands_[static_cast<size_t>(row_number)].channel,
+        commands_[static_cast<size_t>(row_number)].pitch), 0, 0, width, height, juce::Justification::centred);
   }
 }
 
-juce::Component *CommandTableModel::refreshComponentForCell(int row_number,
+juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
   int column_id, bool /*isRowSelected*/, juce::Component *existing_component_to_update) {
     //This is used to create or update a custom component to go in a cell.
 
@@ -119,16 +120,16 @@ juce::Component *CommandTableModel::refreshComponentForCell(int row_number,
 
     // create a new command menu
     if (command_select == nullptr) {
-      command_select = new CommandMenu{commands_[row_number]};
+      command_select = new CommandMenu{commands_[static_cast<size_t>(row_number)]};
       command_select->Init(command_map_);
     }
     else
-      command_select->setMsg(commands_[row_number]);
+      command_select->setMsg(commands_[static_cast<size_t>(row_number)]);
 
     if (command_map_) {
         // add 1 because 0 is reserved for no selection
       command_select->setSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
-        getCommandforMessage(commands_[row_number])) + 1);
+        getCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
     }
 
     return command_select;
@@ -146,7 +147,7 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, bool is_cc) {
   }
 }
 
-void CommandTableModel::removeRow(int row) {
+void CommandTableModel::removeRow(size_t row) {
   if (command_map_) {
     command_map_->removeMessage(commands_[row]);
   }
@@ -204,20 +205,20 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
   Sort();
 }
 
-int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const {
+size_t CommandTableModel::getRowForMessage(int midi_channel, int midi_data, bool is_cc) const {
   for (size_t idx = 0u; idx < commands_.size(); idx++) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
       && commands_[idx].isCC == is_cc)
       return idx;
   }
   //could not find
-  return -1;
+  return std::numeric_limits<size_t>::max();
 }
 
 void CommandTableModel::Sort() {
   // use LRCommandList::getIndexOfCommand(string); to sort by command
   // sort the command map
-  auto msg_idx = [this](MIDI_Message_ID a) {return LRCommandList::getIndexOfCommand
+  const auto msg_idx = [this](MIDI_Message_ID a) {return LRCommandList::getIndexOfCommand
   (command_map_->getCommandforMessage(a)); };
 
   if (current_sort.first == 1)

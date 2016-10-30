@@ -37,11 +37,11 @@ void VersionChecker::run() {
 
   if (version_xml_element != nullptr) {
     int last_checked = 0;
-    if (auto smp = settings_manager_.lock())
+    if (const auto smp = settings_manager_.lock())
       last_checked = smp->getLastVersionFound();
     new_version_ = version_xml_element->getIntAttribute("latest");
     if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
-      if (auto smp = settings_manager_.lock())
+      if (const auto smp = settings_manager_.lock())
         smp->setLastVersionFound(new_version_);
       triggerAsyncUpdate();
     }

@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ProfileManager::ProfileManager() noexcept {}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
-  std::shared_ptr<CommandMap>& commandMap,
+  std::shared_ptr<CommandMap>& commandMap, //-V2009
   std::shared_ptr<MIDIProcessor>& midiProcessor) {
     //copy the pointers
   command_map_ = commandMap;
@@ -71,7 +71,7 @@ const std::vector<juce::String>& ProfileManager::getMenuItems() const noexcept {
 
 void ProfileManager::switchToProfile(int profile_index) {
   if (profile_index >= 0 && profile_index < static_cast<int>(profiles_.size())) {
-    switchToProfile(profiles_[profile_index]);
+    switchToProfile(profiles_[static_cast<size_t>(profile_index)]);
     current_profile_index_ = profile_index;
   }
 }
@@ -105,7 +105,7 @@ void ProfileManager::switchToNextProfile() {
 
 void ProfileManager::switchToPreviousProfile() {
   current_profile_index_--;
-  if (current_profile_index_ < 0) current_profile_index_ = profiles_.size() - 1;
+  if (current_profile_index_ < 0) current_profile_index_ = static_cast<int>(profiles_.size()) - 1;
 
   switchToProfile(current_profile_index_);
 }

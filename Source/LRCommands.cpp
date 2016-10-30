@@ -130,6 +130,7 @@ const std::vector<std::string> LRCommandList::BasicAdjustments = {
   "White Balance Fluorescent",
   "White Balance Shade",
   "White Balance Tungsten",
+  "Auto Tone",
   "Temperature",
   "Tint",
   "Exposure",
@@ -172,6 +173,9 @@ const std::vector<std::string> LRCommandList::ToneCurve = {
   "Reset Shadow Split",
   "Reset Midtone Split",
   "Reset Highlight Split",
+  "Linear Point Curve",
+  "Medium Contrast Point Curve",
+  "Strong Contrast Point Curve",
 };
 
 const std::vector<std::string> LRCommandList::Mixer = {
@@ -290,7 +294,9 @@ const std::vector<std::string> LRCommandList::Detail = {
 
 const std::vector<std::string> LRCommandList::LensCorrections = {
   "Show Lens Corrections",
+  "Show Transform",
   "Enable Lens Corrections",
+  "Enable Transform",
   "Perspective Correction Off",
   "Perspective Correction Auto",
   "Perspective Correction Level",
@@ -643,6 +649,7 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "WhiteBalanceFluorescent",
   "WhiteBalanceShade",
   "WhiteBalanceTungsten",
+  "AutoTone",
   "Temperature",
   "Tint",
   "Exposure",
@@ -683,6 +690,9 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetParametricShadowSplit",
   "ResetParametricMidtoneSplit",
   "ResetParametricHighlightSplit",
+  "PointCurveLinear",
+  "PointCurveMediumContrast",
+  "PointCurveStrongContrast",
   /* Color Adjustments */
   "RevealPanelMixer",
   "EnableColorAdjustments",
@@ -791,7 +801,9 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetColorNoiseReductionSmoothness",
   /* Lens Corrections */
   "RevealPanelLens",
+  "RevealPanelTransform",
   "EnableLensCorrections",
+  "EnableTransform",
   "UprightOff",
   "UprightAuto",
   "UprightLevel",
@@ -1031,12 +1043,12 @@ const std::vector <std::string> LRCommandList::NextPrevProfile = {
   "Next Profile",
 };
 
-int LRCommandList::getIndexOfCommand(const std::string& command) {
-  static std::unordered_map<std::string, int> indexMap;
+size_t LRCommandList::getIndexOfCommand(const std::string& command) {
+  static std::unordered_map<std::string, size_t> indexMap;
 
   // better to check for empty then length, as empty has a constant run time behavior.
   if (indexMap.empty()) {
-    int idx = 0;
+    size_t idx = 0;
     for (const auto& str : LRStringList)
       indexMap[str] = idx++;
 

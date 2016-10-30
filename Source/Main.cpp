@@ -44,17 +44,17 @@ const juce::String ShutDownString{"--LRSHUTDOWN"};
 
 class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
-  MIDI2LRApplication() {
-    command_map_ = std::make_shared<CommandMap>();
-    profile_manager_ = std::make_shared<ProfileManager>();
-    settings_manager_ = std::make_shared<SettingsManager>();
-    midi_processor_ = std::make_shared<MIDIProcessor>();
-    midi_sender_ = std::make_shared<MIDISender>();
-    lr_ipc_out_ = std::make_shared<LR_IPC_OUT>();
-    lr_ipc_in_ = std::make_shared<LR_IPC_IN>();
-  }
+  MIDI2LRApplication():
+    command_map_{std::make_shared<CommandMap>()},
+    lr_ipc_in_{std::make_shared<LR_IPC_IN>()},
+    lr_ipc_out_{std::make_shared<LR_IPC_OUT>()},
+    midi_processor_{std::make_shared<MIDIProcessor>()},
+    midi_sender_{std::make_shared<MIDISender>()},
+    profile_manager_{std::make_shared<ProfileManager>()},
+    settings_manager_{std::make_shared<SettingsManager>()}
+    {}
 
-  const juce::String getApplicationName() override {
+    const juce::String getApplicationName() override {
     return ProjectInfo::projectName;
   }
   const juce::String getApplicationVersion() override {
@@ -100,7 +100,7 @@ public:
     }
     else {
         // apparently the application is already terminated
-      systemRequestedQuit();
+      quit();
     }
   }
 
@@ -131,10 +131,12 @@ public:
       // quit() to allow the application to close.
     if (lr_ipc_in_)
       lr_ipc_in_->PleaseStopThread();
-    auto default_profile =
-      juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
-    if (command_map_)
+    if (command_map_) {
+      auto default_profile =
+        juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+        getSiblingFile("default.xml");
       command_map_->toXMLDocument(default_profile);
+    }
     quit();
   }
 

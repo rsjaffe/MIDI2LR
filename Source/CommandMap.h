@@ -83,7 +83,7 @@ public:
 // adds an entry to the message:command map, and a corresponding entry to the
 // command:message map will look up the string by the index (but it is preferred to
 // directly use the string)
-  void addCommandforMessage(unsigned int command, const MIDI_Message_ID& cc);
+  void addCommandforMessage(size_t command, const MIDI_Message_ID& cc);
 
   // adds an entry to the message:command map, and a corresponding entry to the
   // command:message map
@@ -109,7 +109,7 @@ public:
   bool commandHasAssociatedMessage(const std::string& command) const;
 
   // saves the message:command map as an XML file
-  void toXMLDocument(juce::File& file) const;
+  void toXMLDocument(const juce::File& file) const;
 
 private:
 

@@ -89,7 +89,7 @@ private:
 class OverlaySceneElement : public mc::SceneElement
 {
 public:
-    OverlaySceneElement(
+    explicit OverlaySceneElement(
         std::shared_ptr<mg::Renderable> renderable)
         : renderable_{renderable}
     {

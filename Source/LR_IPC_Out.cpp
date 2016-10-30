@@ -43,7 +43,7 @@ LR_IPC_OUT::~LR_IPC_OUT() {
   command_map_.reset();
 }
 
-void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
+void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map, //-V2009
   std::shared_ptr<MIDIProcessor>& midi_processor) {
     //copy the pointer
   command_map_ = command_map;
@@ -137,7 +137,7 @@ void LR_IPC_OUT::handleAsyncUpdate() {
     //check if there is a connection
   if (juce::InterprocessConnection::isConnected()) {
     juce::InterprocessConnection::getSocket()->
-      write(command_copy.c_str(), command_copy.length());
+      write(command_copy.c_str(), static_cast<int>(command_copy.length()));
   }
 }
 

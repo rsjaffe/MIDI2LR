@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandMap::CommandMap() noexcept {}
 
-void CommandMap::addCommandforMessage(unsigned int command, const MIDI_Message_ID& message) {
+void CommandMap::addCommandforMessage(size_t command, const MIDI_Message_ID& message) {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
   if (command < LRCommandList::LRStringList.size()) {
@@ -43,7 +43,7 @@ std::vector<const MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std:
   return mm;
 }
 
-void CommandMap::toXMLDocument(juce::File& file) const {
+void CommandMap::toXMLDocument(const juce::File& file) const {
   if (message_map_.size()) {//don't bother if map is empty
     // save the contents of the command map to an xml file
     juce::XmlElement root{"settings"};

@@ -54,7 +54,7 @@ MainContentComponent::~MainContentComponent() {}
 void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
   std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-  std::shared_ptr<MIDIProcessor>& midi_processor,
+  std::shared_ptr<MIDIProcessor>& midi_processor, //-V2009
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<SettingsManager>& settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
@@ -190,7 +190,7 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   activateLayout();
 }
 
-void MainContentComponent::paint(juce::Graphics& g) {
+void MainContentComponent::paint(juce::Graphics& g) { //-V2009 overridden method
   g.fillAll(juce::Colours::white);
 }
 
@@ -212,7 +212,7 @@ void MainContentComponent::handleMidiNote(int midi_channel, int note) {
 
 void MainContentComponent::connected() {
   connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
-  connection_label_.setColour(juce::Label::backgroundColourId, Colours::greenyellow);
+  connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
 }
 
 void MainContentComponent::disconnected() {
@@ -220,7 +220,7 @@ void MainContentComponent::disconnected() {
   connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
 }
 
-void MainContentComponent::buttonClicked(juce::Button* button) {
+void MainContentComponent::buttonClicked(juce::Button* button) { //-V2009 overridden method
   if (button == &rescan_button_) {
       // Re-enumerate MIDI IN and OUT devices
 
@@ -238,12 +238,12 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
   }
   else if (button == &remove_row_button_) {
     if (command_table_.getSelectedRow() != -1) {
-      command_table_model_.removeRow(command_table_.getSelectedRow());
+      command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
       command_table_.updateContent();
     }
   }
   else if (button == &save_button_) {
-    File profile_directory;
+    juce::File profile_directory;
 
     if (settings_manager_) {
       profile_directory = settings_manager_->getProfileDirectory();
@@ -310,7 +310,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
     juce::DialogWindow::LaunchOptions dialog_options;
     dialog_options.dialogTitle = "Settings";
     //create new object
-    auto *component = new SettingsComponent{};
+    auto* const component = new SettingsComponent{};
     component->Init(settings_manager_);
     dialog_options.content.setOwned(component);
     dialog_options.content->setSize(400, 300);
@@ -321,7 +321,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
   }
 }
 
-void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name) {
+void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name) { //-V2009 overridden method
   command_table_model_.buildFromXml(xml_element);
   command_table_.updateContent();
   command_table_.repaint();
@@ -358,7 +358,7 @@ void MainContentComponent::handleAsyncUpdate() {
 
   // Update the command table to add and/or select row corresponding to midi command
   command_table_.updateContent();
-  command_table_.selectRow(row_to_select_);
+  command_table_.selectRow(static_cast<int>(row_to_select_));
 }
 
 void MainContentComponent::timerCallback() {

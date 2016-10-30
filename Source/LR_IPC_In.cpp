@@ -49,7 +49,7 @@ LR_IPC_IN::~LR_IPC_IN() {
   juce::StreamingSocket::close();
 }
 
-void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
+void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command, //-V2009
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<MIDISender>& midi_sender) noexcept {
   command_map_ = map_command;
@@ -75,7 +75,7 @@ void LR_IPC_IN::run() {
       juce::Thread::wait(kNotConnectedWait);
     } //end if (is not connected)
     else {
-      char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
+      char line[kBufferSize + 1] = {' '};//plus one for \0 at end
       auto size_read = 0;
       auto can_read_line = true;
       // parse input until we have a line, then process that line, quit if
@@ -153,14 +153,14 @@ void LR_IPC_IN::processLine(const std::string& line) {
       }
     case 3: //TerminateApplication
       PleaseStopThread();
-      JUCEApplication::getInstance()->systemRequestedQuit();
+      juce::JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
       // send associated CC messages to MIDI OUT devices
       if (command_map_ && midi_sender_ ) {
         const auto original_value = std::stod(value_string);
         for (const auto msg : command_map_->getMessagesForCommand(command)) {
-          const auto value = static_cast<int>(round(
+          const auto value = static_cast<int>(round( //-V2003
             ((msg->controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
           midi_sender_->sendCC(msg->channel, msg->controller, value);
         }
