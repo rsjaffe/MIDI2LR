@@ -1241,10 +1241,6 @@
     "Post Crop Vignette Roundness",
     319
   },
-  PostCropVignetteStyle = {
-    "Post Crop Vignette Style",
-    320
-  },
   RedHue = {
     "Red Hue Calibration",
     360
@@ -1517,7 +1513,6 @@
   "PostCropVignetteMidpoint",
   "PostCropVignetteFeather",
   "PostCropVignetteRoundness",
-  "PostCropVignetteStyle",
   "PostCropVignetteHighlightContrast",
   "GrainAmount",
   "GrainSize",

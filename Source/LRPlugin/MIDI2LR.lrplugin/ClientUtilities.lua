@@ -73,6 +73,14 @@ local function fToggle01(param)
   end
 end
 
+local function fToggle1ModN(param, N)
+  return function()
+    local v = Ut.execFOM(LrDevelopController.getValue, param)
+    v = (v % N) + 1
+    LrDevelopController.setValue(param,v)
+  end
+end
+
 local function fToggleTF(param)
   return function()
     LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param))
@@ -200,6 +208,7 @@ return {
   fChangeModule = fChangeModule,
   fChangePanel = fChangePanel,
   fToggle01 = fToggle01,
+  fToggle1ModN = fToggle1ModN,
   fToggleTF = fToggleTF,
   fToggleTool = fToggleTool,
   FullRefresh = FullRefresh,
