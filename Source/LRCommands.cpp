@@ -173,6 +173,9 @@ const std::vector<std::string> LRCommandList::ToneCurve = {
   "Reset Shadow Split",
   "Reset Midtone Split",
   "Reset Highlight Split",
+  "Linear Point Curve",
+  "Medium Contrast Point Curve",
+  "Strong Contrast Point Curve",
 };
 
 const std::vector<std::string> LRCommandList::Mixer = {
@@ -687,6 +690,9 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetParametricShadowSplit",
   "ResetParametricMidtoneSplit",
   "ResetParametricHighlightSplit",
+  "PointCurveLinear",
+  "PointCurveMediumContrast",
+  "PointCurveStrongContrast",
   /* Color Adjustments */
   "RevealPanelMixer",
   "EnableColorAdjustments",
