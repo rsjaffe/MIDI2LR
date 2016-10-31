@@ -1796,6 +1796,24 @@
     false
   },
   {
+    "PostCropVignetteStyleHighlightPriority",
+    "Post Crop Vignette Style (Highlight Priority)",
+    "Effects",
+    false
+  },
+  {
+    "PostCropVignetteStyleColorPriority",
+    "Post Crop Vignette Style (Color Priority)",
+    "Effects",
+    false
+  },
+  {
+    "PostCropVignetteStylePaintOverlay",
+    "Post Crop Vignette Style (Paint Overlay)",
+    "Effects",
+    false
+  },
+  {
     "PostCropVignetteHighlightContrast",
     "Post Crop Vignette Highlight Contrast",
     "Effects",
