@@ -197,16 +197,24 @@ void MainContentComponent::paint(juce::Graphics& g) { //-V2009 overridden method
 void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value) {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
   last_command_ = juce::String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
-  command_table_model_.addRow(midi_channel, controller, true);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, true);
+  command_table_model_.addRow(midi_channel, controller, CC);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, CC);
   triggerAsyncUpdate();
 }
 
 void MainContentComponent::handleMidiNote(int midi_channel, int note) {
     // Display the Note parameters and add/highlight row in table corresponding to the Note
   last_command_ = juce::String::formatted("%d: Note [%d]", midi_channel, note);
-  command_table_model_.addRow(midi_channel, note, false);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, false);
+  command_table_model_.addRow(midi_channel, note, NOTE);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, NOTE);
+  triggerAsyncUpdate();
+}
+
+void MainContentComponent::handlePitchWheel(int midi_channel, int value) {
+    // Display the Pitch Wheel parameters and add/highlight row in table corresponding to the value
+  last_command_ = juce::String::formatted("%d: Pitch [%d]", midi_channel, value);
+  command_table_model_.addRow(midi_channel, midi_channel, PITCHBEND);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, midi_channel, PITCHBEND);
   triggerAsyncUpdate();
 }
 

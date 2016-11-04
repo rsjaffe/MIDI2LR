@@ -45,7 +45,7 @@ public:
     bool isRowSelected, juce::Component *existingComponentToUpdate) override;
 
   // adds a row with a corresponding MIDI message to the table
-  void addRow(int midi_channel, int midi_data, bool isCC);
+  void addRow(int midi_channel, int midi_data, MessageType msgType);
 
   // removes a row from the table
   void removeRow(size_t row);
@@ -57,7 +57,7 @@ public:
   void buildFromXml(const juce::XmlElement * const elem);
 
   // returns the index of the row associated to a particular MIDI message
-  size_t getRowForMessage(int midi_channel, int midi_data, bool isCC) const;
+  int getRowForMessage(int midi_channel, int midi_data, MessageType msgType) const;
 
 private:
   void Sort();

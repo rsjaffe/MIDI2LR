@@ -41,7 +41,7 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
       if (nrpn_filter_.IsReady(channel)) { //send when finished
         for (const auto listener : listeners_)
           listener->handleMidiCC(channel, nrpn_filter_.GetControl(channel),
-            nrpn_filter_.GetValue(channel));
+          nrpn_filter_.GetValue(channel));
         nrpn_filter_.Clear(channel);
       }
     }
@@ -51,8 +51,15 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
   }
   else if (message.isNoteOn()) {
     for (const auto listener : listeners_) {
-      listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
-    }
+		  listener->handleMidiNote(message.getChannel(), message.getNoteNumber());
+	  }
+  }
+  else if (message.isPitchWheel()) {
+    const auto value =
+      static_cast<unsigned short int>(message.getPitchWheelValue());
+	  for (auto listener : listeners_) {
+		  listener->handlePitchWheel(message.getChannel(), value);
+	  }
   }
 }
 
