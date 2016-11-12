@@ -103,7 +103,7 @@ private:
   std::unique_ptr<DialogWindow> settings_dialog_;
   juce::String last_command_;
   juce::TextButton load_button_{"Load"};
-  juce::TextButton remove_row_button_{"Remove selected row"};
+  juce::TextButton remove_row_button_{"Clear ALL rows"};
   juce::TextButton rescan_button_{"Rescan MIDI devices"};
   juce::TextButton save_button_{"Save"};
   juce::TextButton settings_button_{"Settings"};
