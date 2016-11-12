@@ -29,7 +29,7 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
 
   menus_({"Keyboard Shortcuts for User", "General", "Library", "Develop",
   "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
-  "Split Toning", "Detail", "Lens Corrections", "Effects", "Camera Calibration",
+  "Split Toning", "Detail", "Lens Corrections", "Transform", "Effects", "Camera Calibration",
   "Develop Presets", "Local Adjustments", "Crop", "Go to Tool, Module, or Panel",
   "Secondary Display", "Profiles", "Next/Prev Profile"}),
 
@@ -37,7 +37,7 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
   LRCommandList::Library, LRCommandList::Develop,
   LRCommandList::BasicAdjustments, LRCommandList::ToneCurve,
   LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning,
-  LRCommandList::Detail, LRCommandList::LensCorrections, LRCommandList::Effects,
+  LRCommandList::Detail, LRCommandList::LensCorrections, LRCommandList::Transform, LRCommandList::Effects,
   LRCommandList::Calibration, LRCommandList::DevelopPresets,
   LRCommandList::LocalAdjustments, LRCommandList::Crop,
   LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay,
