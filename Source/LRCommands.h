@@ -43,6 +43,7 @@ public:
   static const std::vector<std::string> SplitToning;
   static const std::vector<std::string> Detail;
   static const std::vector<std::string> LensCorrections;
+  static const std::vector<std::string> Transform;
   static const std::vector<std::string> Effects;
   static const std::vector<std::string> Calibration;
   static const std::vector<std::string> DevelopPresets;
