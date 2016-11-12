@@ -245,8 +245,9 @@ void MainContentComponent::buttonClicked(juce::Button* button) { //-V2009 overri
     }
   }
   else if (button == &remove_row_button_) {
-    if (command_table_.getSelectedRow() != -1) {
-      command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
+    if (command_table_.getNumRows() > 0) {
+      command_table_model_.removeAllRows();
+      //command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
       command_table_.updateContent();
     }
   }
