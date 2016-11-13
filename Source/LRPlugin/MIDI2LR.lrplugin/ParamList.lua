@@ -1802,6 +1802,7 @@
   UprightLevel = "lensCorrectionsPanel",
   UprightOff = "lensCorrectionsPanel",
   UprightVertical = "lensCorrectionsPanel",
+  UprightGuided = "lensCorrectionsPanel",
   Vibrance = "adjustPanel",
   VignetteAmount = "lensCorrectionsPanel",
   VignetteMidpoint = "lensCorrectionsPanel",
