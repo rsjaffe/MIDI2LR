@@ -43,14 +43,17 @@ private:
 
   juce::GroupComponent autohide_group_{};
   juce::GroupComponent pickup_group_{};
+  juce::GroupComponent version_group_{};
   juce::GroupComponent profile_group_{};
   juce::Label autohide_explain_label_{};
   juce::Label pickup_label_{"PickupLabel", ""};
+  juce::Label version_label_{ "VersionLabel", "" };
   juce::Label profile_location_label_{"Profile Label"};
   juce::Slider autohide_setting_;
   std::weak_ptr<SettingsManager> settings_manager_;
   juce::TextButton profile_location_button_{"Choose Profile Folder"};
   juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
+  juce::ToggleButton version_enabled_{ "Check for new version at startup" };
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

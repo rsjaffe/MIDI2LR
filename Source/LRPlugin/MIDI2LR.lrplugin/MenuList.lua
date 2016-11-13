@@ -590,6 +590,12 @@
     true
   },
   {
+    "AutoTone",
+    "Auto Tone",
+    "Basic Tone",
+    true
+  },
+  {
     "Temperature",
     "Temperature",
     "Basic Tone",
@@ -824,6 +830,24 @@
     true
   },
   {
+    "PointCurveLinear",
+    "Linear Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
+    "PointCurveMediumContrast",
+    "Medium Contrast Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
+    "PointCurveStrongContrast",
+    "Strong Contrast Point Curve",
+    "Tone Curve",
+    true
+  },
+  {
     "RevealPanelMixer",
     "Show Color Adjustments",
     "Color Adjustments",
@@ -880,6 +904,12 @@
   {
     "SaturationAdjustmentMagenta",
     "Saturation Adjustment Magenta",
+    "Color Adjustments",
+    false
+  },
+  {
+    "SaturationAdjustment",
+    "Saturation Adjustments",
     "Color Adjustments",
     false
   },
@@ -1084,6 +1114,12 @@
   {
     "ResetSaturationAdjustmentMagenta",
     "Reset Saturation Adjustment Magenta",
+    "Reset Color Adjustments",
+    true
+  },
+  {
+    "ResetSaturationAdjustment",
+    "Reset Saturation Adjustments",
     "Reset Color Adjustments",
     true
   },
@@ -1442,8 +1478,20 @@
     true
   },
   {
+    "RevealPanelTransform",
+    "Show Transform",
+    "Lens Corrections",
+    true
+  },
+  {
     "EnableLensCorrections",
     "Enable Lens Corrections",
+    "Lens Corrections",
+    true
+  },
+  {
+    "EnableTransform",
+    "Enable Transform",
     "Lens Corrections",
     true
   },
@@ -1468,6 +1516,12 @@
   {
     "UprightVertical",
     "Perspective Correction Vertical",
+    "Lens Corrections",
+    true
+  },
+  {
+    "UprightGuided",
+    "Perspective Correction Guided",
     "Lens Corrections",
     true
   },
@@ -1756,6 +1810,24 @@
   {
     "PostCropVignetteStyle",
     "Post Crop Vignette Style",
+    "Effects",
+    false
+  },
+  {
+    "PostCropVignetteStyleHighlightPriority",
+    "Post Crop Vignette Style (Highlight Priority)",
+    "Effects",
+    false
+  },
+  {
+    "PostCropVignetteStyleColorPriority",
+    "Post Crop Vignette Style (Color Priority)",
+    "Effects",
+    false
+  },
+  {
+    "PostCropVignetteStylePaintOverlay",
+    "Post Crop Vignette Style (Paint Overlay)",
     "Effects",
     false
   },

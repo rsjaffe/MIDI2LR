@@ -32,18 +32,20 @@ void VersionChecker::Init(std::weak_ptr<SettingsManager>&& settings_manager) noe
 }
 
 void VersionChecker::run() {
-  const juce::URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
-  const std::unique_ptr<juce::XmlElement> version_xml_element{version_url.readEntireXmlStream()};
-
-  if (version_xml_element != nullptr) {
-    int last_checked = 0;
-    if (auto smp = settings_manager_.lock())
-      last_checked = smp->getLastVersionFound();
-    new_version_ = version_xml_element->getIntAttribute("latest");
-    if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
-      if (auto smp = settings_manager_.lock())
-        smp->setLastVersionFound(new_version_);
-      triggerAsyncUpdate();
+	bool check = true; // check for new version by default
+	if (const auto smp = settings_manager_.lock()) {
+	  check = smp->getVersionEnabled();
+	}
+  if (check) {
+    const juce::URL version_url{ "http://rsjaffe.github.io/MIDI2LR/version.xml" };
+    const std::unique_ptr<juce::XmlElement> version_xml_element{ version_url.readEntireXmlStream() };
+    if (version_xml_element != nullptr) {
+      new_version_ = version_xml_element->getIntAttribute("latest");
+      if (new_version_ > ProjectInfo::versionNumber) {
+        if (const auto smp = settings_manager_.lock())
+          smp->setLastVersionFound(new_version_);
+        triggerAsyncUpdate();
+      }
     }
   }
 }

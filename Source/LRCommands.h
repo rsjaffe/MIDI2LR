@@ -43,6 +43,7 @@ public:
   static const std::vector<std::string> SplitToning;
   static const std::vector<std::string> Detail;
   static const std::vector<std::string> LensCorrections;
+  static const std::vector<std::string> Transform;
   static const std::vector<std::string> Effects;
   static const std::vector<std::string> Calibration;
   static const std::vector<std::string> DevelopPresets;
@@ -56,7 +57,7 @@ public:
   static const std::vector<std::string> NextPrevProfile;
 
   // Map of command strings to indices
-  static int getIndexOfCommand(const std::string& command);
+  static size_t getIndexOfCommand(const std::string& command);
 
 private:
   LRCommandList() noexcept;

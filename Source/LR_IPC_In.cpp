@@ -31,6 +31,7 @@ namespace {
   constexpr int kLrInPort = 58764;
   constexpr double kMaxMIDI = 127.0;
   constexpr double kMaxNRPN = 16383.0;
+  constexpr double kMaxPitchBendNRPN = 15300.0; // for iConQcon in Samplitude mode. ToDo: make the value user-editable!
   constexpr int kNotConnectedWait = 333;
   constexpr int kReadyWait = 0;
   constexpr int kStopWait = 1000;
@@ -49,7 +50,7 @@ LR_IPC_IN::~LR_IPC_IN() {
   juce::StreamingSocket::close();
 }
 
-void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command,
+void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command, //-V2009
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<MIDISender>& midi_sender) noexcept {
   command_map_ = map_command;
@@ -75,7 +76,7 @@ void LR_IPC_IN::run() {
       juce::Thread::wait(kNotConnectedWait);
     } //end if (is not connected)
     else {
-      char line[kBufferSize + 1] = {'\0'};//plus one for \0 at end
+      char line[kBufferSize + 1] = {' '};//plus one for \0 at end
       auto size_read = 0;
       auto can_read_line = true;
       // parse input until we have a line, then process that line, quit if
@@ -103,21 +104,21 @@ void LR_IPC_IN::run() {
       {
         std::string param{line};
         if (can_read_line && param.back() == '\n') {
-          processLine(param);
-        }
+        processLine(param);
+      }
       } //scope param
     dumpLine: /* empty statement */;
     } //end else (is connected)
   } //while not threadshouldexit
 threadExit: /* empty statement */;
-  std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+  std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
   timer_off_ = true;
   juce::Timer::stopTimer();
   //thread_started_ = false; //don't change flag while depending upon it
 }
 
 void LR_IPC_IN::timerCallback() {
-  std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+  std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
   if (!timer_off_ && !juce::StreamingSocket::isConnected()) {
     if (juce::StreamingSocket::connect(kHost, kLrInPort, kConnectTryTime))
       if (!thread_started_) {
@@ -145,25 +146,33 @@ void LR_IPC_IN::processLine(const std::string& line) {
       break;
     case 2: //SendKey
       {
-        std::bitset<3> modifiers{static_cast<decltype(modifiers)>
+      std::bitset<3> modifiers{static_cast<decltype(modifiers)>
           (std::stoi(value_string))};
         send_keys_.SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
           modifiers[0], modifiers[1], modifiers[2]);
         break;
-      }
+    }
     case 3: //TerminateApplication
       PleaseStopThread();
-      JUCEApplication::getInstance()->systemRequestedQuit();
+      juce::JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
       // send associated CC messages to MIDI OUT devices
       if (command_map_ && midi_sender_ ) {
         const auto original_value = std::stod(value_string);
         for (const auto msg : command_map_->getMessagesForCommand(command)) {
-          const auto value = static_cast<int>(round(
+          const auto value = static_cast<int>(round( //-V2003
             ((msg->controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
-          midi_sender_->sendCC(msg->channel, msg->controller, value);
+
+          if (midi_sender_) {
+			switch (msg->messageType)
+			{
+				case NOTE: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+				case CC: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+				case PITCHBEND: midi_sender_->sendPitchBend(msg->channel, static_cast<int>(round(original_value * kMaxPitchBendNRPN))); break;
+			}
+          }
         }
       }
+    }
   }
-}

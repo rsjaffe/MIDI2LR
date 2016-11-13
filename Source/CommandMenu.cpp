@@ -29,7 +29,7 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
 
   menus_({"Keyboard Shortcuts for User", "General", "Library", "Develop",
   "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
-  "Split Toning", "Detail", "Lens Corrections", "Effects", "Camera Calibration",
+  "Split Toning", "Detail", "Lens Corrections", "Transform", "Effects", "Camera Calibration",
   "Develop Presets", "Local Adjustments", "Crop", "Go to Tool, Module, or Panel",
   "Secondary Display", "Profiles", "Next/Prev Profile"}),
 
@@ -37,14 +37,14 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
   LRCommandList::Library, LRCommandList::Develop,
   LRCommandList::BasicAdjustments, LRCommandList::ToneCurve,
   LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning,
-  LRCommandList::Detail, LRCommandList::LensCorrections, LRCommandList::Effects,
+  LRCommandList::Detail, LRCommandList::LensCorrections, LRCommandList::Transform, LRCommandList::Effects,
   LRCommandList::Calibration, LRCommandList::DevelopPresets,
   LRCommandList::LocalAdjustments, LRCommandList::Crop,
   LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay,
   LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile})
 {}
 
-void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) {
+void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) { //-V2009
     //copy the pointer
   command_map_ = mapCommand;
   juce::Button::addListener(this);
@@ -54,7 +54,7 @@ void CommandMenu::setMsg(const MIDI_Message_ID& message) noexcept {
   message_ = message;
 }
 
-void CommandMenu::setSelectedItem(unsigned int index) {
+void CommandMenu::setSelectedItem(size_t index) {
   selected_item_ = index;
   if (index - 1 < LRCommandList::LRStringList.size())
     setButtonText(LRCommandList::LRStringList[index - 1]);
@@ -83,10 +83,10 @@ void CommandMenu::buttonClicked(juce::Button* /*button*/) {
       // disabling a previously mapped entry
 
       if (already_mapped)
-        subMenu.addColouredItem(index, command, juce::Colours::red, true,
+        subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
           index == selected_item_);
       else
-        subMenu.addItem(index, command, true, index == selected_item_);
+        subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_);
 
       index++;
     }
@@ -101,7 +101,7 @@ void CommandMenu::buttonClicked(juce::Button* /*button*/) {
   if ((result) && (command_map_)) {
       // user chose a different command, remove previous command mapping
       // associated to this menu
-    if (selected_item_ < std::numeric_limits<unsigned int>::max())
+    if (selected_item_ < std::numeric_limits<size_t>::max())
       command_map_->removeMessage(message_);
 
     if (result - 1 < LRCommandList::LRStringList.size())

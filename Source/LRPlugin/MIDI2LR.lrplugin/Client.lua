@@ -93,9 +93,41 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
+      local function UpdatePointCurve(settings)
+          return function()
+              CU.fChangePanel('tonePanel')
+              CU.ApplySettings(settings)
+          end
+      end
+
+    local MULTI_MIDI_TO_LR = {
+      SaturationAdjustment = {
+        'SaturationAdjustmentRed',
+        'SaturationAdjustmentOrange',
+        'SaturationAdjustmentYellow',
+        'SaturationAdjustmentGreen',
+        'SaturationAdjustmentAqua',
+        'SaturationAdjustmentBlue',
+        'SaturationAdjustmentPurple',
+        'SaturationAdjustmentMagenta'
+      },
+      ResetSaturationAdjustment = {
+        'SaturationAdjustmentRed',
+        'SaturationAdjustmentOrange',
+        'SaturationAdjustmentYellow',
+        'SaturationAdjustmentGreen',
+        'SaturationAdjustmentAqua',
+        'SaturationAdjustmentBlue',
+        'SaturationAdjustmentPurple',
+        'SaturationAdjustmentMagenta'
+      }
+    }
+
+    local MULTI_LR_TO_MIDI = {
+      SaturationAdjustmentRed = 'SaturationAdjustment'
+    }
+
     local ACTIONS = {
-      --   AddToQuickCollection     = CU.addToCollection('quick',LrApplication.activeCatalog():getTargetPhotos()),
-      --   AddToTargetCollection    = CU.addToCollection('target',LrApplication.activeCatalog():getTargetPhotos()),
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
@@ -111,6 +143,7 @@ LrTasks.startAsyncTask(
       EnableGradientBasedCorrections         = CU.fToggleTF('EnableGradientBasedCorrections'),
       EnableGrayscaleMix                     = CU.fToggleTF('EnableGrayscaleMix'),
       EnableLensCorrections                  = CU.fToggleTF('EnableLensCorrections'),
+      EnableTransform                        = CU.fToggleTF('EnableTransform'),
       EnablePaintBasedCorrections            = CU.fToggleTF('EnablePaintBasedCorrections'),
       EnableRedEye                           = CU.fToggleTF('EnableRedEye'),
       EnableRetouch                          = CU.fToggleTF('EnableRetouch'),
@@ -256,6 +289,7 @@ LrTasks.startAsyncTask(
       RevealPanelDetail        = CU.fChangePanel('detailPanel'), 
       RevealPanelEffects       = CU.fChangePanel('effectsPanel'),
       RevealPanelLens          = CU.fChangePanel('lensCorrectionsPanel'),
+      RevealPanelTransform     = CU.fChangePanel('transformPanel'),
       RevealPanelMixer         = CU.fChangePanel('mixerPanel'),
       RevealPanelSplit         = CU.fChangePanel('splitToningPanel'),
       RevealPanelTone          = CU.fChangePanel('tonePanel'),
@@ -304,6 +338,7 @@ LrTasks.startAsyncTask(
       UprightLevel             = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',3),
       UprightOff               = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
       UprightVertical          = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
+      UprightGuided            = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',5),
       VirtualCopy              = function() LrApplication.activeCatalog():createVirtualCopies() end,
       WhiteBalanceAs_Shot      = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
       WhiteBalanceAuto         = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto'),
@@ -313,10 +348,61 @@ LrTasks.startAsyncTask(
       WhiteBalanceFluorescent  = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
       WhiteBalanceShade        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
       WhiteBalanceTungsten     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      PostCropVignetteStyle    = CU.fToggle1ModN('PostCropVignetteStyle', 3),
+      PostCropVignetteStyleHighlightPriority = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
+      PostCropVignetteStyleColorPriority     = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
+      PostCropVignetteStylePaintOverlay      = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
+      AutoTone                 = function() Ut.wrapFOM(LrDevelopController.setValue,'AutoTone',true)(); CU.FullRefresh() end,
       ZoomInLargeStep          = LrApplicationView.zoomIn,
       ZoomInSmallStep          = LrApplicationView.zoomInSome,
       ZoomOutLargeStep         = LrApplicationView.zoomOut,
       ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
+      PointCurveLinear         = UpdatePointCurve({
+        ToneCurveName = "Linear",
+        ToneCurveName2012 = "Linear",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          255,
+          255,
+        }
+      }),
+      PointCurveMediumContrast = UpdatePointCurve({
+        ToneCurveName = "Medium Contrast",
+        ToneCurveName2012 = "Medium Contrast",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          32,
+          22,
+          64,
+          56,
+          128,
+          128,
+          192,
+          196,
+          255,
+          255,
+        }
+      }),
+      PointCurveStrongContrast = UpdatePointCurve({
+        ToneCurveName = "Strong Contrast",
+        ToneCurveName2012 = "Strong Contrast",
+        ToneCurvePV2012 = {
+          0,
+          0,
+          32,
+          16,
+          64,
+          50,
+          128,
+          128,
+          192,
+          202,
+          255,
+          255,
+        }
+      }),
     }
 
     local SETTINGS = {
@@ -423,9 +509,13 @@ LrTasks.startAsyncTask(
             for _,param in ipairs(ParamList.SendToMidi) do
               local lrvalue = LrDevelopController.getValue(param)
               if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-                MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
+                local val = LRValueToMIDIValue(param)
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, val))
                 observer[param] = lrvalue
                 LastParam = param
+                if(MULTI_LR_TO_MIDI[param]) then
+                  MIDI2LR.SERVER:send(string.format('%s %g\n', MULTI_LR_TO_MIDI[param], val))
+                end
               end
             end
           end
@@ -450,6 +540,18 @@ LrTasks.startAsyncTask(
           }
         end
 
+        local function multiReset(params)
+          for i, p in ipairs(params) do
+            LrDevelopController.resetToDefault(p)
+          end
+        end
+
+        local function multiUpdateParam(params, v)
+          for i, p in ipairs(params) do
+            UpdateParam(p, v)
+          end
+        end
+
         local client = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
@@ -463,11 +565,21 @@ LrTasks.startAsyncTask(
               if(ACTIONS[param]) then -- perform a one time action
                 if(tonumber(value) > BUTTON_ON) then ACTIONS[param]() end
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-                if(tonumber(value) > BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
+                if(tonumber(value) > BUTTON_ON) then
+                  if(MULTI_MIDI_TO_LR[param]) then
+                    Ut.execFOM(multiReset, MULTI_MIDI_TO_LR[param])
+                  else
+                    Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6))
+                  end
+                end
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter
-                guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
+                if(MULTI_MIDI_TO_LR[param]) then
+                  guardsetting:performWithGuard(multiUpdateParam, MULTI_MIDI_TO_LR[param],tonumber(value))
+                else
+                  guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
+                end
               end
             end
           end,

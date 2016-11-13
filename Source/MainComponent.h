@@ -61,6 +61,7 @@ public:
   // MIDICommandListener interface
   virtual void handleMidiCC(int midi_channel, int controller, int value) override;
   virtual void handleMidiNote(int midi_channel, int note) override;
+  virtual void handlePitchWheel(int midi_channel, int value) override;
 
   // LRConnectionListener interface
   virtual void connected() override;
@@ -86,7 +87,7 @@ private:
   CommandTable command_table_{"Table", nullptr};
   CommandTableModel command_table_model_{};
   juce::DropShadowEffect title_shadow_;
-  int row_to_select_;
+  size_t row_to_select_{0};
   juce::Label command_label_{"Command", ""};
   juce::Label connection_label_{"Connection", "Not connected to LR"};
   juce::Label current_status_{"CurrentStatus", "no extra info"};
@@ -102,7 +103,7 @@ private:
   std::unique_ptr<DialogWindow> settings_dialog_;
   juce::String last_command_;
   juce::TextButton load_button_{"Load"};
-  juce::TextButton remove_row_button_{"Remove selected row"};
+  juce::TextButton remove_row_button_{"Clear ALL rows"};
   juce::TextButton rescan_button_{"Rescan MIDI devices"};
   juce::TextButton save_button_{"Save"};
   juce::TextButton settings_button_{"Settings"};

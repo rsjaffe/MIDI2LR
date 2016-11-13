@@ -130,6 +130,7 @@ const std::vector<std::string> LRCommandList::BasicAdjustments = {
   "White Balance Fluorescent",
   "White Balance Shade",
   "White Balance Tungsten",
+  "Auto Tone",
   "Temperature",
   "Tint",
   "Exposure",
@@ -172,6 +173,9 @@ const std::vector<std::string> LRCommandList::ToneCurve = {
   "Reset Shadow Split",
   "Reset Midtone Split",
   "Reset Highlight Split",
+  "Linear Point Curve",
+  "Medium Contrast Point Curve",
+  "Strong Contrast Point Curve",
 };
 
 const std::vector<std::string> LRCommandList::Mixer = {
@@ -185,6 +189,7 @@ const std::vector<std::string> LRCommandList::Mixer = {
   "Saturation Adjustment Blue",
   "Saturation Adjustment Purple",
   "Saturation Adjustment Magenta",
+  "Saturation Adjustments",
   "Hue Adjustment Red",
   "Hue Adjustment Orange",
   "Hue Adjustment Yellow",
@@ -222,6 +227,7 @@ const std::vector<std::string> LRCommandList::ResetMixer = {
   "Reset Saturation Adjustment Blue",
   "Reset Saturation Adjustment Purple",
   "Reset Saturation Adjustment Magenta",
+  "Reset Saturation Adjustments",
   "Reset Hue Adjustment Red",
   "Reset Hue Adjustment Orange",
   "Reset Hue Adjustment Yellow",
@@ -291,12 +297,6 @@ const std::vector<std::string> LRCommandList::Detail = {
 const std::vector<std::string> LRCommandList::LensCorrections = {
   "Show Lens Corrections",
   "Enable Lens Corrections",
-  "Perspective Correction Off",
-  "Perspective Correction Auto",
-  "Perspective Correction Level",
-  "Perspective Correction Vertical",
-  "Perspective Correction Full",
-  "Reset Upright Settings",
   "Lens Profile Distortion Scale",
   "Lens Profile Chromatic Aberration Scale",
   "Lens Profile Vignetting Scale",
@@ -316,6 +316,23 @@ const std::vector<std::string> LRCommandList::LensCorrections = {
   "Reset Defringe Green Hue - Low",
   "Reset Defringe Green Hue - High",
   "Lens Manual Distortion Amount",
+  "Vignette Amount",
+  "Vignette Midpoint",
+  "Reset Lens Manual Distortion Amount",
+  "Reset Vignette Amount",
+  "Reset Vignette Midpoint",
+};
+
+const std::vector<std::string> LRCommandList::Transform = {
+  "Show Transform",
+  "Enable Transform",
+  "Perspective Correction Off",
+  "Perspective Correction Auto",
+  "Perspective Correction Level",
+  "Perspective Correction Vertical",
+  "Perspective Correction Guided",
+  "Perspective Correction Full",
+  "Reset Upright Settings",
   "Perspective Vertical",
   "Perspective Horizontal",
   "Perspective Rotate",
@@ -323,9 +340,6 @@ const std::vector<std::string> LRCommandList::LensCorrections = {
   "Perspective Aspect",
   "Perspective X",
   "Perspective Y",
-  "Vignette Amount",
-  "Vignette Midpoint",
-  "Reset Lens Manual Distortion Amount",
   "Reset Perspective Vertical",
   "Reset Perspective Horizontal",
   "Reset Perspective Rotate",
@@ -333,8 +347,6 @@ const std::vector<std::string> LRCommandList::LensCorrections = {
   "Reset Perspective Aspect",
   "Reset Perspective X",
   "Reset Perspective Y",
-  "Reset Vignette Amount",
-  "Reset Vignette Midpoint",
 };
 
 const std::vector<std::string> LRCommandList::Effects = {
@@ -346,6 +358,9 @@ const std::vector<std::string> LRCommandList::Effects = {
   "Post Crop Vignette Feather",
   "Post Crop Vignette Roundness",
   "Post Crop Vignette Style",
+  "Post Crop Vignette Style (Highlight Priority)",
+  "Post Crop Vignette Style (Color Priority)",
+  "Post Crop Vignette Style (Paint Overlay)",
   "Post Crop Vignette Highlight Contrast",
   "Grain Amount",
   "Grain Size",
@@ -643,6 +658,7 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "WhiteBalanceFluorescent",
   "WhiteBalanceShade",
   "WhiteBalanceTungsten",
+  "AutoTone",
   "Temperature",
   "Tint",
   "Exposure",
@@ -683,6 +699,9 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetParametricShadowSplit",
   "ResetParametricMidtoneSplit",
   "ResetParametricHighlightSplit",
+  "PointCurveLinear",
+  "PointCurveMediumContrast",
+  "PointCurveStrongContrast",
   /* Color Adjustments */
   "RevealPanelMixer",
   "EnableColorAdjustments",
@@ -694,6 +713,7 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "SaturationAdjustmentBlue",
   "SaturationAdjustmentPurple",
   "SaturationAdjustmentMagenta",
+  "SaturationAdjustment",
   "HueAdjustmentRed",
   "HueAdjustmentOrange",
   "HueAdjustmentYellow",
@@ -729,6 +749,7 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetSaturationAdjustmentBlue",
   "ResetSaturationAdjustmentPurple",
   "ResetSaturationAdjustmentMagenta",
+  "ResetSaturationAdjustment",
   "ResetHueAdjustmentRed",
   "ResetHueAdjustmentOrange",
   "ResetHueAdjustmentYellow",
@@ -792,12 +813,6 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   /* Lens Corrections */
   "RevealPanelLens",
   "EnableLensCorrections",
-  "UprightOff",
-  "UprightAuto",
-  "UprightLevel",
-  "UprightVertical",
-  "UprightFull",
-  "ResetPerspectiveUpright",
   "LensProfileDistortionScale",
   "LensProfileChromaticAberrationScale",
   "LensProfileVignettingScale",
@@ -817,6 +832,21 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetDefringeGreenHueLo",
   "ResetDefringeGreenHueHi",
   "LensManualDistortionAmount",
+  "VignetteAmount",
+  "VignetteMidpoint",
+  "ResetLensManualDistortionAmount",
+  "ResetVignetteAmount",
+  "ResetVignetteMidpoint",
+  /* Transform */
+  "RevealPanelTransform",
+  "EnableTransform",
+  "UprightOff",
+  "UprightAuto",
+  "UprightLevel",
+  "UprightVertical",
+  "UprightGuided",
+  "UprightFull",
+  "ResetPerspectiveUpright",
   "PerspectiveVertical",
   "PerspectiveHorizontal",
   "PerspectiveRotate",
@@ -824,9 +854,6 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "PerspectiveAspect",
   "PerspectiveX ",
   "PerspectiveY ",
-  "VignetteAmount",
-  "VignetteMidpoint",
-  "ResetLensManualDistortionAmount",
   "ResetPerspectiveVertical",
   "ResetPerspectiveHorizontal",
   "ResetPerspectiveRotate",
@@ -834,8 +861,6 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "ResetPerspectiveAspect",
   "ResetPerspectiveX",
   "ResetPerspectiveY",
-  "ResetVignetteAmount",
-  "ResetVignetteMidpoint",
   /* Effects */
   "RevealPanelEffects",
   "EnableEffects",
@@ -845,6 +870,9 @@ const std::vector<std::string> LRCommandList::LRStringList = {
   "PostCropVignetteFeather",
   "PostCropVignetteRoundness",
   "PostCropVignetteStyle",
+  "PostCropVignetteStyleHighlightPriority",
+  "PostCropVignetteStyleColorPriority",
+  "PostCropVignetteStylePaintOverlay",
   "PostCropVignetteHighlightContrast",
   "GrainAmount",
   "GrainSize",
@@ -1031,12 +1059,12 @@ const std::vector <std::string> LRCommandList::NextPrevProfile = {
   "Next Profile",
 };
 
-int LRCommandList::getIndexOfCommand(const std::string& command) {
-  static std::unordered_map<std::string, int> indexMap;
+size_t LRCommandList::getIndexOfCommand(const std::string& command) {
+  static std::unordered_map<std::string, size_t> indexMap;
 
   // better to check for empty then length, as empty has a constant run time behavior.
   if (indexMap.empty()) {
-    int idx = 0;
+    size_t idx = 0;
     for (const auto& str : LRStringList)
       indexMap[str] = idx++;
 

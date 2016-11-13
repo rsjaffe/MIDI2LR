@@ -54,7 +54,7 @@ MainContentComponent::~MainContentComponent() {}
 void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
   std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-  std::shared_ptr<MIDIProcessor>& midi_processor,
+  std::shared_ptr<MIDIProcessor>& midi_processor, //-V2009
   std::shared_ptr<ProfileManager>& profile_manager,
   std::shared_ptr<SettingsManager>& settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
@@ -190,29 +190,37 @@ void MainContentComponent::Init(std::shared_ptr<CommandMap>& command_map,
   activateLayout();
 }
 
-void MainContentComponent::paint(juce::Graphics& g) {
+void MainContentComponent::paint(juce::Graphics& g) { //-V2009 overridden method
   g.fillAll(juce::Colours::white);
 }
 
 void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value) {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
   last_command_ = juce::String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
-  command_table_model_.addRow(midi_channel, controller, true);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, true);
+  command_table_model_.addRow(midi_channel, controller, CC);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, CC);
   triggerAsyncUpdate();
 }
 
 void MainContentComponent::handleMidiNote(int midi_channel, int note) {
     // Display the Note parameters and add/highlight row in table corresponding to the Note
   last_command_ = juce::String::formatted("%d: Note [%d]", midi_channel, note);
-  command_table_model_.addRow(midi_channel, note, false);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, false);
+  command_table_model_.addRow(midi_channel, note, NOTE);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, NOTE);
+  triggerAsyncUpdate();
+}
+
+void MainContentComponent::handlePitchWheel(int midi_channel, int value) {
+    // Display the Pitch Wheel parameters and add/highlight row in table corresponding to the value
+  last_command_ = juce::String::formatted("%d: Pitch [%d]", midi_channel, value);
+  command_table_model_.addRow(midi_channel, midi_channel, PITCHBEND);
+  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, midi_channel, PITCHBEND);
   triggerAsyncUpdate();
 }
 
 void MainContentComponent::connected() {
   connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
-  connection_label_.setColour(juce::Label::backgroundColourId, Colours::greenyellow);
+  connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
 }
 
 void MainContentComponent::disconnected() {
@@ -220,7 +228,7 @@ void MainContentComponent::disconnected() {
   connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
 }
 
-void MainContentComponent::buttonClicked(juce::Button* button) {
+void MainContentComponent::buttonClicked(juce::Button* button) { //-V2009 overridden method
   if (button == &rescan_button_) {
       // Re-enumerate MIDI IN and OUT devices
 
@@ -237,13 +245,14 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
     }
   }
   else if (button == &remove_row_button_) {
-    if (command_table_.getSelectedRow() != -1) {
-      command_table_model_.removeRow(command_table_.getSelectedRow());
+    if (command_table_.getNumRows() > 0) {
+      command_table_model_.removeAllRows();
+      //command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
       command_table_.updateContent();
     }
   }
   else if (button == &save_button_) {
-    File profile_directory;
+    juce::File profile_directory;
 
     if (settings_manager_) {
       profile_directory = settings_manager_->getProfileDirectory();
@@ -310,10 +319,10 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
     juce::DialogWindow::LaunchOptions dialog_options;
     dialog_options.dialogTitle = "Settings";
     //create new object
-    auto *component = new SettingsComponent{};
+    auto* const component = new SettingsComponent{};
     component->Init(settings_manager_);
     dialog_options.content.setOwned(component);
-    dialog_options.content->setSize(400, 300);
+    dialog_options.content->setSize(400, 400);
     dialog_options.escapeKeyTriggersCloseButton = true;
     dialog_options.useNativeTitleBar = false;
     settings_dialog_.reset(dialog_options.create());
@@ -321,7 +330,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) {
   }
 }
 
-void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name) {
+void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name) { //-V2009 overridden method
   command_table_model_.buildFromXml(xml_element);
   command_table_.updateContent();
   command_table_.repaint();
@@ -358,7 +367,7 @@ void MainContentComponent::handleAsyncUpdate() {
 
   // Update the command table to add and/or select row corresponding to midi command
   command_table_.updateContent();
-  command_table_.selectRow(row_to_select_);
+  command_table_.selectRow(static_cast<int>(row_to_select_));
 }
 
 void MainContentComponent::timerCallback() {

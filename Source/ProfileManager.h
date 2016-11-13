@@ -69,12 +69,14 @@ public:
   // MIDICommandListener interface
   virtual void handleMidiCC(int midi_channel, int controller, int value) override;
   virtual void handleMidiNote(int midi_channel, int note) override;
+  virtual void handlePitchWheel(int midi_channel, int value) override;
 
   // LRConnectionListener interface
   virtual void connected() override;
   virtual void disconnected() override;
 
 private:
+	void mapCommand(MIDI_Message_ID msg);
   // AsyncUpdate interface
   virtual void handleAsyncUpdate() override;
   enum class SWITCH_STATE {
@@ -92,7 +94,7 @@ private:
   std::vector<ProfileChangeListener *> listeners_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::vector<juce::String> profiles_;
-  SWITCH_STATE switch_state_;
+  SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED
