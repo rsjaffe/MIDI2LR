@@ -23,13 +23,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define COMMANDTABLE_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "CommandTableModel.h"
 
 class CommandTable final: public juce::TableListBox {
 public:
-  CommandTable(const juce::String& component_name, juce::TableListBoxModel *model);
+  CommandTable(const juce::String& component_name, CommandTableModel *model);
 
 private:
-
+  virtual bool keyPressed(const KeyPress &k) override;
     //==============================================================================
   JUCE_DECLARE_NON_COPYABLE(CommandTable)
 };

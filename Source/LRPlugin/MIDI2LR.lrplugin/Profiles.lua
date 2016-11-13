@@ -243,6 +243,11 @@ local function StartDialog(obstable,f)
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           }, 
           f:row {
+            f:static_text{title = ProfileTypes.transformPanel.friendlyName, width = LrView.share('profile_label'),},
+            f:edit_field{ value = LrView.bind ('TransformPanelPanel'), width = LrView.share('profile_value'),
+              width_in_chars = 15, auto_completion = auto_completion, completion = completion},
+          },
+          f:row {
             f:static_text{title = ProfileTypes.effectsPanel.friendlyName, width = LrView.share('profile_label'),},
             f:edit_field{ value = LrView.bind ('ProfileeffectsPanel'), width = LrView.share('profile_value'), 
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},

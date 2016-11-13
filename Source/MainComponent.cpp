@@ -245,8 +245,9 @@ void MainContentComponent::buttonClicked(juce::Button* button) { //-V2009 overri
     }
   }
   else if (button == &remove_row_button_) {
-    if (command_table_.getSelectedRow() != -1) {
-      command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
+    if (command_table_.getNumRows() > 0) {
+      command_table_model_.removeAllRows();
+      //command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
       command_table_.updateContent();
     }
   }
@@ -321,7 +322,7 @@ void MainContentComponent::buttonClicked(juce::Button* button) { //-V2009 overri
     auto* const component = new SettingsComponent{};
     component->Init(settings_manager_);
     dialog_options.content.setOwned(component);
-    dialog_options.content->setSize(400, 300);
+    dialog_options.content->setSize(400, 400);
     dialog_options.escapeKeyTriggersCloseButton = true;
     dialog_options.useNativeTitleBar = false;
     settings_dialog_.reset(dialog_options.create());

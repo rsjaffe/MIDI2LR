@@ -97,6 +97,10 @@ local function StartDialog(obstable,f)
         action = set_reset (ParamList.SelectivePasteGroups.lensCorrectionsPanel),  
       }, --push button      
       f:push_button {
+        title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Transform=Transform"),
+        action = set_reset (ParamList.SelectivePasteGroups.transformPanel),
+      }, --push button
+      f:push_button {
         title = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects"),
         action = set_reset (ParamList.SelectivePasteGroups.effectsPanel),   
       }, --push button
