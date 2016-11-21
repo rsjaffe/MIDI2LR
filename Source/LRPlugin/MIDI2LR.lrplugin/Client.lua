@@ -311,6 +311,7 @@ LrTasks.startAsyncTask(
       UprightLevel             = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',3),
       UprightOff               = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
       UprightVertical          = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
+      UprightGuided            = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',5),
       VirtualCopy              = function() LrApplication.activeCatalog():createVirtualCopies() end,
       WhiteBalanceAs_Shot      = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
       WhiteBalanceAuto         = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto'),

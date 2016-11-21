@@ -1508,6 +1508,12 @@
     true
   },
   {
+    "UprightGuided",
+    "Perspective Correction Guided",
+    "Lens Corrections",
+    true
+  },
+  {
     "UprightFull",
     "Perspective Correction Full",
     "Lens Corrections",
