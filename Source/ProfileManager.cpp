@@ -81,16 +81,18 @@ void ProfileManager::switchToProfile(const juce::String& profile) {
 
   if (profile_file.exists()) {
     std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
-    for (const auto& listener : listeners_)
-      listener->profileChanged(xml_element.get(), profile);
+    if (xml_element) {
+      for (const auto& listener : listeners_)
+        listener->profileChanged(xml_element.get(), profile);
 
-    if (const auto ptr = lr_ipc_out_.lock()) {
-      std::string command = "ChangedToDirectory " +
-        juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
-        '\n';
-      ptr->sendCommand(command);
-      command = "ChangedToFile " + profile.toStdString() + '\n';
-      ptr->sendCommand(command);
+      if (const auto ptr = lr_ipc_out_.lock()) {
+        std::string command = "ChangedToDirectory " +
+          juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+          '\n';
+        ptr->sendCommand(command);
+        command = "ChangedToFile " + profile.toStdString() + '\n';
+        ptr->sendCommand(command);
+      }
     }
   }
 }
