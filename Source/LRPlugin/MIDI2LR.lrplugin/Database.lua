@@ -212,6 +212,9 @@ local DataBase = {
   --develop: views
   {"ShoVwdevelop_loupe",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe"),develop,"*button*"},
   {"ProcessVersion",'basicTone',true,false,false,true,false,LOC("$$$/AgDevelop/Menu/ProcessVersion=Process Version")},
+  --
+  --develop: basic tone panel
+  --
   {"WhiteBalance",'basicTone',true,false,false,true,false,whiteBalance},
   {"RevealPanelAdjust",false,false,true,false,true,false,show..' '..basicTone,basicTone,"Open Basic Adjustments Panel in Develop Module. *button*"},
   {"WhiteBalanceAs_Shot",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/AsShot=As Shot"),basicTone,"Use Temperature and Tint as determined by camera. *button*",'adjustPanel'},
@@ -259,6 +262,9 @@ local DataBase = {
   {"ResetClarity",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Clarity=Clarity"),basicTone,"Reset to default. *button*",'adjustPanel'},
   {"ResetVibrance",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawUI/Vibrance=Vibrance"),basicTone,"Reset to default. *button*",'adjustPanel'},
   {"ResetSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawUI/Saturation=Saturation"),basicTone,"Reset to default. *button*",'adjustPanel'},
+--
+--develop: tone curve panel
+--
   {"RevealPanelTone",false,false,true,false,true,false,show..' '..toneCurve,toneCurve,"Open Tone Curve Panel in Develop Module. *button*"},
   {"EnableToneCurve",'toneCurve',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableToneCurve=Enable Tone Curve"),toneCurve,"Enable or disable tone curve. *button*",'tonePanel'},
   {"ToneCurve",'toneCurve',true,false,false,true,false,toneCurve},
@@ -285,6 +291,9 @@ local DataBase = {
   {"PointCurveLinear",false,false,true,false,true,false,toneCurve..' '..LOC("$$$/CRaw/ToneCurvePreset/Linear=Linear"),toneCurve,"Linear Point Curve. *button*",'tonePanel'},
   {"PointCurveMediumContrast",false,false,true,false,true,false,toneCurve..' '..LOC("$$$/CRaw/ToneCurvePreset/MediumContrast=Medium Contrast"),toneCurve,"Medium Contrast Point Curve. *button*",'tonePanel'},
   {"PointCurveStrongContrast",false,false,true,false,true,false,toneCurve..' '..LOC("$$$/CRaw/ToneCurvePreset/StrongContrast=Strong Contrast"),toneCurve,"Strong Contrast Point Curve. *button*",'tonePanel'},
+--
+--develop: mixer panel
+--
   {"RevealPanelMixer",false,false,true,false,true,false,show..' '..colorAdjustments,colorAdjustments,"Open Mixer Panel in Develop Module. *button*"},
   {"EnableColorAdjustments",'colorAdjustments',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableColorAdjustments=Enable Color Adjustments"),colorAdjustments,"Enable or disable color adjustments. *button*",'mixerPanel'},
   {"SaturationAdjustmentRed",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentRed=Saturation Adjustment Red"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
@@ -353,6 +362,9 @@ local DataBase = {
   {"ResetGrayMixerBlue",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerBlue=Gray Mixer Blue"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetGrayMixerPurple",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerPurple=Gray Mixer Purple"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetGrayMixerMagenta",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrayMixerMagenta=Gray Mixer Magenta"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
+--
+--develop: split toning panel
+--
   {"RevealPanelSplit",false,false,true,false,true,false,show..' '..splitToning,splitToning,"Open Split Toning Panel in Develop Module. *button*"},
   {"EnableSplitToning",'splitToningPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSplitToning=Enable Split Toning"),splitToning,"Enable or disable split toning effects. *button*",'splitToningPanel'},
   {"SplitToningShadowHue",'splitToningPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningShadowHue=Shadow Hue"),splitToning,"Color of the tone for shadows.",'splitToningPanel'},
@@ -365,6 +377,9 @@ local DataBase = {
   {"ResetSplitToningHighlightHue",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightHue=Highlight Hue"),splitToning,"Reset to default. *button*",'splitToningPanel'},
   {"ResetSplitToningHighlightSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningHighlightSaturation=Highlight Saturation"),splitToning,"Reset to default. *button*",'splitToningPanel'},
   {"ResetSplitToningBalance",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SplitToningBalance=Split Toning Balance"),splitToning,"Reset to default. *button*",'splitToningPanel'},
+--
+--develop: detail panel
+--
   {"RevealPanelDetail",false,false,true,false,true,false,show..' '..detail,detail,"Open Detail Panel in Develop Module. *button*"},
   {"EnableDetail",'detailPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableDetail=Enable Detail"),detail,"Enable or disable noise reduction and sharpening. *button*",'detailPanel'},
   {"Sharpness",'detailPanel',true,true,true,false,false,LOC("$$$/AgDevelop/Localized/Sharpness=Sharpness"),detail,"Adjusts edge definition. Increase the Amount value to increase sharpening. A value of zero (0) turns off sharpening. In general, set Amount to a lower value for cleaner images. The adjustment locates pixels that differ from surrounding pixels based on the threshold you specify and increases the pixelsâ€™ contrast by the amount you specify.",'detailPanel'},
@@ -387,10 +402,11 @@ local DataBase = {
   {"ResetColorNoiseReduction",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReduction=Color Noise Reduction"),detail,"Reset to default. *button*",'detailPanel'},
   {"ResetColorNoiseReductionDetail",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReductionDetail=Color Noise Reduction Detail"),detail,"Reset to default. *button*",'detailPanel'},
   {"ResetColorNoiseReductionSmoothness",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ColorNoiseReductionSmoothness=Color Noise Reduction Smoothness"),detail,"Reset to default. *button*",'detailPanel'},
+--
+--develop: lens corrections panel
+--
   {"RevealPanelLens",false,false,true,false,true,false,show..' '..lensCorrections,lensCorrections,"Open Lens Corrections Panel in Develop Module. *button*"},
-  {"RevealPanelTransform",false,false,true,false,true,false,show..' '..transform,lensCorrections,"Open Transform Panel in Develop Module. *button*"},
   {"EnableLensCorrections",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableLensCorrections=Enable Lens Corrections"),lensCorrections,"Enable or disable all lens corrections. *button*",'lensCorrectionsPanel'},
-  {"EnableTransform",'transformPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableTransform=Enable Transform"),lensCorrections,"Enable or disable all tranforms. *button*",'transformPanel'},
   -- LR not responding to this, so leave in selective paste, take out of LR commands
   {"LensProfileEnable",'lensCorrectionsPanel',true,false,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Lens Profile Enable")},
   {"LensProfileSetup",'lensCorrectionsPanel',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileSetup=Lens Profile Setup")},
@@ -398,14 +414,6 @@ local DataBase = {
   {"AutoLateralCA",'lensCorrectionsPanel',true,false,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration")},
   {"ChromaticAberrationB",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationB=Blue Chromatic Aberration")},
   {"ChromaticAberrationR",'lensCorrectionsPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ChromaticAberrationR=Red Chromatic Aberration")},
-  {"PerspectiveUpright",'transformPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveUpright=Perspective Upright")},
-  {"UprightOff",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueOff=Off"),lensCorrections,"Upright mode off. *button*",'transformPanel'},
-  {"UprightAuto",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueAuto=Auto"),lensCorrections,"Balanced level, aspect ratio, and perspective corrections. *button*",'transformPanel'},
-  {"UprightLevel",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueLevel=Level"),lensCorrections,"Perspective corrections are weighted toward horizontal details. *button*",'transformPanel'},
-  {"UprightVertical",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueLevelVertical=Vertical"),lensCorrections,"Perspective corrections are weighted toward vertical details. *button*",'transformPanel'},
-  {"UprightGuided",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueLevelGuided=Guided"),lensCorrections,"Perspective corrections guide by drawing lines. *button*",'transformPanel'},
-  {"UprightFull",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueFull=Full"),lensCorrections,"Combination of full Level, Vertical, and Auto perspective corrections. *button*",'transformPanel'},
-  {"ResetPerspectiveUpright",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/ResetUprightSettings=Reset Upright Settings"),lensCorrections,"Reset to default. *button*",'transformPanel'},
   {"LensProfileDistortionScale",'lensCorrectionsPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileDistortionScale=Lens Profile Distortion Scale"),lensCorrections,"The default value 100 applies 100% of the distortion correction in the profile. Values over 100 apply greater correction to the distortion; values under 100 apply less correction to the distortion.",'lensCorrectionsPanel'},
   {"LensProfileChromaticAberrationScale",'lensCorrectionsPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileChromaticAberrationScale=Lens Profile Chromatic Aberration Scale"),lensCorrections,"The default value 100 applies 100% of the chromatic aberration correction in the profile. Values over 100 apply greater correction to color fringing; values under 100 apply less correction to color fringing.",'lensCorrectionsPanel'},
   {"LensProfileVignettingScale",'lensCorrectionsPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileVignettingScale=Lens Profile Vignetting Scale"),lensCorrections,"The default value 100 applies 100% of the vignetting correction in the profile. Values over 100 apply greater correction to vignetting; values under 100 apply less correction to vignetting.",'lensCorrectionsPanel'},
@@ -425,25 +433,41 @@ local DataBase = {
   {"ResetDefringeGreenHueLo",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenDefringeHueLo=Defringe Green Hue")..' - '..LOC("$$$/Slideshow/Panels/PanAndZoom/Low=Low"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
   {"ResetDefringeGreenHueHi",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenDefringeHueLo=Defringe Green Hue")..' - '..LOC("$$$/Slideshow/Panels/PanAndZoom/High=High"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
   {"LensManualDistortionAmount",'lensCorrectionsPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensManualDistortionAmount=Lens Manual Distortion Amount"),lensCorrections,"Drag to the right to correct barrel distortion and straighten lines that bend away from the center. Drag to the left to correct pincushion distortion and straighten lines that bend toward the center.",'lensCorrectionsPanel'},
-  {"PerspectiveVertical",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveVertical=Perspective Vertical"),lensCorrections,"Corrects perspective caused by tilting the camera up or down. Makes vertical lines appear parallel.",'transformPanel'},
-  {"PerspectiveHorizontal",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveHorizontal=Perspective Horizontal"),lensCorrections,"Corrects perspective caused by angling the camera left or right. Makes horizontal lines parallel.",'transformPanel'},
-  {"PerspectiveRotate",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveRotate=Perspective Rotate"),lensCorrections,"Corrects for camera tilt. Uses the center of the original, uncropped photo as the axis of rotation.",'transformPanel'},
-  {"PerspectiveScale",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveScale=Perspective Scale"),lensCorrections,"Adjusts the image scale up or down. Helps to remove empty areas caused by perspective corrections and distortions. Displays areas of the image that extend beyond the crop boundary.",'transformPanel'},
-  {"PerspectiveAspect",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect"),lensCorrections,"Adjusts the amount the image is stretched horizontally or vertically.",'transformPanel'},
-  {"PerspectiveX ",'transformPanel',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveX=Perspective X"),lensCorrections,"Moves the center of the image laterally.",'transformPanel'},
-  {"PerspectiveY ",'transformPanel',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveY=Perspective Y"),lensCorrections,"Moves the center of the image vertically.",'transformPanel'},
   {"VignetteAmount",'lensCorrectionsPanel',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteAmount=Vignette Amount"),lensCorrections,"Sets the amount of lightening or darkening along the edges of an image. Corrects images that have darkened corners caused by lens faults or improper lens shading.",'lensCorrectionsPanel'},
   {"VignetteMidpoint",'lensCorrectionsPanel',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteMidpoint=Vignette Midpoint"),lensCorrections,"Specifies the width of area affected by the Amount slider. Specify a lower number to affect more of the image. Specify a higher number to restrict the effect to the edges of the image.",'lensCorrectionsPanel'},
   {"ResetLensManualDistortionAmount",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensManualDistortionAmount=Lens Manual Distortion Amount"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
-  {"ResetPerspectiveVertical",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveVertical=Perspective Vertical"),lensCorrections,"Reset to default. *button*",'transformPanel'},
-  {"ResetPerspectiveHorizontal",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveHorizontal=Perspective Horizontal"),lensCorrections,"Reset to default. *button*",'transformPanel'},
-  {"ResetPerspectiveRotate",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveRotate=Perspective Rotate"),lensCorrections,"Reset to default. *button*",'transformPanel'},
-  {"ResetPerspectiveScale",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveScale=Perspective Scale"),lensCorrections,"Reset to default. *button*",'transformPanel'},
-  {"ResetPerspectiveAspect",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect"),lensCorrections,"Reset to default. *button*",'transformPanel'},
-  {"ResetPerspectiveX",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveX=Perspective X"),lensCorrections,"Reset to default. *button*",'transformPanel'},
-  {"ResetPerspectiveY",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveY=Perspective Y"),lensCorrections,"Reset to default. *button*",'transformPanel'},
   {"ResetVignetteAmount",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteAmount=Vignette Amount"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
   {"ResetVignetteMidpoint",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/VignetteMidpoint=Vignette Midpoint"),lensCorrections,"Reset to default. *button*",'lensCorrectionsPanel'},
+--
+--develop: transform panel menu
+--
+  {"RevealPanelTransform",false,false,true,false,true,false,show..' '..transform,transform,"Open Transform Panel in Develop Module. *button*"},
+  {"EnableTransform",'transformPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableTransform=Enable Transform"),transform,"Enable or disable all tranforms. *button*",'transformPanel'},
+  {"PerspectiveUpright",'transformPanel',true,false,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveUpright=Perspective Upright")},
+  {"UprightOff",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueOff=Off"),transform,"Upright mode off. *button*",'transformPanel'},
+  {"UprightAuto",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueAuto=Auto"),transform,"Balanced level, aspect ratio, and perspective corrections. *button*",'transformPanel'},
+  {"UprightLevel",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueLevel=Level"),transform,"Perspective corrections are weighted toward horizontal details. *button*",'transformPanel'},
+  {"UprightVertical",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueLevelVertical=Vertical"),transform,"Perspective corrections are weighted toward vertical details. *button*",'transformPanel'},
+  {"UprightGuided",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueLevelGuided=Guided"),transform,"Perspective corrections guide by drawing lines. *button*",'transformPanel'},
+  {"UprightFull",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/UprightPerspectiveCorrection=Perspective Correction")..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ValueFull=Full"),transform,"Combination of full Level, Vertical, and Auto perspective corrections. *button*",'transformPanel'},
+  {"ResetPerspectiveUpright",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/ResetUprightSettings=Reset Upright Settings"),transform,"Reset to default. *button*",'transformPanel'},
+  {"PerspectiveVertical",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveVertical=Perspective Vertical"),transform,"Corrects perspective caused by tilting the camera up or down. Makes vertical lines appear parallel.",'transformPanel'},
+  {"PerspectiveHorizontal",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveHorizontal=Perspective Horizontal"),transform,"Corrects perspective caused by angling the camera left or right. Makes horizontal lines parallel.",'transformPanel'},
+  {"PerspectiveRotate",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveRotate=Perspective Rotate"),transform,"Corrects for camera tilt. Uses the center of the original, uncropped photo as the axis of rotation.",'transformPanel'},
+  {"PerspectiveScale",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveScale=Perspective Scale"),transform,"Adjusts the image scale up or down. Helps to remove empty areas caused by perspective corrections and distortions. Displays areas of the image that extend beyond the crop boundary.",'transformPanel'},
+  {"PerspectiveAspect",'transformPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect"),transform,"Adjusts the amount the image is stretched horizontally or vertically.",'transformPanel'},
+  {"PerspectiveX ",'transformPanel',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveX=Perspective X"),transform,"Moves the center of the image laterally.",'transformPanel'},
+  {"PerspectiveY ",'transformPanel',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveY=Perspective Y"),transform,"Moves the center of the image vertically.",'transformPanel'},
+  {"ResetPerspectiveVertical",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveVertical=Perspective Vertical"),transform,"Reset to default. *button*",'transformPanel'},
+  {"ResetPerspectiveHorizontal",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveHorizontal=Perspective Horizontal"),transform,"Reset to default. *button*",'transformPanel'},
+  {"ResetPerspectiveRotate",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveRotate=Perspective Rotate"),transform,"Reset to default. *button*",'transformPanel'},
+  {"ResetPerspectiveScale",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveScale=Perspective Scale"),transform,"Reset to default. *button*",'transformPanel'},
+  {"ResetPerspectiveAspect",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect"),transform,"Reset to default. *button*",'transformPanel'},
+  {"ResetPerspectiveX",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveX=Perspective X"),transform,"Reset to default. *button*",'transformPanel'},
+  {"ResetPerspectiveY",false,false,true,false,true,true,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveY=Perspective Y"),transform,"Reset to default. *button*",'transformPanel'},
+--
+--develop: effects panel
+--
   {"RevealPanelEffects",false,false,true,false,true,false,show..' '..effects,effects,"Open Effects Panel in Develop Module. *button*"},
   {"EnableEffects",'effectsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableEffects=Enable Effects"),effects,"Enable or disable effects. *button*",'effectsPanel'},
   {"Dehaze",'effectsPanel',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount"),effects,"Controls the amount of haze in a photograph. Drag to the right to remove haze; drag to the left to add haze.",'effectsPanel'},
@@ -469,6 +493,9 @@ local DataBase = {
   {"ResetGrainAmount",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainAmount=Grain Amount"),effects,"Reset to default. *button*",'effectsPanel'},
   {"ResetGrainSize",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainSize=Grain Size"),effects,"Reset to default. *button*",'effectsPanel'},
   {"ResetGrainFrequency",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainRoughness=Grain Roughness"),effects,"Reset to default. *button*",'effectsPanel'},
+--
+--develop: calibration panel
+--
   {"RevealPanelCalibrate",false,false,true,false,true,false,show..' '..calibration,calibration,"Open Camera Calibration Panel in Develop Module. *button*"},
   {"EnableCalibration",'calibratePanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableCalibration=Enable Calibration"),calibration,"Enable or disable custom camera calibration. *button*",'calibratePanel'},
   {"CameraProfile",'calibratePanel',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CameraProfile=Camera Profile")},
@@ -507,6 +534,9 @@ local DataBase = {
   {"ResetGreenSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GreenSaturationCalibration=Green Saturation Calibration"),calibration,"Reset to default. *button*",'calibratePanel'},
   {"ResetBlueHue",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueHueCalibration=Blue Hue Calibration"),calibration,"Reset to default. *button*",'calibratePanel'},
   {"ResetBlueSaturation",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/BlueSaturationCalibration=Blue Saturation Calibration"),calibration,"Reset to default. *button*",'calibratePanel'},
+--
+--develop: develop presets
+--
   {"Preset_1",false,false,true,false,true,false,developPreset.." 1",developPresets,"Apply preset 1 to active photo only. *button*"},
   {"Preset_2",false,false,true,false,true,false,developPreset.." 2",developPresets,"Apply preset 2 to active photo only. *button*"},
   {"Preset_3",false,false,true,false,true,false,developPreset.." 3",developPresets,"Apply preset 3 to active photo only. *button*"},
@@ -547,7 +577,9 @@ local DataBase = {
   {"Preset_38",false,false,true,false,true,false,developPreset.." 38",developPresets,"Apply preset 38 to active photo only. *button*"},
   {"Preset_39",false,false,true,false,true,false,developPreset.." 39",developPresets,"Apply preset 39 to active photo only. *button*"},
   {"Preset_40",false,false,true,false,true,false,developPreset.." 40",developPresets,"Apply preset 40 to active photo only. *button*"},
-  --develop: spot and brush
+--
+--develop: localized adjustments
+--
   {"GraduatedFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),localizedAdjustments,"Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"RadialFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),localizedAdjustments,"Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"RedEyeInfo",'localizedAdjustments',true,false,false,true,false,LOC("$$$/MIDI2LR/Parameters/RedEyeInfo=Red-Eye Information")},{"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),localizedAdjustments,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
@@ -662,14 +694,14 @@ for i,v in ipairs(DataBase) do
           SelectivePasteGroups[v[2]] = {}
         end
         table.insert(SelectivePasteGroups[v[2]],v[1])
-      end
-    else
-      SelectivePasteHidden[v[1]] = v[8]
     end
+  else
+    SelectivePasteHidden[v[1]] = v[8]
   end
-  if v[11] then
-    ProfileMap[v[1]] = v[11]
-  end
+end
+if v[11] then
+  ProfileMap[v[1]] = v[11]
+end
 end
 
 local serpent = require 'serpent'
@@ -828,6 +860,7 @@ local cppvectors ={
   [secondaryDisplay]={'SecondaryDisplay',secondaryDisplay},
   [splitToning]={'SplitToning','Split Toning'},
   [toneCurve]={'ToneCurve','Tone Curve'},
+  [transform]={'Transform',transform},
 }
 
 
