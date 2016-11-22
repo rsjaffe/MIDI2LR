@@ -591,7 +591,7 @@
   },
   {
     "AutoTone",
-    "Basic Tone Auto Tone",
+    "Auto Tone",
     "Basic Tone",
     true
   },
@@ -831,19 +831,19 @@
   },
   {
     "PointCurveLinear",
-    "Tone Curve Linear",
+    "Linear Point Curve",
     "Tone Curve",
     true
   },
   {
     "PointCurveMediumContrast",
-    "Tone Curve Medium Contrast",
+    "Medium Contrast Point Curve",
     "Tone Curve",
     true
   },
   {
     "PointCurveStrongContrast",
-    "Tone Curve Strong Contrast",
+    "Strong Contrast Point Curve",
     "Tone Curve",
     true
   },
@@ -1468,7 +1468,7 @@
   {
     "RevealPanelTransform",
     "Show Transform",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
@@ -1480,49 +1480,49 @@
   {
     "EnableTransform",
     "Enable Transform",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "UprightOff",
     "Perspective Correction Off",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "UprightAuto",
     "Perspective Correction Auto",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "UprightLevel",
     "Perspective Correction Level",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "UprightVertical",
     "Perspective Correction Vertical",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "UprightGuided",
     "Perspective Correction Guided",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "UprightFull",
     "Perspective Correction Full",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "ResetPerspectiveUpright",
     "Reset Upright Settings",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
@@ -1642,43 +1642,43 @@
   {
     "PerspectiveVertical",
     "Perspective Vertical",
-    "Transform",
+    "Lens Corrections",
     false
   },
   {
     "PerspectiveHorizontal",
     "Perspective Horizontal",
-    "Transform",
+    "Lens Corrections",
     false
   },
   {
     "PerspectiveRotate",
     "Perspective Rotate",
-    "Transform",
+    "Lens Corrections",
     false
   },
   {
     "PerspectiveScale",
     "Perspective Scale",
-    "Transform",
+    "Lens Corrections",
     false
   },
   {
     "PerspectiveAspect",
     "Perspective Aspect",
-    "Transform",
+    "Lens Corrections",
     false
   },
   {
     "PerspectiveX ",
     "Perspective X",
-    "Transform",
+    "Lens Corrections",
     false
   },
   {
     "PerspectiveY ",
     "Perspective Y",
-    "Transform",
+    "Lens Corrections",
     false
   },
   {
@@ -1702,43 +1702,43 @@
   {
     "ResetPerspectiveVertical",
     "Reset Perspective Vertical",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "ResetPerspectiveHorizontal",
     "Reset Perspective Horizontal",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "ResetPerspectiveRotate",
     "Reset Perspective Rotate",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "ResetPerspectiveScale",
     "Reset Perspective Scale",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "ResetPerspectiveAspect",
     "Reset Perspective Aspect",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "ResetPerspectiveX",
     "Reset Perspective X",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
     "ResetPerspectiveY",
     "Reset Perspective Y",
-    "Transform",
+    "Lens Corrections",
     true
   },
   {
@@ -1803,21 +1803,21 @@
   },
   {
     "PostCropVignetteStyleHighlightPriority",
-    "Highlight Priority",
+    "Post Crop Vignette Style (Highlight Priority)",
     "Effects",
-    true
+    false
   },
   {
     "PostCropVignetteStyleColorPriority",
-    "Color Priority",
+    "Post Crop Vignette Style (Color Priority)",
     "Effects",
-    true
+    false
   },
   {
     "PostCropVignetteStylePaintOverlay",
-    "Paint Overlay",
+    "Post Crop Vignette Style (Paint Overlay)",
     "Effects",
-    true
+    false
   },
   {
     "PostCropVignetteHighlightContrast",
