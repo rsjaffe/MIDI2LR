@@ -41,8 +41,8 @@ return {
     },
     ---[[ comment out for end-users, enable for development
     {
-      title = "Produce documentation (development use only)",
-      file = "Documentation.lua"
+      title = "Build files (development use only)",
+      file = "Build.lua"
     },
     --]]
   },
