@@ -28,20 +28,22 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
   message_{message},
 
   menus_({"Keyboard Shortcuts for User", "General", "Library", "Develop",
-  "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
-  "Split Toning", "Detail", "Lens Corrections", "Transform", "Effects", "Camera Calibration",
-  "Develop Presets", "Local Adjustments", "Crop", "Go to Tool, Module, or Panel",
-  "Secondary Display", "Profiles", "Next/Prev Profile"}),
+    "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
+    "Split Toning", "Detail", "Lens Corrections", "Transform", "Effects",
+    "Camera Calibration", "Develop Presets", "Local Adjustments", "Crop",
+    "Go to Tool, Module, or Panel", "Secondary Display", "Profiles",
+    "Next/Prev Profile"}),
 
   menu_entries_({LRCommandList::KeyShortcuts, LRCommandList::General,
-  LRCommandList::Library, LRCommandList::Develop,
-  LRCommandList::BasicAdjustments, LRCommandList::ToneCurve,
-  LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning,
-  LRCommandList::Detail, LRCommandList::LensCorrections, LRCommandList::Transform, LRCommandList::Effects,
-  LRCommandList::Calibration, LRCommandList::DevelopPresets,
-  LRCommandList::LocalAdjustments, LRCommandList::Crop,
-  LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay,
-  LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile})
+    LRCommandList::Library, LRCommandList::Develop,
+    LRCommandList::BasicAdjustments, LRCommandList::ToneCurve,
+    LRCommandList::Mixer, LRCommandList::ResetMixer, LRCommandList::SplitToning,
+    LRCommandList::Detail, LRCommandList::LensCorrections,
+    LRCommandList::Transform, LRCommandList::Effects,
+    LRCommandList::Calibration, LRCommandList::DevelopPresets,
+    LRCommandList::LocalAdjustments, LRCommandList::Crop,
+    LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay,
+    LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile})
 {}
 
 void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) { //-V2009
