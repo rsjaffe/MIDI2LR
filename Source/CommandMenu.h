@@ -31,21 +31,22 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class CommandMenu final: public juce::TextButton,
   private juce::ButtonListener {
 public:
-  CommandMenu(const MIDI_Message_ID& msg);
+  explicit CommandMenu(const MIDI_Message_ID& msg);
   void Init(std::shared_ptr<CommandMap>& map_command);
   // sets the MIDI message associated to this menu component
   void setMsg(const MIDI_Message_ID& msg) noexcept;
 
   // sets which item in the menu is selected
-  void setSelectedItem(unsigned int idx);
+  void setSelectedItem(size_t idx);
 
 private:
   // ButtonListener interface
   virtual void buttonClicked(juce::Button* button) override;
 
+
+  MIDI_Message_ID message_;
   const std::vector<juce::String> menus_;
   const std::vector<std::vector<std::string>> menu_entries_;
-  MIDI_Message_ID message_;
   size_t selected_item_{std::numeric_limits<size_t>::max()};
   std::shared_ptr<CommandMap> command_map_{nullptr};
 };

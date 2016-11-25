@@ -29,8 +29,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
 
+enum MessageType{NOTE, CC, PITCHBEND};
+
 struct MIDI_Message_ID {
-  bool isCC;
+  MessageType messageType;
   int channel;
   union {
     int controller;
@@ -39,26 +41,26 @@ struct MIDI_Message_ID {
   };
 
   MIDI_Message_ID():
-    isCC(0),
+    messageType(NOTE),
     channel(0),
     data(0)
 
   {}
 
-  MIDI_Message_ID(int ch, int dat, bool iscc):
-    isCC(iscc),
+  MIDI_Message_ID(int ch, int dat, MessageType msgType):
+    messageType(msgType),
     channel(ch),
     data(dat) {}
 
-  bool operator==(const MIDI_Message_ID& other) const noexcept {
-    return (isCC == other.isCC && channel == other.channel && data == other.data);
+  bool operator==(const MIDI_Message_ID &other) const noexcept {
+    return (messageType == other.messageType && channel == other.channel && data == other.data);
   }
 
   bool operator<(const MIDI_Message_ID& other) const noexcept {
     if (channel < other.channel) return true;
     if (channel == other.channel) {
       if (data < other.data) return true;
-      if (data == other.data && isCC && !other.isCC) return true;
+      if (data == other.data && messageType && !other.messageType) return true;
     }
     return false;
   }
@@ -69,7 +71,7 @@ namespace std {
   template <>
   struct hash<MIDI_Message_ID> {
     std::size_t operator()(const MIDI_Message_ID& k) const noexcept {
-      return std::hash<bool>()(k.isCC) ^ std::hash<int>()(k.channel) ^
+      return std::hash<int>()(k.messageType) ^ std::hash<int>()(k.channel) ^
         std::hash<int>()(k.data << 2);
     }
   };
@@ -83,7 +85,7 @@ public:
 // adds an entry to the message:command map, and a corresponding entry to the
 // command:message map will look up the string by the index (but it is preferred to
 // directly use the string)
-  void addCommandforMessage(unsigned int command, const MIDI_Message_ID& cc);
+  void addCommandforMessage(size_t command, const MIDI_Message_ID& cc);
 
   // adds an entry to the message:command map, and a corresponding entry to the
   // command:message map
@@ -109,7 +111,7 @@ public:
   bool commandHasAssociatedMessage(const std::string& command) const;
 
   // saves the message:command map as an XML file
-  void toXMLDocument(juce::File& file) const;
+  void toXMLDocument(const juce::File& file) const;
 
 private:
 

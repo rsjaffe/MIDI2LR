@@ -42,9 +42,9 @@ namespace {
   wchar_t MBtoWChar(const std::string& key) {
     wchar_t full_character;
     const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
-      key.size(), &full_character, 1);
+      static_cast<int>(key.size()), &full_character, 1);
     if (return_value == 0) {
-      auto er = GetLastError();
+      const auto er = GetLastError();
       if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
         throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
       if (er == ERROR_INSUFFICIENT_BUFFER)
@@ -56,8 +56,8 @@ namespace {
     return full_character;
   }
 
-  HKL GetLanguage(std::string program_name) {
-    const auto hLRWnd = FindWindow(NULL, program_name.c_str());
+  HKL GetLanguage(const std::string& program_name) {
+    const auto hLRWnd = FindWindow(NULL, program_name.c_str()); //-V2001
     if (hLRWnd) {
       // get language that LR is using (if hLrWnd is found)
       const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
@@ -74,7 +74,6 @@ namespace {
     while (i < utf8.size()) {
       unsigned long uni;
       size_t todo;
-      bool error = false;
       unsigned char ch = utf8[i++];
       if (ch <= 0x7F) {
         uni = ch;
@@ -228,7 +227,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   }
 
   //construct virtual keystroke sequence
-  std::vector<unsigned int> strokes{vk}; // start with actual key, then mods
+  std::vector<size_t> strokes{vk}; // start with actual key, then mods
   if (shift || (vk_modifiers & 0x1)) {
     strokes.push_back(VK_SHIFT);
   }
@@ -280,7 +279,7 @@ void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   uint64_t flags = 0;
 
   if (in_keymap) {
-    auto vk = mapped_key->second;
+    const auto vk = mapped_key->second;
     d = CGEventCreateKeyboardEvent(source, vk, true);
     u = CGEventCreateKeyboardEvent(source, vk, false);
   }

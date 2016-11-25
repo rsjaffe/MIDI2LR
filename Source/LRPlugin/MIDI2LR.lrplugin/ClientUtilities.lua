@@ -156,6 +156,23 @@ local function PasteSettings  ()
   )
 end
 
+local function ApplySettings(settings)
+  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+  LrTasks.startAsyncTask ( function ()
+    LrApplication.activeCatalog():withWriteAccessDo(
+      'MIDI2LR: Apply settings',
+      function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(settings) end,
+      { timeout = 4,
+        callback = function()
+          LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
+        end,
+        asynchronous = true
+      }
+    )
+  end
+  )
+end
+
 local function CopySettings ()
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( 
@@ -164,73 +181,6 @@ local function CopySettings ()
     end
   ) 
 end
-
-local function AddToCollection()
-  local catalog = LrApplication.activeCatalog()
-  local quickname = catalog.kQuickCollectionIdentifier
-  local targetname = catalog.kTargetCollection
-  local quickcollection, targetcollection
-  LrTasks.startAsyncTask (
-    function () 
-      LrApplication.activeCatalog():withWriteAccessDo( 
-        '',
-        function()
-          quickcollection = catalog:createCollection(quickname,nil,true)
-          targetcollection = catalog:createCollection(targetname,nil,true)
-        end,
-        { timeout = 4, 
-          callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' GetCollection.') end, 
-          asynchronous = true 
-        }
-      )
-    end
-  )
-  return function(collectiontype,photos)
-    if collectiontype==nil or photos==nil then return end
-    local CollectionName
-    if collectiontype == 'quick' then
-      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToQuickCollection=Add to Quick Collection."
-    else
-      CollectionName = "$$$/AgLibrary/ThumbnailBadge/AddToTargetCollection=Add to Target Collection"
-    end
-    LrTasks.startAsyncTask ( 
-      function () 
-        LrApplication.activeCatalog():withWriteAccessDo( 
-          CollectionName,
-          function()
-            if LrApplication.activeCatalog() ~= catalog then
-              catalog = LrApplication.activeCatalog()
-              quickname = catalog.kQuickCollectionIdentifier
-              targetname = catalog.kTargetCollection
-              quickcollection = catalog:createCollection(quickname,nil,true)
-              targetcollection = catalog:createCollection(targetname,nil,true)
-            elseif catalog.kTargetCollection ~= targetname and collectiontype ~= 'quick' then
-              targetcollection = catalog:createCollection(targetname,nil,true)
-            end
-            local usecollection
-            if collectiontype == 'quick' then
-              usecollection = quickcollection
-            else
-              usecollection = targetcollection
-            end
-            if type(photos)==table then
-              usecollection:addPhotos(photos)
-            else
-              usecollection:addPhotos {photos}
-            end
-          end,
-          { timeout = 4, 
-            callback = function() 
-              LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' AddToCollection.') 
-            end, 
-            asynchronous = true 
-          }
-        )
-      end
-    )
-  end
-end
-AddToCollection = AddToCollection() --closure
 
 local function FullRefresh()
   for _,param in ipairs(ParamList.SendToMidi) do
@@ -245,7 +195,6 @@ end
 
 
 return {
-  AddToCollection = AddToCollection,
   CopySettings = CopySettings,
   fApplyPreset = fApplyPreset,
   fChangeModule = fChangeModule,
@@ -256,5 +205,5 @@ return {
   FullRefresh = FullRefresh,
   PasteSelectedSettings = PasteSelectedSettings,
   PasteSettings = PasteSettings,
-
+  ApplySettings = ApplySettings
 }

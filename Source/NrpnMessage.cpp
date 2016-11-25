@@ -71,7 +71,7 @@ void NRPN_Message::SetControlLSB(unsigned short int val) noexcept(ndebug) {
 void NRPN_Message::SetValueMSB(unsigned short int val) noexcept(ndebug) {
   assert(val <= 0x7Fu);
   value_msb_ = val & 0x7Fu;
-  ready_ |= 0b100u;
+  ready_ |= 0b100u; //-V112
 }
 
 void NRPN_Message::SetValueLSB(unsigned short int val) noexcept(ndebug) {

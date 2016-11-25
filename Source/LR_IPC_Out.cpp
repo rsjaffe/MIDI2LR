@@ -28,6 +28,7 @@ namespace {
   constexpr int kLrOutPort = 58763;
   constexpr double kMaxMIDI = 127.0;
   constexpr double kMaxNRPN = 16383.0;
+  constexpr double kMaxPitchBendNRPN = 15300.0; // for iConQcon in Samplitude mode. ToDo: make the value user-editable!
   constexpr int kTimerInterval = 1000;
 }
 
@@ -43,7 +44,7 @@ LR_IPC_OUT::~LR_IPC_OUT() {
   command_map_.reset();
 }
 
-void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map,
+void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map, //-V2009
   std::shared_ptr<MIDIProcessor>& midi_processor) {
     //copy the pointer
   command_map_ = command_map;
@@ -72,14 +73,14 @@ void LR_IPC_OUT::sendCommand(const std::string& command) {
 }
 
 void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
-  MIDI_Message_ID message{midi_channel, controller, true};
+  MIDI_Message_ID message{midi_channel, controller, CC};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
       command_map_->getCommandforMessage(message) == "Unmapped" ||
       find(LRCommandList::NextPrevProfile.begin(),
-        LRCommandList::NextPrevProfile.end(),
-        command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+      LRCommandList::NextPrevProfile.end(),
+      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
@@ -96,14 +97,14 @@ void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
 }
 
 void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
-  MIDI_Message_ID message{midi_channel, note, false};
+  MIDI_Message_ID message{midi_channel, note, NOTE};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
       command_map_->getCommandforMessage(message) == "Unmapped" ||
       find(LRCommandList::NextPrevProfile.begin(),
-        LRCommandList::NextPrevProfile.end(),
-        command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+      LRCommandList::NextPrevProfile.end(),
+      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
@@ -111,6 +112,30 @@ void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
       command_ += command_to_send;
+    }
+    juce::AsyncUpdater::triggerAsyncUpdate();
+  }
+}
+
+void LR_IPC_OUT::handlePitchWheel(int midi_channel, int value) {
+  MIDI_Message_ID message{midi_channel, midi_channel, PITCHBEND};
+
+  if (command_map_) {
+    if (!command_map_->messageExistsInMap(message) ||
+      command_map_->getCommandforMessage(message) == "Unmapped" ||
+      find(LRCommandList::NextPrevProfile.begin(),
+      LRCommandList::NextPrevProfile.end(),
+      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+      return;
+
+    juce::String command_to_send = command_map_->getCommandforMessage(message);
+    double computed_value = value;
+	computed_value /= kMaxPitchBendNRPN;
+
+    command_to_send += juce::String::formatted(" %g\n", computed_value);
+    {
+      std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
+      command_ += command_to_send.toStdString();
     }
     juce::AsyncUpdater::triggerAsyncUpdate();
   }
@@ -137,7 +162,7 @@ void LR_IPC_OUT::handleAsyncUpdate() {
     //check if there is a connection
   if (juce::InterprocessConnection::isConnected()) {
     juce::InterprocessConnection::getSocket()->
-      write(command_copy.c_str(), command_copy.length());
+      write(command_copy.c_str(), static_cast<int>(command_copy.length()));
   }
 }
 

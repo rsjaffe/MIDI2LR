@@ -40,7 +40,7 @@ private:
   // AsyncUpdater interface
   virtual void handleAsyncUpdate() override;
 
-  int new_version_;
+  int new_version_{0};
   std::weak_ptr<SettingsManager> settings_manager_;
   std::unique_ptr<juce::DialogWindow> dialog_;
 };

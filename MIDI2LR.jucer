@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="1.4.1.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="1.5.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="4.2.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="4.3.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">

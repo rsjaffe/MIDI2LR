@@ -37,15 +37,27 @@ namespace RSJ {
     static std::atomic_int objects_created;
     static std::atomic_int objects_alive;
 
-    counter() noexcept {
+    counter() noexcept { //constructor
       ++objects_created;
       ++objects_alive;
     }
 
-    counter(const counter&) noexcept {
+    counter(const counter&) noexcept { //copy constructor
       ++objects_created;
       ++objects_alive;
     }
+
+    counter& operator=(counter) noexcept {
+      return *this;
+    } //not a constructor, so no inc
+
+    counter(counter&&) noexcept {} //don't increment on move
+
+    counter& operator=(counter&&) noexcept {
+      return *this;
+    } //don't increment on move
+
+
   protected:
     ~counter() // objects should never be removed through pointers of this type
     {
@@ -68,11 +80,11 @@ class X :  RSJ::counter<X>
   class spinlock {
     std::atomic_flag flag{ATOMIC_FLAG_INIT};
   public:
-    inline void lock() noexcept {
+    void lock() noexcept {
       while (flag.test_and_set(std::memory_order_acquire))
         /*empty statement--spin until flag is cleared*/;
     }
-    inline void unlock() noexcept {
+    void unlock() noexcept {
       flag.clear(std::memory_order_release);
     }
   };

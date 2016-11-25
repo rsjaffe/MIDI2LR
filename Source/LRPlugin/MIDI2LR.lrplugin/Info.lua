@@ -41,10 +41,10 @@ return {
     },
     ---[[ comment out for end-users, enable for development
     {
-      title = "Produce documentation (development use only)",
-      file = "Documentation.lua"
+      title = "Build files (development use only)",
+      file = "Build.lua"
     },
     --]]
   },
-  VERSION = { major=1, minor=4, revision=1, build=0}
+  VERSION = { major=1, minor=5, revision=0, build=0}
 }
