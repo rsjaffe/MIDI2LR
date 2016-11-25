@@ -51,10 +51,9 @@ public:
     midi_processor_{std::make_shared<MIDIProcessor>()},
     midi_sender_{std::make_shared<MIDISender>()},
     profile_manager_{std::make_shared<ProfileManager>()},
-    settings_manager_{std::make_shared<SettingsManager>()}
-    {}
+    settings_manager_{std::make_shared<SettingsManager>()} {}
 
-    const juce::String getApplicationName() override {
+  const juce::String getApplicationName() override {
     return ProjectInfo::projectName;
   }
   const juce::String getApplicationVersion() override {
@@ -160,13 +159,13 @@ public:
       // If the type of exception is derived from the std::exception class, the
       // pointer passed-in will be valid. If the exception is of unknown type,
       // this pointer will be null.
-    if (juce::Logger::getCurrentLogger())
+    if (juce::Logger::getCurrentLogger()) {
       if (e)
         juce::Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
           " line " + juce::String(lineNumber));
       else
         juce::Logger::writeToLog(sourceFilename + " line " + juce::String(lineNumber));
-
+    }
     std::terminate(); // can't go on with the program
   }
 
