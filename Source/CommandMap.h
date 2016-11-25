@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 enum MessageType{NOTE, CC, PITCHBEND};
 
 struct MIDI_Message_ID {
-	MessageType messageType;
+  MessageType messageType;
   int channel;
   union {
     int controller;
