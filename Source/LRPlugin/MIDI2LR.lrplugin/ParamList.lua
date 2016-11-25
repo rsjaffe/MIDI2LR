@@ -348,10 +348,6 @@
     "Enable Lens Corrections"
   },
   {
-    "EnableTransform",
-    "Enable Transform"
-  },
-  {
     "LensProfileEnable",
     "Lens Profile Enable"
   },
@@ -370,10 +366,6 @@
   {
     "ChromaticAberrationR",
     "Red Chromatic Aberration"
-  },
-  {
-    "PerspectiveUpright",
-    "Perspective Upright"
   },
   {
     "LensProfileDistortionScale",
@@ -416,6 +408,22 @@
     "Lens Manual Distortion Amount"
   },
   {
+    "VignetteAmount",
+    "Vignette Amount"
+  },
+  {
+    "VignetteMidpoint",
+    "Vignette Midpoint"
+  },
+  {
+    "EnableTransform",
+    "Enable Transform"
+  },
+  {
+    "PerspectiveUpright",
+    "Perspective Upright"
+  },
+  {
     "PerspectiveVertical",
     "Perspective Vertical"
   },
@@ -442,14 +450,6 @@
   {
     "PerspectiveY ",
     "Perspective Y"
-  },
-  {
-    "VignetteAmount",
-    "Vignette Amount"
-  },
-  {
-    "VignetteMidpoint",
-    "Vignette Midpoint"
   },
   {
     "EnableEffects",
@@ -701,13 +701,11 @@
   "ColorNoiseReductionDetail",
   "ColorNoiseReductionSmoothness",
   "EnableLensCorrections",
-  "EnableTransform",
   "LensProfileEnable",
   "LensProfileSetup",
   "AutoLateralCA",
   "ChromaticAberrationB",
   "ChromaticAberrationR",
-  "PerspectiveUpright",
   "LensProfileDistortionScale",
   "LensProfileChromaticAberrationScale",
   "LensProfileVignettingScale",
@@ -718,6 +716,10 @@
   "DefringeGreenHueLo",
   "DefringeGreenHueHi",
   "LensManualDistortionAmount",
+  "VignetteAmount",
+  "VignetteMidpoint",
+  "EnableTransform",
+  "PerspectiveUpright",
   "PerspectiveVertical",
   "PerspectiveHorizontal",
   "PerspectiveRotate",
@@ -725,8 +727,6 @@
   "PerspectiveAspect",
   "PerspectiveX ",
   "PerspectiveY ",
-  "VignetteAmount",
-  "VignetteMidpoint",
   "EnableEffects",
   "Dehaze",
   "PostCropVignetteAmount",
@@ -989,27 +989,27 @@
   },
   DefringeGreenAmount = {
     "Defringe Green Amount",
-    289
+    279
   },
   DefringeGreenHueHi = {
     "Defringe Green Hue - High",
-    291
+    281
   },
   DefringeGreenHueLo = {
     "Defringe Green Hue - Low",
-    290
+    280
   },
   DefringePurpleAmount = {
     "Defringe Purple Amount",
-    286
+    276
   },
   DefringePurpleHueHi = {
     "Defringe Purple Hue - High",
-    288
+    278
   },
   DefringePurpleHueLo = {
     "Defringe Purple Hue - Low",
-    287
+    277
   },
   Dehaze = {
     "Dehaze Amount",
@@ -1109,19 +1109,19 @@
   },
   LensManualDistortionAmount = {
     "Lens Manual Distortion Amount",
-    298
+    288
   },
   LensProfileChromaticAberrationScale = {
     "Lens Profile Chromatic Aberration Scale",
-    281
+    271
   },
   LensProfileDistortionScale = {
     "Lens Profile Distortion Scale",
-    280
+    270
   },
   LensProfileVignettingScale = {
     "Lens Profile Vignetting Scale",
-    282
+    272
   },
   LuminanceAdjustmentAqua = {
     "Luminance Adjustment Aqua",
@@ -1197,31 +1197,31 @@
   },
   PerspectiveAspect = {
     "Perspective Aspect",
-    303
+    308
   },
   PerspectiveHorizontal = {
     "Perspective Horizontal",
-    300
+    305
   },
   PerspectiveRotate = {
     "Perspective Rotate",
-    301
+    306
   },
   PerspectiveScale = {
     "Perspective Scale",
-    302
+    307
   },
   PerspectiveVertical = {
     "Perspective Vertical",
-    299
+    304
   },
   ["PerspectiveX "] = {
     "Perspective X",
-    304
+    309
   },
   ["PerspectiveY "] = {
     "Perspective Y",
-    305
+    310
   },
   PostCropVignetteAmount = {
     "Post Crop Vignette Amount",
@@ -1349,11 +1349,11 @@
   },
   VignetteAmount = {
     "Vignette Amount",
-    306
+    289
   },
   VignetteMidpoint = {
     "Vignette Midpoint",
-    307
+    290
   },
   Whites = {
     "Whites (no effect in PV2003 and PV2010)",
@@ -1505,6 +1505,8 @@
   "DefringeGreenHueLo",
   "DefringeGreenHueHi",
   "LensManualDistortionAmount",
+  "VignetteAmount",
+  "VignetteMidpoint",
   "PerspectiveVertical",
   "PerspectiveHorizontal",
   "PerspectiveRotate",
@@ -1512,8 +1514,6 @@
   "PerspectiveAspect",
   "PerspectiveX ",
   "PerspectiveY ",
-  "VignetteAmount",
-  "VignetteMidpoint",
   "Dehaze",
   "PostCropVignetteAmount",
   "PostCropVignetteMidpoint",

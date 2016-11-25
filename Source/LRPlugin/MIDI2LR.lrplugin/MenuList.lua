@@ -1466,63 +1466,9 @@
     true
   },
   {
-    "RevealPanelTransform",
-    "Show Transform",
-    "Transform",
-    true
-  },
-  {
     "EnableLensCorrections",
     "Enable Lens Corrections",
     "Lens Corrections",
-    true
-  },
-  {
-    "EnableTransform",
-    "Enable Transform",
-    "Transform",
-    true
-  },
-  {
-    "UprightOff",
-    "Perspective Correction Off",
-    "Transform",
-    true
-  },
-  {
-    "UprightAuto",
-    "Perspective Correction Auto",
-    "Transform",
-    true
-  },
-  {
-    "UprightLevel",
-    "Perspective Correction Level",
-    "Transform",
-    true
-  },
-  {
-    "UprightVertical",
-    "Perspective Correction Vertical",
-    "Transform",
-    true
-  },
-  {
-    "UprightGuided",
-    "Perspective Correction Guided",
-    "Transform",
-    true
-  },
-  {
-    "UprightFull",
-    "Perspective Correction Full",
-    "Transform",
-    true
-  },
-  {
-    "ResetPerspectiveUpright",
-    "Reset Upright Settings",
-    "Transform",
     true
   },
   {
@@ -1640,6 +1586,90 @@
     false
   },
   {
+    "VignetteAmount",
+    "Vignette Amount",
+    "Lens Corrections",
+    false
+  },
+  {
+    "VignetteMidpoint",
+    "Vignette Midpoint",
+    "Lens Corrections",
+    false
+  },
+  {
+    "ResetLensManualDistortionAmount",
+    "Reset Lens Manual Distortion Amount",
+    "Lens Corrections",
+    true
+  },
+  {
+    "ResetVignetteAmount",
+    "Reset Vignette Amount",
+    "Lens Corrections",
+    true
+  },
+  {
+    "ResetVignetteMidpoint",
+    "Reset Vignette Midpoint",
+    "Lens Corrections",
+    true
+  },
+  {
+    "RevealPanelTransform",
+    "Show Transform",
+    "Transform",
+    true
+  },
+  {
+    "EnableTransform",
+    "Enable Transform",
+    "Transform",
+    true
+  },
+  {
+    "UprightOff",
+    "Perspective Correction Off",
+    "Transform",
+    true
+  },
+  {
+    "UprightAuto",
+    "Perspective Correction Auto",
+    "Transform",
+    true
+  },
+  {
+    "UprightLevel",
+    "Perspective Correction Level",
+    "Transform",
+    true
+  },
+  {
+    "UprightVertical",
+    "Perspective Correction Vertical",
+    "Transform",
+    true
+  },
+  {
+    "UprightGuided",
+    "Perspective Correction Guided",
+    "Transform",
+    true
+  },
+  {
+    "UprightFull",
+    "Perspective Correction Full",
+    "Transform",
+    true
+  },
+  {
+    "ResetPerspectiveUpright",
+    "Reset Upright Settings",
+    "Transform",
+    true
+  },
+  {
     "PerspectiveVertical",
     "Perspective Vertical",
     "Transform",
@@ -1682,24 +1712,6 @@
     false
   },
   {
-    "VignetteAmount",
-    "Vignette Amount",
-    "Lens Corrections",
-    false
-  },
-  {
-    "VignetteMidpoint",
-    "Vignette Midpoint",
-    "Lens Corrections",
-    false
-  },
-  {
-    "ResetLensManualDistortionAmount",
-    "Reset Lens Manual Distortion Amount",
-    "Lens Corrections",
-    true
-  },
-  {
     "ResetPerspectiveVertical",
     "Reset Perspective Vertical",
     "Transform",
@@ -1739,18 +1751,6 @@
     "ResetPerspectiveY",
     "Reset Perspective Y",
     "Transform",
-    true
-  },
-  {
-    "ResetVignetteAmount",
-    "Reset Vignette Amount",
-    "Lens Corrections",
-    true
-  },
-  {
-    "ResetVignetteMidpoint",
-    "Reset Vignette Midpoint",
-    "Lens Corrections",
     true
   },
   {

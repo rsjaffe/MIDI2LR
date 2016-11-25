@@ -90,11 +90,11 @@ for _,v in ipairs(Database.DataBase) do
       if menulocation~="" then
         file:write("};\n\n")
       end
-      file:write("const std::vector<String> LRCommandList::"..Database.cppvectors[v[9]][1].." = {\n")
+      file:write("const std::vector<std::string> LRCommandList::"..Database.cppvectors[v[9]][1].." = {\n")
       menulocation = v[9]
       menus_ = menus_ .. '"' .. Database.cppvectors[v[9]][2] .. '", '
       menu_entries_ = menu_entries_ .. 'LRCommandList::' .. Database.cppvectors[v[9]][1] .. ', '
-      lrcommandsh = lrcommandsh .. '\nstatic const std::vector<String> ' .. Database.cppvectors[v[9]][1] ..';'
+      lrcommandsh = lrcommandsh .. '\nstatic const std::vector<std::string> ' .. Database.cppvectors[v[9]][1] ..';'
     end
     file:write('"'..v[8]..'",\n')
   end
@@ -103,7 +103,7 @@ menus_ = menus_ .. '"Next/Prev Profile" })'
 menu_entries_ = menu_entries_ .. 'LRCommandList::NextPrevProfile })'
 lrcommandsh = lrcommandsh .. '\n'
 
-file:write("};\n\nconst std::vector<String> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
+file:write("};\n\nconst std::vector<std::string> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
 menulocation = ""
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
@@ -115,6 +115,11 @@ for _,v in ipairs(Database.DataBase) do
   end
 end
 file:write([=[};
+
+const std::vector <std::string> LRCommandList::NextPrevProfile = {
+  "Previous Profile",
+  "Next Profile",
+};
 
 size_t LRCommandList::getIndexOfCommand(const std::string& command) {
   static std::unordered_map<std::string, size_t> indexMap;
