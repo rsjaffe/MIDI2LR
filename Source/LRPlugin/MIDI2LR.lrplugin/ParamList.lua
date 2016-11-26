@@ -1197,31 +1197,31 @@
   },
   PerspectiveAspect = {
     "Perspective Aspect",
-    308
+    307
   },
   PerspectiveHorizontal = {
     "Perspective Horizontal",
-    305
+    304
   },
   PerspectiveRotate = {
     "Perspective Rotate",
-    306
+    305
   },
   PerspectiveScale = {
     "Perspective Scale",
-    307
+    306
   },
   PerspectiveVertical = {
     "Perspective Vertical",
-    304
+    303
   },
   ["PerspectiveX "] = {
     "Perspective X",
-    309
+    308
   },
   ["PerspectiveY "] = {
     "Perspective Y",
-    310
+    309
   },
   PostCropVignetteAmount = {
     "Post Crop Vignette Amount",

@@ -1664,12 +1664,6 @@
     true
   },
   {
-    "ResetPerspectiveUpright",
-    "Reset Upright Settings",
-    "Transform",
-    true
-  },
-  {
     "PerspectiveVertical",
     "Perspective Vertical",
     "Transform",
@@ -1710,6 +1704,12 @@
     "Perspective Y",
     "Transform",
     false
+  },
+  {
+    "ResetPerspectiveUpright",
+    "Reset Upright Settings",
+    "Transform",
+    true
   },
   {
     "ResetPerspectiveVertical",
