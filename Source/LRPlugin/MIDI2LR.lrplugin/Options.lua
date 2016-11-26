@@ -67,7 +67,7 @@ local function setOptions()
             f:view(Limits.StartDialog(properties,f)),
             f:separator {fill_horizontal = 0.9},
             f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')},
-            f:checkbox {title = LOC("$$$/MIDI2LR/Options/RevealAdjustedControls=Reveal Adjusted Controls"), value = LrView.bind('RevealAdjustedControls')},
+            f:checkbox {title = LOC("$$$/MIDI2LR/Options/RevealAdjustedControls=Reveal adjusted controls"), value = LrView.bind('RevealAdjustedControls')},
             OU.slider(f,properties,LOC("$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"),'slidersets','TrackingDelay',0,3,2),
             f:separator {fill_horizontal = 0.9},
             Keys.StartDialog(properties,f),

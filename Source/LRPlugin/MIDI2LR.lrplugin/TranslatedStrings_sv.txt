@@ -1,10 +1,8 @@
-﻿"$$$/MIDI2LR/Options/pastesel=Klistra selektioner"
-"$$$/MIDI2LR/Options/dlgtitle=Ställa MIDI2LR optioner"
+﻿"$$$/MIDI2LR/About/about=Hur man använder: ansluta en MIDI-controller, starta MIDI2LR, och börja redigera! Se https://github.com/rsjaffe/MIDI2LR/wiki för mer information."
 "$$$/MIDI2LR/Limits/Limits=Gränsvärden"
-"$$$/MIDI2LR/About/about=Hur man använder: ansluta en MIDI-controller, starta MIDI2LR, och börja redigera! Se https://github.com/rsjaffe/MIDI2LR/wiki för mer information."
-"$$$/MIDI2LR/Preferences/cantload=Det går inte att läsa in inställningarna. Med standardinställningar ."
+"$$$/MIDI2LR/Options/RevealAdjustedControls=Reveal adjusted controls"
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Options/dlgtitle=Ställa MIDI2LR optioner"
+"$$$/MIDI2LR/Options/pastesel=Klistra selektioner"
+"$$$/MIDI2LR/Preferences/cantload=Det går inte att läsa in inställningarna. Med standardinställningar ."
 "$$$/MIDI2LR/Shortcuts/Key=Nyckel"
-
-
-

@@ -1,10 +1,8 @@
-﻿"$$$/MIDI2LR/Options/pastesel=Pegar selecciones"
-"$$$/MIDI2LR/Options/dlgtitle=Ajustar las MIDI2LR opciones"
+﻿"$$$/MIDI2LR/About/about=Modo de empleo: conectar un controlador MIDI, lanzar MIDI2LR, y comenzar a editar! Ver https://github.com/rsjaffe/MIDI2LR/wiki para más detalles."
 "$$$/MIDI2LR/Limits/Limits=Limites"
-"$$$/MIDI2LR/About/about=Modo de empleo: conectar un controlador MIDI, lanzar MIDI2LR, y comenzar a editar! Ver https://github.com/rsjaffe/MIDI2LR/wiki para más detalles."
-"$$$/MIDI2LR/Preferences/cantload=No se puede cargar preferencias. Utilizando la configuración predeterminada."
+"$$$/MIDI2LR/Options/RevealAdjustedControls=Reveal adjusted controls"
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Options/dlgtitle=Ajustar las MIDI2LR opciones"
+"$$$/MIDI2LR/Options/pastesel=Pegar selecciones"
+"$$$/MIDI2LR/Preferences/cantload=No se puede cargar preferencias. Utilizando la configuración predeterminada."
 "$$$/MIDI2LR/Shortcuts/Key=Tecla"
-
-
-
