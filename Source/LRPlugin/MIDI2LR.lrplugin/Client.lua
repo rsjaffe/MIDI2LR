@@ -330,51 +330,51 @@ LrTasks.startAsyncTask(
       ZoomOutLargeStep         = LrApplicationView.zoomOut,
       ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
       PointCurveLinear         = UpdatePointCurve({
-        ToneCurveName = "Linear",
-        ToneCurveName2012 = "Linear",
-        ToneCurvePV2012 = {
-          0,
-          0,
-          255,
-          255,
-        }
-      }),
+          ToneCurveName = "Linear",
+          ToneCurveName2012 = "Linear",
+          ToneCurvePV2012 = {
+            0,
+            0,
+            255,
+            255,
+          }
+        }),
       PointCurveMediumContrast = UpdatePointCurve({
-        ToneCurveName = "Medium Contrast",
-        ToneCurveName2012 = "Medium Contrast",
-        ToneCurvePV2012 = {
-          0,
-          0,
-          32,
-          22,
-          64,
-          56,
-          128,
-          128,
-          192,
-          196,
-          255,
-          255,
-        }
-      }),
+          ToneCurveName = "Medium Contrast",
+          ToneCurveName2012 = "Medium Contrast",
+          ToneCurvePV2012 = {
+            0,
+            0,
+            32,
+            22,
+            64,
+            56,
+            128,
+            128,
+            192,
+            196,
+            255,
+            255,
+          }
+        }),
       PointCurveStrongContrast = UpdatePointCurve({
-        ToneCurveName = "Strong Contrast",
-        ToneCurveName2012 = "Strong Contrast",
-        ToneCurvePV2012 = {
-          0,
-          0,
-          32,
-          16,
-          64,
-          50,
-          128,
-          128,
-          192,
-          202,
-          255,
-          255,
-        }
-      }),
+          ToneCurveName = "Strong Contrast",
+          ToneCurveName2012 = "Strong Contrast",
+          ToneCurvePV2012 = {
+            0,
+            0,
+            32,
+            16,
+            64,
+            50,
+            128,
+            128,
+            192,
+            202,
+            255,
+            255,
+          }
+        }),
     }
 
     local SETTINGS = {
@@ -558,7 +558,9 @@ LrTasks.startAsyncTask(
           guardsetting:performWithGuard(Profiles.checkProfile)
         end --sleep away until ended or until develop module activated
         if MIDI2LR.RUNNING then --didn't drop out of loop because of program termination
-          LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+          if ProgramPreferences.RevealAdjustedControls then --may be nil or false
+            LrDevelopController.revealAdjustedControls( true ) -- reveal affected parameter in panel track
+          end
           if ProgramPreferences.TrackingDelay ~= nil then
             LrDevelopController.setTrackingDelay(ProgramPreferences.TrackingDelay)
           end
