@@ -37,7 +37,10 @@ local function setOptions()
       --following not managed by another module
       properties.ClientShowBezelOnChange = ProgramPreferences.ClientShowBezelOnChange
       properties.TrackingDelay = ProgramPreferences.TrackingDelay
-
+      if ProgramPreferences.RevealAdjustedControls == nil then
+        ProgramPreferences.RevealAdjustedControls = true
+      end
+      properties.RevealAdjustedControls = ProgramPreferences.RevealAdjustedControls
       -- assemble dialog box contents
       local contents = 
       f:view{
@@ -64,6 +67,7 @@ local function setOptions()
             f:view(Limits.StartDialog(properties,f)),
             f:separator {fill_horizontal = 0.9},
             f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')},
+            f:checkbox {title = LOC("$$$/MIDI2LR/Options/RevealAdjustedControls=Reveal Adjusted Controls"), value = LrView.bind('RevealAdjustedControls')},
             OU.slider(f,properties,LOC("$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"),'slidersets','TrackingDelay',0,3,2),
             f:separator {fill_horizontal = 0.9},
             Keys.StartDialog(properties,f),
@@ -82,11 +86,15 @@ local function setOptions()
       Paste.EndDialog(properties,result)
       Profiles.EndDialog(properties,result)
       if result == 'ok' then
+        local LrDevelopController = import 'LrDevelopController'
         --following not managed by another module
         ProgramPreferences.ClientShowBezelOnChange = properties.ClientShowBezelOnChange
         ProgramPreferences.TrackingDelay = properties.TrackingDelay
+        if ProgramPreferences.RevealAdjustedControls ~= properties.RevealAdjustedControls then
+          ProgramPreferences.RevealAdjustedControls = properties.RevealAdjustedControls
+          LrDevelopController.revealAdjustedControls(ProgramPreferences.RevealAdjustedControls)
+        end
         if ProgramPreferences.TrackingDelay ~= nil then
-          local LrDevelopController = import 'LrDevelopController'
           LrDevelopController.setTrackingDelay(ProgramPreferences.TrackingDelay)
         end
         --then save preferences
