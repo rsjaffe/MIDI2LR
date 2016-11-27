@@ -23,23 +23,23 @@ return {
     local LrShell             = import 'LrShell'	
     local LrTasks             = import 'LrTasks'
 
-
-
-    progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
-    LrTasks.startAsyncTask(function()
-        MIDI2LR.RUNNING = false
-      end
-    )
-    LrTasks.startAsyncTask(function()
-        if(WIN_ENV) then
-          LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
-        else
-          LrTasks.execute('kill `pgrep MIDI2LR`') -- extreme, but maybe it'll work until I can close it more gracefully
+    if ProgramPreferences.StopServerOnExit then
+      progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stop Server"))
+      LrTasks.startAsyncTask(function()
+          MIDI2LR.RUNNING = false
         end
-      end
-    )
+      )
+      LrTasks.startAsyncTask(function()
+          if(WIN_ENV) then
+            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
+          else
+            LrTasks.execute('kill `pgrep MIDI2LR`') -- extreme, but maybe it'll work until I can close it more gracefully
+          end
+        end
+      )
 
-    progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
-    doneFunction()
+      progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+    end
+    doneFunction() --call whether or not we stop the server
   end
 }
