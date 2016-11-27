@@ -41,7 +41,7 @@ return {
     },
     ---[[ comment out for end-users, enable for development
     {
-      title = "Build files (development use only)",
+      title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
     },
     --]]
