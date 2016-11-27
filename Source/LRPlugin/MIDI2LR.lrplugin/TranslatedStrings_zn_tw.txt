@@ -1,10 +1,8 @@
-"$$$/MIDI2LR/Options/pastesel=粘貼選項"
-"$$$/MIDI2LR/Options/dlgtitle=設置MIDI2LR選項"
+﻿"$$$/MIDI2LR/About/about=使用方法：連接MIDI控制器，啟動MIDI2LR，並開始編輯！見https://github.com/rsjaffe/MIDI2LR/wiki了解詳情。"
 "$$$/MIDI2LR/Limits/Limits=範圍"
-"$$$/MIDI2LR/About/about=使用方法：連接MIDI控制器，啟動MIDI2LR，並開始編輯！見https://github.com/rsjaffe/MIDI2LR/wiki了解詳情。"
-"$$$/MIDI2LR/Preferences/cantload=無法加載偏好。使用默認設置。"
+"$$$/MIDI2LR/Options/RevealAdjustedControls=Reveal adjusted controls"
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"
+"$$$/MIDI2LR/Options/dlgtitle=設置MIDI2LR選項"
+"$$$/MIDI2LR/Options/pastesel=粘貼選項"
+"$$$/MIDI2LR/Preferences/cantload=無法加載偏好。使用默認設置。"
 "$$$/MIDI2LR/Shortcuts/Key=键"
-
-
-
