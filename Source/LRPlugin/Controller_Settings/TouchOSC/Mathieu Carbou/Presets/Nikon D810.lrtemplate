@@ -1,0 +1,22 @@
+s = {
+	id = "0D02248E-FB93-4E17-BA38-1FFE4C79927A",
+	internalName = "Camera Profile Nikon",
+	title = "Nikon D810",
+	type = "Develop",
+	value = {
+		settings = {
+			BlueHue = 0,
+			BlueSaturation = 0,
+			CameraProfile = "Nikon_D810_Tamron_90_2850K-6500K_2016-06_Adobe",
+			EnableCalibration = true,
+			GreenHue = 0,
+			GreenSaturation = 0,
+			ProcessVersion = "6.7",
+			RedHue = 0,
+			RedSaturation = 0,
+			ShadowTint = 0,
+		},
+		uuid = "444E7F50-17E2-4751-87C7-AE120095E573",
+	},
+	version = 0,
+}

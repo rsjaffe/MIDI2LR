@@ -1,0 +1,22 @@
+s = {
+	id = "72FEFD6B-062F-4387-9500-619F83505621",
+	internalName = "Sony A6000",
+	title = "Sony A6000",
+	type = "Develop",
+	value = {
+		settings = {
+			BlueHue = 0,
+			BlueSaturation = 0,
+			CameraProfile = "Sony_A6000_55-210_2850K-6500K_2016-05_Adobe",
+			EnableCalibration = true,
+			GreenHue = 0,
+			GreenSaturation = 0,
+			ProcessVersion = "6.7",
+			RedHue = 0,
+			RedSaturation = 0,
+			ShadowTint = 0,
+		},
+		uuid = "BA37234E-F3AD-4A99-BD17-70443BE6BE62",
+	},
+	version = 0,
+}
