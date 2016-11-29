@@ -444,11 +444,11 @@
     "Perspective Aspect"
   },
   {
-    "PerspectiveX ",
+    "PerspectiveX",
     "Perspective X"
   },
   {
-    "PerspectiveY ",
+    "PerspectiveY",
     "Perspective Y"
   },
   {
@@ -725,8 +725,8 @@
   "PerspectiveRotate",
   "PerspectiveScale",
   "PerspectiveAspect",
-  "PerspectiveX ",
-  "PerspectiveY ",
+  "PerspectiveX",
+  "PerspectiveY",
   "EnableEffects",
   "Dehaze",
   "PostCropVignetteAmount",
@@ -926,8 +926,8 @@
     "PerspectiveRotate",
     "PerspectiveScale",
     "PerspectiveAspect",
-    "PerspectiveX ",
-    "PerspectiveY "
+    "PerspectiveX",
+    "PerspectiveY"
   }
 }
   local LimitEligible = {
@@ -1215,11 +1215,11 @@
     "Perspective Vertical",
     304
   },
-  ["PerspectiveX "] = {
+  PerspectiveX = {
     "Perspective X",
     309
   },
-  ["PerspectiveY "] = {
+  PerspectiveY = {
     "Perspective Y",
     310
   },
@@ -1512,8 +1512,8 @@
   "PerspectiveRotate",
   "PerspectiveScale",
   "PerspectiveAspect",
-  "PerspectiveX ",
-  "PerspectiveY ",
+  "PerspectiveX",
+  "PerspectiveY",
   "Dehaze",
   "PostCropVignetteAmount",
   "PostCropVignetteMidpoint",
@@ -1638,8 +1638,8 @@
   PerspectiveRotate = "transformPanel",
   PerspectiveScale = "transformPanel",
   PerspectiveVertical = "transformPanel",
-  ["PerspectiveX "] = "transformPanel",
-  ["PerspectiveY "] = "transformPanel",
+  PerspectiveX = "transformPanel",
+  PerspectiveY = "transformPanel",
   PointCurveLinear = "tonePanel",
   PointCurveMediumContrast = "tonePanel",
   PointCurveStrongContrast = "tonePanel",

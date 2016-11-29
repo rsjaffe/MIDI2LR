@@ -1700,13 +1700,13 @@
     false
   },
   {
-    "PerspectiveX ",
+    "PerspectiveX",
     "Perspective X",
     "Transform",
     false
   },
   {
-    "PerspectiveY ",
+    "PerspectiveY",
     "Perspective Y",
     "Transform",
     false
