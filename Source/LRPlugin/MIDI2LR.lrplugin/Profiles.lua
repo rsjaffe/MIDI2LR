@@ -35,8 +35,10 @@ local profilepath = '' --according to application
 local resyncDeferred = false
 
 local function doprofilechange(newprofile)
-  if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
-    LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,newprofile))
+  if ProgramPreferences.ProfilesShowBezelOnChange then
+    local filename = newprofile:match(".-([^\\^/]-([^%.]+))$")
+    filename = filename:sub(0, -5)
+    LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
   if LrApplicationView.getCurrentModuleName() == 'develop' then
