@@ -327,7 +327,7 @@ local function StartDialog(obstable,f)
         end
       end
     },
-    f:checkbox {title = 'Notify when profile changes.', value = LrView.bind('ProfilesShowBezelOnChange')}
+    f:checkbox {title = LOC("$$$/MIDI2LR/Profiles/NotifyWhenChanged=Notify when profile changes"), value = LrView.bind('ProfilesShowBezelOnChange')}
   }
   return allboxes
 end

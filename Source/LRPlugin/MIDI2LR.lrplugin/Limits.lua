@@ -134,7 +134,7 @@ local function OptionsRows(f,obstable)
           width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
-          title = LrView.bind('Limits'..p..'Low'),
+          title = LrView.bind(LOC('$$$/MIDI2LR/Limits/Limits=Limits')..p..LOC("$$$/Slideshow/Panels/PanAndZoom/Low=Low")),
           alignment = 'right',
           width = LrView.share('limit_reading'),  
         }, -- static_text
@@ -146,7 +146,7 @@ local function OptionsRows(f,obstable)
           width = LrView.share('limit_slider'),
         }, -- slider
         f:static_text {
-          title = LrView.bind('Limits'..p..'High'),
+          title = LrView.bind(LOC('$$$/MIDI2LR/Limits/Limits=Limits')..p..LOC("$$$/Slideshow/Panels/PanAndZoom/High=High")),
           alignment = 'right',
           width = LrView.share('limit_reading'),                
         }, -- static_text
