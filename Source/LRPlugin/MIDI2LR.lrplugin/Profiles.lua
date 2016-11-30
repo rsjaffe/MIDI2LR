@@ -38,7 +38,7 @@ local function doprofilechange(newprofile)
   if ProgramPreferences.ProfilesShowBezelOnChange then
     local filename = newprofile:match(".-([^\\^/]-([^%.]+))$")
     filename = filename:sub(0, -5)
-    LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=Profile ^1",filename))
+    LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
   if LrApplicationView.getCurrentModuleName() == 'develop' then
