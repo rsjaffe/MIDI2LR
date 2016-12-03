@@ -1,5 +1,5 @@
 ﻿"$$$/MIDI2LR/About/about=Instructies; sluit een MIDI controller aan, start MIDI2LR, en begin met bewerken! Zie https://github.com/rsjaffe/MIDI2LR/wiki voor meer gegevens."
-"$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"
+"$$$/MIDI2LR/Info/BuildFiles=Build bestanden (alleen voor developers)"
 "$$$/MIDI2LR/Limits/Limits=Limieten"
 "$$$/MIDI2LR/Options/RevealAdjustedControls=Laat aangepaste instellingen zien"
 "$$$/MIDI2LR/Options/TrackingDelay=Tracking vertraging"
