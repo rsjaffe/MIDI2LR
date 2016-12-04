@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include <unordered_map>
 #include "CommandMap.h"
-
+  
 const std::vector<std::string> LRCommandList::KeyShortcuts = {
 "Key 1",
 "Key 2",
@@ -296,6 +296,7 @@ const std::vector<std::string> LRCommandList::Detail = {
 const std::vector<std::string> LRCommandList::LensCorrections = {
 "Show Lens Corrections",
 "Enable Lens Corrections",
+"Toggle Profile Corrections",
 "Lens Profile Distortion Scale",
 "Lens Profile Chromatic Aberration Scale",
 "Lens Profile Vignetting Scale",
@@ -810,6 +811,7 @@ const std::vector<std::string> LRCommandList::LRStringList = {
 /* Lens Corrections */
 "RevealPanelLens",
 "EnableLensCorrections",
+"LensProfileEnable",
 "LensProfileDistortionScale",
 "LensProfileChromaticAberrationScale",
 "LensProfileVignettingScale",
@@ -849,8 +851,8 @@ const std::vector<std::string> LRCommandList::LRStringList = {
 "PerspectiveRotate",
 "PerspectiveScale",
 "PerspectiveAspect",
-"PerspectiveX ",
-"PerspectiveY ",
+"PerspectiveX",
+"PerspectiveY",
 "ResetPerspectiveVertical",
 "ResetPerspectiveHorizontal",
 "ResetPerspectiveRotate",

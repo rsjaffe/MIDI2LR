@@ -407,8 +407,7 @@ local DataBase = {
 --
   {"RevealPanelLens",false,false,true,false,true,false,show..' '..lensCorrections,lensCorrections,"Open Lens Corrections Panel in Develop Module. *button*"},
   {"EnableLensCorrections",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableLensCorrections=Enable Lens Corrections"),lensCorrections,"Enable or disable all lens corrections. *button*",'lensCorrectionsPanel'},
-  -- LR not responding to this, so leave in selective paste, take out of LR commands
-  {"LensProfileEnable",'lensCorrectionsPanel',true,false,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Lens Profile Enable")},
+  {"LensProfileEnable",'lensCorrectionsPanel',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileEnable=Toggle Profile Corrections"),lensCorrections,"Enable or disable lens profile correction. *button*",'lensCorrectionsPanel'},
   {"LensProfileSetup",'lensCorrectionsPanel',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/LensProfileSetup=Lens Profile Setup")},
   -- LR not responding to this, so leave in selective paste, take out of LR commands
   {"AutoLateralCA",'lensCorrectionsPanel',true,false,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/RemoveChromaticAberration=Remove Chromatic Aberration")},

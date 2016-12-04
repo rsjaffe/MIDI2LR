@@ -349,7 +349,7 @@
   },
   {
     "LensProfileEnable",
-    "Lens Profile Enable"
+    "Toggle Profile Corrections"
   },
   {
     "LensProfileSetup",
@@ -1613,6 +1613,7 @@
   LensManualDistortionAmount = "lensCorrectionsPanel",
   LensProfileChromaticAberrationScale = "lensCorrectionsPanel",
   LensProfileDistortionScale = "lensCorrectionsPanel",
+  LensProfileEnable = "lensCorrectionsPanel",
   LensProfileVignettingScale = "lensCorrectionsPanel",
   Loupe = "loupe",
   LuminanceAdjustmentAqua = "mixerPanel",

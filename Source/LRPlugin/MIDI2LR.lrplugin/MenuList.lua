@@ -1472,6 +1472,12 @@
     true
   },
   {
+    "LensProfileEnable",
+    "Toggle Profile Corrections",
+    "Lens Corrections",
+    true
+  },
+  {
     "LensProfileDistortionScale",
     "Lens Profile Distortion Scale",
     "Lens Corrections",
