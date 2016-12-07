@@ -8,16 +8,7 @@
        src="https://img.shields.io/coverity/scan/9739.svg"/>
 </a> -->
 
-Checksums for Version 1.5.0.2
-Windows executable:
-* CRC32: 431A168F
-* MD5: 60DAD70A4CFE38C8074916AABD2FEECB
-* SHA-1: C1D2D3A5E2862DD65643820DF573D67472E57B4B
-
-OSX/Mac OS executable:
-* CRC32: 74BF2638
-* MD5: 8F01510AA9164BB90445750E86A46C61
-* SHA-1: 1381830A8873B794D00C5C920AF9C286D6C008A1
+[See version history for MD5 and SHA checksums](https://github.com/rsjaffe/MIDI2LR/wiki/Version-History).
 
 
 | Screenshot | Further information |
