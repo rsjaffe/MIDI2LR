@@ -30,6 +30,33 @@ local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
 
+local LrDevelopController = import 'LrDevelopController'
+local listoflocaladjustments = {{"local_Temperature",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Temperature=Temp.").." (PV2012)"},
+  {"local_Tint",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Tint=Tint").." (PV2012)"},
+  {"local_Exposure",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Exposure=Exposure").." (PV2010 and PV2012)"},
+  {"local_Contrast",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Contrast=Contrast").." (PV2010 and PV2012)"},
+  {"local_Highlights",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Highlights=Highlights").." (PV2012)"},
+  {"local_Shadows",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Shadows=Shadows").." (PV2012)"},
+  {"local_Whites2012",false,false,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Whites=Whites").." (PV2012)"},
+  {"local_Blacks2012",false,false,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Blacks=Blacks").." (PV2012)"},
+  {"local_Clarity",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Clarity=Clarity").." (PV2010 and PV2012)"},
+  {"local_Dehaze",false,false,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Dehaze=Dehaze").." (PV2012)"},
+  {"local_Saturation",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Saturation=Saturation").." (PV2010 and PV2012)"},
+  {"local_Sharpness",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Sharpness=Sharpness").." (PV2010 and PV2012)"},
+  {"local_LuminanceNoise",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/LuminanceNoiseReduction=Luminence Noise Reduction").." (PV2012)"},
+  {"local_Moire",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/MoireReduction=Moire").." (PV2012)"},
+  {"local_Defringe",LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Defringe=Defringe").." (PV2012)"},
+  {"local_ToningLuminance","Local Toning Luminance (PV2010)"},
+}
+
+local innercolumn = {}
+for k,v in pairs(listoflocaladjustments) do
+  local low,high = LrDevelopController.getRange(k)
+  table.insert(innercolumn, OU.slider(f,properties,v,'sliderset1',k,low,high,(low+high)/2))
+end
+
+  
+
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
       local f = LrView.osFactory()
@@ -60,6 +87,11 @@ local function setOptions()
             title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
             identifier = 'profiles',
             Profiles.StartDialog(properties,f),
+          },
+          f:tab_view_item{
+            title = LOC ("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments"),
+            identifier = 'localadjustments',
+            unpack (innercolumn),
           },
           f:tab_view_item {
             title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
