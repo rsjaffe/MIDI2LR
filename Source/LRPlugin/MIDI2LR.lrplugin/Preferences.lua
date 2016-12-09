@@ -95,6 +95,8 @@ local function LoadShell(filename) --encapsulates all loading, allowing post-pro
   local loaded = false
   if type(filename)=='string' then
     loaded = LoadFile(filename)
+  elseif argtype ~= 'nil' then
+    LrDialogs.message(LOC("$$$/AgNetIO/Exceptions/BAD_PARAMETERS=The entered parameters are invalid"))    
   else
     loaded = Load()
   end
