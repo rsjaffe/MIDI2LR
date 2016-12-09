@@ -65,72 +65,14 @@ local function Save(filename)
   end
 end
 
-local function load0() --load version 0 --still need to test paste selective settings -- also test change in starthi startlo tests
-  local loaded = false
-  UseDefaults()
-  --then load whatever is available from version 0
-  for k,v in prefs:pairs() do
-    if type(k)=='string' then
-      local historic = {Temperature = 50000, Tint = 150, Exposure = 5}
-      local startlo = k:find('Low',1,true)
-      local starthi = k:find('High',1,true)
-      if startlo == k:len()-2 then --start starthi--first attempt to understand index string
-        local prefname = k:sub(1,startlo-1)
-        if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
-          ProgramPreferences.Limits[prefname][historic[prefname]][1] = v --low limit added
-          loaded = true
-        elseif type(v) == 'table' then--newer style
-          for i,p in pairs(v) do -- pull out low for each rangemax, i=rangemax p = limit
-            ProgramPreferences.Limits[prefname][i][1] = p
-            loaded = true
-          end
-        end
-      elseif starthi == k:len()-3 then --end startlo, start starthi
-        local prefname = k:sub(1,starthi-1)
-        if type(v) == 'number' and historic[prefname] then --dealing with older version of preferences that doesn't include rangemax
-          ProgramPreferences.Limits[prefname][historic[prefname]][2] = v --high limit added
-          loaded = true
-        elseif type(v) == 'table' then--newer style
-          for i,p in pairs(v) do -- pull out high for each rangemax, i=rangemax p = limit
-            ProgramPreferences.Limits[prefname][i][2] = p
-            loaded = true
-          end
-        end
-      elseif k == 'Presets' then --end starthi, start presets
-        loaded = true
-        for i,j in pairs(v) do
-          ProgramPreferences.Presets[i] = j --avoid assigning tables to make a true copy
-        end
-      elseif k == 'PasteList' then --end Presets, start Pastelist
-        loaded = true
-        for i,j in pairs(v) do
-          ProgramPreferences.PasteList[i] = j
-        end
-      end -- end pastelist
-    end  --if string -- all processing occurs inside here--anything added would be an elseif after presets
-  end --for k,v in prefs
-  if not loaded then
-    UseDefaults()
-    Save()
-    LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
-  end
-  return loaded
-end
-
 local function Load()
   local loaded = false
-  if type(prefs)=='table' then
-    if type(prefs[version])=='string' then
-      loaded,ProgramPreferences = serpent.load(prefs[version])
-      if loaded ~= true then
-        UseDefaults()
-        LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
-      end
-    else -- not current version
-      return load0() --load prior version, proper tail call
-    end
-  else
+  if type(prefs)=='table' and type(prefs[version])=='string' then
+    loaded,ProgramPreferences = serpent.load(prefs[version])
+  end
+  if loaded ~= true then
     UseDefaults()
+    LrDialogs.message(LOC("$$$/MIDI2LR/Preferences/cantload=Unable to load preferences. Using default settings."))
   end
   return loaded
 end
