@@ -39,12 +39,18 @@ return {
       title = LOC("$$$/AgPluginManager/Status/HttpServer/StartServer=Start Server"),
       file = "LaunchServer.lua"
     },
-    ---[[ comment out for end-users, enable for development
+    {
+      title = LOC("$$$/AgMenu/LoadPresets=Load presets"),
+      file = "FileLoadPref.lua",
+    },
+    {
+      title = LOC("$$$/AgLibrary/Menu/File/ExportPresets=Export presets"),
+      file = "FileSavePref.lua"
+    },
     {
       title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
     },
-    --]]
   },
   VERSION = { major=1, minor=5, revision=0, build=2}
 }

@@ -31,6 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 local Init                = require 'Init'
 local LrDialogs           = import 'LrDialogs'
+local LrFileUtils         = import 'LrFileUtils'
 local prefs               = import 'LrPrefs'.prefsForPlugin() 
 local serpent             = require 'serpent'
 -- hidden
@@ -49,13 +50,19 @@ local function UseDefaults()
   Init.UseDefaultsProfiles()
 end
 
-local function Save(ClearOld) --clear old optional parameter
-  if ClearOld then
-    for k in prefs:pairs() do
-      prefs[k] = nil
-    end
+local function Save(filename)
+  local argtype = type(filename)
+  if argtype == 'string' then
+    local savestring = {}
+    savestring[version] = ProgramPreferences
+    local f = assert(io.open(filename,"w"),LOC("$$$/AgImageIO/Errors/WriteFile=The file could not be written."))
+    f:write(serpent.dump(savestring))
+    f:close()
+  elseif argtype ~= 'nil' then
+    LrDialogs.message(LOC("$$$/AgNetIO/Exceptions/BAD_PARAMETERS=The entered parameters are invalid"))
+  else
+    prefs[version] = serpent.dump(ProgramPreferences)
   end
-  prefs[version] = serpent.dump(ProgramPreferences)
 end
 
 local function load0() --load version 0 --still need to test paste selective settings -- also test change in starthi startlo tests
@@ -128,8 +135,27 @@ local function Load()
   return loaded
 end
 
-local function LoadShell() --encapsulates all loading, allowing post-processing
-  local loaded = Load()
+local function LoadFile(filename)
+  local loaded = false
+  local itemsread = LrFileUtils.readFile(filename)
+  local tempload
+  loaded,tempload = serpent.load(itemsread)
+  if loaded and type(tempload[version]) == 'table' then
+    Preferences = tempload[version]
+  else
+    loaded = false
+    LrDialogs.message(LOC("$$$/AgImageIO/Errors/ReadFile=The file could not be read."))
+  end
+  return loaded
+end
+
+local function LoadShell(filename) --encapsulates all loading, allowing post-processing
+  local loaded = false
+  if type(filename)=='string' then
+    loaded = LoadFile(filename)
+  else
+    loaded = Load()
+  end
   if loaded then
     Init.LoadedKeys()
     Init.LoadedLimits()
