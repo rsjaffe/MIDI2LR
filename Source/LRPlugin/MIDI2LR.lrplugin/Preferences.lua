@@ -78,12 +78,10 @@ local function Load()
 end
 
 local function LoadFile(filename)
-  local loaded = false
   local itemsread = LrFileUtils.readFile(filename)
-  local tempload
-  loaded,tempload = serpent.load(itemsread)
+  local loaded,tempload = serpent.load(itemsread)
   if loaded and type(tempload[version]) == 'table' then
-    Preferences = tempload[version]
+    ProgramPreferences = tempload[version]
   else
     loaded = false
     LrDialogs.message(LOC("$$$/AgImageIO/Errors/ReadFile=The file could not be read."))
@@ -93,7 +91,8 @@ end
 
 local function LoadShell(filename) --encapsulates all loading, allowing post-processing
   local loaded = false
-  if type(filename)=='string' then
+  local argtype = type(filename)
+  if argtype == 'string' then
     loaded = LoadFile(filename)
   elseif argtype ~= 'nil' then
     LrDialogs.message(LOC("$$$/AgNetIO/Exceptions/BAD_PARAMETERS=The entered parameters are invalid"))    
