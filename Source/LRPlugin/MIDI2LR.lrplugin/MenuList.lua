@@ -1496,6 +1496,12 @@
     false
   },
   {
+    "CropConstrainToWarp",
+    "Constrain to Warp",
+    "Lens Corrections",
+    true
+  },
+  {
     "ResetLensProfileDistortionScale",
     "Reset Lens Profile Distortion Scale",
     "Lens Corrections",
