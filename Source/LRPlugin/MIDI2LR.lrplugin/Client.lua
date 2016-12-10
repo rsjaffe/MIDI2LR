@@ -103,6 +103,7 @@ LrTasks.startAsyncTask(
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
+      CropConstrainToWarp      = CU.fToggle01('CropConstrainToWarp'),
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
       CopySettings             = CU.CopySettings,
       CropOverlay              = CU.fToggleTool('crop'),
