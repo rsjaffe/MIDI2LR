@@ -1555,6 +1555,7 @@
   "CropTop"
 }
   local ProfileMap = {
+  AutoLateralCA = "lensCorrectionsPanel",
   AutoTone = "adjustPanel",
   Blacks = "adjustPanel",
   BlueHue = "calibratePanel",

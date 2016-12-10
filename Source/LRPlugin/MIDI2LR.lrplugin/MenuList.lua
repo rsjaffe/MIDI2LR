@@ -1478,6 +1478,12 @@
     true
   },
   {
+    "AutoLateralCA",
+    "Remove Chromatic Aberration",
+    "Lens Corrections",
+    true
+  },
+  {
     "LensProfileDistortionScale",
     "Lens Profile Distortion Scale",
     "Lens Corrections",

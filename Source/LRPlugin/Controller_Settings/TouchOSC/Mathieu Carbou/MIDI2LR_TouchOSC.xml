@@ -206,6 +206,7 @@
   <setting channel="7" controller="21" command_string="DefringeGreenHueHi"/>
   <setting channel="7" controller="22" command_string="ResetDefringeGreenHueHi"/>
   <setting channel="7" controller="23" command_string="LensProfileEnable"/>
+  <setting channel="7" controller="24" command_string="AutoLateralCA"/>
   <setting channel="7" controller="3" command_string="LensProfileVignettingScale"/>
   <setting channel="7" controller="4" command_string="ResetLensProfileVignettingScale"/>
   <setting channel="7" controller="5" command_string="LensManualDistortionAmount"/>
