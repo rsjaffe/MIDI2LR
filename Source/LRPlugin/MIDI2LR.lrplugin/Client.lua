@@ -322,6 +322,7 @@ LrTasks.startAsyncTask(
       WhiteBalanceFluorescent  = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
       WhiteBalanceShade        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
       WhiteBalanceTungsten     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      PostCropVignetteStyle    = CU.fToggle1ModN('PostCropVignetteStyle', 3),
       PostCropVignetteStyleHighlightPriority = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
       PostCropVignetteStyleColorPriority     = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
       PostCropVignetteStylePaintOverlay      = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
