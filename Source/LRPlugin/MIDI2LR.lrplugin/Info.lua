@@ -40,6 +40,10 @@ return {
       file = "LaunchServer.lua"
     },
     {
+      title = LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stop Server"),
+      file = "StopServer.lua"
+    },
+    {
       title = LOC("$$$/AgMenu/LoadPresets=Load presets"),
       file = "FileLoadPref.lua",
     },
