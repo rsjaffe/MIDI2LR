@@ -16,7 +16,19 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
+local LrPathUtils         = import 'LrPathUtils'
+local LrShell             = import 'LrShell'	
+local LrTasks             = import 'LrTasks'
 
-
-MIDI2LR.SERVER:close()
-MIDI2LR.RUNNING = false
+if ProgramPreferences.StopServerOnExit then
+  MIDI2LR.SERVER:close()
+  MIDI2LR.RUNNING = false
+  LrTasks.startAsyncTask(function()
+    if(WIN_ENV) then
+      LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
+    else
+      LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
+    end
+  end
+)
+end
