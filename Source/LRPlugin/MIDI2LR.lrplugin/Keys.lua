@@ -30,14 +30,6 @@ local completion = {
   'end',
   'escape',
   'f1',
-  'f2',
-  'f3',
-  'f4',
-  'f5',
-  'f6',
-  'f7',
-  'f8',
-  'f9',
   'f10',
   'f11',
   'f12',
@@ -48,13 +40,37 @@ local completion = {
   'f17',
   'f18',
   'f19',
+  'f2',
   'f20',
+  'f3',
+  'f4',
+  'f5',
+  'f6',
+  'f7',
+  'f8',
+  'f9',
   'home',
+  'numpad 0',
+  'numpad 1',
+  'numpad 2',
+  'numpad 3',
+  'numpad 4',
+  'numpad 5',
+  'numpad 6',
+  'numpad 7',
+  'numpad 8',
+  'numpad 9',
+  'numpad add',
+  'numpad decimal',
+  'numpad divide',
+  'numpad multiply',
+  'numpad subtract',
   'page down',
   'page up',
   'return',
   'space',
-  'tab',}
+  'tab',
+  }
 for _,k in ipairs(completion) do
   maxlength = math.max(k:len(),maxlength)
   legalanswers[k] = true
@@ -77,7 +93,7 @@ local function validate(_,value)
   if count < 2 then return true,value end --one key or empty string
   value = LrStringUtils.lower(value)
   if legalanswers[value] then return true,value end
-  return false, '', 'Value must be single character or spell out an F key (F1-F16) or: backspace (means delete in OS X), cursor down, cursor left, cursor right, cursor up, delete (means delete right in OS X), end, escape, home, page down, page up, return, space, or tab.'
+  return false, '', 'Value must be single character or spell out an F key (F1-F16) or: backspace (means delete in OS X), cursor down, cursor left, cursor right, cursor up, delete (means delete right in OS X), end, escape, home, page down, page up, return, space, tab, or numpad 0 (through numpad 9), numpad add (or decimal, divide, multiply, subtract).'
 end
 
 
