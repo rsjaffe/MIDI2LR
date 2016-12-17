@@ -1,6 +1,6 @@
 --[[----------------------------------------------------------------------------
 
-ShutDownPlugin.lua
+ShutDownApp.lua
 Closes the app
  
 This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
@@ -20,20 +20,30 @@ local LrPathUtils         = import 'LrPathUtils'
 local LrShell             = import 'LrShell'	
 local LrTasks             = import 'LrTasks'
 
-if ProgramPreferences.StopServerOnExit then
-  LrTasks.startAsyncTask(function()
-      if(WIN_ENV) then
-        LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
-      else
-        LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
-      end
+return {
+  LrShutdownFunction = function(doneFunction, progressFunction)
+    progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+    if ProgramPreferences.StopServerOnExit then
+      LrTasks.startAsyncTask(function()
+          if(WIN_ENV) then
+            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
+          else
+            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
+          end
+          progressFunction (0.75, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          MIDI2LR.RUNNING = false
+          MIDI2LR.SERVER:close()
+          MIDI2LR.CLIENT:close()
+          progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          doneFunction()
+        end
+      )
+    else
       MIDI2LR.RUNNING = false
       MIDI2LR.SERVER:close()
       MIDI2LR.CLIENT:close()
+      progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+      doneFunction()
     end
-  )
-else
-  MIDI2LR.RUNNING = false
-  MIDI2LR.SERVER:close()
-  MIDI2LR.CLIENT:close()
-end
+  end
+}

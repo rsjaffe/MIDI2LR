@@ -35,8 +35,10 @@ local profilepath = '' --according to application
 local resyncDeferred = false
 
 local function doprofilechange(newprofile)
-  if ProgramPreferences.ProfilesShowBezelOnChange and loadedprofile ~= '' then
-    LrDialogs.showBezel(LOC("$$$/AgNamingUI/RenameFile/ChangingTo=^1 is changing to ^2",loadedprofile,newprofile))
+  if ProgramPreferences.ProfilesShowBezelOnChange then
+    local filename = newprofile:match(".-([^\\^/]-([^%.]+))$")
+    filename = filename:sub(0, -5)
+    LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
   if LrApplicationView.getCurrentModuleName() == 'develop' then
@@ -244,7 +246,7 @@ local function StartDialog(obstable,f)
           }, 
           f:row {
             f:static_text{title = ProfileTypes.transformPanel.friendlyName, width = LrView.share('profile_label'),},
-            f:edit_field{ value = LrView.bind ('TransformPanelPanel'), width = LrView.share('profile_value'),
+            f:edit_field{ value = LrView.bind ('ProfiletransformPanel'), width = LrView.share('profile_value'),
               width_in_chars = 15, auto_completion = auto_completion, completion = completion},
           },
           f:row {
@@ -325,7 +327,7 @@ local function StartDialog(obstable,f)
         end
       end
     },
-    f:checkbox {title = 'Notify when profile changes.', value = LrView.bind('ProfilesShowBezelOnChange')}
+    f:checkbox {title = LOC("$$$/MIDI2LR/Profiles/NotifyWhenChanged=Notify when profile changes"), value = LrView.bind('ProfilesShowBezelOnChange')}
   }
   return allboxes
 end

@@ -83,7 +83,7 @@ LrTasks.startAsyncTask(
     local LrStringUtils       = import 'LrStringUtils'
     local LrUndo              = import 'LrUndo'
     --global variables
-    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, RUNNING = true} --non-local but in MIDI2LR namespace
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CLIENT = {}, RUNNING = true} --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
@@ -103,6 +103,7 @@ LrTasks.startAsyncTask(
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
+      CropConstrainToWarp      = CU.fToggle01('CropConstrainToWarp'),
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
       CopySettings             = CU.CopySettings,
       CropOverlay              = CU.fToggleTool('crop'),
@@ -166,7 +167,7 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
-      LensProfileEnable        = CU.fToggle01('LensProfileEnable'),
+      LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,
       PasteSelectedSettings    = CU.PasteSelectedSettings,
@@ -321,6 +322,7 @@ LrTasks.startAsyncTask(
       WhiteBalanceFluorescent  = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
       WhiteBalanceShade        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
       WhiteBalanceTungsten     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      PostCropVignetteStyle    = CU.fToggle1ModN('PostCropVignetteStyle', 3),
       PostCropVignetteStyleHighlightPriority = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
       PostCropVignetteStyleColorPriority     = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
       PostCropVignetteStylePaintOverlay      = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
@@ -425,7 +427,8 @@ LrTasks.startAsyncTask(
           LrDevelopController.setValue(param, value)
           LastParam = param
           if ProgramPreferences.ClientShowBezelOnChange then
-            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+            local bezelname = ParamList.LimitEligible[param][1] or param
+            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
           if ParamList.ProfileMap[param] then
             Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -435,7 +438,8 @@ LrTasks.startAsyncTask(
             value = MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
             local precision = Ut.precision(value)
-            LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+            local bezelname = ParamList.LimitEligible[param][1] or param
+            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
             CU.FullRefresh()
@@ -456,7 +460,8 @@ LrTasks.startAsyncTask(
       LrDevelopController.setValue(param, value)
       LastParam = param
       if ProgramPreferences.ClientShowBezelOnChange then
-        LrDialogs.showBezel(param..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+        local bezelname = ParamList.LimitEligible[param][1] or param
+        LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
       end
       if ParamList.ProfileMap[param] then
         Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -498,17 +503,15 @@ LrTasks.startAsyncTask(
             plugin = _PLUGIN,
             port = SEND_PORT,
             mode = 'send',
-            onClosed = function( ) -- this callback never seems to get called...
-              -- MIDI2LR closed connection, allow for reconnection
-              -- socket:reconnect()
-            end,
             onError = function( socket )
-              socket:reconnect()
+              if MIDI2LR.RUNNING then -- 
+                socket:reconnect()
+              end
             end,
           }
         end
 
-        local client = LrSocket.bind {
+        MIDI2LR.CLIENT = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
           port = RECEIVE_PORT,
@@ -530,11 +533,13 @@ LrTasks.startAsyncTask(
             end
           end,
           onClosed = function( socket )
-            -- MIDI2LR closed connection, allow for reconnection
-            socket:reconnect()
-            -- calling SERVER:reconnect causes LR to hang for some reason...
-            MIDI2LR.SERVER:close()
-            startServer(context)
+            if MIDI2LR.RUNNING then
+              -- MIDI2LR closed connection, allow for reconnection
+              socket:reconnect()
+              -- calling SERVER:reconnect causes LR to hang for some reason...
+              MIDI2LR.SERVER:close()
+              startServer(context)
+            end
           end,
           onError = function(socket, err)
             if err == 'timeout' then -- reconnect if timed out
@@ -576,8 +581,6 @@ LrTasks.startAsyncTask(
             guardsetting:performWithGuard(Profiles.checkProfile)
           end
         end
-        client:close()
-        MIDI2LR.SERVER:close()
       end 
     )
   end 

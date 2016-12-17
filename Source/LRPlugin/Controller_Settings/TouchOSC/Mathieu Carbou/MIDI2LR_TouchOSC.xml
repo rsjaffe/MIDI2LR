@@ -48,9 +48,9 @@
   <setting channel="10" controller="14" command_string="ResetPerspectiveAspect"/>
   <setting channel="10" controller="15" command_string="PerspectiveScale"/>
   <setting channel="10" controller="16" command_string="ResetPerspectiveScale"/>
-  <setting channel="10" controller="17" command_string="PerspectiveX "/>
+  <setting channel="10" controller="17" command_string="PerspectiveX"/>
   <setting channel="10" controller="18" command_string="ResetPerspectiveX"/>
-  <setting channel="10" controller="19" command_string="PerspectiveY "/>
+  <setting channel="10" controller="19" command_string="PerspectiveY"/>
   <setting channel="10" controller="2" command_string="UprightAuto"/>
   <setting channel="10" controller="20" command_string="ResetPerspectiveY"/>
   <setting channel="10" controller="3" command_string="UprightGuided"/>
@@ -205,6 +205,9 @@
   <setting channel="7" controller="20" command_string="ResetDefringeGreenHueLo"/>
   <setting channel="7" controller="21" command_string="DefringeGreenHueHi"/>
   <setting channel="7" controller="22" command_string="ResetDefringeGreenHueHi"/>
+  <setting channel="7" controller="23" command_string="LensProfileEnable"/>
+  <setting channel="7" controller="24" command_string="AutoLateralCA"/>
+  <setting channel="7" controller="25" command_string="CropConstrainToWarp"/>
   <setting channel="7" controller="3" command_string="LensProfileVignettingScale"/>
   <setting channel="7" controller="4" command_string="ResetLensProfileVignettingScale"/>
   <setting channel="7" controller="5" command_string="LensManualDistortionAmount"/>

@@ -1472,6 +1472,18 @@
     true
   },
   {
+    "LensProfileEnable",
+    "Toggle Profile Corrections",
+    "Lens Corrections",
+    true
+  },
+  {
+    "AutoLateralCA",
+    "Remove Chromatic Aberration",
+    "Lens Corrections",
+    true
+  },
+  {
     "LensProfileDistortionScale",
     "Lens Profile Distortion Scale",
     "Lens Corrections",
@@ -1488,6 +1500,12 @@
     "Lens Profile Vignetting Scale",
     "Lens Corrections",
     false
+  },
+  {
+    "CropConstrainToWarp",
+    "Constrain to Warp",
+    "Lens Corrections",
+    true
   },
   {
     "ResetLensProfileDistortionScale",
@@ -1700,13 +1718,13 @@
     false
   },
   {
-    "PerspectiveX ",
+    "PerspectiveX",
     "Perspective X",
     "Transform",
     false
   },
   {
-    "PerspectiveY ",
+    "PerspectiveY",
     "Perspective Y",
     "Transform",
     false

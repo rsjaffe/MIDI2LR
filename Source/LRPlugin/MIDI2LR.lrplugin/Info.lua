@@ -23,10 +23,10 @@ return {
   LrPluginName = 'MIDI2LR',
   LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
   LrSdkVersion = 6.0,
-  LrShutdownApp = 'ShutDown.lua',
+  LrShutdownApp = 'ShutDownApp.lua',
   LrShutdownPlugin = 'ShutDownPlugin.lua',
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
-  LrExportMenuItems = { -- Needs to provide at least a menu item
+  LrExportMenuItems = {
     {
       title = LOC("$$$/AgCreations/NewCreationDialog/CreateItemDialog/Options=Options"),
       file = 'Options.lua',
@@ -39,12 +39,22 @@ return {
       title = LOC("$$$/AgPluginManager/Status/HttpServer/StartServer=Start Server"),
       file = "LaunchServer.lua"
     },
-    ---[[ comment out for end-users, enable for development
     {
-      title = "Build files (development use only)",
+      title = LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stop Server"),
+      file = "StopServer.lua"
+    },
+    {
+      title = LOC("$$$/AgMenu/LoadPresets=Load presets"),
+      file = "FileLoadPref.lua",
+    },
+    {
+      title = LOC("$$$/AgLibrary/Menu/File/ExportPresets=Export presets"),
+      file = "FileSavePref.lua"
+    },
+    {
+      title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
     },
-    --]]
   },
-  VERSION = { major=1, minor=5, revision=0, build=2}
+  VERSION = { major=1, minor=6, revision=0, build=0}
 }

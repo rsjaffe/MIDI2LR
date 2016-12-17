@@ -164,7 +164,22 @@ const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
 {"f17",	VK_F17},
 {"f18",	VK_F18},
 {"f19",	VK_F19},
-{"f20",	VK_F20}
+{"f20",	VK_F20},
+{"numpad 0", VK_NUMPAD0},
+{"numpad 1", VK_NUMPAD1},
+{"numpad 2", VK_NUMPAD2},
+{"numpad 3", VK_NUMPAD3},
+{"numpad 4", VK_NUMPAD4},
+{"numpad 5", VK_NUMPAD5},
+{"numpad 6", VK_NUMPAD6},
+{"numpad 7", VK_NUMPAD7},
+{"numpad 8", VK_NUMPAD8},
+{"numpad 9", VK_NUMPAD9},
+{"numpad add", VK_ADD},
+{"numpad subtract", VK_SUBTRACT},
+{"numpad multiply", VK_MULTIPLY},
+{"numpad divide", VK_DIVIDE},
+{"numpad decimal", VK_DECIMAL}
 #else
 {
 "backspace",    kVK_Delete
@@ -201,7 +216,23 @@ const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
 {"f17",	kVK_F17},
 {"f18",	kVK_F18},
 {"f19",	kVK_F19},
-{"f20",	kVK_F20}
+{"f20",	kVK_F20},
+//using ANSI layout codes for keypad, may cause problems in some languages
+{"numpad 0", kVK_ANSI_Keypad0},
+{"numpad 1", kVK_ANSI_Keypad1},
+{"numpad 2", kVK_ANSI_Keypad2},
+{"numpad 3", kVK_ANSI_Keypad3},
+{"numpad 4", kVK_ANSI_Keypad4},
+{"numpad 5", kVK_ANSI_Keypad5},
+{"numpad 6", kVK_ANSI_Keypad6},
+{"numpad 7", kVK_ANSI_Keypad7},
+{"numpad 8", kVK_ANSI_Keypad8},
+{"numpad 9", kVK_ANSI_Keypad9},
+{"numpad add", kVK_ANSI_KeypadPlus},
+{"numpad subtract", kVK_ANSI_KeypadMinus},
+{"numpad multiply", kVK_ANSI_KeypadMultiply},
+{"numpad divide", kVK_ANSI_KeypadDivide},
+{"numpad decimal", kVK_ANSI_KeypadDecimal}
 #endif
 };
 

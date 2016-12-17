@@ -65,12 +65,32 @@ end
 
 local function fToggle01(param)
   return function()
-    if Ut.execFOM(LrDevelopController.getValue(param)) == 0 then
+    if Ut.execFOM(LrDevelopController.getValue, param) == 0 then
       LrDevelopController.setValue(param,1)
     else
       LrDevelopController.setValue(param,0)
     end
   end
+end
+
+local function fToggle01Async(param)
+  return function()
+    LrTasks.startAsyncTask ( function ()
+      if Ut.execFOM(LrDevelopController.getValue, param) == 0 then
+        LrDevelopController.setValue(param,1)
+      else
+        LrDevelopController.setValue(param,0)
+      end
+    end )
+  end
+end
+
+local function fToggle1ModN(param, N)
+    return function()
+        local v = Ut.execFOM(LrDevelopController.getValue, param)
+        v = (v % N) + 1
+        LrDevelopController.setValue(param,v)
+    end
 end
 
 local function fToggleTF(param)
@@ -200,6 +220,8 @@ return {
   fChangeModule = fChangeModule,
   fChangePanel = fChangePanel,
   fToggle01 = fToggle01,
+  fToggle01Async = fToggle01Async,
+  fToggle1ModN = fToggle1ModN,
   fToggleTF = fToggleTF,
   fToggleTool = fToggleTool,
   FullRefresh = FullRefresh,
