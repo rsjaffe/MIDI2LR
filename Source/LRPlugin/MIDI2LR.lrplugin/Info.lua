@@ -23,9 +23,10 @@ return {
   LrPluginName = 'MIDI2LR',
   LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
   LrSdkVersion = 6.0,
+  LrShutdownApp = 'ShutDownApp.lua',
   LrShutdownPlugin = 'ShutDownPlugin.lua',
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
-  LrExportMenuItems = { -- Needs to provide at least a menu item
+  LrExportMenuItems = {
     {
       title = LOC("$$$/AgCreations/NewCreationDialog/CreateItemDialog/Options=Options"),
       file = 'Options.lua',

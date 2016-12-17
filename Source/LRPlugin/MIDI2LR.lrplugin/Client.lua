@@ -83,7 +83,7 @@ LrTasks.startAsyncTask(
     local LrStringUtils       = import 'LrStringUtils'
     local LrUndo              = import 'LrUndo'
     --global variables
-    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, RUNNING = true} --non-local but in MIDI2LR namespace
+    MIDI2LR = {PARAM_OBSERVER = {}, SERVER = {}, CLIENT = {}, RUNNING = true} --non-local but in MIDI2LR namespace
     --local variables
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
@@ -503,17 +503,15 @@ LrTasks.startAsyncTask(
             plugin = _PLUGIN,
             port = SEND_PORT,
             mode = 'send',
-            onClosed = function( ) -- this callback never seems to get called...
-              -- MIDI2LR closed connection, allow for reconnection
-              -- socket:reconnect()
-            end,
             onError = function( socket )
-              socket:reconnect()
+              if MIDI2LR.RUNNING then -- 
+                socket:reconnect()
+              end
             end,
           }
         end
 
-        local client = LrSocket.bind {
+        MIDI2LR.CLIENT = LrSocket.bind {
           functionContext = context,
           plugin = _PLUGIN,
           port = RECEIVE_PORT,
@@ -535,11 +533,13 @@ LrTasks.startAsyncTask(
             end
           end,
           onClosed = function( socket )
-            -- MIDI2LR closed connection, allow for reconnection
-            socket:reconnect()
-            -- calling SERVER:reconnect causes LR to hang for some reason...
-            MIDI2LR.SERVER:close()
-            startServer(context)
+            if MIDI2LR.RUNNING then
+              -- MIDI2LR closed connection, allow for reconnection
+              socket:reconnect()
+              -- calling SERVER:reconnect causes LR to hang for some reason...
+              MIDI2LR.SERVER:close()
+              startServer(context)
+            end
           end,
           onError = function(socket, err)
             if err == 'timeout' then -- reconnect if timed out
@@ -581,7 +581,7 @@ LrTasks.startAsyncTask(
             guardsetting:performWithGuard(Profiles.checkProfile)
           end
         end
-        client:close()
+        MIDI2LR.CLIENT:close()
         MIDI2LR.SERVER:close()
       end 
     )
