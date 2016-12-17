@@ -581,8 +581,6 @@ LrTasks.startAsyncTask(
             guardsetting:performWithGuard(Profiles.checkProfile)
           end
         end
-        MIDI2LR.CLIENT:close()
-        MIDI2LR.SERVER:close()
       end 
     )
   end 
