@@ -153,7 +153,6 @@ void LR_IPC_IN::processLine(const std::string& line) {
         break;
     }
     case 3: //TerminateApplication
-      PleaseStopThread();
       juce::JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
