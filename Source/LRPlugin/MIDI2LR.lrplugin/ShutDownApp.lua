@@ -24,7 +24,7 @@ return {
   LrShutdownFunction = function(doneFunction, progressFunction)
     progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
     if ProgramPreferences.StopServerOnExit then
-      MIDI2LR.SERVER:send('TerminateApplication 1')
+      MIDI2LR.SERVER:send('TerminateApplication 1\n')
       progressFunction (0.5, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
       LrTasks.yield()
     end

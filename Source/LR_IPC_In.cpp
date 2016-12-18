@@ -104,8 +104,8 @@ void LR_IPC_IN::run() {
       {
         std::string param{line};
         if (can_read_line && param.back() == '\n') {
-        processLine(param);
-      }
+          processLine(param);
+        }
       } //scope param
     dumpLine: /* empty statement */;
     } //end else (is connected)
@@ -146,32 +146,31 @@ void LR_IPC_IN::processLine(const std::string& line) {
       break;
     case 2: //SendKey
       {
-      std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-          (std::stoi(value_string))};
+        std::bitset<3> modifiers{static_cast<decltype(modifiers)>
+            (std::stoi(value_string))};
         send_keys_.SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
           modifiers[0], modifiers[1], modifiers[2]);
         break;
-    }
+      }
     case 3: //TerminateApplication
       juce::JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
       // send associated CC messages to MIDI OUT devices
-      if (command_map_ && midi_sender_ ) {
+      if (command_map_ && midi_sender_) {
         const auto original_value = std::stod(value_string);
         for (const auto msg : command_map_->getMessagesForCommand(command)) {
           const auto value = static_cast<int>(round( //-V2003
             ((msg->controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
 
           if (midi_sender_) {
-			switch (msg->messageType)
-			{
-				case NOTE: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-				case CC: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-				case PITCHBEND: midi_sender_->sendPitchBend(msg->channel, static_cast<int>(round(original_value * kMaxPitchBendNRPN))); break;
-			}
+            switch (msg->messageType) {
+              case NOTE: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+              case CC: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+              case PITCHBEND: midi_sender_->sendPitchBend(msg->channel, static_cast<int>(round(original_value * kMaxPitchBendNRPN))); break;
+            }
           }
         }
       }
-    }
   }
+}

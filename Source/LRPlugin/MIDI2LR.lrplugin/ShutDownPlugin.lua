@@ -21,7 +21,7 @@ local LrShell             = import 'LrShell'
 local LrTasks             = import 'LrTasks'
 
 if ProgramPreferences.StopServerOnExit then
-  MIDI2LR.SERVER:send('TerminateApplication 1')
+  MIDI2LR.SERVER:send('TerminateApplication 1\n')
   LrTasks.yield()
 end
 MIDI2LR.RUNNING = false
