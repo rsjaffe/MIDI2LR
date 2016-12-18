@@ -21,19 +21,9 @@ local LrShell             = import 'LrShell'
 local LrTasks             = import 'LrTasks'
 
 if ProgramPreferences.StopServerOnExit then
-  LrTasks.startAsyncTask(function()
-      if(WIN_ENV) then
-        LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
-      else
-        LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
-      end
-      MIDI2LR.RUNNING = false
-      MIDI2LR.SERVER:close()
-      MIDI2LR.CLIENT:close()
-    end
-  )
-else
-  MIDI2LR.RUNNING = false
-  MIDI2LR.SERVER:close()
-  MIDI2LR.CLIENT:close()
+  MIDI2LR.SERVER:send('TerminateApplication 1\n')
+  LrTasks.yield()
 end
+MIDI2LR.RUNNING = false
+MIDI2LR.SERVER:close()
+MIDI2LR.CLIENT:close()
