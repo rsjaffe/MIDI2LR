@@ -17,21 +17,34 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local LrPathUtils         = import 'LrPathUtils'
-local LrShell             = import 'LrShell'	
+local LrShell             = import 'LrShell'    
 local LrTasks             = import 'LrTasks'
 
 return {
   LrShutdownFunction = function(doneFunction, progressFunction)
     progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
     if ProgramPreferences.StopServerOnExit then
-      MIDI2LR.SERVER:send('TerminateApplication 1\n')
-      progressFunction (0.5, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
-      LrTasks.yield()
+      LrTasks.startAsyncTask(
+        function()
+          if(WIN_ENV) then
+            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
+          else
+            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
+          end
+          progressFunction (0.5, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          MIDI2LR.RUNNING = false
+          MIDI2LR.SERVER:close()
+          MIDI2LR.CLIENT:close()
+          progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          doneFunction()
+        end
+      )
+    else
+      MIDI2LR.RUNNING = false
+      MIDI2LR.SERVER:close()
+      MIDI2LR.CLIENT:close()
+      progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+      doneFunction()
     end
-    MIDI2LR.RUNNING = false
-    MIDI2LR.SERVER:close()
-    MIDI2LR.CLIENT:close()
-    progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
-    doneFunction()
   end
 }
