@@ -260,6 +260,66 @@
     true
   },
   {
+    "Filter_1",
+    "Library filter 1",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_2",
+    "Library filter 2",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_3",
+    "Library filter 3",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_4",
+    "Library filter 4",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_5",
+    "Library filter 5",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_6",
+    "Library filter 6",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_7",
+    "Library filter 7",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_8",
+    "Library filter 8",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_9",
+    "Library filter 9",
+    "Library filter",
+    true
+  },
+  {
+    "Filter_10",
+    "Library filter 10",
+    "Library filter",
+    true
+  },
+  {
     "ShoVwgrid",
     "Primary Display Grid",
     "General",

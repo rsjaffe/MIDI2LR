@@ -34,6 +34,7 @@ public:
 
   // Sectioned and readable develop param strings
   static const std::vector<std::string> KeyShortcuts;
+  static const std::vector<std::string> Filters;
   static const std::vector<std::string> General;
   static const std::vector<std::string> Library;
   static const std::vector<std::string> Develop;

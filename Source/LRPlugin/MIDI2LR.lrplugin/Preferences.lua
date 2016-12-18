@@ -43,6 +43,7 @@ ProgramPreferences = {}
 
 local function UseDefaults()
   ProgramPreferences = {}
+  Init.UseDefaultsFilters()
   Init.UseDefaultsKeys()
   Init.UseDefaultsLimits()
   Init.UseDefaultsPaste()
@@ -100,6 +101,7 @@ local function LoadShell(filename) --encapsulates all loading, allowing post-pro
     loaded = Load()
   end
   if loaded then
+    Init.LoadedFilters()
     Init.LoadedKeys()
     Init.LoadedLimits()
     Init.LoadedPaste()
