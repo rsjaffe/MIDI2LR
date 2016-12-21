@@ -29,7 +29,7 @@ return {
           if(WIN_ENV) then
             LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
           else
-            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
+            LrTasks.execute('kill `pgrep MIDI2LR`') -- extreme, but maybe it'll work until I can close it more gracefully
           end
           progressFunction (0.5, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
           MIDI2LR.RUNNING = false
