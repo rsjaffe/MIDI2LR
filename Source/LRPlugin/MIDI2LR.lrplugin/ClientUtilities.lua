@@ -32,6 +32,14 @@ local LrFunctionContext   = import 'LrFunctionContext'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 
+local function fApplyFilter(filternumber)
+  return function()
+    local filterUuid = ProgramPreferences.Filters[filternumber]
+    if filterUuid == nil then return end
+    LrApplication.activeCatalog():setViewFilter(filterUuid)
+  end
+end
+
 local function fApplyPreset(presetnumber)
   return function()
     local presetUuid = ProgramPreferences.Presets[presetnumber]
@@ -216,6 +224,7 @@ end
 
 return {
   CopySettings = CopySettings,
+  fApplyFilter = fApplyFilter,
   fApplyPreset = fApplyPreset,
   fChangeModule = fChangeModule,
   fChangePanel = fChangePanel,

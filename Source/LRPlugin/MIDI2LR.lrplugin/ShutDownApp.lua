@@ -17,20 +17,21 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local LrPathUtils         = import 'LrPathUtils'
-local LrShell             = import 'LrShell'	
+local LrShell             = import 'LrShell'    
 local LrTasks             = import 'LrTasks'
 
 return {
   LrShutdownFunction = function(doneFunction, progressFunction)
     progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
     if ProgramPreferences.StopServerOnExit then
-      LrTasks.startAsyncTask(function()
+      LrTasks.startAsyncTask(
+        function()
           if(WIN_ENV) then
             LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
           else
-            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
+            LrTasks.execute('kill `pgrep MIDI2LR`') -- extreme, but maybe it'll work until I can close it more gracefully
           end
-          progressFunction (0.75, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          progressFunction (0.5, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
           MIDI2LR.RUNNING = false
           MIDI2LR.SERVER:close()
           MIDI2LR.CLIENT:close()

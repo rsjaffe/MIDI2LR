@@ -53,6 +53,7 @@ local whiteBalance = LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/W
 local coarse = LOC("$$$/AgPrint/CalibrationDialog/Coarse=Coarse")
 local fine = LOC("$$$/AgPrint/CalibrationDialog/Fine=Fine")
 local key = LOC("$$$/MIDI2LR/Shortcuts/Key=Key")
+local filter= LOC("$$$/Library/Filter/FilterLabel=Library filter")
 
 --[[----------------------------------------------------------------------------
 
@@ -137,6 +138,17 @@ local DataBase = {
   {'Key38',false,false,true,false,true,false,key..' 38',keyshortcuts,'Key 38. *button*'},
   {'Key39',false,false,true,false,true,false,key..' 39',keyshortcuts,'Key 39. *button*'},
   {'Key40',false,false,true,false,true,false,key..' 40',keyshortcuts,'Key 40. *button*'},
+  --library filters
+  {'Filter_1',false,false,true,false,true,false,filter..' 1',filter,'Library filter 1. *button*'},
+  {'Filter_2',false,false,true,false,true,false,filter..' 2',filter,'Library filter 2. *button*'},
+  {'Filter_3',false,false,true,false,true,false,filter..' 3',filter,'Library filter 3. *button*'},
+  {'Filter_4',false,false,true,false,true,false,filter..' 4',filter,'Library filter 4. *button*'},
+  {'Filter_5',false,false,true,false,true,false,filter..' 5',filter,'Library filter 5. *button*'},
+  {'Filter_6',false,false,true,false,true,false,filter..' 6',filter,'Library filter 6. *button*'},
+  {'Filter_7',false,false,true,false,true,false,filter..' 7',filter,'Library filter 7. *button*'},
+  {'Filter_8',false,false,true,false,true,false,filter..' 8',filter,'Library filter 8. *button*'},
+  {'Filter_9',false,false,true,false,true,false,filter..' 9',filter,'Library filter 9. *button*'},
+  {'Filter_10',false,false,true,false,true,false,filter..' 10',filter,'Library filter 10. *button*'},  
   --General Workspace
   --workspace: grid view options
   {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),general,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
@@ -845,6 +857,7 @@ local cppvectors ={
   [developPresets]={'DevelopPresets','Develop Presets'},
   [develop]={'Develop',develop},
   [effects]={'Effects','Effects'},
+  [filter]={'Filters',filter},
   [general]={'General',general},
   [gotoToolModulePanel]={'ToolModulePanel','Go to Tool, Module, or Panel'},
   [keyshortcuts]={'KeyShortcuts',keyshortcuts},

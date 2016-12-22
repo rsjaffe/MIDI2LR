@@ -25,11 +25,19 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local LrApplication       = import 'LrApplication'
-local LrApplicationView   = import 'LrApplicationView'
-local LrDevelopController = import 'LrDevelopController'
 local ParamList           = require 'ParamList'
 local ProfileTypes        = require 'ProfileTypes'
+
+
+--Filters.lua
+local function UseDefaultsFilters()
+  ProgramPreferences.Filters = {}
+end
+local function LoadedFilters()
+  if type(ProgramPreferences.Filters) ~= 'table' then
+    UseDefaultsFilters()
+  end
+end
 
 --Limits.lua
 
@@ -103,11 +111,13 @@ end
 
 
 return {
+  LoadedFilters       = LoadedFilters,
   LoadedKeys          = LoadedKeys,
   LoadedLimits        = LoadedLimits,
   LoadedPaste         = LoadedPaste,
   LoadedPresets       = LoadedPresets,
   LoadedProfiles      = LoadedProfiles,
+  UseDefaultsFilters  = UseDefaultsFilters,
   UseDefaultsKeys     = UseDefaultsKeys,
   UseDefaultsLimits   = UseDefaultsLimits,
   UseDefaultsPaste    = UseDefaultsPaste,

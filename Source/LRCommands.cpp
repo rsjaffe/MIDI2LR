@@ -66,6 +66,19 @@ const std::vector<std::string> LRCommandList::KeyShortcuts = {
 "Key 40",
 };
 
+const std::vector<std::string> LRCommandList::Filters = {
+"Library filter 1",
+"Library filter 2",
+"Library filter 3",
+"Library filter 4",
+"Library filter 5",
+"Library filter 6",
+"Library filter 7",
+"Library filter 8",
+"Library filter 9",
+"Library filter 10",
+};
+
 const std::vector<std::string> LRCommandList::General = {
 "Primary Display Grid",
 "Primary Display Loupe",
@@ -601,6 +614,17 @@ const std::vector<std::string> LRCommandList::LRStringList = {
 "Key38",
 "Key39",
 "Key40",
+/* Library filter */
+"Filter_1",
+"Filter_2",
+"Filter_3",
+"Filter_4",
+"Filter_5",
+"Filter_6",
+"Filter_7",
+"Filter_8",
+"Filter_9",
+"Filter_10",
 /* General */
 "ShoVwgrid",
 "ShoVwloupe",

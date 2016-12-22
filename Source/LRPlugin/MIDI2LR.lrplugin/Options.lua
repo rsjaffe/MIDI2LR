@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local Filters           = require 'Filters'
 local Keys              = require 'Keys'
 local Limits            = require 'Limits' 
 local OU                = require 'OptionsUtilities'
@@ -66,6 +67,11 @@ local function setOptions()
             identifier = 'profiles',
             Profiles.StartDialog(properties,f),
           },
+          f:tab_view_item{
+            title = LOC("$$$/Library/Filter/FilterLabel=Library filter"),
+            identifier = 'filters',
+            Filters.StartDialog(properties,f),
+          },
           f:tab_view_item {
             title = LOC("$$$/AgPrint/ProfileMenu/Other=Other..."),
             identifier = 'othersettings',
@@ -90,6 +96,7 @@ local function setOptions()
         title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
         contents = contents,
       }
+      Filters.EndDialog(properties,result)
       Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)
       Presets.EndDialog(properties,result)

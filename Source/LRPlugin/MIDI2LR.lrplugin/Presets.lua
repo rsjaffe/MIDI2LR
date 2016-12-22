@@ -56,7 +56,7 @@ local function StartDialog(obstable,f)
         width_in_chars = 40,
         truncation = 'head',
         title = LrView.bind { key = 'preset'..i,
-          transform = function(value) return LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
+          transform = function(value) return i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
         },  -- title
       } -- static_text
     )

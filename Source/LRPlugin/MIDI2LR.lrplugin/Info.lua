@@ -56,5 +56,5 @@ return {
       file = "Build.lua"
     },
   },
-  VERSION = { major=1, minor=6, revision=0, build=0}
+  VERSION = { major=1, minor=6, revision=1, build=0}
 }
