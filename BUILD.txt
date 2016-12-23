@@ -23,6 +23,10 @@ but also in Info.lua (the VERSION variable).
 The project files for both platforms will be located in Builds/ (MIDI2LR.sln for
 Visual studio, and MIDI2LR.xcodeproj for XCode) once you've run Juce.
 
+The database for string translations is in another repository, MIDI2LRdb because
+of its large size. Request changes to the database when adding new strings to
+the plugin.
+
 Build process
 --------------------
 
