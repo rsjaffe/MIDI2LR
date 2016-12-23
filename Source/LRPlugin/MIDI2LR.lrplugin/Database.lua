@@ -708,10 +708,20 @@ for i,v in ipairs(DataBase) do
   else
     SelectivePasteHidden[v[1]] = v[8]
   end
+  end
+  if v[11] then
+    ProfileMap[v[1]] = v[11]
+  end
 end
-if v[11] then
-  ProfileMap[v[1]] = v[11]
-end
+
+local paramdisp = {}
+for i,v in pairs(LimitEligible) do
+  local found = v[1]:find(' %(')
+  if found then
+    paramdisp[i] = v[1]:sub(1,found-1)
+  else
+    paramdisp[i] = v[1]
+  end
 end
 
 local serpent = require 'serpent'
@@ -743,6 +753,7 @@ file:write([=[
 file:close()
 
 datafile = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
+
 file = assert(io.open(datafile,'w'),'Error writing to ParamList.lua')
 file:write([=[
   --[[----------------------------------------------------------------------------
@@ -778,8 +789,10 @@ file:write([=[
   local SendToMidi = ]==],serpent.block(SendToMidi, {comment = false}), [==[
 
   local ProfileMap = ]==],serpent.block(ProfileMap, {comment = false}), [==[
-
-  return {
+  
+  local ParamDisplay = ]==],serpent.block(paramdisp, {comment = false}), [==[
+  
+return {
     SelectivePasteMenu = SelectivePasteMenu,
     SelectivePasteHidden = SelectivePasteHidden,
     SelectivePasteIteration = SelectivePasteIteration,
@@ -787,6 +800,7 @@ file:write([=[
     LimitEligible = LimitEligible,
     SendToMidi = SendToMidi,
     ProfileMap = ProfileMap,
+    ParamDisplay = ParamDisplay,
     }]==])
 file:close()
 

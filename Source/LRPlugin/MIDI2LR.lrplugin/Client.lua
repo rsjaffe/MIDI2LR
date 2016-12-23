@@ -437,7 +437,7 @@ LrTasks.startAsyncTask(
           LrDevelopController.setValue(param, value)
           LastParam = param
           if ProgramPreferences.ClientShowBezelOnChange then
-            local bezelname = ParamList.LimitEligible[param][1] or param
+            local bezelname = ParamList.ParamDisplay[param] or param
             LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
           if ParamList.ProfileMap[param] then
@@ -448,7 +448,7 @@ LrTasks.startAsyncTask(
             value = MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
             local precision = Ut.precision(value)
-            local bezelname = ParamList.LimitEligible[param][1] or param
+            local bezelname = ParamList.ParamDisplay[param] or param
             LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
@@ -470,7 +470,7 @@ LrTasks.startAsyncTask(
       LrDevelopController.setValue(param, value)
       LastParam = param
       if ProgramPreferences.ClientShowBezelOnChange then
-        local bezelname = ParamList.LimitEligible[param][1] or param
+        local bezelname = ParamList.ParamDisplay[param] or param
         LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
       end
       if ParamList.ProfileMap[param] then
