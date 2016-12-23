@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=Generales"
 "$$$/WPG/Help/Shortcuts/WebHeader=Métodos abreviados de Web"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Mayús"
+"$$$/AgWPG/Dialogs/About/Title=Acerca de"

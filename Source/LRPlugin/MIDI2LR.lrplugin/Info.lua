@@ -32,7 +32,7 @@ return {
       file = 'Options.lua',
     },
     {
-      title = LOC("$$$/MIDI2LR/Info/about=About"),
+      title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
       file = "About.lua",
     },
     {

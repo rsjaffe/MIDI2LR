@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=一般"
 "$$$/WPG/Help/Shortcuts/WebHeader=Web 快速鍵"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift"
+"$$$/AgWPG/Dialogs/About/Title=關於"

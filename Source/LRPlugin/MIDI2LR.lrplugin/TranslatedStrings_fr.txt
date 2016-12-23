@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=Général"
 "$$$/WPG/Help/Shortcuts/WebHeader=Raccourcis du module web"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Maj"
+A propos de"

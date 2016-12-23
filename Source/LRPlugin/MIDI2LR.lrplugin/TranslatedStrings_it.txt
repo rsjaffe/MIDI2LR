@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=Generali"
 "$$$/WPG/Help/Shortcuts/WebHeader=Scelte rapide per Web"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Maiuscole"
+"$$$/AgWPG/Dialogs/About/Title=Info su"

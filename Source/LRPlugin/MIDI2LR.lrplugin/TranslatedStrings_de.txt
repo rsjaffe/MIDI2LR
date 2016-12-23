@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=Allgemein"
 "$$$/WPG/Help/Shortcuts/WebHeader=Web"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Umschalt"
+"$$$/AgWPG/Dialogs/About/Title=Info"

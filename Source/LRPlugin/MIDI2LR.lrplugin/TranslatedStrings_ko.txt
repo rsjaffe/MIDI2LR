@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=일반"
 "$$$/WPG/Help/Shortcuts/WebHeader=웹 바로 가기 키"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift"
+"$$$/AgWPG/Dialogs/About/Title=정보"

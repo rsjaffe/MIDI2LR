@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=一般"
 "$$$/WPG/Help/Shortcuts/WebHeader=Web のショートカット"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift"
+"$$$/AgWPG/Dialogs/About/Title=情報"

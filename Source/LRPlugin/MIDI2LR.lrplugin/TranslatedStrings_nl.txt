@@ -335,3 +335,4 @@
 "$$$/WFCatSearch/TermCategories/General=Algemeen"
 "$$$/WPG/Help/Shortcuts/WebHeader=Sneltoetsen voor web"
 "$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift"
+"$$$/AgWPG/Dialogs/About/Title=Info"
