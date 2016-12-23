@@ -45,6 +45,7 @@ public:
 };
 
 class LR_IPC_OUT final:
+  private juce::DeletedAtShutdown,
   private juce::InterprocessConnection,
   public MIDICommandListener,
   private juce::AsyncUpdater,

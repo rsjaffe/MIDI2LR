@@ -33,6 +33,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SendKeys.h"
 
 class LR_IPC_IN final:
+  private juce::DeletedAtShutdown,
   private juce::StreamingSocket,
   private juce::Timer,
   private juce::Thread {
