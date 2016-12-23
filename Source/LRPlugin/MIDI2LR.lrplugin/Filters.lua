@@ -38,9 +38,10 @@ local function StartDialog(obstable,f)
   for i=1,10 do
     table.insert( 
       groupboxfilters, 
-      f:static_text {fill_horizontal = 1,
+      f:push_button {fill_horizontal = 1,
         width_in_chars = 40,
         truncation = 'head',
+        action = function() obstable['filter'..i] = nil end,        
         title = LrView.bind { key = 'filter'..i,
           transform = function(value) return i .. ' ' .. filtersbyuuid[value[1]] end
         },  -- title
