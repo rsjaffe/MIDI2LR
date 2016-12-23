@@ -534,7 +534,15 @@ LrTasks.startAsyncTask(
               if(ACTIONS[param]) then -- perform a one time action
                 if(tonumber(value) > BUTTON_ON) then ACTIONS[param]() end
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-                if(tonumber(value) > BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
+                if(tonumber(value) > BUTTON_ON) then
+                  local resetparam = param:sub(6)
+                  Ut.execFOM(LrDevelopController.resetToDefault,resetparam) 
+                  if ProgramPreferences.ClientShowBezelOnChange then
+                    local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
+                    local lrvalue = LrDevelopController.getValue(resetparam)
+                    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+                  end
+                end
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter
