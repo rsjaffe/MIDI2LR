@@ -48,7 +48,6 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
 void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) { //-V2009
     //copy the pointer
   command_map_ = mapCommand;
-  juce::Button::addListener(this);
 }
 
 void CommandMenu::setMsg(const MIDI_Message_ID& message) noexcept {
@@ -63,56 +62,64 @@ void CommandMenu::setSelectedItem(size_t index) {
     setButtonText(LRCommandList::NextPrevProfile[index - 1 - LRCommandList::LRStringList.size()]);
 }
 
-void CommandMenu::buttonClicked(juce::Button* /*button*/) {
+void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
   size_t index = 1;
   auto submenu_tick_set = false;
   juce::PopupMenu main_menu;
   main_menu.addItem(index, "Unmapped", true, submenu_tick_set = (index == selected_item_));
   index++;
 
-  // add each submenu
-  for (size_t menu_index = 0; menu_index < menus_.size(); menu_index++) {
-    juce::PopupMenu subMenu;
-    for (const auto& command : menu_entries_[menu_index]) {
-      auto already_mapped = false;
-      if ((index - 1 < LRCommandList::LRStringList.size()) && (command_map_)) {
-        already_mapped =
-          command_map_->commandHasAssociatedMessage(LRCommandList::LRStringList[index - 1]);
-      }
-
-      // add each submenu entry, ticking the previously selected entry and
-      // disabling a previously mapped entry
-
-      if (already_mapped)
-        subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
-          index == selected_item_);
-      else
-        subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_);
-
-      index++;
-    }
-    // set whether or not the submenu is ticked (true if one of the submenu's
-    // entries is selected)
-    main_menu.addSubMenu(menus_[menu_index], subMenu, true, nullptr,
-      selected_item_ < index && !submenu_tick_set);
-    submenu_tick_set |= (selected_item_ < index && !submenu_tick_set);
+  /* to do: respond to juce::ModifierKeys::popupMenuClickModifier by opening up
+  MIDI message options menu
+  */
+  if (modifiers == juce::ModifierKeys::popupMenuClickModifier) {
+// currently, do nothing with right click
   }
+  else {
+// add each submenu
+    for (size_t menu_index = 0; menu_index < menus_.size(); menu_index++) {
+      juce::PopupMenu subMenu;
+      for (const auto& command : menu_entries_[menu_index]) {
+        auto already_mapped = false;
+        if ((index - 1 < LRCommandList::LRStringList.size()) && (command_map_)) {
+          already_mapped =
+            command_map_->commandHasAssociatedMessage(LRCommandList::LRStringList[index - 1]);
+        }
 
-  const auto result = static_cast<size_t>(main_menu.show());
-  if ((result) && (command_map_)) {
-      // user chose a different command, remove previous command mapping
-      // associated to this menu
-    if (selected_item_ < std::numeric_limits<size_t>::max())
-      command_map_->removeMessage(message_);
+        // add each submenu entry, ticking the previously selected entry and
+        // disabling a previously mapped entry
 
-    if (result - 1 < LRCommandList::LRStringList.size())
-      setButtonText(LRCommandList::LRStringList[result - 1]);
-    else
-      setButtonText(LRCommandList::NextPrevProfile[result - 1 - LRCommandList::LRStringList.size()]);
+        if (already_mapped)
+          subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
+            index == selected_item_);
+        else
+          subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_);
 
-    selected_item_ = result;
+        index++;
+      }
+      // set whether or not the submenu is ticked (true if one of the submenu's
+      // entries is selected)
+      main_menu.addSubMenu(menus_[menu_index], subMenu, true, nullptr,
+        selected_item_ < index && !submenu_tick_set);
+      submenu_tick_set |= (selected_item_ < index && !submenu_tick_set);
+    }
 
-    // Map the selected command to the CC
-    command_map_->addCommandforMessage(result - 1, message_);
+    const auto result = static_cast<size_t>(main_menu.show());
+    if ((result) && (command_map_)) {
+        // user chose a different command, remove previous command mapping
+        // associated to this menu
+      if (selected_item_ < std::numeric_limits<size_t>::max())
+        command_map_->removeMessage(message_);
+
+      if (result - 1 < LRCommandList::LRStringList.size())
+        setButtonText(LRCommandList::LRStringList[result - 1]);
+      else
+        setButtonText(LRCommandList::NextPrevProfile[result - 1 - LRCommandList::LRStringList.size()]);
+
+      selected_item_ = result;
+
+      // Map the selected command to the CC
+      command_map_->addCommandforMessage(result - 1, message_);
+    }
   }
 }

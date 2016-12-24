@@ -73,7 +73,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   // The graphics context's origin will already be set to the top-left of the
   // cell, whose size is specified by(width, height).
-	
+  
   // Note that the rowNumber value may be greater than the number of rows in your
   // list, so be careful that you don't assume it's less than getNumRows().
   g.setColour(juce::Colours::black);
@@ -81,25 +81,25 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
-	  switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
-	  {
-	  case NOTE:
-		  formatStr = "%d | Note: %d";
-		  channel = commands_[static_cast<size_t>(row_number)].channel;
-		  value = commands_[static_cast<size_t>(row_number)].pitch;
-		  break;
-	  case CC:
-		  formatStr = "%d | CC: %d";
-		  channel = commands_[static_cast<size_t>(row_number)].channel;
-		  value = commands_[static_cast<size_t>(row_number)].controller;
-		  break;
-	  case PITCHBEND:
-		  formatStr = "%d | Pitch: %d";
-		  channel = commands_[static_cast<size_t>(row_number)].channel;
-		  value = commands_[static_cast<size_t>(row_number)].controller;
-		  break;
-	  }
-	  g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
+    switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
+    {
+    case NOTE:
+      formatStr = "%d | Note: %d";
+      channel = commands_[static_cast<size_t>(row_number)].channel;
+      value = commands_[static_cast<size_t>(row_number)].pitch;
+      break;
+    case CC:
+      formatStr = "%d | CC: %d";
+      channel = commands_[static_cast<size_t>(row_number)].channel;
+      value = commands_[static_cast<size_t>(row_number)].controller;
+      break;
+    case PITCHBEND:
+      formatStr = "%d | Pitch: %d";
+      channel = commands_[static_cast<size_t>(row_number)].channel;
+      value = commands_[static_cast<size_t>(row_number)].controller;
+      break;
+    }
+    g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
   }
 }
 
