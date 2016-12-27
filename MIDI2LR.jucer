@@ -71,9 +71,11 @@
             extraCompilerFlags="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="MIDI2LR" binaryPath=""/>
+                       isDebug="1" optimisation="1" targetName="MIDI2LR" binaryPath=""
+                       headerPath="..\..\"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="MIDI2LR" binaryPath=""/>
+                       isDebug="0" optimisation="3" targetName="MIDI2LR" binaryPath=""
+                       headerPath="..\..\"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
@@ -91,10 +93,10 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="1"
-                       binaryPath="" cppLanguageStandard="c++14"/>
+                       binaryPath="" cppLanguageStandard="c++14" headerPath="..\..\"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
-                       binaryPath="" cppLanguageStandard="c++14"/>
+                       binaryPath="" cppLanguageStandard="c++14" headerPath="..\..\"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
