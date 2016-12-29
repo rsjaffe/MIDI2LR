@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -124,12 +125,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac737490e031d37a7b8db1841618a2f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf2c41b2ff27d456eb06c80f07e9f6cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_send_keys.html#adf2c41b2ff27d456eb06c80f07e9f6cc">~SendKeys</a> ()</td></tr>
 <tr class="separator:adf2c41b2ff27d456eb06c80f07e9f6cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76f34fe4c8731016c267c0f2574164d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_send_keys.html#a76f34fe4c8731016c267c0f2574164d9">SendKeyDownUp</a> (const std::string &amp;key, bool alt, bool control, bool shift) const </td></tr>
-<tr class="separator:a76f34fe4c8731016c267c0f2574164d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae832647caa66e94ff86f0b3840ef37fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_send_keys.html#ae832647caa66e94ff86f0b3840ef37fd">SendKeyDownUp</a> (const std::string &amp;key, const bool alt_opt, const bool control_cmd, const bool shift) const </td></tr>
+<tr class="separator:ae832647caa66e94ff86f0b3840ef37fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_send_keys_8h_source.html#l00024">24</a> of file <a class="el" href="_send_keys_8h_source.html">SendKeys.h</a>.</p>
+<p>Definition at line <a class="el" href="_send_keys_8h_source.html#l00027">27</a> of file <a class="el" href="_send_keys_8h_source.html">SendKeys.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ac737490e031d37a7b8db1841618a2f54"></a>
 <div class="memitem">
@@ -152,7 +153,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_send_keys_8h_source.html#l00027">27</a> of file <a class="el" href="_send_keys_8h_source.html">SendKeys.h</a>.</p>
+<p>Definition at line <a class="el" href="_send_keys_8h_source.html#l00029">29</a> of file <a class="el" href="_send_keys_8h_source.html">SendKeys.h</a>.</p>
 
 </div>
 </div>
@@ -177,12 +178,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_send_keys_8h_source.html#l00029">29</a> of file <a class="el" href="_send_keys_8h_source.html">SendKeys.h</a>.</p>
+<p>Definition at line <a class="el" href="_send_keys_8h_source.html#l00030">30</a> of file <a class="el" href="_send_keys_8h_source.html">SendKeys.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a76f34fe4c8731016c267c0f2574164d9"></a>
+<a class="anchor" id="ae832647caa66e94ff86f0b3840ef37fd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -195,19 +196,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>alt</em>, </td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>alt_opt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>control</em>, </td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>control_cmd</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">const bool&#160;</td>
           <td class="paramname"><em>shift</em>&#160;</td>
         </tr>
         <tr>
@@ -218,19 +219,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_send_keys_8cpp_source.html#l00182">182</a> of file <a class="el" href="_send_keys_8cpp_source.html">SendKeys.cpp</a>.</p>
-
-<p>References <a class="el" href="_command_map_8h_source.html#l00079">std::hash&lt; String &gt;::operator()()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_send_keys_a76f34fe4c8731016c267c0f2574164d9_cgraph.png" border="0" usemap="#class_send_keys_a76f34fe4c8731016c267c0f2574164d9_cgraph" alt=""/></div>
-<map name="class_send_keys_a76f34fe4c8731016c267c0f2574164d9_cgraph" id="class_send_keys_a76f34fe4c8731016c267c0f2574164d9_cgraph">
-<area shape="rect" id="node2" href="structstd_1_1hash_3_01_string_01_4.html#a5b479a6a5664121276d804b4b0473d02" title="std::hash\&lt; String \&gt;\l::operator()" alt="" coords="244,29,379,71"/>
-</map>
-</div>
-</p>
+<p>Definition at line <a class="el" href="_send_keys_8cpp_source.html#l00241">241</a> of file <a class="el" href="_send_keys_8cpp_source.html">SendKeys.cpp</a>.</p>
 
 </div>
 </div>

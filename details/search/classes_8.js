@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['resizablechild',['ResizableChild',['../class_resizable_child.html',1,'']]],
-  ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html',1,'']]]
+  ['profilechangelistener',['ProfileChangeListener',['../class_profile_change_listener.html',1,'']]],
+  ['profilemanager',['ProfileManager',['../class_profile_manager.html',1,'']]]
 ];

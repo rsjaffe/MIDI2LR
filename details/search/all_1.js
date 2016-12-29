@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['basicadjustments',['BasicAdjustments',['../class_l_r_command_list.html#ad3dba4a1883a03d7411162ba9924bf51',1,'LRCommandList']]],
-  ['buildfromxml',['buildFromXml',['../class_command_table_model.html#adc91632cd6ecd7f0b36332f43ed13f54',1,'CommandTableModel']]],
-  ['buttonclicked',['buttonClicked',['../class_command_menu.html#a1e345fe4c3a136cb5500b4d17b63e6c7',1,'CommandMenu::buttonClicked()'],['../class_main_content_component.html#a72d6b006f4d4a6c4de2ca2e1bde18fc6',1,'MainContentComponent::buttonClicked()'],['../class_settings_component.html#ad65a9529807a9ff304ba994399f55c55',1,'SettingsComponent::buttonClicked()']]]
+  ['basic_5fobservers_2eh',['basic_observers.h',['../basic__observers_8h.html',1,'']]],
+  ['basicadjustments',['BasicAdjustments',['../class_l_r_command_list.html#a67b2c5c54b014ae0a521e20adfe50f95',1,'LRCommandList']]],
+  ['basicobservers',['BasicObservers',['../classmir_1_1_basic_observers.html',1,'mir']]],
+  ['basicobservers_3c_20surfaceobserver_20_3e',['BasicObservers&lt; SurfaceObserver &gt;',['../classmir_1_1_basic_observers.html',1,'mir']]],
+  ['begin',['begin',['../classgsl_1_1span.html#ae40e24f8fec4cf961f7b67910aa4dd73',1,'gsl::span']]],
+  ['blue',['BLUE',['../_event_type_8h.html#a2628ea8d12e8b2563c32f05dc7fff6faa1b3e1ee9bff86431dea6b181365ba65f',1,'EventType.h']]],
+  ['buildfromxml',['buildFromXml',['../class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67',1,'CommandTableModel']]],
+  ['byte',['byte',['../namespacegsl.html#a342d07d23bff66b0a2a85c5ffe7c64d4',1,'gsl']]],
+  ['bytes',['bytes',['../classgsl_1_1span.html#ad89aa1d0e0256cc7d6fa528975553827',1,'gsl::span']]]
 ];

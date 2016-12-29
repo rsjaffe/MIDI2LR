@@ -1,9 +1,12 @@
 var searchData=
 [
-  ['lr_5fipc_5fin_2ecpp',['LR_IPC_In.cpp',['../_l_r___i_p_c___in_8cpp.html',1,'']]],
-  ['lr_5fipc_5fin_2eh',['LR_IPC_In.h',['../_l_r___i_p_c___in_8h.html',1,'']]],
-  ['lr_5fipc_5fout_2ecpp',['LR_IPC_Out.cpp',['../_l_r___i_p_c___out_8cpp.html',1,'']]],
-  ['lr_5fipc_5fout_2eh',['LR_IPC_Out.h',['../_l_r___i_p_c___out_8h.html',1,'']]],
-  ['lrcommands_2ecpp',['LRCommands.cpp',['../_l_r_commands_8cpp.html',1,'']]],
-  ['lrcommands_2eh',['LRCommands.h',['../_l_r_commands_8h.html',1,'']]]
+  ['commandmap_2ecpp',['CommandMap.cpp',['../_command_map_8cpp.html',1,'']]],
+  ['commandmap_2eh',['CommandMap.h',['../_command_map_8h.html',1,'']]],
+  ['commandmenu_2ecpp',['CommandMenu.cpp',['../_command_menu_8cpp.html',1,'']]],
+  ['commandmenu_2eh',['CommandMenu.h',['../_command_menu_8h.html',1,'']]],
+  ['commands_2emd',['Commands.md',['../_commands_8md.html',1,'']]],
+  ['commandtable_2ecpp',['CommandTable.cpp',['../_command_table_8cpp.html',1,'']]],
+  ['commandtable_2eh',['CommandTable.h',['../_command_table_8h.html',1,'']]],
+  ['commandtablemodel_2ecpp',['CommandTableModel.cpp',['../_command_table_model_8cpp.html',1,'']]],
+  ['commandtablemodel_2eh',['CommandTableModel.h',['../_command_table_model_8h.html',1,'']]]
 ];

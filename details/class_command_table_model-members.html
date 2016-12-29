@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -115,17 +116,18 @@ $(document).ready(function(){initNavTree('class_command_table_model.html','');})
 
 <p>This is the complete list of members for <a class="el" href="class_command_table_model.html">CommandTableModel</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a34e3b342c1741fe6363e2873b68171b1">addRow</a>(int midi_channel, int midi_data, bool isCC)</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_table_model.html#adc91632cd6ecd7f0b36332f43ed13f54">buildFromXml</a>(const XmlElement *const elem)</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a8ac89ae0020ec0dd351fef7cf83338b5">addRow</a>(int midi_channel, int midi_data, MessageType msgType)</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67">buildFromXml</a>(const juce::XmlElement *const elem)</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a8d3504f4bea9dbc35e2d17930508b921">CommandTableModel</a>() noexcept</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2">getNumRows</a>() override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39">getRowForMessage</a>(int midi_channel, int midi_data, bool isCC) const </td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a95c92b56955450c4f91885186182c361">getRowForMessage</a>(int midi_channel, int midi_data, MessageType msgType) const </td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_command_table_model.html#a840540a46e865e5ac59f6922bf1ef184">Init</a>(std::shared_ptr&lt; CommandMap &gt; &amp;mapCommand) noexcept</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a291f0a2ace126893e8639efaa1d817a3">paintCell</a>(Graphics &amp;, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_table_model.html#a288a0dec11b5bbfb6fdb5bcd9c4a81ec">paintRowBackground</a>(Graphics &amp;, int rowNumber, int width, int height, bool rowIsSelected) override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a46ef1923c37173d28bf25c840403af69">refreshComponentForCell</a>(int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate) override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339">paintCell</a>(juce::Graphics &amp;, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87">paintRowBackground</a>(juce::Graphics &amp;, int rowNumber, int width, int height, bool rowIsSelected) override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#ad6cce73101cffa884e56b4d50377460e">refreshComponentForCell</a>(int rowNumber, int columnId, bool isRowSelected, juce::Component *existingComponentToUpdate) override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b">removeAllRows</a>()</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#aedd06c409a9326aa50077244c10f5dbd">removeRow</a>(int row)</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table_model.html#a46d7cafd317a8d72e71c144f89b80429">removeRow</a>(size_t row)</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_table_model.html#a81cc83ef85fc9beb97e221166037673d">sortOrderChanged</a>(int newSortColumnId, bool isForwards) override</td><td class="entry"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,10 +1,12 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/CommandMenu.h" name="Q:/Documents/GitHub/MIDI2LR/Source/CommandMenu.h">
 <area shape="rect" id="node2" href="$_command_menu_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandMenu.cpp" alt="" coords="5,102,245,143"/>
 <area shape="rect" id="node3" href="$_command_table_model_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandTable\lModel.h" alt="" coords="270,95,485,151"/>
-<area shape="rect" id="node4" href="$_command_table_model_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandTable\lModel.cpp" alt="" coords="146,199,361,255"/>
-<area shape="rect" id="node5" href="$_main_component_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.h" alt="" coords="385,206,615,247"/>
-<area shape="rect" id="node6" href="$_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="269,392,446,433"/>
-<area shape="rect" id="node7" href="$_main_window_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.h" alt="" coords="395,303,605,344"/>
-<area shape="rect" id="node9" href="$_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="629,303,872,344"/>
-<area shape="rect" id="node8" href="$_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="470,392,693,433"/>
+<area shape="rect" id="node4" href="$_command_table_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandTable.h" alt="" coords="189,206,414,247"/>
+<area shape="rect" id="node5" href="$_command_table_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandTable.cpp" alt="" coords="42,303,281,344"/>
+<area shape="rect" id="node6" href="$_main_component_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.h" alt="" coords="327,303,556,344"/>
+<area shape="rect" id="node11" href="$_command_table_model_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandTable\lModel.cpp" alt="" coords="490,199,705,255"/>
+<area shape="rect" id="node7" href="$_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="210,481,387,523"/>
+<area shape="rect" id="node8" href="$_main_window_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.h" alt="" coords="337,392,546,433"/>
+<area shape="rect" id="node10" href="$_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="571,392,813,433"/>
+<area shape="rect" id="node9" href="$_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="411,481,634,523"/>
 </map>

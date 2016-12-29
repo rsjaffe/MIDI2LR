@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -112,7 +113,7 @@ $(document).ready(function(){initNavTree('class_command_table_model.html','');})
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_command_table_model-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">CommandTableModel Class Reference</div>  </div>
+<div class="title">CommandTableModel Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -136,30 +137,32 @@ Collaboration diagram for CommandTableModel:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8d3504f4bea9dbc35e2d17930508b921"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a8d3504f4bea9dbc35e2d17930508b921">CommandTableModel</a> () noexcept</td></tr>
 <tr class="separator:a8d3504f4bea9dbc35e2d17930508b921"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34e3b342c1741fe6363e2873b68171b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a34e3b342c1741fe6363e2873b68171b1">addRow</a> (int midi_channel, int midi_data, bool isCC)</td></tr>
-<tr class="separator:a34e3b342c1741fe6363e2873b68171b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc91632cd6ecd7f0b36332f43ed13f54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#adc91632cd6ecd7f0b36332f43ed13f54">buildFromXml</a> (const XmlElement *const elem)</td></tr>
-<tr class="separator:adc91632cd6ecd7f0b36332f43ed13f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ac89ae0020ec0dd351fef7cf83338b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a8ac89ae0020ec0dd351fef7cf83338b5">addRow</a> (int midi_channel, int midi_data, <a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a> msgType)</td></tr>
+<tr class="separator:a8ac89ae0020ec0dd351fef7cf83338b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63e2d1cc744c6132dcbd167fb0b82c67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67">buildFromXml</a> (const juce::XmlElement *const elem)</td></tr>
+<tr class="separator:a63e2d1cc744c6132dcbd167fb0b82c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae89ca7ee2106ffe3a8d326da313e3bf2"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2">getNumRows</a> () override</td></tr>
 <tr class="separator:ae89ca7ee2106ffe3a8d326da313e3bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a718bd444e2e6a23b7ca4375ac3a94b39"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39">getRowForMessage</a> (int midi_channel, int midi_data, bool isCC) const </td></tr>
-<tr class="separator:a718bd444e2e6a23b7ca4375ac3a94b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95c92b56955450c4f91885186182c361"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a95c92b56955450c4f91885186182c361">getRowForMessage</a> (int midi_channel, int midi_data, <a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a> msgType) const </td></tr>
+<tr class="separator:a95c92b56955450c4f91885186182c361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a840540a46e865e5ac59f6922bf1ef184"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a840540a46e865e5ac59f6922bf1ef184">Init</a> (std::shared_ptr&lt; <a class="el" href="class_command_map.html">CommandMap</a> &gt; &amp;mapCommand) noexcept</td></tr>
 <tr class="separator:a840540a46e865e5ac59f6922bf1ef184"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a291f0a2ace126893e8639efaa1d817a3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a291f0a2ace126893e8639efaa1d817a3">paintCell</a> (Graphics &amp;, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override</td></tr>
-<tr class="separator:a291f0a2ace126893e8639efaa1d817a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a288a0dec11b5bbfb6fdb5bcd9c4a81ec"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a288a0dec11b5bbfb6fdb5bcd9c4a81ec">paintRowBackground</a> (Graphics &amp;, int rowNumber, int width, int height, bool rowIsSelected) override</td></tr>
-<tr class="separator:a288a0dec11b5bbfb6fdb5bcd9c4a81ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46ef1923c37173d28bf25c840403af69"><td class="memItemLeft" align="right" valign="top">virtual Component *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a46ef1923c37173d28bf25c840403af69">refreshComponentForCell</a> (int rowNumber, int columnId, bool isRowSelected, Component *existingComponentToUpdate) override</td></tr>
-<tr class="separator:a46ef1923c37173d28bf25c840403af69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1731d1e69cd6391c72fa04e00544339"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339">paintCell</a> (juce::Graphics &amp;, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override</td></tr>
+<tr class="separator:ad1731d1e69cd6391c72fa04e00544339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a414acf39781c1ad44e881a7d81d13d87"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87">paintRowBackground</a> (juce::Graphics &amp;, int rowNumber, int width, int height, bool rowIsSelected) override</td></tr>
+<tr class="separator:a414acf39781c1ad44e881a7d81d13d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6cce73101cffa884e56b4d50377460e"><td class="memItemLeft" align="right" valign="top">virtual juce::Component *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#ad6cce73101cffa884e56b4d50377460e">refreshComponentForCell</a> (int rowNumber, int columnId, bool isRowSelected, juce::Component *existingComponentToUpdate) override</td></tr>
+<tr class="separator:ad6cce73101cffa884e56b4d50377460e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa49fc1e19a98cd9c315d0faa5592758b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b">removeAllRows</a> ()</td></tr>
 <tr class="separator:aa49fc1e19a98cd9c315d0faa5592758b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedd06c409a9326aa50077244c10f5dbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#aedd06c409a9326aa50077244c10f5dbd">removeRow</a> (int row)</td></tr>
-<tr class="separator:aedd06c409a9326aa50077244c10f5dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46d7cafd317a8d72e71c144f89b80429"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a46d7cafd317a8d72e71c144f89b80429">removeRow</a> (size_t row)</td></tr>
+<tr class="separator:a46d7cafd317a8d72e71c144f89b80429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81cc83ef85fc9beb97e221166037673d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a81cc83ef85fc9beb97e221166037673d">sortOrderChanged</a> (int newSortColumnId, bool isForwards) override</td></tr>
+<tr class="separator:a81cc83ef85fc9beb97e221166037673d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_command_table_model_8h_source.html#l00030">30</a> of file <a class="el" href="_command_table_model_8h_source.html">CommandTableModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8h_source.html#l00032">32</a> of file <a class="el" href="_command_table_model_8h_source.html">CommandTableModel.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a8d3504f4bea9dbc35e2d17930508b921"></a>
 <div class="memitem">
@@ -182,12 +185,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00023">23</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00026">26</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a34e3b342c1741fe6363e2873b68171b1"></a>
+<a class="anchor" id="a8ac89ae0020ec0dd351fef7cf83338b5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -206,8 +209,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>isCC</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a>&#160;</td>
+          <td class="paramname"><em>msgType</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -217,45 +220,45 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00081">81</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00156">156</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_map_8h_source.html#l00050">MIDI_Message::MIDI_Message()</a>.</p>
+<p>References <a class="el" href="_command_map_8h_source.html#l00050">MIDI_Message_ID::MIDI_Message_ID()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_command_table_model_a34e3b342c1741fe6363e2873b68171b1_cgraph.png" border="0" usemap="#class_command_table_model_a34e3b342c1741fe6363e2873b68171b1_cgraph" alt=""/></div>
-<map name="class_command_table_model_a34e3b342c1741fe6363e2873b68171b1_cgraph" id="class_command_table_model_a34e3b342c1741fe6363e2873b68171b1_cgraph">
-<area shape="rect" id="node2" href="struct_m_i_d_i___message.html#ada792c9fea8cd5017e5c6b8666a33b5c" title="MIDI_Message::MIDI\l_Message" alt="" coords="208,5,351,47"/>
+<div class="center"><img src="class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph.png" border="0" usemap="#class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph" alt=""/></div>
+<map name="class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph" id="class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph">
+<area shape="rect" id="node2" href="struct_m_i_d_i___message___i_d.html#acdf63bfeeb53f1ed600950a0d3c76a61" title="MIDI_Message_ID::MIDI\l_Message_ID" alt="" coords="208,5,369,47"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="adc91632cd6ecd7f0b36332f43ed13f54"></a>
+<a class="anchor" id="a63e2d1cc744c6132dcbd167fb0b82c67"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CommandTableModel::buildFromXml </td>
           <td>(</td>
-          <td class="paramtype">const XmlElement *const&#160;</td>
+          <td class="paramtype">const juce::XmlElement *const&#160;</td>
           <td class="paramname"><em>elem</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00130">130</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00180">180</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_table_model_8cpp_source.html#l00118">removeAllRows()</a>.</p>
+<p>References <a class="el" href="_command_table_model_8cpp_source.html#l00172">removeAllRows()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_command_table_model_adc91632cd6ecd7f0b36332f43ed13f54_cgraph.png" border="0" usemap="#class_command_table_model_adc91632cd6ecd7f0b36332f43ed13f54_cgraph" alt=""/></div>
-<map name="class_command_table_model_adc91632cd6ecd7f0b36332f43ed13f54_cgraph" id="class_command_table_model_adc91632cd6ecd7f0b36332f43ed13f54_cgraph">
+<div class="center"><img src="class_command_table_model_a63e2d1cc744c6132dcbd167fb0b82c67_cgraph.png" border="0" usemap="#class_command_table_model_a63e2d1cc744c6132dcbd167fb0b82c67_cgraph" alt=""/></div>
+<map name="class_command_table_model_a63e2d1cc744c6132dcbd167fb0b82c67_cgraph" id="class_command_table_model_a63e2d1cc744c6132dcbd167fb0b82c67_cgraph">
 <area shape="rect" id="node2" href="class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b" title="CommandTableModel::\lremoveAllRows" alt="" coords="208,5,363,47"/>
 </map>
 </div>
@@ -284,11 +287,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00026">26</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00047">47</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a718bd444e2e6a23b7ca4375ac3a94b39"></a>
+<a class="anchor" id="a95c92b56955450c4f91885186182c361"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -307,8 +310,8 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>isCC</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a>&#160;</td>
+          <td class="paramname"><em>msgType</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -318,7 +321,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00095">95</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00223">223</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -344,11 +347,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00174">174</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00028">28</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a291f0a2ace126893e8639efaa1d817a3"></a>
+<a class="anchor" id="ad1731d1e69cd6391c72fa04e00544339"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -358,7 +361,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">void CommandTableModel::paintCell </td>
           <td>(</td>
-          <td class="paramtype">Graphics &amp;&#160;</td>
+          <td class="paramtype">juce::Graphics &amp;&#160;</td>
           <td class="paramname"><em>g</em>, </td>
         </tr>
         <tr>
@@ -404,11 +407,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00037">37</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00068">68</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a288a0dec11b5bbfb6fdb5bcd9c4a81ec"></a>
+<a class="anchor" id="a414acf39781c1ad44e881a7d81d13d87"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -418,7 +421,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">void CommandTableModel::paintRowBackground </td>
           <td>(</td>
-          <td class="paramtype">Graphics &amp;&#160;</td>
+          <td class="paramtype">juce::Graphics &amp;&#160;</td>
           <td class="paramname"><em>g</em>, </td>
         </tr>
         <tr>
@@ -458,11 +461,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00031">31</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00055">55</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a46ef1923c37173d28bf25c840403af69"></a>
+<a class="anchor" id="ad6cce73101cffa884e56b4d50377460e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -470,7 +473,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Component * CommandTableModel::refreshComponentForCell </td>
+          <td class="memname">juce::Component * CommandTableModel::refreshComponentForCell </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>rowNumber</em>, </td>
@@ -490,7 +493,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Component *&#160;</td>
+          <td class="paramtype">juce::Component *&#160;</td>
           <td class="paramname"><em>existingComponentToUpdate</em>&#160;</td>
         </tr>
         <tr>
@@ -506,7 +509,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00053">53</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00106">106</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -523,37 +526,73 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00118">118</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00172">172</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="_command_table_model_8cpp_source.html#l00130">buildFromXml()</a>.</p>
+<p>Referenced by <a class="el" href="_command_table_model_8cpp_source.html#l00180">buildFromXml()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_command_table_model_aa49fc1e19a98cd9c315d0faa5592758b_icgraph.png" border="0" usemap="#class_command_table_model_aa49fc1e19a98cd9c315d0faa5592758b_icgraph" alt=""/></div>
 <map name="class_command_table_model_aa49fc1e19a98cd9c315d0faa5592758b_icgraph" id="class_command_table_model_aa49fc1e19a98cd9c315d0faa5592758b_icgraph">
-<area shape="rect" id="node2" href="class_command_table_model.html#adc91632cd6ecd7f0b36332f43ed13f54" title="CommandTableModel::\lbuildFromXml" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node2" href="class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67" title="CommandTableModel::\lbuildFromXml" alt="" coords="208,5,363,47"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="aedd06c409a9326aa50077244c10f5dbd"></a>
+<a class="anchor" id="a46d7cafd317a8d72e71c144f89b80429"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CommandTableModel::removeRow </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>row</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00107">107</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00165">165</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81cc83ef85fc9beb97e221166037673d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CommandTableModel::sortOrderChanged </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>newSortColumnId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isForwards</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00035">35</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>

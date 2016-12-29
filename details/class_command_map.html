@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -117,22 +118,6 @@ $(document).ready(function(){initNavTree('class_command_map.html','');});
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for CommandMap:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_command_map__inherit__graph.png" border="0" usemap="#_command_map_inherit__map" alt="Inheritance graph"/></div>
-<map name="_command_map_inherit__map" id="_command_map_inherit__map">
-<area shape="rect" id="node2" href="class_subject.html" title="Subject" alt="" coords="25,5,92,32"/>
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for CommandMap:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_command_map__coll__graph.png" border="0" usemap="#_command_map_coll__map" alt="Collaboration graph"/></div>
-<map name="_command_map_coll__map" id="_command_map_coll__map">
-<area shape="rect" id="node2" href="class_subject.html" title="Subject" alt="" coords="25,5,92,32"/>
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -140,43 +125,28 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a17917c3a5fb0f352b09b4a42344e4d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf94ac25cd2791e0217ce40e09248ce9"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#aaf94ac25cd2791e0217ce40e09248ce9">~CommandMap</a> ()</td></tr>
 <tr class="separator:aaf94ac25cd2791e0217ce40e09248ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b44b67f2167475bba282b8a185018c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a3b44b67f2167475bba282b8a185018c6">addCommandforMessage</a> (unsigned int command, const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;cc)</td></tr>
-<tr class="separator:a3b44b67f2167475bba282b8a185018c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a101a5cb39f2f28f16b56a3e782c9daab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a101a5cb39f2f28f16b56a3e782c9daab">addCommandforMessage</a> (const String &amp;command, const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;cc)</td></tr>
-<tr class="separator:a101a5cb39f2f28f16b56a3e782c9daab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab747221dbc48d1a096b6dde23cad4c14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#ab747221dbc48d1a096b6dde23cad4c14">addCommandforMessage</a> (size_t command, const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;cc)</td></tr>
+<tr class="separator:ab747221dbc48d1a096b6dde23cad4c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a208bac536d264cb0fbddaa45601d95b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a208bac536d264cb0fbddaa45601d95b8">addCommandforMessage</a> (const std::string &amp;command, const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;cc)</td></tr>
+<tr class="separator:a208bac536d264cb0fbddaa45601d95b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c2d2b3cf78355b900858a92a8945ea6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a0c2d2b3cf78355b900858a92a8945ea6">clearMap</a> () noexcept</td></tr>
 <tr class="separator:a0c2d2b3cf78355b900858a92a8945ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af295badce32ec027c9a4addef8c05bc2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#af295badce32ec027c9a4addef8c05bc2">commandHasAssociatedMessage</a> (const String &amp;command) const </td></tr>
-<tr class="separator:af295badce32ec027c9a4addef8c05bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7b751c5f0b16fb5f552b5c304f56c68"><td class="memItemLeft" align="right" valign="top">const String &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68">getCommandforMessage</a> (const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;msg) const </td></tr>
-<tr class="separator:aa7b751c5f0b16fb5f552b5c304f56c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeeef81aa7e1103a9e1012f2f4df35213"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#aeeef81aa7e1103a9e1012f2f4df35213">getMessageForCommand</a> (const String &amp;command) const </td></tr>
-<tr class="separator:aeeef81aa7e1103a9e1012f2f4df35213"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72d2cbd00ada2715b07945253f00b8e7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a72d2cbd00ada2715b07945253f00b8e7">messageExistsInMap</a> (const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;msg) const </td></tr>
-<tr class="separator:a72d2cbd00ada2715b07945253f00b8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4965760cbda2b82484b26f5df645c216"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a4965760cbda2b82484b26f5df645c216">removeMessage</a> (const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;msg)</td></tr>
-<tr class="separator:a4965760cbda2b82484b26f5df645c216"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86d35079d4397908aa26109e03e67c24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a86d35079d4397908aa26109e03e67c24">toXMLDocument</a> (File &amp;file) const </td></tr>
-<tr class="separator:a86d35079d4397908aa26109e03e67c24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_subject"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_subject')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_subject.html">Subject</a></td></tr>
-<tr class="memitem:a5b0b384612fdeabd5db3229b97e89f79 inherit pub_methods_class_subject"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a5b0b384612fdeabd5db3229b97e89f79">Subject</a> () noexcept</td></tr>
-<tr class="separator:a5b0b384612fdeabd5db3229b97e89f79 inherit pub_methods_class_subject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c4f522850f718466e5be7eb55ba1969 inherit pub_methods_class_subject"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a7c4f522850f718466e5be7eb55ba1969">~Subject</a> ()</td></tr>
-<tr class="separator:a7c4f522850f718466e5be7eb55ba1969 inherit pub_methods_class_subject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4254eab0892ed61dae71e01a394ded6 inherit pub_methods_class_subject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#ae4254eab0892ed61dae71e01a394ded6">RegisterObserver</a> (<a class="el" href="class_observer.html">Observer</a> *observer)</td></tr>
-<tr class="separator:ae4254eab0892ed61dae71e01a394ded6 inherit pub_methods_class_subject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7106918d1c2b9a7e274bf2bd2004bbfb inherit pub_methods_class_subject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a7106918d1c2b9a7e274bf2bd2004bbfb">UnregisterObserver</a> (<a class="el" href="class_observer.html">Observer</a> *observer)</td></tr>
-<tr class="separator:a7106918d1c2b9a7e274bf2bd2004bbfb inherit pub_methods_class_subject"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_class_subject"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_subject')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_subject.html">Subject</a></td></tr>
-<tr class="memitem:ac8d74b2a80e2d4caa0a9a59e00a45219 inherit pro_methods_class_subject"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#ac8d74b2a80e2d4caa0a9a59e00a45219">Notify</a> (void)</td></tr>
-<tr class="separator:ac8d74b2a80e2d4caa0a9a59e00a45219 inherit pro_methods_class_subject"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9baad26f298df96cd9e9d432676a06d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#aa9baad26f298df96cd9e9d432676a06d">commandHasAssociatedMessage</a> (const std::string &amp;command) const </td></tr>
+<tr class="separator:aa9baad26f298df96cd9e9d432676a06d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa84262c7092f50bb4deb544538430f19"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#aa84262c7092f50bb4deb544538430f19">getCommandforMessage</a> (const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;message) const </td></tr>
+<tr class="separator:aa84262c7092f50bb4deb544538430f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2c4de8b0837cdcff940e11840c87951"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#ae2c4de8b0837cdcff940e11840c87951">getMessagesForCommand</a> (const std::string &amp;command) const </td></tr>
+<tr class="separator:ae2c4de8b0837cdcff940e11840c87951"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2756e149d61272bdd1d28dab12106ded"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a2756e149d61272bdd1d28dab12106ded">messageExistsInMap</a> (const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;message) const </td></tr>
+<tr class="separator:a2756e149d61272bdd1d28dab12106ded"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b6ed5adfc508cc05914c3b096e95337"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#a2b6ed5adfc508cc05914c3b096e95337">removeMessage</a> (const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;message)</td></tr>
+<tr class="separator:a2b6ed5adfc508cc05914c3b096e95337"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af61c26e79b72634ca8fd77b7233e12a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_map.html#af61c26e79b72634ca8fd77b7233e12a5">toXMLDocument</a> (const juce::File &amp;file) const </td></tr>
+<tr class="separator:af61c26e79b72634ca8fd77b7233e12a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00086">86</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00080">80</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a17917c3a5fb0f352b09b4a42344e4d11"></a>
 <div class="memitem">
@@ -199,19 +169,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00024">24</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
-
-<p>References <a class="el" href="_subject_8cpp_source.html#l00023">Subject::Subject()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_command_map_a17917c3a5fb0f352b09b4a42344e4d11_cgraph.png" border="0" usemap="#class_command_map_a17917c3a5fb0f352b09b4a42344e4d11_cgraph" alt=""/></div>
-<map name="class_command_map_a17917c3a5fb0f352b09b4a42344e4d11_cgraph" id="class_command_map_a17917c3a5fb0f352b09b4a42344e4d11_cgraph">
-<area shape="rect" id="node2" href="class_subject.html#a5b0b384612fdeabd5db3229b97e89f79" title="Subject::Subject" alt="" coords="252,5,371,32"/>
-</map>
-</div>
-</p>
+<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00025">25</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
 
 </div>
 </div>
@@ -236,25 +194,25 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00090">90</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00083">83</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3b44b67f2167475bba282b8a185018c6"></a>
+<a class="anchor" id="ab747221dbc48d1a096b6dde23cad4c14"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CommandMap::addCommandforMessage </td>
           <td>(</td>
-          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>command</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;&#160;</td>
           <td class="paramname"><em>cc</em>&#160;</td>
         </tr>
         <tr>
@@ -265,24 +223,27 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00029">29</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00027">27</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a101a5cb39f2f28f16b56a3e782c9daab"></a>
+<a class="anchor" id="a208bac536d264cb0fbddaa45601d95b8"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void CommandMap::addCommandforMessage </td>
           <td>(</td>
-          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>command</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;&#160;</td>
           <td class="paramname"><em>cc</em>&#160;</td>
         </tr>
         <tr>
@@ -291,9 +252,14 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00041">41</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00122">122</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
 
 </div>
 </div>
@@ -313,120 +279,152 @@ Here is the call graph for this function:</div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00074">74</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00138">138</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="af295badce32ec027c9a4addef8c05bc2"></a>
+<a class="anchor" id="aa9baad26f298df96cd9e9d432676a06d"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool CommandMap::commandHasAssociatedMessage </td>
           <td>(</td>
-          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>command</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00147">147</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa84262c7092f50bb4deb544538430f19"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; CommandMap::getCommandforMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00127">127</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae2c4de8b0837cdcff940e11840c87951"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> * &gt; CommandMap::getMessagesForCommand </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>command</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00062">62</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00038">38</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aa7b751c5f0b16fb5f552b5c304f56c68"></a>
+<a class="anchor" id="a2756e149d61272bdd1d28dab12106ded"></a>
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const String &amp; CommandMap::getCommandforMessage </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;&#160;</td>
-          <td class="paramname"><em>msg</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00047">47</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aeeef81aa7e1103a9e1012f2f4df35213"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp; CommandMap::getMessageForCommand </td>
-          <td>(</td>
-          <td class="paramtype">const String &amp;&#160;</td>
-          <td class="paramname"><em>command</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00052">52</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a72d2cbd00ada2715b07945253f00b8e7"></a>
-<div class="memitem">
-<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool CommandMap::messageExistsInMap </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;&#160;</td>
-          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00057">57</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00143">143</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a4965760cbda2b82484b26f5df645c216"></a>
+<a class="anchor" id="a2b6ed5adfc508cc05914c3b096e95337"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void CommandMap::removeMessage </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message.html">MIDI_Message</a> &amp;&#160;</td>
-          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00067">67</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8h_source.html#l00131">131</a> of file <a class="el" href="_command_map_8h_source.html">CommandMap.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a86d35079d4397908aa26109e03e67c24"></a>
+<a class="anchor" id="af61c26e79b72634ca8fd77b7233e12a5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CommandMap::toXMLDocument </td>
           <td>(</td>
-          <td class="paramtype">File &amp;&#160;</td>
+          <td class="paramtype">const juce::File &amp;&#160;</td>
           <td class="paramname"><em>file</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00080">80</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_map_8cpp_source.html#l00046">46</a> of file <a class="el" href="_command_map_8cpp_source.html">CommandMap.cpp</a>.</p>
 
 </div>
 </div>

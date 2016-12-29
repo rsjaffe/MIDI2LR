@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -109,17 +110,18 @@ $(document).ready(function(){initNavTree('class_subject.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Subject Member List</div>  </div>
+<div class="title">Subject&lt; Event &gt; Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="class_subject.html">Subject</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="class_subject.html">Subject&lt; Event &gt;</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_subject.html#ac8d74b2a80e2d4caa0a9a59e00a45219">Notify</a>(void)</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_subject.html#ae4254eab0892ed61dae71e01a394ded6">RegisterObserver</a>(Observer *observer)</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_subject.html#a5b0b384612fdeabd5db3229b97e89f79">Subject</a>() noexcept</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_subject.html#a7106918d1c2b9a7e274bf2bd2004bbfb">UnregisterObserver</a>(Observer *observer)</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_subject.html#a7c4f522850f718466e5be7eb55ba1969">~Subject</a>()</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_subject.html#a404b24d74160510eae7b08a0d9fd5348">notify</a>(const Event &amp;event) const </td><td class="entry"><a class="el" href="class_subject.html">Subject&lt; Event &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_subject.html#ad501f91de1bd7fcb650539a1a24453dc">operator=</a>(const Subject &amp;)=delete</td><td class="entry"><a class="el" href="class_subject.html">Subject&lt; Event &gt;</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_subject.html#a794d390d7b3647635a63df8a5620d21d">registerObserver</a>(const Event &amp;event, Observer &amp;&amp;observer)</td><td class="entry"><a class="el" href="class_subject.html">Subject&lt; Event &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_subject.html#a19728b2a45d409cae230a666c7897f8d">registerObserver</a>(Event &amp;&amp;event, Observer &amp;&amp;observer)</td><td class="entry"><a class="el" href="class_subject.html">Subject&lt; Event &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_subject.html#a45d5e30a1121752f58f397e0ef6b1c9c">Subject</a>()=default</td><td class="entry"><a class="el" href="class_subject.html">Subject&lt; Event &gt;</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_subject.html#ab811a8ce34ea6c047d9a414615307ad3">Subject</a>(const Subject &amp;)=delete</td><td class="entry"><a class="el" href="class_subject.html">Subject&lt; Event &gt;</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

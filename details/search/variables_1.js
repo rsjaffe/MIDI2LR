@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['basicadjustments',['BasicAdjustments',['../class_l_r_command_list.html#ad3dba4a1883a03d7411162ba9924bf51',1,'LRCommandList']]]
+  ['basicadjustments',['BasicAdjustments',['../class_l_r_command_list.html#a67b2c5c54b014ae0a521e20adfe50f95',1,'LRCommandList']]]
 ];

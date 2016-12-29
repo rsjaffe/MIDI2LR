@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['data',['data',['../struct_m_i_d_i___message.html#addb2279f174f1335855f3a09ec98ee7e',1,'MIDI_Message']]],
-  ['detail',['Detail',['../class_l_r_command_list.html#a98efe40a029f1aae7d26915115bea481',1,'LRCommandList']]],
-  ['develop',['Develop',['../class_l_r_command_list.html#ac38ce74ea2a754c4915ea79b31d4686b',1,'LRCommandList']]],
-  ['developpresets',['DevelopPresets',['../class_l_r_command_list.html#ac29a4934ded5a0b8df049d38af02a413',1,'LRCommandList']]]
+  ['data',['data',['../struct_m_i_d_i___message___i_d.html#a88e6a65b3e6b90d2e16c30b4e71d1001',1,'MIDI_Message_ID']]],
+  ['detail',['Detail',['../class_l_r_command_list.html#a25607c4ac05cdedccca6a5b74552d92f',1,'LRCommandList']]],
+  ['develop',['Develop',['../class_l_r_command_list.html#a2616e1b75f69242d0de4a2a510fcfe76',1,'LRCommandList']]],
+  ['developpresets',['DevelopPresets',['../class_l_r_command_list.html#a94393c0e38147416bcfdb3bbff0b68e7',1,'LRCommandList']]]
 ];

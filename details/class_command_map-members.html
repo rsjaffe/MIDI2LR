@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -115,22 +116,17 @@ $(document).ready(function(){initNavTree('class_command_map.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_command_map.html">CommandMap</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a3b44b67f2167475bba282b8a185018c6">addCommandforMessage</a>(unsigned int command, const MIDI_Message &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_map.html#a101a5cb39f2f28f16b56a3e782c9daab">addCommandforMessage</a>(const String &amp;command, const MIDI_Message &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a0c2d2b3cf78355b900858a92a8945ea6">clearMap</a>() noexcept</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_map.html#af295badce32ec027c9a4addef8c05bc2">commandHasAssociatedMessage</a>(const String &amp;command) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#ab747221dbc48d1a096b6dde23cad4c14">addCommandforMessage</a>(size_t command, const MIDI_Message_ID &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#a208bac536d264cb0fbddaa45601d95b8">addCommandforMessage</a>(const std::string &amp;command, const MIDI_Message_ID &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a0c2d2b3cf78355b900858a92a8945ea6">clearMap</a>() noexcept</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#aa9baad26f298df96cd9e9d432676a06d">commandHasAssociatedMessage</a>(const std::string &amp;command) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a17917c3a5fb0f352b09b4a42344e4d11">CommandMap</a>() noexcept</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68">getCommandforMessage</a>(const MIDI_Message &amp;msg) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#aeeef81aa7e1103a9e1012f2f4df35213">getMessageForCommand</a>(const String &amp;command) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_map.html#a72d2cbd00ada2715b07945253f00b8e7">messageExistsInMap</a>(const MIDI_Message &amp;msg) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_subject.html#ac8d74b2a80e2d4caa0a9a59e00a45219">Notify</a>(void)</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_subject.html#ae4254eab0892ed61dae71e01a394ded6">RegisterObserver</a>(Observer *observer)</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a4965760cbda2b82484b26f5df645c216">removeMessage</a>(const MIDI_Message &amp;msg)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_subject.html#a5b0b384612fdeabd5db3229b97e89f79">Subject</a>() noexcept</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a86d35079d4397908aa26109e03e67c24">toXMLDocument</a>(File &amp;file) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_subject.html#a7106918d1c2b9a7e274bf2bd2004bbfb">UnregisterObserver</a>(Observer *observer)</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#aa84262c7092f50bb4deb544538430f19">getCommandforMessage</a>(const MIDI_Message_ID &amp;message) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#ae2c4de8b0837cdcff940e11840c87951">getMessagesForCommand</a>(const std::string &amp;command) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#a2756e149d61272bdd1d28dab12106ded">messageExistsInMap</a>(const MIDI_Message_ID &amp;message) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a2b6ed5adfc508cc05914c3b096e95337">removeMessage</a>(const MIDI_Message_ID &amp;message)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#af61c26e79b72634ca8fd77b7233e12a5">toXMLDocument</a>(const juce::File &amp;file) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#aaf94ac25cd2791e0217ce40e09248ce9">~CommandMap</a>()</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_subject.html#a7c4f522850f718466e5be7eb55ba1969">~Subject</a>()</td><td class="entry"><a class="el" href="class_subject.html">Subject</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

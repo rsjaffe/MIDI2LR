@@ -1,21 +1,8 @@
 var searchData=
 [
-  ['_7ecommandmap',['~CommandMap',['../class_command_map.html#aaf94ac25cd2791e0217ce40e09248ce9',1,'CommandMap']]],
-  ['_7ecounter',['~counter',['../struct_m_i_d_i2_l_r_1_1counter.html#a2dbaa7fd189dc1151f0029bf59e74aa9',1,'MIDI2LR::counter']]],
-  ['_7eisingleton',['~ISingleton',['../classabstract.html#a2f284fc7aee834c223db05690397a04a',1,'abstract']]],
-  ['_7elr_5fipc_5fin',['~LR_IPC_IN',['../class_l_r___i_p_c___i_n.html#ad76a66ec7ff0182526a4eb6372c0e24c',1,'LR_IPC_IN']]],
-  ['_7elr_5fipc_5fout',['~LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html#ade9cdcaa60a2039d9bca2e4761a35b85',1,'LR_IPC_OUT']]],
-  ['_7elrconnectionlistener',['~LRConnectionListener',['../class_l_r_connection_listener.html#a4fcfdb79c8a18f09cf5f6abf053af4bc',1,'LRConnectionListener']]],
-  ['_7emaincontentcomponent',['~MainContentComponent',['../class_main_content_component.html#a7769da539c2bc4d2c66b2a0f200dad18',1,'MainContentComponent']]],
-  ['_7emidicommandlistener',['~MIDICommandListener',['../class_m_i_d_i_command_listener.html#a538e7c50bd6e0f36187f10b3ec70c2b6',1,'MIDICommandListener']]],
-  ['_7emidiprocessor',['~MIDIProcessor',['../class_m_i_d_i_processor.html#a372684eef733797c7fe3c7384fbf1357',1,'MIDIProcessor']]],
-  ['_7emidisender',['~MIDISender',['../class_m_i_d_i_sender.html#a15940ffa7e647bf49b1bae8ff8f17717',1,'MIDISender']]],
-  ['_7eobserver',['~Observer',['../class_observer.html#afcc6b67be6c386f2f3d2c363aa59cb47',1,'Observer']]],
-  ['_7eprofilechangelistener',['~ProfileChangeListener',['../class_profile_change_listener.html#a5b0672ab10ebb2cd22f9d79f75e48be5',1,'ProfileChangeListener']]],
-  ['_7eprofilemanager',['~ProfileManager',['../class_profile_manager.html#a29f66b82d8f081dbb11a9634493458f3',1,'ProfileManager']]],
-  ['_7eresizablelayout',['~ResizableLayout',['../class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc',1,'ResizableLayout']]],
-  ['_7esendkeys',['~SendKeys',['../class_send_keys.html#adf2c41b2ff27d456eb06c80f07e9f6cc',1,'SendKeys']]],
-  ['_7esettingscomponent',['~SettingsComponent',['../class_settings_component.html#a2ed5c4f0e9f7a6e0425d244d03d31dcf',1,'SettingsComponent']]],
-  ['_7esettingsmanager',['~SettingsManager',['../class_settings_manager.html#a3f358fe97f647191084c7fa78d1c8f91',1,'SettingsManager']]],
-  ['_7esubject',['~Subject',['../class_subject.html#a7c4f522850f718466e5be7eb55ba1969',1,'Subject']]]
+  ['value_5ftype',['value_type',['../classgsl_1_1span.html#aa703a8d1565b50040eef1f55466d7258',1,'gsl::span']]],
+  ['versionchecker',['VersionChecker',['../class_version_checker.html',1,'VersionChecker'],['../class_version_checker.html#a1178ce4bbfaa3b00a921ae48717d257a',1,'VersionChecker::VersionChecker()']]],
+  ['versionchecker_2ecpp',['VersionChecker.cpp',['../_version_checker_8cpp.html',1,'']]],
+  ['versionchecker_2eh',['VersionChecker.h',['../_version_checker_8h.html',1,'']]],
+  ['versionchecker_5fh_5fincluded',['VERSIONCHECKER_H_INCLUDED',['../_version_checker_8h.html#a1280025b39ab0710f9879457be3c1c34',1,'VersionChecker.h']]]
 ];

@@ -1,0 +1,4 @@
+<map id="mir::scene::SurfaceStack::remove_input_visualization" name="mir::scene::SurfaceStack::remove_input_visualization">
+<area shape="rect" id="node2" href="$classmir_1_1scene_1_1_surface_stack.html#aee825db76701b3f72d78d163db572de7" title="mir::scene::SurfaceStack\l::emit_scene_changed" alt="" coords="236,5,405,47"/>
+<area shape="rect" id="node3" href="$classmir_1_1scene_1_1_observers.html#aaf752f7e31e46c656284fa8bcb5605fd" title="mir::scene::Observers\l::scene_changed" alt="" coords="453,5,603,47"/>
+</map>

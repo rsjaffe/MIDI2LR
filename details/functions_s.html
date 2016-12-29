@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -83,6 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
       <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
@@ -95,6 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_c.html#index_c"><span>c</span></a></li>
       <li><a href="functions_d.html#index_d"><span>d</span></a></li>
       <li><a href="functions_e.html#index_e"><span>e</span></a></li>
+      <li><a href="functions_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_g.html#index_g"><span>g</span></a></li>
       <li><a href="functions_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_i.html#index_i"><span>i</span></a></li>
@@ -109,6 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_t.html#index_t"><span>t</span></a></li>
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
       <li><a href="functions_v.html#index_v"><span>v</span></a></li>
+      <li><a href="functions_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_0x7e.html#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
@@ -145,20 +149,30 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
+<li>scene_changed()
+: <a class="el" href="classmir_1_1scene_1_1_observer.html#a6b9ea1063a4b029c09c6e03feb2fdc3d">mir::scene::Observer</a>
+, <a class="el" href="classmir_1_1scene_1_1_observers.html#aaf752f7e31e46c656284fa8bcb5605fd">mir::scene::Observers</a>
+</li>
+<li>scene_elements_for()
+: <a class="el" href="classmir_1_1scene_1_1_surface_stack.html#ac9c24b4a7f8e28aaa6be895447e8ed8b">mir::scene::SurfaceStack</a>
+</li>
 <li>SecondaryDisplay
-: <a class="el" href="class_l_r_command_list.html#a7169de19247ce9368e9d428deafb2355">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#ac4f5191a0e1a9b384ed2edc467ccb341">LRCommandList</a>
 </li>
 <li>sendCC()
 : <a class="el" href="class_m_i_d_i_sender.html#a8b6516aeba15fb543a5b2220e746102b">MIDISender</a>
 </li>
 <li>sendCommand()
-: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a1746617796e59435a24a13fb1b364718">LR_IPC_OUT</a>
+: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a16365e97322c26abb3d0fff87465ad5e">LR_IPC_OUT</a>
 </li>
 <li>SendKeyDownUp()
-: <a class="el" href="class_send_keys.html#a76f34fe4c8731016c267c0f2574164d9">SendKeys</a>
+: <a class="el" href="class_send_keys.html#ae832647caa66e94ff86f0b3840ef37fd">SendKeys</a>
 </li>
 <li>SendKeys()
 : <a class="el" href="class_send_keys.html#ac737490e031d37a7b8db1841618a2f54">SendKeys</a>
+</li>
+<li>sendPitchBend()
+: <a class="el" href="class_m_i_d_i_sender.html#aca129329a2e30e6e52381f4b1720fc06">MIDISender</a>
 </li>
 <li>setAsConstrainerFor()
 : <a class="el" href="class_top_level_resizable_layout.html#a1b367be76ae2fe9e4caa14e3c1e3f150">TopLevelResizableLayout</a>
@@ -166,8 +180,16 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>setAutoHideTime()
 : <a class="el" href="class_settings_manager.html#a80df2a9511ce4c0c1846600e080f13dc">SettingsManager</a>
 </li>
+<li>SetControlLSB()
+: <a class="el" href="class_n_r_p_n___filter.html#ac4f2aa0d68555961c1807c36301d3b17">NRPN_Filter</a>
+, <a class="el" href="class_n_r_p_n___message.html#ac6f38b5e03452aeda27209b5571a041a">NRPN_Message</a>
+</li>
+<li>SetControlMSB()
+: <a class="el" href="class_n_r_p_n___filter.html#a4d7ba23a1ac945aecdb62ca6f600ee7e">NRPN_Filter</a>
+, <a class="el" href="class_n_r_p_n___message.html#a6a321127d68d6095722849a061644419">NRPN_Message</a>
+</li>
 <li>SetLabelSettings()
-: <a class="el" href="class_main_content_component.html#a3591717702eb6417ff1d2646a7b59e90">MainContentComponent</a>
+: <a class="el" href="class_main_content_component.html#a41cca27cad31a214e0447e1ff799decd">MainContentComponent</a>
 </li>
 <li>setLastVersionFound()
 : <a class="el" href="class_settings_manager.html#abc3ac0226eb063f6cecc17a9b76833bc">SettingsManager</a>
@@ -191,17 +213,17 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_resizable_child.html#a43531c929c933e13b16f15d8d5b966e7">ResizableChild</a>
 </li>
 <li>setMsg()
-: <a class="el" href="class_command_menu.html#a54d0aac4391b6ae878651804a2dbfc32">CommandMenu</a>
+: <a class="el" href="class_command_menu.html#a6f49295c7c752b8302b7a84e5996e62f">CommandMenu</a>
 </li>
 <li>setPickupEnabled()
 : <a class="el" href="class_settings_manager.html#a625341681109806d4ab2b2501ba30ab9">SettingsManager</a>
 </li>
 <li>setProfileDirectory()
-: <a class="el" href="class_profile_manager.html#a1529c4a30042187372c455729d917cd5">ProfileManager</a>
-, <a class="el" href="class_settings_manager.html#af6cf44339a570e457f3882ddfaf7b7a7">SettingsManager</a>
+: <a class="el" href="class_profile_manager.html#af95ce2ad04ffffae98504a44962c9030">ProfileManager</a>
+, <a class="el" href="class_settings_manager.html#a48f15ca55e54419dbd00abb91e3953c7">SettingsManager</a>
 </li>
 <li>setSelectedItem()
-: <a class="el" href="class_command_menu.html#aca42c2d962a51a0ab0d4450492aa44a9">CommandMenu</a>
+: <a class="el" href="class_command_menu.html#a9277b8034bf28bc66857977441097f7a">CommandMenu</a>
 </li>
 <li>setSizeLimits()
 : <a class="el" href="class_resizable_child.html#a398c4578e8a3a95aab126e565ddaba83">ResizableChild</a>
@@ -215,25 +237,31 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>SettingsManager()
 : <a class="el" href="class_settings_manager.html#a07295ed235508bb4dcd0e7a040ef01db">SettingsManager</a>
 </li>
+<li>SetValueLSB()
+: <a class="el" href="class_n_r_p_n___filter.html#a9f2cc39bfc3b5467d74764c503bd0f0c">NRPN_Filter</a>
+, <a class="el" href="class_n_r_p_n___message.html#a48d79b5ff98da0b7018fb850b554c90d">NRPN_Message</a>
+</li>
+<li>SetValueMSB()
+: <a class="el" href="class_n_r_p_n___filter.html#ab2bea32aca5c54bb4c5372020e5d4613">NRPN_Filter</a>
+, <a class="el" href="class_n_r_p_n___message.html#a8c5b8307f6a323422bd1a5b07f7a7191">NRPN_Message</a>
+</li>
 <li>shutdown()
-: <a class="el" href="class_l_r___i_p_c___i_n.html#a1eeca511d978f03330310e601390ddcc">LR_IPC_IN</a>
-, <a class="el" href="class_l_r___i_p_c___o_u_t.html#a3a88e19600489b202fa50e4c10fcdcba">LR_IPC_OUT</a>
-, <a class="el" href="class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f">MIDI2LRApplication</a>
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#ab5c41060c26b2d07197651ad3f74f62f">MIDI2LRApplication</a>
 </li>
-<li>Singleton()
-: <a class="el" href="classabstract.html#a0f3f510d4b8bb88a7678455ea07e1ec6">abstract&lt; T &gt;</a>
+<li>size()
+: <a class="el" href="classgsl_1_1span.html#a06225145260c812bf3fa907e99344a66">gsl::span&lt; T &gt;</a>
 </li>
-<li>Singleton&lt; MySingleton &gt;
-: <a class="el" href="classsealed.html#aaff7a312f915bf84cd0177faab598ace">sealed</a>
+<li>size_type
+: <a class="el" href="classgsl_1_1span.html#a08514186754bec26c714755ff1a7b673">gsl::span&lt; T &gt;</a>
 </li>
-<li>SingletonMgr
-: <a class="el" href="classabstract.html#abc6215f3bdb243af55a8a609d5b373e8">abstract&lt; T &gt;</a>
+<li>sortOrderChanged()
+: <a class="el" href="class_command_table_model.html#a81cc83ef85fc9beb97e221166037673d">CommandTableModel</a>
 </li>
-<li>sliderValueChanged()
-: <a class="el" href="class_settings_component.html#adf22dac22695d32df04865872b20b217">SettingsComponent</a>
+<li>span
+: <a class="el" href="classgsl_1_1span.html#a2d3ca180aef0bab56d21f3c4a90c23df">gsl::span&lt; T &gt;</a>
 </li>
 <li>SplitToning
-: <a class="el" href="class_l_r_command_list.html#ac5789fdf03f0b317e188b6161cf034e5">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#ad8c0844d2ef8eed5ad0e4d96f56bf58a">LRCommandList</a>
 </li>
 <li>Style
 : <a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8">ResizableLayout</a>
@@ -245,7 +273,35 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70">ResizableLayout</a>
 </li>
 <li>Subject()
-: <a class="el" href="class_subject.html#a5b0b384612fdeabd5db3229b97e89f79">Subject</a>
+: <a class="el" href="class_subject.html#ab811a8ce34ea6c047d9a414615307ad3">Subject&lt; Event &gt;</a>
+</li>
+<li>subspan()
+: <a class="el" href="classgsl_1_1span.html#ab12f3b0612cb2ce8b39cf813ba837513">gsl::span&lt; T &gt;</a>
+</li>
+<li>surface_added()
+: <a class="el" href="classmir_1_1scene_1_1_observer.html#a3ea5fe6cac160fd1bdcd00d7fced3156">mir::scene::Observer</a>
+, <a class="el" href="classmir_1_1scene_1_1_observers.html#ac306fca55c1a89355b8ca9ed713e6275">mir::scene::Observers</a>
+</li>
+<li>surface_at()
+: <a class="el" href="classmir_1_1scene_1_1_surface_stack.html#aa1bf2d0f294283423706643a9acb9304">mir::scene::SurfaceStack</a>
+</li>
+<li>surface_exists()
+: <a class="el" href="classmir_1_1scene_1_1_observer.html#ad72447ce38efcf4e73b5c4724fcee6c3">mir::scene::Observer</a>
+, <a class="el" href="classmir_1_1scene_1_1_observers.html#a9a3c6e5767ff8f11520b32891fd5c430">mir::scene::Observers</a>
+</li>
+<li>surface_removed()
+: <a class="el" href="classmir_1_1scene_1_1_observer.html#a29c7e368e2de16261250740b679456dc">mir::scene::Observer</a>
+, <a class="el" href="classmir_1_1scene_1_1_observers.html#a409aad37a0ea2eabddcf9600658f8b85">mir::scene::Observers</a>
+</li>
+<li>surfaces_reordered()
+: <a class="el" href="classmir_1_1scene_1_1_observer.html#a1d529f0552bdcf21d198586c94f82e52">mir::scene::Observer</a>
+, <a class="el" href="classmir_1_1scene_1_1_observers.html#aa64e73a49bcb148a535345174ca10089">mir::scene::Observers</a>
+</li>
+<li>SurfaceStack()
+: <a class="el" href="classmir_1_1scene_1_1_surface_stack.html#a638d2414fa44f6dba3fa1715708ce3d5">mir::scene::SurfaceStack</a>
+</li>
+<li>swap()
+: <a class="el" href="classgsl_1_1span.html#a5e182085b90a0a7041b0c3b5666837c8">gsl::span&lt; T &gt;</a>
 </li>
 <li>switchToNextProfile()
 : <a class="el" href="class_profile_manager.html#a7644e0703d1bdb3172271cec13e86662">ProfileManager</a>

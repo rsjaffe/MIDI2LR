@@ -1,6 +1,7 @@
 var class_resizable_child =
 [
     [ "ResizableChild", "class_resizable_child.html#a7f1450e61061b26d05d786f5d9df9dfb", null ],
+    [ "~ResizableChild", "class_resizable_child.html#a57a06b3f6301466017274dc58aea8904", null ],
     [ "getMaximumHeight", "class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e", null ],
     [ "getMaximumWidth", "class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab", null ],
     [ "getMinimumHeight", "class_resizable_child.html#a3dc554161d4b994494326227a96a644c", null ],

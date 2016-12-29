@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['keyshortcuts',['KeyShortcuts',['../class_l_r_command_list.html#aab585f7cc9a9aa7fdd3bba296aa4c11a',1,'LRCommandList']]],
-  ['klrinport',['kLrInPort',['../_l_r___i_p_c___in_8cpp.html#a0c6f0c23a74565693201c1e1ae8702e1',1,'LR_IPC_In.cpp']]],
-  ['klroutport',['kLrOutPort',['../_l_r___i_p_c___out_8cpp.html#a2d04bb43be69c00ddb6a898480193dd6',1,'LR_IPC_Out.cpp']]],
-  ['kmainheight',['kMainHeight',['../_main_component_8cpp.html#a399a887ed03f8783740e798d85a845da',1,'MainComponent.cpp']]],
-  ['kmainleft',['kMainLeft',['../_main_component_8cpp.html#a59100962a15a3aafe90f1ebf4228e219',1,'MainComponent.cpp']]],
-  ['kmainwidth',['kMainWidth',['../_main_component_8cpp.html#ac7f2a60585d2dd0da927ea69e37d2ba0',1,'MainComponent.cpp']]],
-  ['kspacebetweenbutton',['kSpaceBetweenButton',['../_main_component_8cpp.html#a84934ec86d7c7c69f6be595eb387e31f',1,'MainComponent.cpp']]]
+  ['implicit',['implicit',['../_g_s_l_8h.html#a3539d59a0c0b1bc3dcf68dfb1bb42d21',1,'GSL.h']]],
+  ['init',['Init',['../class_command_menu.html#a6e997c5bc08689f1fdb46443edaf9720',1,'CommandMenu::Init()'],['../class_command_table_model.html#a840540a46e865e5ac59f6922bf1ef184',1,'CommandTableModel::Init()'],['../class_l_r___i_p_c___i_n.html#a292c95a31841722d4bf514d27b44e732',1,'LR_IPC_IN::Init()'],['../class_m_i_d_i_sender.html#ab563687fe6dd2b274a1694140ef7c08c',1,'MIDISender::Init()'],['../class_profile_manager.html#a119b5263cd581781a5983c8888780261',1,'ProfileManager::Init()'],['../class_m_i_d_i_processor.html#a5368c02640c7493c0119deadfe2feeba',1,'MIDIProcessor::Init()'],['../class_main_content_component.html#a105d78500f988b18fa65b927a938b261',1,'MainContentComponent::Init()'],['../class_settings_manager.html#acfab30cca5fa2c872702d00b32f750ee',1,'SettingsManager::Init()'],['../class_main_window.html#adf29a6c3f29ab39094353d49a9963cf8',1,'MainWindow::Init()'],['../class_version_checker.html#af3333255fcedd2fa70e10be21ce76769',1,'VersionChecker::Init()'],['../class_settings_component.html#ab33bac12d22f1353596c1cc8fa58825f',1,'SettingsComponent::Init()'],['../class_l_r___i_p_c___o_u_t.html#a60675a293f413269f491889cb2726867',1,'LR_IPC_OUT::Init()']]],
+  ['initialise',['initialise',['../class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4',1,'MIDI2LRApplication']]],
+  ['isinprocess',['IsInProcess',['../class_n_r_p_n___message.html#a9497d26fe53df4d7396ba231c90af8d8',1,'NRPN_Message::IsInProcess()'],['../class_n_r_p_n___filter.html#a82552e85735cfbc15e92957fe959d8bb',1,'NRPN_Filter::IsInProcess()']]],
+  ['isready',['IsReady',['../class_n_r_p_n___message.html#aec4187b0efc7842acd6001d3d19f84d8',1,'NRPN_Message::IsReady()'],['../class_n_r_p_n___filter.html#a5752cafecf45aa1def07c993c9ff6101',1,'NRPN_Filter::IsReady()']]],
+  ['iterator',['iterator',['../classgsl_1_1span.html#ac14fbb2a41bbca9ab0f6ffe8558a1a8f',1,'gsl::span']]]
 ];

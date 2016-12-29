@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['buildfromxml',['buildFromXml',['../class_command_table_model.html#adc91632cd6ecd7f0b36332f43ed13f54',1,'CommandTableModel']]],
-  ['buttonclicked',['buttonClicked',['../class_command_menu.html#a1e345fe4c3a136cb5500b4d17b63e6c7',1,'CommandMenu::buttonClicked()'],['../class_main_content_component.html#a72d6b006f4d4a6c4de2ca2e1bde18fc6',1,'MainContentComponent::buttonClicked()'],['../class_settings_component.html#ad65a9529807a9ff304ba994399f55c55',1,'SettingsComponent::buttonClicked()']]]
+  ['begin',['begin',['../classgsl_1_1span.html#ae40e24f8fec4cf961f7b67910aa4dd73',1,'gsl::span']]],
+  ['buildfromxml',['buildFromXml',['../class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67',1,'CommandTableModel']]],
+  ['bytes',['bytes',['../classgsl_1_1span.html#ad89aa1d0e0256cc7d6fa528975553827',1,'gsl::span']]]
 ];

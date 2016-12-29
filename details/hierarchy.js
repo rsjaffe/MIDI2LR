@@ -11,6 +11,7 @@ var hierarchy =
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
+    [ "CommandMap", "class_command_map.html", null ],
     [ "Component", null, [
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
@@ -22,17 +23,17 @@ var hierarchy =
         [ "TopLevelResizableLayout", "class_top_level_resizable_layout.html", null ]
       ] ]
     ] ],
-    [ "MIDI2LR::counter< T >", "struct_m_i_d_i2_l_r_1_1counter.html", null ],
+    [ "RSJ::counter< T >", "struct_r_s_j_1_1counter.html", null ],
     [ "DocumentWindow", null, [
       [ "MainWindow", "class_main_window.html", null ]
     ] ],
-    [ "std::hash< MIDI_Message >", "structstd_1_1hash_3_01_m_i_d_i___message_01_4.html", null ],
-    [ "std::hash< String >", "structstd_1_1hash_3_01_string_01_4.html", null ],
+    [ "std::exception", null, [
+      [ "gsl::narrowing_error", "structgsl_1_1narrowing__error.html", null ]
+    ] ],
+    [ "gsl::Final_act", "classgsl_1_1_final__act.html", null ],
+    [ "std::hash< MIDI_Message_ID >", "structstd_1_1hash_3_01_m_i_d_i___message___i_d_01_4.html", null ],
     [ "InterprocessConnection", null, [
       [ "LR_IPC_OUT", "class_l_r___i_p_c___o_u_t.html", null ]
-    ] ],
-    [ "ISingleton", "class_i_singleton.html", [
-      [ "abstract< T >", "classabstract.html", null ]
     ] ],
     [ "JUCEApplication", null, [
       [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", null ]
@@ -46,7 +47,7 @@ var hierarchy =
       [ "ProfileManager", "class_profile_manager.html", null ],
       [ "SettingsManager", "class_settings_manager.html", null ]
     ] ],
-    [ "MIDI_Message", "struct_m_i_d_i___message.html", null ],
+    [ "MIDI_Message_ID", "struct_m_i_d_i___message___i_d.html", null ],
     [ "MIDICommandListener", "class_m_i_d_i_command_listener.html", [
       [ "LR_IPC_OUT", "class_l_r___i_p_c___o_u_t.html", null ],
       [ "MainContentComponent", "class_main_content_component.html", null ],
@@ -56,24 +57,40 @@ var hierarchy =
       [ "MIDIProcessor", "class_m_i_d_i_processor.html", null ]
     ] ],
     [ "MIDISender", "class_m_i_d_i_sender.html", null ],
-    [ "Observer", "class_observer.html", null ],
+    [ "gsl::not_null< T >", "classgsl_1_1not__null.html", null ],
+    [ "NRPN_Filter", "class_n_r_p_n___filter.html", null ],
+    [ "NRPN_Message", "class_n_r_p_n___message.html", null ],
+    [ "mir::scene::Observer", "classmir_1_1scene_1_1_observer.html", [
+      [ "mir::scene::Observers", "classmir_1_1scene_1_1_observers.html", null ]
+    ] ],
+    [ "gsl::owner< T >", "structgsl_1_1owner.html", null ],
     [ "ProfileChangeListener", "class_profile_change_listener.html", [
       [ "MainContentComponent", "class_main_content_component.html", null ]
     ] ],
+    [ "mir::RecursiveReadLock", "classmir_1_1_recursive_read_lock.html", null ],
+    [ "mir::RecursiveReadWriteMutex", "classmir_1_1_recursive_read_write_mutex.html", null ],
+    [ "mir::RecursiveWriteLock", "classmir_1_1_recursive_write_lock.html", null ],
     [ "ResizableChild", "class_resizable_child.html", [
       [ "ResizableLayout", "class_resizable_layout.html", null ]
     ] ],
-    [ "SendKeys", "class_send_keys.html", null ],
-    [ "Singleton", "class_singleton.html", null ],
-    [ "Singleton< MySingleton >", "class_singleton.html", [
-      [ "sealed", "classsealed.html", null ]
+    [ "Scene", null, [
+      [ "mir::scene::SurfaceStack", "classmir_1_1scene_1_1_surface_stack.html", null ]
     ] ],
-    [ "SingletonMgr", "class_singleton_mgr.html", null ],
+    [ "Scene", null, [
+      [ "mir::scene::SurfaceStack", "classmir_1_1scene_1_1_surface_stack.html", null ]
+    ] ],
+    [ "SendKeys", "class_send_keys.html", null ],
+    [ "gsl::span< T >", "classgsl_1_1span.html", null ],
+    [ "RSJ::spinlock", "class_r_s_j_1_1spinlock.html", null ],
     [ "StreamingSocket", null, [
       [ "LR_IPC_IN", "class_l_r___i_p_c___i_n.html", null ]
     ] ],
-    [ "Subject", "class_subject.html", [
-      [ "CommandMap", "class_command_map.html", null ]
+    [ "Subject< Event >", "class_subject.html", null ],
+    [ "SurfaceObserver", null, [
+      [ "mir::scene::SurfaceObservers", "classmir_1_1scene_1_1_surface_observers.html", null ]
+    ] ],
+    [ "SurfaceStack", null, [
+      [ "mir::scene::SurfaceStack", "classmir_1_1scene_1_1_surface_stack.html", null ]
     ] ],
     [ "TableListBox", null, [
       [ "CommandTable", "class_command_table.html", null ]
@@ -87,6 +104,19 @@ var hierarchy =
     [ "Thread", null, [
       [ "LR_IPC_IN", "class_l_r___i_p_c___i_n.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
+    ] ],
+    [ "RSJ::threadsafe_queue< T >", "class_r_s_j_1_1threadsafe__queue.html", null ],
+    [ "threadsafe_queue< T >", "classthreadsafe__queue.html", null ],
+    [ "mir::ThreadSafeList< Element >", "classmir_1_1_thread_safe_list.html", null ],
+    [ "mir::ThreadSafeList< std::shared_ptr< Observer > >", "classmir_1_1_thread_safe_list.html", [
+      [ "mir::BasicObservers< Observer >", "classmir_1_1_basic_observers.html", [
+        [ "mir::scene::Observers", "classmir_1_1scene_1_1_observers.html", null ]
+      ] ]
+    ] ],
+    [ "mir::ThreadSafeList< std::shared_ptr< SurfaceObserver > >", "classmir_1_1_thread_safe_list.html", [
+      [ "mir::BasicObservers< SurfaceObserver >", "classmir_1_1_basic_observers.html", [
+        [ "mir::scene::SurfaceObservers", "classmir_1_1scene_1_1_surface_observers.html", null ]
+      ] ]
     ] ],
     [ "Timer", null, [
       [ "LR_IPC_IN", "class_l_r___i_p_c___i_n.html", null ],

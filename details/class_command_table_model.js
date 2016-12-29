@@ -1,14 +1,15 @@
 var class_command_table_model =
 [
     [ "CommandTableModel", "class_command_table_model.html#a8d3504f4bea9dbc35e2d17930508b921", null ],
-    [ "addRow", "class_command_table_model.html#a34e3b342c1741fe6363e2873b68171b1", null ],
-    [ "buildFromXml", "class_command_table_model.html#adc91632cd6ecd7f0b36332f43ed13f54", null ],
+    [ "addRow", "class_command_table_model.html#a8ac89ae0020ec0dd351fef7cf83338b5", null ],
+    [ "buildFromXml", "class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67", null ],
     [ "getNumRows", "class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2", null ],
-    [ "getRowForMessage", "class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39", null ],
+    [ "getRowForMessage", "class_command_table_model.html#a95c92b56955450c4f91885186182c361", null ],
     [ "Init", "class_command_table_model.html#a840540a46e865e5ac59f6922bf1ef184", null ],
-    [ "paintCell", "class_command_table_model.html#a291f0a2ace126893e8639efaa1d817a3", null ],
-    [ "paintRowBackground", "class_command_table_model.html#a288a0dec11b5bbfb6fdb5bcd9c4a81ec", null ],
-    [ "refreshComponentForCell", "class_command_table_model.html#a46ef1923c37173d28bf25c840403af69", null ],
+    [ "paintCell", "class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339", null ],
+    [ "paintRowBackground", "class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87", null ],
+    [ "refreshComponentForCell", "class_command_table_model.html#ad6cce73101cffa884e56b4d50377460e", null ],
     [ "removeAllRows", "class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b", null ],
-    [ "removeRow", "class_command_table_model.html#aedd06c409a9326aa50077244c10f5dbd", null ]
+    [ "removeRow", "class_command_table_model.html#a46d7cafd317a8d72e71c144f89b80429", null ],
+    [ "sortOrderChanged", "class_command_table_model.html#a81cc83ef85fc9beb97e221166037673d", null ]
 ];

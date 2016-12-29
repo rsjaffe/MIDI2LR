@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -123,7 +124,7 @@ Inheritance diagram for MIDICommandListener:</div>
 <div class="center"><img src="class_m_i_d_i_command_listener__inherit__graph.png" border="0" usemap="#_m_i_d_i_command_listener_inherit__map" alt="Inheritance graph"/></div>
 <map name="_m_i_d_i_command_listener_inherit__map" id="_m_i_d_i_command_listener_inherit__map">
 <area shape="rect" id="node2" href="class_l_r___i_p_c___o_u_t.html" title="LR_IPC_OUT" alt="" coords="5,80,104,107"/>
-<area shape="rect" id="node3" href="class_main_content_component.html" title="This component lives inside our window, and this is where you should put all your controls and conten..." alt="" coords="129,80,290,107"/>
+<area shape="rect" id="node3" href="class_main_content_component.html" title="MainContentComponent" alt="" coords="129,80,290,107"/>
 <area shape="rect" id="node4" href="class_profile_manager.html" title="ProfileManager" alt="" coords="314,80,422,107"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -136,10 +137,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9bfd81e80280c1889411b60d4c676ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f4c3f606f9f18906f56b3c3bf1fb42"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i_command_listener.html#ae2f4c3f606f9f18906f56b3c3bf1fb42">handleMidiNote</a> (int midi_channel, int note)=0</td></tr>
 <tr class="separator:ae2f4c3f606f9f18906f56b3c3bf1fb42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f690e3673d1ce402f4982b4753392e8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i_command_listener.html#a4f690e3673d1ce402f4982b4753392e8">handlePitchWheel</a> (int midi_channel, int value)=0</td></tr>
+<tr class="separator:a4f690e3673d1ce402f4982b4753392e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_m_i_d_i_processor_8h_source.html#l00026">26</a> of file <a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_processor_8h_source.html#l00030">30</a> of file <a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a538e7c50bd6e0f36187f10b3ec70c2b6"></a>
 <div class="memitem">
@@ -162,7 +165,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_m_i_d_i_processor_8h_source.html#l00032">32</a> of file <a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_processor_8h_source.html#l00036">36</a> of file <a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -205,7 +208,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_profile_manager.html#a32fc121bb66f360e911800c246ca33a6">ProfileManager</a>, <a class="el" href="class_main_content_component.html#a707968b7a37aa4d5aa1a4fe57f44e86e">MainContentComponent</a>, and <a class="el" href="class_l_r___i_p_c___o_u_t.html#ad2d2b544157950b3b74ff6f7791c98cc">LR_IPC_OUT</a>.</p>
+<p>Implemented in <a class="el" href="class_profile_manager.html#a32fc121bb66f360e911800c246ca33a6">ProfileManager</a>, <a class="el" href="class_l_r___i_p_c___o_u_t.html#ad2d2b544157950b3b74ff6f7791c98cc">LR_IPC_OUT</a>, and <a class="el" href="class_main_content_component.html#a707968b7a37aa4d5aa1a4fe57f44e86e">MainContentComponent</a>.</p>
 
 </div>
 </div>
@@ -241,7 +244,43 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_profile_manager.html#aa6cab044e89f88926dbc57ca5bfd6b4e">ProfileManager</a>, <a class="el" href="class_main_content_component.html#a406b8dd5a8d7510f7688e83a69b58ed1">MainContentComponent</a>, and <a class="el" href="class_l_r___i_p_c___o_u_t.html#ab586f83cf46e3a10ab03a934c749d60d">LR_IPC_OUT</a>.</p>
+<p>Implemented in <a class="el" href="class_profile_manager.html#aa6cab044e89f88926dbc57ca5bfd6b4e">ProfileManager</a>, <a class="el" href="class_l_r___i_p_c___o_u_t.html#ab586f83cf46e3a10ab03a934c749d60d">LR_IPC_OUT</a>, and <a class="el" href="class_main_content_component.html#a406b8dd5a8d7510f7688e83a69b58ed1">MainContentComponent</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4f690e3673d1ce402f4982b4753392e8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void MIDICommandListener::handlePitchWheel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>midi_channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_profile_manager.html#ad178bb40c953bd0d59e2915fcfeb304e">ProfileManager</a>, <a class="el" href="class_l_r___i_p_c___o_u_t.html#a236102c8999630ffc6651660de9ca2d5">LR_IPC_OUT</a>, and <a class="el" href="class_main_content_component.html#ad953e10bf8cd7a5a5e559d0e694dc5ff">MainContentComponent</a>.</p>
 
 </div>
 </div>

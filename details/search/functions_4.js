@@ -1,20 +1,8 @@
 var searchData=
 [
-  ['getapplicationname',['getApplicationName',['../class_m_i_d_i2_l_r_application.html#ac53e19496aa202117c45cae154cf7489',1,'MIDI2LRApplication']]],
-  ['getapplicationversion',['getApplicationVersion',['../class_m_i_d_i2_l_r_application.html#a51fc49ef00c85168d30427eb77d023c7',1,'MIDI2LRApplication']]],
-  ['getautohidetime',['getAutoHideTime',['../class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca',1,'SettingsManager']]],
-  ['getcommandformessage',['getCommandforMessage',['../class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68',1,'CommandMap']]],
-  ['getindexofcommand',['getIndexOfCommand',['../class_l_r_command_list.html#a37b96dd77211ce8f85b2d83beb6d6a51',1,'LRCommandList']]],
-  ['getinstance',['GetInstance',['../classabstract.html#aca9929a78bea316bf71179d83f3512bb',1,'abstract']]],
-  ['getlastversionfound',['getLastVersionFound',['../class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8',1,'SettingsManager']]],
-  ['getmaximumheight',['getMaximumHeight',['../class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e',1,'ResizableChild']]],
-  ['getmaximumwidth',['getMaximumWidth',['../class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab',1,'ResizableChild']]],
-  ['getmenuitems',['getMenuItems',['../class_profile_manager.html#aa987cef0d2777592539985d6b7370f71',1,'ProfileManager']]],
-  ['getmessageforcommand',['getMessageForCommand',['../class_command_map.html#aeeef81aa7e1103a9e1012f2f4df35213',1,'CommandMap']]],
-  ['getminimumheight',['getMinimumHeight',['../class_resizable_child.html#a3dc554161d4b994494326227a96a644c',1,'ResizableChild']]],
-  ['getminimumwidth',['getMinimumWidth',['../class_resizable_child.html#a799c8cf06801b7da7fd6d987892740e1',1,'ResizableChild']]],
-  ['getnumrows',['getNumRows',['../class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2',1,'CommandTableModel']]],
-  ['getpickupenabled',['getPickupEnabled',['../class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d',1,'SettingsManager']]],
-  ['getprofiledirectory',['getProfileDirectory',['../class_settings_manager.html#a2c155d9a507a9bef20208359ed4b11f6',1,'SettingsManager']]],
-  ['getrowformessage',['getRowForMessage',['../class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39',1,'CommandTableModel']]]
+  ['emit_5fscene_5fchanged',['emit_scene_changed',['../classmir_1_1scene_1_1_surface_stack.html#aee825db76701b3f72d78d163db572de7',1,'mir::scene::SurfaceStack']]],
+  ['empty',['empty',['../class_r_s_j_1_1threadsafe__queue.html#a2cbade51b1b0f03eb3a08ab29dba80ea',1,'RSJ::threadsafe_queue::empty()'],['../classgsl_1_1span.html#ae3e3d685edec3a47bf20975c5153e593',1,'gsl::span::empty()'],['../classthreadsafe__queue.html#a5c7d6343150c78631e88c1cb41fae6ba',1,'threadsafe_queue::Empty()']]],
+  ['end',['end',['../classgsl_1_1span.html#a34119984b5b6cbafb0968f7fce7babf7',1,'gsl::span']]],
+  ['end_5fobservation',['end_observation',['../classmir_1_1scene_1_1_observers.html#a7d9132370d93ef13d52f32a346b57bc4',1,'mir::scene::Observers::end_observation()'],['../classmir_1_1scene_1_1_observer.html#a8821da2b447e50d7d4bee2df3e74467d',1,'mir::scene::Observer::end_observation()']]],
+  ['ensure_5fz',['ensure_z',['../namespacegsl.html#a419c2ed1cc17e10475627fbf5bc7e84b',1,'gsl::ensure_z(T *const &amp;sz, size_t max=std::numeric_limits&lt; size_t &gt;::max())'],['../namespacegsl.html#ad7ccb409e5a9af5dfb0d17bc16f23635',1,'gsl::ensure_z(T(&amp;sz)[N])']]]
 ];

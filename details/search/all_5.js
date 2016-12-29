@@ -1,21 +1,12 @@
 var searchData=
 [
-  ['general',['General',['../class_l_r_command_list.html#a6596b402092771f06a67d73be1d0f52c',1,'LRCommandList']]],
-  ['getapplicationname',['getApplicationName',['../class_m_i_d_i2_l_r_application.html#ac53e19496aa202117c45cae154cf7489',1,'MIDI2LRApplication']]],
-  ['getapplicationversion',['getApplicationVersion',['../class_m_i_d_i2_l_r_application.html#a51fc49ef00c85168d30427eb77d023c7',1,'MIDI2LRApplication']]],
-  ['getautohidetime',['getAutoHideTime',['../class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca',1,'SettingsManager']]],
-  ['getcommandformessage',['getCommandforMessage',['../class_command_map.html#aa7b751c5f0b16fb5f552b5c304f56c68',1,'CommandMap']]],
-  ['getindexofcommand',['getIndexOfCommand',['../class_l_r_command_list.html#a37b96dd77211ce8f85b2d83beb6d6a51',1,'LRCommandList']]],
-  ['getinstance',['GetInstance',['../classabstract.html#aca9929a78bea316bf71179d83f3512bb',1,'abstract']]],
-  ['getlastversionfound',['getLastVersionFound',['../class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8',1,'SettingsManager']]],
-  ['getmaximumheight',['getMaximumHeight',['../class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e',1,'ResizableChild']]],
-  ['getmaximumwidth',['getMaximumWidth',['../class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab',1,'ResizableChild']]],
-  ['getmenuitems',['getMenuItems',['../class_profile_manager.html#aa987cef0d2777592539985d6b7370f71',1,'ProfileManager']]],
-  ['getmessageforcommand',['getMessageForCommand',['../class_command_map.html#aeeef81aa7e1103a9e1012f2f4df35213',1,'CommandMap']]],
-  ['getminimumheight',['getMinimumHeight',['../class_resizable_child.html#a3dc554161d4b994494326227a96a644c',1,'ResizableChild']]],
-  ['getminimumwidth',['getMinimumWidth',['../class_resizable_child.html#a799c8cf06801b7da7fd6d987892740e1',1,'ResizableChild']]],
-  ['getnumrows',['getNumRows',['../class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2',1,'CommandTableModel']]],
-  ['getpickupenabled',['getPickupEnabled',['../class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d',1,'SettingsManager']]],
-  ['getprofiledirectory',['getProfileDirectory',['../class_settings_manager.html#a2c155d9a507a9bef20208359ed4b11f6',1,'SettingsManager']]],
-  ['getrowformessage',['getRowForMessage',['../class_command_table_model.html#a718bd444e2e6a23b7ca4375ac3a94b39',1,'CommandTableModel']]]
+  ['fail_5ffast_5fassert',['fail_fast_assert',['../namespacegsl.html#ac13a83372b101d9754f3ead903a6c876',1,'gsl::fail_fast_assert(bool cond)'],['../namespacegsl.html#aeed8cbd46c39dc8d9b3c0e417921daba',1,'gsl::fail_fast_assert(bool cond, char const *const)']]],
+  ['filters',['Filters',['../class_l_r_command_list.html#af8276a43fdb4d451113bc0f2a96dca82',1,'LRCommandList']]],
+  ['final_5fact',['Final_act',['../classgsl_1_1_final__act.html',1,'gsl']]],
+  ['final_5fact',['Final_act',['../classgsl_1_1_final__act.html#a5b5dfc4b5c7cdfc929d795aa62d3c839',1,'gsl::Final_act']]],
+  ['finally',['finally',['../namespacegsl.html#a34299ca2a12bb330168b341f88ef1e17',1,'gsl']]],
+  ['first',['first',['../classgsl_1_1span.html#acf258aca193726bc944299c45c31fb71',1,'gsl::span']]],
+  ['for_5feach',['for_each',['../classmir_1_1scene_1_1_surface_stack.html#a1dd4dc7c9ff859b86031b20a61a8049f',1,'mir::scene::SurfaceStack::for_each()'],['../classmir_1_1_thread_safe_list.html#a22e364293907327874f028d64d1d5757',1,'mir::ThreadSafeList::for_each()']]],
+  ['frame_5fposted',['frame_posted',['../classmir_1_1scene_1_1_surface_observers.html#a9854b2bfbc6a204449802e4126cf957b',1,'mir::scene::SurfaceObservers']]],
+  ['frames_5fpending',['frames_pending',['../classmir_1_1scene_1_1_surface_stack.html#a98178389aa75da0c898105dc319e9c38',1,'mir::scene::SurfaceStack']]]
 ];

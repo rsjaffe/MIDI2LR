@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -83,6 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
       <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
@@ -95,6 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_c.html#index_c"><span>c</span></a></li>
       <li><a href="functions_d.html#index_d"><span>d</span></a></li>
       <li><a href="functions_e.html#index_e"><span>e</span></a></li>
+      <li><a href="functions_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_g.html#index_g"><span>g</span></a></li>
       <li><a href="functions_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_i.html#index_i"><span>i</span></a></li>
@@ -109,6 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_t.html#index_t"><span>t</span></a></li>
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
       <li><a href="functions_v.html#index_v"><span>v</span></a></li>
+      <li><a href="functions_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_0x7e.html#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
@@ -149,22 +153,19 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="class_main_content_component.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb">MainContentComponent</a>
 </li>
 <li>MainWindow()
-: <a class="el" href="class_main_window.html#a6ef7a51f3acb124271f11eecb6df7a07">MainWindow</a>
+: <a class="el" href="class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f">MainWindow</a>
 </li>
 <li>messageExistsInMap()
-: <a class="el" href="class_command_map.html#a72d2cbd00ada2715b07945253f00b8e7">CommandMap</a>
+: <a class="el" href="class_command_map.html#a2756e149d61272bdd1d28dab12106ded">CommandMap</a>
 </li>
-<li>messageReceived()
-: <a class="el" href="class_l_r___i_p_c___o_u_t.html#a7fcdee71f2811557b6bf4d1a6c8f243a">LR_IPC_OUT</a>
-</li>
-<li>Method()
-: <a class="el" href="classsealed.html#a650aa1f57c9fb820bb9f3ca702e0f149">sealed</a>
+<li>messageType
+: <a class="el" href="struct_m_i_d_i___message___i_d.html#a6c7a03370c461c3c893cd015168f4a0a">MIDI_Message_ID</a>
 </li>
 <li>MIDI2LRApplication()
 : <a class="el" href="class_m_i_d_i2_l_r_application.html#a88492c86eb83772dffb248cbeff75667">MIDI2LRApplication</a>
 </li>
-<li>MIDI_Message()
-: <a class="el" href="struct_m_i_d_i___message.html#ada792c9fea8cd5017e5c6b8666a33b5c">MIDI_Message</a>
+<li>MIDI_Message_ID()
+: <a class="el" href="struct_m_i_d_i___message___i_d.html#addc134a9c88d8770193f652186c91fb8">MIDI_Message_ID</a>
 </li>
 <li>MIDIProcessor()
 : <a class="el" href="class_m_i_d_i_processor.html#a52c8a40410e7bfc2c6b55427f0aa50a7">MIDIProcessor</a>
@@ -173,10 +174,13 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 : <a class="el" href="class_m_i_d_i_sender.html#a07403c04d637d685ed810aca8bd4579c">MIDISender</a>
 </li>
 <li>Mixer
-: <a class="el" href="class_l_r_command_list.html#abc8fa08c7dfe651990e16a5c7cb44be7">LRCommandList</a>
+: <a class="el" href="class_l_r_command_list.html#a5fd524882ccefe300716c622f2daa403">LRCommandList</a>
 </li>
 <li>moreThanOneInstanceAllowed()
 : <a class="el" href="class_m_i_d_i2_l_r_application.html#abd55f782b5d696a1d6df5ab3ee03f816">MIDI2LRApplication</a>
+</li>
+<li>moved_to()
+: <a class="el" href="classmir_1_1scene_1_1_surface_observers.html#ab0870948d713a953467cfd4e5b919ebd">mir::scene::SurfaceObservers</a>
 </li>
 </ul>
 </div><!-- contents -->

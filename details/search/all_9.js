@@ -1,20 +1,5 @@
 var searchData=
 [
-  ['lenscorrections',['LensCorrections',['../class_l_r_command_list.html#a536555bd29c161ad70ea5bdf9cdc8159',1,'LRCommandList']]],
-  ['library',['Library',['../class_l_r_command_list.html#a7c252ee33565d85c1b3180ef4e20db3b',1,'LRCommandList']]],
-  ['localadjustments',['LocalAdjustments',['../class_l_r_command_list.html#a4f90d55a091e66e130b3eaa736155acb',1,'LRCommandList']]],
-  ['lr_5fipc_5fin',['LR_IPC_IN',['../class_l_r___i_p_c___i_n.html',1,'LR_IPC_IN'],['../class_l_r___i_p_c___i_n.html#a15a4d6b2b058793bdd6d37ce81880d5b',1,'LR_IPC_IN::LR_IPC_IN()']]],
-  ['lr_5fipc_5fin_2ecpp',['LR_IPC_In.cpp',['../_l_r___i_p_c___in_8cpp.html',1,'']]],
-  ['lr_5fipc_5fin_2eh',['LR_IPC_In.h',['../_l_r___i_p_c___in_8h.html',1,'']]],
-  ['lr_5fipc_5fin_5fh_5fincluded',['LR_IPC_IN_H_INCLUDED',['../_l_r___i_p_c___in_8h.html#a76b70bf1d15c92bc0578f8e92c90f831',1,'LR_IPC_In.h']]],
-  ['lr_5fipc_5fout',['LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html',1,'LR_IPC_OUT'],['../class_l_r___i_p_c___o_u_t.html#a8842e5b48f3546b6269607aec979f916',1,'LR_IPC_OUT::LR_IPC_OUT()']]],
-  ['lr_5fipc_5fout_2ecpp',['LR_IPC_Out.cpp',['../_l_r___i_p_c___out_8cpp.html',1,'']]],
-  ['lr_5fipc_5fout_2eh',['LR_IPC_Out.h',['../_l_r___i_p_c___out_8h.html',1,'']]],
-  ['lr_5fipc_5fout_5fh_5fincluded',['LR_IPC_OUT_H_INCLUDED',['../_l_r___i_p_c___out_8h.html#a37190a0b9119ae1f3d5f9a8a5f2dd331',1,'LR_IPC_Out.h']]],
-  ['lrcommandlist',['LRCommandList',['../class_l_r_command_list.html',1,'']]],
-  ['lrcommands_2ecpp',['LRCommands.cpp',['../_l_r_commands_8cpp.html',1,'']]],
-  ['lrcommands_2eh',['LRCommands.h',['../_l_r_commands_8h.html',1,'']]],
-  ['lrcommands_5fh_5fincluded',['LRCOMMANDS_H_INCLUDED',['../_l_r_commands_8h.html#aabfc6baa2affc49247fe84f677018d69',1,'LRCommands.h']]],
-  ['lrconnectionlistener',['LRConnectionListener',['../class_l_r_connection_listener.html',1,'']]],
-  ['lrstringlist',['LRStringList',['../class_l_r_command_list.html#a95a8249becc79b12099005403f927a3d',1,'LRCommandList']]]
+  ['keymap_5fchanged',['keymap_changed',['../classmir_1_1scene_1_1_surface_observers.html#ae60fb6f76e61a76f8266731a1ffdf1bc',1,'mir::scene::SurfaceObservers']]],
+  ['keyshortcuts',['KeyShortcuts',['../class_l_r_command_list.html#a4682b816cd5db444e52a8c8d0a068aeb',1,'LRCommandList']]]
 ];

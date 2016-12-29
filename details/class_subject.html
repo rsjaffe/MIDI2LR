@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>MIDI2LR: Subject Class Reference</title>
+<title>MIDI2LR: Subject&lt; Event &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -110,52 +111,49 @@ $(document).ready(function(){initNavTree('class_subject.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="class_subject-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Subject Class Reference</div>  </div>
+<div class="title">Subject&lt; Event &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_subject_8h_source.html">Subject.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for Subject:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_subject__inherit__graph.png" border="0" usemap="#_subject_inherit__map" alt="Inheritance graph"/></div>
-<map name="_subject_inherit__map" id="_subject_inherit__map">
-<area shape="rect" id="node2" href="class_command_map.html" title="CommandMap" alt="" coords="5,80,112,107"/>
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5b0b384612fdeabd5db3229b97e89f79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a5b0b384612fdeabd5db3229b97e89f79">Subject</a> () noexcept</td></tr>
-<tr class="separator:a5b0b384612fdeabd5db3229b97e89f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c4f522850f718466e5be7eb55ba1969"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a7c4f522850f718466e5be7eb55ba1969">~Subject</a> ()</td></tr>
-<tr class="separator:a7c4f522850f718466e5be7eb55ba1969"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4254eab0892ed61dae71e01a394ded6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#ae4254eab0892ed61dae71e01a394ded6">RegisterObserver</a> (<a class="el" href="class_observer.html">Observer</a> *observer)</td></tr>
-<tr class="separator:ae4254eab0892ed61dae71e01a394ded6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7106918d1c2b9a7e274bf2bd2004bbfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a7106918d1c2b9a7e274bf2bd2004bbfb">UnregisterObserver</a> (<a class="el" href="class_observer.html">Observer</a> *observer)</td></tr>
-<tr class="separator:a7106918d1c2b9a7e274bf2bd2004bbfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:ac8d74b2a80e2d4caa0a9a59e00a45219"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#ac8d74b2a80e2d4caa0a9a59e00a45219">Notify</a> (void)</td></tr>
-<tr class="separator:ac8d74b2a80e2d4caa0a9a59e00a45219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45d5e30a1121752f58f397e0ef6b1c9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a45d5e30a1121752f58f397e0ef6b1c9c">Subject</a> ()=default</td></tr>
+<tr class="separator:a45d5e30a1121752f58f397e0ef6b1c9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab811a8ce34ea6c047d9a414615307ad3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#ab811a8ce34ea6c047d9a414615307ad3">Subject</a> (const <a class="el" href="class_subject.html">Subject</a> &amp;)=delete</td></tr>
+<tr class="separator:ab811a8ce34ea6c047d9a414615307ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a404b24d74160510eae7b08a0d9fd5348"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#a404b24d74160510eae7b08a0d9fd5348">notify</a> (const Event &amp;event) const </td></tr>
+<tr class="separator:a404b24d74160510eae7b08a0d9fd5348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad501f91de1bd7fcb650539a1a24453dc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_subject.html">Subject</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_subject.html#ad501f91de1bd7fcb650539a1a24453dc">operator=</a> (const <a class="el" href="class_subject.html">Subject</a> &amp;)=delete</td></tr>
+<tr class="separator:ad501f91de1bd7fcb650539a1a24453dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a794d390d7b3647635a63df8a5620d21d"><td class="memTemplParams" colspan="2">template&lt;typename Observer &gt; </td></tr>
+<tr class="memitem:a794d390d7b3647635a63df8a5620d21d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_subject.html#a794d390d7b3647635a63df8a5620d21d">registerObserver</a> (const Event &amp;event, Observer &amp;&amp;observer)</td></tr>
+<tr class="separator:a794d390d7b3647635a63df8a5620d21d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19728b2a45d409cae230a666c7897f8d"><td class="memTemplParams" colspan="2">template&lt;typename Observer &gt; </td></tr>
+<tr class="memitem:a19728b2a45d409cae230a666c7897f8d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_subject.html#a19728b2a45d409cae230a666c7897f8d">registerObserver</a> (Event &amp;&amp;event, Observer &amp;&amp;observer)</td></tr>
+<tr class="separator:a19728b2a45d409cae230a666c7897f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="_subject_8h_source.html#l00032">32</a> of file <a class="el" href="_subject_8h_source.html">Subject.h</a>.</p>
+<div class="textblock"><h3>template&lt;typename Event&gt;<br />
+class Subject&lt; Event &gt;</h3>
+
+
+<p>Definition at line <a class="el" href="_subject_8h_source.html#l00016">16</a> of file <a class="el" href="_subject_8h_source.html">Subject.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a5b0b384612fdeabd5db3229b97e89f79"></a>
+<a class="anchor" id="a45d5e30a1121752f58f397e0ef6b1c9c"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Event &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Subject::Subject </td>
+          <td class="memname"><a class="el" href="class_subject.html">Subject</a>&lt; Event &gt;::<a class="el" href="class_subject.html">Subject</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -163,118 +161,176 @@ Protected Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_subject_8cpp_source.html#l00023">23</a> of file <a class="el" href="_subject_8cpp_source.html">Subject.cpp</a>.</p>
-
-<p>Referenced by <a class="el" href="_command_map_8cpp_source.html#l00024">CommandMap::CommandMap()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_subject_a5b0b384612fdeabd5db3229b97e89f79_icgraph.png" border="0" usemap="#class_subject_a5b0b384612fdeabd5db3229b97e89f79_icgraph" alt=""/></div>
-<map name="class_subject_a5b0b384612fdeabd5db3229b97e89f79_icgraph" id="class_subject_a5b0b384612fdeabd5db3229b97e89f79_icgraph">
-<area shape="rect" id="node2" href="class_command_map.html#a17917c3a5fb0f352b09b4a42344e4d11" title="CommandMap::CommandMap" alt="" coords="172,5,371,32"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
-<a class="anchor" id="a7c4f522850f718466e5be7eb55ba1969"></a>
+<a class="anchor" id="ab811a8ce34ea6c047d9a414615307ad3"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Event &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Subject::~Subject </td>
+          <td class="memname"><a class="el" href="class_subject.html">Subject</a>&lt; Event &gt;::<a class="el" href="class_subject.html">Subject</a> </td>
           <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_subject.html">Subject</a>&lt; Event &gt; &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_subject_8cpp_source.html#l00026">26</a> of file <a class="el" href="_subject_8cpp_source.html">Subject.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac8d74b2a80e2d4caa0a9a59e00a45219"></a>
+<a class="anchor" id="a404b24d74160510eae7b08a0d9fd5348"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Event &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Subject::Notify </td>
+          <td class="memname">void <a class="el" href="class_subject.html">Subject</a>&lt; Event &gt;::notify </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
+          <td class="paramtype">const Event &amp;&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_subject_8h_source.html#l00031">31</a> of file <a class="el" href="_subject_8h_source.html">Subject.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad501f91de1bd7fcb650539a1a24453dc"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Event &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_subject.html">Subject</a>&amp; <a class="el" href="class_subject.html">Subject</a>&lt; Event &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_subject.html">Subject</a>&lt; Event &gt; &amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_subject_8cpp_source.html#l00049">49</a> of file <a class="el" href="_subject_8cpp_source.html">Subject.cpp</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="ae4254eab0892ed61dae71e01a394ded6"></a>
+<a class="anchor" id="a794d390d7b3647635a63df8a5620d21d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Event &gt; </div>
+<div class="memtemplate">
+template&lt;typename Observer &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Subject::RegisterObserver </td>
+          <td class="memname">void <a class="el" href="class_subject.html">Subject</a>&lt; Event &gt;::registerObserver </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_observer.html">Observer</a> *&#160;</td>
-          <td class="paramname"><em>observer</em></td><td>)</td>
+          <td class="paramtype">const Event &amp;&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Observer &amp;&amp;&#160;</td>
+          <td class="paramname"><em>observer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_subject_8cpp_source.html#l00029">29</a> of file <a class="el" href="_subject_8cpp_source.html">Subject.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_subject_8h_source.html#l00021">21</a> of file <a class="el" href="_subject_8h_source.html">Subject.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7106918d1c2b9a7e274bf2bd2004bbfb"></a>
+<a class="anchor" id="a19728b2a45d409cae230a666c7897f8d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Event &gt; </div>
+<div class="memtemplate">
+template&lt;typename Observer &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Subject::UnregisterObserver </td>
+          <td class="memname">void <a class="el" href="class_subject.html">Subject</a>&lt; Event &gt;::registerObserver </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_observer.html">Observer</a> *&#160;</td>
-          <td class="paramname"><em>observer</em></td><td>)</td>
+          <td class="paramtype">Event &amp;&amp;&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Observer &amp;&amp;&#160;</td>
+          <td class="paramname"><em>observer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_subject_8cpp_source.html#l00035">35</a> of file <a class="el" href="_subject_8cpp_source.html">Subject.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_subject_8h_source.html#l00026">26</a> of file <a class="el" href="_subject_8h_source.html">Subject.h</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>Q:/Documents/GitHub/MIDI2LR/Source/Pattern/<a class="el" href="_subject_8h_source.html">Subject.h</a></li>
-<li>Q:/Documents/GitHub/MIDI2LR/Source/Pattern/<a class="el" href="_subject_8cpp_source.html">Subject.cpp</a></li>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>Q:/Documents/GitHub/MIDI2LR/Source/Utilities/<a class="el" href="_subject_8h_source.html">Subject.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

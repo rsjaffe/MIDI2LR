@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -122,7 +123,7 @@ Inheritance diagram for ProfileChangeListener:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_profile_change_listener__inherit__graph.png" border="0" usemap="#_profile_change_listener_inherit__map" alt="Inheritance graph"/></div>
 <map name="_profile_change_listener_inherit__map" id="_profile_change_listener_inherit__map">
-<area shape="rect" id="node2" href="class_main_content_component.html" title="This component lives inside our window, and this is where you should put all your controls and conten..." alt="" coords="5,80,167,107"/>
+<area shape="rect" id="node2" href="class_main_content_component.html" title="MainContentComponent" alt="" coords="5,80,167,107"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -130,12 +131,12 @@ Inheritance diagram for ProfileChangeListener:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5b0672ab10ebb2cd22f9d79f75e48be5"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_change_listener.html#a5b0672ab10ebb2cd22f9d79f75e48be5">~ProfileChangeListener</a> ()</td></tr>
 <tr class="separator:a5b0672ab10ebb2cd22f9d79f75e48be5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b1e2edf1cf6d3849af2aeb1e0142d8f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_change_listener.html#a4b1e2edf1cf6d3849af2aeb1e0142d8f">profileChanged</a> (XmlElement *elem, const String &amp;file_name)=0</td></tr>
-<tr class="separator:a4b1e2edf1cf6d3849af2aeb1e0142d8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad2de771d58fdc9e7a27c52b2e790cd5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_change_listener.html#aad2de771d58fdc9e7a27c52b2e790cd5">profileChanged</a> (juce::XmlElement *elem, const juce::String &amp;file_name)=0</td></tr>
+<tr class="separator:aad2de771d58fdc9e7a27c52b2e790cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_profile_manager_8h_source.html#l00029">29</a> of file <a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8h_source.html#l00032">32</a> of file <a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a5b0672ab10ebb2cd22f9d79f75e48be5"></a>
 <div class="memitem">
@@ -158,12 +159,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8h_source.html#l00035">35</a> of file <a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8h_source.html#l00037">37</a> of file <a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a4b1e2edf1cf6d3849af2aeb1e0142d8f"></a>
+<a class="anchor" id="aad2de771d58fdc9e7a27c52b2e790cd5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -173,13 +174,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void ProfileChangeListener::profileChanged </td>
           <td>(</td>
-          <td class="paramtype">XmlElement *&#160;</td>
+          <td class="paramtype">juce::XmlElement *&#160;</td>
           <td class="paramname"><em>elem</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramtype">const juce::String &amp;&#160;</td>
           <td class="paramname"><em>file_name</em>&#160;</td>
         </tr>
         <tr>
@@ -195,7 +196,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_main_content_component.html#ac3b13700502f915f5a4e0536fae40367">MainContentComponent</a>.</p>
+<p>Implemented in <a class="el" href="class_main_content_component.html#a4f0dda76411019d6f94c6c91f113a995">MainContentComponent</a>.</p>
 
 </div>
 </div>

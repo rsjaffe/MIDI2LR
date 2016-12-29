@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -123,64 +124,72 @@ Collaboration diagram for LRCommandList:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_l_r_command_list__coll__graph.png" border="0" usemap="#_l_r_command_list_coll__map" alt="Collaboration graph"/></div>
 <map name="_l_r_command_list_coll__map" id="_l_r_command_list_coll__map">
+<area shape="rect" id="node3" title="STL class. " alt="" coords="47,96,127,123"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="24,5,151,47"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a37b96dd77211ce8f85b2d83beb6d6a51"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a37b96dd77211ce8f85b2d83beb6d6a51">getIndexOfCommand</a> (const String &amp;command)</td></tr>
-<tr class="separator:a37b96dd77211ce8f85b2d83beb6d6a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8243eee509f50d4124c63cbfd428f553"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a8243eee509f50d4124c63cbfd428f553">getIndexOfCommand</a> (const std::string &amp;command)</td></tr>
+<tr class="separator:a8243eee509f50d4124c63cbfd428f553"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94c9725cec90dcede57061f75b4b4d86"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a94c9725cec90dcede57061f75b4b4d86">getIndexOfCommand</a> (const std::string &amp;command)</td></tr>
+<tr class="separator:a94c9725cec90dcede57061f75b4b4d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:ad3dba4a1883a03d7411162ba9924bf51"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ad3dba4a1883a03d7411162ba9924bf51">BasicAdjustments</a></td></tr>
-<tr class="separator:ad3dba4a1883a03d7411162ba9924bf51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc1538e546c20e2a87cac7d9d50618a1"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#acc1538e546c20e2a87cac7d9d50618a1">Calibration</a></td></tr>
-<tr class="separator:acc1538e546c20e2a87cac7d9d50618a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9b40cf46ccb927ac3fcc425b31f7cfc"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#af9b40cf46ccb927ac3fcc425b31f7cfc">Crop</a></td></tr>
-<tr class="separator:af9b40cf46ccb927ac3fcc425b31f7cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98efe40a029f1aae7d26915115bea481"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a98efe40a029f1aae7d26915115bea481">Detail</a></td></tr>
-<tr class="separator:a98efe40a029f1aae7d26915115bea481"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac38ce74ea2a754c4915ea79b31d4686b"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ac38ce74ea2a754c4915ea79b31d4686b">Develop</a></td></tr>
-<tr class="separator:ac38ce74ea2a754c4915ea79b31d4686b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac29a4934ded5a0b8df049d38af02a413"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ac29a4934ded5a0b8df049d38af02a413">DevelopPresets</a></td></tr>
-<tr class="separator:ac29a4934ded5a0b8df049d38af02a413"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03a8a1a2c4063e93787410aef45838db"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a03a8a1a2c4063e93787410aef45838db">Effects</a></td></tr>
-<tr class="separator:a03a8a1a2c4063e93787410aef45838db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6596b402092771f06a67d73be1d0f52c"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a6596b402092771f06a67d73be1d0f52c">General</a></td></tr>
-<tr class="separator:a6596b402092771f06a67d73be1d0f52c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab585f7cc9a9aa7fdd3bba296aa4c11a"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#aab585f7cc9a9aa7fdd3bba296aa4c11a">KeyShortcuts</a></td></tr>
-<tr class="separator:aab585f7cc9a9aa7fdd3bba296aa4c11a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a536555bd29c161ad70ea5bdf9cdc8159"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a536555bd29c161ad70ea5bdf9cdc8159">LensCorrections</a></td></tr>
-<tr class="separator:a536555bd29c161ad70ea5bdf9cdc8159"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c252ee33565d85c1b3180ef4e20db3b"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a7c252ee33565d85c1b3180ef4e20db3b">Library</a></td></tr>
-<tr class="separator:a7c252ee33565d85c1b3180ef4e20db3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f90d55a091e66e130b3eaa736155acb"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a4f90d55a091e66e130b3eaa736155acb">LocalAdjustments</a></td></tr>
-<tr class="separator:a4f90d55a091e66e130b3eaa736155acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95a8249becc79b12099005403f927a3d"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a95a8249becc79b12099005403f927a3d">LRStringList</a></td></tr>
-<tr class="separator:a95a8249becc79b12099005403f927a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc8fa08c7dfe651990e16a5c7cb44be7"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#abc8fa08c7dfe651990e16a5c7cb44be7">Mixer</a></td></tr>
-<tr class="separator:abc8fa08c7dfe651990e16a5c7cb44be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af072ea5a2006a79eb3dd6d3e7a206086"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#af072ea5a2006a79eb3dd6d3e7a206086">NextPrevProfile</a></td></tr>
-<tr class="separator:af072ea5a2006a79eb3dd6d3e7a206086"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c9b1fa029a6e4bc9de3bca532d508af"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a7c9b1fa029a6e4bc9de3bca532d508af">ProgramProfiles</a></td></tr>
-<tr class="separator:a7c9b1fa029a6e4bc9de3bca532d508af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac803d1a946af08d1cee97d5442c32b1f"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ac803d1a946af08d1cee97d5442c32b1f">ResetMixer</a></td></tr>
-<tr class="separator:ac803d1a946af08d1cee97d5442c32b1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7169de19247ce9368e9d428deafb2355"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a7169de19247ce9368e9d428deafb2355">SecondaryDisplay</a></td></tr>
-<tr class="separator:a7169de19247ce9368e9d428deafb2355"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5789fdf03f0b317e188b6161cf034e5"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ac5789fdf03f0b317e188b6161cf034e5">SplitToning</a></td></tr>
-<tr class="separator:ac5789fdf03f0b317e188b6161cf034e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40a38744d580f1999e6cb959e334bceb"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a40a38744d580f1999e6cb959e334bceb">ToneCurve</a></td></tr>
-<tr class="separator:a40a38744d580f1999e6cb959e334bceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a2bf6260b3a0611793e9a2d501ecc60"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; String &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a3a2bf6260b3a0611793e9a2d501ecc60">ToolModulePanel</a></td></tr>
-<tr class="separator:a3a2bf6260b3a0611793e9a2d501ecc60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67b2c5c54b014ae0a521e20adfe50f95"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a67b2c5c54b014ae0a521e20adfe50f95">BasicAdjustments</a></td></tr>
+<tr class="separator:a67b2c5c54b014ae0a521e20adfe50f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5b98746db92752d861b799ce7f9fa49"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ad5b98746db92752d861b799ce7f9fa49">Calibration</a></td></tr>
+<tr class="separator:ad5b98746db92752d861b799ce7f9fa49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7d3e90fce29727df3e445ea64c45e8a"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#af7d3e90fce29727df3e445ea64c45e8a">Crop</a></td></tr>
+<tr class="separator:af7d3e90fce29727df3e445ea64c45e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25607c4ac05cdedccca6a5b74552d92f"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a25607c4ac05cdedccca6a5b74552d92f">Detail</a></td></tr>
+<tr class="separator:a25607c4ac05cdedccca6a5b74552d92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2616e1b75f69242d0de4a2a510fcfe76"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a2616e1b75f69242d0de4a2a510fcfe76">Develop</a></td></tr>
+<tr class="separator:a2616e1b75f69242d0de4a2a510fcfe76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94393c0e38147416bcfdb3bbff0b68e7"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a94393c0e38147416bcfdb3bbff0b68e7">DevelopPresets</a></td></tr>
+<tr class="separator:a94393c0e38147416bcfdb3bbff0b68e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad269cc1a11ef5af7c703a3f6ed42bc91"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ad269cc1a11ef5af7c703a3f6ed42bc91">Effects</a></td></tr>
+<tr class="separator:ad269cc1a11ef5af7c703a3f6ed42bc91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8276a43fdb4d451113bc0f2a96dca82"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#af8276a43fdb4d451113bc0f2a96dca82">Filters</a></td></tr>
+<tr class="separator:af8276a43fdb4d451113bc0f2a96dca82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b1472a76999a861b7ae29805a2fb07f"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a2b1472a76999a861b7ae29805a2fb07f">General</a></td></tr>
+<tr class="separator:a2b1472a76999a861b7ae29805a2fb07f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4682b816cd5db444e52a8c8d0a068aeb"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a4682b816cd5db444e52a8c8d0a068aeb">KeyShortcuts</a></td></tr>
+<tr class="separator:a4682b816cd5db444e52a8c8d0a068aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34b80b6ae1a79697e170dec446e60cee"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a34b80b6ae1a79697e170dec446e60cee">LensCorrections</a></td></tr>
+<tr class="separator:a34b80b6ae1a79697e170dec446e60cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ed69abbe0c0915cc677b8ff4f6da042"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a0ed69abbe0c0915cc677b8ff4f6da042">Library</a></td></tr>
+<tr class="separator:a0ed69abbe0c0915cc677b8ff4f6da042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab85703a34621fef9ac152d4712c34bc"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#aab85703a34621fef9ac152d4712c34bc">LocalAdjustments</a></td></tr>
+<tr class="separator:aab85703a34621fef9ac152d4712c34bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc0544e714de46d41b3202f2ad891fe3"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#afc0544e714de46d41b3202f2ad891fe3">LRStringList</a></td></tr>
+<tr class="separator:afc0544e714de46d41b3202f2ad891fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fd524882ccefe300716c622f2daa403"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a5fd524882ccefe300716c622f2daa403">Mixer</a></td></tr>
+<tr class="separator:a5fd524882ccefe300716c622f2daa403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c12a227c7a785d73d0d689cc02547be"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a4c12a227c7a785d73d0d689cc02547be">NextPrevProfile</a></td></tr>
+<tr class="separator:a4c12a227c7a785d73d0d689cc02547be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bc2a0b022e81944d2254dab4fb40e7f"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a5bc2a0b022e81944d2254dab4fb40e7f">ProgramProfiles</a></td></tr>
+<tr class="separator:a5bc2a0b022e81944d2254dab4fb40e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a804db53d46183eb7ec17aa5f68c74ba2"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a804db53d46183eb7ec17aa5f68c74ba2">ResetMixer</a></td></tr>
+<tr class="separator:a804db53d46183eb7ec17aa5f68c74ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4f5191a0e1a9b384ed2edc467ccb341"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ac4f5191a0e1a9b384ed2edc467ccb341">SecondaryDisplay</a></td></tr>
+<tr class="separator:ac4f5191a0e1a9b384ed2edc467ccb341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c0844d2ef8eed5ad0e4d96f56bf58a"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#ad8c0844d2ef8eed5ad0e4d96f56bf58a">SplitToning</a></td></tr>
+<tr class="separator:ad8c0844d2ef8eed5ad0e4d96f56bf58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b87376d12f02aeb3e1c60f2fa2dedb0"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a0b87376d12f02aeb3e1c60f2fa2dedb0">ToneCurve</a></td></tr>
+<tr class="separator:a0b87376d12f02aeb3e1c60f2fa2dedb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c9e7feaa2331b583090a2e925a2168f"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a6c9e7feaa2331b583090a2e925a2168f">ToolModulePanel</a></td></tr>
+<tr class="separator:a6c9e7feaa2331b583090a2e925a2168f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a327b0cd5c0483881f5f87e1e80bc9395"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r_command_list.html#a327b0cd5c0483881f5f87e1e80bc9395">Transform</a></td></tr>
+<tr class="separator:a327b0cd5c0483881f5f87e1e80bc9395"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00027">27</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00030">30</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a37b96dd77211ce8f85b2d83beb6d6a51"></a>
+<a class="anchor" id="a8243eee509f50d4124c63cbfd428f553"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -188,9 +197,9 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int LRCommandList::getIndexOfCommand </td>
+          <td class="memname">size_t LRCommandList::getIndexOfCommand </td>
           <td>(</td>
-          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>command</em></td><td>)</td>
           <td></td>
         </tr>
@@ -202,12 +211,36 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_l_r_commands_8cpp_source.html#l01024">1024</a> of file <a class="el" href="_l_r_commands_8cpp_source.html">LRCommands.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r_commands_8cpp_source.html#l01089">1089</a> of file <a class="el" href="_l_r_commands_8cpp_source.html">LRCommands.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a94c9725cec90dcede57061f75b4b4d86"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static size_t LRCommandList::getIndexOfCommand </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>command</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ad3dba4a1883a03d7411162ba9924bf51"></a>
+<a class="anchor" id="a67b2c5c54b014ae0a521e20adfe50f95"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -215,359 +248,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::BasicAdjustments</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00038">38</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acc1538e546c20e2a87cac7d9d50618a1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::Calibration</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00046">46</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af9b40cf46ccb927ac3fcc425b31f7cfc"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::Crop</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Straighten Angle&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Crop Angle&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Crop - Bottom&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Crop - Left&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Crop - Right&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Crop - Top&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Crop&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Straighten Angle&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Show Crop&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00049">49</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a98efe40a029f1aae7d26915115bea481"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::Detail</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Show Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Enable Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Sharpness&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Sharpen Radius&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Sharpen Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Sharpen Edge Masking&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Luminance Smoothing&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Luminance Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Luminance Contrast&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Color Noise Reduction&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Color Noise Reduction Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Color Noise Reduction Smoothness&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Sharpness&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Sharpen Radius&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Sharpen Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Sharpen Edge Masking&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Luminance Smoothing&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Luminance Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Luminance Contrast&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Color Noise Reduction&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Color Noise Reduction Detail&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Color Noise Reduction Smoothness&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00043">43</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac38ce74ea2a754c4915ea79b31d4686b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::Develop</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Show Develop&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Copy Settings&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Paste Settings&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Paste Selected Settings&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Create Virtual Copy&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Settings&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Last Modified&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Increase Last Modified&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Decrease Last Modified&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Undo&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Redo&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display Before/After Left/Right&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display Before/After Top/Bottom&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display Before&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display Loupe&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00037">37</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac29a4934ded5a0b8df049d38af02a413"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::DevelopPresets</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00047">47</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a03a8a1a2c4063e93787410aef45838db"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::Effects</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Show Effects&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Enable Effects&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Dehaze Amount&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Post Crop Vignette Amount&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Post Crop Vignette Midpoint&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Post Crop Vignette Feather&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Post Crop Vignette Roundness&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Post Crop Vignette Style&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Post Crop Vignette Highlight Contrast&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Grain Amount&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Grain Size&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Grain Roughness&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Dehaze Amount&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Post Crop Vignette Amount&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Post Crop Vignette Midpoint&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Post Crop Vignette Feather&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Post Crop Vignette Roundness&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Post Crop Vignette Style&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Post Crop Vignette Highlight Contrast&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Grain Amount&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Grain Size&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Grain Roughness&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00045">45</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6596b402092771f06a67d73be1d0f52c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::General</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Primary Display Grid&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display Loupe&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display Compare&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display Survey&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Enable/Disable Zoom&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Zoom In&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Zoom In Some&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Zoom Out Some&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Zoom Out&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Add to Selection Left&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Add to Selection Right&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Next Photo&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Previous Photo&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00035">35</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aab585f7cc9a9aa7fdd3bba296aa4c11a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::KeyShortcuts</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00034">34</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a536555bd29c161ad70ea5bdf9cdc8159"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::LensCorrections</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00044">44</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7c252ee33565d85c1b3180ef4e20db3b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::Library</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Show Library&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Set Pick Flag&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Set Rejected Flag&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Unflagged&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;0 Stars&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;1 Star&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;2 Stars&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;3 Stars&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;4 Stars&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;5 Stars&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Increase Rating&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Decrease Rating&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Label Blue Enable/Disable&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Label Green Enable/Disable&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Label Red Enable/Disable&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Label Purple Enable/Disable&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Label Yellow Enable/Disable&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Primary Display People&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00036">36</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4f90d55a091e66e130b3eaa736155acb"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::LocalAdjustments</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00048">48</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a95a8249becc79b12099005403f927a3d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::LRStringList</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00031">31</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abc8fa08c7dfe651990e16a5c7cb44be7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::Mixer</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00040">40</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="af072ea5a2006a79eb3dd6d3e7a206086"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::NextPrevProfile</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <span class="stringliteral">&quot;Previous Profile&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;Next Profile&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00055">55</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7c9b1fa029a6e4bc9de3bca532d508af"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::ProgramProfiles</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Profile: 1&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 2&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 3&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 4&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 5&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 6&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 7&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 8&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 9&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Profile: 10&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00052">52</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ac803d1a946af08d1cee97d5442c32b1f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::ResetMixer</td>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::BasicAdjustments</td>
         </tr>
       </table>
   </td>
@@ -581,7 +262,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7169de19247ce9368e9d428deafb2355"></a>
+<a class="anchor" id="ad5b98746db92752d861b799ce7f9fa49"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -589,7 +270,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::SecondaryDisplay</td>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Calibration</td>
         </tr>
       </table>
   </td>
@@ -598,12 +279,100 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Loupe&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Live Loupe&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Locked Loupe&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Grid&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Compare&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Survey&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Slideshow&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Secondary Display Show&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00050">50</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af7d3e90fce29727df3e445ea64c45e8a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Crop</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Straighten Angle&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Crop Angle&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Crop - Bottom&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Crop - Left&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Crop - Right&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Crop - Top&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Crop&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Straighten Angle&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Show Crop&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00053">53</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a25607c4ac05cdedccca6a5b74552d92f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Detail</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Enable Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Sharpness&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Sharpen Radius&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Sharpen Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Sharpen Edge Masking&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Luminance Smoothing&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Luminance Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Luminance Contrast&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Color Noise Reduction&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Color Noise Reduction Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Color Noise Reduction Smoothness&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Sharpness&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Sharpen Radius&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Sharpen Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Sharpen Edge Masking&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Luminance Smoothing&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Luminance Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Luminance Contrast&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Color Noise Reduction&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Color Noise Reduction Detail&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Color Noise Reduction Smoothness&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00046">46</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2616e1b75f69242d0de4a2a510fcfe76"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Develop</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Develop&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Copy Settings&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Paste Settings&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Paste Selected Settings&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Create Virtual Copy&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Settings&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Last Modified&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Increase Last Modified&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Decrease Last Modified&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Undo&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Redo&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display Before/After Left/Right&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display Before/After Top/Bottom&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display Before&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display Loupe&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00040">40</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a94393c0e38147416bcfdb3bbff0b68e7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::DevelopPresets</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 <p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00051">51</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac5789fdf03f0b317e188b6161cf034e5"></a>
+<a class="anchor" id="ad269cc1a11ef5af7c703a3f6ed42bc91"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -611,7 +380,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::SplitToning</td>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Effects</td>
         </tr>
       </table>
   </td>
@@ -620,12 +389,12 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Show Split Toning&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Enable Split Toning&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Shadow Hue&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Shadow Saturation&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Highlight Hue&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Highlight Saturation&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Split Toning Balance&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Shadow Hue&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Shadow Saturation&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Highlight Hue&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Highlight Saturation&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Split Toning Balance&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00042">42</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Effects&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Enable Effects&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Dehaze Amount&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Post Crop Vignette Amount&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Post Crop Vignette Midpoint&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Post Crop Vignette Feather&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Post Crop Vignette Roundness&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Post Crop Vignette Style&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Highlight Priority&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Color Priority&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Paint Overlay&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Post Crop Vignette Highlight Contrast&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Grain Amount&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Grain Size&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Grain Roughness&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Dehaze Amount&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Post Crop Vignette Amount&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Post Crop Vignette Midpoint&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Post Crop Vignette Feather&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Post Crop Vignette Roundness&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Post Crop Vignette Style&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Post Crop Vignette Highlight Contrast&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Grain Amount&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Grain Size&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Grain Roughness&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00049">49</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a40a38744d580f1999e6cb959e334bceb"></a>
+<a class="anchor" id="af8276a43fdb4d451113bc0f2a96dca82"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -633,7 +402,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::ToneCurve</td>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Filters</td>
         </tr>
       </table>
   </td>
@@ -642,12 +411,100 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Show Tone Curve&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Enable Tone Curve&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Dark Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Light Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Shadow Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Highlight Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Shadow Split&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Midtone Split&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Highlight Split&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Dark Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Light Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Shadow Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Highlight Tones&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Shadow Split&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Midtone Split&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Reset Highlight Split&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Library filter 1&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 2&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 3&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 4&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 5&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 6&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 7&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 8&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 9&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Library filter 10&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00037">37</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2b1472a76999a861b7ae29805a2fb07f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::General</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Primary Display Grid&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display Loupe&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display Compare&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display Survey&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Enable/Disable Zoom&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Zoom In&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Zoom In Some&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Zoom Out Some&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Zoom Out&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Add to Selection Left&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Add to Selection Right&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Next Photo&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Previous Photo&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00038">38</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4682b816cd5db444e52a8c8d0a068aeb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::KeyShortcuts</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00036">36</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a34b80b6ae1a79697e170dec446e60cee"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::LensCorrections</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00047">47</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0ed69abbe0c0915cc677b8ff4f6da042"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Library</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Library&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Set Pick Flag&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Set Rejected Flag&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Unflagged&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;0 Stars&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;1 Star&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;2 Stars&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;3 Stars&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;4 Stars&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;5 Stars&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Increase Rating&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Decrease Rating&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Label Blue Enable/Disable&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Label Green Enable/Disable&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Label Red Enable/Disable&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Label Purple Enable/Disable&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Label Yellow Enable/Disable&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Primary Display People&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
 <p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00039">39</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3a2bf6260b3a0611793e9a2d501ecc60"></a>
+<a class="anchor" id="aab85703a34621fef9ac152d4712c34bc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -655,7 +512,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; String &gt; LRCommandList::ToolModulePanel</td>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::LocalAdjustments</td>
         </tr>
       </table>
   </td>
@@ -664,8 +521,228 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">    <span class="stringliteral">&quot;Show Loupe&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Show Map&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Show Book&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Show Slideshow&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Show Print&quot;</span>,</div><div class="line">    <span class="stringliteral">&quot;Show Web&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
-<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00050">50</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00052">52</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afc0544e714de46d41b3202f2ad891fe3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::LRStringList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00033">33</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5fd524882ccefe300716c622f2daa403"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Mixer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00043">43</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4c12a227c7a785d73d0d689cc02547be"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::NextPrevProfile</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <span class="stringliteral">&quot;Previous Profile&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;Next Profile&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00058">58</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5bc2a0b022e81944d2254dab4fb40e7f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::ProgramProfiles</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Profile: 1&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 2&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 3&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 4&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 5&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 6&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 7&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 8&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 9&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Profile: 10&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Manual Update&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00056">56</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a804db53d46183eb7ec17aa5f68c74ba2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::ResetMixer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00044">44</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac4f5191a0e1a9b384ed2edc467ccb341"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::SecondaryDisplay</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Secondary Display Loupe&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Secondary Display Live Loupe&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Secondary Display Locked Loupe&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Secondary Display Grid&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Secondary Display Compare&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Secondary Display Survey&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Secondary Display Slideshow&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Secondary Display Show&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00055">55</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad8c0844d2ef8eed5ad0e4d96f56bf58a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::SplitToning</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Split Toning&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Enable Split Toning&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Shadow Hue&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Shadow Saturation&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Highlight Hue&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Highlight Saturation&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Split Toning Balance&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Shadow Hue&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Shadow Saturation&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Highlight Hue&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Highlight Saturation&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Split Toning Balance&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00045">45</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0b87376d12f02aeb3e1c60f2fa2dedb0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::ToneCurve</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Tone Curve&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Enable Tone Curve&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Dark Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Light Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Shadow Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Highlight Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Shadow Split&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Midtone Split&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Highlight Split&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Dark Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Light Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Shadow Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Highlight Tones&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Shadow Split&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Midtone Split&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Highlight Split&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Tone Curve Linear&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Tone Curve Medium Contrast&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Tone Curve Strong Contrast&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00042">42</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6c9e7feaa2331b583090a2e925a2168f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::ToolModulePanel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Loupe&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Show Map&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Show Book&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Show Slideshow&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Show Print&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Show Web&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00054">54</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a327b0cd5c0483881f5f87e1e80bc9395"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static const std::vector&lt; std::string &gt; LRCommandList::Transform</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line"><span class="stringliteral">&quot;Show Transform&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Enable Transform&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Correction Off&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Correction Auto&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Correction Level&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Correction Vertical&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Correction Guided&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Correction Full&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Upright Settings&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Vertical&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Horizontal&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Rotate&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Scale&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Aspect&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective X&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Perspective Y&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Perspective Vertical&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Perspective Horizontal&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Perspective Rotate&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Perspective Scale&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Perspective Aspect&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Perspective X&quot;</span>,</div><div class="line"><span class="stringliteral">&quot;Reset Perspective Y&quot;</span>,</div><div class="line">}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_l_r_commands_8h_source.html#l00048">48</a> of file <a class="el" href="_l_r_commands_8h_source.html">LRCommands.h</a>.</p>
 
 </div>
 </div>

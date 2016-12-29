@@ -7,10 +7,10 @@ var class_settings_manager =
     [ "getAutoHideTime", "class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca", null ],
     [ "getLastVersionFound", "class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8", null ],
     [ "getPickupEnabled", "class_settings_manager.html#a723bf06d5ec0c638b731c46140331c6d", null ],
-    [ "getProfileDirectory", "class_settings_manager.html#a2c155d9a507a9bef20208359ed4b11f6", null ],
-    [ "Init", "class_settings_manager.html#a347f95534d4e6dc572d2ce5ca0eecff1", null ],
+    [ "getProfileDirectory", "class_settings_manager.html#a415327c198631764743df9eef03b13fa", null ],
+    [ "Init", "class_settings_manager.html#acfab30cca5fa2c872702d00b32f750ee", null ],
     [ "setAutoHideTime", "class_settings_manager.html#a80df2a9511ce4c0c1846600e080f13dc", null ],
     [ "setLastVersionFound", "class_settings_manager.html#abc3ac0226eb063f6cecc17a9b76833bc", null ],
     [ "setPickupEnabled", "class_settings_manager.html#a625341681109806d4ab2b2501ba30ab9", null ],
-    [ "setProfileDirectory", "class_settings_manager.html#af6cf44339a570e457f3882ddfaf7b7a7", null ]
+    [ "setProfileDirectory", "class_settings_manager.html#a48f15ca55e54419dbd00abb91e3953c7", null ]
 ];

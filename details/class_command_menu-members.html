@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -115,11 +116,10 @@ $(document).ready(function(){initNavTree('class_command_menu.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_command_menu.html">CommandMenu</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_command_menu.html#a1e345fe4c3a136cb5500b4d17b63e6c7">buttonClicked</a>(Button *button) override</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_menu.html#a927cb9d3c584384039ac60f0aa12c250">CommandMenu</a>(const MIDI_Message &amp;msg)</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_menu.html#a6e997c5bc08689f1fdb46443edaf9720">Init</a>(std::shared_ptr&lt; CommandMap &gt; &amp;map_command)</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_menu.html#a54d0aac4391b6ae878651804a2dbfc32">setMsg</a>(const MIDI_Message &amp;msg) noexcept</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_menu.html#aca42c2d962a51a0ab0d4450492aa44a9">setSelectedItem</a>(unsigned int idx)</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_menu.html#a1876adc34c69322e24fdfaec9f5f015a">CommandMenu</a>(const MIDI_Message_ID &amp;msg)</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_menu.html#a6e997c5bc08689f1fdb46443edaf9720">Init</a>(std::shared_ptr&lt; CommandMap &gt; &amp;map_command)</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_menu.html#a6f49295c7c752b8302b7a84e5996e62f">setMsg</a>(const MIDI_Message_ID &amp;msg) noexcept</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_menu.html#a9277b8034bf28bc66857977441097f7a">setSelectedItem</a>(size_t idx)</td><td class="entry"><a class="el" href="class_command_menu.html">CommandMenu</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

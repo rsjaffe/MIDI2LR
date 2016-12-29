@@ -1,21 +1,11 @@
 var searchData=
 [
-  ['_7ecommandmap',['~CommandMap',['../class_command_map.html#aaf94ac25cd2791e0217ce40e09248ce9',1,'CommandMap']]],
-  ['_7ecounter',['~counter',['../struct_m_i_d_i2_l_r_1_1counter.html#a2dbaa7fd189dc1151f0029bf59e74aa9',1,'MIDI2LR::counter']]],
-  ['_7eisingleton',['~ISingleton',['../classabstract.html#a2f284fc7aee834c223db05690397a04a',1,'abstract']]],
-  ['_7elr_5fipc_5fin',['~LR_IPC_IN',['../class_l_r___i_p_c___i_n.html#ad76a66ec7ff0182526a4eb6372c0e24c',1,'LR_IPC_IN']]],
-  ['_7elr_5fipc_5fout',['~LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html#ade9cdcaa60a2039d9bca2e4761a35b85',1,'LR_IPC_OUT']]],
-  ['_7elrconnectionlistener',['~LRConnectionListener',['../class_l_r_connection_listener.html#a4fcfdb79c8a18f09cf5f6abf053af4bc',1,'LRConnectionListener']]],
-  ['_7emaincontentcomponent',['~MainContentComponent',['../class_main_content_component.html#a7769da539c2bc4d2c66b2a0f200dad18',1,'MainContentComponent']]],
-  ['_7emidicommandlistener',['~MIDICommandListener',['../class_m_i_d_i_command_listener.html#a538e7c50bd6e0f36187f10b3ec70c2b6',1,'MIDICommandListener']]],
-  ['_7emidiprocessor',['~MIDIProcessor',['../class_m_i_d_i_processor.html#a372684eef733797c7fe3c7384fbf1357',1,'MIDIProcessor']]],
-  ['_7emidisender',['~MIDISender',['../class_m_i_d_i_sender.html#a15940ffa7e647bf49b1bae8ff8f17717',1,'MIDISender']]],
-  ['_7eobserver',['~Observer',['../class_observer.html#afcc6b67be6c386f2f3d2c363aa59cb47',1,'Observer']]],
-  ['_7eprofilechangelistener',['~ProfileChangeListener',['../class_profile_change_listener.html#a5b0672ab10ebb2cd22f9d79f75e48be5',1,'ProfileChangeListener']]],
-  ['_7eprofilemanager',['~ProfileManager',['../class_profile_manager.html#a29f66b82d8f081dbb11a9634493458f3',1,'ProfileManager']]],
-  ['_7eresizablelayout',['~ResizableLayout',['../class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc',1,'ResizableLayout']]],
-  ['_7esendkeys',['~SendKeys',['../class_send_keys.html#adf2c41b2ff27d456eb06c80f07e9f6cc',1,'SendKeys']]],
-  ['_7esettingscomponent',['~SettingsComponent',['../class_settings_component.html#a2ed5c4f0e9f7a6e0425d244d03d31dcf',1,'SettingsComponent']]],
-  ['_7esettingsmanager',['~SettingsManager',['../class_settings_manager.html#a3f358fe97f647191084c7fa78d1c8f91',1,'SettingsManager']]],
-  ['_7esubject',['~Subject',['../class_subject.html#a7c4f522850f718466e5be7eb55ba1969',1,'Subject']]]
+  ['threadsafe_5fqueue',['threadsafe_queue',['../class_r_s_j_1_1threadsafe__queue.html#a0fa5d307121af1945e43073c17bb0cdc',1,'RSJ::threadsafe_queue::threadsafe_queue()'],['../classthreadsafe__queue.html#a6b86c16fafb67768955aaf4918d1ddcd',1,'threadsafe_queue::threadsafe_queue()'],['../classthreadsafe__queue.html#a0bcb927f725a5361c2578badbd0d2cbd',1,'threadsafe_queue::threadsafe_queue(const threadsafe_queue &amp;other)=delete']]],
+  ['to_5fstring',['to_string',['../namespacegsl.html#a52f384d0b7981357b249622294fcbe77',1,'gsl::to_string(string_span const &amp;view)'],['../namespacegsl.html#a3c4bb6264b6337a455d9312c9ea56d1b',1,'gsl::to_string(cstring_span const &amp;view)'],['../namespacegsl.html#a58615964fb10e24f50ca214c485d96f1',1,'gsl::to_string(wstring_span const &amp;view)'],['../namespacegsl.html#a809592158901c5e79c1fdb6a411218ce',1,'gsl::to_string(cwstring_span const &amp;view)']]],
+  ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_top_level_resizable_layout.html#acaf570bc0eabd147a11f9cf1415d44c6',1,'TopLevelResizableLayout']]],
+  ['toxmldocument',['toXMLDocument',['../class_command_map.html#af61c26e79b72634ca8fd77b7233e12a5',1,'CommandMap']]],
+  ['transformation_5fset_5fto',['transformation_set_to',['../classmir_1_1scene_1_1_surface_observers.html#a1a03ccd13e29b748636b592bb26bc736',1,'mir::scene::SurfaceObservers']]],
+  ['trim',['trim',['../namespace_r_s_j.html#a1a0a6e6178ac22831c221c6b38e3405d',1,'RSJ']]],
+  ['try_5fpop',['try_pop',['../class_r_s_j_1_1threadsafe__queue.html#aaed8a9de4116574247a32d0d28c5a51c',1,'RSJ::threadsafe_queue::try_pop(T &amp;value)'],['../class_r_s_j_1_1threadsafe__queue.html#a30de112a911b26960ec4bc9a46b0fe34',1,'RSJ::threadsafe_queue::try_pop()']]],
+  ['trypop',['TryPop',['../classthreadsafe__queue.html#a08119ad72dd4ffbcb32cdd6755e8aaab',1,'threadsafe_queue::TryPop()'],['../classthreadsafe__queue.html#aff44281ee61659d9be7388c7b8c97ea1',1,'threadsafe_queue::TryPop(T &amp;value)']]]
 ];

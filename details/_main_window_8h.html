@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -113,7 +114,8 @@ $(document).ready(function(){initNavTree('_main_window_8h.html','');});
 <div class="title">MainWindow.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="_main_component_8h_source.html">MainComponent.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_settings_manager_8h_source.html">SettingsManager.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -121,21 +123,21 @@ Include dependency graph for MainWindow.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_main_window_8h__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_window_8h" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_window_8h" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_window_8h">
-<area shape="rect" id="node3" href="_main_component_8h.html" title="MainComponent.h" alt="" coords="817,95,943,121"/>
-<area shape="rect" id="node22" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="1019,169,1149,196"/>
-<area shape="rect" id="node4" href="_command_table_8h.html" title="CommandTable.h" alt="" coords="789,319,912,345"/>
-<area shape="rect" id="node5" href="_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="87,244,246,271"/>
-<area shape="rect" id="node8" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="317,393,435,420"/>
-<area shape="rect" id="node13" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1058,393,1177,420"/>
-<area shape="rect" id="node14" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="987,319,1098,345"/>
-<area shape="rect" id="node16" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="918,244,1037,271"/>
-<area shape="rect" id="node17" href="_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="662,169,791,196"/>
-<area shape="rect" id="node19" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="481,169,575,196"/>
-<area shape="rect" id="node12" href="_command_menu_8h.html" title="CommandMenu.h" alt="" coords="62,319,186,345"/>
-<area shape="rect" id="node10" href="_subject_8h.html" title="Pattern/Subject.h" alt="" coords="143,475,265,502"/>
-<area shape="rect" id="node11" href="_observer_8h.html" title="Observer.h" alt="" coords="162,557,246,584"/>
-<area shape="rect" id="node20" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="566,244,666,271"/>
-<area shape="rect" id="node21" href="_send_keys_8h.html" title="SendKeys.h" alt="" coords="515,319,608,345"/>
+<area shape="rect" id="node4" href="_main_component_8h.html" title="MainComponent.h" alt="" coords="813,95,939,121"/>
+<area shape="rect" id="node33" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="607,169,737,196"/>
+<area shape="rect" id="node5" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="1656,393,1773,420"/>
+<area shape="rect" id="node10" href="_command_table_8h.html" title="CommandTable.h" alt="" coords="1068,169,1191,196"/>
+<area shape="rect" id="node11" href="_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="1045,244,1203,271"/>
+<area shape="rect" id="node16" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="1419,169,1514,196"/>
+<area shape="rect" id="node19" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="618,244,737,271"/>
+<area shape="rect" id="node20" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="575,319,686,345"/>
+<area shape="rect" id="node26" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="145,393,263,420"/>
+<area shape="rect" id="node31" href="_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="863,169,993,196"/>
+<area shape="rect" id="node14" href="_command_menu_8h.html" title="CommandMenu.h" alt="" coords="1170,319,1294,345"/>
+<area shape="rect" id="node18" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="846,393,946,420"/>
+<area shape="rect" id="node30" href="_send_keys_8h.html" title="SendKeys.h" alt="" coords="1899,393,1992,420"/>
+<area shape="rect" id="node21" href="_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="493,557,616,584"/>
+<area shape="rect" id="node28" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="179,475,293,502"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -153,7 +155,6 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html">MainWindow</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements the desktop window that contains an instance of our <a class="el" href="class_main_content_component.html" title="This component lives inside our window, and this is where you should put all your controls and conten...">MainContentComponent</a> class.  <a href="class_main_window.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -172,7 +173,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_window_8h_source.html#l00023">23</a> of file <a class="el" href="_main_window_8h_source.html">MainWindow.h</a>.</p>
+<p>Definition at line <a class="el" href="_main_window_8h_source.html#l00024">24</a> of file <a class="el" href="_main_window_8h_source.html">MainWindow.h</a>.</p>
 
 </div>
 </div>

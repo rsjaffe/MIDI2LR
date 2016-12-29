@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['notify',['Notify',['../class_subject.html#ac8d74b2a80e2d4caa0a9a59e00a45219',1,'Subject']]]
+  ['keymap_5fchanged',['keymap_changed',['../classmir_1_1scene_1_1_surface_observers.html#ae60fb6f76e61a76f8266731a1ffdf1bc',1,'mir::scene::SurfaceObservers']]]
 ];

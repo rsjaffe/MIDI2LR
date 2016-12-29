@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -126,14 +127,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a15940ffa7e647bf49b1bae8ff8f17717"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab563687fe6dd2b274a1694140ef7c08c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i_sender.html#ab563687fe6dd2b274a1694140ef7c08c">Init</a> ()</td></tr>
 <tr class="separator:ab563687fe6dd2b274a1694140ef7c08c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8590bd597858304c1a812b3b4988086"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i_sender.html#ad8590bd597858304c1a812b3b4988086">rescanDevices</a> ()</td></tr>
-<tr class="separator:ad8590bd597858304c1a812b3b4988086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2afaa54965878a2d682001dd54076be7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i_sender.html#a2afaa54965878a2d682001dd54076be7">RescanDevices</a> ()</td></tr>
+<tr class="separator:a2afaa54965878a2d682001dd54076be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b6516aeba15fb543a5b2220e746102b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i_sender.html#a8b6516aeba15fb543a5b2220e746102b">sendCC</a> (int midi_channel, int controller, int value) const </td></tr>
 <tr class="separator:a8b6516aeba15fb543a5b2220e746102b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca129329a2e30e6e52381f4b1720fc06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_i_d_i_sender.html#aca129329a2e30e6e52381f4b1720fc06">sendPitchBend</a> (int midi_channel, int value) const </td></tr>
+<tr class="separator:aca129329a2e30e6e52381f4b1720fc06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_m_i_d_i_sender_8h_source.html#l00026">26</a> of file <a class="el" href="_m_i_d_i_sender_8h_source.html">MIDISender.h</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_sender_8h_source.html#l00028">28</a> of file <a class="el" href="_m_i_d_i_sender_8h_source.html">MIDISender.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a07403c04d637d685ed810aca8bd4579c"></a>
 <div class="memitem">
@@ -156,7 +159,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00022">22</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00023">23</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
 
 </div>
 </div>
@@ -181,7 +184,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00043">43</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00025">25</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
 
 </div>
 </div>
@@ -200,16 +203,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00054">54</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00027">27</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad8590bd597858304c1a812b3b4988086"></a>
+<a class="anchor" id="a2afaa54965878a2d682001dd54076be7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void MIDISender::rescanDevices </td>
+          <td class="memname">void MIDISender::RescanDevices </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -217,7 +220,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00037">37</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00057">57</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
 
 </div>
 </div>
@@ -251,7 +254,35 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00048">48</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00031">31</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aca129329a2e30e6e52381f4b1720fc06"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MIDISender::sendPitchBend </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>midi_channel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_m_i_d_i_sender_8cpp_source.html#l00051">51</a> of file <a class="el" href="_m_i_d_i_sender_8cpp_source.html">MIDISender.cpp</a>.</p>
 
 </div>
 </div>

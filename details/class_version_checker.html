@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.0.1.0</span>
+   &#160;<span id="projectnumber">1.6.1.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,6 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -112,7 +113,7 @@ $(document).ready(function(){initNavTree('class_version_checker.html','');});
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_version_checker-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">VersionChecker Class Reference</div>  </div>
+<div class="title">VersionChecker Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -136,16 +137,14 @@ Collaboration diagram for VersionChecker:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1178ce4bbfaa3b00a921ae48717d257a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_version_checker.html#a1178ce4bbfaa3b00a921ae48717d257a">VersionChecker</a> () noexcept</td></tr>
 <tr class="separator:a1178ce4bbfaa3b00a921ae48717d257a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3be0b90040969fec02cc547f7012accc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_version_checker.html#a3be0b90040969fec02cc547f7012accc">handleAsyncUpdate</a> () override</td></tr>
-<tr class="separator:a3be0b90040969fec02cc547f7012accc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4860ead85c77924fcddd2e683116ae6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_version_checker.html#a4860ead85c77924fcddd2e683116ae6b">Init</a> (std::shared_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;profile_manager) noexcept</td></tr>
-<tr class="separator:a4860ead85c77924fcddd2e683116ae6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04beca4aadd6a6df974c1c07f5113f7b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_version_checker.html#a04beca4aadd6a6df974c1c07f5113f7b">run</a> () override</td></tr>
-<tr class="separator:a04beca4aadd6a6df974c1c07f5113f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71054f63bc53a7633a38b25783540cac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_version_checker.html#a71054f63bc53a7633a38b25783540cac">~VersionChecker</a> ()</td></tr>
+<tr class="separator:a71054f63bc53a7633a38b25783540cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3333255fcedd2fa70e10be21ce76769"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_version_checker.html#af3333255fcedd2fa70e10be21ce76769">Init</a> (std::weak_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;&amp;profile_manager) noexcept</td></tr>
+<tr class="separator:af3333255fcedd2fa70e10be21ce76769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_version_checker_8h_source.html#l00027">27</a> of file <a class="el" href="_version_checker_8h_source.html">VersionChecker.h</a>.</p>
+<p>Definition at line <a class="el" href="_version_checker_8h_source.html#l00029">29</a> of file <a class="el" href="_version_checker_8h_source.html">VersionChecker.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1178ce4bbfaa3b00a921ae48717d257a"></a>
 <div class="memitem">
@@ -168,37 +167,29 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_version_checker_8cpp_source.html#l00022">22</a> of file <a class="el" href="_version_checker_8cpp_source.html">VersionChecker.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_version_checker_8cpp_source.html#l00024">24</a> of file <a class="el" href="_version_checker_8cpp_source.html">VersionChecker.cpp</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3be0b90040969fec02cc547f7012accc"></a>
+<a class="anchor" id="a71054f63bc53a7633a38b25783540cac"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void VersionChecker::handleAsyncUpdate </td>
+          <td class="memname">VersionChecker::~VersionChecker </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_version_checker_8cpp_source.html#l00048">48</a> of file <a class="el" href="_version_checker_8cpp_source.html">VersionChecker.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_version_checker_8cpp_source.html#l00026">26</a> of file <a class="el" href="_version_checker_8cpp_source.html">VersionChecker.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a4860ead85c77924fcddd2e683116ae6b"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af3333255fcedd2fa70e10be21ce76769"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -208,7 +199,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void VersionChecker::Init </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">std::weak_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>profile_manager</em></td><td>)</td>
           <td></td>
         </tr>
@@ -220,32 +211,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_version_checker_8cpp_source.html#l00027">27</a> of file <a class="el" href="_version_checker_8cpp_source.html">VersionChecker.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a04beca4aadd6a6df974c1c07f5113f7b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void VersionChecker::run </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_version_checker_8cpp_source.html#l00032">32</a> of file <a class="el" href="_version_checker_8cpp_source.html">VersionChecker.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_version_checker_8cpp_source.html#l00030">30</a> of file <a class="el" href="_version_checker_8cpp_source.html">VersionChecker.cpp</a>.</p>
 
 </div>
 </div>

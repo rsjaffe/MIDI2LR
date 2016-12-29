@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['profilechangelistener',['ProfileChangeListener',['../class_profile_change_listener.html',1,'']]],
-  ['profilemanager',['ProfileManager',['../class_profile_manager.html',1,'']]]
+  ['observer',['Observer',['../classmir_1_1scene_1_1_observer.html',1,'mir::scene']]],
+  ['observers',['Observers',['../classmir_1_1scene_1_1_observers.html',1,'mir::scene']]],
+  ['owner',['owner',['../structgsl_1_1owner.html',1,'gsl']]]
 ];
