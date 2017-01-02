@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "ControlsModel.h"
 #include "CommandMap.h"
 #include "MIDISender.h"
 #include "ProfileManager.h"
@@ -38,7 +39,7 @@ class LR_IPC_IN final:
   private juce::Timer,
   private juce::Thread {
 public:
-  LR_IPC_IN();
+  LR_IPC_IN(ControlsModel* c_model);
   virtual ~LR_IPC_IN();
   void Init(std::shared_ptr<CommandMap>& mapCommand,
     std::shared_ptr<ProfileManager>& profileManager,
@@ -60,6 +61,8 @@ private:
   std::shared_ptr<CommandMap> command_map_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
   std::shared_ptr<ProfileManager> profile_manager_{nullptr};
+
+  ControlsModel* controls_model_;
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

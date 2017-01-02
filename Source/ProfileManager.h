@@ -40,7 +40,7 @@ public:
 class ProfileManager final: public MIDICommandListener,
   private juce::AsyncUpdater, public LRConnectionListener {
 public:
-  ProfileManager() noexcept;
+  ProfileManager(ControlsModel* c_model) noexcept;
   virtual ~ProfileManager() {};
   void Init(std::weak_ptr<LR_IPC_OUT>&& out,
     std::shared_ptr<CommandMap>& command_map,
@@ -67,9 +67,7 @@ public:
   void switchToPreviousProfile();
 
   // MIDICommandListener interface
-  virtual void handleMidiCC(int midi_channel, int controller, int value) override;
-  virtual void handleMidiNote(int midi_channel, int note) override;
-  virtual void handlePitchWheel(int midi_channel, int value) override;
+  virtual void handleMIDI(RSJ::Message) override;
 
   // LRConnectionListener interface
   virtual void connected() override;
@@ -95,6 +93,9 @@ private:
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::vector<juce::String> profiles_;
   SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
+
+  ControlsModel* controls_model_;
+
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

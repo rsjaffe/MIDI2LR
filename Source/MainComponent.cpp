@@ -194,27 +194,27 @@ void MainContentComponent::paint(juce::Graphics& g) { //-V2009 overridden method
   g.fillAll(juce::Colours::white);
 }
 
-void MainContentComponent::handleMidiCC(int midi_channel, int controller, int value) {
+void MainContentComponent::handleMIDI(RSJ::Message mm) {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-  last_command_ = juce::String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
-  command_table_model_.addRow(midi_channel, controller, CC);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, CC);
-  triggerAsyncUpdate();
-}
-
-void MainContentComponent::handleMidiNote(int midi_channel, int note) {
-    // Display the Note parameters and add/highlight row in table corresponding to the Note
-  last_command_ = juce::String::formatted("%d: Note [%d]", midi_channel, note);
-  command_table_model_.addRow(midi_channel, note, NOTE);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, NOTE);
-  triggerAsyncUpdate();
-}
-
-void MainContentComponent::handlePitchWheel(int midi_channel, int value) {
-    // Display the Pitch Wheel parameters and add/highlight row in table corresponding to the value
-  last_command_ = juce::String::formatted("%d: Pitch [%d]", midi_channel, value);
-  command_table_model_.addRow(midi_channel, midi_channel, PITCHBEND);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, midi_channel, PITCHBEND);
+  MessageType mt;
+  switch (mm.MessageType) {//this is needed because mapping uses custom structure
+    case RSJ::CCflag:
+      mt = CC;
+      break;
+    case RSJ::NoteOnFlag:
+      mt = NOTE;
+      break;
+    case RSJ::PWflag:
+      mt = PITCHBEND;
+      break;
+    default: //shouldn't receive any messages note categorized above
+      assert(0);
+      mt = CC;
+  }
+  mm.Channel++; //used to 1-based channel numbers
+  last_command_ = juce::String::formatted("%d: CC%d [%d]", mm.Channel, mm.Number, mm.Value);
+  command_table_model_.addRow(mm.Channel, mm.Number, mt);
+  row_to_select_ = command_table_model_.getRowForMessage(mm.Channel, mm.Number, mt);
   triggerAsyncUpdate();
 }
 

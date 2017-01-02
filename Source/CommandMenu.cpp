@@ -20,6 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "CommandMenu.h"
+#include "CCoptions.h"
+#include "PWoptions.h"
 #include <limits>
 #include "LRCommands.h"
 
@@ -63,19 +65,32 @@ void CommandMenu::setSelectedItem(size_t index) {
 }
 
 void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
-  size_t index = 1;
-  auto submenu_tick_set = false;
-  juce::PopupMenu main_menu;
-  main_menu.addItem(index, "Unmapped", true, submenu_tick_set = (index == selected_item_));
-  index++;
-
-  /* to do: respond to juce::ModifierKeys::popupMenuClickModifier by opening up
-  MIDI message options menu
-  */
-  if (modifiers == juce::ModifierKeys::popupMenuClickModifier) {
-// currently, do nothing with right click
+  if (modifiers.isPopupMenu()) {
+    switch (message_.messageType) {
+      case CC:
+        {
+          CCoptions ccopt;
+          ccopt.bindToControl(message_.channel, static_cast<short>(message_.controller));
+          juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
+            juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+          break;
+        }
+      case PITCHBEND:
+        {
+          PWoptions pwopt;
+          pwopt.bindToControl(message_.channel);
+          juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
+            juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+          break;
+        }
+    }
   }
   else {
+    size_t index = 1;
+    auto submenu_tick_set = false;
+    juce::PopupMenu main_menu;
+    main_menu.addItem(index, "Unmapped", true, submenu_tick_set = (index == selected_item_));
+    index++;
 // add each submenu
     for (size_t menu_index = 0; menu_index < menus_.size(); menu_index++) {
       juce::PopupMenu subMenu;

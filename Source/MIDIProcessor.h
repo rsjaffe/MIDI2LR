@@ -26,12 +26,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "NrpnMessage.h"
+#include "MidiUtilities.h"
 
 class MIDICommandListener {
 public:
-  virtual void handleMidiCC(int midi_channel, int controller, int value) = 0;
-  virtual void handleMidiNote(int midi_channel, int note) = 0;
-  virtual void handlePitchWheel(int midi_channel, int value) = 0;
+  virtual void handleMIDI(RSJ::Message msg) = 0;
 
   virtual ~MIDICommandListener() {};
 };
