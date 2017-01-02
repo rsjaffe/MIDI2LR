@@ -23,7 +23,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include "LRCommands.h"
 
-ProfileManager::ProfileManager() noexcept {}
+ProfileManager::ProfileManager(ControlsModel* c_model) noexcept:
+controls_model_{c_model} {}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
   std::shared_ptr<CommandMap>& commandMap, //-V2009
@@ -115,61 +116,53 @@ void ProfileManager::switchToPreviousProfile() {
 
 void ProfileManager::mapCommand(MIDI_Message_ID msg) {
 
-    if (command_map_->getCommandforMessage(msg) == "Previous Profile") {
-      switch_state_ = SWITCH_STATE::PREV;
-      triggerAsyncUpdate();
-    }
-    else if (command_map_->getCommandforMessage(msg) == "Next Profile") {
-      switch_state_ = SWITCH_STATE::NEXT;
-      triggerAsyncUpdate();
-    }
-}
-
-void ProfileManager::handleMidiCC(int midi_channel, int controller, int value) {
-  const MIDI_Message_ID cc{midi_channel, controller, CC};
-
-  if (command_map_) {
-      // return if the value isn't 127, or the command isn't a valid
-      // profile-related command
-    if ((value != 127) || !command_map_->messageExistsInMap(cc))
-      return;
-
-	mapCommand(cc);
+  if (command_map_->getCommandforMessage(msg) == "Previous Profile") {
+    switch_state_ = SWITCH_STATE::PREV;
+    triggerAsyncUpdate();
+  }
+  else if (command_map_->getCommandforMessage(msg) == "Next Profile") {
+    switch_state_ = SWITCH_STATE::NEXT;
+    triggerAsyncUpdate();
   }
 }
 
-void ProfileManager::handleMidiNote(int midi_channel, int note) {
-  const MIDI_Message_ID note_msg{midi_channel, note, NOTE};
-
-  if (command_map_) {
-      // return if the command isn't a valid profile-related command
-    if (!command_map_->messageExistsInMap(note_msg))
-      return;
-
-	mapCommand(note_msg);
+void ProfileManager::handleMIDI(RSJ::Message mm) {
+  MessageType mt;
+  switch (mm.MessageType) {//this is needed because mapping uses custom structure
+    case RSJ::CCflag:
+      mt = CC;
+      break;
+    case RSJ::NoteOnFlag:
+      mt = NOTE;
+      break;
+    case RSJ::PWflag:
+      mt = PITCHBEND;
+      break;
+    default: //should be unreachable
+      assert(0);
+      mt = CC;
   }
-}
-
-void ProfileManager::handlePitchWheel(int midi_channel, int value) {
-  const MIDI_Message_ID pb{midi_channel, midi_channel, PITCHBEND};
+  //used to handling Channel as 1-based
+  const MIDI_Message_ID cc{mm.Channel + 1, mm.Number, mt};
 
   if (command_map_) {
-      // return if the value isn't 127, or the command isn't a valid
+      // return if the value isn't high, or the command isn't a valid
       // profile-related command
-    if ((value != 127) || !command_map_->messageExistsInMap(pb))
+    if ((controls_model_->controllerToPlugin(mm.MessageType, mm.Channel, mm.Number, mm.Value) < 0.99)
+      || !command_map_->messageExistsInMap(cc))
       return;
 
-	mapCommand(pb);
+    mapCommand(cc);
   }
 }
 
 void ProfileManager::connected() {
-	const std::string command = "ChangedToDirectory " +
-		juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
-		'\n';
-	if (const auto ptr = lr_ipc_out_.lock()) {
-		ptr->sendCommand(command);
-	}
+  const std::string command = "ChangedToDirectory " +
+    juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+    '\n';
+  if (const auto ptr = lr_ipc_out_.lock()) {
+    ptr->sendCommand(command);
+  }
 }
 
 void ProfileManager::disconnected() {}

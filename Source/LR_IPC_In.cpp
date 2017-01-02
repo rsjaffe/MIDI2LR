@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
+#include "ControlsModel.h"
 #include "Utilities/Utilities.h"
 #include <bitset>
 #include <stdexcept>
@@ -38,7 +39,10 @@ namespace {
   constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_IN::LR_IPC_IN(): juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"} {}
+LR_IPC_IN::LR_IPC_IN(ControlsModel* c_model):
+  controls_model_{c_model},
+  juce::StreamingSocket{},
+  juce::Thread{"LR_IPC_IN"} {}
 
 LR_IPC_IN::~LR_IPC_IN() {
   {
@@ -156,18 +160,29 @@ void LR_IPC_IN::processLine(const std::string& line) {
       juce::JUCEApplication::getInstance()->systemRequestedQuit();
       break;
     case 0:
-      // send associated CC messages to MIDI OUT devices
+      // send associated messages to MIDI OUT devices
       if (command_map_ && midi_sender_) {
         const auto original_value = std::stod(value_string);
         for (const auto msg : command_map_->getMessagesForCommand(command)) {
-          const auto value = static_cast<int>(round( //-V2003
-            ((msg->controller < 128) ? kMaxMIDI : kMaxNRPN) * original_value));
+          short msgtype{0};
+          switch (msg->messageType) {
+            case NOTE:
+              msgtype = RSJ::NoteOnFlag;
+              break;
+            case CC:
+              msgtype = RSJ::CCflag;
+              break;
+            case PITCHBEND:
+              msgtype = RSJ::PWflag;
+          }
+          const auto value = controls_model_->pluginToController(msgtype, static_cast<short>(msg->channel),
+            static_cast<short>(msg->controller), original_value);
 
           if (midi_sender_) {
-            switch (msg->messageType) {
-              case NOTE: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-              case CC: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-              case PITCHBEND: midi_sender_->sendPitchBend(msg->channel, static_cast<int>(round(original_value * kMaxPitchBendNRPN))); break;
+            switch (msgtype) {
+              case RSJ::NoteOnFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+              case RSJ::CCflag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+              case RSJ::PWflag: midi_sender_->sendPitchBend(msg->channel, value); break;
             }
           }
         }

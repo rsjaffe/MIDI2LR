@@ -68,12 +68,12 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
 void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
   int value = 0, channel = 0;
-  juce::String formatStr;  
+  juce::String formatStr;
   //This must draw one of the cells.
 
   // The graphics context's origin will already be set to the top-left of the
   // cell, whose size is specified by(width, height).
-  
+
   // Note that the rowNumber value may be greater than the number of rows in your
   // list, so be careful that you don't assume it's less than getNumRows().
   g.setColour(juce::Colours::black);
