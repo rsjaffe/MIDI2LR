@@ -58,6 +58,7 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
   }
 }
 
+
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener) {
   for (const auto current_listener : listeners_)
     if (current_listener == listener)

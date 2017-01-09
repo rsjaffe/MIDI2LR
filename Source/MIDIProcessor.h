@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"
+#include "MidiUtilities.h"
 
 class MIDICommandListener {
 public:
