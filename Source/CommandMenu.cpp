@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -20,10 +22,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "CommandMenu.h"
-#include "CCoptions.h"
-#include "PWoptions.h"
 #include <limits>
+#include "CCoptions.h"
 #include "LRCommands.h"
+#include "PWoptions.h"
 
 CommandMenu::CommandMenu(const MIDI_Message_ID& message):
   juce::TextButton{"Unmapped"},
@@ -70,7 +72,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case CC:
         {
           CCoptions ccopt;
-          ccopt.bindToControl(message_.channel, static_cast<short>(message_.controller));
+          ccopt.bindToControl(static_cast<size_t>(message_.channel), static_cast<short>(message_.controller));
           juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
@@ -78,11 +80,13 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case PITCHBEND:
         {
           PWoptions pwopt;
-          pwopt.bindToControl(message_.channel);
+          pwopt.bindToControl(static_cast<size_t>(message_.channel));
           juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
         }
+      default:
+        /* do nothing for other types of controllers */;
     }
   }
   else {

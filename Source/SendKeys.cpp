@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
 ==============================================================================
 
@@ -240,7 +242,6 @@ std::mutex SendKeys::mutex_sending_{};
 
 void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   const bool control_cmd, const bool shift) const {
-
   const auto mapped_key = SendKeys::key_map_.find(to_lower(key));
   const auto in_keymap = mapped_key != SendKeys::key_map_.end();
 

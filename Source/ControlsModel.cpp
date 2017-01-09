@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
 ==============================================================================
 
@@ -28,7 +30,7 @@ ChannelModel::ChannelModel() {
   ccHigh_.fill(kMaxNRPN);
   CCmethod_.fill(RSJ::CCmethod::absolute);
   currentV_.fill(kMaxNRPNHalf);
-  for (size_t a = 0; a <= kMaxMIDI; a++) {
+  for (size_t a = 0; a <= kMaxMIDI; ++a) {
     ccHigh_[a] = kMaxMIDI;
     currentV_[a] = kMaxMIDIHalf;
   }
@@ -39,7 +41,7 @@ ChannelModel::~ChannelModel() {}
 double ChannelModel::controllerToPlugin(short controlT, short controlN, short controlV) noexcept(ndebug) {
   assert((controlT == RSJ::CCflag && CCmethod_[controlN] == RSJ::CCmethod::absolute) ? (ccLow_[controlN] < ccHigh_[controlN]) : 1);
   assert((controlT == RSJ::PWflag) ? (PitchWheelMax > PitchWheelMin) : 1);
-  assert((controlT == RSJ::PWflag) ? controlV >= PitchWheelMin : 1);
+  assert((controlT == RSJ::PWflag) ? controlV >= PitchWheelMin && controlV <= PitchWheelMax : 1);
   //note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7 bits, high bits are shifted one right when placed into short.
   switch (controlT) {
     case RSJ::PWflag:
@@ -47,8 +49,7 @@ double ChannelModel::controllerToPlugin(short controlT, short controlN, short co
     case RSJ::CCflag:
       switch (CCmethod_[controlN]) {
         case RSJ::CCmethod::absolute:
-          currentV_[controlN] = (controlV - ccLow_[controlN]);
-          return static_cast<double>(currentV_[controlN]) / static_cast<double>(ccHigh_[controlN] - ccLow_[controlN]);
+          return static_cast<double>(controlV - ccLow_[controlN]) / static_cast<double>(ccHigh_[controlN] - ccLow_[controlN]);
         case RSJ::CCmethod::binaryoffset:
           if (isNRPN(controlN))
             return offsetresult(controlV - kBit14, controlN);
@@ -56,15 +57,16 @@ double ChannelModel::controllerToPlugin(short controlT, short controlN, short co
             return offsetresult(controlV - kBit7, controlN);
         case RSJ::CCmethod::signmagnitude:
           if (isNRPN(controlN))
-            return offsetresult((controlV & kBit14) ? -(controlV & kLow6Bits) : controlV, controlN);
+            return offsetresult((controlV & kBit14) ? -(controlV & kLow13Bits) : controlV, controlN);
           else
-            return offsetresult((controlV & kBit7) ? -(controlV & kLow13Bits) : controlV, controlN);
+            return offsetresult((controlV & kBit7) ? -(controlV & kLow6Bits) : controlV, controlN);
         case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
           if (isNRPN(controlN)) //flip twos comp and subtract--independent of processor architecture
             return offsetresult((controlV & kBit14) ? -((controlV ^ kMaxNRPN) + 1) : controlV, controlN);
           else
             return offsetresult((controlV & kBit7) ? -((controlV ^ kMaxMIDI) + 1) : controlV, controlN);
         default:
+          assert(!"Should be unreachable code in controllerToPlugin--unknown CCmethod");
           return 0.0;
       }
     case RSJ::NoteOnFlag:
@@ -72,10 +74,7 @@ double ChannelModel::controllerToPlugin(short controlT, short controlN, short co
     case RSJ::NoteOffFlag:
       return 0.0;
     default:
+      assert(!"Should be unreachable code in controllerToPlugin--unknown control type");
       return 0.0;
   }
 }
-
-
-
-

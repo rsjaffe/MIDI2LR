@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -214,7 +216,7 @@ void MainContentComponent::handleMIDI(RSJ::Message mm) {
   mm.Channel++; //used to 1-based channel numbers
   last_command_ = juce::String::formatted("%d: CC%d [%d]", mm.Channel, mm.Number, mm.Value);
   command_table_model_.addRow(mm.Channel, mm.Number, mt);
-  row_to_select_ = command_table_model_.getRowForMessage(mm.Channel, mm.Number, mt);
+  row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.Channel, mm.Number, mt));
   triggerAsyncUpdate();
 }
 

@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -28,8 +30,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
+#include <exception>
+#include <fstream>
+#include <memory>
+#include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
-
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LR_IPC_IN.h"
@@ -41,10 +46,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 #include "CCoptions.h"
 #include "PWoptions.h"
-#include <exception>
-#include <fstream>
-#include <memory>
-#include "../JuceLibraryCode/JuceHeader.h"
 
 const juce::String ShutDownString{"--LRSHUTDOWN"};
 

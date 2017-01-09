@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -55,7 +57,6 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
       break;
   }
 }
-
 
 void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener) {
   for (const auto current_listener : listeners_)

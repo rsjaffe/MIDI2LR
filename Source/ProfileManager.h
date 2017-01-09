@@ -74,7 +74,7 @@ public:
   virtual void disconnected() override;
 
 private:
-	void mapCommand(MIDI_Message_ID msg);
+  void mapCommand(MIDI_Message_ID msg);
   // AsyncUpdate interface
   virtual void handleAsyncUpdate() override;
   enum class SWITCH_STATE {
@@ -95,7 +95,6 @@ private:
   SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
 
   ControlsModel* controls_model_;
-
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

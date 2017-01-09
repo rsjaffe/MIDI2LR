@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -19,10 +21,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
-#include "ControlsModel.h"
-#include "Utilities/Utilities.h"
 #include <bitset>
 #include <stdexcept>
+#include "ControlsModel.h"
+#include "Utilities/Utilities.h"
 
 namespace {
   constexpr int kBufferSize = 256;
@@ -32,7 +34,7 @@ namespace {
   constexpr int kLrInPort = 58764;
   constexpr double kMaxMIDI = 127.0;
   constexpr double kMaxNRPN = 16383.0;
-  constexpr double kMaxPitchBendNRPN = 15300.0; // for iConQcon in Samplitude mode. ToDo: make the value user-editable!
+  constexpr double kMaxPitchBendNRPN = 15300.0;
   constexpr int kNotConnectedWait = 333;
   constexpr int kReadyWait = 0;
   constexpr int kStopWait = 1000;

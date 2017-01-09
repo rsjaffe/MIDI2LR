@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* NOTE: Channel and Number are zero-based */
+#include <cassert>
 #include "../JuceLibraryCode/JuceHeader.h"
 namespace RSJ {
   constexpr short NoteOffFlag = 0x8;
@@ -39,7 +40,6 @@ namespace RSJ {
     short Value;
     Message():
       MessageType(0), Channel(0), Number(0), Value(0) {};
- //   Message(const juce::MidiMessage& mm) noexcept;
     Message(short mt, short ch, short nu, short va):
       MessageType(mt), Channel(ch), Number(nu), Value(va) {};
   };
@@ -47,9 +47,13 @@ namespace RSJ {
   inline Message ParseMidi(const juce::MidiMessage& mm) noexcept {
     Message mess{0,0,0,0};
     auto raw = mm.getRawData();
+    if (raw == nullptr) {
+      assert(!"Nullptr returned from getRawData");
+      return mess;
+    }
     short mt = raw[0] >> 4;
     //don't process system common messages
-    if (raw == nullptr || mt == SystemFlag) return mess;
+    if (mt == SystemFlag) return mess;
     mess.MessageType = mt;
     mess.Channel = raw[0] & 0xF;
     switch (mess.MessageType) {
@@ -73,9 +77,4 @@ namespace RSJ {
     }
     return mess;
   }
-
- /* Message::Message(const juce::MidiMessage& mm) noexcept {
-    *this = ParseMidi(mm);
-  }*/
 }
-

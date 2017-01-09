@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -34,7 +36,7 @@ CommandTable::CommandTable(const juce::String& component_name, CommandTableModel
 bool CommandTable::keyPressed(const KeyPress& k) {
   if (k.isKeyCode(KeyPress::deleteKey) && getSelectedRow() != -1) {
     bool last = getSelectedRow() == getNumRows() - 1;
-    ((CommandTableModel*) getModel())->removeRow(static_cast<size_t>(getSelectedRow()));
+    ((CommandTableModel*)getModel())->removeRow(static_cast<size_t>(getSelectedRow()));
     updateContent();
     if (last) {
       // keep selection at the end

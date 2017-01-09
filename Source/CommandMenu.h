@@ -42,7 +42,6 @@ private:
 
   virtual void clicked(const juce::ModifierKeys& modifiers) override;
 
-
   MIDI_Message_ID message_;
   const std::vector<juce::String> menus_;
   const std::vector<std::vector<std::string>> menu_entries_;

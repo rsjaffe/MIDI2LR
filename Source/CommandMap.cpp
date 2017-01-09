@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -50,13 +52,12 @@ void CommandMap::toXMLDocument(const juce::File& file) const {
     for (const auto& map_entry : message_map_) {
       auto* setting = new juce::XmlElement{"setting"};
       setting->setAttribute("channel", map_entry.first.channel);
-    switch (map_entry.first.messageType)
-    {
-      case NOTE: setting->setAttribute("note", map_entry.first.pitch);                break;
-      case CC: setting->setAttribute("controller", map_entry.first.controller);       break;
-      case PITCHBEND: setting->setAttribute("pitchbend", map_entry.first.controller); break;
-    }
-    setting->setAttribute("command_string", map_entry.second);
+      switch (map_entry.first.messageType) {
+        case NOTE: setting->setAttribute("note", map_entry.first.pitch);                break;
+        case CC: setting->setAttribute("controller", map_entry.first.controller);       break;
+        case PITCHBEND: setting->setAttribute("pitchbend", map_entry.first.controller); break;
+      }
+      setting->setAttribute("command_string", map_entry.second);
       root.addChildElement(setting);
     }
     if (!root.writeToFile(file, ""))

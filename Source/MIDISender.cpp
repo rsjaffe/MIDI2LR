@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -49,9 +51,9 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const {
 }
 
 void MIDISender::sendPitchBend(int midi_channel, int value) const {
-	for (const auto& dev : output_devices_) {
-		dev->sendMessageNow(MidiMessage::pitchWheel(midi_channel, value));
-	}
+  for (const auto& dev : output_devices_) {
+    dev->sendMessageNow(MidiMessage::pitchWheel(midi_channel, value));
+  }
 }
 
 void MIDISender::RescanDevices() {
@@ -64,5 +66,5 @@ void MIDISender::InitDevices_() {
     auto dev = juce::MidiOutput::openDevice(idx);
     if (dev != nullptr)
       output_devices_.emplace_back(dev);
-}
+  }
 }

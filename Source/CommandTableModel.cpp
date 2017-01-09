@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -83,21 +85,21 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
   {
     switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
     {
-    case NOTE:
-      formatStr = "%d | Note: %d";
-      channel = commands_[static_cast<size_t>(row_number)].channel;
-      value = commands_[static_cast<size_t>(row_number)].pitch;
-      break;
-    case CC:
-      formatStr = "%d | CC: %d";
-      channel = commands_[static_cast<size_t>(row_number)].channel;
-      value = commands_[static_cast<size_t>(row_number)].controller;
-      break;
-    case PITCHBEND:
-      formatStr = "%d | Pitch: %d";
-      channel = commands_[static_cast<size_t>(row_number)].channel;
-      value = commands_[static_cast<size_t>(row_number)].controller;
-      break;
+      case NOTE:
+        formatStr = "%d | Note: %d";
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = commands_[static_cast<size_t>(row_number)].pitch;
+        break;
+      case CC:
+        formatStr = "%d | CC: %d";
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = commands_[static_cast<size_t>(row_number)].controller;
+        break;
+      case PITCHBEND:
+        formatStr = "%d | Pitch: %d";
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = commands_[static_cast<size_t>(row_number)].controller;
+        break;
     }
     g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
   }
@@ -156,8 +158,8 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
 void CommandTableModel::addRow(int midi_channel, int midi_data, MessageType msgType) {
   const MIDI_Message_ID msg{midi_channel, midi_data, msgType};
   if (command_map_ && !command_map_->messageExistsInMap(msg)) {
-      commands_.push_back(msg);
-      command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
+    commands_.push_back(msg);
+    command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
     Sort(); //re-sort list
   }
 }
@@ -224,7 +226,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, Message
  for (size_t idx = 0u; idx < commands_.size(); ++idx) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
       && commands_[idx].messageType == msgType)
-      return idx;
+      return static_cast<int>(idx);
   }
   //could not find
   return std::numeric_limits<size_t>::max();
