@@ -79,7 +79,7 @@ void MIDIProcessor::RescanDevices() {
 }
 
 void MIDIProcessor::InitDevices_() {
-  for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); idx++) {
+  for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
     const auto dev = juce::MidiInput::openDevice(idx, this);
     if (dev != nullptr) {
       devices_.emplace_back(dev);

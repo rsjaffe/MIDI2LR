@@ -221,7 +221,7 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
 }
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, MessageType msgType) const {
- for (size_t idx = 0u; idx < commands_.size(); idx++) {
+ for (size_t idx = 0u; idx < commands_.size(); ++idx) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
       && commands_[idx].messageType == msgType)
       return idx;

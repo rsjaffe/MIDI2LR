@@ -60,7 +60,7 @@ void MIDISender::RescanDevices() {
 }
 
 void MIDISender::InitDevices_() {
-  for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); idx++) {
+  for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); ++idx) {
     auto dev = juce::MidiOutput::openDevice(idx);
     if (dev != nullptr)
       output_devices_.emplace_back(dev);

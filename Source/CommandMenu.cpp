@@ -77,7 +77,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
   }
   else {
 // add each submenu
-    for (size_t menu_index = 0; menu_index < menus_.size(); menu_index++) {
+    for (size_t menu_index = 0; menu_index < menus_.size(); ++menu_index) {
       juce::PopupMenu subMenu;
       for (const auto& command : menu_entries_[menu_index]) {
         auto already_mapped = false;
