@@ -2,7 +2,7 @@
 /*
 ==============================================================================
 
-ControlsModel.cpp
+ControlsModel.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <array>
 #include <atomic>
 #include <cassert>
+#include <chrono>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/access.hpp>
 #include <cereal/types/array.hpp>
@@ -32,13 +33,15 @@ namespace RSJ {
   enum struct CCmethod: char {
     absolute, twoscomplement, binaryoffset, signmagnitude
   };
+  inline auto now_ms() noexcept {
+    return std::chrono::time_point_cast<std::chrono::milliseconds>
+      (std::chrono::steady_clock::now()).time_since_epoch().count();
+  }
+  using timetype = decltype(now_ms());
 }
 
 class ChannelModel {
 private:
- /* using timetype = decltype(std::chrono::time_point_cast
-    <std::chrono::milliseconds>(std::chrono::steady_clock::now()).time_since_epoch().count());*/
-
   constexpr static short kBit14 = 0x2000;
   constexpr static short kBit7 = 0x40;
   constexpr static short kLow13Bits = 0x1FFF;
@@ -48,65 +51,62 @@ private:
   constexpr static short kMaxNRPN = 0x3FFF;
   constexpr static short kMaxNRPNHalf = kMaxNRPN / 2;
   constexpr static size_t kMaxControls = 0x4000;
-//  constexpr static timetype kUpdateDelay = 50;
+  constexpr static RSJ::timetype kUpdateDelay = 250;
 public:
   ChannelModel();
   ~ChannelModel();
-  double controllerToPlugin(short conttype, short controlnumber, short value) noexcept(ndebug);
-  RSJ::CCmethod getCCmethod(short controlnum) const noexcept(ndebug);
-  short getCCmax(short controlnum) const noexcept(ndebug);
-  short getCCmin(short controlnum) const noexcept(ndebug);
+  ChannelModel(const ChannelModel&) = delete; //can't copy atomics
+  ChannelModel& operator= (const ChannelModel&) = delete; //can't assign atomics
+  double controllerToPlugin(short controltype, short controlnumber, short value) noexcept(ndebug);
+  RSJ::CCmethod getCCmethod(short controlnumber) const noexcept(ndebug);
+  short getCCmax(short controlnumber) const noexcept(ndebug);
+  short getCCmin(short controlnumber) const noexcept(ndebug);
   short getPWmax() const noexcept;
   short getPWmin() const noexcept;
-  short pluginToController(short conttype, short controlnumber, double value) noexcept(ndebug);
-  void setCC(short controlnum, short min, short max, RSJ::CCmethod conttype) noexcept(ndebug);
-  void setCCall(short controlnum, short min, short max, RSJ::CCmethod conttype) noexcept(ndebug);
-  void setCCmax(short controlnum, short value) noexcept(ndebug);
-  void setCCmethod(short controlnum, RSJ::CCmethod value) noexcept(ndebug);
-  void setCCmin(short controlnum, short value) noexcept(ndebug);
-  void setPWmax(short val) noexcept;
-  void setPWmin(short val) noexcept;
+  short pluginToController(short controltype, short controlnumber, double value) noexcept(ndebug);
+  void setCC(short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug);
+  void setCCall(short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug);
+  void setCCmax(short controlnumber, short value) noexcept(ndebug);
+  void setCCmethod(short controlnumber, RSJ::CCmethod value) noexcept(ndebug);
+  void setCCmin(short controlnumber, short value) noexcept(ndebug);
+  void setPWmax(short value) noexcept(ndebug);
+  void setPWmin(short value) noexcept(ndebug);
 private:
   friend class cereal::access;
   template<class Archive>
   void serialize(Archive & archive, std::uint32_t const version) {
     archive(CCmethod_, ccHigh_, ccLow_, PitchWheelMax, PitchWheelMin); // serialize things by passing them to the archive
   }
- /* timetype nowms() const noexcept {
-    return std::chrono::time_point_cast<std::chrono::milliseconds>
-      (std::chrono::steady_clock::now()).time_since_epoch().count();
-  }*/
-  bool isNRPN(size_t controlnumber);
+  bool isNRPN(size_t controlnumber) const noexcept(ndebug);
   double offsetresult(short diff, size_t controlnumber) noexcept(ndebug);
   short PitchWheelMax{kMaxNRPN};
   short PitchWheelMin{0};
   std::array<RSJ::CCmethod, kMaxControls> CCmethod_;
   std::array<short, kMaxControls> ccHigh_;
   std::array<short, kMaxControls> ccLow_;
-  std::array<short, kMaxControls> currentV_;
-  mutable RSJ::spinlock mtx_{};
-//  std::atomic<timetype> lastUpdate_{0};
+  std::array<std::atomic<short>, kMaxControls> currentV_;
+  mutable std::atomic<RSJ::timetype> lastUpdate_{0};
 };
 
 class ControlsModel {
 public:
   ControlsModel();
   ~ControlsModel();
-  double controllerToPlugin(short conttype, size_t channel, short controlnumber, short value) noexcept(ndebug) {
+  double controllerToPlugin(short controltype, size_t channel, short controlnumber, short value) noexcept(ndebug) {
     assert(channel <= 15);
-    return AllControls[channel].controllerToPlugin(conttype, controlnumber, value);
+    return AllControls[channel].controllerToPlugin(controltype, controlnumber, value);
   };
-  RSJ::CCmethod getCCmethod(size_t channel, short controlnum) const noexcept(ndebug) {
+  RSJ::CCmethod getCCmethod(size_t channel, short controlnumber) const noexcept(ndebug) {
     assert(channel <= 15);
-    return AllControls[channel].getCCmethod(controlnum);
+    return AllControls[channel].getCCmethod(controlnumber);
   };
-  short getCCmax(size_t channel, short controlnum) const noexcept(ndebug) {
+  short getCCmax(size_t channel, short controlnumber) const noexcept(ndebug) {
     assert(channel <= 15);
-    return AllControls[channel].getCCmax(controlnum);
+    return AllControls[channel].getCCmax(controlnumber);
   };
-  short getCCmin(size_t channel, short controlnum) noexcept(ndebug) {
+  short getCCmin(size_t channel, short controlnumber) noexcept(ndebug) {
     assert(channel <= 15);
-    return AllControls[channel].getCCmin(controlnum);
+    return AllControls[channel].getCCmin(controlnumber);
   };
   short getPWmax(size_t channel) const noexcept(ndebug) {
     assert(channel <= 15);
@@ -116,37 +116,37 @@ public:
     assert(channel <= 15);
     return AllControls[channel].getPWmin();
   };
-  short pluginToController(short conttype, size_t channel, short controlnumber, double value) noexcept(ndebug) {
+  short pluginToController(short controltype, size_t channel, short controlnumber, double value) noexcept(ndebug) {
     assert(channel <= 15);
-    return AllControls[channel].pluginToController(conttype, controlnumber, value);
+    return AllControls[channel].pluginToController(controltype, controlnumber, value);
   };
-  void setCC(size_t channel, short controlnum, short min, short max, RSJ::CCmethod conttype) noexcept(ndebug) {
+  void setCC(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
     assert(channel <= 15);
-    AllControls[channel].setCC(controlnum, min, max, conttype);
+    AllControls[channel].setCC(controlnumber, min, max, controltype);
   }
-  void setCCall(size_t channel, short controlnum, short min, short max, RSJ::CCmethod conttype) noexcept(ndebug) {
+  void setCCall(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug) {
     assert(channel <= 15);
-    AllControls[channel].setCCall(controlnum, min, max, conttype);
+    AllControls[channel].setCCall(controlnumber, min, max, controltype);
   };
-  void setCCmax(size_t channel, short controlnum, short value) noexcept(ndebug) {
+  void setCCmax(size_t channel, short controlnumber, short value) noexcept(ndebug) {
     assert(channel <= 15);
-    AllControls[channel].setCCmax(controlnum, value);
+    AllControls[channel].setCCmax(controlnumber, value);
   };
-  void setCCmethod(size_t channel, short controlnum, RSJ::CCmethod value) noexcept(ndebug) {
+  void setCCmethod(size_t channel, short controlnumber, RSJ::CCmethod value) noexcept(ndebug) {
     assert(channel <= 15);
-    AllControls[channel].setCCmethod(controlnum, value);
+    AllControls[channel].setCCmethod(controlnumber, value);
   };
-  void setCCmin(size_t channel, short controlnum, short value) noexcept(ndebug) {
+  void setCCmin(size_t channel, short controlnumber, short value) noexcept(ndebug) {
     assert(channel <= 15);
-    AllControls[channel].setCCmin(controlnum, value);
+    AllControls[channel].setCCmin(controlnumber, value);
   };
-  void setPWmax(size_t channel, short val) noexcept(ndebug) {
+  void setPWmax(size_t channel, short value) noexcept(ndebug) {
     assert(channel <= 15);
-    AllControls[channel].setPWmax(val);
+    AllControls[channel].setPWmax(value);
   };
-  void setPWmin(size_t channel, short val) noexcept(ndebug) {
+  void setPWmin(size_t channel, short value) noexcept(ndebug) {
     assert(channel <= 15);
-    AllControls[channel].setPWmin(val);
+    AllControls[channel].setPWmin(value);
   };
 private:
   friend class cereal::access;
@@ -157,19 +157,19 @@ private:
   std::array<ChannelModel, 16> AllControls;
 };
 
-inline RSJ::CCmethod ChannelModel::getCCmethod(short controlnum) const noexcept(ndebug) {
-  assert(controlnum >= 0 && controlnum <= kMaxNRPN);
-  return CCmethod_[controlnum];
+inline RSJ::CCmethod ChannelModel::getCCmethod(short controlnumber) const noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
+  return CCmethod_[controlnumber];
 }
 
-inline short ChannelModel::getCCmax(short controlnum) const noexcept(ndebug) {
-  assert(controlnum >= 0 && controlnum <= kMaxNRPN);
-  return ccHigh_[controlnum];
+inline short ChannelModel::getCCmax(short controlnumber) const noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
+  return ccHigh_[controlnumber];
 }
 
-inline short ChannelModel::getCCmin(short controlnum) const noexcept(ndebug) {
-  assert(controlnum >= 0 && controlnum <= kMaxNRPN);
-  return ccLow_[controlnum];
+inline short ChannelModel::getCCmin(short controlnumber) const noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
+  return ccLow_[controlnumber];
 }
 
 inline short ChannelModel::getPWmax() const noexcept {
@@ -180,23 +180,21 @@ inline short ChannelModel::getPWmin() const noexcept {
   return PitchWheelMin;
 }
 
-inline short ChannelModel::pluginToController(short conttype, short controlnumber, double pluginV) noexcept(ndebug) {
+inline short ChannelModel::pluginToController(short controltype, short controlnumber, double pluginV) noexcept(ndebug) {
   assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
   assert(pluginV >= 0.0 && pluginV <= 1.0);
-  switch (conttype) {
+  switch (controltype) {
     case RSJ::PWflag:
       return static_cast<short>(round(pluginV * (PitchWheelMax - PitchWheelMin))) + PitchWheelMin;
     case RSJ::CCflag:
       {
-        short cv{0};
-        {
-          std::lock_guard<decltype(mtx_)> lock(mtx_);
-          cv = static_cast<short>(round(pluginV * (ccHigh_[static_cast<size_t>(controlnumber)]
-            - ccLow_[static_cast<size_t>(controlnumber)])));
-          if (CCmethod_[static_cast<size_t>(controlnumber)] != RSJ::CCmethod::absolute /*&& nowms() - kUpdateDelay > lastUpdate_.load()*/)
-            currentV_[static_cast<size_t>(controlnumber)] = cv;
+        const size_t idx = static_cast<size_t>(controlnumber);
+        short cv = static_cast<short>(round(pluginV * (ccHigh_[idx] - ccLow_[idx]))) + ccLow_[idx];
+        if (CCmethod_[idx] != RSJ::CCmethod::absolute && RSJ::now_ms() -
+          kUpdateDelay > lastUpdate_.load(std::memory_order_acquire)) {
+          currentV_[idx].store(cv, std::memory_order_relaxed);
         }
-        return cv + ccLow_[static_cast<size_t>(controlnumber)];
+        return cv;
       }
     case RSJ::NoteOnFlag:
       return kMaxMIDI;
@@ -204,76 +202,90 @@ inline short ChannelModel::pluginToController(short conttype, short controlnumbe
   return 0;
 }
 
-inline void ChannelModel::setCC(short controlnum, short min, short max, RSJ::CCmethod conttype) noexcept(ndebug) {
-  setCCmin(controlnum, min);
-  setCCmax(controlnum, max);
-  setCCmethod(controlnum, conttype);
+inline void ChannelModel::setCC(short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
+  setCCmin(controlnumber, min);
+  setCCmax(controlnumber, max);
+  setCCmethod(controlnumber, controltype);
 }
 
-inline void ChannelModel::setCCall(short controlnum, short min, short max, RSJ::CCmethod conttype) noexcept(ndebug) {
-  assert(controlnum >= 0 && controlnum <= kMaxNRPN);
-  if (isNRPN(controlnum))
+inline void ChannelModel::setCCall(short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
+  if (isNRPN(controlnumber))
     for (short a = kMaxMIDI + 1; a <= kMaxNRPN; ++a)
-      setCC(a, min, max, conttype);
+      setCC(a, min, max, controltype);
   else
     for (short a = 0; a <= kMaxMIDI; ++a)
-      setCC(a, min, max, conttype);
+      setCC(a, min, max, controltype);
 }
 
-inline void ChannelModel::setCCmax(short controlnum, short value) noexcept(ndebug) {
-  assert(controlnum >= 0 && controlnum <= kMaxNRPN);
-  if (CCmethod_[controlnum] != RSJ::CCmethod::absolute) {
-    ccHigh_[controlnum] = (value < 0) ? 1000 : value;
+inline void ChannelModel::setCCmax(short controlnumber, short value) noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (CCmethod_[controlnumber] != RSJ::CCmethod::absolute) {
+    ccHigh_[controlnumber] = (value < 0) ? 1000 : value;
   }
   else {
-    short max = (isNRPN(controlnum) ? kMaxNRPN : kMaxMIDI);
-    ccHigh_[controlnum] = (value <= ccLow_[controlnum] || value > max) ? max : value;
+    short max = (isNRPN(controlnumber) ? kMaxNRPN : kMaxMIDI);
+    ccHigh_[controlnumber] = (value <= ccLow_[controlnumber] || value > max) ? max : value;
   }
-  currentV_[controlnum] = (ccHigh_[controlnum] - ccLow_[controlnum]) / 2;
+  currentV_[controlnumber] = (ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2;
 }
 
-inline void ChannelModel::setCCmethod(short controlnum, RSJ::CCmethod value) noexcept(ndebug) {
-  assert(controlnum >= 0 && controlnum <= kMaxNRPN);
-  CCmethod_[controlnum] = value;
+inline void ChannelModel::setCCmethod(short controlnumber, RSJ::CCmethod value) noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
+  CCmethod_[controlnumber] = value;
 }
 
-inline void ChannelModel::setCCmin(short controlnum, short value) noexcept(ndebug) {
-  assert(controlnum >= 0 && controlnum <= kMaxNRPN);
-  if (CCmethod_[controlnum] != RSJ::CCmethod::absolute)
-    ccLow_[controlnum] = 0;
+inline void ChannelModel::setCCmin(short controlnumber, short value) noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (CCmethod_[controlnumber] != RSJ::CCmethod::absolute)
+    ccLow_[controlnumber] = 0;
   else
-    ccLow_[controlnum] = (value < 0 || value >= ccHigh_[controlnum]) ? 0 : value;
-  currentV_[controlnum] = (ccHigh_[controlnum] - ccLow_[controlnum]) / 2;
+    ccLow_[controlnumber] = (value < 0 || value >= ccHigh_[controlnumber]) ? 0 : value;
+  currentV_[controlnumber] = (ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2;
 }
 
-inline void ChannelModel::setPWmax(short val) noexcept {
-  if (val > kMaxNRPN || val <= PitchWheelMin)
+inline void ChannelModel::setPWmax(short value) noexcept(ndebug) {
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (value > kMaxNRPN || value <= PitchWheelMin)
     PitchWheelMax = kMaxNRPN;
   else
-    PitchWheelMax = val;
+    PitchWheelMax = value;
 }
 
-inline void ChannelModel::setPWmin(short val) noexcept {
-  if (val < 0 || val >= PitchWheelMax)
+inline void ChannelModel::setPWmin(short value) noexcept(ndebug) {
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (value < 0 || value >= PitchWheelMax)
     PitchWheelMin = 0;
   else
-    PitchWheelMin = val;
+    PitchWheelMin = value;
 }
 
-inline bool ChannelModel::isNRPN(size_t controlnumber) {
+inline bool ChannelModel::isNRPN(size_t controlnumber) const noexcept(ndebug) {
+  assert(controlnumber >= 0 && controlnumber <= kMaxNRPN);
   return controlnumber > kMaxMIDI;
 }
 
 inline double ChannelModel::offsetresult(short diff, size_t controlN) noexcept(ndebug) {
-  assert(ccHigh_[controlN] > 0);
-//  lastUpdate_.store(nowms());
-  std::lock_guard<decltype(mtx_)> lock(mtx_);
-  currentV_[controlN] += diff;
-  if (currentV_[controlN] < 0)
-    currentV_[controlN] = 0;
-  else if (currentV_[controlN] > ccHigh_[controlN])
-    currentV_[controlN] = ccHigh_[controlN];
-  return static_cast<double>(currentV_[controlN]) / static_cast<double>(ccHigh_[controlN]);
+  assert(ccHigh_[controlN] > ccLow_[controlN]);
+  assert(diff <= kMaxNRPN && diff >= -kMaxNRPN);
+  assert(controlN >= 0 && controlN <= kMaxNRPN);
+  lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
+  short cv = currentV_[controlN].fetch_add(diff) + diff;
+  if (cv < ccLow_[controlN]) {//fix currentV unless another thread has already altered it
+    currentV_[controlN].compare_exchange_strong(cv, ccLow_[controlN]);
+    return 0.0;
+  }
+  if (cv > ccHigh_[controlN]) {//fix currentV unless another thread has already altered it
+    currentV_[controlN].compare_exchange_strong(cv, ccHigh_[controlN]);
+    return 1.0;
+  }
+  return static_cast<double>(cv - ccLow_[controlN]) / static_cast<double>(ccHigh_[controlN] - ccLow_[controlN]);
 }
 
 CEREAL_CLASS_VERSION(ChannelModel, 1);
