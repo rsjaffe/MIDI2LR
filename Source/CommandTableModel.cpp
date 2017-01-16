@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -224,7 +226,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, Message
  for (size_t idx = 0u; idx < commands_.size(); ++idx) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
       && commands_[idx].messageType == msgType)
-      return idx;
+      return static_cast<int>(idx);
   }
   //could not find
   return std::numeric_limits<size_t>::max();

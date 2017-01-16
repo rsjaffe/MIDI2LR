@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -113,7 +115,7 @@ void ProfileManager::switchToPreviousProfile() {
 }
 
 
-void ProfileManager::mapCommand(MIDI_Message_ID msg) {
+void ProfileManager::mapCommand(const MIDI_Message_ID& msg) {
 
     if (command_map_->getCommandforMessage(msg) == "Previous Profile") {
       switch_state_ = SWITCH_STATE::PREV;

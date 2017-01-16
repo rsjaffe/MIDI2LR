@@ -60,7 +60,7 @@ struct MIDI_Message_ID {
     if (channel < other.channel) return true;
     if (channel == other.channel) {
       if (data < other.data) return true;
-      if (data == other.data && messageType && !other.messageType) return true;
+      if (data == other.data && messageType < other.messageType) return true;
     }
     return false;
   }
