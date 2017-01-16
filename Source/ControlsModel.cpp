@@ -37,7 +37,6 @@ ChannelModel::ChannelModel() {
   }
   //load settings
 }
-ChannelModel::~ChannelModel() {}
 
 double ChannelModel::controllerToPlugin(short controltype, short controlnumber, short value) noexcept(ndebug) {
   assert((controltype == RSJ::CCflag && CCmethod_[controlnumber] == RSJ::CCmethod::absolute) ? (ccLow_[controlnumber] < ccHigh_[controlnumber]) : 1);
