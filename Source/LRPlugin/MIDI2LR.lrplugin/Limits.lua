@@ -126,21 +126,14 @@ local function OptionsRows(f,obstable)
           title = ProgramPreferences.Limits[p]['label']..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
           width = LrView.share('limit_label'),
         }, -- static_text
-        f:slider {
-          value = LrView.bind('Limits'..p..'Low'),
-          min = low, 
-          max = high,
-          integral = integral,
-          width = LrView.share('limit_slider'),
-        }, -- slider
         f:static_text {
           title = LrView.bind('Limits'..p..'Low'),
           alignment = 'right',
           width = LrView.share('limit_reading'),  
         }, -- static_text
         f:slider {
-          value = LrView.bind('Limits'..p..'High'),
-          min = low ,
+          value = LrView.bind('Limits'..p..'Low'),
+          min = low, 
           max = high,
           integral = integral,
           width = LrView.share('limit_slider'),
@@ -150,6 +143,13 @@ local function OptionsRows(f,obstable)
           alignment = 'right',
           width = LrView.share('limit_reading'),                
         }, -- static_text
+        f:slider {
+          value = LrView.bind('Limits'..p..'High'),
+          min = low ,
+          max = high,
+          integral = integral,
+          width = LrView.share('limit_slider'),
+        }, -- slider
         f:push_button {
           title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
           action = function ()
