@@ -68,7 +68,7 @@ local function setOptions()
             Profiles.StartDialog(properties,f),
           },
           f:tab_view_item{
-            title = LOC("$$$/Library/Filter/FilterLabel=Library filter"),
+            title = LOC("$$$/Library/Filter/FilterLabel=Library filter"):gsub(':',''),
             identifier = 'filters',
             Filters.StartDialog(properties,f),
           },
