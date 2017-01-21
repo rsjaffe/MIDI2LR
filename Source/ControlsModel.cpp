@@ -38,7 +38,7 @@ ChannelModel::ChannelModel() {
   //load settings
 }
 
-double ChannelModel::controllerToPlugin(short controltype, short controlnumber, short value) noexcept(ndebug) {
+double ChannelModel::controllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug) {
   assert((controltype == RSJ::CCflag && CCmethod_[controlnumber] == RSJ::CCmethod::absolute) ? (ccLow_[controlnumber] < ccHigh_[controlnumber]) : 1);
   assert((controltype == RSJ::PWflag) ? (PitchWheelMax > PitchWheelMin) : 1);
   assert((controltype == RSJ::PWflag) ? value >= PitchWheelMin && value <= PitchWheelMax : 1);
