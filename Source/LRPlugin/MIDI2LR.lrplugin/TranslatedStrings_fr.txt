@@ -1,5 +1,6 @@
 ﻿"$$$/MIDI2LR/About/about=Mode d'emploi: connecter un contrôleur MIDI, lancer MIDI2LR, et commencer à éditer! Voir https://github.com/rsjaffe/MIDI2LR/wiki pour plus d'aide."
 "$$$/MIDI2LR/Info/BuildFiles=Générer les fichiers (pour développeur seulement)"
+"$$$/MIDI2LR/Keys/Shortcut=Raccourci"
 "$$$/MIDI2LR/Limits/Limits=Limites"
 "$$$/MIDI2LR/Options/RevealAdjustedControls=Afficher les paramètres ajustés"
 "$$$/MIDI2LR/Options/TrackingDelay=Délai de réponse" <= not 100% sure about this one

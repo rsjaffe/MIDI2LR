@@ -1,5 +1,6 @@
 ﻿"$$$/MIDI2LR/About/about=使用方法：MIDIコントローラを接続し、MIDI2LRを起動し、編集を開始！詳細については、https://github.com/rsjaffe/MIDI2LR/wikiを参照してください。"
 "$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"
+"$$$/MIDI2LR/Keys/Shortcut=ショートカット"
 "$$$/MIDI2LR/Limits/Limits=範囲"
 "$$$/MIDI2LR/Options/RevealAdjustedControls=調整されたコントロールを公開する"
 "$$$/MIDI2LR/Options/TrackingDelay=トラッキング遅延"
