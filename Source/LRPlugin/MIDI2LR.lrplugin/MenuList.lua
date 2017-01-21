@@ -590,6 +590,18 @@
     true
   },
   {
+    "ShoVwRefHoriz",
+    "Show Reference View Horizontal",
+    "Develop",
+    true
+  },
+  {
+    "ShoVwRefVert",
+    "Show Reference View Vertical",
+    "Develop",
+    true
+  },
+  {
     "ShoVwdevelop_loupe",
     "Primary Display Loupe",
     "Develop",
