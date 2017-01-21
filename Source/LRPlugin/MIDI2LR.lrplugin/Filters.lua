@@ -38,9 +38,10 @@ local function StartDialog(obstable,f)
   for i=1,10 do
     table.insert( 
       groupboxfilters, 
-      f:static_text {fill_horizontal = 1,
+      f:push_button {fill_horizontal = 1,
         width_in_chars = 40,
         truncation = 'head',
+        action = function() obstable['filter'..i] = nil end,        
         title = LrView.bind { key = 'filter'..i,
           transform = function(value) return i .. ' ' .. filtersbyuuid[value[1]] end
         },  -- title
@@ -50,7 +51,7 @@ local function StartDialog(obstable,f)
   local tabviewitems = {} 
   local filterrows, filtercolumns = 5,2
   for column=1, filtercolumns do
-    tabviewitems[column] = f:tab_view_item {title = LOC("$$$/Library/Filter/FilterLabel=Library filter")..' '..((column-1)*filterrows+1)..'-'..(column*filterrows), identifier = 'filters-'..((column-1)*filterrows+1)..'-'..(column*filterrows),}
+    tabviewitems[column] = f:tab_view_item {title = LOC("$$$/Library/Filter/FilterLabel=Library filter"):gsub(':','')..' '..((column-1)*filterrows+1)..'-'..(column*filterrows), identifier = 'filters-'..((column-1)*filterrows+1)..'-'..(column*filterrows),}
     for row=1, filterrows do
       table.insert(tabviewitems[column],f:simple_list {items = filterlist, allows_multiple_selection = false, value = LrView.bind ('filter'..((column-1)*filterrows+row)) })
     end

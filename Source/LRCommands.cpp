@@ -131,6 +131,8 @@ const std::vector<std::string> LRCommandList::Develop = {
 "Primary Display Before/After Left/Right",
 "Primary Display Before/After Top/Bottom",
 "Primary Display Before",
+"Show Reference View Horizontal",
+"Show Reference View Vertical",
 "Primary Display Loupe",
 };
 
@@ -673,6 +675,8 @@ const std::vector<std::string> LRCommandList::LRStringList = {
 "ShoVwdevelop_before_after_horiz",
 "ShoVwdevelop_before_after_vert",
 "ShoVwdevelop_before",
+"ShoVwRefHoriz",
+"ShoVwRefVert",
 "ShoVwdevelop_loupe",
 /* Basic Tone */
 "RevealPanelAdjust",

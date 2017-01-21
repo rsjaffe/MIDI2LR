@@ -1,9 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
     MIDISender.cpp
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -60,7 +62,7 @@ void MIDISender::RescanDevices() {
 }
 
 void MIDISender::InitDevices_() {
-  for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); idx++) {
+  for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); ++idx) {
     auto dev = juce::MidiOutput::openDevice(idx);
     if (dev != nullptr)
       output_devices_.emplace_back(dev);

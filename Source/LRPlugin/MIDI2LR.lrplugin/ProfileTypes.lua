@@ -50,7 +50,7 @@ local ProfileTypes = {
   slideshow = {TMP = 'Module', friendlyName = LOC("$$$/AgApplication/Menu/Window/SecondMonitor/Slideshow=Slideshow"),},
   splitToningPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/SplitToning=Split Toning"),},
   tonePanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/ToneCurve=Tone Curve"),},
-  transformPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/Panel/Transform=Transform"),},
+  transformPanel = {TMP = 'Panel', friendlyName = LOC("$$$/AgDevelop/CameraRawPanel/Transform=Transform"),},
   web = {TMP = 'Module', friendlyName = LOC("$$$/WPG/Help/Shortcuts/WebHeader=Web"),},
 }
 

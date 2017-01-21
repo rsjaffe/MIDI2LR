@@ -40,7 +40,7 @@ local photoActions = "Photo Actions"
 local primaryDisplay = LOC("$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Display")
 local profile = LOC("$$$/AgDevelop/CameraRawPanel/Profile=Profile:")
 local profiles = LOC("$$$/CRaw/Style/Profiles=Profiles")
-local reset = LOC("$$$/AgDevelop/LensCorrection/Upright/Reset=Reset")
+local reset = LOC("$$$/AgDevelop/Panel/ResetButton=Reset")
 local resetColorAdjustments = reset..' '..colorAdjustments
 local secondaryDisplay = LOC("$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display")
 local show = LOC("$$$/AgLibrary/LibraryInfo/Show=Show")
@@ -219,6 +219,9 @@ local DataBase = {
   {"ShoVwdevelop_before_after_horiz",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right"),develop,"*button*"},
   {"ShoVwdevelop_before_after_vert",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterTB=Before/After Top/Bottom"),develop,"*button*"},
   {"ShoVwdevelop_before",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Before=Before"),develop,"*button*"},
+  {"ShoVwRefHoriz",false,false,true,false,true,false,"Show Reference View Horizontal",develop,"Will not be supported until the next release after January 2017 *button*"},
+  {"ShoVwRefVert",false,false,true,false,true,false,"Show Reference View Vertical",develop,"Will not be supported until the next release after January 2017 *button*"},
+
   --develop: auto
   --develop: clipping indicators
   --develop: views
@@ -237,7 +240,7 @@ local DataBase = {
   {"WhiteBalanceFluorescent",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Fluorescent=Fluorescent"),basicTone,"Use fluorescent white balance. *button*",'adjustPanel'},
   {"WhiteBalanceShade",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Shade=Shade"),basicTone,"Use shade white balance. *button*",'adjustPanel'},
   {"WhiteBalanceTungsten",false,false,true,false,true,true,whiteBalance..' '..LOC("$$$/AgCameraRawUI/WhiteBalance/Tungsten=Tungsten"),basicTone,"Use tungsten white balance. *button*",'adjustPanel'},
-  {"AutoTone",false,false,true,false,true,true,basicTone..' '..LOC("$$$/AgCameraRawUI/AutoTone=Auto Tone"),basicTone,"Auto Tone. *button*",'adjustPanel'},
+  {"AutoTone",false,false,true,false,true,true,basicTone..' '..LOC("$$$/AgCameraRawNamedSettings/Ops/AutoTone=Auto Tone"),basicTone,"Auto Tone. *button*",'adjustPanel'},
   {"AutoBrightness",'basicTone',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoBrightness=Automatic Brightness")},
   {"AutoContrast",'basicTone',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoContrast=Automatic Contrast")},
   {"AutoExposure",'basicTone',true,false,false,true,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/AutoExposure=Automatic Exposure")},
@@ -593,7 +596,8 @@ local DataBase = {
 --
   {"GraduatedFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),localizedAdjustments,"Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"RadialFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/RadialFilters=Radial Filters"),localizedAdjustments,"Select Radial Filter View mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"RedEyeInfo",'localizedAdjustments',true,false,false,true,false,LOC("$$$/MIDI2LR/Parameters/RedEyeInfo=Red-Eye Information")},{"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),localizedAdjustments,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"RedEyeInfo",'localizedAdjustments',true,false,false,true,false,LOC("$$$/MIDI2LR/Parameters/RedEyeInfo=Red-Eye Information")},
+  {"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),localizedAdjustments,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"SpotRemoval",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),localizedAdjustments,"Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"AdjustmentBrush",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),localizedAdjustments,"Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"local_Temperature",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Temperature=Temp.").." (PV2012)",localizedAdjustments,"Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
@@ -633,7 +637,8 @@ local DataBase = {
   {"EnablePaintBasedCorrections",'localizedAdjustments',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableBrushAdjustments=Enable Brush Adjustments"),localizedAdjustments,"Enable or disable brush adjustments. *button*"},
   {"EnableRedEye",'localizedAdjustments',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableRedEye=Enable Red-Eye"),localizedAdjustments,"Enable or disable red eye correction. *button*"},
   {"EnableRetouch",'localizedAdjustments',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableSpotRemoval=Enable Spot Removal"),localizedAdjustments,"Enable or disable spot removal. *button*"},
-  {"RetouchInfo",'localizedAdjustments',true,false,false,true,false,"RetouchInfo"},{"ResetCircGrad",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRadialFilters=Reset Radial Filters"),localizedAdjustments,"Delete radial filter. *button*"},
+  {"RetouchInfo",'localizedAdjustments',true,false,false,true,false,"RetouchInfo"},
+  {"ResetCircGrad",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRadialFilters=Reset Radial Filters"),localizedAdjustments,"Delete radial filter. *button*"},
   {"ResetGradient",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetGraduatedFilters=Reset Graduated Filters"),localizedAdjustments,"Delete graduated filter. *button*"},
   {"ResetBrushing",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections"),localizedAdjustments,"Delete brush adjustments. *button*"},
   {"ResetRedeye",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye"),localizedAdjustments,"Delete red eye correction. *button*"},
@@ -708,10 +713,20 @@ for i,v in ipairs(DataBase) do
   else
     SelectivePasteHidden[v[1]] = v[8]
   end
+  end
+  if v[11] then
+    ProfileMap[v[1]] = v[11]
+  end
 end
-if v[11] then
-  ProfileMap[v[1]] = v[11]
-end
+
+local paramdisp = {}
+for i,v in pairs(LimitEligible) do
+  local found = v[1]:find(' %(')
+  if found then
+    paramdisp[i] = v[1]:sub(1,found-1)
+  else
+    paramdisp[i] = v[1]
+  end
 end
 
 local serpent = require 'serpent'
@@ -743,6 +758,7 @@ file:write([=[
 file:close()
 
 datafile = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
+
 file = assert(io.open(datafile,'w'),'Error writing to ParamList.lua')
 file:write([=[
   --[[----------------------------------------------------------------------------
@@ -778,8 +794,10 @@ file:write([=[
   local SendToMidi = ]==],serpent.block(SendToMidi, {comment = false}), [==[
 
   local ProfileMap = ]==],serpent.block(ProfileMap, {comment = false}), [==[
-
-  return {
+  
+  local ParamDisplay = ]==],serpent.block(paramdisp, {comment = false}), [==[
+  
+return {
     SelectivePasteMenu = SelectivePasteMenu,
     SelectivePasteHidden = SelectivePasteHidden,
     SelectivePasteIteration = SelectivePasteIteration,
@@ -787,6 +805,7 @@ file:write([=[
     LimitEligible = LimitEligible,
     SendToMidi = SendToMidi,
     ProfileMap = ProfileMap,
+    ParamDisplay = ParamDisplay,
     }]==])
 file:close()
 

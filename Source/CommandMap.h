@@ -4,7 +4,7 @@
 
     CommandMap.h
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -60,7 +60,7 @@ struct MIDI_Message_ID {
     if (channel < other.channel) return true;
     if (channel == other.channel) {
       if (data < other.data) return true;
-      if (data == other.data && messageType && !other.messageType) return true;
+      if (data == other.data && messageType < other.messageType) return true;
     }
     return false;
   }

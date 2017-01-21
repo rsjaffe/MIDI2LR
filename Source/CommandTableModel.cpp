@@ -1,9 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
   CommandTableModel.cpp
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -73,7 +75,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   // The graphics context's origin will already be set to the top-left of the
   // cell, whose size is specified by(width, height).
-	
+  
   // Note that the rowNumber value may be greater than the number of rows in your
   // list, so be careful that you don't assume it's less than getNumRows().
   g.setColour(juce::Colours::black);
@@ -81,25 +83,25 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
-	  switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
-	  {
-	  case NOTE:
-		  formatStr = "%d | Note: %d";
-		  channel = commands_[static_cast<size_t>(row_number)].channel;
-		  value = commands_[static_cast<size_t>(row_number)].pitch;
-		  break;
-	  case CC:
-		  formatStr = "%d | CC: %d";
-		  channel = commands_[static_cast<size_t>(row_number)].channel;
-		  value = commands_[static_cast<size_t>(row_number)].controller;
-		  break;
-	  case PITCHBEND:
-		  formatStr = "%d | Pitch: %d";
-		  channel = commands_[static_cast<size_t>(row_number)].channel;
-		  value = commands_[static_cast<size_t>(row_number)].controller;
-		  break;
-	  }
-	  g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
+    switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
+    {
+    case NOTE:
+      formatStr = "%d | Note: %d";
+      channel = commands_[static_cast<size_t>(row_number)].channel;
+      value = commands_[static_cast<size_t>(row_number)].pitch;
+      break;
+    case CC:
+      formatStr = "%d | CC: %d";
+      channel = commands_[static_cast<size_t>(row_number)].channel;
+      value = commands_[static_cast<size_t>(row_number)].controller;
+      break;
+    case PITCHBEND:
+      formatStr = "%d | Pitch: %d";
+      channel = commands_[static_cast<size_t>(row_number)].channel;
+      value = commands_[static_cast<size_t>(row_number)].controller;
+      break;
+    }
+    g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
   }
 }
 
@@ -221,10 +223,10 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
 }
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, MessageType msgType) const {
- for (size_t idx = 0u; idx < commands_.size(); idx++) {
+ for (size_t idx = 0u; idx < commands_.size(); ++idx) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
       && commands_[idx].messageType == msgType)
-      return idx;
+      return static_cast<int>(idx);
   }
   //could not find
   return std::numeric_limits<size_t>::max();

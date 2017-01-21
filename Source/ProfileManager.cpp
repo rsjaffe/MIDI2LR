@@ -1,9 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
     ProfileManager.cpp
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -113,7 +115,7 @@ void ProfileManager::switchToPreviousProfile() {
 }
 
 
-void ProfileManager::mapCommand(MIDI_Message_ID msg) {
+void ProfileManager::mapCommand(const MIDI_Message_ID& msg) {
 
     if (command_map_->getCommandforMessage(msg) == "Previous Profile") {
       switch_state_ = SWITCH_STATE::PREV;

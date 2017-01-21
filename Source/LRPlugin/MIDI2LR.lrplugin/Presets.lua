@@ -39,11 +39,12 @@ local function StartDialog(obstable,f)
   for i=1,20 do
     table.insert( 
       groupboxpresets, 
-      f:static_text {fill_horizontal = 1,
+      f:push_button {fill_horizontal = 1,
         width_in_chars = 40,
         truncation = 'head',
+        action = function() obstable['preset'..i] = nil end,
         title = LrView.bind { key = 'preset'..i,
-          transform = function(value) return LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
+          transform = function(value) return i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
         },  -- title
       } -- static_text
     )
@@ -52,9 +53,10 @@ local function StartDialog(obstable,f)
   for i=21,40 do
     table.insert( 
       groupboxpresets2, 
-      f:static_text {fill_horizontal = 1,
+      f:push_button {fill_horizontal = 1,
         width_in_chars = 40,
         truncation = 'head',
+        action = function() obstable['preset'..i] = nil end,
         title = LrView.bind { key = 'preset'..i,
           transform = function(value) return i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
         },  -- title

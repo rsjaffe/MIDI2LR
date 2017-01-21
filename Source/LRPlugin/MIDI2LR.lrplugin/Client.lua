@@ -301,6 +301,8 @@ LrTasks.startAsyncTask(
       ShoVwdevelop_before_after_horiz = function() LrApplicationView.showView('develop_before_after_horiz') end,
       ShoVwdevelop_before_after_vert  = function() LrApplicationView.showView('develop_before_after_vert') end,
       ShoVwdevelop_before             = function() LrApplicationView.showView('develop_before') end,
+      ShoVwRefHoriz                   = function() LrApplicationView.showView('develop_reference_horiz') end,
+      ShoVwRefVert                    = function() LrApplicationView.showView('develop_reference_vert') end,
       SpotRemoval              = CU.fToggleTool('dust'),
       SwToMlibrary             = CU.fChangeModule('library'),
       SwToMdevelop             = CU.fChangeModule('develop'),
@@ -437,7 +439,7 @@ LrTasks.startAsyncTask(
           LrDevelopController.setValue(param, value)
           LastParam = param
           if ProgramPreferences.ClientShowBezelOnChange then
-            local bezelname = ParamList.LimitEligible[param][1] or param
+            local bezelname = ParamList.ParamDisplay[param] or param
             LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
           if ParamList.ProfileMap[param] then
@@ -448,7 +450,7 @@ LrTasks.startAsyncTask(
             value = MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
             local precision = Ut.precision(value)
-            local bezelname = ParamList.LimitEligible[param][1] or param
+            local bezelname = ParamList.ParamDisplay[param] or param
             LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
@@ -470,7 +472,7 @@ LrTasks.startAsyncTask(
       LrDevelopController.setValue(param, value)
       LastParam = param
       if ProgramPreferences.ClientShowBezelOnChange then
-        local bezelname = ParamList.LimitEligible[param][1] or param
+        local bezelname = ParamList.ParamDisplay[param] or param
         LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
       end
       if ParamList.ProfileMap[param] then
@@ -534,7 +536,15 @@ LrTasks.startAsyncTask(
               if(ACTIONS[param]) then -- perform a one time action
                 if(tonumber(value) > BUTTON_ON) then ACTIONS[param]() end
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-                if(tonumber(value) > BUTTON_ON) then Ut.execFOM(LrDevelopController.resetToDefault,param:sub(6)) end
+                if(tonumber(value) > BUTTON_ON) then
+                  local resetparam = param:sub(6)
+                  Ut.execFOM(LrDevelopController.resetToDefault,resetparam) 
+                  if ProgramPreferences.ClientShowBezelOnChange then
+                    local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
+                    local lrvalue = LrDevelopController.getValue(resetparam)
+                    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+                  end
+                end
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
               else -- otherwise update a develop parameter

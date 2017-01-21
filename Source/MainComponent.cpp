@@ -1,9 +1,11 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
   MainComponent.cpp
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -198,7 +200,7 @@ void MainContentComponent::handleMidiCC(int midi_channel, int controller, int va
     // Display the CC parameters and add/highlight row in table corresponding to the CC
   last_command_ = juce::String::formatted("%d: CC%d [%d]", midi_channel, controller, value);
   command_table_model_.addRow(midi_channel, controller, CC);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, controller, CC);
+  row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(midi_channel, controller, CC));
   triggerAsyncUpdate();
 }
 
@@ -206,7 +208,7 @@ void MainContentComponent::handleMidiNote(int midi_channel, int note) {
     // Display the Note parameters and add/highlight row in table corresponding to the Note
   last_command_ = juce::String::formatted("%d: Note [%d]", midi_channel, note);
   command_table_model_.addRow(midi_channel, note, NOTE);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, note, NOTE);
+  row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(midi_channel, note, NOTE));
   triggerAsyncUpdate();
 }
 
@@ -214,7 +216,7 @@ void MainContentComponent::handlePitchWheel(int midi_channel, int value) {
     // Display the Pitch Wheel parameters and add/highlight row in table corresponding to the value
   last_command_ = juce::String::formatted("%d: Pitch [%d]", midi_channel, value);
   command_table_model_.addRow(midi_channel, midi_channel, PITCHBEND);
-  row_to_select_ = command_table_model_.getRowForMessage(midi_channel, midi_channel, PITCHBEND);
+  row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(midi_channel, midi_channel, PITCHBEND));
   triggerAsyncUpdate();
 }
 

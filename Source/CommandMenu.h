@@ -4,7 +4,7 @@
 
     CommandMenu.h
 
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -28,8 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
 
-class CommandMenu final: public juce::TextButton,
-  private juce::ButtonListener {
+class CommandMenu final: public juce::TextButton {
 public:
   explicit CommandMenu(const MIDI_Message_ID& msg);
   void Init(std::shared_ptr<CommandMap>& map_command);
@@ -40,8 +39,8 @@ public:
   void setSelectedItem(size_t idx);
 
 private:
-  // ButtonListener interface
-  virtual void buttonClicked(juce::Button* button) override;
+
+  virtual void clicked(const juce::ModifierKeys& modifiers) override;
 
 
   MIDI_Message_ID message_;
