@@ -23,9 +23,17 @@ but also in Info.lua (the VERSION variable).
 The project files for both platforms will be located in Builds/ (MIDI2LR.sln for
 Visual studio, and MIDI2LR.xcodeproj for XCode) once you've run Juce.
 
-The database for string translations is in another repository, MIDI2LRdb because
-of its large size. Request changes to the database when adding new strings to
-the plugin.
+Database-driven translations and commands
+------------------------------------------
+
+Any new user-visible strings in the lua plugin need to be translated. The database
+for this is at https://github.com/rsjaffe/MIDI2LRdb. It was not included in the
+main git project for space reasons.
+
+Also, any new commands need to go into the database in order to update the proper 
+Database.lua file. Once the Database.lua file is updated, the rest of the table 
+generation will occur in the lua plugin as described below in step 2 of the build
+process.
 
 Build process
 --------------------

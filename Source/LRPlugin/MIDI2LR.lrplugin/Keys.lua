@@ -106,7 +106,7 @@ local function StartDialog(obstable,f)
     obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
     table.insert(internalview1,f:row{
-        f:static_text{title = 'Shortcut Key '..i,width = LrView.share('key_name')},
+        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
@@ -119,7 +119,7 @@ local function StartDialog(obstable,f)
     obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
     table.insert(internalview2,f:row{
-        f:static_text{title = 'Shortcut Key '..i,width = LrView.share('key_name')},
+        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
         f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
         f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
         f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},

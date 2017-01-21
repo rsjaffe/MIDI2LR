@@ -7,16 +7,16 @@
 #include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION  1,6,1,104
+FILEVERSION  1,7,0,100
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
     BLOCK "040904E4"
     BEGIN
       VALUE "FileDescription",  "MIDI2LR\0"
-      VALUE "FileVersion",  "1.6.1.104\0"
+      VALUE "FileVersion",  "1.7.0.100\0"
       VALUE "ProductName",  "MIDI2LR\0"
-      VALUE "ProductVersion",  "1.6.1.104\0"
+      VALUE "ProductVersion",  "1.7.0.100\0"
     END
   END
 

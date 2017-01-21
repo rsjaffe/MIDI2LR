@@ -1,5 +1,6 @@
 ﻿"$$$/MIDI2LR/About/about=使用方法：連接MIDI控制器，啟動MIDI2LR，並開始編輯！見https://github.com/rsjaffe/MIDI2LR/wiki了解詳情。"
 "$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"
+"$$$/MIDI2LR/Keys/Shortcut=快速鍵"
 "$$$/MIDI2LR/Limits/Limits=範圍"
 "$$$/MIDI2LR/Options/RevealAdjustedControls=显示调整的控制"
 "$$$/MIDI2LR/Options/TrackingDelay=跟踪延迟"

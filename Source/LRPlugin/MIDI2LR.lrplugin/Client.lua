@@ -301,6 +301,8 @@ LrTasks.startAsyncTask(
       ShoVwdevelop_before_after_horiz = function() LrApplicationView.showView('develop_before_after_horiz') end,
       ShoVwdevelop_before_after_vert  = function() LrApplicationView.showView('develop_before_after_vert') end,
       ShoVwdevelop_before             = function() LrApplicationView.showView('develop_before') end,
+      ShoVwRefHoriz                   = function() LrApplicationView.showView('develop_reference_horiz') end,
+      ShoVwRefVert                    = function() LrApplicationView.showView('develop_reference_vert') end,
       SpotRemoval              = CU.fToggleTool('dust'),
       SwToMlibrary             = CU.fChangeModule('library'),
       SwToMdevelop             = CU.fChangeModule('develop'),
