@@ -115,7 +115,7 @@ void ProfileManager::switchToPreviousProfile() {
   switchToProfile(current_profile_index_);
 }
 
-void ProfileManager::mapCommand(MIDI_Message_ID msg) { //-V813
+void ProfileManager::mapCommand(const MIDI_Message_ID& msg) { //-V813
   if (command_map_->getCommandforMessage(msg) == "Previous Profile") {
     switch_state_ = SWITCH_STATE::PREV;
     triggerAsyncUpdate();
