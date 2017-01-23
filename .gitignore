@@ -280,3 +280,6 @@ Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.exe
 Source/LRPlugin/MIDI2LR.lrplugin/default.xml
 Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
 *.db
+
+# saved settings
+settings.bin
