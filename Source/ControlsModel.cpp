@@ -23,7 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 
 ControlsModel::ControlsModel() {}
-ControlsModel::~ControlsModel() {}
 ChannelModel::ChannelModel() {
   //program defaults
   ccLow_.fill(0);

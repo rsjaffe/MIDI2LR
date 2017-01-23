@@ -55,9 +55,10 @@ private:
 public:
   ChannelModel();
   ~ChannelModel() = default;
+  //Can write copy and move with special handling for atomics, but in lieu of that, delete
   ChannelModel(const ChannelModel&) = delete; //can't copy atomics
-  ChannelModel& operator= (const ChannelModel&) = delete; //can't assign atomics
-  ChannelModel(ChannelModel&&) = delete;
+  ChannelModel& operator= (const ChannelModel&) = delete;
+  ChannelModel(ChannelModel&&) = delete; //can't move atomics
   ChannelModel& operator=(ChannelModel&&) = delete;
   double controllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug);
   RSJ::CCmethod getCCmethod(size_t controlnumber) const noexcept(ndebug);
@@ -93,7 +94,12 @@ private:
 class ControlsModel {
 public:
   ControlsModel();
-  ~ControlsModel();
+  ~ControlsModel() = default;
+  //Can write copy and move with special handling for atomics, but in lieu of that, delete
+  ControlsModel(const ControlsModel&) = delete; //can't copy atomics
+  ControlsModel& operator= (const ControlsModel&) = delete;
+  ControlsModel(ControlsModel&&) = delete; //can't move atomics
+  ControlsModel& operator=(ControlsModel&&) = delete;
   double controllerToPlugin(short controltype, size_t channel, short controlnumber, short value) noexcept(ndebug) {
     assert(channel <= 15);
     return AllControls[channel].controllerToPlugin(controltype, controlnumber, value);
@@ -190,12 +196,12 @@ inline short ChannelModel::pluginToController(short controltype, size_t controln
       return static_cast<short>(round(pluginV * (PitchWheelMax - PitchWheelMin))) + PitchWheelMin;
     case RSJ::CCflag:
       {
-        short cv = static_cast<short>(round(pluginV *
+        if (CCmethod_[controlnumber] == RSJ::CCmethod::absolute)
+          return static_cast<short>(round(pluginV *
           (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
-        if (CCmethod_[controlnumber] != RSJ::CCmethod::absolute && RSJ::now_ms() -
-          kUpdateDelay > lastUpdate_.load(std::memory_order_acquire)) {
-          currentV_[controlnumber].store(cv, std::memory_order_relaxed);
-        }
+        short cv = static_cast<short>(round(pluginV * ccHigh_[controlnumber])); //ccLow == 0 for non-absolute
+        if (RSJ::now_ms() - kUpdateDelay > lastUpdate_.load(std::memory_order_acquire))
+          currentV_[controlnumber].store(cv, std::memory_order_release);
         return cv;
       }
     case RSJ::NoteOnFlag:
@@ -273,20 +279,22 @@ inline bool ChannelModel::isNRPN(size_t controlnumber) const noexcept(ndebug) {
 }
 
 inline double ChannelModel::offsetresult(short diff, size_t controlnumber) noexcept(ndebug) {
-  assert(ccHigh_[controlnumber] > ccLow_[controlnumber]);
+  assert(ccHigh_[controlnumber] > 0); //CCLow will always be 0 for offset controls
   assert(diff <= kMaxNRPN && diff >= -kMaxNRPN);
   assert(controlnumber <= kMaxNRPN);
   lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
   short cv = currentV_[controlnumber].fetch_add(diff) + diff;
-  if (cv < ccLow_[controlnumber]) {//fix currentV unless another thread has already altered it
-    currentV_[controlnumber].compare_exchange_strong(cv, ccLow_[controlnumber]);
+  if (cv < 0) {//fix currentV unless another thread has already altered it
+    currentV_[controlnumber].compare_exchange_strong(cv, static_cast<short>(0),
+      std::memory_order_release, std::memory_order_relaxed);
     return 0.0;
   }
   if (cv > ccHigh_[controlnumber]) {//fix currentV unless another thread has already altered it
-    currentV_[controlnumber].compare_exchange_strong(cv, ccHigh_[controlnumber]);
+    currentV_[controlnumber].compare_exchange_strong(cv, ccHigh_[controlnumber],
+      std::memory_order_release, std::memory_order_relaxed);
     return 1.0;
   }
-  return static_cast<double>(cv - ccLow_[controlnumber]) / static_cast<double>(ccHigh_[controlnumber] - ccLow_[controlnumber]);
+  return static_cast<double>(cv) / static_cast<double>(ccHigh_[controlnumber]);
 }
 
 CEREAL_CLASS_VERSION(ChannelModel, 1);

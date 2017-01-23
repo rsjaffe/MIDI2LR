@@ -281,9 +281,9 @@ void CCoptions::bindToControl(size_t channel, short number) noexcept {
   boundnumber = number;
   controlID->setText("channel " + juce::String(static_cast<unsigned>(channel)) + " number " + juce::String(number),
     juce::dontSendNotification);
-  minvaltext->setText(juce::String(controls_model_->getCCmin(channel, number)), juce::dontSendNotification);
-  maxvaltext->setText(juce::String(controls_model_->getCCmax(channel, number)), juce::dontSendNotification);
-  switch (controls_model_->getCCmethod(channel, number)) {
+  minvaltext->setText(juce::String(controls_model_->getCCmin(boundchannel, boundnumber)), juce::dontSendNotification);
+  maxvaltext->setText(juce::String(controls_model_->getCCmax(boundchannel, boundnumber)), juce::dontSendNotification);
+  switch (controls_model_->getCCmethod(boundchannel, boundnumber)) {
     case RSJ::CCmethod::absolute:
       absbutton->setToggleState(true, juce::sendNotification);
       break;
