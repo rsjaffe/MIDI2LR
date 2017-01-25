@@ -70,12 +70,12 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
 void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
   int value = 0, channel = 0;
-  juce::String formatStr;  
+  juce::String formatStr;
   //This must draw one of the cells.
 
   // The graphics context's origin will already be set to the top-left of the
   // cell, whose size is specified by(width, height).
-  
+
   // Note that the rowNumber value may be greater than the number of rows in your
   // list, so be careful that you don't assume it's less than getNumRows().
   g.setColour(juce::Colours::black);
@@ -85,21 +85,21 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
   {
     switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
     {
-    case NOTE:
-      formatStr = "%d | Note: %d";
-      channel = commands_[static_cast<size_t>(row_number)].channel;
-      value = commands_[static_cast<size_t>(row_number)].pitch;
-      break;
-    case CC:
-      formatStr = "%d | CC: %d";
-      channel = commands_[static_cast<size_t>(row_number)].channel;
-      value = commands_[static_cast<size_t>(row_number)].controller;
-      break;
-    case PITCHBEND:
-      formatStr = "%d | Pitch: %d";
-      channel = commands_[static_cast<size_t>(row_number)].channel;
-      value = commands_[static_cast<size_t>(row_number)].controller;
-      break;
+      case NOTE:
+        formatStr = "%d | Note: %d";
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = commands_[static_cast<size_t>(row_number)].pitch;
+        break;
+      case CC:
+        formatStr = "%d | CC: %d";
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = commands_[static_cast<size_t>(row_number)].controller;
+        break;
+      case PITCHBEND:
+        formatStr = "%d | Pitch: %d";
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = 0;
+        break;
     }
     g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
   }
@@ -158,8 +158,8 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
 void CommandTableModel::addRow(int midi_channel, int midi_data, MessageType msgType) {
   const MIDI_Message_ID msg{midi_channel, midi_data, msgType};
   if (command_map_ && !command_map_->messageExistsInMap(msg)) {
-      commands_.push_back(msg);
-      command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
+    commands_.push_back(msg);
+    command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
     Sort(); //re-sort list
   }
 }
@@ -217,13 +217,19 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root) {
           getStringAttribute("command_string").toStdString(), note);
       }
     }
+    else if (setting->hasAttribute("pitchbend")) {
+      const MIDI_Message_ID pb{setting->getIntAttribute("channel"),0,PITCHBEND};
+      addRow(pb.channel, 0, PITCHBEND);
+      command_map_->addCommandforMessage(setting->
+        getStringAttribute("command_string").toStdString(), pb);
+    }
     setting = setting->getNextElement();
   }
   Sort();
 }
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, MessageType msgType) const {
- for (size_t idx = 0u; idx < commands_.size(); ++idx) {
+  for (size_t idx = 0u; idx < commands_.size(); ++idx) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
       && commands_[idx].messageType == msgType)
       return static_cast<int>(idx);

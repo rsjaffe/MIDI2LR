@@ -56,7 +56,7 @@ void CommandMap::toXMLDocument(const juce::File& file) const {
     {
       case NOTE: setting->setAttribute("note", map_entry.first.pitch);                break;
       case CC: setting->setAttribute("controller", map_entry.first.controller);       break;
-      case PITCHBEND: setting->setAttribute("pitchbend", map_entry.first.controller); break;
+      case PITCHBEND: setting->setAttribute("pitchbend", 0); break;
     }
     setting->setAttribute("command_string", map_entry.second);
       root.addChildElement(setting);
