@@ -78,7 +78,8 @@ private:
   friend class cereal::access;
   template<class Archive>
   void serialize(Archive & archive, std::uint32_t const version) {
-    archive(CCmethod_, ccHigh_, ccLow_, PitchWheelMax, PitchWheelMin); // serialize things by passing them to the archive
+    if (version == 1)// serialize things by passing them to the archive
+      archive(CCmethod_, ccHigh_, ccLow_, PitchWheelMax, PitchWheelMin);
   }
   bool isNRPN(size_t controlnumber) const noexcept(ndebug);
   double offsetresult(short diff, size_t controlnumber) noexcept(ndebug);
@@ -160,7 +161,8 @@ private:
   friend class cereal::access;
   template<class Archive>
   void serialize(Archive & archive, std::uint32_t const version) {
-    archive(AllControls); // serialize things by passing them to the archive
+    if (version == 1)// serialize things by passing them to the archive
+      archive(AllControls);
   }
   std::array<ChannelModel, 16> AllControls;
 };
@@ -236,7 +238,7 @@ inline void ChannelModel::setCCmax(size_t controlnumber, short value) noexcept(n
     short max = (isNRPN(controlnumber) ? kMaxNRPN : kMaxMIDI);
     ccHigh_[controlnumber] = (value <= ccLow_[controlnumber] || value > max) ? max : value;
   }
-  currentV_[controlnumber] = (ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2;
+  currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);
 }
 
 inline void ChannelModel::setCCmethod(size_t controlnumber, RSJ::CCmethod value) noexcept(ndebug) {
@@ -252,7 +254,7 @@ inline void ChannelModel::setCCmin(size_t controlnumber, short value) noexcept(n
     ccLow_[controlnumber] = 0;
   else
     ccLow_[controlnumber] = (value < 0 || value >= ccHigh_[controlnumber]) ? 0 : value;
-  currentV_[controlnumber] = (ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2;
+  currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);
 }
 
 inline void ChannelModel::setPWmax(short value) noexcept(ndebug) {
@@ -283,7 +285,7 @@ inline double ChannelModel::offsetresult(short diff, size_t controlnumber) noexc
   assert(diff <= kMaxNRPN && diff >= -kMaxNRPN);
   assert(controlnumber <= kMaxNRPN);
   lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
-  short cv = currentV_[controlnumber].fetch_add(diff) + diff;
+  short cv = currentV_[controlnumber].fetch_add(diff, std::memory_order_acquire) + diff;
   if (cv < 0) {//fix currentV unless another thread has already altered it
     currentV_[controlnumber].compare_exchange_strong(cv, static_cast<short>(0),
       std::memory_order_release, std::memory_order_relaxed);
