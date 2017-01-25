@@ -27,7 +27,7 @@ ChannelModel::ChannelModel() {
   //program defaults
   ccLow_.fill(0);
   ccHigh_.fill(kMaxNRPN);
-  CCmethod_.fill(RSJ::CCmethod::absolute);
+  ccMethod_.fill(RSJ::CCmethod::absolute);
   for (auto &v : currentV_) //can't use fill as copy/assign deleted for atomic
     v.store(kMaxNRPNHalf, std::memory_order_relaxed);
   for (size_t a = 0; a <= kMaxMIDI; ++a) {
@@ -37,43 +37,43 @@ ChannelModel::ChannelModel() {
   //load settings
 }
 
-double ChannelModel::controllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug) {
-  assert((controltype == RSJ::CCflag && CCmethod_[controlnumber] == RSJ::CCmethod::absolute) ? (ccLow_[controlnumber] < ccHigh_[controlnumber]) : 1);
-  assert((controltype == RSJ::PWflag) ? (PitchWheelMax > PitchWheelMin) : 1);
-  assert((controltype == RSJ::PWflag) ? value >= PitchWheelMin && value <= PitchWheelMax : 1);
+double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug) {
+  assert((controltype == RSJ::kCCFlag && ccMethod_[controlnumber] == RSJ::CCmethod::absolute) ? (ccLow_[controlnumber] < ccHigh_[controlnumber]) : 1);
+  assert((controltype == RSJ::kPWFlag) ? (pitchWheelMax_ > pitchWheelMin_) : 1);
+  assert((controltype == RSJ::kPWFlag) ? value >= pitchWheelMin_ && value <= pitchWheelMax_ : 1);
   //note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7 bits, high bits are shifted one right when placed into short.
   switch (controltype) {
-    case RSJ::PWflag:
-      return static_cast<double>(value - PitchWheelMin) / static_cast<double>(PitchWheelMax - PitchWheelMin);
-    case RSJ::CCflag:
-      switch (CCmethod_[controlnumber]) {
+    case RSJ::kPWFlag:
+      return static_cast<double>(value - pitchWheelMin_) / static_cast<double>(pitchWheelMax_ - pitchWheelMin_);
+    case RSJ::kCCFlag:
+      switch (ccMethod_[controlnumber]) {
         case RSJ::CCmethod::absolute:
           return static_cast<double>(value - ccLow_[controlnumber]) / static_cast<double>(ccHigh_[controlnumber] - ccLow_[controlnumber]);
         case RSJ::CCmethod::binaryoffset:
-          if (isNRPN(controlnumber))
-            return offsetresult(value - kBit14, controlnumber);
+          if (IsNRPN_(controlnumber))
+            return OffsetResult_(value - kBit14, controlnumber);
           else
-            return offsetresult(value - kBit7, controlnumber);
+            return OffsetResult_(value - kBit7, controlnumber);
         case RSJ::CCmethod::signmagnitude:
-          if (isNRPN(controlnumber))
-            return offsetresult((value & kBit14) ? -(value & kLow13Bits) : value, controlnumber);
+          if (IsNRPN_(controlnumber))
+            return OffsetResult_((value & kBit14) ? -(value & kLow13Bits) : value, controlnumber);
           else
-            return offsetresult((value & kBit7) ? -(value & kLow6Bits) : value, controlnumber);
+            return OffsetResult_((value & kBit7) ? -(value & kLow6Bits) : value, controlnumber);
         case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
-          if (isNRPN(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-            return offsetresult((value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, controlnumber);
+          if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
+            return OffsetResult_((value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, controlnumber);
           else
-            return offsetresult((value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, controlnumber);
+            return OffsetResult_((value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, controlnumber);
         default:
-          assert(!"Should be unreachable code in controllerToPlugin--unknown CCmethod");
+          assert(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
           return 0.0;
       }
-    case RSJ::NoteOnFlag:
+    case RSJ::kNoteOnFlag:
       return 1.0;
-    case RSJ::NoteOffFlag:
+    case RSJ::kNoteOffFlag:
       return 0.0;
     default:
-      assert(!"Should be unreachable code in controllerToPlugin--unknown control type");
+      assert(!"Should be unreachable code in ControllerToPlugin--unknown control type");
       return 0.0;
   }
 }

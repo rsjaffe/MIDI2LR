@@ -77,13 +77,13 @@ void LR_IPC_OUT::sendCommand(const std::string& command) {
 void LR_IPC_OUT::handleMIDI(RSJ::Message mm) {
   MessageType mt;
   switch (mm.MessageType) {//this is needed because mapping uses custom structure
-    case RSJ::CCflag:
+    case RSJ::kCCFlag:
       mt = CC;
       break;
-    case RSJ::NoteOnFlag:
+    case RSJ::kNoteOnFlag:
       mt = NOTE;
       break;
-    case RSJ::PWflag:
+    case RSJ::kPWFlag:
       mt = PITCHBEND;
       break;
     default:
@@ -102,7 +102,7 @@ void LR_IPC_OUT::handleMIDI(RSJ::Message mm) {
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
-    double computed_value = controls_model_->controllerToPlugin(mm.MessageType, mm.Channel,
+    double computed_value = controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel,
       mm.Number, mm.Value);
     command_to_send += ' ' + std::to_string(computed_value) + '\n';
     {

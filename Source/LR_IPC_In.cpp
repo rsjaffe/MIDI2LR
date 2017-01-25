@@ -169,22 +169,22 @@ void LR_IPC_IN::processLine(const std::string& line) {
           short msgtype{0};
           switch (msg->messageType) {
             case NOTE:
-              msgtype = RSJ::NoteOnFlag;
+              msgtype = RSJ::kNoteOnFlag;
               break;
             case CC:
-              msgtype = RSJ::CCflag;
+              msgtype = RSJ::kCCFlag;
               break;
             case PITCHBEND:
-              msgtype = RSJ::PWflag;
+              msgtype = RSJ::kPWFlag;
           }
-          const auto value = controls_model_->pluginToController(msgtype, static_cast<short>(msg->channel),
+          const auto value = controls_model_->PluginToController(msgtype, static_cast<short>(msg->channel),
             static_cast<short>(msg->controller), original_value);
 
           if (midi_sender_) {
             switch (msgtype) {
-              case RSJ::NoteOnFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-              case RSJ::CCflag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-              case RSJ::PWflag: midi_sender_->sendPitchBend(msg->channel, value); break;
+              case RSJ::kNoteOnFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+              case RSJ::kCCFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+              case RSJ::kPWFlag: midi_sender_->sendPitchBend(msg->channel, value); break;
             }
           }
         }

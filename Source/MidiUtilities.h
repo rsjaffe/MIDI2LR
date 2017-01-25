@@ -24,14 +24,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include "../JuceLibraryCode/JuceHeader.h"
 namespace RSJ {
-  constexpr short NoteOffFlag = 0x8;
-  constexpr short NoteOnFlag = 0x9;
-  constexpr short KeyPressureFlag = 0xA; //Individual Key Pressure
-  constexpr short CCflag = 0xB;
-  constexpr short PgmChangeFlag = 0xC;
-  constexpr short ChanPressureFlag = 0xD; //Max Key Pressure
-  constexpr short PWflag = 0xE;//Pitch Wheel
-  constexpr short SystemFlag = 0xF;
+  constexpr short kNoteOffFlag = 0x8;
+  constexpr short kNoteOnFlag = 0x9;
+  constexpr short kKeyPressureFlag = 0xA; //Individual Key Pressure
+  constexpr short kCCFlag = 0xB;
+  constexpr short kPgmChangeFlag = 0xC;
+  constexpr short kChanPressureFlag = 0xD; //Max Key Pressure
+  constexpr short kPWFlag = 0xE;//Pitch Wheel
+  constexpr short kSystemFlag = 0xF;
 
   struct Message {
     short MessageType;
@@ -53,27 +53,29 @@ namespace RSJ {
     }
     short mt = raw[0] >> 4;
     //don't process system common messages
-    if (mt == SystemFlag) return mess;
+    if (mt == kSystemFlag) return mess;
     mess.MessageType = mt;
     mess.Channel = raw[0] & 0xF;
     switch (mess.MessageType) {
-      case PWflag:
+      case kPWFlag:
         mess.Value = raw[2] << 7 | raw[1];
         mess.Number = 0;
         break;
-      case CCflag:
-      case KeyPressureFlag:
-      case NoteOffFlag:
-      case NoteOnFlag:
+      case kCCFlag:
+      case kKeyPressureFlag:
+      case kNoteOffFlag:
+      case kNoteOnFlag:
         mess.Value = raw[2];
         mess.Number = raw[1];
         break;
-      case PgmChangeFlag:
+      case kPgmChangeFlag:
         mess.Number = raw[1];
         break;
-      case ChanPressureFlag:
+      case kChanPressureFlag:
         mess.Value = raw[1];
         break;
+      default:
+        assert(!"Default should be unreachable in ParseMidi");
     }
     return mess;
   }

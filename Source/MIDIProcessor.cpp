@@ -34,11 +34,11 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
   const juce::MidiMessage& message) {
   RSJ::Message mess(RSJ::ParseMidi(message));
   switch (mess.MessageType) {
-    case RSJ::CCflag:
+    case RSJ::kCCFlag:
       if (nrpn_filter_.ProcessMidi(mess.Channel, mess.Number, mess.Value)) { //true if nrpn piece
         if (nrpn_filter_.IsReady(mess.Channel)) { //send when finished
           for (const auto listener : listeners_)
-            listener->handleMIDI(RSJ::Message{RSJ::CCflag, mess.Channel,
+            listener->handleMIDI(RSJ::Message{RSJ::kCCFlag, mess.Channel,
               nrpn_filter_.GetControl(mess.Channel),
               nrpn_filter_.GetValue(mess.Channel)});
           nrpn_filter_.Clear(mess.Channel);
@@ -49,8 +49,8 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
           listener->handleMIDI(mess);
       }
       break;
-    case RSJ::NoteOnFlag:
-    case RSJ::PWflag:
+    case RSJ::kNoteOnFlag:
+    case RSJ::kPWFlag:
       for (const auto listener : listeners_) {
         listener->handleMIDI(mess);
       }

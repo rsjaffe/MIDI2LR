@@ -200,13 +200,13 @@ void MainContentComponent::handleMIDI(RSJ::Message mm) {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
   MessageType mt;
   switch (mm.MessageType) {//this is needed because mapping uses custom structure
-    case RSJ::CCflag:
+    case RSJ::kCCFlag:
       mt = CC;
       break;
-    case RSJ::NoteOnFlag:
+    case RSJ::kNoteOnFlag:
       mt = NOTE;
       break;
-    case RSJ::PWflag:
+    case RSJ::kPWFlag:
       mt = PITCHBEND;
       break;
     default: //shouldn't receive any messages note categorized above
