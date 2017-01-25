@@ -71,9 +71,9 @@ namespace std {
   template <>
   struct hash<MIDI_Message_ID> {
     std::size_t operator()(const MIDI_Message_ID& k) const noexcept {
-      return std::hash<int>()(k.messageType) ^ std::hash<int>()(k.channel) ^
-        std::hash<int>()(k.data << 2);
-    }
+      return std::hash<int_fast32_t>()((int_fast32_t(k.messageType) << 8) |
+        int_fast32_t(k.channel) | (int_fast32_t(k.controller) << 16));
+    } //channel is one byte, messagetype is one byte, controller is two bytes
   };
 }
 
