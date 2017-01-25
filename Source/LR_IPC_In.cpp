@@ -177,8 +177,8 @@ void LR_IPC_IN::processLine(const std::string& line) {
             case PITCHBEND:
               msgtype = RSJ::kPWFlag;
           }
-          const auto value = controls_model_->PluginToController(msgtype, 
-            static_cast<size_t>((msg->channel) - 1),
+          const auto value = controls_model_->PluginToController(msgtype,
+            static_cast<size_t>(msg->channel - 1),
             static_cast<short>(msg->controller), original_value);
 
           if (midi_sender_) {
