@@ -38,9 +38,9 @@ namespace RSJ {
     short Channel;
     short Number;
     short Value;
-    Message():
+    constexpr Message():
       MessageType(0), Channel(0), Number(0), Value(0) {};
-    Message(short mt, short ch, short nu, short va):
+    constexpr Message(short mt, short ch, short nu, short va):
       MessageType(mt), Channel(ch), Number(nu), Value(va) {};
   };
 

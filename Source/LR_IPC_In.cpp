@@ -32,9 +32,6 @@ namespace {
   constexpr int kEmptyWait = 100;
   constexpr auto kHost = "127.0.0.1";
   constexpr int kLrInPort = 58764;
-  constexpr double kMaxMIDI = 127.0;
-  constexpr double kMaxNRPN = 16383.0;
-  constexpr double kMaxPitchBendNRPN = 15300.0;
   constexpr int kNotConnectedWait = 333;
   constexpr int kReadyWait = 0;
   constexpr int kStopWait = 1000;
