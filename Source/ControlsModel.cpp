@@ -26,7 +26,7 @@ ControlsModel::ControlsModel() {}
 ChannelModel::ChannelModel() {
   //program defaults
   ccLow_.fill(0);
-  ccHigh_.fill(kMaxNRPN);
+  ccHigh_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here
   ccMethod_.fill(RSJ::CCmethod::absolute);
   for (auto &v : currentV_) //can't use fill as copy/assign deleted for atomic
     v.store(kMaxNRPNHalf, std::memory_order_relaxed);
