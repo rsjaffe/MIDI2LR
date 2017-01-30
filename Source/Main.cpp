@@ -31,9 +31,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <exception>
+#include <fstream>
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include <cereal/archives/binary.hpp>
 #include "CommandMap.h"
+#include "ControlsModel.h"
 #include "LR_IPC_IN.h"
 #include "LR_IPC_OUT.h"
 #include "MainComponent.h"
@@ -41,6 +44,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDISender.h"
 #include "SettingsManager.h"
 #include "VersionChecker.h"
+#include "CCoptions.h"
+#include "PWoptions.h"
 
 const juce::String ShutDownString{"--LRSHUTDOWN"};
 
@@ -48,12 +53,15 @@ class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
   MIDI2LRApplication():
     command_map_{std::make_shared<CommandMap>()},
-    lr_ipc_in_{std::make_shared<LR_IPC_IN>()},
-    lr_ipc_out_{std::make_shared<LR_IPC_OUT>()},
+    lr_ipc_in_{std::make_shared<LR_IPC_IN>(&controls_model_)},
+    lr_ipc_out_{std::make_shared<LR_IPC_OUT>(&controls_model_)},
     midi_processor_{std::make_shared<MIDIProcessor>()},
     midi_sender_{std::make_shared<MIDISender>()},
-    profile_manager_{std::make_shared<ProfileManager>()},
-    settings_manager_{std::make_shared<SettingsManager>()} {}
+    profile_manager_{std::make_shared<ProfileManager>(&controls_model_)},
+    settings_manager_{std::make_shared<SettingsManager>()} {
+    CCoptions::LinkToControlsModel(&controls_model_);
+    PWoptions::LinkToControlsModel(&controls_model_);
+  }
 
   const juce::String getApplicationName() override {
     return ProjectInfo::projectName;
@@ -83,6 +91,13 @@ public:
     // be run.
 
     if (command_line != ShutDownString) {
+      {//scoped so archive gets flushed
+        std::ifstream infile("settings.bin", std::ios::in | std::ios::binary);
+        if (infile.is_open() && !infile.eof()) {
+          cereal::BinaryInputArchive iarchive(infile);
+          iarchive(controls_model_);
+        }
+      }
       midi_processor_->Init();
       midi_sender_->Init();
       lr_ipc_out_->Init(command_map_, midi_processor_);
@@ -138,6 +153,11 @@ public:
         getSiblingFile("default.xml");
       command_map_->toXMLDocument(default_profile);
     }
+    {//scoped so archive gets flushed
+      std::ofstream outfile("settings.bin", std::ios::out | std::ios::binary | std::ios::trunc);
+      cereal::BinaryOutputArchive oarchive(outfile);
+      oarchive(controls_model_);
+    }
     quit();
   }
 
@@ -180,6 +200,7 @@ private:
   std::shared_ptr<ProfileManager> profile_manager_;
   std::shared_ptr<SettingsManager> settings_manager_;
   std::unique_ptr<MainWindow> main_window_;
+  ControlsModel controls_model_;
   VersionChecker version_checker_;
 };
 

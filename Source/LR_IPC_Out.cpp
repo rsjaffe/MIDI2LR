@@ -22,19 +22,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_OUT.h"
 #include "CommandMap.h"
+
 #include "LRCommands.h"
 
 namespace {
   constexpr int kConnectTryTime = 100;
   constexpr auto kHost = "127.0.0.1";
   constexpr int kLrOutPort = 58763;
-  constexpr double kMaxMIDI = 127.0;
-  constexpr double kMaxNRPN = 16383.0;
-  constexpr double kMaxPitchBendNRPN = 15300.0; // for iConQcon in Samplitude mode. ToDo: make the value user-editable!
   constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_OUT::LR_IPC_OUT(): juce::InterprocessConnection() {}
+LR_IPC_OUT::LR_IPC_OUT(ControlsModel* c_model):
+  controls_model_{c_model},
+  juce::InterprocessConnection() {}
 
 LR_IPC_OUT::~LR_IPC_OUT() {
   {
@@ -74,70 +74,40 @@ void LR_IPC_OUT::sendCommand(const std::string& command) {
   juce::AsyncUpdater::triggerAsyncUpdate();
 }
 
-void LR_IPC_OUT::handleMidiCC(int midi_channel, int controller, int value) {
-  MIDI_Message_ID message{midi_channel, controller, CC};
+void LR_IPC_OUT::handleMIDI(RSJ::Message mm) {
+  MessageType mt;
+  switch (mm.MessageType) {//this is needed because mapping uses custom structure
+    case RSJ::kCCFlag:
+      mt = CC;
+      break;
+    case RSJ::kNoteOnFlag:
+      mt = NOTE;
+      break;
+    case RSJ::kPWFlag:
+      mt = PITCHBEND;
+      break;
+    default:
+      assert(0);//shouldn't have non-handled message type
+      mt = CC;
+  }
+//used to handling channel numbers 1-based
+  MIDI_Message_ID message{mm.Channel + 1, mm.Number, mt};
 
   if (command_map_) {
     if (!command_map_->messageExistsInMap(message) ||
       command_map_->getCommandforMessage(message) == "Unmapped" ||
       find(LRCommandList::NextPrevProfile.begin(),
-      LRCommandList::NextPrevProfile.end(),
-      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
+        LRCommandList::NextPrevProfile.end(),
+        command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
       return;
 
     auto command_to_send = command_map_->getCommandforMessage(message);
-    double computed_value = value;
-    computed_value /= (controller < 128) ? kMaxMIDI : kMaxNRPN;
-
+    double computed_value = controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel,
+      mm.Number, mm.Value);
     command_to_send += ' ' + std::to_string(computed_value) + '\n';
     {
       std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
       command_ += command_to_send;
-    }
-    juce::AsyncUpdater::triggerAsyncUpdate();
-  }
-}
-
-void LR_IPC_OUT::handleMidiNote(int midi_channel, int note) {
-  MIDI_Message_ID message{midi_channel, note, NOTE};
-
-  if (command_map_) {
-    if (!command_map_->messageExistsInMap(message) ||
-      command_map_->getCommandforMessage(message) == "Unmapped" ||
-      find(LRCommandList::NextPrevProfile.begin(),
-      LRCommandList::NextPrevProfile.end(),
-      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
-      return;
-
-    auto command_to_send = command_map_->getCommandforMessage(message);
-    command_to_send += " 1\n";
-    {
-      std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-      command_ += command_to_send;
-    }
-    juce::AsyncUpdater::triggerAsyncUpdate();
-  }
-}
-
-void LR_IPC_OUT::handlePitchWheel(int midi_channel, int value) {
-  MIDI_Message_ID message{midi_channel, midi_channel, PITCHBEND};
-
-  if (command_map_) {
-    if (!command_map_->messageExistsInMap(message) ||
-      command_map_->getCommandforMessage(message) == "Unmapped" ||
-      find(LRCommandList::NextPrevProfile.begin(),
-      LRCommandList::NextPrevProfile.end(),
-      command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end())
-      return;
-
-    juce::String command_to_send = command_map_->getCommandforMessage(message);
-    double computed_value = value;
-	computed_value /= kMaxPitchBendNRPN;
-
-    command_to_send += juce::String::formatted(" %g\n", computed_value);
-    {
-      std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-      command_ += command_to_send.toStdString();
     }
     juce::AsyncUpdater::triggerAsyncUpdate();
   }

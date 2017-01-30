@@ -57,7 +57,6 @@ namespace RSJ {
       return *this;
     } //don't increment on move
 
-
   protected:
     ~counter() // objects should never be removed through pointers of this type
     {

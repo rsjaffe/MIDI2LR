@@ -260,9 +260,9 @@ xcuserdata
 *.xcuserstate
 ## added by RJ
 *.nib
-
-Source/LRPlugin/MIDI2LR.lrplugin/untitled.lua
-Source/LRPlugin/MIDI2LR.lrplugin/test.lua
+##
+## PVS-Studio
+.plog
 
 DoxyGen/html
 DoxyGen/rtf
@@ -278,4 +278,8 @@ Source/LRPlugin/MIDI2LR.lrplugin/GeneratedFromDatabase-ReadMe.txt
 #other files
 Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.exe
 Source/LRPlugin/MIDI2LR.lrplugin/default.xml
+Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
 *.db
+
+# saved settings
+settings.bin

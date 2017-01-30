@@ -6,6 +6,10 @@
               companyEmail="rsjaffe@gmail.com">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="ClSPd1" name="PWoptions.cpp" compile="1" resource="0" file="Source/PWoptions.cpp"/>
+      <FILE id="IXtTCs" name="PWoptions.h" compile="0" resource="0" file="Source/PWoptions.h"/>
+      <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
+      <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
       <GROUP id="{64A53798-7D11-73F5-9678-76E2C116E917}" name="Utilities">
         <FILE id="vNnHnW" name="GSL.h" compile="0" resource="0" file="Source/Utilities/GSL.h"/>
         <FILE id="FNdro6" name="Utilities.cpp" compile="1" resource="0" file="Source/Utilities/Utilities.cpp"/>
@@ -22,6 +26,9 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
+      <FILE id="zLeGKN" name="ControlsModel.cpp" compile="1" resource="0"
+            file="Source/ControlsModel.cpp"/>
+      <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="Source/ControlsModel.h"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>
       <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
       <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
@@ -40,6 +47,7 @@
       <FILE id="L4doqk" name="MIDIProcessor.h" compile="0" resource="0" file="Source/MIDIProcessor.h"/>
       <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
       <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
+      <FILE id="rID3Fo" name="MidiUtilities.h" compile="0" resource="0" file="Source/MidiUtilities.h"/>
       <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="Source/NrpnMessage.h"/>
       <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="Source/NrpnMessage.cpp"/>
       <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"

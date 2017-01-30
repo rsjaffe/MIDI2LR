@@ -1,0 +1,1157 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Solution_Path">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SolutionPath" type="xs:string" minOccurs="0" />
+                <xs:element name="SolutionVersion" type="xs:string" minOccurs="0" />
+                <xs:element name="PlogVersion" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="ModificationDate" msdata:DateTimeMode="Utc" type="xs:dateTime" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PVS-Studio_Analysis_Log">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FavIcon" type="xs:boolean" minOccurs="0" />
+                <xs:element name="Level" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="DefaultOrder" type="xs:int" minOccurs="0" />
+                <xs:element name="ErrorCode" type="xs:string" minOccurs="0" />
+                <xs:element name="Message" type="xs:string" />
+                <xs:element name="Project" type="xs:string" minOccurs="0" />
+                <xs:element name="ShortFile" type="xs:string" minOccurs="0" />
+                <xs:element name="Line" type="xs:int" />
+                <xs:element name="FalseAlarm" type="xs:boolean" minOccurs="0" />
+                <xs:element name="File" type="xs:string" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="TrialMessage" type="xs:boolean" minOccurs="0" />
+                <xs:element name="Analyzer" type="xs:int" minOccurs="0" />
+                <xs:element name="LineExtension" type="xs:string" minOccurs="0" />
+                <xs:element name="Retired" type="xs:boolean" default="false" minOccurs="0" />
+                <xs:element name="AnalyzedSourceFiles" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//PVS-Studio_Analysis_Log" />
+        <xs:field xpath="Line" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="File" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <Solution_Path>
+    <SolutionPath>Q:\Documents\GitHub\MIDI2LR\Builds\VisualStudio2015\MIDI2LR.sln</SolutionPath>
+    <SolutionVersion>14.0</SolutionVersion>
+    <PlogVersion>4</PlogVersion>
+    <ModificationDate>2017-01-04T15:29:07.3993208Z</ModificationDate>
+  </Solution_Path>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>1</DefaultOrder>
+    <ErrorCode>V004</ErrorCode>
+    <Message>Diagnostics from the 64-bit rule set are not entirely accurate without the appropriate 64-bit compiler. Consider utilizing 64-bit compiler if possible.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile xml:space="preserve"> </ShortFile>
+    <Line>1</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File xml:space="preserve"> </File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>0</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>2</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>145</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>1266719463</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>1494224736</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>3</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>149</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>3557109941</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>1493653064</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>4</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>153</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>1584458416</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>1056975439</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>5</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>157</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>1265690737</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>3442759995</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>6</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>161</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>3344831131</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>1375442724</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>7</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>165</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>2660390203</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>723100503</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>8</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>169</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>2928825659</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>724149079</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>9</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>173</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>2563064943</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>2311577320</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>10</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>177</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>429433038</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>2311528168</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>11</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>181</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>3021882952</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>1310338617</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>12</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>185</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>1566580874</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>1331854743</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>13</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>189</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>1566580810</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>1331854759</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>193</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>3949207528</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>2064727347</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>15</DefaultOrder>
+    <ErrorCode>V547</ErrorCode>
+    <Message>Expression 'channel &gt;= 0' is always true. Unsigned type value is always &gt;= 0.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>controlsmodel.h</ShortFile>
+    <Line>197</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\controlsmodel.h</File>
+    <CodePrev>3949204456</CodePrev>
+    <CodeCurrent>648828231</CodeCurrent>
+    <CodeNext>2064727219</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\ccoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\controlsmodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>16</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 4 used: ...tFocusOrder(4);.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>ccoptions.cpp</ShortFile>
+    <Line>86</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\ccoptions.cpp</File>
+    <CodePrev>3850307012</CodePrev>
+    <CodeCurrent>419756559</CodeCurrent>
+    <CodeNext>3341370406</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>17</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;unsigned&gt; (channel)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>ccoptions.cpp</ShortFile>
+    <Line>289</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\ccoptions.cpp</File>
+    <CodePrev>17155883</CodePrev>
+    <CodeCurrent>976018901</CodeCurrent>
+    <CodeNext>1018212987</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>18</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>pwoptions.h</ShortFile>
+    <Line>83</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\pwoptions.h</File>
+    <CodePrev>3707009187</CodePrev>
+    <CodeCurrent>21747527</CodeCurrent>
+    <CodeNext>5821967</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\pwoptions.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>19</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 32 used: ...-&gt;setBounds(32, 48, 150, 2...</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>pwoptions.cpp</ShortFile>
+    <Line>147</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\pwoptions.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3561176122</CodeCurrent>
+    <CodeNext>2487426061</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>20</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 32 used: ...-&gt;setBounds(32, 80, 150, 2...</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>pwoptions.cpp</ShortFile>
+    <Line>148</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\pwoptions.cpp</File>
+    <CodePrev>3561176122</CodePrev>
+    <CodeCurrent>2487426061</CodeCurrent>
+    <CodeNext>1753633894</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>21</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 32 used: ...-&gt;setBounds(32, 112, 150,...</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>pwoptions.cpp</ShortFile>
+    <Line>149</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\pwoptions.cpp</File>
+    <CodePrev>2487426061</CodePrev>
+    <CodeCurrent>1753633894</CodeCurrent>
+    <CodeNext>2827373665</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>22</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 32 used: ...-&gt;setBounds(32, 144, 150,...</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>pwoptions.cpp</ShortFile>
+    <Line>150</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\pwoptions.cpp</File>
+    <CodePrev>1753633894</CodePrev>
+    <CodeCurrent>2827373665</CodeCurrent>
+    <CodeNext>2957194254</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>23</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 32 used: ...-&gt;setBounds(32, 16, 150, 2...</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>pwoptions.cpp</ShortFile>
+    <Line>151</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\pwoptions.cpp</File>
+    <CodePrev>2827373665</CodePrev>
+    <CodeCurrent>2957194254</CodeCurrent>
+    <CodeNext>4002497535</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>24</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandmenu.h</ShortFile>
+    <Line>49</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandmenu.h</File>
+    <CodePrev>3665776678</CodePrev>
+    <CodeCurrent>3466723299</CodeCurrent>
+    <CodeNext>1411018943</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandtable.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandmenu.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\commandtablemodel.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>25</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (message_.channel)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandmenu.cpp</ShortFile>
+    <Line>75</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandmenu.cpp</File>
+    <CodePrev>1875707</CodePrev>
+    <CodeCurrent>2785048053</CodeCurrent>
+    <CodeNext>924307107</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>26</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (message_.channel)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandmenu.cpp</ShortFile>
+    <Line>83</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandmenu.cpp</File>
+    <CodePrev>1760731</CodePrev>
+    <CodeCurrent>702948817</CodeCurrent>
+    <CodeNext>773123747</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>27</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (index)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandmenu.cpp</ShortFile>
+    <Line>112</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandmenu.cpp</File>
+    <CodePrev>11583509</CodePrev>
+    <CodeCurrent>4235336654</CodeCurrent>
+    <CodeNext>325470573</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>28</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (index)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandmenu.cpp</ShortFile>
+    <Line>115</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandmenu.cpp</File>
+    <CodePrev>539</CodePrev>
+    <CodeCurrent>533118542</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>29</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (commands_.size())</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>54</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>1633903139</CodePrev>
+    <CodeCurrent>3508273475</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>30</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>86</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2145618698</CodeCurrent>
+    <CodeNext>123</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>31</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>90</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>288631623</CodePrev>
+    <CodeCurrent>736893683</CodeCurrent>
+    <CodeNext>1499399226</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>32</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>91</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>736893683</CodePrev>
+    <CodeCurrent>1499399226</CodeCurrent>
+    <CodeNext>2337</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>33</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>95</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>72158151</CodePrev>
+    <CodeCurrent>736893683</CodeCurrent>
+    <CodeNext>736157216</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>34</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>96</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>736893683</CodePrev>
+    <CodeCurrent>736157216</CodeCurrent>
+    <CodeNext>2337</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>35</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>100</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>577267111</CodePrev>
+    <CodeCurrent>736893683</CodeCurrent>
+    <CodeNext>736157216</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>36</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>101</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>736893683</CodePrev>
+    <CodeCurrent>736157216</CodeCurrent>
+    <CodeNext>2337</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>37</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>144</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>539</CodePrev>
+    <CodeCurrent>2663770463</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>38</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (row_number)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>149</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>76904342</CodePrev>
+    <CodeCurrent>2262466807</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>39</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (idx)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>commandtablemodel.cpp</ShortFile>
+    <Line>229</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\commandtablemodel.cpp</File>
+    <CodePrev>3088492187</CodePrev>
+    <CodeCurrent>2968946875</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>40</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>lr_ipc_out.h</ShortFile>
+    <Line>78</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\lr_ipc_out.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2633267825</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_out.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\settingscomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\settingsmanager.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\versionchecker.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>41</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>profilemanager.h</ShortFile>
+    <Line>97</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\profilemanager.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2633267825</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\profilemanager.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\settingscomponent.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\settingsmanager.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\versionchecker.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>42</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>lr_ipc_in.h</ShortFile>
+    <Line>65</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\lr_ipc_in.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2633267825</CodeCurrent>
+    <CodeNext>193</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\lr_ipc_in.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>43</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (command_copy.length())</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>lr_ipc_out.cpp</ShortFile>
+    <Line>136</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\lr_ipc_out.cpp</File>
+    <CodePrev>887012549</CodePrev>
+    <CodeCurrent>168071639</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>44</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>maincomponent.h</ShortFile>
+    <Line>88</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\maincomponent.h</File>
+    <CodePrev>1982807288</CodePrev>
+    <CodeCurrent>693403881</CodeCurrent>
+    <CodeNext>2788511049</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\maincomponent.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>45</DefaultOrder>
+    <ErrorCode>V122</ErrorCode>
+    <Message>Memsize type is used in the struct/class.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>mainwindow.h</ShortFile>
+    <Line>70</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\mainwindow.h</File>
+    <CodePrev>1251793705</CodePrev>
+    <CodeCurrent>3136952624</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles>q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\main.cpp*q:\documents\github\midi2lr\builds\visualstudio2015\..\..\source\mainwindow.cpp</AnalyzedSourceFiles>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>46</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>maincomponent.cpp</ShortFile>
+    <Line>219</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\maincomponent.cpp</File>
+    <CodePrev>2360883547</CodePrev>
+    <CodeCurrent>466666184</CodeCurrent>
+    <CodeNext>100588161</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>47</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (row_to_select_)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>maincomponent.cpp</ShortFile>
+    <Line>372</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\maincomponent.cpp</File>
+    <CodePrev>2664099384</CodePrev>
+    <CodeCurrent>1903334347</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>48</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 0b100 used: ready_ |= 0b100;.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>nrpnmessage.cpp</ShortFile>
+    <Line>76</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\nrpnmessage.cpp</File>
+    <CodePrev>90783601</CodePrev>
+    <CodeCurrent>660851</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>49</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (profiles_.size())</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>profilemanager.cpp</ShortFile>
+    <Line>76</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\profilemanager.cpp</File>
+    <CodePrev>2196100840</CodePrev>
+    <CodeCurrent>427181420</CodeCurrent>
+    <CodeNext>1645817848</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>50</DefaultOrder>
+    <ErrorCode>V201</ErrorCode>
+    <Message>Explicit conversion from 32-bit integer type to memsize type: static_cast&lt;size_t&gt; (profile_index)</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>profilemanager.cpp</ShortFile>
+    <Line>77</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\profilemanager.cpp</File>
+    <CodePrev>427181420</CodePrev>
+    <CodeCurrent>1645817848</CodeCurrent>
+    <CodeNext>1229559306</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>51</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (profiles_.size())</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>profilemanager.cpp</ShortFile>
+    <Line>105</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\profilemanager.cpp</File>
+    <CodePrev>1330943001</CodePrev>
+    <CodeCurrent>3967283058</CodeCurrent>
+    <CodeNext>1330943095</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>52</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (profiles_.size())</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>profilemanager.cpp</ShortFile>
+    <Line>113</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\profilemanager.cpp</File>
+    <CodePrev>1330942989</CodePrev>
+    <CodeCurrent>46600426</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>53</DefaultOrder>
+    <ErrorCode>V813</ErrorCode>
+    <Message>Decreased performance. The 'msg' argument should probably be rendered as a constant reference.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>profilemanager.cpp</ShortFile>
+    <Line>119</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\profilemanager.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1425766609</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>5</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>54</DefaultOrder>
+    <ErrorCode>V202</ErrorCode>
+    <Message>Explicit conversion from memsize type to 32-bit integer type: static_cast&lt;int&gt; (key.size())</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>sendkeys.cpp</ShortFile>
+    <Line>47</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\sendkeys.cpp</File>
+    <CodePrev>3490527345</CodePrev>
+    <CodeCurrent>3665718766</CodeCurrent>
+    <CodeNext>47621169</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>55</DefaultOrder>
+    <ErrorCode>V112</ErrorCode>
+    <Message>Dangerous magic number 32 used: ...ttingsLeft, 32);.</Message>
+    <Project>MIDI2LR</Project>
+    <ShortFile>settingscomponent.cpp</ShortFile>
+    <Line>62</Line>
+    <FalseAlarm>true</FalseAlarm>
+    <File>q:\documents\github\midi2lr\source\settingscomponent.cpp</File>
+    <CodePrev>228495148</CodePrev>
+    <CodeCurrent>3240210856</CodeCurrent>
+    <CodeNext>1987743002</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>1</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+</NewDataSet>

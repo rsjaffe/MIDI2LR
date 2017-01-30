@@ -29,7 +29,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
 
-enum MessageType{NOTE, CC, PITCHBEND};
+enum MessageType {
+  NOTE, CC, PITCHBEND
+};
 
 struct MIDI_Message_ID {
   MessageType messageType;
