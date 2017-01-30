@@ -134,7 +134,7 @@ void LR_IPC_OUT::handleAsyncUpdate() {
     //check if there is a connection
   if (juce::InterprocessConnection::isConnected()) {
     juce::InterprocessConnection::getSocket()->
-      write(command_copy.c_str(), static_cast<int>(command_copy.length()));
+      write(command_copy.c_str(), static_cast<int>(command_copy.length())); //-V202
   }
 }
 

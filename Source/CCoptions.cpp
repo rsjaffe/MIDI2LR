@@ -279,7 +279,7 @@ void CCoptions::textEditorFocusLost(TextEditor& t) {
 void CCoptions::bindToControl(size_t channel, short number) noexcept {
   boundchannel = static_cast<short>(channel) - 1; // 0-based index
   boundnumber = number;
-  controlID->setText("channel " + juce::String(static_cast<unsigned>(channel)) + " number " + juce::String(number),
+  controlID->setText("channel " + juce::String(static_cast<unsigned>(channel)) + " number " + juce::String(number), //-V202
     juce::dontSendNotification);
   minvaltext->setText(juce::String(controls_model_->getCCmin(boundchannel, boundnumber)), juce::dontSendNotification);
   maxvaltext->setText(juce::String(controls_model_->getCCmax(boundchannel, boundnumber)), juce::dontSendNotification);

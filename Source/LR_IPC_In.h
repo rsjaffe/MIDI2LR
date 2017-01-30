@@ -62,7 +62,7 @@ private:
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
   std::shared_ptr<ProfileManager> profile_manager_{nullptr};
 
-  ControlsModel* controls_model_;
+  ControlsModel* controls_model_; //-V122
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

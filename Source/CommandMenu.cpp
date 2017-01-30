@@ -74,7 +74,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case CC:
         {
           CCoptions ccopt;
-          ccopt.bindToControl(static_cast<size_t>(message_.channel), static_cast<short>(message_.controller));
+          ccopt.bindToControl(static_cast<size_t>(message_.channel), static_cast<short>(message_.controller)); //-V201
           juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
@@ -82,7 +82,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case PITCHBEND:
         {
           PWoptions pwopt;
-          pwopt.bindToControl(static_cast<size_t>(message_.channel));
+          pwopt.bindToControl(static_cast<size_t>(message_.channel)); //-V201
           juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
@@ -111,10 +111,10 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
         // disabling a previously mapped entry
 
         if (already_mapped)
-          subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
+          subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true, //-V202
             index == selected_item_);
         else
-          subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_);
+          subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_); //-V202
 
         index++;
       }

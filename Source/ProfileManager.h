@@ -94,7 +94,7 @@ private:
   std::vector<juce::String> profiles_;
   SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
 
-  ControlsModel* controls_model_;
+  ControlsModel* controls_model_; //-V122
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

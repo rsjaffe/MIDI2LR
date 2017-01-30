@@ -76,7 +76,7 @@ private:
   TextEditor::LengthAndCharacterRestriction numrestrict{5, "0123456789"};
   void textEditorFocusLost(TextEditor& t) override;
   static ControlsModel* controls_model_;
-  size_t boundchannel;
+  size_t boundchannel; //-V122
     //[/UserVariables]
 
     //==============================================================================

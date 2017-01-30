@@ -80,7 +80,7 @@ private:
   // Timer callback
   virtual void timerCallback() override;
 
-  ControlsModel* controls_model_;
+  ControlsModel* controls_model_; //-V122
 
   std::vector<LRConnectionListener *> listeners_;
   bool timer_off_{false};

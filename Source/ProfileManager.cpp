@@ -73,8 +73,8 @@ const std::vector<juce::String>& ProfileManager::getMenuItems() const noexcept {
 }
 
 void ProfileManager::switchToProfile(int profile_index) {
-  if (profile_index >= 0 && profile_index < static_cast<int>(profiles_.size())) {
-    switchToProfile(profiles_[static_cast<size_t>(profile_index)]);
+  if (profile_index >= 0 && profile_index < static_cast<int>(profiles_.size())) { //-V202
+    switchToProfile(profiles_[static_cast<size_t>(profile_index)]); //-V201
     current_profile_index_ = profile_index;
   }
 }
@@ -102,7 +102,7 @@ void ProfileManager::switchToProfile(const juce::String& profile) {
 
 void ProfileManager::switchToNextProfile() {
   current_profile_index_++;
-  if (current_profile_index_ == static_cast<int>(profiles_.size()))
+  if (current_profile_index_ == static_cast<int>(profiles_.size())) //-V202
     current_profile_index_ = 0;
 
   switchToProfile(current_profile_index_);
@@ -110,7 +110,7 @@ void ProfileManager::switchToNextProfile() {
 
 void ProfileManager::switchToPreviousProfile() {
   current_profile_index_--;
-  if (current_profile_index_ < 0) current_profile_index_ = static_cast<int>(profiles_.size()) - 1;
+  if (current_profile_index_ < 0) current_profile_index_ = static_cast<int>(profiles_.size()) - 1; //-V202
 
   switchToProfile(current_profile_index_);
 }
