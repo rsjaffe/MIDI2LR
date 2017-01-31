@@ -74,7 +74,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case CC:
         {
           CCoptions ccopt;
-          ccopt.bindToControl(static_cast<size_t>(message_.channel), static_cast<short>(message_.controller)); //-V201
+          ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
+            static_cast<short>(message_.controller)); //-V201
           juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
@@ -82,7 +83,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case PITCHBEND:
         {
           PWoptions pwopt;
-          pwopt.bindToControl(static_cast<size_t>(message_.channel)); //-V201
+          pwopt.bindToControl(static_cast<size_t>(message_.channel) - 1); //-V201 convert 1-based to 0 based
           juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
