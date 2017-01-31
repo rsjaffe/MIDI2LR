@@ -139,15 +139,15 @@ CCoptions::CCoptions() {
   controlID->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
   //[UserPreSize]
-  maxvaltext->setInputFilter(&numrestrict, false);
-  minvaltext->setInputFilter(&numrestrict, false);
-  maxvaltext->addListener(this);
-  minvaltext->addListener(this);
-    //[/UserPreSize]
+      //[/UserPreSize]
 
   setSize(280, 350);
 
   //[Constructor] You can add your own custom stuff here..
+  maxvaltext->setInputFilter(&numrestrict, false);
+  minvaltext->setInputFilter(&numrestrict, false);
+  maxvaltext->addListener(this);
+  minvaltext->addListener(this);
   //[/Constructor]
 }
 
@@ -277,7 +277,7 @@ void CCoptions::textEditorFocusLost(TextEditor& t) {
 }
 
 void CCoptions::bindToControl(size_t channel, short number) noexcept {
-  boundchannel = static_cast<short>(channel) - 1; // 0-based index
+  boundchannel = static_cast<short>(channel);
   boundnumber = number;
   controlID->setText("channel " + juce::String(static_cast<unsigned>(channel)) + " number " + juce::String(number), //-V202
     juce::dontSendNotification);

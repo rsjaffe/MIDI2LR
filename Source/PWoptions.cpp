@@ -99,15 +99,15 @@ PWoptions::PWoptions() {
   label3->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
   //[UserPreSize]
-  minval->setInputFilter(&numrestrict, false);
-  maxval->setInputFilter(&numrestrict, false);
-  minval->addListener(this);
-  maxval->addListener(this);
     //[/UserPreSize]
 
   setSize(280, 350);
 
   //[Constructor] You can add your own custom stuff here..
+  minval->setInputFilter(&numrestrict, false);
+  maxval->setInputFilter(&numrestrict, false);
+  minval->addListener(this);
+  maxval->addListener(this);
   //[/Constructor]
 }
 

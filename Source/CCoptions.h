@@ -41,9 +41,9 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ControlsModel.h"
-
 //[/Headers]
 
 //==============================================================================
@@ -79,10 +79,9 @@ private:
   TextEditor::LengthAndCharacterRestriction numrestrict{5, "0123456789"};
   void textEditorFocusLost(TextEditor & t) override;
   static ControlsModel* controls_model_;
-  short boundchannel;
+  short boundchannel; //note: 0-based
   short boundnumber;
-
-    //[/UserVariables]
+      //[/UserVariables]
 
     //==============================================================================
   ScopedPointer<GroupComponent> groupComponent;
