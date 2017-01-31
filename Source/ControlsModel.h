@@ -285,15 +285,15 @@ inline double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noex
   assert(diff <= kMaxNRPN && diff >= -kMaxNRPN);
   assert(controlnumber <= kMaxNRPN);
   lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
-  short cv = currentV_[controlnumber].fetch_add(diff, std::memory_order_acquire) + diff;
+  short cv = currentV_[controlnumber].fetch_add(diff, std::memory_order_relaxed) + diff;
   if (cv < 0) {//fix currentV unless another thread has already altered it
     currentV_[controlnumber].compare_exchange_strong(cv, static_cast<short>(0),
-      std::memory_order_release, std::memory_order_relaxed);
+      std::memory_order_relaxed, std::memory_order_relaxed);
     return 0.0;
   }
   if (cv > ccHigh_[controlnumber]) {//fix currentV unless another thread has already altered it
     currentV_[controlnumber].compare_exchange_strong(cv, ccHigh_[controlnumber],
-      std::memory_order_release, std::memory_order_relaxed);
+      std::memory_order_relaxed, std::memory_order_relaxed);
     return 1.0;
   }
   return static_cast<double>(cv) / static_cast<double>(ccHigh_[controlnumber]);
