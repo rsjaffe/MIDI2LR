@@ -22,19 +22,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ControlsModel.h"
 
-ControlsModel::ControlsModel() {}
-ChannelModel::ChannelModel() {
-  //program defaults
-  ccLow_.fill(0);
-  ccHigh_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here
-  ccMethod_.fill(RSJ::CCmethod::absolute);
-  for (auto &v : currentV_) //can't use fill as copy/assign deleted for atomic
-    v.store(kMaxNRPNHalf, std::memory_order_relaxed);
-  for (size_t a = 0; a <= kMaxMIDI; ++a) {
-    ccHigh_[a] = kMaxMIDI;
-    currentV_[a].store(kMaxMIDIHalf, std::memory_order_relaxed);
+template<class Archive>
+void RSJ::SettingsStruct::serialize(Archive & archive, std::uint32_t const version) {
+  switch (version) {
+    case 1:
+      archive(number, high, low, method);
+      break;
+    default:
+      assert(!"Wrong archive number for SettingsStruct");
   }
-  //load settings
 }
 
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug) {
@@ -76,4 +72,96 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
       assert(!"Should be unreachable code in ControllerToPlugin--unknown control type");
       return 0.0;
   }
+}
+
+short ChannelModel::PluginToController(short controltype, size_t controlnumber, double pluginV) noexcept(ndebug) {
+  assert(controlnumber <= kMaxNRPN);
+  assert(pluginV >= 0.0 && pluginV <= 1.0);
+  switch (controltype) {
+    case RSJ::kPWFlag:
+      return static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
+    case RSJ::kCCFlag:
+      {
+        if (ccMethod_[controlnumber] == RSJ::CCmethod::absolute)
+          return static_cast<short>(round(pluginV *
+          (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
+        short cv = static_cast<short>(round(pluginV * ccHigh_[controlnumber])); //ccLow == 0 for non-absolute
+        if (RSJ::now_ms() - kUpdateDelay > lastUpdate_.load(std::memory_order_acquire))
+          currentV_[controlnumber].store(cv, std::memory_order_release);
+        return cv;
+      }
+    case RSJ::kNoteOnFlag:
+      return kMaxMIDI;
+  }
+  return 0;
+}
+
+template<class Archive>
+void ChannelModel::load(Archive & archive, std::uint32_t const version) {
+  switch (version) {
+    case 1:
+      archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
+      break;
+    case 2:
+      archive(settingsToSave_);
+      savedToActive();
+      break;
+    default:
+      assert(!"Archive version not acceptable");
+  }
+}
+
+template<class Archive>
+void ChannelModel::save(Archive & archive, std::uint32_t const version) const {
+  switch (version) {
+    case 1:
+      archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
+      break;
+    case 2:
+      activeToSaved();
+      archive(settingsToSave_);
+      break;
+    default:
+      assert(!"Wrong archive version specified for save");
+  }
+}
+void ChannelModel::activeToSaved() const {
+  settingsToSave_.clear();
+  for (size_t i = 0; i <= kMaxMIDI; ++i)
+    if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxMIDI || ccLow_[i] != 0)
+      settingsToSave_.emplace_back(RSJ::SettingsStruct(i, ccHigh_[i], ccLow_[i], ccMethod_[i]));
+  for (size_t i = kMaxMIDI + 1; i <= kMaxNRPN; ++i)
+    if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxNRPN || ccLow_[i] != 0)
+      settingsToSave_.emplace_back(RSJ::SettingsStruct(i, ccHigh_[i], ccLow_[i], ccMethod_[i]));
+}
+
+void ChannelModel::savedToActive() {
+  //program defaults
+  ccLow_.fill(0);
+  ccHigh_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here
+  ccMethod_.fill(RSJ::CCmethod::absolute);
+  for (auto &v : currentV_) //can't use fill as copy/assign deleted for atomic
+    v.store(kMaxNRPNHalf, std::memory_order_relaxed);
+  for (size_t a = 0; a <= kMaxMIDI; ++a) {
+    ccHigh_[a] = kMaxMIDI;
+    currentV_[a].store(kMaxMIDIHalf, std::memory_order_relaxed);
+  }
+  for (auto set : settingsToSave_) {
+    setCCall(set.number, set.low, set.high, set.method);
+    currentV_[set.number] = (set.high - set.low) / 2;
+  }
+}
+ControlsModel::ControlsModel() {}
+ChannelModel::ChannelModel() {
+  //program defaults
+  ccLow_.fill(0);
+  ccHigh_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here
+  ccMethod_.fill(RSJ::CCmethod::absolute);
+  for (auto &v : currentV_) //can't use fill as copy/assign deleted for atomic
+    v.store(kMaxNRPNHalf, std::memory_order_relaxed);
+  for (size_t a = 0; a <= kMaxMIDI; ++a) {
+    ccHigh_[a] = kMaxMIDI;
+    currentV_[a].store(kMaxMIDIHalf, std::memory_order_relaxed);
+  }
+  //load settings
 }

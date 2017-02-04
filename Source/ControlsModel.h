@@ -23,9 +23,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <atomic>
 #include <cassert>
 #include <chrono>
+#include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/access.hpp>
 #include <cereal/types/array.hpp>
+#include <cereal/types/vector.hpp>
 #include "MidiUtilities.h"
 #include "Utilities/Utilities.h"
 
@@ -38,6 +40,16 @@ namespace RSJ {
       (std::chrono::steady_clock::now()).time_since_epoch().count();
   }
   using timetype = decltype(now_ms());
+
+  struct SettingsStruct {
+    size_t number;
+    short high;
+    short low;
+    RSJ::CCmethod method;
+    SettingsStruct(size_t n = 0, short h = 0x7F, short l = 0, RSJ::CCmethod m = RSJ::CCmethod::absolute):
+      number{n}, high{h}, low{l}, method{m} {};
+    template<class Archive>    void serialize(Archive & archive, std::uint32_t const version);
+  };
 }
 
 class ChannelModel {
@@ -74,22 +86,23 @@ public:
   void setCCmin(size_t controlnumber, short value) noexcept(ndebug);
   void setPWmax(short value) noexcept(ndebug);
   void setPWmin(short value) noexcept(ndebug);
+
 private:
   friend class cereal::access;
-  template<class Archive>
-  void serialize(Archive & archive, std::uint32_t const version) {
-    if (version == 1)// serialize things by passing them to the archive
-      archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
-  }
   bool IsNRPN_(size_t controlnumber) const noexcept(ndebug);
   double OffsetResult_(short diff, size_t controlnumber) noexcept(ndebug);
+  mutable std::atomic<RSJ::timetype> lastUpdate_{0};
+  mutable std::vector<RSJ::SettingsStruct> settingsToSave_{};
   short pitchWheelMax_{kMaxNRPN};
   short pitchWheelMin_{0};
   std::array<RSJ::CCmethod, kMaxControls> ccMethod_;
   std::array<short, kMaxControls> ccHigh_;
   std::array<short, kMaxControls> ccLow_;
   std::array<std::atomic<short>, kMaxControls> currentV_;
-  mutable std::atomic<RSJ::timetype> lastUpdate_{0};
+  template<class Archive> void load(Archive & archive, std::uint32_t const version);
+  template<class Archive> void save(Archive & archive, std::uint32_t const version) const;
+  void activeToSaved() const;
+  void savedToActive();
 };
 
 class ControlsModel {
@@ -190,28 +203,6 @@ inline short ChannelModel::getPWmin() const noexcept {
   return pitchWheelMin_;
 }
 
-inline short ChannelModel::PluginToController(short controltype, size_t controlnumber, double pluginV) noexcept(ndebug) {
-  assert(controlnumber <= kMaxNRPN);
-  assert(pluginV >= 0.0 && pluginV <= 1.0);
-  switch (controltype) {
-    case RSJ::kPWFlag:
-      return static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
-    case RSJ::kCCFlag:
-      {
-        if (ccMethod_[controlnumber] == RSJ::CCmethod::absolute)
-          return static_cast<short>(round(pluginV *
-          (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
-        short cv = static_cast<short>(round(pluginV * ccHigh_[controlnumber])); //ccLow == 0 for non-absolute
-        if (RSJ::now_ms() - kUpdateDelay > lastUpdate_.load(std::memory_order_acquire))
-          currentV_[controlnumber].store(cv, std::memory_order_release);
-        return cv;
-      }
-    case RSJ::kNoteOnFlag:
-      return kMaxMIDI;
-  }
-  return 0;
-}
-
 inline void ChannelModel::setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
   setCCmin(controlnumber, min);
   setCCmax(controlnumber, max);
@@ -299,5 +290,6 @@ inline double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noex
   return static_cast<double>(cv) / static_cast<double>(ccHigh_[controlnumber]);
 }
 
-CEREAL_CLASS_VERSION(ChannelModel, 1);
+CEREAL_CLASS_VERSION(ChannelModel, 2);
 CEREAL_CLASS_VERSION(ControlsModel, 1);
+CEREAL_CLASS_VERSION(RSJ::SettingsStruct, 1);
