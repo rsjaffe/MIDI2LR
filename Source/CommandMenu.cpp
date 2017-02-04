@@ -74,7 +74,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case CC:
         {
           CCoptions ccopt;
-          ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
+          ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based //-V201
             static_cast<short>(message_.controller)); //-V201
           juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);

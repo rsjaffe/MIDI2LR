@@ -42,11 +42,11 @@ namespace RSJ {
   using timetype = decltype(now_ms());
 
   struct SettingsStruct {
-    size_t number;
+    short number;//not using size_t so serialized data won't vary if size_t varies
     short high;
     short low;
     RSJ::CCmethod method;
-    SettingsStruct(size_t n = 0, short h = 0x7F, short l = 0, RSJ::CCmethod m = RSJ::CCmethod::absolute):
+    SettingsStruct(short n = 0, short h = 0x7F, short l = 0, RSJ::CCmethod m = RSJ::CCmethod::absolute):
       number{n}, high{h}, low{l}, method{m} {};
     template<class Archive>    void serialize(Archive & archive, std::uint32_t const version);
   };

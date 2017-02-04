@@ -127,12 +127,12 @@ void ChannelModel::save(Archive & archive, std::uint32_t const version) const {
 }
 void ChannelModel::activeToSaved() const {
   settingsToSave_.clear();
-  for (size_t i = 0; i <= kMaxMIDI; ++i)
+  for (short i = 0; i <= kMaxMIDI; ++i)
     if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxMIDI || ccLow_[i] != 0)
-      settingsToSave_.emplace_back(RSJ::SettingsStruct(i, ccHigh_[i], ccLow_[i], ccMethod_[i]));
-  for (size_t i = kMaxMIDI + 1; i <= kMaxNRPN; ++i)
+      settingsToSave_.emplace_back(i, ccHigh_[i], ccLow_[i], ccMethod_[i]);
+  for (short i = kMaxMIDI + 1; i <= kMaxNRPN; ++i)
     if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxNRPN || ccLow_[i] != 0)
-      settingsToSave_.emplace_back(RSJ::SettingsStruct(i, ccHigh_[i], ccLow_[i], ccMethod_[i]));
+      settingsToSave_.emplace_back(i, ccHigh_[i], ccLow_[i], ccMethod_[i]);
 }
 
 void ChannelModel::savedToActive() {
@@ -148,7 +148,6 @@ void ChannelModel::savedToActive() {
   }
   for (auto set : settingsToSave_) {
     setCCall(set.number, set.low, set.high, set.method);
-    currentV_[set.number] = (set.high - set.low) / 2;
   }
 }
 ControlsModel::ControlsModel() {}
