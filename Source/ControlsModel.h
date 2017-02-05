@@ -48,7 +48,15 @@ namespace RSJ {
     RSJ::CCmethod method;
     SettingsStruct(short n = 0, short h = 0x7F, short l = 0, RSJ::CCmethod m = RSJ::CCmethod::absolute):
       number{n}, high{h}, low{l}, method{m} {};
-    template<class Archive>    void serialize(Archive & archive, std::uint32_t const version);
+    template<class Archive> void serialize(Archive & archive, std::uint32_t const version) {
+      switch (version) {
+        case 1:
+          archive(number, high, low, method);
+          break;
+        default:
+          assert(!"Wrong archive number for SettingsStruct");
+      }
+    };
   };
 }
 
@@ -203,69 +211,6 @@ inline short ChannelModel::getPWmin() const noexcept {
   return pitchWheelMin_;
 }
 
-inline void ChannelModel::setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
-  setCCmin(controlnumber, min);
-  setCCmax(controlnumber, max);
-  setCCmethod(controlnumber, controltype);
-}
-
-inline void ChannelModel::setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
-  if (IsNRPN_(controlnumber))
-    for (short a = kMaxMIDI + 1; a <= kMaxNRPN; ++a)
-      setCC(a, min, max, controltype);
-  else
-    for (short a = 0; a <= kMaxMIDI; ++a)
-      setCC(a, min, max, controltype);
-}
-
-inline void ChannelModel::setCCmax(size_t controlnumber, short value) noexcept(ndebug) {
-  assert(controlnumber <= kMaxNRPN);
-  assert(value <= kMaxNRPN);
-  assert(value >= 0);
-  if (ccMethod_[controlnumber] != RSJ::CCmethod::absolute) {
-    ccHigh_[controlnumber] = (value < 0) ? 1000 : value;
-  }
-  else {
-    short max = (IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI);
-    ccHigh_[controlnumber] = (value <= ccLow_[controlnumber] || value > max) ? max : value;
-  }
-  currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);
-}
-
-inline void ChannelModel::setCCmethod(size_t controlnumber, RSJ::CCmethod value) noexcept(ndebug) {
-  assert(controlnumber <= kMaxNRPN);
-  ccMethod_[controlnumber] = value;
-}
-
-inline void ChannelModel::setCCmin(size_t controlnumber, short value) noexcept(ndebug) {
-  assert(controlnumber <= kMaxNRPN);
-  assert(value <= kMaxNRPN);
-  assert(value >= 0);
-  if (ccMethod_[controlnumber] != RSJ::CCmethod::absolute)
-    ccLow_[controlnumber] = 0;
-  else
-    ccLow_[controlnumber] = (value < 0 || value >= ccHigh_[controlnumber]) ? 0 : value;
-  currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);
-}
-
-inline void ChannelModel::setPWmax(short value) noexcept(ndebug) {
-  assert(value <= kMaxNRPN);
-  assert(value >= 0);
-  if (value > kMaxNRPN || value <= pitchWheelMin_)
-    pitchWheelMax_ = kMaxNRPN;
-  else
-    pitchWheelMax_ = value;
-}
-
-inline void ChannelModel::setPWmin(short value) noexcept(ndebug) {
-  assert(value <= kMaxNRPN);
-  assert(value >= 0);
-  if (value < 0 || value >= pitchWheelMax_)
-    pitchWheelMin_ = 0;
-  else
-    pitchWheelMin_ = value;
-}
-
 inline bool ChannelModel::IsNRPN_(size_t controlnumber) const noexcept(ndebug) {
   assert(controlnumber <= kMaxNRPN);
   return controlnumber > kMaxMIDI;
@@ -288,6 +233,36 @@ inline double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noex
     return 1.0;
   }
   return static_cast<double>(cv) / static_cast<double>(ccHigh_[controlnumber]);
+}
+
+template<class Archive>
+void ChannelModel::load(Archive & archive, std::uint32_t const version) {
+  switch (version) {
+    case 1:
+      archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
+      break;
+    case 2:
+      archive(settingsToSave_);
+      savedToActive();
+      break;
+    default:
+      assert(!"Archive version not acceptable");
+  }
+}
+
+template<class Archive>
+void ChannelModel::save(Archive & archive, std::uint32_t const version) const {
+  switch (version) {
+    case 1:
+      archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
+      break;
+    case 2:
+      activeToSaved();
+      archive(settingsToSave_);
+      break;
+    default:
+      assert(!"Wrong archive version specified for save");
+  }
 }
 
 CEREAL_CLASS_VERSION(ChannelModel, 2);

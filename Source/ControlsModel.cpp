@@ -22,17 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "ControlsModel.h"
 
-template<class Archive>
-void RSJ::SettingsStruct::serialize(Archive & archive, std::uint32_t const version) {
-  switch (version) {
-    case 1:
-      archive(number, high, low, method);
-      break;
-    default:
-      assert(!"Wrong archive number for SettingsStruct");
-  }
-}
-
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug) {
   assert((controltype == RSJ::kCCFlag && ccMethod_[controlnumber] == RSJ::CCmethod::absolute) ? (ccLow_[controlnumber] < ccHigh_[controlnumber]) : 1);
   assert((controltype == RSJ::kPWFlag) ? (pitchWheelMax_ > pitchWheelMin_) : 1);
@@ -96,35 +85,69 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
   return 0;
 }
 
-template<class Archive>
-void ChannelModel::load(Archive & archive, std::uint32_t const version) {
-  switch (version) {
-    case 1:
-      archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
-      break;
-    case 2:
-      archive(settingsToSave_);
-      savedToActive();
-      break;
-    default:
-      assert(!"Archive version not acceptable");
-  }
+void ChannelModel::setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
+  setCCmin(controlnumber, min);
+  setCCmax(controlnumber, max);
+  setCCmethod(controlnumber, controltype);
 }
 
-template<class Archive>
-void ChannelModel::save(Archive & archive, std::uint32_t const version) const {
-  switch (version) {
-    case 1:
-      archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
-      break;
-    case 2:
-      activeToSaved();
-      archive(settingsToSave_);
-      break;
-    default:
-      assert(!"Wrong archive version specified for save");
-  }
+void ChannelModel::setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
+  if (IsNRPN_(controlnumber))
+    for (short a = kMaxMIDI + 1; a <= kMaxNRPN; ++a)
+      setCC(a, min, max, controltype);
+  else
+    for (short a = 0; a <= kMaxMIDI; ++a)
+      setCC(a, min, max, controltype);
 }
+
+void ChannelModel::setCCmax(size_t controlnumber, short value) noexcept(ndebug) {
+  assert(controlnumber <= kMaxNRPN);
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (ccMethod_[controlnumber] != RSJ::CCmethod::absolute) {
+    ccHigh_[controlnumber] = (value < 0) ? 1000 : value;
+  }
+  else {
+    short max = (IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI);
+    ccHigh_[controlnumber] = (value <= ccLow_[controlnumber] || value > max) ? max : value;
+  }
+  currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);
+}
+
+void ChannelModel::setCCmethod(size_t controlnumber, RSJ::CCmethod value) noexcept(ndebug) {
+  assert(controlnumber <= kMaxNRPN);
+  ccMethod_[controlnumber] = value;
+}
+
+void ChannelModel::setCCmin(size_t controlnumber, short value) noexcept(ndebug) {
+  assert(controlnumber <= kMaxNRPN);
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (ccMethod_[controlnumber] != RSJ::CCmethod::absolute)
+    ccLow_[controlnumber] = 0;
+  else
+    ccLow_[controlnumber] = (value < 0 || value >= ccHigh_[controlnumber]) ? 0 : value;
+  currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);
+}
+
+void ChannelModel::setPWmax(short value) noexcept(ndebug) {
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (value > kMaxNRPN || value <= pitchWheelMin_)
+    pitchWheelMax_ = kMaxNRPN;
+  else
+    pitchWheelMax_ = value;
+}
+
+void ChannelModel::setPWmin(short value) noexcept(ndebug) {
+  assert(value <= kMaxNRPN);
+  assert(value >= 0);
+  if (value < 0 || value >= pitchWheelMax_)
+    pitchWheelMin_ = 0;
+  else
+    pitchWheelMin_ = value;
+}
+
 void ChannelModel::activeToSaved() const {
   settingsToSave_.clear();
   for (short i = 0; i <= kMaxMIDI; ++i)
