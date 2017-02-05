@@ -1,0 +1,6 @@
+<map id="NRPN_Message::ProcessMidi" name="NRPN_Message::ProcessMidi">
+<area shape="rect" id="node2" href="$class_n_r_p_n___message.html#ad768da64d0d3411fb78cbbc0bfc9b9e0" title="NRPN_Message::SetControlLSB" alt="" coords="254,5,466,32"/>
+<area shape="rect" id="node3" href="$class_n_r_p_n___message.html#a385c10af9ac93178f4e5b689b99f0218" title="NRPN_Message::SetControlMSB" alt="" coords="252,56,468,83"/>
+<area shape="rect" id="node4" href="$class_n_r_p_n___message.html#a752c32be6a4a8714fdaf16336d578bb6" title="NRPN_Message::SetValueLSB" alt="" coords="258,107,462,133"/>
+<area shape="rect" id="node5" href="$class_n_r_p_n___message.html#adfabf848a717a9b265f8b3330d2c5f4c" title="NRPN_Message::SetValueMSB" alt="" coords="256,157,464,184"/>
+</map>

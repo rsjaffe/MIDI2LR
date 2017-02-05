@@ -1,0 +1,4 @@
+<map id="ProfileManager::switchToProfile" name="ProfileManager::switchToProfile">
+<area shape="rect" id="node2" href="$class_profile_manager.html#a7644e0703d1bdb3172271cec13e86662" title="ProfileManager::switchTo\lNextProfile" alt="" coords="220,5,387,47"/>
+<area shape="rect" id="node3" href="$class_profile_manager.html#a778eb208053cbcb18a7056b4066632ec" title="ProfileManager::switchTo\lPreviousProfile" alt="" coords="220,71,387,112"/>
+</map>
