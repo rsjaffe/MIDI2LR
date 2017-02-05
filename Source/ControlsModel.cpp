@@ -173,7 +173,7 @@ void ChannelModel::savedToActive() noexcept(ndebug) {
     setCCall(set.number, set.low, set.high, set.method);
   }
 }
-ControlsModel::ControlsModel() {}
+
 ChannelModel::ChannelModel() {
   //program defaults
   ccLow_.fill(0);

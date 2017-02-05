@@ -35,6 +35,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
+#include "CCoptions.h"
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LR_IPC_IN.h"
@@ -42,10 +43,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "MainWindow.h"
 #include "MIDISender.h"
+#include "PWoptions.h"
 #include "SettingsManager.h"
 #include "VersionChecker.h"
-#include "CCoptions.h"
-#include "PWoptions.h"
 
 const juce::String ShutDownString{"--LRSHUTDOWN"};
 

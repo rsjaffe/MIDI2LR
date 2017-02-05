@@ -48,7 +48,7 @@ namespace RSJ {
     RSJ::CCmethod method;
     SettingsStruct(short n = 0, short h = 0x7F, short l = 0, RSJ::CCmethod m = RSJ::CCmethod::absolute):
       number{n}, high{h}, low{l}, method{m} {};
-    template<class Archive> void serialize(Archive & archive, std::uint32_t const version) {
+    template<class Archive> void serialize(Archive& archive, uint32_t const version) {
       switch (version) {
         case 1:
           archive(number, high, low, method);
@@ -107,15 +107,15 @@ private:
   std::array<short, kMaxControls> ccHigh_;
   std::array<short, kMaxControls> ccLow_;
   std::array<std::atomic<short>, kMaxControls> currentV_;
-  template<class Archive> void load(Archive & archive, std::uint32_t const version);
-  template<class Archive> void save(Archive & archive, std::uint32_t const version) const;
+  template<class Archive> void load(Archive& archive, uint32_t const version);
+  template<class Archive> void save(Archive& archive, uint32_t const version) const;
   void activeToSaved() const;
   void savedToActive() noexcept(ndebug);
 };
 
 class ControlsModel {
 public:
-  ControlsModel();
+  ControlsModel() {};
   ~ControlsModel() = default;
   //Can write copy and move with special handling for atomics, but in lieu of that, delete
   ControlsModel(const ControlsModel&) = delete; //can't copy atomics
@@ -181,7 +181,7 @@ public:
 private:
   friend class cereal::access;
   template<class Archive>
-  void serialize(Archive & archive, std::uint32_t const version) {
+  void serialize(Archive& archive, uint32_t const version) {
     if (version == 1)// serialize things by passing them to the archive
       archive(allControls_);
   }
@@ -236,7 +236,7 @@ inline double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noex
 }
 
 template<class Archive>
-void ChannelModel::load(Archive & archive, std::uint32_t const version) {
+void ChannelModel::load(Archive& archive, uint32_t const version) {
   switch (version) {
     case 1:
       archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
@@ -251,7 +251,7 @@ void ChannelModel::load(Archive & archive, std::uint32_t const version) {
 }
 
 template<class Archive>
-void ChannelModel::save(Archive & archive, std::uint32_t const version) const {
+void ChannelModel::save(Archive& archive, uint32_t const version) const {
   switch (version) {
     case 1:
       archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
