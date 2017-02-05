@@ -59,9 +59,7 @@ public:
     std::shared_ptr<MIDISender>& midi_sender);
 
   // MIDICommandListener interface
-  virtual void handleMidiCC(int midi_channel, int controller, int value) override;
-  virtual void handleMidiNote(int midi_channel, int note) override;
-  virtual void handlePitchWheel(int midi_channel, int value) override;
+  virtual void handleMIDI(RSJ::Message) override;
 
   // LRConnectionListener interface
   virtual void connected() override;
@@ -87,7 +85,7 @@ private:
   CommandTable command_table_{"Table", nullptr};
   CommandTableModel command_table_model_{};
   juce::DropShadowEffect title_shadow_;
-  size_t row_to_select_{0};
+  size_t row_to_select_{0}; //-V122
   juce::Label command_label_{"Command", ""};
   juce::Label connection_label_{"Connection", "Not connected to LR"};
   juce::Label current_status_{"CurrentStatus", "no extra info"};

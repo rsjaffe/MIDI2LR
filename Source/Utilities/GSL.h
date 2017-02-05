@@ -17,7 +17,7 @@
 
 // Edited by Rory jaffe--see comments below
 // Using commit faf70d85d01fb88e086df8df4960a3b798e409d7 Jun 2 6:05 AM PDT
-// https://github.com/martinmoene/gsl-lite 
+// https://github.com/martinmoene/gsl-lite
 
 #pragma once
 
@@ -44,7 +44,6 @@
 #ifndef  gsl_FEATURE_HAVE_OWNER_MACRO
 # define gsl_FEATURE_HAVE_OWNER_MACRO  1
 #endif
-
 
 //changed following to track NDEBUG unless manually set
 #ifndef  gsl_CONFIG_THROWS_FOR_TESTING
@@ -193,7 +192,6 @@
 #endif
 
 namespace gsl {
-
   //
   // GSL.owner: ownership pointers
   //
@@ -840,7 +838,6 @@ namespace gsl {
   // Will fail-fast if sentinel cannot be found before max elements are examined.
   //
   namespace detail {
-
     template<class T, class SizeType, const T Sentinel>
     gsl_api static span<T> ensure_sentinel(T * seq, SizeType max = std::numeric_limits<SizeType>::max()) {
       typedef T * pointer;
@@ -880,7 +877,6 @@ namespace gsl {
     return ensure_z(cont.data(), cont.length());
   }
 # endif
-
 } // namespace gsl
 
 //outside of namespace so define and variable are same symbol

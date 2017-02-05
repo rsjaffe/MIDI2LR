@@ -44,7 +44,7 @@ namespace {
   wchar_t MBtoWChar(const std::string& key) {
     wchar_t full_character;
     const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
-      static_cast<int>(key.size()), &full_character, 1);
+      static_cast<int>(key.size()), &full_character, 1); //-V202
     if (return_value == 0) {
       const auto er = GetLastError();
       if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
@@ -242,7 +242,6 @@ std::mutex SendKeys::mutex_sending_{};
 
 void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
   const bool control_cmd, const bool shift) const {
-
   const auto mapped_key = SendKeys::key_map_.find(to_lower(key));
   const auto in_keymap = mapped_key != SendKeys::key_map_.end();
 

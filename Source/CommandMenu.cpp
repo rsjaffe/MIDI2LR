@@ -22,8 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "CommandMenu.h"
+#include "CCoptions.h"
+#include "PWoptions.h"
 #include <limits>
+#include "CCoptions.h"
 #include "LRCommands.h"
+#include "PWoptions.h"
 
 CommandMenu::CommandMenu(const MIDI_Message_ID& message):
   juce::TextButton{"Unmapped"},
@@ -65,19 +69,35 @@ void CommandMenu::setSelectedItem(size_t index) {
 }
 
 void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
-  size_t index = 1;
-  auto submenu_tick_set = false;
-  juce::PopupMenu main_menu;
-  main_menu.addItem(index, "Unmapped", true, submenu_tick_set = (index == selected_item_));
-  index++;
-
-  /* to do: respond to juce::ModifierKeys::popupMenuClickModifier by opening up
-  MIDI message options menu
-  */
-  if (modifiers == juce::ModifierKeys::popupMenuClickModifier) {
-// currently, do nothing with right click
+  if (modifiers.isPopupMenu()) {
+    switch (message_.messageType) {
+      case CC:
+        {
+          CCoptions ccopt;
+          ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based //-V201
+            static_cast<short>(message_.controller)); //-V201
+          juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
+            juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+          break;
+        }
+      case PITCHBEND:
+        {
+          PWoptions pwopt;
+          pwopt.bindToControl(static_cast<size_t>(message_.channel) - 1); //-V201 convert 1-based to 0 based
+          juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
+            juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+          break;
+        }
+      default:
+        /* do nothing for other types of controllers */;
+    }
   }
   else {
+    size_t index = 1;
+    auto submenu_tick_set = false;
+    juce::PopupMenu main_menu;
+    main_menu.addItem(index, "Unmapped", true, submenu_tick_set = (index == selected_item_));
+    index++;
 // add each submenu
     for (size_t menu_index = 0; menu_index < menus_.size(); ++menu_index) {
       juce::PopupMenu subMenu;
@@ -92,10 +112,10 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
         // disabling a previously mapped entry
 
         if (already_mapped)
-          subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
+          subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true, //-V202
             index == selected_item_);
         else
-          subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_);
+          subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_); //-V202
 
         index++;
       }

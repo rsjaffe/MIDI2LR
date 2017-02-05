@@ -22,15 +22,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LR_IPC_OUT_H_INCLUDED
 #define LR_IPC_OUT_H_INCLUDED
 
+#include "../JuceLibraryCode/JuceHeader.h"
+#include "CommandMap.h"
+#include "ControlsModel.h"
+#include "MIDIProcessor.h"
+#include "Utilities/Utilities.h"
 #include <memory>
 #include <mutex>
 #include <string>
 #include <unordered_map>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Utilities/Utilities.h"
 #include "CommandMap.h"
+#include "ControlsModel.h"
 #include "MIDIProcessor.h"
+#include "Utilities/Utilities.h"
 
 class LRConnectionListener {
 public:
@@ -51,7 +57,7 @@ class LR_IPC_OUT final:
   private juce::AsyncUpdater,
   private juce::Timer {
 public:
-  LR_IPC_OUT();
+  LR_IPC_OUT(ControlsModel* c_model);
   virtual ~LR_IPC_OUT();
   void Init(std::shared_ptr<CommandMap>&  mapCommand,
     std::shared_ptr<MIDIProcessor>&  midiProcessor);
@@ -62,9 +68,7 @@ public:
   void sendCommand(const std::string& command);
 
   // MIDICommandListener interface
-  virtual void handleMidiCC(int midiChannel, int controller, int value) override;
-  virtual void handleMidiNote(int midiChannel, int note) override;
-  virtual void handlePitchWheel(int midiChannel, int value) override;
+  virtual void handleMIDI(RSJ::Message) override;
 
 private:
   // IPC interface
@@ -75,6 +79,8 @@ private:
   virtual void handleAsyncUpdate() override;
   // Timer callback
   virtual void timerCallback() override;
+
+  ControlsModel* controls_model_; //-V122
 
   std::vector<LRConnectionListener *> listeners_;
   bool timer_off_{false};
