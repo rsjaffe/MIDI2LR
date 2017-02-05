@@ -85,13 +85,13 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
   return 0;
 }
 
-void ChannelModel::setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
+void ChannelModel::setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug) {
   setCCmin(controlnumber, min);
   setCCmax(controlnumber, max);
   setCCmethod(controlnumber, controltype);
 }
 
-void ChannelModel::setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept {
+void ChannelModel::setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug) {
   if (IsNRPN_(controlnumber))
     for (short a = kMaxMIDI + 1; a <= kMaxNRPN; ++a)
       setCC(a, min, max, controltype);
@@ -148,7 +148,7 @@ void ChannelModel::setPWmin(short value) noexcept(ndebug) {
     pitchWheelMin_ = value;
 }
 
-void ChannelModel::activeToSaved() const {
+void ChannelModel::activeToSaved()  const {
   settingsToSave_.clear();
   for (short i = 0; i <= kMaxMIDI; ++i)
     if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxMIDI || ccLow_[i] != 0)
@@ -158,7 +158,7 @@ void ChannelModel::activeToSaved() const {
       settingsToSave_.emplace_back(i, ccHigh_[i], ccLow_[i], ccMethod_[i]);
 }
 
-void ChannelModel::savedToActive() {
+void ChannelModel::savedToActive() noexcept(ndebug) {
   //program defaults
   ccLow_.fill(0);
   ccHigh_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here

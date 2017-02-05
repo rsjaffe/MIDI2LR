@@ -87,8 +87,8 @@ public:
   short getPWmax() const noexcept;
   short getPWmin() const noexcept;
   short PluginToController(short controltype, size_t controlnumber, double value) noexcept(ndebug);
-  void setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept;
-  void setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept;
+  void setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug);
+  void setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug);
   void setCCmax(size_t controlnumber, short value) noexcept(ndebug);
   void setCCmethod(size_t controlnumber, RSJ::CCmethod value) noexcept(ndebug);
   void setCCmin(size_t controlnumber, short value) noexcept(ndebug);
@@ -110,7 +110,7 @@ private:
   template<class Archive> void load(Archive & archive, std::uint32_t const version);
   template<class Archive> void save(Archive & archive, std::uint32_t const version) const;
   void activeToSaved() const;
-  void savedToActive();
+  void savedToActive() noexcept(ndebug);
 };
 
 class ControlsModel {
