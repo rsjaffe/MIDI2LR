@@ -10,7 +10,7 @@ AppVeyor <img alt = "AppVeyor Build Status" src="https://ci.appveyor.com/api/pro
 
 | Screenshot | Further information |
 | -----------| -------------------- |
-| <img src="http://rsjaffe.github.io/MIDI2LR/images/appv082.png" /> | **Discussion Forum**: https://groups.google.com/d/forum/midi2lr <br /> **Donations Welcome**: [Donate to development costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YWHT4JMA42RXN). <br />**Supported platforms**: Mac OSX 10.9+, Windows 7/8/10. <br />**Building**: [See the BUILD.txt file](https://github.com/rsjaffe/MIDI2LR/blob/master/BUILD.txt). <br />**Project Page**: [Project Page](http://rsjaffe.github.io/MIDI2LR). <br />**Wiki and Instruction Manual**: [Wiki :book:](https://github.com/rsjaffe/MIDI2LR/wiki). |
+| <img src="http://rsjaffe.github.io/MIDI2LR/images/app.png" /> | **Discussion Forum**: https://groups.google.com/d/forum/midi2lr <br /> **Donations Welcome**: [Donate to development costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YWHT4JMA42RXN). <br />**Supported platforms**: Mac OSX 10.9+, Windows 7/8/10. <br />**Building**: [See the BUILD.txt file](https://github.com/rsjaffe/MIDI2LR/blob/master/BUILD.txt). <br />**Project Page**: [Project Page](http://rsjaffe.github.io/MIDI2LR). <br />**Wiki and Instruction Manual**: [Wiki :book:](https://github.com/rsjaffe/MIDI2LR/wiki). |
 
 
 
