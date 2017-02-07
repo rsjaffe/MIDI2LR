@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.6.1.0</span>
+   &#160;<span id="projectnumber">2.0.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,7 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -136,9 +135,7 @@ $(document).ready(function(){initNavTree('class_main_content_component.html','')
   <tr><td class="entry"><a class="el" href="class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab">getMaximumWidth</a>() const </td><td class="entry"><a class="el" href="class_resizable_child.html">ResizableChild</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_resizable_child.html#a3dc554161d4b994494326227a96a644c">getMinimumHeight</a>() const </td><td class="entry"><a class="el" href="class_resizable_child.html">ResizableChild</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_resizable_child.html#a799c8cf06801b7da7fd6d987892740e1">getMinimumWidth</a>() const </td><td class="entry"><a class="el" href="class_resizable_child.html">ResizableChild</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_main_content_component.html#a707968b7a37aa4d5aa1a4fe57f44e86e">handleMidiCC</a>(int midi_channel, int controller, int value) override</td><td class="entry"><a class="el" href="class_main_content_component.html">MainContentComponent</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_main_content_component.html#a406b8dd5a8d7510f7688e83a69b58ed1">handleMidiNote</a>(int midi_channel, int note) override</td><td class="entry"><a class="el" href="class_main_content_component.html">MainContentComponent</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_main_content_component.html#ad953e10bf8cd7a5a5e559d0e694dc5ff">handlePitchWheel</a>(int midi_channel, int value) override</td><td class="entry"><a class="el" href="class_main_content_component.html">MainContentComponent</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_main_content_component.html#a258b484bca4af6ab0fc2bb7ca17ffb84">handleMIDI</a>(RSJ::Message) override</td><td class="entry"><a class="el" href="class_main_content_component.html">MainContentComponent</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_main_content_component.html#a105d78500f988b18fa65b927a938b261">Init</a>(std::shared_ptr&lt; CommandMap &gt; &amp;command_map, std::weak_ptr&lt; LR_IPC_IN &gt; &amp;&amp;in, std::weak_ptr&lt; LR_IPC_OUT &gt; &amp;&amp;out, std::shared_ptr&lt; MIDIProcessor &gt; &amp;midi_processor, std::shared_ptr&lt; ProfileManager &gt; &amp;profile_manager, std::shared_ptr&lt; SettingsManager &gt; &amp;settings_manager, std::shared_ptr&lt; MIDISender &gt; &amp;midi_sender)</td><td class="entry"><a class="el" href="class_main_content_component.html">MainContentComponent</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_main_content_component.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb">MainContentComponent</a>()</td><td class="entry"><a class="el" href="class_main_content_component.html">MainContentComponent</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_main_content_component.html#a4f0dda76411019d6f94c6c91f113a995">profileChanged</a>(juce::XmlElement *elem, const juce::String &amp;file_name) override</td><td class="entry"><a class="el" href="class_main_content_component.html">MainContentComponent</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>

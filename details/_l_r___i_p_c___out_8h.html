@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.6.1.0</span>
+   &#160;<span id="projectnumber">2.0.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,7 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -114,24 +113,27 @@ $(document).ready(function(){initNavTree('_l_r___i_p_c___out_8h.html','');});
 <div class="title">LR_IPC_Out.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<div class="textblock"><code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_utilities_8h_source.html">Utilities/Utilities.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
-<code>#include &quot;<a class="el" href="_utilities_8h_source.html">Utilities/Utilities.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for LR_IPC_Out.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_l_r___i_p_c___out_8h__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_l_r___i_p_c___out_8h" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_l_r___i_p_c___out_8h" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_l_r___i_p_c___out_8h">
-<area shape="rect" id="node8" href="_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="340,259,463,285"/>
-<area shape="rect" id="node14" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="689,95,807,121"/>
-<area shape="rect" id="node17" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="211,95,330,121"/>
-<area shape="rect" id="node19" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="230,177,343,203"/>
+<area shape="rect" id="node3" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="167,95,285,121"/>
+<area shape="rect" id="node8" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="1020,95,1136,121"/>
+<area shape="rect" id="node18" href="_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="1579,251,1702,278"/>
+<area shape="rect" id="node24" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1487,95,1605,121"/>
+<area shape="rect" id="node17" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1227,169,1327,196"/>
+<area shape="rect" id="node26" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="1584,169,1697,196"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">

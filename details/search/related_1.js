@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_resizable_layout.html#af7f3636f234d1cdf71500ab6a6963b6f',1,'ResizableLayout']]]
+  ['span',['span',['../classgsl_1_1span.html#a2d3ca180aef0bab56d21f3c4a90c23df',1,'gsl::span']]]
 ];

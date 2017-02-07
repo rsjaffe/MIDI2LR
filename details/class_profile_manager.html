@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.6.1.0</span>
+   &#160;<span id="projectnumber">2.0.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,7 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -139,8 +138,8 @@ Collaboration diagram for ProfileManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a760f9ac84abea0c2f5435238fc274970"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a760f9ac84abea0c2f5435238fc274970">ProfileManager</a> () noexcept</td></tr>
-<tr class="separator:a760f9ac84abea0c2f5435238fc274970"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4cd2507d41bdec7d18506a2b9ac482d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#ac4cd2507d41bdec7d18506a2b9ac482d">ProfileManager</a> (<a class="el" href="class_controls_model.html">ControlsModel</a> *c_model) noexcept</td></tr>
+<tr class="separator:ac4cd2507d41bdec7d18506a2b9ac482d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29f66b82d8f081dbb11a9634493458f3"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a29f66b82d8f081dbb11a9634493458f3">~ProfileManager</a> ()</td></tr>
 <tr class="separator:a29f66b82d8f081dbb11a9634493458f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab10b542da25d23277371cd2103316098"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#ab10b542da25d23277371cd2103316098">addListener</a> (<a class="el" href="class_profile_change_listener.html">ProfileChangeListener</a> *listener)</td></tr>
@@ -151,12 +150,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2012de57ea041dcf2680a824bf68a423"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39a43ec130d313f5816372d1635cf3cc"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; juce::String &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a39a43ec130d313f5816372d1635cf3cc">getMenuItems</a> () const  noexcept</td></tr>
 <tr class="separator:a39a43ec130d313f5816372d1635cf3cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32fc121bb66f360e911800c246ca33a6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a32fc121bb66f360e911800c246ca33a6">handleMidiCC</a> (int midi_channel, int controller, int value) override</td></tr>
-<tr class="separator:a32fc121bb66f360e911800c246ca33a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6cab044e89f88926dbc57ca5bfd6b4e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#aa6cab044e89f88926dbc57ca5bfd6b4e">handleMidiNote</a> (int midi_channel, int note) override</td></tr>
-<tr class="separator:aa6cab044e89f88926dbc57ca5bfd6b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad178bb40c953bd0d59e2915fcfeb304e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#ad178bb40c953bd0d59e2915fcfeb304e">handlePitchWheel</a> (int midi_channel, int value) override</td></tr>
-<tr class="separator:ad178bb40c953bd0d59e2915fcfeb304e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a420e96ac8fe236940f54596ad8ba9cec"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a420e96ac8fe236940f54596ad8ba9cec">handleMIDI</a> (<a class="el" href="struct_r_s_j_1_1_message.html">RSJ::Message</a>) override</td></tr>
+<tr class="separator:a420e96ac8fe236940f54596ad8ba9cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a119b5263cd581781a5983c8888780261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a119b5263cd581781a5983c8888780261">Init</a> (std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, std::shared_ptr&lt; <a class="el" href="class_command_map.html">CommandMap</a> &gt; &amp;command_map, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midi_processor)</td></tr>
 <tr class="separator:a119b5263cd581781a5983c8888780261"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af95ce2ad04ffffae98504a44962c9030"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#af95ce2ad04ffffae98504a44962c9030">setProfileDirectory</a> (const juce::File &amp;dir)</td></tr>
@@ -180,7 +175,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock">
 <p>Definition at line <a class="el" href="_profile_manager_8h_source.html#l00040">40</a> of file <a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a760f9ac84abea0c2f5435238fc274970"></a>
+<a class="anchor" id="ac4cd2507d41bdec7d18506a2b9ac482d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -190,7 +185,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">ProfileManager::ProfileManager </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_controls_model.html">ControlsModel</a> *&#160;</td>
+          <td class="paramname"><em>c_model</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -201,7 +197,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00026">26</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00028">28</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -245,7 +241,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00046">46</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00049">49</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +268,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_l_r_connection_listener.html#a751cf0a273f7bdd3c9d1c56ca495dfe0">LRConnectionListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00166">166</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00159">159</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -299,7 +295,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_l_r_connection_listener.html#a77600d9569cff2499b049687b3c1ac8f">LRConnectionListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00175">175</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00168">168</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -324,11 +320,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00068">68</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00071">71</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a32fc121bb66f360e911800c246ca33a6"></a>
+<a class="anchor" id="a420e96ac8fe236940f54596ad8ba9cec"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -336,27 +332,11 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ProfileManager::handleMidiCC </td>
+          <td class="memname">void ProfileManager::handleMIDI </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>midi_channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="struct_r_s_j_1_1_message.html">RSJ::Message</a>&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>controller</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -366,118 +346,18 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#a9bfd81e80280c1889411b60d4c676ea2">MIDICommandListener</a>.</p>
+<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#ab212fd0e575b5451f17f698a5b318ad5">MIDICommandListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00128">128</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00129">129</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_map_8h_source.html#l00032">CC</a>, and <a class="el" href="_command_map_8h_source.html#l00050">MIDI_Message_ID::MIDI_Message_ID()</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_profile_manager_a32fc121bb66f360e911800c246ca33a6_cgraph.png" border="0" usemap="#class_profile_manager_a32fc121bb66f360e911800c246ca33a6_cgraph" alt=""/></div>
-<map name="class_profile_manager_a32fc121bb66f360e911800c246ca33a6_cgraph" id="class_profile_manager_a32fc121bb66f360e911800c246ca33a6_cgraph">
-<area shape="rect" id="node2" href="struct_m_i_d_i___message___i_d.html#acdf63bfeeb53f1ed600950a0d3c76a61" title="MIDI_Message_ID::MIDI\l_Message_ID" alt="" coords="249,5,411,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="aa6cab044e89f88926dbc57ca5bfd6b4e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ProfileManager::handleMidiNote </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>midi_channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>note</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#ae2f4c3f606f9f18906f56b3c3bf1fb42">MIDICommandListener</a>.</p>
-
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00141">141</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
-
-<p>References <a class="el" href="_command_map_8h_source.html#l00050">MIDI_Message_ID::MIDI_Message_ID()</a>, and <a class="el" href="_command_map_8h_source.html#l00032">NOTE</a>.</p>
+<p>References <a class="el" href="_command_map_8h_source.html#l00033">CC</a>, <a class="el" href="_midi_utilities_8h_source.html#l00038">RSJ::Message::Channel</a>, <a class="el" href="_midi_utilities_8h_source.html#l00030">RSJ::kCCFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00028">RSJ::kNoteOnFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00033">RSJ::kPWFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00037">RSJ::Message::MessageType</a>, <a class="el" href="_command_map_8h_source.html#l00052">MIDI_Message_ID::MIDI_Message_ID()</a>, <a class="el" href="_command_map_8h_source.html#l00033">NOTE</a>, <a class="el" href="_midi_utilities_8h_source.html#l00039">RSJ::Message::Number</a>, and <a class="el" href="_command_map_8h_source.html#l00033">PITCHBEND</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_profile_manager_aa6cab044e89f88926dbc57ca5bfd6b4e_cgraph.png" border="0" usemap="#class_profile_manager_aa6cab044e89f88926dbc57ca5bfd6b4e_cgraph" alt=""/></div>
-<map name="class_profile_manager_aa6cab044e89f88926dbc57ca5bfd6b4e_cgraph" id="class_profile_manager_aa6cab044e89f88926dbc57ca5bfd6b4e_cgraph">
-<area shape="rect" id="node2" href="struct_m_i_d_i___message___i_d.html#acdf63bfeeb53f1ed600950a0d3c76a61" title="MIDI_Message_ID::MIDI\l_Message_ID" alt="" coords="259,5,420,47"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="ad178bb40c953bd0d59e2915fcfeb304e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ProfileManager::handlePitchWheel </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>midi_channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#a4f690e3673d1ce402f4982b4753392e8">MIDICommandListener</a>.</p>
-
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00153">153</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
-
-<p>References <a class="el" href="_command_map_8h_source.html#l00050">MIDI_Message_ID::MIDI_Message_ID()</a>, and <a class="el" href="_command_map_8h_source.html#l00032">PITCHBEND</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_profile_manager_ad178bb40c953bd0d59e2915fcfeb304e_cgraph.png" border="0" usemap="#class_profile_manager_ad178bb40c953bd0d59e2915fcfeb304e_cgraph" alt=""/></div>
-<map name="class_profile_manager_ad178bb40c953bd0d59e2915fcfeb304e_cgraph" id="class_profile_manager_ad178bb40c953bd0d59e2915fcfeb304e_cgraph">
-<area shape="rect" id="node2" href="struct_m_i_d_i___message___i_d.html#acdf63bfeeb53f1ed600950a0d3c76a61" title="MIDI_Message_ID::MIDI\l_Message_ID" alt="" coords="237,5,399,47"/>
+<div class="center"><img src="class_profile_manager_a420e96ac8fe236940f54596ad8ba9cec_cgraph.png" border="0" usemap="#class_profile_manager_a420e96ac8fe236940f54596ad8ba9cec_cgraph" alt=""/></div>
+<map name="class_profile_manager_a420e96ac8fe236940f54596ad8ba9cec_cgraph" id="class_profile_manager_a420e96ac8fe236940f54596ad8ba9cec_cgraph">
+<area shape="rect" id="node2" href="struct_m_i_d_i___message___i_d.html#acdf63bfeeb53f1ed600950a0d3c76a61" title="MIDI_Message_ID::MIDI\l_Message_ID" alt="" coords="233,5,395,47"/>
 </map>
 </div>
 </p>
@@ -514,7 +394,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00028">28</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00031">31</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -532,7 +412,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00053">53</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00056">56</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -549,9 +429,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00100">100</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00103">103</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
-<p>References <a class="el" href="_profile_manager_8cpp_source.html#l00072">switchToProfile()</a>.</p>
+<p>References <a class="el" href="_profile_manager_8cpp_source.html#l00075">switchToProfile()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -578,9 +458,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00108">108</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00111">111</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
-<p>References <a class="el" href="_profile_manager_8cpp_source.html#l00072">switchToProfile()</a>.</p>
+<p>References <a class="el" href="_profile_manager_8cpp_source.html#l00075">switchToProfile()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -608,9 +488,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00072">72</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00075">75</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="_profile_manager_8cpp_source.html#l00100">switchToNextProfile()</a>, and <a class="el" href="_profile_manager_8cpp_source.html#l00108">switchToPreviousProfile()</a>.</p>
+<p>Referenced by <a class="el" href="_profile_manager_8cpp_source.html#l00103">switchToNextProfile()</a>, and <a class="el" href="_profile_manager_8cpp_source.html#l00111">switchToPreviousProfile()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -639,7 +519,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00079">79</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00082">82</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>

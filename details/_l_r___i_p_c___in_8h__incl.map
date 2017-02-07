@@ -1,10 +1,12 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/LR_IPC_In.h" name="Q:/Documents/GitHub/MIDI2LR/Source/LR_IPC_In.h">
-<area shape="rect" id="node7" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="93,244,211,271"/>
-<area shape="rect" id="node10" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="337,244,437,271"/>
-<area shape="rect" id="node12" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="466,95,585,121"/>
-<area shape="rect" id="node24" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="1112,244,1205,271"/>
-<area shape="rect" id="node13" href="$_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="546,169,657,196"/>
-<area shape="rect" id="node20" href="$_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="715,244,834,271"/>
-<area shape="rect" id="node14" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="559,408,681,435"/>
-<area shape="rect" id="node22" href="$_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="715,326,829,353"/>
+<area shape="rect" id="node7" href="$_controls_model_8h.html" title="ControlsModel.h" alt="" coords="717,244,833,271"/>
+<area shape="rect" id="node22" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="2052,244,2169,271"/>
+<area shape="rect" id="node25" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="1877,244,1977,271"/>
+<area shape="rect" id="node26" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="1678,95,1797,121"/>
+<area shape="rect" id="node30" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="857,244,951,271"/>
+<area shape="rect" id="node16" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1367,319,1467,345"/>
+<area shape="rect" id="node17" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="669,401,792,427"/>
+<area shape="rect" id="node27" href="$_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="1433,169,1543,196"/>
+<area shape="rect" id="node28" href="$_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1429,244,1547,271"/>
+<area shape="rect" id="node29" href="$_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="1178,319,1291,345"/>
 </map>

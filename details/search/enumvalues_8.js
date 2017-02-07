@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yellow',['YELLOW',['../_event_type_8h.html#a2628ea8d12e8b2563c32f05dc7fff6faa8a568e5f41b7e4da88fe5c4a00aad34e',1,'EventType.h']]]
+  ['twoscomplement',['twoscomplement',['../namespace_r_s_j.html#ae8a1ba44063d299ffca391860807ce69a24be4449094b0758c1edbf849abd3412',1,'RSJ']]]
 ];

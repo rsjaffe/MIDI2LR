@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['span',['span',['../classgsl_1_1span.html#a2d3ca180aef0bab56d21f3c4a90c23df',1,'gsl::span']]]
+  ['access',['access',['../class_channel_model.html#ab2f44cbb59a08132f4c843e5225bba0e',1,'ChannelModel::access()'],['../class_controls_model.html#ab2f44cbb59a08132f4c843e5225bba0e',1,'ControlsModel::access()']]]
 ];

@@ -7,11 +7,18 @@ var hierarchy =
       [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
     [ "ButtonListener", null, [
-      [ "CommandMenu", "class_command_menu.html", null ],
+      [ "CCoptions", "class_c_coptions.html", null ]
+    ] ],
+    [ "ButtonListener", null, [
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
+    [ "ChannelModel", "class_channel_model.html", null ],
     [ "CommandMap", "class_command_map.html", null ],
+    [ "Component", null, [
+      [ "CCoptions", "class_c_coptions.html", null ],
+      [ "PWoptions", "class_p_woptions.html", null ]
+    ] ],
     [ "Component", null, [
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
@@ -23,7 +30,12 @@ var hierarchy =
         [ "TopLevelResizableLayout", "class_top_level_resizable_layout.html", null ]
       ] ]
     ] ],
+    [ "ControlsModel", "class_controls_model.html", null ],
     [ "RSJ::counter< T >", "struct_r_s_j_1_1counter.html", null ],
+    [ "DeletedAtShutdown", null, [
+      [ "LR_IPC_IN", "class_l_r___i_p_c___i_n.html", null ],
+      [ "LR_IPC_OUT", "class_l_r___i_p_c___o_u_t.html", null ]
+    ] ],
     [ "DocumentWindow", null, [
       [ "MainWindow", "class_main_window.html", null ]
     ] ],
@@ -39,6 +51,10 @@ var hierarchy =
       [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", null ]
     ] ],
     [ "Listener", null, [
+      [ "CCoptions", "class_c_coptions.html", null ],
+      [ "PWoptions", "class_p_woptions.html", null ]
+    ] ],
+    [ "Listener", null, [
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
     [ "LRCommandList", "class_l_r_command_list.html", null ],
@@ -47,6 +63,7 @@ var hierarchy =
       [ "ProfileManager", "class_profile_manager.html", null ],
       [ "SettingsManager", "class_settings_manager.html", null ]
     ] ],
+    [ "RSJ::Message", "struct_r_s_j_1_1_message.html", null ],
     [ "MIDI_Message_ID", "struct_m_i_d_i___message___i_d.html", null ],
     [ "MIDICommandListener", "class_m_i_d_i_command_listener.html", [
       [ "LR_IPC_OUT", "class_l_r___i_p_c___o_u_t.html", null ],
@@ -80,6 +97,7 @@ var hierarchy =
       [ "mir::scene::SurfaceStack", "classmir_1_1scene_1_1_surface_stack.html", null ]
     ] ],
     [ "SendKeys", "class_send_keys.html", null ],
+    [ "RSJ::SettingsStruct", "struct_r_s_j_1_1_settings_struct.html", null ],
     [ "gsl::span< T >", "classgsl_1_1span.html", null ],
     [ "RSJ::spinlock", "class_r_s_j_1_1spinlock.html", null ],
     [ "StreamingSocket", null, [
@@ -105,8 +123,8 @@ var hierarchy =
       [ "LR_IPC_IN", "class_l_r___i_p_c___i_n.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
-    [ "RSJ::threadsafe_queue< T >", "class_r_s_j_1_1threadsafe__queue.html", null ],
     [ "threadsafe_queue< T >", "classthreadsafe__queue.html", null ],
+    [ "RSJ::threadsafe_queue< T >", "class_r_s_j_1_1threadsafe__queue.html", null ],
     [ "mir::ThreadSafeList< Element >", "classmir_1_1_thread_safe_list.html", null ],
     [ "mir::ThreadSafeList< std::shared_ptr< Observer > >", "classmir_1_1_thread_safe_list.html", [
       [ "mir::BasicObservers< Observer >", "classmir_1_1_basic_observers.html", [

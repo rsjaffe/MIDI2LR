@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.6.1.0</span>
+   &#160;<span id="projectnumber">2.0.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,7 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -154,12 +153,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a17a320849296be1f080bb24d92c069e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06efe52a519e42c8f1170a3035a160d6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a06efe52a519e42c8f1170a3035a160d6">disconnected</a> () override</td></tr>
 <tr class="separator:a06efe52a519e42c8f1170a3035a160d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a707968b7a37aa4d5aa1a4fe57f44e86e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a707968b7a37aa4d5aa1a4fe57f44e86e">handleMidiCC</a> (int midi_channel, int controller, int value) override</td></tr>
-<tr class="separator:a707968b7a37aa4d5aa1a4fe57f44e86e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a406b8dd5a8d7510f7688e83a69b58ed1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a406b8dd5a8d7510f7688e83a69b58ed1">handleMidiNote</a> (int midi_channel, int note) override</td></tr>
-<tr class="separator:a406b8dd5a8d7510f7688e83a69b58ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad953e10bf8cd7a5a5e559d0e694dc5ff"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#ad953e10bf8cd7a5a5e559d0e694dc5ff">handlePitchWheel</a> (int midi_channel, int value) override</td></tr>
-<tr class="separator:ad953e10bf8cd7a5a5e559d0e694dc5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a258b484bca4af6ab0fc2bb7ca17ffb84"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a258b484bca4af6ab0fc2bb7ca17ffb84">handleMIDI</a> (<a class="el" href="struct_r_s_j_1_1_message.html">RSJ::Message</a>) override</td></tr>
+<tr class="separator:a258b484bca4af6ab0fc2bb7ca17ffb84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a105d78500f988b18fa65b927a938b261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a105d78500f988b18fa65b927a938b261">Init</a> (std::shared_ptr&lt; <a class="el" href="class_command_map.html">CommandMap</a> &gt; &amp;command_map, std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___i_n.html">LR_IPC_IN</a> &gt; &amp;&amp;in, std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midi_processor, std::shared_ptr&lt; <a class="el" href="class_profile_manager.html">ProfileManager</a> &gt; &amp;profile_manager, std::shared_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;settings_manager, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_sender.html">MIDISender</a> &gt; &amp;midi_sender)</td></tr>
 <tr class="separator:a105d78500f988b18fa65b927a938b261"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f0dda76411019d6f94c6c91f113a995"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a4f0dda76411019d6f94c6c91f113a995">profileChanged</a> (juce::XmlElement *elem, const juce::String &amp;file_name) override</td></tr>
@@ -275,7 +270,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00050">50</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00052">52</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -300,7 +295,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00052">52</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00054">54</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +323,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_l_r_connection_listener.html#a751cf0a273f7bdd3c9d1c56ca495dfe0">LRConnectionListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00221">221</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00223">223</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -355,11 +350,11 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_l_r_connection_listener.html#a77600d9569cff2499b049687b3c1ac8f">LRConnectionListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00226">226</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00228">228</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a707968b7a37aa4d5aa1a4fe57f44e86e"></a>
+<a class="anchor" id="a258b484bca4af6ab0fc2bb7ca17ffb84"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -367,27 +362,11 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void MainContentComponent::handleMidiCC </td>
+          <td class="memname">void MainContentComponent::handleMIDI </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>midi_channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="struct_r_s_j_1_1_message.html">RSJ::Message</a>&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>controller</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -397,85 +376,11 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#a9bfd81e80280c1889411b60d4c676ea2">MIDICommandListener</a>.</p>
+<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#ab212fd0e575b5451f17f698a5b318ad5">MIDICommandListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00197">197</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00199">199</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
-</div>
-</div>
-<a class="anchor" id="a406b8dd5a8d7510f7688e83a69b58ed1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MainContentComponent::handleMidiNote </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>midi_channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>note</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#ae2f4c3f606f9f18906f56b3c3bf1fb42">MIDICommandListener</a>.</p>
-
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00205">205</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad953e10bf8cd7a5a5e559d0e694dc5ff"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MainContentComponent::handlePitchWheel </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>midi_channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="class_m_i_d_i_command_listener.html#a4f690e3673d1ce402f4982b4753392e8">MIDICommandListener</a>.</p>
-
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00213">213</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>References <a class="el" href="_command_map_8h_source.html#l00033">CC</a>, <a class="el" href="_midi_utilities_8h_source.html#l00038">RSJ::Message::Channel</a>, <a class="el" href="_midi_utilities_8h_source.html#l00030">RSJ::kCCFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00028">RSJ::kNoteOnFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00033">RSJ::kPWFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00037">RSJ::Message::MessageType</a>, <a class="el" href="_command_map_8h_source.html#l00033">NOTE</a>, and <a class="el" href="_command_map_8h_source.html#l00033">PITCHBEND</a>.</p>
 
 </div>
 </div>
@@ -533,7 +438,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00054">54</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00056">56</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -571,7 +476,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_profile_change_listener.html#aad2de771d58fdc9e7a27c52b2e790cd5">ProfileChangeListener</a>.</p>
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00333">333</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00335">335</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -597,7 +502,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00356">356</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00358">358</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -615,7 +520,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00346">346</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00348">348</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>

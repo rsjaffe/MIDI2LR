@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keyshortcuts',['KeyShortcuts',['../class_l_r_command_list.html#a4682b816cd5db444e52a8c8d0a068aeb',1,'LRCommandList']]]
+  ['high',['high',['../struct_r_s_j_1_1_settings_struct.html#ae83b38cd259bc6f081c42042ec4938cc',1,'RSJ::SettingsStruct']]]
 ];

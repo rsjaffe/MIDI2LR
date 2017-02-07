@@ -1,17 +1,19 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/MainWindow.h" name="Q:/Documents/GitHub/MIDI2LR/Source/MainWindow.h">
-<area shape="rect" id="node4" href="$_main_component_8h.html" title="MainComponent.h" alt="" coords="813,95,939,121"/>
-<area shape="rect" id="node33" href="$_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="607,169,737,196"/>
-<area shape="rect" id="node5" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="1656,393,1773,420"/>
-<area shape="rect" id="node10" href="$_command_table_8h.html" title="CommandTable.h" alt="" coords="1068,169,1191,196"/>
-<area shape="rect" id="node11" href="$_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="1045,244,1203,271"/>
-<area shape="rect" id="node16" href="$_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="1419,169,1514,196"/>
-<area shape="rect" id="node19" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="618,244,737,271"/>
-<area shape="rect" id="node20" href="$_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="575,319,686,345"/>
-<area shape="rect" id="node26" href="$_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="145,393,263,420"/>
-<area shape="rect" id="node31" href="$_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="863,169,993,196"/>
-<area shape="rect" id="node14" href="$_command_menu_8h.html" title="CommandMenu.h" alt="" coords="1170,319,1294,345"/>
-<area shape="rect" id="node18" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="846,393,946,420"/>
-<area shape="rect" id="node30" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="1899,393,1992,420"/>
-<area shape="rect" id="node21" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="493,557,616,584"/>
-<area shape="rect" id="node28" href="$_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="179,475,293,502"/>
+<area shape="rect" id="node4" href="$_main_component_8h.html" title="MainComponent.h" alt="" coords="1064,95,1191,121"/>
+<area shape="rect" id="node39" href="$_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="469,169,600,196"/>
+<area shape="rect" id="node5" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="284,468,401,495"/>
+<area shape="rect" id="node10" href="$_command_table_8h.html" title="CommandTable.h" alt="" coords="1292,244,1414,271"/>
+<area shape="rect" id="node11" href="$_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="1258,319,1416,345"/>
+<area shape="rect" id="node16" href="$_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="672,169,767,196"/>
+<area shape="rect" id="node32" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="843,244,962,271"/>
+<area shape="rect" id="node33" href="$_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="582,319,692,345"/>
+<area shape="rect" id="node34" href="$_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1660,393,1779,420"/>
+<area shape="rect" id="node37" href="$_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="1798,169,1927,196"/>
+<area shape="rect" id="node14" href="$_command_menu_8h.html" title="CommandMenu.h" alt="" coords="1258,393,1382,420"/>
+<area shape="rect" id="node18" href="$_controls_model_8h.html" title="ControlsModel.h" alt="" coords="2024,393,2140,420"/>
+<area shape="rect" id="node31" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="980,393,1080,420"/>
+<area shape="rect" id="node36" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="33,468,126,495"/>
+<area shape="rect" id="node26" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1758,468,1858,495"/>
+<area shape="rect" id="node27" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="2721,550,2844,577"/>
+<area shape="rect" id="node35" href="$_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="2578,468,2691,495"/>
 </map>

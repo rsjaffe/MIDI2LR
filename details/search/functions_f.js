@@ -25,6 +25,7 @@ var searchData=
   ['rescandevices',['RescanDevices',['../class_m_i_d_i_sender.html#a2afaa54965878a2d682001dd54076be7',1,'MIDISender::RescanDevices()'],['../class_m_i_d_i_processor.html#a428ae83cf3c9f8ed7d10ef9d3695fa0e',1,'MIDIProcessor::RescanDevices()']]],
   ['resizablechild',['ResizableChild',['../class_resizable_child.html#a7f1450e61061b26d05d786f5d9df9dfb',1,'ResizableChild']]],
   ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html#a234ea8d8a9594d6f2625e290b9fd4bb3',1,'ResizableLayout']]],
+  ['resized',['resized',['../class_c_coptions.html#a5d08843370dbba861d25fec42f47862f',1,'CCoptions::resized()'],['../class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2',1,'PWoptions::resized()']]],
   ['resized_5fto',['resized_to',['../classmir_1_1scene_1_1_surface_observers.html#ab280e9d6fa76f631ff2fd62780fe4269',1,'mir::scene::SurfaceObservers']]],
   ['resizestart',['resizeStart',['../class_resizable_child.html#aab700a53db0ffaf68f75bf29fd824b20',1,'ResizableChild']]],
   ['rtrim',['rtrim',['../namespace_r_s_j.html#a16cd63e4c06f69785a058e1811492615',1,'RSJ']]]

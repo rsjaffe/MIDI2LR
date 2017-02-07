@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">1.6.1.0</span>
+   &#160;<span id="projectnumber">2.0.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -49,7 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -117,11 +116,9 @@ $(document).ready(function(){initNavTree('class_l_r___i_p_c___o_u_t.html','');})
 <p>This is the complete list of members for <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#adbfa161730bad89c9e761cf60b6909ad">addListener</a>(LRConnectionListener *listener)</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#ad2d2b544157950b3b74ff6f7791c98cc">handleMidiCC</a>(int midiChannel, int controller, int value) override</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#ab586f83cf46e3a10ab03a934c749d60d">handleMidiNote</a>(int midiChannel, int note) override</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a236102c8999630ffc6651660de9ca2d5">handlePitchWheel</a>(int midiChannel, int value) override</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a83240d2e3c78622ad457f4165a0c3429">handleMIDI</a>(RSJ::Message) override</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a60675a293f413269f491889cb2726867">Init</a>(std::shared_ptr&lt; CommandMap &gt; &amp;mapCommand, std::shared_ptr&lt; MIDIProcessor &gt; &amp;midiProcessor)</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a8842e5b48f3546b6269607aec979f916">LR_IPC_OUT</a>()</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a1014834396f94fb137dc5e1bcdcf5cf9">LR_IPC_OUT</a>(ControlsModel *c_model)</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a16365e97322c26abb3d0fff87465ad5e">sendCommand</a>(const std::string &amp;command)</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html#ab6886bfd16f03d4c29429087f4ea5421">~LR_IPC_OUT</a>()</td><td class="entry"><a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_m_i_d_i_command_listener.html#a538e7c50bd6e0f36187f10b3ec70c2b6">~MIDICommandListener</a>()</td><td class="entry"><a class="el" href="class_m_i_d_i_command_listener.html">MIDICommandListener</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>

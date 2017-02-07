@@ -1,9 +1,5 @@
 <map id="MIDI_Message_ID::MIDI_Message_ID" name="MIDI_Message_ID::MIDI_Message_ID">
-<area shape="rect" id="node2" href="$class_command_table_model.html#a8ac89ae0020ec0dd351fef7cf83338b5" title="CommandTableModel::\laddRow" alt="" coords="243,5,398,47"/>
-<area shape="rect" id="node3" href="$class_l_r___i_p_c___o_u_t.html#ad2d2b544157950b3b74ff6f7791c98cc" title="LR_IPC_OUT::handleMidiCC" alt="" coords="227,71,414,98"/>
-<area shape="rect" id="node4" href="$class_profile_manager.html#a32fc121bb66f360e911800c246ca33a6" title="ProfileManager::handleMidiCC" alt="" coords="223,122,419,149"/>
-<area shape="rect" id="node5" href="$class_l_r___i_p_c___o_u_t.html#ab586f83cf46e3a10ab03a934c749d60d" title="LR_IPC_OUT::handleMidiNote" alt="" coords="223,173,419,199"/>
-<area shape="rect" id="node6" href="$class_profile_manager.html#aa6cab044e89f88926dbc57ca5bfd6b4e" title="ProfileManager::handleMidiNote" alt="" coords="218,223,423,250"/>
-<area shape="rect" id="node7" href="$class_l_r___i_p_c___o_u_t.html#a236102c8999630ffc6651660de9ca2d5" title="LR_IPC_OUT::handlePitchWheel" alt="" coords="215,274,427,301"/>
-<area shape="rect" id="node8" href="$class_profile_manager.html#ad178bb40c953bd0d59e2915fcfeb304e" title="ProfileManager::handlePitch\lWheel" alt="" coords="229,325,413,367"/>
+<area shape="rect" id="node2" href="$class_command_table_model.html#a8ac89ae0020ec0dd351fef7cf83338b5" title="CommandTableModel::\laddRow" alt="" coords="227,5,382,47"/>
+<area shape="rect" id="node3" href="$class_profile_manager.html#a420e96ac8fe236940f54596ad8ba9cec" title="ProfileManager::handleMIDI" alt="" coords="215,71,395,98"/>
+<area shape="rect" id="node4" href="$class_l_r___i_p_c___o_u_t.html#a83240d2e3c78622ad457f4165a0c3429" title="LR_IPC_OUT::handleMIDI" alt="" coords="219,122,390,149"/>
 </map>

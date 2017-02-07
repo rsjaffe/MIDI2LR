@@ -1,4 +1,0 @@
-<map id="mir::scene::SurfaceObservers" name="mir::scene::SurfaceObservers">
-<area shape="rect" id="node3" href="$classmir_1_1_basic_observers.html" title="mir::BasicObservers\l\&lt; SurfaceObserver \&gt;" alt="" coords="147,109,288,151"/>
-<area shape="rect" id="node4" href="$classmir_1_1_thread_safe_list.html" title="mir::ThreadSafeList\l\&lt; std::shared_ptr\&lt; Surface\lObserver \&gt; \&gt;" alt="" coords="129,5,306,61"/>
-</map>

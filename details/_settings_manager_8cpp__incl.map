@@ -1,9 +1,11 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/SettingsManager.cpp" name="Q:/Documents/GitHub/MIDI2LR/Source/SettingsManager.cpp">
-<area shape="rect" id="node2" href="$_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="767,95,897,121"/>
-<area shape="rect" id="node23" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="673,169,791,196"/>
-<area shape="rect" id="node5" href="$_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="777,244,887,271"/>
-<area shape="rect" id="node10" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="781,483,904,509"/>
-<area shape="rect" id="node16" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="237,319,355,345"/>
-<area shape="rect" id="node19" href="$_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="582,319,701,345"/>
-<area shape="rect" id="node21" href="$_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="609,401,722,427"/>
+<area shape="rect" id="node2" href="$_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="964,95,1095,121"/>
+<area shape="rect" id="node29" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="868,169,986,196"/>
+<area shape="rect" id="node5" href="$_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="968,244,1078,271"/>
+<area shape="rect" id="node6" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="202,319,319,345"/>
+<area shape="rect" id="node11" href="$_controls_model_8h.html" title="ControlsModel.h" alt="" coords="1053,319,1169,345"/>
+<area shape="rect" id="node21" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="1658,475,1780,502"/>
+<area shape="rect" id="node27" href="$_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="765,319,884,345"/>
+<area shape="rect" id="node20" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="637,393,737,420"/>
+<area shape="rect" id="node28" href="$_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="761,393,874,420"/>
 </map>

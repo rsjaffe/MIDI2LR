@@ -1,6 +1,9 @@
 var searchData=
 [
+  ['_7eccoptions',['~CCoptions',['../class_c_coptions.html#a7d12f2662d4da84b42808a4bcfee8057',1,'CCoptions']]],
+  ['_7echannelmodel',['~ChannelModel',['../class_channel_model.html#afcdeee3d748343a45485c2c63e618964',1,'ChannelModel']]],
   ['_7ecommandmap',['~CommandMap',['../class_command_map.html#aaf94ac25cd2791e0217ce40e09248ce9',1,'CommandMap']]],
+  ['_7econtrolsmodel',['~ControlsModel',['../class_controls_model.html#ae598d9113a0c3705592140a1199d1569',1,'ControlsModel']]],
   ['_7ecounter',['~counter',['../struct_r_s_j_1_1counter.html#afbe171f3923f3f7e4d7ea1bf7e6b6037',1,'RSJ::counter']]],
   ['_7efinal_5fact',['~Final_act',['../classgsl_1_1_final__act.html#ae638a4efe352baf19ceb7e3349bd0621',1,'gsl::Final_act']]],
   ['_7elr_5fipc_5fin',['~LR_IPC_IN',['../class_l_r___i_p_c___i_n.html#ad613e4cc08f64677aabe852af4a026ce',1,'LR_IPC_IN']]],
@@ -15,6 +18,7 @@ var searchData=
   ['_7eobserver',['~Observer',['../classmir_1_1scene_1_1_observer.html#a06413c8d001e1e1a2d85ecfdb94cf82b',1,'mir::scene::Observer']]],
   ['_7eprofilechangelistener',['~ProfileChangeListener',['../class_profile_change_listener.html#a5b0672ab10ebb2cd22f9d79f75e48be5',1,'ProfileChangeListener']]],
   ['_7eprofilemanager',['~ProfileManager',['../class_profile_manager.html#a29f66b82d8f081dbb11a9634493458f3',1,'ProfileManager']]],
+  ['_7epwoptions',['~PWoptions',['../class_p_woptions.html#a0fbbb29546c930f7f2156475754a8815',1,'PWoptions']]],
   ['_7erecursivereadlock',['~RecursiveReadLock',['../classmir_1_1_recursive_read_lock.html#a2721ff534e4e8bacfb7db8e0c89ef926',1,'mir::RecursiveReadLock']]],
   ['_7erecursivewritelock',['~RecursiveWriteLock',['../classmir_1_1_recursive_write_lock.html#adf575a8cddd4ea1589323063edbd5a00',1,'mir::RecursiveWriteLock']]],
   ['_7eresizablechild',['~ResizableChild',['../class_resizable_child.html#a57a06b3f6301466017274dc58aea8904',1,'ResizableChild']]],
