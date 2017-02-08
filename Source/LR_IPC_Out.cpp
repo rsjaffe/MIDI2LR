@@ -32,8 +32,8 @@ namespace {
   constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_OUT::LR_IPC_OUT(ControlsModel* c_model):
-  controls_model_{c_model},
+LR_IPC_OUT::LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand):
+  controls_model_{c_model}, command_map_{mapCommand},
   juce::InterprocessConnection() {}
 
 LR_IPC_OUT::~LR_IPC_OUT() {
@@ -43,14 +43,10 @@ LR_IPC_OUT::~LR_IPC_OUT() {
     juce::Timer::stopTimer();
   }
   juce::InterprocessConnection::disconnect();
-  command_map_.reset();
 }
 
-void LR_IPC_OUT::Init(std::shared_ptr<CommandMap>& command_map, //-V2009
+void LR_IPC_OUT::Init( //-V2009
   std::shared_ptr<MIDIProcessor>& midi_processor) {
-    //copy the pointer
-  command_map_ = command_map;
-
   if (midi_processor) {
     midi_processor->addMIDICommandListener(this);
   }

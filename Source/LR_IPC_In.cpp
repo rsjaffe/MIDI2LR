@@ -38,8 +38,8 @@ namespace {
   constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_IN::LR_IPC_IN(ControlsModel* c_model):
-  controls_model_{c_model},
+LR_IPC_IN::LR_IPC_IN(ControlsModel* c_model, ProfileManager* pmanager, CommandMap* cmap):
+  controls_model_{c_model}, profile_manager_{pmanager}, command_map_{cmap},
   juce::StreamingSocket{},
   juce::Thread{"LR_IPC_IN"} {}
 
@@ -53,11 +53,7 @@ LR_IPC_IN::~LR_IPC_IN() {
   juce::StreamingSocket::close();
 }
 
-void LR_IPC_IN::Init(std::shared_ptr<CommandMap>& map_command, //-V2009
-  std::shared_ptr<ProfileManager>& profile_manager,
-  std::shared_ptr<MIDISender>& midi_sender) noexcept {
-  command_map_ = map_command;
-  profile_manager_ = profile_manager;
+void LR_IPC_IN::Init(std::shared_ptr<MIDISender>& midi_sender) noexcept {
   midi_sender_ = midi_sender;
   //start the timer
   juce::Timer::startTimer(kTimerInterval);

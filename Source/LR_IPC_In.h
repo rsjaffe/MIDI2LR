@@ -39,11 +39,10 @@ class LR_IPC_IN final:
   private juce::Timer,
   private juce::Thread {
 public:
-  LR_IPC_IN(ControlsModel* c_model);
+  LR_IPC_IN(ControlsModel* c_model, ProfileManager* profileManager,
+    CommandMap* commandMap);
   virtual ~LR_IPC_IN();
-  void Init(std::shared_ptr<CommandMap>& mapCommand,
-    std::shared_ptr<ProfileManager>& profileManager,
-    std::shared_ptr<MIDISender>& midiSender) noexcept;
+  void Init(std::shared_ptr<MIDISender>& midiSender) noexcept;
   //signal exit to thread
   void PleaseStopThread(void);
 private:
@@ -58,11 +57,10 @@ private:
   bool timer_off_{false};
   mutable std::mutex timer_mutex_;
   SendKeys send_keys_;
-  std::shared_ptr<CommandMap> command_map_{nullptr};
+  CommandMap* const command_map_;
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
-  std::shared_ptr<ProfileManager> profile_manager_{nullptr};
-
-  ControlsModel* controls_model_; //-V122
+  ProfileManager* const profile_manager_;
+  ControlsModel* const controls_model_; //
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

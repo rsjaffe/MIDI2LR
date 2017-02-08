@@ -23,14 +23,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 #include <utility>
 
-VersionChecker::VersionChecker() noexcept : juce::Thread{"VersionChecker"} {}
+VersionChecker::VersionChecker(SettingsManager* setmgr) noexcept : 
+settings_manager_{setmgr}, juce::Thread{"VersionChecker"} {}
 
 VersionChecker::~VersionChecker() {
   stopThread(100);
-}
-
-void VersionChecker::Init(std::weak_ptr<SettingsManager>&& settings_manager) noexcept {
-  settings_manager_ = std::move(settings_manager);
 }
 
 void VersionChecker::run() {
@@ -39,12 +36,12 @@ void VersionChecker::run() {
 
   if (version_xml_element != nullptr) {
     int last_checked = 0;
-    if (const auto smp = settings_manager_.lock())
-      last_checked = smp->getLastVersionFound();
+    if (settings_manager_)
+      last_checked = settings_manager_->getLastVersionFound();
     new_version_ = version_xml_element->getIntAttribute("latest");
     if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
-      if (const auto smp = settings_manager_.lock())
-        smp->setLastVersionFound(new_version_);
+      if (settings_manager_)
+        settings_manager_->setLastVersionFound(new_version_);
       triggerAsyncUpdate();
     }
   }

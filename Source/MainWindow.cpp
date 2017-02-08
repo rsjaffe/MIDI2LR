@@ -24,12 +24,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainWindow.h"
 #include <utility>
 
-void MainWindow::Init(std::shared_ptr<CommandMap>& command_map,
+void MainWindow::Init(CommandMap* command_map,
   std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
   std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
   std::shared_ptr<MIDIProcessor>& midi_processor,
-  std::shared_ptr<ProfileManager>& profile_manager,
-  std::shared_ptr<SettingsManager>& settings_manager,
+  ProfileManager* profile_manager,
+  SettingsManager* settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
   // get the auto time setting
   if (settings_manager) {
