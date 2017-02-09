@@ -150,13 +150,19 @@ public:
     if (command_map_) {
       auto default_profile =
         juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-        getSiblingFile("default.xml");
+        juce::File::getSiblingFile("default.xml");
       command_map_->toXMLDocument(default_profile);
     }
     {//scoped so archive gets flushed
       std::ofstream outfile("settings.bin", std::ios::out | std::ios::binary | std::ios::trunc);
-      cereal::BinaryOutputArchive oarchive(outfile);
-      oarchive(controls_model_);
+      if (outfile.is_open()) {
+        cereal::BinaryOutputArchive oarchive(outfile);
+        oarchive(controls_model_);
+      }
+      else {
+        juce::AlertWindow::showNativeDialogBox("Error",
+          "Unable to save control settings. Unable to open file settings.bin.", false);
+      }
     }
     quit();
   }
@@ -188,6 +194,9 @@ public:
       else
         juce::Logger::writeToLog(sourceFilename + " line " + juce::String(lineNumber));
     }
+    juce::AlertWindow::showNativeDialogBox("Error",
+      "Unhandled exception. " + juce::String(e->what()) + " " + sourceFilename +
+      " line " + juce::String(lineNumber), false);
     std::terminate(); // can't go on with the program
   }
 
