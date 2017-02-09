@@ -68,6 +68,16 @@ void SettingsManager::setPickupEnabled(bool enabled) {
     ptr->sendCommand("Pickup " + std::to_string(static_cast<unsigned>(enabled)) + '\n');
   }
 }
+
+bool SettingsManager::getVersionEnabled() const noexcept {
+	return properties_file_->getBoolValue("version_check_enabled", true);
+}
+
+void SettingsManager::setVersionEnabled(bool enabled) {
+	properties_file_->setValue("version_check_enabled", enabled);
+	properties_file_->saveIfNeeded();
+}
+
 juce::String SettingsManager::getProfileDirectory() const noexcept {
   return properties_file_->getValue("profile_directory");
 }

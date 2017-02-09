@@ -37,6 +37,9 @@ public:
   bool getPickupEnabled() const noexcept;
   void setPickupEnabled(bool enabled);
 
+  bool getVersionEnabled() const noexcept;
+  void setVersionEnabled(bool enabled);
+
   juce::String getProfileDirectory() const noexcept;
   void setProfileDirectory(const juce::String& profile_directory);
 

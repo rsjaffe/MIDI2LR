@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 namespace {
   constexpr auto kSettingsLeft = 20;
   constexpr auto kSettingsWidth = 400;
-  constexpr auto kSettingsHeight = 300;
+  constexpr auto kSettingsHeight = 400;
 }
 
 SettingsComponent::SettingsComponent(): ResizableLayout{this} {}
@@ -104,6 +104,27 @@ void SettingsComponent::Init(std::weak_ptr<SettingsManager>&& settings_manager) 
     //add this as the lister for the data
     autohide_setting_.addListener(this);
     addAndMakeVisible(autohide_setting_);
+
+	// ---------------------------- version check section -----------------------------------
+	version_group_.setText("Version");
+	version_group_.setBounds(0, 300, kSettingsWidth, 100);
+	addToLayout(&version_group_, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(version_group_);
+
+	version_label_.setFont(juce::Font{ 12.f, juce::Font::bold });
+	version_label_.setText("Automatic check for new version at startup. You can disable this if you need to stick to a specific older version for some reason. This will prevent the popup saying a new version is available from appearing.", NotificationType::dontSendNotification);
+	version_label_.setBounds(kSettingsLeft, 315, kSettingsWidth - 2 * kSettingsLeft, 50);
+	addToLayout(&version_label_, anchorMidLeft, anchorMidRight);
+	version_label_.setEditable(false);
+	version_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+	addAndMakeVisible(version_label_);
+
+	version_enabled_.addListener(this);
+	version_enabled_.setToggleState(ptr->getVersionEnabled(), juce::NotificationType::dontSendNotification);
+	version_enabled_.setBounds(kSettingsLeft, 360, kSettingsWidth - 2 * kSettingsLeft, 32); //-V112
+	addToLayout(&version_enabled_, anchorMidLeft, anchorMidRight);
+	addAndMakeVisible(version_enabled_);
+
     // turn it on
     activateLayout();
   }
@@ -117,6 +138,10 @@ void SettingsComponent::buttonClicked(juce::Button* button) { //-V2009 overridde
   if (button == &pickup_enabled_) {
     if (const auto ptr = settings_manager_.lock())
       ptr->setPickupEnabled(pickup_enabled_.getToggleState());
+  }
+  else if (button == &version_enabled_) {
+	  if (const auto ptr = settings_manager_.lock())
+		  ptr->setVersionEnabled(version_enabled_.getToggleState());
   }
   else if (button == &profile_location_button_) {
     juce::FileBrowserComponent browser{
