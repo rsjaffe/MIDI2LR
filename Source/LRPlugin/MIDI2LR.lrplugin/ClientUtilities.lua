@@ -84,21 +84,21 @@ end
 local function fToggle01Async(param)
   return function()
     LrTasks.startAsyncTask ( function ()
-      if Ut.execFOM(LrDevelopController.getValue, param) == 0 then
-        LrDevelopController.setValue(param,1)
-      else
-        LrDevelopController.setValue(param,0)
-      end
-    end )
+        if Ut.execFOM(LrDevelopController.getValue, param) == 0 then
+          LrDevelopController.setValue(param,1)
+        else
+          LrDevelopController.setValue(param,0)
+        end
+      end )
   end
 end
 
 local function fToggle1ModN(param, N)
-    return function()
-        local v = Ut.execFOM(LrDevelopController.getValue, param)
-        v = (v % N) + 1
-        LrDevelopController.setValue(param,v)
-    end
+  return function()
+    local v = Ut.execFOM(LrDevelopController.getValue, param)
+    v = (v % N) + 1
+    LrDevelopController.setValue(param,v)
+  end
 end
 
 local function fToggleTF(param)
@@ -153,6 +153,9 @@ local function PasteSelectedSettings ()
           TargetSettings[param] = MIDI2LR.Copied_Settings[param]
         end
       end
+      if (TargetSettings.Tint or TargetSettings.Temperature) then
+        TargetSettings.WhiteBalance = 'Custom'
+      end
       LrApplication.activeCatalog():withWriteAccessDo(
         'MIDI2LR: Paste selected settings', 
         function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(TargetSettings) end,
@@ -187,17 +190,17 @@ end
 local function ApplySettings(settings)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function ()
-    LrApplication.activeCatalog():withWriteAccessDo(
-      'MIDI2LR: Apply settings',
-      function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(settings) end,
-      { timeout = 4,
-        callback = function()
-          LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
-        end,
-        asynchronous = true
-      }
-    )
-  end
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'MIDI2LR: Apply settings',
+        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(settings) end,
+        { timeout = 4,
+          callback = function()
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
+          end,
+          asynchronous = true
+        }
+      )
+    end
   )
 end
 
