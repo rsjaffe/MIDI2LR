@@ -52,13 +52,10 @@ const juce::String ShutDownString{"--LRSHUTDOWN"};
 class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
   MIDI2LRApplication():
-    command_map_{std::make_shared<CommandMap>()},
-    lr_ipc_in_{std::make_shared<LR_IPC_IN>(&controls_model_)},
-    lr_ipc_out_{std::make_shared<LR_IPC_OUT>(&controls_model_)},
+    lr_ipc_in_{std::make_shared<LR_IPC_IN>(&controls_model_, &profile_manager_, &command_map_)},
+    lr_ipc_out_{std::make_shared<LR_IPC_OUT>(&controls_model_, &command_map_)},
     midi_processor_{std::make_shared<MIDIProcessor>()},
-    midi_sender_{std::make_shared<MIDISender>()},
-    profile_manager_{std::make_shared<ProfileManager>(&controls_model_)},
-    settings_manager_{std::make_shared<SettingsManager>()} {
+    midi_sender_{std::make_shared<MIDISender>()} {
     CCoptions::LinkToControlsModel(&controls_model_);
     PWoptions::LinkToControlsModel(&controls_model_);
   }
@@ -100,18 +97,17 @@ public:
       }
       midi_processor_->Init();
       midi_sender_->Init();
-      lr_ipc_out_->Init(command_map_, midi_processor_);
+      lr_ipc_out_->Init(midi_processor_);
       //set the reference to the command map
-      profile_manager_->Init(lr_ipc_out_, command_map_, midi_processor_);
+      profile_manager_.Init(lr_ipc_out_, midi_processor_);
       //initialize the IPC_In
-      lr_ipc_in_->Init(command_map_, profile_manager_, midi_sender_);
+      lr_ipc_in_->Init(midi_sender_);
       // initialize the settings manager
-      settings_manager_->Init(lr_ipc_out_, profile_manager_);
+      settings_manager_.Init(lr_ipc_out_);
       main_window_ = std::make_unique<MainWindow>(getApplicationName());
-      main_window_->Init(command_map_, lr_ipc_in_, lr_ipc_out_, midi_processor_,
-        profile_manager_, settings_manager_, midi_sender_);
+      main_window_->Init(&command_map_, lr_ipc_in_, lr_ipc_out_, midi_processor_,
+        &profile_manager_, &settings_manager_, midi_sender_);
       // Check for latest version
-      version_checker_.Init(settings_manager_);
       version_checker_.startThread();
     }
     else {
@@ -132,9 +128,6 @@ public:
     // longer running at this point.
     lr_ipc_out_.reset();
     lr_ipc_in_.reset();
-    command_map_.reset();
-    profile_manager_.reset();
-    settings_manager_.reset();
     midi_processor_.reset();
     midi_sender_.reset();
     main_window_ = nullptr; // (deletes our window)
@@ -147,12 +140,10 @@ public:
       // quit() to allow the application to close.
     if (lr_ipc_in_)
       lr_ipc_in_->PleaseStopThread();
-    if (command_map_) {
-      auto default_profile =
-        juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-        juce::File::getSiblingFile("default.xml");
-      command_map_->toXMLDocument(default_profile);
-    }
+    auto default_profile =
+      juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+      getSiblingFile("default.xml");
+    command_map_.toXMLDocument(default_profile);
     {//scoped so archive gets flushed
       std::ofstream outfile("settings.bin", std::ios::out | std::ios::binary | std::ios::trunc);
       if (outfile.is_open()) {
@@ -201,16 +192,16 @@ public:
   }
 
 private:
-  std::shared_ptr<CommandMap> command_map_;
-  std::shared_ptr<LR_IPC_IN> lr_ipc_in_;
-  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_;
-  std::shared_ptr<MIDIProcessor> midi_processor_;
-  std::shared_ptr<MIDISender> midi_sender_;
-  std::shared_ptr<ProfileManager> profile_manager_;
-  std::shared_ptr<SettingsManager> settings_manager_;
-  std::unique_ptr<MainWindow> main_window_;
-  ControlsModel controls_model_;
-  VersionChecker version_checker_;
+  CommandMap command_map_{};
+  ControlsModel controls_model_{};
+  ProfileManager profile_manager_{&controls_model_, &command_map_};
+  SettingsManager settings_manager_{&profile_manager_};
+  std::shared_ptr<LR_IPC_IN> lr_ipc_in_{nullptr};
+  std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
+  std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
+  std::shared_ptr<MIDISender> midi_sender_{nullptr};
+  std::unique_ptr<MainWindow> main_window_{nullptr};
+  VersionChecker version_checker_{&settings_manager_};
 };
 
 //==============================================================================

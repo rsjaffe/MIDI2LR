@@ -25,14 +25,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include "LRCommands.h"
 
-ProfileManager::ProfileManager(ControlsModel* c_model) noexcept:
-controls_model_{c_model} {}
+ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept:
+controls_model_{c_model}, command_map_{cmap} {}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
-  std::shared_ptr<CommandMap>& commandMap, //-V2009
   std::shared_ptr<MIDIProcessor>& midiProcessor) {
     //copy the pointers
-  command_map_ = commandMap;
   lr_ipc_out_ = std::move(out);
 
   if (const auto ptr = lr_ipc_out_.lock()) {
