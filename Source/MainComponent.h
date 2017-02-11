@@ -92,12 +92,12 @@ private:
   juce::Label profile_name_label_{"ProfileNameLabel", ""};
   juce::Label title_label_{"Title", "MIDI2LR"};
   juce::Label version_label_{"Version", "Version " + juce::String{ ProjectInfo::versionString }};
-  CommandMap* command_map_{nullptr};
+  CommandMap* command_map_{nullptr}; //-V122
   std::weak_ptr<LR_IPC_IN> lr_ipc_in_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
-  SettingsManager* settings_manager_{nullptr};
+  SettingsManager* settings_manager_{nullptr}; //-V122
   std::unique_ptr<DialogWindow> settings_dialog_;
   juce::String last_command_;
   juce::TextButton load_button_{"Load"};

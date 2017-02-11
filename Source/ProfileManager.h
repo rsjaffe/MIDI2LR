@@ -87,7 +87,7 @@ private:
 
   juce::File profile_location_;
   int current_profile_index_{0};
-  CommandMap* const command_map_;
+  CommandMap* const command_map_; //-V122
   std::vector<ProfileChangeListener *> listeners_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::vector<juce::String> profiles_;

@@ -31,13 +31,12 @@ namespace {
   constexpr auto kSettingsHeight = 300;
 }
 
-SettingsComponent::SettingsComponent(): ResizableLayout{this} {}
+SettingsComponent::SettingsComponent(SettingsManager* settings_manager): ResizableLayout{this},
+settings_manager_{settings_manager} {}
 
 SettingsComponent::~SettingsComponent() {}
 
-void SettingsComponent::Init(SettingsManager* settings_manager) {
-    //copy the pointer
-  settings_manager_ = std::move(settings_manager);
+void SettingsComponent::Init() {
 
   // for layouts to work you must start at some size
   // place controls in a location that is initially correct.

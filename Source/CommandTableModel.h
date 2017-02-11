@@ -63,7 +63,7 @@ private:
   void Sort();
   std::pair<int, bool> current_sort{2,true};
   std::pair<int, bool> prior_sort{2,true};
-  CommandMap* command_map_{nullptr};
+  CommandMap* command_map_{nullptr}; //-V122
   std::vector<MIDI_Message_ID> commands_;
 
   //==============================================================================

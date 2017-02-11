@@ -39,7 +39,7 @@ private:
   virtual void handleAsyncUpdate() override;
 
   int new_version_{0};
-  SettingsManager* const settings_manager_;
+  SettingsManager* const settings_manager_; //-V122
   std::unique_ptr<juce::DialogWindow> dialog_;
 };
 
