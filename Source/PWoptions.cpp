@@ -140,11 +140,11 @@ void PWoptions::resized() {
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-  label->setBounds(32, 48, 150, 24); //-V112
-  minval->setBounds(32, 80, 150, 24); //-V112
-  label2->setBounds(32, 112, 150, 24); //-V112
-  maxval->setBounds(32, 144, 150, 24); //-V112
-  label3->setBounds(32, 16, 150, 24); //-V112
+  label->setBounds(32, 48, 150, 24);
+  minval->setBounds(32, 80, 150, 24);
+  label2->setBounds(32, 112, 150, 24);
+  maxval->setBounds(32, 144, 150, 24);
+  label3->setBounds(32, 16, 150, 24);
   //[UserResized] Add your own custom resize handling here..
   //[/UserResized]
 }

@@ -79,13 +79,13 @@ private:
   // Timer callback
   virtual void timerCallback() override;
 
-  ControlsModel* const controls_model_; //-V122
+  ControlsModel* const controls_model_;
 
   std::vector<LRConnectionListener *> listeners_;
   bool timer_off_{false};
   mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
   mutable std::mutex timer_mutex_; //fix race during shutdown
-  CommandMap const * const command_map_; //-V122
+  CommandMap const * const command_map_;
   std::string command_;
 };
 

@@ -56,7 +56,7 @@ MainContentComponent::~MainContentComponent() {}
 void MainContentComponent::Init(CommandMap* command_map,
   std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
   std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-  std::shared_ptr<MIDIProcessor>& midi_processor, //-V2009
+  std::shared_ptr<MIDIProcessor>& midi_processor,
   ProfileManager* profile_manager,
   SettingsManager* settings_manager,
   std::shared_ptr<MIDISender>& midi_sender) {
@@ -216,7 +216,7 @@ void MainContentComponent::handleMIDI(RSJ::Message mm) {
   mm.Channel++; //used to 1-based channel numbers
   last_command_ = juce::String::formatted("%d: CC%d [%d]", mm.Channel, mm.Number, mm.Value);
   command_table_model_.addRow(mm.Channel, mm.Number, mt);
-  row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.Channel, mm.Number, mt)); //-V201
+  row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.Channel, mm.Number, mt));
   triggerAsyncUpdate();
 }
 
@@ -369,7 +369,7 @@ void MainContentComponent::handleAsyncUpdate() {
 
   // Update the command table to add and/or select row corresponding to midi command
   command_table_.updateContent();
-  command_table_.selectRow(static_cast<int>(row_to_select_)); //-V202
+  command_table_.selectRow(static_cast<int>(row_to_select_));
 }
 
 void MainContentComponent::timerCallback() {

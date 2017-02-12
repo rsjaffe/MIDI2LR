@@ -67,7 +67,7 @@ private:
   // the timer callback function
   virtual void timerCallback() override;
   int auto_hide_counter_{0};
-  MainContentComponent *window_content_; //-V122
+  MainContentComponent *window_content_;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };

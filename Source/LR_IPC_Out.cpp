@@ -45,7 +45,7 @@ LR_IPC_OUT::~LR_IPC_OUT() {
   juce::InterprocessConnection::disconnect();
 }
 
-void LR_IPC_OUT::Init( //-V2009
+void LR_IPC_OUT::Init(
   std::shared_ptr<MIDIProcessor>& midi_processor) {
   if (midi_processor) {
     midi_processor->addMIDICommandListener(this);
@@ -130,7 +130,7 @@ void LR_IPC_OUT::handleAsyncUpdate() {
     //check if there is a connection
   if (juce::InterprocessConnection::isConnected()) {
     juce::InterprocessConnection::getSocket()->
-      write(command_copy.c_str(), static_cast<int>(command_copy.length())); //-V202
+      write(command_copy.c_str(), static_cast<int>(command_copy.length()));
   }
 }
 

@@ -48,7 +48,7 @@ private:
   juce::Label pickup_label_{"PickupLabel", ""};
   juce::Label profile_location_label_{"Profile Label"};
   juce::Slider autohide_setting_;
-  SettingsManager* const settings_manager_; //-V122
+  SettingsManager* const settings_manager_;
   juce::TextButton profile_location_button_{"Choose Profile Folder"};
   juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
 

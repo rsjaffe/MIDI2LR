@@ -82,7 +82,7 @@ CCoptions::CCoptions() {
 
   addAndMakeVisible(signbutton = new ToggleButton("Signmagnitude"));
   signbutton->setTooltip(TRANS("Control value is near 1 when turned one way, and near 65 when turned the other."));
-  signbutton->setExplicitFocusOrder(4); //-V112
+  signbutton->setExplicitFocusOrder(4);
   signbutton->setButtonText(TRANS("Sign and magnitude"));
   signbutton->setConnectedEdges(Button::ConnectedOnTop);
   signbutton->setRadioGroupId(1);
@@ -279,7 +279,7 @@ void CCoptions::textEditorFocusLost(TextEditor& t) {
 void CCoptions::bindToControl(size_t channel, short number) noexcept {
   boundchannel = static_cast<short>(channel);
   boundnumber = number;
-  controlID->setText("channel " + juce::String(static_cast<unsigned>(channel)) + " number " + juce::String(number), //-V202
+  controlID->setText("channel " + juce::String(static_cast<unsigned>(channel)) + " number " + juce::String(number),
     juce::dontSendNotification);
   minvaltext->setText(juce::String(controls_model_->getCCmin(boundchannel, boundnumber)), juce::dontSendNotification);
   maxvaltext->setText(juce::String(controls_model_->getCCmax(boundchannel, boundnumber)), juce::dontSendNotification);

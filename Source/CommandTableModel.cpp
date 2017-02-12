@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandTableModel::CommandTableModel() noexcept {}
 
-void CommandTableModel::Init(CommandMap* map_command) noexcept { //-V2009
+void CommandTableModel::Init(CommandMap* map_command) noexcept {
     //copy the pointer
   command_map_ = map_command;
 }
@@ -51,7 +51,7 @@ int CommandTableModel::getNumRows() {
 
   // If the number of rows changes, you must call TableListBox::updateContent()
   // to cause it to refresh the list.
-  return static_cast<int>(commands_.size()); //-V202
+  return static_cast<int>(commands_.size());
 }
 
 void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/, //-V2009 overridden method
@@ -83,21 +83,21 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
-    switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int //-V201
+    switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
     {
       case NOTE:
         formatStr = "%d | Note: %d";
-        channel = commands_[static_cast<size_t>(row_number)].channel; //-V201
-        value = commands_[static_cast<size_t>(row_number)].pitch; //-V201
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = commands_[static_cast<size_t>(row_number)].pitch;
         break;
       case CC:
         formatStr = "%d | CC: %d";
-        channel = commands_[static_cast<size_t>(row_number)].channel; //-V201
-        value = commands_[static_cast<size_t>(row_number)].controller; //-V201
+        channel = commands_[static_cast<size_t>(row_number)].channel;
+        value = commands_[static_cast<size_t>(row_number)].controller;
         break;
       case PITCHBEND:
         formatStr = "%d | Pitch: %d";
-        channel = commands_[static_cast<size_t>(row_number)].channel; //-V201
+        channel = commands_[static_cast<size_t>(row_number)].channel;
         value = 0;
         break;
     }
@@ -141,12 +141,12 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
       command_select->Init(command_map_);
     }
     else
-      command_select->setMsg(commands_[static_cast<size_t>(row_number)]); //-V201
+      command_select->setMsg(commands_[static_cast<size_t>(row_number)]);
 
     if (command_map_) {
         // add 1 because 0 is reserved for no selection
       command_select->setSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
-        getCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1); //-V201
+        getCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
     }
 
     return command_select;
@@ -232,7 +232,7 @@ int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, Message
   for (size_t idx = 0u; idx < commands_.size(); ++idx) {
     if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
       && commands_[idx].messageType == msgType)
-      return static_cast<int>(idx); //-V202
+      return static_cast<int>(idx);
   }
   //could not find
   return std::numeric_limits<size_t>::max();

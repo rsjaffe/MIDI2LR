@@ -45,8 +45,8 @@ private:
   MIDI_Message_ID message_;
   const std::vector<juce::String> menus_;
   const std::vector<std::vector<std::string>> menu_entries_;
-  size_t selected_item_{std::numeric_limits<size_t>::max()}; //-V122
-  CommandMap* command_map_{nullptr}; //-V122
+  size_t selected_item_{std::numeric_limits<size_t>::max()};
+  CommandMap* command_map_{nullptr};
 };
 
 #endif  // COMMANDMENU_H_INCLUDED

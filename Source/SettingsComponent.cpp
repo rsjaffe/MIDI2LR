@@ -37,7 +37,6 @@ settings_manager_{settings_manager} {}
 SettingsComponent::~SettingsComponent() {}
 
 void SettingsComponent::Init() {
-
   // for layouts to work you must start at some size
   // place controls in a location that is initially correct.
   setSize(kSettingsWidth, kSettingsHeight);
@@ -58,7 +57,7 @@ void SettingsComponent::Init() {
 
     pickup_enabled_.addListener(this);
     pickup_enabled_.setToggleState(settings_manager_->getPickupEnabled(), juce::NotificationType::dontSendNotification);
-    pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft, 32); //-V112
+    pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft, 32); //-V112 "Magic number" 32 false alarm
     addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(pickup_enabled_);
 

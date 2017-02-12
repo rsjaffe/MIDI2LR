@@ -57,10 +57,10 @@ private:
   bool timer_off_{false};
   mutable std::mutex timer_mutex_;
   SendKeys send_keys_;
-  CommandMap* const command_map_; //-V122
+  CommandMap* const command_map_;
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
-  ProfileManager* const profile_manager_; //-V122
-  ControlsModel* const controls_model_; // //-V122
+  ProfileManager* const profile_manager_;
+  ControlsModel* const controls_model_; //
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

@@ -87,13 +87,13 @@ private:
 
   juce::File profile_location_;
   int current_profile_index_{0};
-  CommandMap* const command_map_; //-V122
+  CommandMap* const command_map_;
   std::vector<ProfileChangeListener *> listeners_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::vector<juce::String> profiles_;
   SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
 
-  ControlsModel* controls_model_; //-V122
+  ControlsModel* controls_model_;
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

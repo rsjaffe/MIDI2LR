@@ -53,7 +53,7 @@ private:
 
   std::unique_ptr<juce::PropertiesFile> properties_file_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
-  ProfileManager* const profile_manager_; //-V122
+  ProfileManager* const profile_manager_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED
