@@ -57,10 +57,9 @@ class LR_IPC_OUT final:
   private juce::AsyncUpdater,
   private juce::Timer {
 public:
-  LR_IPC_OUT(ControlsModel* c_model);
+  LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand);
   virtual ~LR_IPC_OUT();
-  void Init(std::shared_ptr<CommandMap>&  mapCommand,
-    std::shared_ptr<MIDIProcessor>&  midiProcessor);
+  void Init(std::shared_ptr<MIDIProcessor>&  midiProcessor);
 
   void addListener(LRConnectionListener *listener);
 
@@ -80,13 +79,13 @@ private:
   // Timer callback
   virtual void timerCallback() override;
 
-  ControlsModel* controls_model_; //-V122
+  ControlsModel* const controls_model_;
 
   std::vector<LRConnectionListener *> listeners_;
   bool timer_off_{false};
   mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
   mutable std::mutex timer_mutex_; //fix race during shutdown
-  std::shared_ptr<const CommandMap> command_map_;
+  CommandMap const * const command_map_;
   std::string command_;
 };
 

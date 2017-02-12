@@ -33,9 +33,9 @@ class SettingsComponent final:
   private ResizableLayout,
   private juce::Slider::Listener {
 public:
-  SettingsComponent();
+  SettingsComponent(SettingsManager* settings_manager);
   ~SettingsComponent();
-  void Init(std::weak_ptr<SettingsManager>&& settings_manager);
+  void Init();
 private:
   void paint(juce::Graphics&) override;
   virtual void buttonClicked(juce::Button* button) override;
@@ -48,7 +48,7 @@ private:
   juce::Label pickup_label_{"PickupLabel", ""};
   juce::Label profile_location_label_{"Profile Label"};
   juce::Slider autohide_setting_;
-  std::weak_ptr<SettingsManager> settings_manager_;
+  SettingsManager* const settings_manager_;
   juce::TextButton profile_location_button_{"Choose Profile Folder"};
   juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
 

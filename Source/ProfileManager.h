@@ -40,10 +40,9 @@ public:
 class ProfileManager final: public MIDICommandListener,
   private juce::AsyncUpdater, public LRConnectionListener {
 public:
-  ProfileManager(ControlsModel* c_model) noexcept;
+  ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept;
   virtual ~ProfileManager() {};
   void Init(std::weak_ptr<LR_IPC_OUT>&& out,
-    std::shared_ptr<CommandMap>& command_map,
     std::shared_ptr<MIDIProcessor>& midi_processor);
 
   void addListener(ProfileChangeListener *listener);
@@ -88,13 +87,13 @@ private:
 
   juce::File profile_location_;
   int current_profile_index_{0};
-  std::shared_ptr<CommandMap> command_map_{nullptr};
+  CommandMap* const command_map_;
   std::vector<ProfileChangeListener *> listeners_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::vector<juce::String> profiles_;
   SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
 
-  ControlsModel* controls_model_; //-V122
+  ControlsModel* controls_model_;
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

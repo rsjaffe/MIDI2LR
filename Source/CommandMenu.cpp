@@ -51,7 +51,7 @@ CommandMenu::CommandMenu(const MIDI_Message_ID& message):
     LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile})
 {}
 
-void CommandMenu::Init(std::shared_ptr<CommandMap>& mapCommand) { //-V2009
+void CommandMenu::Init(CommandMap* mapCommand) {
     //copy the pointer
   command_map_ = mapCommand;
 }
@@ -74,8 +74,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case CC:
         {
           CCoptions ccopt;
-          ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based //-V201
-            static_cast<short>(message_.controller)); //-V201
+          ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
+            static_cast<short>(message_.controller));
           juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
@@ -83,7 +83,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
       case PITCHBEND:
         {
           PWoptions pwopt;
-          pwopt.bindToControl(static_cast<size_t>(message_.channel) - 1); //-V201 convert 1-based to 0 based
+          pwopt.bindToControl(static_cast<size_t>(message_.channel) - 1); //convert 1-based to 0 based
           juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
             juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
           break;
@@ -112,10 +112,10 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers) {
         // disabling a previously mapped entry
 
         if (already_mapped)
-          subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true, //-V202
+          subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
             index == selected_item_);
         else
-          subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_); //-V202
+          subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_);
 
         index++;
       }

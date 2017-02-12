@@ -44,7 +44,7 @@ namespace {
   wchar_t MBtoWChar(const std::string& key) {
     wchar_t full_character;
     const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
-      static_cast<int>(key.size()), &full_character, 1); //-V202
+      static_cast<int>(key.size()), &full_character, 1);
     if (return_value == 0) {
       const auto er = GetLastError();
       if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
@@ -59,7 +59,7 @@ namespace {
   }
 
   HKL GetLanguage(const std::string& program_name) {
-    const auto hLRWnd = FindWindow(NULL, program_name.c_str()); //-V2001
+    const auto hLRWnd = FindWindow(NULL, program_name.c_str());
     if (hLRWnd) {
       // get language that LR is using (if hLrWnd is found)
       const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);

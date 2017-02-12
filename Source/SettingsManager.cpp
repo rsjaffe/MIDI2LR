@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 const juce::String AutoHideSection{"autohide"};
 
-SettingsManager::SettingsManager() {
+SettingsManager::SettingsManager(ProfileManager* pmanager):profile_manager_{pmanager} {
   juce::PropertiesFile::Options file_options;
   file_options.applicationName = "MIDI2LR";
   file_options.commonToAllUsers = false;
@@ -38,8 +38,7 @@ SettingsManager::SettingsManager() {
   properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
 }
 
-void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-  std::weak_ptr<ProfileManager>&& profile_manager) {
+void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out) {
   lr_ipc_out_ = std::move(lr_ipc_out);
 
   if (const auto ptr = lr_ipc_out_.lock()) {
@@ -48,11 +47,9 @@ void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
     ptr->addListener(this);
   }
 
-  profile_manager_ = std::move(profile_manager);
-
-  if (const auto ptr = profile_manager_.lock()) {
+  if (profile_manager_) {
       // set the profile directory
-    ptr->setProfileDirectory(getProfileDirectory());
+    profile_manager_->setProfileDirectory(getProfileDirectory());
   }
 }
 
@@ -75,8 +72,8 @@ juce::String SettingsManager::getProfileDirectory() const noexcept {
 void SettingsManager::setProfileDirectory(const juce::String& profile_directory_name) {
   properties_file_->setValue("profile_directory", profile_directory_name);
   properties_file_->saveIfNeeded();
-  if (const auto ptr = profile_manager_.lock()) {
-    ptr->setProfileDirectory(profile_directory_name);
+  if (profile_manager_) {
+    profile_manager_->setProfileDirectory(profile_directory_name);
   }
 }
 

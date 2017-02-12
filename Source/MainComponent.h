@@ -50,12 +50,12 @@ class MainContentComponent final:
 public:
   MainContentComponent();
   virtual ~MainContentComponent();
-  void Init(std::shared_ptr<CommandMap>& command_map,
+  void Init(CommandMap* command_map,
     std::weak_ptr<LR_IPC_IN>&& in,
     std::weak_ptr<LR_IPC_OUT>&& out,
     std::shared_ptr<MIDIProcessor>& midi_processor,
-    std::shared_ptr<ProfileManager>& profile_manager,
-    std::shared_ptr<SettingsManager>& settings_manager,
+    ProfileManager* profile_manager,
+    SettingsManager* settings_manager,
     std::shared_ptr<MIDISender>& midi_sender);
 
   // MIDICommandListener interface
@@ -85,19 +85,19 @@ private:
   CommandTable command_table_{"Table", nullptr};
   CommandTableModel command_table_model_{};
   juce::DropShadowEffect title_shadow_;
-  size_t row_to_select_{0}; //-V122
+  size_t row_to_select_{0};
   juce::Label command_label_{"Command", ""};
   juce::Label connection_label_{"Connection", "Not connected to LR"};
   juce::Label current_status_{"CurrentStatus", "no extra info"};
   juce::Label profile_name_label_{"ProfileNameLabel", ""};
   juce::Label title_label_{"Title", "MIDI2LR"};
   juce::Label version_label_{"Version", "Version " + juce::String{ ProjectInfo::versionString }};
-  std::shared_ptr<CommandMap> command_map_{nullptr};
+  CommandMap* command_map_{nullptr};
   std::weak_ptr<LR_IPC_IN> lr_ipc_in_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};
-  std::shared_ptr<SettingsManager> settings_manager_{nullptr};
+  SettingsManager* settings_manager_{nullptr};
   std::unique_ptr<DialogWindow> settings_dialog_;
   juce::String last_command_;
   juce::TextButton load_button_{"Load"};

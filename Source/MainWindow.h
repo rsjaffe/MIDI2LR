@@ -43,11 +43,11 @@ public:
     setVisible(true);
   }
 
-  void Init(std::shared_ptr<CommandMap>& command_map,
+  void Init(CommandMap* command_map,
     std::weak_ptr<LR_IPC_IN>&& in, std::weak_ptr<LR_IPC_OUT>&& out,
     std::shared_ptr<MIDIProcessor>& midi_processor,
-    std::shared_ptr<ProfileManager>& profile_manager,
-    std::shared_ptr<SettingsManager>& settings_manager,
+    ProfileManager* profile_manager,
+    SettingsManager* settings_manager,
     std::shared_ptr<MIDISender>& midi_sender);
 
 /* Note: Be careful if you override any DocumentWindow methods - the base
@@ -67,7 +67,7 @@ private:
   // the timer callback function
   virtual void timerCallback() override;
   int auto_hide_counter_{0};
-  MainContentComponent *window_content_; //-V122
+  MainContentComponent *window_content_;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };

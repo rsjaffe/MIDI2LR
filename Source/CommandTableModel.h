@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class CommandTableModel final: public juce::TableListBoxModel {
 public:
   CommandTableModel() noexcept;
-  void Init(std::shared_ptr<CommandMap>& mapCommand) noexcept;
+  void Init(CommandMap* mapCommand) noexcept;
 
   // TableListBoxModel overrides
   virtual void sortOrderChanged(int newSortColumnId, bool isForwards) override;
@@ -63,7 +63,7 @@ private:
   void Sort();
   std::pair<int, bool> current_sort{2,true};
   std::pair<int, bool> prior_sort{2,true};
-  std::shared_ptr<CommandMap> command_map_{nullptr};
+  CommandMap* command_map_{nullptr};
   std::vector<MIDI_Message_ID> commands_;
 
   //==============================================================================

@@ -29,10 +29,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class SettingsManager final: public LRConnectionListener {
 public:
-  SettingsManager();
+  SettingsManager(ProfileManager* profile_manager);
   virtual ~SettingsManager() {};
-  void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT,
-    std::weak_ptr<ProfileManager>&& profile_manager);
+  void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT);
 
   bool getPickupEnabled() const noexcept;
   void setPickupEnabled(bool enabled);
@@ -54,7 +53,7 @@ private:
 
   std::unique_ptr<juce::PropertiesFile> properties_file_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
-  std::weak_ptr<ProfileManager> profile_manager_;
+  ProfileManager* const profile_manager_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED
