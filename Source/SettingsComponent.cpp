@@ -57,7 +57,7 @@ void SettingsComponent::Init() {
 
     pickup_enabled_.addListener(this);
     pickup_enabled_.setToggleState(settings_manager_->getPickupEnabled(), juce::NotificationType::dontSendNotification);
-    pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft, 32); //-V112 "Magic number" 32 false alarm
+    pickup_enabled_.setBounds(kSettingsLeft, 60, kSettingsWidth - 2 * kSettingsLeft, 32); //"Magic number" 32 false alarm //-V112
     addToLayout(&pickup_enabled_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(pickup_enabled_);
 
