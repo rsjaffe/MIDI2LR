@@ -89,7 +89,10 @@ public:
 
     if (command_line != ShutDownString) {
       {//scoped so archive gets flushed
-        std::ifstream infile("settings.bin", std::ios::in | std::ios::binary);
+        auto controllerfile =
+          juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+          getSiblingFile("settings.bin").getFullPathName().toStdString();
+        std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
         if (infile.is_open() && !infile.eof()) {
           cereal::BinaryInputArchive iarchive(infile);
           iarchive(controls_model_);
@@ -145,7 +148,10 @@ public:
       getSiblingFile("default.xml");
     command_map_.toXMLDocument(default_profile);
     {//scoped so archive gets flushed
-      std::ofstream outfile("settings.bin", std::ios::out | std::ios::binary | std::ios::trunc);
+      auto controllerfile =
+        juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+        getSiblingFile("settings.bin").getFullPathName().toStdString();
+      std::ofstream outfile(controllerfile, std::ios::out | std::ios::binary | std::ios::trunc);
       if (outfile.is_open()) {
         cereal::BinaryOutputArchive oarchive(outfile);
         oarchive(controls_model_);
