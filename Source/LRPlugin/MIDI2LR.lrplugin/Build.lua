@@ -82,7 +82,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LRCommands.h"
-#include <unordered_map>
 #include "CommandMap.h"
   
 ]=])

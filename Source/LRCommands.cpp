@@ -22,7 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LRCommands.h"
-#include <unordered_map>
 #include "CommandMap.h"
 
 const std::vector<std::string> LRCommandList::KeyShortcuts = {

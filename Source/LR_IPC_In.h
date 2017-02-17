@@ -25,7 +25,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include <mutex>
 #include <string>
-#include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ControlsModel.h"
 #include "CommandMap.h"
