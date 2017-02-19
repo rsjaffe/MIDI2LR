@@ -46,6 +46,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "PWoptions.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+#include "ControlsModel.h"
 ControlsModel* PWoptions::controls_model_{nullptr};
 //[/MiscUserDefs]
 

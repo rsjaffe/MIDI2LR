@@ -26,7 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandMap.h"
-#include "CommandMenu.h"
 
 class CommandTableModel final: public juce::TableListBoxModel {
 public:

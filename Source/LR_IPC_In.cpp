@@ -23,7 +23,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include <bitset>
 #include <stdexcept>
+#include "CommandMap.h"
 #include "ControlsModel.h"
+#include "ControlsModel.h"
+#include "MIDISender.h"
+#include "MidiUtilities.h"
+#include "ProfileManager.h"
 #include "Utilities/Utilities.h"
 
 namespace {

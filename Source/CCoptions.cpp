@@ -45,6 +45,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CCoptions.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+#include "ControlsModel.h"
 ControlsModel* CCoptions::controls_model_{nullptr};
 //[/MiscUserDefs]
 

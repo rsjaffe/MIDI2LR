@@ -23,8 +23,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include <string>
 #include <utility>
+#include "CommandMap.h"
 #include "MIDISender.h"
+#include "MidiUtilities.h"
 #include "SettingsComponent.h"
+#include "SettingsManager.h"
 
 namespace {
   constexpr int kMainWidth = 400;
@@ -54,7 +57,6 @@ MainContentComponent::MainContentComponent(): ResizableLayout{this} {}
 MainContentComponent::~MainContentComponent() {}
 
 void MainContentComponent::Init(CommandMap* command_map,
-  std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
   std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
   std::shared_ptr<MIDIProcessor>& midi_processor,
   ProfileManager* profile_manager,
@@ -62,7 +64,6 @@ void MainContentComponent::Init(CommandMap* command_map,
   std::shared_ptr<MIDISender>& midi_sender) {
   //copy the pointers
   command_map_ = command_map;
-  lr_ipc_in_ = std::move(lr_ipc_in);
   lr_ipc_out_ = std::move(lr_ipc_out);
   settings_manager_ = settings_manager;
   midi_processor_ = midi_processor;

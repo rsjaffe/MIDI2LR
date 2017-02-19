@@ -21,8 +21,9 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+
 #include "LRCommands.h"
-#include "CommandMap.h"
+#include <unordered_map>
 
 const std::vector<std::string> LRCommandList::KeyShortcuts = {
 "Key 1",

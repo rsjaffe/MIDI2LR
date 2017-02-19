@@ -25,9 +25,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "CommandMap.h"
 #include "LR_IPC_OUT.h"
 #include "MIDIProcessor.h"
+class CommandMap;
+class ControlsModel;
+struct MIDI_Message_ID;
 
 class ProfileChangeListener {
 public:
@@ -85,15 +87,14 @@ private:
   ProfileManager(ProfileManager const&) = delete;
   void operator=(ProfileManager const&) = delete;
 
-  juce::File profile_location_;
-  int current_profile_index_{0};
   CommandMap* const command_map_;
+  ControlsModel* controls_model_;
+  int current_profile_index_{0};
+  juce::File profile_location_;
+  std::vector<juce::String> profiles_;
   std::vector<ProfileChangeListener *> listeners_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
-  std::vector<juce::String> profiles_;
   SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
-
-  ControlsModel* controls_model_;
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

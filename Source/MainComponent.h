@@ -28,30 +28,31 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "CommandMap.h"
-#include "CommandTable.h"
-#include "CommandTableModel.h"
-#include "LR_IPC_In.h"
-#include "LR_IPC_Out.h"
-#include "MIDIProcessor.h"
-#include "ProfileManager.h"
-#include "ResizableLayout.h"
-#include "SettingsManager.h"
+#include "CommandTable.h" //class member
+#include "CommandTableModel.h" //class member
+#include "LR_IPC_Out.h" //base class
+#include "MIDIProcessor.h" //base class
+#include "MidiUtilities.h"
+#include "ProfileManager.h" //base class
+#include "ResizableLayout.h" //base class
+
+class CommandMap;
+class MIDISender;
+class SettingsManager;
 
 class MainContentComponent final:
   public juce::Component,
-  public MIDICommandListener,
-  public LRConnectionListener,
+  public MIDICommandListener, //MIDIProcessor.h
+  public LRConnectionListener, //LR_IPC_OUT.h
   private juce::AsyncUpdater,
   private juce::Timer,
   private juce::ButtonListener,
-  public ProfileChangeListener,
-  public ResizableLayout {
+  public ProfileChangeListener, //ProfileManager.h
+  public ResizableLayout { //ResizableLayout.h
 public:
   MainContentComponent();
   virtual ~MainContentComponent();
   void Init(CommandMap* command_map,
-    std::weak_ptr<LR_IPC_IN>&& in,
     std::weak_ptr<LR_IPC_OUT>&& out,
     std::shared_ptr<MIDIProcessor>& midi_processor,
     ProfileManager* profile_manager,
@@ -93,7 +94,6 @@ private:
   juce::Label title_label_{"Title", "MIDI2LR"};
   juce::Label version_label_{"Version", "Version " + juce::String{ ProjectInfo::versionString }};
   CommandMap* command_map_{nullptr};
-  std::weak_ptr<LR_IPC_IN> lr_ipc_in_;
   std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
   std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
   std::shared_ptr<MIDISender> midi_sender_{nullptr};

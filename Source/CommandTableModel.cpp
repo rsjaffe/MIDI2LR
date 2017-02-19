@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include <algorithm>
 #include <limits>
+#include "CommandMenu.h"
 #include "LRCommands.h"
 
 CommandTableModel::CommandTableModel() noexcept {}

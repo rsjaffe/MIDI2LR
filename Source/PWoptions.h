@@ -43,8 +43,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "ControlsModel.h"
-//[/Headers]
+class ControlsModel;
+  //[/Headers]
 
 //==============================================================================
 /**

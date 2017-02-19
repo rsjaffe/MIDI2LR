@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "LR_IPC_OUT.h"
-#include "ProfileManager.h"
+class ProfileManager;
 
 class SettingsManager final: public LRConnectionListener {
 public:

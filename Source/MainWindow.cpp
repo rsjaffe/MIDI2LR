@@ -23,9 +23,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MainWindow.h"
 #include <utility>
+#include "MainComponent.h"
+#include "SettingsManager.h"
+
+MainWindow::MainWindow(juce::String name): juce::DocumentWindow{name,
+juce::Colours::lightgrey,
+juce::DocumentWindow::minimiseButton |
+juce::DocumentWindow::closeButton}, juce::Timer() {
+  setUsingNativeTitleBar(true);
+  window_content_ = new MainContentComponent{};
+
+  setContentOwned(window_content_, true);
+
+  centreWithSize(getWidth(), getHeight());
+  setVisible(true);
+}
 
 void MainWindow::Init(CommandMap* command_map,
-  std::weak_ptr<LR_IPC_IN>&& lr_ipc_in,
   std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
   std::shared_ptr<MIDIProcessor>& midi_processor,
   ProfileManager* profile_manager,
@@ -43,7 +57,7 @@ void MainWindow::Init(CommandMap* command_map,
   juce::Timer::startTimer(1000);
 
   if (window_content_) {
-    window_content_->Init(command_map, std::move(lr_ipc_in), std::move(lr_ipc_out),
+    window_content_->Init(command_map, std::move(lr_ipc_out),
       midi_processor, profile_manager, settings_manager, midi_sender);
   }
 }
