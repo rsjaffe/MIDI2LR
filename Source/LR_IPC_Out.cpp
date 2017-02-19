@@ -21,8 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_OUT.h"
-#include "CommandMap.h"
-
 #include "LRCommands.h"
 
 namespace {

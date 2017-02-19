@@ -153,7 +153,8 @@ local function PasteSelectedSettings ()
           TargetSettings[param] = MIDI2LR.Copied_Settings[param]
         end
       end
-      if (TargetSettings.Tint or TargetSettings.Temperature) then
+      if ((ProgramPreferences.PasteList.Tint or ProgramPreferences.PasteList.Temperature) and 
+        (TargetSettings.WhiteBalance == nil or TargetSettings.WhiteBalance == 'As Shot')) then
         TargetSettings.WhiteBalance = 'Custom'
       end
       LrApplication.activeCatalog():withWriteAccessDo(

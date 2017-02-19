@@ -73,7 +73,7 @@ void NRPN_Message::SetControlLSB(short val) noexcept(ndebug) {
 void NRPN_Message::SetValueMSB(short val) noexcept(ndebug) {
   assert(val <= 0x7Fu);
   value_msb_ = val & 0x7Fu;
-  ready_ |= 0b100;  //-V112 "Magic number" false alarm
+  ready_ |= 0b100;  //"Magic number" false alarm //-V112
 }
 
 void NRPN_Message::SetValueLSB(short val) noexcept(ndebug) {
