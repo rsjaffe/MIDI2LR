@@ -29,7 +29,7 @@ class ProfileManager;
 
 class SettingsManager final: public LRConnectionListener {
 public:
-  SettingsManager(ProfileManager* profile_manager);
+  explicit SettingsManager(ProfileManager* profile_manager);
   virtual ~SettingsManager() {};
   void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT);
 

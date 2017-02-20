@@ -70,7 +70,6 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
 
 void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_id,
   int width, int height, bool /*rowIsSelected*/) {
-  int value = 0, channel = 0;
   juce::String formatStr;
   //This must draw one of the cells.
 
@@ -84,6 +83,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
   if (column_id == 1) // write the MIDI message in the MIDI command column
   {
+    int value = 0, channel = 0;
     switch (commands_[static_cast<size_t>(row_number)].messageType) //-V108 int used as index because JUCE uses int
     {
       case NOTE:

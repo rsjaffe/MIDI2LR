@@ -67,7 +67,7 @@ public:
   static void LinkToControlsModel(ControlsModel* model) noexcept {
     controls_model_ = model;
   }
-  void bindToControl(size_t channel, short number) noexcept;
+  void bindToControl(size_t channel, short number);
     //[/UserMethods]
 
   void paint(Graphics& g) override;

@@ -160,7 +160,7 @@ void PWoptions::textEditorFocusLost(TextEditor& t) {
     controls_model_->setPWmax(boundchannel, val);
 }
 
-void PWoptions::bindToControl(size_t channel) noexcept {
+void PWoptions::bindToControl(size_t channel) {
   boundchannel = channel;
   minval->setText(juce::String(controls_model_->getPWmin(boundchannel)), juce::dontSendNotification);
   maxval->setText(juce::String(controls_model_->getPWmax(boundchannel)), juce::dontSendNotification);

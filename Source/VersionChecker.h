@@ -28,7 +28,7 @@ class SettingsManager;
 
 class VersionChecker final: public juce::Thread, private juce::AsyncUpdater {
 public:
-  VersionChecker(SettingsManager* settings_manager_) noexcept;
+  explicit VersionChecker(SettingsManager* settings_manager_) noexcept;
   ~VersionChecker();
 
 private:
@@ -39,7 +39,7 @@ private:
   virtual void handleAsyncUpdate() override;
 
   int new_version_{0};
-  SettingsManager* const settings_manager_;
+  SettingsManager* const settings_manager_{nullptr};
   std::unique_ptr<juce::DialogWindow> dialog_;
 };
 
