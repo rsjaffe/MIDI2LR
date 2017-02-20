@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "VersionChecker.h"
-#include <utility>
 #include "SettingsManager.h"
 
 VersionChecker::VersionChecker(SettingsManager* setmgr) noexcept :
