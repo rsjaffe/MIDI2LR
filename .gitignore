@@ -281,3 +281,5 @@ Source/LRPlugin/MIDI2LR.lrplugin/default.xml
 Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
 *.db
 
+
+*.backup

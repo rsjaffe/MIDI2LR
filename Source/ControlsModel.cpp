@@ -54,7 +54,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
           return 0.0;
       }
     case RSJ::kNoteOnFlag:
-      return 1.0;
+      return static_cast<double>(value) / static_cast<double>((IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI));
     case RSJ::kNoteOffFlag:
       return 0.0;
     default:
