@@ -42,15 +42,15 @@ namespace RSJ {
 
   struct SettingsStruct {
     short number;//not using size_t so serialized data won't vary if size_t varies
-    short high;
     short low;
+    short high;
     RSJ::CCmethod method;
-    SettingsStruct(short n = 0, short h = 0x7F, short l = 0, RSJ::CCmethod m = RSJ::CCmethod::absolute):
-      number{n}, high{h}, low{l}, method{m} {};
+    SettingsStruct(short n = 0, short l = 0, short h = 0x7F, RSJ::CCmethod m = RSJ::CCmethod::absolute):
+      number{n}, low{l}, high{h}, method{m} {};
     template<class Archive> void serialize(Archive& archive, uint32_t const version) {
       switch (version) {
         case 1:
-          archive(number, high, low, method);
+          archive(number, high, low, method);//keep this order for compatibility with earlier versions
           break;
         default:
           assert(!"Wrong archive number for SettingsStruct");
