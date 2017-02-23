@@ -54,7 +54,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
           return 0.0;
       }
     case RSJ::kNoteOnFlag:
-      return 1.0;
+      return static_cast<double>(value) / static_cast<double>((IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI));
     case RSJ::kNoteOffFlag:
       return 0.0;
     default:
@@ -152,10 +152,10 @@ void ChannelModel::activeToSaved()  const {
   settingsToSave_.clear();
   for (short i = 0; i <= kMaxMIDI; ++i)
     if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxMIDI || ccLow_[i] != 0)
-      settingsToSave_.emplace_back(i, ccHigh_[i], ccLow_[i], ccMethod_[i]);
+      settingsToSave_.emplace_back(i, ccLow_[i], ccHigh_[i], ccMethod_[i]);
   for (short i = kMaxMIDI + 1; i <= kMaxNRPN; ++i)
     if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxNRPN || ccLow_[i] != 0)
-      settingsToSave_.emplace_back(i, ccHigh_[i], ccLow_[i], ccMethod_[i]);
+      settingsToSave_.emplace_back(i, ccLow_[i], ccHigh_[i], ccMethod_[i]);
 }
 
 void ChannelModel::savedToActive() noexcept(ndebug) {
