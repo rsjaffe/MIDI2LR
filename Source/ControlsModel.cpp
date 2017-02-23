@@ -152,10 +152,10 @@ void ChannelModel::activeToSaved()  const {
   settingsToSave_.clear();
   for (short i = 0; i <= kMaxMIDI; ++i)
     if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxMIDI || ccLow_[i] != 0)
-      settingsToSave_.emplace_back(i, ccHigh_[i], ccLow_[i], ccMethod_[i]);
+      settingsToSave_.emplace_back(i, ccLow_[i], ccHigh_[i], ccMethod_[i]);
   for (short i = kMaxMIDI + 1; i <= kMaxNRPN; ++i)
     if (ccMethod_[i] != RSJ::CCmethod::absolute || ccHigh_[i] != kMaxNRPN || ccLow_[i] != 0)
-      settingsToSave_.emplace_back(i, ccHigh_[i], ccLow_[i], ccMethod_[i]);
+      settingsToSave_.emplace_back(i, ccLow_[i], ccHigh_[i], ccMethod_[i]);
 }
 
 void ChannelModel::savedToActive() noexcept(ndebug) {
