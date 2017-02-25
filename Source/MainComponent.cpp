@@ -200,22 +200,30 @@ void MainContentComponent::paint(juce::Graphics& g) { //-V2009 overridden method
 void MainContentComponent::handleMIDI(RSJ::Message mm) {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
   MessageType mt;
+  juce::String commandtype{"CC"};
   switch (mm.MessageType) {//this is needed because mapping uses custom structure
     case RSJ::kCCFlag:
       mt = CC;
       break;
     case RSJ::kNoteOnFlag:
       mt = NOTE;
+      commandtype = "NOTE ON";
+      break;
+    case RSJ::kNoteOffFlag:
+      mt = NOTE;
+      commandtype = "NOTE OFF";
       break;
     case RSJ::kPWFlag:
       mt = PITCHBEND;
+      commandtype = "PITCHBEND";
       break;
     default: //shouldn't receive any messages note categorized above
       assert(0);
       mt = CC;
   }
   mm.Channel++; //used to 1-based channel numbers
-  last_command_ = juce::String::formatted("%d: CC%d [%d]", mm.Channel, mm.Number, mm.Value);
+  last_command_ = juce::String(mm.Channel) + ": " + commandtype +
+    juce::String(mm.Number) + " [" + juce::String(mm.Value) + "]";
   command_table_model_.addRow(mm.Channel, mm.Number, mt);
   row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.Channel, mm.Number, mt));
   triggerAsyncUpdate();
