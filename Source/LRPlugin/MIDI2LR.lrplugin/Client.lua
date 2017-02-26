@@ -88,7 +88,7 @@ LrTasks.startAsyncTask(
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
     --local constants--may edit these to change program behaviors
-    local BUTTON_ON        = 0.99 -- sending 1.0, but use > BUTTON_ON in case of rounding error
+    local BUTTON_ON        = 0.40 -- sending 1.0, but use > BUTTON_ON because of note keypressess not hitting 100%
     local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
