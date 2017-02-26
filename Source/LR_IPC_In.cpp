@@ -29,6 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "ProfileManager.h"
+#include "SendKeys.h"
 #include "Utilities/Utilities.h"
 
 namespace {
@@ -44,9 +45,9 @@ namespace {
 }
 
 LR_IPC_IN::LR_IPC_IN(ControlsModel* c_model, ProfileManager* pmanager, CommandMap* cmap):
-  controls_model_{c_model}, profile_manager_{pmanager}, command_map_{cmap},
-  juce::StreamingSocket{},
-  juce::Thread{"LR_IPC_IN"} {}
+  juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
+  controls_model_{c_model}, profile_manager_{pmanager}
+{}
 
 LR_IPC_IN::~LR_IPC_IN() {
   {
@@ -152,7 +153,7 @@ void LR_IPC_IN::processLine(const std::string& line) {
       {
         std::bitset<3> modifiers{static_cast<decltype(modifiers)>
             (std::stoi(value_string))};
-        send_keys_.SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
+        RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
           modifiers[0], modifiers[1], modifiers[2]);
         break;
       }

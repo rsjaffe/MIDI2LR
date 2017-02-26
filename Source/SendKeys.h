@@ -20,17 +20,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 
-#include <mutex>
-#include <string>
-#include <unordered_map>
 
-class SendKeys {
-public:
-  SendKeys() noexcept {};
-  ~SendKeys() {};
+#include <string>
+
+namespace RSJ {
   void SendKeyDownUp(const std::string& key, const bool alt_opt,
-    const bool control_cmd, const bool shift) const;
-private:
-  static const std::unordered_map<std::string, unsigned char> key_map_;
-  static std::mutex mutex_sending_;
-};
+    const bool control_cmd, const bool shift) ;
+}
+

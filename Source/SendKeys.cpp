@@ -23,7 +23,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SendKeys.h"
 #include <algorithm>
 #include <cctype>
+#include <mutex>
 #include <stdexcept>
+#include <unordered_map>
 #include <vector>
 #ifdef _WIN32
 #include "Windows.h"
@@ -129,121 +131,121 @@ namespace {
     return utf16;
   }
 #endif
+
+  static const std::unordered_map<std::string, unsigned char> key_map_ = {
+  #ifdef _WIN32
+  {"backspace",     VK_BACK},
+  {"cursor down",	  VK_DOWN},
+  {"cursor left",	  VK_LEFT},
+  {"cursor right",	VK_RIGHT},
+  {"cursor up",   	VK_UP},
+  {"delete",	      VK_DELETE},
+  {"end",         	VK_END},
+  {"escape",        VK_ESCAPE},
+  {"home",	        VK_HOME},
+  {"page down",     VK_NEXT},
+  {"page up",	      VK_PRIOR},
+  {"return",	      VK_RETURN},
+  {"space",         VK_SPACE},
+  {"tab",	          VK_TAB},
+  {"f1",	VK_F1},
+  {"f2",	VK_F2},
+  {"f3",	VK_F3},
+  {"f4",	VK_F4},
+  {"f5",	VK_F5},
+  {"f6",	VK_F6},
+  {"f7",	VK_F7},
+  {"f8",	VK_F8},
+  {"f9",	VK_F9},
+  {"f10",	VK_F10},
+  {"f11",	VK_F11},
+  {"f12",	VK_F12},
+  {"f13",	VK_F13},
+  {"f14",	VK_F14},
+  {"f15",	VK_F15},
+  {"f16",	VK_F16},
+  {"f17",	VK_F17},
+  {"f18",	VK_F18},
+  {"f19",	VK_F19},
+  {"f20",	VK_F20},
+  {"numpad 0", VK_NUMPAD0},
+  {"numpad 1", VK_NUMPAD1},
+  {"numpad 2", VK_NUMPAD2},
+  {"numpad 3", VK_NUMPAD3},
+  {"numpad 4", VK_NUMPAD4},
+  {"numpad 5", VK_NUMPAD5},
+  {"numpad 6", VK_NUMPAD6},
+  {"numpad 7", VK_NUMPAD7},
+  {"numpad 8", VK_NUMPAD8},
+  {"numpad 9", VK_NUMPAD9},
+  {"numpad add", VK_ADD},
+  {"numpad subtract", VK_SUBTRACT},
+  {"numpad multiply", VK_MULTIPLY},
+  {"numpad divide", VK_DIVIDE},
+  {"numpad decimal", VK_DECIMAL}
+  #else
+  {
+  "backspace",    kVK_Delete
+  },
+  {"cursor down",	 kVK_DownArrow},
+  {"cursor left",  kVK_LeftArrow},
+  {"cursor right", kVK_RightArrow},
+  {"cursor up",    kVK_UpArrow},
+  {"delete",       kVK_ForwardDelete},
+  {"end",	         kVK_End},
+  {"escape",       kVK_Escape},
+  {"home",         kVK_Home},
+  {"page down",    kVK_PageDown},
+  {"page up",      kVK_PageUp},
+  {"return",       kVK_Return},
+  {"space",        kVK_Space},
+  {"tab",	         kVK_Tab},
+  {"f1", kVK_F1},
+  {"f2", kVK_F2},
+  {"f3", kVK_F3},
+  {"f4", kVK_F4},
+  {"f5", kVK_F5},
+  {"f6", kVK_F6},
+  {"f7", kVK_F7},
+  {"f8", kVK_F8},
+  {"f9", kVK_F9},
+  {"f10",	kVK_F10},
+  {"f11",	kVK_F11},
+  {"f12",	kVK_F12},
+  {"f13",	kVK_F13},
+  {"f14",	kVK_F14},
+  {"f15",	kVK_F15},
+  {"f16",	kVK_F16},
+  {"f17",	kVK_F17},
+  {"f18",	kVK_F18},
+  {"f19",	kVK_F19},
+  {"f20",	kVK_F20},
+  //using ANSI layout codes for keypad, may cause problems in some languages
+  {"numpad 0", kVK_ANSI_Keypad0},
+  {"numpad 1", kVK_ANSI_Keypad1},
+  {"numpad 2", kVK_ANSI_Keypad2},
+  {"numpad 3", kVK_ANSI_Keypad3},
+  {"numpad 4", kVK_ANSI_Keypad4},
+  {"numpad 5", kVK_ANSI_Keypad5},
+  {"numpad 6", kVK_ANSI_Keypad6},
+  {"numpad 7", kVK_ANSI_Keypad7},
+  {"numpad 8", kVK_ANSI_Keypad8},
+  {"numpad 9", kVK_ANSI_Keypad9},
+  {"numpad add", kVK_ANSI_KeypadPlus},
+  {"numpad subtract", kVK_ANSI_KeypadMinus},
+  {"numpad multiply", kVK_ANSI_KeypadMultiply},
+  {"numpad divide", kVK_ANSI_KeypadDivide},
+  {"numpad decimal", kVK_ANSI_KeypadDecimal}
+  #endif
+  };
+
+  static std::mutex mutex_sending_{};
 }
 
-const std::unordered_map<std::string, unsigned char> SendKeys::key_map_ = {
-#ifdef _WIN32
-{"backspace",     VK_BACK},
-{"cursor down",	  VK_DOWN},
-{"cursor left",	  VK_LEFT},
-{"cursor right",	VK_RIGHT},
-{"cursor up",   	VK_UP},
-{"delete",	      VK_DELETE},
-{"end",         	VK_END},
-{"escape",        VK_ESCAPE},
-{"home",	        VK_HOME},
-{"page down",     VK_NEXT},
-{"page up",	      VK_PRIOR},
-{"return",	      VK_RETURN},
-{"space",         VK_SPACE},
-{"tab",	          VK_TAB},
-{"f1",	VK_F1},
-{"f2",	VK_F2},
-{"f3",	VK_F3},
-{"f4",	VK_F4},
-{"f5",	VK_F5},
-{"f6",	VK_F6},
-{"f7",	VK_F7},
-{"f8",	VK_F8},
-{"f9",	VK_F9},
-{"f10",	VK_F10},
-{"f11",	VK_F11},
-{"f12",	VK_F12},
-{"f13",	VK_F13},
-{"f14",	VK_F14},
-{"f15",	VK_F15},
-{"f16",	VK_F16},
-{"f17",	VK_F17},
-{"f18",	VK_F18},
-{"f19",	VK_F19},
-{"f20",	VK_F20},
-{"numpad 0", VK_NUMPAD0},
-{"numpad 1", VK_NUMPAD1},
-{"numpad 2", VK_NUMPAD2},
-{"numpad 3", VK_NUMPAD3},
-{"numpad 4", VK_NUMPAD4},
-{"numpad 5", VK_NUMPAD5},
-{"numpad 6", VK_NUMPAD6},
-{"numpad 7", VK_NUMPAD7},
-{"numpad 8", VK_NUMPAD8},
-{"numpad 9", VK_NUMPAD9},
-{"numpad add", VK_ADD},
-{"numpad subtract", VK_SUBTRACT},
-{"numpad multiply", VK_MULTIPLY},
-{"numpad divide", VK_DIVIDE},
-{"numpad decimal", VK_DECIMAL}
-#else
-{
-"backspace",    kVK_Delete
-},
-{"cursor down",	 kVK_DownArrow},
-{"cursor left",  kVK_LeftArrow},
-{"cursor right", kVK_RightArrow},
-{"cursor up",    kVK_UpArrow},
-{"delete",       kVK_ForwardDelete},
-{"end",	         kVK_End},
-{"escape",       kVK_Escape},
-{"home",         kVK_Home},
-{"page down",    kVK_PageDown},
-{"page up",      kVK_PageUp},
-{"return",       kVK_Return},
-{"space",        kVK_Space},
-{"tab",	         kVK_Tab},
-{"f1", kVK_F1},
-{"f2", kVK_F2},
-{"f3", kVK_F3},
-{"f4", kVK_F4},
-{"f5", kVK_F5},
-{"f6", kVK_F6},
-{"f7", kVK_F7},
-{"f8", kVK_F8},
-{"f9", kVK_F9},
-{"f10",	kVK_F10},
-{"f11",	kVK_F11},
-{"f12",	kVK_F12},
-{"f13",	kVK_F13},
-{"f14",	kVK_F14},
-{"f15",	kVK_F15},
-{"f16",	kVK_F16},
-{"f17",	kVK_F17},
-{"f18",	kVK_F18},
-{"f19",	kVK_F19},
-{"f20",	kVK_F20},
-//using ANSI layout codes for keypad, may cause problems in some languages
-{"numpad 0", kVK_ANSI_Keypad0},
-{"numpad 1", kVK_ANSI_Keypad1},
-{"numpad 2", kVK_ANSI_Keypad2},
-{"numpad 3", kVK_ANSI_Keypad3},
-{"numpad 4", kVK_ANSI_Keypad4},
-{"numpad 5", kVK_ANSI_Keypad5},
-{"numpad 6", kVK_ANSI_Keypad6},
-{"numpad 7", kVK_ANSI_Keypad7},
-{"numpad 8", kVK_ANSI_Keypad8},
-{"numpad 9", kVK_ANSI_Keypad9},
-{"numpad add", kVK_ANSI_KeypadPlus},
-{"numpad subtract", kVK_ANSI_KeypadMinus},
-{"numpad multiply", kVK_ANSI_KeypadMultiply},
-{"numpad divide", kVK_ANSI_KeypadDivide},
-{"numpad decimal", kVK_ANSI_KeypadDecimal}
-#endif
-};
-
-std::mutex SendKeys::mutex_sending_{};
-
-void SendKeys::SendKeyDownUp(const std::string& key, const bool alt_opt,
-  const bool control_cmd, const bool shift) const {
-  const auto mapped_key = SendKeys::key_map_.find(to_lower(key));
-  const auto in_keymap = mapped_key != SendKeys::key_map_.end();
+void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
+  const bool control_cmd, const bool shift) {
+  const auto mapped_key = key_map_.find(to_lower(key));
+  const auto in_keymap = mapped_key != key_map_.end();
 
 #ifdef _WIN32
 

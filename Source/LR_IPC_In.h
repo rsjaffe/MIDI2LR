@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <mutex>
 #include <string>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SendKeys.h"
+
 
 class ControlsModel;
 class CommandMap;
@@ -55,12 +55,11 @@ private:
 
   bool thread_started_{false};
   bool timer_off_{false};
-  mutable std::mutex timer_mutex_;
-  SendKeys send_keys_;
   CommandMap* const command_map_;
-  std::shared_ptr<MIDISender> midi_sender_{nullptr};
-  ProfileManager* const profile_manager_;
   ControlsModel* const controls_model_; //
+  mutable std::mutex timer_mutex_;
+  ProfileManager* const profile_manager_;
+  std::shared_ptr<MIDISender> midi_sender_{nullptr};
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED
