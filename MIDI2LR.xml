@@ -172,7 +172,7 @@
     </componentList>
     <initializationActionList>
         <throwError>
-            <text>This applicaion has to be run on OS X 10.9 or above.</text>
+            <text>This application has to be run on OS X 10.9 or above.</text>
             <ruleList>
                 <platformTest>
                     <type>osx</type>
