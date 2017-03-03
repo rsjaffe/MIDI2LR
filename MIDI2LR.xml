@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>2.0.3.0</version>
+    <version>2.0.3.1</version>
     <licenseFile>LICENSE.txt</licenseFile>
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
     <logoImage>Source/MIDI2LR48.png</logoImage>
@@ -170,12 +170,38 @@
             </folderList>
         </component>
     </componentList>
-    <compressionAlgorithm>lzham-ultra</compressionAlgorithm>
+    <initializationActionList>
+        <throwError>
+            <text>This applicaion has to be run on OS X 10.9 or above.</text>
+            <ruleList>
+                <platformTest>
+                    <type>osx</type>
+                </platformTest>
+                <compareVersions>
+                    <logic>less</logic>
+                    <version1>${osx_major_version}</version1>
+                    <version2>10.9</version2>
+                </compareVersions>
+            </ruleList>
+        </throwError>
+    </initializationActionList>
+    <preInstallationActionList>
+        <setInstallerVariable>
+            <name>installdir</name>
+            <value>${user_home_directory}/Library/Application Support/Adobe/Lightroom/Modules</value>
+            <ruleList>
+                <platformTest>
+                    <type>osx</type>
+                </platformTest>
+            </ruleList>
+        </setInstallerVariable>
+    </preInstallationActionList>
+    <compressionAlgorithm>lzma-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
-    <createUninstaller>0</createUninstaller>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
+    <outputDirectory>..</outputDirectory>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
     <saveRelativePaths>1</saveRelativePaths>
     <uninstallerDirectory>${installdir}/MIDI2LR.lrplugin</uninstallerDirectory>
@@ -187,12 +213,12 @@
             <description>Installer.Parameter.installdir.description</description>
             <explanation>Installer.Parameter.installdir.explanation</explanation>
             <value></value>
-            <default>${env(HOME)}/Documents</default>
+            <default>${windows_folder_appdata}/Adobe/Lightroom/Modules</default>
             <allowEmptyValue>0</allowEmptyValue>
             <cliOptionName>prefix</cliOptionName>
             <mustBeWritable>1</mustBeWritable>
             <mustExist>0</mustExist>
-            <width>40</width>
+            <width>80</width>
         </directoryParameter>
     </parameterList>
 </project>
