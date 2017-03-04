@@ -10,8 +10,10 @@ Prerequisites
 Setup
 =====
 
-1. Save the MIDI2LR.lrplugin folder and its contents. Make sure you don't need
-   administrator privileges to write to that folder—the plugin may crash if it
+1. Download the installer for your operating system from 
+   https://github.com/rsjaffe/MIDI2LR/releases, where you will always fint the
+   latest version. When selecting a folder for installation, make sure you don't
+   need administrator privileges to write to that folder—the plugin may crash if it
    is running in a restricted folder.
 
 2. In Lightroom, add the MIDI2LR plugin by going to File→Plugin-Manager→Add
@@ -40,12 +42,11 @@ Setup
 Updating From A Previous Version
 ================================
 
-1. Close the MIDI2LR application if running
+1. Close Lightroom.
 
-2. In Lightroom, remove the old MIDI2LR plugin by going to File→Plugin-Manager→Remove
+2. Install to the same directory as was used in the prior version.
 
-3. Add the new MIDI2LR plugin by going to File→Plugin-Manager→Add
-   and navigating to and selecting the MIDI2LR.lrplugin folder
+3. Restart Lightroom.
 
 =====
 Notes
@@ -60,10 +61,6 @@ Notes
 
 - Setting a profile folder (Settings→Set profile folder) will allow you to use
   buttons to switch between profiles.
-
-- After setting a profile folder, adding new profiles to this folder will require 
-  restarting MIDI2LR or going to Settings and choosing the same folder for them to be
-  picked up by MIDI2LR.
   
 ===================================
 Problems/Frequently Asked Questions

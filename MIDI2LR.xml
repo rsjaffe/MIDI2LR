@@ -2,6 +2,7 @@
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
     <version>2.0.3.1</version>
+    <readmeFile>Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>LICENSE.txt</licenseFile>
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
     <logoImage>Source/MIDI2LR48.png</logoImage>
@@ -227,6 +228,7 @@
     <createOsxBundleDmg>1</createOsxBundleDmg>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
+    <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
     <outputDirectory>..</outputDirectory>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
@@ -234,10 +236,17 @@
     <uninstallerDirectory>${installdir}/MIDI2LR.lrplugin</uninstallerDirectory>
     <uninstallerName>uninstallMIDI2LR</uninstallerName>
     <vendor>MIDI2LR</vendor>
+    <width>600</width>
     <finalPageActionList>
         <launchBrowser>
-            <explanation>Read MIDI2LR instructions in web browser.</explanation>
+            <explanation>Opens web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in this program.</explanation>
+            <progressText>View instructions.</progressText>
             <url>https://github.com/rsjaffe/MIDI2LR/wiki</url>
+        </launchBrowser>
+        <launchBrowser>
+            <explanation>Opens a web browser with a PayPal form in which you can make a donation to support further development.</explanation>
+            <progressText>Donate to development.</progressText>
+            <url>https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=YWHT4JMA42RXN</url>
         </launchBrowser>
     </finalPageActionList>
     <parameterList>
@@ -251,7 +260,7 @@
             <cliOptionName>prefix</cliOptionName>
             <mustBeWritable>1</mustBeWritable>
             <mustExist>0</mustExist>
-            <width>80</width>
+            <width>67</width>
         </directoryParameter>
     </parameterList>
 </project>
