@@ -43,7 +43,7 @@ void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
   }
 
   if (midiProcessor) {
-    midiProcessor->addMIDICommandListener(this);
+    midiProcessor->addCallback(this, &ProfileManager::handleMIDI);
   }
 }
 

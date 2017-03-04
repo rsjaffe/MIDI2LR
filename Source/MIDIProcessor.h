@@ -27,23 +27,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"
 
-class MIDICommandListener {
-public:
-  virtual void handleMIDI(RSJ::Message msg) = 0;
-
-  virtual ~MIDICommandListener() {};
-};
-
 class MIDIProcessor final: private juce::MidiInputCallback {
 public:
   MIDIProcessor() noexcept;
   virtual ~MIDIProcessor();
   void Init(void);
 
-  void addMIDICommandListener(MIDICommandListener*);
-
   // re-enumerates MIDI IN devices
   void RescanDevices();
+
+  template <class T> void addCallback(T* object, void (T::*mf)(RSJ::Message)) {
+    callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
+  }
 
 private:
   // overridden from MidiInputCallback
@@ -53,7 +48,7 @@ private:
 
   NRPN_Filter nrpn_filter_;
   std::vector<std::unique_ptr<juce::MidiInput>> devices_;
-  std::vector<MIDICommandListener *> listeners_;
+  std::vector <std::function <void(RSJ::Message)>> callbacks_;
 };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED

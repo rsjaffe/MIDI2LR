@@ -39,8 +39,7 @@ public:
   virtual ~ProfileChangeListener() {};
 };
 
-class ProfileManager final: public MIDICommandListener,
-  private juce::AsyncUpdater, public LRConnectionListener {
+class ProfileManager final: private juce::AsyncUpdater, public LRConnectionListener {
 public:
   ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept;
   virtual ~ProfileManager() {};
@@ -68,7 +67,7 @@ public:
   void switchToPreviousProfile();
 
   // MIDICommandListener interface
-  virtual void handleMIDI(RSJ::Message) override;
+  virtual void handleMIDI(RSJ::Message);
 
   // LRConnectionListener interface
   virtual void connected() override;

@@ -48,7 +48,6 @@ public:
 class LR_IPC_OUT final:
   private juce::DeletedAtShutdown,
   private juce::InterprocessConnection,
-  public MIDICommandListener, //MIDIProcessor.h
   private juce::AsyncUpdater,
   private juce::Timer {
 public:
@@ -62,7 +61,7 @@ public:
   void sendCommand(const std::string& command);
 
   // MIDICommandListener interface
-  virtual void handleMIDI(RSJ::Message) override;
+  virtual void handleMIDI(RSJ::Message);
 
 private:
   // IPC interface

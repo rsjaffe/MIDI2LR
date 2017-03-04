@@ -37,32 +37,25 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     case RSJ::kCCFlag:
       if (nrpn_filter_.ProcessMidi(mess.Channel, mess.Number, mess.Value)) { //true if nrpn piece
         if (nrpn_filter_.IsReady(mess.Channel)) { //send when finished
-          for (const auto listener : listeners_)
-            listener->handleMIDI(RSJ::Message{RSJ::kCCFlag, mess.Channel,
+          for (const auto cb : callbacks_)
+            cb(RSJ::Message{RSJ::kCCFlag, mess.Channel,
               nrpn_filter_.GetControl(mess.Channel),
               nrpn_filter_.GetValue(mess.Channel)});
           nrpn_filter_.Clear(mess.Channel);
         }
       }
-      else {//regular message
-        for (const auto listener : listeners_)
-          listener->handleMIDI(mess);
-      }
+      else //regular message
+        for (const auto cb : callbacks_) {
+          cb(mess);
+        }
       break;
     case RSJ::kNoteOnFlag:
     case RSJ::kPWFlag:
-      for (const auto listener : listeners_) {
-        listener->handleMIDI(mess);
+      for (const auto cb : callbacks_) {
+        cb(mess);
       }
       break;
   }
-}
-
-void MIDIProcessor::addMIDICommandListener(MIDICommandListener* listener) {
-  for (const auto current_listener : listeners_)
-    if (current_listener == listener)
-      return; //don't add duplicates
-  listeners_.push_back(listener);
 }
 
 void MIDIProcessor::RescanDevices() {

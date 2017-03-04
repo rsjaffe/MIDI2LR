@@ -42,7 +42,6 @@ class SettingsManager;
 
 class MainContentComponent final:
   public juce::Component,
-  public MIDICommandListener, //MIDIProcessor.h
   public LRConnectionListener, //LR_IPC_OUT.h
   private juce::AsyncUpdater,
   private juce::Timer,
@@ -60,7 +59,7 @@ public:
     std::shared_ptr<MIDISender>& midi_sender);
 
   // MIDICommandListener interface
-  virtual void handleMIDI(RSJ::Message) override;
+  virtual void handleMIDI(RSJ::Message);
 
   // LRConnectionListener interface
   virtual void connected() override;

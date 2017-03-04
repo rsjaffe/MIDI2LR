@@ -48,7 +48,7 @@ LR_IPC_OUT::~LR_IPC_OUT() {
 void LR_IPC_OUT::Init(
   std::shared_ptr<MIDIProcessor>& midi_processor) {
   if (midi_processor) {
-    midi_processor->addMIDICommandListener(this);
+    midi_processor->addCallback(this, &LR_IPC_OUT::handleMIDI);
   }
 
   //start the timer

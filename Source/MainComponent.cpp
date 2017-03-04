@@ -74,7 +74,7 @@ void MainContentComponent::Init(CommandMap* command_map,
 
   if (midi_processor) {
       // Add ourselves as a listener for MIDI commands
-    midi_processor->addMIDICommandListener(this);
+    midi_processor->addCallback(this, &MainContentComponent::handleMIDI);
   }
 
   if (const auto ptr = lr_ipc_out_.lock()) {
