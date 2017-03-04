@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -138,28 +138,37 @@ Collaboration diagram for SettingsComponent:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a67f2ee68d8a77e0529ac6394e19513c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_component.html#a67f2ee68d8a77e0529ac6394e19513c9">SettingsComponent</a> ()</td></tr>
-<tr class="separator:a67f2ee68d8a77e0529ac6394e19513c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad009b00bebb9ba8b9ab6bfdd4b6922a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_component.html#ad009b00bebb9ba8b9ab6bfdd4b6922a0">SettingsComponent</a> (<a class="el" href="class_settings_manager.html">SettingsManager</a> *settings_manager)</td></tr>
+<tr class="separator:ad009b00bebb9ba8b9ab6bfdd4b6922a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ed5c4f0e9f7a6e0425d244d03d31dcf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_component.html#a2ed5c4f0e9f7a6e0425d244d03d31dcf">~SettingsComponent</a> ()</td></tr>
 <tr class="separator:a2ed5c4f0e9f7a6e0425d244d03d31dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab33bac12d22f1353596c1cc8fa58825f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_component.html#ab33bac12d22f1353596c1cc8fa58825f">Init</a> (std::weak_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;&amp;settings_manager)</td></tr>
-<tr class="separator:ab33bac12d22f1353596c1cc8fa58825f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29baa1f6c3d21bc45e53e9294556b718"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_component.html#a29baa1f6c3d21bc45e53e9294556b718">Init</a> ()</td></tr>
+<tr class="separator:a29baa1f6c3d21bc45e53e9294556b718"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_settings_component_8h_source.html#l00030">30</a> of file <a class="el" href="_settings_component_8h_source.html">SettingsComponent.h</a>.</p>
+<p>Definition at line <a class="el" href="_settings_component_8h_source.html#l00029">29</a> of file <a class="el" href="_settings_component_8h_source.html">SettingsComponent.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a67f2ee68d8a77e0529ac6394e19513c9"></a>
+<a class="anchor" id="ad009b00bebb9ba8b9ab6bfdd4b6922a0"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">SettingsComponent::SettingsComponent </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_settings_manager.html">SettingsManager</a> *&#160;</td>
+          <td class="paramname"><em>settings_manager</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="_settings_component_8cpp_source.html#l00034">34</a> of file <a class="el" href="_settings_component_8cpp_source.html">SettingsComponent.cpp</a>.</p>
@@ -179,26 +188,25 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_component_8cpp_source.html#l00036">36</a> of file <a class="el" href="_settings_component_8cpp_source.html">SettingsComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_component_8cpp_source.html#l00037">37</a> of file <a class="el" href="_settings_component_8cpp_source.html">SettingsComponent.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab33bac12d22f1353596c1cc8fa58825f"></a>
+<a class="anchor" id="a29baa1f6c3d21bc45e53e9294556b718"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void SettingsComponent::Init </td>
           <td>(</td>
-          <td class="paramtype">std::weak_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;&amp;&#160;</td>
-          <td class="paramname"><em>settings_manager</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_component_8cpp_source.html#l00038">38</a> of file <a class="el" href="_settings_component_8cpp_source.html">SettingsComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_component_8cpp_source.html#l00039">39</a> of file <a class="el" href="_settings_component_8cpp_source.html">SettingsComponent.cpp</a>.</p>
 
 </div>
 </div>

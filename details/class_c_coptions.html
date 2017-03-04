@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -122,11 +122,15 @@ $(document).ready(function(){initNavTree('class_c_coptions.html','');});
 Inheritance diagram for CCoptions:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_c_coptions__inherit__graph.png" border="0" usemap="#_c_coptions_inherit__map" alt="Inheritance graph"/></div>
+<map name="_c_coptions_inherit__map" id="_c_coptions_inherit__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for CCoptions:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_c_coptions__coll__graph.png" border="0" usemap="#_c_coptions_coll__map" alt="Collaboration graph"/></div>
+<map name="_c_coptions_coll__map" id="_c_coptions_coll__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -135,8 +139,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1d8d9d83f1823c1f016de242ecfe44d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d12f2662d4da84b42808a4bcfee8057"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_coptions.html#a7d12f2662d4da84b42808a4bcfee8057">~CCoptions</a> ()</td></tr>
 <tr class="separator:a7d12f2662d4da84b42808a4bcfee8057"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaace190132fefafad5e7571c1549d86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_coptions.html#aaaace190132fefafad5e7571c1549d86">bindToControl</a> (size_t channel, short number) noexcept</td></tr>
-<tr class="separator:aaaace190132fefafad5e7571c1549d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23681ed4e4f098fc28ff3ba57d71f533"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_coptions.html#a23681ed4e4f098fc28ff3ba57d71f533">bindToControl</a> (size_t channel, short number)</td></tr>
+<tr class="separator:a23681ed4e4f098fc28ff3ba57d71f533"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac25a7dd04f5e83fe73c4497697e30e21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_coptions.html#ac25a7dd04f5e83fe73c4497697e30e21">buttonClicked</a> (Button *buttonThatWasClicked) override</td></tr>
 <tr class="separator:ac25a7dd04f5e83fe73c4497697e30e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f6e7e7e68a1f6fa32e00e12942205e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_coptions.html#a8f6e7e7e68a1f6fa32e00e12942205e2">paint</a> (Graphics &amp;g) override</td></tr>
@@ -168,7 +172,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00052">52</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00053">53</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
 
 </div>
 </div>
@@ -185,17 +189,14 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00154">154</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00155">155</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aaaace190132fefafad5e7571c1549d86"></a>
+<a class="anchor" id="a23681ed4e4f098fc28ff3ba57d71f533"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void CCoptions::bindToControl </td>
@@ -215,22 +216,17 @@ Static Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00279">279</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00280">280</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
 
-<p>References <a class="el" href="_controls_model_8h_source.html#l00129">ControlsModel::getCCmethod()</a>.</p>
+<p>References <a class="el" href="_controls_model_8h_source.html#l00128">ControlsModel::getCCmethod()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_c_coptions_aaaace190132fefafad5e7571c1549d86_cgraph.png" border="0" usemap="#class_c_coptions_aaaace190132fefafad5e7571c1549d86_cgraph" alt=""/></div>
-<map name="class_c_coptions_aaaace190132fefafad5e7571c1549d86_cgraph" id="class_c_coptions_aaaace190132fefafad5e7571c1549d86_cgraph">
+<div class="center"><img src="class_c_coptions_a23681ed4e4f098fc28ff3ba57d71f533_cgraph.png" border="0" usemap="#class_c_coptions_a23681ed4e4f098fc28ff3ba57d71f533_cgraph" alt=""/></div>
+<map name="class_c_coptions_a23681ed4e4f098fc28ff3ba57d71f533_cgraph" id="class_c_coptions_a23681ed4e4f098fc28ff3ba57d71f533_cgraph">
 <area shape="rect" id="node2" href="class_controls_model.html#a6cbacc47d51950353e89a13c07ac9be6" title="ControlsModel::getCCmethod" alt="" coords="223,5,415,32"/>
 </map>
 </div>
@@ -260,7 +256,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00204">204</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00205">205</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
 
 </div>
 </div>
@@ -312,7 +308,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00175">175</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00176">176</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
 
 </div>
 </div>
@@ -337,7 +333,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00185">185</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_c_coptions_8cpp_source.html#l00186">186</a> of file <a class="el" href="_c_coptions_8cpp_source.html">CCoptions.cpp</a>.</p>
 
 </div>
 </div>

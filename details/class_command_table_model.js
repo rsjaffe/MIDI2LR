@@ -5,7 +5,7 @@ var class_command_table_model =
     [ "buildFromXml", "class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67", null ],
     [ "getNumRows", "class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2", null ],
     [ "getRowForMessage", "class_command_table_model.html#a95c92b56955450c4f91885186182c361", null ],
-    [ "Init", "class_command_table_model.html#a840540a46e865e5ac59f6922bf1ef184", null ],
+    [ "Init", "class_command_table_model.html#a09b606140e45708b75d96e60a3d5fc34", null ],
     [ "paintCell", "class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339", null ],
     [ "paintRowBackground", "class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87", null ],
     [ "refreshComponentForCell", "class_command_table_model.html#ad6cce73101cffa884e56b4d50377460e", null ],

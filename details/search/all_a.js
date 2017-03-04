@@ -8,11 +8,11 @@ var searchData=
   ['localadjustments',['LocalAdjustments',['../class_l_r_command_list.html#a83598b75b849c7cc3dd2547a902fbcaa',1,'LRCommandList']]],
   ['lock',['lock',['../class_r_s_j_1_1spinlock.html#a0d1531ac7f2e7175d4eaba51d22bdaf9',1,'RSJ::spinlock']]],
   ['low',['low',['../struct_r_s_j_1_1_settings_struct.html#a149d9b9157ab73f1351bae5cb1e14179',1,'RSJ::SettingsStruct']]],
-  ['lr_5fipc_5fin',['LR_IPC_IN',['../class_l_r___i_p_c___i_n.html',1,'LR_IPC_IN'],['../class_l_r___i_p_c___i_n.html#a2f7e883f7c6408b64cdb3a5ca562ece7',1,'LR_IPC_IN::LR_IPC_IN()']]],
+  ['lr_5fipc_5fin',['LR_IPC_IN',['../class_l_r___i_p_c___i_n.html',1,'LR_IPC_IN'],['../class_l_r___i_p_c___i_n.html#a43d73c17ee039ef8bf76025e2cbbde44',1,'LR_IPC_IN::LR_IPC_IN()']]],
   ['lr_5fipc_5fin_2ecpp',['LR_IPC_In.cpp',['../_l_r___i_p_c___in_8cpp.html',1,'']]],
   ['lr_5fipc_5fin_2eh',['LR_IPC_In.h',['../_l_r___i_p_c___in_8h.html',1,'']]],
   ['lr_5fipc_5fin_5fh_5fincluded',['LR_IPC_IN_H_INCLUDED',['../_l_r___i_p_c___in_8h.html#a76b70bf1d15c92bc0578f8e92c90f831',1,'LR_IPC_In.h']]],
-  ['lr_5fipc_5fout',['LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html',1,'LR_IPC_OUT'],['../class_l_r___i_p_c___o_u_t.html#a1014834396f94fb137dc5e1bcdcf5cf9',1,'LR_IPC_OUT::LR_IPC_OUT()']]],
+  ['lr_5fipc_5fout',['LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html',1,'LR_IPC_OUT'],['../class_l_r___i_p_c___o_u_t.html#a85ec6dd8b165b3e2c24c24a26d6e4a0b',1,'LR_IPC_OUT::LR_IPC_OUT()']]],
   ['lr_5fipc_5fout_2ecpp',['LR_IPC_Out.cpp',['../_l_r___i_p_c___out_8cpp.html',1,'']]],
   ['lr_5fipc_5fout_2eh',['LR_IPC_Out.h',['../_l_r___i_p_c___out_8h.html',1,'']]],
   ['lr_5fipc_5fout_5fh_5fincluded',['LR_IPC_OUT_H_INCLUDED',['../_l_r___i_p_c___out_8h.html#a37190a0b9119ae1f3d5f9a8a5f2dd331',1,'LR_IPC_Out.h']]],
@@ -20,7 +20,7 @@ var searchData=
   ['lrcommands_2ecpp',['LRCommands.cpp',['../_l_r_commands_8cpp.html',1,'']]],
   ['lrcommands_2eh',['LRCommands.h',['../_l_r_commands_8h.html',1,'']]],
   ['lrcommands_5fh_5fincluded',['LRCOMMANDS_H_INCLUDED',['../_l_r_commands_8h.html#aabfc6baa2affc49247fe84f677018d69',1,'LRCommands.h']]],
-  ['lrconnectionlistener',['LRConnectionListener',['../class_l_r_connection_listener.html',1,'']]],
+  ['lripcoutcallback',['LRIpcOutCallback',['../class_main_content_component.html#a85bddb9b97d0b443bd6bf0f53de09f41',1,'MainContentComponent']]],
   ['lrstringlist',['LRStringList',['../class_l_r_command_list.html#a4b8cf198dd81e0def7e5bcc257e9d117',1,'LRCommandList']]],
   ['ltrim',['ltrim',['../namespace_r_s_j.html#aad280f0b636be1c144203a8a97037f8c',1,'RSJ']]]
 ];

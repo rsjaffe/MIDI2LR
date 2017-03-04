@@ -1,0 +1,5 @@
+<map id="ProfileManager::MIDIcmdCallback" name="ProfileManager::MIDIcmdCallback">
+<area shape="rect" id="node2" href="$class_controls_model.html#abf3ede542b8f223d3c43a4562e3746c7" title="ControlsModel::Controller\lToPlugin" alt="" coords="289,5,457,47"/>
+<area shape="rect" id="node3" href="$class_command_map.html#a2756e149d61272bdd1d28dab12106ded" title="CommandMap::messageExists\lInMap" alt="" coords="271,71,475,112"/>
+<area shape="rect" id="node4" href="$struct_m_i_d_i___message___i_d.html#acdf63bfeeb53f1ed600950a0d3c76a61" title="MIDI_Message_ID::MIDI\l_Message_ID" alt="" coords="292,136,453,177"/>
+</map>

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -115,36 +115,20 @@ $(document).ready(function(){initNavTree('_main_component_8h.html','');});
 <div class="contents">
 <div class="textblock"><code>#include &lt;memory&gt;</code><br />
 <code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
-<code>#include &quot;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_command_table_8h_source.html">CommandTable.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_command_table_model_8h_source.html">CommandTableModel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_In.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_l_r___i_p_c___out_8h_source.html">LR_IPC_Out.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_settings_manager_8h_source.html">SettingsManager.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for MainComponent.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_main_component_8h__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8h" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8h" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8h">
-<area shape="rect" id="node4" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="981,393,1099,420"/>
-<area shape="rect" id="node9" href="_command_table_8h.html" title="CommandTable.h" alt="" coords="48,169,171,196"/>
-<area shape="rect" id="node10" href="_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="287,244,446,271"/>
-<area shape="rect" id="node15" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="1491,95,1586,121"/>
-<area shape="rect" id="node31" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="855,169,974,196"/>
-<area shape="rect" id="node32" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="1331,244,1442,271"/>
-<area shape="rect" id="node33" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1129,319,1247,345"/>
-<area shape="rect" id="node36" href="_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="2185,95,2314,121"/>
-<area shape="rect" id="node38" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="797,95,928,121"/>
-<area shape="rect" id="node13" href="_command_menu_8h.html" title="CommandMenu.h" alt="" coords="347,319,471,345"/>
-<area shape="rect" id="node17" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="1577,319,1693,345"/>
-<area shape="rect" id="node30" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="750,319,850,345"/>
-<area shape="rect" id="node35" href="_send_keys_8h.html" title="SendKeys.h" alt="" coords="2537,393,2631,420"/>
-<area shape="rect" id="node25" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1174,393,1274,420"/>
-<area shape="rect" id="node26" href="_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="1301,475,1424,502"/>
-<area shape="rect" id="node34" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="1401,393,1514,420"/>
+<area shape="rect" id="node4" href="_command_table_8h.html" title="CommandTable.h" alt="" coords="99,95,221,121"/>
+<area shape="rect" id="node5" href="_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="435,95,594,121"/>
+<area shape="rect" id="node13" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="297,95,397,121"/>
+<area shape="rect" id="node15" href="_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="695,95,825,121"/>
+<area shape="rect" id="node8" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="645,169,763,196"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -152,10 +136,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_main_component_8h__dep__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8hdep" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8hdep" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8hdep">
-<area shape="rect" id="node2" href="_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="5,184,183,225"/>
-<area shape="rect" id="node3" href="_main_window_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.h" alt="" coords="132,95,341,136"/>
-<area shape="rect" id="node5" href="_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="366,95,609,136"/>
-<area shape="rect" id="node4" href="_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="207,184,429,225"/>
+<area shape="rect" id="node2" href="_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="5,95,183,136"/>
+<area shape="rect" id="node3" href="_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="207,95,450,136"/>
+<area shape="rect" id="node4" href="_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="475,95,697,136"/>
 </map>
 </div>
 </div>

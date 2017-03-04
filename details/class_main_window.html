@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -121,23 +121,27 @@ $(document).ready(function(){initNavTree('class_main_window.html','');});
 Inheritance diagram for MainWindow:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_main_window__inherit__graph.png" border="0" usemap="#_main_window_inherit__map" alt="Inheritance graph"/></div>
+<map name="_main_window_inherit__map" id="_main_window_inherit__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for MainWindow:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_main_window__coll__graph.png" border="0" usemap="#_main_window_coll__map" alt="Collaboration graph"/></div>
+<map name="_main_window_coll__map" id="_main_window_coll__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4cf4842be7f8aa941b4b8c3ba3ef0e5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f">MainWindow</a> (juce::String name)</td></tr>
 <tr class="separator:a4cf4842be7f8aa941b4b8c3ba3ef0e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf29a6c3f29ab39094353d49a9963cf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#adf29a6c3f29ab39094353d49a9963cf8">Init</a> (std::shared_ptr&lt; <a class="el" href="class_command_map.html">CommandMap</a> &gt; &amp;command_map, std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___i_n.html">LR_IPC_IN</a> &gt; &amp;&amp;in, std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midi_processor, std::shared_ptr&lt; <a class="el" href="class_profile_manager.html">ProfileManager</a> &gt; &amp;profile_manager, std::shared_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;settings_manager, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_sender.html">MIDISender</a> &gt; &amp;midi_sender)</td></tr>
-<tr class="separator:adf29a6c3f29ab39094353d49a9963cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af88db644807be4eb12a52028e989e0c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_window.html#af88db644807be4eb12a52028e989e0c1">Init</a> (<a class="el" href="class_command_map.html">CommandMap</a> *command_map, std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midi_processor, <a class="el" href="class_profile_manager.html">ProfileManager</a> *profile_manager, <a class="el" href="class_settings_manager.html">SettingsManager</a> *settings_manager, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_sender.html">MIDISender</a> &gt; &amp;midi_sender)</td></tr>
+<tr class="separator:af88db644807be4eb12a52028e989e0c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_main_window_8h_source.html#l00031">31</a> of file <a class="el" href="_main_window_8h_source.html">MainWindow.h</a>.</p>
+<p>Definition at line <a class="el" href="_main_window_8h_source.html#l00036">36</a> of file <a class="el" href="_main_window_8h_source.html">MainWindow.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a4cf4842be7f8aa941b4b8c3ba3ef0e5f"></a>
 <div class="memitem">
@@ -156,21 +160,23 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_window_8h_source.html#l00033">33</a> of file <a class="el" href="_main_window_8h_source.html">MainWindow.h</a>.</p>
+<p>Definition at line <a class="el" href="_main_window_8cpp_source.html#l00029">29</a> of file <a class="el" href="_main_window_8cpp_source.html">MainWindow.cpp</a>.</p>
 
-<p>References <a class="el" href="_main_window_8h_source.html#l00033">MainWindow()</a>.</p>
+<p>References <a class="el" href="_main_window_8cpp_source.html#l00029">MainWindow()</a>.</p>
 
-<p>Referenced by <a class="el" href="_main_window_8h_source.html#l00033">MainWindow()</a>.</p>
+<p>Referenced by <a class="el" href="_main_window_8cpp_source.html#l00029">MainWindow()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_cgraph.png" border="0" usemap="#class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_cgraph" alt=""/></div>
+<map name="class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_cgraph" id="class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_cgraph">
+</map>
 </div>
 </p>
 
@@ -178,27 +184,23 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_icgraph.png" border="0" usemap="#class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_icgraph" alt=""/></div>
+<map name="class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_icgraph" id="class_main_window_a4cf4842be7f8aa941b4b8c3ba3ef0e5f_icgraph">
+</map>
 </div>
 </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="adf29a6c3f29ab39094353d49a9963cf8"></a>
+<a class="anchor" id="af88db644807be4eb12a52028e989e0c1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void MainWindow::Init </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_command_map.html">CommandMap</a> &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *&#160;</td>
           <td class="paramname"><em>command_map</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___i_n.html">LR_IPC_IN</a> &gt; &amp;&amp;&#160;</td>
-          <td class="paramname"><em>in</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -215,13 +217,13 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_profile_manager.html">ProfileManager</a> &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_profile_manager.html">ProfileManager</a> *&#160;</td>
           <td class="paramname"><em>profile_manager</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_settings_manager.html">SettingsManager</a> &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_settings_manager.html">SettingsManager</a> *&#160;</td>
           <td class="paramname"><em>settings_manager</em>, </td>
         </tr>
         <tr>
@@ -238,7 +240,19 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_window_8cpp_source.html#l00027">27</a> of file <a class="el" href="_main_window_8cpp_source.html">MainWindow.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_window_8cpp_source.html#l00042">42</a> of file <a class="el" href="_main_window_8cpp_source.html">MainWindow.cpp</a>.</p>
+
+<p>References <a class="el" href="_settings_manager_8cpp_source.html#l00089">SettingsManager::getAutoHideTime()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_main_window_af88db644807be4eb12a52028e989e0c1_cgraph.png" border="0" usemap="#class_main_window_af88db644807be4eb12a52028e989e0c1_cgraph" alt=""/></div>
+<map name="class_main_window_af88db644807be4eb12a52028e989e0c1_cgraph" id="class_main_window_af88db644807be4eb12a52028e989e0c1_cgraph">
+<area shape="rect" id="node2" href="class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca" title="SettingsManager::getAuto\lHideTime" alt="" coords="175,5,348,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>

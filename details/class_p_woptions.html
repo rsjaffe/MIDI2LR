@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -122,11 +122,15 @@ $(document).ready(function(){initNavTree('class_p_woptions.html','');});
 Inheritance diagram for PWoptions:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_p_woptions__inherit__graph.png" border="0" usemap="#_p_woptions_inherit__map" alt="Inheritance graph"/></div>
+<map name="_p_woptions_inherit__map" id="_p_woptions_inherit__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for PWoptions:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_p_woptions__coll__graph.png" border="0" usemap="#_p_woptions_coll__map" alt="Collaboration graph"/></div>
+<map name="_p_woptions_coll__map" id="_p_woptions_coll__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -135,8 +139,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a726d802d17638e889809dfd801d50a12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fbbb29546c930f7f2156475754a8815"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_woptions.html#a0fbbb29546c930f7f2156475754a8815">~PWoptions</a> ()</td></tr>
 <tr class="separator:a0fbbb29546c930f7f2156475754a8815"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4b1ec8bbcac26af3cf36cb5424029cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_woptions.html#ab4b1ec8bbcac26af3cf36cb5424029cd">bindToControl</a> (size_t channel) noexcept</td></tr>
-<tr class="separator:ab4b1ec8bbcac26af3cf36cb5424029cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a790554fc29b4e091cd79e9c84d463dff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_woptions.html#a790554fc29b4e091cd79e9c84d463dff">bindToControl</a> (size_t channel)</td></tr>
+<tr class="separator:a790554fc29b4e091cd79e9c84d463dff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa15cb4cecbb83c2bcfc51e0131370a8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_woptions.html#aa15cb4cecbb83c2bcfc51e0131370a8a">paint</a> (Graphics &amp;g) override</td></tr>
 <tr class="separator:aa15cb4cecbb83c2bcfc51e0131370a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47baed2454c13570aa7f567a53beafb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2">resized</a> () override</td></tr>
@@ -166,7 +170,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00053">53</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00054">54</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
 
 </div>
 </div>
@@ -183,17 +187,14 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00114">114</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00115">115</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab4b1ec8bbcac26af3cf36cb5424029cd"></a>
+<a class="anchor" id="a790554fc29b4e091cd79e9c84d463dff"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void PWoptions::bindToControl </td>
@@ -203,14 +204,9 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00162">162</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00163">163</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
 
 </div>
 </div>
@@ -262,7 +258,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00129">129</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00130">130</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
 
 </div>
 </div>
@@ -287,7 +283,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00139">139</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_p_woptions_8cpp_source.html#l00140">140</a> of file <a class="el" href="_p_woptions_8cpp_source.html">PWoptions.cpp</a>.</p>
 
 </div>
 </div>

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -156,6 +156,8 @@ Functions</h2></td></tr>
 <tr class="separator:a0158a4b0e3a22766beef3a433a0b2850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16cd63e4c06f69785a058e1811492615"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a16cd63e4c06f69785a058e1811492615">rtrim</a> (const std::string &amp;str, const std::string &amp;what=RSJ::space)</td></tr>
 <tr class="separator:a16cd63e4c06f69785a058e1811492615"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a860384e52fd39547dccf094da34f81f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a860384e52fd39547dccf094da34f81f1">SendKeyDownUp</a> (const std::string &amp;key, const bool alt_opt, const bool control_cmd, const bool shift)</td></tr>
+<tr class="separator:a860384e52fd39547dccf094da34f81f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a0a6e6178ac22831c221c6b38e3405d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a1a0a6e6178ac22831c221c6b38e3405d">trim</a> (const std::string &amp;str, const std::string &amp;what=RSJ::space)</td></tr>
 <tr class="separator:a1a0a6e6178ac22831c221c6b38e3405d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -189,7 +191,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00042">42</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00041">41</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -222,7 +224,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00035">35</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00034">34</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +314,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00038">38</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00037">37</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -382,6 +384,46 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="a860384e52fd39547dccf094da34f81f1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RSJ::SendKeyDownUp </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>alt_opt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>control_cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>shift</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_send_keys_8cpp_source.html#l00245">245</a> of file <a class="el" href="_send_keys_8cpp_source.html">SendKeys.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1a0a6e6178ac22831c221c6b38e3405d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -423,7 +465,7 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00030">30</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_main_component_8cpp_source.html#l00199">MainContentComponent::handleMIDI()</a>, <a class="el" href="_profile_manager_8cpp_source.html#l00129">ProfileManager::handleMIDI()</a>, <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00077">LR_IPC_OUT::handleMIDI()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00066">ChannelModel::PluginToController()</a>.</p>
+<p>Referenced by <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00067">LR_IPC_OUT::MIDIcmdCallback()</a>, <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>, <a class="el" href="_profile_manager_8cpp_source.html#l00125">ProfileManager::MIDIcmdCallback()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00067">ChannelModel::PluginToController()</a>.</p>
 
 </div>
 </div>
@@ -467,7 +509,7 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00027">27</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00025">ChannelModel::ControllerToPlugin()</a>.</p>
+<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, and <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>.</p>
 
 </div>
 </div>
@@ -483,7 +525,7 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00028">28</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00025">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_main_component_8cpp_source.html#l00199">MainContentComponent::handleMIDI()</a>, <a class="el" href="_profile_manager_8cpp_source.html#l00129">ProfileManager::handleMIDI()</a>, <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00077">LR_IPC_OUT::handleMIDI()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00066">ChannelModel::PluginToController()</a>.</p>
+<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00067">LR_IPC_OUT::MIDIcmdCallback()</a>, <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>, <a class="el" href="_profile_manager_8cpp_source.html#l00125">ProfileManager::MIDIcmdCallback()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00067">ChannelModel::PluginToController()</a>.</p>
 
 </div>
 </div>
@@ -513,7 +555,7 @@ Here is the call graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00033">33</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00025">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_main_component_8cpp_source.html#l00199">MainContentComponent::handleMIDI()</a>, <a class="el" href="_profile_manager_8cpp_source.html#l00129">ProfileManager::handleMIDI()</a>, and <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00077">LR_IPC_OUT::handleMIDI()</a>.</p>
+<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00067">LR_IPC_OUT::MIDIcmdCallback()</a>, <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>, and <a class="el" href="_profile_manager_8cpp_source.html#l00125">ProfileManager::MIDIcmdCallback()</a>.</p>
 
 </div>
 </div>

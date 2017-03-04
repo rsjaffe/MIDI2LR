@@ -7,8 +7,8 @@ var searchData=
   ['pleasestopthread',['PleaseStopThread',['../class_l_r___i_p_c___i_n.html#a9da691b1161678e44d862b8105e91abf',1,'LR_IPC_IN']]],
   ['plugintocontroller',['PluginToController',['../class_channel_model.html#a301d982711eccd719e550fd1d072de43',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a07212c943c37cff9557a0c75ddd6104a',1,'ControlsModel::PluginToController()']]],
   ['processmidi',['ProcessMidi',['../class_n_r_p_n___message.html#a371b974b03d367b5092cfe7870031824',1,'NRPN_Message::ProcessMidi()'],['../class_n_r_p_n___filter.html#a757b5bb29ae87dc9193e738eef5187f3',1,'NRPN_Filter::ProcessMidi()']]],
-  ['profilechanged',['profileChanged',['../class_profile_change_listener.html#aad2de771d58fdc9e7a27c52b2e790cd5',1,'ProfileChangeListener::profileChanged()'],['../class_main_content_component.html#a4f0dda76411019d6f94c6c91f113a995',1,'MainContentComponent::profileChanged()']]],
-  ['profilemanager',['ProfileManager',['../class_profile_manager.html#ac4cd2507d41bdec7d18506a2b9ac482d',1,'ProfileManager']]],
+  ['profilechanged',['profileChanged',['../class_main_content_component.html#aff0f99bdba40757988e4390168ed6356',1,'MainContentComponent']]],
+  ['profilemanager',['ProfileManager',['../class_profile_manager.html#aedbce0fe9236c3ac890d9540a718af38',1,'ProfileManager']]],
   ['push',['Push',['../classthreadsafe__queue.html#a5c9a2a886367d5e77cb6438462432e11',1,'threadsafe_queue::Push()'],['../class_r_s_j_1_1threadsafe__queue.html#a48dcbcecf1bb852c1a3ec97957090f18',1,'RSJ::threadsafe_queue::push()']]],
   ['pwoptions',['PWoptions',['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions']]]
 ];

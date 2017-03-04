@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -121,19 +121,23 @@ $(document).ready(function(){initNavTree('class_command_menu.html','');});
 Inheritance diagram for CommandMenu:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_command_menu__inherit__graph.png" border="0" usemap="#_command_menu_inherit__map" alt="Inheritance graph"/></div>
+<map name="_command_menu_inherit__map" id="_command_menu_inherit__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for CommandMenu:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_command_menu__coll__graph.png" border="0" usemap="#_command_menu_coll__map" alt="Collaboration graph"/></div>
+<map name="_command_menu_coll__map" id="_command_menu_coll__map">
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1876adc34c69322e24fdfaec9f5f015a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_menu.html#a1876adc34c69322e24fdfaec9f5f015a">CommandMenu</a> (const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;msg)</td></tr>
 <tr class="separator:a1876adc34c69322e24fdfaec9f5f015a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e997c5bc08689f1fdb46443edaf9720"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_menu.html#a6e997c5bc08689f1fdb46443edaf9720">Init</a> (std::shared_ptr&lt; <a class="el" href="class_command_map.html">CommandMap</a> &gt; &amp;map_command)</td></tr>
-<tr class="separator:a6e997c5bc08689f1fdb46443edaf9720"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c55a50ebb125b76b72e1790c21d84a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_menu.html#a3c55a50ebb125b76b72e1790c21d84a9">Init</a> (<a class="el" href="class_command_map.html">CommandMap</a> *map_command)</td></tr>
+<tr class="separator:a3c55a50ebb125b76b72e1790c21d84a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f49295c7c752b8302b7a84e5996e62f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_menu.html#a6f49295c7c752b8302b7a84e5996e62f">setMsg</a> (const <a class="el" href="struct_m_i_d_i___message___i_d.html">MIDI_Message_ID</a> &amp;msg) noexcept</td></tr>
 <tr class="separator:a6f49295c7c752b8302b7a84e5996e62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9277b8034bf28bc66857977441097f7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_menu.html#a9277b8034bf28bc66857977441097f7a">setSelectedItem</a> (size_t idx)</td></tr>
@@ -141,7 +145,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_command_menu_8h_source.html#l00031">31</a> of file <a class="el" href="_command_menu_8h_source.html">CommandMenu.h</a>.</p>
+<p>Definition at line <a class="el" href="_command_menu_8h_source.html#l00030">30</a> of file <a class="el" href="_command_menu_8h_source.html">CommandMenu.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1876adc34c69322e24fdfaec9f5f015a"></a>
 <div class="memitem">
@@ -165,16 +169,18 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00032">32</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00029">29</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_menu_8cpp_source.html#l00032">CommandMenu()</a>.</p>
+<p>References <a class="el" href="_command_menu_8cpp_source.html#l00029">CommandMenu()</a>.</p>
 
-<p>Referenced by <a class="el" href="_command_menu_8cpp_source.html#l00032">CommandMenu()</a>.</p>
+<p>Referenced by <a class="el" href="_command_menu_8cpp_source.html#l00029">CommandMenu()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_cgraph.png" border="0" usemap="#class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_cgraph" alt=""/></div>
+<map name="class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_cgraph" id="class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_cgraph">
+</map>
 </div>
 </p>
 
@@ -182,27 +188,41 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_icgraph.png" border="0" usemap="#class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_icgraph" alt=""/></div>
+<map name="class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_icgraph" id="class_command_menu_a1876adc34c69322e24fdfaec9f5f015a_icgraph">
+</map>
 </div>
 </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a6e997c5bc08689f1fdb46443edaf9720"></a>
+<a class="anchor" id="a3c55a50ebb125b76b72e1790c21d84a9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CommandMenu::Init </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_command_map.html">CommandMap</a> &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *&#160;</td>
           <td class="paramname"><em>map_command</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00054">54</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00051">51</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
+
+<p>Referenced by <a class="el" href="_command_table_model_8cpp_source.html#l00107">CommandTableModel::refreshComponentForCell()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_command_menu_a3c55a50ebb125b76b72e1790c21d84a9_icgraph.png" border="0" usemap="#class_command_menu_a3c55a50ebb125b76b72e1790c21d84a9_icgraph" alt=""/></div>
+<map name="class_command_menu_a3c55a50ebb125b76b72e1790c21d84a9_icgraph" id="class_command_menu_a3c55a50ebb125b76b72e1790c21d84a9_icgraph">
+<area shape="rect" id="node2" href="class_command_table_model.html#ad6cce73101cffa884e56b4d50377460e" title="CommandTableModel::\lrefreshComponentForCell" alt="" coords="192,5,360,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -228,7 +248,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00059">59</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00056">56</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
 
 </div>
 </div>
@@ -246,7 +266,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00063">63</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_menu_8cpp_source.html#l00060">60</a> of file <a class="el" href="_command_menu_8cpp_source.html">CommandMenu.cpp</a>.</p>
 
 </div>
 </div>

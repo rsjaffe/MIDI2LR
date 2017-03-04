@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.0.0</span>
+   &#160;<span id="projectnumber">2.0.4.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -115,8 +115,8 @@ $(document).ready(function(){initNavTree('class_main_window.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_main_window.html">MainWindow</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#adf29a6c3f29ab39094353d49a9963cf8">Init</a>(std::shared_ptr&lt; CommandMap &gt; &amp;command_map, std::weak_ptr&lt; LR_IPC_IN &gt; &amp;&amp;in, std::weak_ptr&lt; LR_IPC_OUT &gt; &amp;&amp;out, std::shared_ptr&lt; MIDIProcessor &gt; &amp;midi_processor, std::shared_ptr&lt; ProfileManager &gt; &amp;profile_manager, std::shared_ptr&lt; SettingsManager &gt; &amp;settings_manager, std::shared_ptr&lt; MIDISender &gt; &amp;midi_sender)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f">MainWindow</a>(juce::String name)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#af88db644807be4eb12a52028e989e0c1">Init</a>(CommandMap *command_map, std::weak_ptr&lt; LR_IPC_OUT &gt; &amp;&amp;out, std::shared_ptr&lt; MIDIProcessor &gt; &amp;midi_processor, ProfileManager *profile_manager, SettingsManager *settings_manager, std::shared_ptr&lt; MIDISender &gt; &amp;midi_sender)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f">MainWindow</a>(juce::String name)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
