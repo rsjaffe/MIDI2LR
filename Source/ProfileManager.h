@@ -26,10 +26,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "LR_IPC_OUT.h"
-#include "MIDIProcessor.h"
 class CommandMap;
 class ControlsModel;
 struct MIDI_Message_ID;
+class MIDIProcessor;
 
 class ProfileChangeListener {
 public:

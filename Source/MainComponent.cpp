@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <utility>
 #include "CommandMap.h"
+#include "MIDIProcessor.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "SettingsComponent.h"

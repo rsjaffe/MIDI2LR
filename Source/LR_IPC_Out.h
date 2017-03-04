@@ -26,12 +26,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 #include "Utilities/Utilities.h"
 
 class CommandMap;
 class ControlsModel;
+class MIDIProcessor;
 
 class LRConnectionListener {
 public:

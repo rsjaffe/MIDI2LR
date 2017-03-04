@@ -31,12 +31,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h" //class member
 #include "CommandTableModel.h" //class member
 #include "LR_IPC_Out.h" //base class
-#include "MIDIProcessor.h" //base class
 #include "MidiUtilities.h"
 #include "ProfileManager.h" //base class
 #include "ResizableLayout.h" //base class
 
 class CommandMap;
+class MIDIProcessor;
 class MIDISender;
 class SettingsManager;
 

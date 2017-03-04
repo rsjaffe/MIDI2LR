@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LRCommands.h"
+#include "MIDIProcessor.h"
 
 namespace {
   constexpr int kConnectTryTime = 100;

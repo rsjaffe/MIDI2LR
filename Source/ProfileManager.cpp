@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LRCommands.h"
+#include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 
 ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept:
