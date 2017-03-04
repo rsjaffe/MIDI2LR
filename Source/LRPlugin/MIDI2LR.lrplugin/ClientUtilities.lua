@@ -36,7 +36,10 @@ local function fApplyFilter(filternumber)
   return function()
     local filterUuid = ProgramPreferences.Filters[filternumber]
     if filterUuid == nil then return end
-    LrApplication.activeCatalog():setViewFilter(filterUuid)
+    if LrApplication.activeCatalog():setViewFilter(filterUuid) then --true if filter changed
+      local _,str = LrApplication.activeCatalog():getCurrentViewFilter()
+      if str then LrDialogs.showBezel(str) end -- str nil if not defined
+    end
   end
 end
 
@@ -45,11 +48,13 @@ local function fApplyPreset(presetnumber)
     local presetUuid = ProgramPreferences.Presets[presetnumber]
     if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     local preset = LrApplication.developPresetByUuid(presetUuid)
-    LrDialogs.showBezel(preset:getName())
     LrTasks.startAsyncTask ( function () 
         LrApplication.activeCatalog():withWriteAccessDo(
           'Apply preset '..preset:getName(), 
-          function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) end,
+          function()     
+            LrDialogs.showBezel(preset:getName())
+            LrApplication.activeCatalog():getTargetPhoto():applyDevelopPreset(preset) 
+          end,
           { timeout = 4, 
             callback = function() LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.").. 'PastePreset.') end, 
             asynchronous = true }
