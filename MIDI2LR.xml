@@ -1,12 +1,16 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>2.0.3.1</version>
+    <version>2.0.4.0</version>
     <readmeFile>Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>LICENSE.txt</licenseFile>
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
     <logoImage>Source/MIDI2LR48.png</logoImage>
     <splashImage>Source/MIDI2LR.png</splashImage>
+    <windowsExecutableIcon>Source/MIDI2LR.ico</windowsExecutableIcon>
+    <windowsUninstallerExecutableIcon>Source/MIDI2LR.ico</windowsUninstallerExecutableIcon>
+    <osxApplicationBundleIcon>Source/MIDI2LR.icns</osxApplicationBundleIcon>
+    <osxUninstallerApplicationBundleIcon>Source/MIDI2LR.icns</osxUninstallerApplicationBundleIcon>
     <componentList>
         <component>
             <name>default</name>
@@ -169,11 +173,31 @@
                     </distributionFileList>
                 </folder>
             </folderList>
+            <startMenuShortcutList>
+                <startMenuShortcut>
+                    <comment>Uninstall ${project.fullName}</comment>
+                    <name>Uninstall ${project.fullName}</name>
+                    <runAsAdmin>0</runAsAdmin>
+                    <runInTerminal>0</runInTerminal>
+                    <windowsExec>${installdir}/MIDI2LR.lrplugin/uninstallMIDI2LR.exe</windowsExec>
+                    <windowsExecArgs></windowsExecArgs>
+                    <windowsIcon>${installdir}/MIDI2LR.lrplugin/uninstallMIDI2LR.exe</windowsIcon>
+                    <windowsPath></windowsPath>
+                </startMenuShortcut>
+                <startMenuLinkShortcut>
+                    <comment></comment>
+                    <name>${project.fullName} instructions</name>
+                    <runAsAdmin>0</runAsAdmin>
+                    <runInTerminal>0</runInTerminal>
+                    <url>https://github.com/rsjaffe/MIDI2LR/wiki</url>
+                    <windowsIcon>Source/MIDI2LR.ico</windowsIcon>
+                </startMenuLinkShortcut>
+            </startMenuShortcutList>
         </component>
     </componentList>
     <initializationActionList>
         <throwError>
-            <text>This application has to be run on OS X 10.9 or above.</text>
+            <text>This application runs on OS X 10.9 or above only.</text>
             <ruleList>
                 <platformTest>
                     <type>osx</type>
@@ -187,7 +211,7 @@
         </throwError>
         <throwError>
             <ruleEvaluationLogic>or</ruleEvaluationLogic>
-            <text>This application has to be run on Windows 7 or above.</text>
+            <text>This application runs on Windows 7 or above only.</text>
             <ruleList>
                 <platformTest>
                     <type>windows-vista</type>
@@ -239,13 +263,13 @@
     <width>600</width>
     <finalPageActionList>
         <launchBrowser>
-            <explanation>Opens web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in this program.</explanation>
+            <explanation>Opens a web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in this program.</explanation>
             <progressText>View instructions.</progressText>
             <url>https://github.com/rsjaffe/MIDI2LR/wiki</url>
         </launchBrowser>
         <launchBrowser>
-            <explanation>Opens a web browser with a PayPal form in which you can make a donation to support further development.</explanation>
-            <progressText>Donate to development.</progressText>
+            <explanation>Opens a web browser with a PayPal form where can make a donation to support further ${project.fullName} development.</explanation>
+            <progressText>Donate to ${project.fullName} development.</progressText>
             <url>https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=YWHT4JMA42RXN</url>
         </launchBrowser>
     </finalPageActionList>

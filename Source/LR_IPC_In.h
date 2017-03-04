@@ -26,14 +26,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <mutex>
 #include <string>
 #include "../JuceLibraryCode/JuceHeader.h"
-
-class ControlsModel;
 class CommandMap;
+class ControlsModel;
 class MIDISender;
 class ProfileManager;
 
 class LR_IPC_IN final :
-	private juce::DeletedAtShutdown,
 	private juce::StreamingSocket,
 	private juce::Timer,
 	private juce::Thread {

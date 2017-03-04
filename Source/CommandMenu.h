@@ -38,14 +38,13 @@ public:
 	void setSelectedItem(size_t idx);
 
 private:
-
 	virtual void clicked(const juce::ModifierKeys& modifiers) override;
 
-	MIDI_Message_ID message_;
+	CommandMap* command_map_{ nullptr };
 	const std::vector<juce::String> menus_;
 	const std::vector<std::vector<std::string>> menu_entries_;
+	MIDI_Message_ID message_;
 	size_t selected_item_{ std::numeric_limits<size_t>::max() };
-	CommandMap* command_map_{ nullptr };
 };
 
 #endif  // COMMANDMENU_H_INCLUDED

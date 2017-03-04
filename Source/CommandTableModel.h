@@ -59,9 +59,9 @@ public:
 
 private:
 	void Sort();
+	CommandMap* command_map_{ nullptr };
 	std::pair<int, bool> current_sort{ 2,true };
 	std::pair<int, bool> prior_sort{ 2,true };
-	CommandMap* command_map_{ nullptr };
 	std::vector<MIDI_Message_ID> commands_;
 
 	//==============================================================================

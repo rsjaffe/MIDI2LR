@@ -116,9 +116,8 @@ public:
 	void toXMLDocument(const juce::File& file) const;
 
 private:
-
-	std::unordered_map<MIDI_Message_ID, std::string> message_map_;
 	std::multimap<std::string, MIDI_Message_ID> command_string_map_;
+	std::unordered_map<MIDI_Message_ID, std::string> message_map_;
 };
 
 inline void CommandMap::addCommandforMessage(const std::string& command, const MIDI_Message_ID& message) {

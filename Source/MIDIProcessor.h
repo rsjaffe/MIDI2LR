@@ -47,8 +47,8 @@ private:
 	void InitDevices_();
 
 	NRPN_Filter nrpn_filter_;
-	std::vector<std::unique_ptr<juce::MidiInput>> devices_;
 	std::vector <std::function <void(RSJ::Message)>> callbacks_;
+	std::vector <std::unique_ptr<juce::MidiInput>> devices_;
 };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED

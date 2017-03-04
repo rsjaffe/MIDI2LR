@@ -27,8 +27,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 
 namespace {
-	constexpr int kConnectTryTime = 100;
 	constexpr auto kHost = "127.0.0.1";
+	constexpr int kConnectTryTime = 100;
 	constexpr int kLrOutPort = 58763;
 	constexpr int kTimerInterval = 1000;
 }

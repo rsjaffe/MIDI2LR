@@ -29,8 +29,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class CommandMap;
 class ControlsModel;
 class LR_IPC_OUT;
-struct MIDI_Message_ID;
 class MIDIProcessor;
+struct MIDI_Message_ID;
 
 class ProfileManager final : private juce::AsyncUpdater {
 public:

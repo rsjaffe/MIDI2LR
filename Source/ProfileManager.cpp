@@ -100,14 +100,13 @@ void ProfileManager::switchToNextProfile() {
 	current_profile_index_++;
 	if (current_profile_index_ == static_cast<int>(profiles_.size()))
 		current_profile_index_ = 0;
-
 	switchToProfile(current_profile_index_);
 }
 
 void ProfileManager::switchToPreviousProfile() {
 	current_profile_index_--;
-	if (current_profile_index_ < 0) current_profile_index_ = static_cast<int>(profiles_.size()) - 1;
-
+	if (current_profile_index_ < 0)
+		current_profile_index_ = static_cast<int>(profiles_.size()) - 1;
 	switchToProfile(current_profile_index_);
 }
 
@@ -147,7 +146,6 @@ void ProfileManager::MIDIcmdCallback(RSJ::Message mm) {
 		if ((controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel, mm.Number, mm.Value) < 0.99)
 			|| !command_map_->messageExistsInMap(cc))
 			return;
-
 		mapCommand(cc);
 	}
 }

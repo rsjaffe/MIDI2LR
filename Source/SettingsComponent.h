@@ -35,6 +35,7 @@ public:
 	explicit SettingsComponent(SettingsManager* settings_manager);
 	~SettingsComponent();
 	void Init();
+
 private:
 	void paint(juce::Graphics&) override;
 	virtual void buttonClicked(juce::Button* button) override;
@@ -47,9 +48,9 @@ private:
 	juce::Label pickup_label_{ "PickupLabel", "" };
 	juce::Label profile_location_label_{ "Profile Label" };
 	juce::Slider autohide_setting_;
-	SettingsManager* const settings_manager_;
 	juce::TextButton profile_location_button_{ "Choose Profile Folder" };
 	juce::ToggleButton pickup_enabled_{ "Enable Pickup Mode" };
+	SettingsManager* const settings_manager_;
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };

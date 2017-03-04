@@ -25,7 +25,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdexcept>
 #include "CommandMap.h"
 #include "ControlsModel.h"
-#include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "ProfileManager.h"
@@ -33,10 +32,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Utilities/Utilities.h"
 
 namespace {
+	constexpr auto kHost = "127.0.0.1";
 	constexpr int kBufferSize = 256;
 	constexpr int kConnectTryTime = 100;
 	constexpr int kEmptyWait = 100;
-	constexpr auto kHost = "127.0.0.1";
 	constexpr int kLrInPort = 58764;
 	constexpr int kNotConnectedWait = 333;
 	constexpr int kReadyWait = 0;
