@@ -45,6 +45,7 @@ local function fApplyPreset(presetnumber)
     local presetUuid = ProgramPreferences.Presets[presetnumber]
     if presetUuid == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
     local preset = LrApplication.developPresetByUuid(presetUuid)
+    LrDialogs.showBezel(preset:getName())
     LrTasks.startAsyncTask ( function () 
         LrApplication.activeCatalog():withWriteAccessDo(
           'Apply preset '..preset:getName(), 
