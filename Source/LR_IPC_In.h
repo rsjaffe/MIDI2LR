@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    LR_IPC_In.h
+	LR_IPC_In.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -27,39 +27,38 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include "../JuceLibraryCode/JuceHeader.h"
 
-
 class ControlsModel;
 class CommandMap;
 class MIDISender;
 class ProfileManager;
 
-class LR_IPC_IN final:
-  private juce::DeletedAtShutdown,
-  private juce::StreamingSocket,
-  private juce::Timer,
-  private juce::Thread {
+class LR_IPC_IN final :
+	private juce::DeletedAtShutdown,
+	private juce::StreamingSocket,
+	private juce::Timer,
+	private juce::Thread {
 public:
-  LR_IPC_IN(ControlsModel* c_model, ProfileManager* profileManager,
-    CommandMap* commandMap);
-  virtual ~LR_IPC_IN();
-  void Init(std::shared_ptr<MIDISender>& midiSender) noexcept;
-  //signal exit to thread
-  void PleaseStopThread(void);
+	LR_IPC_IN(ControlsModel* c_model, ProfileManager* profileManager,
+		CommandMap* commandMap);
+	virtual ~LR_IPC_IN();
+	void Init(std::shared_ptr<MIDISender>& midiSender) noexcept;
+	//signal exit to thread
+	void PleaseStopThread(void);
 private:
-  // Thread interface
-  virtual void run() override;
-  // Timer callback
-  virtual void timerCallback() override;
-  // process a line received from the socket
-  void processLine(const std::string& line);
+	// Thread interface
+	virtual void run() override;
+	// Timer callback
+	virtual void timerCallback() override;
+	// process a line received from the socket
+	void processLine(const std::string& line);
 
-  bool thread_started_{false};
-  bool timer_off_{false};
-  CommandMap* const command_map_;
-  ControlsModel* const controls_model_; //
-  mutable std::mutex timer_mutex_;
-  ProfileManager* const profile_manager_;
-  std::shared_ptr<MIDISender> midi_sender_{nullptr};
+	bool thread_started_{ false };
+	bool timer_off_{ false };
+	CommandMap* const command_map_;
+	ControlsModel* const controls_model_; //
+	mutable std::mutex timer_mutex_;
+	ProfileManager* const profile_manager_;
+	std::shared_ptr<MIDISender> midi_sender_{ nullptr };
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

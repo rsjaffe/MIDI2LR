@@ -3,7 +3,7 @@
 /*
   ==============================================================================
 
-    MainWindow.cpp
+	MainWindow.cpp
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -26,63 +26,63 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-MainWindow::MainWindow(juce::String name): juce::DocumentWindow{name,
+MainWindow::MainWindow(juce::String name) : juce::DocumentWindow{ name,
 juce::Colours::lightgrey,
 juce::DocumentWindow::minimiseButton |
-juce::DocumentWindow::closeButton}, juce::Timer() {
-  setUsingNativeTitleBar(true);
-  window_content_ = new MainContentComponent{};
+juce::DocumentWindow::closeButton }, juce::Timer() {
+	setUsingNativeTitleBar(true);
+	window_content_ = new MainContentComponent{};
 
-  setContentOwned(window_content_, true);
+	setContentOwned(window_content_, true);
 
-  centreWithSize(getWidth(), getHeight());
-  setVisible(true);
+	centreWithSize(getWidth(), getHeight());
+	setVisible(true);
 }
 
 void MainWindow::Init(CommandMap* command_map,
-  std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-  std::shared_ptr<MIDIProcessor>& midi_processor,
-  ProfileManager* profile_manager,
-  SettingsManager* settings_manager,
-  std::shared_ptr<MIDISender>& midi_sender) {
-  // get the auto time setting
-  if (settings_manager) {
-    auto_hide_counter_ = settings_manager->getAutoHideTime();
-  }
-  else {
-    auto_hide_counter_ = 0;
-  }
+	std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
+	std::shared_ptr<MIDIProcessor>& midi_processor,
+	ProfileManager* profile_manager,
+	SettingsManager* settings_manager,
+	std::shared_ptr<MIDISender>& midi_sender) {
+	// get the auto time setting
+	if (settings_manager) {
+		auto_hide_counter_ = settings_manager->getAutoHideTime();
+	}
+	else {
+		auto_hide_counter_ = 0;
+	}
 
-  //start timing
-  juce::Timer::startTimer(1000);
+	//start timing
+	juce::Timer::startTimer(1000);
 
-  if (window_content_) {
-    window_content_->Init(command_map, std::move(lr_ipc_out),
-      midi_processor, profile_manager, settings_manager, midi_sender);
-  }
+	if (window_content_) {
+		window_content_->Init(command_map, std::move(lr_ipc_out),
+			midi_processor, profile_manager, settings_manager, midi_sender);
+	}
 }
 
 void MainWindow::timerCallback(void) {
-  auto decreased_value = false;
+	auto decreased_value = false;
 
-  if (auto_hide_counter_ > 0) {
-    //decrement counter
-    --auto_hide_counter_;
-    decreased_value = true;
-  }
+	if (auto_hide_counter_ > 0) {
+		//decrement counter
+		--auto_hide_counter_;
+		decreased_value = true;
+	}
 
-  //set the new timer text
-  window_content_->SetTimerText(auto_hide_counter_);
+	//set the new timer text
+	window_content_->SetTimerText(auto_hide_counter_);
 
-  if (auto_hide_counter_ == 0) {
-    //first stop the timer so it will not be called again
-    juce::Timer::stopTimer();
+	if (auto_hide_counter_ == 0) {
+		//first stop the timer so it will not be called again
+		juce::Timer::stopTimer();
 
-    //check if the window is not already minimized
-    if (!juce::ResizableWindow::isMinimised()) {
-      if (decreased_value) {
-        juce::DocumentWindow::minimiseButtonPressed();
-      }
-    }
-  }
+		//check if the window is not already minimized
+		if (!juce::ResizableWindow::isMinimised()) {
+			if (decreased_value) {
+				juce::DocumentWindow::minimiseButtonPressed();
+			}
+		}
+	}
 }

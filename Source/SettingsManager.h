@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    SettingsManager.h
+	SettingsManager.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -24,36 +24,34 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "LR_IPC_OUT.h"
+class LR_IPC_OUT;
 class ProfileManager;
 
-class SettingsManager final: public LRConnectionListener {
+class SettingsManager final {
 public:
-  explicit SettingsManager(ProfileManager* profile_manager);
-  virtual ~SettingsManager() {};
-  void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT);
+	explicit SettingsManager(ProfileManager* profile_manager);
+	virtual ~SettingsManager() {};
+	void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT);
 
-  bool getPickupEnabled() const noexcept;
-  void setPickupEnabled(bool enabled);
+	bool getPickupEnabled() const noexcept;
+	void setPickupEnabled(bool enabled);
 
-  juce::String getProfileDirectory() const noexcept;
-  void setProfileDirectory(const juce::String& profile_directory);
+	juce::String getProfileDirectory() const noexcept;
+	void setProfileDirectory(const juce::String& profile_directory);
 
-  // LRConnectionListener interface
-  virtual void connected() override;
-  virtual void disconnected() override;
+	void ConnectionCallback(bool);
 
-  int getAutoHideTime() const noexcept;
-  void setAutoHideTime(int new_time);
+	int getAutoHideTime() const noexcept;
+	void setAutoHideTime(int new_time);
 
-  int getLastVersionFound() const noexcept;
-  void setLastVersionFound(int version_number);
+	int getLastVersionFound() const noexcept;
+	void setLastVersionFound(int version_number);
 
 private:
 
-  std::unique_ptr<juce::PropertiesFile> properties_file_;
-  std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
-  ProfileManager* const profile_manager_;
+	std::unique_ptr<juce::PropertiesFile> properties_file_;
+	std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
+	ProfileManager* const profile_manager_;
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED

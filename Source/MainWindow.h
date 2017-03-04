@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    MainWindow.h
+	MainWindow.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -33,36 +33,36 @@ class MainContentComponent;
 class ProfileManager;
 class SettingsManager;
 
-class MainWindow final: private juce::DocumentWindow, private juce::Timer {
+class MainWindow final : private juce::DocumentWindow, private juce::Timer {
 public:
-  explicit MainWindow(juce::String name);
+	explicit MainWindow(juce::String name);
 
-  void Init(CommandMap* command_map, std::weak_ptr<LR_IPC_OUT>&& out,
-    std::shared_ptr<MIDIProcessor>& midi_processor,
-    ProfileManager* profile_manager,
-    SettingsManager* settings_manager,
-    std::shared_ptr<MIDISender>& midi_sender);
+	void Init(CommandMap* command_map, std::weak_ptr<LR_IPC_OUT>&& out,
+		std::shared_ptr<MIDIProcessor>& midi_processor,
+		ProfileManager* profile_manager,
+		SettingsManager* settings_manager,
+		std::shared_ptr<MIDISender>& midi_sender);
 
-/* Note: Be careful if you override any DocumentWindow methods - the base
-   class uses a lot of them, so by overriding you might break its functionality.
-   It's best to do all your work in your content component instead, but if
-   you really have to override any DocumentWindow methods, make sure your
-   subclass also calls the superclass's method.
-*/
+	/* Note: Be careful if you override any DocumentWindow methods - the base
+	   class uses a lot of them, so by overriding you might break its functionality.
+	   It's best to do all your work in your content component instead, but if
+	   you really have to override any DocumentWindow methods, make sure your
+	   subclass also calls the superclass's method.
+	*/
 
 private:
-  void closeButtonPressed() override {
-    // This is called when the user tries to close this window. Here, we'll just
-    // ask the app to quit when this happens, but you can change this to do
-    // whatever you need.
-    juce::JUCEApplication::getInstance()->systemRequestedQuit();
-  }
-  // the timer callback function
-  virtual void timerCallback() override;
-  int auto_hide_counter_{0};
-  MainContentComponent *window_content_;
+	void closeButtonPressed() override {
+		// This is called when the user tries to close this window. Here, we'll just
+		// ask the app to quit when this happens, but you can change this to do
+		// whatever you need.
+		juce::JUCEApplication::getInstance()->systemRequestedQuit();
+	}
+	// the timer callback function
+	virtual void timerCallback() override;
+	int auto_hide_counter_{ 0 };
+	MainContentComponent *window_content_;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };
 
 #endif  // MAINWINDOW_H_INCLUDED
