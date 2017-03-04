@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    MIDIProcessor.h
+	MIDIProcessor.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -27,28 +27,28 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"
 
-class MIDIProcessor final: private juce::MidiInputCallback {
+class MIDIProcessor final : private juce::MidiInputCallback {
 public:
-  MIDIProcessor() noexcept;
-  virtual ~MIDIProcessor();
-  void Init(void);
+	MIDIProcessor() noexcept;
+	virtual ~MIDIProcessor();
+	void Init(void);
 
-  // re-enumerates MIDI IN devices
-  void RescanDevices();
+	// re-enumerates MIDI IN devices
+	void RescanDevices();
 
-  template <class T> void addCallback(T* object, void (T::*mf)(RSJ::Message)) {
-    callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
-  }
+	template <class T> void addCallback(T* object, void (T::*mf)(RSJ::Message)) {
+		callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
+	}
 
 private:
-  // overridden from MidiInputCallback
-  void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
+	// overridden from MidiInputCallback
+	void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
 
-  void InitDevices_();
+	void InitDevices_();
 
-  NRPN_Filter nrpn_filter_;
-  std::vector<std::unique_ptr<juce::MidiInput>> devices_;
-  std::vector <std::function <void(RSJ::Message)>> callbacks_;
+	NRPN_Filter nrpn_filter_;
+	std::vector<std::unique_ptr<juce::MidiInput>> devices_;
+	std::vector <std::function <void(RSJ::Message)>> callbacks_;
 };
 
 #endif  // MIDIPROCESSOR_H_INCLUDED

@@ -48,56 +48,56 @@ class ControlsModel;
 
 //==============================================================================
 /**
-                                                                    //[Comments]
-    An auto-generated component, created by the Projucer.
+																	//[Comments]
+	An auto-generated component, created by the Projucer.
 
-    Describe your class and how it works here!
-                                                                    //[/Comments]
+	Describe your class and how it works here!
+																	//[/Comments]
 */
-class CCoptions: public Component,
-  private TextEditor::Listener,
-  public ButtonListener {
+class CCoptions : public Component,
+	private TextEditor::Listener,
+	public ButtonListener {
 public:
-    //==============================================================================
-  CCoptions();
-  ~CCoptions();
+	//==============================================================================
+	CCoptions();
+	~CCoptions();
 
-  //==============================================================================
-  //[UserMethods]     -- You can add your own custom methods in this section.
-  static void LinkToControlsModel(ControlsModel* model) noexcept {
-    controls_model_ = model;
-  }
-  void bindToControl(size_t channel, short number);
-    //[/UserMethods]
+	//==============================================================================
+	//[UserMethods]     -- You can add your own custom methods in this section.
+	static void LinkToControlsModel(ControlsModel* model) noexcept {
+		controls_model_ = model;
+	}
+	void bindToControl(size_t channel, short number);
+	//[/UserMethods]
 
-  void paint(Graphics& g) override;
-  void resized() override;
-  void buttonClicked(Button* buttonThatWasClicked) override;
+	void paint(Graphics& g) override;
+	void resized() override;
+	void buttonClicked(Button* buttonThatWasClicked) override;
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-  TextEditor::LengthAndCharacterRestriction numrestrict{5, "0123456789"};
-  void textEditorFocusLost(TextEditor & t) override;
-  static ControlsModel* controls_model_;
-  short boundchannel; //note: 0-based
-  short boundnumber;
-      //[/UserVariables]
-
-    //==============================================================================
-  ScopedPointer<GroupComponent> groupComponent;
-  ScopedPointer<ToggleButton> twosbutton;
-  ScopedPointer<ToggleButton> absbutton;
-  ScopedPointer<ToggleButton> binbutton;
-  ScopedPointer<ToggleButton> signbutton;
-  ScopedPointer<TextEditor> maxvaltext;
-  ScopedPointer<TextEditor> minvaltext;
-  ScopedPointer<Label> minvallabel;
-  ScopedPointer<Label> maxvallabel;
-  ScopedPointer<TextButton> applyAll;
-  ScopedPointer<Label> controlID;
+	//[UserVariables]   -- You can add your own custom variables in this section.
+	TextEditor::LengthAndCharacterRestriction numrestrict{ 5, "0123456789" };
+	void textEditorFocusLost(TextEditor & t) override;
+	static ControlsModel* controls_model_;
+	short boundchannel; //note: 0-based
+	short boundnumber;
+	//[/UserVariables]
 
   //==============================================================================
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
+	ScopedPointer<GroupComponent> groupComponent;
+	ScopedPointer<ToggleButton> twosbutton;
+	ScopedPointer<ToggleButton> absbutton;
+	ScopedPointer<ToggleButton> binbutton;
+	ScopedPointer<ToggleButton> signbutton;
+	ScopedPointer<TextEditor> maxvaltext;
+	ScopedPointer<TextEditor> minvaltext;
+	ScopedPointer<Label> minvallabel;
+	ScopedPointer<Label> maxvallabel;
+	ScopedPointer<TextButton> applyAll;
+	ScopedPointer<Label> controlID;
+
+	//==============================================================================
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
 };
 
 //[EndFile] You can add extra defines here...

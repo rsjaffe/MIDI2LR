@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    VersionChecker.h
+	VersionChecker.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -26,21 +26,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 class SettingsManager;
 
-class VersionChecker final: public juce::Thread, private juce::AsyncUpdater {
+class VersionChecker final : public juce::Thread, private juce::AsyncUpdater {
 public:
-  explicit VersionChecker(SettingsManager* settings_manager_) noexcept;
-  ~VersionChecker();
+	explicit VersionChecker(SettingsManager* settings_manager_) noexcept;
+	~VersionChecker();
 
 private:
-  // Thread interface
-  virtual void run() override;
+	// Thread interface
+	virtual void run() override;
 
-  // AsyncUpdater interface
-  virtual void handleAsyncUpdate() override;
+	// AsyncUpdater interface
+	virtual void handleAsyncUpdate() override;
 
-  int new_version_{0};
-  SettingsManager* const settings_manager_{nullptr};
-  std::unique_ptr<juce::DialogWindow> dialog_;
+	int new_version_{ 0 };
+	SettingsManager* const settings_manager_{ nullptr };
+	std::unique_ptr<juce::DialogWindow> dialog_;
 };
 
 #endif  // VERSIONCHECKER_H_INCLUDED
