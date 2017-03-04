@@ -42,8 +42,7 @@ local function doprofilechange(newprofile)
     LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
-  if LimitParameters[param] ~= nil and 
-    LrApplicationView.getCurrentModuleName() == 'develop' and 
+  if LrApplicationView.getCurrentModuleName() == 'develop' and 
     LrApplication.activeCatalog():getTargetPhoto() ~= nil then
     -- refresh MIDI controller since mapping has changed
     for _,param in ipairs(ParamList.SendToMidi) do
