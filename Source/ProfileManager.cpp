@@ -29,6 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
+using namespace std::literals::string_literals;
 
 ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept:
 controls_model_{c_model}, command_map_{cmap}
@@ -92,11 +93,11 @@ void ProfileManager::switchToProfile(const juce::String& profile)
                 cb(xml_element.get(), profile);
 
             if (const auto ptr = lr_ipc_out_.lock()) {
-                std::string command = "ChangedToDirectory "+
+                std::string command = "ChangedToDirectory "s+
                     juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()+
                     '\n';
                 ptr->sendCommand(command);
-                command = "ChangedToFile "+profile.toStdString()+'\n';
+                command = "ChangedToFile "s+profile.toStdString()+'\n';
                 ptr->sendCommand(command);
             }
         }
@@ -121,11 +122,12 @@ void ProfileManager::switchToPreviousProfile()
 
 void ProfileManager::mapCommand(const MIDI_Message_ID& msg)
 {
-    if (command_map_->getCommandforMessage(msg)=="Previous Profile") {
+    auto cmd = command_map_->getCommandforMessage(msg);
+    if (cmd=="Previous Profile"s) {
         switch_state_ = SWITCH_STATE::PREV;
         triggerAsyncUpdate();
     }
-    else if (command_map_->getCommandforMessage(msg)=="Next Profile") {
+    else if (cmd=="Next Profile"s) {
         switch_state_ = SWITCH_STATE::NEXT;
         triggerAsyncUpdate();
     }
@@ -151,20 +153,18 @@ void ProfileManager::MIDIcmdCallback(RSJ::Message mm)
     //used to handling Channel as 1-based
     const MIDI_Message_ID cc{mm.Channel+1, mm.Number, mt};
 
-    if (command_map_) {
-        // return if the value isn't high, or the command isn't a valid
-        // profile-related command
-        if ((controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel, mm.Number, mm.Value)<0.99)
-            ||!command_map_->messageExistsInMap(cc))
-            return;
-        mapCommand(cc);
-    }
+    // return if the value isn't high, or the command isn't a valid
+    // profile-related command
+    if ((controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel, mm.Number, mm.Value)<0.99)
+        ||!command_map_->messageExistsInMap(cc))
+        return;
+    mapCommand(cc);
 }
 
 void ProfileManager::ConnectionCallback(bool connected)
 {
     if (connected) {
-        const std::string command = "ChangedToDirectory "+
+        const std::string command = "ChangedToDirectory "s+
             juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()+
             '\n';
         if (const auto ptr = lr_ipc_out_.lock()) {

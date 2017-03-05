@@ -61,10 +61,9 @@ private:
     // Timer callback
     virtual void timerCallback() override;
 
-    ControlsModel* const controls_model_;
-
     bool timer_off_{false};
-    CommandMap const * const command_map_;
+    const CommandMap * const command_map_;
+    ControlsModel* const controls_model_;
     mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
     mutable std::mutex timer_mutex_; //fix race during shutdown
     std::string command_;

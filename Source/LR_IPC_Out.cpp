@@ -86,24 +86,22 @@ void LR_IPC_OUT::MIDIcmdCallback(RSJ::Message mm)
     //used to handling channel numbers 1-based
     MIDI_Message_ID message{mm.Channel+1, mm.Number, mt};
 
-    if (command_map_) {
-        if (!command_map_->messageExistsInMap(message)||
-            command_map_->getCommandforMessage(message)=="Unmapped"||
-            find(LRCommandList::NextPrevProfile.begin(),
-                LRCommandList::NextPrevProfile.end(),
-                command_map_->getCommandforMessage(message))!=LRCommandList::NextPrevProfile.end())
-            return;
+    if (!command_map_->messageExistsInMap(message)||
+        command_map_->getCommandforMessage(message)=="Unmapped"||
+        find(LRCommandList::NextPrevProfile.begin(),
+            LRCommandList::NextPrevProfile.end(),
+            command_map_->getCommandforMessage(message))!=LRCommandList::NextPrevProfile.end())
+        return;
 
-        auto command_to_send = command_map_->getCommandforMessage(message);
-        double computed_value = controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel,
-            mm.Number, mm.Value);
-        command_to_send += ' '+std::to_string(computed_value)+'\n';
-        {
-            std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-            command_ += command_to_send;
-        }
-        juce::AsyncUpdater::triggerAsyncUpdate();
+    auto command_to_send = command_map_->getCommandforMessage(message);
+    double computed_value = controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel,
+        mm.Number, mm.Value);
+    command_to_send += ' '+std::to_string(computed_value)+'\n';
+    {
+        std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
+        command_ += command_to_send;
     }
+    juce::AsyncUpdater::triggerAsyncUpdate();
 }
 
 void LR_IPC_OUT::connectionMade()
