@@ -3,7 +3,7 @@
 /*
   ==============================================================================
 
-	MIDIProcessor.cpp
+    MIDIProcessor.cpp
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -22,57 +22,65 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDIProcessor.h"
 
-MIDIProcessor::MIDIProcessor() noexcept {}
+MIDIProcessor::MIDIProcessor() noexcept
+{
+}
 
-MIDIProcessor::~MIDIProcessor() {}
+MIDIProcessor::~MIDIProcessor()
+{
+}
 
-void MIDIProcessor::Init(void) {
-	InitDevices_();
+void MIDIProcessor::Init(void)
+{
+    InitDevices_();
 }
 
 void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
-	const juce::MidiMessage& message) {
-	RSJ::Message mess(RSJ::ParseMidi(message));
-	switch (mess.MessageType) {
-	case RSJ::kCCFlag:
-		if (nrpn_filter_.ProcessMidi(mess.Channel, mess.Number, mess.Value)) { //true if nrpn piece
-			if (nrpn_filter_.IsReady(mess.Channel)) { //send when finished
-				for (const auto& cb : callbacks_)
-					cb(RSJ::Message{ RSJ::kCCFlag, mess.Channel,
-					  nrpn_filter_.GetControl(mess.Channel),
-					  nrpn_filter_.GetValue(mess.Channel) });
-				nrpn_filter_.Clear(mess.Channel);
-			}
-		}
-		else //regular message
-			for (const auto& cb : callbacks_) {
-				cb(mess);
-			}
-		break;
-	case RSJ::kNoteOnFlag:
-	case RSJ::kPWFlag:
-		for (const auto& cb : callbacks_) {
-			cb(mess);
-		}
-		break;
-	default:
-		; //no action if other type of MIDI message
-	}
+    const juce::MidiMessage& message)
+{
+    RSJ::Message mess(RSJ::ParseMidi(message));
+    switch (mess.MessageType) {
+    case RSJ::kCCFlag:
+        if (nrpn_filter_.ProcessMidi(mess.Channel, mess.Number, mess.Value)) { //true if nrpn piece
+            if (nrpn_filter_.IsReady(mess.Channel)) { //send when finished
+                for (const auto& cb:callbacks_)
+                    cb(RSJ::Message{RSJ::kCCFlag, mess.Channel,
+                        nrpn_filter_.GetControl(mess.Channel),
+                        nrpn_filter_.GetValue(mess.Channel)});
+                nrpn_filter_.Clear(mess.Channel);
+            }
+        }
+        else //regular message
+            for (const auto& cb:callbacks_) {
+                cb(mess);
+            }
+        break;
+    case RSJ::kNoteOnFlag:
+    case RSJ::kPWFlag:
+        for (const auto& cb:callbacks_) {
+            cb(mess);
+        }
+        break;
+    default:
+        ; //no action if other type of MIDI message
+    }
 }
 
-void MIDIProcessor::RescanDevices() {
-	for (const auto& dev : devices_)
-		dev->stop();
-	devices_.clear();
-	InitDevices_();
+void MIDIProcessor::RescanDevices()
+{
+    for (const auto& dev:devices_)
+        dev->stop();
+    devices_.clear();
+    InitDevices_();
 }
 
-void MIDIProcessor::InitDevices_() {
-	for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
-		const auto dev = juce::MidiInput::openDevice(idx, this);
-		if (dev != nullptr) {
-			devices_.emplace_back(dev);
-			dev->start();
-		}
-	}
+void MIDIProcessor::InitDevices_()
+{
+    for (auto idx = 0; idx<juce::MidiInput::getDevices().size(); ++idx) {
+        const auto dev = juce::MidiInput::openDevice(idx, this);
+        if (dev!=nullptr) {
+            devices_.emplace_back(dev);
+            dev->start();
+        }
+    }
 }

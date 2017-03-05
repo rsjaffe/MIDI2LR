@@ -3,7 +3,7 @@
 /*
   ==============================================================================
 
-	VersionChecker.cpp
+    VersionChecker.cpp
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -24,45 +24,48 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 VersionChecker::VersionChecker(SettingsManager* setmgr) noexcept :
-settings_manager_{ setmgr }, juce::Thread{ "VersionChecker" } {}
+juce::Thread{"VersionChecker"}, settings_manager_{setmgr}{}
 
-VersionChecker::~VersionChecker() {
-	stopThread(100);
+VersionChecker::~VersionChecker()
+{
+    stopThread(100);
 }
 
-void VersionChecker::run() {
-	const juce::URL version_url{ "http://rsjaffe.github.io/MIDI2LR/version.xml" };
-	const std::unique_ptr<juce::XmlElement> version_xml_element{ version_url.readEntireXmlStream() };
+void VersionChecker::run()
+{
+    const juce::URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
+    const std::unique_ptr<juce::XmlElement> version_xml_element{version_url.readEntireXmlStream()};
 
-	if (version_xml_element != nullptr) {
-		int last_checked = 0;
-		if (settings_manager_)
-			last_checked = settings_manager_->getLastVersionFound();
-		new_version_ = version_xml_element->getIntAttribute("latest");
-		if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
-			if (settings_manager_)
-				settings_manager_->setLastVersionFound(new_version_);
-			triggerAsyncUpdate();
-		}
-	}
+    if (version_xml_element!=nullptr) {
+        int last_checked = 0;
+        if (settings_manager_)
+            last_checked = settings_manager_->getLastVersionFound();
+        new_version_ = version_xml_element->getIntAttribute("latest");
+        if (new_version_>ProjectInfo::versionNumber && new_version_!=last_checked) {
+            if (settings_manager_)
+                settings_manager_->setLastVersionFound(new_version_);
+            triggerAsyncUpdate();
+        }
+    }
 }
 
-void VersionChecker::handleAsyncUpdate() {
-	// show a dialog box indicating there is a newer version available
-	juce::DialogWindow::LaunchOptions dialog_options;
-	dialog_options.dialogTitle = "New Version Available!";
-	const auto major{ (new_version_ & 0xFF000000) >> 24 };
-	const auto minor{ (new_version_ & 0xFF0000) >> 16 };
-	const auto rev{ (new_version_ & 0xFF00) >> 8 };
-	const auto build{ (new_version_ & 0xFF) };
-	const auto version_string{ juce::String::formatted("New version %d.%d.%d.%d available",
-	  major, minor, rev, build) };
-	const juce::URL download_url{ "https://github.com/rsjaffe/MIDI2LR/releases/latest" };
-	dialog_options.content.setOwned(new juce::HyperlinkButton{ version_string, download_url });
-	dialog_options.content->setSize(300, 100);
-	(static_cast<juce::HyperlinkButton *>(dialog_options.content.get()))->
-		setFont(juce::Font{ 18.f }, false);
-	dialog_options.escapeKeyTriggersCloseButton = true;
-	dialog_.reset(dialog_options.create());
-	dialog_->setVisible(true);
+void VersionChecker::handleAsyncUpdate()
+{
+    // show a dialog box indicating there is a newer version available
+    juce::DialogWindow::LaunchOptions dialog_options;
+    dialog_options.dialogTitle = "New Version Available!";
+    const auto major{(new_version_&0xFF000000)>>24};
+    const auto minor{(new_version_&0xFF0000)>>16};
+    const auto rev{(new_version_&0xFF00)>>8};
+    const auto build{(new_version_&0xFF)};
+    const auto version_string{juce::String::formatted("New version %d.%d.%d.%d available",
+        major, minor, rev, build)};
+    const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
+    dialog_options.content.setOwned(new juce::HyperlinkButton{version_string, download_url});
+    dialog_options.content->setSize(300, 100);
+    (static_cast<juce::HyperlinkButton *>(dialog_options.content.get()))->
+        setFont(juce::Font{18.f}, false);
+    dialog_options.escapeKeyTriggersCloseButton = true;
+    dialog_.reset(dialog_options.create());
+    dialog_->setVisible(true);
 }

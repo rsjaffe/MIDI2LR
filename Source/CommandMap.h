@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-	CommandMap.h
+    CommandMap.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -30,122 +30,136 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 
 enum MessageType {
-	NOTE, CC, PITCHBEND
+    NOTE, CC, PITCHBEND
 };
 
 struct MIDI_Message_ID {
-	MessageType messageType;
-	int channel;
-	union {
-		int controller;
-		int pitch;
-		int data;
-	};
+    MessageType messageType;
+    int channel;
+    union {
+        int controller;
+        int pitch;
+        int data;
+    };
 
-	MIDI_Message_ID() :
-		messageType(NOTE),
-		channel(0),
-		data(0)
+    MIDI_Message_ID():
+        messageType(NOTE),
+        channel(0),
+        data(0)
 
-	{}
+    {
+    }
 
-	MIDI_Message_ID(int ch, int dat, MessageType msgType) :
-		messageType(msgType),
-		channel(ch),
-		data(dat) {}
+    MIDI_Message_ID(int ch, int dat, MessageType msgType):
+        messageType(msgType),
+        channel(ch),
+        data(dat)
+    {
+    }
 
-	bool operator==(const MIDI_Message_ID &other) const noexcept {
-		return (messageType == other.messageType && channel == other.channel && data == other.data);
-	}
+    bool operator==(const MIDI_Message_ID &other) const noexcept
+    {
+        return (messageType==other.messageType && channel==other.channel && data==other.data);
+    }
 
-	bool operator<(const MIDI_Message_ID& other) const noexcept {
-		if (channel < other.channel) return true;
-		if (channel == other.channel) {
-			if (data < other.data) return true;
-			if (data == other.data && messageType < other.messageType) return true;
-		}
-		return false;
-	}
+    bool operator<(const MIDI_Message_ID& other) const noexcept
+    {
+        if (channel<other.channel) return true;
+        if (channel==other.channel) {
+            if (data<other.data) return true;
+            if (data==other.data && messageType<other.messageType) return true;
+        }
+        return false;
+    }
 };
 
 // hash functions
 namespace std {
-	template <>
-	struct hash<MIDI_Message_ID> {
-		std::size_t operator()(const MIDI_Message_ID& k) const noexcept {
-			return std::hash<int_fast32_t>()((int_fast32_t(k.messageType) << 8) |
-				int_fast32_t(k.channel) | (int_fast32_t(k.controller) << 16));
-		} //channel is one byte, messagetype is one byte, controller is two bytes
-	};
+    template <>
+    struct hash<MIDI_Message_ID> {
+        std::size_t operator()(const MIDI_Message_ID& k) const noexcept
+        {
+            return std::hash<int_fast32_t>()((int_fast32_t(k.messageType)<<8)|
+                int_fast32_t(k.channel)|(int_fast32_t(k.controller)<<16));
+        } //channel is one byte, messagetype is one byte, controller is two bytes
+    };
 }
 
 class CommandMap {
 public:
-	CommandMap() noexcept;
-	virtual ~CommandMap() {}
+    CommandMap() noexcept;
+    virtual ~CommandMap()
+    {
+    }
 
-	// adds an entry to the message:command map, and a corresponding entry to the
-	// command:message map will look up the string by the index (but it is preferred to
-	// directly use the string)
-	void addCommandforMessage(size_t command, const MIDI_Message_ID& cc);
+    // adds an entry to the message:command map, and a corresponding entry to the
+    // command:message map will look up the string by the index (but it is preferred to
+    // directly use the string)
+    void addCommandforMessage(size_t command, const MIDI_Message_ID& cc);
 
-	// adds an entry to the message:command map, and a corresponding entry to the
-	// command:message map
-	void addCommandforMessage(const std::string& command, const MIDI_Message_ID& cc);
+    // adds an entry to the message:command map, and a corresponding entry to the
+    // command:message map
+    void addCommandforMessage(const std::string& command, const MIDI_Message_ID& cc);
 
-	// gets the LR command associated to a MIDI message
-	const std::string& getCommandforMessage(const MIDI_Message_ID& message) const;
+    // gets the LR command associated to a MIDI message
+    const std::string& getCommandforMessage(const MIDI_Message_ID& message) const;
 
-	// in the command:message map
-	// removes a MIDI message from the message:command map, and it's associated entry
-	void removeMessage(const MIDI_Message_ID& message);
+    // in the command:message map
+    // removes a MIDI message from the message:command map, and it's associated entry
+    void removeMessage(const MIDI_Message_ID& message);
 
-	// clears both message:command and command:message maps
-	void clearMap() noexcept;
+    // clears both message:command and command:message maps
+    void clearMap() noexcept;
 
-	// returns true if there is a mapping for a particular MIDI message
-	bool messageExistsInMap(const MIDI_Message_ID& message) const;
+    // returns true if there is a mapping for a particular MIDI message
+    bool messageExistsInMap(const MIDI_Message_ID& message) const;
 
-	std::vector<const MIDI_Message_ID*> getMessagesForCommand(const std::string& command) const;
-	// gets the MIDI message associated to a LR command
+    std::vector<const MIDI_Message_ID*> getMessagesForCommand(const std::string& command) const;
+    // gets the MIDI message associated to a LR command
 
-	// returns true if there is a mapping for a particular LR command
-	bool commandHasAssociatedMessage(const std::string& command) const;
+    // returns true if there is a mapping for a particular LR command
+    bool commandHasAssociatedMessage(const std::string& command) const;
 
-	// saves the message:command map as an XML file
-	void toXMLDocument(const juce::File& file) const;
+    // saves the message:command map as an XML file
+    void toXMLDocument(const juce::File& file) const;
 
 private:
-	std::multimap<std::string, MIDI_Message_ID> command_string_map_;
-	std::unordered_map<MIDI_Message_ID, std::string> message_map_;
+    std::multimap<std::string, MIDI_Message_ID> command_string_map_;
+    std::unordered_map<MIDI_Message_ID, std::string> message_map_;
 };
 
-inline void CommandMap::addCommandforMessage(const std::string& command, const MIDI_Message_ID& message) {
-	message_map_[message] = command;
-	command_string_map_.insert({ command, message });
+inline void CommandMap::addCommandforMessage(const std::string& command, const MIDI_Message_ID& message)
+{
+    message_map_[message] = command;
+    command_string_map_.insert({command, message});
 }
 
-inline const std::string& CommandMap::getCommandforMessage(const MIDI_Message_ID& message) const {
-	return message_map_.at(message);
+inline const std::string& CommandMap::getCommandforMessage(const MIDI_Message_ID& message) const
+{
+    return message_map_.at(message);
 }
 
-inline void CommandMap::removeMessage(const MIDI_Message_ID& message) {
-	// removes message from the message:command map, and its associated command from
-	// the command:message map
-	command_string_map_.erase(message_map_[message]);
-	message_map_.erase(message);
+inline void CommandMap::removeMessage(const MIDI_Message_ID& message)
+{
+    // removes message from the message:command map, and its associated command from
+    // the command:message map
+    command_string_map_.erase(message_map_[message]);
+    message_map_.erase(message);
 }
 
-inline void CommandMap::clearMap() noexcept {
-	command_string_map_.clear();
-	message_map_.clear();
+inline void CommandMap::clearMap() noexcept
+{
+    command_string_map_.clear();
+    message_map_.clear();
 }
 
-inline bool CommandMap::messageExistsInMap(const MIDI_Message_ID& message) const {
-	return message_map_.find(message) != message_map_.end();
+inline bool CommandMap::messageExistsInMap(const MIDI_Message_ID& message) const
+{
+    return message_map_.find(message)!=message_map_.end();
 }
 
-inline bool CommandMap::commandHasAssociatedMessage(const std::string& command) const {
-	return command_string_map_.find(command) != command_string_map_.end();
+inline bool CommandMap::commandHasAssociatedMessage(const std::string& command) const
+{
+    return command_string_map_.find(command)!=command_string_map_.end();
 }
 #endif  // COMMANDMAP_H_INCLUDED

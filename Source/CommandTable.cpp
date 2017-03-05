@@ -23,42 +23,43 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h"
 #include "CommandTableModel.h"
 
-CommandTable::CommandTable(const juce::String& component_name, CommandTableModel *model) :
-	juce::TableListBox{ component_name, model } {
-	setHeader(new juce::TableHeaderComponent{});
-	getHeader().addColumn("MIDI Command", 1, 150, 30, -1,
-		juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);
-	getHeader().addColumn("LR Command", 2, 150, 30, -1,
-		juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable |
-		juce::TableHeaderComponent::sortedForwards);
+CommandTable::CommandTable(const juce::String& component_name, CommandTableModel *model):
+    juce::TableListBox{component_name, model} {
+    setHeader(new juce::TableHeaderComponent{});
+    getHeader().addColumn("MIDI Command", 1, 150, 30, -1,
+        juce::TableHeaderComponent::notResizable|juce::TableHeaderComponent::sortable);
+    getHeader().addColumn("LR Command", 2, 150, 30, -1,
+        juce::TableHeaderComponent::notResizable|juce::TableHeaderComponent::sortable|
+        juce::TableHeaderComponent::sortedForwards);
 }
 
-bool CommandTable::keyPressed(const KeyPress& k) {
-	if (k.isKeyCode(KeyPress::deleteKey) && getSelectedRow() != -1) {
-		bool last = getSelectedRow() == getNumRows() - 1;
-		static_cast<CommandTableModel*>(getModel())->removeRow(static_cast<size_t>(getSelectedRow()));
-		updateContent();
-		if (last) {
-			// keep selection at the end
-			selectRow(getNumRows() - 1);
-		}
-		return true;
-	}
-	if (k.isKeyCode(KeyPress::downKey) && getSelectedRow() != -1 && getSelectedRow() < getNumRows() - 1) {
-		selectRow(getSelectedRow() + 1);
-		return true;
-	}
-	if (k.isKeyCode(KeyPress::upKey) && getSelectedRow() > 0 && getNumRows() > 1) {
-		selectRow(getSelectedRow() - 1);
-		return true;
-	}
-	if (k.isKeyCode(KeyPress::pageUpKey) && getNumRows() > 0) {
-		selectRow(0);
-		return true;
-	}
-	if (k.isKeyCode(KeyPress::pageDownKey) && getNumRows() > 0) {
-		selectRow(getNumRows() - 1);
-		return true;
-	}
-	return false;
+bool CommandTable::keyPressed(const KeyPress& k)
+{
+    if (k.isKeyCode(KeyPress::deleteKey)&&getSelectedRow()!=-1) {
+        bool last = getSelectedRow()==getNumRows()-1;
+        static_cast<CommandTableModel*>(getModel())->removeRow(static_cast<size_t>(getSelectedRow()));
+        updateContent();
+        if (last) {
+            // keep selection at the end
+            selectRow(getNumRows()-1);
+        }
+        return true;
+    }
+    if (k.isKeyCode(KeyPress::downKey)&&getSelectedRow()!=-1&&getSelectedRow()<getNumRows()-1) {
+        selectRow(getSelectedRow()+1);
+        return true;
+    }
+    if (k.isKeyCode(KeyPress::upKey)&&getSelectedRow()>0&&getNumRows()>1) {
+        selectRow(getSelectedRow()-1);
+        return true;
+    }
+    if (k.isKeyCode(KeyPress::pageUpKey)&&getNumRows()>0) {
+        selectRow(0);
+        return true;
+    }
+    if (k.isKeyCode(KeyPress::pageDownKey)&&getNumRows()>0) {
+        selectRow(getNumRows()-1);
+        return true;
+    }
+    return false;
 }

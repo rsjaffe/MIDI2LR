@@ -3,7 +3,7 @@
 /*
   ==============================================================================
 
-	CommandMap.cpp
+    CommandMap.cpp
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -24,48 +24,53 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "LRCommands.h"
 
-CommandMap::CommandMap() noexcept {}
-
-void CommandMap::addCommandforMessage(size_t command, const MIDI_Message_ID& message) {
-	// adds a message to the message:command map, and its associated command to the
-	// command:message map
-	if (command < LRCommandList::LRStringList.size()) {
-		message_map_[message] = LRCommandList::LRStringList[command];
-		command_string_map_.insert({ LRCommandList::LRStringList[command], message });
-	}
-	else
-		message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
+CommandMap::CommandMap() noexcept
+{
 }
 
-std::vector<const MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std::string& command) const {
-	std::vector<const MIDI_Message_ID*> mm;
-	const auto range = command_string_map_.equal_range(command);
-	for (auto it = range.first; it != range.second; ++it)
-		mm.push_back(&it->second);
-	return mm;
+void CommandMap::addCommandforMessage(size_t command, const MIDI_Message_ID& message)
+{
+    // adds a message to the message:command map, and its associated command to the
+    // command:message map
+    if (command<LRCommandList::LRStringList.size()) {
+        message_map_[message] = LRCommandList::LRStringList[command];
+        command_string_map_.insert({LRCommandList::LRStringList[command], message});
+    }
+    else
+        message_map_[message] = LRCommandList::NextPrevProfile[command-LRCommandList::LRStringList.size()];
 }
 
-void CommandMap::toXMLDocument(const juce::File& file) const {
-	if (message_map_.size()) {//don't bother if map is empty
-	  // save the contents of the command map to an xml file
-		juce::XmlElement root{ "settings" };
-		for (const auto& map_entry : message_map_) {
-			auto* setting = new juce::XmlElement{ "setting" };
-			setting->setAttribute("channel", map_entry.first.channel);
-			switch (map_entry.first.messageType) {
-			case NOTE: setting->setAttribute("note", map_entry.first.pitch);
-				break;
-			case CC: setting->setAttribute("controller", map_entry.first.controller);
-				break;
-			case PITCHBEND: setting->setAttribute("pitchbend", 0);
-				break;
-			}
-			setting->setAttribute("command_string", map_entry.second);
-			root.addChildElement(setting);
-		}
-		if (!root.writeToFile(file, ""))
-			// Give feedback if file-save doesn't work
-			juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
-				"Unable to save file as specified. Please try again, and consider saving to a different location.");
-	}
+std::vector<const MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std::string& command) const
+{
+    std::vector<const MIDI_Message_ID*> mm;
+    const auto range = command_string_map_.equal_range(command);
+    for (auto it = range.first; it!=range.second; ++it)
+        mm.push_back(&it->second);
+    return mm;
+}
+
+void CommandMap::toXMLDocument(const juce::File& file) const
+{
+    if (message_map_.size()) {//don't bother if map is empty
+      // save the contents of the command map to an xml file
+        juce::XmlElement root{"settings"};
+        for (const auto& map_entry:message_map_) {
+            auto* setting = new juce::XmlElement{"setting"};
+            setting->setAttribute("channel", map_entry.first.channel);
+            switch (map_entry.first.messageType) {
+            case NOTE: setting->setAttribute("note", map_entry.first.pitch);
+                break;
+            case CC: setting->setAttribute("controller", map_entry.first.controller);
+                break;
+            case PITCHBEND: setting->setAttribute("pitchbend", 0);
+                break;
+            }
+            setting->setAttribute("command_string", map_entry.second);
+            root.addChildElement(setting);
+        }
+        if (!root.writeToFile(file, ""))
+            // Give feedback if file-save doesn't work
+            juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
+                "Unable to save file as specified. Please try again, and consider saving to a different location.");
+    }
 }
