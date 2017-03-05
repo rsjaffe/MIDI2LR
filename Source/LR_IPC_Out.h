@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    LR_IPC_OUT.h
+	LR_IPC_OUT.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -26,60 +26,48 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "CommandMap.h"
-#include "ControlsModel.h"
-#include "MIDIProcessor.h"
+#include "MidiUtilities.h"
 #include "Utilities/Utilities.h"
+class CommandMap;
+class ControlsModel;
+class MIDIProcessor;
 
-class LRConnectionListener {
+class LR_IPC_OUT final :
+	private juce::InterprocessConnection,
+	private juce::AsyncUpdater,
+	private juce::Timer {
 public:
-    // sent when a connection to the LR plugin is made
-  virtual void connected() = 0;
+	LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand);
+	virtual ~LR_IPC_OUT();
+	void Init(std::shared_ptr<MIDIProcessor>&  midiProcessor);
 
-  // sent if disconnected from the LR plugin
-  virtual void disconnected() = 0;
+	template<class T> void addCallback(T* object, void(T::*mf)(bool)) {
+		callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
+	}
 
-  virtual ~LRConnectionListener() {};
-///< .
-};
+	// sends a command to the plugin
+	void sendCommand(const std::string& command);
 
-class LR_IPC_OUT final:
-  private juce::DeletedAtShutdown,
-  private juce::InterprocessConnection,
-  public MIDICommandListener,
-  private juce::AsyncUpdater,
-  private juce::Timer {
-public:
-  LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand);
-  virtual ~LR_IPC_OUT();
-  void Init(std::shared_ptr<MIDIProcessor>&  midiProcessor);
-
-  void addListener(LRConnectionListener *listener);
-
-  // sends a command to the plugin
-  void sendCommand(const std::string& command);
-
-  // MIDICommandListener interface
-  virtual void handleMIDI(RSJ::Message) override;
+	virtual void MIDIcmdCallback(RSJ::Message);
 
 private:
-  // IPC interface
-  virtual void connectionMade() override;
-  virtual void connectionLost() override;
-  virtual void messageReceived(const juce::MemoryBlock& msg) override;
-  // AsyncUpdater interface
-  virtual void handleAsyncUpdate() override;
-  // Timer callback
-  virtual void timerCallback() override;
+	// IPC interface
+	virtual void connectionMade() override;
+	virtual void connectionLost() override;
+	virtual void messageReceived(const juce::MemoryBlock& msg) override;
+	// AsyncUpdater interface
+	virtual void handleAsyncUpdate() override;
+	// Timer callback
+	virtual void timerCallback() override;
 
-  ControlsModel* const controls_model_;
+	ControlsModel* const controls_model_;
 
-  std::vector<LRConnectionListener *> listeners_;
-  bool timer_off_{false};
-  mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
-  mutable std::mutex timer_mutex_; //fix race during shutdown
-  CommandMap const * const command_map_;
-  std::string command_;
+	bool timer_off_{ false };
+	CommandMap const * const command_map_;
+	mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
+	mutable std::mutex timer_mutex_; //fix race during shutdown
+	std::string command_;
+	std::vector<std::function<void(bool)>> callbacks_;
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

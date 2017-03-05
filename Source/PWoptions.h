@@ -43,52 +43,52 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "ControlsModel.h"
+class ControlsModel;
 //[/Headers]
 
 //==============================================================================
 /**
-                                                                    //[Comments]
-    An auto-generated component, created by the Projucer.
+																	//[Comments]
+	An auto-generated component, created by the Projucer.
 
-    Describe your class and how it works here!
-                                                                    //[/Comments]
+	Describe your class and how it works here!
+																	//[/Comments]
 */
-class PWoptions: public Component,
-  private TextEditor::Listener {
+class PWoptions : public Component,
+	private TextEditor::Listener {
 public:
-    //==============================================================================
-  PWoptions();
-  ~PWoptions();
+	//==============================================================================
+	PWoptions();
+	~PWoptions();
 
-  //==============================================================================
-  //[UserMethods]     -- You can add your own custom methods in this section.
-  static void LinkToControlsModel(ControlsModel* model) noexcept {
-    controls_model_ = model;
-  }
-  void bindToControl(size_t channel) noexcept;
-    //[/UserMethods]
+	//==============================================================================
+	//[UserMethods]     -- You can add your own custom methods in this section.
+	static void LinkToControlsModel(ControlsModel* model) noexcept {
+		controls_model_ = model;
+	}
+	void bindToControl(size_t channel);
+	//[/UserMethods]
 
-  void paint(Graphics& g) override;
-  void resized() override;
+	void paint(Graphics& g) override;
+	void resized() override;
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-  TextEditor::LengthAndCharacterRestriction numrestrict{5, "0123456789"};
-  void textEditorFocusLost(TextEditor& t) override;
-  static ControlsModel* controls_model_;
-  size_t boundchannel;  //note: 0-based
-    //[/UserVariables]
+	//[UserVariables]   -- You can add your own custom variables in this section.
+	TextEditor::LengthAndCharacterRestriction numrestrict{ 5, "0123456789" };
+	void textEditorFocusLost(TextEditor& t) override;
+	static ControlsModel* controls_model_;
+	size_t boundchannel;  //note: 0-based
+	  //[/UserVariables]
 
-    //==============================================================================
-  ScopedPointer<Label> label;
-  ScopedPointer<TextEditor> minval;
-  ScopedPointer<Label> label2;
-  ScopedPointer<TextEditor> maxval;
-  ScopedPointer<Label> label3;
+	  //==============================================================================
+	ScopedPointer<Label> label;
+	ScopedPointer<TextEditor> minval;
+	ScopedPointer<Label> label2;
+	ScopedPointer<TextEditor> maxval;
+	ScopedPointer<Label> label3;
 
-  //==============================================================================
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
+	//==============================================================================
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
 };
 
 //[EndFile] You can add extra defines here...

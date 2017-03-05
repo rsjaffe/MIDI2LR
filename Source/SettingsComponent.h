@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    SettingsComponent.h
+	SettingsComponent.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -24,34 +24,35 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ResizableLayout.h"
-#include "SettingsManager.h"
+class SettingsManager;
 
-class SettingsComponent final:
-  public juce::Component,
-  private juce::ButtonListener,
-  private ResizableLayout,
-  private juce::Slider::Listener {
+class SettingsComponent final :
+	public juce::Component,
+	private juce::ButtonListener,
+	private ResizableLayout,
+	private juce::Slider::Listener {
 public:
-  SettingsComponent(SettingsManager* settings_manager);
-  ~SettingsComponent();
-  void Init();
+	explicit SettingsComponent(SettingsManager* settings_manager);
+	~SettingsComponent();
+	void Init();
+
 private:
-  void paint(juce::Graphics&) override;
-  virtual void buttonClicked(juce::Button* button) override;
-  virtual void sliderValueChanged(juce::Slider* slider) override;
+	void paint(juce::Graphics&) override;
+	virtual void buttonClicked(juce::Button* button) override;
+	virtual void sliderValueChanged(juce::Slider* slider) override;
 
-  juce::GroupComponent autohide_group_{};
-  juce::GroupComponent pickup_group_{};
-  juce::GroupComponent profile_group_{};
-  juce::Label autohide_explain_label_{};
-  juce::Label pickup_label_{"PickupLabel", ""};
-  juce::Label profile_location_label_{"Profile Label"};
-  juce::Slider autohide_setting_;
-  SettingsManager* const settings_manager_;
-  juce::TextButton profile_location_button_{"Choose Profile Folder"};
-  juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
+	juce::GroupComponent autohide_group_{};
+	juce::GroupComponent pickup_group_{};
+	juce::GroupComponent profile_group_{};
+	juce::Label autohide_explain_label_{};
+	juce::Label pickup_label_{ "PickupLabel", "" };
+	juce::Label profile_location_label_{ "Profile Label" };
+	juce::Slider autohide_setting_;
+	juce::TextButton profile_location_button_{ "Choose Profile Folder" };
+	juce::ToggleButton pickup_enabled_{ "Enable Pickup Mode" };
+	SettingsManager* const settings_manager_;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
 
 #endif  // SETTINGSCOMPONENT_H_INCLUDED

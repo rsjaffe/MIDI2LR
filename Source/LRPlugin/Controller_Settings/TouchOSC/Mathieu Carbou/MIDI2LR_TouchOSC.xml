@@ -28,8 +28,8 @@
   <setting channel="1" controller="30" command_string="ResetSaturation"/>
   <setting channel="1" controller="31" command_string="AutoTone"/>
   <setting channel="1" controller="32" command_string="ConvertToGrayscale"/>
-  <setting channel="1" controller="34" command_string="Preset_2"/>
-  <setting channel="1" controller="35" command_string="Preset_3"/>
+  <setting channel="1" controller="34" command_string="Preset_4"/>
+  <setting channel="1" controller="35" command_string="Preset_1"/>
   <setting channel="1" controller="36" command_string="ResetAll"/>
   <setting channel="1" controller="37" command_string="SaturationAdjustment"/>
   <setting channel="1" controller="38" command_string="ResetSaturationAdjustment"/>
@@ -100,8 +100,8 @@
   <setting channel="16" controller="1" command_string="Prev"/>
   <setting channel="16" controller="2" command_string="Undo"/>
   <setting channel="16" controller="3" command_string="Redo"/>
-  <setting channel="16" controller="4" command_string="Key2"/>
-  <setting channel="16" controller="5" command_string="Key3"/>
+  <setting channel="16" controller="4" command_string="Key1"/>
+  <setting channel="16" controller="5" command_string="Key2"/>
   <setting channel="16" controller="6" command_string="Next"/>
   <setting channel="16" controller="7" command_string="FullRefresh"/>
   <setting channel="2" controller="0" command_string="RevealPanelSplit"/>
@@ -181,8 +181,8 @@
   <setting channel="6" controller="15" command_string="ResetBlueHue"/>
   <setting channel="6" controller="16" command_string="BlueSaturation"/>
   <setting channel="6" controller="17" command_string="ResetBlueSaturation"/>
-  <setting channel="6" controller="2" command_string="Preset_8"/>
-  <setting channel="6" controller="3" command_string="Preset_9"/>
+  <setting channel="6" controller="2" command_string="Preset_2"/>
+  <setting channel="6" controller="3" command_string="Preset_3"/>
   <setting channel="6" controller="4" command_string="ShadowTint"/>
   <setting channel="6" controller="5" command_string="ResetShadowTint"/>
   <setting channel="6" controller="6" command_string="RedHue"/>
