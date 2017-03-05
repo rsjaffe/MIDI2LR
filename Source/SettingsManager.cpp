@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include "LR_IPC_OUT.h"
 #include "ProfileManager.h"
+using namespace std::literals::string_literals;
 
 const juce::String AutoHideSection{"autohide"};
 
@@ -47,10 +48,8 @@ void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out)
         // settings on connection
         ptr->addCallback(this, &SettingsManager::ConnectionCallback);
     }
-    if (profile_manager_) {
-        // set the profile directory
-        profile_manager_->setProfileDirectory(getProfileDirectory());
-    }
+    // set the profile directory
+    profile_manager_->setProfileDirectory(getProfileDirectory());
 }
 
 bool SettingsManager::getPickupEnabled() const noexcept
@@ -63,7 +62,7 @@ void SettingsManager::setPickupEnabled(bool enabled)
     properties_file_->setValue("pickup_enabled", enabled);
     properties_file_->saveIfNeeded();
     if (const auto ptr = lr_ipc_out_.lock()) {
-        ptr->sendCommand("Pickup "+std::to_string(static_cast<unsigned>(enabled))+'\n');
+        ptr->sendCommand("Pickup "s+std::to_string(static_cast<unsigned>(enabled))+'\n');
     }
 }
 juce::String SettingsManager::getProfileDirectory() const noexcept
@@ -75,9 +74,7 @@ void SettingsManager::setProfileDirectory(const juce::String& profile_directory_
 {
     properties_file_->setValue("profile_directory", profile_directory_name);
     properties_file_->saveIfNeeded();
-    if (profile_manager_) {
-        profile_manager_->setProfileDirectory(profile_directory_name);
-    }
+    profile_manager_->setProfileDirectory(profile_directory_name);
 }
 
 void SettingsManager::ConnectionCallback(bool connected)

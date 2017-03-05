@@ -81,8 +81,8 @@ private:
     ProfileManager(ProfileManager const&) = delete;
     void operator=(ProfileManager const&) = delete;
 
-    CommandMap* const command_map_{nullptr};
-    ControlsModel* controls_model_{nullptr};
+    CommandMap* const command_map_;
+    ControlsModel* const controls_model_;
     int current_profile_index_{0};
     juce::File profile_location_;
     std::vector<juce::String> profiles_;

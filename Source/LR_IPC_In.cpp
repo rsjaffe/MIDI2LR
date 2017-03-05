@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "SendKeys.h"
 #include "Utilities/Utilities.h"
+using namespace std::literals::string_literals;
 
 namespace {
     constexpr auto kHost = "127.0.0.1";
@@ -140,9 +141,9 @@ void LR_IPC_IN::timerCallback()
 void LR_IPC_IN::processLine(const std::string& line)
 {
     const static std::unordered_map<std::string, int> cmds = {
-        {"SwitchProfile", 1},
-        {"SendKey", 2},
-        {"TerminateApplication", 3},
+        {"SwitchProfile"s, 1},
+        {"SendKey"s, 2},
+        {"TerminateApplication"s, 3},
     };
     // process input into [parameter] [Value]
     const auto trimmed_line = RSJ::trim(line);

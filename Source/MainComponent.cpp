@@ -31,6 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "SettingsComponent.h"
 #include "SettingsManager.h"
+using namespace std::literals::string_literals;
 
 namespace {
     constexpr int kMainWidth = 400;
@@ -326,7 +327,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(browser.getSelectedFile(0))};
             if (xml_element) {
                 const auto new_profile = browser.getSelectedFile(0);
-                const std::string command = "ChangedToFullPath "+new_profile.getFullPathName().toStdString()+'\n';
+                const std::string command = "ChangedToFullPath "s+new_profile.getFullPathName().toStdString()+'\n';
 
                 if (const auto ptr = lr_ipc_out_.lock()) {
                     ptr->sendCommand(command);
@@ -364,7 +365,7 @@ void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const j
 
         // Send new CC parameters to MIDI Out devices
     if (const auto ptr = lr_ipc_out_.lock()) {
-        ptr->sendCommand("FullRefresh 1\n");
+        ptr->sendCommand("FullRefresh 1\n"s);
     }
 }
 
