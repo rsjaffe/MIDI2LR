@@ -68,24 +68,7 @@ void LR_IPC_OUT::sendCommand(const std::string& command)
 
 void LR_IPC_OUT::MIDIcmdCallback(RSJ::Message mm)
 {
-    MessageType mt;
-    switch (mm.MessageType) {//this is needed because mapping uses custom structure
-    case RSJ::kCCFlag:
-        mt = CC;
-        break;
-    case RSJ::kNoteOnFlag:
-        mt = NOTE;
-        break;
-    case RSJ::kPWFlag:
-        mt = PITCHBEND;
-        break;
-    default:
-        assert(0);//shouldn't have non-handled message type
-        mt = CC;
-    }
-    //used to handling channel numbers 1-based
-    MIDI_Message_ID message{mm.Channel+1, mm.Number, mt};
-
+    const MIDI_Message_ID message = mm;
     if (command_map_) {
         if (!command_map_->messageExistsInMap(message)||
             command_map_->getCommandforMessage(message)=="Unmapped"||

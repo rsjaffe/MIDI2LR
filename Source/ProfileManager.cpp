@@ -133,28 +133,11 @@ void ProfileManager::mapCommand(const MIDI_Message_ID& msg)
 
 void ProfileManager::MIDIcmdCallback(RSJ::Message mm)
 {
-    MessageType mt;
-    switch (mm.MessageType) {//this is needed because mapping uses custom structure
-    case RSJ::kCCFlag:
-        mt = CC;
-        break;
-    case RSJ::kNoteOnFlag:
-        mt = NOTE;
-        break;
-    case RSJ::kPWFlag:
-        mt = PITCHBEND;
-        break;
-    default: //should be unreachable
-        assert(0);
-        mt = CC;
-    }
-    //used to handling Channel as 1-based
-    const MIDI_Message_ID cc{mm.Channel+1, mm.Number, mt};
-
+    const MIDI_Message_ID cc = mm;
     if (command_map_) {
-        // return if the value isn't high, or the command isn't a valid
+        // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
-        if ((controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel, mm.Number, mm.Value)<0.99)
+        if ((controls_model_->ControllerToPlugin(mm.MessageType, mm.Channel, mm.Number, mm.Value)<0.4)
             ||!command_map_->messageExistsInMap(cc))
             return;
         mapCommand(cc);

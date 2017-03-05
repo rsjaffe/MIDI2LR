@@ -21,8 +21,29 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
+#include <cassert>
 #include "CommandMap.h"
 #include "LRCommands.h"
+#include "MidiUtilities.h" //for type conversion
+
+MIDI_Message_ID::MIDI_Message_ID(const RSJ::Message& rhs):
+    channel(rhs.Channel+1), controller(rhs.Number) //channel 1-based
+{
+    switch (rhs.MessageType) {//this is needed because mapping uses custom structure
+    case RSJ::kCCFlag:
+        messageType = CC;
+        break;
+    case RSJ::kNoteOnFlag:
+        messageType = NOTE;
+        break;
+    case RSJ::kPWFlag:
+        messageType = PITCHBEND;
+        break;
+    default: //should be unreachable
+        assert(0);
+        messageType = CC;
+    }
+}
 
 CommandMap::CommandMap() noexcept
 {

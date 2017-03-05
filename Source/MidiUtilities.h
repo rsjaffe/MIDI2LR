@@ -38,50 +38,46 @@ namespace RSJ {
         short Channel;
         short Number;
         short Value;
-        constexpr Message():
-            MessageType(0), Channel(0), Number(0), Value(0)
+        constexpr Message() noexcept:
+        MessageType(0), Channel(0), Number(0), Value(0)
         {
         };
-        constexpr Message(short mt, short ch, short nu, short va):
-            MessageType(mt), Channel(ch), Number(nu), Value(va)
+        constexpr Message(short mt, short ch, short nu, short va) noexcept:
+        MessageType(mt), Channel(ch), Number(nu), Value(va)
         {
+        };
+        Message(const juce::MidiMessage& mm) noexcept: Message()
+        {
+            auto raw = mm.getRawData();
+            if (raw==nullptr) {
+                assert(!"Nullptr returned from getRawData");
+            }
+            short mt = raw[0]>>4;
+            //don't process system common messages
+            if (mt==kSystemFlag) return;
+            MessageType = mt;
+            Channel = raw[0]&0xF;
+            switch (MessageType) {
+            case kPWFlag:
+                Value = (raw[2]<<7)|raw[1];
+                Number = 0;
+                break;
+            case kCCFlag:
+            case kKeyPressureFlag:
+            case kNoteOffFlag:
+            case kNoteOnFlag:
+                Value = raw[2];
+                Number = raw[1];
+                break;
+            case kPgmChangeFlag:
+                Number = raw[1];
+                break;
+            case kChanPressureFlag:
+                Value = raw[1];
+                break;
+            default:
+                assert(!"Default should be unreachable in ParseMidi");
+            }
         };
     };
-
-    inline Message ParseMidi(const juce::MidiMessage& mm) noexcept
-    {
-        Message mess{0, 0, 0, 0};
-        auto raw = mm.getRawData();
-        if (raw==nullptr) {
-            assert(!"Nullptr returned from getRawData");
-            return mess;
-        }
-        short mt = raw[0]>>4;
-        //don't process system common messages
-        if (mt==kSystemFlag) return mess;
-        mess.MessageType = mt;
-        mess.Channel = raw[0]&0xF;
-        switch (mess.MessageType) {
-        case kPWFlag:
-            mess.Value = raw[2]<<7|raw[1];
-            mess.Number = 0;
-            break;
-        case kCCFlag:
-        case kKeyPressureFlag:
-        case kNoteOffFlag:
-        case kNoteOnFlag:
-            mess.Value = raw[2];
-            mess.Number = raw[1];
-            break;
-        case kPgmChangeFlag:
-            mess.Number = raw[1];
-            break;
-        case kChanPressureFlag:
-            mess.Value = raw[1];
-            break;
-        default:
-            assert(!"Default should be unreachable in ParseMidi");
-        }
-        return mess;
-    }
 }

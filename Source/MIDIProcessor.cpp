@@ -38,7 +38,7 @@ void MIDIProcessor::Init(void)
 void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     const juce::MidiMessage& message)
 {
-    RSJ::Message mess(RSJ::ParseMidi(message));
+    const RSJ::Message mess{message};
     switch (mess.MessageType) {
     case RSJ::kCCFlag:
         if (nrpn_filter_.ProcessMidi(mess.Channel, mess.Number, mess.Value)) { //true if nrpn piece

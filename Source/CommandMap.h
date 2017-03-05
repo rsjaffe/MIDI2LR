@@ -28,6 +28,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
+namespace RSJ {
+    struct Message; //forward declaration namespace-enclosed item
+};
 
 enum MessageType {
     NOTE, CC, PITCHBEND
@@ -56,6 +59,8 @@ struct MIDI_Message_ID {
         data(dat)
     {
     }
+
+    MIDI_Message_ID(const RSJ::Message& rhs);
 
     bool operator==(const MIDI_Message_ID &other) const noexcept
     {
