@@ -189,7 +189,7 @@ void LR_IPC_IN::processLine(const std::string& line)
 
                 if (midi_sender_) {
                     switch (msgtype) {
-                    case RSJ::kNoteOnFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+                    case RSJ::kNoteOnFlag: midi_sender_->sendNoteOn(msg->channel, msg->controller, value); break;
                     case RSJ::kCCFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
                     case RSJ::kPWFlag: midi_sender_->sendPitchBend(msg->channel, value); break;
                     }
