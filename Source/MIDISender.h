@@ -34,10 +34,9 @@ public:
     // sends a CC message to all output devices
     void sendCC(int midi_channel, int controller, int value) const;
     // sends a PitchBend message to all output devices
-    void sendPitchBend(int midi_channel, int value) const;
+    void sendPitchWheel(int midi_channel, int value) const;
 
     void MIDISender::sendNoteOn(int midi_channel, int controller, int value) const;
-
 
     // re-enumerates MIDI OUT devices
     void RescanDevices();

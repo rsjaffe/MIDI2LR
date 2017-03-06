@@ -19,6 +19,9 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#ifndef MISC_H_INCLUDED
+#define MISC_H_INCLUDED
+
 #include <atomic>
 
 #ifdef NDEBUG    // asserts disabled
@@ -42,8 +45,5 @@ namespace RSJ {
         }
     };
 }
-
-#ifndef MISC_H_INCLUDED
-#define MISC_H_INCLUDED
 
 #endif  // MISC_H_INCLUDED

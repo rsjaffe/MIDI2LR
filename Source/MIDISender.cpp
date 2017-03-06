@@ -59,12 +59,12 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const
 void MIDISender::sendNoteOn(int midi_channel, int controller, int value) const
 {
     for (const auto& dev:output_devices_) {
-        dev->sendMessageNow(MidiMessage::noteOn(midi_channel, controller, 
+        dev->sendMessageNow(MidiMessage::noteOn(midi_channel, controller,
             static_cast<juce::uint8>(value)));
     }
 }
 
-void MIDISender::sendPitchBend(int midi_channel, int value) const
+void MIDISender::sendPitchWheel(int midi_channel, int value) const
 {
     for (const auto& dev:output_devices_) {
         dev->sendMessageNow(MidiMessage::pitchWheel(midi_channel, value));
