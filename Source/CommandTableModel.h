@@ -43,7 +43,7 @@ public:
         bool isRowSelected, juce::Component *existingComponentToUpdate) override;
 
     // adds a row with a corresponding MIDI message to the table
-    void addRow(int midi_channel, int midi_data, MessageType msgType);
+    void addRow(int midi_channel, int midi_data, RSJ::MessageType msgType);
 
     // removes a row from the table
     void removeRow(size_t row);
@@ -55,14 +55,14 @@ public:
     void buildFromXml(const juce::XmlElement * const elem);
 
     // returns the index of the row associated to a particular MIDI message
-    int getRowForMessage(int midi_channel, int midi_data, MessageType msgType) const;
+    int getRowForMessage(int midi_channel, int midi_data, RSJ::MessageType msgType) const;
 
 private:
     void Sort();
     CommandMap* command_map_{nullptr};
     std::pair<int, bool> current_sort{2, true};
     std::pair<int, bool> prior_sort{2, true};
-    std::vector<MIDI_Message_ID> commands_;
+    std::vector<RSJ::MIDI_Message_ID> commands_;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)

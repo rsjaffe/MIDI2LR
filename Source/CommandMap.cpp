@@ -24,32 +24,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include "CommandMap.h"
 #include "LRCommands.h"
-#include "MidiUtilities.h" //for type conversion
-
-MIDI_Message_ID::MIDI_Message_ID(const RSJ::Message& rhs):
-    channel(rhs.Channel+1), controller(rhs.Number) //channel 1-based
-{
-    switch (rhs.MessageType) {//this is needed because mapping uses custom structure
-    case RSJ::kCCFlag:
-        messageType = CC;
-        break;
-    case RSJ::kNoteOnFlag:
-        messageType = NOTE;
-        break;
-    case RSJ::kPWFlag:
-        messageType = PITCHBEND;
-        break;
-    default: //should be unreachable
-        assert(0);
-        messageType = CC;
-    }
-}
 
 CommandMap::CommandMap() noexcept
 {
 }
 
-void CommandMap::addCommandforMessage(size_t command, const MIDI_Message_ID& message)
+void CommandMap::addCommandforMessage(size_t command, const RSJ::MIDI_Message_ID& message)
 {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
@@ -61,9 +41,9 @@ void CommandMap::addCommandforMessage(size_t command, const MIDI_Message_ID& mes
         message_map_[message] = LRCommandList::NextPrevProfile[command-LRCommandList::LRStringList.size()];
 }
 
-std::vector<const MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std::string& command) const
+std::vector<const RSJ::MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std::string& command) const
 {
-    std::vector<const MIDI_Message_ID*> mm;
+    std::vector<const RSJ::MIDI_Message_ID*> mm;
     const auto range = command_string_map_.equal_range(command);
     for (auto it = range.first; it!=range.second; ++it)
         mm.push_back(&it->second);
@@ -79,11 +59,11 @@ void CommandMap::toXMLDocument(const juce::File& file) const
             auto* setting = new juce::XmlElement{"setting"};
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.messageType) {
-            case NOTE: setting->setAttribute("note", map_entry.first.pitch);
+            case RSJ::NOTE: setting->setAttribute("note", map_entry.first.pitch);
                 break;
-            case CC: setting->setAttribute("controller", map_entry.first.controller);
+            case RSJ::CC: setting->setAttribute("controller", map_entry.first.controller);
                 break;
-            case PITCHBEND: setting->setAttribute("pitchbend", 0);
+            case RSJ::PITCHBEND: setting->setAttribute("pitchbend", 0);
                 break;
             }
             setting->setAttribute("command_string", map_entry.second);

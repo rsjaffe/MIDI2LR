@@ -131,6 +131,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MidiUtilities.cpp"/>
     <ClCompile Include="..\..\Source\PWoptions.cpp"/>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
     <ClCompile Include="..\..\Source\Utilities\Utilities.cpp"/>
@@ -1567,6 +1568,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Misc.h"/>
     <ClInclude Include="..\..\Source\PWoptions.h"/>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
     <ClInclude Include="..\..\Source\Utilities\GSL.h"/>

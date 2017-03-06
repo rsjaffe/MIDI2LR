@@ -210,27 +210,27 @@ void MainContentComponent::paint(juce::Graphics& g)
 void MainContentComponent::MIDIcmdCallback(RSJ::Message mm)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    MessageType mt;
+    RSJ::MessageType mt;
     juce::String commandtype{"CC"};
     switch (mm.MessageType) {//this is needed because mapping uses custom structure
     case RSJ::kCCFlag:
-        mt = CC;
+        mt = RSJ::CC;
         break;
     case RSJ::kNoteOnFlag:
-        mt = NOTE;
+        mt = RSJ::NOTE;
         commandtype = "NOTE ON";
         break;
     case RSJ::kNoteOffFlag:
-        mt = NOTE;
+        mt = RSJ::NOTE;
         commandtype = "NOTE OFF";
         break;
     case RSJ::kPWFlag:
-        mt = PITCHBEND;
+        mt = RSJ::PITCHBEND;
         commandtype = "PITCHBEND";
         break;
     default: //shouldn't receive any messages note categorized above
         assert(0);
-        mt = CC;
+        mt = RSJ::CC;
     }
     mm.Channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.Channel)+": "+commandtype+

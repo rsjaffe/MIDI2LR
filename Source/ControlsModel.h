@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cereal/access.hpp>
 #include <cereal/types/array.hpp>
 #include <cereal/types/vector.hpp>
-#include "Utilities/Utilities.h"
+#include "Misc.h"
 
 namespace RSJ {
     enum struct CCmethod: char {

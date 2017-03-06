@@ -301,6 +301,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MidiUtilities.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PWoptions.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1890,6 +1893,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Misc.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PWoptions.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>

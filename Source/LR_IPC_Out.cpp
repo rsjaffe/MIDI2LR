@@ -68,7 +68,7 @@ void LR_IPC_OUT::sendCommand(const std::string& command)
 
 void LR_IPC_OUT::MIDIcmdCallback(RSJ::Message mm)
 {
-    const MIDI_Message_ID message{mm};
+    const RSJ::MIDI_Message_ID message{mm};
     if (!command_map_->messageExistsInMap(message)||
         command_map_->getCommandforMessage(message)=="Unmapped"||
         find(LRCommandList::NextPrevProfile.begin(),

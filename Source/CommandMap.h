@@ -28,67 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
-namespace RSJ {
-    struct Message; //forward declaration namespace-enclosed item
-};
-
-enum MessageType {
-    NOTE, CC, PITCHBEND
-};
-
-struct MIDI_Message_ID {
-    MessageType messageType;
-    int channel;
-    union {
-        int controller;
-        int pitch;
-        int data;
-    };
-
-    MIDI_Message_ID():
-        messageType(NOTE),
-        channel(0),
-        data(0)
-
-    {
-    }
-
-    MIDI_Message_ID(int ch, int dat, MessageType msgType):
-        messageType(msgType),
-        channel(ch),
-        data(dat)
-    {
-    }
-
-    MIDI_Message_ID(const RSJ::Message& rhs);
-
-    bool operator==(const MIDI_Message_ID &other) const noexcept
-    {
-        return (messageType==other.messageType && channel==other.channel && data==other.data);
-    }
-
-    bool operator<(const MIDI_Message_ID& other) const noexcept
-    {
-        if (channel<other.channel) return true;
-        if (channel==other.channel) {
-            if (data<other.data) return true;
-            if (data==other.data && messageType<other.messageType) return true;
-        }
-        return false;
-    }
-};
-
-// hash functions
-namespace std {
-    template <>
-    struct hash<MIDI_Message_ID> {
-        std::size_t operator()(const MIDI_Message_ID& k) const noexcept
-        {
-            return std::hash<int_fast32_t>()((int_fast32_t(k.messageType)<<8)|
-                int_fast32_t(k.channel)|(int_fast32_t(k.controller)<<16));
-        } //channel is one byte, messagetype is one byte, controller is two bytes
-    };
-}
+#include "MidiUtilities.h"
 
 class CommandMap {
 public:
@@ -100,26 +40,26 @@ public:
     // adds an entry to the message:command map, and a corresponding entry to the
     // command:message map will look up the string by the index (but it is preferred to
     // directly use the string)
-    void addCommandforMessage(size_t command, const MIDI_Message_ID& cc);
+    void addCommandforMessage(size_t command, const RSJ::MIDI_Message_ID& cc);
 
     // adds an entry to the message:command map, and a corresponding entry to the
     // command:message map
-    void addCommandforMessage(const std::string& command, const MIDI_Message_ID& cc);
+    void addCommandforMessage(const std::string& command, const RSJ::MIDI_Message_ID& cc);
 
     // gets the LR command associated to a MIDI message
-    const std::string& getCommandforMessage(const MIDI_Message_ID& message) const;
+    const std::string& getCommandforMessage(const RSJ::MIDI_Message_ID& message) const;
 
     // in the command:message map
     // removes a MIDI message from the message:command map, and it's associated entry
-    void removeMessage(const MIDI_Message_ID& message);
+    void removeMessage(const RSJ::MIDI_Message_ID& message);
 
     // clears both message:command and command:message maps
     void clearMap() noexcept;
 
     // returns true if there is a mapping for a particular MIDI message
-    bool messageExistsInMap(const MIDI_Message_ID& message) const;
+    bool messageExistsInMap(const RSJ::MIDI_Message_ID& message) const;
 
-    std::vector<const MIDI_Message_ID*> getMessagesForCommand(const std::string& command) const;
+    std::vector<const RSJ::MIDI_Message_ID*> getMessagesForCommand(const std::string& command) const;
     // gets the MIDI message associated to a LR command
 
     // returns true if there is a mapping for a particular LR command
@@ -129,22 +69,22 @@ public:
     void toXMLDocument(const juce::File& file) const;
 
 private:
-    std::multimap<std::string, MIDI_Message_ID> command_string_map_;
-    std::unordered_map<MIDI_Message_ID, std::string> message_map_;
+    std::multimap<std::string, RSJ::MIDI_Message_ID> command_string_map_;
+    std::unordered_map<RSJ::MIDI_Message_ID, std::string> message_map_;
 };
 
-inline void CommandMap::addCommandforMessage(const std::string& command, const MIDI_Message_ID& message)
+inline void CommandMap::addCommandforMessage(const std::string& command, const RSJ::MIDI_Message_ID& message)
 {
     message_map_[message] = command;
     command_string_map_.insert({command, message});
 }
 
-inline const std::string& CommandMap::getCommandforMessage(const MIDI_Message_ID& message) const
+inline const std::string& CommandMap::getCommandforMessage(const RSJ::MIDI_Message_ID& message) const
 {
     return message_map_.at(message);
 }
 
-inline void CommandMap::removeMessage(const MIDI_Message_ID& message)
+inline void CommandMap::removeMessage(const RSJ::MIDI_Message_ID& message)
 {
     // removes message from the message:command map, and its associated command from
     // the command:message map
@@ -158,7 +98,7 @@ inline void CommandMap::clearMap() noexcept
     message_map_.clear();
 }
 
-inline bool CommandMap::messageExistsInMap(const MIDI_Message_ID& message) const
+inline bool CommandMap::messageExistsInMap(const RSJ::MIDI_Message_ID& message) const
 {
     return message_map_.find(message)!=message_map_.end();
 }

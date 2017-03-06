@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiUtilities.h"
-#include "Utilities/Utilities.h"
+#include "Misc.h"
 class CommandMap;
 class ControlsModel;
 class MIDIProcessor;

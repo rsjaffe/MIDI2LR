@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
 #include "Utilities/Utilities.h"
@@ -160,7 +161,7 @@ void LR_IPC_IN::processLine(const std::string& line)
         std::bitset<3> modifiers{static_cast<decltype(modifiers)>
             (std::stoi(value_string))};
         RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
-            modifiers[0], modifiers[1], modifiers[2]);
+            modifiers[0], modifiers[1], modifiers[2]);//ltrim twice on purpose: first digits, then spaces
         break;
     }
     case 3: //TerminateApplication
@@ -173,13 +174,13 @@ void LR_IPC_IN::processLine(const std::string& line)
             for (const auto msg:command_map_->getMessagesForCommand(command)) {
                 short msgtype{0};
                 switch (msg->messageType) {
-                case NOTE:
+                case RSJ::NOTE:
                     msgtype = RSJ::kNoteOnFlag;
                     break;
-                case CC:
+                case RSJ::CC:
                     msgtype = RSJ::kCCFlag;
                     break;
-                case PITCHBEND:
+                case RSJ::PITCHBEND:
                     msgtype = RSJ::kPWFlag;
                 }
                 const auto value = controls_model_->PluginToController(msgtype,
@@ -188,9 +189,9 @@ void LR_IPC_IN::processLine(const std::string& line)
 
                 if (midi_sender_) {
                     switch (msgtype) {
-                    case RSJ::kNoteOnFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
+                    case RSJ::kNoteOnFlag: midi_sender_->sendNoteOn(msg->channel, msg->controller, value); break;
                     case RSJ::kCCFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-                    case RSJ::kPWFlag: midi_sender_->sendPitchBend(msg->channel, value); break;
+                    case RSJ::kPWFlag: midi_sender_->sendPitchWheel(msg->channel, value); break;
                     }
                 }
             }
