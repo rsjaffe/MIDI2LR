@@ -64,7 +64,7 @@ public:
     // switches to the previous profile
     void switchToPreviousProfile();
 
-    virtual void MIDIcmdCallback(RSJ::Message);
+    void MIDIcmdCallback(RSJ::Message);
 
     void ConnectionCallback(bool);
 

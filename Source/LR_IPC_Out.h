@@ -49,7 +49,7 @@ public:
     // sends a command to the plugin
     void sendCommand(const std::string& command);
 
-    virtual void MIDIcmdCallback(RSJ::Message);
+    void MIDIcmdCallback(RSJ::Message);
 
 private:
     // IPC interface

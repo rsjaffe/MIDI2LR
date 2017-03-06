@@ -55,7 +55,7 @@ public:
         SettingsManager* settings_manager,
         std::shared_ptr<MIDISender>& midi_sender);
 
-    virtual void MIDIcmdCallback(RSJ::Message);
+    void MIDIcmdCallback(RSJ::Message);
 
     void LRIpcOutCallback(bool);
 
