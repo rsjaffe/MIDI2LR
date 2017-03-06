@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
 #include "Utilities/Utilities.h"
@@ -173,13 +174,13 @@ void LR_IPC_IN::processLine(const std::string& line)
             for (const auto msg:command_map_->getMessagesForCommand(command)) {
                 short msgtype{0};
                 switch (msg->messageType) {
-                case NOTE:
+                case RSJ::NOTE:
                     msgtype = RSJ::kNoteOnFlag;
                     break;
-                case CC:
+                case RSJ::CC:
                     msgtype = RSJ::kCCFlag;
                     break;
-                case PITCHBEND:
+                case RSJ::PITCHBEND:
                     msgtype = RSJ::kPWFlag;
                 }
                 const auto value = controls_model_->PluginToController(msgtype,

@@ -30,7 +30,9 @@ class CommandMap;
 class ControlsModel;
 class LR_IPC_OUT;
 class MIDIProcessor;
-struct MIDI_Message_ID;
+namespace RSJ {
+    struct MIDI_Message_ID;
+}
 
 class ProfileManager final: private juce::AsyncUpdater {
 public:
@@ -69,7 +71,7 @@ public:
     void ConnectionCallback(bool);
 
 private:
-    void mapCommand(const MIDI_Message_ID& msg);
+    void mapCommand(const RSJ::MIDI_Message_ID& msg);
     // AsyncUpdate interface
     virtual void handleAsyncUpdate() override;
     enum class SWITCH_STATE {

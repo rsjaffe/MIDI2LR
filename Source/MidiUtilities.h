@@ -21,8 +21,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* NOTE: Channel and Number are zero-based */
-#include <cassert>
+#include <functional>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Misc.h"
+
 namespace RSJ {
     constexpr short kNoteOffFlag = 0x8;
     constexpr short kNoteOnFlag = 0x9;
@@ -34,50 +36,74 @@ namespace RSJ {
     constexpr short kSystemFlag = 0xF;
 
     struct Message {
-        short MessageType;
-        short Channel;
-        short Number;
-        short Value;
-        constexpr Message() noexcept:
-        MessageType(0), Channel(0), Number(0), Value(0)
+        short MessageType{0};
+        short Channel{0};
+        short Number{0};
+        short Value{0};
+        constexpr Message() noexcept
         {
         };
         constexpr Message(short mt, short ch, short nu, short va) noexcept:
         MessageType(mt), Channel(ch), Number(nu), Value(va)
         {
         };
-        Message(const juce::MidiMessage& mm) noexcept: Message()
-        {
-            auto raw = mm.getRawData();
-            if (raw==nullptr) {
-                assert(!"Nullptr returned from getRawData");
-            }
-            short mt = raw[0]>>4;
-            //don't process system common messages
-            if (mt==kSystemFlag) return;
-            MessageType = mt;
-            Channel = raw[0]&0xF;
-            switch (MessageType) {
-            case kPWFlag:
-                Value = (raw[2]<<7)|raw[1];
-                Number = 0;
-                break;
-            case kCCFlag:
-            case kKeyPressureFlag:
-            case kNoteOffFlag:
-            case kNoteOnFlag:
-                Value = raw[2];
-                Number = raw[1];
-                break;
-            case kPgmChangeFlag:
-                Number = raw[1];
-                break;
-            case kChanPressureFlag:
-                Value = raw[1];
-                break;
-            default:
-                assert(!"Default should be unreachable in ParseMidi");
-            }
+        Message(const juce::MidiMessage& mm) noexcept(ndebug);
+    };
+
+    enum MessageType {
+        NOTE, CC, PITCHBEND
+    };
+
+    struct MIDI_Message_ID {
+        MessageType messageType;
+        int channel;
+        union {
+            int controller;
+            int pitch;
+            int data;
         };
+
+        MIDI_Message_ID() noexcept:
+        messageType(NOTE),
+            channel(0),
+            data(0)
+
+        {
+        }
+
+        MIDI_Message_ID(int ch, int dat, MessageType msgType) noexcept:
+        messageType(msgType),
+            channel(ch),
+            data(dat)
+        {
+        }
+
+        MIDI_Message_ID(const Message& rhs) noexcept(ndebug);
+
+        bool operator==(const MIDI_Message_ID &other) const noexcept
+        {
+            return (messageType==other.messageType && channel==other.channel && data==other.data);
+        }
+
+        bool operator<(const MIDI_Message_ID& other) const noexcept
+        {
+            if (channel<other.channel) return true;
+            if (channel==other.channel) {
+                if (data<other.data) return true;
+                if (data==other.data && messageType<other.messageType) return true;
+            }
+            return false;
+        }
+    };
+}
+// hash functions
+namespace std {
+    template <>
+    struct hash<RSJ::MIDI_Message_ID> {
+        size_t operator()(const RSJ::MIDI_Message_ID& k) const noexcept
+        {
+            return hash<int_fast32_t>()((int_fast32_t(k.messageType)<<8)|
+                int_fast32_t(k.channel)|(int_fast32_t(k.controller)<<16));
+        } //channel is one byte, messagetype is one byte, controller is two bytes
     };
 }

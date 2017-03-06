@@ -120,7 +120,7 @@ void ProfileManager::switchToPreviousProfile()
     switchToProfile(current_profile_index_);
 }
 
-void ProfileManager::mapCommand(const MIDI_Message_ID& msg)
+void ProfileManager::mapCommand(const RSJ::MIDI_Message_ID& msg)
 {
     auto cmd = command_map_->getCommandforMessage(msg);
     if (cmd=="Previous Profile"s) {
@@ -135,7 +135,7 @@ void ProfileManager::mapCommand(const MIDI_Message_ID& msg)
 
 void ProfileManager::MIDIcmdCallback(RSJ::Message mm)
 {
-    const MIDI_Message_ID cc = mm;
+    const RSJ::MIDI_Message_ID cc = mm;
     if (command_map_) {
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command

@@ -81,7 +81,7 @@ void SettingsManager::ConnectionCallback(bool connected)
 {
     if (connected) {
         if (const auto ptr = lr_ipc_out_.lock()) {
-            ptr->sendCommand("Pickup "+std::to_string(static_cast<unsigned>(getPickupEnabled()))+'\n');
+            ptr->sendCommand("Pickup "s+std::to_string(static_cast<unsigned>(getPickupEnabled()))+'\n');
         }
     }
 }

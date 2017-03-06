@@ -6,6 +6,9 @@
               companyEmail="rsjaffe@gmail.com">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
+      <FILE id="Z5nYLY" name="MidiUtilities.cpp" compile="1" resource="0"
+            file="Source/MidiUtilities.cpp"/>
       <FILE id="ClSPd1" name="PWoptions.cpp" compile="1" resource="0" file="Source/PWoptions.cpp"/>
       <FILE id="IXtTCs" name="PWoptions.h" compile="0" resource="0" file="Source/PWoptions.h"/>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
