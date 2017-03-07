@@ -26,11 +26,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MidiUtilities.h"
 #include "Misc.h"
 class CommandMap;
 class ControlsModel;
 class MIDIProcessor;
+namespace RSJ {
+    struct Message;
+}
 
 class LR_IPC_OUT final:
     private juce::InterprocessConnection,

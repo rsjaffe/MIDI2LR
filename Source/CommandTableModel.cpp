@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "CommandTableModel.h"
+#include "CommandMap.h"
 #include "CommandMenu.h"
 #include "LRCommands.h"
 
@@ -193,40 +194,22 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
 {
     if (root->getTagName().compare("settings")!=0)
         return;
-
     removeAllRows();
-
-    auto* setting = root->getFirstChildElement();
+    const auto* setting = root->getFirstChildElement();
     while ((setting)&&(command_map_)) {
         if (setting->hasAttribute("controller")) {
             const RSJ::MIDI_Message_ID message{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), RSJ::CC};
             addRow(message.channel, message.controller, RSJ::CC);
-
-            // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
-            if (setting->getIntAttribute("command", -1)!=-1) {
-                command_map_->addCommandforMessage(setting->
-                    getIntAttribute("command"), message);
-            }
-            else {
-                command_map_->addCommandforMessage(setting->
-                    getStringAttribute("command_string").toStdString(), message);
-            }
+            command_map_->addCommandforMessage(setting->
+                getStringAttribute("command_string").toStdString(), message);
         }
         else if (setting->hasAttribute("note")) {
             const RSJ::MIDI_Message_ID note{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("note"), RSJ::NOTE};
             addRow(note.channel, note.pitch, RSJ::NOTE);
-
-            // older versions of MIDI2LR stored the index of the string, so we should attempt to parse this as well
-            if (setting->getIntAttribute("command", -1)!=-1) {
-                command_map_->addCommandforMessage(setting->getIntAttribute("command"),
-                    note);
-            }
-            else {
-                command_map_->addCommandforMessage(setting->
-                    getStringAttribute("command_string").toStdString(), note);
-            }
+            command_map_->addCommandforMessage(setting->
+                getStringAttribute("command_string").toStdString(), note);
         }
         else if (setting->hasAttribute("pitchbend")) {
             const RSJ::MIDI_Message_ID pb{setting->getIntAttribute("channel"), 0, RSJ::PITCHBEND};

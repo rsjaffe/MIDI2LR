@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "CommandMenu.h"
 #include "CCoptions.h"
+#include "CommandMap.h"
 #include "LRCommands.h"
 #include "PWoptions.h"
 

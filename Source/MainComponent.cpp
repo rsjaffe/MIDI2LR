@@ -266,7 +266,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
         }
         // Send new CC parameters to MIDI Out devices
         if (const auto ptr = lr_ipc_out_.lock()) {
-            ptr->sendCommand("FullRefresh 1\n");
+            ptr->sendCommand("FullRefresh 1\n"s);
         }
     }
     else if (button==&remove_row_button_) {

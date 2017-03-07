@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 #include "LRCommands.h"
 #include "MIDIProcessor.h"
+#include "MidiUtilities.h"
 
 namespace {
     constexpr auto kHost = "127.0.0.1";

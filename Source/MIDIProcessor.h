@@ -24,8 +24,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MidiUtilities.h"
 #include "NrpnMessage.h"
+namespace RSJ {
+    struct Message;
+}
 
 class MIDIProcessor final: private juce::MidiInputCallback {
 public:

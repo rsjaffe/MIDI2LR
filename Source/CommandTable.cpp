@@ -54,10 +54,22 @@ bool CommandTable::keyPressed(const KeyPress& k)
         return true;
     }
     if (k.isKeyCode(KeyPress::pageUpKey)&&getNumRows()>0) {
-        selectRow(0);
+        auto row = getSelectedRow()-20;
+        if (row<0) row = 0;
+        selectRow(row);
         return true;
     }
     if (k.isKeyCode(KeyPress::pageDownKey)&&getNumRows()>0) {
+        auto row = getSelectedRow()+20;
+        if (row>=getNumRows()) row = getNumRows()-1;
+        selectRow(row);
+        return true;
+    }
+    if (k.isKeyCode(KeyPress::homeKey)&&getNumRows()>0) {
+        selectRow(0);
+        return true;
+    }
+    if (k.isKeyCode(KeyPress::endKey)&&getNumRows()>0) {
         selectRow(getNumRows()-1);
         return true;
     }

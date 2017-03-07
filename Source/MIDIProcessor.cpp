@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
+#include "MidiUtilities.h"
 
 MIDIProcessor::MIDIProcessor() noexcept
 {

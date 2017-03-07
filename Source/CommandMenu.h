@@ -25,7 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <limits>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "CommandMap.h"
+#include "MidiUtilities.h"
+class CommandMap;
 
 class CommandMenu final: public juce::TextButton {
 public:

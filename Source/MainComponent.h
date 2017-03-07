@@ -30,7 +30,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CommandTable.h" //class member
 #include "CommandTableModel.h" //class member
-#include "MidiUtilities.h"
 #include "ResizableLayout.h" //base class
 class CommandMap;
 class LR_IPC_OUT;
@@ -38,6 +37,9 @@ class MIDIProcessor;
 class MIDISender;
 class ProfileManager;
 class SettingsManager;
+namespace RSJ {
+    struct Message;
+}
 
 class MainContentComponent final:
     public juce::Component,
