@@ -25,8 +25,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MidiUtilities.h" //TODO: traditional enum causing problem with forward decl
 class CommandMap;
+namespace RSJ {
+    enum MessageType: short;
+    struct MIDI_Message_ID;
+}
 
 class CommandTableModel final: public juce::TableListBoxModel {
 public:

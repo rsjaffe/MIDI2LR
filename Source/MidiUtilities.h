@@ -50,7 +50,7 @@ namespace RSJ {
         Message(const juce::MidiMessage& mm) noexcept(ndebug);
     };
 
-    enum MessageType {
+    enum MessageType: short {
         NOTE, CC, PITCHBEND
     };
 
