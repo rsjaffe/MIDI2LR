@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LR_IPC_OUT_H_INCLUDED
 #define LR_IPC_OUT_H_INCLUDED
 
+#include <functional>
 #include <mutex>
 #include <string>
 #include <vector>
@@ -31,7 +32,7 @@ class CommandMap;
 class ControlsModel;
 class MIDIProcessor;
 namespace RSJ {
-    struct Message;
+    struct MidiMessage;
 }
 
 class LR_IPC_OUT final:
@@ -51,7 +52,7 @@ public:
     // sends a command to the plugin
     void sendCommand(const std::string& command);
 
-    void MIDIcmdCallback(RSJ::Message);
+    void MIDIcmdCallback(RSJ::MidiMessage);
 
 private:
     // IPC interface

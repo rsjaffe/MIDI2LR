@@ -35,27 +35,27 @@ namespace RSJ {
     constexpr short kPWFlag = 0xE;//Pitch Wheel
     constexpr short kSystemFlag = 0xF;
 
-    struct Message {
-        short MessageType{0};
-        short Channel{0};
-        short Number{0};
-        short Value{0};
-        constexpr Message() noexcept
+    struct MidiMessage {
+        short message_type_byte{0};
+        short channel{0};
+        short number{0};
+        short value{0};
+        constexpr MidiMessage() noexcept
         {
         };
-        constexpr Message(short mt, short ch, short nu, short va) noexcept:
-        MessageType(mt), Channel(ch), Number(nu), Value(va)
+        constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
+        message_type_byte(mt), channel(ch), number(nu), value(va)
         {
         };
-        Message(const juce::MidiMessage& mm) noexcept(ndebug);
+        MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug);
     };
 
-    enum MessageType: short {
+    enum class MsgIdEnum: short {
         NOTE, CC, PITCHBEND
     };
 
-    struct MIDI_Message_ID {
-        MessageType messageType;
+    struct MidiMessageId {
+        MsgIdEnum msg_id_type;
         int channel;
         union {
             int controller;
@@ -63,34 +63,34 @@ namespace RSJ {
             int data;
         };
 
-        MIDI_Message_ID() noexcept:
-        messageType(NOTE),
+        MidiMessageId() noexcept:
+        msg_id_type(MsgIdEnum::NOTE),
             channel(0),
             data(0)
 
         {
         }
 
-        MIDI_Message_ID(int ch, int dat, MessageType msgType) noexcept:
-        messageType(msgType),
+        MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept:
+        msg_id_type(msgType),
             channel(ch),
             data(dat)
         {
         }
 
-        MIDI_Message_ID(const Message& rhs) noexcept(ndebug);
+        MidiMessageId(const MidiMessage& rhs) noexcept(ndebug);
 
-        bool operator==(const MIDI_Message_ID &other) const noexcept
+        bool operator==(const MidiMessageId &other) const noexcept
         {
-            return (messageType==other.messageType && channel==other.channel && data==other.data);
+            return (msg_id_type==other.msg_id_type && channel==other.channel && data==other.data);
         }
 
-        bool operator<(const MIDI_Message_ID& other) const noexcept
+        bool operator<(const MidiMessageId& other) const noexcept
         {
             if (channel<other.channel) return true;
             if (channel==other.channel) {
                 if (data<other.data) return true;
-                if (data==other.data && messageType<other.messageType) return true;
+                if (data==other.data && msg_id_type<other.msg_id_type) return true;
             }
             return false;
         }
@@ -99,10 +99,10 @@ namespace RSJ {
 // hash functions
 namespace std {
     template <>
-    struct hash<RSJ::MIDI_Message_ID> {
-        size_t operator()(const RSJ::MIDI_Message_ID& k) const noexcept
+    struct hash<RSJ::MidiMessageId> {
+        size_t operator()(const RSJ::MidiMessageId& k) const noexcept
         {
-            return hash<int_fast32_t>()((int_fast32_t(k.messageType)<<8)|
+            return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type)<<8)|
                 int_fast32_t(k.channel)|(int_fast32_t(k.controller)<<16));
         } //channel is one byte, messagetype is one byte, controller is two bytes
     };

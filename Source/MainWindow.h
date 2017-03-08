@@ -36,6 +36,8 @@ class SettingsManager;
 class MainWindow final: private juce::DocumentWindow, private juce::Timer {
 public:
     explicit MainWindow(juce::String name);
+    MainWindow& operator=(const MainWindow&) = delete;
+    MainWindow(const MainWindow&) = delete;
 
     void Init(CommandMap* command_map, std::weak_ptr<LR_IPC_OUT>&& out,
         std::shared_ptr<MIDIProcessor>& midi_processor,
@@ -62,8 +64,6 @@ private:
     virtual void timerCallback() override;
     int auto_hide_counter_{0};
     MainContentComponent *window_content_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
 };
 
 #endif  // MAINWINDOW_H_INCLUDED

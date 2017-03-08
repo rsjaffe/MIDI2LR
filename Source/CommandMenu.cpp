@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "PWoptions.h"
 
-CommandMenu::CommandMenu(const RSJ::MIDI_Message_ID& message):
+CommandMenu::CommandMenu(const RSJ::MidiMessageId& message):
     juce::TextButton{"Unmapped"},
     menus_({"Keyboard Shortcuts for User", "Library filter", "General", "Library",
         "Develop", "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W",
@@ -53,7 +53,7 @@ void CommandMenu::Init(CommandMap* mapCommand)
     command_map_ = mapCommand;
 }
 
-void CommandMenu::setMsg(const RSJ::MIDI_Message_ID& message) noexcept
+void CommandMenu::setMsg(const RSJ::MidiMessageId& message) noexcept
 {
     message_ = message;
 }
@@ -70,8 +70,8 @@ void CommandMenu::setSelectedItem(size_t index)
 void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
 {
     if (modifiers.isPopupMenu()) {
-        switch (message_.messageType) {
-        case RSJ::CC:
+        switch (message_.msg_id_type) {
+        case RSJ::MsgIdEnum::CC:
         {
             CCoptions ccopt;
             ccopt.bindToControl(static_cast<size_t>(message_.channel)-1, // convert 1-based to 0-based
@@ -80,7 +80,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                 juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
         }
-        case RSJ::PITCHBEND:
+        case RSJ::MsgIdEnum::PITCHBEND:
         {
             PWoptions pwopt;
             pwopt.bindToControl(static_cast<size_t>(message_.channel)-1); //convert 1-based to 0 based

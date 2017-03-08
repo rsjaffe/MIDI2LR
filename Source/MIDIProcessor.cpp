@@ -39,16 +39,16 @@ void MIDIProcessor::Init(void)
 void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     const juce::MidiMessage& message)
 {
-    const RSJ::Message mess{message};
-    switch (mess.MessageType) {
+    const RSJ::MidiMessage mess{message};
+    switch (mess.message_type_byte) {
     case RSJ::kCCFlag:
-        if (nrpn_filter_.ProcessMidi(mess.Channel, mess.Number, mess.Value)) { //true if nrpn piece
-            if (nrpn_filter_.IsReady(mess.Channel)) { //send when finished
+        if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
+            if (nrpn_filter_.IsReady(mess.channel)) { //send when finished
                 for (const auto& cb:callbacks_)
-                    cb(RSJ::Message{RSJ::kCCFlag, mess.Channel,
-                        nrpn_filter_.GetControl(mess.Channel),
-                        nrpn_filter_.GetValue(mess.Channel)});
-                nrpn_filter_.Clear(mess.Channel);
+                    cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel,
+                        nrpn_filter_.GetControl(mess.channel),
+                        nrpn_filter_.GetValue(mess.channel)});
+                nrpn_filter_.Clear(mess.channel);
             }
         }
         else //regular message

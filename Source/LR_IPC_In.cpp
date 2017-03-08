@@ -173,14 +173,14 @@ void LR_IPC_IN::processLine(const std::string& line)
             const auto original_value = std::stod(value_string);
             for (const auto msg:command_map_->getMessagesForCommand(command)) {
                 short msgtype{0};
-                switch (msg->messageType) {
-                case RSJ::NOTE:
+                switch (msg->msg_id_type) {
+                case RSJ::MsgIdEnum::NOTE:
                     msgtype = RSJ::kNoteOnFlag;
                     break;
-                case RSJ::CC:
+                case RSJ::MsgIdEnum::CC:
                     msgtype = RSJ::kCCFlag;
                     break;
-                case RSJ::PITCHBEND:
+                case RSJ::MsgIdEnum::PITCHBEND:
                     msgtype = RSJ::kPWFlag;
                 }
                 const auto value = controls_model_->PluginToController(msgtype,

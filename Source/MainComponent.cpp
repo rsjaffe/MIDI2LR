@@ -207,36 +207,36 @@ void MainContentComponent::paint(juce::Graphics& g)
     g.fillAll(juce::Colours::white);
 }
 
-void MainContentComponent::MIDIcmdCallback(RSJ::Message mm)
+void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    RSJ::MessageType mt;
+    RSJ::MsgIdEnum mt;
     juce::String commandtype{"CC"};
-    switch (mm.MessageType) {//this is needed because mapping uses custom structure
+    switch (mm.message_type_byte) {//this is needed because mapping uses custom structure
     case RSJ::kCCFlag:
-        mt = RSJ::CC;
+        mt = RSJ::MsgIdEnum::CC;
         break;
     case RSJ::kNoteOnFlag:
-        mt = RSJ::NOTE;
+        mt = RSJ::MsgIdEnum::NOTE;
         commandtype = "NOTE ON";
         break;
     case RSJ::kNoteOffFlag:
-        mt = RSJ::NOTE;
+        mt = RSJ::MsgIdEnum::NOTE;
         commandtype = "NOTE OFF";
         break;
     case RSJ::kPWFlag:
-        mt = RSJ::PITCHBEND;
+        mt = RSJ::MsgIdEnum::PITCHBEND;
         commandtype = "PITCHBEND";
         break;
     default: //shouldn't receive any messages note categorized above
         assert(0);
-        mt = RSJ::CC;
+        mt = RSJ::MsgIdEnum::CC;
     }
-    mm.Channel++; //used to 1-based channel numbers
-    last_command_ = juce::String(mm.Channel)+": "+commandtype+
-        juce::String(mm.Number)+" ["+juce::String(mm.Value)+"]";
-    command_table_model_.addRow(mm.Channel, mm.Number, mt);
-    row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.Channel, mm.Number, mt));
+    mm.channel++; //used to 1-based channel numbers
+    last_command_ = juce::String(mm.channel)+": "+commandtype+
+        juce::String(mm.number)+" ["+juce::String(mm.value)+"]";
+    command_table_model_.addRow(mm.channel, mm.number, mt);
+    row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.channel, mm.number, mt));
     triggerAsyncUpdate();
 }
 

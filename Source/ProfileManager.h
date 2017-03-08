@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROFILEMANAGER_H_INCLUDED
 #define PROFILEMANAGER_H_INCLUDED
 
+#include <functional>
 #include <memory>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -30,22 +31,23 @@ class ControlsModel;
 class LR_IPC_OUT;
 class MIDIProcessor;
 namespace RSJ {
-    struct Message;
-    struct MIDI_Message_ID;
+    struct MidiMessage;
+    struct MidiMessageId;
 }
 
 class ProfileManager final: private juce::AsyncUpdater {
 public:
     ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept;
-    virtual ~ProfileManager()
-    {
-    };
+    virtual ~ProfileManager() = default;
+    ProfileManager(ProfileManager const&) = delete;
+    void operator=(ProfileManager const&) = delete;
     void Init(std::weak_ptr<LR_IPC_OUT>&& out,
         std::shared_ptr<MIDIProcessor>& midi_processor);
 
     template<class T> void addCallback(T* object, void(T::*mf)(juce::XmlElement*, const juce::String&))
     {
-        callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1, std::placeholders::_2));
+        using namespace std::placeholders;
+        callbacks_.emplace_back(std::bind(mf, object, _1, _2));
     }
 
     // sets the default profile directory and scans its contents for profiles
@@ -66,12 +68,12 @@ public:
     // switches to the previous profile
     void switchToPreviousProfile();
 
-    void MIDIcmdCallback(RSJ::Message);
+    void MIDIcmdCallback(RSJ::MidiMessage);
 
     void ConnectionCallback(bool);
 
 private:
-    void mapCommand(const RSJ::MIDI_Message_ID& msg);
+    void mapCommand(const RSJ::MidiMessageId& msg);
     // AsyncUpdate interface
     virtual void handleAsyncUpdate() override;
     enum class SWITCH_STATE {
@@ -79,9 +81,6 @@ private:
         PREV,
         NEXT,
     };
-
-    ProfileManager(ProfileManager const&) = delete;
-    void operator=(ProfileManager const&) = delete;
 
     CommandMap* const command_map_;
     ControlsModel* const controls_model_;

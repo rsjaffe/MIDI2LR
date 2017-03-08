@@ -34,6 +34,8 @@ class SettingsComponent final:
 public:
     explicit SettingsComponent(SettingsManager* settings_manager);
     ~SettingsComponent();
+    SettingsComponent(const SettingsComponent&) = delete;
+    SettingsComponent& operator=(const SettingsComponent&) = delete;
     void Init();
 
 private:
@@ -51,8 +53,6 @@ private:
     juce::TextButton profile_location_button_{"Choose Profile Folder"};
     juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
     SettingsManager* const settings_manager_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsComponent)
 };
 
 #endif  // SETTINGSCOMPONENT_H_INCLUDED

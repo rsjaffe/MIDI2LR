@@ -27,15 +27,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 class CommandMap;
 namespace RSJ {
-    enum MessageType: short;
-    struct MIDI_Message_ID;
+    enum class MsgIdEnum: short;
+    struct MidiMessageId;
 }
 
 class CommandTableModel final: public juce::TableListBoxModel {
 public:
     CommandTableModel() noexcept;
     void Init(CommandMap* mapCommand) noexcept;
-
+    CommandTableModel& operator=(const CommandTableModel&) = delete;
+    CommandTableModel(const CommandTableModel&) = delete;
     // TableListBoxModel overrides
     virtual void sortOrderChanged(int newSortColumnId, bool isForwards) override;
     virtual int getNumRows() override;
@@ -47,7 +48,7 @@ public:
         bool isRowSelected, juce::Component *existingComponentToUpdate) override;
 
     // adds a row with a corresponding MIDI message to the table
-    void addRow(int midi_channel, int midi_data, RSJ::MessageType msgType);
+    void addRow(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType);
 
     // removes a row from the table
     void removeRow(size_t row);
@@ -59,17 +60,14 @@ public:
     void buildFromXml(const juce::XmlElement * const elem);
 
     // returns the index of the row associated to a particular MIDI message
-    int getRowForMessage(int midi_channel, int midi_data, RSJ::MessageType msgType) const;
+    int getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const;
 
 private:
     void Sort();
     CommandMap* command_map_{nullptr};
     std::pair<int, bool> current_sort{2, true};
     std::pair<int, bool> prior_sort{2, true};
-    std::vector<RSJ::MIDI_Message_ID> commands_;
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CommandTableModel)
+    std::vector<RSJ::MidiMessageId> commands_;
 };
 
 #endif

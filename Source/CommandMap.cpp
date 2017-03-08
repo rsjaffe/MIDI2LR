@@ -29,7 +29,7 @@ CommandMap::CommandMap() noexcept
 {
 }
 
-void CommandMap::addCommandforMessage(size_t command, const RSJ::MIDI_Message_ID& message)
+void CommandMap::addCommandforMessage(size_t command, const RSJ::MidiMessageId& message)
 {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
@@ -41,9 +41,9 @@ void CommandMap::addCommandforMessage(size_t command, const RSJ::MIDI_Message_ID
         message_map_[message] = LRCommandList::NextPrevProfile[command-LRCommandList::LRStringList.size()];
 }
 
-std::vector<const RSJ::MIDI_Message_ID*> CommandMap::getMessagesForCommand(const std::string& command) const
+std::vector<const RSJ::MidiMessageId*> CommandMap::getMessagesForCommand(const std::string& command) const
 {
-    std::vector<const RSJ::MIDI_Message_ID*> mm;
+    std::vector<const RSJ::MidiMessageId*> mm;
     const auto range = command_string_map_.equal_range(command);
     for (auto it = range.first; it!=range.second; ++it)
         mm.push_back(&it->second);
@@ -58,12 +58,12 @@ void CommandMap::toXMLDocument(const juce::File& file) const
         for (const auto& map_entry:message_map_) {
             auto* setting = new juce::XmlElement{"setting"};
             setting->setAttribute("channel", map_entry.first.channel);
-            switch (map_entry.first.messageType) {
-            case RSJ::NOTE: setting->setAttribute("note", map_entry.first.pitch);
+            switch (map_entry.first.msg_id_type) {
+            case RSJ::MsgIdEnum::NOTE: setting->setAttribute("note", map_entry.first.pitch);
                 break;
-            case RSJ::CC: setting->setAttribute("controller", map_entry.first.controller);
+            case RSJ::MsgIdEnum::CC: setting->setAttribute("controller", map_entry.first.controller);
                 break;
-            case RSJ::PITCHBEND: setting->setAttribute("pitchbend", 0);
+            case RSJ::MsgIdEnum::PITCHBEND: setting->setAttribute("pitchbend", 0);
                 break;
             }
             setting->setAttribute("command_string", map_entry.second);

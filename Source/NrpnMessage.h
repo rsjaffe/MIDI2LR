@@ -29,12 +29,8 @@ class NRPN_Message {
     // message. If the 4th message is dropped, this class silently consumes the
     // message without emitting anything.
 public:
-    NRPN_Message() noexcept
-    {
-    };
-    ~NRPN_Message()
-    {
-    };
+    NRPN_Message() noexcept = default;
+    ~NRPN_Message() = default;
 
     bool ProcessMidi(short control, short value)
         noexcept(ndebug);

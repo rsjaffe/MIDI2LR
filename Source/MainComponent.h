@@ -38,7 +38,7 @@ class MIDISender;
 class ProfileManager;
 class SettingsManager;
 namespace RSJ {
-    struct Message;
+    struct MidiMessage;
 }
 
 class MainContentComponent final:
@@ -50,6 +50,8 @@ class MainContentComponent final:
 public:
     MainContentComponent();
     virtual ~MainContentComponent();
+    MainContentComponent(const MainContentComponent&) = delete;
+    MainContentComponent& operator=(const MainContentComponent&) = delete;
     void Init(CommandMap* command_map,
         std::weak_ptr<LR_IPC_OUT>&& out,
         std::shared_ptr<MIDIProcessor>& midi_processor,
@@ -57,7 +59,7 @@ public:
         SettingsManager* settings_manager,
         std::shared_ptr<MIDISender>& midi_sender);
 
-    void MIDIcmdCallback(RSJ::Message);
+    void MIDIcmdCallback(RSJ::MidiMessage);
 
     void LRIpcOutCallback(bool);
 
@@ -99,9 +101,6 @@ private:
     std::shared_ptr<MIDISender> midi_sender_{nullptr};
     std::unique_ptr<DialogWindow> settings_dialog_;
     std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
 };
 
 #endif  // MAINCOMPONENT_H_INCLUDED
