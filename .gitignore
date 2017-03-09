@@ -283,3 +283,5 @@ Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
 *.backup
 
 *.plog
+
+*.cd
