@@ -36,7 +36,7 @@ public:
     // sends a PitchBend message to all output devices
     void sendPitchWheel(int midi_channel, int value) const;
 
-    void MIDISender::sendNoteOn(int midi_channel, int controller, int value) const;
+    void sendNoteOn(int midi_channel, int controller, int value) const;
 
     // re-enumerates MIDI OUT devices
     void RescanDevices();
