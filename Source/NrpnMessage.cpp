@@ -25,16 +25,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 bool NRPN_Message::ProcessMidi(short control,
     short value) noexcept(ndebug)
 {
+    assert(value <= 0x7Fu);
+    assert(control <= 0x7Fu);
     auto ret_val = true;
     switch (control) {
     case 6:
-        if (ready_>=0b11)
+        if (ready_ >= 0b11)
             SetValueMSB(value);
         else
             ret_val = false;
         break;
     case 38u:
-        if (ready_>=0b11)
+        if (ready_ >= 0b11)
             SetValueLSB(value);
         else
             ret_val = false;
@@ -62,28 +64,28 @@ void NRPN_Message::Clear() noexcept
 
 void NRPN_Message::SetControlMSB(short val) noexcept(ndebug)
 {
-    assert(val<=0x7Fu);
-    control_msb_ = val&0x7Fu;
+    assert(val <= 0x7Fu);
+    control_msb_ = val & 0x7Fu;
     ready_ |= 0b1;
 }
 
 void NRPN_Message::SetControlLSB(short val) noexcept(ndebug)
 {
-    assert(val<=0x7Fu);
-    control_lsb_ = val&0x7Fu;
+    assert(val <= 0x7Fu);
+    control_lsb_ = val & 0x7Fu;
     ready_ |= 0b10;
 }
 
 void NRPN_Message::SetValueMSB(short val) noexcept(ndebug)
 {
-    assert(val<=0x7Fu);
-    value_msb_ = val&0x7Fu;
+    assert(val <= 0x7Fu);
+    value_msb_ = val & 0x7Fu;
     ready_ |= 0b100;  //"Magic number" false alarm //-V112
 }
 
 void NRPN_Message::SetValueLSB(short val) noexcept(ndebug)
 {
-    assert(val<=0x7Fu);
-    value_lsb_ = val&0x7Fu;
+    assert(val <= 0x7Fu);
+    value_lsb_ = val & 0x7Fu;
     ready_ |= 0b1000;
 }
