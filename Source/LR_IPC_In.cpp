@@ -86,12 +86,12 @@ void LR_IPC_IN::run()
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
-            char line[kBufferSize+1] = {' '};//plus one for \0 at end
+            char line[kBufferSize + 1] = {' '};//plus one for \0 at end
             auto size_read = 0;
             auto can_read_line = true;
             // parse input until we have a line, then process that line, quit if
             // connection lost
-            while (std::string(line).back()!='\n' && juce::StreamingSocket::isConnected()) {
+            while (std::string(line).back() != '\n' && juce::StreamingSocket::isConnected()) {
                 if (juce::Thread::threadShouldExit())
                     goto threadExit;//break out of nested whiles
                 const auto wait_status = juce::StreamingSocket::waitUntilReady(true, kReadyWait);
@@ -103,9 +103,9 @@ void LR_IPC_IN::run()
                     juce::Thread::wait(kEmptyWait);
                     break; //try again to read until char shows up
                 case 1:
-                    if (size_read==kBufferSize)
+                    if (size_read == kBufferSize)
                         throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    size_read += juce::StreamingSocket::read(line+size_read, 1, false);
+                    size_read += juce::StreamingSocket::read(line + size_read, 1, false);
                     break;
                 }
             } // end while !\n and is connected
@@ -113,7 +113,7 @@ void LR_IPC_IN::run()
             // if lose connection, line may not be terminated
             {
                 std::string param{line};
-                if (can_read_line && param.back()=='\n') {
+                if (can_read_line && param.back() == '\n') {
                     processLine(param);
                 }
             } //scope param
@@ -130,7 +130,7 @@ threadExit: /* empty statement */;
 void LR_IPC_IN::timerCallback()
 {
     std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
-    if (!timer_off_&&!juce::StreamingSocket::isConnected()) {
+    if (!timer_off_ && !juce::StreamingSocket::isConnected()) {
         if (juce::StreamingSocket::connect(kHost, kLrInPort, kConnectTryTime))
             if (!thread_started_) {
                 juce::Thread::startThread(); //avoid starting thread during shutdown
@@ -149,7 +149,7 @@ void LR_IPC_IN::processLine(const std::string& line)
     // process input into [parameter] [Value]
     const auto trimmed_line = RSJ::trim(line);
     const auto command = trimmed_line.substr(0, trimmed_line.find(' '));
-    const auto value_string = trimmed_line.substr(trimmed_line.find(' ')+1);
+    const auto value_string = trimmed_line.substr(trimmed_line.find(' ') + 1);
 
     switch (cmds.count(command) ? cmds.at(command) : 0) {
     case 1: //SwitchProfile
@@ -171,7 +171,7 @@ void LR_IPC_IN::processLine(const std::string& line)
         // send associated messages to MIDI OUT devices
         if (command_map_ && midi_sender_) {
             const auto original_value = std::stod(value_string);
-            for (const auto msg:command_map_->getMessagesForCommand(command)) {
+            for (const auto msg : command_map_->getMessagesForCommand(command)) {
                 short msgtype{0};
                 switch (msg->msg_id_type) {
                 case RSJ::MsgIdEnum::NOTE:
@@ -184,7 +184,7 @@ void LR_IPC_IN::processLine(const std::string& line)
                     msgtype = RSJ::kPWFlag;
                 }
                 const auto value = controls_model_->PluginToController(msgtype,
-                    static_cast<size_t>(msg->channel-1),
+                    static_cast<size_t>(msg->channel - 1),
                     static_cast<short>(msg->controller), original_value);
 
                 if (midi_sender_) {

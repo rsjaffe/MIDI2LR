@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 MainWindow::MainWindow(juce::String name): juce::DocumentWindow{name,
 juce::Colours::lightgrey,
-juce::DocumentWindow::minimiseButton|
+juce::DocumentWindow::minimiseButton |
 juce::DocumentWindow::closeButton}, juce::Timer()
 {
     setUsingNativeTitleBar(true);
@@ -68,7 +68,7 @@ void MainWindow::timerCallback(void)
 {
     auto decreased_value = false;
 
-    if (auto_hide_counter_>0) {
+    if (auto_hide_counter_ > 0) {
         //decrement counter
         --auto_hide_counter_;
         decreased_value = true;
@@ -77,7 +77,7 @@ void MainWindow::timerCallback(void)
     //set the new timer text
     window_content_->SetTimerText(auto_hide_counter_);
 
-    if (auto_hide_counter_==0) {
+    if (auto_hide_counter_ == 0) {
         //first stop the timer so it will not be called again
         juce::Timer::stopTimer();
 

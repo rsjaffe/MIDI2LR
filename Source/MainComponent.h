@@ -88,7 +88,7 @@ private:
     juce::Label current_status_{"CurrentStatus", "no extra info"};
     juce::Label profile_name_label_{"ProfileNameLabel", ""};
     juce::Label title_label_{"Title", "MIDI2LR"};
-    juce::Label version_label_{"Version", "Version "+juce::String{ProjectInfo::versionString}};
+    juce::Label version_label_{"Version", "Version " + juce::String{ProjectInfo::versionString}};
     juce::String last_command_;
     juce::TextButton load_button_{"Load"};
     juce::TextButton remove_row_button_{"Clear ALL rows"};

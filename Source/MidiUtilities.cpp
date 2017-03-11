@@ -26,14 +26,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 RSJ::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug)
 {//anything not set below is set to zero by default constructor
     const auto raw = mm.getRawData();
-    if (raw==nullptr) {
+    if (raw == nullptr) {
         assert(!"Nullptr returned from getRawData");
     }
-    message_type_byte = raw[0]>>4;
-    channel = raw[0]&0xF;
+    message_type_byte = raw[0] >> 4;
+    channel = raw[0] & 0xF;
     switch (message_type_byte) {
     case kPWFlag:
-        value = (raw[2]<<7)|raw[1];
+        value = (raw[2] << 7) | raw[1];
         break;
     case kCCFlag:
     case kKeyPressureFlag:
@@ -56,7 +56,7 @@ RSJ::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug)
 }
 
 RSJ::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(ndebug):
-    channel(rhs.channel+1), controller(rhs.number) //channel 1-based
+    channel(rhs.channel + 1), controller(rhs.number) //channel 1-based
 {
     switch (rhs.message_type_byte) {//this is needed because mapping uses custom structure
     case kCCFlag:

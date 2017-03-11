@@ -27,8 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 
 CommandTableModel::CommandTableModel() noexcept
-{
-}
+{}
 
 void CommandTableModel::Init(CommandMap* map_command) noexcept
 {
@@ -88,7 +87,7 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
     g.setColour(juce::Colours::black);
     g.setFont(12.0f);
 
-    if (column_id==1) // write the MIDI message in the MIDI command column
+    if (column_id == 1) // write the MIDI message in the MIDI command column
     {
         int value = 0, channel = 0;
         switch (commands_[static_cast<size_t>(row_number)].msg_id_type) //-V108 int used as index because JUCE uses int
@@ -140,12 +139,12 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
     // for), or it can delete this component and return a new one.
     //// Because Juce recycles these components when scrolling, we need to reset
     //// their properties
-    if (column_id==2) // LR command column
+    if (column_id == 2) // LR command column
     {
         CommandMenu* command_select = dynamic_cast<CommandMenu *>(existing_component_to_update);
 
         // create a new command menu
-        if (command_select==nullptr) {
+        if (command_select == nullptr) {
             command_select = new CommandMenu{commands_[static_cast<size_t>(row_number)]};
             command_select->Init(command_map_);
         }
@@ -155,7 +154,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
         if (command_map_) {
             // add 1 because 0 is reserved for no selection
             command_select->setSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
-                getCommandforMessage(commands_[static_cast<size_t>(row_number)]))+1);
+                getCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
         }
 
         return command_select;
@@ -167,7 +166,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
 void CommandTableModel::addRow(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType)
 {
     const RSJ::MidiMessageId msg{midi_channel, midi_data, msgType};
-    if (command_map_&&!command_map_->messageExistsInMap(msg)) {
+    if (command_map_ && !command_map_->messageExistsInMap(msg)) {
         commands_.push_back(msg);
         command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
         Sort(); //re-sort list
@@ -179,7 +178,7 @@ void CommandTableModel::removeRow(size_t row)
     if (command_map_) {
         command_map_->removeMessage(commands_[row]);
     }
-    commands_.erase(commands_.cbegin()+row);
+    commands_.erase(commands_.cbegin() + row);
 }
 
 void CommandTableModel::removeAllRows()
@@ -193,11 +192,11 @@ void CommandTableModel::removeAllRows()
 
 void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
 {
-    if (root->getTagName().compare("settings")!=0)
+    if (root->getTagName().compare("settings") != 0)
         return;
     removeAllRows();
     const auto* setting = root->getFirstChildElement();
-    while ((setting)&&(command_map_)) {
+    while ((setting) && (command_map_)) {
         if (setting->hasAttribute("controller")) {
             const RSJ::MidiMessageId message{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), RSJ::MsgIdEnum::CC};
@@ -226,9 +225,9 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const
 {
-    for (size_t idx = 0u; idx<commands_.size(); ++idx) {
-        if (commands_[idx].channel==midi_channel && commands_[idx].controller==midi_data
-            && commands_[idx].msg_id_type==msgType)
+    for (size_t idx = 0u; idx < commands_.size(); ++idx) {
+        if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
+            && commands_[idx].msg_id_type == msgType)
             return static_cast<int>(idx);
     }
     //could not find
@@ -242,7 +241,7 @@ void CommandTableModel::Sort()
     const auto msg_idx = [this](RSJ::MidiMessageId a) {return LRCommandList::getIndexOfCommand
     (command_map_->getCommandforMessage(a)); };
 
-    if (current_sort.first==1)
+    if (current_sort.first == 1)
         if (current_sort.second)
             std::sort(commands_.begin(), commands_.end());
         else
@@ -250,8 +249,8 @@ void CommandTableModel::Sort()
     else
         if (current_sort.second)
             std::sort(commands_.begin(), commands_.end(),
-                [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a)<msg_idx(b); });
+                [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a) < msg_idx(b); });
         else
             std::sort(commands_.rbegin(), commands_.rend(),
-                [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a)<msg_idx(b); });
+                [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a) < msg_idx(b); });
 }

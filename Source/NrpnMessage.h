@@ -42,22 +42,22 @@ public:
 
     bool IsInProcess() const noexcept
     {
-        return ready_!=0;
+        return ready_ != 0;
     };
 
     bool IsReady() const noexcept
     {
-        return ready_==0b1111;
+        return ready_ == 0b1111;
     };
 
     short GetValue() const noexcept
     {
-        return (value_msb_<<7)+value_lsb_;
+        return (value_msb_ << 7) + value_lsb_;
     };
 
     short GetControl() const noexcept
     {
-        return (control_msb_<<7)+control_lsb_;
+        return (control_msb_ << 7) + control_lsb_;
     };
 
 private:
@@ -71,76 +71,74 @@ private:
 class NRPN_Filter {
 public:
     NRPN_Filter() noexcept
-    {
-    };
+    {};
     ~NRPN_Filter()
-    {
-    };
+    {};
     bool ProcessMidi(short channel,
         short control, short value) noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].ProcessMidi(control, value);
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].ProcessMidi(control, value);
     };
 
     void Clear(short channel) noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].Clear();
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].Clear();
     };
 
     void SetControlLSB(short channel, short val)
         noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].SetControlLSB(val);
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].SetControlLSB(val);
     };
 
     void SetControlMSB(short channel, short val)
         noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].SetControlMSB(val);
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].SetControlMSB(val);
     };
 
     void SetValueLSB(short channel, short val)
         noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].SetValueLSB(val);
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].SetValueLSB(val);
     };
 
     void SetValueMSB(short channel, short val)
         noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].SetValueMSB(val);
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].SetValueMSB(val);
     };
 
     bool IsInProcess(short channel) const noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].IsInProcess();
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].IsInProcess();
     };
 
     bool IsReady(short channel) const noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].IsReady();
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].IsReady();
     };
 
     short GetValue(short channel) const
         noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].GetValue();
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].GetValue();
     };
 
     short GetControl(short channel) const
         noexcept(ndebug)
     {
-        assert(channel<=15&&channel>=0);
-        return nrpn_messages_[(channel)&0xF].GetControl();
+        assert(channel <= 15 && channel >= 0);
+        return nrpn_messages_[(channel) & 0xF].GetControl();
     };
 
 private:

@@ -24,12 +24,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 
 MIDIProcessor::MIDIProcessor() noexcept
-{
-}
+{}
 
 MIDIProcessor::~MIDIProcessor()
-{
-}
+{}
 
 void MIDIProcessor::Init(void)
 {
@@ -44,7 +42,7 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     case RSJ::kCCFlag:
         if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
             if (nrpn_filter_.IsReady(mess.channel)) { //send when finished
-                for (const auto& cb:callbacks_)
+                for (const auto& cb : callbacks_)
                     cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel,
                         nrpn_filter_.GetControl(mess.channel),
                         nrpn_filter_.GetValue(mess.channel)});
@@ -52,13 +50,13 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
             }
         }
         else //regular message
-            for (const auto& cb:callbacks_) {
+            for (const auto& cb : callbacks_) {
                 cb(mess);
             }
         break;
     case RSJ::kNoteOnFlag:
     case RSJ::kPWFlag:
-        for (const auto& cb:callbacks_) {
+        for (const auto& cb : callbacks_) {
             cb(mess);
         }
         break;
@@ -69,7 +67,7 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
 
 void MIDIProcessor::RescanDevices()
 {
-    for (const auto& dev:devices_)
+    for (const auto& dev : devices_)
         dev->stop();
     devices_.clear();
     InitDevices_();
@@ -77,9 +75,9 @@ void MIDIProcessor::RescanDevices()
 
 void MIDIProcessor::InitDevices_()
 {
-    for (auto idx = 0; idx<juce::MidiInput::getDevices().size(); ++idx) {
+    for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
         const auto dev = juce::MidiInput::openDevice(idx, this);
-        if (dev!=nullptr) {
+        if (dev != nullptr) {
             devices_.emplace_back(dev);
             dev->start();
         }

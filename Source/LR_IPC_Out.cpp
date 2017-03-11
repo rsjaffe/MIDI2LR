@@ -70,17 +70,17 @@ void LR_IPC_OUT::sendCommand(const std::string& command)
 void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
 {
     const RSJ::MidiMessageId message{mm};
-    if (!command_map_->messageExistsInMap(message)||
-        command_map_->getCommandforMessage(message)=="Unmapped"||
+    if (!command_map_->messageExistsInMap(message) ||
+        command_map_->getCommandforMessage(message) == "Unmapped" ||
         find(LRCommandList::NextPrevProfile.begin(),
             LRCommandList::NextPrevProfile.end(),
-            command_map_->getCommandforMessage(message))!=LRCommandList::NextPrevProfile.end()) {
+            command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end()) {
         return;
     }
     auto command_to_send = command_map_->getCommandforMessage(message);
     double computed_value = controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel,
         mm.number, mm.value);
-    command_to_send += ' '+std::to_string(computed_value)+'\n';
+    command_to_send += ' ' + std::to_string(computed_value) + '\n';
     {
         std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
         command_ += command_to_send;
@@ -90,19 +90,18 @@ void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
 
 void LR_IPC_OUT::connectionMade()
 {
-    for (const auto& cb:callbacks_)
+    for (const auto& cb : callbacks_)
         cb(true);
 }
 
 void LR_IPC_OUT::connectionLost()
 {
-    for (const auto& cb:callbacks_)
+    for (const auto& cb : callbacks_)
         cb(false);
 }
 
 void LR_IPC_OUT::messageReceived(const juce::MemoryBlock& /*msg*/)
-{
-}
+{}
 
 void LR_IPC_OUT::handleAsyncUpdate()
 {
@@ -121,6 +120,6 @@ void LR_IPC_OUT::handleAsyncUpdate()
 void LR_IPC_OUT::timerCallback()
 {
     std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-    if (!timer_off_&&!juce::InterprocessConnection::isConnected())
+    if (!timer_off_ && !juce::InterprocessConnection::isConnected())
         juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }

@@ -1099,10 +1099,10 @@ size_t LRCommandList::getIndexOfCommand(const std::string& command)
     // better to check for empty then length, as empty has a constant run time behavior.
     if (indexMap.empty()) {
         size_t idx = 0;
-        for (const auto& str:LRStringList)
+        for (const auto& str : LRStringList)
             indexMap[str] = idx++;
 
-        for (const auto& str:NextPrevProfile)
+        for (const auto& str : NextPrevProfile)
             indexMap[str] = idx++;
     }
 

@@ -41,12 +41,10 @@ namespace RSJ {
         short number{0};
         short value{0};
         constexpr MidiMessage() noexcept
-        {
-        };
+        {};
         constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
         message_type_byte(mt), channel(ch), number(nu), value(va)
-        {
-        };
+        {};
         MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug);
     };
 
@@ -68,29 +66,27 @@ namespace RSJ {
             channel(0),
             data(0)
 
-        {
-        }
+        {}
 
         MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept:
         msg_id_type(msgType),
             channel(ch),
             data(dat)
-        {
-        }
+        {}
 
         MidiMessageId(const MidiMessage& rhs) noexcept(ndebug);
 
         bool operator==(const MidiMessageId &other) const noexcept
         {
-            return (msg_id_type==other.msg_id_type && channel==other.channel && data==other.data);
+            return (msg_id_type == other.msg_id_type && channel == other.channel && data == other.data);
         }
 
         bool operator<(const MidiMessageId& other) const noexcept
         {
-            if (channel<other.channel) return true;
-            if (channel==other.channel) {
-                if (data<other.data) return true;
-                if (data==other.data && msg_id_type<other.msg_id_type) return true;
+            if (channel < other.channel) return true;
+            if (channel == other.channel) {
+                if (data < other.data) return true;
+                if (data == other.data && msg_id_type < other.msg_id_type) return true;
             }
             return false;
         }
@@ -102,8 +98,8 @@ namespace std {
     struct hash<RSJ::MidiMessageId> {
         size_t operator()(const RSJ::MidiMessageId& k) const noexcept
         {
-            return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type)<<8)|
-                int_fast32_t(k.channel)|(int_fast32_t(k.controller)<<16));
+            return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type) << 8) |
+                int_fast32_t(k.channel) | (int_fast32_t(k.controller) << 16));
         } //channel is one byte, messagetype is one byte, controller is two bytes
     };
 }

@@ -50,8 +50,7 @@ namespace RSJ {
         } //not a constructor, so no inc
 
         counter(counter&&) noexcept
-        {
-        } //don't increment on move
+        {} //don't increment on move
 
         counter& operator=(counter&&) noexcept
         {
@@ -86,8 +85,7 @@ namespace RSJ {
         std::queue<T> data_queue_;
     public:
         threadsafe_queue()
-        {
-        }
+        {}
         void NotifyOther()
         {
             other_notification_ = true;
@@ -149,6 +147,6 @@ namespace RSJ {
     std::string rtrim(const std::string& str, const std::string& what = RSJ::space);
     inline bool contains(const std::string& str, const std::string& what = RSJ::space)
     {
-        return str.find_first_of(what)!=std::string::npos;
+        return str.find_first_of(what) != std::string::npos;
     }
 }

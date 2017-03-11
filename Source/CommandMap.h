@@ -100,11 +100,11 @@ inline void CommandMap::clearMap() noexcept
 
 inline bool CommandMap::messageExistsInMap(const RSJ::MidiMessageId& message) const
 {
-    return message_map_.find(message)!=message_map_.end();
+    return message_map_.find(message) != message_map_.end();
 }
 
 inline bool CommandMap::commandHasAssociatedMessage(const std::string& command) const
 {
-    return command_string_map_.find(command)!=command_string_map_.end();
+    return command_string_map_.find(command) != command_string_map_.end();
 }
 #endif  // COMMANDMAP_H_INCLUDED

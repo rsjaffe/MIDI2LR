@@ -39,30 +39,28 @@ namespace {
     constexpr int kMainLeft = 20;
     constexpr int kSpaceBetweenButton = 10;
     constexpr int kStandardHeight = 20;
-    constexpr int kFullWidth = kMainWidth-kMainLeft*2;
-    constexpr int kButtonWidth = (kFullWidth-kSpaceBetweenButton*2)/3;
-    constexpr int kButtonXIncrement = kButtonWidth+kSpaceBetweenButton;
-    constexpr int kConnectionLabelWidth = kMainWidth-kMainLeft-200;
+    constexpr int kFullWidth = kMainWidth - kMainLeft * 2;
+    constexpr int kButtonWidth = (kFullWidth - kSpaceBetweenButton * 2) / 3;
+    constexpr int kButtonXIncrement = kButtonWidth + kSpaceBetweenButton;
+    constexpr int kConnectionLabelWidth = kMainWidth - kMainLeft - 200;
     constexpr int kFirstButtonX = kMainLeft;
-    constexpr int kSecondButtonX = kMainLeft+kButtonXIncrement;
-    constexpr int kThirdButtonX = kMainLeft+kButtonXIncrement*2;
-    constexpr int kCommandTableHeight = kMainHeight-210;
-    constexpr int kLabelWidth = kFullWidth/2;
-    constexpr int kProfileNameY = kMainHeight-100;
-    constexpr int kCommandLabelX = kMainLeft+kLabelWidth;
-    constexpr int kCommandLabelY = kMainHeight-100;
-    constexpr int kRemoveRowY = kMainHeight-75;
-    constexpr int kRescanY = kMainHeight-50;
-    constexpr int kCurrentStatusY = kMainHeight-30;
+    constexpr int kSecondButtonX = kMainLeft + kButtonXIncrement;
+    constexpr int kThirdButtonX = kMainLeft + kButtonXIncrement * 2;
+    constexpr int kCommandTableHeight = kMainHeight - 210;
+    constexpr int kLabelWidth = kFullWidth / 2;
+    constexpr int kProfileNameY = kMainHeight - 100;
+    constexpr int kCommandLabelX = kMainLeft + kLabelWidth;
+    constexpr int kCommandLabelY = kMainHeight - 100;
+    constexpr int kRemoveRowY = kMainHeight - 75;
+    constexpr int kRescanY = kMainHeight - 50;
+    constexpr int kCurrentStatusY = kMainHeight - 30;
 }
 
 MainContentComponent::MainContentComponent(): ResizableLayout{this}
-{
-}
+{}
 
 MainContentComponent::~MainContentComponent()
-{
-}
+{}
 
 void MainContentComponent::Init(CommandMap* command_map,
     std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
@@ -233,8 +231,8 @@ void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
         mt = RSJ::MsgIdEnum::CC;
     }
     mm.channel++; //used to 1-based channel numbers
-    last_command_ = juce::String(mm.channel)+": "+commandtype+
-        juce::String(mm.number)+" ["+juce::String(mm.value)+"]";
+    last_command_ = juce::String(mm.channel) + ": " + commandtype +
+        juce::String(mm.number) + " [" + juce::String(mm.value) + "]";
     command_table_model_.addRow(mm.channel, mm.number, mt);
     row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.channel, mm.number, mt));
     triggerAsyncUpdate();
@@ -254,7 +252,7 @@ void MainContentComponent::LRIpcOutCallback(bool connected)
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
-    if (button==&rescan_button_) {
+    if (button == &rescan_button_) {
         // Re-enumerate MIDI IN and OUT devices
 
         if (midi_processor_) {
@@ -269,14 +267,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             ptr->sendCommand("FullRefresh 1\n"s);
         }
     }
-    else if (button==&remove_row_button_) {
-        if (command_table_.getNumRows()>0) {
+    else if (button == &remove_row_button_) {
+        if (command_table_.getNumRows() > 0) {
             command_table_model_.removeAllRows();
             //command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
         }
     }
-    else if (button==&save_button_) {
+    else if (button == &save_button_) {
         juce::File profile_directory;
 
         if (settings_manager_) {
@@ -288,8 +286,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
         }
 
         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
-        juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles|
-            juce::FileBrowserComponent::saveMode|
+        juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles |
+            juce::FileBrowserComponent::saveMode |
             juce::FileBrowserComponent::warnAboutOverwriting, profile_directory,
             &wildcard_filter, nullptr};
         juce::FileChooserDialogBox dialog_box{"Save profile",
@@ -305,7 +303,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             }
         }
     }
-    else if (button==&load_button_) {
+    else if (button == &load_button_) {
         juce::File profile_directory;
 
         if (settings_manager_) {
@@ -317,7 +315,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
         }
 
         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
-        juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles|
+        juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles |
             juce::FileBrowserComponent::openMode, profile_directory,
             &wildcard_filter, nullptr};
         juce::FileChooserDialogBox dialog_box{"Open profile", "Select a profile to open",
@@ -327,7 +325,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(browser.getSelectedFile(0))};
             if (xml_element) {
                 const auto new_profile = browser.getSelectedFile(0);
-                const std::string command = "ChangedToFullPath "s+new_profile.getFullPathName().toStdString()+'\n';
+                const std::string command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
 
                 if (const auto ptr = lr_ipc_out_.lock()) {
                     ptr->sendCommand(command);
@@ -340,7 +338,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             }
         }
     }
-    else if (button==&settings_button_) {
+    else if (button == &settings_button_) {
         juce::DialogWindow::LaunchOptions dialog_options;
         dialog_options.dialogTitle = "Settings";
         //create new object
@@ -371,7 +369,7 @@ void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const j
 
 void MainContentComponent::SetTimerText(int time_value)
 {
-    if (time_value>0) {
+    if (time_value > 0) {
         current_status_.setText(juce::String::formatted("Hiding in %i Sec.", time_value),
             juce::NotificationType::dontSendNotification);
     }

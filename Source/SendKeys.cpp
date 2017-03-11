@@ -49,13 +49,13 @@ namespace {
         wchar_t full_character;
         const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
             static_cast<int>(key.size()), &full_character, 1);
-        if (return_value==0) {
+        if (return_value == 0) {
             const auto er = GetLastError();
-            if (er==ERROR_INVALID_FLAGS||er==ERROR_INVALID_PARAMETER)
+            if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
                 throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
-            if (er==ERROR_INSUFFICIENT_BUFFER)
+            if (er == ERROR_INSUFFICIENT_BUFFER)
                 throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
-            if (er==ERROR_NO_UNICODE_TRANSLATION)
+            if (er == ERROR_NO_UNICODE_TRANSLATION)
                 throw std::domain_error("Unable to translate: MultiByteToWideChar.");
             throw std::runtime_error("Unknown error: MultiByteToWideChar.");
         }
@@ -79,57 +79,57 @@ namespace {
     {
         std::vector<unsigned long> unicode;
         size_t i = 0;
-        while (i<utf8.size()) {
+        while (i < utf8.size()) {
             unsigned long uni;
             size_t todo;
             unsigned char ch = utf8[i++];
-            if (ch<=0x7F) {
+            if (ch <= 0x7F) {
                 uni = ch;
                 todo = 0;
             }
-            else if (ch<=0xBF) {
+            else if (ch <= 0xBF) {
                 throw std::domain_error("not a UTF-8 string");
             }
-            else if (ch<=0xDF) {
-                uni = ch&0x1F;
+            else if (ch <= 0xDF) {
+                uni = ch & 0x1F;
                 todo = 1;
             }
-            else if (ch<=0xEF) {
-                uni = ch&0x0F;
+            else if (ch <= 0xEF) {
+                uni = ch & 0x0F;
                 todo = 2;
             }
-            else if (ch<=0xF7) {
-                uni = ch&0x07;
+            else if (ch <= 0xF7) {
+                uni = ch & 0x07;
                 todo = 3;
             }
             else {
                 throw std::domain_error("not a UTF-8 string");
             }
-            for (size_t j = 0; j<todo; ++j) {
-                if (i==utf8.size())
+            for (size_t j = 0; j < todo; ++j) {
+                if (i == utf8.size())
                     throw std::domain_error("not a UTF-8 string");
                 unsigned char ch = utf8[i++];
-                if (ch<0x80||ch > 0xBF)
+                if (ch < 0x80 || ch > 0xBF)
                     throw std::domain_error("not a UTF-8 string");
                 uni <<= 6;
-                uni += ch&0x3F;
+                uni += ch & 0x3F;
             }
-            if (uni>=0xD800&&uni<=0xDFFF)
+            if (uni >= 0xD800 && uni <= 0xDFFF)
                 throw std::domain_error("not a UTF-8 string");
-            if (uni>0x10FFFF)
+            if (uni > 0x10FFFF)
                 throw std::domain_error("not a UTF-8 string");
             unicode.push_back(uni);
         }
         std::wstring utf16;
-        for (size_t i = 0; i<unicode.size(); ++i) {
+        for (size_t i = 0; i < unicode.size(); ++i) {
             unsigned long uni = unicode[i];
-            if (uni<=0xFFFF) {
+            if (uni <= 0xFFFF) {
                 utf16 += (wchar_t)uni;
             }
             else {
                 uni -= 0x10000;
-                utf16 += (wchar_t)((uni>>10)+0xD800);
-                utf16 += (wchar_t)((uni&0x3FF)+0xDC00);
+                utf16 += (wchar_t)((uni >> 10) + 0xD800);
+                utf16 += (wchar_t)((uni & 0x3FF) + 0xDC00);
             }
         }
         return utf16;
@@ -250,7 +250,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     const bool control_cmd, const bool shift)
 {
     const auto mapped_key = key_map_.find(to_lower(key));
-    const auto in_keymap = mapped_key!=key_map_.end();
+    const auto in_keymap = mapped_key != key_map_.end();
 
 #ifdef _WIN32
 
@@ -267,10 +267,10 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
     //construct virtual keystroke sequence
     std::vector<size_t> strokes{vk}; // start with actual key, then mods
-    if (shift||(vk_modifiers&0x1)) {
+    if (shift || (vk_modifiers & 0x1)) {
         strokes.push_back(VK_SHIFT);
     }
-    if ((vk_modifiers&0x06)==0x06) {
+    if ((vk_modifiers & 0x06) == 0x06) {
         strokes.push_back(VK_RMENU); //AltGr
         if (control_cmd)
             strokes.push_back(VK_CONTROL);
@@ -278,10 +278,10 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
             strokes.push_back(VK_MENU);
     }
     else {
-        if (control_cmd||(vk_modifiers&0x2)) {
+        if (control_cmd || (vk_modifiers & 0x2)) {
             strokes.push_back(VK_CONTROL);
         }
-        if (alt_opt||(vk_modifiers&0x4)) {
+        if (alt_opt || (vk_modifiers & 0x4)) {
             strokes.push_back(VK_MENU);
         }
     }
@@ -295,13 +295,13 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
     //send key down strokes
     std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-    for (auto it = strokes.crbegin(); it!=strokes.crend(); ++it) {
+    for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
         ip.ki.wVk = static_cast<WORD>(*it);
         SendInput(1, &ip, size_ip);
     }
     //send key up strokes
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    for (const auto it:strokes) {
+    for (const auto it : strokes) {
         ip.ki.wVk = static_cast<WORD>(it);
         SendInput(1, &ip, size_ip);
     }

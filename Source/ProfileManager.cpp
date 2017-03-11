@@ -33,8 +33,7 @@ using namespace std::literals::string_literals;
 
 ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept:
 controls_model_{c_model}, command_map_{cmap}
-{
-}
+{}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
     std::shared_ptr<MIDIProcessor>& midiProcessor)
@@ -62,10 +61,10 @@ void ProfileManager::setProfileDirectory(const juce::File& directory)
 
     current_profile_index_ = 0;
     profiles_.clear();
-    for (const auto file:file_array)
+    for (const auto file : file_array)
         profiles_.emplace_back(file.getFileName());
 
-    if (profiles_.size()>0)
+    if (profiles_.size() > 0)
         switchToProfile(profiles_[0]);
 }
 
@@ -76,7 +75,7 @@ const std::vector<juce::String>& ProfileManager::getMenuItems() const noexcept
 
 void ProfileManager::switchToProfile(int profile_index)
 {
-    if (profile_index>=0&&profile_index<static_cast<int>(profiles_.size())) {
+    if (profile_index >= 0 && profile_index < static_cast<int>(profiles_.size())) {
         switchToProfile(profiles_[static_cast<size_t>(profile_index)]);
         current_profile_index_ = profile_index;
     }
@@ -89,15 +88,15 @@ void ProfileManager::switchToProfile(const juce::String& profile)
     if (profile_file.exists()) {
         std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
         if (xml_element) {
-            for (const auto& cb:callbacks_)
+            for (const auto& cb : callbacks_)
                 cb(xml_element.get(), profile);
 
             if (const auto ptr = lr_ipc_out_.lock()) {
-                std::string command = "ChangedToDirectory "s+
-                    juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()+
+                std::string command = "ChangedToDirectory "s +
+                    juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
                     '\n';
                 ptr->sendCommand(command);
-                command = "ChangedToFile "s+profile.toStdString()+'\n';
+                command = "ChangedToFile "s + profile.toStdString() + '\n';
                 ptr->sendCommand(command);
             }
         }
@@ -107,7 +106,7 @@ void ProfileManager::switchToProfile(const juce::String& profile)
 void ProfileManager::switchToNextProfile()
 {
     current_profile_index_++;
-    if (current_profile_index_==static_cast<int>(profiles_.size()))
+    if (current_profile_index_ == static_cast<int>(profiles_.size()))
         current_profile_index_ = 0;
     switchToProfile(current_profile_index_);
 }
@@ -115,19 +114,19 @@ void ProfileManager::switchToNextProfile()
 void ProfileManager::switchToPreviousProfile()
 {
     current_profile_index_--;
-    if (current_profile_index_<0)
-        current_profile_index_ = static_cast<int>(profiles_.size())-1;
+    if (current_profile_index_ < 0)
+        current_profile_index_ = static_cast<int>(profiles_.size()) - 1;
     switchToProfile(current_profile_index_);
 }
 
 void ProfileManager::mapCommand(const RSJ::MidiMessageId& msg)
 {
     auto cmd = command_map_->getCommandforMessage(msg);
-    if (cmd=="Previous Profile"s) {
+    if (cmd == "Previous Profile"s) {
         switch_state_ = SWITCH_STATE::PREV;
         triggerAsyncUpdate();
     }
-    else if (cmd=="Next Profile"s) {
+    else if (cmd == "Next Profile"s) {
         switch_state_ = SWITCH_STATE::NEXT;
         triggerAsyncUpdate();
     }
@@ -139,8 +138,8 @@ void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
     if (command_map_) {
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
-        if ((controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel, mm.number, mm.value)<0.4)
-            ||!command_map_->messageExistsInMap(cc))
+        if ((controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel, mm.number, mm.value) < 0.4)
+            || !command_map_->messageExistsInMap(cc))
             return;
         mapCommand(cc);
     }
@@ -149,8 +148,8 @@ void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
 void ProfileManager::ConnectionCallback(bool connected)
 {
     if (connected) {
-        const std::string command = "ChangedToDirectory "s+
-            juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()+
+        const std::string command = "ChangedToDirectory "s +
+            juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
             '\n';
         if (const auto ptr = lr_ipc_out_.lock()) {
             ptr->sendCommand(command);

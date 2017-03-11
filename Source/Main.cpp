@@ -94,13 +94,13 @@ public:
         // up after all, it can just call the quit() method and the event loop won't
         // be run.
 
-        if (command_line!=ShutDownString) {
+        if (command_line != ShutDownString) {
             {//scoped so archive gets flushed
                 auto controllerfile =
                     juce::File::getSpecialLocation(juce::File::currentExecutableFile).
                     getSiblingFile("settings.bin").getFullPathName().toStdString();
-                std::ifstream infile(controllerfile, std::ios::in|std::ios::binary);
-                if (infile.is_open()&&!infile.eof()) {
+                std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
+                if (infile.is_open() && !infile.eof()) {
                     cereal::BinaryInputArchive iarchive(infile);
                     iarchive(controls_model_);
                 }
@@ -160,7 +160,7 @@ public:
             auto controllerfile =
                 juce::File::getSpecialLocation(juce::File::currentExecutableFile).
                 getSiblingFile("settings.bin").getFullPathName().toStdString();
-            std::ofstream outfile(controllerfile, std::ios::out|std::ios::binary|std::ios::trunc);
+            std::ofstream outfile(controllerfile, std::ios::out | std::ios::binary | std::ios::trunc);
             if (outfile.is_open()) {
                 cereal::BinaryOutputArchive oarchive(outfile);
                 oarchive(controls_model_);
@@ -178,7 +178,7 @@ public:
         // When another instance of the application is launched while this one is
         // running, this method is invoked, and the commandLine parameter tells you
         // what the other instance's command-line arguments were.
-        if (command_line==ShutDownString) {
+        if (command_line == ShutDownString) {
             //shutting down
             systemRequestedQuit();
         }
@@ -197,14 +197,14 @@ public:
         // this pointer will be null.
         if (juce::Logger::getCurrentLogger()) {
             if (e)
-                juce::Logger::writeToLog(juce::String(e->what())+" "+sourceFilename+
-                    " line "+juce::String(lineNumber));
+                juce::Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
+                    " line " + juce::String(lineNumber));
             else
-                juce::Logger::writeToLog(sourceFilename+" line "+juce::String(lineNumber));
+                juce::Logger::writeToLog(sourceFilename + " line " + juce::String(lineNumber));
         }
         juce::AlertWindow::showNativeDialogBox("Error",
-            "Unhandled exception. "+juce::String(e->what())+" "+sourceFilename+
-            " line "+juce::String(lineNumber), false);
+            "Unhandled exception. " + juce::String(e->what()) + " " + sourceFilename +
+            " line " + juce::String(lineNumber), false);
         std::terminate(); // can't go on with the program
     }
 

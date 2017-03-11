@@ -36,11 +36,11 @@ void VersionChecker::run()
     const juce::URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
     const std::unique_ptr<juce::XmlElement> version_xml_element{version_url.readEntireXmlStream()};
 
-    if (version_xml_element!=nullptr) {
+    if (version_xml_element != nullptr) {
         int last_checked = 0;
         last_checked = settings_manager_->getLastVersionFound();
         new_version_ = version_xml_element->getIntAttribute("latest");
-        if (new_version_>ProjectInfo::versionNumber && new_version_!=last_checked) {
+        if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
             settings_manager_->setLastVersionFound(new_version_);
             triggerAsyncUpdate();
         }
@@ -52,10 +52,10 @@ void VersionChecker::handleAsyncUpdate()
     // show a dialog box indicating there is a newer version available
     juce::DialogWindow::LaunchOptions dialog_options;
     dialog_options.dialogTitle = "New Version Available!";
-    const auto major{(new_version_&0xFF000000)>>24};
-    const auto minor{(new_version_&0xFF0000)>>16};
-    const auto rev{(new_version_&0xFF00)>>8};
-    const auto build{(new_version_&0xFF)};
+    const auto major{(new_version_ & 0xFF000000) >> 24};
+    const auto minor{(new_version_ & 0xFF0000) >> 16};
+    const auto rev{(new_version_ & 0xFF00) >> 8};
+    const auto build{(new_version_ & 0xFF)};
     const auto version_string{juce::String::formatted("New version %d.%d.%d.%d available",
         major, minor, rev, build)};
     const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
