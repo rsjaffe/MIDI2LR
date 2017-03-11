@@ -338,3 +338,7 @@ Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
 #PVS
 
 *.plog
+
+# IntelliJ IDEA
+.idea
+*.iml
