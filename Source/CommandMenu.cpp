@@ -47,9 +47,8 @@ CommandMenu::CommandMenu(const RSJ::MidiMessageId& message):
     message_{message}
 {}
 
-void CommandMenu::Init(CommandMap* mapCommand)
+void CommandMenu::Init(CommandMap* mapCommand) noexcept
 {
-    //copy the pointer
     command_map_ = mapCommand;
 }
 

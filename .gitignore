@@ -332,9 +332,7 @@ Source/LRPlugin/MIDI2LR.lrplugin/default.xml
 Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
 *.db
 *.backup
-
-
-*.cd
 #PVS
-
 *.plog
+#VC2017
+*.cd
