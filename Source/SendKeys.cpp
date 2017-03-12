@@ -33,7 +33,99 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
+#include <cassert>
+#include <libproc.h>
 #include <thread>
+pid_t GetPID() {
+  pid_t pids[1024];
+  std::string LR{"Lightroom"};
+  int numberOfProcesses = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
+  proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+  for (int i = 0; i < numberOfProcesses; ++i) {
+    if (pids[i] == 0) {
+      continue;
+    }
+    char name[1024];
+    proc_name(pids[i], name, sizeof(name));
+    if (LR.compare(name) == 0) {
+      return pids[i];
+    }
+  }
+  return 0;
+}
+
+/* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
+ *
+ * Returns string representation of key, if it is printable.
+ * Ownership follows the Create Rule; that is, it is the caller's
+ * responsibility to release the returned object. */
+CFStringRef createStringForKey(CGKeyCode keyCode)
+{
+    TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
+    CFDataRef layoutData = (CFDataRef) TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+    const UCKeyboardLayout *keyboardLayout =
+    (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
+    
+    UInt32 keysDown = 0;
+    UniChar chars[4];
+    UniCharCount realLength;
+    
+    UCKeyTranslate(keyboardLayout,
+                   keyCode,
+                   kUCKeyActionDisplay,
+                   0,
+                   LMGetKbdType(),
+                   kUCKeyTranslateNoDeadKeysBit,
+                   &keysDown,
+                   sizeof(chars) / sizeof(chars[0]),
+                   &realLength,
+                   chars);
+    CFRelease(currentKeyboard);
+    
+    return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
+}
+
+/* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
+ *
+ * Returns key code for given character via the above function, or UINT16_MAX
+ * on error. */
+CGKeyCode keyCodeForChar(const char c)
+{
+    static CFMutableDictionaryRef charToCodeDict = NULL;
+    CGKeyCode code;
+    UniChar character = c;
+    CFStringRef charStr = NULL;
+    
+    /* Generate table of keycodes and characters. */
+    if (charToCodeDict == NULL) {
+        size_t i;
+        charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
+                                                   128,
+                                                   &kCFCopyStringDictionaryKeyCallBacks,
+                                                   NULL);
+        if (charToCodeDict == NULL) return UINT16_MAX;
+        
+        /* Loop through every keycode (0 - 127) to find its current mapping. */
+        for (i = 0; i < 128; ++i) {
+            CFStringRef string = createStringForKey((CGKeyCode)i);
+            if (string != NULL) {
+                CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
+                CFRelease(string);
+            }
+        }
+    }
+    
+    charStr = CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1);
+    
+    /* Our values may be NULL (0), so we need to use this function. */
+    if (!CFDictionaryGetValueIfPresent(charToCodeDict, charStr,
+                                       (const void **)&code)) {
+        code = UINT16_MAX;
+    }
+    
+    CFRelease(charStr);
+    return code;
+}
 #endif
 namespace {
     std::string to_lower(const std::string& in)
@@ -73,66 +165,6 @@ namespace {
         else {   // use keyboard of MIDI2LR application
             return GetKeyboardLayout(0);
         }
-    }
-#else
-    std::wstring utf8_to_utf16(const std::string& utf8)
-    {
-        std::vector<unsigned long> unicode;
-        size_t i = 0;
-        while (i < utf8.size()) {
-            unsigned long uni;
-            size_t todo;
-            unsigned char ch = utf8[i++];
-            if (ch <= 0x7F) {
-                uni = ch;
-                todo = 0;
-            }
-            else if (ch <= 0xBF) {
-                throw std::domain_error("not a UTF-8 string");
-            }
-            else if (ch <= 0xDF) {
-                uni = ch & 0x1F;
-                todo = 1;
-            }
-            else if (ch <= 0xEF) {
-                uni = ch & 0x0F;
-                todo = 2;
-            }
-            else if (ch <= 0xF7) {
-                uni = ch & 0x07;
-                todo = 3;
-            }
-            else {
-                throw std::domain_error("not a UTF-8 string");
-            }
-            for (size_t j = 0; j < todo; ++j) {
-                if (i == utf8.size())
-                    throw std::domain_error("not a UTF-8 string");
-                unsigned char ch = utf8[i++];
-                if (ch < 0x80 || ch > 0xBF)
-                    throw std::domain_error("not a UTF-8 string");
-                uni <<= 6;
-                uni += ch & 0x3F;
-            }
-            if (uni >= 0xD800 && uni <= 0xDFFF)
-                throw std::domain_error("not a UTF-8 string");
-            if (uni > 0x10FFFF)
-                throw std::domain_error("not a UTF-8 string");
-            unicode.push_back(uni);
-        }
-        std::wstring utf16;
-        for (size_t i = 0; i < unicode.size(); ++i) {
-            unsigned long uni = unicode[i];
-            if (uni <= 0xFFFF) {
-                utf16 += (wchar_t)uni;
-            }
-            else {
-                uni -= 0x10000;
-                utf16 += (wchar_t)((uni >> 10) + 0xD800);
-                utf16 += (wchar_t)((uni & 0x3FF) + 0xDC00);
-            }
-        }
-        return utf16;
     }
 #endif
 
@@ -309,11 +341,11 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     const CGEventSourceRef source =
         CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
 
+    ProcessSerialNumber psn;
+    GetFrontProcess(&psn);
+
     CGEventRef d;
     CGEventRef u;
-
-    CGEventRef cmdd = CGEventCreateKeyboardEvent(source, kVK_Command, true);
-    CGEventRef cmdu = CGEventCreateKeyboardEvent(source, kVK_Command, false);
 
     uint64_t flags = 0;
 
@@ -323,11 +355,9 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         u = CGEventCreateKeyboardEvent(source, vk, false);
     }
     else {
-        const UniChar key_character(static_cast<UniChar>(utf8_to_utf16(key)[0]));
-        d = CGEventCreateKeyboardEvent(source, 0, true);
-        u = CGEventCreateKeyboardEvent(source, 0, false);
-        CGEventKeyboardSetUnicodeString(d, 1, &key_character);
-        CGEventKeyboardSetUnicodeString(u, 1, &key_character);
+        const CGKeyCode keyCode = keyCodeForChar(key[0]);
+        d = CGEventCreateKeyboardEvent(source, keyCode, true);
+        u = CGEventCreateKeyboardEvent(source, keyCode, false);
         flags = CGEventGetFlags(d); //in case KeyCode has associated flag
     }
 
@@ -339,24 +369,14 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
 
-    constexpr CGEventTapLocation loc = kCGSessionEventTap;
-    if (flags & kCGEventFlagMaskCommand) {
+    {
         std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-        CGEventPost(loc, cmdd);
-        CGEventPost(loc, d);
-        CGEventPost(loc, u);
-        CGEventPost(loc, cmdu);
-    }
-    else {
-        std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-        CGEventPost(loc, d);
-        CGEventPost(loc, u);
+        CGEventPostToPSN(&psn, d);
+        CGEventPostToPSN(&psn, u);
     }
 
     CFRelease(d);
     CFRelease(u);
-    CFRelease(cmdd);
-    CFRelease(cmdu);
     CFRelease(source);
 #endif
 }
