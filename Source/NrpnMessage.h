@@ -22,7 +22,20 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <array>
 #include <cassert>
 #include <mutex>
+#include <queue>
 #include "Misc.h"
+
+namespace RSJ {
+    struct NRPN {
+        bool isValid{false};
+        short control{0};
+        short value{0};
+        constexpr NRPN() = default;
+        constexpr NRPN(bool validity, short controlno, short valueval) noexcept:
+        isValid{validity}, control{controlno}, value{valueval}
+        {};
+    };
+}
 
 class NRPN_Message {
     // This is a simplified NRPN message class, and assumes that all NRPN messages
@@ -30,36 +43,41 @@ class NRPN_Message {
     // message. If the 4th message is dropped, this class silently consumes the
     // message without emitting anything.
 public:
-    NRPN_Message() noexcept = default;
+    NRPN_Message() = default;
     ~NRPN_Message() = default;
     bool ProcessMidi(short control, short value) noexcept(ndebug);
-    void Clear() noexcept;
-
     bool IsInProcess() const noexcept
     {
         std::lock_guard<decltype(guard)> lock(guard);
         return ready_ != 0;
     };
-
-    bool IsReady() const noexcept
+    RSJ::NRPN GetNRPNifReady() noexcept
     {
         std::lock_guard<decltype(guard)> lock(guard);
-        return ready_ == 0b1111;
-    };
-
-    short GetValue() const noexcept
-    {
-        std::lock_guard<decltype(guard)> lock(guard);
-        return (value_msb_ << 7) + value_lsb_;
-    };
-
-    short GetControl() const noexcept
-    {
-        std::lock_guard<decltype(guard)> lock(guard);
-        return (control_msb_ << 7) + control_lsb_;
+        if (!nrpn_queued_.empty()) {
+            RSJ::NRPN retval{nrpn_queued_.front()};
+            nrpn_queued_.pop();
+            return retval;
+        }
+        else
+            return invalidNRPN;
     };
 
 private:
+    void Clear_() noexcept;
+    short GetControl_() const noexcept
+    {
+        return (control_msb_ << 7) + control_lsb_;
+    };
+    short GetValue_() const noexcept
+    {
+        return (value_msb_ << 7) + value_lsb_;
+    };
+    bool IsReady_() const noexcept
+    {
+        return ready_ == 0b1111;
+    };
+
     void SetControlLSB_(short val) noexcept(ndebug);
     void SetControlMSB_(short val) noexcept(ndebug);
     void SetValueLSB_(short val) noexcept(ndebug);
@@ -69,23 +87,19 @@ private:
     short control_msb_{0};
     short value_lsb_{0};
     short value_msb_{0};
+    static constexpr RSJ::NRPN invalidNRPN{false, 0, 0};
+    std::queue<RSJ::NRPN> nrpn_queued_{};
     unsigned char ready_{0};
 };
 
 class NRPN_Filter {
 public:
-    NRPN_Filter() noexcept = default;
+    NRPN_Filter() = default;
     ~NRPN_Filter() = default;
     bool ProcessMidi(short channel, short control, short value) noexcept(ndebug)
     {
         assert(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].ProcessMidi(control, value);
-    };
-
-    void Clear(short channel) noexcept(ndebug)
-    {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].Clear();
     };
 
     bool IsInProcess(short channel) const noexcept(ndebug)
@@ -94,24 +108,10 @@ public:
         return nrpn_messages_[(channel) & 0xF].IsInProcess();
     };
 
-    bool IsReady(short channel) const noexcept(ndebug)
+    RSJ::NRPN GetNRPNifReady(short channel) noexcept(ndebug)
     {
         assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].IsReady();
-    };
-
-    short GetValue(short channel) const
-        noexcept(ndebug)
-    {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].GetValue();
-    };
-
-    short GetControl(short channel) const
-        noexcept(ndebug)
-    {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].GetControl();
+        return nrpn_messages_[(channel) & 0xF].GetNRPNifReady();
     };
 
 private:

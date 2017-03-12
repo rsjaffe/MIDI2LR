@@ -32,8 +32,13 @@ bool NRPN_Message::ProcessMidi(short control,
     case 6:
     {
         std::lock_guard<decltype(guard)> lock(guard);
-        if (ready_ >= 0b11)
+        if (ready_ >= 0b11) {
             SetValueMSB_(value);
+            if (IsReady_()) {
+                nrpn_queued_.emplace(true, GetControl_(), GetValue_());
+                Clear_();
+            }
+        }
         else
             ret_val = false;
         break;
@@ -41,8 +46,13 @@ bool NRPN_Message::ProcessMidi(short control,
     case 38u:
     {
         std::lock_guard<decltype(guard)> lock(guard);
-        if (ready_ >= 0b11)
+        if (ready_ >= 0b11) {
             SetValueLSB_(value);
+            if (IsReady_()) {
+                nrpn_queued_.emplace(true, GetControl_(), GetValue_());
+                Clear_();
+            }
+        }
         else
             ret_val = false;
         break;
@@ -65,9 +75,8 @@ bool NRPN_Message::ProcessMidi(short control,
     return ret_val;
 }
 
-void NRPN_Message::Clear() noexcept
+void NRPN_Message::Clear_() noexcept
 {
-    std::lock_guard<decltype(guard)> lock(guard);
     ready_ = 0;
     control_msb_ = 0;
     control_lsb_ = 0;
