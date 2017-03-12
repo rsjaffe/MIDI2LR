@@ -334,5 +334,7 @@ Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
 *.backup
 #PVS
 *.plog
-#VC2017
-*.cd
+
+# IntelliJ IDEA
+.idea
+*.iml
