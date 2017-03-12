@@ -30,23 +30,35 @@ bool NRPN_Message::ProcessMidi(short control,
     auto ret_val = true;
     switch (control) {
     case 6:
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
         if (ready_ >= 0b11)
-            SetValueMSB(value);
+            SetValueMSB_(value);
         else
             ret_val = false;
         break;
+    }
     case 38u:
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
         if (ready_ >= 0b11)
-            SetValueLSB(value);
+            SetValueLSB_(value);
         else
             ret_val = false;
         break;
+    }
     case 98u:
-        SetControlLSB(value);
-        break;
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
+        SetControlLSB_(value);
+    }
+    break;
     case 99u:
-        SetControlMSB(value);
-        break;
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
+        SetControlMSB_(value);
+    }
+    break;
     default: //not an expected nrpn control #, handle as typical midi message
         ret_val = false;
     }
@@ -55,6 +67,7 @@ bool NRPN_Message::ProcessMidi(short control,
 
 void NRPN_Message::Clear() noexcept
 {
+    std::lock_guard<decltype(guard)> lock(guard);
     ready_ = 0;
     control_msb_ = 0;
     control_lsb_ = 0;
@@ -62,28 +75,28 @@ void NRPN_Message::Clear() noexcept
     value_lsb_ = 0;
 }
 
-void NRPN_Message::SetControlMSB(short val) noexcept(ndebug)
+void NRPN_Message::SetControlMSB_(short val) noexcept(ndebug)
 {
     assert(val <= 0x7Fu);
     control_msb_ = val & 0x7Fu;
     ready_ |= 0b1;
 }
 
-void NRPN_Message::SetControlLSB(short val) noexcept(ndebug)
+void NRPN_Message::SetControlLSB_(short val) noexcept(ndebug)
 {
     assert(val <= 0x7Fu);
     control_lsb_ = val & 0x7Fu;
     ready_ |= 0b10;
 }
 
-void NRPN_Message::SetValueMSB(short val) noexcept(ndebug)
+void NRPN_Message::SetValueMSB_(short val) noexcept(ndebug)
 {
     assert(val <= 0x7Fu);
     value_msb_ = val & 0x7Fu;
     ready_ |= 0b100;  //"Magic number" false alarm //-V112
 }
 
-void NRPN_Message::SetValueLSB(short val) noexcept(ndebug)
+void NRPN_Message::SetValueLSB_(short val) noexcept(ndebug)
 {
     assert(val <= 0x7Fu);
     value_lsb_ = val & 0x7Fu;

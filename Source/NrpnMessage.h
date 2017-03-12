@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <array>
 #include <cassert>
+#include <mutex>
 #include "Misc.h"
 
 class NRPN_Message {
@@ -31,51 +32,51 @@ class NRPN_Message {
 public:
     NRPN_Message() noexcept = default;
     ~NRPN_Message() = default;
-
-    bool ProcessMidi(short control, short value)
-        noexcept(ndebug);
+    bool ProcessMidi(short control, short value) noexcept(ndebug);
     void Clear() noexcept;
-    void SetControlLSB(short val) noexcept(ndebug);
-    void SetControlMSB(short val) noexcept(ndebug);
-    void SetValueLSB(short val) noexcept(ndebug);
-    void SetValueMSB(short val) noexcept(ndebug);
 
     bool IsInProcess() const noexcept
     {
+        std::lock_guard<decltype(guard)> lock(guard);
         return ready_ != 0;
     };
 
     bool IsReady() const noexcept
     {
+        std::lock_guard<decltype(guard)> lock(guard);
         return ready_ == 0b1111;
     };
 
     short GetValue() const noexcept
     {
+        std::lock_guard<decltype(guard)> lock(guard);
         return (value_msb_ << 7) + value_lsb_;
     };
 
     short GetControl() const noexcept
     {
+        std::lock_guard<decltype(guard)> lock(guard);
         return (control_msb_ << 7) + control_lsb_;
     };
 
 private:
-    unsigned char ready_{0};
-    short control_msb_{0};
+    void SetControlLSB_(short val) noexcept(ndebug);
+    void SetControlMSB_(short val) noexcept(ndebug);
+    void SetValueLSB_(short val) noexcept(ndebug);
+    void SetValueMSB_(short val) noexcept(ndebug);
+    mutable RSJ::spinlock guard;
     short control_lsb_{0};
-    short value_msb_{0};
+    short control_msb_{0};
     short value_lsb_{0};
+    short value_msb_{0};
+    unsigned char ready_{0};
 };
 
 class NRPN_Filter {
 public:
-    NRPN_Filter() noexcept
-    {};
-    ~NRPN_Filter()
-    {};
-    bool ProcessMidi(short channel,
-        short control, short value) noexcept(ndebug)
+    NRPN_Filter() noexcept = default;
+    ~NRPN_Filter() = default;
+    bool ProcessMidi(short channel, short control, short value) noexcept(ndebug)
     {
         assert(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].ProcessMidi(control, value);
@@ -85,34 +86,6 @@ public:
     {
         assert(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].Clear();
-    };
-
-    void SetControlLSB(short channel, short val)
-        noexcept(ndebug)
-    {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].SetControlLSB(val);
-    };
-
-    void SetControlMSB(short channel, short val)
-        noexcept(ndebug)
-    {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].SetControlMSB(val);
-    };
-
-    void SetValueLSB(short channel, short val)
-        noexcept(ndebug)
-    {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].SetValueLSB(val);
-    };
-
-    void SetValueMSB(short channel, short val)
-        noexcept(ndebug)
-    {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].SetValueMSB(val);
     };
 
     bool IsInProcess(short channel) const noexcept(ndebug)
