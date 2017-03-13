@@ -37,6 +37,8 @@ namespace RSJ {
     };
 }
 
+static constexpr RSJ::NRPN invalidNRPN{false, 0, 0};
+
 class NRPN_Message {
     // This is a simplified NRPN message class, and assumes that all NRPN messages
     // have 4 messages, though the NRPN standard allows omission of the 4th
@@ -87,7 +89,6 @@ private:
     short control_msb_{0};
     short value_lsb_{0};
     short value_msb_{0};
-    static constexpr RSJ::NRPN invalidNRPN{false, 0, 0};
     std::queue<RSJ::NRPN> nrpn_queued_{};
     unsigned char ready_{0};
 };
