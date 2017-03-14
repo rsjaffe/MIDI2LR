@@ -25,14 +25,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 bool NRPN_Message::ProcessMidi(short control,
     short value) noexcept(ndebug)
 {
-    assert(value <= 0x7Fu);
-    assert(control <= 0x7Fu);
+    assert(value<=0x7Fu);
+    assert(control<=0x7Fu);
     auto ret_val = true;
     switch (control) {
     case 6:
     {
         std::lock_guard<decltype(guard)> lock(guard);
-        if (ready_ >= 0b11) {
+        if (ready_>=0b11) {
             SetValueMSB_(value);
             if (IsReady_()) {
                 nrpn_queued_.emplace(true, GetControl_(), GetValue_());
@@ -46,7 +46,7 @@ bool NRPN_Message::ProcessMidi(short control,
     case 38u:
     {
         std::lock_guard<decltype(guard)> lock(guard);
-        if (ready_ >= 0b11) {
+        if (ready_>=0b11) {
             SetValueLSB_(value);
             if (IsReady_()) {
                 nrpn_queued_.emplace(true, GetControl_(), GetValue_());
@@ -75,6 +75,18 @@ bool NRPN_Message::ProcessMidi(short control,
     return ret_val;
 }
 
+RSJ::NRPN NRPN_Message::GetNRPNifReady() noexcept
+{
+    std::lock_guard<decltype(guard)> lock(guard);
+    if (!nrpn_queued_.empty()) {
+        RSJ::NRPN retval{nrpn_queued_.front()};
+        nrpn_queued_.pop();
+        return retval;
+    }
+    else
+        return RSJ::invalidNRPN;
+}
+
 void NRPN_Message::Clear_() noexcept
 {
     ready_ = 0;
@@ -82,32 +94,4 @@ void NRPN_Message::Clear_() noexcept
     control_lsb_ = 0;
     value_msb_ = 0;
     value_lsb_ = 0;
-}
-
-void NRPN_Message::SetControlMSB_(short val) noexcept(ndebug)
-{
-    assert(val <= 0x7Fu);
-    control_msb_ = val & 0x7Fu;
-    ready_ |= 0b1;
-}
-
-void NRPN_Message::SetControlLSB_(short val) noexcept(ndebug)
-{
-    assert(val <= 0x7Fu);
-    control_lsb_ = val & 0x7Fu;
-    ready_ |= 0b10;
-}
-
-void NRPN_Message::SetValueMSB_(short val) noexcept(ndebug)
-{
-    assert(val <= 0x7Fu);
-    value_msb_ = val & 0x7Fu;
-    ready_ |= 0b100;  //"Magic number" false alarm //-V112
-}
-
-void NRPN_Message::SetValueLSB_(short val) noexcept(ndebug)
-{
-    assert(val <= 0x7Fu);
-    value_lsb_ = val & 0x7Fu;
-    ready_ |= 0b1000;
 }

@@ -35,9 +35,8 @@ namespace RSJ {
         isValid{validity}, control{controlno}, value{valueval}
         {};
     };
+    static constexpr NRPN invalidNRPN{false, 0, 0};
 }
-
-static constexpr RSJ::NRPN invalidNRPN{false, 0, 0};
 
 class NRPN_Message {
     // This is a simplified NRPN message class, and assumes that all NRPN messages
@@ -47,43 +46,20 @@ class NRPN_Message {
 public:
     NRPN_Message() = default;
     ~NRPN_Message() = default;
+    bool IsInProcess() const noexcept;
     bool ProcessMidi(short control, short value) noexcept(ndebug);
-    bool IsInProcess() const noexcept
-    {
-        std::lock_guard<decltype(guard)> lock(guard);
-        return ready_ != 0;
-    };
-    RSJ::NRPN GetNRPNifReady() noexcept
-    {
-        std::lock_guard<decltype(guard)> lock(guard);
-        if (!nrpn_queued_.empty()) {
-            RSJ::NRPN retval{nrpn_queued_.front()};
-            nrpn_queued_.pop();
-            return retval;
-        }
-        else
-            return invalidNRPN;
-    };
+    RSJ::NRPN GetNRPNifReady() noexcept;
 
 private:
+    bool IsReady_() const noexcept;
+    short GetControl_() const noexcept;
+    short GetValue_() const noexcept;
     void Clear_() noexcept;
-    short GetControl_() const noexcept
-    {
-        return (control_msb_ << 7) + control_lsb_;
-    };
-    short GetValue_() const noexcept
-    {
-        return (value_msb_ << 7) + value_lsb_;
-    };
-    bool IsReady_() const noexcept
-    {
-        return ready_ == 0b1111;
-    };
-
     void SetControlLSB_(short val) noexcept(ndebug);
     void SetControlMSB_(short val) noexcept(ndebug);
     void SetValueLSB_(short val) noexcept(ndebug);
     void SetValueMSB_(short val) noexcept(ndebug);
+
     mutable RSJ::spinlock guard;
     short control_lsb_{0};
     short control_msb_{0};
@@ -99,22 +75,71 @@ public:
     ~NRPN_Filter() = default;
     bool ProcessMidi(short channel, short control, short value) noexcept(ndebug)
     {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].ProcessMidi(control, value);
+        assert(channel<=15&&channel>=0);
+        return nrpn_messages_[(channel)&0xF].ProcessMidi(control, value);
     };
 
     bool IsInProcess(short channel) const noexcept(ndebug)
     {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].IsInProcess();
+        assert(channel<=15&&channel>=0);
+        return nrpn_messages_[(channel)&0xF].IsInProcess();
     };
 
     RSJ::NRPN GetNRPNifReady(short channel) noexcept(ndebug)
     {
-        assert(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].GetNRPNifReady();
+        assert(channel<=15&&channel>=0);
+        return nrpn_messages_[(channel)&0xF].GetNRPNifReady();
     };
 
 private:
     std::array<NRPN_Message, 16> nrpn_messages_{};
 };
+
+inline bool NRPN_Message::IsInProcess() const noexcept
+{
+    std::lock_guard<decltype(guard)> lock(guard);
+    return ready_!=0;
+}
+
+inline bool NRPN_Message::IsReady_() const noexcept
+{
+    return ready_==0b1111;
+}
+
+inline short NRPN_Message::GetControl_() const noexcept
+{
+    return (control_msb_<<7)+control_lsb_;
+}
+
+inline short NRPN_Message::GetValue_() const noexcept
+{
+    return (value_msb_<<7)+value_lsb_;
+}
+
+inline void NRPN_Message::SetControlLSB_(short val) noexcept(ndebug)
+{
+    assert(val<=0x7Fu);
+    control_lsb_ = val&0x7Fu;
+    ready_ |= 0b10;
+}
+
+inline void NRPN_Message::SetControlMSB_(short val) noexcept(ndebug)
+{
+    assert(val<=0x7Fu);
+    control_msb_ = val&0x7Fu;
+    ready_ |= 0b1;
+}
+
+inline void NRPN_Message::SetValueLSB_(short val) noexcept(ndebug)
+{
+    assert(val<=0x7Fu);
+    value_lsb_ = val&0x7Fu;
+    ready_ |= 0b1000;
+}
+
+inline void NRPN_Message::SetValueMSB_(short val) noexcept(ndebug)
+{
+    assert(val<=0x7Fu);
+    value_msb_ = val&0x7Fu;
+    ready_ |= 0b100;  //"Magic number" false alarm //-V112
+}
