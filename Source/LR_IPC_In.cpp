@@ -40,7 +40,7 @@ namespace {
     constexpr int kEmptyWait = 100;
     constexpr int kLrInPort = 58764;
     constexpr int kNotConnectedWait = 333;
-    constexpr int kReadyWait = 0;
+    constexpr int kReadyWait = 1000;
     constexpr int kStopWait = 1000;
     constexpr int kTimerInterval = 1000;
 }
@@ -105,7 +105,13 @@ void LR_IPC_IN::run()
                 case 1:
                     if (size_read == kBufferSize)
                         throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    size_read += juce::StreamingSocket::read(line + size_read, 1, false);
+                    auto read = juce::StreamingSocket::read(line + size_read, 1, false);
+                    if(read) {
+                        size_read += read;
+                    } else {
+                        // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
+                        juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                    }
                     break;
                 }
             } // end while !\n and is connected
@@ -130,7 +136,7 @@ threadExit: /* empty statement */;
 void LR_IPC_IN::timerCallback()
 {
     std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
-    if (!timer_off_ && !juce::StreamingSocket::isConnected()) {
+    if (!timer_off_ && !juce::StreamingSocket::isConnected() && !juce::Thread::threadShouldExit()) {
         if (juce::StreamingSocket::connect(kHost, kLrInPort, kConnectTryTime))
             if (!thread_started_) {
                 juce::Thread::startThread(); //avoid starting thread during shutdown

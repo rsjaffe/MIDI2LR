@@ -17,35 +17,43 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local LrPathUtils         = import 'LrPathUtils'
-local LrShell             = import 'LrShell'    
+local LrShell             = import 'LrShell'
 local LrTasks             = import 'LrTasks'
 
 return {
   LrShutdownFunction = function(doneFunction, progressFunction)
-    progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
-    if ProgramPreferences.StopServerOnExit then
+    if(MIDI2LR and MIDI2LR.RUNNING) then
+      progressFunction (0, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+      MIDI2LR.RUNNING = false
       LrTasks.startAsyncTask(
         function()
-          if(WIN_ENV) then
-            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
-          else
-            LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
-            LrTasks.yield()
-            LrTasks.execute('pkill MIDI2LR') -- extreme, but maybe it'll work until I can close it more gracefully
+          progressFunction (0.25, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          LrTasks.yield()
+
+          if ProgramPreferences.StopServerOnExit then
+            if(WIN_ENV) then
+              LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
+            else
+              LrShell.openFilesInApp({'--LRSHUTDOWN'}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
+            end
           end
-          progressFunction (0.5, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
-          MIDI2LR.RUNNING = false
+          progressFunction (0.50, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          LrTasks.yield()
+
           MIDI2LR.SERVER:close()
+          progressFunction (0.75, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          LrTasks.yield()
+
           MIDI2LR.CLIENT:close()
           progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+          LrTasks.yield()
+
           doneFunction()
         end
       )
     else
-      MIDI2LR.RUNNING = false
-      MIDI2LR.SERVER:close()
-      MIDI2LR.CLIENT:close()
-      progressFunction (1, LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stopping Server"))
+      -- Case when the dialog first opens to chose which catalog to open in LR, and the user click on quit.
+      -- There is no MIDI2LR instance started then.
       doneFunction()
     end
   end
