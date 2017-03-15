@@ -330,6 +330,7 @@ Source/LRPlugin/MIDI2LR.lrplugin/GeneratedFromDatabase-ReadMe.txt
 Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.exe
 Source/LRPlugin/MIDI2LR.lrplugin/default.xml
 Source/LRPlugin/MIDI2LR.lrplugin/settings.bin
+Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.app
 *.db
 *.backup
 #PVS
