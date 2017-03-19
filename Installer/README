@@ -1,0 +1,5 @@
+BitRock InstalBuilder is used for producing the installation packages.
+
+To prepare packages, build PC and Mac versions, and leave executable in the directories they were produced.
+
+The PC installation package can be produced on any platform, but the Mac package must be produced on Mac OS or Linux, and ensure that the executable permissions are properly set on the MIDI2LR.app bundle.
