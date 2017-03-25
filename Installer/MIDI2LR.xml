@@ -97,9 +97,6 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/serpent.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ShutDownApp.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ShutDownPlugin.lua</origin>
                         </distributionFile>
                         <distributionFile>
@@ -153,7 +150,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Builds/VisualStudio2015/Release/MIDI2LR.exe</origin>
+                            <origin>../Builds/VisualStudio2017/Release/MIDI2LR.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
