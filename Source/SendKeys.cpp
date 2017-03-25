@@ -343,7 +343,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
 
     ProcessSerialNumber psn;
-    GetFrontProcess(&psn);
+    GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
 
     CGEventRef d;
     CGEventRef u;

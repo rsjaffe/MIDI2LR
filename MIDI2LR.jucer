@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.0.4.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.1.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.3.1" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com">
