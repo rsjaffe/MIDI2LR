@@ -1,6 +1,8 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2015
-Project("{050F59F1-41F2-89B3-50B2-E25F43FDC1AE}") = "MIDI2LR", "MIDI2LR.vcxproj", "{62CE7F88-4C2A-C448-873F-40363B88C6A3}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MIDI2LR", "MIDI2LR.vcxproj", "{62CE7F88-4C2A-C448-873F-40363B88C6A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

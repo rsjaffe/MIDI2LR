@@ -43,10 +43,6 @@ local function setOptions()
       end
       properties.RevealAdjustedControls = ProgramPreferences.RevealAdjustedControls
 
-      if ProgramPreferences.StopServerOnExit == nil then
-        ProgramPreferences.StopServerOnExit = true
-      end
-      properties.StopServerOnExit = ProgramPreferences.StopServerOnExit
       -- assemble dialog box contents
       local contents = 
       f:view{
@@ -80,8 +76,6 @@ local function setOptions()
             f:row {
               f:checkbox {title = LOC("$$$/AgDocument/ModulePicker/Settings/ShowStatusAndActivity=Show status and activity"), value = LrView.bind('ClientShowBezelOnChange')},
               f:checkbox {title = LOC("$$$/MIDI2LR/Options/RevealAdjustedControls=Reveal adjusted controls"), value = LrView.bind('RevealAdjustedControls')},
-              f:checkbox {title = LOC("$$$/AgWorkspace/ExitApplication/Button/Exit=Exit")..': '..LOC("$$$/AgPluginManager/Status/HttpServer/StopServer=Stop server"),
-                value = LrView.bind('StopServerOnExit')},              
               f:spacer {width = 40},
               OU.slider(f,properties,LOC("$$$/MIDI2LR/Options/TrackingDelay=Tracking Delay"),'slidersets','TrackingDelay',0,3,2),
             }, -- row
@@ -115,8 +109,6 @@ local function setOptions()
           ProgramPreferences.RevealAdjustedControls = properties.RevealAdjustedControls
           LrDevelopController.revealAdjustedControls(ProgramPreferences.RevealAdjustedControls)
         end
-
-        ProgramPreferences.StopServerOnExit = properties.StopServerOnExit
 
         --then save preferences
         Preferences.Save()

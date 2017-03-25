@@ -1,16 +1,12 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>2.0.4.0</version>
-    <readmeFile>Source/LRPlugin/ReadMe.txt</readmeFile>
-    <licenseFile>LICENSE.txt</licenseFile>
+    <version>2.1.0.0</version>
+    <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
+    <licenseFile>../LICENSE.txt</licenseFile>
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
-    <logoImage>Source/MIDI2LR48.png</logoImage>
-    <splashImage>Source/MIDI2LR.png</splashImage>
-    <windowsExecutableIcon>Source/MIDI2LR.ico</windowsExecutableIcon>
-    <windowsUninstallerExecutableIcon>Source/MIDI2LR.ico</windowsUninstallerExecutableIcon>
-    <osxApplicationBundleIcon>Source/MIDI2LR.icns</osxApplicationBundleIcon>
-    <osxUninstallerApplicationBundleIcon>Source/MIDI2LR.icns</osxUninstallerApplicationBundleIcon>
+    <logoImage>MIDI2LR48.png</logoImage>
+    <splashImage>../Source/MIDI2LR.png</splashImage>
     <componentList>
         <component>
             <name>default</name>
@@ -26,127 +22,124 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Utilities.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Utilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/About.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/About.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Build.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Build.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Client.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Client.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/ClientUtilities.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ClientUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/COPYING.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/LICENSE.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Database.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Database.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/FileLoadPref.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/FileLoadPref.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/FileSavePref.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/FileSavePref.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Filters.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Filters.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Info.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Info.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Init.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Init.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Keys.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Keys.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/LaunchServer.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/LaunchServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Limits.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Limits.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/MenuList.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/MenuList.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Options.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Options.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/OptionsUtilities.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/OptionsUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/ParamList.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ParamList.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Paste.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Paste.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Preferences.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Preferences.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Presets.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Presets.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/Profiles.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Profiles.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/ProfileTypes.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ProfileTypes.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/serpent.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/serpent.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/ShutDownApp.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ShutDownPlugin.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/ShutDownPlugin.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/StopServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/StopServer.lua</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_de.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_de.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_en.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_en.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_es.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_es.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_fr.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_fr.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_it.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_it.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_ja.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_ja.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_ko.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_ko.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_nl.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_nl.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_pt.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_pt.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_sv.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_sv.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zn_cn.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zn_cn.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zn_tw.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zn_tw.txt</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>Source/LRPlugin/MIDI2LR.lrplugin/TRANSLATIONS.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TRANSLATIONS.txt</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -157,7 +150,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>Builds/VisualStudio2015/Release/MIDI2LR.exe</origin>
+                            <origin>../Builds/VisualStudio2017/Release/MIDI2LR.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -168,7 +161,7 @@
                     <platforms>osx</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>Builds/MacOSX/build/Release/MIDI2LR.app</origin>
+                            <origin>../Builds/MacOSX/build/Release/MIDI2LR.app</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -254,13 +247,17 @@
     <enableTimestamp>1</enableTimestamp>
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
-    <outputDirectory>..</outputDirectory>
+    <osxApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxApplicationBundleIcon>
+    <osxUninstallerApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxUninstallerApplicationBundleIcon>
+    <outputDirectory>../..</outputDirectory>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
     <saveRelativePaths>1</saveRelativePaths>
     <uninstallerDirectory>${installdir}/MIDI2LR.lrplugin</uninstallerDirectory>
     <uninstallerName>uninstallMIDI2LR</uninstallerName>
     <vendor>MIDI2LR</vendor>
     <width>600</width>
+    <windowsExecutableIcon>../Builds/VisualStudio2017/icon.ico</windowsExecutableIcon>
+    <windowsUninstallerExecutableIcon>../Builds/VisualStudio2017/icon.ico</windowsUninstallerExecutableIcon>
     <finalPageActionList>
         <launchBrowser>
             <explanation>Opens a web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in this program.</explanation>

@@ -3,7 +3,7 @@
 /*
   ==============================================================================
 
-	MIDISender.cpp
+    MIDISender.cpp
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -22,49 +22,64 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDISender.h"
 
-MIDISender::MIDISender() noexcept {}
+MIDISender::MIDISender() noexcept
+{}
 
-MIDISender::~MIDISender() {}
+MIDISender::~MIDISender()
+{}
 
-void MIDISender::Init(void) {
-	InitDevices_();
+void MIDISender::Init(void)
+{
+    InitDevices_();
 }
 
-void MIDISender::sendCC(int midi_channel, int controller, int value) const {
-	if (controller < 128) { // regular message
-		for (const auto& dev : output_devices_) {
-			dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, controller, value));
-		}
-	}
-	else { // NRPN
-		const auto parameterLSB = controller & 0x7f;
-		const auto parameterMSB = (controller >> 7) & 0x7F;
-		const auto valueLSB = value & 0x7f;
-		const auto valueMSB = (value >> 7) & 0x7F;
-		for (const auto& dev : output_devices_) {
-			dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 99, parameterMSB));
-			dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 98, parameterLSB));
-			dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 6, valueMSB));
-			dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 38, valueLSB));
-		}
-	}
+void MIDISender::sendCC(int midi_channel, int controller, int value) const
+{
+    if (controller < 128) { // regular message
+        for (const auto& dev : output_devices_) {
+            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, controller, value));
+        }
+    }
+    else { // NRPN
+        const auto parameterLSB = controller & 0x7f;
+        const auto parameterMSB = (controller >> 7) & 0x7F;
+        const auto valueLSB = value & 0x7f;
+        const auto valueMSB = (value >> 7) & 0x7F;
+        for (const auto& dev : output_devices_) {
+            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 99, parameterMSB));
+            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 98, parameterLSB));
+            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 6, valueMSB));
+            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 38, valueLSB));
+        }
+    }
 }
 
-void MIDISender::sendPitchBend(int midi_channel, int value) const {
-	for (const auto& dev : output_devices_) {
-		dev->sendMessageNow(MidiMessage::pitchWheel(midi_channel, value));
-	}
+void MIDISender::sendNoteOn(int midi_channel, int controller, int value) const
+{
+    for (const auto& dev : output_devices_) {
+        dev->sendMessageNow(MidiMessage::noteOn(midi_channel, controller,
+            static_cast<juce::uint8>(value)));
+    }
 }
 
-void MIDISender::RescanDevices() {
-	output_devices_.clear();
-	InitDevices_();
+void MIDISender::sendPitchWheel(int midi_channel, int value) const
+{
+    for (const auto& dev : output_devices_) {
+        dev->sendMessageNow(MidiMessage::pitchWheel(midi_channel, value));
+    }
 }
 
-void MIDISender::InitDevices_() {
-	for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); ++idx) {
-		auto dev = juce::MidiOutput::openDevice(idx);
-		if (dev != nullptr)
-			output_devices_.emplace_back(dev);
-	}
+void MIDISender::RescanDevices()
+{
+    output_devices_.clear();
+    InitDevices_();
+}
+
+void MIDISender::InitDevices_()
+{
+    for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); ++idx) {
+        auto dev = juce::MidiOutput::openDevice(idx);
+        if (dev != nullptr)
+            output_devices_.emplace_back(dev);
+    }
 }

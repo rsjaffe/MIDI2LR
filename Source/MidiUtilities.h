@@ -21,62 +21,85 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* NOTE: Channel and Number are zero-based */
-#include <cassert>
+#include <functional>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Misc.h"
+
 namespace RSJ {
-	constexpr short kNoteOffFlag = 0x8;
-	constexpr short kNoteOnFlag = 0x9;
-	constexpr short kKeyPressureFlag = 0xA; //Individual Key Pressure
-	constexpr short kCCFlag = 0xB;
-	constexpr short kPgmChangeFlag = 0xC;
-	constexpr short kChanPressureFlag = 0xD; //Max Key Pressure
-	constexpr short kPWFlag = 0xE;//Pitch Wheel
-	constexpr short kSystemFlag = 0xF;
+    constexpr short kNoteOffFlag = 0x8;
+    constexpr short kNoteOnFlag = 0x9;
+    constexpr short kKeyPressureFlag = 0xA; //Individual Key Pressure
+    constexpr short kCCFlag = 0xB;
+    constexpr short kPgmChangeFlag = 0xC;
+    constexpr short kChanPressureFlag = 0xD; //Max Key Pressure
+    constexpr short kPWFlag = 0xE;//Pitch Wheel
+    constexpr short kSystemFlag = 0xF;
 
-	struct Message {
-		short MessageType;
-		short Channel;
-		short Number;
-		short Value;
-		constexpr Message() :
-			MessageType(0), Channel(0), Number(0), Value(0) {};
-		constexpr Message(short mt, short ch, short nu, short va) :
-			MessageType(mt), Channel(ch), Number(nu), Value(va) {};
-	};
+    struct MidiMessage {
+        short message_type_byte{0};
+        short channel{0};
+        short number{0};
+        short value{0};
+        constexpr MidiMessage() noexcept
+        {};
+        constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
+        message_type_byte(mt), channel(ch), number(nu), value(va)
+        {};
+        MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug);
+    };
 
-	inline Message ParseMidi(const juce::MidiMessage& mm) noexcept {
-		Message mess{ 0,0,0,0 };
-		auto raw = mm.getRawData();
-		if (raw == nullptr) {
-			assert(!"Nullptr returned from getRawData");
-			return mess;
-		}
-		short mt = raw[0] >> 4;
-		//don't process system common messages
-		if (mt == kSystemFlag) return mess;
-		mess.MessageType = mt;
-		mess.Channel = raw[0] & 0xF;
-		switch (mess.MessageType) {
-		case kPWFlag:
-			mess.Value = raw[2] << 7 | raw[1];
-			mess.Number = 0;
-			break;
-		case kCCFlag:
-		case kKeyPressureFlag:
-		case kNoteOffFlag:
-		case kNoteOnFlag:
-			mess.Value = raw[2];
-			mess.Number = raw[1];
-			break;
-		case kPgmChangeFlag:
-			mess.Number = raw[1];
-			break;
-		case kChanPressureFlag:
-			mess.Value = raw[1];
-			break;
-		default:
-			assert(!"Default should be unreachable in ParseMidi");
-		}
-		return mess;
-	}
+    enum class MsgIdEnum: short {
+        NOTE, CC, PITCHBEND
+    };
+
+    struct MidiMessageId {
+        MsgIdEnum msg_id_type;
+        int channel;
+        union {
+            int controller;
+            int pitch;
+            int data;
+        };
+
+        constexpr MidiMessageId() noexcept:
+        msg_id_type(MsgIdEnum::NOTE),
+            channel(0),
+            data(0)
+
+        {}
+
+        constexpr MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept:
+        msg_id_type(msgType),
+            channel(ch),
+            data(dat)
+        {}
+
+        MidiMessageId(const MidiMessage& rhs) noexcept(ndebug);
+
+        constexpr bool operator==(const MidiMessageId &other) const noexcept
+        {
+            return (msg_id_type == other.msg_id_type && channel == other.channel && data == other.data);
+        }
+
+        bool operator<(const MidiMessageId& other) const noexcept
+        {
+            if (channel < other.channel) return true;
+            if (channel == other.channel) {
+                if (data < other.data) return true;
+                if (data == other.data && msg_id_type < other.msg_id_type) return true;
+            }
+            return false;
+        }
+    };
+}
+// hash functions
+namespace std {
+    template <>
+    struct hash<RSJ::MidiMessageId> {
+        size_t operator()(const RSJ::MidiMessageId& k) const noexcept
+        {
+            return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type) << 8) |
+                int_fast32_t(k.channel) | (int_fast32_t(k.controller) << 16));
+        } //channel is one byte, messagetype is one byte, controller is two bytes
+    };
 }

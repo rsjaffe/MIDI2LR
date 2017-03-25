@@ -16,14 +16,10 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local LrPathUtils         = import 'LrPathUtils'
-local LrShell             = import 'LrShell'	
 local LrTasks             = import 'LrTasks'
 
-if ProgramPreferences.StopServerOnExit then
-  MIDI2LR.SERVER:send('TerminateApplication 1\n')
-  LrTasks.yield()
-end
+MIDI2LR.SERVER:send('TerminateApplication 1\n')
+LrTasks.yield()
 MIDI2LR.RUNNING = false
 MIDI2LR.SERVER:close()
 MIDI2LR.CLIENT:close()

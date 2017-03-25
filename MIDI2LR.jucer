@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.0.4.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.1.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="4.3.1" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
+      <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
+      <FILE id="Z5nYLY" name="MidiUtilities.cpp" compile="1" resource="0"
+            file="Source/MidiUtilities.cpp"/>
       <FILE id="ClSPd1" name="PWoptions.cpp" compile="1" resource="0" file="Source/PWoptions.cpp"/>
       <FILE id="IXtTCs" name="PWoptions.h" compile="0" resource="0" file="Source/PWoptions.h"/>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>

@@ -23,61 +23,75 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "NrpnMessage.h"
 
 bool NRPN_Message::ProcessMidi(short control,
-	short value) noexcept(ndebug) {
-	auto ret_val = true;
-	switch (control) {
-	case 6:
-		if (ready_ >= 0b11)
-			SetValueMSB(value);
-		else
-			ret_val = false;
-		break;
-	case 38u:
-		if (ready_ >= 0b11)
-			SetValueLSB(value);
-		else
-			ret_val = false;
-		break;
-	case 98u:
-		SetControlLSB(value);
-		break;
-	case 99u:
-		SetControlMSB(value);
-		break;
-	default: //not an expected nrpn control #, handle as typical midi message
-		ret_val = false;
-	}
-	return ret_val;
+    short value) noexcept(ndebug)
+{
+    assert(value <= 0x7Fu);
+    assert(control <= 0x7Fu);
+    auto ret_val = true;
+    switch (control) {
+    case 6:
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
+        if (ready_ >= 0b11) {
+            SetValueMSB_(value);
+            if (IsReady_()) {
+                nrpn_queued_.emplace(true, GetControl_(), GetValue_());
+                Clear_();
+            }
+        }
+        else
+            ret_val = false;
+        break;
+    }
+    case 38u:
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
+        if (ready_ >= 0b11) {
+            SetValueLSB_(value);
+            if (IsReady_()) {
+                nrpn_queued_.emplace(true, GetControl_(), GetValue_());
+                Clear_();
+            }
+        }
+        else
+            ret_val = false;
+        break;
+    }
+    case 98u:
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
+        SetControlLSB_(value);
+    }
+    break;
+    case 99u:
+    {
+        std::lock_guard<decltype(guard)> lock(guard);
+        SetControlMSB_(value);
+    }
+    break;
+    default: //not an expected nrpn control #, handle as typical midi message
+        ret_val = false;
+    }
+    return ret_val;
 }
 
-void NRPN_Message::Clear() noexcept {
-	ready_ = 0;
-	control_msb_ = 0;
-	control_lsb_ = 0;
-	value_msb_ = 0;
-	value_lsb_ = 0;
+RSJ::NRPN NRPN_Message::GetNRPNifReady() noexcept
+{
+    std::lock_guard<decltype(guard)> lock(guard);
+    if (!nrpn_queued_.empty()) {
+        RSJ::NRPN retval{nrpn_queued_.front()};
+        nrpn_queued_.pop();
+        return retval;
+    }
+    else
+        return RSJ::invalidNRPN;
 }
 
-void NRPN_Message::SetControlMSB(short val) noexcept(ndebug) {
-	assert(val <= 0x7Fu);
-	control_msb_ = val & 0x7Fu;
-	ready_ |= 0b1;
-}
-
-void NRPN_Message::SetControlLSB(short val) noexcept(ndebug) {
-	assert(val <= 0x7Fu);
-	control_lsb_ = val & 0x7Fu;
-	ready_ |= 0b10;
-}
-
-void NRPN_Message::SetValueMSB(short val) noexcept(ndebug) {
-	assert(val <= 0x7Fu);
-	value_msb_ = val & 0x7Fu;
-	ready_ |= 0b100;  //"Magic number" false alarm //-V112
-}
-
-void NRPN_Message::SetValueLSB(short val) noexcept(ndebug) {
-	assert(val <= 0x7Fu);
-	value_lsb_ = val & 0x7Fu;
-	ready_ |= 0b1000;
+void NRPN_Message::Clear_() noexcept
+{
+    ready_ = 0;
+    control_msb_ = 0;
+    control_lsb_ = 0;
+    value_msb_ = 0;
+    value_lsb_ = 0;
 }

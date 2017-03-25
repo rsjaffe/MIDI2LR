@@ -23,7 +23,6 @@ return {
   LrPluginName = 'MIDI2LR',
   LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
   LrSdkVersion = 6.0,
-  LrShutdownApp = 'ShutDownApp.lua',
   LrShutdownPlugin = 'ShutDownPlugin.lua',
   LrToolkitIdentifier = 'com.rsjaffe.midi2lr',
   LrExportMenuItems = {
@@ -56,5 +55,5 @@ return {
       file = "Build.lua"
     },
   },
-  VERSION = { major=2, minor=0, revision=4, build=0}
+  VERSION = { major=2, minor=1, revision=0, build=0}
 }

@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-	MIDISender.h
+    MIDISender.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -27,21 +27,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class MIDISender {
 public:
-	MIDISender() noexcept;
-	virtual ~MIDISender();
-	void Init();
+    MIDISender() noexcept;
+    virtual ~MIDISender();
+    void Init();
 
-	// sends a CC message to all output devices
-	void sendCC(int midi_channel, int controller, int value) const;
-	// sends a PitchBend message to all output devices
-	void sendPitchBend(int midi_channel, int value) const;
+    // sends a CC message to all output devices
+    void sendCC(int midi_channel, int controller, int value) const;
+    // sends a PitchBend message to all output devices
+    void sendPitchWheel(int midi_channel, int value) const;
 
-	// re-enumerates MIDI OUT devices
-	void RescanDevices();
+    void sendNoteOn(int midi_channel, int controller, int value) const;
+
+    // re-enumerates MIDI OUT devices
+    void RescanDevices();
 
 private:
-	void InitDevices_();
-	std::vector<std::unique_ptr<juce::MidiOutput>> output_devices_;
+    void InitDevices_();
+    std::vector<std::unique_ptr<juce::MidiOutput>> output_devices_;
 };
 
 #endif  // MIDISENDER_H_INCLUDED
