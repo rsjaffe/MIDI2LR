@@ -61,14 +61,14 @@ namespace RSJ {
             int data;
         };
 
-        MidiMessageId() noexcept:
+        constexpr MidiMessageId() noexcept:
         msg_id_type(MsgIdEnum::NOTE),
             channel(0),
             data(0)
 
         {}
 
-        MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept:
+        constexpr MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept:
         msg_id_type(msgType),
             channel(ch),
             data(dat)
@@ -76,7 +76,7 @@ namespace RSJ {
 
         MidiMessageId(const MidiMessage& rhs) noexcept(ndebug);
 
-        bool operator==(const MidiMessageId &other) const noexcept
+        constexpr bool operator==(const MidiMessageId &other) const noexcept
         {
             return (msg_id_type == other.msg_id_type && channel == other.channel && data == other.data);
         }

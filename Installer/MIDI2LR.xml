@@ -4,9 +4,9 @@
     <version>2.0.4.0</version>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
-    <htmlLicenseFile>../LICENSE.html</htmlLicenseFile>
+    <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
     <logoImage>MIDI2LR48.png</logoImage>
-    <splashImage>MIDI2LR.png</splashImage>
+    <splashImage>../Source/MIDI2LR.png</splashImage>
     <componentList>
         <component>
             <name>default</name>
@@ -37,7 +37,7 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ClientUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/COPYING.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/LICENSE.txt</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Database.lua</origin>
@@ -250,8 +250,8 @@
     <enableTimestamp>1</enableTimestamp>
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
-    <osxApplicationBundleIcon>../Source/MIDI2LR.icns</osxApplicationBundleIcon>
-    <osxUninstallerApplicationBundleIcon>../Source/MIDI2LR.icns</osxUninstallerApplicationBundleIcon>
+    <osxApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxApplicationBundleIcon>
+    <osxUninstallerApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
     <saveRelativePaths>1</saveRelativePaths>
@@ -259,8 +259,8 @@
     <uninstallerName>uninstallMIDI2LR</uninstallerName>
     <vendor>MIDI2LR</vendor>
     <width>600</width>
-    <windowsExecutableIcon>../Source/MIDI2LR.ico</windowsExecutableIcon>
-    <windowsUninstallerExecutableIcon>../Source/MIDI2LR.ico</windowsUninstallerExecutableIcon>
+    <windowsExecutableIcon>../Builds/VisualStudio2017/icon.ico</windowsExecutableIcon>
+    <windowsUninstallerExecutableIcon>../Builds/VisualStudio2017/icon.ico</windowsUninstallerExecutableIcon>
     <finalPageActionList>
         <launchBrowser>
             <explanation>Opens a web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in this program.</explanation>

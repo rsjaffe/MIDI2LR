@@ -36,22 +36,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include <libproc.h>
 #include <thread>
-pid_t GetPID() {
-  pid_t pids[1024];
-  std::string LR{"Lightroom"};
-  int numberOfProcesses = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
-  proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
-  for (int i = 0; i < numberOfProcesses; ++i) {
-    if (pids[i] == 0) {
-      continue;
+pid_t GetPID()
+{
+    pid_t pids[1024];
+    std::string LR{"Lightroom"};
+    int numberOfProcesses = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
+    proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+    for (int i = 0; i < numberOfProcesses; ++i) {
+        if (pids[i] == 0) {
+            continue;
+        }
+        char name[1024];
+        proc_name(pids[i], name, sizeof(name));
+        if (LR.compare(name) == 0) {
+            return pids[i];
+        }
     }
-    char name[1024];
-    proc_name(pids[i], name, sizeof(name));
-    if (LR.compare(name) == 0) {
-      return pids[i];
-    }
-  }
-  return 0;
+    return 0;
 }
 
 /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
@@ -62,26 +63,26 @@ pid_t GetPID() {
 CFStringRef createStringForKey(CGKeyCode keyCode)
 {
     TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-    CFDataRef layoutData = (CFDataRef) TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+    CFDataRef layoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
     const UCKeyboardLayout *keyboardLayout =
-    (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
-    
+        (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
+
     UInt32 keysDown = 0;
     UniChar chars[4];
     UniCharCount realLength;
-    
+
     UCKeyTranslate(keyboardLayout,
-                   keyCode,
-                   kUCKeyActionDisplay,
-                   0,
-                   LMGetKbdType(),
-                   kUCKeyTranslateNoDeadKeysBit,
-                   &keysDown,
-                   sizeof(chars) / sizeof(chars[0]),
-                   &realLength,
-                   chars);
+        keyCode,
+        kUCKeyActionDisplay,
+        0,
+        LMGetKbdType(),
+        kUCKeyTranslateNoDeadKeysBit,
+        &keysDown,
+        sizeof(chars) / sizeof(chars[0]),
+        &realLength,
+        chars);
     CFRelease(currentKeyboard);
-    
+
     return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
 }
 
@@ -95,16 +96,16 @@ CGKeyCode keyCodeForChar(const char c)
     CGKeyCode code;
     UniChar character = c;
     CFStringRef charStr = NULL;
-    
+
     /* Generate table of keycodes and characters. */
     if (charToCodeDict == NULL) {
         size_t i;
         charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
-                                                   128,
-                                                   &kCFCopyStringDictionaryKeyCallBacks,
-                                                   NULL);
+            128,
+            &kCFCopyStringDictionaryKeyCallBacks,
+            NULL);
         if (charToCodeDict == NULL) return UINT16_MAX;
-        
+
         /* Loop through every keycode (0 - 127) to find its current mapping. */
         for (i = 0; i < 128; ++i) {
             CFStringRef string = createStringForKey((CGKeyCode)i);
@@ -114,15 +115,15 @@ CGKeyCode keyCodeForChar(const char c)
             }
         }
     }
-    
+
     charStr = CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1);
-    
+
     /* Our values may be NULL (0), so we need to use this function. */
     if (!CFDictionaryGetValueIfPresent(charToCodeDict, charStr,
-                                       (const void **)&code)) {
+        (const void **)&code)) {
         code = UINT16_MAX;
     }
-    
+
     CFRelease(charStr);
     return code;
 }

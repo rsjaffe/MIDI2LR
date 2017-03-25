@@ -25,14 +25,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 bool NRPN_Message::ProcessMidi(short control,
     short value) noexcept(ndebug)
 {
-    assert(value<=0x7Fu);
-    assert(control<=0x7Fu);
+    assert(value <= 0x7Fu);
+    assert(control <= 0x7Fu);
     auto ret_val = true;
     switch (control) {
     case 6:
     {
         std::lock_guard<decltype(guard)> lock(guard);
-        if (ready_>=0b11) {
+        if (ready_ >= 0b11) {
             SetValueMSB_(value);
             if (IsReady_()) {
                 nrpn_queued_.emplace(true, GetControl_(), GetValue_());
@@ -46,7 +46,7 @@ bool NRPN_Message::ProcessMidi(short control,
     case 38u:
     {
         std::lock_guard<decltype(guard)> lock(guard);
-        if (ready_>=0b11) {
+        if (ready_ >= 0b11) {
             SetValueLSB_(value);
             if (IsReady_()) {
                 nrpn_queued_.emplace(true, GetControl_(), GetValue_());
