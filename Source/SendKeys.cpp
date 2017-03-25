@@ -36,20 +36,27 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include <libproc.h>
 #include <thread>
+ProcessSerialNumber psn;
+pid_t lr_pid = 0;
 pid_t GetPID()
 {
-    pid_t pids[1024];
-    std::string LR{"Lightroom"};
+    std::string LR{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
     int numberOfProcesses = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
+    pid_t pids[numberOfProcesses];
     proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+    char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
+    std::size_t found;
     for (int i = 0; i < numberOfProcesses; ++i) {
         if (pids[i] == 0) {
             continue;
         }
-        char name[1024];
-        proc_name(pids[i], name, sizeof(name));
-        if (LR.compare(name) == 0) {
-            return pids[i];
+        bzero(pathBuffer, PROC_PIDPATHINFO_MAXSIZE);
+        proc_pidpath(pids[i], pathBuffer, sizeof(pathBuffer));
+        if (strlen(pathBuffer) > 0) {
+            found = std::string(pathBuffer).find(LR);
+            if (found!=std::string::npos) {
+              return pids[i];
+            }
         }
     }
     return 0;
@@ -132,7 +139,7 @@ namespace {
     std::string to_lower(const std::string& in)
     {
         auto s = in;
-        std::transform(s.begin(), s.end(), s.begin(), std::tolower);
+        std::transform(s.begin(), s.end(), s.begin(), ::tolower);
         return s;
     }
 
@@ -339,26 +346,29 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         SendInput(1, &ip, size_ip);
     }
 #else
-    const CGEventSourceRef source =
-        CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
-
-    ProcessSerialNumber psn;
-    GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
-
+    if(lr_pid == 0) {
+        lr_pid = GetPID();
+        if(lr_pid) {
+            GetProcessForPID(lr_pid, &psn); //first deprecated in macOS 10.9, but no good replacement yet
+        } else {
+            lr_pid = -1; // cannot find LR pid, to try to find the forground process
+            GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
+        }
+    }
+    
     CGEventRef d;
     CGEventRef u;
-
     uint64_t flags = 0;
 
     if (in_keymap) {
         const auto vk = mapped_key->second;
-        d = CGEventCreateKeyboardEvent(source, vk, true);
-        u = CGEventCreateKeyboardEvent(source, vk, false);
+        d = CGEventCreateKeyboardEvent(NULL, vk, true);
+        u = CGEventCreateKeyboardEvent(NULL, vk, false);
     }
     else {
         const CGKeyCode keyCode = keyCodeForChar(key[0]);
-        d = CGEventCreateKeyboardEvent(source, keyCode, true);
-        u = CGEventCreateKeyboardEvent(source, keyCode, false);
+        d = CGEventCreateKeyboardEvent(NULL, keyCode, true);
+        u = CGEventCreateKeyboardEvent(NULL, keyCode, false);
         flags = CGEventGetFlags(d); //in case KeyCode has associated flag
     }
 
@@ -378,6 +388,5 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
     CFRelease(d);
     CFRelease(u);
-    CFRelease(source);
 #endif
 }
