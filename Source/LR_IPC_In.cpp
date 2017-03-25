@@ -40,7 +40,7 @@ namespace {
     constexpr int kEmptyWait = 100;
     constexpr int kLrInPort = 58764;
     constexpr int kNotConnectedWait = 333;
-    constexpr int kReadyWait = 0;
+    constexpr int kReadyWait = 1000;
     constexpr int kStopWait = 1000;
     constexpr int kTimerInterval = 1000;
 }
@@ -89,6 +89,7 @@ void LR_IPC_IN::run()
             char line[kBufferSize + 1] = {' '};//plus one for \0 at end
             auto size_read = 0;
             auto can_read_line = true;
+            auto connection_lost = false;
             // parse input until we have a line, then process that line, quit if
             // connection lost
             while (std::string(line).back() != '\n' && juce::StreamingSocket::isConnected()) {
@@ -97,15 +98,30 @@ void LR_IPC_IN::run()
                 const auto wait_status = juce::StreamingSocket::waitUntilReady(true, kReadyWait);
                 switch (wait_status) {
                 case -1:
+                    connection_lost = false;
                     can_read_line = false;
                     goto dumpLine; //read line failed, break out of switch and while
                 case 0:
+                    connection_lost = true;
                     juce::Thread::wait(kEmptyWait);
                     break; //try again to read until char shows up
                 case 1:
                     if (size_read == kBufferSize)
                         throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    size_read += juce::StreamingSocket::read(line + size_read, 1, false);
+                    auto read = juce::StreamingSocket::read(line + size_read, 1, false);
+                    if(read) {
+                        size_read += read;
+                    } else {
+                        if(connection_lost) {
+                            juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                        } else {
+                            connection_lost = true;
+                            // on mac, if socket is closed, waitUntilReady returns 1 but read will be 0
+                            // so this gives a chance to the loop to be interrupted by other mean without
+                            // consuming a lot of cpu
+                            juce::Thread::wait(kEmptyWait);
+                        }
+                    }
                     break;
                 }
             } // end while !\n and is connected
@@ -130,7 +146,7 @@ threadExit: /* empty statement */;
 void LR_IPC_IN::timerCallback()
 {
     std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
-    if (!timer_off_ && !juce::StreamingSocket::isConnected()) {
+    if (!timer_off_ && !juce::StreamingSocket::isConnected() && !juce::Thread::threadShouldExit()) {
         if (juce::StreamingSocket::connect(kHost, kLrInPort, kConnectTryTime))
             if (!thread_started_) {
                 juce::Thread::startThread(); //avoid starting thread during shutdown
