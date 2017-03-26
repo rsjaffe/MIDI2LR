@@ -48,7 +48,7 @@ LR_IPC_OUT::~LR_IPC_OUT()
 }
 
 void LR_IPC_OUT::Init(
-    std::shared_ptr<MIDIProcessor>& midi_processor)
+    const std::shared_ptr<MIDIProcessor>& midi_processor)
 {
     if (midi_processor) {
         midi_processor->addCallback(this, &LR_IPC_OUT::MIDIcmdCallback);
@@ -78,7 +78,7 @@ void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
         return;
     }
     auto command_to_send = command_map_->getCommandforMessage(message);
-    double computed_value = controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel,
+    const double computed_value = controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel,
         mm.number, mm.value);
     command_to_send += ' ' + std::to_string(computed_value) + '\n';
     {

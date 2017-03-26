@@ -36,7 +36,7 @@ controls_model_{c_model}, command_map_{cmap}
 {}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
-    std::shared_ptr<MIDIProcessor>& midiProcessor)
+    const std::shared_ptr<MIDIProcessor>& midiProcessor)
 {
     //copy the pointers
     lr_ipc_out_ = std::move(out);
