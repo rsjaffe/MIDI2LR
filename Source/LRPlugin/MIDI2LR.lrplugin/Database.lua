@@ -219,8 +219,8 @@ local DataBase = {
   {"ShoVwdevelop_before_after_horiz",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right"),develop,"*button*"},
   {"ShoVwdevelop_before_after_vert",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterTB=Before/After Top/Bottom"),develop,"*button*"},
   {"ShoVwdevelop_before",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Before=Before"),develop,"*button*"},
-  {"ShoVwRefHoriz",false,false,true,false,true,false,"Show Reference View Horizontal",develop,"Will not be supported until the next release after January 2017 *button*"},
-  {"ShoVwRefVert",false,false,true,false,true,false,"Show Reference View Vertical",develop,"Will not be supported until the next release after January 2017 *button*"},
+  {"ShoVwRefHoriz",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Reference View — Left/Right"),develop,"*button*"},
+  {"ShoVwRefVert",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgDevelop/Menu/View/ReferenceActiveTopBottom=Reference View — Top/Bottom"),develop,"*button*"},
 
   --develop: auto
   --develop: clipping indicators
