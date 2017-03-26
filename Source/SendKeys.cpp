@@ -39,8 +39,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 namespace {
 #ifndef _WIN32
-    ProcessSerialNumber psn{0};
-    pid_t lr_pid{0};
+
     pid_t GetPID()
     {
         std::string LR{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
@@ -137,6 +136,7 @@ namespace {
         CFRelease(charStr);
         return code;
     }
+
 #endif
 
     std::string to_lower(const std::string& in)
@@ -349,6 +349,8 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         SendInput(1, &ip, size_ip);
     }
 #else
+    static ProcessSerialNumber psn{0};
+    static pid_t lr_pid{0};
     if (lr_pid == 0) {
         lr_pid = GetPID();
         if (lr_pid) {
