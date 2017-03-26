@@ -36,106 +36,109 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include <libproc.h>
 #include <thread>
-ProcessSerialNumber psn;
-pid_t lr_pid = 0;
-pid_t GetPID()
-{
-    std::string LR{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
-    int numberOfProcesses = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
-    pid_t pids[numberOfProcesses];
-    proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
-    char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
-    std::size_t found;
-    for (int i = 0; i < numberOfProcesses; ++i) {
-        if (pids[i] == 0) {
-            continue;
-        }
-        bzero(pathBuffer, PROC_PIDPATHINFO_MAXSIZE);
-        proc_pidpath(pids[i], pathBuffer, sizeof(pathBuffer));
-        if (strlen(pathBuffer) > 0) {
-            found = std::string(pathBuffer).find(LR);
-            if (found!=std::string::npos) {
-              return pids[i];
-            }
-        }
-    }
-    return 0;
-}
-
-/* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
- *
- * Returns string representation of key, if it is printable.
- * Ownership follows the Create Rule; that is, it is the caller's
- * responsibility to release the returned object. */
-CFStringRef createStringForKey(CGKeyCode keyCode)
-{
-    TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-    CFDataRef layoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-    const UCKeyboardLayout *keyboardLayout =
-        (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
-
-    UInt32 keysDown = 0;
-    UniChar chars[4];
-    UniCharCount realLength;
-
-    UCKeyTranslate(keyboardLayout,
-        keyCode,
-        kUCKeyActionDisplay,
-        0,
-        LMGetKbdType(),
-        kUCKeyTranslateNoDeadKeysBit,
-        &keysDown,
-        sizeof(chars) / sizeof(chars[0]),
-        &realLength,
-        chars);
-    CFRelease(currentKeyboard);
-
-    return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
-}
-
-/* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
- *
- * Returns key code for given character via the above function, or UINT16_MAX
- * on error. */
-CGKeyCode keyCodeForChar(const char c)
-{
-    static CFMutableDictionaryRef charToCodeDict = NULL;
-    CGKeyCode code;
-    UniChar character = c;
-    CFStringRef charStr = NULL;
-
-    /* Generate table of keycodes and characters. */
-    if (charToCodeDict == NULL) {
-        size_t i;
-        charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
-            128,
-            &kCFCopyStringDictionaryKeyCallBacks,
-            NULL);
-        if (charToCodeDict == NULL) return UINT16_MAX;
-
-        /* Loop through every keycode (0 - 127) to find its current mapping. */
-        for (i = 0; i < 128; ++i) {
-            CFStringRef string = createStringForKey((CGKeyCode)i);
-            if (string != NULL) {
-                CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
-                CFRelease(string);
-            }
-        }
-    }
-
-    charStr = CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1);
-
-    /* Our values may be NULL (0), so we need to use this function. */
-    if (!CFDictionaryGetValueIfPresent(charToCodeDict, charStr,
-        (const void **)&code)) {
-        code = UINT16_MAX;
-    }
-
-    CFRelease(charStr);
-    return code;
-}
 #endif
 namespace {
+#ifndef _WIN32
+    ProcessSerialNumber psn{0};
+    pid_t lr_pid{0};
+    pid_t GetPID()
+    {
+        std::string LR{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
+        int numberOfProcesses = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
+        pid_t pids[numberOfProcesses];
+        proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+        char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
+        std::size_t found;
+        for (int i = 0; i < numberOfProcesses; ++i) {
+            if (pids[i] == 0) {
+                continue;
+            }
+            bzero(pathBuffer, PROC_PIDPATHINFO_MAXSIZE);
+            proc_pidpath(pids[i], pathBuffer, sizeof(pathBuffer));
+            if (strlen(pathBuffer) > 0) {
+                found = std::string(pathBuffer).find(LR);
+                if (found != std::string::npos) {
+                    return pids[i];
+                }
+            }
+        }
+        return 0;
+    }
+
+    /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
+     *
+     * Returns string representation of key, if it is printable.
+     * Ownership follows the Create Rule; that is, it is the caller's
+     * responsibility to release the returned object. */
+    CFStringRef createStringForKey(CGKeyCode keyCode)
+    {
+        TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
+        CFDataRef layoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+        const UCKeyboardLayout *keyboardLayout =
+            (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
+
+        UInt32 keysDown = 0;
+        UniChar chars[4];
+        UniCharCount realLength;
+
+        UCKeyTranslate(keyboardLayout,
+            keyCode,
+            kUCKeyActionDisplay,
+            0,
+            LMGetKbdType(),
+            kUCKeyTranslateNoDeadKeysBit,
+            &keysDown,
+            sizeof(chars) / sizeof(chars[0]),
+            &realLength,
+            chars);
+        CFRelease(currentKeyboard);
+
+        return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
+    }
+
+    /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
+     *
+     * Returns key code for given character via the above function, or UINT16_MAX
+     * on error. */
+    CGKeyCode keyCodeForChar(const char c)
+    {
+        static CFMutableDictionaryRef charToCodeDict = NULL;
+        CGKeyCode code;
+        UniChar character = c;
+        CFStringRef charStr = NULL;
+
+        /* Generate table of keycodes and characters. */
+        if (charToCodeDict == NULL) {
+            size_t i;
+            charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
+                128,
+                &kCFCopyStringDictionaryKeyCallBacks,
+                NULL);
+            if (charToCodeDict == NULL) return UINT16_MAX;
+
+            /* Loop through every keycode (0 - 127) to find its current mapping. */
+            for (i = 0; i < 128; ++i) {
+                CFStringRef string = createStringForKey((CGKeyCode)i);
+                if (string != NULL) {
+                    CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
+                    CFRelease(string);
+                }
+            }
+        }
+
+        charStr = CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1);
+
+        /* Our values may be NULL (0), so we need to use this function. */
+        if (!CFDictionaryGetValueIfPresent(charToCodeDict, charStr,
+            (const void **)&code)) {
+            code = UINT16_MAX;
+        }
+
+        CFRelease(charStr);
+        return code;
+    }
+#endif
+
     std::string to_lower(const std::string& in)
     {
         auto s = in;
@@ -346,16 +349,17 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         SendInput(1, &ip, size_ip);
     }
 #else
-    if(lr_pid == 0) {
+    if (lr_pid == 0) {
         lr_pid = GetPID();
-        if(lr_pid) {
+        if (lr_pid) {
             GetProcessForPID(lr_pid, &psn); //first deprecated in macOS 10.9, but no good replacement yet
-        } else {
+        }
+        else {
             lr_pid = -1; // cannot find LR pid, to try to find the forground process
             GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
         }
     }
-    
+
     CGEventRef d;
     CGEventRef u;
     uint64_t flags = 0;
