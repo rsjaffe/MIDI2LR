@@ -19,7 +19,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrTasks             = import 'LrTasks'
 
 MIDI2LR.SERVER:send('TerminateApplication 1\n')
-LrTasks.yield()
 MIDI2LR.RUNNING = false
 MIDI2LR.SERVER:close()
 MIDI2LR.CLIENT:close()
