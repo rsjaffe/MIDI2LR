@@ -20,7 +20,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 -- check if MIDI2LR is set because if plugin fails to load in LR, reloading mechanism will fail because MIDI2LR will be unset
 if MIDI2LR and MIDI2LR.RUNNING then
   MIDI2LR.RUNNING = false
-  MIDI2LR.SERVER:send('TerminateApplication 1\n')
-  MIDI2LR.SERVER:close()
-  MIDI2LR.CLIENT:close()
+  if MIDI2LR.SERVER then
+    MIDI2LR.SERVER:send('TerminateApplication 1\n')
+    MIDI2LR.SERVER:close()
+  end
+  if MIDI2LR.CLIENT then
+    MIDI2LR.CLIENT:close()
+  end
 end
