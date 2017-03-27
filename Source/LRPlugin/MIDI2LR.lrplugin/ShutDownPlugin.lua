@@ -16,9 +16,11 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-local LrTasks             = import 'LrTasks'
 
-MIDI2LR.SERVER:send('TerminateApplication 1\n')
-MIDI2LR.RUNNING = false
-MIDI2LR.SERVER:close()
-MIDI2LR.CLIENT:close()
+-- check if MIDI2LR is set because if plugin fails to load in LR, reloading mechanism will fail because MIDI2LR will be unset
+if MIDI2LR and MIDI2LR.RUNNING then
+  MIDI2LR.RUNNING = false
+  MIDI2LR.SERVER:send('TerminateApplication 1\n')
+  MIDI2LR.SERVER:close()
+  MIDI2LR.CLIENT:close()
+end
