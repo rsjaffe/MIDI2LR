@@ -591,13 +591,13 @@
   },
   {
     "ShoVwRefHoriz",
-    "Show Reference View Horizontal",
+    "Primary Display Reference View — Left/Right",
     "Develop",
     true
   },
   {
     "ShoVwRefVert",
-    "Show Reference View Vertical",
+    "Primary Display Reference View — Top/Bottom",
     "Develop",
     true
   },
