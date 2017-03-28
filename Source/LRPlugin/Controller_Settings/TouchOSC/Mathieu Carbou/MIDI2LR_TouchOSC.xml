@@ -31,8 +31,8 @@
   <setting channel="1" controller="34" command_string="Preset_4"/>
   <setting channel="1" controller="35" command_string="Preset_1"/>
   <setting channel="1" controller="36" command_string="ResetAll"/>
-  <setting channel="1" controller="37" command_string="SaturationAdjustment"/>
-  <setting channel="1" controller="38" command_string="ResetSaturationAdjustment"/>
+  <setting channel="1" controller="37" command_string="AllSaturationAdjustment"/>
+  <setting channel="1" controller="38" command_string="ResetAllSaturationAdjustment"/>
   <setting channel="1" controller="4" command_string="WhiteBalanceCloudy"/>
   <setting channel="1" controller="5" command_string="WhiteBalanceShade"/>
   <setting channel="1" controller="6" command_string="WhiteBalanceTungsten"/>

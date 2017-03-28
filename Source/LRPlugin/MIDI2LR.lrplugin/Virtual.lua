@@ -28,6 +28,40 @@ local Ut                  = require 'Utilities'
 
 local BUTTON_ON = 0.40 -- See Client.lua
 
+local SaturationAdjustments = {
+  "SaturationAdjustmentRed",
+  "SaturationAdjustmentOrange",
+  "SaturationAdjustmentYellow",
+  "SaturationAdjustmentGreen",
+  "SaturationAdjustmentAqua",
+  "SaturationAdjustmentBlue",
+  "SaturationAdjustmentPurple",
+  "SaturationAdjustmentMagenta"
+}
+
 return {
-  
+  AllSaturationAdjustment = function(value, UpdateParam)
+    local midi_value = tonumber(value)
+    for _, param in ipairs(SaturationAdjustments) do
+      UpdateParam(param, midi_value, true)
+    end
+    if ProgramPreferences.ClientShowBezelOnChange then
+      local value = CU.MIDIValueToLRValue(param, midi_value)
+      local bezelname = ParamList.ParamDisplay["AllSaturationAdjustment"] or "AllSaturationAdjustment"
+      LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(value, 0))
+    end
+    return "AllSaturationAdjustment"
+  end,
+  ResetAllSaturationAdjustment = function(value)
+    if (tonumber(value) > BUTTON_ON) then
+    end
+    for i, param in ipairs(SaturationAdjustments) do
+      LrDevelopController.resetToDefault(param)
+      if i == 8 and ProgramPreferences.ClientShowBezelOnChange then
+        local bezelname = ParamList.ParamDisplay["AllSaturationAdjustment"] or "AllSaturationAdjustment"
+        LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(0, 0))
+      end
+    end
+    MIDI2LR.SERVER:send(string.format('%s %g\n', "AllSaturationAdjustment", CU.LRValueToMIDIValue("SaturationAdjustmentRed")))
+  end
 }
