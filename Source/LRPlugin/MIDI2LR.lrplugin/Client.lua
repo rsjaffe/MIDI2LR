@@ -75,6 +75,7 @@ LrTasks.startAsyncTask(
     local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
+    local Virtual         = require 'Virtual'
     local LrApplication       = import 'LrApplication'
     local LrApplicationView   = import 'LrApplicationView'
     local LrDevelopController = import 'LrDevelopController'
@@ -408,7 +409,7 @@ LrTasks.startAsyncTask(
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
-      return function(param, midi_value)
+      return function(param, midi_value, silent)
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
@@ -422,7 +423,7 @@ LrTasks.startAsyncTask(
           MIDI2LR.PARAM_OBSERVER[param] = value
           LrDevelopController.setValue(param, value)
           LastParam = param
-          if ProgramPreferences.ClientShowBezelOnChange then
+          if ProgramPreferences.ClientShowBezelOnChange and not silent then
             local bezelname = ParamList.ParamDisplay[param] or param
             LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
@@ -446,7 +447,7 @@ LrTasks.startAsyncTask(
     end
     UpdateParamPickup = UpdateParamPickup() --complete closure
     --called within LrRecursionGuard for setting
-    function UpdateParamNoPickup(param, midi_value) 
+    function UpdateParamNoPickup(param, midi_value, silent) 
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
@@ -455,7 +456,7 @@ LrTasks.startAsyncTask(
       MIDI2LR.PARAM_OBSERVER[param] = value
       LrDevelopController.setValue(param, value)
       LastParam = param
-      if ProgramPreferences.ClientShowBezelOnChange then
+      if ProgramPreferences.ClientShowBezelOnChange and not silent then
         local bezelname = ParamList.ParamDisplay[param] or param
         LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
       end
@@ -518,7 +519,16 @@ LrTasks.startAsyncTask(
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
               if(ACTIONS[param]) then -- perform a one time action
-                if(tonumber(value) > BUTTON_ON) then ACTIONS[param]() end
+                if(tonumber(value) > BUTTON_ON) then 
+                  ACTIONS[param]() 
+                end
+              elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
+                SETTINGS[param](value)
+              elseif(Virtual[param]) then -- handle a virtual command
+                local lp = Virtual[param](value, UpdateParam)
+                if lp then
+                  LastParam = lp
+                end
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
                 if(tonumber(value) > BUTTON_ON) then
                   local resetparam = param:sub(6)
@@ -529,8 +539,6 @@ LrTasks.startAsyncTask(
                     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
                   end
                 end
-              elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
-                SETTINGS[param](value)
               else -- otherwise update a develop parameter
                 guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
               end

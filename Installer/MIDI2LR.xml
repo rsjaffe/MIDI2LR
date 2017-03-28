@@ -34,6 +34,9 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Client.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Virtual.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ClientUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
