@@ -101,6 +101,15 @@ LrTasks.startAsyncTask(
       end
     end
 
+    local function UpdateCameraProfile(name)
+      return function()
+        CU.fChangePanel('calibratePanel')
+        CU.ApplySettings({
+          CameraProfile = name
+        })
+      end
+    end
+
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
@@ -225,27 +234,27 @@ LrTasks.startAsyncTask(
       Preset_39                = CU.fApplyPreset(39),
       Preset_40                = CU.fApplyPreset(40),
       Prev                     = LrSelection.previousPhoto,
-      Profile_Adobe_Standard          = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
-      Profile_Camera_Clear            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
-      Profile_Camera_Darker_Skin_Tone = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Darker Skin Tone'),
-      Profile_Camera_Deep             = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
-      Profile_Camera_Faithful         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Faithful'),
-      Profile_Camera_Flat             = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Flat'),
-      Profile_Camera_Landscape        = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Landscape'),
-      Profile_Camera_Light            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Light'),
-      Profile_Camera_Lighter_Skin_Tone= Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Lighter Skin Tone'),
-      Profile_Camera_Monochrome       = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Monochrome'),
-      Profile_Camera_Monotone         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Monotone'),
-      Profile_Camera_Muted            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Muted'),
-      Profile_Camera_Natural          = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Natural'),
-      Profile_Camera_Neutral          = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Neutral'),
-      Profile_Camera_Portrait         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Portrait'),
-      Profile_Camera_Positive_Film    = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Positive Film'),
-      Profile_Camera_Standard         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Standard'),
-      Profile_Camera_Vivid            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid'),
-      Profile_Camera_Vivid_Blue       = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid Blue'),
-      Profile_Camera_Vivid_Green      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid Green'),
-      Profile_Camera_Vivid_Red        = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid Red'),
+      Profile_Adobe_Standard          = UpdateCameraProfile('Adobe Standard'),
+      Profile_Camera_Clear            = UpdateCameraProfile('Camera Clear'),
+      Profile_Camera_Darker_Skin_Tone = UpdateCameraProfile('Camera Darker Skin Tone'),
+      Profile_Camera_Deep             = UpdateCameraProfile('Camera Deep'),
+      Profile_Camera_Faithful         = UpdateCameraProfile('Camera Faithful'),
+      Profile_Camera_Flat             = UpdateCameraProfile('Camera Flat'),
+      Profile_Camera_Landscape        = UpdateCameraProfile('Camera Landscape'),
+      Profile_Camera_Light            = UpdateCameraProfile('Camera Light'),
+      Profile_Camera_Lighter_Skin_Tone= UpdateCameraProfile('Camera Lighter Skin Tone'),
+      Profile_Camera_Monochrome       = UpdateCameraProfile('Camera Monochrome'),
+      Profile_Camera_Monotone         = UpdateCameraProfile('Camera Monotone'),
+      Profile_Camera_Muted            = UpdateCameraProfile('Camera Muted'),
+      Profile_Camera_Natural          = UpdateCameraProfile('Camera Natural'),
+      Profile_Camera_Neutral          = UpdateCameraProfile('Camera Neutral'),
+      Profile_Camera_Portrait         = UpdateCameraProfile('Camera Portrait'),
+      Profile_Camera_Positive_Film    = UpdateCameraProfile('Camera Positive Film'),
+      Profile_Camera_Standard         = UpdateCameraProfile('Camera Standard'),
+      Profile_Camera_Vivid            = UpdateCameraProfile('Camera Vivid'),
+      Profile_Camera_Vivid_Blue       = UpdateCameraProfile('Camera Vivid Blue'),
+      Profile_Camera_Vivid_Green      = UpdateCameraProfile('Camera Vivid Green'),
+      Profile_Camera_Vivid_Red        = UpdateCameraProfile('Camera Vivid Red'),
       profile1                 = function() Profiles.changeProfile('profile1', true) end,
       profile2                 = function() Profiles.changeProfile('profile2', true) end,
       profile3                 = function() Profiles.changeProfile('profile3', true) end,
