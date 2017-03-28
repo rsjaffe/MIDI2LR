@@ -339,7 +339,13 @@ LrTasks.startAsyncTask(
       PostCropVignetteStyleHighlightPriority = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
       PostCropVignetteStyleColorPriority     = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
       PostCropVignetteStylePaintOverlay      = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
-      AutoTone                 = function() Ut.wrapFOM(LrDevelopController.setValue,'AutoTone',true)(); CU.FullRefresh() end,
+      AutoTone                 = function()
+        CU.fChangePanel('tonePanel')
+        CU.ApplySettings({
+          AutoTone = true
+        })
+        CU.FullRefresh() 
+      end,
       ZoomInLargeStep          = LrApplicationView.zoomIn,
       ZoomInSmallStep          = LrApplicationView.zoomInSome,
       ZoomOutLargeStep         = LrApplicationView.zoomOut,
