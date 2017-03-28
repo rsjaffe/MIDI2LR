@@ -404,22 +404,6 @@ LrTasks.startAsyncTask(
       end, 
     }
 
-    local function MIDIValueToLRValue(param, midi_value)
-      -- map midi range to develop parameter range
-      -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
-      local min,max = Limits.GetMinMax(param)
-      return midi_value * (max-min) + min
-    end
-
-    local function LRValueToMIDIValue(param)
-      -- map develop parameter range to midi range
-      local min,max = Limits.GetMinMax(param)
-      local retval = (LrDevelopController.getValue(param)-min)/(max-min)
-      if retval > 1 then return 1 end
-      if retval < 0 then return 0 end
-      return retval
-    end
-
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
@@ -432,9 +416,9 @@ LrTasks.startAsyncTask(
         if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        if((math.abs(midi_value - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
+        if((math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
           paramlastmoved[param] = os.clock()
-          value = MIDIValueToLRValue(param, midi_value)
+          value = CU.MIDIValueToLRValue(param, midi_value)
           MIDI2LR.PARAM_OBSERVER[param] = value
           LrDevelopController.setValue(param, value)
           LastParam = param
@@ -447,7 +431,7 @@ LrTasks.startAsyncTask(
           end
         else --failed pickup
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
-            value = MIDIValueToLRValue(param, midi_value)
+            value = CU.MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
             local precision = Ut.precision(value)
             local bezelname = ParamList.ParamDisplay[param] or param
@@ -467,7 +451,7 @@ LrTasks.startAsyncTask(
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
       end
-      value = MIDIValueToLRValue(param, midi_value)
+      value = CU.MIDIValueToLRValue(param, midi_value)
       MIDI2LR.PARAM_OBSERVER[param] = value
       LrDevelopController.setValue(param, value)
       LastParam = param
@@ -498,7 +482,7 @@ LrTasks.startAsyncTask(
             for _,param in ipairs(ParamList.SendToMidi) do
               local lrvalue = LrDevelopController.getValue(param)
               if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-                MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
                 observer[param] = lrvalue
                 LastParam = param
               end
