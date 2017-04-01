@@ -109,7 +109,24 @@ end
 
 local function fToggleTF(param)
   return function()
-    LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param))
+    LrTasks.startAsyncTask ( function ()
+      if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'MIDI2LR: Apply settings',
+        function()
+          local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
+          params[param] = not params[param]
+          LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
+        end,
+        { timeout = 4,
+          callback = function()
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
+          end,
+          asynchronous = true
+        }
+      )
+    end
+    )
   end
 end
 
