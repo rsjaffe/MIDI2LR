@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 #include "SettingsManager.h"
 
-VersionChecker::VersionChecker(SettingsManager* setmgr) noexcept :
+VersionChecker::VersionChecker(SettingsManager* const setmgr) noexcept :
 juce::Thread{"VersionChecker"}, settings_manager_{setmgr}{}
 
 VersionChecker::~VersionChecker()

@@ -34,7 +34,7 @@ namespace {
     constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_OUT::LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand):
+LR_IPC_OUT::LR_IPC_OUT(ControlsModel* const c_model, const CommandMap * const mapCommand):
     juce::InterprocessConnection(), command_map_{mapCommand}, controls_model_{c_model} {}
 
 LR_IPC_OUT::~LR_IPC_OUT()

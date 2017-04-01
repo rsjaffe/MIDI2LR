@@ -34,7 +34,7 @@ namespace RSJ {
 class CommandTableModel final: public juce::TableListBoxModel {
 public:
     CommandTableModel() noexcept;
-    void Init(CommandMap* mapCommand) noexcept;
+    void Init(CommandMap* const mapCommand) noexcept;
     CommandTableModel& operator=(const CommandTableModel&) = delete;
     CommandTableModel(const CommandTableModel&) = delete;
     // TableListBoxModel overrides

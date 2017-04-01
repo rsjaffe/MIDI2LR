@@ -28,7 +28,7 @@ class SettingsManager;
 
 class VersionChecker final: public juce::Thread, private juce::AsyncUpdater {
 public:
-    explicit VersionChecker(SettingsManager* settings_manager_) noexcept;
+    explicit VersionChecker(SettingsManager* const settings_manager_) noexcept;
     ~VersionChecker();
 
 private:

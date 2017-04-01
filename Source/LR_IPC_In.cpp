@@ -45,7 +45,7 @@ namespace {
     constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_IN::LR_IPC_IN(ControlsModel* c_model, ProfileManager* pmanager, CommandMap* cmap):
+LR_IPC_IN::LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
     juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
     controls_model_{c_model}, profile_manager_{pmanager}
 {}

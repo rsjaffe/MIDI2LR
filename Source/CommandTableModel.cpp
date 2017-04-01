@@ -29,7 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 CommandTableModel::CommandTableModel() noexcept
 {}
 
-void CommandTableModel::Init(CommandMap* map_command) noexcept
+void CommandTableModel::Init(CommandMap* const map_command) noexcept
 {
     //copy the pointer
     command_map_ = map_command;

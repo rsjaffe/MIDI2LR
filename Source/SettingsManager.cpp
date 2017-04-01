@@ -29,7 +29,7 @@ using namespace std::literals::string_literals;
 
 const juce::String AutoHideSection{"autohide"};
 
-SettingsManager::SettingsManager(ProfileManager* pmanager):profile_manager_{pmanager}
+SettingsManager::SettingsManager(ProfileManager* const pmanager):profile_manager_{pmanager}
 {
     juce::PropertiesFile::Options file_options;
     file_options.applicationName = "MIDI2LR";

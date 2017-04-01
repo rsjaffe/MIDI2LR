@@ -52,11 +52,11 @@ public:
     virtual ~MainContentComponent();
     MainContentComponent(const MainContentComponent&) = delete;
     MainContentComponent& operator=(const MainContentComponent&) = delete;
-    void Init(CommandMap* command_map,
+    void Init(CommandMap* const command_map,
         std::weak_ptr<LR_IPC_OUT>&& out,
         std::shared_ptr<MIDIProcessor>& midi_processor,
-        ProfileManager* profile_manager,
-        SettingsManager* settings_manager,
+        ProfileManager* const profile_manager,
+        SettingsManager* const settings_manager,
         std::shared_ptr<MIDISender>& midi_sender);
 
     void MIDIcmdCallback(RSJ::MidiMessage);

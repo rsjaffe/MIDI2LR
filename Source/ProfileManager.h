@@ -37,14 +37,14 @@ namespace RSJ {
 
 class ProfileManager final: private juce::AsyncUpdater {
 public:
-    ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept;
+    ProfileManager(ControlsModel* const c_model, CommandMap* const cmap) noexcept;
     virtual ~ProfileManager() = default;
     ProfileManager(ProfileManager const&) = delete;
     void operator=(ProfileManager const&) = delete;
     void Init(std::weak_ptr<LR_IPC_OUT>&& out,
         const std::shared_ptr<MIDIProcessor>& midi_processor);
 
-    template<class T> void addCallback(T* object, void(T::*mf)(juce::XmlElement*, const juce::String&))
+    template<class T> void addCallback(T* const object, void(T::* const mf)(juce::XmlElement*, const juce::String&))
     {
         using namespace std::placeholders;
         callbacks_.emplace_back(std::bind(mf, object, _1, _2));

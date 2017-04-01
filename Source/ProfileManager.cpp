@@ -31,7 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept:
+ProfileManager::ProfileManager(ControlsModel* const c_model, CommandMap* const cmap) noexcept:
 command_map_{cmap}, controls_model_{c_model}
 {}
 

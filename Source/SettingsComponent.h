@@ -32,7 +32,7 @@ class SettingsComponent final:
     private ResizableLayout,
     private juce::Slider::Listener {
 public:
-    explicit SettingsComponent(SettingsManager* settings_manager);
+    explicit SettingsComponent(SettingsManager* const settings_manager);
     ~SettingsComponent();
     SettingsComponent(const SettingsComponent&) = delete;
     SettingsComponent& operator=(const SettingsComponent&) = delete;

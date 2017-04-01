@@ -39,10 +39,10 @@ public:
     MainWindow& operator=(const MainWindow&) = delete;
     MainWindow(const MainWindow&) = delete;
 
-    void Init(CommandMap* command_map, std::weak_ptr<LR_IPC_OUT>&& out,
+    void Init(CommandMap* const command_map, std::weak_ptr<LR_IPC_OUT>&& out,
         std::shared_ptr<MIDIProcessor>& midi_processor,
-        ProfileManager* profile_manager,
-        SettingsManager* settings_manager,
+        ProfileManager* const profile_manager,
+        SettingsManager* const settings_manager,
         std::shared_ptr<MIDISender>& midi_sender);
 
     /* Note: Be careful if you override any DocumentWindow methods - the base

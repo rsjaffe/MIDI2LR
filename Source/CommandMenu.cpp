@@ -47,7 +47,7 @@ CommandMenu::CommandMenu(const RSJ::MidiMessageId& message):
     message_{message}
 {}
 
-void CommandMenu::Init(CommandMap* mapCommand) noexcept
+void CommandMenu::Init(CommandMap* const mapCommand) noexcept
 {
     command_map_ = mapCommand;
 }

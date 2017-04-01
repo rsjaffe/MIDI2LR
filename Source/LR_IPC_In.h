@@ -36,8 +36,8 @@ class LR_IPC_IN final:
     private juce::Timer,
     private juce::Thread {
 public:
-    LR_IPC_IN(ControlsModel* c_model, ProfileManager* profileManager,
-        CommandMap* commandMap);
+    LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const profileManager,
+        CommandMap* const commandMap);
     virtual ~LR_IPC_IN();
     void Init(std::shared_ptr<MIDISender>& midiSender) noexcept;
     //signal exit to thread

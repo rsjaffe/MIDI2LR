@@ -40,11 +40,11 @@ class LR_IPC_OUT final:
     private juce::AsyncUpdater,
     private juce::Timer {
 public:
-    LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand);
+    LR_IPC_OUT(ControlsModel* const c_model, const CommandMap * const mapCommand);
     virtual ~LR_IPC_OUT();
     void Init(const std::shared_ptr<MIDIProcessor>&  midiProcessor);
 
-    template<class T> void addCallback(T* object, void(T::*mf)(bool))
+    template<class T> void addCallback(T* const  object, void(T::* const mf)(bool))
     {
         callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
     }
