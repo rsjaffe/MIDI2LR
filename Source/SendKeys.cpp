@@ -309,7 +309,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     }
 
     //construct virtual keystroke sequence
-    std::vector<size_t> strokes{vk}; // start with actual key, then mods
+    std::vector<WORD> strokes{vk}; // start with actual key, then mods
     if (shift || (vk_modifiers & 0x1)) {
         strokes.push_back(VK_SHIFT);
     }
@@ -339,13 +339,13 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     //send key down strokes
     std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
     for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
-        ip.ki.wVk = static_cast<WORD>(*it);
+        ip.ki.wVk = *it;
         SendInput(1, &ip, size_ip);
     }
     //send key up strokes
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     for (const auto it : strokes) {
-        ip.ki.wVk = static_cast<WORD>(it);
+        ip.ki.wVk = it;
         SendInput(1, &ip, size_ip);
     }
 #else
