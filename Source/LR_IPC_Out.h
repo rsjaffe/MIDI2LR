@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    LR_IPC_OUT.h
+    LR_IPC_Out.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
