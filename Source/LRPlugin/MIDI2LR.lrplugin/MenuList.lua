@@ -2762,6 +2762,18 @@
     true
   },
   {
+    "ShowMaskOverlay",
+    "Show Mask Overlay",
+    "Local Adjustments",
+    true
+  },
+  {
+    "CycleMaskOverlayColor",
+    "Cycle Mask Overlay Color",
+    "Local Adjustments",
+    true
+  },
+  {
     "straightenAngle",
     "Straighten Angle",
     "Crop",

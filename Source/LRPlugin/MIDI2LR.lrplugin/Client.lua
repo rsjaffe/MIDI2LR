@@ -110,6 +110,14 @@ LrTasks.startAsyncTask(
       end
     end
 
+    local function SimulateKeys(keys)
+      return function()
+        if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+          MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+        end
+      end
+    end
+
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
@@ -187,8 +195,10 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
-      LRCopy = function() MIDI2LR.SERVER:send('SendKey 2c\n') end,
-      LRPaste = function() MIDI2LR.SERVER:send('SendKey 2v\n') end,
+      LRCopy = SimulateKeys('2c'),
+      LRPaste = SimulateKeys('2v'),
+      ShowMaskOverlay = SimulateKeys('0o'),
+      CycleMaskOverlayColor = SimulateKeys('4o'),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,

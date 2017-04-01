@@ -96,11 +96,13 @@
   <setting channel="12" controller="36" command_string="Resetlocal_Moire"/>
   <setting channel="12" controller="37" command_string="local_Defringe"/>
   <setting channel="12" controller="38" command_string="Resetlocal_Defringe"/>
+  <setting channel="12" controller="39" command_string="ShowMaskOverlay"/>
   <setting channel="12" controller="9" command_string="local_Temperature"/>
   <setting channel="16" controller="1" command_string="Prev"/>
   <setting channel="16" controller="2" command_string="Undo"/>
   <setting channel="16" controller="3" command_string="Redo"/>
   <setting channel="16" controller="4" command_string="LRCopy"/>
+  <setting channel="12" controller="40" command_string="CycleMaskOverlayColor"/>
   <setting channel="16" controller="5" command_string="LRPaste"/>
   <setting channel="16" controller="6" command_string="Next"/>
   <setting channel="16" controller="7" command_string="FullRefresh"/>
