@@ -301,17 +301,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\MidiUtilities.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\PWoptions.cpp">
-      <Filter>MIDI2LR\Source</Filter>
+    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp">
+      <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\CCoptions.cpp">
       <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp">
-      <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\CommandMap.cpp">
       <Filter>MIDI2LR\Source</Filter>
@@ -352,10 +346,16 @@
     <ClCompile Include="..\..\Source\MIDISender.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\MidiUtilities.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\NrpnMessage.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ProfileManager.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PWoptions.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp">
@@ -1893,20 +1893,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Misc.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\PWoptions.h">
-      <Filter>MIDI2LR\Source</Filter>
+    <ClInclude Include="..\..\Source\Utilities\Utilities.h">
+      <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CCoptions.h">
       <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Utilities\GSL.h">
-      <Filter>MIDI2LR\Source\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Utilities\Utilities.h">
-      <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CommandMap.h">
       <Filter>MIDI2LR\Source</Filter>
@@ -1947,10 +1938,16 @@
     <ClInclude Include="..\..\Source\MidiUtilities.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Misc.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\NrpnMessage.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ProfileManager.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PWoptions.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ResizableLayout.h">

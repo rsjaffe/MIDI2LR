@@ -18,10 +18,8 @@
 		58EB708FC7BA51BF0A98F592 = {isa = PBXBuildFile; fileRef = FD6C1589BB9EF20BD7D7154B; };
 		BDF535168645F120058193A9 = {isa = PBXBuildFile; fileRef = F3184CED9270796B369FA288; };
 		F9F594A69212D79B99AC9C66 = {isa = PBXBuildFile; fileRef = 78C490E72B571C45E9BF65BE; };
-		02A7CE68913E06429425B72C = {isa = PBXBuildFile; fileRef = 596A515E74C727B658C08FBE; };
-		71E4A94C6C0AA69DC27972DF = {isa = PBXBuildFile; fileRef = DEBD9FE98B3F63E8D660310D; };
-		BFAB1A9B97A0C128DF41C02A = {isa = PBXBuildFile; fileRef = 0ED56980FCA5D40E4BCC5C8A; };
 		AC84367CD5D5CED546873EA6 = {isa = PBXBuildFile; fileRef = 26B20138C8D26938DBF3AAA6; };
+		BFAB1A9B97A0C128DF41C02A = {isa = PBXBuildFile; fileRef = 0ED56980FCA5D40E4BCC5C8A; };
 		50AF5769741041F9CA022231 = {isa = PBXBuildFile; fileRef = 80AD4E80805D14FC930C2AE8; };
 		FD5777A03748CDE3465E71D3 = {isa = PBXBuildFile; fileRef = C58E726D80235E018C2E6235; };
 		65EAA878A18A9E490DC550DF = {isa = PBXBuildFile; fileRef = 0F1673C5F027441E02A71C9F; };
@@ -35,8 +33,10 @@
 		D69B7302D8FB7CA7D3177E8B = {isa = PBXBuildFile; fileRef = 3E4802F0F4805A7E7EB2B145; };
 		BE7E7EF06FF4053F4417663C = {isa = PBXBuildFile; fileRef = 788447911A56FA34C9F8468E; };
 		92A115CF461BA5CFDF750CA7 = {isa = PBXBuildFile; fileRef = CFE017FDA090DB4518F95826; };
+		02A7CE68913E06429425B72C = {isa = PBXBuildFile; fileRef = 596A515E74C727B658C08FBE; };
 		5B1E88868F714EDC30BD06A1 = {isa = PBXBuildFile; fileRef = 8B172E18F0E34AE94D47AC12; };
 		1CBFBED27592AE60502C81C3 = {isa = PBXBuildFile; fileRef = 5205E1551934B25B9956903B; };
+		71E4A94C6C0AA69DC27972DF = {isa = PBXBuildFile; fileRef = DEBD9FE98B3F63E8D660310D; };
 		9E93D02BAAABEC609B0C971E = {isa = PBXBuildFile; fileRef = 8AF22C33AD756CE92BD78342; };
 		8AAAAE0F744E53CA8B47D81E = {isa = PBXBuildFile; fileRef = 99767A026B08541051B54C99; };
 		8584B2E7A0E81121CB3AD270 = {isa = PBXBuildFile; fileRef = AD396CA18E78352CDACA5B11; };
@@ -446,7 +446,6 @@
 		5726DB2E0593480F3D437F08 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_LocalisedStrings.cpp"; path = "../../JuceLibraryCode/modules/juce_core/text/juce_LocalisedStrings.cpp"; sourceTree = "SOURCE_ROOT"; };
 		574F5A195EE48101BF325155 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_LagrangeInterpolator.cpp"; path = "../../JuceLibraryCode/modules/juce_audio_basics/effects/juce_LagrangeInterpolator.cpp"; sourceTree = "SOURCE_ROOT"; };
 		57F9DC2F485BBF3581E87B2D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_win32_SystemTrayIcon.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_extra/native/juce_win32_SystemTrayIcon.cpp"; sourceTree = "SOURCE_ROOT"; };
-		58066C9BCAFFE6B9CC18F8DD = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSL.h; path = ../../Source/Utilities/GSL.h; sourceTree = "SOURCE_ROOT"; };
 		5810B7A3DDDCC0B18BD37AC8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_CustomTypeface.cpp"; path = "../../JuceLibraryCode/modules/juce_graphics/fonts/juce_CustomTypeface.cpp"; sourceTree = "SOURCE_ROOT"; };
 		58CCE04F15FC382523D9667F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_TableHeaderComponent.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_basics/widgets/juce_TableHeaderComponent.cpp"; sourceTree = "SOURCE_ROOT"; };
 		58F404BBC273A21AD98BEF31 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_DocumentWindow.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_basics/windows/juce_DocumentWindow.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -1148,17 +1147,12 @@
 		FF770DBF67389ED40B9CEBF9 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_ModalComponentManager.cpp"; path = "../../JuceLibraryCode/modules/juce_gui_basics/components/juce_ModalComponentManager.cpp"; sourceTree = "SOURCE_ROOT"; };
 		FFA41BC763316E256DFB4D95 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_win32_DirectWriteTypeface.cpp"; path = "../../JuceLibraryCode/modules/juce_graphics/native/juce_win32_DirectWriteTypeface.cpp"; sourceTree = "SOURCE_ROOT"; };
 		3A2ACD2C7AF27315DB53ADC3 = {isa = PBXGroup; children = (
-					58066C9BCAFFE6B9CC18F8DD,
 					26B20138C8D26938DBF3AAA6,
 					D3EB9CABC0016989295F149B, ); name = Utilities; sourceTree = "<group>"; };
 		55BA6062DF892191C9E9B3BE = {isa = PBXGroup; children = (
-					04B184211B8A075FD6F0CCA8,
-					596A515E74C727B658C08FBE,
-					DEBD9FE98B3F63E8D660310D,
-					CB2B029E30CD65563F3B0DEE,
+					3A2ACD2C7AF27315DB53ADC3,
 					0ED56980FCA5D40E4BCC5C8A,
 					63E78BF979E4A935FEA74E26,
-					3A2ACD2C7AF27315DB53ADC3,
 					80AD4E80805D14FC930C2AE8,
 					0DE6A1845E62083EB881160E,
 					C58E726D80235E018C2E6235,
@@ -1185,11 +1179,15 @@
 					8B48AA4158D30D069C86D2CD,
 					CFE017FDA090DB4518F95826,
 					E03CBAF954A7A416CC4C5EFB,
+					596A515E74C727B658C08FBE,
 					F4C90FF76D76F4C7A08E98AD,
-					872F7D5733C0B0577CA8C02B,
+					04B184211B8A075FD6F0CCA8,
 					8B172E18F0E34AE94D47AC12,
+					872F7D5733C0B0577CA8C02B,
 					5205E1551934B25B9956903B,
 					8F2F3EF8BC150F74514D10FE,
+					DEBD9FE98B3F63E8D660310D,
+					CB2B029E30CD65563F3B0DEE,
 					8AF22C33AD756CE92BD78342,
 					42AF703239A2938413EE43A0,
 					99767A026B08541051B54C99,
@@ -2549,10 +2547,8 @@
 					BDF535168645F120058193A9,
 					F9F594A69212D79B99AC9C66, ); runOnlyForDeploymentPostprocessing = 0; };
 		5F5721809F326210B38EECA0 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
-					02A7CE68913E06429425B72C,
-					71E4A94C6C0AA69DC27972DF,
-					BFAB1A9B97A0C128DF41C02A,
 					AC84367CD5D5CED546873EA6,
+					BFAB1A9B97A0C128DF41C02A,
 					50AF5769741041F9CA022231,
 					FD5777A03748CDE3465E71D3,
 					65EAA878A18A9E490DC550DF,
@@ -2566,8 +2562,10 @@
 					D69B7302D8FB7CA7D3177E8B,
 					BE7E7EF06FF4053F4417663C,
 					92A115CF461BA5CFDF750CA7,
+					02A7CE68913E06429425B72C,
 					5B1E88868F714EDC30BD06A1,
 					1CBFBED27592AE60502C81C3,
+					71E4A94C6C0AA69DC27972DF,
 					9E93D02BAAABEC609B0C971E,
 					8AAAAE0F744E53CA8B47D81E,
 					8584B2E7A0E81121CB3AD270,
