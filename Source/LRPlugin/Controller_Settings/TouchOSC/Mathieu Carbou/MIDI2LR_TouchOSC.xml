@@ -100,8 +100,8 @@
   <setting channel="16" controller="1" command_string="Prev"/>
   <setting channel="16" controller="2" command_string="Undo"/>
   <setting channel="16" controller="3" command_string="Redo"/>
-  <setting channel="16" controller="4" command_string="Key1"/>
-  <setting channel="16" controller="5" command_string="Key2"/>
+  <setting channel="16" controller="4" command_string="LRCopy"/>
+  <setting channel="16" controller="5" command_string="LRPaste"/>
   <setting channel="16" controller="6" command_string="Next"/>
   <setting channel="16" controller="7" command_string="FullRefresh"/>
   <setting channel="2" controller="0" command_string="RevealPanelSplit"/>

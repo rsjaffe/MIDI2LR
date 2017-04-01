@@ -187,6 +187,8 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
+      LRCopy = function() MIDI2LR.SERVER:send('SendKey 2c\n') end,
+      LRPaste = function() MIDI2LR.SERVER:send('SendKey 2v\n') end,
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,

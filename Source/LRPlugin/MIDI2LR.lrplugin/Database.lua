@@ -205,6 +205,8 @@ local DataBase = {
   --Develop
   {"SwToMdevelop",false,false,true,false,true,false,show..' '..LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),develop,"Switch to Develop module. *button*"},
   --develop: copy paste sync
+  {"LRCopy",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/LRCopy=Lightroom Copy"):gsub("&",""),develop,"Lightroom Copy (open the selection box). *button*"},
+  {"LRPaste",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/LRPaste=Lightroom Paste"),develop,"Lightroom Paste. *button*"},
   {"CopySettings",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
   {"PasteSettings",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Pastes all develop settings. *button*"},
   {"PasteSelectedSettings",false,false,true,false,true,false,"Paste Selected Settings",develop,"Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},

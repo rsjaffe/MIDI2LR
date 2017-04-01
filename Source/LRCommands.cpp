@@ -119,6 +119,8 @@ const std::vector<std::string> LRCommandList::Library = {
 
 const std::vector<std::string> LRCommandList::Develop = {
     "Show Develop",
+    "Lightroom Copy",
+    "Lightroom Paste",
     "Copy Settings",
     "Paste Settings",
     "Paste Selected Settings",
@@ -665,6 +667,8 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "ShoVwpeople",
     /* Develop */
     "SwToMdevelop",
+    "LRCopy",
+    "LRPaste",
     "CopySettings",
     "PasteSettings",
     "PasteSelectedSettings",

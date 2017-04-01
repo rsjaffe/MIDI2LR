@@ -512,6 +512,18 @@
     true
   },
   {
+    "LRCopy",
+    "Lightroom Copy",
+    "Develop",
+    true
+  },
+  {
+    "LRPaste",
+    "Lightroom Paste",
+    "Develop",
+    true
+  },
+  {
     "CopySettings",
     "Copy Settings",
     "Develop",
