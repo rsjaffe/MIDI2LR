@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['tonecurve',['ToneCurve',['../class_l_r_command_list.html#add99c01a94283c81516e03cd27c27813',1,'LRCommandList']]],
-  ['toolmodulepanel',['ToolModulePanel',['../class_l_r_command_list.html#ace4a66a7f3c24e4ade80a9a4e6d1b28e',1,'LRCommandList']]],
-  ['transform',['Transform',['../class_l_r_command_list.html#a2069b92482ec2e5786a4443065a48cdc',1,'LRCommandList']]]
+  ['secondarydisplay',['SecondaryDisplay',['../class_l_r_command_list.html#a0cb3870aa1e0a3701e9d6b1cdf7c7f8c',1,'LRCommandList']]],
+  ['shutdownstring',['ShutDownString',['../_main_8cpp.html#af3606c5611f0c27e8a2f8ba5e0dc775e',1,'Main.cpp']]],
+  ['splittoning',['SplitToning',['../class_l_r_command_list.html#af6fb2cc6a70b53e625fa2b317ec2aef9',1,'LRCommandList']]]
 ];

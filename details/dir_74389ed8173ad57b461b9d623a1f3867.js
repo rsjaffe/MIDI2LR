@@ -30,12 +30,11 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "MIDIProcessor.h", "_m_i_d_i_processor_8h.html", "_m_i_d_i_processor_8h" ],
     [ "MIDISender.cpp", "_m_i_d_i_sender_8cpp.html", null ],
     [ "MIDISender.h", "_m_i_d_i_sender_8h.html", "_m_i_d_i_sender_8h" ],
+    [ "MidiUtilities.cpp", "_midi_utilities_8cpp.html", null ],
     [ "MidiUtilities.h", "_midi_utilities_8h.html", "_midi_utilities_8h" ],
+    [ "Misc.h", "_misc_8h.html", "_misc_8h" ],
     [ "NrpnMessage.cpp", "_nrpn_message_8cpp.html", null ],
-    [ "NrpnMessage.h", "_nrpn_message_8h.html", [
-      [ "NRPN_Filter", "class_n_r_p_n___filter.html", "class_n_r_p_n___filter" ],
-      [ "NRPN_Message", "class_n_r_p_n___message.html", "class_n_r_p_n___message" ]
-    ] ],
+    [ "NrpnMessage.h", "_nrpn_message_8h.html", "_nrpn_message_8h" ],
     [ "ProfileManager.cpp", "_profile_manager_8cpp.html", null ],
     [ "ProfileManager.h", "_profile_manager_8h.html", "_profile_manager_8h" ],
     [ "PWoptions.cpp", "_p_woptions_8cpp.html", null ],

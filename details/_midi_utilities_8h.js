@@ -1,7 +1,13 @@
 var _midi_utilities_8h =
 [
-    [ "Message", "struct_r_s_j_1_1_message.html", "struct_r_s_j_1_1_message" ],
-    [ "ParseMidi", "_midi_utilities_8h.html#a0158a4b0e3a22766beef3a433a0b2850", null ],
+    [ "hash< RSJ::MidiMessageId >", "structstd_1_1hash_3_01_r_s_j_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01_r_s_j_1_1_midi_message_id_01_4" ],
+    [ "MidiMessage", "struct_r_s_j_1_1_midi_message.html", "struct_r_s_j_1_1_midi_message" ],
+    [ "MidiMessageId", "struct_r_s_j_1_1_midi_message_id.html", "struct_r_s_j_1_1_midi_message_id" ],
+    [ "MsgIdEnum", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65c", [
+      [ "NOTE", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65ca10de4bc81f754b19b0d27246a0589c05", null ],
+      [ "CC", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65caaa53ca0b650dfd85c4f59fa156f7a2cc", null ],
+      [ "PITCHBEND", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65ca0a2db7e0135c29ea78f67ddea73dcf85", null ]
+    ] ],
     [ "kCCFlag", "_midi_utilities_8h.html#a108ff40656bd50df8ece242697d3d8cd", null ],
     [ "kChanPressureFlag", "_midi_utilities_8h.html#af094b0d162f8985ff9ed700df573ec5b", null ],
     [ "kKeyPressureFlag", "_midi_utilities_8h.html#aa60799dab5d8e3797c0284109e522d79", null ],

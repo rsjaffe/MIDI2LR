@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['hash_3c_20midi_5fmessage_5fid_20_3e',['hash&lt; MIDI_Message_ID &gt;',['../structstd_1_1hash_3_01_m_i_d_i___message___i_d_01_4.html',1,'std']]]
+  ['lr_5fipc_5fin',['LR_IPC_IN',['../class_l_r___i_p_c___i_n.html',1,'']]],
+  ['lr_5fipc_5fout',['LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html',1,'']]],
+  ['lrcommandlist',['LRCommandList',['../class_l_r_command_list.html',1,'']]]
 ];

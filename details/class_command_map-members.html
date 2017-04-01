@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -115,17 +115,19 @@ $(document).ready(function(){initNavTree('class_command_map.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_command_map.html">CommandMap</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#ab747221dbc48d1a096b6dde23cad4c14">addCommandforMessage</a>(size_t command, const MIDI_Message_ID &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_map.html#a208bac536d264cb0fbddaa45601d95b8">addCommandforMessage</a>(const std::string &amp;command, const MIDI_Message_ID &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#ab2eee7a65fab230f6f675d116722333c">addCommandforMessage</a>(size_t command, const RSJ::MidiMessageId &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#a139af623a3f7d4b12524f4d038df57fb">addCommandforMessage</a>(const std::string &amp;command, const RSJ::MidiMessageId &amp;cc)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a0c2d2b3cf78355b900858a92a8945ea6">clearMap</a>() noexcept</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_command_map.html#aa9baad26f298df96cd9e9d432676a06d">commandHasAssociatedMessage</a>(const std::string &amp;command) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a17917c3a5fb0f352b09b4a42344e4d11">CommandMap</a>() noexcept</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_map.html#aa84262c7092f50bb4deb544538430f19">getCommandforMessage</a>(const MIDI_Message_ID &amp;message) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#ae2c4de8b0837cdcff940e11840c87951">getMessagesForCommand</a>(const std::string &amp;command) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_map.html#a2756e149d61272bdd1d28dab12106ded">messageExistsInMap</a>(const MIDI_Message_ID &amp;message) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a2b6ed5adfc508cc05914c3b096e95337">removeMessage</a>(const MIDI_Message_ID &amp;message)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#a79cf73e560ee615d892b6e5fa38ffead">CommandMap</a>(const CommandMap &amp;)=delete</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#acdc3d363dd381e36108abdc9d81079b2">getCommandforMessage</a>(const RSJ::MidiMessageId &amp;message) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#ae4790a9634c3edab24649089bb142135">getMessagesForCommand</a>(const std::string &amp;command) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a37794dba4ea5fb4602ba2b49a86c29eb">messageExistsInMap</a>(const RSJ::MidiMessageId &amp;message) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_map.html#a31192d6995767b0bf6c500926ae9aace">operator=</a>(const CommandMap &amp;)=delete</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a36ac7cd371e7cca78782b5c2f0fc2208">removeMessage</a>(const RSJ::MidiMessageId &amp;message)</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_command_map.html#af61c26e79b72634ca8fd77b7233e12a5">toXMLDocument</a>(const juce::File &amp;file) const </td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#aaf94ac25cd2791e0217ce40e09248ce9">~CommandMap</a>()</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_map.html#a0a6d6677598a213de80221cae384b173">~CommandMap</a>()=default</td><td class="entry"><a class="el" href="class_command_map.html">CommandMap</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

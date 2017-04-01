@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['recursivereadlock',['RecursiveReadLock',['../classmir_1_1_recursive_read_lock.html',1,'mir']]],
-  ['recursivereadwritemutex',['RecursiveReadWriteMutex',['../classmir_1_1_recursive_read_write_mutex.html',1,'mir']]],
-  ['recursivewritelock',['RecursiveWriteLock',['../classmir_1_1_recursive_write_lock.html',1,'mir']]],
-  ['resizablechild',['ResizableChild',['../class_resizable_child.html',1,'']]],
-  ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html',1,'']]]
+  ['settingscomponent',['SettingsComponent',['../class_settings_component.html',1,'']]],
+  ['settingsmanager',['SettingsManager',['../class_settings_manager.html',1,'']]],
+  ['settingsstruct',['SettingsStruct',['../struct_r_s_j_1_1_settings_struct.html',1,'RSJ']]],
+  ['spinlock',['spinlock',['../class_r_s_j_1_1spinlock.html',1,'RSJ']]],
+  ['subject',['Subject',['../class_subject.html',1,'']]],
+  ['surfaceobservers',['SurfaceObservers',['../classmir_1_1scene_1_1_surface_observers.html',1,'mir::scene']]],
+  ['surfacestack',['SurfaceStack',['../classmir_1_1scene_1_1_surface_stack.html',1,'mir::scene']]]
 ];

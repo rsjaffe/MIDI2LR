@@ -4,7 +4,6 @@ var dir_9004245aaaaa2dad7b2f90fc9db90e30 =
       [ "BasicObservers", "classmir_1_1_basic_observers.html", null ]
     ] ],
     [ "EventType.h", "_event_type_8h.html", "_event_type_8h" ],
-    [ "GSL.h", "_g_s_l_8h.html", "_g_s_l_8h" ],
     [ "observer.h", "observer_8h.html", [
       [ "Observer", "classmir_1_1scene_1_1_observer.html", "classmir_1_1scene_1_1_observer" ]
     ] ],

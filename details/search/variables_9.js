@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['lenscorrections',['LensCorrections',['../class_l_r_command_list.html#a98ce251b3186b1879b14b938a8869f56',1,'LRCommandList']]],
-  ['library',['Library',['../class_l_r_command_list.html#a0b1a974e7ea08f06bc7382cf99f91990',1,'LRCommandList']]],
-  ['localadjustments',['LocalAdjustments',['../class_l_r_command_list.html#a83598b75b849c7cc3dd2547a902fbcaa',1,'LRCommandList']]],
-  ['low',['low',['../struct_r_s_j_1_1_settings_struct.html#a149d9b9157ab73f1351bae5cb1e14179',1,'RSJ::SettingsStruct']]],
-  ['lrstringlist',['LRStringList',['../class_l_r_command_list.html#a4b8cf198dd81e0def7e5bcc257e9d117',1,'LRCommandList']]]
+  ['kccflag',['kCCFlag',['../namespace_r_s_j.html#a108ff40656bd50df8ece242697d3d8cd',1,'RSJ']]],
+  ['kchanpressureflag',['kChanPressureFlag',['../namespace_r_s_j.html#af094b0d162f8985ff9ed700df573ec5b',1,'RSJ']]],
+  ['keyshortcuts',['KeyShortcuts',['../class_l_r_command_list.html#a2075210fecb31cd19414844293a35579',1,'LRCommandList']]],
+  ['kkeypressureflag',['kKeyPressureFlag',['../namespace_r_s_j.html#aa60799dab5d8e3797c0284109e522d79',1,'RSJ']]],
+  ['knoteoffflag',['kNoteOffFlag',['../namespace_r_s_j.html#a796c3b94e9a676f01cc869b3b58084e3',1,'RSJ']]],
+  ['knoteonflag',['kNoteOnFlag',['../namespace_r_s_j.html#a67deb7d36958e34fe9371253ab246f7b',1,'RSJ']]],
+  ['kpgmchangeflag',['kPgmChangeFlag',['../namespace_r_s_j.html#a3e2639bb067c96cf1db38a5eb42ade1c',1,'RSJ']]],
+  ['kpwflag',['kPWFlag',['../namespace_r_s_j.html#a24c07f078b52d7f94007b33e85480b5a',1,'RSJ']]],
+  ['ksystemflag',['kSystemFlag',['../namespace_r_s_j.html#ae316b71dab075e25f697d2d825c3f876',1,'RSJ']]]
 ];

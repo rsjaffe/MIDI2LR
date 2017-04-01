@@ -1,7 +1,5 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/MainComponent.h" name="Q:/Documents/GitHub/MIDI2LR/Source/MainComponent.h">
-<area shape="rect" id="node4" href="$_command_table_8h.html" title="CommandTable.h" alt="" coords="99,95,221,121"/>
-<area shape="rect" id="node5" href="$_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="435,95,594,121"/>
-<area shape="rect" id="node13" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="297,95,397,121"/>
-<area shape="rect" id="node15" href="$_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="695,95,825,121"/>
-<area shape="rect" id="node8" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="645,169,763,196"/>
+<area shape="rect" id="node4" href="$_command_table_8h.html" title="CommandTable.h" alt="" coords="149,95,272,121"/>
+<area shape="rect" id="node5" href="$_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="297,95,455,121"/>
+<area shape="rect" id="node8" href="$_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="479,95,609,121"/>
 </map>

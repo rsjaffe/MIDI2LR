@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -141,14 +141,18 @@ Collaboration diagram for MainContentComponent:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aaf120c1478fb7f2d0ffb9d1ef5a7adcb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb">MainContentComponent</a> ()</td></tr>
 <tr class="separator:aaf120c1478fb7f2d0ffb9d1ef5a7adcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a44920712793b1d33be790b1705e574"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a5a44920712793b1d33be790b1705e574">MainContentComponent</a> (const <a class="el" href="class_main_content_component.html">MainContentComponent</a> &amp;)=delete</td></tr>
+<tr class="separator:a5a44920712793b1d33be790b1705e574"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7769da539c2bc4d2c66b2a0f200dad18"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a7769da539c2bc4d2c66b2a0f200dad18">~MainContentComponent</a> ()</td></tr>
 <tr class="separator:a7769da539c2bc4d2c66b2a0f200dad18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae331c73bdade84de005e436e61c576c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#ae331c73bdade84de005e436e61c576c7">Init</a> (<a class="el" href="class_command_map.html">CommandMap</a> *command_map, std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midi_processor, <a class="el" href="class_profile_manager.html">ProfileManager</a> *profile_manager, <a class="el" href="class_settings_manager.html">SettingsManager</a> *settings_manager, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_sender.html">MIDISender</a> &gt; &amp;midi_sender)</td></tr>
-<tr class="separator:ae331c73bdade84de005e436e61c576c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ac30d8ddd2179417e18117dc7b4b5b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a2ac30d8ddd2179417e18117dc7b4b5b1">Init</a> (<a class="el" href="class_command_map.html">CommandMap</a> *const command_map, std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midi_processor, <a class="el" href="class_profile_manager.html">ProfileManager</a> *const profile_manager, <a class="el" href="class_settings_manager.html">SettingsManager</a> *const settings_manager, std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_sender.html">MIDISender</a> &gt; &amp;midi_sender)</td></tr>
+<tr class="separator:a2ac30d8ddd2179417e18117dc7b4b5b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85bddb9b97d0b443bd6bf0f53de09f41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a85bddb9b97d0b443bd6bf0f53de09f41">LRIpcOutCallback</a> (bool)</td></tr>
 <tr class="separator:a85bddb9b97d0b443bd6bf0f53de09f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9a46255efbd523160616a3b567e7483"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#ae9a46255efbd523160616a3b567e7483">MIDIcmdCallback</a> (<a class="el" href="struct_r_s_j_1_1_message.html">RSJ::Message</a>)</td></tr>
-<tr class="separator:ae9a46255efbd523160616a3b567e7483"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44211e748b81415bf68fbfd85fe5f37e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#a44211e748b81415bf68fbfd85fe5f37e">MIDIcmdCallback</a> (<a class="el" href="struct_r_s_j_1_1_midi_message.html">RSJ::MidiMessage</a>)</td></tr>
+<tr class="separator:a44211e748b81415bf68fbfd85fe5f37e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeba51fe1d5fa2b9e53b7fa4c15e9c71c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_main_content_component.html">MainContentComponent</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#aeba51fe1d5fa2b9e53b7fa4c15e9c71c">operator=</a> (const <a class="el" href="class_main_content_component.html">MainContentComponent</a> &amp;)=delete</td></tr>
+<tr class="separator:aeba51fe1d5fa2b9e53b7fa4c15e9c71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff0f99bdba40757988e4390168ed6356"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#aff0f99bdba40757988e4390168ed6356">profileChanged</a> (juce::XmlElement *elem, const juce::String &amp;file_name)</td></tr>
 <tr class="separator:aff0f99bdba40757988e4390168ed6356"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9dec1def96f43a3ae9110c70154a2ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_main_content_component.html#aa9dec1def96f43a3ae9110c70154a2ba">SetTimerText</a> (int time_value)</td></tr>
@@ -238,7 +242,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_main_component_8h_source.html#l00043">43</a> of file <a class="el" href="_main_component_8h_source.html">MainComponent.h</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8h_source.html#l00044">44</a> of file <a class="el" href="_main_component_8h_source.html">MainComponent.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aaf120c1478fb7f2d0ffb9d1ef5a7adcb"></a>
 <div class="memitem">
@@ -253,7 +257,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00058">58</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00059">59</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -278,19 +282,43 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00060">60</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00062">62</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5a44920712793b1d33be790b1705e574"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MainContentComponent::MainContentComponent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_main_content_component.html">MainContentComponent</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae331c73bdade84de005e436e61c576c7"></a>
+<a class="anchor" id="a2ac30d8ddd2179417e18117dc7b4b5b1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void MainContentComponent::Init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *const&#160;</td>
           <td class="paramname"><em>command_map</em>, </td>
         </tr>
         <tr>
@@ -308,13 +336,13 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_profile_manager.html">ProfileManager</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_profile_manager.html">ProfileManager</a> *const&#160;</td>
           <td class="paramname"><em>profile_manager</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_settings_manager.html">SettingsManager</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_settings_manager.html">SettingsManager</a> *const&#160;</td>
           <td class="paramname"><em>settings_manager</em>, </td>
         </tr>
         <tr>
@@ -331,7 +359,19 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00062">62</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00065">65</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+
+<p>References <a class="el" href="_command_table_model_8cpp_source.html#l00032">CommandTableModel::Init()</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_main_content_component_a2ac30d8ddd2179417e18117dc7b4b5b1_cgraph.png" border="0" usemap="#class_main_content_component_a2ac30d8ddd2179417e18117dc7b4b5b1_cgraph" alt=""/></div>
+<map name="class_main_content_component_a2ac30d8ddd2179417e18117dc7b4b5b1_cgraph" id="class_main_content_component_a2ac30d8ddd2179417e18117dc7b4b5b1_cgraph">
+<area shape="rect" id="node2" href="class_command_table_model.html#a19068c19b0955cdf4bfc7fa3889d0e47" title="CommandTableModel::Init" alt="" coords="215,13,387,39"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -349,11 +389,45 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00235">235</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00241">241</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ae9a46255efbd523160616a3b567e7483"></a>
+<a class="anchor" id="a44211e748b81415bf68fbfd85fe5f37e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MainContentComponent::MIDIcmdCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_r_s_j_1_1_midi_message.html">RSJ::MidiMessage</a>&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00208">208</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+
+<p>References <a class="el" href="_command_table_model_8cpp_source.html#l00166">CommandTableModel::addRow()</a>, <a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65caaa53ca0b650dfd85c4f59fa156f7a2cc">RSJ::CC</a>, <a class="el" href="_midi_utilities_8h_source.html#l00040">RSJ::MidiMessage::channel</a>, <a class="el" href="_command_table_model_8cpp_source.html#l00226">CommandTableModel::getRowForMessage()</a>, <a class="el" href="_midi_utilities_8h_source.html#l00032">RSJ::kCCFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00029">RSJ::kNoteOffFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00030">RSJ::kNoteOnFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00035">RSJ::kPWFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00039">RSJ::MidiMessage::message_type_byte</a>, <a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65ca10de4bc81f754b19b0d27246a0589c05">RSJ::NOTE</a>, <a class="el" href="_midi_utilities_8h_source.html#l00041">RSJ::MidiMessage::number</a>, and <a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65ca0a2db7e0135c29ea78f67ddea73dcf85">RSJ::PITCHBEND</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_main_content_component_a44211e748b81415bf68fbfd85fe5f37e_cgraph.png" border="0" usemap="#class_main_content_component_a44211e748b81415bf68fbfd85fe5f37e_cgraph" alt=""/></div>
+<map name="class_main_content_component_a44211e748b81415bf68fbfd85fe5f37e_cgraph" id="class_main_content_component_a44211e748b81415bf68fbfd85fe5f37e_cgraph">
+<area shape="rect" id="node2" href="class_command_table_model.html#a46557e1861b555327fa394897349df7e" title="CommandTableModel::\laddRow" alt="" coords="215,71,369,112"/>
+<area shape="rect" id="node6" href="class_command_table_model.html#ab9f66a1b8b48db81f7a6e94f74d7e1c7" title="CommandTableModel::\lgetRowForMessage" alt="" coords="215,136,369,177"/>
+<area shape="rect" id="node3" href="class_command_map.html#ab2eee7a65fab230f6f675d116722333c" title="CommandMap::addCommandfor\lMessage" alt="" coords="417,5,625,47"/>
+<area shape="rect" id="node4" href="class_command_map.html#a37794dba4ea5fb4602ba2b49a86c29eb" title="CommandMap::messageExists\lInMap" alt="" coords="419,71,623,112"/>
+<area shape="rect" id="node5" href="struct_r_s_j_1_1_midi_message_id.html#ae884e0724c95db075e67869626fa1341" title="RSJ::MidiMessageId\l::MidiMessageId" alt="" coords="451,136,592,177"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="aeba51fe1d5fa2b9e53b7fa4c15e9c71c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -361,23 +435,19 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void MainContentComponent::MIDIcmdCallback </td>
+          <td class="memname"><a class="el" href="class_main_content_component.html">MainContentComponent</a>&amp; MainContentComponent::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_r_s_j_1_1_message.html">RSJ::Message</a>&#160;</td>
-          <td class="paramname"><em>mm</em></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="class_main_content_component.html">MainContentComponent</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00203">203</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
-
-<p>References <a class="el" href="_command_map_8h_source.html#l00033">CC</a>, <a class="el" href="_midi_utilities_8h_source.html#l00038">RSJ::Message::Channel</a>, <a class="el" href="_midi_utilities_8h_source.html#l00030">RSJ::kCCFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00027">RSJ::kNoteOffFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00028">RSJ::kNoteOnFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00033">RSJ::kPWFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00037">RSJ::Message::MessageType</a>, <a class="el" href="_command_map_8h_source.html#l00033">NOTE</a>, and <a class="el" href="_command_map_8h_source.html#l00033">PITCHBEND</a>.</p>
 
 </div>
 </div>
@@ -413,7 +483,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00348">348</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00356">356</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -439,7 +509,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00371">371</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00381">381</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>
@@ -457,7 +527,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00361">361</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_main_component_8cpp_source.html#l00370">370</a> of file <a class="el" href="_main_component_8cpp_source.html">MainComponent.cpp</a>.</p>
 
 </div>
 </div>

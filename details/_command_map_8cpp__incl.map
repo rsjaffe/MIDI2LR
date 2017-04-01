@@ -1,4 +1,6 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/CommandMap.cpp" name="Q:/Documents/GitHub/MIDI2LR/Source/CommandMap.cpp">
-<area shape="rect" id="node2" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="196,95,313,121"/>
-<area shape="rect" id="node8" href="$_l_r_commands_8h.html" title="LRCommands.h" alt="" coords="379,95,493,121"/>
+<area shape="rect" id="node3" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="227,95,344,121"/>
+<area shape="rect" id="node12" href="$_l_r_commands_8h.html" title="LRCommands.h" alt="" coords="469,95,584,121"/>
+<area shape="rect" id="node9" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="86,169,186,196"/>
+<area shape="rect" id="node10" href="$_misc_8h.html" title="Misc.h" alt="" coords="107,251,168,278"/>
 </map>

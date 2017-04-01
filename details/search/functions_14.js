@@ -1,7 +1,26 @@
 var searchData=
 [
-  ['wait_5fand_5fpop',['wait_and_pop',['../class_r_s_j_1_1threadsafe__queue.html#ae8cf4c47c4913ee4a1af2a80137d13ae',1,'RSJ::threadsafe_queue::wait_and_pop(T &amp;value)'],['../class_r_s_j_1_1threadsafe__queue.html#adf53d8d6ea61eea127cce9c3ac49b386',1,'RSJ::threadsafe_queue::wait_and_pop()']]],
-  ['waitandpop',['WaitAndPop',['../classthreadsafe__queue.html#ab4e0b44a84746b21a71e4d8bcf041740',1,'threadsafe_queue::WaitAndPop()'],['../classthreadsafe__queue.html#ab01e55997c471e60c7da83e8bc0b4cd7',1,'threadsafe_queue::WaitAndPop(T &amp;value)']]],
-  ['write_5flock',['write_lock',['../classmir_1_1_recursive_read_write_mutex.html#a6e3c49759f7f496e482e6fd03174cef1',1,'mir::RecursiveReadWriteMutex']]],
-  ['write_5funlock',['write_unlock',['../classmir_1_1_recursive_read_write_mutex.html#afcb51f8d665a6055491ba78b53106a29',1,'mir::RecursiveReadWriteMutex']]]
+  ['_7eccoptions',['~CCoptions',['../class_c_coptions.html#a7d12f2662d4da84b42808a4bcfee8057',1,'CCoptions']]],
+  ['_7echannelmodel',['~ChannelModel',['../class_channel_model.html#afcdeee3d748343a45485c2c63e618964',1,'ChannelModel']]],
+  ['_7ecommandmap',['~CommandMap',['../class_command_map.html#a0a6d6677598a213de80221cae384b173',1,'CommandMap']]],
+  ['_7econtrolsmodel',['~ControlsModel',['../class_controls_model.html#ae598d9113a0c3705592140a1199d1569',1,'ControlsModel']]],
+  ['_7ecounter',['~counter',['../struct_r_s_j_1_1counter.html#afbe171f3923f3f7e4d7ea1bf7e6b6037',1,'RSJ::counter']]],
+  ['_7elr_5fipc_5fin',['~LR_IPC_IN',['../class_l_r___i_p_c___i_n.html#ad613e4cc08f64677aabe852af4a026ce',1,'LR_IPC_IN']]],
+  ['_7elr_5fipc_5fout',['~LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html#ab6886bfd16f03d4c29429087f4ea5421',1,'LR_IPC_OUT']]],
+  ['_7emaincontentcomponent',['~MainContentComponent',['../class_main_content_component.html#a7769da539c2bc4d2c66b2a0f200dad18',1,'MainContentComponent']]],
+  ['_7emidiprocessor',['~MIDIProcessor',['../class_m_i_d_i_processor.html#a372684eef733797c7fe3c7384fbf1357',1,'MIDIProcessor']]],
+  ['_7emidisender',['~MIDISender',['../class_m_i_d_i_sender.html#a15940ffa7e647bf49b1bae8ff8f17717',1,'MIDISender']]],
+  ['_7enrpn_5ffilter',['~NRPN_Filter',['../class_n_r_p_n___filter.html#aa63a87c27f78b6b6b349f0e59ed2a76a',1,'NRPN_Filter']]],
+  ['_7enrpn_5fmessage',['~NRPN_Message',['../class_n_r_p_n___message.html#a5d1a4b14d89f246934f897af5e9e2923',1,'NRPN_Message']]],
+  ['_7eobserver',['~Observer',['../classmir_1_1scene_1_1_observer.html#a06413c8d001e1e1a2d85ecfdb94cf82b',1,'mir::scene::Observer']]],
+  ['_7eprofilemanager',['~ProfileManager',['../class_profile_manager.html#a4d90e6e650092b7690f14957882038ec',1,'ProfileManager']]],
+  ['_7epwoptions',['~PWoptions',['../class_p_woptions.html#a0fbbb29546c930f7f2156475754a8815',1,'PWoptions']]],
+  ['_7erecursivereadlock',['~RecursiveReadLock',['../classmir_1_1_recursive_read_lock.html#a2721ff534e4e8bacfb7db8e0c89ef926',1,'mir::RecursiveReadLock']]],
+  ['_7erecursivewritelock',['~RecursiveWriteLock',['../classmir_1_1_recursive_write_lock.html#adf575a8cddd4ea1589323063edbd5a00',1,'mir::RecursiveWriteLock']]],
+  ['_7eresizablechild',['~ResizableChild',['../class_resizable_child.html#a57a06b3f6301466017274dc58aea8904',1,'ResizableChild']]],
+  ['_7eresizablelayout',['~ResizableLayout',['../class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc',1,'ResizableLayout']]],
+  ['_7esettingscomponent',['~SettingsComponent',['../class_settings_component.html#a2ed5c4f0e9f7a6e0425d244d03d31dcf',1,'SettingsComponent']]],
+  ['_7esettingsmanager',['~SettingsManager',['../class_settings_manager.html#abec28a8942bba0169af7e955de59dd0e',1,'SettingsManager']]],
+  ['_7esurfacestack',['~SurfaceStack',['../classmir_1_1scene_1_1_surface_stack.html#ae39607269587ca8539961175b98db884',1,'mir::scene::SurfaceStack']]],
+  ['_7eversionchecker',['~VersionChecker',['../class_version_checker.html#a71054f63bc53a7633a38b25783540cac',1,'VersionChecker']]]
 ];

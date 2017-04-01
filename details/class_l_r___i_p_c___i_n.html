@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -134,8 +134,8 @@ Collaboration diagram for LR_IPC_IN:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a43d73c17ee039ef8bf76025e2cbbde44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___i_n.html#a43d73c17ee039ef8bf76025e2cbbde44">LR_IPC_IN</a> (<a class="el" href="class_controls_model.html">ControlsModel</a> *c_model, <a class="el" href="class_profile_manager.html">ProfileManager</a> *profileManager, <a class="el" href="class_command_map.html">CommandMap</a> *commandMap)</td></tr>
-<tr class="separator:a43d73c17ee039ef8bf76025e2cbbde44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89fd1d1561700c42dd903737dabac40d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___i_n.html#a89fd1d1561700c42dd903737dabac40d">LR_IPC_IN</a> (<a class="el" href="class_controls_model.html">ControlsModel</a> *const c_model, <a class="el" href="class_profile_manager.html">ProfileManager</a> *const profileManager, <a class="el" href="class_command_map.html">CommandMap</a> *const commandMap)</td></tr>
+<tr class="separator:a89fd1d1561700c42dd903737dabac40d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad613e4cc08f64677aabe852af4a026ce"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___i_n.html#ad613e4cc08f64677aabe852af4a026ce">~LR_IPC_IN</a> ()</td></tr>
 <tr class="separator:ad613e4cc08f64677aabe852af4a026ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f81e75908c4e84bb74d4c5fa49b75cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___i_n.html#a9f81e75908c4e84bb74d4c5fa49b75cd">Init</a> (std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_sender.html">MIDISender</a> &gt; &amp;midiSender) noexcept</td></tr>
@@ -145,28 +145,28 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8h_source.html#l00035">35</a> of file <a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_In.h</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8h_source.html#l00034">34</a> of file <a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_In.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a43d73c17ee039ef8bf76025e2cbbde44"></a>
+<a class="anchor" id="a89fd1d1561700c42dd903737dabac40d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">LR_IPC_IN::LR_IPC_IN </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_controls_model.html">ControlsModel</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_controls_model.html">ControlsModel</a> *const&#160;</td>
           <td class="paramname"><em>c_model</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_profile_manager.html">ProfileManager</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_profile_manager.html">ProfileManager</a> *const&#160;</td>
           <td class="paramname"><em>profileManager</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *const&#160;</td>
           <td class="paramname"><em>commandMap</em>&#160;</td>
         </tr>
         <tr>
@@ -177,17 +177,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00047">47</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00048">48</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
-<p>References <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00047">LR_IPC_IN()</a>.</p>
+<p>References <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00048">LR_IPC_IN()</a>.</p>
 
-<p>Referenced by <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00047">LR_IPC_IN()</a>.</p>
+<p>Referenced by <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00048">LR_IPC_IN()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_cgraph.png" border="0" usemap="#class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_cgraph" alt=""/></div>
-<map name="class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_cgraph" id="class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_cgraph">
+<div class="center"><img src="class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_cgraph.png" border="0" usemap="#class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_cgraph" alt=""/></div>
+<map name="class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_cgraph" id="class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_cgraph">
 </map>
 </div>
 </p>
@@ -195,8 +195,8 @@ Here is the call graph for this function:</div>
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_icgraph.png" border="0" usemap="#class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_icgraph" alt=""/></div>
-<map name="class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_icgraph" id="class_l_r___i_p_c___i_n_a43d73c17ee039ef8bf76025e2cbbde44_icgraph">
+<div class="center"><img src="class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_icgraph.png" border="0" usemap="#class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_icgraph" alt=""/></div>
+<map name="class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_icgraph" id="class_l_r___i_p_c___i_n_a89fd1d1561700c42dd903737dabac40d_icgraph">
 </map>
 </div>
 </p>
@@ -224,7 +224,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00052">52</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00053">53</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
 </div>
 </div>
@@ -251,7 +251,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00062">62</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00064">64</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
 </div>
 </div>
@@ -269,7 +269,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00068">68</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___in_8cpp_source.html#l00071">71</a> of file <a class="el" href="_l_r___i_p_c___in_8cpp_source.html">LR_IPC_In.cpp</a>.</p>
 
 </div>
 </div>

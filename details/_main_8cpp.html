@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -121,8 +121,8 @@ $(document).ready(function(){initNavTree('_main_8cpp.html','');});
 <code>#include &quot;<a class="el" href="_c_coptions_8h_source.html">CCoptions.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_IN.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_l_r___i_p_c___out_8h_source.html">LR_IPC_OUT.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_In.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_l_r___i_p_c___out_8h_source.html">LR_IPC_Out.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_main_component_8h_source.html">MainComponent.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_main_window_8h_source.html">MainWindow.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>&quot;</code><br />
@@ -136,25 +136,25 @@ Include dependency graph for Main.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="_main_8cpp__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_8cpp" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_8cpp" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_8cpp">
-<area shape="rect" id="node7" href="_c_coptions_8h.html" title="CCoptions.h" alt="" coords="2974,95,3067,121"/>
-<area shape="rect" id="node8" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="1021,244,1138,271"/>
-<area shape="rect" id="node13" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="624,169,740,196"/>
-<area shape="rect" id="node28" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_IN.h" alt="" coords="1439,169,1535,196"/>
-<area shape="rect" id="node29" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_OUT.h" alt="" coords="1121,169,1232,196"/>
-<area shape="rect" id="node31" href="_main_component_8h.html" title="MainComponent.h" alt="" coords="1867,95,1993,121"/>
-<area shape="rect" id="node36" href="_main_window_8h.html" title="MainWindow.h" alt="" coords="2438,169,2545,196"/>
-<area shape="rect" id="node37" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1615,95,1733,121"/>
-<area shape="rect" id="node39" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="2161,169,2261,196"/>
-<area shape="rect" id="node40" href="_p_woptions_8h.html" title="PWoptions.h" alt="" coords="2652,95,2749,121"/>
-<area shape="rect" id="node41" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="2019,169,2137,196"/>
-<area shape="rect" id="node42" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="2569,169,2699,196"/>
-<area shape="rect" id="node43" href="_version_checker_8h.html" title="VersionChecker.h" alt="" coords="2774,169,2899,196"/>
-<area shape="rect" id="node22" href="_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="621,244,743,271"/>
-<area shape="rect" id="node30" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1621,244,1721,271"/>
-<area shape="rect" id="node32" href="_command_table_8h.html" title="CommandTable.h" alt="" coords="1973,244,2095,271"/>
-<area shape="rect" id="node33" href="_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="1256,169,1415,196"/>
-<area shape="rect" id="node34" href="_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="1763,169,1892,196"/>
-<area shape="rect" id="node38" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="984,169,1097,196"/>
+<area shape="rect" id="node7" href="_c_coptions_8h.html" title="CCoptions.h" alt="" coords="1429,95,1522,121"/>
+<area shape="rect" id="node8" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="2023,95,2141,121"/>
+<area shape="rect" id="node16" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="2609,169,2725,196"/>
+<area shape="rect" id="node24" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="1740,169,1835,196"/>
+<area shape="rect" id="node26" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_Out.h" alt="" coords="1911,169,2016,196"/>
+<area shape="rect" id="node27" href="_main_component_8h.html" title="MainComponent.h" alt="" coords="813,95,940,121"/>
+<area shape="rect" id="node33" href="_main_window_8h.html" title="MainWindow.h" alt="" coords="603,169,710,196"/>
+<area shape="rect" id="node34" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1605,95,1724,121"/>
+<area shape="rect" id="node37" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="1167,169,1267,196"/>
+<area shape="rect" id="node38" href="_p_woptions_8h.html" title="PWoptions.h" alt="" coords="1307,95,1404,121"/>
+<area shape="rect" id="node39" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="1495,169,1613,196"/>
+<area shape="rect" id="node40" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="249,169,379,196"/>
+<area shape="rect" id="node41" href="_version_checker_8h.html" title="VersionChecker.h" alt="" coords="403,169,529,196"/>
+<area shape="rect" id="node13" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="2277,169,2377,196"/>
+<area shape="rect" id="node14" href="_misc_8h.html" title="Misc.h" alt="" coords="2277,251,2338,278"/>
+<area shape="rect" id="node28" href="_command_table_8h.html" title="CommandTable.h" alt="" coords="1019,169,1142,196"/>
+<area shape="rect" id="node29" href="_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="836,169,995,196"/>
+<area shape="rect" id="node31" href="_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="44,169,173,196"/>
+<area shape="rect" id="node35" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="2401,169,2515,196"/>
 </map>
 </div>
 </div>
@@ -167,7 +167,7 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:af3606c5611f0c27e8a2f8ba5e0dc775e"><td class="memItemLeft" align="right" valign="top">const juce::String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#af3606c5611f0c27e8a2f8ba5e0dc775e">ShutDownString</a> { &quot;--LRSHUTDOWN&quot; }</td></tr>
+<tr class="memitem:af3606c5611f0c27e8a2f8ba5e0dc775e"><td class="memItemLeft" align="right" valign="top">const juce::String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_main_8cpp.html#af3606c5611f0c27e8a2f8ba5e0dc775e">ShutDownString</a> {&quot;--LRSHUTDOWN&quot;}</td></tr>
 <tr class="separator:af3606c5611f0c27e8a2f8ba5e0dc775e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -176,7 +176,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const juce::String ShutDownString { &quot;--LRSHUTDOWN&quot; }</td>
+          <td class="memname">const juce::String ShutDownString {&quot;--LRSHUTDOWN&quot;}</td>
         </tr>
       </table>
 </div><div class="memdoc">

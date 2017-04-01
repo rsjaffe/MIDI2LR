@@ -1,0 +1,5 @@
+<map id="CommandTableModel::addRow" name="CommandTableModel::addRow">
+<area shape="rect" id="node2" href="$class_command_map.html#ab2eee7a65fab230f6f675d116722333c" title="CommandMap::addCommandfor\lMessage" alt="" coords="208,5,416,47"/>
+<area shape="rect" id="node3" href="$class_command_map.html#a37794dba4ea5fb4602ba2b49a86c29eb" title="CommandMap::messageExists\lInMap" alt="" coords="210,71,414,112"/>
+<area shape="rect" id="node4" href="$struct_r_s_j_1_1_midi_message_id.html#ae884e0724c95db075e67869626fa1341" title="RSJ::MidiMessageId\l::MidiMessageId" alt="" coords="241,136,383,177"/>
+</map>

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -136,16 +136,20 @@ Collaboration diagram for CommandTableModel:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8d3504f4bea9dbc35e2d17930508b921"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a8d3504f4bea9dbc35e2d17930508b921">CommandTableModel</a> () noexcept</td></tr>
 <tr class="separator:a8d3504f4bea9dbc35e2d17930508b921"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ac89ae0020ec0dd351fef7cf83338b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a8ac89ae0020ec0dd351fef7cf83338b5">addRow</a> (int midi_channel, int midi_data, <a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a> msgType)</td></tr>
-<tr class="separator:a8ac89ae0020ec0dd351fef7cf83338b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453446bc5758a638f82e047f16436c18"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a453446bc5758a638f82e047f16436c18">CommandTableModel</a> (const <a class="el" href="class_command_table_model.html">CommandTableModel</a> &amp;)=delete</td></tr>
+<tr class="separator:a453446bc5758a638f82e047f16436c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46557e1861b555327fa394897349df7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a46557e1861b555327fa394897349df7e">addRow</a> (int midi_channel, int midi_data, <a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c">RSJ::MsgIdEnum</a> msgType)</td></tr>
+<tr class="separator:a46557e1861b555327fa394897349df7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63e2d1cc744c6132dcbd167fb0b82c67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67">buildFromXml</a> (const juce::XmlElement *const elem)</td></tr>
 <tr class="separator:a63e2d1cc744c6132dcbd167fb0b82c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae89ca7ee2106ffe3a8d326da313e3bf2"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2">getNumRows</a> () override</td></tr>
 <tr class="separator:ae89ca7ee2106ffe3a8d326da313e3bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95c92b56955450c4f91885186182c361"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a95c92b56955450c4f91885186182c361">getRowForMessage</a> (int midi_channel, int midi_data, <a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a> msgType) const </td></tr>
-<tr class="separator:a95c92b56955450c4f91885186182c361"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09b606140e45708b75d96e60a3d5fc34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a09b606140e45708b75d96e60a3d5fc34">Init</a> (<a class="el" href="class_command_map.html">CommandMap</a> *mapCommand) noexcept</td></tr>
-<tr class="separator:a09b606140e45708b75d96e60a3d5fc34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9f66a1b8b48db81f7a6e94f74d7e1c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#ab9f66a1b8b48db81f7a6e94f74d7e1c7">getRowForMessage</a> (int midi_channel, int midi_data, <a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c">RSJ::MsgIdEnum</a> msgType) const </td></tr>
+<tr class="separator:ab9f66a1b8b48db81f7a6e94f74d7e1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19068c19b0955cdf4bfc7fa3889d0e47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a19068c19b0955cdf4bfc7fa3889d0e47">Init</a> (<a class="el" href="class_command_map.html">CommandMap</a> *const mapCommand) noexcept</td></tr>
+<tr class="separator:a19068c19b0955cdf4bfc7fa3889d0e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f847fe178455751a8d17361beb6489f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_command_table_model.html">CommandTableModel</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a0f847fe178455751a8d17361beb6489f">operator=</a> (const <a class="el" href="class_command_table_model.html">CommandTableModel</a> &amp;)=delete</td></tr>
+<tr class="separator:a0f847fe178455751a8d17361beb6489f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1731d1e69cd6391c72fa04e00544339"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339">paintCell</a> (juce::Graphics &amp;, int rowNumber, int columnId, int width, int height, bool rowIsSelected) override</td></tr>
 <tr class="separator:ad1731d1e69cd6391c72fa04e00544339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a414acf39781c1ad44e881a7d81d13d87"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87">paintRowBackground</a> (juce::Graphics &amp;, int rowNumber, int width, int height, bool rowIsSelected) override</td></tr>
@@ -161,7 +165,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_command_table_model_8h_source.html#l00030">30</a> of file <a class="el" href="_command_table_model_8h_source.html">CommandTableModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8h_source.html#l00034">34</a> of file <a class="el" href="_command_table_model_8h_source.html">CommandTableModel.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a8d3504f4bea9dbc35e2d17930508b921"></a>
 <div class="memitem">
@@ -184,12 +188,36 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00027">27</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00029">29</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a453446bc5758a638f82e047f16436c18"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CommandTableModel::CommandTableModel </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_command_table_model.html">CommandTableModel</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a8ac89ae0020ec0dd351fef7cf83338b5"></a>
+<a class="anchor" id="a46557e1861b555327fa394897349df7e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -208,7 +236,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c">RSJ::MsgIdEnum</a>&#160;</td>
           <td class="paramname"><em>msgType</em>&#160;</td>
         </tr>
         <tr>
@@ -219,18 +247,30 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00157">157</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00166">166</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_map_8cpp_source.html#l00029">CommandMap::addCommandforMessage()</a>, <a class="el" href="_command_map_8h_source.html#l00145">CommandMap::messageExistsInMap()</a>, and <a class="el" href="_command_map_8h_source.html#l00052">MIDI_Message_ID::MIDI_Message_ID()</a>.</p>
+<p>References <a class="el" href="_command_map_8cpp_source.html#l00031">CommandMap::addCommandforMessage()</a>, <a class="el" href="_command_map_8h_source.html#l00101">CommandMap::messageExistsInMap()</a>, and <a class="el" href="_midi_utilities_8h_source.html#l00071">RSJ::MidiMessageId::MidiMessageId()</a>.</p>
+
+<p>Referenced by <a class="el" href="_main_component_8cpp_source.html#l00208">MainContentComponent::MIDIcmdCallback()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph.png" border="0" usemap="#class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph" alt=""/></div>
-<map name="class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph" id="class_command_table_model_a8ac89ae0020ec0dd351fef7cf83338b5_cgraph">
-<area shape="rect" id="node2" href="class_command_map.html#ab747221dbc48d1a096b6dde23cad4c14" title="CommandMap::addCommandfor\lMessage" alt="" coords="208,5,416,47"/>
-<area shape="rect" id="node3" href="class_command_map.html#a2756e149d61272bdd1d28dab12106ded" title="CommandMap::messageExists\lInMap" alt="" coords="210,71,414,112"/>
-<area shape="rect" id="node4" href="struct_m_i_d_i___message___i_d.html#acdf63bfeeb53f1ed600950a0d3c76a61" title="MIDI_Message_ID::MIDI\l_Message_ID" alt="" coords="231,136,393,177"/>
+<div class="center"><img src="class_command_table_model_a46557e1861b555327fa394897349df7e_cgraph.png" border="0" usemap="#class_command_table_model_a46557e1861b555327fa394897349df7e_cgraph" alt=""/></div>
+<map name="class_command_table_model_a46557e1861b555327fa394897349df7e_cgraph" id="class_command_table_model_a46557e1861b555327fa394897349df7e_cgraph">
+<area shape="rect" id="node2" href="class_command_map.html#ab2eee7a65fab230f6f675d116722333c" title="CommandMap::addCommandfor\lMessage" alt="" coords="208,5,416,47"/>
+<area shape="rect" id="node3" href="class_command_map.html#a37794dba4ea5fb4602ba2b49a86c29eb" title="CommandMap::messageExists\lInMap" alt="" coords="210,71,414,112"/>
+<area shape="rect" id="node4" href="struct_r_s_j_1_1_midi_message_id.html#ae884e0724c95db075e67869626fa1341" title="RSJ::MidiMessageId\l::MidiMessageId" alt="" coords="241,136,383,177"/>
+</map>
+</div>
+</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_command_table_model_a46557e1861b555327fa394897349df7e_icgraph.png" border="0" usemap="#class_command_table_model_a46557e1861b555327fa394897349df7e_icgraph" alt=""/></div>
+<map name="class_command_table_model_a46557e1861b555327fa394897349df7e_icgraph" id="class_command_table_model_a46557e1861b555327fa394897349df7e_icgraph">
+<area shape="rect" id="node2" href="class_main_content_component.html#a44211e748b81415bf68fbfd85fe5f37e" title="MainContentComponent\l::MIDIcmdCallback" alt="" coords="208,5,369,47"/>
 </map>
 </div>
 </p>
@@ -251,9 +291,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00181">181</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00193">193</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_table_model_8cpp_source.html#l00173">removeAllRows()</a>.</p>
+<p>References <a class="el" href="_command_table_model_8cpp_source.html#l00184">removeAllRows()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -289,11 +329,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00048">48</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00053">53</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a95c92b56955450c4f91885186182c361"></a>
+<a class="anchor" id="ab9f66a1b8b48db81f7a6e94f74d7e1c7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -312,7 +352,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_command_map_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c">RSJ::MsgIdEnum</a>&#160;</td>
           <td class="paramname"><em>msgType</em>&#160;</td>
         </tr>
         <tr>
@@ -323,11 +363,23 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00230">230</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00226">226</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+
+<p>Referenced by <a class="el" href="_main_component_8cpp_source.html#l00208">MainContentComponent::MIDIcmdCallback()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_command_table_model_ab9f66a1b8b48db81f7a6e94f74d7e1c7_icgraph.png" border="0" usemap="#class_command_table_model_ab9f66a1b8b48db81f7a6e94f74d7e1c7_icgraph" alt=""/></div>
+<map name="class_command_table_model_ab9f66a1b8b48db81f7a6e94f74d7e1c7_icgraph" id="class_command_table_model_ab9f66a1b8b48db81f7a6e94f74d7e1c7_icgraph">
+<area shape="rect" id="node2" href="class_main_content_component.html#a44211e748b81415bf68fbfd85fe5f37e" title="MainContentComponent\l::MIDIcmdCallback" alt="" coords="208,5,369,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
-<a class="anchor" id="a09b606140e45708b75d96e60a3d5fc34"></a>
+<a class="anchor" id="a19068c19b0955cdf4bfc7fa3889d0e47"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -337,7 +389,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">void CommandTableModel::Init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_command_map.html">CommandMap</a> *const&#160;</td>
           <td class="paramname"><em>mapCommand</em></td><td>)</td>
           <td></td>
         </tr>
@@ -349,7 +401,43 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00029">29</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00032">32</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+
+<p>Referenced by <a class="el" href="_main_component_8cpp_source.html#l00065">MainContentComponent::Init()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_command_table_model_a19068c19b0955cdf4bfc7fa3889d0e47_icgraph.png" border="0" usemap="#class_command_table_model_a19068c19b0955cdf4bfc7fa3889d0e47_icgraph" alt=""/></div>
+<map name="class_command_table_model_a19068c19b0955cdf4bfc7fa3889d0e47_icgraph" id="class_command_table_model_a19068c19b0955cdf4bfc7fa3889d0e47_icgraph">
+<area shape="rect" id="node2" href="class_main_content_component.html#a2ac30d8ddd2179417e18117dc7b4b5b1" title="MainContentComponent\l::Init" alt="" coords="225,5,387,47"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a0f847fe178455751a8d17361beb6489f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_command_table_model.html">CommandTableModel</a>&amp; CommandTableModel::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_command_table_model.html">CommandTableModel</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -409,7 +497,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00069">69</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00076">76</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -463,7 +551,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00056">56</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00062">62</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -511,16 +599,16 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00107">107</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00115">115</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_menu_8cpp_source.html#l00051">CommandMenu::Init()</a>.</p>
+<p>References <a class="el" href="_command_menu_8cpp_source.html#l00050">CommandMenu::Init()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_command_table_model_ad6cce73101cffa884e56b4d50377460e_cgraph.png" border="0" usemap="#class_command_table_model_ad6cce73101cffa884e56b4d50377460e_cgraph" alt=""/></div>
 <map name="class_command_table_model_ad6cce73101cffa884e56b4d50377460e_cgraph" id="class_command_table_model_ad6cce73101cffa884e56b4d50377460e_cgraph">
-<area shape="rect" id="node2" href="class_command_menu.html#a3c55a50ebb125b76b72e1790c21d84a9" title="CommandMenu::Init" alt="" coords="221,13,360,39"/>
+<area shape="rect" id="node2" href="class_command_menu.html#a62bf7357be5efb68cfb278ecda900621" title="CommandMenu::Init" alt="" coords="221,13,360,39"/>
 </map>
 </div>
 </p>
@@ -540,11 +628,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00173">173</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00184">184</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
-<p>References <a class="el" href="_command_map_8h_source.html#l00140">CommandMap::clearMap()</a>.</p>
+<p>References <a class="el" href="_command_map_8h_source.html#l00095">CommandMap::clearMap()</a>.</p>
 
-<p>Referenced by <a class="el" href="_command_table_model_8cpp_source.html#l00181">buildFromXml()</a>.</p>
+<p>Referenced by <a class="el" href="_command_table_model_8cpp_source.html#l00193">buildFromXml()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -582,7 +670,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00166">166</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00176">176</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>
@@ -618,7 +706,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00036">36</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_command_table_model_8cpp_source.html#l00040">40</a> of file <a class="el" href="_command_table_model_8cpp_source.html">CommandTableModel.cpp</a>.</p>
 
 </div>
 </div>

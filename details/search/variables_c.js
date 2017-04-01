@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['objects_5falive',['objects_alive',['../struct_r_s_j_1_1counter.html#afed46aefe184d8282b79239cf73b0c26',1,'RSJ::counter']]],
-  ['objects_5fcreated',['objects_created',['../struct_r_s_j_1_1counter.html#a6fc94d4618bbfc2609a3097144f30c9c',1,'RSJ::counter']]]
+  ['nextprevprofile',['NextPrevProfile',['../class_l_r_command_list.html#a024ac57115cbabf09db652029712ad6e',1,'LRCommandList']]],
+  ['number',['number',['../struct_r_s_j_1_1_settings_struct.html#ae51e7d0d68efb65b2926d3296df0d379',1,'RSJ::SettingsStruct::number()'],['../struct_r_s_j_1_1_midi_message.html#a383edd585c19f8a74bf6d1f1ae19bb47',1,'RSJ::MidiMessage::number()']]]
 ];

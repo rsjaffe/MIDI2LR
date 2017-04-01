@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -115,18 +115,20 @@ $(document).ready(function(){initNavTree('class_profile_manager.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_profile_manager.html">ProfileManager</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#aa4961c115479041cd83d4c3457342480">addCallback</a>(T *object, void(T::*mf)(juce::XmlElement *, const juce::String &amp;))</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a1741fb861dcc8181b98f010bb85edc7b">addCallback</a>(T *const object, void(T::*const mf)(juce::XmlElement *, const juce::String &amp;))</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile_manager.html#aa03f6e3ff3d38226407934ec3b3237e5">ConnectionCallback</a>(bool)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a39a43ec130d313f5816372d1635cf3cc">getMenuItems</a>() const  noexcept</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a8539c616db84fee9ae47d1de1026547e">Init</a>(std::weak_ptr&lt; LR_IPC_OUT &gt; &amp;&amp;out, std::shared_ptr&lt; MIDIProcessor &gt; &amp;midi_processor)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a272a80df23c2f8d18b61378eac52e629">MIDIcmdCallback</a>(RSJ::Message)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_profile_manager.html#aedbce0fe9236c3ac890d9540a718af38">ProfileManager</a>(ControlsModel *c_model, CommandMap *const cmap) noexcept</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a2067eff2b3cd2f74c3387ef4aba32e1f">Init</a>(std::weak_ptr&lt; LR_IPC_OUT &gt; &amp;&amp;out, const std::shared_ptr&lt; MIDIProcessor &gt; &amp;midi_processor)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a25c92f9321a226d4adda26b817ed02e7">MIDIcmdCallback</a>(RSJ::MidiMessage)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a0cbf4411cbbdecbb8972acef5148dfe4">operator=</a>(ProfileManager const &amp;)=delete</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#ac147457c9dc4816fe787e3f022489745">ProfileManager</a>(ControlsModel *const c_model, CommandMap *const cmap) noexcept</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a9fbfc1c269deebffb24cb483c5554d64">ProfileManager</a>(ProfileManager const &amp;)=delete</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#af95ce2ad04ffffae98504a44962c9030">setProfileDirectory</a>(const juce::File &amp;dir)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile_manager.html#a7644e0703d1bdb3172271cec13e86662">switchToNextProfile</a>()</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a778eb208053cbcb18a7056b4066632ec">switchToPreviousProfile</a>()</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile_manager.html#a2744c8c215043462fa1805eb489d0232">switchToProfile</a>(int profileIdx)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#ad72035422207caf236dace0c35282d77">switchToProfile</a>(const juce::String &amp;profile)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a29f66b82d8f081dbb11a9634493458f3">~ProfileManager</a>()</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a4d90e6e650092b7690f14957882038ec">~ProfileManager</a>()=default</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

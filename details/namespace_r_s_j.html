@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -121,7 +121,11 @@ $(document).ready(function(){initNavTree('namespace_r_s_j.html','');});
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_s_j_1_1counter.html">counter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_s_j_1_1_message.html">Message</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_s_j_1_1_midi_message.html">MidiMessage</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_s_j_1_1_midi_message_id.html">MidiMessageId</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_s_j_1_1_n_r_p_n.html">NRPN</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_r_s_j_1_1_settings_struct.html">SettingsStruct</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +147,11 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespace_r_s_j.html#ae8a1ba44063d299ffca391860807ce69a44e537adddb8a53d06df9f7e13fba8ab">CCmethod::signmagnitude</a>
  }</td></tr>
 <tr class="separator:ae8a1ba44063d299ffca391860807ce69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45732ba190d17bd00577dd22809bf65c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c">MsgIdEnum</a> : short { <a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65ca10de4bc81f754b19b0d27246a0589c05">MsgIdEnum::NOTE</a>, 
+<a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65caaa53ca0b650dfd85c4f59fa156f7a2cc">MsgIdEnum::CC</a>, 
+<a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65ca0a2db7e0135c29ea78f67ddea73dcf85">MsgIdEnum::PITCHBEND</a>
+ }</td></tr>
+<tr class="separator:a45732ba190d17bd00577dd22809bf65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -152,8 +161,6 @@ Functions</h2></td></tr>
 <tr class="separator:aad280f0b636be1c144203a8a97037f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0314a8b58a24632f2c0af8410140b620"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a0314a8b58a24632f2c0af8410140b620">now_ms</a> () noexcept</td></tr>
 <tr class="separator:a0314a8b58a24632f2c0af8410140b620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0158a4b0e3a22766beef3a433a0b2850"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_r_s_j_1_1_message.html">Message</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a0158a4b0e3a22766beef3a433a0b2850">ParseMidi</a> (const juce::MidiMessage &amp;mm) noexcept</td></tr>
-<tr class="separator:a0158a4b0e3a22766beef3a433a0b2850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16cd63e4c06f69785a058e1811492615"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a16cd63e4c06f69785a058e1811492615">rtrim</a> (const std::string &amp;str, const std::string &amp;what=RSJ::space)</td></tr>
 <tr class="separator:a16cd63e4c06f69785a058e1811492615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a860384e52fd39547dccf094da34f81f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_r_s_j.html#a860384e52fd39547dccf094da34f81f1">SendKeyDownUp</a> (const std::string &amp;key, const bool alt_opt, const bool control_cmd, const bool shift)</td></tr>
@@ -191,7 +198,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00041">41</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00042">42</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -228,6 +235,36 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a45732ba190d17bd00577dd22809bf65c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c">RSJ::MsgIdEnum</a> : short</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a45732ba190d17bd00577dd22809bf65ca10de4bc81f754b19b0d27246a0589c05"></a>NOTE&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a45732ba190d17bd00577dd22809bf65caaa53ca0b650dfd85c4f59fa156f7a2cc"></a>CC&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a45732ba190d17bd00577dd22809bf65ca0a2db7e0135c29ea78f67ddea73dcf85"></a>PITCHBEND&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00051">51</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="ac939503555fbd52e720502b663d1b046"></a>
 <div class="memitem">
@@ -261,7 +298,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_utilities_8h_source.html#l00161">161</a> of file <a class="el" href="_utilities_8h_source.html">Utilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_utilities_8h_source.html#l00148">148</a> of file <a class="el" href="_utilities_8h_source.html">Utilities.h</a>.</p>
 
 </div>
 </div>
@@ -289,7 +326,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_utilities_8cpp_source.html#l00032">32</a> of file <a class="el" href="_utilities_8cpp_source.html">Utilities.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_utilities_8cpp_source.html#l00033">33</a> of file <a class="el" href="_utilities_8cpp_source.html">Utilities.cpp</a>.</p>
 
 </div>
 </div>
@@ -318,44 +355,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0158a4b0e3a22766beef3a433a0b2850"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_r_s_j_1_1_message.html">Message</a> RSJ::ParseMidi </td>
-          <td>(</td>
-          <td class="paramtype">const juce::MidiMessage &amp;&#160;</td>
-          <td class="paramname"><em>mm</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00047">47</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
-
-<p>References <a class="el" href="_midi_utilities_8h_source.html#l00034">kSystemFlag</a>, <a class="el" href="_midi_utilities_8h_source.html#l00043">RSJ::Message::Message()</a>, <a class="el" href="_midi_utilities_8h_source.html#l00037">RSJ::Message::MessageType</a>, and <a class="el" href="_midi_utilities_8h_source.html#l00039">RSJ::Message::Number</a>.</p>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespace_r_s_j_a0158a4b0e3a22766beef3a433a0b2850_cgraph.png" border="0" usemap="#namespace_r_s_j_a0158a4b0e3a22766beef3a433a0b2850_cgraph" alt=""/></div>
-<map name="namespace_r_s_j_a0158a4b0e3a22766beef3a433a0b2850_cgraph" id="namespace_r_s_j_a0158a4b0e3a22766beef3a433a0b2850_cgraph">
-<area shape="rect" id="node2" href="struct_r_s_j_1_1_message.html#a988e66c45f85a5eeb1a700ebecf084b3" title="RSJ::Message::Message" alt="" coords="165,5,333,32"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
 <a class="anchor" id="a16cd63e4c06f69785a058e1811492615"></a>
 <div class="memitem">
 <div class="memproto">
@@ -380,7 +379,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_utilities_8cpp_source.html#l00039">39</a> of file <a class="el" href="_utilities_8cpp_source.html">Utilities.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_utilities_8cpp_source.html#l00041">41</a> of file <a class="el" href="_utilities_8cpp_source.html">Utilities.cpp</a>.</p>
 
 </div>
 </div>
@@ -420,7 +419,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_send_keys_8cpp_source.html#l00245">245</a> of file <a class="el" href="_send_keys_8cpp_source.html">SendKeys.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_send_keys_8cpp_source.html#l00292">292</a> of file <a class="el" href="_send_keys_8cpp_source.html">SendKeys.cpp</a>.</p>
 
 </div>
 </div>
@@ -463,9 +462,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00030">30</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00032">32</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00067">LR_IPC_OUT::MIDIcmdCallback()</a>, <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>, <a class="el" href="_profile_manager_8cpp_source.html#l00125">ProfileManager::MIDIcmdCallback()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00067">ChannelModel::PluginToController()</a>.</p>
+<p>Referenced by <a class="el" href="_main_component_8cpp_source.html#l00208">MainContentComponent::MIDIcmdCallback()</a>, <a class="el" href="_midi_utilities_8cpp_source.html#l00058">RSJ::MidiMessageId::MidiMessageId()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00068">ChannelModel::PluginToController()</a>.</p>
 
 </div>
 </div>
@@ -479,7 +478,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00032">32</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00034">34</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -493,7 +492,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00029">29</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00031">31</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -507,9 +506,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00027">27</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00029">29</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, and <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>.</p>
+<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, and <a class="el" href="_main_component_8cpp_source.html#l00208">MainContentComponent::MIDIcmdCallback()</a>.</p>
 
 </div>
 </div>
@@ -523,9 +522,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00028">28</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00030">30</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00067">LR_IPC_OUT::MIDIcmdCallback()</a>, <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>, <a class="el" href="_profile_manager_8cpp_source.html#l00125">ProfileManager::MIDIcmdCallback()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00067">ChannelModel::PluginToController()</a>.</p>
+<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_main_component_8cpp_source.html#l00208">MainContentComponent::MIDIcmdCallback()</a>, <a class="el" href="_midi_utilities_8cpp_source.html#l00058">RSJ::MidiMessageId::MidiMessageId()</a>, and <a class="el" href="_controls_model_8cpp_source.html#l00068">ChannelModel::PluginToController()</a>.</p>
 
 </div>
 </div>
@@ -539,7 +538,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00031">31</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00033">33</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -553,9 +552,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00033">33</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00035">35</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00067">LR_IPC_OUT::MIDIcmdCallback()</a>, <a class="el" href="_main_component_8cpp_source.html#l00203">MainContentComponent::MIDIcmdCallback()</a>, and <a class="el" href="_profile_manager_8cpp_source.html#l00125">ProfileManager::MIDIcmdCallback()</a>.</p>
+<p>Referenced by <a class="el" href="_controls_model_8cpp_source.html#l00026">ChannelModel::ControllerToPlugin()</a>, <a class="el" href="_main_component_8cpp_source.html#l00208">MainContentComponent::MIDIcmdCallback()</a>, and <a class="el" href="_midi_utilities_8cpp_source.html#l00058">RSJ::MidiMessageId::MidiMessageId()</a>.</p>
 
 </div>
 </div>
@@ -569,9 +568,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00034">34</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
+<p>Definition at line <a class="el" href="_midi_utilities_8h_source.html#l00036">36</a> of file <a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_midi_utilities_8h_source.html#l00047">ParseMidi()</a>.</p>
+<p>Referenced by <a class="el" href="_midi_utilities_8cpp_source.html#l00026">RSJ::MidiMessage::MidiMessage()</a>.</p>
 
 </div>
 </div>

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -115,18 +115,11 @@ $(document).ready(function(){initNavTree('class_n_r_p_n___filter.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#ae0b86e1a53dd4592c041fc90e8a04dc8">Clear</a>(short channel) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a488f110f7ac3767a9e0923083d0847a2">GetControl</a>(short channel) const  noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a2d27b231045030e9d0e7202f7d90190f">GetValue</a>(short channel) const  noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a43907b22644c98f1da823f466209ecdc">GetNRPNifReady</a>(short channel) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a8c3959d7b1e54ade7c0e432aa201f342">IsInProcess</a>(short channel) const  noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a421bd7bdc6021a338d3339a95bdab186">IsReady</a>(short channel) const  noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a85ccc79347d64e09c4522117295c83c1">NRPN_Filter</a>() noexcept</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a757b5bb29ae87dc9193e738eef5187f3">ProcessMidi</a>(short channel, short control, short value) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#ab24a7d9427ec0e436653bff2255c8a9b">SetControlLSB</a>(short channel, short val) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#ac6d061efe8a62dfaf868bd2ef24010c2">SetControlMSB</a>(short channel, short val) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a8ec40de8683e6a4cda31701fcf8c154e">SetValueLSB</a>(short channel, short val) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#ab916a21761ca71a28a681e39ab90f95e">SetValueMSB</a>(short channel, short val) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a70df2b1f5c372ddaac15f93c08850f0e">~NRPN_Filter</a>()</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#af98ddc548d36686744a8ba1109173684">NRPN_Filter</a>()=default</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#a757b5bb29ae87dc9193e738eef5187f3">ProcessMidi</a>(short channel, short control, short value) noexcept(ndebug)</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_n_r_p_n___filter.html#aa63a87c27f78b6b6b349f0e59ed2a76a">~NRPN_Filter</a>()=default</td><td class="entry"><a class="el" href="class_n_r_p_n___filter.html">NRPN_Filter</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -120,10 +120,10 @@ $(document).ready(function(){initNavTree('class_settings_manager.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9f4f88465afe5786bc2117dd4ac57487"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a9f4f88465afe5786bc2117dd4ac57487">SettingsManager</a> (<a class="el" href="class_profile_manager.html">ProfileManager</a> *profile_manager)</td></tr>
-<tr class="separator:a9f4f88465afe5786bc2117dd4ac57487"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f358fe97f647191084c7fa78d1c8f91"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a3f358fe97f647191084c7fa78d1c8f91">~SettingsManager</a> ()</td></tr>
-<tr class="separator:a3f358fe97f647191084c7fa78d1c8f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25345658f5d212560e5f8519b15dd78a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a25345658f5d212560e5f8519b15dd78a">SettingsManager</a> (<a class="el" href="class_profile_manager.html">ProfileManager</a> *const profile_manager)</td></tr>
+<tr class="separator:a25345658f5d212560e5f8519b15dd78a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abec28a8942bba0169af7e955de59dd0e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#abec28a8942bba0169af7e955de59dd0e">~SettingsManager</a> ()=default</td></tr>
+<tr class="separator:abec28a8942bba0169af7e955de59dd0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e115ff726bcaeebc281af85fa7cab9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#a6e115ff726bcaeebc281af85fa7cab9b">ConnectionCallback</a> (bool)</td></tr>
 <tr class="separator:a6e115ff726bcaeebc281af85fa7cab9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad32c1e7cb2d920a44ac4b98d764b40ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca">getAutoHideTime</a> () const  noexcept</td></tr>
@@ -149,7 +149,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock">
 <p>Definition at line <a class="el" href="_settings_manager_8h_source.html#l00030">30</a> of file <a class="el" href="_settings_manager_8h_source.html">SettingsManager.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a9f4f88465afe5786bc2117dd4ac57487"></a>
+<a class="anchor" id="a25345658f5d212560e5f8519b15dd78a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -159,7 +159,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">SettingsManager::SettingsManager </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_profile_manager.html">ProfileManager</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="class_profile_manager.html">ProfileManager</a> *const&#160;</td>
           <td class="paramname"><em>profile_manager</em></td><td>)</td>
           <td></td>
         </tr>
@@ -171,11 +171,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00031">31</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00032">32</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3f358fe97f647191084c7fa78d1c8f91"></a>
+<a class="anchor" id="abec28a8942bba0169af7e955de59dd0e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -191,12 +191,10 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_settings_manager_8h_source.html#l00033">33</a> of file <a class="el" href="_settings_manager_8h_source.html">SettingsManager.h</a>.</p>
 
 </div>
 </div>
@@ -215,7 +213,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00081">81</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00080">80</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -242,18 +240,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00089">89</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
-<p>Referenced by <a class="el" href="_main_window_8cpp_source.html#l00042">MainWindow::Init()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_settings_manager_ad32c1e7cb2d920a44ac4b98d764b40ca_icgraph.png" border="0" usemap="#class_settings_manager_ad32c1e7cb2d920a44ac4b98d764b40ca_icgraph" alt=""/></div>
-<map name="class_settings_manager_ad32c1e7cb2d920a44ac4b98d764b40ca_icgraph" id="class_settings_manager_ad32c1e7cb2d920a44ac4b98d764b40ca_icgraph">
-<area shape="rect" id="node2" href="class_main_window.html#af88db644807be4eb12a52028e989e0c1" title="MainWindow::Init" alt="" coords="227,13,348,39"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="aa4ac5e3e507fe8571d4c008ebc3b5ae8"></a>
@@ -277,7 +263,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00098">98</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00100">100</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -302,7 +288,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00057">57</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00055">55</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -327,7 +313,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00069">69</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00068">68</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -345,7 +331,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00042">42</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00043">43</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -363,7 +349,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00093">93</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00094">94</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +367,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00102">102</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00105">105</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -399,7 +385,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00061">61</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_settings_manager_8cpp_source.html#l00060">60</a> of file <a class="el" href="_settings_manager_8cpp_source.html">SettingsManager.cpp</a>.</p>
 
 </div>
 </div>

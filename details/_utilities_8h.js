@@ -1,7 +1,6 @@
 var _utilities_8h =
 [
     [ "counter", "struct_r_s_j_1_1counter.html", "struct_r_s_j_1_1counter" ],
-    [ "spinlock", "class_r_s_j_1_1spinlock.html", "class_r_s_j_1_1spinlock" ],
     [ "threadsafe_queue", "class_r_s_j_1_1threadsafe__queue.html", "class_r_s_j_1_1threadsafe__queue" ],
     [ "contains", "_utilities_8h.html#ac939503555fbd52e720502b663d1b046", null ],
     [ "ltrim", "_utilities_8h.html#aad280f0b636be1c144203a8a97037f8c", null ],

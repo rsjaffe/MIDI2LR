@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classmir_1_1_recursive_read_lock.html" title="mir::RecursiveReadLock" alt="" coords="5,5,168,32"/>
+<area shape="rect" id="node2" href="$classmir_1_1scene_1_1_surface_observers.html" title="mir::scene::SurfaceObservers" alt="" coords="420,35,613,61"/>
+<area shape="rect" id="node3" href="$classmir_1_1_thread_safe_list.html" title="mir::ThreadSafeList\l\&lt; std::shared_ptr\&lt; Surface\lObserver \&gt; \&gt;" alt="" coords="5,49,183,105"/>
+<area shape="rect" id="node4" href="$classmir_1_1_basic_observers.html" title="mir::BasicObservers\l\&lt; SurfaceObserver \&gt;" alt="" coords="231,57,372,98"/>
 </map>

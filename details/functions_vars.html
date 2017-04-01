@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.0.4.0</span>
+   &#160;<span id="projectnumber">2.2.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -83,7 +83,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li class="current"><a href="functions_vars.html"><span>Variables</span></a></li>
-      <li><a href="functions_type.html"><span>Typedefs</span></a></li>
       <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
       <li><a href="functions_eval.html"><span>Enumerator</span></a></li>
       <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
@@ -99,6 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_h"><span>h</span></a></li>
+      <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_k"><span>k</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
@@ -189,13 +189,14 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="class_l_r_command_list.html#a70e65792427279ddd0c34da59d1ac4df">LRCommandList</a>
 </li>
 <li>channel
-: <a class="el" href="struct_m_i_d_i___message___i_d.html#a847eaf3bd5b9c2f770f27d6f1cdc3564">MIDI_Message_ID</a>
+: <a class="el" href="struct_r_s_j_1_1_midi_message.html#a61b3ae035bf8f111d0e274899b65090c">RSJ::MidiMessage</a>
+, <a class="el" href="struct_r_s_j_1_1_midi_message_id.html#a84d1b28d4990355e5302431158214dfa">RSJ::MidiMessageId</a>
 </li>
-<li>Channel
-: <a class="el" href="struct_r_s_j_1_1_message.html#ae2566c56d53ac67c4bbf5cac6004568a">RSJ::Message</a>
+<li>control
+: <a class="el" href="struct_r_s_j_1_1_n_r_p_n.html#aec0202ba3567a8a5e9ae89d6fd9e93fd">RSJ::NRPN</a>
 </li>
 <li>controller
-: <a class="el" href="struct_m_i_d_i___message___i_d.html#a57ec3054ed69e2e09a47823052a892b5">MIDI_Message_ID</a>
+: <a class="el" href="struct_r_s_j_1_1_midi_message_id.html#aeee0dfd32055acefea5e22b290765ec3">RSJ::MidiMessageId</a>
 </li>
 <li>Crop
 : <a class="el" href="class_l_r_command_list.html#a20545892dd775793c256ea95c2bae1d7">LRCommandList</a>
@@ -205,7 +206,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>data
-: <a class="el" href="struct_m_i_d_i___message___i_d.html#a88e6a65b3e6b90d2e16c30b4e71d1001">MIDI_Message_ID</a>
+: <a class="el" href="struct_r_s_j_1_1_midi_message_id.html#a5619ab983b7bcbdde4d29f183e60b3e7">RSJ::MidiMessageId</a>
 </li>
 <li>Detail
 : <a class="el" href="class_l_r_command_list.html#a4b0374fb9fe0e7e992515095e5e991c5">LRCommandList</a>
@@ -247,6 +248,13 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 </ul>
 
 
+<h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
+<li>isValid
+: <a class="el" href="struct_r_s_j_1_1_n_r_p_n.html#a0605dbb9ab331cf4b4f0fe90f94600fb">RSJ::NRPN</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_k"></a>- k -</h3><ul>
 <li>KeyShortcuts
 : <a class="el" href="class_l_r_command_list.html#a2075210fecb31cd19414844293a35579">LRCommandList</a>
@@ -274,17 +282,17 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
-<li>messageType
-: <a class="el" href="struct_m_i_d_i___message___i_d.html#a6c7a03370c461c3c893cd015168f4a0a">MIDI_Message_ID</a>
-</li>
-<li>MessageType
-: <a class="el" href="struct_r_s_j_1_1_message.html#a59adc38ca846d57869bf7575e488009f">RSJ::Message</a>
+<li>message_type_byte
+: <a class="el" href="struct_r_s_j_1_1_midi_message.html#ac6619d220b87dcdbdc39c52dca7d44cb">RSJ::MidiMessage</a>
 </li>
 <li>method
 : <a class="el" href="struct_r_s_j_1_1_settings_struct.html#a67561961193f4df704e2c5c365cecae5">RSJ::SettingsStruct</a>
 </li>
 <li>Mixer
 : <a class="el" href="class_l_r_command_list.html#a429b5f7327b48a9fc07a329b679b8c20">LRCommandList</a>
+</li>
+<li>msg_id_type
+: <a class="el" href="struct_r_s_j_1_1_midi_message_id.html#af2e0cbfa7ca4360cef3db41221d2af6b">RSJ::MidiMessageId</a>
 </li>
 </ul>
 
@@ -293,11 +301,9 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>NextPrevProfile
 : <a class="el" href="class_l_r_command_list.html#a024ac57115cbabf09db652029712ad6e">LRCommandList</a>
 </li>
-<li>Number
-: <a class="el" href="struct_r_s_j_1_1_message.html#a263a33fc454c80fe6f4ebbb781e62b5d">RSJ::Message</a>
-</li>
 <li>number
-: <a class="el" href="struct_r_s_j_1_1_settings_struct.html#ae51e7d0d68efb65b2926d3296df0d379">RSJ::SettingsStruct</a>
+: <a class="el" href="struct_r_s_j_1_1_midi_message.html#a383edd585c19f8a74bf6d1f1ae19bb47">RSJ::MidiMessage</a>
+, <a class="el" href="struct_r_s_j_1_1_settings_struct.html#ae51e7d0d68efb65b2926d3296df0d379">RSJ::SettingsStruct</a>
 </li>
 </ul>
 
@@ -314,7 +320,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
 <li>pitch
-: <a class="el" href="struct_m_i_d_i___message___i_d.html#aa4dbbd8729f029db9790d557508b9a0a">MIDI_Message_ID</a>
+: <a class="el" href="struct_r_s_j_1_1_midi_message_id.html#a59a7f0a255ef452f76e219dafd403934">RSJ::MidiMessageId</a>
 </li>
 <li>ProgramProfiles
 : <a class="el" href="class_l_r_command_list.html#a2bc87e858f0e1eca63e959001f697103">LRCommandList</a>
@@ -353,8 +359,9 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
-<li>Value
-: <a class="el" href="struct_r_s_j_1_1_message.html#aacc9070c9f1e4c7047bcd0626f431b9f">RSJ::Message</a>
+<li>value
+: <a class="el" href="struct_r_s_j_1_1_midi_message.html#a3eb78e04f2bf0cc4aa71901f97650309">RSJ::MidiMessage</a>
+, <a class="el" href="struct_r_s_j_1_1_n_r_p_n.html#a519a13bbf9443b9f3bacebfcf1a89024">RSJ::NRPN</a>
 </li>
 </ul>
 </div><!-- contents -->

@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['settingscomponent',['SettingsComponent',['../class_settings_component.html',1,'']]],
-  ['settingsmanager',['SettingsManager',['../class_settings_manager.html',1,'']]],
-  ['settingsstruct',['SettingsStruct',['../struct_r_s_j_1_1_settings_struct.html',1,'RSJ']]],
-  ['span',['span',['../classgsl_1_1span.html',1,'gsl']]],
-  ['spinlock',['spinlock',['../class_r_s_j_1_1spinlock.html',1,'RSJ']]],
-  ['subject',['Subject',['../class_subject.html',1,'']]],
-  ['surfaceobservers',['SurfaceObservers',['../classmir_1_1scene_1_1_surface_observers.html',1,'mir::scene']]],
-  ['surfacestack',['SurfaceStack',['../classmir_1_1scene_1_1_surface_stack.html',1,'mir::scene']]]
+  ['threadsafe_5fqueue',['threadsafe_queue',['../classthreadsafe__queue.html',1,'']]],
+  ['threadsafe_5fqueue',['threadsafe_queue',['../class_r_s_j_1_1threadsafe__queue.html',1,'RSJ']]],
+  ['threadsafelist',['ThreadSafeList',['../classmir_1_1_thread_safe_list.html',1,'mir']]],
+  ['threadsafelist_3c_20std_3a_3ashared_5fptr_3c_20observer_20_3e_20_3e',['ThreadSafeList&lt; std::shared_ptr&lt; Observer &gt; &gt;',['../classmir_1_1_thread_safe_list.html',1,'mir']]],
+  ['threadsafelist_3c_20std_3a_3ashared_5fptr_3c_20surfaceobserver_20_3e_20_3e',['ThreadSafeList&lt; std::shared_ptr&lt; SurfaceObserver &gt; &gt;',['../classmir_1_1_thread_safe_list.html',1,'mir']]],
+  ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_top_level_resizable_layout.html',1,'']]]
 ];

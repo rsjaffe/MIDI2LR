@@ -1,7 +1,6 @@
 var searchData=
 [
   ['raise',['raise',['../classmir_1_1scene_1_1_surface_stack.html#a63aee364dba8154035f2ef7c9526f289',1,'mir::scene::SurfaceStack::raise(std::weak_ptr&lt; Surface &gt; const &amp;surface) override'],['../classmir_1_1scene_1_1_surface_stack.html#a6fcdc40361e05744a773019c33b2dcd6',1,'mir::scene::SurfaceStack::raise(SurfaceSet const &amp;surfaces) override']]],
-  ['rbegin',['rbegin',['../classgsl_1_1span.html#ae4a2a98da8c5b90b768c33e429791425',1,'gsl::span']]],
   ['read_5flock',['read_lock',['../classmir_1_1_recursive_read_write_mutex.html#a615610dfa378452987d5d3b258419073',1,'mir::RecursiveReadWriteMutex']]],
   ['read_5funlock',['read_unlock',['../classmir_1_1_recursive_read_write_mutex.html#a2aba44470ad043c4751bcabeb5b655ef',1,'mir::RecursiveReadWriteMutex']]],
   ['recalculatelayout',['recalculateLayout',['../class_resizable_layout.html#a14d9dad6dfc415e8d49f1e858f8abc26',1,'ResizableLayout']]],
@@ -13,7 +12,6 @@ var searchData=
   ['recursivereadwritemutex',['RecursiveReadWriteMutex',['../classmir_1_1_recursive_read_write_mutex.html',1,'mir']]],
   ['recursivewritelock',['RecursiveWriteLock',['../classmir_1_1_recursive_write_lock.html#a44ae50ef5c808279f78c959f507abfdc',1,'mir::RecursiveWriteLock']]],
   ['recursivewritelock',['RecursiveWriteLock',['../classmir_1_1_recursive_write_lock.html',1,'mir']]],
-  ['reference',['reference',['../classgsl_1_1span.html#a66422b892c8cbb742b64d8300e85eedc',1,'gsl::span']]],
   ['refreshcomponentforcell',['refreshComponentForCell',['../class_command_table_model.html#ad6cce73101cffa884e56b4d50377460e',1,'CommandTableModel']]],
   ['register_5fcompositor',['register_compositor',['../classmir_1_1scene_1_1_surface_stack.html#a5af34412de15bb268356b760c442b983',1,'mir::scene::SurfaceStack']]],
   ['registerobserver',['registerObserver',['../class_subject.html#a794d390d7b3647635a63df8a5620d21d',1,'Subject::registerObserver(const Event &amp;event, Observer &amp;&amp;observer)'],['../class_subject.html#a19728b2a45d409cae230a666c7897f8d',1,'Subject::registerObserver(Event &amp;&amp;event, Observer &amp;&amp;observer)']]],
@@ -24,10 +22,9 @@ var searchData=
   ['remove_5fsurface',['remove_surface',['../classmir_1_1scene_1_1_surface_stack.html#a198d746cedd0883235c3f5ddde6b7ee0',1,'mir::scene::SurfaceStack']]],
   ['removeallrows',['removeAllRows',['../class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b',1,'CommandTableModel']]],
   ['removefromlayout',['removeFromLayout',['../class_resizable_layout.html#addf2cdc690e1c6b4cea5fdf37547f84a',1,'ResizableLayout']]],
-  ['removemessage',['removeMessage',['../class_command_map.html#a2b6ed5adfc508cc05914c3b096e95337',1,'CommandMap']]],
+  ['removemessage',['removeMessage',['../class_command_map.html#a36ac7cd371e7cca78782b5c2f0fc2208',1,'CommandMap']]],
   ['removerow',['removeRow',['../class_command_table_model.html#a46d7cafd317a8d72e71c144f89b80429',1,'CommandTableModel']]],
   ['renamed',['renamed',['../classmir_1_1scene_1_1_surface_observers.html#a2ba3dd117e53e5a0fa83a5f6b79d3ad0',1,'mir::scene::SurfaceObservers']]],
-  ['rend',['rend',['../classgsl_1_1span.html#accd7860adea2c80262ed6f237f8ecbf0',1,'gsl::span']]],
   ['rescandevices',['RescanDevices',['../class_m_i_d_i_sender.html#a2afaa54965878a2d682001dd54076be7',1,'MIDISender::RescanDevices()'],['../class_m_i_d_i_processor.html#a428ae83cf3c9f8ed7d10ef9d3695fa0e',1,'MIDIProcessor::RescanDevices()']]],
   ['resetmixer',['ResetMixer',['../class_l_r_command_list.html#a3c89f5983b32c16551e4568294af6221',1,'LRCommandList']]],
   ['resizablechild',['ResizableChild',['../class_resizable_child.html',1,'ResizableChild'],['../class_resizable_child.html#a7f1450e61061b26d05d786f5d9df9dfb',1,'ResizableChild::ResizableChild()']]],
@@ -38,7 +35,6 @@ var searchData=
   ['resized',['resized',['../class_c_coptions.html#a5d08843370dbba861d25fec42f47862f',1,'CCoptions::resized()'],['../class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2',1,'PWoptions::resized()']]],
   ['resized_5fto',['resized_to',['../classmir_1_1scene_1_1_surface_observers.html#ab280e9d6fa76f631ff2fd62780fe4269',1,'mir::scene::SurfaceObservers']]],
   ['resizestart',['resizeStart',['../class_resizable_child.html#aab700a53db0ffaf68f75bf29fd824b20',1,'ResizableChild']]],
-  ['reverse_5fiterator',['reverse_iterator',['../classgsl_1_1span.html#a354b474ae97a2ab496d863b452787dce',1,'gsl::span']]],
   ['rsj',['RSJ',['../namespace_r_s_j.html',1,'']]],
   ['rtrim',['rtrim',['../namespace_r_s_j.html#a16cd63e4c06f69785a058e1811492615',1,'RSJ']]]
 ];
