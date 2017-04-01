@@ -25,18 +25,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include "CommandMap.h"
 #include "ControlsModel.h"
-#include "LR_IPC_OUT.h"
+#include "LR_IPC_Out.h"
 #include "LRCommands.h"
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 using namespace std::literals::string_literals;
 
 ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept:
-controls_model_{c_model}, command_map_{cmap}
+command_map_{cmap}, controls_model_{c_model}
 {}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
-    std::shared_ptr<MIDIProcessor>& midiProcessor)
+    const std::shared_ptr<MIDIProcessor>& midiProcessor)
 {
     //copy the pointers
     lr_ipc_out_ = std::move(out);

@@ -75,6 +75,7 @@ LrTasks.startAsyncTask(
     local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
+    local Virtual         = require 'Virtual'
     local LrApplication       = import 'LrApplication'
     local LrApplicationView   = import 'LrApplicationView'
     local LrDevelopController = import 'LrDevelopController'
@@ -97,6 +98,15 @@ LrTasks.startAsyncTask(
       return function()
         CU.fChangePanel('tonePanel')
         CU.ApplySettings(settings)
+      end
+    end
+
+    local function UpdateCameraProfile(name)
+      return function()
+        CU.fChangePanel('calibratePanel')
+        CU.ApplySettings({
+          CameraProfile = name
+        })
       end
     end
 
@@ -224,27 +234,27 @@ LrTasks.startAsyncTask(
       Preset_39                = CU.fApplyPreset(39),
       Preset_40                = CU.fApplyPreset(40),
       Prev                     = LrSelection.previousPhoto,
-      Profile_Adobe_Standard          = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Adobe Standard'),
-      Profile_Camera_Clear            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Clear'),
-      Profile_Camera_Darker_Skin_Tone = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Darker Skin Tone'),
-      Profile_Camera_Deep             = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Deep'),
-      Profile_Camera_Faithful         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Faithful'),
-      Profile_Camera_Flat             = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Flat'),
-      Profile_Camera_Landscape        = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Landscape'),
-      Profile_Camera_Light            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Light'),
-      Profile_Camera_Lighter_Skin_Tone= Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Lighter Skin Tone'),
-      Profile_Camera_Monochrome       = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Monochrome'),
-      Profile_Camera_Monotone         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Monotone'),
-      Profile_Camera_Muted            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Muted'),
-      Profile_Camera_Natural          = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Natural'),
-      Profile_Camera_Neutral          = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Neutral'),
-      Profile_Camera_Portrait         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Portrait'),
-      Profile_Camera_Positive_Film    = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Positive Film'),
-      Profile_Camera_Standard         = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Standard'),
-      Profile_Camera_Vivid            = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid'),
-      Profile_Camera_Vivid_Blue       = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid Blue'),
-      Profile_Camera_Vivid_Green      = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid Green'),
-      Profile_Camera_Vivid_Red        = Ut.wrapFOM(LrDevelopController.setValue,'CameraProfile','Camera Vivid Red'),
+      Profile_Adobe_Standard          = UpdateCameraProfile('Adobe Standard'),
+      Profile_Camera_Clear            = UpdateCameraProfile('Camera Clear'),
+      Profile_Camera_Darker_Skin_Tone = UpdateCameraProfile('Camera Darker Skin Tone'),
+      Profile_Camera_Deep             = UpdateCameraProfile('Camera Deep'),
+      Profile_Camera_Faithful         = UpdateCameraProfile('Camera Faithful'),
+      Profile_Camera_Flat             = UpdateCameraProfile('Camera Flat'),
+      Profile_Camera_Landscape        = UpdateCameraProfile('Camera Landscape'),
+      Profile_Camera_Light            = UpdateCameraProfile('Camera Light'),
+      Profile_Camera_Lighter_Skin_Tone= UpdateCameraProfile('Camera Lighter Skin Tone'),
+      Profile_Camera_Monochrome       = UpdateCameraProfile('Camera Monochrome'),
+      Profile_Camera_Monotone         = UpdateCameraProfile('Camera Monotone'),
+      Profile_Camera_Muted            = UpdateCameraProfile('Camera Muted'),
+      Profile_Camera_Natural          = UpdateCameraProfile('Camera Natural'),
+      Profile_Camera_Neutral          = UpdateCameraProfile('Camera Neutral'),
+      Profile_Camera_Portrait         = UpdateCameraProfile('Camera Portrait'),
+      Profile_Camera_Positive_Film    = UpdateCameraProfile('Camera Positive Film'),
+      Profile_Camera_Standard         = UpdateCameraProfile('Camera Standard'),
+      Profile_Camera_Vivid            = UpdateCameraProfile('Camera Vivid'),
+      Profile_Camera_Vivid_Blue       = UpdateCameraProfile('Camera Vivid Blue'),
+      Profile_Camera_Vivid_Green      = UpdateCameraProfile('Camera Vivid Green'),
+      Profile_Camera_Vivid_Red        = UpdateCameraProfile('Camera Vivid Red'),
       profile1                 = function() Profiles.changeProfile('profile1', true) end,
       profile2                 = function() Profiles.changeProfile('profile2', true) end,
       profile3                 = function() Profiles.changeProfile('profile3', true) end,
@@ -338,7 +348,13 @@ LrTasks.startAsyncTask(
       PostCropVignetteStyleHighlightPriority = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
       PostCropVignetteStyleColorPriority     = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
       PostCropVignetteStylePaintOverlay      = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
-      AutoTone                 = function() Ut.wrapFOM(LrDevelopController.setValue,'AutoTone',true)(); CU.FullRefresh() end,
+      AutoTone                 = function()
+        CU.fChangePanel('tonePanel')
+        CU.ApplySettings({
+          AutoTone = true
+        })
+        CU.FullRefresh() 
+      end,
       ZoomInLargeStep          = LrApplicationView.zoomIn,
       ZoomInSmallStep          = LrApplicationView.zoomInSome,
       ZoomOutLargeStep         = LrApplicationView.zoomOut,
@@ -404,27 +420,11 @@ LrTasks.startAsyncTask(
       end, 
     }
 
-    local function MIDIValueToLRValue(param, midi_value)
-      -- map midi range to develop parameter range
-      -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
-      local min,max = Limits.GetMinMax(param)
-      return midi_value * (max-min) + min
-    end
-
-    local function LRValueToMIDIValue(param)
-      -- map develop parameter range to midi range
-      local min,max = Limits.GetMinMax(param)
-      local retval = (LrDevelopController.getValue(param)-min)/(max-min)
-      if retval > 1 then return 1 end
-      if retval < 0 then return 0 end
-      return retval
-    end
-
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
-      return function(param, midi_value)
+      return function(param, midi_value, silent)
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
@@ -432,13 +432,13 @@ LrTasks.startAsyncTask(
         if Limits.Parameters[param] then
           Limits.ClampValue(param)
         end
-        if((math.abs(midi_value - LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
+        if((math.abs(midi_value - CU.LRValueToMIDIValue(param)) <= PICKUP_THRESHOLD) or (paramlastmoved[param] ~= nil and paramlastmoved[param] + 0.5 > os.clock())) then -- pickup succeeded
           paramlastmoved[param] = os.clock()
-          value = MIDIValueToLRValue(param, midi_value)
+          value = CU.MIDIValueToLRValue(param, midi_value)
           MIDI2LR.PARAM_OBSERVER[param] = value
           LrDevelopController.setValue(param, value)
           LastParam = param
-          if ProgramPreferences.ClientShowBezelOnChange then
+          if ProgramPreferences.ClientShowBezelOnChange and not silent then
             local bezelname = ParamList.ParamDisplay[param] or param
             LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
           end
@@ -447,7 +447,7 @@ LrTasks.startAsyncTask(
           end
         else --failed pickup
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
-            value = MIDIValueToLRValue(param, midi_value)
+            value = CU.MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
             local precision = Ut.precision(value)
             local bezelname = ParamList.ParamDisplay[param] or param
@@ -462,16 +462,16 @@ LrTasks.startAsyncTask(
     end
     UpdateParamPickup = UpdateParamPickup() --complete closure
     --called within LrRecursionGuard for setting
-    function UpdateParamNoPickup(param, midi_value) 
+    function UpdateParamNoPickup(param, midi_value, silent) 
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
       end
-      value = MIDIValueToLRValue(param, midi_value)
+      value = CU.MIDIValueToLRValue(param, midi_value)
       MIDI2LR.PARAM_OBSERVER[param] = value
       LrDevelopController.setValue(param, value)
       LastParam = param
-      if ProgramPreferences.ClientShowBezelOnChange then
+      if ProgramPreferences.ClientShowBezelOnChange and not silent then
         local bezelname = ParamList.ParamDisplay[param] or param
         LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
       end
@@ -498,7 +498,7 @@ LrTasks.startAsyncTask(
             for _,param in ipairs(ParamList.SendToMidi) do
               local lrvalue = LrDevelopController.getValue(param)
               if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-                MIDI2LR.SERVER:send(string.format('%s %g\n', param, LRValueToMIDIValue(param)))
+                MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
                 observer[param] = lrvalue
                 LastParam = param
               end
@@ -534,7 +534,16 @@ LrTasks.startAsyncTask(
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
               if(ACTIONS[param]) then -- perform a one time action
-                if(tonumber(value) > BUTTON_ON) then ACTIONS[param]() end
+                if(tonumber(value) > BUTTON_ON) then 
+                  ACTIONS[param]() 
+                end
+              elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
+                SETTINGS[param](value)
+              elseif(Virtual[param]) then -- handle a virtual command
+                local lp = Virtual[param](value, UpdateParam)
+                if lp then
+                  LastParam = lp
+                end
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
                 if(tonumber(value) > BUTTON_ON) then
                   local resetparam = param:sub(6)
@@ -545,8 +554,6 @@ LrTasks.startAsyncTask(
                     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
                   end
                 end
-              elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
-                SETTINGS[param](value)
               else -- otherwise update a develop parameter
                 guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
               end

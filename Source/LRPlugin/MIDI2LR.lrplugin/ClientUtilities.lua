@@ -109,7 +109,24 @@ end
 
 local function fToggleTF(param)
   return function()
-    LrDevelopController.setValue(param,not Ut.execFOM(LrDevelopController.getValue,param))
+    LrTasks.startAsyncTask ( function ()
+      if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+      LrApplication.activeCatalog():withWriteAccessDo(
+        'MIDI2LR: Apply settings',
+        function()
+          local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
+          params[param] = not params[param]
+          LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
+        end,
+        { timeout = 4,
+          callback = function()
+            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
+          end,
+          asynchronous = true
+        }
+      )
+    end
+    )
   end
 end
 
@@ -231,6 +248,21 @@ local function FullRefresh()
   end
 end
 
+local function MIDIValueToLRValue(param, midi_value)
+  -- map midi range to develop parameter range
+  -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
+  local min,max = Limits.GetMinMax(param)
+  return midi_value * (max-min) + min
+end
+
+local function LRValueToMIDIValue(param)
+  -- map develop parameter range to midi range
+  local min,max = Limits.GetMinMax(param)
+  local retval = (LrDevelopController.getValue(param)-min)/(max-min)
+  if retval > 1 then return 1 end
+  if retval < 0 then return 0 end
+  return retval
+end
 
 return {
   CopySettings = CopySettings,
@@ -246,5 +278,7 @@ return {
   FullRefresh = FullRefresh,
   PasteSelectedSettings = PasteSelectedSettings,
   PasteSettings = PasteSettings,
-  ApplySettings = ApplySettings
+  ApplySettings = ApplySettings,
+  MIDIValueToLRValue = MIDIValueToLRValue,
+  LRValueToMIDIValue = LRValueToMIDIValue
 }

@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include <string>
 #include <utility>
-#include "LR_IPC_OUT.h"
+#include "LR_IPC_Out.h"
 #include "ProfileManager.h"
 using namespace std::literals::string_literals;
 

@@ -42,7 +42,7 @@ public:
     ProfileManager(ProfileManager const&) = delete;
     void operator=(ProfileManager const&) = delete;
     void Init(std::weak_ptr<LR_IPC_OUT>&& out,
-        std::shared_ptr<MIDIProcessor>& midi_processor);
+        const std::shared_ptr<MIDIProcessor>& midi_processor);
 
     template<class T> void addCallback(T* object, void(T::*mf)(juce::XmlElement*, const juce::String&))
     {

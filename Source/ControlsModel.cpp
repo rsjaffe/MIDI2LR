@@ -90,9 +90,9 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
 
 void ChannelModel::setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug)
 {
+    setCCmethod(controlnumber, controltype); //has to be set before others or ranges won't be correct
     setCCmin(controlnumber, min);
     setCCmax(controlnumber, max);
-    setCCmethod(controlnumber, controltype);
 }
 
 void ChannelModel::setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug)

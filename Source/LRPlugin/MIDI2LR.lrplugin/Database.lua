@@ -219,8 +219,8 @@ local DataBase = {
   {"ShoVwdevelop_before_after_horiz",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right"),develop,"*button*"},
   {"ShoVwdevelop_before_after_vert",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterTB=Before/After Top/Bottom"),develop,"*button*"},
   {"ShoVwdevelop_before",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Develop/Before=Before"),develop,"*button*"},
-  {"ShoVwRefHoriz",false,false,true,false,true,false,"Show Reference View Horizontal",develop,"Will not be supported until the next release after January 2017 *button*"},
-  {"ShoVwRefVert",false,false,true,false,true,false,"Show Reference View Vertical",develop,"Will not be supported until the next release after January 2017 *button*"},
+  {"ShoVwRefHoriz",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Reference View — Left/Right"),develop,"*button*"},
+  {"ShoVwRefVert",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgDevelop/Menu/View/ReferenceActiveTopBottom=Reference View — Top/Bottom"),develop,"*button*"},
 
   --develop: auto
   --develop: clipping indicators
@@ -319,6 +319,7 @@ local DataBase = {
   {"SaturationAdjustmentBlue",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentBlue=Saturation Adjustment Blue"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
   {"SaturationAdjustmentPurple",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentPurple=Saturation Adjustment Purple"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
   {"SaturationAdjustmentMagenta",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentMagenta=Saturation Adjustment Magenta"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
+  {"AllSaturationAdjustment",false,false,true,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustment=All Saturation Adjustment"),colorAdjustments,"Changes all color vividness or purity of all colors.",'mixerPanel'},
   {"HueAdjustmentRed",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentRed=Hue Adjustment Red"),colorAdjustments,"Changes the color.",'mixerPanel'},
   {"HueAdjustmentOrange",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentOrange=Hue Adjustment Orange"),colorAdjustments,"Changes the color.",'mixerPanel'},
   {"HueAdjustmentYellow",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentYellow=Hue Adjustment Yellow"),colorAdjustments,"Changes the color.",'mixerPanel'},
@@ -353,6 +354,7 @@ local DataBase = {
   {"ResetSaturationAdjustmentBlue",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentBlue=Saturation Adjustment Blue"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetSaturationAdjustmentPurple",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentPurple=Saturation Adjustment Purple"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetSaturationAdjustmentMagenta",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentMagenta=Saturation Adjustment Magenta"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
+  {"ResetAllSaturationAdjustment",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustment=All Saturation Adjustment"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetHueAdjustmentRed",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentRed=Hue Adjustment Red"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetHueAdjustmentOrange",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentOrange=Hue Adjustment Orange"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},
   {"ResetHueAdjustmentYellow",false,false,true,false,true,false,reset..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentYellow=Hue Adjustment Yellow"),resetColorAdjustments,"Reset to default. *button*",'mixerPanel'},

@@ -105,7 +105,7 @@ void LR_IPC_IN::run()
                 case 1:
                     if (size_read == kBufferSize)
                         throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    auto read = juce::StreamingSocket::read(line + size_read, 1, false);
+                    const auto read = juce::StreamingSocket::read(line + size_read, 1, false);
                     if(read) {
                         size_read += read;
                     } else {

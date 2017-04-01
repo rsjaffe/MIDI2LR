@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    LR_IPC_OUT.h
+    LR_IPC_Out.h
 
 This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
 
@@ -42,7 +42,7 @@ class LR_IPC_OUT final:
 public:
     LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand);
     virtual ~LR_IPC_OUT();
-    void Init(std::shared_ptr<MIDIProcessor>&  midiProcessor);
+    void Init(const std::shared_ptr<MIDIProcessor>&  midiProcessor);
 
     template<class T> void addCallback(T* object, void(T::*mf)(bool))
     {

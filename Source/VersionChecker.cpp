@@ -61,7 +61,7 @@ void VersionChecker::handleAsyncUpdate()
     const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
     dialog_options.content.setOwned(new juce::HyperlinkButton{version_string, download_url});
     dialog_options.content->setSize(300, 100);
-    (static_cast<juce::HyperlinkButton *>(dialog_options.content.get()))->
+    (dynamic_cast<juce::HyperlinkButton *>(dialog_options.content.get()))->
         setFont(juce::Font{18.f}, false);
     dialog_options.escapeKeyTriggersCloseButton = true;
     dialog_.reset(dialog_options.create());

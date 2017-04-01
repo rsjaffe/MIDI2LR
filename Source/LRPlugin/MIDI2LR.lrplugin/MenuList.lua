@@ -591,13 +591,13 @@
   },
   {
     "ShoVwRefHoriz",
-    "Show Reference View Horizontal",
+    "Primary Display Reference View — Left/Right",
     "Develop",
     true
   },
   {
     "ShoVwRefVert",
-    "Show Reference View Vertical",
+    "Primary Display Reference View — Top/Bottom",
     "Develop",
     true
   },
@@ -980,6 +980,12 @@
     false
   },
   {
+    "AllSaturationAdjustment",
+    "All Saturation Adjustment",
+    "Color Adjustments",
+    false
+  },
+  {
     "HueAdjustmentRed",
     "Hue Adjustment Red",
     "Color Adjustments",
@@ -1180,6 +1186,12 @@
   {
     "ResetSaturationAdjustmentMagenta",
     "Reset Saturation Adjustment Magenta",
+    "Reset Color Adjustments",
+    true
+  },
+  {
+    "ResetAllSaturationAdjustment",
+    "Reset All Saturation Adjustment",
     "Reset Color Adjustments",
     true
   },
