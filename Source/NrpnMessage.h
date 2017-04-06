@@ -60,7 +60,8 @@ private:
     void SetValueLSB_(short val) noexcept(ndebug);
     void SetValueMSB_(short val) noexcept(ndebug);
 
-    mutable RSJ::spinlock guard;
+    mutable RSJ::spinlock data_guard_;
+    mutable RSJ::spinlock queue_guard_;
     short control_lsb_{0};
     short control_msb_{0};
     short value_lsb_{0};
@@ -97,7 +98,7 @@ private:
 
 inline bool NRPN_Message::IsInProcess() const noexcept
 {
-    std::lock_guard<decltype(guard)> lock(guard);
+    std::lock_guard<decltype(data_guard_)> lock(data_guard_);
     return ready_ != 0;
 }
 
