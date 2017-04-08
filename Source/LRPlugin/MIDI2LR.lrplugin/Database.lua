@@ -648,7 +648,7 @@ local DataBase = {
   {"ResetRedeye",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye"),localizedAdjustments,"Delete red eye correction. *button*"},
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
   {"ShowMaskOverlay",false,false,true,false,true,false,LOC("$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay"),localizedAdjustments,"Show or hide the mask overlay. *button*"},
-  {"CycleMaskOverlayColor",false,false,true,false,true,false,"Cycle Mask Overlay Color",localizedAdjustments,"Change Mask Overlay Color. *button*"},
+  {"CycleMaskOverlayColor",false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color"):gsub("&",""),localizedAdjustments,"Change Mask Overlay Color. *button*"},
 --
 -- Misc
 --
@@ -687,8 +687,8 @@ local DataBase = {
   {"profile9",false,false,true,false,true,false,profile.." 9",profiles,"Change to MIDI mapping profile 9. *button*"},
   {"profile10",false,false,true,false,true,false,profile.." 10",profiles,"Change to MIDI mapping profile 10. *button*"},
   {"FullRefresh",false,false,true,false,true,false,LOC("$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update"),profiles,"Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up-to-date. Useful if controller out of sync with Lightroom (e.g., with layer changes). *button*"},
-  {"TrimEnd",true,true,false,false,true,false,"TrimEnd"},
-  {"TrimStart",true,true,false,false,true,false,"TrimStart"},
+  {"TrimEnd",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimEnd=Set Trim End")},
+  {"TrimStart",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimStart=Set Trim Start")},
 }
 
 local MenuList = {}

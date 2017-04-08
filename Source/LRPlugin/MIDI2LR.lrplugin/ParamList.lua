@@ -589,11 +589,11 @@
   },
   {
     "TrimEnd",
-    "TrimEnd"
+    "Set Trim End"
   },
   {
     "TrimStart",
-    "TrimStart"
+    "Set Trim Start"
   }
 }
   local SelectivePasteHidden = {
