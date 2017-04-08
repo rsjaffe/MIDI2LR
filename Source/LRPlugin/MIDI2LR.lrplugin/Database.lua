@@ -205,8 +205,8 @@ local DataBase = {
   --Develop
   {"SwToMdevelop",false,false,true,false,true,false,show..' '..LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),develop,"Switch to Develop module. *button*"},
   --develop: copy paste sync
-  {"LRCopy",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/LRCopy=Lightroom Copy"):gsub("&",""),develop,"Lightroom Copy (open the selection box). *button*"},
-  {"LRPaste",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/LRPaste=Lightroom Paste"),develop,"Lightroom Paste. *button*"},
+  {"LRCopy",false,false,true,false,true,false,"Lightroom "..LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Lightroom Copy (open the selection box). *button*"},
+  {"LRPaste",false,false,true,false,true,false,"Lightroom "..LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Lightroom Paste. *button*"},
   {"CopySettings",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
   {"PasteSettings",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Pastes all develop settings. *button*"},
   {"PasteSelectedSettings",false,false,true,false,true,false,"Paste Selected Settings",develop,"Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},
@@ -321,7 +321,7 @@ local DataBase = {
   {"SaturationAdjustmentBlue",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentBlue=Saturation Adjustment Blue"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
   {"SaturationAdjustmentPurple",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentPurple=Saturation Adjustment Purple"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
   {"SaturationAdjustmentMagenta",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentMagenta=Saturation Adjustment Magenta"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
-  {"AllSaturationAdjustment",false,false,true,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustment=All Saturation Adjustment"),colorAdjustments,"Changes all color vividness or purity of all colors.",'mixerPanel'},
+  {"AllSaturationAdjustment",false,false,true,false,false,false,"All Saturation Adjustment",colorAdjustments,"Changes all color vividness or purity of all colors.",'mixerPanel'},
   {"HueAdjustmentRed",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentRed=Hue Adjustment Red"),colorAdjustments,"Changes the color.",'mixerPanel'},
   {"HueAdjustmentOrange",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentOrange=Hue Adjustment Orange"),colorAdjustments,"Changes the color.",'mixerPanel'},
   {"HueAdjustmentYellow",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentYellow=Hue Adjustment Yellow"),colorAdjustments,"Changes the color.",'mixerPanel'},
@@ -647,8 +647,8 @@ local DataBase = {
   {"ResetBrushing",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections"),localizedAdjustments,"Delete brush adjustments. *button*"},
   {"ResetRedeye",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye"),localizedAdjustments,"Delete red eye correction. *button*"},
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
-  {"ShowMaskOverlay",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/ShowMaskOverlay=Show Mask Overlay"),localizedAdjustments,"Show or hide the mask overlay. *button*"},
-  {"CycleMaskOverlayColor",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/CycleMaskOverlayColor=Cycle Mask Overlay Color"),localizedAdjustments,"Change Mask Overlay Color. *button*"},
+  {"ShowMaskOverlay",false,false,true,false,true,false,LOC("$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay"),localizedAdjustments,"Show or hide the mask overlay. *button*"},
+  {"CycleMaskOverlayColor",false,false,true,false,true,false,"Cycle Mask Overlay Color",localizedAdjustments,"Change Mask Overlay Color. *button*"},
 --
 -- Misc
 --

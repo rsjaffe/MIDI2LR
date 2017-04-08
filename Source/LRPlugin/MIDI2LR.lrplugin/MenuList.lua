@@ -513,13 +513,13 @@
   },
   {
     "LRCopy",
-    "Lightroom Copy",
+    "Lightroom Copy Settings",
     "Develop",
     true
   },
   {
     "LRPaste",
-    "Lightroom Paste",
+    "Lightroom Paste Settings",
     "Develop",
     true
   },

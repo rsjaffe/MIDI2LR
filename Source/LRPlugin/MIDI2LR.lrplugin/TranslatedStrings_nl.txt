@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=Temperatuur"
 "$$$/AgDevelop/Localized/Tint=Kleurtint"
 "$$$/AgDevelop/Localized/Whites=Witte tinten"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Geselecteerde maskeroverlay tonen"
 "$$$/AgDevelop/Menu/ProcessVersion=Procesversie"
 "$$$/AgDevelop/Menu/Tools=&Gereedschappen"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Weergave Referentie - links/rechts"

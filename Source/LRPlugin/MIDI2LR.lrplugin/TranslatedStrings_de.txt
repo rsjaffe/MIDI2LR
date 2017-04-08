@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=Temp."
 "$$$/AgDevelop/Localized/Tint=Tonung"
 "$$$/AgDevelop/Localized/Whites=Weiß"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Überlagerung für ausgewählte Maske anzeigen"
 "$$$/AgDevelop/Menu/ProcessVersion=Prozess"
 "$$$/AgDevelop/Menu/Tools=Wer&kzeuge"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Referenzansicht – Links/Rechts"

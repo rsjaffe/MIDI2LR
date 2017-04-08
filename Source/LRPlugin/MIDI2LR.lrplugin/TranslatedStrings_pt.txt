@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=Temp"
 "$$$/AgDevelop/Localized/Tint=Colorir"
 "$$$/AgDevelop/Localized/Whites=Brancos"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Mostrar sobreposição de máscara selecionada"
 "$$$/AgDevelop/Menu/ProcessVersion=Processo"
 "$$$/AgDevelop/Menu/Tools=Ferra&mentas"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Visualização da referência- esquerda/direita"

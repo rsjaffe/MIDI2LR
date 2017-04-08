@@ -969,23 +969,23 @@
   },
   CropAngle = {
     "Crop Angle",
-    489
+    491
   },
   CropBottom = {
     "Crop - Bottom",
-    490
+    492
   },
   CropLeft = {
     "Crop - Left",
-    491
+    493
   },
   CropRight = {
     "Crop - Right",
-    492
+    494
   },
   CropTop = {
     "Crop - Top",
-    493
+    495
   },
   DefringeGreenAmount = {
     "Defringe Green Amount",
@@ -1425,7 +1425,7 @@
   },
   straightenAngle = {
     "Straighten Angle",
-    488
+    490
   }
 }
   local SendToMidi = {
