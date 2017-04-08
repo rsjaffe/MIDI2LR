@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Misc.h"
+#include "Utilities\mutexpp.h"
 class CommandMap;
 class ControlsModel;
 class MIDIProcessor;
@@ -67,7 +67,7 @@ private:
     bool timer_off_{false};
     const CommandMap * const command_map_;
     ControlsModel* const controls_model_;
-    mutable RSJ::spinlock command_mutex_; //fast spinlock for brief use
+    mutable mutexpp::adaptive_spin_mutex_t command_mutex_; //fast spinlock for brief use
     mutable std::mutex timer_mutex_; //fix race during shutdown
     std::string command_;
     std::vector<std::function<void(bool)>> callbacks_;
