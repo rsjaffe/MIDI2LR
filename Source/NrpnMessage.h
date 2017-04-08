@@ -61,8 +61,8 @@ private:
     void SetValueLSB_(short val) noexcept(ndebug);
     void SetValueMSB_(short val) noexcept(ndebug);
 
-    mutable mutexpp::adaptive_spin_mutex_t data_guard_;
-    mutable mutexpp::adaptive_spin_mutex_t queue_guard_;
+    mutable mutexpp::adaptive_spin_mutex data_guard_;
+    mutable mutexpp::adaptive_spin_mutex queue_guard_;
     short control_lsb_{0};
     short control_msb_{0};
     short value_lsb_{0};
