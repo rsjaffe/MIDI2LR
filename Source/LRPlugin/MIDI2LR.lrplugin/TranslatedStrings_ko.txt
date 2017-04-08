@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=색온도"
 "$$$/AgDevelop/Localized/Tint=색조"
 "$$$/AgDevelop/Localized/Whites=흰색 계열"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=선택한 마스크 오버레이 표시"
 "$$$/AgDevelop/Menu/ProcessVersion=프로세스"
 "$$$/AgDevelop/Menu/Tools=도구(&T)"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=참조 보기 - 왼쪽/오른쪽"

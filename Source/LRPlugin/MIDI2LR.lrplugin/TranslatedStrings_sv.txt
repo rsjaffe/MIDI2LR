@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=Temperatur"
 "$$$/AgDevelop/Localized/Tint=Färgton"
 "$$$/AgDevelop/Localized/Whites=Vita"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Visa vald maskövertäckning"
 "$$$/AgDevelop/Menu/ProcessVersion=Process"
 "$$$/AgDevelop/Menu/Tools=V&erktyg"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Referensvy - vänster/höger"

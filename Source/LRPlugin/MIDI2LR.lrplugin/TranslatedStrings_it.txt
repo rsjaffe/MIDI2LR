@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=Temperatura"
 "$$$/AgDevelop/Localized/Tint=Tinta"
 "$$$/AgDevelop/Localized/Whites=Bianchi"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Mostra sovrapposizione maschera selezionata"
 "$$$/AgDevelop/Menu/ProcessVersion=Elaborazione"
 "$$$/AgDevelop/Menu/Tools=S&trumenti"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Vista di riferimento: sinistra/destra"

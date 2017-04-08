@@ -512,6 +512,18 @@
     true
   },
   {
+    "LRCopy",
+    "Lightroom Copy Settings",
+    "Develop",
+    true
+  },
+  {
+    "LRPaste",
+    "Lightroom Paste Settings",
+    "Develop",
+    true
+  },
+  {
     "CopySettings",
     "Copy Settings",
     "Develop",
@@ -2746,6 +2758,18 @@
   {
     "ResetSpotRem",
     "Reset Spot Removal",
+    "Local Adjustments",
+    true
+  },
+  {
+    "ShowMaskOverlay",
+    "Show Mask Overlay",
+    "Local Adjustments",
+    true
+  },
+  {
+    "CycleMaskOverlayColor",
+    "Cycle Mask Overlay Color",
     "Local Adjustments",
     true
   },

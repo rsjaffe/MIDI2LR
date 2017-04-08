@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=Température"
 "$$$/AgDevelop/Localized/Tint=Teinte"
 "$$$/AgDevelop/Localized/Whites=Blancs"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Afficher l'incrustation de masque sélectionnée"
 "$$$/AgDevelop/Menu/ProcessVersion=Processus"
 "$$$/AgDevelop/Menu/Tools=&Outils"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Vue de référence - Gauche/Droite"

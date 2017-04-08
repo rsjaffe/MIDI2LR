@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=色温"
 "$$$/AgDevelop/Localized/Tint=色调"
 "$$$/AgDevelop/Localized/Whites=白色色阶"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=显示选定的蒙版叠加"
 "$$$/AgDevelop/Menu/ProcessVersion=处理版本"
 "$$$/AgDevelop/Menu/Tools=工具(&T)"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=参考视图 - 左/右"

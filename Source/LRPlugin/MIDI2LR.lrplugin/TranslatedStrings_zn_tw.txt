@@ -209,6 +209,7 @@
 "$$$/AgDevelop/Localized/Temperature=色溫"
 "$$$/AgDevelop/Localized/Tint=色調"
 "$$$/AgDevelop/Localized/Whites=白色"
+"$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=顯示選取的遮色片覆疊"
 "$$$/AgDevelop/Menu/ProcessVersion=處理版本"
 "$$$/AgDevelop/Menu/Tools=工具(&T)"
 "$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=參考檢視 - 左/右"
