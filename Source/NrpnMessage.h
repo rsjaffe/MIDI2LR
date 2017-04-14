@@ -24,7 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <mutex>
 #include <queue>
 #include "Misc.h"
-#include "Utilities\mutexpp.h"
 
 namespace RSJ {
     struct NRPN {
@@ -61,8 +60,8 @@ private:
     void SetValueLSB_(short val) noexcept(ndebug);
     void SetValueMSB_(short val) noexcept(ndebug);
 
-    mutable mutexpp::adaptive_spin_mutex data_guard_;
-    mutable mutexpp::adaptive_spin_mutex queue_guard_;
+    mutable RSJ::RelaxTTasSpinLock data_guard_;
+    mutable RSJ::RelaxTTasSpinLock queue_guard_;
     short control_lsb_{0};
     short control_msb_{0};
     short value_lsb_{0};

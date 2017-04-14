@@ -1893,9 +1893,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Utilities\mutexpp.h">
-      <Filter>MIDI2LR\Source\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Utilities\Utilities.h">
       <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClInclude>
