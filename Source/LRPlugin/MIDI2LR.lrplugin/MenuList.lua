@@ -2774,6 +2774,18 @@
     true
   },
   {
+    "Flow",
+    "Flow",
+    "Local Adjustments",
+    false
+  },
+  {
+    "Feather",
+    "Feather",
+    "Local Adjustments",
+    false
+  },
+  {
     "straightenAngle",
     "Straighten Angle",
     "Crop",
