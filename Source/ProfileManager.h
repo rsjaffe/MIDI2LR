@@ -75,7 +75,7 @@ public:
 private:
     void mapCommand(const RSJ::MidiMessageId& msg);
     // AsyncUpdate interface
-    virtual void handleAsyncUpdate() override;
+    void handleAsyncUpdate() override;
     enum class SWITCH_STATE {
         NONE,
         PREV,

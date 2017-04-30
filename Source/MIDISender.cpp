@@ -28,7 +28,7 @@ MIDISender::MIDISender() noexcept
 MIDISender::~MIDISender()
 {}
 
-void MIDISender::Init(void)
+void MIDISender::Init()
 {
     InitDevices_();
 }

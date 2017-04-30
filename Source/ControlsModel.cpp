@@ -84,6 +84,8 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
     }
     case RSJ::kNoteOnFlag:
         return kMaxMIDI;
+    default:
+        assert(!"Unexpected control type");
     }
     return 0;
 }

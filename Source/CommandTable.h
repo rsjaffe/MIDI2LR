@@ -32,7 +32,7 @@ public:
     CommandTable& operator=(const CommandTable&) = delete;
 
 private:
-    virtual bool keyPressed(const KeyPress &k) override;
+    bool keyPressed(const KeyPress &k) override;
 };
 
 #endif

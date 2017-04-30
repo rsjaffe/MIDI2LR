@@ -61,7 +61,7 @@ private:
         juce::JUCEApplication::getInstance()->systemRequestedQuit();
     }
     // the timer callback function
-    virtual void timerCallback() override;
+    void timerCallback() override;
     int auto_hide_counter_{0};
     MainContentComponent *window_content_;
 };

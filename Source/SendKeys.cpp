@@ -154,23 +154,27 @@ namespace {
             static_cast<int>(key.size()), &full_character, 1);
         if (return_value == 0) {
             const auto er = GetLastError();
-            if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
+            switch (er) {
+            case ERROR_INVALID_FLAGS:
+            case ERROR_INVALID_PARAMETER:
                 throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
-            if (er == ERROR_INSUFFICIENT_BUFFER)
+            case ERROR_INSUFFICIENT_BUFFER:
                 throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
-            if (er == ERROR_NO_UNICODE_TRANSLATION)
+            case ERROR_NO_UNICODE_TRANSLATION:
                 throw std::domain_error("Unable to translate: MultiByteToWideChar.");
-            throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+            default:
+                throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+            }
         }
         return full_character;
     }
 
     HKL GetLanguage(const std::string& program_name)
     {
-        const auto hLRWnd = FindWindow(NULL, program_name.c_str());
+        const auto hLRWnd = FindWindow(nullptr, program_name.c_str());
         if (hLRWnd) {
             // get language that LR is using (if hLrWnd is found)
-            const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
+            const auto thread_id = GetWindowThreadProcessId(hLRWnd, nullptr);
             return GetKeyboardLayout(thread_id);
         }
         else {   // use keyboard of MIDI2LR application

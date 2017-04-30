@@ -33,10 +33,10 @@ public:
 
 private:
     // Thread interface
-    virtual void run() override;
+    void run() override;
 
     // AsyncUpdater interface
-    virtual void handleAsyncUpdate() override;
+    void handleAsyncUpdate() override;
 
     int new_version_{0};
     SettingsManager* const settings_manager_;

@@ -39,7 +39,7 @@ public:
     void setSelectedItem(size_t idx);
 
 private:
-    virtual void clicked(const juce::ModifierKeys& modifiers) override;
+    void clicked(const juce::ModifierKeys& modifiers) override;
 
     CommandMap* command_map_{nullptr};
     const std::vector<juce::String> menus_;

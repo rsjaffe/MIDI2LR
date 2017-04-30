@@ -34,7 +34,7 @@ class MIDIProcessor final: private juce::MidiInputCallback {
 public:
     MIDIProcessor() noexcept;
     virtual ~MIDIProcessor();
-    void Init(void);
+    void Init();
 
     // re-enumerates MIDI IN devices
     void RescanDevices();

@@ -56,13 +56,13 @@ public:
 
 private:
     // IPC interface
-    virtual void connectionMade() override;
-    virtual void connectionLost() override;
-    virtual void messageReceived(const juce::MemoryBlock& msg) override;
+    void connectionMade() override;
+    void connectionLost() override;
+    void messageReceived(const juce::MemoryBlock& msg) override;
     // AsyncUpdater interface
-    virtual void handleAsyncUpdate() override;
+    void handleAsyncUpdate() override;
     // Timer callback
-    virtual void timerCallback() override;
+    void timerCallback() override;
 
     bool timer_off_{false};
     const CommandMap * const command_map_;

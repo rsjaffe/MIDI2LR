@@ -36,28 +36,34 @@ static constexpr bool ndebug = false;
 #endif
 
 namespace RSJ {
-	class RelaxTTasSpinLock {
-	public:
-		void lock() noexcept
-		{
-			do {
-				while (flag.load(std::memory_order_relaxed))
-					CPU_RELAX;//spin without expensive exchange
-			} while (flag.exchange(true, std::memory_order_acquire));
-		}
+    class RelaxTTasSpinLock {
+    public:
+        RelaxTTasSpinLock() = default;
+        ~RelaxTTasSpinLock() = default;
+        RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
+        RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;
+        RelaxTTasSpinLock& operator=(const RelaxTTasSpinLock& other) = delete;
+        RelaxTTasSpinLock& operator=(RelaxTTasSpinLock&& other) = delete;
+        void lock() noexcept
+        {
+            do {
+                while (flag.load(std::memory_order_relaxed))
+                    CPU_RELAX;//spin without expensive exchange
+            } while (flag.exchange(true, std::memory_order_acquire));
+        }
 
-		bool try_lock() noexcept
-		{
-			return !flag.exchange(true, std::memory_order_acquire);
-		}
+        bool try_lock() noexcept
+        {
+            return !flag.exchange(true, std::memory_order_acquire);
+        }
 
-		void unlock() noexcept
-		{
-			flag.store(false, std::memory_order_release);
-		}
+        void unlock() noexcept
+        {
+            flag.store(false, std::memory_order_release);
+        }
 
-	private:
-		std::atomic_bool flag = { false };
-	};
+    private:
+        std::atomic<bool> flag = {false};
+    };
 }
 #endif  // MISC_H_INCLUDED

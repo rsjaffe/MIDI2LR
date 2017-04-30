@@ -63,7 +63,7 @@ public:
 
     void LRIpcOutCallback(bool);
 
-    virtual void profileChanged(juce::XmlElement* elem, const juce::String& file_name);
+    void profileChanged(juce::XmlElement* elem, const juce::String& file_name);
     void SetTimerText(int time_value);
 
 protected:
@@ -72,12 +72,12 @@ protected:
 private:
     void paint(juce::Graphics&) override;
     // Button interface
-    virtual void buttonClicked(juce::Button* button) override;
+    void buttonClicked(juce::Button* button) override;
     // AsyncUpdater interface
-    virtual void handleAsyncUpdate() override;
+    void handleAsyncUpdate() override;
 
     // Timer interface
-    virtual void timerCallback() override;
+    void timerCallback() override;
 
     CommandMap* command_map_{nullptr};
     CommandTable command_table_{"Table", nullptr};

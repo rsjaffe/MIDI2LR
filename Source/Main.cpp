@@ -63,10 +63,12 @@ public:
         PWoptions::LinkToControlsModel(&controls_model_);
     }
 
+    // ReSharper disable once CppConstValueFunctionReturnType
     const juce::String getApplicationName() override
     {
         return ProjectInfo::projectName;
     }
+    // ReSharper disable once CppConstValueFunctionReturnType
     const juce::String getApplicationVersion() override
     {
         return ProjectInfo::versionString;
@@ -186,7 +188,7 @@ public:
 
     void unhandledException(const std::exception * e,
         const juce::String& sourceFilename, int lineNumber
-    )	override
+    ) override
     {
         // If any unhandled exceptions make it through to the message dispatch
         // loop, this callback will be triggered, in case you want to log them or

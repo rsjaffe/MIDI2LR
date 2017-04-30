@@ -31,13 +31,13 @@ juce::Colours::lightgrey,
 juce::DocumentWindow::minimiseButton |
 juce::DocumentWindow::closeButton}, juce::Timer()
 {
-    setUsingNativeTitleBar(true);
+    juce::TopLevelWindow::setUsingNativeTitleBar(true);
     window_content_ = new MainContentComponent{};
 
-    setContentOwned(window_content_, true);
+    juce::ResizableWindow::setContentOwned(window_content_, true);
 
-    centreWithSize(getWidth(), getHeight());
-    setVisible(true);
+    juce::Component::centreWithSize(getWidth(), getHeight());
+    juce::Component::setVisible(true);
 }
 
 void MainWindow::Init(CommandMap* const command_map,
@@ -64,7 +64,7 @@ void MainWindow::Init(CommandMap* const command_map,
     }
 }
 
-void MainWindow::timerCallback(void)
+void MainWindow::timerCallback()
 {
     auto decreased_value = false;
 

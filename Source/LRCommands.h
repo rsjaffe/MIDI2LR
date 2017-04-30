@@ -60,8 +60,7 @@ public:
     // Map of command strings to indices
     static size_t getIndexOfCommand(const std::string& command);
 
-private:
-    LRCommandList() noexcept;
+    LRCommandList() noexcept = delete;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED

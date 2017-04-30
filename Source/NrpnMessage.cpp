@@ -83,7 +83,7 @@ RSJ::NRPN NRPN_Message::GetNRPNifReady() noexcept
 {
     std::lock_guard<decltype(queue_guard_)> lock(queue_guard_);
     if (!nrpn_queued_.empty()) {
-        RSJ::NRPN retval{nrpn_queued_.front()};
+        auto retval{nrpn_queued_.front()};
         nrpn_queued_.pop();
         return retval;
     }
