@@ -32,7 +32,7 @@ static constexpr bool ndebug = false;
 #ifdef _WIN32
 #define CPU_RELAX _mm_pause()
 #else
-#define CPU_RELAX asm("pause")
+#define CPU_RELAX __builtin_ia32_pause()
 #endif
 
 namespace RSJ {
