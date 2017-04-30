@@ -37,7 +37,8 @@ bool CommandTable::keyPressed(const KeyPress& k)
 {
     if (k.isKeyCode(KeyPress::deleteKey) && getSelectedRow() != -1) {
         const bool last = getSelectedRow() == getNumRows() - 1;
-        dynamic_cast<CommandTableModel*>(getModel())->removeRow(static_cast<size_t>(getSelectedRow()));
+        if (auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
+            ptr->removeRow(static_cast<size_t>(getSelectedRow()));
         updateContent();
         if (last) {
             // keep selection at the end
