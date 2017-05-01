@@ -92,7 +92,7 @@ void ProfileManager::switchToProfile(const juce::String& profile)
                 cb(xml_element.get(), profile);
 
             if (const auto ptr = lr_ipc_out_.lock()) {
-                std::string command = "ChangedToDirectory "s +
+                auto command = "ChangedToDirectory "s +
                     juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
                     '\n';
                 ptr->sendCommand(command);
@@ -148,7 +148,7 @@ void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
 void ProfileManager::ConnectionCallback(bool connected)
 {
     if (connected) {
-        const std::string command = "ChangedToDirectory "s +
+        const auto command = "ChangedToDirectory "s +
             juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
             '\n';
         if (const auto ptr = lr_ipc_out_.lock()) {

@@ -89,7 +89,8 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
 
     if (column_id == 1) // write the MIDI message in the MIDI command column
     {
-        int value = 0, channel = 0;
+        auto value = 0;
+        auto channel = 0;
         switch (commands_[static_cast<size_t>(row_number)].msg_id_type) //-V108 int used as index because JUCE uses int
         {
         case RSJ::MsgIdEnum::NOTE:
@@ -141,7 +142,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
     //// their properties
     if (column_id == 2) // LR command column
     {
-        CommandMenu* command_select = dynamic_cast<CommandMenu *>(existing_component_to_update);
+        auto command_select = dynamic_cast<CommandMenu *>(existing_component_to_update);
 
         // create a new command menu
         if (command_select == nullptr) {
@@ -159,8 +160,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
 
         return command_select;
     }
-    else
-        return nullptr;
+    return nullptr;
 }
 
 void CommandTableModel::addRow(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType)
@@ -225,6 +225,7 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const
 {
+    // ReSharper disable once CppUseAuto
     for (size_t idx = 0u; idx < commands_.size(); ++idx) {
         if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
             && commands_[idx].msg_id_type == msgType)

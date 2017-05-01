@@ -275,8 +275,8 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void CCoptions::textEditorFocusLost(TextEditor& t)
 {
-    short val = static_cast<short>(t.getText().getIntValue());
-    String nam = t.getName();
+    auto val = static_cast<short>(t.getText().getIntValue());
+    auto nam = t.getName();
     if (nam=="minvaltext")
         controls_model_->setCCmin(boundchannel, boundnumber, val);
     else if (nam=="maxvaltext")

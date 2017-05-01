@@ -165,6 +165,7 @@ void LR_IPC_IN::processLine(const std::string& line) const
         break;
     case 2: //SendKey
     {
+        // ReSharper disable once CppUseAuto
         std::bitset<3> modifiers{static_cast<decltype(modifiers)>
             (std::stoi(value_string))};
         RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),

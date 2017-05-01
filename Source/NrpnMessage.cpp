@@ -87,8 +87,7 @@ RSJ::NRPN NRPN_Message::GetNRPNifReady() noexcept
         nrpn_queued_.pop();
         return retval;
     }
-    else
-        return RSJ::invalidNRPN;
+    return RSJ::invalidNRPN;
 }
 
 void NRPN_Message::Clear_() noexcept

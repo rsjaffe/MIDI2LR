@@ -36,7 +36,7 @@ CommandTable::CommandTable(const juce::String& component_name, CommandTableModel
 bool CommandTable::keyPressed(const KeyPress& k)
 {
     if (k.isKeyCode(KeyPress::deleteKey) && getSelectedRow() != -1) {
-        const bool last = getSelectedRow() == getNumRows() - 1;
+        const auto last = getSelectedRow() == getNumRows() - 1;
         if (auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
             ptr->removeRow(static_cast<size_t>(getSelectedRow()));
         updateContent();

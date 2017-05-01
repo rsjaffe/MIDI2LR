@@ -183,7 +183,7 @@ void MainContentComponent::Init(CommandMap* const command_map,
     if (settings_manager_) {
         // Try to load a default.xml if the user has not set a profile directory
         if (settings_manager_->getProfileDirectory().isEmpty()) {
-            juce::File default_profile =
+            auto default_profile =
                 juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(default_profile)};
             if (xml_element) {
@@ -296,7 +296,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             true,
             juce::Colours::lightgrey};
         if (dialog_box.show()) {
-            juce::File selected_file = browser.getSelectedFile(0).withFileExtension("xml");
+            auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
 
             if (command_map_) {
                 command_map_->toXMLDocument(selected_file);
@@ -325,7 +325,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(browser.getSelectedFile(0))};
             if (xml_element) {
                 const auto new_profile = browser.getSelectedFile(0);
-                const std::string command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
+                const auto command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
 
                 if (const auto ptr = lr_ipc_out_.lock()) {
                     ptr->sendCommand(command);

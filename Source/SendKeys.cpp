@@ -177,9 +177,8 @@ namespace {
             const auto thread_id = GetWindowThreadProcessId(hLRWnd, nullptr);
             return GetKeyboardLayout(thread_id);
         }
-        else {   // use keyboard of MIDI2LR application
-            return GetKeyboardLayout(0);
-        }
+        // use keyboard of MIDI2LR application
+        return GetKeyboardLayout(0);
     }
 #endif
 
