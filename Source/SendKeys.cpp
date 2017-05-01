@@ -356,6 +356,8 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     static pid_t lr_pid{0};
     if (lr_pid == 0) {
         lr_pid = GetPID();
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         if (lr_pid) {
             GetProcessForPID(lr_pid, &psn); //first deprecated in macOS 10.9, but no good replacement yet
         }
@@ -363,6 +365,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
             lr_pid = -1; // cannot find LR pid, to try to find the forground process
             GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
         }
+        #pragma GCC diagnostic pop
     }
 
     CGEventRef d;
