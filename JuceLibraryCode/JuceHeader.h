@@ -10,8 +10,7 @@
 
 */
 
-#ifndef __APPHEADERFILE_JQAEEL__
-#define __APPHEADERFILE_JQAEEL__
+#pragma once
 
 #include "AppConfig.h"
 
@@ -41,5 +40,3 @@ namespace ProjectInfo
     const int          versionNumber  = 0x2020000;
 }
 #endif
-
-#endif   // __APPHEADERFILE_JQAEEL__

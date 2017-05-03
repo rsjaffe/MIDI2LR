@@ -30,6 +30,7 @@ static constexpr bool ndebug = false;
 #endif
 
 #ifdef _WIN32
+#include <emmintrin.h>
 #define CPU_RELAX _mm_pause()
 #else
 #define CPU_RELAX __builtin_ia32_pause()
