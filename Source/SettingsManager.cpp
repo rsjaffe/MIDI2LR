@@ -43,11 +43,10 @@ SettingsManager::SettingsManager(ProfileManager* const pmanager):profile_manager
 void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out)
 {
     lr_ipc_out_ = std::move(lr_ipc_out);
-    if (const auto ptr = lr_ipc_out_.lock()) {
-        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-        // settings on connection
+    if (const auto ptr = lr_ipc_out_.lock())
+    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+    // settings on connection
         ptr->addCallback(this, &SettingsManager::ConnectionCallback);
-    }
     // set the profile directory
     profile_manager_->setProfileDirectory(getProfileDirectory());
 }
@@ -61,9 +60,8 @@ void SettingsManager::setPickupEnabled(bool enabled)
 {
     properties_file_->setValue("pickup_enabled", enabled);
     properties_file_->saveIfNeeded();
-    if (const auto ptr = lr_ipc_out_.lock()) {
+    if (const auto ptr = lr_ipc_out_.lock())
         ptr->sendCommand("Pickup "s + std::to_string(static_cast<unsigned>(enabled)) + '\n');
-    }
 }
 juce::String SettingsManager::getProfileDirectory() const noexcept
 {
@@ -79,11 +77,9 @@ void SettingsManager::setProfileDirectory(const juce::String& profile_directory_
 
 void SettingsManager::ConnectionCallback(bool connected)
 {
-    if (connected) {
-        if (const auto ptr = lr_ipc_out_.lock()) {
+    if (connected)
+        if (const auto ptr = lr_ipc_out_.lock())
             ptr->sendCommand("Pickup "s + std::to_string(static_cast<unsigned>(getPickupEnabled())) + '\n');
-        }
-    }
 }
 
 int SettingsManager::getAutoHideTime() const noexcept

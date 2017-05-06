@@ -41,15 +41,13 @@ void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
     //copy the pointers
     lr_ipc_out_ = std::move(out);
 
-    if (const auto ptr = lr_ipc_out_.lock()) {
-        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-        // settings on connection
+    if (const auto ptr = lr_ipc_out_.lock())
+    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+    // settings on connection
         ptr->addCallback(this, &ProfileManager::ConnectionCallback);
-    }
 
-    if (midiProcessor) {
+    if (midiProcessor)
         midiProcessor->addCallback(this, &ProfileManager::MIDIcmdCallback);
-    }
 }
 
 void ProfileManager::setProfileDirectory(const juce::File& directory)
@@ -151,9 +149,8 @@ void ProfileManager::ConnectionCallback(bool connected)
         const auto command = "ChangedToDirectory "s +
             juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
             '\n';
-        if (const auto ptr = lr_ipc_out_.lock()) {
+        if (const auto ptr = lr_ipc_out_.lock())
             ptr->sendCommand(command);
-        }
     }
 }
 

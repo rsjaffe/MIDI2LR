@@ -36,9 +36,8 @@ void MIDISender::Init()
 void MIDISender::sendCC(int midi_channel, int controller, int value) const
 {
     if (controller < 128) { // regular message
-        for (const auto& dev : output_devices_) {
+        for (const auto& dev : output_devices_)
             dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, controller, value));
-        }
     }
     else { // NRPN
         const auto parameterLSB = controller & 0x7f;
@@ -56,17 +55,15 @@ void MIDISender::sendCC(int midi_channel, int controller, int value) const
 
 void MIDISender::sendNoteOn(int midi_channel, int controller, int value) const
 {
-    for (const auto& dev : output_devices_) {
+    for (const auto& dev : output_devices_)
         dev->sendMessageNow(MidiMessage::noteOn(midi_channel, controller,
-            static_cast<juce::uint8>(value)));
-    }
+                                                static_cast<juce::uint8>(value)));
 }
 
 void MIDISender::sendPitchWheel(int midi_channel, int value) const
 {
-    for (const auto& dev : output_devices_) {
+    for (const auto& dev : output_devices_)
         dev->sendMessageNow(MidiMessage::pitchWheel(midi_channel, value));
-    }
 }
 
 void MIDISender::RescanDevices()

@@ -37,23 +37,17 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
         case RSJ::CCmethod::absolute:
             return static_cast<double>(value - ccLow_[controlnumber]) / static_cast<double>(ccHigh_[controlnumber] - ccLow_[controlnumber]);
         case RSJ::CCmethod::binaryoffset:
-            {
-                if (IsNRPN_(controlnumber))
-                    return OffsetResult_(value - kBit14, controlnumber);
-                return OffsetResult_(value - kBit7, controlnumber);
-            }
+            if (IsNRPN_(controlnumber))
+                return OffsetResult_(value - kBit14, controlnumber);
+            return OffsetResult_(value - kBit7, controlnumber);
         case RSJ::CCmethod::signmagnitude:
-            {
-                if (IsNRPN_(controlnumber))
-                    return OffsetResult_((value & kBit14) ? -(value & kLow13Bits) : value, controlnumber);
-                return OffsetResult_((value & kBit7) ? -(value & kLow6Bits) : value, controlnumber);
-            }
+            if (IsNRPN_(controlnumber))
+                return OffsetResult_((value & kBit14) ? -(value & kLow13Bits) : value, controlnumber);
+            return OffsetResult_((value & kBit7) ? -(value & kLow6Bits) : value, controlnumber);
         case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
-            {
-                if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-                    return OffsetResult_((value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, controlnumber);
-                return OffsetResult_((value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, controlnumber);
-            }
+            if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
+                return OffsetResult_((value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, controlnumber);
+            return OffsetResult_((value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, controlnumber);
         default:
             assert(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
             return 0.0;
@@ -115,9 +109,8 @@ void ChannelModel::setCCmax(size_t controlnumber, short value) noexcept(ndebug)
     assert(controlnumber <= kMaxNRPN);
     assert(value <= kMaxNRPN);
     assert(value >= 0);
-    if (ccMethod_[controlnumber] != RSJ::CCmethod::absolute) {
+    if (ccMethod_[controlnumber] != RSJ::CCmethod::absolute)
         ccHigh_[controlnumber] = (value < 0) ? 1000 : value;
-    }
     else {
         auto max = (IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI);
         ccHigh_[controlnumber] = (value <= ccLow_[controlnumber] || value > max) ? max : value;
@@ -186,9 +179,8 @@ void ChannelModel::savedToActive() noexcept(ndebug)
         ccHigh_[a] = kMaxMIDI;
         currentV_[a].store(kMaxMIDIHalf, std::memory_order_relaxed);
     }
-    for (auto set : settingsToSave_) {
+    for (auto set : settingsToSave_)
         setCC(set.number, set.low, set.high, set.method);
-    }
 }
 
 ChannelModel::ChannelModel()

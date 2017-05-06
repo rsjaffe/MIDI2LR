@@ -48,20 +48,14 @@ void MainWindow::Init(CommandMap* const command_map,
     std::shared_ptr<MIDISender>& midi_sender)
 {
     // get the auto time setting
-    if (settings_manager) {
-        auto_hide_counter_ = settings_manager->getAutoHideTime();
-    }
-    else {
-        auto_hide_counter_ = 0;
-    }
+    auto_hide_counter_ = (settings_manager) ? settings_manager->getAutoHideTime() : 0;
 
     //start timing
     juce::Timer::startTimer(1000);
 
-    if (window_content_) {
+    if (window_content_)
         window_content_->Init(command_map, std::move(lr_ipc_out),
-            midi_processor, profile_manager, settings_manager, midi_sender);
-    }
+                              midi_processor, profile_manager, settings_manager, midi_sender);
 }
 
 void MainWindow::timerCallback()
@@ -80,12 +74,8 @@ void MainWindow::timerCallback()
     if (auto_hide_counter_ == 0) {
         //first stop the timer so it will not be called again
         juce::Timer::stopTimer();
-
         //check if the window is not already minimized
-        if (!juce::ResizableWindow::isMinimised()) {
-            if (decreased_value) {
-                juce::DocumentWindow::minimiseButtonPressed();
-            }
-        }
+        if (!juce::ResizableWindow::isMinimised() && decreased_value)
+            juce::DocumentWindow::minimiseButtonPressed();
     }
 }

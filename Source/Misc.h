@@ -64,7 +64,7 @@ namespace RSJ {
         }
 
     private:
-        std::atomic<bool> flag = {false};
+        std::atomic<bool> flag{false};
     };
 }
 #endif  // MISC_H_INCLUDED

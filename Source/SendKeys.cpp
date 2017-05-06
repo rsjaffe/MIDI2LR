@@ -324,12 +324,10 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
             strokes.push_back(VK_MENU);
     }
     else {
-        if (control_cmd || (vk_modifiers & 0x2)) {
+        if (control_cmd || (vk_modifiers & 0x2))
             strokes.push_back(VK_CONTROL);
-        }
-        if (alt_opt || (vk_modifiers & 0x4)) {
+        if (alt_opt || (vk_modifiers & 0x4))
             strokes.push_back(VK_MENU);
-        }
     }
 
     // construct input event.

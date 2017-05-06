@@ -40,10 +40,8 @@ bool CommandTable::keyPressed(const KeyPress& k)
         if (auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
             ptr->removeRow(static_cast<size_t>(getSelectedRow()));
         updateContent();
-        if (last) {
-            // keep selection at the end
+        if (last) // keep selection at the end
             selectRow(getNumRows() - 1);
-        }
         return true;
     }
     if (k.isKeyCode(KeyPress::downKey) && getSelectedRow() != -1 && getSelectedRow() < getNumRows() - 1) {

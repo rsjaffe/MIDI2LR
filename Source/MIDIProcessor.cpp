@@ -47,15 +47,13 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
                     cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel, nrpn.control, nrpn.value});
         }
         else //regular message
-            for (const auto& cb : callbacks_) {
+            for (const auto& cb : callbacks_)
                 cb(mess);
-            }
         break;
     case RSJ::kNoteOnFlag:
     case RSJ::kPWFlag:
-        for (const auto& cb : callbacks_) {
+        for (const auto& cb : callbacks_)
             cb(mess);
-        }
         break;
     default:
         ; //no action if other type of MIDI message

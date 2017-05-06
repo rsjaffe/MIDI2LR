@@ -49,7 +49,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "VersionChecker.h"
 
-const juce::String ShutDownString{"--LRSHUTDOWN"};
+namespace {
+    const juce::String ShutDownString{"--LRSHUTDOWN"};
+}
 
 class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
@@ -167,10 +169,9 @@ public:
                 cereal::BinaryOutputArchive oarchive(outfile);
                 oarchive(controls_model_);
             }
-            else {
+            else
                 juce::AlertWindow::showNativeDialogBox("Error",
-                    "Unable to save control settings. Unable to open file settings.bin.", false);
-            }
+                                                       "Unable to save control settings. Unable to open file settings.bin.", false);
         }
         quit();
     }
@@ -180,10 +181,9 @@ public:
         // When another instance of the application is launched while this one is
         // running, this method is invoked, and the commandLine parameter tells you
         // what the other instance's command-line arguments were.
-        if (command_line == ShutDownString) {
-            //shutting down
+        if (command_line == ShutDownString)
+        //shutting down
             systemRequestedQuit();
-        }
     }
 
     void unhandledException(const std::exception * e,

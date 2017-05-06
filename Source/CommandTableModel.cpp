@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <algorithm>
 #include "CommandTableModel.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
@@ -106,7 +107,6 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
         case RSJ::MsgIdEnum::PITCHBEND:
             formatStr = "%d | Pitch: %d";
             channel = commands_[static_cast<size_t>(row_number)].channel;
-            value = 0;
             break;
         }
         g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
@@ -152,11 +152,10 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
         else
             command_select->setMsg(commands_[static_cast<size_t>(row_number)]);
 
-        if (command_map_) {
-            // add 1 because 0 is reserved for no selection
+        if (command_map_)
+        // add 1 because 0 is reserved for no selection
             command_select->setSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
                 getCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
-        }
 
         return command_select;
     }
@@ -175,9 +174,8 @@ void CommandTableModel::addRow(int midi_channel, int midi_data, RSJ::MsgIdEnum m
 
 void CommandTableModel::removeRow(size_t row)
 {
-    if (command_map_) {
+    if (command_map_)
         command_map_->removeMessage(commands_[row]);
-    }
     commands_.erase(commands_.cbegin() + row);
 }
 
@@ -185,9 +183,8 @@ void CommandTableModel::removeAllRows()
 {
     commands_.clear();
 
-    if (command_map_) {
+    if (command_map_)
         command_map_->clearMap();
-    }
 }
 
 void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
@@ -225,22 +222,16 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const
 {
-    // ReSharper disable once CppUseAuto
-    for (size_t idx = 0u; idx < commands_.size(); ++idx) {
-        if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
-            && commands_[idx].msg_id_type == msgType)
-            return static_cast<int>(idx);
-    }
-    //could not find
-    return std::numeric_limits<size_t>::max();
+    const RSJ::MidiMessageId msg_id{midi_channel, midi_data, msgType};
+    return std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin();
 }
 
 void CommandTableModel::Sort()
 {
     // use LRCommandList::getIndexOfCommand(string); to sort by command
-    // sort the command map
     const auto msg_idx = [this](RSJ::MidiMessageId a) {return LRCommandList::getIndexOfCommand
     (command_map_->getCommandforMessage(a)); };
+    const auto msg_sort = [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a) < msg_idx(b); };
 
     if (current_sort.first == 1)
         if (current_sort.second)
@@ -249,9 +240,7 @@ void CommandTableModel::Sort()
             std::sort(commands_.rbegin(), commands_.rend());
     else
         if (current_sort.second)
-            std::sort(commands_.begin(), commands_.end(),
-                [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a) < msg_idx(b); });
+            std::sort(commands_.begin(), commands_.end(), msg_sort);
         else
-            std::sort(commands_.rbegin(), commands_.rend(),
-                [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a) < msg_idx(b); });
+            std::sort(commands_.rbegin(), commands_.rend(), msg_sort);
 }

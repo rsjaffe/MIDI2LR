@@ -104,13 +104,11 @@ void LR_IPC_IN::run()
                 case 1:
                     if (size_read == kBufferSize)
                         throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    if (const auto read = juce::StreamingSocket::read(line + size_read, 1, false)) {
+                    if (const auto read = juce::StreamingSocket::read(line + size_read, 1, false))
                         size_read += read;
-                    }
-                    else {
-                        // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
+                    else
+                    // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
                         juce::JUCEApplication::getInstance()->systemRequestedQuit();
-                    }
                     break;
                 default:
                     assert(!"Unexpected value for wait_status");
@@ -120,9 +118,8 @@ void LR_IPC_IN::run()
             // if lose connection, line may not be terminated
             {
                 std::string param{line};
-                if (can_read_line && param.back() == '\n') {
+                if (can_read_line && param.back() == '\n')
                     processLine(param);
-                }
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)

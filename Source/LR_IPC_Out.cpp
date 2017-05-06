@@ -50,9 +50,8 @@ LR_IPC_OUT::~LR_IPC_OUT()
 void LR_IPC_OUT::Init(
     const std::shared_ptr<MIDIProcessor>& midi_processor)
 {
-    if (midi_processor) {
+    if (midi_processor)
         midi_processor->addCallback(this, &LR_IPC_OUT::MIDIcmdCallback);
-    }
 
     //start the timer
     juce::Timer::startTimer(kTimerInterval);
