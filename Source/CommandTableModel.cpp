@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <algorithm>
 #include "CommandTableModel.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
@@ -184,7 +185,6 @@ void CommandTableModel::removeRow(size_t row)
 void CommandTableModel::removeAllRows()
 {
     commands_.clear();
-
     if (command_map_) {
         command_map_->clearMap();
     }
@@ -225,14 +225,8 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
 
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const
 {
-    // ReSharper disable once CppUseAuto
-    for (size_t idx = 0u; idx < commands_.size(); ++idx) {
-        if (commands_[idx].channel == midi_channel && commands_[idx].controller == midi_data
-            && commands_[idx].msg_id_type == msgType)
-            return static_cast<int>(idx);
-    }
-    //could not find
-    return std::numeric_limits<size_t>::max();
+    const RSJ::MidiMessageId msg_id{midi_channel, midi_data, msgType};
+    return std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin();
 }
 
 void CommandTableModel::Sort()

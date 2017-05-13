@@ -40,10 +40,8 @@ bool CommandTable::keyPressed(const KeyPress& k)
         if (auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
             ptr->removeRow(static_cast<size_t>(getSelectedRow()));
         updateContent();
-        if (last) {
-            // keep selection at the end
+        if (last) // keep selection at the end
             selectRow(getNumRows() - 1);
-        }
         return true;
     }
     if (k.isKeyCode(KeyPress::downKey) && getSelectedRow() != -1 && getSelectedRow() < getNumRows() - 1) {
@@ -56,13 +54,15 @@ bool CommandTable::keyPressed(const KeyPress& k)
     }
     if (k.isKeyCode(KeyPress::pageUpKey) && getNumRows() > 0) {
         auto row = getSelectedRow() - 20;
-        if (row < 0) row = 0;
+        if (row < 0)
+            row = 0;
         selectRow(row);
         return true;
     }
     if (k.isKeyCode(KeyPress::pageDownKey) && getNumRows() > 0) {
         auto row = getSelectedRow() + 20;
-        if (row >= getNumRows()) row = getNumRows() - 1;
+        if (row >= getNumRows())
+            row = getNumRows() - 1;
         selectRow(row);
         return true;
     }
