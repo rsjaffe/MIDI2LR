@@ -72,6 +72,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "juce_audio_basics", "juce_a
 		..\..\JuceLibraryCode\modules\juce_audio_basics\juce_audio_basics.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\juce_audio_basics.h
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "audio_play_head", "audio_play_head", "{EBF046F5-7CA3-37D3-9D14-C9A7C0217454}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h
+	EndProjectSection
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buffers", "buffers", "{7CD42E50-9A58-3EBA-EE01-8BB53EE23455}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp = ..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp
@@ -83,7 +88,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "buffers", "buffers", "{7CD4
 		..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "effects", "effects", "{66AF0C07-0405-CD6A-E150-7010B2E00ED8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "effects", "effects", "{F9D856A3-0393-6323-2067-7800D15AE886}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_CatmullRomInterpolator.cpp = ..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_CatmullRomInterpolator.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_CatmullRomInterpolator.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_CatmullRomInterpolator.h
@@ -98,7 +103,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "effects", "effects", "{66AF
 		..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_Reverb.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\effects\juce_Reverb.h
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "midi", "midi", "{DB02F856-3B14-F815-657A-998A3A86CFA6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "midi", "midi", "{FBCC726E-3B5D-51C5-5448-EB34B8EF4D5A}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiBuffer.cpp = ..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiBuffer.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiBuffer.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiBuffer.h
@@ -114,7 +119,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "midi", "midi", "{DB02F856-3
 		..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiRPN.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\midi\juce_MidiRPN.h
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mpe", "mpe", "{86B37A69-3A9B-3421-F2F8-046E6EDB3930}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mpe", "mpe", "{42A6BDC7-7BE0-EBA7-7449-244611E7C050}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_audio_basics\mpe\juce_MPEInstrument.cpp = ..\..\JuceLibraryCode\modules\juce_audio_basics\mpe\juce_MPEInstrument.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_basics\mpe\juce_MPEInstrument.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\mpe\juce_MPEInstrument.h
@@ -136,7 +141,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mpe", "mpe", "{86B37A69-3A9
 		..\..\JuceLibraryCode\modules\juce_audio_basics\mpe\juce_MPEZoneLayout.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\mpe\juce_MPEZoneLayout.h
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sources", "sources", "{5BDC5083-85A9-115E-C05A-1576B73A5841}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sources", "sources", "{2C9328F7-BEDA-D0AD-8A77-25E2413F43B3}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_audio_basics\sources\juce_AudioSource.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\sources\juce_AudioSource.h
 		..\..\JuceLibraryCode\modules\juce_audio_basics\sources\juce_BufferingAudioSource.cpp = ..\..\JuceLibraryCode\modules\juce_audio_basics\sources\juce_BufferingAudioSource.cpp
@@ -156,7 +161,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sources", "sources", "{5BDC
 		..\..\JuceLibraryCode\modules\juce_audio_basics\sources\juce_ToneGeneratorAudioSource.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\sources\juce_ToneGeneratorAudioSource.h
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "synthesisers", "synthesisers", "{0E9104F9-439D-05F1-914D-6702A13C9B7C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "synthesisers", "synthesisers", "{42788118-A55A-13F2-0D75-9336034CC898}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_audio_basics\synthesisers\juce_Synthesiser.cpp = ..\..\JuceLibraryCode\modules\juce_audio_basics\synthesisers\juce_Synthesiser.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_basics\synthesisers\juce_Synthesiser.h = ..\..\JuceLibraryCode\modules\juce_audio_basics\synthesisers\juce_Synthesiser.h
@@ -196,6 +201,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "native", "native", "{F86FE8
 		..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_android_Midi.cpp = ..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_android_Midi.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_android_OpenSL.cpp = ..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_android_OpenSL.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_ios_Audio.cpp = ..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_ios_Audio.cpp
+		..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_ios_Audio.h = ..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_ios_Audio.h
 		..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_linux_ALSA.cpp = ..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_linux_ALSA.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_linux_JackAudio.cpp = ..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_linux_JackAudio.cpp
 		..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_linux_Midi.cpp = ..\..\JuceLibraryCode\modules\juce_audio_devices\native\juce_linux_Midi.cpp
@@ -547,6 +553,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{228DF378-D
 		..\..\JuceLibraryCode\modules\juce_core\misc\juce_Result.h = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_Result.h
 		..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.cpp = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.cpp
 		..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.h = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_RuntimePermissions.h
+		..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.cpp = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.cpp
+		..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.h = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_StdFunctionCompat.h
 		..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.cpp = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.cpp
 		..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.h = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_Uuid.h
 		..\..\JuceLibraryCode\modules\juce_core\misc\juce_WindowsRegistry.h = ..\..\JuceLibraryCode\modules\juce_core\misc\juce_WindowsRegistry.h
@@ -830,12 +838,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "native", "native", "{01E01F
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_events\native\juce_android_Messaging.cpp = ..\..\JuceLibraryCode\modules\juce_events\native\juce_android_Messaging.cpp
 		..\..\JuceLibraryCode\modules\juce_events\native\juce_ios_MessageManager.mm = ..\..\JuceLibraryCode\modules\juce_events\native\juce_ios_MessageManager.mm
+		..\..\JuceLibraryCode\modules\juce_events\native\juce_linux_EventLoop.h = ..\..\JuceLibraryCode\modules\juce_events\native\juce_linux_EventLoop.h
 		..\..\JuceLibraryCode\modules\juce_events\native\juce_linux_Messaging.cpp = ..\..\JuceLibraryCode\modules\juce_events\native\juce_linux_Messaging.cpp
 		..\..\JuceLibraryCode\modules\juce_events\native\juce_mac_MessageManager.mm = ..\..\JuceLibraryCode\modules\juce_events\native\juce_mac_MessageManager.mm
 		..\..\JuceLibraryCode\modules\juce_events\native\juce_osx_MessageQueue.h = ..\..\JuceLibraryCode\modules\juce_events\native\juce_osx_MessageQueue.h
-		..\..\JuceLibraryCode\modules\juce_events\native\juce_ScopedXLock.h = ..\..\JuceLibraryCode\modules\juce_events\native\juce_ScopedXLock.h
 		..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_HiddenMessageWindow.h = ..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_HiddenMessageWindow.h
 		..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_Messaging.cpp = ..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_Messaging.cpp
+		..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_WinRTWrapper.cpp = ..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_WinRTWrapper.cpp
+		..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_WinRTWrapper.h = ..\..\JuceLibraryCode\modules\juce_events\native\juce_win32_WinRTWrapper.h
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "timers", "timers", "{DB7B412F-7680-ACAF-3D61-D629541DA87B}"
@@ -1034,17 +1044,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "native", "native", "{A3A058
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_android_Fonts.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_android_Fonts.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_android_GraphicsContext.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_android_GraphicsContext.cpp
+		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_android_IconHelpers.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_android_IconHelpers.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_freetype_Fonts.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_freetype_Fonts.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_linux_Fonts.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_linux_Fonts.cpp
+		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_linux_IconHelpers.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_linux_IconHelpers.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.h = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.h
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_CoreGraphicsHelpers.h = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_CoreGraphicsHelpers.h
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_Fonts.mm = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_Fonts.mm
+		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_IconHelpers.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_mac_IconHelpers.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_RenderingHelpers.h = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_RenderingHelpers.h
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_Direct2DGraphicsContext.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_Direct2DGraphicsContext.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_DirectWriteTypeface.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_DirectWriteTypeface.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_DirectWriteTypeLayout.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_DirectWriteTypeLayout.cpp
 		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_Fonts.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_Fonts.cpp
+		..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_IconHelpers.cpp = ..\..\JuceLibraryCode\modules\juce_graphics\native\juce_win32_IconHelpers.cpp
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "placement", "placement", "{A3856E0A-3F84-E9FF-DC21-057DB1048DE1}"
@@ -1231,6 +1245,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lookandfeel", "lookandfeel"
 		..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V2.h = ..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V2.h
 		..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.cpp
 		..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.h = ..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.h
+		..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V4.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V4.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V4.h = ..\..\JuceLibraryCode\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V4.h
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "menus", "menus", "{806CB070-E860-0A3A-CDA1-F6AEA5A961F1}"
@@ -1249,6 +1265,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{55DD5543-1
 		..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_BubbleComponent.h = ..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_BubbleComponent.h
 		..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_DropShadower.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_DropShadower.cpp
 		..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_DropShadower.h = ..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_DropShadower.h
+		..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_JUCESplashScreen.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_JUCESplashScreen.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_JUCESplashScreen.h = ..\..\JuceLibraryCode\modules\juce_gui_basics\misc\juce_JUCESplashScreen.h
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mouse", "mouse", "{4F197470-F555-0160-9A03-5DC709BDF137}"
@@ -1281,9 +1299,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "native", "native", "{50F1DC
 		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_android_Windowing.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_android_Windowing.cpp
 		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_ios_UIViewComponentPeer.mm = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_ios_UIViewComponentPeer.mm
 		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_ios_Windowing.mm = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_ios_Windowing.mm
-		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_Clipboard.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_Clipboard.cpp
 		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_FileChooser.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_FileChooser.cpp
-		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_Windowing.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_Windowing.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11.h = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11.h
+		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11_Clipboard.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11_Clipboard.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11_Windowing.cpp = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_linux_X11_Windowing.cpp
 		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_FileChooser.mm = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_FileChooser.mm
 		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_MainMenu.mm = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_MainMenu.mm
 		..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_MouseCursor.mm = ..\..\JuceLibraryCode\modules\juce_gui_basics\native\juce_mac_MouseCursor.mm
@@ -1420,6 +1440,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "embedding", "embedding", "{
 		..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_ActiveXControlComponent.h = ..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_ActiveXControlComponent.h
 		..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_NSViewComponent.h = ..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_NSViewComponent.h
 		..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_UIViewComponent.h = ..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_UIViewComponent.h
+		..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_XEmbedComponent.h = ..\..\JuceLibraryCode\modules\juce_gui_extra\embedding\juce_XEmbedComponent.h
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{526A655D-3D6A-CABA-3206-9B8745975E38}"
@@ -1450,8 +1471,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "native", "native", "{C0D38C
 	ProjectSection(SolutionItems) = preProject
 		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_android_WebBrowserComponent.cpp = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_android_WebBrowserComponent.cpp
 		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm
-		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_SystemTrayIcon.cpp = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_SystemTrayIcon.cpp
-		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_WebBrowserComponent.cpp = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_WebBrowserComponent.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_X11_SystemTrayIcon.cpp = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_X11_SystemTrayIcon.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_X11_WebBrowserComponent.cpp = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_X11_WebBrowserComponent.cpp
+		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_XEmbedComponent.cpp = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_linux_XEmbedComponent.cpp
 		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_AppleRemote.mm = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_AppleRemote.mm
 		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h
 		..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm = ..\..\JuceLibraryCode\modules\juce_gui_extra\native\juce_mac_NSViewComponent.mm
@@ -1496,12 +1518,13 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BA4BA6EC-73E9-12AB-0125-45BC644B619C} = {D8AF7DAA-0B83-C573-D2FC-EB998DAFEFB9}
 		{D8AF7DAA-0B83-C573-D2FC-EB998DAFEFB9} = {4EB37339-6786-B638-B6B2-CDB4BD336CDD}
+		{EBF046F5-7CA3-37D3-9D14-C9A7C0217454} = {7D98269F-FE96-6BA2-6982-95A094257474}
 		{7CD42E50-9A58-3EBA-EE01-8BB53EE23455} = {7D98269F-FE96-6BA2-6982-95A094257474}
-		{66AF0C07-0405-CD6A-E150-7010B2E00ED8} = {7D98269F-FE96-6BA2-6982-95A094257474}
-		{DB02F856-3B14-F815-657A-998A3A86CFA6} = {7D98269F-FE96-6BA2-6982-95A094257474}
-		{86B37A69-3A9B-3421-F2F8-046E6EDB3930} = {7D98269F-FE96-6BA2-6982-95A094257474}
-		{5BDC5083-85A9-115E-C05A-1576B73A5841} = {7D98269F-FE96-6BA2-6982-95A094257474}
-		{0E9104F9-439D-05F1-914D-6702A13C9B7C} = {7D98269F-FE96-6BA2-6982-95A094257474}
+		{F9D856A3-0393-6323-2067-7800D15AE886} = {7D98269F-FE96-6BA2-6982-95A094257474}
+		{FBCC726E-3B5D-51C5-5448-EB34B8EF4D5A} = {7D98269F-FE96-6BA2-6982-95A094257474}
+		{42A6BDC7-7BE0-EBA7-7449-244611E7C050} = {7D98269F-FE96-6BA2-6982-95A094257474}
+		{2C9328F7-BEDA-D0AD-8A77-25E2413F43B3} = {7D98269F-FE96-6BA2-6982-95A094257474}
+		{42788118-A55A-13F2-0D75-9336034CC898} = {7D98269F-FE96-6BA2-6982-95A094257474}
 		{7D98269F-FE96-6BA2-6982-95A094257474} = {AD2C04D4-7DBA-314E-4D66-F2B021015F59}
 		{2FB2505D-2839-6A28-8B43-608B6961375F} = {9B424FDD-E818-734F-9A73-089DB94DAD0F}
 		{3A38C056-9228-7750-758A-38C4DC501768} = {9B424FDD-E818-734F-9A73-089DB94DAD0F}

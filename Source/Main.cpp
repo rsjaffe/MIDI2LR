@@ -61,6 +61,7 @@ public:
     {
         CCoptions::LinkToControlsModel(&controls_model_);
         PWoptions::LinkToControlsModel(&controls_model_);
+        juce::LookAndFeel::setDefaultLookAndFeel(look_feel.get());
     }
 
     // ReSharper disable once CppConstValueFunctionReturnType
@@ -219,6 +220,7 @@ private:
     std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
     std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
     std::shared_ptr<MIDISender> midi_sender_{nullptr};
+    std::unique_ptr<LookAndFeel> look_feel{std::make_unique<juce::LookAndFeel_V3>()};
     std::unique_ptr<MainWindow> main_window_{nullptr};
     VersionChecker version_checker_{&settings_manager_};
 };
