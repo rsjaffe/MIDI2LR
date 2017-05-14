@@ -1,5 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Project DefaultTargets="Build"
+         ToolsVersion="15.0"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -14,22 +17,26 @@
     <ProjectGuid>{686AE150-57A0-ABD4-6033-28AEE68BADB0}</ProjectGuid>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"
+                 Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'"
+                 Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+  <ImportGroup Label="ExtensionSettings"/>
   <ImportGroup Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform"/>
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
     <PlatformToolset>v141</PlatformToolset>
@@ -53,7 +60,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <HeaderFileName />
+      <HeaderFileName/>
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -62,7 +69,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.2.0.0;JUCE_APP_VERSION_HEX=0x2020000;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader />
+      <PrecompiledHeader/>
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)\</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)\</ProgramDataBaseFileName>
@@ -95,7 +102,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <HeaderFileName />
+      <HeaderFileName/>
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
@@ -103,18 +110,13 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.2.0.0;JUCE_APP_VERSION_HEX=0x2020000;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader />
+      <PrecompiledHeader/>
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)\</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)\</ProgramDataBaseFileName>
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -138,45 +140,45 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp" />
-    <ClCompile Include="..\..\Source\CCoptions.cpp" />
-    <ClCompile Include="..\..\Source\CommandMap.cpp" />
-    <ClCompile Include="..\..\Source\CommandMenu.cpp" />
-    <ClCompile Include="..\..\Source\CommandTable.cpp" />
-    <ClCompile Include="..\..\Source\CommandTableModel.cpp" />
-    <ClCompile Include="..\..\Source\ControlsModel.cpp" />
-    <ClCompile Include="..\..\Source\LR_IPC_In.cpp" />
-    <ClCompile Include="..\..\Source\LR_IPC_Out.cpp" />
-    <ClCompile Include="..\..\Source\LRCommands.cpp" />
-    <ClCompile Include="..\..\Source\Main.cpp" />
-    <ClCompile Include="..\..\Source\MainComponent.cpp" />
-    <ClCompile Include="..\..\Source\MainWindow.cpp" />
-    <ClCompile Include="..\..\Source\MIDIProcessor.cpp" />
-    <ClCompile Include="..\..\Source\MIDISender.cpp" />
-    <ClCompile Include="..\..\Source\MidiUtilities.cpp" />
-    <ClCompile Include="..\..\Source\NrpnMessage.cpp" />
-    <ClCompile Include="..\..\Source\ProfileManager.cpp" />
-    <ClCompile Include="..\..\Source\PWoptions.cpp" />
-    <ClCompile Include="..\..\Source\ResizableLayout.cpp" />
-    <ClCompile Include="..\..\Source\SendKeys.cpp" />
-    <ClCompile Include="..\..\Source\SettingsComponent.cpp" />
-    <ClCompile Include="..\..\Source\SettingsManager.cpp" />
-    <ClCompile Include="..\..\Source\VersionChecker.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_basics.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_devices.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_formats.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_core.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_data_structures.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_events.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_graphics.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp" />
-    <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp"/>
+    <ClCompile Include="..\..\Source\CCoptions.cpp"/>
+    <ClCompile Include="..\..\Source\CommandMap.cpp"/>
+    <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
+    <ClCompile Include="..\..\Source\CommandTable.cpp"/>
+    <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
+    <ClCompile Include="..\..\Source\ControlsModel.cpp"/>
+    <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
+    <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
+    <ClCompile Include="..\..\Source\LRCommands.cpp"/>
+    <ClCompile Include="..\..\Source\Main.cpp"/>
+    <ClCompile Include="..\..\Source\MainComponent.cpp"/>
+    <ClCompile Include="..\..\Source\MainWindow.cpp"/>
+    <ClCompile Include="..\..\Source\MIDIProcessor.cpp"/>
+    <ClCompile Include="..\..\Source\MIDISender.cpp"/>
+    <ClCompile Include="..\..\Source\MidiUtilities.cpp"/>
+    <ClCompile Include="..\..\Source\NrpnMessage.cpp"/>
+    <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
+    <ClCompile Include="..\..\Source\PWoptions.cpp"/>
+    <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
+    <ClCompile Include="..\..\Source\SendKeys.cpp"/>
+    <ClCompile Include="..\..\Source\SettingsComponent.cpp"/>
+    <ClCompile Include="..\..\Source\SettingsManager.cpp"/>
+    <ClCompile Include="..\..\Source\VersionChecker.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_basics.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_devices.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_formats.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_core.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_data_structures.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_events.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_graphics.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup/>
   <ItemGroup>
-    <ResourceCompile Include=".\resources.rc" />
+    <ResourceCompile Include=".\resources.rc"/>
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+  <ImportGroup Label="ExtensionTargets"/>
 </Project>

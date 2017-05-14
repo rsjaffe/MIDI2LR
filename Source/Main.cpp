@@ -55,14 +55,11 @@ namespace {
 
 class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
-    MIDI2LRApplication():
-        lr_ipc_in_{std::make_shared<LR_IPC_IN>(&controls_model_, &profile_manager_, &command_map_)},
-        lr_ipc_out_{std::make_shared<LR_IPC_OUT>(&controls_model_, &command_map_)},
-        midi_processor_{std::make_shared<MIDIProcessor>()},
-        midi_sender_{std::make_shared<MIDISender>()}
+    MIDI2LRApplication()
     {
         CCoptions::LinkToControlsModel(&controls_model_);
         PWoptions::LinkToControlsModel(&controls_model_);
+        juce::LookAndFeel::setDefaultLookAndFeel(look_feel.get());
     }
 
     // ReSharper disable once CppConstValueFunctionReturnType
@@ -215,10 +212,11 @@ private:
     ControlsModel controls_model_{};
     ProfileManager profile_manager_{&controls_model_, &command_map_};
     SettingsManager settings_manager_{&profile_manager_};
-    std::shared_ptr<LR_IPC_IN> lr_ipc_in_{nullptr};
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{nullptr};
-    std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
-    std::shared_ptr<MIDISender> midi_sender_{nullptr};
+    std::shared_ptr<LR_IPC_IN> lr_ipc_in_{std::make_shared<LR_IPC_IN>(&controls_model_, &profile_manager_, &command_map_)};
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{std::make_shared<LR_IPC_OUT>(&controls_model_, &command_map_)};
+    std::shared_ptr<MIDIProcessor> midi_processor_{std::make_shared<MIDIProcessor>()};
+    std::shared_ptr<MIDISender> midi_sender_{std::make_shared<MIDISender>()};
+    std::unique_ptr<LookAndFeel> look_feel{std::make_unique<juce::LookAndFeel_V3>()};
     std::unique_ptr<MainWindow> main_window_{nullptr};
     VersionChecker version_checker_{&settings_manager_};
 };
