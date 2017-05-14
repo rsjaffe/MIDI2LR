@@ -182,7 +182,7 @@ void CommandTableModel::removeRow(size_t row)
 void CommandTableModel::removeAllRows()
 {
     commands_.clear();
-    if (command_map_) {
+    if (command_map_) 
         command_map_->clearMap();
 }
 
