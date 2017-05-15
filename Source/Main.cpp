@@ -83,17 +83,17 @@ public:
     {
         //Called when the application starts.
 
-        // This will be called once to let the application do whatever initialization
-        // it needs, create its windows, etc.
+        // This will be called once to let the application do whatever
+        // initialization it needs, create its windows, etc.
 
-        // After the method returns, the normal event - dispatch loop will be run,
-        // until the quit() method is called, at which point the shutdown() method
-        // will be called to let the application clear up anything it needs to
-        // delete.
+        // After the method returns, the normal event - dispatch loop will be
+        // run, until the quit() method is called, at which point the shutdown()
+        // method will be called to let the application clear up anything it
+        // needs to delete.
 
-        // If during the initialise() method, the application decides not to start -
-        // up after all, it can just call the quit() method and the event loop won't
-        // be run.
+        // If during the initialise() method, the application decides not to
+        // start - up after all, it can just call the quit() method and the event
+        // loop won't be run.
 
         if (command_line != ShutDownString) {
             {//scoped so archive gets flushed
@@ -131,13 +131,13 @@ public:
     {
         //Called to allow the application to clear up before exiting.
 
-        // After JUCEApplication::quit() has been called, the event - dispatch loop
-        // will terminate, and this method will get called to allow the application
-        // to sort itself out.
+        // After JUCEApplication::quit() has been called, the event - dispatch
+        // loop will terminate, and this method will get called to allow the
+        // application to sort itself out.
 
-        // Be careful that nothing happens in this method that might rely on messages
-        // being sent, or any kind of window activity, because the message loop is no
-        // longer running at this point.
+        // Be careful that nothing happens in this method that might rely on
+        // messages being sent, or any kind of window activity, because the
+        // message loop is no longer running at this point.
         lr_ipc_out_.reset();
         lr_ipc_in_.reset();
         midi_processor_.reset();
@@ -145,7 +145,7 @@ public:
         main_window_ = nullptr; // (deletes our window)
     }
 
-    //==============================================================================
+    //==========================================================================
     void systemRequestedQuit() override
     {
         // This is called when the application is being asked to quit: you can
@@ -161,14 +161,16 @@ public:
             auto controllerfile =
                 juce::File::getSpecialLocation(juce::File::currentExecutableFile).
                 getSiblingFile("settings.bin").getFullPathName().toStdString();
-            std::ofstream outfile(controllerfile, std::ios::out | std::ios::binary | std::ios::trunc);
+            std::ofstream outfile(controllerfile, std::ios::out |
+                std::ios::binary | std::ios::trunc);
             if (outfile.is_open()) {
                 cereal::BinaryOutputArchive oarchive(outfile);
                 oarchive(controls_model_);
             }
             else
                 juce::AlertWindow::showNativeDialogBox("Error",
-                                                       "Unable to save control settings. Unable to open file settings.bin.", false);
+                    "Unable to save control settings. Unable to open file settings.bin.",
+                    false);
         }
         quit();
     }
@@ -176,16 +178,15 @@ public:
     void anotherInstanceStarted(const juce::String& command_line) override
     {
         // When another instance of the application is launched while this one is
-        // running, this method is invoked, and the commandLine parameter tells you
-        // what the other instance's command-line arguments were.
+        // running, this method is invoked, and the commandLine parameter tells
+        // you what the other instance's command-line arguments were.
         if (command_line == ShutDownString)
-        //shutting down
+            //shutting down
             systemRequestedQuit();
     }
 
     void unhandledException(const std::exception * e,
-        const juce::String& sourceFilename, int lineNumber
-    ) override
+        const juce::String& sourceFilename, int lineNumber) override
     {
         // If any unhandled exceptions make it through to the message dispatch
         // loop, this callback will be triggered, in case you want to log them or
@@ -195,15 +196,21 @@ public:
         // pointer passed-in will be valid. If the exception is of unknown type,
         // this pointer will be null.
         if (juce::Logger::getCurrentLogger()) {
-            if (e)
-                juce::Logger::writeToLog(juce::String(e->what()) + " " + sourceFilename +
-                    " line " + juce::String(lineNumber));
-            else
-                juce::Logger::writeToLog(sourceFilename + " line " + juce::String(lineNumber));
+            if (e) {
+                juce::Logger::writeToLog(juce::String(e->what()) + " " +
+                    sourceFilename + " line " + juce::String(lineNumber));
+                juce::AlertWindow::showNativeDialogBox("Error",
+                    "Unhandled exception. " + juce::String(e->what()) + " " +
+                    sourceFilename + " line " + juce::String(lineNumber), false);
+            }
+            else {
+                juce::Logger::writeToLog(sourceFilename + " line " +
+                    juce::String(lineNumber));
+                juce::AlertWindow::showNativeDialogBox("Error",
+                    "Unhandled exception. " + sourceFilename +
+                    " line " + juce::String(lineNumber), false);
+            }
         }
-        juce::AlertWindow::showNativeDialogBox("Error",
-            "Unhandled exception. " + juce::String(e->what()) + " " + sourceFilename +
-            " line " + juce::String(lineNumber), false);
         std::terminate(); // can't go on with the program
     }
 
@@ -212,8 +219,10 @@ private:
     ControlsModel controls_model_{};
     ProfileManager profile_manager_{&controls_model_, &command_map_};
     SettingsManager settings_manager_{&profile_manager_};
-    std::shared_ptr<LR_IPC_IN> lr_ipc_in_{std::make_shared<LR_IPC_IN>(&controls_model_, &profile_manager_, &command_map_)};
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{std::make_shared<LR_IPC_OUT>(&controls_model_, &command_map_)};
+    std::shared_ptr<LR_IPC_IN> lr_ipc_in_{std::make_shared<LR_IPC_IN>
+        (&controls_model_, &profile_manager_, &command_map_)};
+    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{std::make_shared<LR_IPC_OUT>
+        (&controls_model_, &command_map_)};
     std::shared_ptr<MIDIProcessor> midi_processor_{std::make_shared<MIDIProcessor>()};
     std::shared_ptr<MIDISender> midi_sender_{std::make_shared<MIDISender>()};
     std::unique_ptr<LookAndFeel> look_feel{std::make_unique<juce::LookAndFeel_V3>()};
