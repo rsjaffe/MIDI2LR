@@ -29,7 +29,6 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-
 #include <exception>
 #include <fstream>
 #include <memory>
@@ -96,24 +95,12 @@ public:
         // loop won't be run.
 
         if (command_line != ShutDownString) {
-            {//scoped so archive gets flushed
-                auto controllerfile =
-                    juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-                    getSiblingFile("settings.bin").getFullPathName().toStdString();
-                std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
-                if (infile.is_open() && !infile.eof()) {
-                    cereal::BinaryInputArchive iarchive(infile);
-                    iarchive(controls_model_);
-                }
-            }
+            cerealLoad_();
             midi_processor_->Init();
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_processor_);
-            //set the reference to the command map
             profile_manager_.Init(lr_ipc_out_, midi_processor_);
-            //initialize the IPC_In
             lr_ipc_in_->Init(midi_sender_);
-            // initialize the settings manager
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName());
             main_window_->Init(&command_map_, lr_ipc_out_, midi_processor_,
@@ -142,7 +129,7 @@ public:
         lr_ipc_in_.reset();
         midi_processor_.reset();
         midi_sender_.reset();
-        main_window_ = nullptr; // (deletes our window)
+        main_window_.reset(); // (deletes our window)
     }
 
     //==========================================================================
@@ -153,25 +140,8 @@ public:
         // quit() to allow the application to close.
         if (lr_ipc_in_)
             lr_ipc_in_->PleaseStopThread();
-        auto default_profile =
-            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("default.xml");
-        command_map_.toXMLDocument(default_profile);
-        {//scoped so archive gets flushed
-            auto controllerfile =
-                juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-                getSiblingFile("settings.bin").getFullPathName().toStdString();
-            std::ofstream outfile(controllerfile, std::ios::out |
-                std::ios::binary | std::ios::trunc);
-            if (outfile.is_open()) {
-                cereal::BinaryOutputArchive oarchive(outfile);
-                oarchive(controls_model_);
-            }
-            else
-                juce::AlertWindow::showNativeDialogBox("Error",
-                    "Unable to save control settings. Unable to open file settings.bin.",
-                    false);
-        }
+        defaultProfileSave_();
+        cerealSave_();
         quit();
     }
 
@@ -215,6 +185,40 @@ public:
     }
 
 private:
+    void defaultProfileSave_()
+    {
+        auto profilefile =
+            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+            getSiblingFile("default.xml");
+        command_map_.toXMLDocument(profilefile);
+    }
+    void cerealSave_()
+    {//scoped so archive gets flushed
+        auto controllerfile =
+            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+            getSiblingFile("settings.bin").getFullPathName().toStdString();
+        std::ofstream outfile(controllerfile, std::ios::out |
+            std::ios::binary | std::ios::trunc);
+        if (outfile.is_open()) {
+            cereal::BinaryOutputArchive oarchive(outfile);
+            oarchive(controls_model_);
+        }
+        else
+            juce::AlertWindow::showNativeDialogBox("Error",
+                "Unable to save control settings. Unable to open file settings.bin.",
+                false);
+    }
+    void cerealLoad_()
+    {//scoped so archive gets flushed
+        auto controllerfile =
+            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
+            getSiblingFile("settings.bin").getFullPathName().toStdString();
+        std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
+        if (infile.is_open() && !infile.eof()) {
+            cereal::BinaryInputArchive iarchive(infile);
+            iarchive(controls_model_);
+        }
+    }
     CommandMap command_map_{};
     ControlsModel controls_model_{};
     ProfileManager profile_manager_{&controls_model_, &command_map_};
@@ -225,7 +229,7 @@ private:
         (&controls_model_, &command_map_)};
     std::shared_ptr<MIDIProcessor> midi_processor_{std::make_shared<MIDIProcessor>()};
     std::shared_ptr<MIDISender> midi_sender_{std::make_shared<MIDISender>()};
-    std::unique_ptr<LookAndFeel> look_feel{std::make_unique<juce::LookAndFeel_V3>()};
+    std::unique_ptr<juce::LookAndFeel> look_feel{std::make_unique<juce::LookAndFeel_V3>()};
     std::unique_ptr<MainWindow> main_window_{nullptr};
     VersionChecker version_checker_{&settings_manager_};
 };
