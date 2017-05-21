@@ -29,287 +29,319 @@ THE SOFTWARE.
 #include "JuceHeader.h"
 #include "ResizableLayout.h"
 
-const Point<int> ResizableLayout::anchorNone(-1, -1);
-const Point<int> ResizableLayout::anchorTopLeft(0, 0);
-const Point<int> ResizableLayout::anchorTopCenter(anchorUnit / 2, 0);
-const Point<int> ResizableLayout::anchorTopRight(anchorUnit, 0);
-const Point<int> ResizableLayout::anchorMidLeft(0, anchorUnit / 2);
-const Point<int> ResizableLayout::anchorMidCenter(anchorUnit / 2, anchorUnit / 2);
-const Point<int> ResizableLayout::anchorMidRight(anchorUnit, anchorUnit / 2);
-const Point<int> ResizableLayout::anchorBottomLeft(0, anchorUnit);
-const Point<int> ResizableLayout::anchorBottomCenter(anchorUnit / 2, anchorUnit);
-const Point<int> ResizableLayout::anchorBottomRight(anchorUnit, anchorUnit);
+const juce::Point<int> ResizableLayout::anchorNone(-1, -1);
+const juce::Point<int> ResizableLayout::anchorTopLeft(0, 0);
+const juce::Point<int> ResizableLayout::anchorTopCenter(anchorUnit / 2, 0);
+const juce::Point<int> ResizableLayout::anchorTopRight(anchorUnit, 0);
+const juce::Point<int> ResizableLayout::anchorMidLeft(0, anchorUnit / 2);
+const juce::Point<int> ResizableLayout::anchorMidCenter(anchorUnit / 2, anchorUnit / 2);
+const juce::Point<int> ResizableLayout::anchorMidRight(anchorUnit, anchorUnit / 2);
+const juce::Point<int> ResizableLayout::anchorBottomLeft(0, anchorUnit);
+const juce::Point<int> ResizableLayout::anchorBottomCenter(anchorUnit / 2, anchorUnit);
+const juce::Point<int> ResizableLayout::anchorBottomRight(anchorUnit, anchorUnit);
 
-ResizableLayout::Anchor::Anchor(Component* component_)
-  : component(component_)
-  , child(dynamic_cast<ResizableChild*>(component_)) {
-  jassert(component);
+ResizableLayout::Anchor::Anchor(juce::Component* component_)
+    : component(component_), child(dynamic_cast<ResizableChild*>(component_))
+{
+    jassert(component);
 }
 
-bool ResizableLayout::Anchor::operator== (const Anchor& rhs) const {
-  return component == rhs.component;
+bool ResizableLayout::Anchor::operator== (const Anchor& rhs) const noexcept
+{
+    return component == rhs.component;
 }
 
-bool ResizableLayout::Anchor::operator>= (const Anchor& rhs) const {
-  return component >= rhs.component;
+bool ResizableLayout::Anchor::operator>= (const Anchor& rhs) const noexcept
+{
+    return component >= rhs.component;
 }
 
-bool ResizableLayout::Anchor::operator< (const Anchor& rhs) const {
-  return component < rhs.component;
+bool ResizableLayout::Anchor::operator< (const Anchor& rhs) const noexcept
+{
+    return component < rhs.component;
 }
 
-ResizableLayout::State::State(Component* component_)
-  : component(component_) {
-  jassert(component);
+ResizableLayout::State::State(juce::Component* component_) noexcept
+    : component(component_)
+{
+    jassert(component);
 }
 
-ResizableLayout::State::State(const State& other)
-  : component(other.component)
-  , aspect(other.aspect)
-  , margin(other.margin) {}
+ResizableLayout::State::State(const State& other) noexcept :
+    component(other.component), aspect(other.aspect), margin(other.margin)
+{}
 
-bool ResizableLayout::State::operator== (const State& rhs) const {
-  return component == rhs.component;
+ResizableLayout::State& ResizableLayout::State::operator=(const State& other) noexcept
+{//added 20 May 2017 RSJ
+    component = other.component;
+    aspect = other.aspect;
+    margin = other.margin;
+    return *this;
 }
 
-bool ResizableLayout::State::operator>= (const State& rhs) const {
-  return component >= rhs.component;
+bool ResizableLayout::State::operator== (const State& rhs) const noexcept
+{
+    return component == rhs.component;
 }
 
-bool ResizableLayout::State::operator< (const State& rhs) const {
-  return component < rhs.component;
+bool ResizableLayout::State::operator>= (const State& rhs) const noexcept
+{
+    return component >= rhs.component;
+}
+
+bool ResizableLayout::State::operator< (const State& rhs) const noexcept
+{
+    return component < rhs.component;
 }
 
 //------------------------------------------------------------------------------
 
-ResizableLayout::ResizableLayout(Component* owner)
-  : m_owner(owner) {
-  m_bFirstTime = true;
-  m_isActive = false;
+ResizableLayout::ResizableLayout(juce::Component* owner)
+    : m_owner(owner)
+{
+    m_bFirstTime = true;
+    m_isActive = false;
 
-  m_owner->addComponentListener(this);
+    m_owner->addComponentListener(this);
 }
 
-ResizableLayout::~ResizableLayout() {}
+ResizableLayout::~ResizableLayout()
+{}
 
 void ResizableLayout::addToLayout(Component* component,
-  const Point<int>& topLeft,
-  const Point<int>& bottomRight,
-  Style style) {
-  jassert(topLeft != anchorNone);
+    const juce::Point<int>& topLeft, const juce::Point<int>& bottomRight,
+    Style style)
+{
+    jassert(topLeft != anchorNone);
 
-  Anchor anchor(component);
-  anchor.style = style;
-  anchor.topLeft = topLeft;
-  if (bottomRight == anchorNone)
-    anchor.bottomRight = topLeft;
-  else
-    anchor.bottomRight = bottomRight;
+    Anchor anchor(component);
+    anchor.style = style;
+    anchor.topLeft = topLeft;
+    if (bottomRight == anchorNone)
+        anchor.bottomRight = topLeft;
+    else
+        anchor.bottomRight = bottomRight;
 
-  m_anchors.add(anchor);
+    m_anchors.add(anchor);
 
-  component->addComponentListener(this);
+    component->addComponentListener(this);
 }
 
-void ResizableLayout::removeFromLayout(Component* component) {
-  m_anchors.removeValue(component);
-  m_states.removeValue(component);
+void ResizableLayout::removeFromLayout(Component* component) noexcept
+{
+    m_anchors.removeValue(component);
+    m_states.removeValue(component);
 }
 
-void ResizableLayout::activateLayout(bool isActive) {
-  if (m_isActive != isActive) {
-    if (isActive && m_bFirstTime) {
-      updateLayout();
-      m_bFirstTime = false;
-    }
-
-    m_isActive = isActive;
-  }
-}
-
-void ResizableLayout::updateLayout() {
-  m_states.clearQuick();
-  for (int i = 0; i < m_anchors.size(); i++)
-    addStateFor(m_anchors[i]);
-}
-
-void ResizableLayout::updateLayoutFor(Component *component) {
-  m_states.removeValue(component);
-  addStateFor(m_anchors[m_anchors.indexOf(component)]);
-}
-
-void ResizableLayout::addStateFor(const Anchor& anchor) {
-  Rect rb = anchor.component->getBounds();
-
-  int w = m_owner->getWidth();
-  int h = m_owner->getHeight();
-
-  State state(anchor.component);
-
-  // secret sauce
-  state.margin.top = rb.top - (h * anchor.topLeft.getY()) / anchorUnit;
-  state.margin.left = rb.left - (w * anchor.topLeft.getX()) / anchorUnit;
-  state.margin.bottom = rb.bottom - (h * anchor.bottomRight.getY()) / anchorUnit;
-  state.margin.right = rb.right - (w * anchor.bottomRight.getX()) / anchorUnit;
-
-  state.aspect = double(rb.getWidth()) / rb.getHeight();
-
-  m_states.add(state);
-}
-
-void ResizableLayout::recalculateLayout() {
-  if (m_isActive) {
-    Rect rp = m_owner->getBounds();
-
-    for (int i = 0; i < m_states.size(); i++) {
-      Anchor anchor = m_anchors[i];
-      State state = m_states[i];
-      jassert(anchor.component == state.component);
-
-      Rect rb;
-
-      // secret sauce
-      rb.top = state.margin.top + (rp.getHeight() * anchor.topLeft.getY()) / anchorUnit;
-      rb.left = state.margin.left + (rp.getWidth() * anchor.topLeft.getX()) / anchorUnit;
-      rb.bottom = state.margin.bottom + (rp.getHeight() * anchor.bottomRight.getY()) / anchorUnit;
-      rb.right = state.margin.right + (rp.getWidth() * anchor.bottomRight.getX()) / anchorUnit;
-      // prove that there are no rounding issues
-      jassert((anchor.bottomRight != anchor.topLeft) ||
-        ((rb.getWidth() == anchor.component->getWidth()) &&
-        (rb.getHeight() == anchor.component->getHeight())));
-
-      if (anchor.style == styleStretch) {
-        anchor.component->setBounds(rb);
-      }
-      else if (anchor.style == styleFixedAspect) {
-        Rect r;
-        double aspect = double(rb.getWidth()) / rb.getHeight();
-
-        if (aspect > state.aspect) {
-          r.top = rb.top;
-          r.bottom = rb.bottom;
-          int width = int(state.aspect * r.getHeight());
-          r.left = rb.left + (rb.getWidth() - width) / 2;
-          r.right = r.left + width;
-        }
-        else {
-          r.left = rb.left;
-          r.right = rb.right;
-          int height = int(1. / state.aspect * r.getWidth());
-          r.top = rb.top + (rb.getHeight() - height) / 2;
-          r.bottom = r.top + height;
+void ResizableLayout::activateLayout(bool isActive) noexcept
+{
+    if (m_isActive != isActive) {
+        if (isActive && m_bFirstTime) {
+            updateLayout();
+            m_bFirstTime = false;
         }
 
-        anchor.component->setBounds(r);
-      }
+        m_isActive = isActive;
     }
-  }
 }
 
-void ResizableLayout::componentMovedOrResized(Component& component,
-  bool /*wasMoved*/,
-  bool wasResized) {
-  if (&component == m_owner) {
-    if (wasResized) {
-      recalculateLayout();
+void ResizableLayout::updateLayout() noexcept
+{
+    m_states.clearQuick();
+    for (int i = 0; i < m_anchors.size(); i++)
+        addStateFor(m_anchors[i]);
+}
+
+void ResizableLayout::updateLayoutFor(juce::Component *component) noexcept
+{
+    m_states.removeValue(component);
+    addStateFor(m_anchors[m_anchors.indexOf(component)]);
+}
+
+void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
+{
+    Rect rb = anchor.component->getBounds();
+
+    int w = m_owner->getWidth();
+    int h = m_owner->getHeight();
+
+    State state(anchor.component);
+
+    // secret sauce
+    state.margin.top = rb.top - (h * anchor.topLeft.getY()) / anchorUnit;
+    state.margin.left = rb.left - (w * anchor.topLeft.getX()) / anchorUnit;
+    state.margin.bottom = rb.bottom - (h * anchor.bottomRight.getY()) / anchorUnit;
+    state.margin.right = rb.right - (w * anchor.bottomRight.getX()) / anchorUnit;
+
+    state.aspect = double(rb.getWidth()) / rb.getHeight();
+
+    m_states.add(state);
+}
+
+void ResizableLayout::recalculateLayout()
+{
+    if (m_isActive) {
+        Rect rp = m_owner->getBounds();
+
+        for (int i = 0; i < m_states.size(); i++) {
+            Anchor anchor = m_anchors[i];
+            State state = m_states[i];
+            jassert(anchor.component == state.component);
+
+            Rect rb;
+
+            // secret sauce
+            rb.top = state.margin.top +
+                (rp.getHeight() * anchor.topLeft.getY()) / anchorUnit;
+            rb.left = state.margin.left +
+                (rp.getWidth() * anchor.topLeft.getX()) / anchorUnit;
+            rb.bottom = state.margin.bottom +
+                (rp.getHeight() * anchor.bottomRight.getY()) / anchorUnit;
+            rb.right = state.margin.right +
+                (rp.getWidth() * anchor.bottomRight.getX()) / anchorUnit;
+            // prove that there are no rounding issues
+            jassert((anchor.bottomRight != anchor.topLeft) ||
+                ((rb.getWidth() == anchor.component->getWidth()) &&
+                (rb.getHeight() == anchor.component->getHeight())));
+
+            if (anchor.style == styleStretch) {
+                anchor.component->setBounds(rb);
+            }
+            else if (anchor.style == styleFixedAspect) {
+                Rect r;
+                double aspect = double(rb.getWidth()) / rb.getHeight();
+
+                if (aspect > state.aspect) {
+                    r.top = rb.top;
+                    r.bottom = rb.bottom;
+                    int width = int(state.aspect * r.getHeight());
+                    r.left = rb.left + (rb.getWidth() - width) / 2;
+                    r.right = r.left + width;
+                }
+                else {
+                    r.left = rb.left;
+                    r.right = rb.right;
+                    int height = int(1. / state.aspect * r.getWidth());
+                    r.top = rb.top + (rb.getHeight() - height) / 2;
+                    r.bottom = r.top + height;
+                }
+
+                anchor.component->setBounds(r);
+            }
+        }
     }
-  }
-  else {
-    updateLayoutFor(&component);
-  }
 }
 
-void ResizableLayout::componentBeingDeleted(Component& component) {
-  if (&component != m_owner) {
-    m_anchors.removeValue(&component);
-    m_states.removeValue(&component);
-  }
-}
-
-Rectangle<int> ResizableLayout::calcBoundsOfChildren(Component* parent) {
-  Rectangle<int> r;
-
-  for (int i = 0; i < parent->getNumChildComponents(); i++)
-    r = r.getUnion(parent->getChildComponent(i)->getBounds());
-
-  return r;
-}
-
-void ResizableLayout::resizeStart() {
-  bool haveChildren = false;
-
-  // first recursively call resizeStart() on all children
-  for (int i = 0; i < m_anchors.size(); i++) {
-    ResizableChild* child = m_anchors.getUnchecked(i).child;
-    if (child) {
-      child->resizeStart();
-      haveChildren = true;
+void ResizableLayout::componentMovedOrResized(juce::Component& component,
+    bool /*wasMoved*/, bool wasResized)
+{
+    if (&component == m_owner) {
+        if (wasResized) {
+            recalculateLayout();
+        }
     }
-  }
+    else {
+        updateLayoutFor(&component);
+    }
+}
 
-  // now check our immediate children for constraints
-  if (haveChildren) {
-      // start with our values
-    int xmin0 = getMinimumWidth();
-    int ymin0 = getMinimumHeight();
+void ResizableLayout::componentBeingDeleted(juce::Component& component) noexcept
+{
+    if (&component != m_owner) {
+        m_anchors.removeValue(&component);
+        m_states.removeValue(&component);
+    }
+}
 
-    // for each child, use the inverse of the resize function to solve for the min/max
+Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) noexcept
+{
+    juce::Rectangle<int> r;
+
+    for (int i = 0; i < parent->getNumChildComponents(); i++)
+        r = r.getUnion(parent->getChildComponent(i)->getBounds());
+    return r;
+}
+
+void ResizableLayout::resizeStart() noexcept
+{
+    bool haveChildren = false;
+
+    // first recursively call resizeStart() on all children
     for (int i = 0; i < m_anchors.size(); i++) {
-      Anchor anchor = m_anchors.getUnchecked(i);
-      if (anchor.child) {
-        State state = m_states.getUnchecked(i);
-        jassert(anchor.component == state.component);
-
-        int xmin1 = anchor.child->getMinimumWidth();
-        int ymin1 = anchor.child->getMinimumHeight();
-        //int xmax1 = anchor.child->getMaximumWidth();
-        //int ymax1 = anchor.child->getMaximumHeight();
-
-        // invert the sauce
-        int d; // anchor difference
-        int m; // solution to f'(x)
-
-        d = anchor.bottomRight.getX() - anchor.topLeft.getX();
-        if (d != 0) {
-          m = (xmin1 + state.margin.left - state.margin.right) * anchorUnit / d;
-          xmin0 = jmax(xmin0, m);
+        ResizableChild* child = m_anchors.getUnchecked(i).child;
+        if (child) {
+            child->resizeStart();
+            haveChildren = true;
         }
-
-        d = anchor.bottomRight.getY() - anchor.topLeft.getY();
-        if (d != 0) {
-          m = (ymin1 + state.margin.top - state.margin.bottom) * anchorUnit / d;
-          ymin0 = jmax(ymin0, m);
-        }
-      }
     }
 
-    // apply adjusted limits
-    setMinimumWidth(xmin0);
-    setMinimumHeight(ymin0);
-  }
+    // now check our immediate children for constraints
+    if (haveChildren) {
+        // start with our values
+        int xmin0 = getMinimumWidth();
+        int ymin0 = getMinimumHeight();
+
+        // for each child, use the inverse of the resize function to solve for
+        // the min/max
+        for (int i = 0; i < m_anchors.size(); i++) {
+            Anchor anchor = m_anchors.getUnchecked(i);
+            if (anchor.child) {
+                State state = m_states.getUnchecked(i);
+                jassert(anchor.component == state.component);
+
+                int xmin1 = anchor.child->getMinimumWidth();
+                int ymin1 = anchor.child->getMinimumHeight();
+                //int xmax1 = anchor.child->getMaximumWidth();
+                //int ymax1 = anchor.child->getMaximumHeight();
+
+                // invert the sauce
+                int d; // anchor difference
+                int m; // solution to f'(x)
+
+                d = anchor.bottomRight.getX() - anchor.topLeft.getX();
+                if (d != 0) {
+                    m = (xmin1 + state.margin.left - state.margin.right) *
+                        anchorUnit / d;
+                    xmin0 = jmax(xmin0, m);
+                }
+
+                d = anchor.bottomRight.getY() - anchor.topLeft.getY();
+                if (d != 0) {
+                    m = (ymin1 + state.margin.top - state.margin.bottom) *
+                        anchorUnit / d;
+                    ymin0 = jmax(ymin0, m);
+                }
+            }
+        }
+
+        // apply adjusted limits
+        setMinimumWidth(xmin0);
+        setMinimumHeight(ymin0);
+    }
 }
 
 //------------------------------------------------------------------------------
 
-TopLevelResizableLayout::Constrainer::Constrainer(TopLevelResizableLayout* owner)
-  : m_owner(*owner) {}
+TopLevelResizableLayout::Constrainer::Constrainer(TopLevelResizableLayout* owner) noexcept
+    : m_owner(*owner)
+{}
 
-void TopLevelResizableLayout::Constrainer::resizeStart() {
-  m_owner.resizeStart();
-
-  int minWtmp = m_owner.getMinimumWidth();
-  int minHtmp = m_owner.getMinimumHeight();
-
-  setMinimumWidth(minWtmp);
-  setMinimumHeight(minHtmp);
+void TopLevelResizableLayout::Constrainer::resizeStart() noexcept
+{
+    m_owner.resizeStart();
+    int minWtmp = m_owner.getMinimumWidth();
+    int minHtmp = m_owner.getMinimumHeight();
+    setMinimumWidth(minWtmp);
+    setMinimumHeight(minHtmp);
 }
 
 //------------------------------------------------------------------------------
 
-TopLevelResizableLayout::TopLevelResizableLayout(Component* owner)
-  : ResizableLayout(owner)
-  , m_constrainer(this) {}
+TopLevelResizableLayout::TopLevelResizableLayout(juce::Component* owner)
+    : ResizableLayout(owner), m_constrainer(this)
+{}
 
-void TopLevelResizableLayout::setAsConstrainerFor(ResizableWindow *window) {
-  window->setConstrainer(&m_constrainer);
+void TopLevelResizableLayout::setAsConstrainerFor(juce::ResizableWindow *window)
+{
+    window->setConstrainer(&m_constrainer);
 }
