@@ -107,7 +107,7 @@ void LR_IPC_IN::run()
                     if (const auto read = juce::StreamingSocket::read(line + size_read, 1, false))
                         size_read += read;
                     else
-                    // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
+                        // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
                         juce::JUCEApplication::getInstance()->systemRequestedQuit();
                     break;
                 default:
@@ -194,10 +194,19 @@ void LR_IPC_IN::processLine(const std::string& line) const
 
                 if (midi_sender_) {
                     switch (msgtype) {
-                    case RSJ::kNoteOnFlag: midi_sender_->sendNoteOn(msg->channel, msg->controller, value); break;
-                    case RSJ::kCCFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-                    case RSJ::kPWFlag: midi_sender_->sendPitchWheel(msg->channel, value); break;
-                    default: assert(!"Unexpected result for msgtype");
+                    case RSJ::kNoteOnFlag:
+                        midi_sender_->sendNoteOn(msg->channel, msg->controller, value);
+                        break;
+                    case RSJ::kCCFlag:
+                        if (controls_model_->getCCmethod(static_cast<size_t>(msg->channel - 1),
+                            static_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
+                            midi_sender_->sendCC(msg->channel, msg->controller, value);
+                        break;
+                    case RSJ::kPWFlag:
+                        midi_sender_->sendPitchWheel(msg->channel, value);
+                        break;
+                    default:
+                        assert(!"Unexpected result for msgtype");
                     }
                 }
             }
