@@ -178,7 +178,7 @@ void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
     m_states.add(state);
 }
 
-void ResizableLayout::recalculateLayout()
+void ResizableLayout::recalculateLayout() const
 {
     if (m_isActive) {
         Rect rp = m_owner->getBounds();

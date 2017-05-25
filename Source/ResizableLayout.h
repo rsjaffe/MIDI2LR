@@ -189,7 +189,7 @@ public:
     void updateLayoutFor(juce::Component *component) noexcept;
     // Convenience function
     static juce::Rectangle<int> calcBoundsOfChildren(juce::Component* parent) noexcept;
-    void recalculateLayout();
+    void recalculateLayout() const;
 
 private:
     // Update the state information for all items. This is used on the first
@@ -239,7 +239,7 @@ private:
         ResizableChild* child;
         juce::Point<int> topLeft;
         juce::Point<int> bottomRight;
-        Anchor(juce::Component* component = 0);
+        Anchor(juce::Component* component = nullptr);
         bool operator== (const Anchor& rhs) const noexcept;
         bool operator>= (const Anchor& rhs) const noexcept;
         bool operator<  (const Anchor& rhs) const noexcept;
@@ -249,7 +249,7 @@ private:
         juce::Component* component;
         double aspect{0.0};
         Rect margin;
-        State(juce::Component* component = 0) noexcept;
+        State(juce::Component* component = nullptr) noexcept;
         State(const State& other) noexcept;
         State& operator=(const State& other) noexcept;
         bool operator== (const State& rhs) const noexcept;
@@ -259,8 +259,8 @@ private:
 
     void addStateFor(const Anchor& anchor) noexcept;
     void componentMovedOrResized(juce::Component& component,
-        bool wasMoved, bool wasResized);
-    void componentBeingDeleted(juce::Component& component) noexcept;
+        bool wasMoved, bool wasResized) override;
+    void componentBeingDeleted(juce::Component& component) noexcept override;
     juce::Component* m_owner;
     juce::SortedSet<Anchor> m_anchors;
     juce::SortedSet<State> m_states;
@@ -277,7 +277,7 @@ private:
     class Constrainer: public juce::ComponentBoundsConstrainer {
     public:
         Constrainer(TopLevelResizableLayout* owner) noexcept;
-        void resizeStart() noexcept;
+        void resizeStart() noexcept override;
     private:
         TopLevelResizableLayout& m_owner;
     };
