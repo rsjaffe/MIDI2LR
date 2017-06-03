@@ -405,7 +405,7 @@ LrTasks.startAsyncTask(
           LastParam = param
           if ProgramPreferences.ClientShowBezelOnChange and not silent then
             local bezelname = ParamList.ParamDisplay[param] or param
-            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value))
           end
           if ParamList.ProfileMap[param] then
             Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -414,9 +414,8 @@ LrTasks.startAsyncTask(
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
             value = CU.MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
-            local precision = Ut.precision(value)
             local bezelname = ParamList.ParamDisplay[param] or param
-            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue))
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
             CU.FullRefresh()
@@ -438,7 +437,7 @@ LrTasks.startAsyncTask(
       LastParam = param
       if ProgramPreferences.ClientShowBezelOnChange and not silent then
         local bezelname = ParamList.ParamDisplay[param] or param
-        LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+        LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value))
       end
       if ParamList.ProfileMap[param] then
         Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -516,7 +515,7 @@ LrTasks.startAsyncTask(
                   if ProgramPreferences.ClientShowBezelOnChange then
                     local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
                     local lrvalue = LrDevelopController.getValue(resetparam)
-                    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+                    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue))
                   end
                 end
               else -- otherwise update a develop parameter
