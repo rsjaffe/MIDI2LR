@@ -125,10 +125,10 @@ public:
     ControlsModel& operator= (const ControlsModel&) = delete;
     ControlsModel(ControlsModel&&) = delete; //can't move atomics
     ControlsModel& operator=(ControlsModel&&) = delete;
-    double ControllerToPlugin(short controltype, size_t channel, short controlnumber, short value) noexcept(ndebug)
+    double ControllerToPlugin(const RSJ::MidiMessage& mm) noexcept(ndebug)
     {
-        assert(channel <= 15);
-        return allControls_[channel].ControllerToPlugin(controltype, controlnumber, value);
+        assert(mm.channel <= 15);
+        return allControls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
     };
     RSJ::CCmethod getCCmethod(size_t channel, short controlnumber) const noexcept(ndebug)
     {

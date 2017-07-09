@@ -77,8 +77,7 @@ void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
         return;
     }
     auto command_to_send = command_map_->getCommandforMessage(message);
-    const auto computed_value = controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel,
-        mm.number, mm.value);
+    const auto computed_value = controls_model_->ControllerToPlugin(mm);
     command_to_send += ' ' + std::to_string(computed_value) + '\n';
     {
         std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);

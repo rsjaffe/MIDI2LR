@@ -136,7 +136,7 @@ void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
     if (command_map_) {
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
-        if ((controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel, mm.number, mm.value) < 0.4)
+        if ((controls_model_->ControllerToPlugin(mm) < 0.4)
             || !command_map_->messageExistsInMap(cc))
             return;
         mapCommand(cc);
