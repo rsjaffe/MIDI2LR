@@ -37,7 +37,7 @@ void VersionChecker::run()
     const std::unique_ptr<juce::XmlElement> version_xml_element{version_url.readEntireXmlStream()};
 
     if (version_xml_element != nullptr) {
-        auto last_checked = settings_manager_->getLastVersionFound();
+        const auto last_checked = settings_manager_->getLastVersionFound();
         new_version_ = version_xml_element->getIntAttribute("latest");
         if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
             settings_manager_->setLastVersionFound(new_version_);

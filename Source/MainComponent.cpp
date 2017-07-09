@@ -180,7 +180,7 @@ void MainContentComponent::Init(CommandMap* const command_map,
     if (settings_manager_) {
         // Try to load a default.xml if the user has not set a profile directory
         if (settings_manager_->getProfileDirectory().isEmpty()) {
-            auto default_profile =
+            const auto default_profile =
                 juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(default_profile)};
             if (xml_element) {
@@ -204,11 +204,10 @@ void MainContentComponent::paint(juce::Graphics& g)
 void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    RSJ::MsgIdEnum mt;
+    RSJ::MsgIdEnum mt{RSJ::MsgIdEnum::CC};
     juce::String commandtype{"CC"};
     switch (mm.message_type_byte) {//this is needed because mapping uses custom structure
-    case RSJ::kCCFlag:
-        mt = RSJ::MsgIdEnum::CC;
+    case RSJ::kCCFlag: //this is default for mt and commandtype
         break;
     case RSJ::kNoteOnFlag:
         mt = RSJ::MsgIdEnum::NOTE;
@@ -224,7 +223,6 @@ void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
         break;
     default: //shouldn't receive any messages note categorized above
         assert(0);
-        mt = RSJ::MsgIdEnum::CC;
     }
     mm.channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.channel) + ": " + commandtype +

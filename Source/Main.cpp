@@ -187,14 +187,14 @@ public:
 private:
     void defaultProfileSave_()
     {
-        auto profilefile =
+        const auto profilefile =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
             getSiblingFile("default.xml");
         command_map_.toXMLDocument(profilefile);
     }
     void cerealSave_()
     {//scoped so archive gets flushed
-        auto controllerfile =
+        const auto controllerfile =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
             getSiblingFile("settings.bin").getFullPathName().toStdString();
         std::ofstream outfile(controllerfile, std::ios::out |
@@ -210,7 +210,7 @@ private:
     }
     void cerealLoad_()
     {//scoped so archive gets flushed
-        auto controllerfile =
+        const auto controllerfile =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
             getSiblingFile("settings.bin").getFullPathName().toStdString();
         std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
