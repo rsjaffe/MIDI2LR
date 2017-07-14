@@ -211,6 +211,7 @@ void LR_IPC_IN::processLine(const std::string& line) const
                 }
             }
         }
+        break;
     default:
         assert(!"Unexpected result for cmds");
     }
