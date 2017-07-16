@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 #include <bitset>
-#include <stdexcept>
+#include <gsl/gsl>
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDISender.h"
@@ -111,7 +111,7 @@ void LR_IPC_IN::run()
                         juce::JUCEApplication::getInstance()->systemRequestedQuit();
                     break;
                 default:
-                    assert(!"Unexpected value for wait_status");
+                    Expects(!"Unexpected value for wait_status");
                 }
             } // end while !\n and is connected
 
@@ -206,13 +206,13 @@ void LR_IPC_IN::processLine(const std::string& line) const
                         midi_sender_->sendPitchWheel(msg->channel, value);
                         break;
                     default:
-                        assert(!"Unexpected result for msgtype");
+                        Expects(!"Unexpected result for msgtype");
                     }
                 }
             }
         }
         break;
     default:
-        assert(!"Unexpected result for cmds");
+        Expects(!"Unexpected result for cmds");
     }
 }

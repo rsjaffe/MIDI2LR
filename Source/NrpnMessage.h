@@ -20,9 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <array>
-#include <cassert>
 #include <mutex>
 #include <queue>
+#include <gsl/gsl>
 #include "Misc.h"
 
 namespace RSJ {
@@ -76,19 +76,19 @@ public:
     ~NRPN_Filter() = default;
     bool ProcessMidi(short channel, short control, short value) noexcept(ndebug)
     {
-        assert(channel <= 15 && channel >= 0);
+        Expects(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].ProcessMidi(control, value);
     };
 
     bool IsInProcess(short channel) const noexcept(ndebug)
     {
-        assert(channel <= 15 && channel >= 0);
+        Expects(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].IsInProcess();
     };
 
     RSJ::NRPN GetNRPNifReady(short channel) noexcept(ndebug)
     {
-        assert(channel <= 15 && channel >= 0);
+        Expects(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].GetNRPNifReady();
     };
 
@@ -119,28 +119,28 @@ inline short NRPN_Message::GetValue_() const noexcept
 
 inline void NRPN_Message::SetControlLSB_(short val) noexcept(ndebug)
 {
-    assert(val <= 0x7Fu);
+    Expects(val <= 0x7Fu);
     control_lsb_ = val & 0x7Fu;
     ready_ |= 0b10;
 }
 
 inline void NRPN_Message::SetControlMSB_(short val) noexcept(ndebug)
 {
-    assert(val <= 0x7Fu);
+    Expects(val <= 0x7Fu);
     control_msb_ = val & 0x7Fu;
     ready_ |= 0b1;
 }
 
 inline void NRPN_Message::SetValueLSB_(short val) noexcept(ndebug)
 {
-    assert(val <= 0x7Fu);
+    Expects(val <= 0x7Fu);
     value_lsb_ = val & 0x7Fu;
     ready_ |= 0b1000;
 }
 
 inline void NRPN_Message::SetValueMSB_(short val) noexcept(ndebug)
 {
-    assert(val <= 0x7Fu);
+    Expects(val <= 0x7Fu);
     value_msb_ = val & 0x7Fu;
     ready_ |= 0b100;  //"Magic number" false alarm //-V112
 }
