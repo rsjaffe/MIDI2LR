@@ -42,7 +42,7 @@ class LR_IPC_OUT final:
 public:
     LR_IPC_OUT(ControlsModel* const c_model, const CommandMap * const mapCommand);
     virtual ~LR_IPC_OUT();
-    void Init(const std::shared_ptr<MIDIProcessor>&  midiProcessor);
+    void Init(MIDIProcessor* const midi_processor);
 
     template<class T> void addCallback(T* const  object, void(T::* const mf)(bool))
     {
