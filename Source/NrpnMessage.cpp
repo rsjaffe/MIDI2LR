@@ -25,8 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 bool NRPN_Message::ProcessMidi(short control,
     short value) noexcept(ndebug)
 {
-    assert(value <= 0x7Fu);
-    assert(control <= 0x7Fu);
+    Expects(value <= 0x7Fu);
+    Expects(control <= 0x7Fu);
     auto ret_val = true;
     switch (control) {
     case 6:

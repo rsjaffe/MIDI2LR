@@ -21,13 +21,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <array>
 #include <atomic>
-#include <cassert>
 #include <chrono>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/access.hpp>
 #include <cereal/types/array.hpp>
 #include <cereal/types/vector.hpp>
+#include <gsl/gsl>
 #include "MidiUtilities.h"
 #include "Misc.h"
 
@@ -57,7 +57,7 @@ namespace RSJ {
                 archive(number, high, low, method);//keep this order for compatibility with earlier versions
                 break;
             default:
-                assert(!"Wrong archive number for SettingsStruct");
+                Expects(!"Wrong archive number for SettingsStruct");
             }
         };
     };
@@ -128,72 +128,72 @@ public:
     ControlsModel& operator=(ControlsModel&&) = delete;
     double ControllerToPlugin(const RSJ::MidiMessage& mm) noexcept(ndebug)
     {
-        assert(mm.channel <= 15);
+        Expects(mm.channel <= 15);
         return allControls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
     };
     RSJ::CCmethod getCCmethod(size_t channel, short controlnumber) const noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         return allControls_[channel].getCCmethod(controlnumber);
     };
     short getCCmax(size_t channel, short controlnumber) const noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         return allControls_[channel].getCCmax(controlnumber);
     };
     short getCCmin(size_t channel, short controlnumber) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         return allControls_[channel].getCCmin(controlnumber);
     };
     short getPWmax(size_t channel) const noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         return allControls_[channel].getPWmax();
     };
     short getPWmin(size_t channel) const noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         return allControls_[channel].getPWmin();
     };
     short PluginToController(short controltype, size_t channel, short controlnumber, double value) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         return allControls_[channel].PluginToController(controltype, controlnumber, value);
     };
     void setCC(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         allControls_[channel].setCC(controlnumber, min, max, controltype);
     }
     void setCCall(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         allControls_[channel].setCCall(controlnumber, min, max, controltype);
     };
     void setCCmax(size_t channel, short controlnumber, short value) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         allControls_[channel].setCCmax(controlnumber, value);
     };
     void setCCmethod(size_t channel, short controlnumber, RSJ::CCmethod value) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         allControls_[channel].setCCmethod(controlnumber, value);
     };
     void setCCmin(size_t channel, short controlnumber, short value) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         allControls_[channel].setCCmin(controlnumber, value);
     };
     void setPWmax(size_t channel, short value) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         allControls_[channel].setPWmax(value);
     };
     void setPWmin(size_t channel, short value) noexcept(ndebug)
     {
-        assert(channel <= 15);
+        Expects(channel <= 15);
         allControls_[channel].setPWmin(value);
     };
 private:
@@ -209,19 +209,19 @@ private:
 
 inline RSJ::CCmethod ChannelModel::getCCmethod(size_t controlnumber) const noexcept(ndebug)
 {
-    assert(controlnumber <= kMaxNRPN);
+    Expects(controlnumber <= kMaxNRPN);
     return ccMethod_[controlnumber];
 }
 
 inline short ChannelModel::getCCmax(size_t controlnumber) const noexcept(ndebug)
 {
-    assert(controlnumber <= kMaxNRPN);
+    Expects(controlnumber <= kMaxNRPN);
     return ccHigh_[controlnumber];
 }
 
 inline short ChannelModel::getCCmin(size_t controlnumber) const noexcept(ndebug)
 {
-    assert(controlnumber <= kMaxNRPN);
+    Expects(controlnumber <= kMaxNRPN);
     return ccLow_[controlnumber];
 }
 
@@ -237,15 +237,15 @@ inline short ChannelModel::getPWmin() const noexcept
 
 inline bool ChannelModel::IsNRPN_(size_t controlnumber) const noexcept(ndebug)
 {
-    assert(controlnumber <= kMaxNRPN);
+    Expects(controlnumber <= kMaxNRPN);
     return controlnumber > kMaxMIDI;
 }
 
 inline double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noexcept(ndebug)
 {
-    assert(ccHigh_[controlnumber] > 0); //CCLow will always be 0 for offset controls
-    assert(diff <= kMaxNRPN && diff >= -kMaxNRPN);
-    assert(controlnumber <= kMaxNRPN);
+    Expects(ccHigh_[controlnumber] > 0); //CCLow will always be 0 for offset controls
+    Expects(diff <= kMaxNRPN && diff >= -kMaxNRPN);
+    Expects(controlnumber <= kMaxNRPN);
     lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
     short cv = currentV_[controlnumber].fetch_add(diff, std::memory_order_relaxed) + diff;
     if (cv < 0) {//fix currentV unless another thread has already altered it
@@ -273,7 +273,7 @@ void ChannelModel::load(Archive& archive, uint32_t const version)
         savedToActive();
         break;
     default:
-        assert(!"Archive version not acceptable");
+        Expects(!"Archive version not acceptable");
     }
 }
 
@@ -289,7 +289,7 @@ void ChannelModel::save(Archive& archive, uint32_t const version) const
         archive(settingsToSave_);
         break;
     default:
-        assert(!"Wrong archive version specified for save");
+        Expects(!"Wrong archive version specified for save");
     }
 }
 
