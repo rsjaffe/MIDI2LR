@@ -94,30 +94,6 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
-    local function UpdatePointCurve(settings)
-      return function()
-        CU.fChangePanel('tonePanel')
-        CU.ApplySettings(settings)
-      end
-    end
-
-    local function UpdateCameraProfile(name)
-      return function()
-        CU.fChangePanel('calibratePanel')
-        CU.ApplySettings({
-            CameraProfile = name
-          })
-      end
-    end
-
-    local function SimulateKeys(keys)
-      return function()
-        if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
-          MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
-        end
-      end
-    end
-
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
@@ -126,7 +102,7 @@ LrTasks.startAsyncTask(
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
       CopySettings             = CU.CopySettings,
       CropOverlay              = CU.fToggleTool('crop'),
-      CycleMaskOverlayColor    = SimulateKeys('4o'),
+      CycleMaskOverlayColor    = CU.SimulateKeys('4o'),
       DecreaseRating           = LrSelection.decreaseRating,
       DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
@@ -197,18 +173,18 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
-      LRCopy                   = SimulateKeys('2c'),
-      LRPaste                  = SimulateKeys('2v'),
+      LRCopy                   = CU.SimulateKeys('2c'),
+      LRPaste                  = CU.SimulateKeys('2v'),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,
       PasteSelectedSettings    = CU.PasteSelectedSettings,
       PasteSettings            = CU.PasteSettings,
       Pick                     = LrSelection.flagAsPick,
-      PointCurveLinear         = UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
-      PointCurveMediumContrast = UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",
+      PointCurveLinear         = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
+      PointCurveMediumContrast = CU.UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",
           ToneCurvePV2012={0,0,32,22,64,56,128,128,192,196,255,255,}}),
-      PointCurveStrongContrast = UpdatePointCurve({ToneCurveName="Strong Contrast",ToneCurveName2012="Strong Contrast",
+      PointCurveStrongContrast = CU.UpdatePointCurve({ToneCurveName="Strong Contrast",ToneCurveName2012="Strong Contrast",
           ToneCurvePV2012={0,0,32,16,64,50,128,128,192,202,255,255,}}),
       PostCropVignetteStyle    = CU.fToggle1ModN('PostCropVignetteStyle', 3),
       PostCropVignetteStyleColorPriority     = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
@@ -255,27 +231,27 @@ LrTasks.startAsyncTask(
       Preset_39                = CU.fApplyPreset(39),
       Preset_40                = CU.fApplyPreset(40),
       Prev                     = LrSelection.previousPhoto,
-      Profile_Adobe_Standard          = UpdateCameraProfile('Adobe Standard'),
-      Profile_Camera_Clear            = UpdateCameraProfile('Camera Clear'),
-      Profile_Camera_Darker_Skin_Tone = UpdateCameraProfile('Camera Darker Skin Tone'),
-      Profile_Camera_Deep             = UpdateCameraProfile('Camera Deep'),
-      Profile_Camera_Faithful         = UpdateCameraProfile('Camera Faithful'),
-      Profile_Camera_Flat             = UpdateCameraProfile('Camera Flat'),
-      Profile_Camera_Landscape        = UpdateCameraProfile('Camera Landscape'),
-      Profile_Camera_Light            = UpdateCameraProfile('Camera Light'),
-      Profile_Camera_Lighter_Skin_Tone= UpdateCameraProfile('Camera Lighter Skin Tone'),
-      Profile_Camera_Monochrome       = UpdateCameraProfile('Camera Monochrome'),
-      Profile_Camera_Monotone         = UpdateCameraProfile('Camera Monotone'),
-      Profile_Camera_Muted            = UpdateCameraProfile('Camera Muted'),
-      Profile_Camera_Natural          = UpdateCameraProfile('Camera Natural'),
-      Profile_Camera_Neutral          = UpdateCameraProfile('Camera Neutral'),
-      Profile_Camera_Portrait         = UpdateCameraProfile('Camera Portrait'),
-      Profile_Camera_Positive_Film    = UpdateCameraProfile('Camera Positive Film'),
-      Profile_Camera_Standard         = UpdateCameraProfile('Camera Standard'),
-      Profile_Camera_Vivid            = UpdateCameraProfile('Camera Vivid'),
-      Profile_Camera_Vivid_Blue       = UpdateCameraProfile('Camera Vivid Blue'),
-      Profile_Camera_Vivid_Green      = UpdateCameraProfile('Camera Vivid Green'),
-      Profile_Camera_Vivid_Red        = UpdateCameraProfile('Camera Vivid Red'),
+      Profile_Adobe_Standard          = CU.UpdateCameraProfile('Adobe Standard'),
+      Profile_Camera_Clear            = CU.UpdateCameraProfile('Camera Clear'),
+      Profile_Camera_Darker_Skin_Tone = CU.UpdateCameraProfile('Camera Darker Skin Tone'),
+      Profile_Camera_Deep             = CU.UpdateCameraProfile('Camera Deep'),
+      Profile_Camera_Faithful         = CU.UpdateCameraProfile('Camera Faithful'),
+      Profile_Camera_Flat             = CU.UpdateCameraProfile('Camera Flat'),
+      Profile_Camera_Landscape        = CU.UpdateCameraProfile('Camera Landscape'),
+      Profile_Camera_Light            = CU.UpdateCameraProfile('Camera Light'),
+      Profile_Camera_Lighter_Skin_Tone= CU.UpdateCameraProfile('Camera Lighter Skin Tone'),
+      Profile_Camera_Monochrome       = CU.UpdateCameraProfile('Camera Monochrome'),
+      Profile_Camera_Monotone         = CU.UpdateCameraProfile('Camera Monotone'),
+      Profile_Camera_Muted            = CU.UpdateCameraProfile('Camera Muted'),
+      Profile_Camera_Natural          = CU.UpdateCameraProfile('Camera Natural'),
+      Profile_Camera_Neutral          = CU.UpdateCameraProfile('Camera Neutral'),
+      Profile_Camera_Portrait         = CU.UpdateCameraProfile('Camera Portrait'),
+      Profile_Camera_Positive_Film    = CU.UpdateCameraProfile('Camera Positive Film'),
+      Profile_Camera_Standard         = CU.UpdateCameraProfile('Camera Standard'),
+      Profile_Camera_Vivid            = CU.UpdateCameraProfile('Camera Vivid'),
+      Profile_Camera_Vivid_Blue       = CU.UpdateCameraProfile('Camera Vivid Blue'),
+      Profile_Camera_Vivid_Green      = CU.UpdateCameraProfile('Camera Vivid Green'),
+      Profile_Camera_Vivid_Red        = CU.UpdateCameraProfile('Camera Vivid Red'),
       profile1                 = function() Profiles.changeProfile('profile1', true) end,
       profile2                 = function() Profiles.changeProfile('profile2', true) end,
       profile3                 = function() Profiles.changeProfile('profile3', true) end,
@@ -286,7 +262,6 @@ LrTasks.startAsyncTask(
       profile8                 = function() Profiles.changeProfile('profile8', true) end,
       profile9                 = function() Profiles.changeProfile('profile9', true) end,
       profile10                = function() Profiles.changeProfile('profile10', true) end,
-      ShowMaskOverlay          = SimulateKeys('0o'),
       RadialFilter             = CU.fToggleTool('circularGradient'),
       RedEye                   = CU.fToggleTool('redeye'),
       Redo                     = LrUndo.redo,
@@ -335,6 +310,7 @@ LrTasks.startAsyncTask(
       ShoVwloupe               = function() LrApplicationView.showView('loupe') end,
       ShoVwpeople              = function() LrApplicationView.showView('people') end,
       ShoVwsurvey              = function() LrApplicationView.showView('survey') end,
+      ShowMaskOverlay          = CU.SimulateKeys('0o'),
       SpotRemoval              = CU.fToggleTool('dust'),
       SwToMbook                = CU.fChangeModule('book'),
       SwToMdevelop             = CU.fChangeModule('develop'),
