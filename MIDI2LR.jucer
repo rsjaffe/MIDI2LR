@@ -2,9 +2,9 @@
 
 <JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.2.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.0.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.1.1" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
-              splashScreenColour="Dark">
+              splashScreenColour="Dark" cppLanguageStandard="latest">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{64A53798-7D11-73F5-9678-76E2C116E917}" name="Utilities">
