@@ -29,17 +29,6 @@ THE SOFTWARE.
 #include "JuceHeader.h"
 #include "ResizableLayout.h"
 
-const juce::Point<int> ResizableLayout::anchorNone(-1, -1);
-const juce::Point<int> ResizableLayout::anchorTopLeft(0, 0);
-const juce::Point<int> ResizableLayout::anchorTopCenter(anchorUnit / 2, 0);
-const juce::Point<int> ResizableLayout::anchorTopRight(anchorUnit, 0);
-const juce::Point<int> ResizableLayout::anchorMidLeft(0, anchorUnit / 2);
-const juce::Point<int> ResizableLayout::anchorMidCenter(anchorUnit / 2, anchorUnit / 2);
-const juce::Point<int> ResizableLayout::anchorMidRight(anchorUnit, anchorUnit / 2);
-const juce::Point<int> ResizableLayout::anchorBottomLeft(0, anchorUnit);
-const juce::Point<int> ResizableLayout::anchorBottomCenter(anchorUnit / 2, anchorUnit);
-const juce::Point<int> ResizableLayout::anchorBottomRight(anchorUnit, anchorUnit);
-
 ResizableLayout::Anchor::Anchor(juce::Component* component_)
     : component(component_), child(dynamic_cast<ResizableChild*>(component_))
 {

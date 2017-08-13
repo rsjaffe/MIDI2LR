@@ -154,16 +154,16 @@ public:
         styleFixedAspect
     };
 
-    static const juce::Point<int> anchorNone;
-    static const juce::Point<int> anchorTopLeft;
-    static const juce::Point<int> anchorTopCenter;
-    static const juce::Point<int> anchorTopRight;
-    static const juce::Point<int> anchorMidLeft;
-    static const juce::Point<int> anchorMidCenter;
-    static const juce::Point<int> anchorMidRight;
-    static const juce::Point<int> anchorBottomLeft;
-    static const juce::Point<int> anchorBottomCenter;
-    static const juce::Point<int> anchorBottomRight;
+    static constexpr juce::Point<int> ResizableLayout::anchorNone{-1, -1};
+    static constexpr juce::Point<int> ResizableLayout::anchorTopLeft{0, 0};
+    static constexpr juce::Point<int> ResizableLayout::anchorTopCenter{anchorUnit / 2, 0};
+    static constexpr juce::Point<int> ResizableLayout::anchorTopRight{anchorUnit, 0};
+    static constexpr juce::Point<int> ResizableLayout::anchorMidLeft{0, anchorUnit / 2};
+    static constexpr juce::Point<int> ResizableLayout::anchorMidCenter{anchorUnit / 2, anchorUnit / 2};
+    static constexpr juce::Point<int> ResizableLayout::anchorMidRight{anchorUnit, anchorUnit / 2};
+    static constexpr juce::Point<int> ResizableLayout::anchorBottomLeft{0, anchorUnit};
+    static constexpr juce::Point<int> ResizableLayout::anchorBottomCenter{anchorUnit / 2, anchorUnit};
+    static constexpr juce::Point<int> ResizableLayout::anchorBottomRight{anchorUnit, anchorUnit};
 
     ResizableLayout(juce::Component* owner);
     ~ResizableLayout();
