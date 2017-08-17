@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include <string>
 #include <utility>
+#include <gsl/gsl>
 #include "CommandMap.h"
 #include "LR_IPC_Out.h" //base class
 #include "MIDIProcessor.h"
@@ -222,7 +223,7 @@ void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
         commandtype = "PITCHBEND";
         break;
     default: //shouldn't receive any messages note categorized above
-        assert(0);
+        Expects(0);
     }
     mm.channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.channel) + ": " + commandtype +

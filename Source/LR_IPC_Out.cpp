@@ -47,8 +47,7 @@ LR_IPC_OUT::~LR_IPC_OUT()
     juce::InterprocessConnection::disconnect();
 }
 
-void LR_IPC_OUT::Init(
-    const std::shared_ptr<MIDIProcessor>& midi_processor)
+void LR_IPC_OUT::Init(MIDIProcessor* const midi_processor)
 {
     if (midi_processor)
         midi_processor->addCallback(this, &LR_IPC_OUT::MIDIcmdCallback);
