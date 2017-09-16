@@ -154,16 +154,7 @@ public:
         styleFixedAspect
     };
 
-    static constexpr juce::Point<int> ResizableLayout::anchorNone{-1, -1};
-    static constexpr juce::Point<int> ResizableLayout::anchorTopLeft{0, 0};
-    static constexpr juce::Point<int> ResizableLayout::anchorTopCenter{anchorUnit / 2, 0};
-    static constexpr juce::Point<int> ResizableLayout::anchorTopRight{anchorUnit, 0};
-    static constexpr juce::Point<int> ResizableLayout::anchorMidLeft{0, anchorUnit / 2};
-    static constexpr juce::Point<int> ResizableLayout::anchorMidCenter{anchorUnit / 2, anchorUnit / 2};
-    static constexpr juce::Point<int> ResizableLayout::anchorMidRight{anchorUnit, anchorUnit / 2};
-    static constexpr juce::Point<int> ResizableLayout::anchorBottomLeft{0, anchorUnit};
-    static constexpr juce::Point<int> ResizableLayout::anchorBottomCenter{anchorUnit / 2, anchorUnit};
-    static constexpr juce::Point<int> ResizableLayout::anchorBottomRight{anchorUnit, anchorUnit};
+
 
     ResizableLayout(juce::Component* owner);
     ~ResizableLayout();
@@ -174,7 +165,7 @@ public:
     // full width of the parent, and half the height, you would use
     // bottomRight.x=100, bottomRight.y=50. or use the constant anchorMidRight
     void addToLayout(juce::Component *component, const juce::Point<int>& topLeft,
-        const juce::Point<int>& bottomRight = anchorNone,
+        const juce::Point<int>& bottomRight = juce::Point<int>{-1,-1},
         Style style = styleStretch);
     // Remove a Component from the Layout.
     void removeFromLayout(juce::Component* component) noexcept;
@@ -283,3 +274,14 @@ private:
     };
     Constrainer m_constrainer;
 };
+
+static constexpr juce::Point<int> anchorNone{-1, -1};
+static constexpr juce::Point<int> anchorTopLeft{0, 0};
+static constexpr juce::Point<int> anchorTopCenter{ResizableLayout::anchorUnit / 2, 0};
+static constexpr juce::Point<int> anchorTopRight{ResizableLayout::anchorUnit, 0};
+static constexpr juce::Point<int> anchorMidLeft{0, ResizableLayout::anchorUnit / 2};
+static constexpr juce::Point<int> anchorMidCenter{ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit / 2};
+static constexpr juce::Point<int> anchorMidRight{ResizableLayout::anchorUnit, ResizableLayout::anchorUnit / 2};
+static constexpr juce::Point<int> anchorBottomLeft{0, ResizableLayout::anchorUnit};
+static constexpr juce::Point<int> anchorBottomCenter{ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit};
+static constexpr juce::Point<int> anchorBottomRight{ResizableLayout::anchorUnit, ResizableLayout::anchorUnit};
