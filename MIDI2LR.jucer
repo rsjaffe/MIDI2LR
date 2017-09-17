@@ -78,38 +78,16 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="WdgQGt" bigIcon="WdgQGt"
-            extraCompilerFlags="" toolset="v140" windowsTargetPlatformVersion="8.1">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="MIDI2LR" binaryPath=""
-                       headerPath="..\..\" enableIncrementalLinking="1" defines="&quot;GSL_THROW_ON_CONTRACT_VIOLATION=1&quot;"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="MIDI2LR" binaryPath=""
-                       headerPath="..\..\" defines="&quot;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1&quot;"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_events" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_core" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_graphics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode\modules"/>
-      </MODULEPATHS>
-    </VS2015>
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../"
-                       defines="&quot;GSL_THROW_ON_CONTRACT_VIOLATION=1&quot;"/>
+                       defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="32BitUniversal"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../"
-                       defines="&quot;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1&quot;"/>
+                       defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
@@ -126,12 +104,12 @@
     <VS2017 targetFolder="Builds/VisualStudio2017" toolset="v141" cppLanguageStandard="stdcpplatest"
             windowsTargetPlatformVersion="8.1" bigIcon="WdgQGt" smallIcon="WdgQGt">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="Win32"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" headerPath="..\..\"
-                       enableIncrementalLinking="1" defines="&quot;GSL_THROW_ON_CONTRACT_VIOLATION=1&quot;"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       enableIncrementalLinking="1" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="Win32"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" headerPath="..\..\"
-                       defines="&quot;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1&quot;"/>
+                       defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode\modules"/>
