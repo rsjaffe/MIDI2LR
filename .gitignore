@@ -339,3 +339,5 @@ Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.app
 # IntelliJ IDEA
 .idea
 *.iml
+
+rtmidi/midiprobe
