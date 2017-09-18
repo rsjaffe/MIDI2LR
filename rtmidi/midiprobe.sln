@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "midiprobe", "midiprobe.vcxproj", "{E121A591-9A74-48C2-9AF9-AABE788977DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E121A591-9A74-48C2-9AF9-AABE788977DD}.Debug|x86.ActiveCfg = Debug|Win32
+		{E121A591-9A74-48C2-9AF9-AABE788977DD}.Debug|x86.Build.0 = Debug|Win32
+		{E121A591-9A74-48C2-9AF9-AABE788977DD}.Release|x86.ActiveCfg = Release|Win32
+		{E121A591-9A74-48C2-9AF9-AABE788977DD}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA286BC0-3505-484E-A667-07660A4E581E}
+	EndGlobalSection
+EndGlobal
