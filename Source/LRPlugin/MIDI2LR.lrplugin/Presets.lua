@@ -67,7 +67,7 @@ local function StartDialog(obstable,f)
   local tabviewitems = {} 
   local psrows, pscolumns = 4,10
   for column=1, pscolumns do
-    tabviewitems[column] = f:tab_view_item {title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop preset")..' '..((column-1)*psrows+1)..'-'..(column*psrows), identifier = 'presets-'..((column-1)*psrows+1)..'-'..(column*psrows),}
+    tabviewitems[column] = f:tab_view_item {title = ((column-1)*psrows+1)..'-'..(column*psrows), identifier = 'presets-'..((column-1)*psrows+1)..'-'..(column*psrows),}
     for row=1, psrows do
       table.insert(tabviewitems[column],f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..((column-1)*psrows+row)) })
     end
