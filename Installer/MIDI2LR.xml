@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>2.2.0.0</version>
+    <version>2.3.0.0</version>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
@@ -153,7 +153,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Builds/VisualStudio2015/Release/MIDI2LR.exe</origin>
+                            <origin>../Builds/VisualStudio2017/x64/Release/App/MIDI2LR.exe</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../rtmidi/midiprobe.exe</origin>
@@ -277,8 +277,8 @@
     <uninstallerName>uninstallMIDI2LR</uninstallerName>
     <vendor>MIDI2LR</vendor>
     <width>600</width>
-    <windowsExecutableIcon>../Builds/VisualStudio2015/icon.ico</windowsExecutableIcon>
-    <windowsUninstallerExecutableIcon>../Builds/VisualStudio2015/icon.ico</windowsUninstallerExecutableIcon>
+    <windowsExecutableIcon>../Builds/VisualStudio2017/icon.ico</windowsExecutableIcon>
+    <windowsUninstallerExecutableIcon>../Builds/VisualStudio2017/icon.ico</windowsUninstallerExecutableIcon>
     <finalPageActionList>
         <launchBrowser>
             <explanation>Opens a web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in this program.</explanation>
