@@ -157,8 +157,8 @@ void PWoptions::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void PWoptions::textEditorFocusLost(TextEditor& t)
 {
-    auto val = static_cast<short>(t.getText().getIntValue());
-    auto nam = t.getName();
+    const auto val = static_cast<short>(t.getText().getIntValue());
+    const auto nam = t.getName();
     if (nam=="minval")
         controls_model_->setPWmin(boundchannel, val);
     else if (nam=="maxval")

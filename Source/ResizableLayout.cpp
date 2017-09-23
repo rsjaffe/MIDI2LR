@@ -151,8 +151,8 @@ void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
 {
     Rect rb = anchor.component->getBounds();
 
-    int w = m_owner->getWidth();
-    int h = m_owner->getHeight();
+    const auto w = m_owner->getWidth();
+    const auto h = m_owner->getHeight();
 
     State state(anchor.component);
 
@@ -173,8 +173,8 @@ void ResizableLayout::recalculateLayout() const
         Rect rp = m_owner->getBounds();
 
         for (int i = 0; i < m_states.size(); i++) {
-            Anchor anchor = m_anchors[i];
-            State state = m_states[i];
+            auto anchor = m_anchors[i];
+            const auto state = m_states[i];
             jassert(anchor.component == state.component);
 
             Rect rb;
@@ -198,19 +198,19 @@ void ResizableLayout::recalculateLayout() const
             }
             else if (anchor.style == styleFixedAspect) {
                 Rect r;
-                double aspect = double(rb.getWidth()) / rb.getHeight();
+                const auto aspect = double(rb.getWidth()) / rb.getHeight();
 
                 if (aspect > state.aspect) {
                     r.top = rb.top;
                     r.bottom = rb.bottom;
-                    int width = int(state.aspect * r.getHeight());
+                    const auto width = int(state.aspect * r.getHeight());
                     r.left = rb.left + (rb.getWidth() - width) / 2;
                     r.right = r.left + width;
                 }
                 else {
                     r.left = rb.left;
                     r.right = rb.right;
-                    int height = int(1. / state.aspect * r.getWidth());
+                    const auto height = int(1. / state.aspect * r.getWidth());
                     r.top = rb.top + (rb.getHeight() - height) / 2;
                     r.bottom = r.top + height;
                 }
@@ -253,11 +253,11 @@ Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) no
 
 void ResizableLayout::resizeStart() noexcept
 {
-    bool haveChildren = false;
+    auto haveChildren = false;
 
     // first recursively call resizeStart() on all children
     for (int i = 0; i < m_anchors.size(); i++) {
-        ResizableChild* child = m_anchors.getUnchecked(i).child;
+        auto child = m_anchors.getUnchecked(i).child;
         if (child) {
             child->resizeStart();
             haveChildren = true;
@@ -267,27 +267,25 @@ void ResizableLayout::resizeStart() noexcept
     // now check our immediate children for constraints
     if (haveChildren) {
         // start with our values
-        int xmin0 = getMinimumWidth();
-        int ymin0 = getMinimumHeight();
+        auto xmin0 = getMinimumWidth();
+        auto ymin0 = getMinimumHeight();
 
         // for each child, use the inverse of the resize function to solve for
         // the min/max
         for (int i = 0; i < m_anchors.size(); i++) {
-            Anchor anchor = m_anchors.getUnchecked(i);
+            auto anchor = m_anchors.getUnchecked(i);
             if (anchor.child) {
-                State state = m_states.getUnchecked(i);
+                const auto state = m_states.getUnchecked(i);
                 jassert(anchor.component == state.component);
 
-                int xmin1 = anchor.child->getMinimumWidth();
-                int ymin1 = anchor.child->getMinimumHeight();
+                const auto xmin1 = anchor.child->getMinimumWidth();
+                const auto ymin1 = anchor.child->getMinimumHeight();
                 //int xmax1 = anchor.child->getMaximumWidth();
                 //int ymax1 = anchor.child->getMaximumHeight();
 
-                // invert the sauce
-                int d; // anchor difference
                 int m; // solution to f'(x)
 
-                d = anchor.bottomRight.getX() - anchor.topLeft.getX();
+                auto d = anchor.bottomRight.getX() - anchor.topLeft.getX();
                 if (d != 0) {
                     m = (xmin1 + state.margin.left - state.margin.right) *
                         anchorUnit / d;
@@ -318,8 +316,8 @@ TopLevelResizableLayout::Constrainer::Constrainer(TopLevelResizableLayout* owner
 void TopLevelResizableLayout::Constrainer::resizeStart() noexcept
 {
     m_owner.resizeStart();
-    int minWtmp = m_owner.getMinimumWidth();
-    int minHtmp = m_owner.getMinimumHeight();
+    const auto minWtmp = m_owner.getMinimumWidth();
+    const auto minHtmp = m_owner.getMinimumHeight();
     setMinimumWidth(minWtmp);
     setMinimumHeight(minHtmp);
 }

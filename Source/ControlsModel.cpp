@@ -74,7 +74,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
         if (ccMethod_[controlnumber] == RSJ::CCmethod::absolute)
             return static_cast<short>(round(pluginV *
             (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
-        auto cv = static_cast<short>(round(pluginV * ccHigh_[controlnumber])); //ccLow == 0 for non-absolute
+        const auto cv = static_cast<short>(round(pluginV * ccHigh_[controlnumber])); //ccLow == 0 for non-absolute
         if (RSJ::now_ms() - kUpdateDelay > lastUpdate_.load(std::memory_order_acquire))
             currentV_[controlnumber].store(cv, std::memory_order_release);
         return cv;
@@ -112,7 +112,7 @@ void ChannelModel::setCCmax(size_t controlnumber, short value) noexcept(ndebug)
     if (ccMethod_[controlnumber] != RSJ::CCmethod::absolute)
         ccHigh_[controlnumber] = (value < 0) ? 1000 : value;
     else {
-        auto max = (IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI);
+        const auto max = (IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI);
         ccHigh_[controlnumber] = (value <= ccLow_[controlnumber] || value > max) ? max : value;
     }
     currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);

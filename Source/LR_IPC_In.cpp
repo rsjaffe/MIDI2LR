@@ -86,9 +86,8 @@ void LR_IPC_IN::run()
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
-            char line[kBufferSize + 1] = {' '};//plus one for \0 at end
+            char line[kBufferSize + 1] = {' '};//plus one for \0 at end //TODO "line" is not necessarily zero-terminated, but std::string(line).back() expects it to be so
             auto size_read = 0;
-            auto can_read_line = true;
             // parse input until we have a line, then process that line, quit if
             // connection lost
             while (std::string(line).back() != '\n' && juce::StreamingSocket::isConnected()) {
@@ -118,7 +117,7 @@ void LR_IPC_IN::run()
             // if lose connection, line may not be terminated
             {
                 std::string param{line};
-                if (can_read_line && param.back() == '\n')
+                if (param.back() == '\n')
                     processLine(param);
             } //scope param
         dumpLine: /* empty statement */;

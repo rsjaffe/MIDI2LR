@@ -41,10 +41,12 @@ namespace RSJ {
         short number{0};
         short value{0};
         constexpr MidiMessage() noexcept
-        {};
+        {}
+
         constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
         message_type_byte(mt), channel(ch), number(nu), value(va)
-        {};
+        {}
+
         MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug);
     };
 

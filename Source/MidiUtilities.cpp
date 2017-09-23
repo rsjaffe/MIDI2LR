@@ -68,6 +68,5 @@ RSJ::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(ndebug):
         break;
     default: //should be unreachable--MidiMessageId only handles a few message types
         Expects(0);
-        msg_id_type = MsgIdEnum::CC;
     }
 }

@@ -286,7 +286,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             true,
             juce::Colours::lightgrey};
         if (dialog_box.show()) {
-            auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
+            const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
             if (command_map_)
                 command_map_->toXMLDocument(selected_file);
         }

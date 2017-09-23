@@ -41,7 +41,7 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     switch (mess.message_type_byte) {
     case RSJ::kCCFlag:
         if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
-            auto nrpn = nrpn_filter_.GetNRPNifReady(mess.channel);
+            const auto nrpn = nrpn_filter_.GetNRPNifReady(mess.channel);
             if (nrpn.isValid) //send when finished
                 for (const auto& cb : callbacks_)
                     cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel, nrpn.control, nrpn.value});

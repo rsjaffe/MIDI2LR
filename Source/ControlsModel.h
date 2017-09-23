@@ -49,7 +49,8 @@ namespace RSJ {
         RSJ::CCmethod method;
         SettingsStruct(short n = 0, short l = 0, short h = 0x7F, RSJ::CCmethod m = RSJ::CCmethod::absolute):
             number{n}, low{l}, high{h}, method{m}
-        {};
+        {}
+
         template<class Archive> void serialize(Archive& archive, uint32_t const version)
         {
             switch (version) {
@@ -59,7 +60,7 @@ namespace RSJ {
             default:
                 Expects(!"Wrong archive number for SettingsStruct");
             }
-        };
+        }
     };
 }
 
@@ -119,7 +120,8 @@ private:
 class ControlsModel {
 public:
     ControlsModel()
-    {};
+    {}
+
     ~ControlsModel() = default;
     //Can write copy and move with special handling for atomics, but in lieu of that, delete
     ControlsModel(const ControlsModel&) = delete; //can't copy atomics
@@ -130,37 +132,44 @@ public:
     {
         Expects(mm.channel <= 15);
         return allControls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
-    };
+    }
+
     RSJ::CCmethod getCCmethod(size_t channel, short controlnumber) const noexcept(ndebug)
     {
         Expects(channel <= 15);
         return allControls_[channel].getCCmethod(controlnumber);
-    };
+    }
+
     short getCCmax(size_t channel, short controlnumber) const noexcept(ndebug)
     {
         Expects(channel <= 15);
         return allControls_[channel].getCCmax(controlnumber);
-    };
+    }
+
     short getCCmin(size_t channel, short controlnumber) noexcept(ndebug)
     {
         Expects(channel <= 15);
         return allControls_[channel].getCCmin(controlnumber);
-    };
+    }
+
     short getPWmax(size_t channel) const noexcept(ndebug)
     {
         Expects(channel <= 15);
         return allControls_[channel].getPWmax();
-    };
+    }
+
     short getPWmin(size_t channel) const noexcept(ndebug)
     {
         Expects(channel <= 15);
         return allControls_[channel].getPWmin();
-    };
+    }
+
     short PluginToController(short controltype, size_t channel, short controlnumber, double value) noexcept(ndebug)
     {
         Expects(channel <= 15);
         return allControls_[channel].PluginToController(controltype, controlnumber, value);
-    };
+    }
+
     void setCC(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept
     {
         Expects(channel <= 15);
@@ -170,32 +179,38 @@ public:
     {
         Expects(channel <= 15);
         allControls_[channel].setCCall(controlnumber, min, max, controltype);
-    };
+    }
+
     void setCCmax(size_t channel, short controlnumber, short value) noexcept(ndebug)
     {
         Expects(channel <= 15);
         allControls_[channel].setCCmax(controlnumber, value);
-    };
+    }
+
     void setCCmethod(size_t channel, short controlnumber, RSJ::CCmethod value) noexcept(ndebug)
     {
         Expects(channel <= 15);
         allControls_[channel].setCCmethod(controlnumber, value);
-    };
+    }
+
     void setCCmin(size_t channel, short controlnumber, short value) noexcept(ndebug)
     {
         Expects(channel <= 15);
         allControls_[channel].setCCmin(controlnumber, value);
-    };
+    }
+
     void setPWmax(size_t channel, short value) noexcept(ndebug)
     {
         Expects(channel <= 15);
         allControls_[channel].setPWmax(value);
-    };
+    }
+
     void setPWmin(size_t channel, short value) noexcept(ndebug)
     {
         Expects(channel <= 15);
         allControls_[channel].setPWmin(value);
-    };
+    }
+
 private:
     friend class cereal::access;
     template<class Archive>

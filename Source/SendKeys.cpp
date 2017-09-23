@@ -182,7 +182,7 @@ namespace {
     }
 #endif
 
-    static const std::unordered_map<std::string, unsigned char> key_map_ = {
+    const std::unordered_map<std::string, unsigned char> key_map_ = {
 #ifdef _WIN32
         {"backspace", VK_BACK},
         {"cursor down", VK_DOWN},
@@ -289,7 +289,7 @@ namespace {
 #endif
     };
 
-    static std::mutex mutex_sending_{};
+    std::mutex mutex_sending_{};
 }
 
 void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,

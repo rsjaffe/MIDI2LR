@@ -33,7 +33,7 @@ namespace RSJ {
         constexpr NRPN() = default;
         constexpr NRPN(bool validity, short controlno, short valueval) noexcept:
         isValid{validity}, control{controlno}, value{valueval}
-        {};
+        {}
     };
     static constexpr NRPN invalidNRPN{false, 0, 0};
 }
@@ -78,19 +78,19 @@ public:
     {
         Expects(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].ProcessMidi(control, value);
-    };
+    }
 
     bool IsInProcess(short channel) const noexcept(ndebug)
     {
         Expects(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].IsInProcess();
-    };
+    }
 
     RSJ::NRPN GetNRPNifReady(short channel) noexcept(ndebug)
     {
         Expects(channel <= 15 && channel >= 0);
         return nrpn_messages_[(channel) & 0xF].GetNRPNifReady();
-    };
+    }
 
 private:
     std::array<NRPN_Message, 16> nrpn_messages_{};
