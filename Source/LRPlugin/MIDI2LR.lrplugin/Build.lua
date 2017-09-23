@@ -223,7 +223,8 @@ You can add other parameters to the Limits dialog if you wish. [The limits secti
 Following is a list of all commands that can be added to the Limits dialog following the instructions on that page. Please use this sparingly, as adding many limits might slow down the application. If you find some parameters for which limits are particularly useful, please [post a message](https://groups.google.com/forum/#!forum/midi2lr) so I can set it up for inclusion in the baseline application.
 
 | Command Identifier To Use | Full Name of the Command |
-| ------ | -------- |]=])
+| ------ | -------- |
+]=])
 for _,v in ipairs(Database.DataBase) do
   if v[4] and v[5] and v[6]==false then
     file:write("| "..v[1].." | "..v[8].." |\n")

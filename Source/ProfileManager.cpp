@@ -31,25 +31,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* const cmap) noexcept:
+ProfileManager::ProfileManager(ControlsModel* const c_model, CommandMap* const cmap) noexcept:
 command_map_{cmap}, controls_model_{c_model}
 {}
 
 void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
-    const std::shared_ptr<MIDIProcessor>& midiProcessor)
+    MIDIProcessor* const midiProcessor)
 {
     //copy the pointers
     lr_ipc_out_ = std::move(out);
 
-    if (const auto ptr = lr_ipc_out_.lock()) {
-        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-        // settings on connection
+    if (const auto ptr = lr_ipc_out_.lock())
+    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+    // settings on connection
         ptr->addCallback(this, &ProfileManager::ConnectionCallback);
-    }
 
-    if (midiProcessor) {
+    if (midiProcessor)
         midiProcessor->addCallback(this, &ProfileManager::MIDIcmdCallback);
-    }
 }
 
 void ProfileManager::setProfileDirectory(const juce::File& directory)
@@ -92,7 +90,7 @@ void ProfileManager::switchToProfile(const juce::String& profile)
                 cb(xml_element.get(), profile);
 
             if (const auto ptr = lr_ipc_out_.lock()) {
-                std::string command = "ChangedToDirectory "s +
+                auto command = "ChangedToDirectory "s +
                     juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
                     '\n';
                 ptr->sendCommand(command);
@@ -121,7 +119,7 @@ void ProfileManager::switchToPreviousProfile()
 
 void ProfileManager::mapCommand(const RSJ::MidiMessageId& msg)
 {
-    auto cmd = command_map_->getCommandforMessage(msg);
+    const auto cmd = command_map_->getCommandforMessage(msg);
     if (cmd == "Previous Profile"s) {
         switch_state_ = SWITCH_STATE::PREV;
         triggerAsyncUpdate();
@@ -138,7 +136,7 @@ void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
     if (command_map_) {
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
-        if ((controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel, mm.number, mm.value) < 0.4)
+        if ((controls_model_->ControllerToPlugin(mm) < 0.4)
             || !command_map_->messageExistsInMap(cc))
             return;
         mapCommand(cc);
@@ -148,12 +146,11 @@ void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
 void ProfileManager::ConnectionCallback(bool connected)
 {
     if (connected) {
-        const std::string command = "ChangedToDirectory "s +
+        const auto command = "ChangedToDirectory "s +
             juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
             '\n';
-        if (const auto ptr = lr_ipc_out_.lock()) {
+        if (const auto ptr = lr_ipc_out_.lock())
             ptr->sendCommand(command);
-        }
     }
 }
 

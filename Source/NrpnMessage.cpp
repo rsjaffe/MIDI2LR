@@ -25,13 +25,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 bool NRPN_Message::ProcessMidi(short control,
     short value) noexcept(ndebug)
 {
-    assert(value <= 0x7Fu);
-    assert(control <= 0x7Fu);
+    Expects(value <= 0x7Fu);
+    Expects(control <= 0x7Fu);
     auto ret_val = true;
     switch (control) {
     case 6:
     {
-        std::lock_guard<decltype(guard)> lock(guard);
+        std::lock(data_guard_, queue_guard_);
+        std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
+        std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
         if (ready_ >= 0b11) {
             SetValueMSB_(value);
             if (IsReady_()) {
@@ -45,7 +47,9 @@ bool NRPN_Message::ProcessMidi(short control,
     }
     case 38u:
     {
-        std::lock_guard<decltype(guard)> lock(guard);
+        std::lock(data_guard_, queue_guard_);
+        std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
+        std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
         if (ready_ >= 0b11) {
             SetValueLSB_(value);
             if (IsReady_()) {
@@ -59,13 +63,13 @@ bool NRPN_Message::ProcessMidi(short control,
     }
     case 98u:
     {
-        std::lock_guard<decltype(guard)> lock(guard);
+        std::lock_guard<decltype(data_guard_)> lock(data_guard_);
         SetControlLSB_(value);
     }
     break;
     case 99u:
     {
-        std::lock_guard<decltype(guard)> lock(guard);
+        std::lock_guard<decltype(data_guard_)> lock(data_guard_);
         SetControlMSB_(value);
     }
     break;
@@ -77,14 +81,13 @@ bool NRPN_Message::ProcessMidi(short control,
 
 RSJ::NRPN NRPN_Message::GetNRPNifReady() noexcept
 {
-    std::lock_guard<decltype(guard)> lock(guard);
+    std::lock_guard<decltype(queue_guard_)> lock(queue_guard_);
     if (!nrpn_queued_.empty()) {
-        RSJ::NRPN retval{nrpn_queued_.front()};
+        const auto retval{nrpn_queued_.front()};
         nrpn_queued_.pop();
         return retval;
     }
-    else
-        return RSJ::invalidNRPN;
+    return RSJ::invalidNRPN;
 }
 
 void NRPN_Message::Clear_() noexcept

@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include <string>
 #include <utility>
+#include <gsl/gsl>
 #include "CommandMap.h"
 #include "LR_IPC_Out.h" //base class
 #include "MIDIProcessor.h"
@@ -62,11 +63,11 @@ MainContentComponent::MainContentComponent(): ResizableLayout{this}
 MainContentComponent::~MainContentComponent()
 {}
 
-void MainContentComponent::Init(CommandMap* command_map,
+void MainContentComponent::Init(CommandMap* const command_map,
     std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
     std::shared_ptr<MIDIProcessor>& midi_processor,
-    ProfileManager* profile_manager,
-    SettingsManager* settings_manager,
+    ProfileManager* const profile_manager,
+    SettingsManager* const settings_manager,
     std::shared_ptr<MIDISender>& midi_sender)
 {
     //copy the pointers
@@ -79,20 +80,17 @@ void MainContentComponent::Init(CommandMap* command_map,
     //call the function of the sub component.
     command_table_model_.Init(command_map);
 
-    if (midi_processor) {
-        // Add ourselves as a listener for MIDI commands
+    if (midi_processor)
+    // Add ourselves as a listener for MIDI commands
         midi_processor->addCallback(this, &MainContentComponent::MIDIcmdCallback);
-    }
 
-    if (const auto ptr = lr_ipc_out_.lock()) {
-        // Add ourselves as a listener for LR_IPC_OUT events
+    if (const auto ptr = lr_ipc_out_.lock())
+    // Add ourselves as a listener for LR_IPC_OUT events
         ptr->addCallback(this, &MainContentComponent::LRIpcOutCallback);
-    }
 
-    if (profile_manager) {
-        // Add ourselves as a listener for profile changes
+    if (profile_manager)
+    // Add ourselves as a listener for profile changes
         profile_manager->addCallback(this, &MainContentComponent::profileChanged);
-    }
 
     //Set the component size
     setSize(kMainWidth, kMainHeight);
@@ -183,7 +181,7 @@ void MainContentComponent::Init(CommandMap* command_map,
     if (settings_manager_) {
         // Try to load a default.xml if the user has not set a profile directory
         if (settings_manager_->getProfileDirectory().isEmpty()) {
-            juce::File default_profile =
+            const auto default_profile =
                 juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(default_profile)};
             if (xml_element) {
@@ -191,10 +189,9 @@ void MainContentComponent::Init(CommandMap* command_map,
                 command_table_.updateContent();
             }
         }
-        else if (profile_manager) {
-            // otherwise use the last profile from the profile directory
+        else if (profile_manager)
+        // otherwise use the last profile from the profile directory
             profile_manager->switchToProfile(0);
-        }
     }
     // turn it on
     activateLayout();
@@ -208,11 +205,10 @@ void MainContentComponent::paint(juce::Graphics& g)
 void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    RSJ::MsgIdEnum mt;
+    RSJ::MsgIdEnum mt{RSJ::MsgIdEnum::CC};
     juce::String commandtype{"CC"};
     switch (mm.message_type_byte) {//this is needed because mapping uses custom structure
-    case RSJ::kCCFlag:
-        mt = RSJ::MsgIdEnum::CC;
+    case RSJ::kCCFlag: //this is default for mt and commandtype
         break;
     case RSJ::kNoteOnFlag:
         mt = RSJ::MsgIdEnum::NOTE;
@@ -227,8 +223,7 @@ void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
         commandtype = "PITCHBEND";
         break;
     default: //shouldn't receive any messages note categorized above
-        assert(0);
-        mt = RSJ::MsgIdEnum::CC;
+        Expects(0);
     }
     mm.channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.channel) + ": " + commandtype +
@@ -255,17 +250,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
     if (button == &rescan_button_) {
         // Re-enumerate MIDI IN and OUT devices
 
-        if (midi_processor_) {
+        if (midi_processor_)
             midi_processor_->RescanDevices();
-        }
 
-        if (midi_sender_) {
+        if (midi_sender_)
             midi_sender_->RescanDevices();
-        }
         // Send new CC parameters to MIDI Out devices
-        if (const auto ptr = lr_ipc_out_.lock()) {
+        if (const auto ptr = lr_ipc_out_.lock())
             ptr->sendCommand("FullRefresh 1\n"s);
-        }
     }
     else if (button == &remove_row_button_) {
         if (command_table_.getNumRows() > 0) {
@@ -277,13 +269,11 @@ void MainContentComponent::buttonClicked(juce::Button* button)
     else if (button == &save_button_) {
         juce::File profile_directory;
 
-        if (settings_manager_) {
+        if (settings_manager_)
             profile_directory = settings_manager_->getProfileDirectory();
-        }
 
-        if (!profile_directory.exists()) {
+        if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-        }
 
         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
         juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles |
@@ -296,23 +286,19 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             true,
             juce::Colours::lightgrey};
         if (dialog_box.show()) {
-            juce::File selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-
-            if (command_map_) {
+            const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
+            if (command_map_)
                 command_map_->toXMLDocument(selected_file);
-            }
         }
     }
     else if (button == &load_button_) {
         juce::File profile_directory;
 
-        if (settings_manager_) {
+        if (settings_manager_)
             profile_directory = settings_manager_->getProfileDirectory();
-        }
 
-        if (!profile_directory.exists()) {
+        if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-        }
 
         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
         juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles |
@@ -325,11 +311,10 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(browser.getSelectedFile(0))};
             if (xml_element) {
                 const auto new_profile = browser.getSelectedFile(0);
-                const std::string command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
+                const auto command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
 
-                if (const auto ptr = lr_ipc_out_.lock()) {
+                if (const auto ptr = lr_ipc_out_.lock())
                     ptr->sendCommand(command);
-                }
                 profile_name_label_.setText(new_profile.getFileName(),
                     juce::NotificationType::dontSendNotification);
                 command_table_model_.buildFromXml(xml_element.get());
@@ -362,20 +347,17 @@ void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const j
     //  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
 
         // Send new CC parameters to MIDI Out devices
-    if (const auto ptr = lr_ipc_out_.lock()) {
+    if (const auto ptr = lr_ipc_out_.lock())
         ptr->sendCommand("FullRefresh 1\n"s);
-    }
 }
 
 void MainContentComponent::SetTimerText(int time_value)
 {
-    if (time_value > 0) {
+    if (time_value > 0)
         current_status_.setText(juce::String::formatted("Hiding in %i Sec.", time_value),
-            juce::NotificationType::dontSendNotification);
-    }
-    else {
+                                juce::NotificationType::dontSendNotification);
+    else
         current_status_.setText("", juce::NotificationType::dontSendNotification);
-    }
 }
 
 void MainContentComponent::SetLabelSettings(juce::Label& label_to_set)

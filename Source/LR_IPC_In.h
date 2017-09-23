@@ -36,19 +36,19 @@ class LR_IPC_IN final:
     private juce::Timer,
     private juce::Thread {
 public:
-    LR_IPC_IN(ControlsModel* c_model, ProfileManager* profileManager,
-        CommandMap* commandMap);
+    LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const profileManager,
+        CommandMap* const commandMap);
     virtual ~LR_IPC_IN();
     void Init(std::shared_ptr<MIDISender>& midiSender) noexcept;
     //signal exit to thread
-    void PleaseStopThread(void);
+    void PleaseStopThread();
 private:
     // Thread interface
-    virtual void run() override;
+    void run() override;
     // Timer callback
-    virtual void timerCallback() override;
+    void timerCallback() override;
     // process a line received from the socket
-    void processLine(const std::string& line);
+    void processLine(const std::string& line) const;
 
     bool thread_started_{false};
     bool timer_off_{false};

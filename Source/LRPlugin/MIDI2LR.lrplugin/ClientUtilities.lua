@@ -110,22 +110,22 @@ end
 local function fToggleTF(param)
   return function()
     LrTasks.startAsyncTask ( function ()
-      if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'MIDI2LR: Apply settings',
-        function()
-          local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
-          params[param] = not params[param]
-          LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
-        end,
-        { timeout = 4,
-          callback = function()
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
+        if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+        LrApplication.activeCatalog():withWriteAccessDo(
+          'MIDI2LR: Apply settings',
+          function()
+            local params = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings()
+            params[param] = not params[param]
+            LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(params) 
           end,
-          asynchronous = true
-        }
-      )
-    end
+          { timeout = 4,
+            callback = function()
+              LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' ApplySettings')
+            end,
+            asynchronous = true
+          }
+        )
+      end
     )
   end
 end
@@ -264,6 +264,30 @@ local function LRValueToMIDIValue(param)
   return retval
 end
 
+local function UpdateCameraProfile(name)
+  return function()
+    CU.fChangePanel('calibratePanel')
+    CU.ApplySettings({
+        CameraProfile = name
+      })
+  end
+end
+
+local function SimulateKeys(keys)
+  return function()
+    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+      MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+    end
+  end
+end
+
+local function UpdatePointCurve(settings)
+  return function()
+    CU.fChangePanel('tonePanel')
+    CU.ApplySettings(settings)
+  end
+end
+
 return {
   CopySettings = CopySettings,
   fApplyFilter = fApplyFilter,
@@ -280,5 +304,8 @@ return {
   PasteSettings = PasteSettings,
   ApplySettings = ApplySettings,
   MIDIValueToLRValue = MIDIValueToLRValue,
-  LRValueToMIDIValue = LRValueToMIDIValue
+  LRValueToMIDIValue = LRValueToMIDIValue,
+  UpdateCameraProfile = UpdateCameraProfile,
+  SimulateKeys = SimulateKeys,
+  UpdatePointCurve = UpdatePointCurve
 }

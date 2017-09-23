@@ -205,6 +205,8 @@ local DataBase = {
   --Develop
   {"SwToMdevelop",false,false,true,false,true,false,show..' '..LOC("$$$/SmartCollection/Criteria/Heading/Develop=Develop"),develop,"Switch to Develop module. *button*"},
   --develop: copy paste sync
+  {"LRCopy",false,false,true,false,true,false,"Lightroom "..LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Lightroom Copy (open the selection box). *button*"},
+  {"LRPaste",false,false,true,false,true,false,"Lightroom "..LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Lightroom Paste. *button*"},
   {"CopySettings",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Develop/CopySettings=Copy Settings"):gsub("&",""),develop,"Copies all develop settings. Application will remember last copy operation and use that for all paste operations until a new *Copy Settings* is done or the application is restarted. *button*"},
   {"PasteSettings",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/PasteSettings=Paste Settings"),develop,"Pastes all develop settings. *button*"},
   {"PasteSelectedSettings",false,false,true,false,true,false,"Paste Selected Settings",develop,"Pastes only those settings checked in the **Options\226\128\148Paste Selections** dialog. *button*"},
@@ -319,7 +321,7 @@ local DataBase = {
   {"SaturationAdjustmentBlue",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentBlue=Saturation Adjustment Blue"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
   {"SaturationAdjustmentPurple",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentPurple=Saturation Adjustment Purple"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
   {"SaturationAdjustmentMagenta",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustmentMagenta=Saturation Adjustment Magenta"),colorAdjustments,"Changes the color vividness or purity of the color.",'mixerPanel'},
-  {"AllSaturationAdjustment",false,false,true,false,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/SaturationAdjustment=All Saturation Adjustment"),colorAdjustments,"Changes all color vividness or purity of all colors.",'mixerPanel'},
+  {"AllSaturationAdjustment",false,false,true,false,false,false,"All Saturation Adjustment",colorAdjustments,"Changes all color vividness or purity of all colors.",'mixerPanel'},
   {"HueAdjustmentRed",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentRed=Hue Adjustment Red"),colorAdjustments,"Changes the color.",'mixerPanel'},
   {"HueAdjustmentOrange",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentOrange=Hue Adjustment Orange"),colorAdjustments,"Changes the color.",'mixerPanel'},
   {"HueAdjustmentYellow",'colorAdjustments',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/HueAdjustmentYellow=Hue Adjustment Yellow"),colorAdjustments,"Changes the color.",'mixerPanel'},
@@ -645,6 +647,11 @@ local DataBase = {
   {"ResetBrushing",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetBrushing=Reset Brush Corrections"),localizedAdjustments,"Delete brush adjustments. *button*"},
   {"ResetRedeye",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye"),localizedAdjustments,"Delete red eye correction. *button*"},
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
+  {"ShowMaskOverlay",false,false,true,false,true,false,LOC("$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay"),localizedAdjustments,"Show or hide the mask overlay. *button*"},
+  {"CycleMaskOverlayColor",false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color"):gsub("&",""),localizedAdjustments,"Change Mask Overlay Color. *button*"},
+--
+-- Misc
+--
   {"orientation",'miscellaneous',true,false,false,true,false,"orientation"},
   {'straightenAngle',false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/StraightenAngle=Straighten Angle"),crop,"Rotate crop angle. Moves angle in crop tool panel from -45 to 45."},
   {"CropAngle",'miscellaneous',true,true,true,false,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/CropAngle=Crop Angle"),crop,"Use *Straighten Angle* (above) instead. This control remains listed as a legacy item. Rotate crop rectangle. This control is constrained to picture boundaries even when \226\128\156constrain to image\226\128\157 is not selected. It also causes the aspect ratio of the crop to change.",'crop'},
@@ -680,8 +687,8 @@ local DataBase = {
   {"profile9",false,false,true,false,true,false,profile.." 9",profiles,"Change to MIDI mapping profile 9. *button*"},
   {"profile10",false,false,true,false,true,false,profile.." 10",profiles,"Change to MIDI mapping profile 10. *button*"},
   {"FullRefresh",false,false,true,false,true,false,LOC("$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update"),profiles,"Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up-to-date. Useful if controller out of sync with Lightroom (e.g., with layer changes). *button*"},
-  {"TrimEnd",true,true,false,false,true,false,"TrimEnd"},
-  {"TrimStart",true,true,false,false,true,false,"TrimStart"},
+  {"TrimEnd",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimEnd=Set Trim End")},
+  {"TrimStart",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimStart=Set Trim Start")},
 }
 
 local MenuList = {}

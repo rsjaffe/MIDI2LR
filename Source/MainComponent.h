@@ -52,18 +52,18 @@ public:
     virtual ~MainContentComponent();
     MainContentComponent(const MainContentComponent&) = delete;
     MainContentComponent& operator=(const MainContentComponent&) = delete;
-    void Init(CommandMap* command_map,
+    void Init(CommandMap* const command_map,
         std::weak_ptr<LR_IPC_OUT>&& out,
         std::shared_ptr<MIDIProcessor>& midi_processor,
-        ProfileManager* profile_manager,
-        SettingsManager* settings_manager,
+        ProfileManager* const profile_manager,
+        SettingsManager* const settings_manager,
         std::shared_ptr<MIDISender>& midi_sender);
 
     void MIDIcmdCallback(RSJ::MidiMessage);
 
     void LRIpcOutCallback(bool);
 
-    virtual void profileChanged(juce::XmlElement* elem, const juce::String& file_name);
+    void profileChanged(juce::XmlElement* elem, const juce::String& file_name);
     void SetTimerText(int time_value);
 
 protected:
@@ -72,12 +72,12 @@ protected:
 private:
     void paint(juce::Graphics&) override;
     // Button interface
-    virtual void buttonClicked(juce::Button* button) override;
+    void buttonClicked(juce::Button* button) override;
     // AsyncUpdater interface
-    virtual void handleAsyncUpdate() override;
+    void handleAsyncUpdate() override;
 
     // Timer interface
-    virtual void timerCallback() override;
+    void timerCallback() override;
 
     CommandMap* command_map_{nullptr};
     CommandTable command_table_{"Table", nullptr};

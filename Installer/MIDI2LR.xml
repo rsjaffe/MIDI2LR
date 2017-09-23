@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>2.2.0.0</version>
+    <version>2.3.0.0</version>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
@@ -153,7 +153,10 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Builds/VisualStudio2017/Release/MIDI2LR.exe</origin>
+                            <origin>../Builds/VisualStudio2017/x64/Release/App/MIDI2LR.exe</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../rtmidi/midiprobe.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -166,6 +169,9 @@
                         <distributionDirectory>
                             <origin>../Builds/MacOSX/build/Release/MIDI2LR.app</origin>
                         </distributionDirectory>
+                        <distributionFile>
+                            <origin>../rtmidi/midiprobe</origin>
+                        </distributionFile>
                     </distributionFileList>
                 </folder>
             </folderList>
@@ -228,6 +234,17 @@
                 </platformTest>
             </ruleList>
         </setInstallerVariable>
+        <setInstallerVariable>
+            <name>project.installationType</name>
+            <value>upgrade</value>
+            <ruleList>
+                <registryTest>
+                    <key>HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}</key>
+                    <logic>exists</logic>
+                    <name>Location</name>
+                </registryTest>
+            </ruleList>
+        </setInstallerVariable>
         <registryGet>
             <key>HKEY_LOCAL_MACHINE\SOFTWARE\${project.vendor}\${project.fullName}</key>
             <name>Location</name>
@@ -244,6 +261,7 @@
             </ruleList>
         </registryGet>
     </preInstallationActionList>
+    <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzma-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
     <enableRollback>1</enableRollback>

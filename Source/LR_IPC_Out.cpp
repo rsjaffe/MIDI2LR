@@ -34,7 +34,7 @@ namespace {
     constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_OUT::LR_IPC_OUT(ControlsModel* c_model, CommandMap const * const mapCommand):
+LR_IPC_OUT::LR_IPC_OUT(ControlsModel* const c_model, const CommandMap * const mapCommand):
     juce::InterprocessConnection(), command_map_{mapCommand}, controls_model_{c_model} {}
 
 LR_IPC_OUT::~LR_IPC_OUT()
@@ -47,12 +47,10 @@ LR_IPC_OUT::~LR_IPC_OUT()
     juce::InterprocessConnection::disconnect();
 }
 
-void LR_IPC_OUT::Init(
-    const std::shared_ptr<MIDIProcessor>& midi_processor)
+void LR_IPC_OUT::Init(MIDIProcessor* const midi_processor)
 {
-    if (midi_processor) {
+    if (midi_processor)
         midi_processor->addCallback(this, &LR_IPC_OUT::MIDIcmdCallback);
-    }
 
     //start the timer
     juce::Timer::startTimer(kTimerInterval);
@@ -78,8 +76,7 @@ void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
         return;
     }
     auto command_to_send = command_map_->getCommandforMessage(message);
-    const double computed_value = controls_model_->ControllerToPlugin(mm.message_type_byte, mm.channel,
-        mm.number, mm.value);
+    const auto computed_value = controls_model_->ControllerToPlugin(mm);
     command_to_send += ' ' + std::to_string(computed_value) + '\n';
     {
         std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);

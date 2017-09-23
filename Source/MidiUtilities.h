@@ -41,10 +41,12 @@ namespace RSJ {
         short number{0};
         short value{0};
         constexpr MidiMessage() noexcept
-        {};
+        {}
+
         constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
         message_type_byte(mt), channel(ch), number(nu), value(va)
-        {};
+        {}
+
         MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug);
     };
 
@@ -81,7 +83,7 @@ namespace RSJ {
             return (msg_id_type == other.msg_id_type && channel == other.channel && data == other.data);
         }
 
-        bool operator<(const MidiMessageId& other) const noexcept
+        constexpr bool operator<(const MidiMessageId& other) const noexcept
         {
             if (channel < other.channel) return true;
             if (channel == other.channel) {

@@ -2,28 +2,33 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   By using JUCE, you agree to the terms of both the JUCE 5 End-User License
+   Agreement and JUCE 5 Privacy Policy (both updated and effective as of the
+   27th April 2017).
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   End User License Agreement: www.juce.com/juce-5-licence
+   Privacy Policy: www.juce.com/juce-5-privacy-policy
 
-   ------------------------------------------------------------------------------
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-#ifndef JUCE_POINT_H_INCLUDED
-#define JUCE_POINT_H_INCLUDED
+#pragma once
+#if defined(_MSC_VER) && _MSC_VER < 1910
+#pragma push_macro("constexpr")
+#define constexpr /*constexpr*/
+#endif                          // defined(_MSC_VER) && _MSC_VER < 1910
 
 
 //==============================================================================
@@ -40,32 +45,32 @@ class Point
 {
 public:
     /** Creates a point at the origin */
-    Point() noexcept : x(), y() {}
+    constexpr Point() noexcept : x(), y() {}
 
     /** Creates a copy of another point. */
-    Point (const Point& other) noexcept : x (other.x), y (other.y)  {}
+    constexpr Point (const Point& other) noexcept : x (other.x), y (other.y)  {}
 
     /** Creates a point from an (x, y) position. */
-    Point (ValueType initialX, ValueType initialY) noexcept : x (initialX), y (initialY) {}
+    constexpr Point (ValueType initialX, ValueType initialY) noexcept : x (initialX), y (initialY) {}
 
     //==============================================================================
     /** Copies this point from another one. */
     Point& operator= (const Point& other) noexcept                  { x = other.x; y = other.y; return *this; }
 
-    inline bool operator== (Point other) const noexcept             { return x == other.x && y == other.y; }
-    inline bool operator!= (Point other) const noexcept             { return x != other.x || y != other.y; }
+    constexpr inline bool operator== (Point other) const noexcept             { return x == other.x && y == other.y; }
+    constexpr inline bool operator!= (Point other) const noexcept             { return x != other.x || y != other.y; }
 
     /** Returns true if the point is (0, 0). */
-    bool isOrigin() const noexcept                                  { return x == ValueType() && y == ValueType(); }
+    constexpr bool isOrigin() const noexcept                                  { return x == ValueType() && y == ValueType(); }
 
     /** Returns true if the coordinates are finite values. */
-    inline bool isFinite() const noexcept                           { return juce_isfinite(x) && juce_isfinite(y); }
+    constexpr inline bool isFinite() const noexcept                           { return juce_isfinite(x) && juce_isfinite(y); }
 
     /** Returns the point's x coordinate. */
-    inline ValueType getX() const noexcept                          { return x; }
+    constexpr inline ValueType getX() const noexcept                          { return x; }
 
     /** Returns the point's y coordinate. */
-    inline ValueType getY() const noexcept                          { return y; }
+    constexpr inline ValueType getY() const noexcept                          { return y; }
 
     /** Sets the point's x coordinate. */
     inline void setX (ValueType newX) noexcept                      { x = newX; }
@@ -74,10 +79,10 @@ public:
     inline void setY (ValueType newY) noexcept                      { y = newY; }
 
     /** Returns a point which has the same Y position as this one, but a new X. */
-    Point withX (ValueType newX) const noexcept                     { return Point (newX, y); }
+    constexpr Point withX (ValueType newX) const noexcept                     { return Point (newX, y); }
 
     /** Returns a point which has the same X position as this one, but a new Y. */
-    Point withY (ValueType newY) const noexcept                     { return Point (x, newY); }
+    constexpr Point withY (ValueType newY) const noexcept                     { return Point (x, newY); }
 
     /** Changes the point's x and y coordinates. */
     void setXY (ValueType newX, ValueType newY) noexcept            { x = newX; y = newY; }
@@ -87,23 +92,23 @@ public:
 
     //==============================================================================
     /** Returns a point with a given offset from this one. */
-    Point translated (ValueType deltaX, ValueType deltaY) const noexcept    { return Point (x + deltaX, y + deltaY); }
+    constexpr Point translated (ValueType deltaX, ValueType deltaY) const noexcept    { return Point (x + deltaX, y + deltaY); }
 
     /** Adds two points together */
-    Point operator+ (Point other) const noexcept                    { return Point (x + other.x, y + other.y); }
+    constexpr Point operator+ (Point other) const noexcept                    { return Point (x + other.x, y + other.y); }
 
     /** Adds another point's coordinates to this one */
     Point& operator+= (Point other) noexcept                        { x += other.x; y += other.y; return *this; }
 
     /** Subtracts one points from another */
-    Point operator- (Point other) const noexcept                    { return Point (x - other.x, y - other.y); }
+    constexpr Point operator- (Point other) const noexcept                    { return Point (x - other.x, y - other.y); }
 
     /** Subtracts another point's coordinates to this one */
     Point& operator-= (Point other) noexcept                        { x -= other.x; y -= other.y; return *this; }
 
     /** Multiplies two points together */
     template <typename OtherType>
-    Point operator* (Point<OtherType> other) const noexcept         { return Point ((ValueType) (x * other.x), (ValueType) (y * other.y)); }
+    constexpr Point operator* (Point<OtherType> other) const noexcept         { return Point ((ValueType) (x * other.x), (ValueType) (y * other.y)); }
 
     /** Multiplies another point's coordinates to this one */
     template <typename OtherType>
@@ -111,7 +116,7 @@ public:
 
     /** Divides one point by another */
     template <typename OtherType>
-    Point operator/ (Point<OtherType> other) const noexcept         { return Point ((ValueType) (x / other.x), (ValueType) (y / other.y)); }
+    constexpr Point operator/ (Point<OtherType> other) const noexcept         { return Point ((ValueType) (x / other.x), (ValueType) (y / other.y)); }
 
     /** Divides this point's coordinates by another */
     template <typename OtherType>
@@ -119,11 +124,11 @@ public:
 
     /** Returns a point whose coordinates are multiplied by a given scalar value. */
     template <typename FloatType>
-    Point operator* (FloatType multiplier) const noexcept           { return Point ((ValueType) (x * multiplier), (ValueType) (y * multiplier)); }
+    constexpr Point operator* (FloatType multiplier) const noexcept           { return Point ((ValueType) (x * multiplier), (ValueType) (y * multiplier)); }
 
     /** Returns a point whose coordinates are divided by a given scalar value. */
     template <typename FloatType>
-    Point operator/ (FloatType divisor) const noexcept              { return Point ((ValueType) (x / divisor), (ValueType) (y / divisor)); }
+    constexpr Point operator/ (FloatType divisor) const noexcept              { return Point ((ValueType) (x / divisor), (ValueType) (y / divisor)); }
 
     /** Multiplies the point's coordinates by a scalar value. */
     template <typename FloatType>
@@ -134,7 +139,7 @@ public:
     Point& operator/= (FloatType divisor) noexcept                  { x = (ValueType) (x / divisor); y = (ValueType) (y / divisor); return *this; }
 
     /** Returns the inverse of this point. */
-    Point operator-() const noexcept                                { return Point (-x, -y); }
+    constexpr Point operator-() const noexcept                                { return Point (-x, -y); }
 
     //==============================================================================
     /** This type will be double if the Point's type is double, otherwise it will be float. */
@@ -239,5 +244,7 @@ public:
 template <typename ValueType>
 Point<ValueType> operator* (ValueType value, Point<ValueType> p) noexcept       { return p * value; }
 
-
-#endif   // JUCE_POINT_H_INCLUDED
+#if defined(_MSC_VER) && _MSC_VER < 1910
+#undef constexpr
+#pragma pop_macro("constexpr")
+#endif // defined(_MSC_VER) && _MSC_VER < 1910

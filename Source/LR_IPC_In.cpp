@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 #include <bitset>
-#include <stdexcept>
+#include <gsl/gsl>
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDISender.h"
@@ -45,7 +45,7 @@ namespace {
     constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_IN::LR_IPC_IN(ControlsModel* c_model, ProfileManager* pmanager, CommandMap* cmap):
+LR_IPC_IN::LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
     juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
     controls_model_{c_model}, profile_manager_{pmanager}
 {}
@@ -86,9 +86,8 @@ void LR_IPC_IN::run()
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
-            char line[kBufferSize + 1] = {' '};//plus one for \0 at end
+            char line[kBufferSize + 1] = {' '};//plus one for \0 at end //TODO "line" is not necessarily zero-terminated, but std::string(line).back() expects it to be so
             auto size_read = 0;
-            auto can_read_line = true;
             // parse input until we have a line, then process that line, quit if
             // connection lost
             while (std::string(line).back() != '\n' && juce::StreamingSocket::isConnected()) {
@@ -97,7 +96,6 @@ void LR_IPC_IN::run()
                 const auto wait_status = juce::StreamingSocket::waitUntilReady(true, kReadyWait);
                 switch (wait_status) {
                 case -1:
-                    can_read_line = false;
                     goto dumpLine; //read line failed, break out of switch and while
                 case 0:
                     juce::Thread::wait(kEmptyWait);
@@ -105,23 +103,22 @@ void LR_IPC_IN::run()
                 case 1:
                     if (size_read == kBufferSize)
                         throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    const auto read = juce::StreamingSocket::read(line + size_read, 1, false);
-                    if(read) {
+                    if (const auto read = juce::StreamingSocket::read(line + size_read, 1, false))
                         size_read += read;
-                    } else {
+                    else
                         // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
                         juce::JUCEApplication::getInstance()->systemRequestedQuit();
-                    }
                     break;
+                default:
+                    Expects(!"Unexpected value for wait_status");
                 }
             } // end while !\n and is connected
 
             // if lose connection, line may not be terminated
             {
                 std::string param{line};
-                if (can_read_line && param.back() == '\n') {
+                if (param.back() == '\n')
                     processLine(param);
-                }
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)
@@ -145,7 +142,7 @@ void LR_IPC_IN::timerCallback()
     }
 }
 
-void LR_IPC_IN::processLine(const std::string& line)
+void LR_IPC_IN::processLine(const std::string& line) const
 {
     const static std::unordered_map<std::string, int> cmds = {
         {"SwitchProfile"s, 1},
@@ -164,6 +161,7 @@ void LR_IPC_IN::processLine(const std::string& line)
         break;
     case 2: //SendKey
     {
+        // ReSharper disable once CppUseAuto
         std::bitset<3> modifiers{static_cast<decltype(modifiers)>
             (std::stoi(value_string))};
         RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
@@ -195,12 +193,25 @@ void LR_IPC_IN::processLine(const std::string& line)
 
                 if (midi_sender_) {
                     switch (msgtype) {
-                    case RSJ::kNoteOnFlag: midi_sender_->sendNoteOn(msg->channel, msg->controller, value); break;
-                    case RSJ::kCCFlag: midi_sender_->sendCC(msg->channel, msg->controller, value); break;
-                    case RSJ::kPWFlag: midi_sender_->sendPitchWheel(msg->channel, value); break;
+                    case RSJ::kNoteOnFlag:
+                        midi_sender_->sendNoteOn(msg->channel, msg->controller, value);
+                        break;
+                    case RSJ::kCCFlag:
+                        if (controls_model_->getCCmethod(static_cast<size_t>(msg->channel - 1),
+                            static_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
+                            midi_sender_->sendCC(msg->channel, msg->controller, value);
+                        break;
+                    case RSJ::kPWFlag:
+                        midi_sender_->sendPitchWheel(msg->channel, value);
+                        break;
+                    default:
+                        Expects(!"Unexpected result for msgtype");
                     }
                 }
             }
         }
+        break;
+    default:
+        Expects(!"Unexpected result for cmds");
     }
 }

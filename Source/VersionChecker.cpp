@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 #include "SettingsManager.h"
 
-VersionChecker::VersionChecker(SettingsManager* setmgr) noexcept :
+VersionChecker::VersionChecker(SettingsManager* const setmgr) noexcept :
 juce::Thread{"VersionChecker"}, settings_manager_{setmgr}{}
 
 VersionChecker::~VersionChecker()
@@ -37,8 +37,7 @@ void VersionChecker::run()
     const std::unique_ptr<juce::XmlElement> version_xml_element{version_url.readEntireXmlStream()};
 
     if (version_xml_element != nullptr) {
-        int last_checked = 0;
-        last_checked = settings_manager_->getLastVersionFound();
+        const auto last_checked = settings_manager_->getLastVersionFound();
         new_version_ = version_xml_element->getIntAttribute("latest");
         if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
             settings_manager_->setLastVersionFound(new_version_);
@@ -61,8 +60,8 @@ void VersionChecker::handleAsyncUpdate()
     const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
     dialog_options.content.setOwned(new juce::HyperlinkButton{version_string, download_url});
     dialog_options.content->setSize(300, 100);
-    (dynamic_cast<juce::HyperlinkButton *>(dialog_options.content.get()))->
-        setFont(juce::Font{18.f}, false);
+    if (auto ptr = dynamic_cast<juce::HyperlinkButton *>(dialog_options.content.get()))
+        ptr->setFont(juce::Font{18.f}, false);
     dialog_options.escapeKeyTriggersCloseButton = true;
     dialog_.reset(dialog_options.create());
     dialog_->setVisible(true);

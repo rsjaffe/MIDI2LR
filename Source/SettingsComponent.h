@@ -32,7 +32,7 @@ class SettingsComponent final:
     private ResizableLayout,
     private juce::Slider::Listener {
 public:
-    explicit SettingsComponent(SettingsManager* settings_manager);
+    explicit SettingsComponent(SettingsManager* const settings_manager);
     ~SettingsComponent();
     SettingsComponent(const SettingsComponent&) = delete;
     SettingsComponent& operator=(const SettingsComponent&) = delete;
@@ -40,8 +40,8 @@ public:
 
 private:
     void paint(juce::Graphics&) override;
-    virtual void buttonClicked(juce::Button* button) override;
-    virtual void sliderValueChanged(juce::Slider* slider) override;
+    void buttonClicked(juce::Button* button) override;
+    void sliderValueChanged(juce::Slider* slider) override;
 
     juce::GroupComponent autohide_group_{};
     juce::GroupComponent pickup_group_{};

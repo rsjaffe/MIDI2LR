@@ -34,17 +34,17 @@ namespace RSJ {
 class CommandTableModel final: public juce::TableListBoxModel {
 public:
     CommandTableModel() noexcept;
-    void Init(CommandMap* mapCommand) noexcept;
+    void Init(CommandMap* const mapCommand) noexcept;
     CommandTableModel& operator=(const CommandTableModel&) = delete;
     CommandTableModel(const CommandTableModel&) = delete;
     // TableListBoxModel overrides
-    virtual void sortOrderChanged(int newSortColumnId, bool isForwards) override;
-    virtual int getNumRows() override;
-    virtual void paintRowBackground(juce::Graphics&, int rowNumber, int width,
+    void sortOrderChanged(int newSortColumnId, bool isForwards) override;
+    int getNumRows() override;
+    void paintRowBackground(juce::Graphics&, int rowNumber, int width,
         int height, bool rowIsSelected) override;
-    virtual void paintCell(juce::Graphics&, int rowNumber, int columnId, int width,
+    void paintCell(juce::Graphics&, int rowNumber, int columnId, int width,
         int height, bool rowIsSelected) override;
-    virtual juce::Component *refreshComponentForCell(int rowNumber, int columnId,
+    juce::Component *refreshComponentForCell(int rowNumber, int columnId,
         bool isRowSelected, juce::Component *existingComponentToUpdate) override;
 
     // adds a row with a corresponding MIDI message to the table

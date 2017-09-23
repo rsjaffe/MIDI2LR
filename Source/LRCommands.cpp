@@ -119,6 +119,8 @@ const std::vector<std::string> LRCommandList::Library = {
 
 const std::vector<std::string> LRCommandList::Develop = {
     "Show Develop",
+    "Lightroom Copy Settings",
+    "Lightroom Paste Settings",
     "Copy Settings",
     "Paste Settings",
     "Paste Selected Settings",
@@ -528,6 +530,8 @@ const std::vector<std::string> LRCommandList::LocalAdjustments = {
     "Reset Brush Corrections",
     "Reset Red-Eye",
     "Reset Spot Removal",
+    "Show Mask Overlay",
+    "Cycle Mask Overlay Color",
 };
 
 const std::vector<std::string> LRCommandList::Crop = {
@@ -665,6 +669,8 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "ShoVwpeople",
     /* Develop */
     "SwToMdevelop",
+    "LRCopy",
+    "LRPaste",
     "CopySettings",
     "PasteSettings",
     "PasteSelectedSettings",
@@ -1050,6 +1056,8 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "ResetBrushing",
     "ResetRedeye",
     "ResetSpotRem",
+    "ShowMaskOverlay",
+    "CycleMaskOverlayColor",
     /* Crop */
     "straightenAngle",
     "CropAngle",

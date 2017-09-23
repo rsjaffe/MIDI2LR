@@ -34,12 +34,12 @@ class MIDIProcessor final: private juce::MidiInputCallback {
 public:
     MIDIProcessor() noexcept;
     virtual ~MIDIProcessor();
-    void Init(void);
+    void Init();
 
     // re-enumerates MIDI IN devices
     void RescanDevices();
 
-    template <class T> void addCallback(T* object, void (T::*mf)(RSJ::MidiMessage))
+    template <class T> void addCallback(T* const object, void (T::* const mf)(RSJ::MidiMessage))
     {
         callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
     }

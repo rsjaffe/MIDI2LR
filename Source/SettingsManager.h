@@ -29,8 +29,8 @@ class ProfileManager;
 
 class SettingsManager final {
 public:
-    explicit SettingsManager(ProfileManager* profile_manager);
-    virtual ~SettingsManager() = default;
+    explicit SettingsManager(ProfileManager* const profile_manager);
+    ~SettingsManager() = default;
     void Init(std::weak_ptr<LR_IPC_OUT>&& lr_IPC_OUT);
     bool getPickupEnabled() const noexcept;
     void setPickupEnabled(bool enabled);

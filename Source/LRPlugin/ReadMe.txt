@@ -25,10 +25,6 @@ Setup
    there called MIDI2LR. Right click on this and then Open it, agree to the OSX 
    security question. Only needs to be done once.
 
-   Also, to avoid the "100% CPU utilization" bug, please shut down MIDI2LR app prior
-   to shutting down Lightroom. Debugging assistance welcome--I haven't found the
-   cause yet, and I don't have the setup to test this program in OS X.
-
 4. The MIDI2LR application should automatically launch. If it is closed,
    it can be launched by going to File→Plug-in Extras→Start MIDI2LR
 

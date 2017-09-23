@@ -154,32 +154,35 @@ namespace {
             static_cast<int>(key.size()), &full_character, 1);
         if (return_value == 0) {
             const auto er = GetLastError();
-            if (er == ERROR_INVALID_FLAGS || er == ERROR_INVALID_PARAMETER)
+            switch (er) {
+            case ERROR_INVALID_FLAGS:
+            case ERROR_INVALID_PARAMETER:
                 throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
-            if (er == ERROR_INSUFFICIENT_BUFFER)
+            case ERROR_INSUFFICIENT_BUFFER:
                 throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
-            if (er == ERROR_NO_UNICODE_TRANSLATION)
+            case ERROR_NO_UNICODE_TRANSLATION:
                 throw std::domain_error("Unable to translate: MultiByteToWideChar.");
-            throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+            default:
+                throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+            }
         }
         return full_character;
     }
 
     HKL GetLanguage(const std::string& program_name)
     {
-        const auto hLRWnd = FindWindow(NULL, program_name.c_str());
+        const auto hLRWnd = FindWindow(nullptr, program_name.c_str());
         if (hLRWnd) {
             // get language that LR is using (if hLrWnd is found)
-            const auto thread_id = GetWindowThreadProcessId(hLRWnd, NULL);
+            const auto thread_id = GetWindowThreadProcessId(hLRWnd, nullptr);
             return GetKeyboardLayout(thread_id);
         }
-        else {   // use keyboard of MIDI2LR application
-            return GetKeyboardLayout(0);
-        }
+        // use keyboard of MIDI2LR application
+        return GetKeyboardLayout(0);
     }
 #endif
 
-    static const std::unordered_map<std::string, unsigned char> key_map_ = {
+    const std::unordered_map<std::string, unsigned char> key_map_ = {
 #ifdef _WIN32
         {"backspace", VK_BACK},
         {"cursor down", VK_DOWN},
@@ -286,7 +289,7 @@ namespace {
 #endif
     };
 
-    static std::mutex mutex_sending_{};
+    std::mutex mutex_sending_{};
 }
 
 void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
@@ -321,12 +324,10 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
             strokes.push_back(VK_MENU);
     }
     else {
-        if (control_cmd || (vk_modifiers & 0x2)) {
+        if (control_cmd || (vk_modifiers & 0x2))
             strokes.push_back(VK_CONTROL);
-        }
-        if (alt_opt || (vk_modifiers & 0x4)) {
+        if (alt_opt || (vk_modifiers & 0x4))
             strokes.push_back(VK_MENU);
-        }
     }
 
     // construct input event.
@@ -353,6 +354,8 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     static pid_t lr_pid{0};
     if (lr_pid == 0) {
         lr_pid = GetPID();
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         if (lr_pid) {
             GetProcessForPID(lr_pid, &psn); //first deprecated in macOS 10.9, but no good replacement yet
         }
@@ -360,6 +363,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
             lr_pid = -1; // cannot find LR pid, to try to find the forground process
             GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
         }
+        #pragma GCC diagnostic pop
     }
 
     CGEventRef d;

@@ -41,7 +41,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 //[/Headers]
-
+#include <gsl/gsl>
 #include "CCoptions.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
@@ -260,7 +260,7 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
             ccm = RSJ::CCmethod::signmagnitude;
         else {
             ccm = RSJ::CCmethod::absolute;
-            assert(!"Should be unreachable apply all button");
+            Expects(!"Should be unreachable apply all button");
         }
         controls_model_->setCCall(boundchannel, boundnumber,
             static_cast<short>(minvaltext->getText().getIntValue()),
@@ -275,8 +275,8 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void CCoptions::textEditorFocusLost(TextEditor& t)
 {
-    short val = static_cast<short>(t.getText().getIntValue());
-    String nam = t.getName();
+    const auto val = static_cast<short>(t.getText().getIntValue());
+    const auto nam = t.getName();
     if (nam=="minvaltext")
         controls_model_->setCCmin(boundchannel, boundnumber, val);
     else if (nam=="maxvaltext")

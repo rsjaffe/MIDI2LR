@@ -51,7 +51,7 @@ local function StartDialog(obstable,f)
   local tabviewitems = {} 
   local filterrows, filtercolumns = 5,2
   for column=1, filtercolumns do
-    tabviewitems[column] = f:tab_view_item {title = LOC("$$$/Library/Filter/FilterLabel=Library filter"):gsub(':','')..' '..((column-1)*filterrows+1)..'-'..(column*filterrows), identifier = 'filters-'..((column-1)*filterrows+1)..'-'..(column*filterrows),}
+    tabviewitems[column] = f:tab_view_item {title = ((column-1)*filterrows+1)..'-'..(column*filterrows), identifier = 'filters-'..((column-1)*filterrows+1)..'-'..(column*filterrows),}
     for row=1, filterrows do
       table.insert(tabviewitems[column],f:simple_list {items = filterlist, allows_multiple_selection = false, value = LrView.bind ('filter'..((column-1)*filterrows+row)) })
     end

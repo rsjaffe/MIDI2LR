@@ -47,7 +47,7 @@ CommandMenu::CommandMenu(const RSJ::MidiMessageId& message):
     message_{message}
 {}
 
-void CommandMenu::Init(CommandMap* mapCommand) noexcept
+void CommandMenu::Init(CommandMap* const mapCommand) noexcept
 {
     command_map_ = mapCommand;
 }
@@ -102,14 +102,12 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             juce::PopupMenu subMenu;
             for (const auto& command : menu_entries_[menu_index]) {
                 auto already_mapped = false;
-                if ((index - 1 < LRCommandList::LRStringList.size()) && (command_map_)) {
+                if ((index - 1 < LRCommandList::LRStringList.size()) && (command_map_))
                     already_mapped =
                         command_map_->commandHasAssociatedMessage(LRCommandList::LRStringList[index - 1]);
-                }
 
                 // add each submenu entry, ticking the previously selected entry and
                 // disabling a previously mapped entry
-
                 if (already_mapped)
                     subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
                         index == selected_item_);
@@ -131,14 +129,11 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             // associated to this menu
             if (selected_item_ < std::numeric_limits<size_t>::max())
                 command_map_->removeMessage(message_);
-
             if (result - 1 < LRCommandList::LRStringList.size())
                 setButtonText(LRCommandList::LRStringList[result - 1]);
             else
                 setButtonText(LRCommandList::NextPrevProfile[result - 1 - LRCommandList::LRStringList.size()]);
-
             selected_item_ = result;
-
             // Map the selected command to the CC
             command_map_->addCommandforMessage(result - 1, message_);
         }

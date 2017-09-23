@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef MISC_H_INCLUDED
 #define MISC_H_INCLUDED
-
 #include <atomic>
 
 #ifdef NDEBUG    // asserts disabled
@@ -30,20 +29,42 @@ static constexpr bool ndebug = true;
 static constexpr bool ndebug = false;
 #endif
 
+#ifdef _WIN32
+#include <emmintrin.h>
+#define CPU_RELAX _mm_pause()
+#else
+#define CPU_RELAX __builtin_ia32_pause()
+#endif
+
 namespace RSJ {
-    class spinlock {
-        std::atomic_flag flag{ATOMIC_FLAG_INIT};
+    class RelaxTTasSpinLock {
     public:
+        RelaxTTasSpinLock() = default;
+        ~RelaxTTasSpinLock() = default;
+        RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
+        RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;
+        RelaxTTasSpinLock& operator=(const RelaxTTasSpinLock& other) = delete;
+        RelaxTTasSpinLock& operator=(RelaxTTasSpinLock&& other) = delete;
         void lock() noexcept
         {
-            while (flag.test_and_set(std::memory_order_acquire))
-                /*empty statement--spin until flag is cleared*/;
+            do {
+                while (flag.load(std::memory_order_relaxed))
+                    CPU_RELAX;//spin without expensive exchange
+            } while (flag.exchange(true, std::memory_order_acquire));
         }
+
+        bool try_lock() noexcept
+        {
+            return !flag.exchange(true, std::memory_order_acquire);
+        }
+
         void unlock() noexcept
         {
-            flag.clear(std::memory_order_release);
+            flag.store(false, std::memory_order_release);
         }
+
+    private:
+        std::atomic<bool> flag{false};
     };
 }
-
 #endif  // MISC_H_INCLUDED
