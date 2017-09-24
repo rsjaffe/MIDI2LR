@@ -376,7 +376,7 @@ void MainContentComponent::handleAsyncUpdate()
 
     // Update the command table to add and/or select row corresponding to midi command
     command_table_.updateContent();
-    command_table_.selectRow(static_cast<int>(row_to_select_));
+    command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
 }
 
 void MainContentComponent::timerCallback()

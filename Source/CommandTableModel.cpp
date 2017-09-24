@@ -21,11 +21,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include <algorithm>
+#include <gsl/gsl>
 #include "CommandTableModel.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
 #include "LRCommands.h"
 #include "MidiUtilities.h"
+
 
 CommandTableModel::CommandTableModel() noexcept
 {}
@@ -57,7 +59,7 @@ int CommandTableModel::getNumRows()
 
     // If the number of rows changes, you must call TableListBox::updateContent()
     // to cause it to refresh the list.
-    return static_cast<int>(commands_.size());
+    return gsl::narrow_cast<int>(commands_.size());
 }
 
 void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/, //-V2009 overridden method
@@ -222,7 +224,7 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
 int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const
 {
     const RSJ::MidiMessageId msg_id{midi_channel, midi_data, msgType};
-    return std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin();
+    return gsl::narrow_cast<int>(std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin());
 }
 
 void CommandTableModel::Sort()

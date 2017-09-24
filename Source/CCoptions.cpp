@@ -40,12 +40,13 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-//[/Headers]
 #include <gsl/gsl>
 #include "CCoptions.h"
+#include "ControlsModel.h"
+//[/Headers]
+
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#include "ControlsModel.h"
 ControlsModel* CCoptions::controls_model_{nullptr};
 //[/MiscUserDefs]
 
@@ -263,8 +264,8 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
             Expects(!"Should be unreachable apply all button");
         }
         controls_model_->setCCall(boundchannel, boundnumber,
-            static_cast<short>(minvaltext->getText().getIntValue()),
-            static_cast<short>(maxvaltext->getText().getIntValue()), ccm);
+            gsl::narrow_cast<short>(minvaltext->getText().getIntValue()),
+            gsl::narrow_cast<short>(maxvaltext->getText().getIntValue()), ccm);
         //[/UserButtonCode_applyAll]
     }
 
@@ -275,7 +276,7 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void CCoptions::textEditorFocusLost(TextEditor& t)
 {
-    const auto val = static_cast<short>(t.getText().getIntValue());
+    const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
     const auto nam = t.getName();
     if (nam=="minvaltext")
         controls_model_->setCCmin(boundchannel, boundnumber, val);
@@ -285,9 +286,9 @@ void CCoptions::textEditorFocusLost(TextEditor& t)
 
 void CCoptions::bindToControl(size_t channel, short number)
 {
-    boundchannel = static_cast<short>(channel);
+    boundchannel = gsl::narrow_cast<short>(channel);
     boundnumber = number;
-    controlID->setText("channel "+juce::String(static_cast<unsigned>(channel))+" number "+juce::String(number),
+    controlID->setText("channel "+juce::String(gsl::narrow_cast<unsigned>(channel))+" number "+juce::String(number),
         juce::dontSendNotification);
     minvaltext->setText(juce::String(controls_model_->getCCmin(boundchannel, boundnumber)), juce::dontSendNotification);
     maxvaltext->setText(juce::String(controls_model_->getCCmax(boundchannel, boundnumber)), juce::dontSendNotification);

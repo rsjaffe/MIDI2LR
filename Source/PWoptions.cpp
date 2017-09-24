@@ -40,13 +40,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-
+#include <gsl/gsl>
+#include "PWoptions.h"
+#include "ControlsModel.h"
 //[/Headers]
 
-#include "PWoptions.h"
+
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#include "ControlsModel.h"
+
 ControlsModel* PWoptions::controls_model_{nullptr};
 //[/MiscUserDefs]
 
@@ -157,7 +159,7 @@ void PWoptions::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void PWoptions::textEditorFocusLost(TextEditor& t)
 {
-    const auto val = static_cast<short>(t.getText().getIntValue());
+    const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
     const auto nam = t.getName();
     if (nam=="minval")
         controls_model_->setPWmin(boundchannel, val);

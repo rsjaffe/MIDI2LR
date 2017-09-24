@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <gsl/gsl>
 #include "LR_IPC_Out.h"
 #include "CommandMap.h"
 #include "ControlsModel.h"
@@ -110,7 +111,7 @@ void LR_IPC_OUT::handleAsyncUpdate()
     //check if there is a connection
     if (juce::InterprocessConnection::isConnected()) {
         juce::InterprocessConnection::getSocket()->
-            write(command_copy.c_str(), static_cast<int>(command_copy.length()));
+            write(command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
     }
 }
 
