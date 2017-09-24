@@ -1,5 +1,0 @@
-<map id="mir::scene::Observers" name="mir::scene::Observers">
-<area shape="rect" id="node2" href="$classmir_1_1scene_1_1_observer.html" title="mir::scene::Observer" alt="" coords="5,102,148,129"/>
-<area shape="rect" id="node3" href="$classmir_1_1_basic_observers.html" title="mir::BasicObservers\l\&lt; Observer \&gt;" alt="" coords="173,95,311,136"/>
-<area shape="rect" id="node4" href="$classmir_1_1_thread_safe_list.html" title="mir::ThreadSafeList\l\&lt; std::shared_ptr\&lt; Observer \&gt; \&gt;" alt="" coords="138,5,346,47"/>
-</map>

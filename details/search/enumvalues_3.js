@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['disconnected',['DISCONNECTED',['../_event_type_8h.html#a2628ea8d12e8b2563c32f05dc7fff6faa99c8ce56e7ab246445d3b134724428f3',1,'EventType.h']]]
+  ['note',['NOTE',['../namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65ca10de4bc81f754b19b0d27246a0589c05',1,'RSJ']]]
 ];

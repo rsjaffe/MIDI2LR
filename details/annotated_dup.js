@@ -1,6 +1,5 @@
 var annotated_dup =
 [
-    [ "mir", "namespacemir.html", "namespacemir" ],
     [ "RSJ", "namespace_r_s_j.html", "namespace_r_s_j" ],
     [ "std", null, [
       [ "hash< RSJ::MidiMessageId >", "structstd_1_1hash_3_01_r_s_j_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01_r_s_j_1_1_midi_message_id_01_4" ]
@@ -14,7 +13,7 @@ var annotated_dup =
     [ "ControlsModel", "class_controls_model.html", "class_controls_model" ],
     [ "LR_IPC_IN", "class_l_r___i_p_c___i_n.html", "class_l_r___i_p_c___i_n" ],
     [ "LR_IPC_OUT", "class_l_r___i_p_c___o_u_t.html", "class_l_r___i_p_c___o_u_t" ],
-    [ "LRCommandList", "class_l_r_command_list.html", null ],
+    [ "LRCommandList", "class_l_r_command_list.html", "class_l_r_command_list" ],
     [ "MainContentComponent", "class_main_content_component.html", "class_main_content_component" ],
     [ "MainWindow", "class_main_window.html", "class_main_window" ],
     [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", "class_m_i_d_i2_l_r_application" ],
@@ -28,8 +27,6 @@ var annotated_dup =
     [ "ResizableLayout", "class_resizable_layout.html", "class_resizable_layout" ],
     [ "SettingsComponent", "class_settings_component.html", "class_settings_component" ],
     [ "SettingsManager", "class_settings_manager.html", "class_settings_manager" ],
-    [ "Subject", "class_subject.html", "class_subject" ],
-    [ "threadsafe_queue", "classthreadsafe__queue.html", "classthreadsafe__queue" ],
     [ "TopLevelResizableLayout", "class_top_level_resizable_layout.html", "class_top_level_resizable_layout" ],
     [ "VersionChecker", "class_version_checker.html", "class_version_checker" ]
 ];

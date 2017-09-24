@@ -1,4 +1,5 @@
 <map id="RSJ::MidiMessageId::MidiMessageId" name="RSJ::MidiMessageId::MidiMessageId">
 <area shape="rect" id="node2" href="$class_command_table_model.html#a46557e1861b555327fa394897349df7e" title="CommandTableModel::\laddRow" alt="" coords="195,5,349,47"/>
-<area shape="rect" id="node3" href="$class_main_content_component.html#a44211e748b81415bf68fbfd85fe5f37e" title="MainContentComponent\l::MIDIcmdCallback" alt="" coords="397,5,559,47"/>
+<area shape="rect" id="node4" href="$class_command_table_model.html#ab9f66a1b8b48db81f7a6e94f74d7e1c7" title="CommandTableModel::\lgetRowForMessage" alt="" coords="195,71,349,112"/>
+<area shape="rect" id="node3" href="$class_main_content_component.html#a44211e748b81415bf68fbfd85fe5f37e" title="MainContentComponent\l::MIDIcmdCallback" alt="" coords="397,39,559,80"/>
 </map>

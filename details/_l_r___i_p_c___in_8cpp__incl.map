@@ -1,11 +1,11 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/LR_IPC_In.cpp" name="Q:/Documents/GitHub/MIDI2LR/Source/LR_IPC_In.cpp">
-<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="680,109,775,136"/>
-<area shape="rect" id="node9" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="137,109,254,136"/>
-<area shape="rect" id="node13" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="315,184,415,211"/>
-<area shape="rect" id="node14" href="$_misc_8h.html" title="Misc.h" alt="" coords="1021,266,1082,293"/>
-<area shape="rect" id="node16" href="$_controls_model_8h.html" title="ControlsModel.h" alt="" coords="1465,184,1581,211"/>
-<area shape="rect" id="node24" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="763,184,863,211"/>
-<area shape="rect" id="node25" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="439,184,557,211"/>
-<area shape="rect" id="node26" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="562,109,655,136"/>
-<area shape="rect" id="node27" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="955,109,1078,136"/>
+<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="1613,109,1707,136"/>
+<area shape="rect" id="node9" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="256,109,373,136"/>
+<area shape="rect" id="node13" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="331,184,431,211"/>
+<area shape="rect" id="node14" href="$_misc_8h.html" title="Misc.h" alt="" coords="351,266,412,293"/>
+<area shape="rect" id="node16" href="$_controls_model_8h.html" title="ControlsModel.h" alt="" coords="706,109,822,136"/>
+<area shape="rect" id="node23" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="1489,109,1589,136"/>
+<area shape="rect" id="node24" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="1346,109,1465,136"/>
+<area shape="rect" id="node25" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="1732,109,1825,136"/>
+<area shape="rect" id="node26" href="$_utilities_8h.html" title="Utilities/Utilities.h" alt="" coords="1927,109,2049,136"/>
 </map>

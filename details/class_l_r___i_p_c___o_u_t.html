@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.2.0.0</span>
+   &#160;<span id="projectnumber">2.3.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -141,8 +141,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a95fbf804316aa7566583a49ff72b5eae"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a95fbf804316aa7566583a49ff72b5eae"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a95fbf804316aa7566583a49ff72b5eae">addCallback</a> (T *const object, void(T::*const mf)(bool))</td></tr>
 <tr class="separator:a95fbf804316aa7566583a49ff72b5eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3794fb61fb7b2b41ebec7fb9a02de882"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a3794fb61fb7b2b41ebec7fb9a02de882">Init</a> (const std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midiProcessor)</td></tr>
-<tr class="separator:a3794fb61fb7b2b41ebec7fb9a02de882"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82c5b38c9c3af06fd1bd30a9f91885f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a82c5b38c9c3af06fd1bd30a9f91885f8">Init</a> (<a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> *const midi_processor)</td></tr>
+<tr class="separator:a82c5b38c9c3af06fd1bd30a9f91885f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c844fb1931f5e5102b896402fed0288"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a7c844fb1931f5e5102b896402fed0288">MIDIcmdCallback</a> (<a class="el" href="struct_r_s_j_1_1_midi_message.html">RSJ::MidiMessage</a>)</td></tr>
 <tr class="separator:a7c844fb1931f5e5102b896402fed0288"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16365e97322c26abb3d0fff87465ad5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_r___i_p_c___o_u_t.html#a16365e97322c26abb3d0fff87465ad5e">sendCommand</a> (const std::string &amp;command)</td></tr>
@@ -244,15 +244,15 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a3794fb61fb7b2b41ebec7fb9a02de882"></a>
+<a class="anchor" id="a82c5b38c9c3af06fd1bd30a9f91885f8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void LR_IPC_OUT::Init </td>
           <td>(</td>
-          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>midiProcessor</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> *const&#160;</td>
+          <td class="paramname"><em>midi_processor</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -276,16 +276,16 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00070">70</a> of file <a class="el" href="_l_r___i_p_c___out_8cpp_source.html">LR_IPC_Out.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00068">68</a> of file <a class="el" href="_l_r___i_p_c___out_8cpp_source.html">LR_IPC_Out.cpp</a>.</p>
 
-<p>References <a class="el" href="_midi_utilities_8h_source.html#l00040">RSJ::MidiMessage::channel</a>, <a class="el" href="_controls_model_8h_source.html#l00128">ControlsModel::ControllerToPlugin()</a>, <a class="el" href="_midi_utilities_8h_source.html#l00039">RSJ::MidiMessage::message_type_byte</a>, <a class="el" href="_midi_utilities_8cpp_source.html#l00058">RSJ::MidiMessageId::MidiMessageId()</a>, <a class="el" href="_midi_utilities_8h_source.html#l00041">RSJ::MidiMessage::number</a>, and <a class="el" href="_midi_utilities_8h_source.html#l00042">RSJ::MidiMessage::value</a>.</p>
+<p>References <a class="el" href="_controls_model_8h_source.html#l00131">ControlsModel::ControllerToPlugin()</a>, and <a class="el" href="_midi_utilities_8cpp_source.html#l00056">RSJ::MidiMessageId::MidiMessageId()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_l_r___i_p_c___o_u_t_a7c844fb1931f5e5102b896402fed0288_cgraph.png" border="0" usemap="#class_l_r___i_p_c___o_u_t_a7c844fb1931f5e5102b896402fed0288_cgraph" alt=""/></div>
 <map name="class_l_r___i_p_c___o_u_t_a7c844fb1931f5e5102b896402fed0288_cgraph" id="class_l_r___i_p_c___o_u_t_a7c844fb1931f5e5102b896402fed0288_cgraph">
-<area shape="rect" id="node2" href="class_controls_model.html#abf3ede542b8f223d3c43a4562e3746c7" title="ControlsModel::Controller\lToPlugin" alt="" coords="261,5,429,47"/>
+<area shape="rect" id="node2" href="class_controls_model.html#a4cf94202f50082cd97634873fbecbbb4" title="ControlsModel::Controller\lToPlugin" alt="" coords="261,5,429,47"/>
 <area shape="rect" id="node3" href="struct_r_s_j_1_1_midi_message_id.html#a52c3a4f5a86dc2d5b9c9c74b7b720d07" title="RSJ::MidiMessageId\l::MidiMessageId" alt="" coords="275,71,416,112"/>
 </map>
 </div>
@@ -307,7 +307,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00061">61</a> of file <a class="el" href="_l_r___i_p_c___out_8cpp_source.html">LR_IPC_Out.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00059">59</a> of file <a class="el" href="_l_r___i_p_c___out_8cpp_source.html">LR_IPC_Out.cpp</a>.</p>
 
 </div>
 </div>

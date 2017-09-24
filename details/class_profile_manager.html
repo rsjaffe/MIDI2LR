@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.2.0.0</span>
+   &#160;<span id="projectnumber">2.3.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -147,8 +147,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa03f6e3ff3d38226407934ec3b3237e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39a43ec130d313f5816372d1635cf3cc"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; juce::String &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a39a43ec130d313f5816372d1635cf3cc">getMenuItems</a> () const  noexcept</td></tr>
 <tr class="separator:a39a43ec130d313f5816372d1635cf3cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2067eff2b3cd2f74c3387ef4aba32e1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a2067eff2b3cd2f74c3387ef4aba32e1f">Init</a> (std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, const std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;midi_processor)</td></tr>
-<tr class="separator:a2067eff2b3cd2f74c3387ef4aba32e1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a904b6c80cbe32b798c72bf1ddda27e76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a904b6c80cbe32b798c72bf1ddda27e76">Init</a> (std::weak_ptr&lt; <a class="el" href="class_l_r___i_p_c___o_u_t.html">LR_IPC_OUT</a> &gt; &amp;&amp;out, <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> *const midiProcessor)</td></tr>
+<tr class="separator:a904b6c80cbe32b798c72bf1ddda27e76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25c92f9321a226d4adda26b817ed02e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a25c92f9321a226d4adda26b817ed02e7">MIDIcmdCallback</a> (<a class="el" href="struct_r_s_j_1_1_midi_message.html">RSJ::MidiMessage</a>)</td></tr>
 <tr class="separator:a25c92f9321a226d4adda26b817ed02e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cbf4411cbbdecbb8972acef5148dfe4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_manager.html#a0cbf4411cbbdecbb8972acef5148dfe4">operator=</a> (<a class="el" href="class_profile_manager.html">ProfileManager</a> const &amp;)=delete</td></tr>
@@ -288,7 +288,7 @@ template&lt;class T &gt; </div>
 
 <p>Definition at line <a class="el" href="_profile_manager_8h_source.html#l00047">47</a> of file <a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>.</p>
 
-<p>References <a class="el" href="_profile_manager_8cpp_source.html#l00084">switchToProfile()</a>.</p>
+<p>References <a class="el" href="_profile_manager_8cpp_source.html#l00082">switchToProfile()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -316,7 +316,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00148">148</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00146">146</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -341,11 +341,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00071">71</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00069">69</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a2067eff2b3cd2f74c3387ef4aba32e1f"></a>
+<a class="anchor" id="a904b6c80cbe32b798c72bf1ddda27e76"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -358,8 +358,8 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>midi_processor</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_m_i_d_i_processor.html">MIDIProcessor</a> *const&#160;</td>
+          <td class="paramname"><em>midiProcessor</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -387,7 +387,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00135">135</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00133">133</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -429,7 +429,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00055">55</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00053">53</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -446,7 +446,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00106">106</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00104">104</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -463,7 +463,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00114">114</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00112">112</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -481,7 +481,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00076">76</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00074">74</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -499,7 +499,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00084">84</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_profile_manager_8cpp_source.html#l00082">82</a> of file <a class="el" href="_profile_manager_8cpp_source.html">ProfileManager.cpp</a>.</p>
 
 <p>Referenced by <a class="el" href="_profile_manager_8h_source.html#l00047">addCallback()</a>.</p>
 

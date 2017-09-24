@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['graphics',['graphics',['../namespacemir_1_1graphics.html',1,'mir']]],
   ['main_2ecpp',['Main.cpp',['../_main_8cpp.html',1,'']]],
   ['maincomponent_2ecpp',['MainComponent.cpp',['../_main_component_8cpp.html',1,'']]],
   ['maincomponent_2eh',['MainComponent.h',['../_main_component_8h.html',1,'']]],
@@ -29,13 +28,10 @@ var searchData=
   ['midisender_5fh_5fincluded',['MIDISENDER_H_INCLUDED',['../_m_i_d_i_sender_8h.html#a03ddd2fc24eb87386a3ef3566f784f37',1,'MIDISender.h']]],
   ['midiutilities_2ecpp',['MidiUtilities.cpp',['../_midi_utilities_8cpp.html',1,'']]],
   ['midiutilities_2eh',['MidiUtilities.h',['../_midi_utilities_8h.html',1,'']]],
-  ['mir',['mir',['../namespacemir.html',1,'']]],
   ['misc_2eh',['Misc.h',['../_misc_8h.html',1,'']]],
   ['misc_5fh_5fincluded',['MISC_H_INCLUDED',['../_misc_8h.html#ac7d70dc4e18fe5f6a080a4c0bc6588f7',1,'Misc.h']]],
   ['mixer',['Mixer',['../class_l_r_command_list.html#a429b5f7327b48a9fc07a329b679b8c20',1,'LRCommandList']]],
   ['morethanoneinstanceallowed',['moreThanOneInstanceAllowed',['../class_m_i_d_i2_l_r_application.html#abd55f782b5d696a1d6df5ab3ee03f816',1,'MIDI2LRApplication']]],
-  ['moved_5fto',['moved_to',['../classmir_1_1scene_1_1_surface_observers.html#ab0870948d713a953467cfd4e5b919ebd',1,'mir::scene::SurfaceObservers']]],
   ['msg_5fid_5ftype',['msg_id_type',['../struct_r_s_j_1_1_midi_message_id.html#af2e0cbfa7ca4360cef3db41221d2af6b',1,'RSJ::MidiMessageId']]],
-  ['msgidenum',['MsgIdEnum',['../namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c',1,'RSJ']]],
-  ['scene',['scene',['../namespacemir_1_1scene.html',1,'mir']]]
+  ['msgidenum',['MsgIdEnum',['../namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c',1,'RSJ']]]
 ];

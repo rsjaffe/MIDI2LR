@@ -1,14 +1,13 @@
 var searchData=
 [
-  ['maincontentcomponent',['MainContentComponent',['../class_main_content_component.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb',1,'MainContentComponent::MainContentComponent()'],['../class_main_content_component.html#a5a44920712793b1d33be790b1705e574',1,'MainContentComponent::MainContentComponent(const MainContentComponent &amp;)=delete']]],
-  ['mainwindow',['MainWindow',['../class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f',1,'MainWindow::MainWindow(juce::String name)'],['../class_main_window.html#af1d822d2183a379458e4bc0e2ea2bf3b',1,'MainWindow::MainWindow(const MainWindow &amp;)=delete']]],
-  ['messageexistsinmap',['messageExistsInMap',['../class_command_map.html#a37794dba4ea5fb4602ba2b49a86c29eb',1,'CommandMap']]],
-  ['midi2lrapplication',['MIDI2LRApplication',['../class_m_i_d_i2_l_r_application.html#a88492c86eb83772dffb248cbeff75667',1,'MIDI2LRApplication']]],
-  ['midicmdcallback',['MIDIcmdCallback',['../class_profile_manager.html#a25c92f9321a226d4adda26b817ed02e7',1,'ProfileManager::MIDIcmdCallback()'],['../class_l_r___i_p_c___o_u_t.html#a7c844fb1931f5e5102b896402fed0288',1,'LR_IPC_OUT::MIDIcmdCallback()'],['../class_main_content_component.html#a44211e748b81415bf68fbfd85fe5f37e',1,'MainContentComponent::MIDIcmdCallback()']]],
-  ['midimessage',['MidiMessage',['../struct_r_s_j_1_1_midi_message.html#aeeb833ebac04fb2b7dcd758b8722799c',1,'RSJ::MidiMessage::MidiMessage() noexcept'],['../struct_r_s_j_1_1_midi_message.html#a33cfd7575e96167d1f176a79ad5f5dd8',1,'RSJ::MidiMessage::MidiMessage(short mt, short ch, short nu, short va) noexcept'],['../struct_r_s_j_1_1_midi_message.html#a40e02e251eec8818bb37b5ffc9e66cf2',1,'RSJ::MidiMessage::MidiMessage(const juce::MidiMessage &amp;mm) noexcept(ndebug)']]],
-  ['midimessageid',['MidiMessageId',['../struct_r_s_j_1_1_midi_message_id.html#ac9666b46590086a72b865c059a429317',1,'RSJ::MidiMessageId::MidiMessageId() noexcept'],['../struct_r_s_j_1_1_midi_message_id.html#ae884e0724c95db075e67869626fa1341',1,'RSJ::MidiMessageId::MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept'],['../struct_r_s_j_1_1_midi_message_id.html#a52c3a4f5a86dc2d5b9c9c74b7b720d07',1,'RSJ::MidiMessageId::MidiMessageId(const MidiMessage &amp;rhs) noexcept(ndebug)']]],
-  ['midiprocessor',['MIDIProcessor',['../class_m_i_d_i_processor.html#a52c8a40410e7bfc2c6b55427f0aa50a7',1,'MIDIProcessor']]],
-  ['midisender',['MIDISender',['../class_m_i_d_i_sender.html#a07403c04d637d685ed810aca8bd4579c',1,'MIDISender']]],
-  ['morethanoneinstanceallowed',['moreThanOneInstanceAllowed',['../class_m_i_d_i2_l_r_application.html#abd55f782b5d696a1d6df5ab3ee03f816',1,'MIDI2LRApplication']]],
-  ['moved_5fto',['moved_to',['../classmir_1_1scene_1_1_surface_observers.html#ab0870948d713a953467cfd4e5b919ebd',1,'mir::scene::SurfaceObservers']]]
+  ['paint',['paint',['../class_c_coptions.html#a8f6e7e7e68a1f6fa32e00e12942205e2',1,'CCoptions::paint()'],['../class_p_woptions.html#aa15cb4cecbb83c2bcfc51e0131370a8a',1,'PWoptions::paint()']]],
+  ['paintcell',['paintCell',['../class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339',1,'CommandTableModel']]],
+  ['paintrowbackground',['paintRowBackground',['../class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87',1,'CommandTableModel']]],
+  ['pleasestopthread',['PleaseStopThread',['../class_l_r___i_p_c___i_n.html#a743ecc24843926e97ef181d59b1b25cb',1,'LR_IPC_IN']]],
+  ['plugintocontroller',['PluginToController',['../class_channel_model.html#a301d982711eccd719e550fd1d072de43',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a07212c943c37cff9557a0c75ddd6104a',1,'ControlsModel::PluginToController()']]],
+  ['processmidi',['ProcessMidi',['../class_n_r_p_n___message.html#a371b974b03d367b5092cfe7870031824',1,'NRPN_Message::ProcessMidi()'],['../class_n_r_p_n___filter.html#a757b5bb29ae87dc9193e738eef5187f3',1,'NRPN_Filter::ProcessMidi()']]],
+  ['profilechanged',['profileChanged',['../class_main_content_component.html#aff0f99bdba40757988e4390168ed6356',1,'MainContentComponent']]],
+  ['profilemanager',['ProfileManager',['../class_profile_manager.html#ac147457c9dc4816fe787e3f022489745',1,'ProfileManager::ProfileManager(ControlsModel *const c_model, CommandMap *const cmap) noexcept'],['../class_profile_manager.html#a9fbfc1c269deebffb24cb483c5554d64',1,'ProfileManager::ProfileManager(ProfileManager const &amp;)=delete']]],
+  ['push',['push',['../class_r_s_j_1_1threadsafe__queue.html#a48dcbcecf1bb852c1a3ec97957090f18',1,'RSJ::threadsafe_queue']]],
+  ['pwoptions',['PWoptions',['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions']]]
 ];

@@ -21,7 +21,9 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "LR_IPC_Out.h", "_l_r___i_p_c___out_8h.html", "_l_r___i_p_c___out_8h" ],
     [ "LRCommands.cpp", "_l_r_commands_8cpp.html", null ],
     [ "LRCommands.h", "_l_r_commands_8h.html", "_l_r_commands_8h" ],
-    [ "Main.cpp", "_main_8cpp.html", "_main_8cpp" ],
+    [ "Main.cpp", "_main_8cpp.html", [
+      [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", "class_m_i_d_i2_l_r_application" ]
+    ] ],
     [ "MainComponent.cpp", "_main_component_8cpp.html", null ],
     [ "MainComponent.h", "_main_component_8h.html", "_main_component_8h" ],
     [ "MainWindow.cpp", "_main_window_8cpp.html", null ],

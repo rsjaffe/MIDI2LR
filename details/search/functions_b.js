@@ -1,9 +1,16 @@
 var searchData=
 [
-  ['notify',['notify',['../class_subject.html#a404b24d74160510eae7b08a0d9fd5348',1,'Subject']]],
-  ['notifyother',['NotifyOther',['../class_r_s_j_1_1threadsafe__queue.html#ad048cd8450bcf85de2ddce30a50cc32b',1,'RSJ::threadsafe_queue::NotifyOther()'],['../classthreadsafe__queue.html#abaa336d25e9e7388537888292c60cbf9',1,'threadsafe_queue::NotifyOther()']]],
-  ['now_5fms',['now_ms',['../namespace_r_s_j.html#a0314a8b58a24632f2c0af8410140b620',1,'RSJ']]],
-  ['nrpn',['NRPN',['../struct_r_s_j_1_1_n_r_p_n.html#a9a6fb318864a6b8af8a2f356b864b159',1,'RSJ::NRPN::NRPN()=default'],['../struct_r_s_j_1_1_n_r_p_n.html#adf95cfa37450a289d742c8ba81296c71',1,'RSJ::NRPN::NRPN(bool validity, short controlno, short valueval) noexcept']]],
-  ['nrpn_5ffilter',['NRPN_Filter',['../class_n_r_p_n___filter.html#af98ddc548d36686744a8ba1109173684',1,'NRPN_Filter']]],
-  ['nrpn_5fmessage',['NRPN_Message',['../class_n_r_p_n___message.html#a33d94ed089ff0835afa0117e1d414b37',1,'NRPN_Message']]]
+  ['recalculatelayout',['recalculateLayout',['../class_resizable_layout.html#a8aafc76025187f602a47c6875fc6a23c',1,'ResizableLayout']]],
+  ['refreshcomponentforcell',['refreshComponentForCell',['../class_command_table_model.html#ad6cce73101cffa884e56b4d50377460e',1,'CommandTableModel']]],
+  ['relaxttasspinlock',['RelaxTTasSpinLock',['../class_r_s_j_1_1_relax_t_tas_spin_lock.html#ae7f22a2295c3888f9e8e51ef1a3cd124',1,'RSJ::RelaxTTasSpinLock::RelaxTTasSpinLock()=default'],['../class_r_s_j_1_1_relax_t_tas_spin_lock.html#a2e86adcca7a591c643b603c2cd502e1b',1,'RSJ::RelaxTTasSpinLock::RelaxTTasSpinLock(const RelaxTTasSpinLock &amp;other)=delete'],['../class_r_s_j_1_1_relax_t_tas_spin_lock.html#a6532c2c7292b8cf1c07dfe6323321cb2',1,'RSJ::RelaxTTasSpinLock::RelaxTTasSpinLock(RelaxTTasSpinLock &amp;&amp;other)=delete']]],
+  ['removeallrows',['removeAllRows',['../class_command_table_model.html#aa49fc1e19a98cd9c315d0faa5592758b',1,'CommandTableModel']]],
+  ['removefromlayout',['removeFromLayout',['../class_resizable_layout.html#ad4441decbaeb450d2c393a85d67c3178',1,'ResizableLayout']]],
+  ['removemessage',['removeMessage',['../class_command_map.html#a36ac7cd371e7cca78782b5c2f0fc2208',1,'CommandMap']]],
+  ['removerow',['removeRow',['../class_command_table_model.html#a46d7cafd317a8d72e71c144f89b80429',1,'CommandTableModel']]],
+  ['rescandevices',['RescanDevices',['../class_m_i_d_i_sender.html#a2afaa54965878a2d682001dd54076be7',1,'MIDISender::RescanDevices()'],['../class_m_i_d_i_processor.html#a428ae83cf3c9f8ed7d10ef9d3695fa0e',1,'MIDIProcessor::RescanDevices()']]],
+  ['resizablechild',['ResizableChild',['../class_resizable_child.html#a3cd221aa2e11119f2bee6cc29375b383',1,'ResizableChild']]],
+  ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html#a463232fab8660fd7663adf18381012d2',1,'ResizableLayout']]],
+  ['resized',['resized',['../class_c_coptions.html#a5d08843370dbba861d25fec42f47862f',1,'CCoptions::resized()'],['../class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2',1,'PWoptions::resized()']]],
+  ['resizestart',['resizeStart',['../class_resizable_child.html#a51917604a38f4acd0b4628663028ca74',1,'ResizableChild']]],
+  ['rtrim',['rtrim',['../namespace_r_s_j.html#a16cd63e4c06f69785a058e1811492615',1,'RSJ']]]
 ];

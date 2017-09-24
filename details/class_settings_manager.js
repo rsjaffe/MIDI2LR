@@ -1,7 +1,7 @@
 var class_settings_manager =
 [
     [ "SettingsManager", "class_settings_manager.html#a25345658f5d212560e5f8519b15dd78a", null ],
-    [ "~SettingsManager", "class_settings_manager.html#abec28a8942bba0169af7e955de59dd0e", null ],
+    [ "~SettingsManager", "class_settings_manager.html#a52d99a3329704af7cd146a9009e1d8bf", null ],
     [ "ConnectionCallback", "class_settings_manager.html#a6e115ff726bcaeebc281af85fa7cab9b", null ],
     [ "getAutoHideTime", "class_settings_manager.html#ad32c1e7cb2d920a44ac4b98d764b40ca", null ],
     [ "getLastVersionFound", "class_settings_manager.html#aa4ac5e3e507fe8571d4c008ebc3b5ae8", null ],

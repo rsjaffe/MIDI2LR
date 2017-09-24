@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['observer',['Observer',['../classmir_1_1scene_1_1_observer.html',1,'mir::scene']]],
-  ['observers',['Observers',['../classmir_1_1scene_1_1_observers.html',1,'mir::scene']]]
+  ['relaxttasspinlock',['RelaxTTasSpinLock',['../class_r_s_j_1_1_relax_t_tas_spin_lock.html',1,'RSJ']]],
+  ['resizablechild',['ResizableChild',['../class_resizable_child.html',1,'']]],
+  ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html',1,'']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['nrpnmessage_2ecpp',['NrpnMessage.cpp',['../_nrpn_message_8cpp.html',1,'']]],
-  ['nrpnmessage_2eh',['NrpnMessage.h',['../_nrpn_message_8h.html',1,'']]]
+  ['resizablelayout_2ecpp',['ResizableLayout.cpp',['../_resizable_layout_8cpp.html',1,'']]],
+  ['resizablelayout_2eh',['ResizableLayout.h',['../_resizable_layout_8h.html',1,'']]]
 ];

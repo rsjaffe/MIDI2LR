@@ -5,7 +5,7 @@ var searchData=
   ['paintrowbackground',['paintRowBackground',['../class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87',1,'CommandTableModel']]],
   ['pitch',['pitch',['../struct_r_s_j_1_1_midi_message_id.html#a59a7f0a255ef452f76e219dafd403934',1,'RSJ::MidiMessageId']]],
   ['pitchbend',['PITCHBEND',['../namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65ca0a2db7e0135c29ea78f67ddea73dcf85',1,'RSJ']]],
-  ['pleasestopthread',['PleaseStopThread',['../class_l_r___i_p_c___i_n.html#a9da691b1161678e44d862b8105e91abf',1,'LR_IPC_IN']]],
+  ['pleasestopthread',['PleaseStopThread',['../class_l_r___i_p_c___i_n.html#a743ecc24843926e97ef181d59b1b25cb',1,'LR_IPC_IN']]],
   ['plugintocontroller',['PluginToController',['../class_channel_model.html#a301d982711eccd719e550fd1d072de43',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a07212c943c37cff9557a0c75ddd6104a',1,'ControlsModel::PluginToController()']]],
   ['processmidi',['ProcessMidi',['../class_n_r_p_n___message.html#a371b974b03d367b5092cfe7870031824',1,'NRPN_Message::ProcessMidi()'],['../class_n_r_p_n___filter.html#a757b5bb29ae87dc9193e738eef5187f3',1,'NRPN_Filter::ProcessMidi()']]],
   ['profilechanged',['profileChanged',['../class_main_content_component.html#aff0f99bdba40757988e4390168ed6356',1,'MainContentComponent']]],
@@ -14,7 +14,7 @@ var searchData=
   ['profilemanager_2eh',['ProfileManager.h',['../_profile_manager_8h.html',1,'']]],
   ['profilemanager_5fh_5fincluded',['PROFILEMANAGER_H_INCLUDED',['../_profile_manager_8h.html#a0b23e478115c51d09aaae064ee97e276',1,'ProfileManager.h']]],
   ['programprofiles',['ProgramProfiles',['../class_l_r_command_list.html#a2bc87e858f0e1eca63e959001f697103',1,'LRCommandList']]],
-  ['push',['push',['../class_r_s_j_1_1threadsafe__queue.html#a48dcbcecf1bb852c1a3ec97957090f18',1,'RSJ::threadsafe_queue::push()'],['../classthreadsafe__queue.html#a5c9a2a886367d5e77cb6438462432e11',1,'threadsafe_queue::Push()']]],
+  ['push',['push',['../class_r_s_j_1_1threadsafe__queue.html#a48dcbcecf1bb852c1a3ec97957090f18',1,'RSJ::threadsafe_queue']]],
   ['pwoptions',['PWoptions',['../class_p_woptions.html',1,'PWoptions'],['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions::PWoptions()']]],
   ['pwoptions_2ecpp',['PWoptions.cpp',['../_p_woptions_8cpp.html',1,'']]],
   ['pwoptions_2eh',['PWoptions.h',['../_p_woptions_8h.html',1,'']]]

@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['paint',['paint',['../class_c_coptions.html#a8f6e7e7e68a1f6fa32e00e12942205e2',1,'CCoptions::paint()'],['../class_p_woptions.html#aa15cb4cecbb83c2bcfc51e0131370a8a',1,'PWoptions::paint()']]],
-  ['paintcell',['paintCell',['../class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339',1,'CommandTableModel']]],
-  ['paintrowbackground',['paintRowBackground',['../class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87',1,'CommandTableModel']]],
-  ['pleasestopthread',['PleaseStopThread',['../class_l_r___i_p_c___i_n.html#a9da691b1161678e44d862b8105e91abf',1,'LR_IPC_IN']]],
-  ['plugintocontroller',['PluginToController',['../class_channel_model.html#a301d982711eccd719e550fd1d072de43',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a07212c943c37cff9557a0c75ddd6104a',1,'ControlsModel::PluginToController()']]],
-  ['processmidi',['ProcessMidi',['../class_n_r_p_n___message.html#a371b974b03d367b5092cfe7870031824',1,'NRPN_Message::ProcessMidi()'],['../class_n_r_p_n___filter.html#a757b5bb29ae87dc9193e738eef5187f3',1,'NRPN_Filter::ProcessMidi()']]],
-  ['profilechanged',['profileChanged',['../class_main_content_component.html#aff0f99bdba40757988e4390168ed6356',1,'MainContentComponent']]],
-  ['profilemanager',['ProfileManager',['../class_profile_manager.html#ac147457c9dc4816fe787e3f022489745',1,'ProfileManager::ProfileManager(ControlsModel *const c_model, CommandMap *const cmap) noexcept'],['../class_profile_manager.html#a9fbfc1c269deebffb24cb483c5554d64',1,'ProfileManager::ProfileManager(ProfileManager const &amp;)=delete']]],
-  ['push',['push',['../class_r_s_j_1_1threadsafe__queue.html#a48dcbcecf1bb852c1a3ec97957090f18',1,'RSJ::threadsafe_queue::push()'],['../classthreadsafe__queue.html#a5c9a2a886367d5e77cb6438462432e11',1,'threadsafe_queue::Push()']]],
-  ['pwoptions',['PWoptions',['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions']]]
+  ['threadsafe_5fqueue',['threadsafe_queue',['../class_r_s_j_1_1threadsafe__queue.html#a0fa5d307121af1945e43073c17bb0cdc',1,'RSJ::threadsafe_queue']]],
+  ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_top_level_resizable_layout.html#af29b22c3f9484cd604e08cead5692589',1,'TopLevelResizableLayout']]],
+  ['toxmldocument',['toXMLDocument',['../class_command_map.html#af61c26e79b72634ca8fd77b7233e12a5',1,'CommandMap']]],
+  ['trim',['trim',['../namespace_r_s_j.html#a1a0a6e6178ac22831c221c6b38e3405d',1,'RSJ']]],
+  ['try_5flock',['try_lock',['../class_r_s_j_1_1_relax_t_tas_spin_lock.html#a00f61a0cf770dbfb01fe292666878fb2',1,'RSJ::RelaxTTasSpinLock']]],
+  ['try_5fpop',['try_pop',['../class_r_s_j_1_1threadsafe__queue.html#aaed8a9de4116574247a32d0d28c5a51c',1,'RSJ::threadsafe_queue::try_pop(T &amp;value)'],['../class_r_s_j_1_1threadsafe__queue.html#a30de112a911b26960ec4bc9a46b0fe34',1,'RSJ::threadsafe_queue::try_pop()']]]
 ];

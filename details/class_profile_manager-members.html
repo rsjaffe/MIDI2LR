@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.2.0.0</span>
+   &#160;<span id="projectnumber">2.3.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('class_profile_manager.html','');});
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a1741fb861dcc8181b98f010bb85edc7b">addCallback</a>(T *const object, void(T::*const mf)(juce::XmlElement *, const juce::String &amp;))</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile_manager.html#aa03f6e3ff3d38226407934ec3b3237e5">ConnectionCallback</a>(bool)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a39a43ec130d313f5816372d1635cf3cc">getMenuItems</a>() const  noexcept</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a2067eff2b3cd2f74c3387ef4aba32e1f">Init</a>(std::weak_ptr&lt; LR_IPC_OUT &gt; &amp;&amp;out, const std::shared_ptr&lt; MIDIProcessor &gt; &amp;midi_processor)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_profile_manager.html#a904b6c80cbe32b798c72bf1ddda27e76">Init</a>(std::weak_ptr&lt; LR_IPC_OUT &gt; &amp;&amp;out, MIDIProcessor *const midiProcessor)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#a25c92f9321a226d4adda26b817ed02e7">MIDIcmdCallback</a>(RSJ::MidiMessage)</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_profile_manager.html#a0cbf4411cbbdecbb8972acef5148dfe4">operator=</a>(ProfileManager const &amp;)=delete</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_profile_manager.html#ac147457c9dc4816fe787e3f022489745">ProfileManager</a>(ControlsModel *const c_model, CommandMap *const cmap) noexcept</td><td class="entry"><a class="el" href="class_profile_manager.html">ProfileManager</a></td><td class="entry"></td></tr>

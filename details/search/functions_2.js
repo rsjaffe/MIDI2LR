@@ -1,12 +1,10 @@
 var searchData=
 [
-  ['calcboundsofchildren',['calcBoundsOfChildren',['../class_resizable_layout.html#acc37523bda0ff4d250d4024c599207cc',1,'ResizableLayout']]],
+  ['calcboundsofchildren',['calcBoundsOfChildren',['../class_resizable_layout.html#a94ecea095ab66c30121aa71cf187eb38',1,'ResizableLayout']]],
   ['ccoptions',['CCoptions',['../class_c_coptions.html#a1d8d9d83f1823c1f016de242ecfe44d3',1,'CCoptions']]],
   ['cereal_5fclass_5fversion',['CEREAL_CLASS_VERSION',['../_controls_model_8h.html#a8064cee950e8015c705f49513c4d578e',1,'CEREAL_CLASS_VERSION(ChannelModel, 2):&#160;ControlsModel.h'],['../_controls_model_8h.html#ad02f5cc3c1deeb028bafffddf3175b9f',1,'CEREAL_CLASS_VERSION(ControlsModel, 1):&#160;ControlsModel.h'],['../_controls_model_8h.html#aa746c949546bc0ea45dc29a5ca658a09',1,'CEREAL_CLASS_VERSION(RSJ::SettingsStruct, 1):&#160;ControlsModel.h']]],
   ['channelmodel',['ChannelModel',['../class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170',1,'ChannelModel::ChannelModel()'],['../class_channel_model.html#ae58634778121ef70d9463efae626ac46',1,'ChannelModel::ChannelModel(const ChannelModel &amp;)=delete'],['../class_channel_model.html#a94970f20ecec2eb2ed52200a45fbb203',1,'ChannelModel::ChannelModel(ChannelModel &amp;&amp;)=delete']]],
-  ['clear',['clear',['../classmir_1_1_thread_safe_list.html#a41cc2da12fcf34384ce2fa71b55c3c94',1,'mir::ThreadSafeList']]],
   ['clearmap',['clearMap',['../class_command_map.html#a0c2d2b3cf78355b900858a92a8945ea6',1,'CommandMap']]],
-  ['client_5fsurface_5fclose_5frequested',['client_surface_close_requested',['../classmir_1_1scene_1_1_surface_observers.html#a0793525353857506429714f1dc81ce3e',1,'mir::scene::SurfaceObservers']]],
   ['commandhasassociatedmessage',['commandHasAssociatedMessage',['../class_command_map.html#aa9baad26f298df96cd9e9d432676a06d',1,'CommandMap']]],
   ['commandmap',['CommandMap',['../class_command_map.html#a17917c3a5fb0f352b09b4a42344e4d11',1,'CommandMap::CommandMap() noexcept'],['../class_command_map.html#a79cf73e560ee615d892b6e5fa38ffead',1,'CommandMap::CommandMap(const CommandMap &amp;)=delete']]],
   ['commandmenu',['CommandMenu',['../class_command_menu.html#ad161e6e869e7d5f05790e231429a38ca',1,'CommandMenu']]],
@@ -14,9 +12,7 @@ var searchData=
   ['commandtablemodel',['CommandTableModel',['../class_command_table_model.html#a8d3504f4bea9dbc35e2d17930508b921',1,'CommandTableModel::CommandTableModel() noexcept'],['../class_command_table_model.html#a453446bc5758a638f82e047f16436c18',1,'CommandTableModel::CommandTableModel(const CommandTableModel &amp;)=delete']]],
   ['connectioncallback',['ConnectionCallback',['../class_profile_manager.html#aa03f6e3ff3d38226407934ec3b3237e5',1,'ProfileManager::ConnectionCallback()'],['../class_settings_manager.html#a6e115ff726bcaeebc281af85fa7cab9b',1,'SettingsManager::ConnectionCallback()']]],
   ['contains',['contains',['../namespace_r_s_j.html#ac939503555fbd52e720502b663d1b046',1,'RSJ']]],
-  ['controllertoplugin',['ControllerToPlugin',['../class_channel_model.html#a0419896bfb71c6f6ec8da1457e16c3e8',1,'ChannelModel::ControllerToPlugin()'],['../class_controls_model.html#abf3ede542b8f223d3c43a4562e3746c7',1,'ControlsModel::ControllerToPlugin()']]],
+  ['controllertoplugin',['ControllerToPlugin',['../class_channel_model.html#a0419896bfb71c6f6ec8da1457e16c3e8',1,'ChannelModel::ControllerToPlugin()'],['../class_controls_model.html#a4cf94202f50082cd97634873fbecbbb4',1,'ControlsModel::ControllerToPlugin()']]],
   ['controlsmodel',['ControlsModel',['../class_controls_model.html#aa007c9d352d9f92734c62f7d146ee4d5',1,'ControlsModel::ControlsModel()'],['../class_controls_model.html#a23c6411981fe10b19ab2ffb6a3459ab8',1,'ControlsModel::ControlsModel(const ControlsModel &amp;)=delete'],['../class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8',1,'ControlsModel::ControlsModel(ControlsModel &amp;&amp;)=delete']]],
-  ['counter',['counter',['../struct_r_s_j_1_1counter.html#ab28229eb3f79dfd59be3d0e815c926f8',1,'RSJ::counter::counter() noexcept'],['../struct_r_s_j_1_1counter.html#a113e50335b9c444a0cbce7764cf37506',1,'RSJ::counter::counter(const counter &amp;) noexcept'],['../struct_r_s_j_1_1counter.html#ae4d4b41a638f0663aff81d835ecd0e84',1,'RSJ::counter::counter(counter &amp;&amp;) noexcept']]],
-  ['cursor_5fimage_5fremoved',['cursor_image_removed',['../classmir_1_1scene_1_1_surface_observers.html#aacc5649cdb49220e2bf89f837d3829f7',1,'mir::scene::SurfaceObservers']]],
-  ['cursor_5fimage_5fset_5fto',['cursor_image_set_to',['../classmir_1_1scene_1_1_surface_observers.html#a7361516e3db3560decbc0bac1ccd53d2',1,'mir::scene::SurfaceObservers']]]
+  ['counter',['counter',['../struct_r_s_j_1_1counter.html#ab28229eb3f79dfd59be3d0e815c926f8',1,'RSJ::counter::counter() noexcept'],['../struct_r_s_j_1_1counter.html#a113e50335b9c444a0cbce7764cf37506',1,'RSJ::counter::counter(const counter &amp;) noexcept'],['../struct_r_s_j_1_1counter.html#ae4d4b41a638f0663aff81d835ecd0e84',1,'RSJ::counter::counter(counter &amp;&amp;) noexcept']]]
 ];

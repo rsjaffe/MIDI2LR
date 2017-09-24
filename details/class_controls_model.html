@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.2.0.0</span>
+   &#160;<span id="projectnumber">2.3.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -129,8 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a361ee198c1dca17bb175bf76e928e8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae598d9113a0c3705592140a1199d1569"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controls_model.html#ae598d9113a0c3705592140a1199d1569">~ControlsModel</a> ()=default</td></tr>
 <tr class="separator:ae598d9113a0c3705592140a1199d1569"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf3ede542b8f223d3c43a4562e3746c7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controls_model.html#abf3ede542b8f223d3c43a4562e3746c7">ControllerToPlugin</a> (short controltype, size_t channel, short controlnumber, short value) noexcept(ndebug)</td></tr>
-<tr class="separator:abf3ede542b8f223d3c43a4562e3746c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cf94202f50082cd97634873fbecbbb4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controls_model.html#a4cf94202f50082cd97634873fbecbbb4">ControllerToPlugin</a> (const <a class="el" href="struct_r_s_j_1_1_midi_message.html">RSJ::MidiMessage</a> &amp;mm) noexcept(ndebug)</td></tr>
+<tr class="separator:a4cf94202f50082cd97634873fbecbbb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70f6018abd645cf7211e6d5285507939"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controls_model.html#a70f6018abd645cf7211e6d5285507939">getCCmax</a> (size_t channel, short controlnumber) const  noexcept(ndebug)</td></tr>
 <tr class="separator:a70f6018abd645cf7211e6d5285507939"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cbacc47d51950353e89a13c07ac9be6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_r_s_j.html#ae8a1ba44063d299ffca391860807ce69">RSJ::CCmethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controls_model.html#a6cbacc47d51950353e89a13c07ac9be6">getCCmethod</a> (size_t channel, short controlnumber) const  noexcept(ndebug)</td></tr>
@@ -169,7 +169,7 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00118">118</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00120">120</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aa007c9d352d9f92734c62f7d146ee4d5"></a>
 <div class="memitem">
@@ -192,7 +192,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00120">120</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00122">122</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -268,7 +268,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="abf3ede542b8f223d3c43a4562e3746c7"></a>
+<a class="anchor" id="a4cf94202f50082cd97634873fbecbbb4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -278,31 +278,9 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">double ControlsModel::ControllerToPlugin </td>
           <td>(</td>
-          <td class="paramtype">short&#160;</td>
-          <td class="paramname"><em>controltype</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="struct_r_s_j_1_1_midi_message.html">RSJ::MidiMessage</a> &amp;&#160;</td>
+          <td class="paramname"><em>mm</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>channel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">short&#160;</td>
-          <td class="paramname"><em>controlnumber</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">short&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -312,15 +290,15 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00128">128</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00131">131</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
-<p>Referenced by <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00070">LR_IPC_OUT::MIDIcmdCallback()</a>.</p>
+<p>Referenced by <a class="el" href="_l_r___i_p_c___out_8cpp_source.html#l00068">LR_IPC_OUT::MIDIcmdCallback()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_controls_model_abf3ede542b8f223d3c43a4562e3746c7_icgraph.png" border="0" usemap="#class_controls_model_abf3ede542b8f223d3c43a4562e3746c7_icgraph" alt=""/></div>
-<map name="class_controls_model_abf3ede542b8f223d3c43a4562e3746c7_icgraph" id="class_controls_model_abf3ede542b8f223d3c43a4562e3746c7_icgraph">
+<div class="center"><img src="class_controls_model_a4cf94202f50082cd97634873fbecbbb4_icgraph.png" border="0" usemap="#class_controls_model_a4cf94202f50082cd97634873fbecbbb4_icgraph" alt=""/></div>
+<map name="class_controls_model_a4cf94202f50082cd97634873fbecbbb4_icgraph" id="class_controls_model_a4cf94202f50082cd97634873fbecbbb4_icgraph">
 <area shape="rect" id="node2" href="class_l_r___i_p_c___o_u_t.html#a7c844fb1931f5e5102b896402fed0288" title="LR_IPC_OUT::MIDIcmdCallback" alt="" coords="221,13,429,39"/>
 </map>
 </div>
@@ -360,7 +338,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00138">138</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00143">143</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -396,7 +374,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00133">133</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00137">137</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 <p>Referenced by <a class="el" href="_c_coptions_8cpp_source.html#l00286">CCoptions::bindToControl()</a>.</p>
 
@@ -444,7 +422,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00143">143</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00149">149</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -470,7 +448,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00148">148</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00155">155</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +474,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00153">153</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00161">161</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -592,7 +570,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00158">158</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00167">167</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -646,7 +624,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00163">163</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00173">173</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -700,7 +678,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00168">168</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00178">178</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -742,7 +720,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00173">173</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00184">184</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -784,7 +762,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00178">178</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00190">190</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -826,7 +804,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00183">183</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00196">196</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -862,7 +840,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00188">188</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00202">202</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -898,7 +876,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00193">193</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00208">208</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>
@@ -921,7 +899,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00197">197</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
+<p>Definition at line <a class="el" href="_controls_model_8h_source.html#l00215">215</a> of file <a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>.</p>
 
 </div>
 </div>

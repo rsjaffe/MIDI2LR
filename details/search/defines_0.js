@@ -3,5 +3,6 @@ var searchData=
   ['commandmap_5fh_5fincluded',['COMMANDMAP_H_INCLUDED',['../_command_map_8h.html#ac0c6edd2dcf89a561fe4ce571149a7c0',1,'CommandMap.h']]],
   ['commandmenu_5fh_5fincluded',['COMMANDMENU_H_INCLUDED',['../_command_menu_8h.html#aa8827829ba6fe6db2feddb50a252b543',1,'CommandMenu.h']]],
   ['commandtable_5fh_5fincluded',['COMMANDTABLE_H_INCLUDED',['../_command_table_8h.html#ab2a57326fe7334ff771509d4902e3093',1,'CommandTable.h']]],
-  ['commandtablemodel_5fh',['COMMANDTABLEMODEL_H',['../_command_table_model_8h.html#ad27890611afa8cbcd0dc2b3aa8e7a1c1',1,'CommandTableModel.h']]]
+  ['commandtablemodel_5fh',['COMMANDTABLEMODEL_H',['../_command_table_model_8h.html#ad27890611afa8cbcd0dc2b3aa8e7a1c1',1,'CommandTableModel.h']]],
+  ['cpu_5frelax',['CPU_RELAX',['../_misc_8h.html#a13145a5381714b1208044380235ffbf9',1,'Misc.h']]]
 ];

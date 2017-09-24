@@ -2,7 +2,6 @@ var searchData=
 [
   ['kccflag',['kCCFlag',['../namespace_r_s_j.html#a108ff40656bd50df8ece242697d3d8cd',1,'RSJ']]],
   ['kchanpressureflag',['kChanPressureFlag',['../namespace_r_s_j.html#af094b0d162f8985ff9ed700df573ec5b',1,'RSJ']]],
-  ['keymap_5fchanged',['keymap_changed',['../classmir_1_1scene_1_1_surface_observers.html#ae60fb6f76e61a76f8266731a1ffdf1bc',1,'mir::scene::SurfaceObservers']]],
   ['keyshortcuts',['KeyShortcuts',['../class_l_r_command_list.html#a2075210fecb31cd19414844293a35579',1,'LRCommandList']]],
   ['kkeypressureflag',['kKeyPressureFlag',['../namespace_r_s_j.html#aa60799dab5d8e3797c0284109e522d79',1,'RSJ']]],
   ['knoteoffflag',['kNoteOffFlag',['../namespace_r_s_j.html#a796c3b94e9a676f01cc869b3b58084e3',1,'RSJ']]],

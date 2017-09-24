@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['msgidenum',['MsgIdEnum',['../namespace_r_s_j.html#a45732ba190d17bd00577dd22809bf65c',1,'RSJ']]]
+  ['style',['Style',['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8',1,'ResizableLayout']]]
 ];

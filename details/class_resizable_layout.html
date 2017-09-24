@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.2.0.0</span>
+   &#160;<span id="projectnumber">2.3.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -113,7 +113,6 @@ $(document).ready(function(){initNavTree('class_resizable_layout.html','');});
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="class_resizable_layout-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -130,7 +129,7 @@ Inheritance diagram for ResizableLayout:</div>
 <area shape="rect" id="node4" href="class_main_content_component.html" title="MainContentComponent" alt="" coords="5,155,167,181"/>
 <area shape="rect" id="node5" href="class_settings_component.html" title="SettingsComponent" alt="" coords="191,155,327,181"/>
 <area shape="rect" id="node6" href="class_top_level_resizable_layout.html" title="TopLevelResizableLayout" alt="" coords="351,155,519,181"/>
-<area shape="rect" id="node2" href="class_resizable_child.html" title="ResizableChild" alt="" coords="133,5,241,32"/>
+<area shape="rect" id="node2" href="class_resizable_child.html" title="ResizableChild" alt="" coords="125,5,233,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -154,75 +153,52 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a234ea8d8a9594d6f2625e290b9fd4bb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a234ea8d8a9594d6f2625e290b9fd4bb3">ResizableLayout</a> (Component *owner)</td></tr>
-<tr class="separator:a234ea8d8a9594d6f2625e290b9fd4bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a463232fab8660fd7663adf18381012d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a463232fab8660fd7663adf18381012d2">ResizableLayout</a> (juce::Component *owner)</td></tr>
+<tr class="separator:a463232fab8660fd7663adf18381012d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05aab7565920919ed1a7c62e8a4544bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc">~ResizableLayout</a> ()</td></tr>
 <tr class="separator:a05aab7565920919ed1a7c62e8a4544bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b5d3846e9bff81de103f0097763cedb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a5b5d3846e9bff81de103f0097763cedb">activateLayout</a> (bool isActive=true)</td></tr>
-<tr class="separator:a5b5d3846e9bff81de103f0097763cedb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab78c732d14d0ac2f4afd7b76f20ec6c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#ab78c732d14d0ac2f4afd7b76f20ec6c9">addToLayout</a> (Component *component, const Point&lt; int &gt; &amp;topLeft, const Point&lt; int &gt; &amp;bottomRight=<a class="el" href="class_resizable_layout.html#abce74413941372b048841736701d502b">anchorNone</a>, <a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8">Style</a> style=<a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70">styleStretch</a>)</td></tr>
-<tr class="separator:ab78c732d14d0ac2f4afd7b76f20ec6c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14d9dad6dfc415e8d49f1e858f8abc26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a14d9dad6dfc415e8d49f1e858f8abc26">recalculateLayout</a> ()</td></tr>
-<tr class="separator:a14d9dad6dfc415e8d49f1e858f8abc26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addf2cdc690e1c6b4cea5fdf37547f84a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#addf2cdc690e1c6b4cea5fdf37547f84a">removeFromLayout</a> (Component *component)</td></tr>
-<tr class="separator:addf2cdc690e1c6b4cea5fdf37547f84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaf331423c7c8994bd5945893f1e212d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#abaf331423c7c8994bd5945893f1e212d">updateLayoutFor</a> (Component *component)</td></tr>
-<tr class="separator:abaf331423c7c8994bd5945893f1e212d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4d193db907fc27c85e2045170b6710"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#afd4d193db907fc27c85e2045170b6710">activateLayout</a> (bool isActive=true) noexcept</td></tr>
+<tr class="separator:afd4d193db907fc27c85e2045170b6710"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59717eb43f92a399b2619d3c5aff495a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a59717eb43f92a399b2619d3c5aff495a">addToLayout</a> (juce::Component *component, const juce::Point&lt; int &gt; &amp;topLeft, const juce::Point&lt; int &gt; &amp;bottomRight=juce::Point&lt; int &gt;{-1,-1}, <a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8">Style</a> style=<a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70">styleStretch</a>)</td></tr>
+<tr class="separator:a59717eb43f92a399b2619d3c5aff495a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aafc76025187f602a47c6875fc6a23c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a8aafc76025187f602a47c6875fc6a23c">recalculateLayout</a> () const </td></tr>
+<tr class="separator:a8aafc76025187f602a47c6875fc6a23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4441decbaeb450d2c393a85d67c3178"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#ad4441decbaeb450d2c393a85d67c3178">removeFromLayout</a> (juce::Component *component) noexcept</td></tr>
+<tr class="separator:ad4441decbaeb450d2c393a85d67c3178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d50b5102dd652d52be7f5f9259d3745"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a3d50b5102dd652d52be7f5f9259d3745">updateLayoutFor</a> (juce::Component *component) noexcept</td></tr>
+<tr class="separator:a3d50b5102dd652d52be7f5f9259d3745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_resizable_child"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_resizable_child')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_resizable_child.html">ResizableChild</a></td></tr>
-<tr class="memitem:a7f1450e61061b26d05d786f5d9df9dfb inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a7f1450e61061b26d05d786f5d9df9dfb">ResizableChild</a> ()</td></tr>
-<tr class="separator:a7f1450e61061b26d05d786f5d9df9dfb inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cd221aa2e11119f2bee6cc29375b383 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a3cd221aa2e11119f2bee6cc29375b383">ResizableChild</a> () noexcept</td></tr>
+<tr class="separator:a3cd221aa2e11119f2bee6cc29375b383 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57a06b3f6301466017274dc58aea8904 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a57a06b3f6301466017274dc58aea8904">~ResizableChild</a> ()=default</td></tr>
 <tr class="separator:a57a06b3f6301466017274dc58aea8904 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afedf9f9fbe96c0bc1a0713b65b1cf55e inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#afedf9f9fbe96c0bc1a0713b65b1cf55e">getMaximumHeight</a> () const </td></tr>
-<tr class="separator:afedf9f9fbe96c0bc1a0713b65b1cf55e inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78a85e1a87e5d3c0071c8eb6aa673aab inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a78a85e1a87e5d3c0071c8eb6aa673aab">getMaximumWidth</a> () const </td></tr>
-<tr class="separator:a78a85e1a87e5d3c0071c8eb6aa673aab inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dc554161d4b994494326227a96a644c inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a3dc554161d4b994494326227a96a644c">getMinimumHeight</a> () const </td></tr>
-<tr class="separator:a3dc554161d4b994494326227a96a644c inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a799c8cf06801b7da7fd6d987892740e1 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a799c8cf06801b7da7fd6d987892740e1">getMinimumWidth</a> () const </td></tr>
-<tr class="separator:a799c8cf06801b7da7fd6d987892740e1 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b7b79d443e5d8f9220f9fa2e5a48e3d inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a2b7b79d443e5d8f9220f9fa2e5a48e3d">setMaximumHeight</a> (int maximumHeight)</td></tr>
-<tr class="separator:a2b7b79d443e5d8f9220f9fa2e5a48e3d inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2e6df2570a948fba95123abe5864a27 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#ab2e6df2570a948fba95123abe5864a27">setMaximumSize</a> (int maximumWidth, int maximumHeight)</td></tr>
-<tr class="separator:ab2e6df2570a948fba95123abe5864a27 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af320c3d8d97e1a29871b83a161970530 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#af320c3d8d97e1a29871b83a161970530">setMaximumWidth</a> (int maximumWidth)</td></tr>
-<tr class="separator:af320c3d8d97e1a29871b83a161970530 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a25c9c476e606c79a091ea171fde10d inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a9a25c9c476e606c79a091ea171fde10d">setMinimumHeight</a> (int minimumHeight)</td></tr>
-<tr class="separator:a9a25c9c476e606c79a091ea171fde10d inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9859e8527b8f19602eedbd57834460f8 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a9859e8527b8f19602eedbd57834460f8">setMinimumSize</a> (int minimumWidth, int minimumHeight)</td></tr>
-<tr class="separator:a9859e8527b8f19602eedbd57834460f8 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43531c929c933e13b16f15d8d5b966e7 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a43531c929c933e13b16f15d8d5b966e7">setMinimumWidth</a> (int minimumWidth)</td></tr>
-<tr class="separator:a43531c929c933e13b16f15d8d5b966e7 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a398c4578e8a3a95aab126e565ddaba83 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a398c4578e8a3a95aab126e565ddaba83">setSizeLimits</a> (int minimumWidth, int minimumHeight, int maximumWidth, int maximumHeight)</td></tr>
-<tr class="separator:a398c4578e8a3a95aab126e565ddaba83 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd80742a0071648779bfde2d384f319f inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#acd80742a0071648779bfde2d384f319f">getMaximumHeight</a> () const  noexcept</td></tr>
+<tr class="separator:acd80742a0071648779bfde2d384f319f inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b9ddc8c46b2c2d8ba5e849ea14fa3a inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#aa1b9ddc8c46b2c2d8ba5e849ea14fa3a">getMaximumWidth</a> () const  noexcept</td></tr>
+<tr class="separator:aa1b9ddc8c46b2c2d8ba5e849ea14fa3a inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad983c155a58a8d5928fa6238dd8ea986 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#ad983c155a58a8d5928fa6238dd8ea986">getMinimumHeight</a> () const  noexcept</td></tr>
+<tr class="separator:ad983c155a58a8d5928fa6238dd8ea986 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f917e025e83f2faf298d225f1d49b5 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#ac6f917e025e83f2faf298d225f1d49b5">getMinimumWidth</a> () const  noexcept</td></tr>
+<tr class="separator:ac6f917e025e83f2faf298d225f1d49b5 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac42436f9026cc48a7b5c664b0baf9a9b inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#ac42436f9026cc48a7b5c664b0baf9a9b">setMaximumHeight</a> (int maximumHeight) noexcept</td></tr>
+<tr class="separator:ac42436f9026cc48a7b5c664b0baf9a9b inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f0557b50ee84be207f878a5f29e963 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a59f0557b50ee84be207f878a5f29e963">setMaximumSize</a> (int maximumWidth, int maximumHeight) noexcept</td></tr>
+<tr class="separator:a59f0557b50ee84be207f878a5f29e963 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b7a9551a9644400d85670fe99d65ea3 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a8b7a9551a9644400d85670fe99d65ea3">setMaximumWidth</a> (int maximumWidth) noexcept</td></tr>
+<tr class="separator:a8b7a9551a9644400d85670fe99d65ea3 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8cad7ee6aa23c2903b73e99c3797238 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#ad8cad7ee6aa23c2903b73e99c3797238">setMinimumHeight</a> (int minimumHeight) noexcept</td></tr>
+<tr class="separator:ad8cad7ee6aa23c2903b73e99c3797238 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9b221219ca57e39463d02038e862f3 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#abf9b221219ca57e39463d02038e862f3">setMinimumSize</a> (int minimumWidth, int minimumHeight) noexcept</td></tr>
+<tr class="separator:abf9b221219ca57e39463d02038e862f3 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14ec1a71ff8895915425ae1110a184d3 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a14ec1a71ff8895915425ae1110a184d3">setMinimumWidth</a> (int minimumWidth) noexcept</td></tr>
+<tr class="separator:a14ec1a71ff8895915425ae1110a184d3 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad587afb2c26121aa4b10f124fd9964 inherit pub_methods_class_resizable_child"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_child.html#a7ad587afb2c26121aa4b10f124fd9964">setSizeLimits</a> (int minimumWidth, int minimumHeight, int maximumWidth, int maximumHeight) noexcept</td></tr>
+<tr class="separator:a7ad587afb2c26121aa4b10f124fd9964 inherit pub_methods_class_resizable_child"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:acc37523bda0ff4d250d4024c599207cc"><td class="memItemLeft" align="right" valign="top">static Rectangle&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#acc37523bda0ff4d250d4024c599207cc">calcBoundsOfChildren</a> (Component *parent)</td></tr>
-<tr class="separator:acc37523bda0ff4d250d4024c599207cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a778d3ca9fec5a324830da19b3bbe11d0"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a778d3ca9fec5a324830da19b3bbe11d0">anchorBottomCenter</a></td></tr>
-<tr class="separator:a778d3ca9fec5a324830da19b3bbe11d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b288f975b0c381a804481f22e2d210d"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a1b288f975b0c381a804481f22e2d210d">anchorBottomLeft</a></td></tr>
-<tr class="separator:a1b288f975b0c381a804481f22e2d210d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa82aa0e719c90476a7999e755758149"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#afa82aa0e719c90476a7999e755758149">anchorBottomRight</a></td></tr>
-<tr class="separator:afa82aa0e719c90476a7999e755758149"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1ab269eda949795945f8b989c9c8ba5"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#ad1ab269eda949795945f8b989c9c8ba5">anchorMidCenter</a></td></tr>
-<tr class="separator:ad1ab269eda949795945f8b989c9c8ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d19f1f0f2f03555f9dd88f5aaf591a4"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a4d19f1f0f2f03555f9dd88f5aaf591a4">anchorMidLeft</a></td></tr>
-<tr class="separator:a4d19f1f0f2f03555f9dd88f5aaf591a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01a1484282b237f3275003ee4808ed51"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a01a1484282b237f3275003ee4808ed51">anchorMidRight</a></td></tr>
-<tr class="separator:a01a1484282b237f3275003ee4808ed51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abce74413941372b048841736701d502b"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#abce74413941372b048841736701d502b">anchorNone</a></td></tr>
-<tr class="separator:abce74413941372b048841736701d502b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a3531e2f855d5f0bd1853810ec6433d"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a8a3531e2f855d5f0bd1853810ec6433d">anchorTopCenter</a></td></tr>
-<tr class="separator:a8a3531e2f855d5f0bd1853810ec6433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90210bba2e6bf70f0809e6247f8456fd"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a90210bba2e6bf70f0809e6247f8456fd">anchorTopLeft</a></td></tr>
-<tr class="separator:a90210bba2e6bf70f0809e6247f8456fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d575831c569628868e960db24f37397"><td class="memItemLeft" align="right" valign="top">static const Point&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a1d575831c569628868e960db24f37397">anchorTopRight</a></td></tr>
-<tr class="separator:a1d575831c569628868e960db24f37397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94ecea095ab66c30121aa71cf187eb38"><td class="memItemLeft" align="right" valign="top">static juce::Rectangle&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a94ecea095ab66c30121aa71cf187eb38">calcBoundsOfChildren</a> (juce::Component *parent) noexcept</td></tr>
+<tr class="separator:a94ecea095ab66c30121aa71cf187eb38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -231,7 +207,7 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00139">139</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00146">146</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="ab060b861a48a7de097545c90518e57d9"></a>
 <div class="memitem">
@@ -247,7 +223,7 @@ Friends</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00143">143</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00148">148</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
 
 </div>
 </div>
@@ -267,36 +243,36 @@ Friends</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00147">147</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00152">152</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a234ea8d8a9594d6f2625e290b9fd4bb3"></a>
+<a class="anchor" id="a463232fab8660fd7663adf18381012d2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">ResizableLayout::ResizableLayout </td>
           <td>(</td>
-          <td class="paramtype">Component *&#160;</td>
+          <td class="paramtype">juce::Component *&#160;</td>
           <td class="paramname"><em>owner</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00085">85</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00088">88</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
-<p>References <a class="el" href="_resizable_layout_8cpp_source.html#l00085">ResizableLayout()</a>.</p>
+<p>References <a class="el" href="_resizable_layout_8cpp_source.html#l00088">ResizableLayout()</a>.</p>
 
-<p>Referenced by <a class="el" href="_resizable_layout_8cpp_source.html#l00085">ResizableLayout()</a>.</p>
+<p>Referenced by <a class="el" href="_resizable_layout_8cpp_source.html#l00088">ResizableLayout()</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_cgraph.png" border="0" usemap="#class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_cgraph" alt=""/></div>
-<map name="class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_cgraph" id="class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_cgraph">
+<div class="center"><img src="class_resizable_layout_a463232fab8660fd7663adf18381012d2_cgraph.png" border="0" usemap="#class_resizable_layout_a463232fab8660fd7663adf18381012d2_cgraph" alt=""/></div>
+<map name="class_resizable_layout_a463232fab8660fd7663adf18381012d2_cgraph" id="class_resizable_layout_a463232fab8660fd7663adf18381012d2_cgraph">
 </map>
 </div>
 </p>
@@ -304,8 +280,8 @@ Here is the call graph for this function:</div>
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_icgraph.png" border="0" usemap="#class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_icgraph" alt=""/></div>
-<map name="class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_icgraph" id="class_resizable_layout_a234ea8d8a9594d6f2625e290b9fd4bb3_icgraph">
+<div class="center"><img src="class_resizable_layout_a463232fab8660fd7663adf18381012d2_icgraph.png" border="0" usemap="#class_resizable_layout_a463232fab8660fd7663adf18381012d2_icgraph" alt=""/></div>
+<map name="class_resizable_layout_a463232fab8660fd7663adf18381012d2_icgraph" id="class_resizable_layout_a463232fab8660fd7663adf18381012d2_icgraph">
 </map>
 </div>
 </p>
@@ -325,14 +301,17 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00093">93</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00097">97</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5b5d3846e9bff81de103f0097763cedb"></a>
+<a class="anchor" id="afd4d193db907fc27c85e2045170b6710"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void ResizableLayout::activateLayout </td>
@@ -342,33 +321,38 @@ Here is the caller graph for this function:</div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00119">119</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00125">125</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab78c732d14d0ac2f4afd7b76f20ec6c9"></a>
+<a class="anchor" id="a59717eb43f92a399b2619d3c5aff495a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void ResizableLayout::addToLayout </td>
           <td>(</td>
-          <td class="paramtype">Component *&#160;</td>
+          <td class="paramtype">juce::Component *&#160;</td>
           <td class="paramname"><em>component</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Point&lt; int &gt; &amp;&#160;</td>
+          <td class="paramtype">const juce::Point&lt; int &gt; &amp;&#160;</td>
           <td class="paramname"><em>topLeft</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Point&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>bottomRight</em> = <code><a class="el" href="class_resizable_layout.html#abce74413941372b048841736701d502b">anchorNone</a></code>, </td>
+          <td class="paramtype">const juce::Point&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>bottomRight</em> = <code>juce::Point&lt;int&gt;{-1,-1}</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -384,11 +368,11 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00095">95</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00100">100</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="acc37523bda0ff4d250d4024c599207cc"></a>
+<a class="anchor" id="a94ecea095ab66c30121aa71cf187eb38"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -398,23 +382,23 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">Rectangle&lt; int &gt; ResizableLayout::calcBoundsOfChildren </td>
           <td>(</td>
-          <td class="paramtype">Component *&#160;</td>
+          <td class="paramtype">juce::Component *&#160;</td>
           <td class="paramname"><em>parent</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00229">229</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00245">245</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a14d9dad6dfc415e8d49f1e858f8abc26"></a>
+<a class="anchor" id="a8aafc76025187f602a47c6875fc6a23c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -422,50 +406,64 @@ Here is the caller graph for this function:</div>
           <td class="memname">void ResizableLayout::recalculateLayout </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00160">160</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
-
-<p>References <a class="el" href="_resizable_layout_8h_source.html#l00149">styleFixedAspect</a>, and <a class="el" href="_resizable_layout_8h_source.html#l00148">styleStretch</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00170">170</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="addf2cdc690e1c6b4cea5fdf37547f84a"></a>
+<a class="anchor" id="ad4441decbaeb450d2c393a85d67c3178"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void ResizableLayout::removeFromLayout </td>
           <td>(</td>
-          <td class="paramtype">Component *&#160;</td>
+          <td class="paramtype">juce::Component *&#160;</td>
           <td class="paramname"><em>component</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00114">114</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00119">119</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="abaf331423c7c8994bd5945893f1e212d"></a>
+<a class="anchor" id="a3d50b5102dd652d52be7f5f9259d3745"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void ResizableLayout::updateLayoutFor </td>
           <td>(</td>
-          <td class="paramtype">Component *&#160;</td>
+          <td class="paramtype">juce::Component *&#160;</td>
           <td class="paramname"><em>component</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00136">136</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8cpp_source.html#l00144">144</a> of file <a class="el" href="_resizable_layout_8cpp_source.html">ResizableLayout.cpp</a>.</p>
 
 </div>
 </div>
@@ -488,228 +486,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00205">205</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a778d3ca9fec5a324830da19b3bbe11d0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorBottomCenter</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00160">160</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1b288f975b0c381a804481f22e2d210d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorBottomLeft</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00159">159</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afa82aa0e719c90476a7999e755758149"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorBottomRight</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00161">161</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad1ab269eda949795945f8b989c9c8ba5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorMidCenter</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00157">157</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4d19f1f0f2f03555f9dd88f5aaf591a4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorMidLeft</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00156">156</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a01a1484282b237f3275003ee4808ed51"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorMidRight</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00158">158</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="abce74413941372b048841736701d502b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorNone</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00152">152</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8a3531e2f855d5f0bd1853810ec6433d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorTopCenter</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00154">154</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a90210bba2e6bf70f0809e6247f8456fd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorTopLeft</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00153">153</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1d575831c569628868e960db24f37397"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Point&lt; int &gt; ResizableLayout::anchorTopRight</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00155">155</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
+<p>Definition at line <a class="el" href="_resizable_layout_8h_source.html#l00192">192</a> of file <a class="el" href="_resizable_layout_8h_source.html">ResizableLayout.h</a>.</p>
 
 </div>
 </div>

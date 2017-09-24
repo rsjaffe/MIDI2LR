@@ -6,7 +6,7 @@ var class_profile_manager =
     [ "addCallback", "class_profile_manager.html#a1741fb861dcc8181b98f010bb85edc7b", null ],
     [ "ConnectionCallback", "class_profile_manager.html#aa03f6e3ff3d38226407934ec3b3237e5", null ],
     [ "getMenuItems", "class_profile_manager.html#a39a43ec130d313f5816372d1635cf3cc", null ],
-    [ "Init", "class_profile_manager.html#a2067eff2b3cd2f74c3387ef4aba32e1f", null ],
+    [ "Init", "class_profile_manager.html#a904b6c80cbe32b798c72bf1ddda27e76", null ],
     [ "MIDIcmdCallback", "class_profile_manager.html#a25c92f9321a226d4adda26b817ed02e7", null ],
     [ "operator=", "class_profile_manager.html#a0cbf4411cbbdecbb8972acef5148dfe4", null ],
     [ "setProfileDirectory", "class_profile_manager.html#af95ce2ad04ffffae98504a44962c9030", null ],
