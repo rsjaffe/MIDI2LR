@@ -86,7 +86,7 @@ void LR_IPC_IN::run()
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
-            char line[kBufferSize + 1] = {' '};//plus one for \0 at end //TODO "line" is not necessarily zero-terminated, but std::string(line).back() expects it to be so
+            char line[kBufferSize + 1] = {0};//plus one for \0 at end
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
