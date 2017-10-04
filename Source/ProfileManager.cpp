@@ -133,8 +133,8 @@ void ProfileManager::mapCommand(const RSJ::MidiMessageId& msg)
 
 void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
 {
-    const RSJ::MidiMessageId cc = mm;
     if (command_map_) {
+        const RSJ::MidiMessageId cc = mm;
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
         if ((controls_model_->ControllerToPlugin(mm) < 0.4)
