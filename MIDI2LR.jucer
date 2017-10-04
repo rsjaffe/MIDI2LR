@@ -95,8 +95,6 @@
         <MODULEPATH id="juce_data_structures" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_core" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_graphics" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode\modules"/>
       </MODULEPATHS>
@@ -112,13 +110,11 @@
                        defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_graphics" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_events" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_data_structures" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_core" path="JuceLibraryCode\modules"/>
-        <MODULEPATH id="juce_audio_formats" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_audio_devices" path="JuceLibraryCode\modules"/>
         <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode\modules"/>
       </MODULEPATHS>
@@ -127,13 +123,11 @@
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_events" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
                JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="disabled"
