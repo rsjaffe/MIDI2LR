@@ -266,8 +266,8 @@ end
 
 local function UpdateCameraProfile(name)
   return function()
-    CU.fChangePanel('calibratePanel')
-    CU.ApplySettings({
+    fChangePanel('calibratePanel')
+    ApplySettings({
         CameraProfile = name
       })
   end
@@ -283,8 +283,8 @@ end
 
 local function UpdatePointCurve(settings)
   return function()
-    CU.fChangePanel('tonePanel')
-    CU.ApplySettings(settings)
+    fChangePanel('tonePanel')
+    ApplySettings(settings)
   end
 end
 

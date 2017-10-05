@@ -170,7 +170,7 @@ public:
         return allControls_[channel].PluginToController(controltype, controlnumber, value);
     }
 
-    void setCC(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept
+    void setCC(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug)
     {
         Expects(channel <= 15);
         allControls_[channel].setCC(controlnumber, min, max, controltype);

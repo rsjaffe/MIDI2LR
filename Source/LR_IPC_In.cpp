@@ -189,7 +189,7 @@ void LR_IPC_IN::processLine(const std::string& line) const
                 }
                 const auto value = controls_model_->PluginToController(msgtype,
                     static_cast<size_t>(msg->channel - 1),
-                    static_cast<short>(msg->controller), original_value);
+                    gsl::narrow_cast<short>(msg->controller), original_value);
 
                 if (midi_sender_) {
                     switch (msgtype) {
@@ -198,7 +198,7 @@ void LR_IPC_IN::processLine(const std::string& line) const
                         break;
                     case RSJ::kCCFlag:
                         if (controls_model_->getCCmethod(static_cast<size_t>(msg->channel - 1),
-                            static_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
+                            gsl::narrow_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
                             midi_sender_->sendCC(msg->channel, msg->controller, value);
                         break;
                     case RSJ::kPWFlag:

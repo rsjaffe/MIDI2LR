@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdexcept>
 #include <unordered_map>
 #include <vector>
+#include <gsl/gsl>
 #ifdef _WIN32
 #include "Windows.h"
 #else
@@ -151,7 +152,7 @@ namespace {
     {
         wchar_t full_character;
         const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
-            static_cast<int>(key.size()), &full_character, 1);
+            gsl::narrow_cast<int>(key.size()), &full_character, 1);
         if (return_value == 0) {
             const auto er = GetLastError();
             switch (er) {

@@ -341,3 +341,5 @@ Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.app
 *.iml
 
 rtmidi/midiprobe
+
+Source/LRPlugin/luacheck\.results

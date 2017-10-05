@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-
+#include <gsl/gsl>
 #include "CommandMenu.h"
 #include "CCoptions.h"
 #include "CommandMap.h"
@@ -74,7 +74,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
         {
             CCoptions ccopt;
             ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
-                static_cast<short>(message_.controller));
+            gsl::narrow_cast<short>(message_.controller));
             juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
                 juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
@@ -95,7 +95,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
         size_t index = 1;
         auto submenu_tick_set = false;
         juce::PopupMenu main_menu;
-        main_menu.addItem(index, "Unmapped", true, submenu_tick_set = (index == selected_item_));
+        main_menu.addItem(gsl::narrow_cast<int>(index), "Unmapped", true, submenu_tick_set = (index == selected_item_));
         index++;
         // add each submenu
         for (size_t menu_index = 0; menu_index < menus_.size(); ++menu_index) {
@@ -109,10 +109,10 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                 // add each submenu entry, ticking the previously selected entry and
                 // disabling a previously mapped entry
                 if (already_mapped)
-                    subMenu.addColouredItem(static_cast<int>(index), command, juce::Colours::red, true,
+                    subMenu.addColouredItem(gsl::narrow_cast<int>(index), command, juce::Colours::red, true,
                         index == selected_item_);
                 else
-                    subMenu.addItem(static_cast<int>(index), command, true, index == selected_item_);
+                    subMenu.addItem(gsl::narrow_cast<int>(index), command, true, index == selected_item_);
 
                 index++;
             }
