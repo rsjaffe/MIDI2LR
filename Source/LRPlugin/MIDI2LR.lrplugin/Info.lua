@@ -18,7 +18,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 return {
-  LrForceInitPlugin = true,  
+  LrForceInitPlugin = true, 
+  LrAlsoUseBuiltInTranslations = true, 
+  LrPluginInfoUrl = 'https://github.com/rsjaffe/MIDI2LR/wiki',
   LrInitPlugin = 'Client.lua', -- Main client logic
   LrPluginName = 'MIDI2LR',
   LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
