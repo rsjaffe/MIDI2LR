@@ -648,7 +648,9 @@ local DataBase = {
   {"ResetRedeye",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetRedeye=Reset Red-Eye"),localizedAdjustments,"Delete red eye correction. *button*"},
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
   {"ShowMaskOverlay",false,false,true,false,true,false,LOC("$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay"),localizedAdjustments,"Show or hide the mask overlay. *button*"},
-  {"CycleMaskOverlayColor",false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color"):gsub("&",""),localizedAdjustments,"Change Mask Overlay Color. *button*"},
+  {"CycleMaskOverlayColor",false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Cycle Mask Overlay Color"):gsub("&",""),localizedAdjustments,"Change Mask Overlay Color. *button*"},
+  {"Flow",false,false,true,false,false,false,LOC("$$$/AgDevelop/LocalizedToolbar/Flow=Flow"),localizedAdjustments,"Adjust the Flow by increments of 10. *button*"},
+  {"Feather",false,false,true,false,false,false,LOC("$$$/AgDevelop/LocalizedToolbar/Feather=Feather"),localizedAdjustments,"Decrease / Increase Feather Size by increment of 5. *button*"},
 --
 -- Misc
 --

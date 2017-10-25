@@ -532,6 +532,8 @@ const std::vector<std::string> LRCommandList::LocalAdjustments = {
     "Reset Spot Removal",
     "Show Mask Overlay",
     "Cycle Mask Overlay Color",
+    "Flow",
+    "Feather",
 };
 
 const std::vector<std::string> LRCommandList::Crop = {
@@ -1058,6 +1060,8 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "ResetSpotRem",
     "ShowMaskOverlay",
     "CycleMaskOverlayColor",
+    "Flow",
+    "Feather",
     /* Crop */
     "straightenAngle",
     "CropAngle",

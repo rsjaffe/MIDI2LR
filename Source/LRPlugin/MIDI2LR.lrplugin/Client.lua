@@ -93,6 +93,8 @@ LrTasks.startAsyncTask(
     local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
+    local LastFlow         = 1
+    local LastFeather      = 0.5
 
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
@@ -358,7 +360,25 @@ LrTasks.startAsyncTask(
         else
           UpdateParam = UpdateParamNoPickup
         end
-      end, 
+      end,
+      Flow               = function(value)
+        if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+          MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+        end
+      end,
+      Feather            = function(value)
+        if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+          if value == 0 or LastFeather > value then
+            LastFeather = value
+            MIDI2LR.SERVER:send(string.format('SendKey 4[\n', keys))
+          else
+            if value == 1 or LastFeather < value then
+              LastFeather = value
+              MIDI2LR.SERVER:send(string.format('SendKey 4]\n', keys))
+            end
+          end
+        end
+      end
     }
 
     --called within LrRecursionGuard for setting
