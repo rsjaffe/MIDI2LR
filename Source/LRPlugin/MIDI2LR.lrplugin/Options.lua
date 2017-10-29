@@ -30,9 +30,15 @@ local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
+---[[-----------debug section, enable by adding - to beginning this line
+local LrMobdebug = import 'LrMobdebug'
+--]]-----------end debug section
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
+      ---[[-----------debug section, enable by adding - to beginning this line
+      LrMobdebug.on()
+      --]]-----------end debug section
       local f = LrView.osFactory()
       local properties = LrBinding.makePropertyTable( context )
       --following not managed by another module

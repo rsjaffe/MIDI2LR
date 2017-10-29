@@ -21,9 +21,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 local LrApplication = import 'LrApplication'
 local LrView        = import 'LrView'
+local numfilters = 12
 
 local function StartDialog(obstable,f)
-  for i = 1,10 do
+  for i = 1,numfilters do
     obstable['filter'..i] = {}
     obstable['filter'..i][1] = ProgramPreferences.Filters[i]
   end
@@ -34,8 +35,12 @@ local function StartDialog(obstable,f)
     table.insert(filterlist,{title = t, value = u})
     filtersbyuuid[u] = t
   end 
-  local groupboxfilters = {}
-  for i=1,10 do
+  local groupboxfilters = {spacing = f:control_spacing(),
+    f:spacer {
+      height = f:control_spacing() * 2,
+    }, -- spacer
+  }
+  for i=1,numfilters do
     table.insert( 
       groupboxfilters, 
       f:push_button {fill_horizontal = 1,
@@ -49,7 +54,7 @@ local function StartDialog(obstable,f)
     )
   end
   local tabviewitems = {} 
-  local filterrows, filtercolumns = 5,2
+  local filterrows, filtercolumns = 4,3 -- x*y must equal local numfilters, above
   for column=1, filtercolumns do
     tabviewitems[column] = f:tab_view_item {title = ((column-1)*filterrows+1)..'-'..(column*filterrows), identifier = 'filters-'..((column-1)*filterrows+1)..'-'..(column*filterrows),}
     for row=1, filterrows do
@@ -63,13 +68,7 @@ local function StartDialog(obstable,f)
       spacing = f:control_spacing(),
       f:tab_view (tabviewitems), -- tab_view
     }, -- column
-    f:column{ -- for the display of chosen filters
-      spacing = f:control_spacing(),
-      f:spacer {
-        height = f:control_spacing() * 2,
-      }, -- spacer
-      unpack (groupboxfilters), 
-    }, -- column
+    f:column(groupboxfilters), -- column
   } -- row
 end
 
@@ -77,7 +76,7 @@ end
 local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.Filters = {} -- empty out prior settings
-    for i = 1,10 do
+    for i = 1,numfilters do
       if type(obstable['filter'..i])=='table' then -- simple_list should return a table
         ProgramPreferences.Filters[i] = obstable['filter'..i][1]
       end

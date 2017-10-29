@@ -19,10 +19,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 local LrApplication = import 'LrApplication'
 local LrView        = import 'LrView'
+local number_of_presets = 64
 
 local function StartDialog(obstable,f)
   --populate table with presets
-  for i = 1,40 do
+  for i = 1,number_of_presets do
     obstable['preset'..i] = {}
     obstable['preset'..i][1] = ProgramPreferences.Presets[i]
   end
@@ -34,72 +35,58 @@ local function StartDialog(obstable,f)
       table.insert(psList,{title = foldname..'\226\134\146'..pst:getName(), value = pst:getUuid()})
     end -- '\226\134\146' is right arrow in utf8
   end
-  -- set up presets list for the groupbox on the right of the presets selection dialog
-  local groupboxpresets = {}
-  for i=1,20 do
-    table.insert( 
-      groupboxpresets, 
-      f:push_button {fill_horizontal = 1,
-        width_in_chars = 40,
-        truncation = 'head',
-        action = function() obstable['preset'..i] = nil end,
-        title = LrView.bind { key = 'preset'..i,
-          transform = function(value) return i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
+  -- following variable set up number of rows and columns
+  -- row*col must equal number_of_presets
+  local group_rows, group_cols = 4,16
+  local button_rows, button_cols = 16,4
+  -- set up buttons on the right of the presets selection dialog
+  local buttonpresets = {}
+  for i = 1, button_cols do
+    buttonpresets[i] = {
+      spacing = f:control_spacing(),
+      f:spacer { height = f:control_spacing() * 2}
+    }
+    for j = 1, button_rows do
+      local k = button_rows * (i - 1) + j
+
+      buttonpresets[i][#buttonpresets[i]+1] = f:push_button {fill_horizontal = 1, width_in_chars = 40, truncation = 'head',
+        action = function() obstable['preset'..k] = nil end,
+        title = LrView.bind { key = 'preset'..k,
+          transform = function(value) return k..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
         },  -- title
-      } -- static_text
-    )
-  end
-  local groupboxpresets2 = {}
-  for i=21,40 do
-    table.insert( 
-      groupboxpresets2, 
-      f:push_button {fill_horizontal = 1,
-        width_in_chars = 40,
-        truncation = 'head',
-        action = function() obstable['preset'..i] = nil end,
-        title = LrView.bind { key = 'preset'..i,
-          transform = function(value) return i..' '..(LrApplication.developPresetByUuid(value[1]):getName()) end
-        },  -- title
-      } -- static_text
-    )
-  end
-  -- set up groups of preset listings
-  local tabviewitems = {} 
-  local psrows, pscolumns = 4,10
-  for column=1, pscolumns do
-    tabviewitems[column] = f:tab_view_item {title = ((column-1)*psrows+1)..'-'..(column*psrows), identifier = 'presets-'..((column-1)*psrows+1)..'-'..(column*psrows),}
-    for row=1, psrows do
-      table.insert(tabviewitems[column],f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..((column-1)*psrows+row)) })
+      } -- push_button
+
     end
-    tabviewitems[column] = f:tab_view_item (tabviewitems[column]) -- prepare for use in f:tabview below
-  end 
-  return 
-  f:row {
-    f:column {
-      spacing = f:control_spacing(),
-      f:tab_view (tabviewitems), -- tab_view
-    }, -- column
-    f:column{ -- for the display of chosen presets
-      spacing = f:control_spacing(),
-      f:spacer {
-        height = f:control_spacing() * 2,
-      }, -- spacer
-      unpack (groupboxpresets), -- list of 20
-    }, -- column
-    f:column{ -- for the display of chosen presets
-      spacing = f:control_spacing(),
-      f:spacer {
-        height = f:control_spacing() * 2,
-      }, -- spacer
-      unpack (groupboxpresets2), -- list of 20
-    }, -- column
-  } -- row
+  end
+  -- set up group boxes on left of selection dialog
+  local grouppresets = {}
+  for i = 1, group_cols do
+    grouppresets[i] = {}
+    for j = 1, group_rows do
+      local k = group_rows * (i - 1) + j
+      grouppresets[i][#grouppresets[i]+1] = f:simple_list {items = psList, allows_multiple_selection = false, value = LrView.bind ('preset'..k) }
+    end
+  end
+  -- set up tabs
+  local tabs = {}
+  for i = 1,group_cols do
+    local j = math.floor((i*group_rows-1)/button_rows)+1 --to determine which list of selected presets to include
+    local label = (i-1)*group_rows+1 .. '-' ..i*group_rows
+    tabs[i] = f:tab_view_item {title = label, 
+      identifier = 'tabview-'..label,
+      f:row{
+        f:column(grouppresets[i]),
+        f:column(buttonpresets[j]) --for some reason, only shows in first group of each 'j' even though it is properly assigned
+      } -- row
+    } -- tabviewitem
+  end
+  return f:tab_view(tabs)
 end
 
 local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.Presets = {} -- empty out prior settings
-    for i = 1,40 do
+    for i = 1,number_of_presets do
       if type(obstable['preset'..i])=='table' then -- simple_list should return a table
         ProgramPreferences.Presets[i] = obstable['preset'..i][1]
       end
