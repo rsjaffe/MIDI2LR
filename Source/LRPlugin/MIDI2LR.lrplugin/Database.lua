@@ -3,7 +3,7 @@
 Database.lua
 Source of translations and menu for app and plugin
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -752,7 +752,7 @@ file:write([=[
   is updated or the language used by Lightroom changes. Edit Database.lua
   if you want to have persistent changes to the translations or menu structure.
 
-  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
   MIDI2LR is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later version.
@@ -779,7 +779,7 @@ file:write([=[
   language used by Lightroom changes. Edit Database.lua if you want to have 
   persistent changes to the translations or menu structure.
 
-  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
   MIDI2LR is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later version.
