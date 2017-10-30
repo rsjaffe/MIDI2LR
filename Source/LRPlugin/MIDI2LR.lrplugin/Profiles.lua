@@ -43,7 +43,7 @@ local function doprofilechange(newprofile)
   end
   loadedprofile = newprofile
   if LrApplicationView.getCurrentModuleName() == 'develop' and 
-    LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+  LrApplication.activeCatalog():getTargetPhoto() ~= nil then
     -- refresh MIDI controller since mapping has changed
     for _,param in ipairs(ParamList.SendToMidi) do
       local min,max = Limits.GetMinMax(param)
@@ -121,7 +121,7 @@ local function StartDialog(obstable,f)
     for filePath in LrFileUtils.files(profilepath) do
       local _, fn, ext = filePath:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
       if ext == 'xml' then
-        table.insert(completion,fn)
+        completion[#completion+1] = fn
       end
     end
   end

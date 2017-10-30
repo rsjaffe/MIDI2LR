@@ -32,7 +32,7 @@ local function StartDialog(obstable,f)
   for _,fold in pairs(LrApplication.developPresetFolders()) do
     local foldname = fold:getName()
     for _,pst in pairs(fold:getDevelopPresets()) do
-      table.insert(psList,{title = foldname..'\226\134\146'..pst:getName(), value = pst:getUuid()})
+      psList[#psList+1] = {title = foldname..'\226\134\146'..pst:getName(), value = pst:getUuid()}
     end -- '\226\134\146' is right arrow in utf8
   end
   -- following variable set up number of rows and columns

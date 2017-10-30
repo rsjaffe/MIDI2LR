@@ -32,7 +32,7 @@ local function StartDialog(obstable,f)
   local filtersbyuuid = {}
   local filterlist = {}
   for t,u in pairs(allfilters) do
-    table.insert(filterlist,{title = t, value = u})
+    filterlist[#filterlist+1] = {title = t, value = u}
     filtersbyuuid[u] = t
   end 
   local groupboxfilters = {spacing = f:control_spacing(),
@@ -41,24 +41,25 @@ local function StartDialog(obstable,f)
     }, -- spacer
   }
   for i=1,numfilters do
-    table.insert( 
-      groupboxfilters, 
-      f:push_button {fill_horizontal = 1,
-        width_in_chars = 40,
-        truncation = 'head',
-        action = function() obstable['filter'..i] = nil end,        
-        title = LrView.bind { key = 'filter'..i,
-          transform = function(value) return i .. ' ' .. filtersbyuuid[value[1]] end
-        },  -- title
-      } -- static_text
-    )
+    groupboxfilters[#groupboxfilters+1] = f:push_button {
+      fill_horizontal = 1,
+      width_in_chars = 40,
+      truncation = 'head',
+      action = function() obstable['filter'..i] = nil end,        
+      title = LrView.bind { key = 'filter'..i,
+        transform = function(value) return i .. ' ' .. filtersbyuuid[value[1]] end
+      },  -- title
+    } -- push_button
+
   end
   local tabviewitems = {} 
   local filterrows, filtercolumns = 4,3 -- x*y must equal local numfilters, above
   for column=1, filtercolumns do
-    tabviewitems[column] = f:tab_view_item {title = ((column-1)*filterrows+1)..'-'..(column*filterrows), identifier = 'filters-'..((column-1)*filterrows+1)..'-'..(column*filterrows),}
+    tabviewitems[column] = f:tab_view_item {
+      title = ((column-1)*filterrows+1)..'-'..(column*filterrows), identifier = 'filters-'..((column-1)*filterrows+1)..'-'..(column*filterrows),
+    }
     for row=1, filterrows do
-      table.insert(tabviewitems[column],f:simple_list {items = filterlist, allows_multiple_selection = false, value = LrView.bind ('filter'..((column-1)*filterrows+row)) })
+      table.insert(tabviewitems[column],f:simple_list {items = filterlist, allows_multiple_selection = false, value = LrView.bind ('filter'..((column-1)*filterrows+row)) }) 
     end
     tabviewitems[column] = f:tab_view_item (tabviewitems[column]) -- prepare for use in f:tabview below
   end 

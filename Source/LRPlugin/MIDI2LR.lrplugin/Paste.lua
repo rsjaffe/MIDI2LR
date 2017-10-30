@@ -43,10 +43,9 @@ local function StartDialog(obstable,f)
     for col = 1,numberofcolumns do
       selectivepastecol[col] = {}
       for i = ((col-1)*breakpoint+1),(breakpoint*col) do
-        table.insert(
-          selectivepastecol[col], 
-          f:checkbox { title = ParamList.SelectivePasteMenu[i][2], value = LrView.bind ('Paste'..ParamList.SelectivePasteMenu[i][1]) } 
-        )
+        selectivepastecol[col][#selectivepastecol[col]+1] = f:checkbox {
+          title = ParamList.SelectivePasteMenu[i][2], value = LrView.bind ('Paste'..ParamList.SelectivePasteMenu[i][1]) 
+        } 
       end
       selectivepastecol[col] = f:column (selectivepastecol[col]) -- prepare for use in f:row below
     end -- for col
