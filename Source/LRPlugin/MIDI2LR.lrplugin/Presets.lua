@@ -19,7 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 local LrApplication = import 'LrApplication'
 local LrView        = import 'LrView'
-local number_of_presets = 64
+local number_of_presets = 80
 
 local function StartDialog(obstable,f)
   --populate table with presets
@@ -37,8 +37,8 @@ local function StartDialog(obstable,f)
   end
   -- following variable set up number of rows and columns
   -- row*col must equal number_of_presets
-  local group_rows, group_cols = 4,16
-  local button_rows, button_cols = 16,4
+  local group_rows, group_cols = 4,20
+  local button_rows, button_cols = 4,20
   -- set up buttons on the right of the presets selection dialog
   local buttonpresets = {}
   for i = 1, button_cols do

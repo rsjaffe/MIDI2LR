@@ -24,7 +24,6 @@ local Limits            = require 'Limits'
 local OU                = require 'OptionsUtilities'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
-local Presets           = require 'Presets'
 local Profiles          = require 'Profiles'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
@@ -54,11 +53,6 @@ local function setOptions()
       f:view{
         bind_to_object = properties, -- default bound table
         f:tab_view {
-          f:tab_view_item {
-            title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop Preset"),
-            identifier = 'presets',
-            Presets.StartDialog(properties,f),
-          }, -- tab_view_item 
           f:tab_view_item {
             title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
@@ -99,7 +93,6 @@ local function setOptions()
       Filters.EndDialog(properties,result)
       Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)
-      Presets.EndDialog(properties,result)
       Paste.EndDialog(properties,result)
       Profiles.EndDialog(properties,result)
       if result == 'ok' then

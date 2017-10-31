@@ -33,6 +33,10 @@ return {
       file = 'Options.lua',
     },
     {
+      title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop Preset"),
+      file = 'PresetsDialog.lua',
+    },
+    {
       title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
       file = "About.lua",
     },

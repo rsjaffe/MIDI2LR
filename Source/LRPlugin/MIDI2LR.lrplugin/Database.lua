@@ -622,6 +622,22 @@ local DataBase = {
   {"Preset_62",false,false,true,false,true,false,developPreset.." 62",developPresets,"Apply preset 62 to active photo only. *button*"},
   {"Preset_63",false,false,true,false,true,false,developPreset.." 63",developPresets,"Apply preset 63 to active photo only. *button*"},
   {"Preset_64",false,false,true,false,true,false,developPreset.." 64",developPresets,"Apply preset 64 to active photo only. *button*"},
+  {"Preset_65",false,false,true,false,true,false,developPreset.." 65",developPresets,"Apply preset 65 to active photo only. *button*"},
+  {"Preset_66",false,false,true,false,true,false,developPreset.." 66",developPresets,"Apply preset 66 to active photo only. *button*"},
+  {"Preset_67",false,false,true,false,true,false,developPreset.." 67",developPresets,"Apply preset 67 to active photo only. *button*"},
+  {"Preset_68",false,false,true,false,true,false,developPreset.." 68",developPresets,"Apply preset 68 to active photo only. *button*"},
+  {"Preset_69",false,false,true,false,true,false,developPreset.." 69",developPresets,"Apply preset 69 to active photo only. *button*"},
+  {"Preset_70",false,false,true,false,true,false,developPreset.." 70",developPresets,"Apply preset 70 to active photo only. *button*"},
+  {"Preset_71",false,false,true,false,true,false,developPreset.." 71",developPresets,"Apply preset 71 to active photo only. *button*"},
+  {"Preset_72",false,false,true,false,true,false,developPreset.." 72",developPresets,"Apply preset 72 to active photo only. *button*"},
+  {"Preset_73",false,false,true,false,true,false,developPreset.." 73",developPresets,"Apply preset 73 to active photo only. *button*"},
+  {"Preset_74",false,false,true,false,true,false,developPreset.." 74",developPresets,"Apply preset 74 to active photo only. *button*"},
+  {"Preset_75",false,false,true,false,true,false,developPreset.." 75",developPresets,"Apply preset 75 to active photo only. *button*"},
+  {"Preset_76",false,false,true,false,true,false,developPreset.." 76",developPresets,"Apply preset 76 to active photo only. *button*"},
+  {"Preset_77",false,false,true,false,true,false,developPreset.." 77",developPresets,"Apply preset 77 to active photo only. *button*"},
+  {"Preset_78",false,false,true,false,true,false,developPreset.." 78",developPresets,"Apply preset 78 to active photo only. *button*"},
+  {"Preset_79",false,false,true,false,true,false,developPreset.." 79",developPresets,"Apply preset 79 to active photo only. *button*"},
+  {"Preset_80",false,false,true,false,true,false,developPreset.." 80",developPresets,"Apply preset 80 to active photo only. *button*"},
 
 --
 --develop: localized adjustments
