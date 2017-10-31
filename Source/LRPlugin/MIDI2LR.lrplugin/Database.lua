@@ -3,7 +3,7 @@
 Database.lua
 Source of translations and menu for app and plugin
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -149,6 +149,9 @@ local DataBase = {
   {'Filter_8',false,false,true,false,true,false,filter..' 8',filter,'Library filter 8. *button*'},
   {'Filter_9',false,false,true,false,true,false,filter..' 9',filter,'Library filter 9. *button*'},
   {'Filter_10',false,false,true,false,true,false,filter..' 10',filter,'Library filter 10. *button*'},  
+  {'Filter_11',false,false,true,false,true,false,filter..' 11',filter,'Library filter 11. *button*'},  
+  {'Filter_12',false,false,true,false,true,false,filter..' 11',filter,'Library filter 12. *button*'},  
+
   --General Workspace
   --workspace: grid view options
   {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),general,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
@@ -595,6 +598,31 @@ local DataBase = {
   {"Preset_38",false,false,true,false,true,false,developPreset.." 38",developPresets,"Apply preset 38 to active photo only. *button*"},
   {"Preset_39",false,false,true,false,true,false,developPreset.." 39",developPresets,"Apply preset 39 to active photo only. *button*"},
   {"Preset_40",false,false,true,false,true,false,developPreset.." 40",developPresets,"Apply preset 40 to active photo only. *button*"},
+  {"Preset_41",false,false,true,false,true,false,developPreset.." 41",developPresets,"Apply preset 41 to active photo only. *button*"},
+  {"Preset_42",false,false,true,false,true,false,developPreset.." 42",developPresets,"Apply preset 42 to active photo only. *button*"},
+  {"Preset_43",false,false,true,false,true,false,developPreset.." 43",developPresets,"Apply preset 43 to active photo only. *button*"},
+  {"Preset_44",false,false,true,false,true,false,developPreset.." 44",developPresets,"Apply preset 44 to active photo only. *button*"},
+  {"Preset_45",false,false,true,false,true,false,developPreset.." 45",developPresets,"Apply preset 45 to active photo only. *button*"},
+  {"Preset_46",false,false,true,false,true,false,developPreset.." 46",developPresets,"Apply preset 46 to active photo only. *button*"},
+  {"Preset_47",false,false,true,false,true,false,developPreset.." 47",developPresets,"Apply preset 47 to active photo only. *button*"},
+  {"Preset_48",false,false,true,false,true,false,developPreset.." 48",developPresets,"Apply preset 48 to active photo only. *button*"},
+  {"Preset_49",false,false,true,false,true,false,developPreset.." 49",developPresets,"Apply preset 49 to active photo only. *button*"},
+  {"Preset_50",false,false,true,false,true,false,developPreset.." 50",developPresets,"Apply preset 50 to active photo only. *button*"},
+  {"Preset_51",false,false,true,false,true,false,developPreset.." 51",developPresets,"Apply preset 51 to active photo only. *button*"},
+  {"Preset_52",false,false,true,false,true,false,developPreset.." 52",developPresets,"Apply preset 52 to active photo only. *button*"},
+  {"Preset_53",false,false,true,false,true,false,developPreset.." 53",developPresets,"Apply preset 53 to active photo only. *button*"},
+  {"Preset_54",false,false,true,false,true,false,developPreset.." 54",developPresets,"Apply preset 54 to active photo only. *button*"},
+  {"Preset_55",false,false,true,false,true,false,developPreset.." 55",developPresets,"Apply preset 55 to active photo only. *button*"},
+  {"Preset_56",false,false,true,false,true,false,developPreset.." 56",developPresets,"Apply preset 56 to active photo only. *button*"},
+  {"Preset_57",false,false,true,false,true,false,developPreset.." 57",developPresets,"Apply preset 57 to active photo only. *button*"},
+  {"Preset_58",false,false,true,false,true,false,developPreset.." 58",developPresets,"Apply preset 58 to active photo only. *button*"},
+  {"Preset_59",false,false,true,false,true,false,developPreset.." 59",developPresets,"Apply preset 59 to active photo only. *button*"},
+  {"Preset_60",false,false,true,false,true,false,developPreset.." 60",developPresets,"Apply preset 60 to active photo only. *button*"},
+  {"Preset_61",false,false,true,false,true,false,developPreset.." 61",developPresets,"Apply preset 61 to active photo only. *button*"},
+  {"Preset_62",false,false,true,false,true,false,developPreset.." 62",developPresets,"Apply preset 62 to active photo only. *button*"},
+  {"Preset_63",false,false,true,false,true,false,developPreset.." 63",developPresets,"Apply preset 63 to active photo only. *button*"},
+  {"Preset_64",false,false,true,false,true,false,developPreset.." 64",developPresets,"Apply preset 64 to active photo only. *button*"},
+
 --
 --develop: localized adjustments
 --
@@ -722,10 +750,10 @@ for i,v in ipairs(DataBase) do
   else
     SelectivePasteHidden[v[1]] = v[8]
   end
-  end
-  if v[11] then
-    ProfileMap[v[1]] = v[11]
-  end
+end
+if v[11] then
+  ProfileMap[v[1]] = v[11]
+end
 end
 
 local paramdisp = {}
@@ -752,7 +780,7 @@ file:write([=[
   is updated or the language used by Lightroom changes. Edit Database.lua
   if you want to have persistent changes to the translations or menu structure.
 
-  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
   MIDI2LR is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later version.
@@ -779,7 +807,7 @@ file:write([=[
   language used by Lightroom changes. Edit Database.lua if you want to have 
   persistent changes to the translations or menu structure.
 
-  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
   MIDI2LR is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later version.

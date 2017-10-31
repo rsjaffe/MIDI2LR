@@ -4,7 +4,7 @@ Profiles.lua
 
 Manages profile changes for plugin
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -43,7 +43,7 @@ local function doprofilechange(newprofile)
   end
   loadedprofile = newprofile
   if LrApplicationView.getCurrentModuleName() == 'develop' and 
-    LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+  LrApplication.activeCatalog():getTargetPhoto() ~= nil then
     -- refresh MIDI controller since mapping has changed
     for _,param in ipairs(ParamList.SendToMidi) do
       local min,max = Limits.GetMinMax(param)
@@ -121,7 +121,7 @@ local function StartDialog(obstable,f)
     for filePath in LrFileUtils.files(profilepath) do
       local _, fn, ext = filePath:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
       if ext == 'xml' then
-        table.insert(completion,fn)
+        completion[#completion+1] = fn
       end
     end
   end

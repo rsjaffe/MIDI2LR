@@ -5,7 +5,7 @@ Client.lua
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -27,7 +27,9 @@ local LrTasks = import 'LrTasks'
 -- Main task
 LrTasks.startAsyncTask( 
   function() 
-    -- LrMobdebug.on()
+    --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
 -------------preferences
     local Preferences     = require 'Preferences'
     Preferences.Load() 
@@ -129,6 +131,8 @@ LrTasks.startAsyncTask(
       Filter_8                               = CU.fApplyFilter(8),
       Filter_9                               = CU.fApplyFilter(9),
       Filter_10                              = CU.fApplyFilter(10),
+      Filter_11                              = CU.fApplyFilter(11),
+      Filter_12                              = CU.fApplyFilter(12),
       FullRefresh                            = CU.FullRefresh,
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
@@ -230,6 +234,30 @@ LrTasks.startAsyncTask(
       Preset_38                = CU.fApplyPreset(38),
       Preset_39                = CU.fApplyPreset(39),
       Preset_40                = CU.fApplyPreset(40),
+      Preset_41                = CU.fApplyPreset(41),
+      Preset_42                = CU.fApplyPreset(42),
+      Preset_43                = CU.fApplyPreset(43),
+      Preset_44                = CU.fApplyPreset(44),
+      Preset_45                = CU.fApplyPreset(45),
+      Preset_46                = CU.fApplyPreset(46),
+      Preset_47                = CU.fApplyPreset(47),
+      Preset_48                = CU.fApplyPreset(48),
+      Preset_49                = CU.fApplyPreset(49),
+      Preset_50                = CU.fApplyPreset(50),
+      Preset_51                = CU.fApplyPreset(51),
+      Preset_52                = CU.fApplyPreset(52),
+      Preset_53                = CU.fApplyPreset(53),
+      Preset_54                = CU.fApplyPreset(54),
+      Preset_55                = CU.fApplyPreset(55),
+      Preset_56                = CU.fApplyPreset(56),
+      Preset_57                = CU.fApplyPreset(57),
+      Preset_58                = CU.fApplyPreset(58),
+      Preset_59                = CU.fApplyPreset(59),
+      Preset_60                = CU.fApplyPreset(60),
+      Preset_61                = CU.fApplyPreset(61),
+      Preset_62                = CU.fApplyPreset(62),
+      Preset_63                = CU.fApplyPreset(63),
+      Preset_64                = CU.fApplyPreset(64),
       Prev                     = LrSelection.previousPhoto,
       Profile_Adobe_Standard          = CU.UpdateCameraProfile('Adobe Standard'),
       Profile_Camera_Clear            = CU.UpdateCameraProfile('Camera Clear'),
@@ -426,7 +454,9 @@ LrTasks.startAsyncTask(
     LrFunctionContext.callWithContext( 
       'socket_remote', 
       function( context )
-        -- LrMobdebug.on()
+        --[[-----------debug section, enable by adding - to beginning this line
+        LrMobdebug.on()
+        --]]-----------end debug section
         local LrRecursionGuard    = import 'LrRecursionGuard'
         local LrShell             = import 'LrShell'
         local LrSocket            = import 'LrSocket'

@@ -8,7 +8,7 @@
 --------------------------------------------------------------------------------
 
 --[[
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -120,50 +120,48 @@ local function OptionsRows(f,obstable)
   for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
     local integral = high - 5 > low
-    table.insert( retval,
-      f:row { 
-        f:static_text {
-          title = ProgramPreferences.Limits[p]['label']..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
-          width = LrView.share('limit_label'),
-        }, -- static_text
-        f:static_text {
-          title = LrView.bind('Limits'..p..'Low'),
-          alignment = 'right',
-          width = LrView.share('limit_reading'),  
-        }, -- static_text
-        f:slider {
-          value = LrView.bind('Limits'..p..'Low'),
-          min = low, 
-          max = high,
-          integral = integral,
-          width = LrView.share('limit_slider'),
-        }, -- slider
-        f:static_text {
-          title = LrView.bind('Limits'..p..'High'),
-          alignment = 'right',
-          width = LrView.share('limit_reading'),                
-        }, -- static_text
-        f:slider {
-          value = LrView.bind('Limits'..p..'High'),
-          min = low ,
-          max = high,
-          integral = integral,
-          width = LrView.share('limit_slider'),
-        }, -- slider
-        f:push_button {
-          title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
-          action = function ()
-            if p == 'Temperature' and low > 0 then
-              obstable.TemperatureLow = 3000
-              obstable.TemperatureHigh = 9000
-            else
-              obstable['Limits'..p..'Low'] = low
-              obstable['Limits'..p..'High'] = high
-            end
-          end,
-        }, -- push_button
-      } -- row
-    ) -- table.insert
+    retval[#retval+1] = f:row { 
+      f:static_text {
+        title = ProgramPreferences.Limits[p]['label']..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
+        width = LrView.share('limit_label'),
+      }, -- static_text
+      f:static_text {
+        title = LrView.bind('Limits'..p..'Low'),
+        alignment = 'right',
+        width = LrView.share('limit_reading'),  
+      }, -- static_text
+      f:slider {
+        value = LrView.bind('Limits'..p..'Low'),
+        min = low, 
+        max = high,
+        integral = integral,
+        width = LrView.share('limit_slider'),
+      }, -- slider
+      f:static_text {
+        title = LrView.bind('Limits'..p..'High'),
+        alignment = 'right',
+        width = LrView.share('limit_reading'),                
+      }, -- static_text
+      f:slider {
+        value = LrView.bind('Limits'..p..'High'),
+        min = low ,
+        max = high,
+        integral = integral,
+        width = LrView.share('limit_slider'),
+      }, -- slider
+      f:push_button {
+        title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
+        action = function ()
+          if p == 'Temperature' and low > 0 then
+            obstable.TemperatureLow = 3000
+            obstable.TemperatureHigh = 9000
+          else
+            obstable['Limits'..p..'Low'] = low
+            obstable['Limits'..p..'High'] = high
+          end
+        end,
+      }, -- push_button
+    } -- row
   end
   return retval -- array of rows
 end

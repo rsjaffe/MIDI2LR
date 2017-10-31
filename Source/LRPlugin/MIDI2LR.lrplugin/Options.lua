@@ -4,7 +4,7 @@ Options.lua
 
 Manages options for plugin
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -30,9 +30,15 @@ local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
+--[[-----------debug section, enable by adding - to beginning this line
+local LrMobdebug = import 'LrMobdebug'
+--]]-----------end debug section
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
+      --[[-----------debug section, enable by adding - to beginning this line
+      LrMobdebug.on()
+      --]]-----------end debug section
       local f = LrView.osFactory()
       local properties = LrBinding.makePropertyTable( context )
       --following not managed by another module
