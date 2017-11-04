@@ -405,6 +405,24 @@ LrTasks.startAsyncTask(
       end, 
     }
 
+    local function RunActionSeries(strarg)
+      for i in strarg:gmatch("[%w_]+") do
+        if ACTIONS[i] then
+          ACTIONS[i]()
+        end
+      end
+    end
+
+    --assign after defining RunActionSeries function
+    ACTIONS.ActionSeries1 = function() RunActionSeries(ProgramPreferences.ActionSeries[1]) end
+    ACTIONS.ActionSeries2 = function() RunActionSeries(ProgramPreferences.ActionSeries[2]) end
+    ACTIONS.ActionSeries3 = function() RunActionSeries(ProgramPreferences.ActionSeries[3]) end
+    ACTIONS.ActionSeries4 = function() RunActionSeries(ProgramPreferences.ActionSeries[4]) end
+    ACTIONS.ActionSeries5 = function() RunActionSeries(ProgramPreferences.ActionSeries[5]) end
+    ACTIONS.ActionSeries6 = function() RunActionSeries(ProgramPreferences.ActionSeries[6]) end
+    ACTIONS.ActionSeries7 = function() RunActionSeries(ProgramPreferences.ActionSeries[7]) end
+    ACTIONS.ActionSeries8 = function() RunActionSeries(ProgramPreferences.ActionSeries[8]) end
+
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}

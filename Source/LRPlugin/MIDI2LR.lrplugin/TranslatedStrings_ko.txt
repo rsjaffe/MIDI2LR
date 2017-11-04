@@ -9,3 +9,4 @@
 "$$$/MIDI2LR/Preferences/cantload=사용자설정을 읽어올 수 없어. 기본 설정으로 동작합니다."
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=프로파일 변경시 알림"
 "$$$/MIDI2LR/Shortcuts/Key=키"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=일련의 명령들"

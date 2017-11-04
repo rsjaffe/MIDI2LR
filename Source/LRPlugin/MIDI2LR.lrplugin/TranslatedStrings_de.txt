@@ -9,3 +9,4 @@
 "$$$/MIDI2LR/Preferences/cantload=Die Einstellungen konnten nicht geladen werden. Verwende Standard-Einstellungen."
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Bei Profil-Änderungen benachrichtigen"
 "$$$/MIDI2LR/Shortcuts/Key=Taste"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Reihe von Befehlen"

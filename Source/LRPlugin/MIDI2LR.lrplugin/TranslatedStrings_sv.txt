@@ -9,3 +9,4 @@
 "$$$/MIDI2LR/Preferences/cantload=Kan ej läsa in inställningar, använder standardinställningar."
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Visa notis vid byte av profil"
 "$$$/MIDI2LR/Shortcuts/Key=Tangent"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Serie kommandon"

@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local ActionSeries      = require 'ActionSeries'
 local Filters           = require 'Filters'
 local Keys              = require 'Keys'
 local Limits            = require 'Limits' 
@@ -82,6 +83,11 @@ local function setOptions()
             f:separator {fill_horizontal = 0.9},
             Keys.StartDialog(properties,f),
           }, -- tab_view_item
+          f:tab_view_item {
+            title = LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands"),
+            identifier = 'commandseries',
+            ActionSeries.StartDialog(properties,f),
+          }, --tab_view_item
         }, -- tab_view
       } -- view
 
@@ -90,6 +96,7 @@ local function setOptions()
         title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
         contents = contents,
       }
+      ActionSeries.EndDialog(properties,result)
       Filters.EndDialog(properties,result)
       Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)

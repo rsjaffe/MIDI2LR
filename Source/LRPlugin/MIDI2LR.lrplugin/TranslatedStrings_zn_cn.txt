@@ -9,3 +9,4 @@
 "$$$/MIDI2LR/Preferences/cantload=无法加载指定设置"
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=当设置改变的时候告知"
 "$$$/MIDI2LR/Shortcuts/Key=键"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=一系列命令"

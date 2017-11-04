@@ -9,3 +9,4 @@
 "$$$/MIDI2LR/Preferences/cantload=Impossible de charger les préférences. Utilisation des préférences par défaut."
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Alerter les changements de profile"
 "$$$/MIDI2LR/Shortcuts/Key=Touche"
+"$$$/MIDI2LR/Shortcuts/SeriesofCommands=Série de commandes"

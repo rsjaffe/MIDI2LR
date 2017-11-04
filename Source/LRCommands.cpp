@@ -96,6 +96,15 @@ const std::vector<std::string> LRCommandList::General = {
     "Add to Selection Right",
     "Next Photo",
     "Previous Photo",
+    "Series of commands 1",
+    "Series of commands 2",
+    "Series of commands 3",
+    "Series of commands 4",
+    "Series of commands 5",
+    "Series of commands 6",
+    "Series of commands 7",
+    "Series of commands 8",
+    "Series of commands 9",
 };
 
 const std::vector<std::string> LRCommandList::Library = {
@@ -692,6 +701,15 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "Select1Right",
     "Next",
     "Prev",
+    "ActionSeries1",
+    "ActionSeries2",
+    "ActionSeries3",
+    "ActionSeries4",
+    "ActionSeries5",
+    "ActionSeries6",
+    "ActionSeries7",
+    "ActionSeries8",
+    "ActionSeries9",
     /* Library */
     "SwToMlibrary",
     "Pick",
