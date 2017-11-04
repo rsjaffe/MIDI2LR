@@ -106,7 +106,7 @@ LrTasks.startAsyncTask(
       CropOverlay              = CU.fToggleTool('crop'),
       CycleMaskOverlayColor    = CU.SimulateKeys('4o'),
       DecreaseRating           = LrSelection.decreaseRating,
-      DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
+      DecrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
       EnableCircularGradientBasedCorrections = CU.fToggleTF('EnableCircularGradientBasedCorrections'),
       EnableColorAdjustments                 = CU.fToggleTF('EnableColorAdjustments'),
@@ -496,9 +496,9 @@ LrTasks.startAsyncTask(
         CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
 
         -- wrapped in function so can be called when connection lost
-        local function startServer(context)
+        local function startServer(context1)
           MIDI2LR.SERVER = LrSocket.bind {
-            functionContext = context,
+            functionContext = context1,
             plugin = _PLUGIN,
             port = SEND_PORT,
             mode = 'send',
