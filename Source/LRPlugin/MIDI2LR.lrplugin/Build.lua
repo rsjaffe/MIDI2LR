@@ -144,7 +144,7 @@ file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
 
 file:write ([=[Running Build.lua generates several files that need to be
   moved to their proper positions in the build, including LRCommands.cpp and
-  LRCommands.h. Build.lua also generates files for the wiki: 
+  LRCommands.h. Build.lua also generates files for the wiki:
   Limits-Available-Parameters.md and Commands.md. These files need to replace the
   current files in the wiki.
   
@@ -153,7 +153,7 @@ file:write ([=[Running Build.lua generates several files that need to be
   
   CommandMenu.cpp initializers. If the number of command menu submenus
   have changed, the following 'menus_' and 'menu_entries_' statements should replace
-  the ones in CommandMenu.cpp. Because CommandMenu.cpp has so much other code, 
+  the ones in CommandMenu.cpp. Because CommandMenu.cpp has so much other code,
   Build.lua does not automatically generate CommandMenu.cpp, so the person
   building the application needs to update CommandMenu.cpp as needed.
   
