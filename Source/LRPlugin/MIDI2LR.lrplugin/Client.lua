@@ -422,7 +422,7 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries6 = function() RunActionSeries(ProgramPreferences.ActionSeries[6]) end
     ACTIONS.ActionSeries7 = function() RunActionSeries(ProgramPreferences.ActionSeries[7]) end
     ACTIONS.ActionSeries8 = function() RunActionSeries(ProgramPreferences.ActionSeries[8]) end
-
+    ACTIONS.ActionSeries9 = function() RunActionSeries(ProgramPreferences.ActionSeries[9]) end
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
