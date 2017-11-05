@@ -18,14 +18,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-
 local LrView        = import 'LrView'
 local numseries = 9
 
 local function StartDialog(obstable,f)
-  if type(ProgramPreferences.ActionSeries) ~= 'table' then
-    ProgramPreferences.ActionSeries = {}
-  end
   for i = 1,numseries do
     obstable['ActionSeries'..i] = ProgramPreferences.ActionSeries[i]
   end

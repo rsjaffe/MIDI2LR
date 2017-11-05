@@ -43,6 +43,7 @@ ProgramPreferences = {}
 
 local function UseDefaults()
   ProgramPreferences = {}
+  Init.UseDefaultsActionSeries()
   Init.UseDefaultsFilters()
   Init.UseDefaultsKeys()
   Init.UseDefaultsLimits()
@@ -101,6 +102,7 @@ local function LoadShell(filename) --encapsulates all loading, allowing post-pro
     loaded = Load()
   end
   if loaded then
+    Init.LoadedActionSeries()
     Init.LoadedFilters()
     Init.LoadedKeys()
     Init.LoadedLimits()
@@ -110,8 +112,6 @@ local function LoadShell(filename) --encapsulates all loading, allowing post-pro
     Save()
   end
 end
-
-
 
 return { --commented out unused exports
   Load = LoadShell,

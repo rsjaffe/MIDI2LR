@@ -29,6 +29,16 @@ local ParamList           = require 'ParamList'
 local ProfileTypes        = require 'ProfileTypes'
 
 
+--ActionSeries.lua
+local function UseDefaultsActionSeries()
+  ProgramPreferences.ActionSeries = {}
+end
+local function LoadedActionSeries()
+  if type(ProgramPreferences.ActionSeries) ~= 'table' then
+    ProgramPreferences.ActionSeries = {}
+  end
+end
+
 --Filters.lua
 local function UseDefaultsFilters()
   ProgramPreferences.Filters = {}
@@ -111,12 +121,14 @@ end
 
 
 return {
+  LoadedActionSeries  = LoadedActionSeries,
   LoadedFilters       = LoadedFilters,
   LoadedKeys          = LoadedKeys,
   LoadedLimits        = LoadedLimits,
   LoadedPaste         = LoadedPaste,
   LoadedPresets       = LoadedPresets,
   LoadedProfiles      = LoadedProfiles,
+  UseDefaultsActionSeries = UseDefaultsActionSeries,
   UseDefaultsFilters  = UseDefaultsFilters,
   UseDefaultsKeys     = UseDefaultsKeys,
   UseDefaultsLimits   = UseDefaultsLimits,
