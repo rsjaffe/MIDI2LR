@@ -38,6 +38,7 @@ Much of the documentation and certain files are generated from a Microsoft Acces
 ## Coding standards
 - For C++ files, use the formatting rules in `Visual Studio text editor settings.vssettings`.
 - For Lua files, emulate the formatting in current files. Avoid adding code to the message loops in Client.lua unless absolutely necessary, as those changes can slow down Lightroom
+- If adding something that is stored in the Preferences, there are four functions needed: StartDialog, EndDialog, Loaded..., UseDefaults.... The Loaded... and UseDefaults... functions must be in *Init.lua*, exported, and used in the LoadedAll and UseDefaultsAll functions in *Init.lua*.
 
 
 

@@ -119,6 +119,25 @@ local function LoadedKeys()
   end
 end
 
+local function LoadedAll()
+  LoadedActionSeries()
+  LoadedFilters()
+  LoadedKeys()
+  LoadedLimits()
+  LoadedPaste()
+  LoadedPresets()
+  LoadedProfiles()
+end
+
+local function UseDefaultsAll()
+  UseDefaultsActionSeries()
+  UseDefaultsFilters()
+  UseDefaultsKeys()
+  UseDefaultsLimits()
+  UseDefaultsPaste()
+  UseDefaultsPresets()
+  UseDefaultsProfiles()
+end
 
 return {
   LoadedActionSeries  = LoadedActionSeries,
@@ -135,4 +154,6 @@ return {
   UseDefaultsPaste    = UseDefaultsPaste,
   UseDefaultsPresets  = UseDefaultsPresets,
   UseDefaultsProfiles = UseDefaultsProfiles,
+  LoadedAll           = LoadedAll,
+  UseDefaultsAll      = UseDefaultsAll,
 }
