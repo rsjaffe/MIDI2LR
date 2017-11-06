@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.3.0.1"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.4.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.1.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.2.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
-              splashScreenColour="Dark" cppLanguageStandard="latest">
+              splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright="">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{64A53798-7D11-73F5-9678-76E2C116E917}" name="Utilities">
@@ -83,11 +83,11 @@
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../"
-                       defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"/>
+                       defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" enablePluginBinaryCopyStep="1"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="../../"
-                       defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
+                       defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1" enablePluginBinaryCopyStep="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
@@ -104,10 +104,12 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" headerPath="..\..\"
-                       enableIncrementalLinking="1" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"/>
+                       enableIncrementalLinking="1" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
+                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" headerPath="..\..\"
-                       defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"/>
+                       defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1" debugInformationFormat="ProgramDatabase"
+                       enablePluginBinaryCopyStep="0" linkTimeOptimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
