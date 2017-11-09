@@ -428,6 +428,7 @@ LrTasks.startAsyncTask(
       local paramlastmoved = {}
       local lastfullrefresh = 0
       return function(param, midi_value, silent)
+        if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
@@ -466,10 +467,13 @@ LrTasks.startAsyncTask(
     UpdateParamPickup = UpdateParamPickup() --complete closure
     --called within LrRecursionGuard for setting
     function UpdateParamNoPickup(param, midi_value, silent) 
+      if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
       end
+      --Don't need to clamp limited parameters without pickup, as MIDI controls will still work
+      --if value is outside limits range
       value = CU.MIDIValueToLRValue(param, midi_value)
       MIDI2LR.PARAM_OBSERVER[param] = value
       LrDevelopController.setValue(param, value)
@@ -499,7 +503,7 @@ LrTasks.startAsyncTask(
         local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver(observer)
-          if LrApplicationView.getCurrentModuleName() == 'develop' then
+          if Limits.LimitsCanBeSet() then
             for _,param in ipairs(ParamList.SendToMidi) do
               local lrvalue = LrDevelopController.getValue(param)
               if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
