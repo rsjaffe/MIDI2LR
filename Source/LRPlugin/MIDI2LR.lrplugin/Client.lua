@@ -5,7 +5,7 @@ Client.lua
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -27,7 +27,9 @@ local LrTasks = import 'LrTasks'
 -- Main task
 LrTasks.startAsyncTask( 
   function() 
-    -- LrMobdebug.on()
+    --[[-----------debug section, enable by adding - to beginning this line
+    LrMobdebug.on()
+    --]]-----------end debug section
 -------------preferences
     local Preferences     = require 'Preferences'
     Preferences.Load() 
@@ -104,7 +106,7 @@ LrTasks.startAsyncTask(
       CropOverlay              = CU.fToggleTool('crop'),
       CycleMaskOverlayColor    = CU.SimulateKeys('4o'),
       DecreaseRating           = LrSelection.decreaseRating,
-      DecrementLastDevelopParameter = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
+      DecrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
       EnableCircularGradientBasedCorrections = CU.fToggleTF('EnableCircularGradientBasedCorrections'),
       EnableColorAdjustments                 = CU.fToggleTF('EnableColorAdjustments'),
@@ -129,6 +131,8 @@ LrTasks.startAsyncTask(
       Filter_8                               = CU.fApplyFilter(8),
       Filter_9                               = CU.fApplyFilter(9),
       Filter_10                              = CU.fApplyFilter(10),
+      Filter_11                              = CU.fApplyFilter(11),
+      Filter_12                              = CU.fApplyFilter(12),
       FullRefresh                            = CU.FullRefresh,
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
@@ -230,6 +234,46 @@ LrTasks.startAsyncTask(
       Preset_38                = CU.fApplyPreset(38),
       Preset_39                = CU.fApplyPreset(39),
       Preset_40                = CU.fApplyPreset(40),
+      Preset_41                = CU.fApplyPreset(41),
+      Preset_42                = CU.fApplyPreset(42),
+      Preset_43                = CU.fApplyPreset(43),
+      Preset_44                = CU.fApplyPreset(44),
+      Preset_45                = CU.fApplyPreset(45),
+      Preset_46                = CU.fApplyPreset(46),
+      Preset_47                = CU.fApplyPreset(47),
+      Preset_48                = CU.fApplyPreset(48),
+      Preset_49                = CU.fApplyPreset(49),
+      Preset_50                = CU.fApplyPreset(50),
+      Preset_51                = CU.fApplyPreset(51),
+      Preset_52                = CU.fApplyPreset(52),
+      Preset_53                = CU.fApplyPreset(53),
+      Preset_54                = CU.fApplyPreset(54),
+      Preset_55                = CU.fApplyPreset(55),
+      Preset_56                = CU.fApplyPreset(56),
+      Preset_57                = CU.fApplyPreset(57),
+      Preset_58                = CU.fApplyPreset(58),
+      Preset_59                = CU.fApplyPreset(59),
+      Preset_60                = CU.fApplyPreset(60),
+      Preset_61                = CU.fApplyPreset(61),
+      Preset_62                = CU.fApplyPreset(62),
+      Preset_63                = CU.fApplyPreset(63),
+      Preset_64                = CU.fApplyPreset(64),
+      Preset_65                = CU.fApplyPreset(65),    
+      Preset_66                = CU.fApplyPreset(66),      
+      Preset_67                = CU.fApplyPreset(67),      
+      Preset_68                = CU.fApplyPreset(68),      
+      Preset_69                = CU.fApplyPreset(69),      
+      Preset_70                = CU.fApplyPreset(70),      
+      Preset_71                = CU.fApplyPreset(71),      
+      Preset_72                = CU.fApplyPreset(72),      
+      Preset_73                = CU.fApplyPreset(73),      
+      Preset_74                = CU.fApplyPreset(74),      
+      Preset_75                = CU.fApplyPreset(75),      
+      Preset_76                = CU.fApplyPreset(76),      
+      Preset_77                = CU.fApplyPreset(77),      
+      Preset_78                = CU.fApplyPreset(78),      
+      Preset_79                = CU.fApplyPreset(79),      
+      Preset_80                = CU.fApplyPreset(80),      
       Prev                     = LrSelection.previousPhoto,
       Profile_Adobe_Standard          = CU.UpdateCameraProfile('Adobe Standard'),
       Profile_Camera_Clear            = CU.UpdateCameraProfile('Camera Clear'),
@@ -361,11 +405,30 @@ LrTasks.startAsyncTask(
       end, 
     }
 
+    local function RunActionSeries(strarg)
+      for i in strarg:gmatch("[%w_]+") do
+        if ACTIONS[i] then
+          ACTIONS[i]()
+        end
+      end
+    end
+
+    --assign after defining RunActionSeries function
+    ACTIONS.ActionSeries1 = function() RunActionSeries(ProgramPreferences.ActionSeries[1]) end
+    ACTIONS.ActionSeries2 = function() RunActionSeries(ProgramPreferences.ActionSeries[2]) end
+    ACTIONS.ActionSeries3 = function() RunActionSeries(ProgramPreferences.ActionSeries[3]) end
+    ACTIONS.ActionSeries4 = function() RunActionSeries(ProgramPreferences.ActionSeries[4]) end
+    ACTIONS.ActionSeries5 = function() RunActionSeries(ProgramPreferences.ActionSeries[5]) end
+    ACTIONS.ActionSeries6 = function() RunActionSeries(ProgramPreferences.ActionSeries[6]) end
+    ACTIONS.ActionSeries7 = function() RunActionSeries(ProgramPreferences.ActionSeries[7]) end
+    ACTIONS.ActionSeries8 = function() RunActionSeries(ProgramPreferences.ActionSeries[8]) end
+    ACTIONS.ActionSeries9 = function() RunActionSeries(ProgramPreferences.ActionSeries[9]) end
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
       local lastfullrefresh = 0
       return function(param, midi_value, silent)
+        if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
         local value
         if LrApplicationView.getCurrentModuleName() ~= 'develop' then
           LrApplicationView.switchToModule('develop')
@@ -404,10 +467,13 @@ LrTasks.startAsyncTask(
     UpdateParamPickup = UpdateParamPickup() --complete closure
     --called within LrRecursionGuard for setting
     function UpdateParamNoPickup(param, midi_value, silent) 
+      if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
         LrApplicationView.switchToModule('develop')
       end
+      --Don't need to clamp limited parameters without pickup, as MIDI controls will still work
+      --if value is outside limits range
       value = CU.MIDIValueToLRValue(param, midi_value)
       MIDI2LR.PARAM_OBSERVER[param] = value
       LrDevelopController.setValue(param, value)
@@ -426,7 +492,9 @@ LrTasks.startAsyncTask(
     LrFunctionContext.callWithContext( 
       'socket_remote', 
       function( context )
-        -- LrMobdebug.on()
+        --[[-----------debug section, enable by adding - to beginning this line
+        LrMobdebug.on()
+        --]]-----------end debug section
         local LrRecursionGuard    = import 'LrRecursionGuard'
         local LrShell             = import 'LrShell'
         local LrSocket            = import 'LrSocket'
@@ -435,7 +503,7 @@ LrTasks.startAsyncTask(
         local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver(observer)
-          if LrApplicationView.getCurrentModuleName() == 'develop' then
+          if Limits.LimitsCanBeSet() then
             for _,param in ipairs(ParamList.SendToMidi) do
               local lrvalue = LrDevelopController.getValue(param)
               if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
@@ -450,9 +518,9 @@ LrTasks.startAsyncTask(
         CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
 
         -- wrapped in function so can be called when connection lost
-        local function startServer(context)
+        local function startServer(context1)
           MIDI2LR.SERVER = LrSocket.bind {
-            functionContext = context,
+            functionContext = context1,
             plugin = _PLUGIN,
             port = SEND_PORT,
             mode = 'send',

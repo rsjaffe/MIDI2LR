@@ -2,7 +2,7 @@
 
 Keys.lua
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -70,7 +70,7 @@ local completion = {
   'return',
   'space',
   'tab',
-  }
+}
 for _,k in ipairs(completion) do
   maxlength = math.max(k:len(),maxlength)
   legalanswers[k] = true
@@ -105,12 +105,12 @@ local function StartDialog(obstable,f)
     obstable['Keysalt'..i] = ProgramPreferences.Keys[i]['alt']
     obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
-    table.insert(internalview1,f:row{
-        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
-        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
-        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
-        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } )
+    internalview1[#internalview1+1] = f:row{
+      f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
+      f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+      f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+      f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
+      f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
   end
   local internalview2 = {}
   for i = 21,40 do
@@ -118,12 +118,12 @@ local function StartDialog(obstable,f)
     obstable['Keysalt'..i] = ProgramPreferences.Keys[i]['alt']
     obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
-    table.insert(internalview2,f:row{
-        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
-        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
-        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
-        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } )
+    internalview2[#internalview2+1] = f:row{
+      f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
+      f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+      f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+      f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
+      f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
   end
   return f:row{ f:column (internalview1), f:column (internalview2) }
 end

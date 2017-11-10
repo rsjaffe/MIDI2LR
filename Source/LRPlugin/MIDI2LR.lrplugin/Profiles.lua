@@ -4,7 +4,7 @@ Profiles.lua
 
 Manages profile changes for plugin
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local Init                = require 'Init'
 local Limits              = require 'Limits'
 local ParamList           = require 'ParamList'
-local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
@@ -42,8 +41,8 @@ local function doprofilechange(newprofile)
     LrDialogs.showBezel(filename)
   end
   loadedprofile = newprofile
-  if LrApplicationView.getCurrentModuleName() == 'develop' and 
-    LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+  resyncDeferred = true
+  if Limits.LimitsCanBeSet() then
     -- refresh MIDI controller since mapping has changed
     for _,param in ipairs(ParamList.SendToMidi) do
       local min,max = Limits.GetMinMax(param)
@@ -54,8 +53,6 @@ local function doprofilechange(newprofile)
       end
     end
     resyncDeferred = false
-  else 
-    resyncDeferred = true
   end
 end
 
@@ -121,7 +118,7 @@ local function StartDialog(obstable,f)
     for filePath in LrFileUtils.files(profilepath) do
       local _, fn, ext = filePath:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
       if ext == 'xml' then
-        table.insert(completion,fn)
+        completion[#completion+1] = fn
       end
     end
   end
@@ -354,4 +351,5 @@ return {
   setDirectory = setDirectory,
   setFile = setFile,
   setFullPath = setFullPath,
+  resyncDeferred = resyncDeferred,
 }

@@ -16,7 +16,7 @@ ProgramPreferences.Presets table.
 Preferences.Reset function. Sets Preferences.Preferences to default settings.
 Preferences.Load function. Load from LR storage.
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -43,12 +43,7 @@ ProgramPreferences = {}
 
 local function UseDefaults()
   ProgramPreferences = {}
-  Init.UseDefaultsFilters()
-  Init.UseDefaultsKeys()
-  Init.UseDefaultsLimits()
-  Init.UseDefaultsPaste()
-  Init.UseDefaultsPresets()
-  Init.UseDefaultsProfiles()
+  Init.UseDefaultsAll()
 end
 
 local function Save(filename)
@@ -101,17 +96,10 @@ local function LoadShell(filename) --encapsulates all loading, allowing post-pro
     loaded = Load()
   end
   if loaded then
-    Init.LoadedFilters()
-    Init.LoadedKeys()
-    Init.LoadedLimits()
-    Init.LoadedPaste()
-    Init.LoadedPresets()
-    Init.LoadedProfiles()
+    Init.LoadedAll()
     Save()
   end
 end
-
-
 
 return { --commented out unused exports
   Load = LoadShell,

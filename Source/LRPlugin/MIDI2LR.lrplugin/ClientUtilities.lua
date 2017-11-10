@@ -5,7 +5,7 @@ ClientUtilities.lua
 Procedures used by Client.lua. Moved to separate file as size of Client.lua
 became unwieldy.
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -238,17 +238,23 @@ local function CopySettings ()
 end
 
 local function FullRefresh()
-  for _,param in ipairs(ParamList.SendToMidi) do
-    local min,max = Limits.GetMinMax(param)
-    local lrvalue = LrDevelopController.getValue(param)
-    if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
-      local midivalue = (lrvalue-min)/(max-min)
-      MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+  if Limits.LimitsCanBeSet() then
+    for _,param in ipairs(ParamList.SendToMidi) do
+      local min,max = Limits.GetMinMax(param)
+      local lrvalue = LrDevelopController.getValue(param)
+      if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
+        local midivalue = (lrvalue-min)/(max-min)
+        MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+      end
+      Profiles.resyncDeferred = false
     end
+  else
+    Profiles.resyncDeferred = true
   end
 end
 
 local function MIDIValueToLRValue(param, midi_value)
+  -- must be called when in develop module with photo selected
   -- map midi range to develop parameter range
   -- expects midi_value 0.0-1.0, doesn't protect against out-of-range
   local min,max = Limits.GetMinMax(param)
@@ -256,6 +262,7 @@ local function MIDIValueToLRValue(param, midi_value)
 end
 
 local function LRValueToMIDIValue(param)
+  -- needs to be called in Develop module with photo selected
   -- map develop parameter range to midi range
   local min,max = Limits.GetMinMax(param)
   local retval = (LrDevelopController.getValue(param)-min)/(max-min)

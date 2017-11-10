@@ -3,7 +3,7 @@
 Database.lua
 Source of translations and menu for app and plugin
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -149,6 +149,9 @@ local DataBase = {
   {'Filter_8',false,false,true,false,true,false,filter..' 8',filter,'Library filter 8. *button*'},
   {'Filter_9',false,false,true,false,true,false,filter..' 9',filter,'Library filter 9. *button*'},
   {'Filter_10',false,false,true,false,true,false,filter..' 10',filter,'Library filter 10. *button*'},  
+  {'Filter_11',false,false,true,false,true,false,filter..' 11',filter,'Library filter 11. *button*'},  
+  {'Filter_12',false,false,true,false,true,false,filter..' 11',filter,'Library filter 12. *button*'},  
+
   --General Workspace
   --workspace: grid view options
   {"ShoVwgrid",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Grid=Grid"),general,"Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes. *button*"},
@@ -164,6 +167,7 @@ local DataBase = {
   {"ZoomInSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some"),general,"*button*"},
   {"ZoomOutSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some"),general,"*button*"},
   {"ZoomOutLargeStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out"),general,"*button*"},
+
   --workspace: view options
   --workspace: panels
   --workspace: Selections
@@ -171,6 +175,17 @@ local DataBase = {
   {"Select1Right",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Right=Right"),general,"Extend selection one picture to the right. *button*"},
   {"Next",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Next_Photo=Next Photo"),general,"*button*"},
   {"Prev",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo"),general,"*button*"},
+
+  {"ActionSeries1",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 1',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries2",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 2',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries3",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 3',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries4",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 4',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries5",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 5',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries6",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 6',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 7',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 8',general, "Sends a series of button commands. *button*"},
+  {"ActionSeries9",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 9',general, "Sends a series of button commands. *button*"},
+
   --workspace: screen mode
   --workspace: Lights Out
   --photomerge
@@ -595,6 +610,47 @@ local DataBase = {
   {"Preset_38",false,false,true,false,true,false,developPreset.." 38",developPresets,"Apply preset 38 to active photo only. *button*"},
   {"Preset_39",false,false,true,false,true,false,developPreset.." 39",developPresets,"Apply preset 39 to active photo only. *button*"},
   {"Preset_40",false,false,true,false,true,false,developPreset.." 40",developPresets,"Apply preset 40 to active photo only. *button*"},
+  {"Preset_41",false,false,true,false,true,false,developPreset.." 41",developPresets,"Apply preset 41 to active photo only. *button*"},
+  {"Preset_42",false,false,true,false,true,false,developPreset.." 42",developPresets,"Apply preset 42 to active photo only. *button*"},
+  {"Preset_43",false,false,true,false,true,false,developPreset.." 43",developPresets,"Apply preset 43 to active photo only. *button*"},
+  {"Preset_44",false,false,true,false,true,false,developPreset.." 44",developPresets,"Apply preset 44 to active photo only. *button*"},
+  {"Preset_45",false,false,true,false,true,false,developPreset.." 45",developPresets,"Apply preset 45 to active photo only. *button*"},
+  {"Preset_46",false,false,true,false,true,false,developPreset.." 46",developPresets,"Apply preset 46 to active photo only. *button*"},
+  {"Preset_47",false,false,true,false,true,false,developPreset.." 47",developPresets,"Apply preset 47 to active photo only. *button*"},
+  {"Preset_48",false,false,true,false,true,false,developPreset.." 48",developPresets,"Apply preset 48 to active photo only. *button*"},
+  {"Preset_49",false,false,true,false,true,false,developPreset.." 49",developPresets,"Apply preset 49 to active photo only. *button*"},
+  {"Preset_50",false,false,true,false,true,false,developPreset.." 50",developPresets,"Apply preset 50 to active photo only. *button*"},
+  {"Preset_51",false,false,true,false,true,false,developPreset.." 51",developPresets,"Apply preset 51 to active photo only. *button*"},
+  {"Preset_52",false,false,true,false,true,false,developPreset.." 52",developPresets,"Apply preset 52 to active photo only. *button*"},
+  {"Preset_53",false,false,true,false,true,false,developPreset.." 53",developPresets,"Apply preset 53 to active photo only. *button*"},
+  {"Preset_54",false,false,true,false,true,false,developPreset.." 54",developPresets,"Apply preset 54 to active photo only. *button*"},
+  {"Preset_55",false,false,true,false,true,false,developPreset.." 55",developPresets,"Apply preset 55 to active photo only. *button*"},
+  {"Preset_56",false,false,true,false,true,false,developPreset.." 56",developPresets,"Apply preset 56 to active photo only. *button*"},
+  {"Preset_57",false,false,true,false,true,false,developPreset.." 57",developPresets,"Apply preset 57 to active photo only. *button*"},
+  {"Preset_58",false,false,true,false,true,false,developPreset.." 58",developPresets,"Apply preset 58 to active photo only. *button*"},
+  {"Preset_59",false,false,true,false,true,false,developPreset.." 59",developPresets,"Apply preset 59 to active photo only. *button*"},
+  {"Preset_60",false,false,true,false,true,false,developPreset.." 60",developPresets,"Apply preset 60 to active photo only. *button*"},
+  {"Preset_61",false,false,true,false,true,false,developPreset.." 61",developPresets,"Apply preset 61 to active photo only. *button*"},
+  {"Preset_62",false,false,true,false,true,false,developPreset.." 62",developPresets,"Apply preset 62 to active photo only. *button*"},
+  {"Preset_63",false,false,true,false,true,false,developPreset.." 63",developPresets,"Apply preset 63 to active photo only. *button*"},
+  {"Preset_64",false,false,true,false,true,false,developPreset.." 64",developPresets,"Apply preset 64 to active photo only. *button*"},
+  {"Preset_65",false,false,true,false,true,false,developPreset.." 65",developPresets,"Apply preset 65 to active photo only. *button*"},
+  {"Preset_66",false,false,true,false,true,false,developPreset.." 66",developPresets,"Apply preset 66 to active photo only. *button*"},
+  {"Preset_67",false,false,true,false,true,false,developPreset.." 67",developPresets,"Apply preset 67 to active photo only. *button*"},
+  {"Preset_68",false,false,true,false,true,false,developPreset.." 68",developPresets,"Apply preset 68 to active photo only. *button*"},
+  {"Preset_69",false,false,true,false,true,false,developPreset.." 69",developPresets,"Apply preset 69 to active photo only. *button*"},
+  {"Preset_70",false,false,true,false,true,false,developPreset.." 70",developPresets,"Apply preset 70 to active photo only. *button*"},
+  {"Preset_71",false,false,true,false,true,false,developPreset.." 71",developPresets,"Apply preset 71 to active photo only. *button*"},
+  {"Preset_72",false,false,true,false,true,false,developPreset.." 72",developPresets,"Apply preset 72 to active photo only. *button*"},
+  {"Preset_73",false,false,true,false,true,false,developPreset.." 73",developPresets,"Apply preset 73 to active photo only. *button*"},
+  {"Preset_74",false,false,true,false,true,false,developPreset.." 74",developPresets,"Apply preset 74 to active photo only. *button*"},
+  {"Preset_75",false,false,true,false,true,false,developPreset.." 75",developPresets,"Apply preset 75 to active photo only. *button*"},
+  {"Preset_76",false,false,true,false,true,false,developPreset.." 76",developPresets,"Apply preset 76 to active photo only. *button*"},
+  {"Preset_77",false,false,true,false,true,false,developPreset.." 77",developPresets,"Apply preset 77 to active photo only. *button*"},
+  {"Preset_78",false,false,true,false,true,false,developPreset.." 78",developPresets,"Apply preset 78 to active photo only. *button*"},
+  {"Preset_79",false,false,true,false,true,false,developPreset.." 79",developPresets,"Apply preset 79 to active photo only. *button*"},
+  {"Preset_80",false,false,true,false,true,false,developPreset.." 80",developPresets,"Apply preset 80 to active photo only. *button*"},
+
 --
 --develop: localized adjustments
 --
@@ -722,10 +778,10 @@ for i,v in ipairs(DataBase) do
   else
     SelectivePasteHidden[v[1]] = v[8]
   end
-  end
-  if v[11] then
-    ProfileMap[v[1]] = v[11]
-  end
+end
+if v[11] then
+  ProfileMap[v[1]] = v[11]
+end
 end
 
 local paramdisp = {}
@@ -752,7 +808,7 @@ file:write([=[
   is updated or the language used by Lightroom changes. Edit Database.lua
   if you want to have persistent changes to the translations or menu structure.
 
-  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
   MIDI2LR is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later version.
@@ -761,7 +817,7 @@ file:write([=[
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
   PARTICULAR PURPOSE.  See the GNU General Public License for more details.
   You should have received a copy of the GNU General Public License along with
-  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ------------------------------------------------------------------------------]]
   local MenuList = ]=],serpent.block(MenuList, {comment = false}))
 file:close()
@@ -775,11 +831,11 @@ file:write([=[
   ParamList.lua
 
   This file was auto-generated by MIDI2LR and contains the parameters used by the
-  plugin. Edits to this file will be lost any time MIDI2LR is updated or the 
-  language used by Lightroom changes. Edit Database.lua if you want to have 
+  plugin. Edits to this file will be lost any time MIDI2LR is updated or the
+  language used by Lightroom changes. Edit Database.lua if you want to have
   persistent changes to the translations or menu structure.
 
-  This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+  This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
   MIDI2LR is free software: you can redistribute it and/or modify it under the
   terms of the GNU General Public License as published by the Free Software
   Foundation, either version 3 of the License, or (at your option) any later version.
@@ -788,7 +844,7 @@ file:write([=[
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
   PARTICULAR PURPOSE.  See the GNU General Public License for more details.
   You should have received a copy of the GNU General Public License along with
-  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ------------------------------------------------------------------------------]]
   local SelectivePasteMenu = ]=],serpent.block(SelectivePasteMenu, {comment = false}), [==[
 

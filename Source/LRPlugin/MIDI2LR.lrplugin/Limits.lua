@@ -8,7 +8,7 @@
 --------------------------------------------------------------------------------
 
 --[[
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -60,7 +60,26 @@ for k in pairs(ProgramPreferences.Limits) do
 end
 
 --------------------------------------------------------------------------------
--- Provides min and max for given parameter and mode.
+-- Checks whether in Develop module and whether a photo is selected. This should
+-- guard any calls that can reach into GetMinMax. Following is where calls should
+-- be guarded. Choices were made based upon effect on program responsiveness.
+-- Guard multiple calls to GetMinMax at one spot rather than further down the chain.
+-- FullRefresh has test for LimitsCanBeSet, and can be called without checking.
+-- MIDIValuetoLRValue has no test; all calls must check LimitsCanBeSet.
+-- LRValueToMIDIValue has no test; all calls must check LimistCanBeSet.
+-- ClampValue has no guard; all calls must be guarded.
+-- doprofilechange is guarded.
+-- @return bool as result of test
+--------------------------------------------------------------------------------
+local function LimitsCanBeSet()
+  return 
+  (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and
+  (LrApplicationView.getCurrentModuleName() == 'develop')
+end
+
+--------------------------------------------------------------------------------
+-- Provides min and max for given parameter and mode. Must be called in Develop
+-- module with photo selected.
 -- @param param Which parameter is being adjusted.
 -- @return min for given param and mode.
 -- @return max for given param and mode.
@@ -87,13 +106,12 @@ end
 -- This function is used to avoid the bug in pickup mode, in which the parameter's
 -- value may be too low or high to be picked up by the limited control range. By
 -- clamping value to min-max range, this forces parameter to be in the limited
--- control range. This function immediately returns without doing anything if the
--- Develop module isn't active or the parameter is not limited.
+-- control range. This function should not be called unless in develop with
+-- photo selected. Also check for existence of limits before calling.
 -- @param Parameter to clamp to limits.
 -- @return nil.
 --------------------------------------------------------------------------------
 local function ClampValue(param)
-  if LimitParameters[param] == nil or LrApplicationView.getCurrentModuleName() ~= 'develop' or LrApplication.activeCatalog():getTargetPhoto() == nil then return nil end 
   local min, max = GetMinMax(param)
   local value = LrDevelopController.getValue(param)
   if value < min then      
@@ -120,60 +138,54 @@ local function OptionsRows(f,obstable)
   for _, p in ipairs(DisplayOrder) do
     local low,high = LrDevelopController.getRange(p)
     local integral = high - 5 > low
-    table.insert( retval,
-      f:row { 
-        f:static_text {
-          title = ProgramPreferences.Limits[p]['label']..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
-          width = LrView.share('limit_label'),
-        }, -- static_text
-        f:static_text {
-          title = LrView.bind('Limits'..p..'Low'),
-          alignment = 'right',
-          width = LrView.share('limit_reading'),  
-        }, -- static_text
-        f:slider {
-          value = LrView.bind('Limits'..p..'Low'),
-          min = low, 
-          max = high,
-          integral = integral,
-          width = LrView.share('limit_slider'),
-        }, -- slider
-        f:static_text {
-          title = LrView.bind('Limits'..p..'High'),
-          alignment = 'right',
-          width = LrView.share('limit_reading'),                
-        }, -- static_text
-        f:slider {
-          value = LrView.bind('Limits'..p..'High'),
-          min = low ,
-          max = high,
-          integral = integral,
-          width = LrView.share('limit_slider'),
-        }, -- slider
-        f:push_button {
-          title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
-          action = function ()
-            if p == 'Temperature' and low > 0 then
-              obstable.TemperatureLow = 3000
-              obstable.TemperatureHigh = 9000
-            else
-              obstable['Limits'..p..'Low'] = low
-              obstable['Limits'..p..'High'] = high
-            end
-          end,
-        }, -- push_button
-      } -- row
-    ) -- table.insert
+    retval[#retval+1] = f:row { 
+      f:static_text {
+        title = ProgramPreferences.Limits[p]['label']..' '..LOC('$$$/MIDI2LR/Limits/Limits=Limits'),
+        width = LrView.share('limit_label'),
+      }, -- static_text
+      f:static_text {
+        title = LrView.bind('Limits'..p..'Low'),
+        alignment = 'right',
+        width = LrView.share('limit_reading'),  
+      }, -- static_text
+      f:slider {
+        value = LrView.bind('Limits'..p..'Low'),
+        min = low, 
+        max = high,
+        integral = integral,
+        width = LrView.share('limit_slider'),
+      }, -- slider
+      f:static_text {
+        title = LrView.bind('Limits'..p..'High'),
+        alignment = 'right',
+        width = LrView.share('limit_reading'),                
+      }, -- static_text
+      f:slider {
+        value = LrView.bind('Limits'..p..'High'),
+        min = low ,
+        max = high,
+        integral = integral,
+        width = LrView.share('limit_slider'),
+      }, -- slider
+      f:push_button {
+        title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
+        action = function ()
+          if p == 'Temperature' and low > 0 then
+            obstable.TemperatureLow = 3000
+            obstable.TemperatureHigh = 9000
+          else
+            obstable['Limits'..p..'Low'] = low
+            obstable['Limits'..p..'High'] = high
+          end
+        end,
+      }, -- push_button
+    } -- row
   end
   return retval -- array of rows
 end
 
-
-
-
 local function StartDialog(obstable,f)
-  local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
-  if limitsCanBeSet then
+  if LimitsCanBeSet() then
     for _,p in ipairs(DisplayOrder) do
       local min,max = GetMinMax(p)
       obstable['Limits'..p..'Low'] = min
@@ -185,10 +197,8 @@ local function StartDialog(obstable,f)
 end
 
 local function EndDialog(obstable, status)
-  if status == 'ok' then
-    local limitsCanBeSet = (LrApplication.activeCatalog():getTargetPhoto() ~= nil) and (LrApplicationView.getCurrentModuleName() == 'develop')
+  if status == 'ok' and LimitsCanBeSet() then
     --assign limits
-    if limitsCanBeSet then -- do NOT empty out prior settings, this is setting for one type picture only
       for _,p in ipairs(DisplayOrder) do
         if obstable['Limits'..p..'Low'] ~= nil and obstable['Limits'..p..'High'] ~= nil then
           if obstable['Limits'..p..'Low'] > obstable['Limits'..p..'High'] then --swap values
@@ -198,7 +208,6 @@ local function EndDialog(obstable, status)
           ProgramPreferences.Limits[p][max] = {obstable['Limits'..p..'Low'], obstable['Limits'..p..'High']}
         end
       end
-    end --if limitsCanBeSet
   end
 end
 
@@ -207,6 +216,7 @@ return { --table of exports, setting table member name and module function it po
   ClampValue  = ClampValue,
   EndDialog   = EndDialog,
   GetMinMax   = GetMinMax,
+  LimitsCanBeSet = LimitsCanBeSet,
   Parameters  = LimitParameters,
   StartDialog = StartDialog,
 }

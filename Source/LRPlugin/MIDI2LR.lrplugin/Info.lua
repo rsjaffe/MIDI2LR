@@ -3,7 +3,7 @@
 Info.lua
 MIDI2LR Plugin properties
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -18,8 +18,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 return {
-  LrForceInitPlugin = true,  
+  LrAlsoUseBuiltInTranslations = true, 
+  LrForceInitPlugin = true, 
   LrInitPlugin = 'Client.lua', -- Main client logic
+  LrPluginInfoUrl = 'https://github.com/rsjaffe/MIDI2LR/wiki',
   LrPluginName = 'MIDI2LR',
   LrSdkMinimumVersion = 6.0, -- minimum SDK version required by this plug-in
   LrSdkVersion = 6.0,
@@ -29,6 +31,10 @@ return {
     {
       title = LOC("$$$/AgCreations/NewCreationDialog/CreateItemDialog/Options=Options"),
       file = 'Options.lua',
+    },
+    {
+      title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop Preset"),
+      file = 'PresetsDialog.lua',
     },
     {
       title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
@@ -55,5 +61,5 @@ return {
       file = "Build.lua"
     },
   },
-  VERSION = { major=2, minor=3, revision=0, build=1}
+  VERSION = { major=2, minor=4, revision=0, build=0}
 }

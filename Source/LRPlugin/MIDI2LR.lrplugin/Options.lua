@@ -4,7 +4,7 @@ Options.lua
 
 Manages options for plugin
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -18,21 +18,27 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local ActionSeries      = require 'ActionSeries'
 local Filters           = require 'Filters'
 local Keys              = require 'Keys'
 local Limits            = require 'Limits' 
 local OU                = require 'OptionsUtilities'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
-local Presets           = require 'Presets'
 local Profiles          = require 'Profiles'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
 local LrView            = import 'LrView'
+--[[-----------debug section, enable by adding - to beginning this line
+local LrMobdebug = import 'LrMobdebug'
+--]]-----------end debug section
 
 local function setOptions()
   LrFunctionContext.callWithContext( "assignPresets", function( context )
+      --[[-----------debug section, enable by adding - to beginning this line
+      LrMobdebug.on()
+      --]]-----------end debug section
       local f = LrView.osFactory()
       local properties = LrBinding.makePropertyTable( context )
       --following not managed by another module
@@ -48,11 +54,6 @@ local function setOptions()
       f:view{
         bind_to_object = properties, -- default bound table
         f:tab_view {
-          f:tab_view_item {
-            title = LOC("$$$/SmartCollection/Criteria/DevelopPreset=Develop Preset"),
-            identifier = 'presets',
-            Presets.StartDialog(properties,f),
-          }, -- tab_view_item 
           f:tab_view_item {
             title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
             identifier = 'pasteselections',
@@ -82,6 +83,11 @@ local function setOptions()
             f:separator {fill_horizontal = 0.9},
             Keys.StartDialog(properties,f),
           }, -- tab_view_item
+          f:tab_view_item {
+            title = LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands"),
+            identifier = 'commandseries',
+            ActionSeries.StartDialog(properties,f),
+          }, --tab_view_item
         }, -- tab_view
       } -- view
 
@@ -90,10 +96,10 @@ local function setOptions()
         title = LOC('$$$/MIDI2LR/Options/dlgtitle=Set MIDI2LR options'),
         contents = contents,
       }
+      ActionSeries.EndDialog(properties,result)
       Filters.EndDialog(properties,result)
       Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)
-      Presets.EndDialog(properties,result)
       Paste.EndDialog(properties,result)
       Profiles.EndDialog(properties,result)
       if result == 'ok' then

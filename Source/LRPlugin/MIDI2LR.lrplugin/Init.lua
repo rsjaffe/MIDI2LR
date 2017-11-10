@@ -11,7 +11,7 @@ initialization.
 
 Each type needs to have a Loaded and UseDefaults function.
  
-This file is part of MIDI2LR. Copyright 2015-2016 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -28,6 +28,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local ParamList           = require 'ParamList'
 local ProfileTypes        = require 'ProfileTypes'
 
+
+--ActionSeries.lua
+local function UseDefaultsActionSeries()
+  ProgramPreferences.ActionSeries = {}
+end
+local function LoadedActionSeries()
+  if type(ProgramPreferences.ActionSeries) ~= 'table' then
+    ProgramPreferences.ActionSeries = {}
+  end
+end
 
 --Filters.lua
 local function UseDefaultsFilters()
@@ -109,18 +119,41 @@ local function LoadedKeys()
   end
 end
 
+local function LoadedAll()
+  LoadedActionSeries()
+  LoadedFilters()
+  LoadedKeys()
+  LoadedLimits()
+  LoadedPaste()
+  LoadedPresets()
+  LoadedProfiles()
+end
+
+local function UseDefaultsAll()
+  UseDefaultsActionSeries()
+  UseDefaultsFilters()
+  UseDefaultsKeys()
+  UseDefaultsLimits()
+  UseDefaultsPaste()
+  UseDefaultsPresets()
+  UseDefaultsProfiles()
+end
 
 return {
+  LoadedActionSeries  = LoadedActionSeries,
   LoadedFilters       = LoadedFilters,
   LoadedKeys          = LoadedKeys,
   LoadedLimits        = LoadedLimits,
   LoadedPaste         = LoadedPaste,
   LoadedPresets       = LoadedPresets,
   LoadedProfiles      = LoadedProfiles,
+  UseDefaultsActionSeries = UseDefaultsActionSeries,
   UseDefaultsFilters  = UseDefaultsFilters,
   UseDefaultsKeys     = UseDefaultsKeys,
   UseDefaultsLimits   = UseDefaultsLimits,
   UseDefaultsPaste    = UseDefaultsPaste,
   UseDefaultsPresets  = UseDefaultsPresets,
   UseDefaultsProfiles = UseDefaultsProfiles,
+  LoadedAll           = LoadedAll,
+  UseDefaultsAll      = UseDefaultsAll,
 }

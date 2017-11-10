@@ -1,8 +1,9 @@
-local n, v = "serpent", 0.288 -- (C) 2012-17 Paul Kulchenko; MIT License
+local n, v = "serpent", "0.30" -- (C) 2012-17 Paul Kulchenko; MIT License
 local c, d = "Paul Kulchenko", "Lua serializer and pretty printer"
 local snum = {[tostring(1/0)]='1/0 --[[math.huge]]',[tostring(-1/0)]='-1/0 --[[-math.huge]]',[tostring(0/0)]='0/0'}
 local badtype = {thread = true, userdata = true, cdata = true}
 local getmetatable = debug and debug.getmetatable or getmetatable
+local pairs = function(t) return next, t end -- avoid using __pairs in Lua 5.2+
 local keyword, globals, G = {}, {}, (_G or _ENV)
 for _,k in ipairs({'and', 'break', 'do', 'else', 'elseif', 'end', 'false',
   'for', 'function', 'goto', 'if', 'in', 'local', 'nil', 'not', 'or', 'repeat',
@@ -15,7 +16,7 @@ local function s(t, opts)
   local name, indent, fatal, maxnum = opts.name, opts.indent, opts.fatal, opts.maxnum
   local sparse, custom, huge = opts.sparse, opts.custom, not opts.nohuge
   local space, maxl = (opts.compact and '' or ' '), (opts.maxlevel or math.huge)
-  local maxlen = tonumber(opts.maxlength)
+  local maxlen, metatostring = tonumber(opts.maxlength), opts.metatostring
   local iname, comm = '_'..(name or ''), opts.comment and (tonumber(opts.comment) or math.huge)
   local numformat = opts.numformat or "%.17g"
   local seen, sref, syms, symn = {}, {'local '..iname..'={}'}, {}, 0
@@ -53,9 +54,9 @@ local function s(t, opts)
     if type(mt) == 'table' then
       local to, tr = pcall(function() return mt.__tostring(t) end)
       local so, sr = pcall(function() return mt.__serialize(t) end)
-      if (to or so) then -- knows how to serialize itself
+      if (opts.metatostring ~= false and to or so) then -- knows how to serialize itself
         seen[t] = insref or spath
-        if so then t = sr else t = tostring(t) end
+        t = so and sr or tr
         ttype = type(t)
       end -- new value falls through to be serialized
     end
@@ -99,7 +100,7 @@ local function s(t, opts)
       local head = indent and '{\n'..prefix..indent or '{'
       local body = table.concat(out, ','..(indent and '\n'..prefix..indent or space))
       local tail = indent and "\n"..prefix..'}' or '}'
-      return (custom and custom(tag,head,body,tail) or tag..head..body..tail)..comment(t, level)
+      return (custom and custom(tag,head,body,tail,level) or tag..head..body..tail)..comment(t, level)
     elseif badtype[ttype] then
       seen[t] = insref or spath
       return tag..globerr(t, level)
@@ -137,3 +138,4 @@ return { _NAME = n, _COPYRIGHT = c, _DESCRIPTION = d, _VERSION = v, serialize = 
   dump = function(a, opts) return s(a, merge({name = '_', compact = true, sparse = true}, opts)) end,
   line = function(a, opts) return s(a, merge({sortkeys = true, comment = true}, opts)) end,
   block = function(a, opts) return s(a, merge({indent = '  ', sortkeys = true, comment = true}, opts)) end }
+

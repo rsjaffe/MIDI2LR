@@ -5,7 +5,7 @@
 
   MainComponent.cpp
 
-This file is part of MIDI2LR. Copyright 2015-2017 by Rory Jaffe.
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -285,10 +285,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             browser,
             true,
             juce::Colours::lightgrey};
-        if (dialog_box.show()) {
+        if (dialog_box.show() && command_map_) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-            if (command_map_)
-                command_map_->toXMLDocument(selected_file);
+            command_map_->toXMLDocument(selected_file);
         }
     }
     else if (button == &load_button_) {
@@ -355,7 +354,7 @@ void MainContentComponent::SetTimerText(int time_value)
 {
     if (time_value > 0)
         current_status_.setText(juce::String::formatted("Hiding in %i Sec.", time_value),
-                                juce::NotificationType::dontSendNotification);
+            juce::NotificationType::dontSendNotification);
     else
         current_status_.setText("", juce::NotificationType::dontSendNotification);
 }
