@@ -150,7 +150,7 @@ local DataBase = {
   {'Filter_9',false,false,true,false,true,false,filter..' 9',filter,'Library filter 9. *button*'},
   {'Filter_10',false,false,true,false,true,false,filter..' 10',filter,'Library filter 10. *button*'},  
   {'Filter_11',false,false,true,false,true,false,filter..' 11',filter,'Library filter 11. *button*'},  
-  {'Filter_12',false,false,true,false,true,false,filter..' 11',filter,'Library filter 12. *button*'},  
+  {'Filter_12',false,false,true,false,true,false,filter..' 12',filter,'Library filter 12. *button*'},  
 
   --General Workspace
   --workspace: grid view options
