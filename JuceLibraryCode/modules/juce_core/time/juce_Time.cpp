@@ -28,7 +28,7 @@ namespace TimeHelpers
     static std::tm millisToLocal (int64 millis) noexcept
     {
        #if JUCE_WINDOWS && JUCE_MINGW
-        auto now = (time_t) (millis / 1000);
+        time_t now = (time_t) (millis / 1000);
         return *localtime (&now);
 
        #elif JUCE_WINDOWS
@@ -42,7 +42,7 @@ namespace TimeHelpers
 
        #else
         std::tm result;
-        auto now = (time_t) (millis / 1000);
+        time_t now = (time_t) (millis / 1000);
 
         if (localtime_r (&now, &result) == nullptr)
             zerostruct (result);
@@ -54,7 +54,7 @@ namespace TimeHelpers
     static std::tm millisToUTC (int64 millis) noexcept
     {
        #if JUCE_WINDOWS && JUCE_MINGW
-        auto now = (time_t) (millis / 1000);
+        time_t now = (time_t) (millis / 1000);
         return *gmtime (&now);
 
        #elif JUCE_WINDOWS
@@ -68,7 +68,7 @@ namespace TimeHelpers
 
        #else
         std::tm result;
-        auto now = (time_t) (millis / 1000);
+        time_t now = (time_t) (millis / 1000);
 
         if (gmtime_r (&now, &result) == nullptr)
             zerostruct (result);
@@ -79,7 +79,7 @@ namespace TimeHelpers
 
     static int getUTCOffsetSeconds (const int64 millis) noexcept
     {
-        auto utc = millisToUTC (millis);
+        std::tm utc = millisToUTC (millis);
         utc.tm_isdst = -1;  // Treat this UTC time as local to find the offset
 
         return (int) ((millis / 1000) - (int64) mktime (&utc));
@@ -110,14 +110,14 @@ namespace TimeHelpers
         {
             HeapBlock<StringType::CharType> buffer (bufferSize);
 
-            auto numChars =
-                       #if JUCE_ANDROID
-                        strftime (buffer, bufferSize - 1, format.toUTF8(), tm);
-                       #elif JUCE_WINDOWS
-                        wcsftime (buffer, bufferSize - 1, format.toWideCharPointer(), tm);
-                       #else
-                        wcsftime (buffer, bufferSize - 1, format.toUTF32(), tm);
-                       #endif
+            const size_t numChars =
+                           #if JUCE_ANDROID
+                            strftime (buffer, bufferSize - 1, format.toUTF8(), tm);
+                           #elif JUCE_WINDOWS
+                            wcsftime (buffer, bufferSize - 1, format.toWideCharPointer(), tm);
+                           #else
+                            wcsftime (buffer, bufferSize - 1, format.toUTF32(), tm);
+                           #endif
 
             if (numChars > 0 || format.isEmpty())
                 return String (StringType (buffer),
@@ -189,13 +189,18 @@ Time::Time (const Time& other) noexcept  : millisSinceEpoch (other.millisSinceEp
 {
 }
 
-Time::Time (int64 ms) noexcept  : millisSinceEpoch (ms)
+Time::Time (const int64 ms) noexcept  : millisSinceEpoch (ms)
 {
 }
 
-Time::Time (int year, int month, int day,
-            int hours, int minutes, int seconds, int milliseconds,
-            bool useLocalTime) noexcept
+Time::Time (const int year,
+            const int month,
+            const int day,
+            const int hours,
+            const int minutes,
+            const int seconds,
+            const int milliseconds,
+            const bool useLocalTime) noexcept
 {
     std::tm t;
     t.tm_year   = year - 1900;
@@ -245,7 +250,7 @@ uint32 juce_millisecondsSinceStartup() noexcept;
 
 uint32 Time::getMillisecondCounter() noexcept
 {
-    auto now = juce_millisecondsSinceStartup();
+    const uint32 now = juce_millisecondsSinceStartup();
 
     if (now < TimeHelpers::lastMSCounterValue)
     {
@@ -271,16 +276,16 @@ uint32 Time::getApproximateMillisecondCounter() noexcept
     return TimeHelpers::lastMSCounterValue;
 }
 
-void Time::waitForMillisecondCounter (uint32 targetTime) noexcept
+void Time::waitForMillisecondCounter (const uint32 targetTime) noexcept
 {
     for (;;)
     {
-        auto now = getMillisecondCounter();
+        const uint32 now = getMillisecondCounter();
 
         if (now >= targetTime)
             break;
 
-        auto toWait = (int) (targetTime - now);
+        const int toWait = (int) (targetTime - now);
 
         if (toWait > 2)
         {
@@ -327,14 +332,14 @@ String Time::toString (const bool includeDate,
 
     if (includeTime)
     {
-        auto mins = getMinutes();
+        const int mins = getMinutes();
 
         result << (use24HourClock ? getHours() : getHoursInAmPmFormat())
                << (mins < 10 ? ":0" : ":") << mins;
 
         if (includeSeconds)
         {
-            auto secs = getSeconds();
+            const int secs = getSeconds();
             result << (secs < 10 ? ":0" : ":") << secs;
         }
 
@@ -364,7 +369,7 @@ int Time::getMilliseconds() const noexcept  { return TimeHelpers::extendedModulo
 
 int Time::getHoursInAmPmFormat() const noexcept
 {
-    auto hours = getHours();
+    const int hours = getHours();
 
     if (hours == 0)  return 12;
     if (hours <= 12) return hours;
@@ -403,7 +408,7 @@ String Time::getTimeZone() const noexcept
   #else
     tzset();
 
-    auto zonePtr = (const char**) tzname;
+    const char** const zonePtr = (const char**) tzname;
     zone[0] = zonePtr[0];
     zone[1] = zonePtr[1];
   #endif
@@ -477,19 +482,17 @@ static int parseFixedSizeIntAndSkip (String::CharPointerType& t, int numChars, c
 
 Time Time::fromISO8601 (StringRef iso) noexcept
 {
-    auto t = iso.text;
-    auto year = parseFixedSizeIntAndSkip (t, 4, '-');
+    String::CharPointerType t = iso.text;
 
+    const int year = parseFixedSizeIntAndSkip (t, 4, '-');
     if (year < 0)
         return {};
 
-    auto month = parseFixedSizeIntAndSkip (t, 2, '-');
-
+    const int month = parseFixedSizeIntAndSkip (t, 2, '-');
     if (month < 0)
         return {};
 
-    auto day = parseFixedSizeIntAndSkip (t, 2, 0);
-
+    const int day = parseFixedSizeIntAndSkip (t, 2, 0);
     if (day < 0)
         return {};
 
@@ -499,17 +502,14 @@ Time Time::fromISO8601 (StringRef iso) noexcept
     {
         ++t;
         hours = parseFixedSizeIntAndSkip (t, 2, ':');
-
         if (hours < 0)
             return {};
 
         minutes = parseFixedSizeIntAndSkip (t, 2, ':');
-
         if (minutes < 0)
             return {};
 
         auto seconds = parseFixedSizeIntAndSkip (t, 2, 0);
-
         if (seconds < 0)
              return {};
 
@@ -517,7 +517,6 @@ Time Time::fromISO8601 (StringRef iso) noexcept
         {
             ++t;
             milliseconds = parseFixedSizeIntAndSkip (t, 3, 0);
-
             if (milliseconds < 0)
                 return {};
         }
@@ -525,21 +524,19 @@ Time Time::fromISO8601 (StringRef iso) noexcept
         milliseconds += 1000 * seconds;
     }
 
-    auto nextChar = t.getAndAdvance();
+    const juce_wchar nextChar = t.getAndAdvance();
 
     if (nextChar == '-' || nextChar == '+')
     {
-        auto offsetHours = parseFixedSizeIntAndSkip (t, 2, ':');
-
+        const int offsetHours = parseFixedSizeIntAndSkip (t, 2, ':');
         if (offsetHours < 0)
             return {};
 
-        auto offsetMinutes = parseFixedSizeIntAndSkip (t, 2, 0);
-
+        const int offsetMinutes = parseFixedSizeIntAndSkip (t, 2, 0);
         if (offsetMinutes < 0)
             return {};
 
-        auto offsetMs = (offsetHours * 60 + offsetMinutes) * 60 * 1000;
+        const int offsetMs = (offsetHours * 60 + offsetMinutes) * 60 * 1000;
         milliseconds += nextChar == '-' ? offsetMs : -offsetMs; // NB: this seems backwards but is correct!
     }
     else if (nextChar != 0 && nextChar != 'Z')

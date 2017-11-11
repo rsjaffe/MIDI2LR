@@ -252,7 +252,7 @@ private:
     //==============================================================================
     typedef HeapBlock<char, true> HeapBlockType;
     HeapBlockType data;
-    size_t size = 0;
+    size_t size;
 
     JUCE_LEAK_DETECTOR (MemoryBlock)
 };

@@ -42,7 +42,7 @@ namespace juce
     script creates complex connections between objects, you run the risk of creating cyclic
     dependencies and hence leaking.
 */
-class JUCE_API  JavascriptEngine  final
+class JUCE_API  JavascriptEngine
 {
 public:
     /** Creates an instance of the engine.

@@ -276,12 +276,12 @@ public:
 
 private:
     //==============================================================================
-    int titleBarHeight = 26, menuBarHeight = 24, requiredButtons;
-    bool positionTitleBarButtonsOnLeft, drawTitleTextCentred = true;
+    int titleBarHeight, menuBarHeight, requiredButtons;
+    bool positionTitleBarButtonsOnLeft, drawTitleTextCentred;
     ScopedPointer<Button> titleBarButtons [3];
     Image titleBarIcon;
     ScopedPointer<Component> menuBar;
-    MenuBarModel* menuBarModel = nullptr;
+    MenuBarModel* menuBarModel;
 
     class ButtonListenerProxy;
     friend struct ContainerDeletePolicy<ButtonListenerProxy>;

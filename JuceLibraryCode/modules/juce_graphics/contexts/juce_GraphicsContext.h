@@ -40,7 +40,7 @@ namespace juce
 
     @see Component::paint
 */
-class JUCE_API  Graphics  final
+class JUCE_API  Graphics
 {
 public:
     //==============================================================================

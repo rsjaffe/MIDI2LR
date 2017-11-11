@@ -33,19 +33,19 @@ class MultiTouchMapper
 public:
     MultiTouchMapper() {}
 
-    int getIndexOfTouch (ComponentPeer* peer, IDType touchID)
+    int getIndexOfTouch (IDType touchID)
     {
         jassert (touchID != 0); // need to rethink this if IDs can be 0!
-        TouchInfo info {touchID, peer};
 
-        int touchIndex = currentTouches.indexOf (info);
+        int touchIndex = currentTouches.indexOf (touchID);
 
         if (touchIndex < 0)
         {
-            auto emptyTouchIndex = currentTouches.indexOf ({});
-            touchIndex = (emptyTouchIndex >= 0 ? emptyTouchIndex : currentTouches.size());
+            for (touchIndex = 0; touchIndex < currentTouches.size(); ++touchIndex)
+                if (currentTouches.getUnchecked (touchIndex) == 0)
+                    break;
 
-            currentTouches.set (touchIndex, info);
+            currentTouches.set (touchIndex, touchID);
         }
 
         return touchIndex;
@@ -58,55 +58,20 @@ public:
 
     void clearTouch (int index)
     {
-        currentTouches.set (index, {});
+        currentTouches.set (index, 0);
     }
 
     bool areAnyTouchesActive() const noexcept
     {
         for (auto& t : currentTouches)
-            if (t.touchId != 0)
+            if (t != 0)
                 return true;
 
         return false;
     }
 
-    void deleteAllTouchesForPeer (ComponentPeer* peer)
-    {
-        for (auto& t : currentTouches)
-            if (t.owner == peer)
-                t.touchId = 0;
-    }
-
 private:
-    //==============================================================================
-    struct TouchInfo
-    {
-        TouchInfo() noexcept  : touchId (0), owner (nullptr) {}
-        TouchInfo (IDType idToUse, ComponentPeer* peer) noexcept  : touchId (idToUse), owner (peer) {}
-
-        TouchInfo (const TouchInfo&) = default;
-        TouchInfo& operator= (const TouchInfo&) = default;
-
-        // VS2013 can't default move constructors
-        TouchInfo (TouchInfo&& other) noexcept  : touchId (other.touchId), owner (other.owner) {}
-
-        // VS2013 can't default move assignments
-        TouchInfo& operator= (TouchInfo&& other) noexcept
-        {
-            touchId = other.touchId;
-            owner = other.owner;
-
-            return *this;
-        }
-
-        IDType touchId;
-        ComponentPeer* owner;
-
-        bool operator== (const TouchInfo& o) const noexcept     { return (touchId == o.touchId); }
-    };
-
-    //==============================================================================
-    Array<TouchInfo> currentTouches;
+    Array<IDType> currentTouches;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MultiTouchMapper)
 };

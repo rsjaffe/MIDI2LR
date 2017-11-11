@@ -317,12 +317,9 @@ public:
     /** Re-sets the pitchbend range in semitones (0-96) to be used for notes when in legacy mode. */
     void setLegacyModePitchbendRange (int pitchbendRange);
 
-protected:
-    //==============================================================================
-    CriticalSection lock;
-
 private:
     //==============================================================================
+    CriticalSection lock;
     Array<MPENote> notes;
     MPEZoneLayout zoneLayout;
     ListenerList<Listener> listeners;

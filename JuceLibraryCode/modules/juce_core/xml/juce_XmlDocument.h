@@ -55,7 +55,6 @@ namespace juce
     if (xml != nullptr && xml->hasTagName ("foobar"))
     {
         ...etc
-    }
     @endcode
 
     @see XmlElement

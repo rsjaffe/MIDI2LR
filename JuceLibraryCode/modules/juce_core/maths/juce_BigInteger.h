@@ -323,8 +323,8 @@ private:
     HeapBlock<uint32> heapAllocation;
     uint32 preallocated[numPreallocatedInts];
     size_t allocatedSize;
-    int highestBit = -1;
-    bool negative = false;
+    int highestBit;
+    bool negative;
 
     uint32* getValues() const noexcept;
     uint32* ensureSize (size_t);
@@ -336,5 +336,11 @@ private:
 
 /** Writes a BigInteger to an OutputStream as a UTF8 decimal string. */
 OutputStream& JUCE_CALLTYPE operator<< (OutputStream& stream, const BigInteger& value);
+
+//==============================================================================
+#ifndef DOXYGEN
+ // For backwards compatibility, BitArray is defined as an alias for BigInteger.
+ typedef BigInteger BitArray;
+#endif
 
 } // namespace juce

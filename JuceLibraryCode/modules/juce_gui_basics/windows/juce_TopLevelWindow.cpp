@@ -32,8 +32,14 @@ class TopLevelWindowManager  : private Timer,
                                private DeletedAtShutdown
 {
 public:
-    TopLevelWindowManager()     {}
-    ~TopLevelWindowManager()    { clearSingletonInstance(); }
+    TopLevelWindowManager()  : currentActive (nullptr)
+    {
+    }
+
+    ~TopLevelWindowManager()
+    {
+        clearSingletonInstance();
+    }
 
     juce_DeclareSingleton_SingleThreaded_Minimal (TopLevelWindowManager)
 
@@ -46,14 +52,14 @@ public:
     {
         startTimer (jmin (1731, getTimerInterval() * 2));
 
-        auto* newActive = findCurrentlyActiveWindow();
+        TopLevelWindow* newActive = findCurrentlyActiveWindow();
 
         if (newActive != currentActive)
         {
             currentActive = newActive;
 
             for (int i = windows.size(); --i >= 0;)
-                if (auto* tlw = windows[i])
+                if (TopLevelWindow* tlw = windows[i])
                     tlw->setWindowActive (isWindowActive (tlw));
 
             Desktop::getInstance().triggerFocusCallback();
@@ -77,14 +83,14 @@ public:
 
         windows.removeFirstMatchingValue (w);
 
-        if (windows.isEmpty())
+        if (windows.size() == 0)
             deleteInstance();
     }
 
     Array<TopLevelWindow*> windows;
 
 private:
-    TopLevelWindow* currentActive = nullptr;
+    TopLevelWindow* currentActive;
 
     void timerCallback() override
     {
@@ -103,8 +109,8 @@ private:
     {
         if (Process::isForegroundProcess())
         {
-            auto* focusedComp = Component::getCurrentlyFocusedComponent();
-            auto* w = dynamic_cast<TopLevelWindow*> (focusedComp);
+            Component* const focusedComp = Component::getCurrentlyFocusedComponent();
+            TopLevelWindow* w = dynamic_cast<TopLevelWindow*> (focusedComp);
 
             if (w == nullptr && focusedComp != nullptr)
                 w = focusedComp->findParentComponentOfClass<TopLevelWindow>();
@@ -127,13 +133,16 @@ juce_ImplementSingleton_SingleThreaded (TopLevelWindowManager)
 void juce_checkCurrentlyFocusedTopLevelWindow();
 void juce_checkCurrentlyFocusedTopLevelWindow()
 {
-    if (auto* wm = TopLevelWindowManager::getInstanceWithoutCreating())
+    if (TopLevelWindowManager* const wm = TopLevelWindowManager::getInstanceWithoutCreating())
         wm->checkFocusAsync();
 }
 
 //==============================================================================
 TopLevelWindow::TopLevelWindow (const String& name, const bool shouldAddToDesktop)
-    : Component (name)
+    : Component (name),
+      useDropShadow (true),
+      useNativeTitleBar (false),
+      isCurrentlyActive (false)
 {
     setOpaque (true);
 
@@ -156,7 +165,7 @@ TopLevelWindow::~TopLevelWindow()
 //==============================================================================
 void TopLevelWindow::focusOfChildComponentChanged (FocusChangeType)
 {
-    auto* wm = TopLevelWindowManager::getInstance();
+    TopLevelWindowManager* const wm = TopLevelWindowManager::getInstance();
 
     if (hasKeyboardFocus (true))
         wm->checkFocus();
@@ -185,7 +194,7 @@ bool TopLevelWindow::isUsingNativeTitleBar() const noexcept
 void TopLevelWindow::visibilityChanged()
 {
     if (isShowing())
-        if (auto* p = getPeer())
+        if (ComponentPeer* p = getPeer())
             if ((p->getStyleFlags() & (ComponentPeer::windowIsTemporary
                                         | ComponentPeer::windowIgnoresKeyPresses)) == 0)
                 toFront (true);
@@ -293,10 +302,10 @@ void TopLevelWindow::centreAroundComponent (Component* c, const int width, const
     }
     else
     {
-        auto targetCentre = c->localPointToGlobal (c->getLocalBounds().getCentre());
-        auto parentArea = c->getParentMonitorArea();
+        Point<int> targetCentre (c->localPointToGlobal (c->getLocalBounds().getCentre()));
+        Rectangle<int> parentArea (c->getParentMonitorArea());
 
-        if (auto* parent = getParentComponent())
+        if (Component* const parent = getParentComponent())
         {
             targetCentre = parent->getLocalPoint (nullptr, targetCentre);
             parentArea   = parent->getLocalBounds();
@@ -327,13 +336,13 @@ TopLevelWindow* TopLevelWindow::getActiveTopLevelWindow() noexcept
 
     for (int i = TopLevelWindow::getNumTopLevelWindows(); --i >= 0;)
     {
-        auto* tlw = TopLevelWindow::getTopLevelWindow (i);
+        TopLevelWindow* const tlw = TopLevelWindow::getTopLevelWindow (i);
 
         if (tlw->isActiveWindow())
         {
             int numTWLParents = 0;
 
-            for (auto* c = tlw->getParentComponent(); c != nullptr; c = c->getParentComponent())
+            for (const Component* c = tlw->getParentComponent(); c != nullptr; c = c->getParentComponent())
                 if (dynamic_cast<const TopLevelWindow*> (c) != nullptr)
                     ++numTWLParents;
 

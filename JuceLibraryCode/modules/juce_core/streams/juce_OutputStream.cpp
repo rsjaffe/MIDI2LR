@@ -63,7 +63,7 @@ OutputStream::~OutputStream()
 }
 
 //==============================================================================
-bool OutputStream::writeBool (bool b)
+bool OutputStream::writeBool (const bool b)
 {
     return writeByte (b ? (char) 1
                         : (char) 0);
@@ -85,32 +85,32 @@ bool OutputStream::writeRepeatedByte (uint8 byte, size_t numTimesToRepeat)
 
 bool OutputStream::writeShort (short value)
 {
-    auto v = ByteOrder::swapIfBigEndian ((uint16) value);
+    const unsigned short v = ByteOrder::swapIfBigEndian ((unsigned short) value);
     return write (&v, 2);
 }
 
 bool OutputStream::writeShortBigEndian (short value)
 {
-    auto v = ByteOrder::swapIfLittleEndian ((uint16) value);
+    const unsigned short v = ByteOrder::swapIfLittleEndian ((unsigned short) value);
     return write (&v, 2);
 }
 
 bool OutputStream::writeInt (int value)
 {
-    auto v = ByteOrder::swapIfBigEndian ((uint32) value);
+    const unsigned int v = ByteOrder::swapIfBigEndian ((unsigned int) value);
     return write (&v, 4);
 }
 
 bool OutputStream::writeIntBigEndian (int value)
 {
-    auto v = ByteOrder::swapIfLittleEndian ((uint32) value);
+    const unsigned int v = ByteOrder::swapIfLittleEndian ((unsigned int) value);
     return write (&v, 4);
 }
 
 bool OutputStream::writeCompressedInt (int value)
 {
-    auto un = (value < 0) ? (unsigned int) -value
-                          : (unsigned int) value;
+    unsigned int un = (value < 0) ? (unsigned int) -value
+                                  : (unsigned int) value;
 
     uint8 data[5];
     int num = 0;
@@ -131,13 +131,13 @@ bool OutputStream::writeCompressedInt (int value)
 
 bool OutputStream::writeInt64 (int64 value)
 {
-    auto v = ByteOrder::swapIfBigEndian ((uint64) value);
+    const uint64 v = ByteOrder::swapIfBigEndian ((uint64) value);
     return write (&v, 8);
 }
 
 bool OutputStream::writeInt64BigEndian (int64 value)
 {
-    auto v = ByteOrder::swapIfLittleEndian ((uint64) value);
+    const uint64 v = ByteOrder::swapIfLittleEndian ((uint64) value);
     return write (&v, 8);
 }
 
@@ -183,19 +183,20 @@ bool OutputStream::writeString (const String& text)
    #endif
 }
 
-bool OutputStream::writeText (const String& text, bool asUTF16, bool writeUTF16ByteOrderMark)
+bool OutputStream::writeText (const String& text, const bool asUTF16,
+                              const bool writeUTF16ByteOrderMark)
 {
     if (asUTF16)
     {
         if (writeUTF16ByteOrderMark)
             write ("\x0ff\x0fe", 2);
 
-        auto src = text.getCharPointer();
+        String::CharPointerType src (text.getCharPointer());
         bool lastCharWasReturn = false;
 
         for (;;)
         {
-            auto c = src.getAndAdvance();
+            const juce_wchar c = src.getAndAdvance();
 
             if (c == 0)
                 break;
@@ -212,7 +213,7 @@ bool OutputStream::writeText (const String& text, bool asUTF16, bool writeUTF16B
     else
     {
         const char* src = text.toUTF8();
-        auto* t = src;
+        const char* t = src;
 
         for (;;)
         {
@@ -257,8 +258,8 @@ int64 OutputStream::writeFromInputStream (InputStream& source, int64 numBytesToW
 
     while (numBytesToWrite > 0)
     {
-        char buffer[8192];
-        auto num = source.read (buffer, (int) jmin (numBytesToWrite, (int64) sizeof (buffer)));
+        char buffer [8192];
+        const int num = source.read (buffer, (int) jmin (numBytesToWrite, (int64) sizeof (buffer)));
 
         if (num <= 0)
             break;
@@ -282,7 +283,7 @@ void OutputStream::setNewLineString (const String& newLineString_)
 template <typename IntegerType>
 static void writeIntToStream (OutputStream& stream, IntegerType number)
 {
-    char buffer[NumberToStringConverters::charsNeededForInt];
+    char buffer [NumberToStringConverters::charsNeededForInt];
     char* end = buffer + numElementsInArray (buffer);
     const char* start = NumberToStringConverters::numberToString (end, number);
     stream.write (start, (size_t) (end - start - 1));

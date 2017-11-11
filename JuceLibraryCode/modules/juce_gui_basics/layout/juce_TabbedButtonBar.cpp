@@ -27,8 +27,8 @@
 namespace juce
 {
 
-TabBarButton::TabBarButton (const String& name, TabbedButtonBar& bar)
-    : Button (name), owner (bar)
+TabBarButton::TabBarButton (const String& name, TabbedButtonBar& owner_)
+    : Button (name), owner (owner_), overlapPixels (0), extraCompPlacement (afterText)
 {
     setWantsKeyboardFocus (false);
 }
@@ -54,7 +54,7 @@ void TabBarButton::clicked (const ModifierKeys& mods)
 
 bool TabBarButton::hitTest (int mx, int my)
 {
-    auto area = getActiveArea();
+    const Rectangle<int> area (getActiveArea());
 
     if (owner.isVertical())
     {
@@ -83,11 +83,11 @@ int TabBarButton::getBestTabLength (const int depth)
 
 void TabBarButton::calcAreas (Rectangle<int>& extraComp, Rectangle<int>& textArea) const
 {
-    auto& lf = getLookAndFeel();
+    LookAndFeel& lf = getLookAndFeel();
     textArea = getActiveArea();
 
-    auto depth = owner.isVertical() ? textArea.getWidth() : textArea.getHeight();
-    auto overlap = lf.getTabButtonOverlap (depth);
+    const int depth = owner.isVertical() ? textArea.getWidth() : textArea.getHeight();
+    const int overlap = lf.getTabButtonOverlap (depth);
 
     if (overlap > 0)
     {
@@ -101,7 +101,7 @@ void TabBarButton::calcAreas (Rectangle<int>& extraComp, Rectangle<int>& textAre
     {
         extraComp = lf.getTabButtonExtraComponentBounds (*this, textArea, *extraComponent);
 
-        auto orientation = owner.getOrientation();
+        const TabbedButtonBar::Orientation orientation = owner.getOrientation();
 
         if (orientation == TabbedButtonBar::TabsAtLeft || orientation == TabbedButtonBar::TabsAtRight)
         {
@@ -129,9 +129,9 @@ Rectangle<int> TabBarButton::getTextArea() const
 
 Rectangle<int> TabBarButton::getActiveArea() const
 {
-    auto r = getLocalBounds();
-    auto spaceAroundImage = getLookAndFeel().getTabButtonSpaceAroundImage();
-    auto orientation = owner.getOrientation();
+    Rectangle<int> r (getLocalBounds());
+    const int spaceAroundImage = getLookAndFeel().getTabButtonSpaceAroundImage();
+    const TabbedButtonBar::Orientation orientation = owner.getOrientation();
 
     if (orientation != TabbedButtonBar::TabsAtLeft)      r.removeFromRight  (spaceAroundImage);
     if (orientation != TabbedButtonBar::TabsAtRight)     r.removeFromLeft   (spaceAroundImage);
@@ -203,8 +203,10 @@ private:
 
 
 //==============================================================================
-TabbedButtonBar::TabbedButtonBar (Orientation orientationToUse)
-    : orientation (orientationToUse)
+TabbedButtonBar::TabbedButtonBar (const Orientation orientation_)
+    : orientation (orientation_),
+      minimumScale (0.7),
+      currentTabIndex (-1)
 {
     setInterceptsMouseClicks (false, true);
     addAndMakeVisible (behindFrontTab = new BehindFrontTabComp (*this));
@@ -258,9 +260,9 @@ void TabbedButtonBar::addTab (const String& tabName,
         if (! isPositiveAndBelow (insertIndex, tabs.size()))
             insertIndex = tabs.size();
 
-        auto* currentTab = tabs[currentTabIndex];
+        TabInfo* const currentTab = tabs [currentTabIndex];
 
-        auto* newTab = new TabInfo();
+        TabInfo* newTab = new TabInfo();
         newTab->name = tabName;
         newTab->colour = tabBackgroundColour;
         newTab->button = createTabButton (tabName, insertIndex);
@@ -277,9 +279,9 @@ void TabbedButtonBar::addTab (const String& tabName,
     }
 }
 
-void TabbedButtonBar::setTabName (int tabIndex, const String& newName)
+void TabbedButtonBar::setTabName (const int tabIndex, const String& newName)
 {
-    if (auto* tab = tabs[tabIndex])
+    if (TabInfo* const tab = tabs [tabIndex])
     {
         if (tab->name != newName)
         {
@@ -294,7 +296,7 @@ void TabbedButtonBar::removeTab (const int indexToRemove, const bool animate)
 {
     if (isPositiveAndBelow (indexToRemove, tabs.size()))
     {
-        auto oldSelectedIndex = currentTabIndex;
+        int oldSelectedIndex = currentTabIndex;
 
         if (indexToRemove == currentTabIndex)
             oldSelectedIndex = -1;
@@ -310,7 +312,7 @@ void TabbedButtonBar::removeTab (const int indexToRemove, const bool animate)
 
 void TabbedButtonBar::moveTab (const int currentIndex, const int newIndex, const bool animate)
 {
-    auto* currentTab = tabs[currentTabIndex];
+    TabInfo* const currentTab = tabs [currentTabIndex];
     tabs.move (currentIndex, newIndex);
     currentTabIndex = tabs.indexOf (currentTab);
     updateTabPositions (animate);
@@ -323,23 +325,21 @@ int TabbedButtonBar::getNumTabs() const
 
 String TabbedButtonBar::getCurrentTabName() const
 {
-    if (auto* tab = tabs [currentTabIndex])
-        return tab->name;
-
-    return {};
+    TabInfo* tab = tabs [currentTabIndex];
+    return tab == nullptr ? String() : tab->name;
 }
 
 StringArray TabbedButtonBar::getTabNames() const
 {
     StringArray names;
 
-    for (auto* t : tabs)
-        names.add (t->name);
+    for (int i = 0; i < tabs.size(); ++i)
+        names.add (tabs.getUnchecked(i)->name);
 
     return names;
 }
 
-void TabbedButtonBar::setCurrentTabIndex (int newIndex, bool shouldSendChangeMessage)
+void TabbedButtonBar::setCurrentTabIndex (int newIndex, const bool sendChangeMessage_)
 {
     if (currentTabIndex != newIndex)
     {
@@ -349,11 +349,14 @@ void TabbedButtonBar::setCurrentTabIndex (int newIndex, bool shouldSendChangeMes
         currentTabIndex = newIndex;
 
         for (int i = 0; i < tabs.size(); ++i)
-            tabs.getUnchecked(i)->button->setToggleState (i == newIndex, dontSendNotification);
+        {
+            TabBarButton* tb = tabs.getUnchecked(i)->button;
+            tb->setToggleState (i == newIndex, dontSendNotification);
+        }
 
         resized();
 
-        if (shouldSendChangeMessage)
+        if (sendChangeMessage_)
             sendChangeMessage();
 
         currentTabChanged (newIndex, getCurrentTabName());
@@ -362,7 +365,7 @@ void TabbedButtonBar::setCurrentTabIndex (int newIndex, bool shouldSendChangeMes
 
 TabBarButton* TabbedButtonBar::getTabButton (const int index) const
 {
-    if (auto* tab = tabs[index])
+    if (TabInfo* tab = tabs[index])
         return static_cast<TabBarButton*> (tab->button);
 
     return nullptr;
@@ -380,12 +383,11 @@ int TabbedButtonBar::indexOfTabButton (const TabBarButton* button) const
 Rectangle<int> TabbedButtonBar::getTargetBounds (TabBarButton* button) const
 {
     if (button == nullptr || indexOfTabButton (button) == -1)
-        return {};
+        return Rectangle<int>();
 
-    auto& animator = Desktop::getInstance().getAnimator();
+    ComponentAnimator& animator = Desktop::getInstance().getAnimator();
 
-    return animator.isAnimating (button) ? animator.getComponentDestination (button)
-                                         : button->getBounds();
+    return animator.isAnimating (button) ? animator.getComponentDestination (button) : button->getBounds();
 }
 
 void TabbedButtonBar::lookAndFeelChanged()
@@ -407,22 +409,22 @@ void TabbedButtonBar::resized()
 //==============================================================================
 void TabbedButtonBar::updateTabPositions (bool animate)
 {
-    auto& lf = getLookAndFeel();
+    LookAndFeel& lf = getLookAndFeel();
 
-    auto depth = getWidth();
-    auto length = getHeight();
+    int depth = getWidth();
+    int length = getHeight();
 
     if (! isVertical())
         std::swap (depth, length);
 
-    auto overlap = lf.getTabButtonOverlap (depth) + lf.getTabButtonSpaceAroundImage() * 2;
+    const int overlap = lf.getTabButtonOverlap (depth) + lf.getTabButtonSpaceAroundImage() * 2;
 
-    auto totalLength = jmax (0, overlap);
-    auto numVisibleButtons = tabs.size();
+    int totalLength = jmax (0, overlap);
+    int numVisibleButtons = tabs.size();
 
     for (int i = 0; i < tabs.size(); ++i)
     {
-        auto* tb = tabs.getUnchecked(i)->button.get();
+        TabBarButton* const tb = tabs.getUnchecked(i)->button;
 
         totalLength += tb->getBestTabLength (depth) - overlap;
         tb->overlapPixels = jmax (0, overlap / 2);
@@ -446,7 +448,7 @@ void TabbedButtonBar::updateTabPositions (bool animate)
             extraTabsButton->setTriggeredOnMouseDown (true);
         }
 
-        auto buttonSize = jmin (proportionOfWidth (0.7f), proportionOfHeight (0.7f));
+        const int buttonSize = jmin (proportionOfWidth (0.7f), proportionOfHeight (0.7f));
         extraTabsButton->setSize (buttonSize, buttonSize);
 
         if (isVertical())
@@ -464,8 +466,8 @@ void TabbedButtonBar::updateTabPositions (bool animate)
 
         for (int i = 0; i < tabs.size(); ++i)
         {
-            auto* tb = tabs.getUnchecked(i)->button.get();
-            auto newLength = totalLength + tb->getBestTabLength (depth);
+            TabBarButton* const tb = tabs.getUnchecked(i)->button;
+            const int newLength = totalLength + tb->getBestTabLength (depth);
 
             if (i > 0 && newLength * minimumScale > tabsButtonPos)
             {
@@ -487,18 +489,18 @@ void TabbedButtonBar::updateTabPositions (bool animate)
     int pos = 0;
 
     TabBarButton* frontTab = nullptr;
-    auto& animator = Desktop::getInstance().getAnimator();
+    ComponentAnimator& animator = Desktop::getInstance().getAnimator();
 
     for (int i = 0; i < tabs.size(); ++i)
     {
-        if (auto* tb = getTabButton (i))
+        if (TabBarButton* const tb = getTabButton (i))
         {
-            auto bestLength = roundToInt (scale * tb->getBestTabLength (depth));
+            const int bestLength = roundToInt (scale * tb->getBestTabLength (depth));
 
             if (i < numVisibleButtons)
             {
-                auto newBounds = isVertical() ? Rectangle<int> (0, pos, getWidth(), bestLength)
-                                              : Rectangle<int> (pos, 0, bestLength, getHeight());
+                const Rectangle<int> newBounds (isVertical() ? Rectangle<int> (0, pos, getWidth(), bestLength)
+                                                             : Rectangle<int> (pos, 0, bestLength, getHeight()));
 
                 if (animate)
                 {
@@ -536,17 +538,17 @@ void TabbedButtonBar::updateTabPositions (bool animate)
 }
 
 //==============================================================================
-Colour TabbedButtonBar::getTabBackgroundColour (int tabIndex)
+Colour TabbedButtonBar::getTabBackgroundColour (const int tabIndex)
 {
-    if (auto* tab = tabs[tabIndex])
+    if (TabInfo* tab = tabs [tabIndex])
         return tab->colour;
 
     return Colours::transparentBlack;
 }
 
-void TabbedButtonBar::setTabBackgroundColour (int tabIndex, Colour newColour)
+void TabbedButtonBar::setTabBackgroundColour (const int tabIndex, Colour newColour)
 {
-    if (auto* tab = tabs [tabIndex])
+    if (TabInfo* const tab = tabs [tabIndex])
     {
         if (tab->colour != newColour)
         {
@@ -568,7 +570,7 @@ void TabbedButtonBar::showExtraItemsMenu()
 
     for (int i = 0; i < tabs.size(); ++i)
     {
-        auto* tab = tabs.getUnchecked(i);
+        const TabInfo* const tab = tabs.getUnchecked(i);
 
         if (! tab->button->isVisible())
             m.addItem (i + 1, tab->name, true, i == currentTabIndex);
@@ -579,7 +581,12 @@ void TabbedButtonBar::showExtraItemsMenu()
 }
 
 //==============================================================================
-void TabbedButtonBar::currentTabChanged (int, const String&) {}
-void TabbedButtonBar::popupMenuClickOnTab (int, const String&) {}
+void TabbedButtonBar::currentTabChanged (const int, const String&)
+{
+}
+
+void TabbedButtonBar::popupMenuClickOnTab (const int, const String&)
+{
+}
 
 } // namespace juce

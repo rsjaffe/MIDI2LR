@@ -1494,7 +1494,7 @@ class LookAndFeel_V2::SliderLabelComp  : public Label
 public:
     SliderLabelComp() : Label ({}, {}) {}
 
-    void mouseWheelMove (const MouseEvent&, const MouseWheelDetails&) override {}
+    void mouseWheelMove (const MouseEvent&, const MouseWheelDetails&) {}
 };
 
 Label* LookAndFeel_V2::createSliderTextBox (Slider& slider)

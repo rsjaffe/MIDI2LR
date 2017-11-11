@@ -798,7 +798,6 @@ var var::readFromStream (InputStream& input)
 
 var::NativeFunctionArgs::NativeFunctionArgs (const var& t, const var* args, int numArgs) noexcept
     : thisObject (t), arguments (args), numArguments (numArgs)
-{
-}
+{}
 
 } // namespace juce

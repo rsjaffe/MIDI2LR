@@ -40,7 +40,7 @@ MultiDocumentPanelWindow::~MultiDocumentPanelWindow()
 //==============================================================================
 void MultiDocumentPanelWindow::maximiseButtonPressed()
 {
-    if (auto* owner = getOwner())
+    if (MultiDocumentPanel* const owner = getOwner())
         owner->setLayoutMode (MultiDocumentPanel::MaximisedWindowsWithTabs);
     else
         jassertfalse; // these windows are only designed to be used inside a MultiDocumentPanel!
@@ -48,7 +48,7 @@ void MultiDocumentPanelWindow::maximiseButtonPressed()
 
 void MultiDocumentPanelWindow::closeButtonPressed()
 {
-    if (auto* owner = getOwner())
+    if (MultiDocumentPanel* const owner = getOwner())
         owner->closeDocument (getContentComponent(), true);
     else
         jassertfalse; // these windows are only designed to be used inside a MultiDocumentPanel!
@@ -68,7 +68,7 @@ void MultiDocumentPanelWindow::broughtToFront()
 
 void MultiDocumentPanelWindow::updateOrder()
 {
-    if (auto* owner = getOwner())
+    if (MultiDocumentPanel* const owner = getOwner())
         owner->updateOrder();
 }
 
@@ -77,14 +77,19 @@ MultiDocumentPanel* MultiDocumentPanelWindow::getOwner() const noexcept
     return findParentComponentOfClass<MultiDocumentPanel>();
 }
 
-//==============================================================================
-struct MultiDocumentPanel::TabbedComponentInternal   : public TabbedComponent
-{
-    TabbedComponentInternal() : TabbedComponent (TabbedButtonBar::TabsAtTop) {}
 
-    void currentTabChanged (int, const String&) override
+//==============================================================================
+class MultiDocumentPanel::TabbedComponentInternal   : public TabbedComponent
+{
+public:
+    TabbedComponentInternal()
+        : TabbedComponent (TabbedButtonBar::TabsAtTop)
     {
-        if (auto* owner = findParentComponentOfClass<MultiDocumentPanel>())
+    }
+
+    void currentTabChanged (int, const String&)
+    {
+        if (MultiDocumentPanel* const owner = findParentComponentOfClass<MultiDocumentPanel>())
             owner->updateOrder();
     }
 };
@@ -92,6 +97,10 @@ struct MultiDocumentPanel::TabbedComponentInternal   : public TabbedComponent
 
 //==============================================================================
 MultiDocumentPanel::MultiDocumentPanel()
+    : mode (MaximisedWindowsWithTabs),
+      backgroundColour (Colours::lightblue),
+      maximumNumDocuments (0),
+      numDocsBeforeTabsUsed (0)
 {
     setOpaque (true);
 }
@@ -112,7 +121,7 @@ namespace MultiDocHelpers
 
 bool MultiDocumentPanel::closeAllDocuments (const bool checkItsOkToCloseFirst)
 {
-    while (! components.isEmpty())
+    while (components.size() > 0)
         if (! closeDocument (components.getLast(), checkItsOkToCloseFirst))
             return false;
 
@@ -126,13 +135,13 @@ MultiDocumentPanelWindow* MultiDocumentPanel::createNewDocumentWindow()
 
 void MultiDocumentPanel::addWindow (Component* component)
 {
-    auto* dw = createNewDocumentWindow();
+    MultiDocumentPanelWindow* const dw = createNewDocumentWindow();
 
     dw->setResizable (true, false);
     dw->setContentNonOwned (component, true);
     dw->setName (component->getName());
 
-    auto bkg = component->getProperties() ["mdiDocumentBkg_"];
+    const var bkg (component->getProperties() ["mdiDocumentBkg_"]);
     dw->setBackgroundColour (bkg.isVoid() ? backgroundColour : Colour ((uint32) static_cast<int> (bkg)));
 
     int x = 4;
@@ -143,7 +152,7 @@ void MultiDocumentPanel::addWindow (Component* component)
 
     dw->setTopLeftPosition (x, x);
 
-    auto pos = component->getProperties() ["mdiDocumentPos_"];
+    const var pos (component->getProperties() ["mdiDocumentPos_"]);
     if (pos.toString().isNotEmpty())
         dw->restoreWindowStateFromString (pos.toString());
 
@@ -194,10 +203,10 @@ bool MultiDocumentPanel::addDocument (Component* const component,
         {
             addAndMakeVisible (tabComponent = new TabbedComponentInternal());
 
-            auto temp = components;
+            Array<Component*> temp (components);
 
-            for (auto& c : temp)
-                tabComponent->addTab (c->getName(), docColour, c, false);
+            for (int i = 0; i < temp.size(); ++i)
+                tabComponent->addTab (temp[i]->getName(), docColour, temp[i], false);
 
             resized();
         }
@@ -293,7 +302,7 @@ bool MultiDocumentPanel::closeDocument (Component* component,
         resized();
 
         // This ensures that the active tab is painted properly when a tab is closed!
-        if (auto* activeComponent = getActiveDocument())
+        if (Component* activeComponent = getActiveDocument())
             setActiveDocument (activeComponent);
 
         activeDocumentChanged();
@@ -405,13 +414,17 @@ void MultiDocumentPanel::setLayoutMode (const LayoutMode newLayoutMode)
 
         resized();
 
-        auto tempComps = components;
+        const Array<Component*> tempComps (components);
         components.clear();
 
-        for (auto* c : tempComps)
+        for (int i = 0; i < tempComps.size(); ++i)
+        {
+            Component* const c = tempComps.getUnchecked(i);
+
             addDocument (c,
                          Colour ((uint32) static_cast<int> (c->getProperties().getWithDefault ("mdiDocumentBkg_", (int) Colours::white.getARGB()))),
                          MultiDocHelpers::shouldDeleteComp (c));
+        }
     }
 }
 

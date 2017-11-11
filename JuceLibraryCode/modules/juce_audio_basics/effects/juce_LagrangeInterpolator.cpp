@@ -49,67 +49,97 @@ namespace
     }
 
     template <typename InterpolatorType>
-    static int interpolate (float* lastInputSamples, double& subSamplePos, double actualRatio,
-                            const float* in, float* out, int numOut) noexcept
+    static int interpolate (float* lastInputSamples, double& subSamplePos, const double actualRatio,
+                            const float* in, float* out, const int numOut) noexcept
     {
-        auto pos = subSamplePos;
-
-        if (actualRatio == 1.0 && pos == 1.0)
+        if (actualRatio == 1.0)
         {
             memcpy (out, in, (size_t) numOut * sizeof (float));
             pushInterpolationSamples (lastInputSamples, in, numOut);
             return numOut;
         }
 
-        int numUsed = 0;
+        const float* const originalIn = in;
+        double pos = subSamplePos;
 
-        while (numOut > 0)
+        if (actualRatio < 1.0)
         {
-            while (pos >= 1.0)
+            for (int i = numOut; --i >= 0;)
             {
-                pushInterpolationSample (lastInputSamples, in[numUsed++]);
-                pos -= 1.0;
-            }
+                if (pos >= 1.0)
+                {
+                    pushInterpolationSample (lastInputSamples, *in++);
+                    pos -= 1.0;
+                }
 
-            *out++ = InterpolatorType::valueAtOffset (lastInputSamples, (float) pos);
-            pos += actualRatio;
-            --numOut;
+                *out++ = InterpolatorType::valueAtOffset (lastInputSamples, (float) pos);
+                pos += actualRatio;
+            }
+        }
+        else
+        {
+            for (int i = numOut; --i >= 0;)
+            {
+                while (pos < actualRatio)
+                {
+                    pushInterpolationSample (lastInputSamples, *in++);
+                    pos += 1.0;
+                }
+
+                pos -= actualRatio;
+                *out++ = InterpolatorType::valueAtOffset (lastInputSamples, jmax (0.0f, 1.0f - (float) pos));
+            }
         }
 
         subSamplePos = pos;
-        return numUsed;
+        return (int) (in - originalIn);
     }
 
     template <typename InterpolatorType>
-    static int interpolateAdding (float* lastInputSamples, double& subSamplePos, double actualRatio,
-                                  const float* in, float* out, int numOut, const float gain) noexcept
+    static int interpolateAdding (float* lastInputSamples, double& subSamplePos, const double actualRatio,
+                                  const float* in, float* out, const int numOut, const float gain) noexcept
     {
-        auto pos = subSamplePos;
-
-        if (actualRatio == 1.0 && pos == 1.0)
+        if (actualRatio == 1.0)
         {
             FloatVectorOperations::addWithMultiply (out, in, gain, numOut);
             pushInterpolationSamples (lastInputSamples, in, numOut);
             return numOut;
         }
 
-        int numUsed = 0;
+        const float* const originalIn = in;
+        double pos = subSamplePos;
 
-        while (numOut > 0)
+        if (actualRatio < 1.0)
         {
-            while (pos >= 1.0)
+            for (int i = numOut; --i >= 0;)
             {
-                pushInterpolationSample (lastInputSamples, in[numUsed++]);
-                pos -= 1.0;
-            }
+                if (pos >= 1.0)
+                {
+                    pushInterpolationSample (lastInputSamples, *in++);
+                    pos -= 1.0;
+                }
 
-            *out++ += gain * InterpolatorType::valueAtOffset (lastInputSamples, (float) pos);
-            pos += actualRatio;
-            --numOut;
+                *out++ += gain * InterpolatorType::valueAtOffset (lastInputSamples, (float) pos);
+                pos += actualRatio;
+            }
+        }
+        else
+        {
+            for (int i = numOut; --i >= 0;)
+            {
+                while (pos < actualRatio)
+                {
+                    pushInterpolationSample (lastInputSamples, *in++);
+                    pos += 1.0;
+                }
+
+                pos -= actualRatio;
+                *out++ += gain * InterpolatorType::valueAtOffset (lastInputSamples, jmax (0.0f, 1.0f - (float) pos));
+            }
         }
 
         subSamplePos = pos;
-        return numUsed;
+        return (int) (in - originalIn);
     }
 }
 
@@ -156,8 +186,8 @@ void LagrangeInterpolator::reset() noexcept
 {
     subSamplePos = 1.0;
 
-    for (auto& s : lastInputSamples)
-        s = 0;
+    for (int i = 0; i < numElementsInArray (lastInputSamples); ++i)
+        lastInputSamples[i] = 0;
 }
 
 int LagrangeInterpolator::process (double actualRatio, const float* in, float* out, int numOut) noexcept

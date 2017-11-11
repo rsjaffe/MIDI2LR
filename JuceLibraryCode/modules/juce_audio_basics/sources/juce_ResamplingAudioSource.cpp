@@ -52,14 +52,14 @@ void ResamplingAudioSource::prepareToPlay (int samplesPerBlockExpected, double s
 {
     const SpinLock::ScopedLockType sl (ratioLock);
 
-    auto scaledBlockSize = roundToInt (samplesPerBlockExpected * ratio);
+    const int scaledBlockSize = roundToInt (samplesPerBlockExpected * ratio);
     input->prepareToPlay (scaledBlockSize, sampleRate * ratio);
 
     buffer.setSize (numChannels, scaledBlockSize + 32);
 
-    filterStates.calloc (numChannels);
-    srcBuffers.calloc (numChannels);
-    destBuffers.calloc (numChannels);
+    filterStates.calloc ((size_t) numChannels);
+    srcBuffers.calloc ((size_t) numChannels);
+    destBuffers.calloc ((size_t) numChannels);
     createLowPass (ratio);
 
     flushBuffers();

@@ -67,7 +67,7 @@ namespace juce
 
     @see var, XmlElement
 */
-class JUCE_API  ValueTree  final
+class JUCE_API  ValueTree
 {
 public:
     //==============================================================================

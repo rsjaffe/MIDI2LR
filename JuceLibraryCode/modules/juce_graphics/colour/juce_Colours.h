@@ -31,7 +31,7 @@ namespace juce
 /**
     Contains a set of predefined named colours (mostly standard HTML colours)
 
-    @see Colour
+    @see Colour, Colours::greyLevel
 */
 class Colours
 {

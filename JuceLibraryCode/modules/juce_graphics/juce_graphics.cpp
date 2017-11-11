@@ -68,7 +68,6 @@
 
  #if JUCE_MINGW
   #include <malloc.h>
-  #include <cstdio>
  #endif
 
  #ifdef JUCE_MSVC

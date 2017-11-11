@@ -33,7 +33,7 @@ StringArray::StringArray (const StringArray& other)
 }
 
 StringArray::StringArray (StringArray&& other) noexcept
-    : strings (static_cast<Array<String>&&> (other.strings))
+    : strings (static_cast<Array <String>&&> (other.strings))
 {
 }
 
@@ -67,13 +67,6 @@ StringArray::StringArray (const wchar_t* const* initialStrings, int numberOfStri
     strings.addArray (initialStrings, numberOfStrings);
 }
 
-#if JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS
-StringArray::StringArray (const std::initializer_list<const char*>& stringList)
-{
-    strings.addArray (stringList);
-}
-#endif
-
 StringArray& StringArray::operator= (const StringArray& other)
 {
     strings = other.strings;
@@ -85,6 +78,13 @@ StringArray& StringArray::operator= (StringArray&& other) noexcept
     strings = static_cast<Array<String>&&> (other.strings);
     return *this;
 }
+
+#if JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS
+StringArray::StringArray (const std::initializer_list<const char*>& stringList)
+{
+    strings.addArray (stringList);
+}
+#endif
 
 StringArray::~StringArray()
 {
@@ -174,8 +174,8 @@ void StringArray::addArray (const StringArray& otherArray, int startIndex, int n
 
 void StringArray::mergeArray (const StringArray& otherArray, const bool ignoreCase)
 {
-    for (auto& s : otherArray)
-        addIfNotAlreadyThere (s, ignoreCase);
+    for (int i = 0; i < otherArray.size(); ++i)
+        addIfNotAlreadyThere (otherArray[i], ignoreCase);
 }
 
 void StringArray::set (const int index, const String& newString)
@@ -193,7 +193,7 @@ int StringArray::indexOf (StringRef stringToLookFor, const bool ignoreCase, int 
     if (i < 0)
         i = 0;
 
-    auto numElements = size();
+    const int numElements = size();
 
     if (ignoreCase)
     {
@@ -217,7 +217,7 @@ void StringArray::move (const int currentIndex, const int newIndex) noexcept
 }
 
 //==============================================================================
-void StringArray::remove (int index)
+void StringArray::remove (const int index)
 {
     strings.remove (index);
 }
@@ -262,8 +262,11 @@ void StringArray::removeEmptyStrings (const bool removeWhitespaceStrings)
 
 void StringArray::trim()
 {
-    for (auto& s : strings)
+    for (int i = size(); --i >= 0;)
+    {
+        String& s = strings.getReference(i);
         s = s.trim();
+    }
 }
 
 //==============================================================================
@@ -305,8 +308,8 @@ void StringArray::sortNatural()
 //==============================================================================
 String StringArray::joinIntoString (StringRef separator, int start, int numberToJoin) const
 {
-    auto last = (numberToJoin < 0) ? size()
-                                   : jmin (size(), start + numberToJoin);
+    const int last = (numberToJoin < 0) ? size()
+                                        : jmin (size(), start + numberToJoin);
 
     if (start < 0)
         start = 0;
@@ -317,8 +320,8 @@ String StringArray::joinIntoString (StringRef separator, int start, int numberTo
     if (start == last - 1)
         return strings.getReference (start);
 
-    auto separatorBytes = separator.text.sizeInBytes() - sizeof (String::CharPointerType::CharType);
-    auto bytesNeeded = separatorBytes * (size_t) (last - start - 1);
+    const size_t separatorBytes = separator.text.sizeInBytes() - sizeof (String::CharPointerType::CharType);
+    size_t bytesNeeded = separatorBytes * (size_t) (last - start - 1);
 
     for (int i = start; i < last; ++i)
         bytesNeeded += strings.getReference(i).getCharPointer().sizeInBytes() - sizeof (String::CharPointerType::CharType);
@@ -330,7 +333,7 @@ String StringArray::joinIntoString (StringRef separator, int start, int numberTo
 
     while (start < last)
     {
-        auto& s = strings.getReference (start);
+        const String& s = strings.getReference (start);
 
         if (! s.isEmpty())
             dest.writeAll (s.getCharPointer());
@@ -355,11 +358,11 @@ int StringArray::addTokens (StringRef text, StringRef breakCharacters, StringRef
 
     if (text.isNotEmpty())
     {
-        for (auto t = text.text;;)
+        for (String::CharPointerType t (text.text);;)
         {
-            auto tokenEnd = CharacterFunctions::findEndOfToken (t,
-                                                                breakCharacters.text,
-                                                                quoteCharacters.text);
+            String::CharPointerType tokenEnd (CharacterFunctions::findEndOfToken (t,
+                                                                                  breakCharacters.text,
+                                                                                  quoteCharacters.text));
             strings.add (String (t, tokenEnd));
             ++num;
 
@@ -376,14 +379,14 @@ int StringArray::addTokens (StringRef text, StringRef breakCharacters, StringRef
 int StringArray::addLines (StringRef sourceText)
 {
     int numLines = 0;
-    auto text = sourceText.text;
+    String::CharPointerType text (sourceText.text);
     bool finished = text.isEmpty();
 
     while (! finished)
     {
-        for (auto startOfLine = text;;)
+        for (String::CharPointerType startOfLine (text);;)
         {
-            auto endOfLine = text;
+            const String::CharPointerType endOfLine (text);
 
             switch (text.getAndAdvance())
             {
@@ -430,7 +433,7 @@ void StringArray::removeDuplicates (const bool ignoreCase)
 {
     for (int i = 0; i < size() - 1; ++i)
     {
-        auto s = strings.getReference(i);
+        const String s (strings.getReference(i));
 
         for (int nextIndex = i + 1;;)
         {
@@ -449,20 +452,24 @@ void StringArray::appendNumbersToDuplicates (const bool ignoreCase,
                                              CharPointer_UTF8 preNumberString,
                                              CharPointer_UTF8 postNumberString)
 {
+    CharPointer_UTF8 defaultPre (" ("), defaultPost (")");
+
     if (preNumberString.getAddress() == nullptr)
-        preNumberString = CharPointer_UTF8 (" (");
+        preNumberString = defaultPre;
 
     if (postNumberString.getAddress() == nullptr)
-        postNumberString = CharPointer_UTF8 (")");
+        postNumberString = defaultPost;
 
     for (int i = 0; i < size() - 1; ++i)
     {
-        auto& s = strings.getReference(i);
-        auto nextIndex = indexOf (s, ignoreCase, i + 1);
+        String& s = strings.getReference(i);
+
+        int nextIndex = indexOf (s, ignoreCase, i + 1);
 
         if (nextIndex >= 0)
         {
-            auto original = s;
+            const String original (s);
+
             int number = 0;
 
             if (appendNumberToFirstInstance)

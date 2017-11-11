@@ -27,7 +27,7 @@ namespace juce
 /**
     Contains methods for finding out about the current hardware and OS configuration.
 */
-class JUCE_API  SystemStats  final
+class JUCE_API  SystemStats
 {
 public:
     //==============================================================================

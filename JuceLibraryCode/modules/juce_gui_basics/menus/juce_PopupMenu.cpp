@@ -74,7 +74,9 @@ struct HeaderItemComponent  : public PopupMenu::CustomComponent
 struct ItemComponent  : public Component
 {
     ItemComponent (const PopupMenu::Item& i, int standardItemHeight, MenuWindow& parent)
-      : item (i), customComp (i.customComponent)
+      : item (i),
+        customComp (i.customComponent),
+        isHighlighted (false)
     {
         if (item.isSectionHeader)
             customComp = new HeaderItemComponent (item.text);
@@ -150,7 +152,7 @@ struct ItemComponent  : public Component
 private:
     // NB: we use a copy of the one from the item info in case we're using our own section comp
     ReferenceCountedObjectPtr<CustomComponent> customComp;
-    bool isHighlighted = false;
+    bool isHighlighted;
 
     void updateShortcutKeyDescription()
     {
@@ -198,7 +200,7 @@ public:
          parent (parentWindow),
          options (opts),
          managerOfChosenCommand (manager),
-         componentAttachedTo (options.getTargetComponent()),
+         componentAttachedTo (options.targetComponent),
          dismissOnMouseUp (shouldDismissOnMouseUp),
          windowCreationTime (Time::getMillisecondCounter()),
          lastFocusedTime (windowCreationTime),
@@ -228,22 +230,23 @@ public:
             auto item = menu.items.getUnchecked (i);
 
             if (i < menu.items.size() - 1 || ! item->isSeparator)
-                items.add (new ItemComponent (*item, options.getStandardItemHeight(), *this));
+                items.add (new ItemComponent (*item, options.standardHeight, *this));
         }
 
-        auto targetArea = options.getTargetScreenArea() / scaleFactor;
+        Rectangle<int> targetArea = options.targetArea / scaleFactor;
 
         calculateWindowPos (targetArea, alignToRectangle);
         setTopLeftPosition (windowPos.getPosition());
         updateYPositions();
 
-        if (auto visibleID = options.getItemThatMustBeVisible())
+        if (options.visibleItemID != 0)
         {
             auto targetPosition = parentComponent != nullptr ? parentComponent->getLocalPoint (nullptr, targetArea.getTopLeft())
                                                              : targetArea.getTopLeft();
 
             auto y = targetPosition.getY() - windowPos.getY();
-            ensureItemIsVisible (visibleID, isPositiveAndBelow (y, windowPos.getHeight()) ? y : -1);
+            ensureItemIsVisible (options.visibleItemID,
+                                 isPositiveAndBelow (y, windowPos.getHeight()) ? y : -1);
         }
 
         resizeToBestWindowPos();
@@ -489,7 +492,7 @@ public:
         if (! isVisible())
             return false;
 
-        if (componentAttachedTo != options.getTargetComponent())
+        if (componentAttachedTo != options.targetComponent)
         {
             dismissMenu (nullptr);
             return false;
@@ -626,8 +629,8 @@ public:
         {
             x = target.getX();
 
-            auto spaceUnder = parentArea.getHeight() - (target.getBottom() - parentArea.getY());
-            auto spaceOver = target.getY() - parentArea.getY();
+            const int spaceUnder = parentArea.getHeight() - (target.getBottom() - parentArea.getY());
+            const int spaceOver = target.getY() - parentArea.getY();
 
             if (heightToUse < spaceUnder - 30 || spaceUnder >= spaceOver)
                 y = target.getBottom();
@@ -694,14 +697,15 @@ public:
 
     void layoutMenuItems (const int maxMenuW, const int maxMenuH, int& width, int& height)
     {
-        numColumns = options.getMinimumNumColumns();
+        numColumns = 0;
         contentHeight = 0;
         int totalW;
 
-        auto maximumNumColumns = options.getMaximumNumColumns() > 0 ? options.getMaximumNumColumns() : 7;
+        const int maximumNumColumns = options.maxColumns > 0 ? options.maxColumns : 7;
 
-        for (;;)
+        do
         {
+            ++numColumns;
             totalW = workOutBestSize (maxMenuW);
 
             if (totalW > maxMenuW)
@@ -711,15 +715,12 @@ public:
                 break;
             }
 
-            if (totalW > maxMenuW / 2
-                 || contentHeight < maxMenuH
-                 || numColumns >= maximumNumColumns)
+            if (totalW > maxMenuW / 2 || contentHeight < maxMenuH)
                 break;
 
-            ++numColumns;
-        }
+        } while (numColumns < maximumNumColumns);
 
-        auto actualH = jmin (contentHeight, maxMenuH);
+        const int actualH = jmin (contentHeight, maxMenuH);
 
         needsToScroll = contentHeight > actualH;
 
@@ -735,7 +736,7 @@ public:
 
         for (int col = 0; col < numColumns; ++col)
         {
-            int colW = options.getStandardItemHeight(), colH = 0;
+            int colW = options.standardHeight, colH = 0;
 
             const int numChildren = jmin (items.size() - childNum,
                                           (items.size() + numColumns - 1) / numColumns);
@@ -756,7 +757,7 @@ public:
         }
 
         // width must never be larger than the screen
-        auto minWidth = jmin (maxMenuW, options.getMinimumWidth());
+        const int minWidth = jmin (maxMenuW, options.minWidth);
 
         if (totalW < minWidth)
         {
@@ -1320,6 +1321,13 @@ void PopupMenu::clear()
 
 //==============================================================================
 PopupMenu::Item::Item() noexcept
+  : itemID (0),
+    commandManager (nullptr),
+    colour (0x00000000),
+    isEnabled (true),
+    isTicked (false),
+    isSeparator (false),
+    isSectionHeader (false)
 {
 }
 
@@ -1518,6 +1526,12 @@ void PopupMenu::addSectionHeader (const String& title)
 
 //==============================================================================
 PopupMenu::Options::Options()
+    : targetComponent (nullptr),
+      parentComponent (nullptr),
+      visibleItemID (0),
+      minWidth (0),
+      maxColumns (0),
+      standardHeight (0)
 {
     targetArea.setPosition (Desktop::getMousePosition());
 }
@@ -1533,7 +1547,7 @@ PopupMenu::Options PopupMenu::Options::withTargetComponent (Component* comp) con
     return o;
 }
 
-PopupMenu::Options PopupMenu::Options::withTargetScreenArea (Rectangle<int> area) const noexcept
+PopupMenu::Options PopupMenu::Options::withTargetScreenArea (const Rectangle<int>& area) const noexcept
 {
     Options o (*this);
     o.targetArea = area;
@@ -1544,13 +1558,6 @@ PopupMenu::Options PopupMenu::Options::withMinimumWidth (int w) const noexcept
 {
     Options o (*this);
     o.minWidth = w;
-    return o;
-}
-
-PopupMenu::Options PopupMenu::Options::withMinimumNumColumns (int cols) const noexcept
-{
-    Options o (*this);
-    o.minColumns = cols;
     return o;
 }
 
@@ -1585,11 +1592,13 @@ PopupMenu::Options PopupMenu::Options::withParentComponent (Component* parent) c
 Component* PopupMenu::createWindow (const Options& options,
                                     ApplicationCommandManager** managerOfChosenCommand) const
 {
-    return items.isEmpty() ? nullptr
-                           : new HelperClasses::MenuWindow (*this, nullptr, options,
-                                                            ! options.getTargetScreenArea().isEmpty(),
-                                                            ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown(),
-                                                            managerOfChosenCommand);
+    if (items.size() > 0)
+        return new HelperClasses::MenuWindow (*this, nullptr, options,
+                                              ! options.targetArea.isEmpty(),
+                                              ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown(),
+                                              managerOfChosenCommand);
+
+    return nullptr;
 }
 
 //==============================================================================
@@ -1621,7 +1630,7 @@ struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
             if (prevTopLevel != nullptr)
                 prevTopLevel->toFront (true);
 
-            if (prevFocused != nullptr && prevFocused->isShowing())
+            if (prevFocused != nullptr)
                 prevFocused->grabKeyboardFocus();
         }
     }
@@ -1681,8 +1690,9 @@ void PopupMenu::showMenuAsync (const Options& options, ModalComponentManager::Ca
 
 //==============================================================================
 #if JUCE_MODAL_LOOPS_PERMITTED
-int PopupMenu::show (int itemIDThatMustBeVisible, int minimumWidth,
-                     int maximumNumColumns, int standardItemHeight,
+int PopupMenu::show (const int itemIDThatMustBeVisible,
+                     const int minimumWidth, const int maximumNumColumns,
+                     const int standardItemHeight,
                      ModalComponentManager::Callback* callback)
 {
     return showWithOptionalCallback (Options().withItemThatMustBeVisible (itemIDThatMustBeVisible)
@@ -1692,9 +1702,10 @@ int PopupMenu::show (int itemIDThatMustBeVisible, int minimumWidth,
                                      callback, true);
 }
 
-int PopupMenu::showAt (Rectangle<int> screenAreaToAttachTo,
-                       int itemIDThatMustBeVisible, int minimumWidth,
-                       int maximumNumColumns, int standardItemHeight,
+int PopupMenu::showAt (const Rectangle<int>& screenAreaToAttachTo,
+                       const int itemIDThatMustBeVisible,
+                       const int minimumWidth, const int maximumNumColumns,
+                       const int standardItemHeight,
                        ModalComponentManager::Callback* callback)
 {
     return showWithOptionalCallback (Options().withTargetScreenArea (screenAreaToAttachTo)
@@ -1706,14 +1717,15 @@ int PopupMenu::showAt (Rectangle<int> screenAreaToAttachTo,
 }
 
 int PopupMenu::showAt (Component* componentToAttachTo,
-                       int itemIDThatMustBeVisible, int minimumWidth,
-                       int maximumNumColumns, int standardItemHeight,
+                       const int itemIDThatMustBeVisible,
+                       const int minimumWidth, const int maximumNumColumns,
+                       const int standardItemHeight,
                        ModalComponentManager::Callback* callback)
 {
-    auto options = Options().withItemThatMustBeVisible (itemIDThatMustBeVisible)
-                            .withMinimumWidth (minimumWidth)
-                            .withMaximumNumColumns (maximumNumColumns)
-                            .withStandardItemHeight (standardItemHeight);
+    Options options (Options().withItemThatMustBeVisible (itemIDThatMustBeVisible)
+                              .withMinimumWidth (minimumWidth)
+                              .withMaximumNumColumns (maximumNumColumns)
+                              .withStandardItemHeight (standardItemHeight));
 
     if (componentToAttachTo != nullptr)
         options = options.withTargetComponent (componentToAttachTo);
@@ -1781,7 +1793,8 @@ void PopupMenu::setLookAndFeel (LookAndFeel* const newLookAndFeel)
 
 //==============================================================================
 PopupMenu::CustomComponent::CustomComponent (bool autoTrigger)
-    : triggeredAutomatically (autoTrigger)
+    : isHighlighted (false),
+      triggeredAutomatically (autoTrigger)
 {
 }
 
@@ -1822,8 +1835,9 @@ PopupMenu::CustomCallback::CustomCallback() {}
 PopupMenu::CustomCallback::~CustomCallback() {}
 
 //==============================================================================
-PopupMenu::MenuItemIterator::MenuItemIterator (const PopupMenu& m, bool recurse) : searchRecursively (recurse)
+PopupMenu::MenuItemIterator::MenuItemIterator (const PopupMenu& m, bool searchR) : searchRecursively (searchR)
 {
+    currentItem = nullptr;
     index.add (0);
     menus.add (&m);
 }

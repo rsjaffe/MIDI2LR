@@ -245,12 +245,10 @@ struct Expression::Helpers
         {
             checkRecursionDepth (recursionDepth);
             double result = 0;
-            auto numParams = parameters.size();
-
+            const int numParams = parameters.size();
             if (numParams > 0)
             {
-                HeapBlock<double> params (numParams);
-
+                HeapBlock<double> params ((size_t) numParams);
                 for (int i = 0; i < numParams; ++i)
                     params[i] = parameters.getReference(i).term->resolve (scope, recursionDepth + 1)->toDouble();
 
@@ -626,10 +624,10 @@ struct Expression::Helpers
     class SymbolCheckVisitor  : public Term::SymbolVisitor
     {
     public:
-        SymbolCheckVisitor (const Symbol& s) : symbol (s) {}
+        SymbolCheckVisitor (const Symbol& symbol_) : wasFound (false), symbol (symbol_) {}
         void useSymbol (const Symbol& s)    { wasFound = wasFound || s == symbol; }
 
-        bool wasFound = false;
+        bool wasFound;
 
     private:
         const Symbol& symbol;
@@ -725,7 +723,7 @@ struct Expression::Helpers
         bool readIdentifier (String& identifier) noexcept
         {
             text = text.findEndOfWhitespace();
-            auto t = text;
+            String::CharPointerType t (text);
             int numChars = 0;
 
             if (t.isLetter() || *t == '_')
@@ -753,9 +751,9 @@ struct Expression::Helpers
         Term* readNumber() noexcept
         {
             text = text.findEndOfWhitespace();
-            auto t = text;
-            bool isResolutionTarget = (*t == '@');
+            String::CharPointerType t (text);
 
+            const bool isResolutionTarget = (*t == '@');
             if (isResolutionTarget)
             {
                 ++t;
@@ -968,7 +966,7 @@ Expression& Expression::operator= (Expression&& other) noexcept
 
 Expression::Expression (const String& stringToParse, String& parseError)
 {
-    auto text = stringToParse.getCharPointer();
+    String::CharPointerType text (stringToParse.getCharPointer());
     Helpers::Parser parser (text);
     term = parser.readUpToComma();
     parseError = parser.error;
