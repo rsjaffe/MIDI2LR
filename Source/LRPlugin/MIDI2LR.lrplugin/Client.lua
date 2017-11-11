@@ -77,7 +77,6 @@ LrTasks.startAsyncTask(
     local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
-    local Virtual         = require 'Virtual'
     local LrApplication       = import 'LrApplication'
     local LrApplicationView   = import 'LrApplicationView'
     local LrDevelopController = import 'LrDevelopController'
