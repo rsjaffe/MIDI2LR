@@ -50,7 +50,7 @@ for _,v in ipairs(Database.DataBase) do
     if v[7]  then 
       experimental = "\226\128\187"
     end
-    file:write("| "..v[8]..experimental.." | "..v[10].." Abbreviated by program as "..v[1]..". |\n" )
+    file:write("| "..v[8]..experimental.." | "..v[10].." Abbreviation: "..v[1]..". |\n" )
   end
 end
 file:close()
