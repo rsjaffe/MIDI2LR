@@ -8,7 +8,7 @@ var searchData=
   ['serialize',['serialize',['../struct_r_s_j_1_1_settings_struct.html#ae1a87d457349f1967e1303f7a66b0ab5',1,'RSJ::SettingsStruct']]],
   ['setasconstrainerfor',['setAsConstrainerFor',['../class_top_level_resizable_layout.html#a0497ac276aea466ad43f45cdc8f1ef76',1,'TopLevelResizableLayout']]],
   ['setautohidetime',['setAutoHideTime',['../class_settings_manager.html#a80df2a9511ce4c0c1846600e080f13dc',1,'SettingsManager']]],
-  ['setcc',['setCC',['../class_channel_model.html#a0dc56a895ec0e5ac8ae26936e59d3969',1,'ChannelModel::setCC()'],['../class_controls_model.html#a0409b06dc4cbb7cdb61343614f923df5',1,'ControlsModel::setCC()']]],
+  ['setcc',['setCC',['../class_channel_model.html#a0dc56a895ec0e5ac8ae26936e59d3969',1,'ChannelModel::setCC()'],['../class_controls_model.html#a81e0339622ce75452575c1dc0fae9a8c',1,'ControlsModel::setCC()']]],
   ['setccall',['setCCall',['../class_channel_model.html#a09e50ece34a18297e906162f05ed164b',1,'ChannelModel::setCCall()'],['../class_controls_model.html#ab4d26bd3b5e03741ee48eb8a765fa7a1',1,'ControlsModel::setCCall()']]],
   ['setccmax',['setCCmax',['../class_channel_model.html#ae10c6bbda02d1ba23a6132625c8d1180',1,'ChannelModel::setCCmax()'],['../class_controls_model.html#ab9cb5e8219e0e2e81c07baf5471f55bf',1,'ControlsModel::setCCmax()']]],
   ['setccmethod',['setCCmethod',['../class_channel_model.html#af4ffed62238ad36d02792db952f2d98a',1,'ChannelModel::setCCmethod()'],['../class_controls_model.html#ada1a9097dd8e94b1141581a8b266a278',1,'ControlsModel::setCCmethod()']]],

@@ -13,7 +13,7 @@ var class_controls_model =
     [ "operator=", "class_controls_model.html#a4a8596bc62cb349de367045290796392", null ],
     [ "operator=", "class_controls_model.html#acbd40b399f361ede0c567b851150ace8", null ],
     [ "PluginToController", "class_controls_model.html#a07212c943c37cff9557a0c75ddd6104a", null ],
-    [ "setCC", "class_controls_model.html#a0409b06dc4cbb7cdb61343614f923df5", null ],
+    [ "setCC", "class_controls_model.html#a81e0339622ce75452575c1dc0fae9a8c", null ],
     [ "setCCall", "class_controls_model.html#ab4d26bd3b5e03741ee48eb8a765fa7a1", null ],
     [ "setCCmax", "class_controls_model.html#ab9cb5e8219e0e2e81c07baf5471f55bf", null ],
     [ "setCCmethod", "class_controls_model.html#ada1a9097dd8e94b1141581a8b266a278", null ],
