@@ -62,8 +62,6 @@ public:
     int getOutputLatencyInSamples() override;
     int getInputLatencyInSamples() override;
 
-    int getXRunCount() const noexcept override;
-
     //==============================================================================
     void setMidiMessageCollector (MidiMessageCollector*);
     AudioPlayHead* getAudioPlayHead() const;

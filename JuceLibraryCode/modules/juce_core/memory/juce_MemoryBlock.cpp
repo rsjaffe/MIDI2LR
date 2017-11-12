@@ -23,9 +23,11 @@
 namespace juce
 {
 
-MemoryBlock::MemoryBlock() noexcept {}
+MemoryBlock::MemoryBlock() noexcept  : size (0)
+{
+}
 
-MemoryBlock::MemoryBlock (size_t initialSize, bool initialiseToZero)
+MemoryBlock::MemoryBlock (const size_t initialSize, const bool initialiseToZero)
 {
     if (initialSize > 0)
     {
@@ -145,7 +147,7 @@ void MemoryBlock::reset()
     size = 0;
 }
 
-void MemoryBlock::ensureSize (size_t minimumSize, bool initialiseToZero)
+void MemoryBlock::ensureSize (const size_t minimumSize, const bool initialiseToZero)
 {
     if (size < minimumSize)
         setSize (minimumSize, initialiseToZero);
@@ -158,23 +160,23 @@ void MemoryBlock::swapWith (MemoryBlock& other) noexcept
 }
 
 //==============================================================================
-void MemoryBlock::fillWith (uint8 value) noexcept
+void MemoryBlock::fillWith (const uint8 value) noexcept
 {
     memset (data, (int) value, size);
 }
 
-void MemoryBlock::append (const void* srcData, size_t numBytes)
+void MemoryBlock::append (const void* const srcData, const size_t numBytes)
 {
     if (numBytes > 0)
     {
         jassert (srcData != nullptr); // this must not be null!
-        auto oldSize = size;
+        const size_t oldSize = size;
         setSize (size + numBytes);
         memcpy (data + oldSize, srcData, numBytes);
     }
 }
 
-void MemoryBlock::replaceWith (const void* srcData, size_t numBytes)
+void MemoryBlock::replaceWith (const void* const srcData, const size_t numBytes)
 {
     if (numBytes > 0)
     {
@@ -184,13 +186,13 @@ void MemoryBlock::replaceWith (const void* srcData, size_t numBytes)
     }
 }
 
-void MemoryBlock::insert (const void* srcData, size_t numBytes, size_t insertPosition)
+void MemoryBlock::insert (const void* const srcData, const size_t numBytes, size_t insertPosition)
 {
     if (numBytes > 0)
     {
         jassert (srcData != nullptr); // this must not be null!
         insertPosition = jmin (size, insertPosition);
-        auto trailingDataSize = size - insertPosition;
+        const size_t trailingDataSize = size - insertPosition;
         setSize (size + numBytes, false);
 
         if (trailingDataSize > 0)
@@ -202,7 +204,7 @@ void MemoryBlock::insert (const void* srcData, size_t numBytes, size_t insertPos
     }
 }
 
-void MemoryBlock::removeSection (size_t startByte, size_t numBytesToRemove)
+void MemoryBlock::removeSection (const size_t startByte, const size_t numBytesToRemove)
 {
     if (startByte + numBytesToRemove >= size)
     {
@@ -220,7 +222,7 @@ void MemoryBlock::removeSection (size_t startByte, size_t numBytesToRemove)
 
 void MemoryBlock::copyFrom (const void* const src, int offset, size_t num) noexcept
 {
-    auto* d = static_cast<const char*> (src);
+    const char* d = static_cast<const char*> (src);
 
     if (offset < 0)
     {
@@ -238,7 +240,7 @@ void MemoryBlock::copyFrom (const void* const src, int offset, size_t num) noexc
 
 void MemoryBlock::copyTo (void* const dst, int offset, size_t num) const noexcept
 {
-    auto* d = static_cast<char*> (dst);
+    char* d = static_cast<char*> (dst);
 
     if (offset < 0)
     {
@@ -250,7 +252,7 @@ void MemoryBlock::copyTo (void* const dst, int offset, size_t num) const noexcep
 
     if ((size_t) offset + num > size)
     {
-        auto newNum = (size_t) size - (size_t) offset;
+        const size_t newNum = (size_t) size - (size_t) offset;
         zeromem (d + newNum, num - newNum);
         num = newNum;
     }
@@ -265,17 +267,17 @@ String MemoryBlock::toString() const
 }
 
 //==============================================================================
-int MemoryBlock::getBitRange (size_t bitRangeStart, size_t numBits) const noexcept
+int MemoryBlock::getBitRange (const size_t bitRangeStart, size_t numBits) const noexcept
 {
     int res = 0;
 
-    auto byte = bitRangeStart >> 3;
-    auto offsetInByte = bitRangeStart & 7;
+    size_t byte = bitRangeStart >> 3;
+    size_t offsetInByte = bitRangeStart & 7;
     size_t bitsSoFar = 0;
 
     while (numBits > 0 && (size_t) byte < size)
     {
-        auto bitsThisTime = jmin (numBits, 8 - offsetInByte);
+        const size_t bitsThisTime = jmin (numBits, 8 - offsetInByte);
         const int mask = (0xff >> (8 - bitsThisTime)) << offsetInByte;
 
         res |= (((data[byte] & mask) >> offsetInByte) << bitsSoFar);
@@ -291,13 +293,13 @@ int MemoryBlock::getBitRange (size_t bitRangeStart, size_t numBits) const noexce
 
 void MemoryBlock::setBitRange (const size_t bitRangeStart, size_t numBits, int bitsToSet) noexcept
 {
-    auto byte = bitRangeStart >> 3;
-    auto offsetInByte = bitRangeStart & 7;
+    size_t byte = bitRangeStart >> 3;
+    size_t offsetInByte = bitRangeStart & 7;
     uint32 mask = ~((((uint32) 0xffffffff) << (32 - numBits)) >> (32 - numBits));
 
     while (numBits > 0 && (size_t) byte < size)
     {
-        auto bitsThisTime = jmin (numBits, 8 - offsetInByte);
+        const size_t bitsThisTime = jmin (numBits, 8 - offsetInByte);
 
         const uint32 tempMask = (mask << offsetInByte) | ~((((uint32) 0xffffffff) >> offsetInByte) << offsetInByte);
         const uint32 tempBits = (uint32) bitsToSet << offsetInByte;
@@ -317,7 +319,7 @@ void MemoryBlock::loadFromHexString (StringRef hex)
 {
     ensureSize ((size_t) hex.length() >> 1);
     char* dest = data;
-    auto t = hex.text;
+    String::CharPointerType t (hex.text);
 
     for (;;)
     {
@@ -329,7 +331,7 @@ void MemoryBlock::loadFromHexString (StringRef hex)
 
             for (;;)
             {
-                auto c = t.getAndAdvance();
+                const juce_wchar c = t.getAndAdvance();
 
                 if (c >= '0' && c <= '9')    { byte |= c - '0';        break; }
                 if (c >= 'a' && c <= 'z')    { byte |= c - ('a' - 10); break; }
@@ -352,18 +354,18 @@ static const char base64EncodingTable[] = ".ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij
 
 String MemoryBlock::toBase64Encoding() const
 {
-    auto numChars = ((size << 3) + 5) / 6;
+    const size_t numChars = ((size << 3) + 5) / 6;
 
     String destString ((unsigned int) size); // store the length, followed by a '.', and then the data.
-    auto initialLen = destString.length();
+    const int initialLen = destString.length();
     destString.preallocateBytes (sizeof (String::CharPointerType::CharType) * (size_t) initialLen + 2 + numChars);
 
-    auto d = destString.getCharPointer();
+    String::CharPointerType d (destString.getCharPointer());
     d += initialLen;
     d.write ('.');
 
     for (size_t i = 0; i < numChars; ++i)
-        d.write ((juce_wchar) (uint8) base64EncodingTable[getBitRange (i * 6, 6)]);
+        d.write ((juce_wchar) (uint8) base64EncodingTable [getBitRange (i * 6, 6)]);
 
     d.writeNull();
     return destString;
@@ -378,30 +380,29 @@ static const char base64DecodingTable[] =
 
 bool MemoryBlock::fromBase64Encoding (StringRef s)
 {
-    auto dot = CharacterFunctions::find (s.text, (juce_wchar) '.');
+    String::CharPointerType dot (CharacterFunctions::find (s.text, (juce_wchar) '.'));
 
     if (dot.isEmpty())
         return false;
 
-    auto numBytesNeeded = String (s.text, dot).getIntValue();
+    const int numBytesNeeded = String (s.text, dot).getIntValue();
 
     setSize ((size_t) numBytesNeeded, true);
 
-    auto srcChars = dot + 1;
+    String::CharPointerType srcChars (dot + 1);
     int pos = 0;
 
     for (;;)
     {
-        auto c = (int) srcChars.getAndAdvance();
+        int c = (int) srcChars.getAndAdvance();
 
         if (c == 0)
             return true;
 
         c -= 43;
-
         if (isPositiveAndBelow (c, numElementsInArray (base64DecodingTable)))
         {
-            setBitRange ((size_t) pos, 6, base64DecodingTable[c]);
+            setBitRange ((size_t) pos, 6, base64DecodingTable [c]);
             pos += 6;
         }
     }

@@ -189,7 +189,9 @@ MidiBuffer::Iterator::Iterator (const MidiBuffer& b) noexcept
 {
 }
 
-MidiBuffer::Iterator::~Iterator() noexcept{}
+MidiBuffer::Iterator::~Iterator() noexcept
+{
+}
 
 void MidiBuffer::Iterator::setNextSamplePosition (const int samplePosition) noexcept
 {

@@ -235,7 +235,7 @@ public:
         env->GetFloatArrayRegion (widths, 0, numDone, localWidths);
         env->DeleteLocalRef (widths);
 
-        auto s = text.getCharPointer();
+        String::CharPointerType s (text.getCharPointer());
 
         xOffsets.add (0);
 

@@ -218,7 +218,7 @@ public:
 
         //==============================================================================
     private:
-        struct Item;
+        class Item;
         friend struct ContainerDeletePolicy<Item>;
         OwnedArray<Item> items;
 
@@ -227,22 +227,24 @@ public:
 
 private:
     //==============================================================================
-    struct ZipInputStream;
-    struct ZipEntryHolder;
+    class ZipInputStream;
+    class ZipEntryHolder;
+    friend class ZipInputStream;
+    friend class ZipEntryHolder;
 
     OwnedArray<ZipEntryHolder> entries;
     CriticalSection lock;
-    InputStream* inputStream = nullptr;
+    InputStream* inputStream;
     ScopedPointer<InputStream> streamToDelete;
     ScopedPointer<InputSource> inputSource;
 
    #if JUCE_DEBUG
     struct OpenStreamCounter
     {
-        OpenStreamCounter() {}
+        OpenStreamCounter() : numOpenStreams (0) {}
         ~OpenStreamCounter();
 
-        int numOpenStreams = 0;
+        int numOpenStreams;
     };
 
     OpenStreamCounter streamCounter;

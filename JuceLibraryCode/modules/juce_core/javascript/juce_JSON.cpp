@@ -45,7 +45,7 @@ struct JSONParser
 
         for (;;)
         {
-            auto c = t.getAndAdvance();
+            juce_wchar c = t.getAndAdvance();
 
             if (c == quoteChar)
                 break;
@@ -74,8 +74,7 @@ struct JSONParser
 
                         for (int i = 4; --i >= 0;)
                         {
-                            auto digitValue = CharacterFunctions::getHexDigitValue (t.getAndAdvance());
-
+                            const int digitValue = CharacterFunctions::getHexDigitValue (t.getAndAdvance());
                             if (digitValue < 0)
                                 return createFail ("Syntax error in unicode escape sequence");
 
@@ -100,7 +99,7 @@ struct JSONParser
     static Result parseAny (String::CharPointerType& t, var& result)
     {
         t = t.findEndOfWhitespace();
-        auto t2 = t;
+        String::CharPointerType t2 (t);
 
         switch (t2.getAndAdvance())
         {
@@ -168,16 +167,16 @@ private:
 
     static Result parseNumber (String::CharPointerType& t, var& result, const bool isNegative)
     {
-        auto oldT = t;
+        String::CharPointerType oldT (t);
 
         int64 intValue = t.getAndAdvance() - '0';
         jassert (intValue >= 0 && intValue < 10);
 
         for (;;)
         {
-            auto previousChar = t;
-            auto c = t.getAndAdvance();
-            auto digit = ((int) c) - '0';
+            String::CharPointerType previousChar (t);
+            const juce_wchar c = t.getAndAdvance();
+            const int digit = ((int) c) - '0';
 
             if (isPositiveAndBelow (digit, 10))
             {
@@ -188,7 +187,7 @@ private:
             if (c == 'e' || c == 'E' || c == '.')
             {
                 t = oldT;
-                auto asDouble = CharacterFunctions::readDoubleValue (t);
+                const double asDouble = CharacterFunctions::readDoubleValue (t);
                 result = isNegative ? -asDouble : asDouble;
                 return Result::ok();
             }
@@ -203,7 +202,7 @@ private:
             return createFail ("Syntax error in number", &oldT);
         }
 
-        auto correctedValue = isNegative ? -intValue : intValue;
+        const int64 correctedValue = isNegative ? -intValue : intValue;
 
         if ((intValue >> 31) != 0)
             result = correctedValue;
@@ -215,16 +214,16 @@ private:
 
     static Result parseObject (String::CharPointerType& t, var& result)
     {
-        auto resultObject = new DynamicObject();
+        DynamicObject* const resultObject = new DynamicObject();
         result = resultObject;
-        auto& resultProperties = resultObject->getProperties();
+        NamedValueSet& resultProperties = resultObject->getProperties();
 
         for (;;)
         {
             t = t.findEndOfWhitespace();
 
-            auto oldT = t;
-            auto c = t.getAndAdvance();
+            String::CharPointerType oldT (t);
+            const juce_wchar c = t.getAndAdvance();
 
             if (c == '}')
                 break;
@@ -235,7 +234,7 @@ private:
             if (c == '"')
             {
                 var propertyNameVar;
-                auto r = parseString ('"', t, propertyNameVar);
+                Result r (parseString ('"', t, propertyNameVar));
 
                 if (r.failed())
                     return r;
@@ -247,15 +246,14 @@ private:
                     t = t.findEndOfWhitespace();
                     oldT = t;
 
-                    auto c2 = t.getAndAdvance();
-
+                    const juce_wchar c2 = t.getAndAdvance();
                     if (c2 != ':')
                         return createFail ("Expected ':', but found", &oldT);
 
                     resultProperties.set (propertyName, var());
                     var* propertyValue = resultProperties.getVarPointer (propertyName);
 
-                    auto r2 = parseAny (t, *propertyValue);
+                    Result r2 (parseAny (t, *propertyValue));
 
                     if (r2.failed())
                         return r2;
@@ -263,7 +261,7 @@ private:
                     t = t.findEndOfWhitespace();
                     oldT = t;
 
-                    auto nextChar = t.getAndAdvance();
+                    const juce_wchar nextChar = t.getAndAdvance();
 
                     if (nextChar == ',')
                         continue;
@@ -282,14 +280,14 @@ private:
     static Result parseArray (String::CharPointerType& t, var& result)
     {
         result = var (Array<var>());
-        auto* destArray = result.getArray();
+        Array<var>* const destArray = result.getArray();
 
         for (;;)
         {
             t = t.findEndOfWhitespace();
 
-            auto oldT = t;
-            auto c = t.getAndAdvance();
+            String::CharPointerType oldT (t);
+            const juce_wchar c = t.getAndAdvance();
 
             if (c == ']')
                 break;
@@ -299,7 +297,7 @@ private:
 
             t = oldT;
             destArray->add (var());
-            auto r = parseAny (t, destArray->getReference (destArray->size() - 1));
+            Result r (parseAny (t, destArray->getReference (destArray->size() - 1)));
 
             if (r.failed())
                 return r;
@@ -307,7 +305,7 @@ private:
             t = t.findEndOfWhitespace();
             oldT = t;
 
-            auto nextChar = t.getAndAdvance();
+            const juce_wchar nextChar = t.getAndAdvance();
 
             if (nextChar == ',')
                 continue;
@@ -326,7 +324,8 @@ private:
 struct JSONFormatter
 {
     static void write (OutputStream& out, const var& v,
-                       int indentLevel, bool allOnOneLine, int maximumDecimalPlaces)
+                       const int indentLevel, const bool allOnOneLine,
+                       int maximumDecimalPlaces)
     {
         if (v.isString())
         {
@@ -356,7 +355,7 @@ struct JSONFormatter
         }
         else if (v.isObject())
         {
-            if (auto* object = v.getDynamicObject())
+            if (DynamicObject* object = v.getDynamicObject())
                 object->writeAsJSON (out, indentLevel, allOnOneLine, maximumDecimalPlaces);
             else
                 jassertfalse; // Only DynamicObjects can be converted to JSON!
@@ -379,7 +378,7 @@ struct JSONFormatter
     {
         for (;;)
         {
-            auto c = t.getAndAdvance();
+            const juce_wchar c (t.getAndAdvance());
 
             switch (c)
             {
@@ -427,11 +426,12 @@ struct JSONFormatter
     }
 
     static void writeArray (OutputStream& out, const Array<var>& array,
-                            int indentLevel, bool allOnOneLine, int maximumDecimalPlaces)
+                            const int indentLevel, const bool allOnOneLine,
+                            int maximumDecimalPlaces)
     {
         out << '[';
 
-        if (! array.isEmpty())
+        if (array.size() > 0)
         {
             if (! allOnOneLine)
                 out << newLine;
@@ -521,7 +521,7 @@ String JSON::escapeString (StringRef s)
 
 Result JSON::parseQuotedString (String::CharPointerType& t, var& result)
 {
-    auto quote = t.getAndAdvance();
+    const juce_wchar quote = t.getAndAdvance();
 
     if (quote == '"' || quote == '\'')
         return JSONParser::parseString (quote, t, result);

@@ -153,7 +153,7 @@ protected:
 private:
     friend class TopLevelWindowManager;
     friend class ResizableWindow;
-    bool useDropShadow = true, useNativeTitleBar = false, isCurrentlyActive = false;
+    bool useDropShadow, useNativeTitleBar, isCurrentlyActive;
     ScopedPointer<DropShadower> shadower;
 
     void setWindowActive (bool);

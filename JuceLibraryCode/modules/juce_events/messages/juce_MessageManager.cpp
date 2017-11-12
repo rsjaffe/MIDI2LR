@@ -228,7 +228,7 @@ void MessageManager::setCurrentThreadAsMessageThread()
 bool MessageManager::currentThreadHasLockedMessageManager() const noexcept
 {
     const Thread::ThreadID thisThread = Thread::getCurrentThreadId();
-    return thisThread == messageThreadId || thisThread == threadWithLock.get();
+    return thisThread == messageThreadId || thisThread == threadWithLock;
 }
 
 //==============================================================================
@@ -242,186 +242,121 @@ bool MessageManager::currentThreadHasLockedMessageManager() const noexcept
     accessed from another thread inside a MM lock, you're screwed. (this is exactly what happens
     in Cocoa).
 */
-struct MessageManager::Lock::BlockingMessage   : public MessageManager::MessageBase
+class MessageManagerLock::BlockingMessage   : public MessageManager::MessageBase
 {
-    BlockingMessage (const MessageManager::Lock* parent) noexcept
-    // need a const_cast here as VS2013 doesn't like a const pointer to be in an atomic
-        : owner (const_cast<MessageManager::Lock*> (parent)) {}
+public:
+    BlockingMessage() noexcept {}
 
     void messageCallback() override
     {
-        {
-            ScopedLock lock (ownerCriticalSection);
-
-            if (auto* o = owner.get())
-                o->messageCallback();
-        }
-
+        lockedEvent.signal();
         releaseEvent.wait();
     }
 
-    CriticalSection ownerCriticalSection;
-    Atomic<MessageManager::Lock*> owner;
-    WaitableEvent releaseEvent;
+    WaitableEvent lockedEvent, releaseEvent;
 
     JUCE_DECLARE_NON_COPYABLE (BlockingMessage)
 };
 
 //==============================================================================
-MessageManager::Lock::Lock()                            {}
-MessageManager::Lock::~Lock()                           { exit(); }
-void MessageManager::Lock::enter()    const noexcept    {        tryAcquire (true); }
-bool MessageManager::Lock::tryEnter() const noexcept    { return tryAcquire (false); }
+MessageManagerLock::MessageManagerLock (Thread* const threadToCheck)
+    : blockingMessage(), checker (threadToCheck, nullptr),
+      locked (attemptLock (threadToCheck != nullptr ? &checker : nullptr))
+{
+}
 
-bool MessageManager::Lock::tryAcquire (bool lockIsMandatory) const noexcept
+MessageManagerLock::MessageManagerLock (ThreadPoolJob* const jobToCheckForExitSignal)
+    : blockingMessage(), checker (nullptr, jobToCheckForExitSignal),
+      locked (attemptLock (jobToCheckForExitSignal != nullptr ? &checker : nullptr))
+{
+}
+
+MessageManagerLock::MessageManagerLock (BailOutChecker& bailOutChecker)
+    : blockingMessage(), checker (nullptr, nullptr),
+      locked (attemptLock (&bailOutChecker))
+{
+}
+
+bool MessageManagerLock::attemptLock (BailOutChecker* bailOutChecker)
 {
     auto* mm = MessageManager::instance;
 
     if (mm == nullptr)
-    {
-        jassertfalse;
         return false;
-    }
-
-    if (! lockIsMandatory && (abortWait.get() != 0))
-    {
-        abortWait.set (0);
-        return false;
-    }
 
     if (mm->currentThreadHasLockedMessageManager())
         return true;
 
-    try
+    if (bailOutChecker == nullptr)
     {
-        blockingMessage = new BlockingMessage (this);
+        mm->lockingLock.enter();
     }
-    catch (...)
+    else
     {
-        jassert (! lockIsMandatory);
-        return false;
+        while (! mm->lockingLock.tryEnter())
+        {
+            if (bailOutChecker->shouldAbortAcquiringLock())
+                return false;
+
+            Thread::yield();
+        }
     }
+
+    blockingMessage = new BlockingMessage();
 
     if (! blockingMessage->post())
     {
-        // post of message failed while trying to get the lock
-        jassert (! lockIsMandatory);
         blockingMessage = nullptr;
         return false;
     }
 
-    do
+    while (! blockingMessage->lockedEvent.wait (20))
     {
-        while (abortWait.get() == 0)
-            lockedEvent.wait (-1);
-
-        abortWait.set (0);
-
-        if (lockGained.get() != 0)
+        if (bailOutChecker != nullptr && bailOutChecker->shouldAbortAcquiringLock())
         {
-            mm->threadWithLock = Thread::getCurrentThreadId();
-            return true;
+            blockingMessage->releaseEvent.signal();
+            blockingMessage = nullptr;
+            mm->lockingLock.exit();
+            return false;
         }
-
-    } while (lockIsMandatory);
-
-    // we didn't get the lock
-    blockingMessage->releaseEvent.signal();
-
-    {
-        ScopedLock lock (blockingMessage->ownerCriticalSection);
-
-        lockGained.set (0);
-        blockingMessage->owner.set (nullptr);
     }
 
-    blockingMessage = nullptr;
-    return false;
+    jassert (mm->threadWithLock == 0);
+
+    mm->threadWithLock = Thread::getCurrentThreadId();
+    return true;
 }
 
-void MessageManager::Lock::exit() const noexcept
+MessageManagerLock::~MessageManagerLock() noexcept
 {
-    if (lockGained.compareAndSetBool (false, true))
+    if (blockingMessage != nullptr)
     {
         auto* mm = MessageManager::instance;
 
         jassert (mm == nullptr || mm->currentThreadHasLockedMessageManager());
-        lockGained.set (0);
+
+        blockingMessage->releaseEvent.signal();
+        blockingMessage = nullptr;
 
         if (mm != nullptr)
-            mm->threadWithLock = 0;
-
-        if (blockingMessage != nullptr)
         {
-            blockingMessage->releaseEvent.signal();
-            blockingMessage = nullptr;
+            mm->threadWithLock = 0;
+            mm->lockingLock.exit();
         }
     }
 }
 
-void MessageManager::Lock::messageCallback() const
-{
-    lockGained.set (1);
-    abort();
-}
-
-void MessageManager::Lock::abort() const noexcept
-{
-    abortWait.set (1);
-    lockedEvent.signal();
-}
-
 //==============================================================================
-MessageManagerLock::MessageManagerLock (Thread* threadToCheck)
-    : locked (attemptLock (threadToCheck, nullptr))
-{}
-
-MessageManagerLock::MessageManagerLock (ThreadPoolJob* jobToCheck)
-    : locked (attemptLock (nullptr, jobToCheck))
-{}
-
-bool MessageManagerLock::attemptLock (Thread* threadToCheck, ThreadPoolJob* jobToCheck)
+MessageManagerLock::ThreadChecker::ThreadChecker (Thread* const threadToUse,
+                                                  ThreadPoolJob* const threadJobToUse)
+    : threadToCheck (threadToUse), job (threadJobToUse)
 {
-    jassert (threadToCheck == nullptr || jobToCheck == nullptr);
-
-    if (threadToCheck != nullptr)
-        threadToCheck->addListener (this);
-
-    if (jobToCheck != nullptr)
-        jobToCheck->addListener (this);
-
-    // tryEnter may have a spurious abort (return false) so keep checking the condition
-    while ((threadToCheck == nullptr || ! threadToCheck->threadShouldExit())
-             && (jobToCheck == nullptr || ! jobToCheck->shouldExit()))
-    {
-        if (mmLock.tryEnter())
-            break;
-    }
-
-    if (threadToCheck != nullptr)
-    {
-        threadToCheck->removeListener (this);
-
-        if (threadToCheck->threadShouldExit())
-            return false;
-    }
-
-    if (jobToCheck != nullptr)
-    {
-        jobToCheck->removeListener (this);
-
-        if (jobToCheck->shouldExit())
-            return false;
-    }
-
-    return true;
 }
 
-MessageManagerLock::~MessageManagerLock() noexcept     { mmLock.exit(); }
-
-void MessageManagerLock::exitSignalSent()
+bool MessageManagerLock::ThreadChecker::shouldAbortAcquiringLock()
 {
-    mmLock.abort();
+    return (threadToCheck != nullptr && threadToCheck->threadShouldExit())
+        || (job           != nullptr && job->shouldExit());
 }
 
 //==============================================================================

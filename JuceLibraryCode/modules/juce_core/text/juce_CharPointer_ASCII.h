@@ -32,7 +32,7 @@ namespace juce
 
     @see CharPointer_UTF8, CharPointer_UTF16, CharPointer_UTF32
 */
-class CharPointer_ASCII  final
+class CharPointer_ASCII
 {
 public:
     typedef char CharType;

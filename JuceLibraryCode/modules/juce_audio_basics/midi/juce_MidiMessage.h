@@ -171,11 +171,6 @@ public:
     */
     void addToTimeStamp (double delta) noexcept         { timeStamp += delta; }
 
-    /** Return a copy of this message with a new timestamp.
-        The units for the timestamp will be application-specific - see the notes for getTimeStamp().
-    */
-    MidiMessage withTimeStamp (double newTimestamp) const;
-
     //==============================================================================
     /** Returns the midi channel associated with the message.
 

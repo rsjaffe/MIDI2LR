@@ -47,7 +47,7 @@ namespace juce
 
     @see MouseEvent
 */
-class JUCE_API  MouseInputSource  final
+class JUCE_API  MouseInputSource
 {
 public:
     /** Possible mouse input sources. */

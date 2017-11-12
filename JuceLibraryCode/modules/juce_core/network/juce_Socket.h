@@ -32,7 +32,7 @@ namespace juce
 
     @see DatagramSocket, InterprocessConnection, InterprocessConnectionServer
 */
-class JUCE_API  StreamingSocket  
+class JUCE_API  StreamingSocket
 {
 public:
     //==============================================================================
@@ -175,8 +175,8 @@ public:
 private:
     //==============================================================================
     String hostName;
-    int volatile portNumber = 0, handle = -1;
-    bool connected = false, isListener = false;
+    int volatile portNumber, handle;
+    bool connected, isListener;
     mutable CriticalSection readLock;
 
     StreamingSocket (const String& hostname, int portNumber, int handle);
@@ -194,7 +194,7 @@ private:
 
     @see StreamingSocket, InterprocessConnection, InterprocessConnectionServer
 */
-class JUCE_API  DatagramSocket  final
+class JUCE_API  DatagramSocket
 {
 public:
     //==============================================================================
@@ -340,11 +340,11 @@ public:
 
 private:
     //==============================================================================
-    int handle = -1;
-    bool isBound = false;
+    int handle;
+    bool isBound;
     String lastBindAddress, lastServerHost;
-    int lastServerPort = -1;
-    void* lastServerAddress = nullptr;
+    int lastServerPort;
+    void* lastServerAddress;
     mutable CriticalSection readLock;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DatagramSocket)

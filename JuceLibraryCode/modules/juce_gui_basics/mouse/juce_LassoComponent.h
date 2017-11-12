@@ -52,7 +52,7 @@ public:
         component. (i.e. they are the same as the size and position of the lasso
         component itself).
     */
-    virtual void findLassoItemsInArea (Array<SelectableItemType>& itemsFound,
+    virtual void findLassoItemsInArea (Array <SelectableItemType>& itemsFound,
                                        const Rectangle<int>& area) = 0;
 
     /** Returns the SelectedItemSet that the lasso should update.
@@ -99,7 +99,9 @@ class LassoComponent  : public Component
 public:
     //==============================================================================
     /** Creates a Lasso component. */
-    LassoComponent() {}
+    LassoComponent()  : source (nullptr)
+    {
+    }
 
     //==============================================================================
     /** Call this in your mouseDown event, to initialise a drag.
@@ -156,7 +158,7 @@ public:
             }
             else if (e.mods.isCommandDown() || e.mods.isAltDown())
             {
-                auto originalMinusNew = originalSelection;
+                Array<SelectableItemType> originalMinusNew (originalSelection);
                 originalMinusNew.removeValuesIn (itemsInLasso);
 
                 itemsInLasso.removeValuesIn (originalSelection);
@@ -212,7 +214,7 @@ public:
 private:
     //==============================================================================
     Array<SelectableItemType> originalSelection;
-    LassoSource<SelectableItemType>* source = nullptr;
+    LassoSource<SelectableItemType>* source;
     Point<int> dragStartPos;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LassoComponent)

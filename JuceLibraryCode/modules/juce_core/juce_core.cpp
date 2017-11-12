@@ -61,8 +61,6 @@
 
  #if JUCE_MINGW
   #include <ws2spi.h>
-  #include <cstdio>
-  #include <locale.h>
  #endif
 
 #else

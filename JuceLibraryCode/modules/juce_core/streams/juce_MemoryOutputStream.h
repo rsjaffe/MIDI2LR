@@ -114,10 +114,10 @@ public:
 
 private:
     //==============================================================================
-    MemoryBlock* const blockToUse = nullptr;
+    MemoryBlock* const blockToUse;
     MemoryBlock internalBlock;
-    void* externalData = nullptr;
-    size_t position = 0, size = 0, availableSize = 0;
+    void* externalData;
+    size_t position, size, availableSize;
 
     void trimExternalBlockSize();
     char* prepareToWrite (size_t);

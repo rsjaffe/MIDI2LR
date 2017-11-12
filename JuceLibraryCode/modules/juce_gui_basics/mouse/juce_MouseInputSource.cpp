@@ -640,13 +640,7 @@ struct MouseInputSource::SourceList  : public Timer
 {
     SourceList()
     {
-       #if JUCE_ANDROID || JUCE_IOS
-        auto mainMouseInputType = MouseInputSource::InputSourceType::touch;
-       #else
-        auto mainMouseInputType = MouseInputSource::InputSourceType::mouse;
-       #endif
-
-        addSource (0, mainMouseInputType);
+        addSource (0, MouseInputSource::InputSourceType::mouse);
     }
 
     bool addSource();

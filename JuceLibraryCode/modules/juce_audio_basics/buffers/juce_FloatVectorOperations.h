@@ -28,7 +28,6 @@ namespace juce
 #else
  #define JUCE_SNAP_TO_ZERO(n)    ignoreUnused (n)
 #endif
-class ScopedNoDenormals;
 
 //==============================================================================
 /**
@@ -210,25 +209,16 @@ public:
     /** Finds the maximum value in the given array. */
     static double JUCE_CALLTYPE findMaximum (const double* src, int numValues) noexcept;
 
-    /** This method enables or disables the SSE/NEON flush-to-zero mode. */
+    /** On Intel CPUs, this method enables or disables the SSE flush-to-zero mode.
+        Effectively, this is a wrapper around a call to _MM_SET_FLUSH_ZERO_MODE
+    */
     static void JUCE_CALLTYPE enableFlushToZeroMode (bool shouldEnable) noexcept;
 
     /** On Intel CPUs, this method enables the SSE flush-to-zero and denormalised-are-zero modes.
-        This effectively sets the DAZ and FZ bits of the MXCSR register. On arm CPUs this will
-        enable flush to zero mode.
-        It's a convenient thing to call before audio processing code where you really want to
-        avoid denormalisation performance hits.
+        This effectively sets the DAZ and FZ bits of the MXCSR register. It's a convenient thing to
+        call before audio processing code where you really want to avoid denormalisation performance hits.
     */
-    static void JUCE_CALLTYPE disableDenormalisedNumberSupport (bool shouldDisable = true) noexcept;
-
-    /** This method returns true if denormals are currently disabled. */
-    static bool JUCE_CALLTYPE areDenormalsDisabled() noexcept;
-
-private:
-    friend ScopedNoDenormals;
-
-    static intptr_t JUCE_CALLTYPE getFpStatusRegister() noexcept;
-    static void JUCE_CALLTYPE setFpStatusRegister (intptr_t) noexcept;
+    static void JUCE_CALLTYPE disableDenormalisedNumberSupport() noexcept;
 };
 
 //==============================================================================
@@ -239,13 +229,26 @@ private:
 class ScopedNoDenormals
 {
 public:
-    ScopedNoDenormals() noexcept;
-    ~ScopedNoDenormals() noexcept;
+    inline ScopedNoDenormals() noexcept
+    {
+       #if JUCE_USE_SSE_INTRINSICS
+        mxcsr = _mm_getcsr();
+        _mm_setcsr (mxcsr | 0x8040); // add the DAZ and FZ bits
+       #endif
+    }
+
+
+    inline ~ScopedNoDenormals() noexcept
+    {
+       #if JUCE_USE_SSE_INTRINSICS
+        _mm_setcsr (mxcsr);
+       #endif
+    }
 
 private:
-  #if JUCE_USE_SSE_INTRINSICS || (JUCE_USE_ARM_NEON || defined (__arm64__) || defined (__aarch64__))
-    intptr_t fpsr;
-  #endif
+    #if JUCE_USE_SSE_INTRINSICS
+     unsigned int mxcsr;
+    #endif
 };
 
 } // namespace juce

@@ -31,8 +31,8 @@ namespace juce
 
 typedef ::_XDisplay* XDisplay;
 
-typedef unsigned long AtomType;
-typedef unsigned long WindowType;
+typedef unsigned long ATOM_TYPE;
+typedef unsigned long WINDOW_TYPE;
 
 
 //==============================================================================
@@ -45,7 +45,7 @@ public:
     juce_DeclareSingleton (XWindowSystem, false)
 
 private:
-    XDisplay display = {};
+    XDisplay display;
     Atomic<int> displayCount;
 
     XWindowSystem() noexcept;
@@ -56,9 +56,9 @@ private:
 };
 
 //==============================================================================
-/** Creates and holds a reference to the X display. */
-struct ScopedXDisplay
+class ScopedXDisplay
 {
+public:
     ScopedXDisplay();
     ~ScopedXDisplay();
 
@@ -99,39 +99,41 @@ struct Atoms
         PING = 2
     };
 
-    AtomType protocols, protocolList[3], changeState, state, userTime,
-             activeWin, pid, windowType, windowState,
-             XdndAware, XdndEnter, XdndLeave, XdndPosition, XdndStatus,
-             XdndDrop, XdndFinished, XdndSelection, XdndTypeList, XdndActionList,
-             XdndActionDescription, XdndActionCopy, XdndActionPrivate,
-             XembedMsgType, XembedInfo,
-             allowedActions[5],
-             allowedMimeTypes[4];
+    ATOM_TYPE protocols, protocolList[3], changeState, state, userTime,
+              activeWin, pid, windowType, windowState,
+              XdndAware, XdndEnter, XdndLeave, XdndPosition, XdndStatus,
+              XdndDrop, XdndFinished, XdndSelection, XdndTypeList, XdndActionList,
+              XdndActionDescription, XdndActionCopy, XdndActionPrivate,
+              XembedMsgType, XembedInfo,
+              allowedActions[5],
+              allowedMimeTypes[4];
 
     static const unsigned long DndVersion;
 
-    static AtomType getIfExists (XDisplay, const char* name);
-    static AtomType getCreating (XDisplay, const char* name);
+    static ATOM_TYPE getIfExists (XDisplay, const char* name);
+    static ATOM_TYPE getCreating (XDisplay, const char* name);
 
-    static String getName (XDisplay, AtomType);
+    static String getName (XDisplay, ATOM_TYPE atom);
 
-    static bool isMimeTypeFile (XDisplay, AtomType);
+    static bool isMimeTypeFile (XDisplay, ATOM_TYPE atom);
 };
 
 //==============================================================================
 struct GetXProperty
 {
-    GetXProperty (XDisplay, WindowType, AtomType,
+    GetXProperty (XDisplay, WINDOW_TYPE window, ATOM_TYPE atom,
                   long offset, long length, bool shouldDelete,
-                  AtomType requestedType);
+                  ATOM_TYPE requestedType);
 
     ~GetXProperty();
 
     bool success;
-    unsigned char* data = nullptr;
+    unsigned char* data;
     unsigned long numItems, bytesLeft;
-    AtomType actualType;
+    ATOM_TYPE actualType;
     int actualFormat;
 };
+
+#undef ATOM_TYPE
 
 } // namespace juce

@@ -120,10 +120,10 @@ public:
 protected:
     friend class TabbedButtonBar;
     TabbedButtonBar& owner;
-    int overlapPixels = 0;
+    int overlapPixels;
 
     ScopedPointer<Component> extraComponent;
-    ExtraComponentPlacement extraCompPlacement = afterText;
+    ExtraComponentPlacement extraCompPlacement;
 
 private:
     void calcAreas (Rectangle<int>&, Rectangle<int>&) const;
@@ -341,6 +341,8 @@ protected:
     virtual TabBarButton* createTabButton (const String& tabName, int tabIndex);
 
 private:
+    Orientation orientation;
+
     struct TabInfo
     {
         ScopedPointer<TabBarButton> button;
@@ -348,11 +350,10 @@ private:
         Colour colour;
     };
 
-    OwnedArray<TabInfo> tabs;
+    OwnedArray <TabInfo> tabs;
 
-    Orientation orientation;
-    double minimumScale = 0.7;
-    int currentTabIndex = -1;
+    double minimumScale;
+    int currentTabIndex;
 
     class BehindFrontTabComp;
     friend class BehindFrontTabComp;

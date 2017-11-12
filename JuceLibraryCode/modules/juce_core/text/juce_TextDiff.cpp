@@ -33,7 +33,7 @@ struct TextDiffHelpers
         StringRegion (const String& s) noexcept
             : text (s.getCharPointer()), start (0), length (s.length()) {}
 
-        StringRegion (String::CharPointerType t, int s, int len) noexcept
+        StringRegion (const String::CharPointerType t, int s, int len) noexcept
             : text (t), start (s), length (len) {}
 
         void incrementStart() noexcept  { ++text; ++start; --length; }
@@ -42,7 +42,7 @@ struct TextDiffHelpers
         int start, length;
     };
 
-    static void addInsertion (TextDiff& td, String::CharPointerType text, int index, int length)
+    static void addInsertion (TextDiff& td, const String::CharPointerType text, int index, int length)
     {
         TextDiff::Change c;
         c.insertedText = String (text, (size_t) length);
@@ -63,8 +63,8 @@ struct TextDiffHelpers
     {
         for (;;)
         {
-            auto ca = *a.text;
-            auto cb = *b.text;
+            const juce_wchar ca = *a.text;
+            const juce_wchar cb = *b.text;
 
             if (ca != cb || ca == 0)
                 break;
@@ -79,8 +79,8 @@ struct TextDiffHelpers
     static void diffRecursively (TextDiff& td, StringRegion a, StringRegion b)
     {
         int indexA = 0, indexB = 0;
-        auto len = findLongestCommonSubstring (a.text, a.length, indexA,
-                                               b.text, b.length, indexB);
+        const int len = findLongestCommonSubstring (a.text, a.length, indexA,
+                                                    b.text, b.length, indexB);
 
         if (len >= minLengthToMatch)
         {
@@ -112,11 +112,11 @@ struct TextDiffHelpers
             return findCommonSuffix (a, lenA, indexInA,
                                      b, lenB, indexInB);
 
-        auto scratchSpace = sizeof (int) * (2 + 2 * (size_t) lenB);
+        const size_t scratchSpace = sizeof (int) * (2 + 2 * (size_t) lenB);
 
         if (scratchSpace < 4096)
         {
-            auto* scratch = (int*) alloca (scratchSpace);
+            int* scratch = (int*) alloca (scratchSpace);
             return findLongestCommonSubstring (a, lenA, indexInA, b, lenB, indexInB, scratchSpace, scratch);
         }
 
@@ -130,16 +130,16 @@ struct TextDiffHelpers
     {
         zeromem (lines, scratchSpace);
 
-        auto* l0 = lines;
-        auto* l1 = l0 + lenB + 1;
+        int* l0 = lines;
+        int* l1 = l0 + lenB + 1;
 
         int loopsWithoutImprovement = 0;
         int bestLength = 0;
 
         for (int i = 0; i < lenA; ++i)
         {
-            auto ca = a.getAndAdvance();
-            auto b2 = b;
+            const juce_wchar ca = a.getAndAdvance();
+            String::CharPointerType b2 (b);
 
             for (int j = 0; j < lenB; ++j)
             {
@@ -149,7 +149,7 @@ struct TextDiffHelpers
                 }
                 else
                 {
-                    auto len = l0[j] + 1;
+                    const int len = l0[j] + 1;
                     l1[j + 1] = len;
 
                     if (len > bestLength)
@@ -173,8 +173,8 @@ struct TextDiffHelpers
         return bestLength;
     }
 
-    static int findCommonSuffix (String::CharPointerType a, int lenA, int& indexInA,
-                                 String::CharPointerType b, int lenB, int& indexInB) noexcept
+    static int findCommonSuffix (String::CharPointerType a, const int lenA, int& indexInA,
+                                 String::CharPointerType b, const int lenB, int& indexInB) noexcept
     {
         int length = 0;
         a += lenA - 1;
@@ -200,8 +200,8 @@ TextDiff::TextDiff (const String& original, const String& target)
 
 String TextDiff::appliedTo (String text) const
 {
-    for (auto& c : changes)
-        text = c.appliedTo (text);
+    for (int i = 0; i < changes.size(); ++i)
+        text = changes.getReference(i).appliedTo (text);
 
     return text;
 }
@@ -249,7 +249,7 @@ public:
     void testDiff (const String& a, const String& b)
     {
         TextDiff diff (a, b);
-        auto result = diff.appliedTo (a);
+        const String result (diff.appliedTo (a));
         expectEquals (result, b);
     }
 
@@ -257,7 +257,7 @@ public:
     {
         beginTest ("TextDiff");
 
-        auto r = getRandom();
+        Random r = getRandom();
 
         testDiff (String(), String());
         testDiff ("x", String());
@@ -269,7 +269,7 @@ public:
 
         for (int i = 1000; --i >= 0;)
         {
-            auto s = createString (r);
+            String s (createString (r));
             testDiff (s, createString (r));
             testDiff (s + createString (r), s + createString (r));
         }

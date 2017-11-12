@@ -94,11 +94,11 @@ namespace
     static int findCloseQuote (const String& text, int startPos)
     {
         juce_wchar lastChar = 0;
-        auto t = text.getCharPointer() + startPos;
+        String::CharPointerType t (text.getCharPointer() + startPos);
 
         for (;;)
         {
-            auto c = t.getAndAdvance();
+            const juce_wchar c = t.getAndAdvance();
 
             if (c == 0 || (c == '"' && lastChar != '\\'))
                 break;
@@ -127,20 +127,22 @@ void LocalisedStrings::loadFromText (const String& fileContents, bool ignoreCase
     StringArray lines;
     lines.addLines (fileContents);
 
-    for (auto& l : lines)
+    for (int i = 0; i < lines.size(); ++i)
     {
-        auto line = l.trim();
+        String line (lines[i].trim());
 
         if (line.startsWithChar ('"'))
         {
-            auto closeQuote = findCloseQuote (line, 1);
-            auto originalText = unescapeString (line.substring (1, closeQuote));
+            int closeQuote = findCloseQuote (line, 1);
+
+            const String originalText (unescapeString (line.substring (1, closeQuote)));
 
             if (originalText.isNotEmpty())
             {
-                auto openingQuote = findCloseQuote (line, closeQuote + 1);
+                const int openingQuote = findCloseQuote (line, closeQuote + 1);
                 closeQuote = findCloseQuote (line, openingQuote + 1);
-                auto newText = unescapeString (line.substring (openingQuote + 1, closeQuote));
+
+                const String newText (unescapeString (line.substring (openingQuote + 1, closeQuote)));
 
                 if (newText.isNotEmpty())
                     translations.set (originalText, newText);
@@ -197,7 +199,7 @@ JUCE_API String translate (const String& text, const String& resultIfNotFound)
 {
     const SpinLock::ScopedLockType sl (currentMappingsLock);
 
-    if (auto* mappings = LocalisedStrings::getCurrentMappings())
+    if (const LocalisedStrings* const mappings = LocalisedStrings::getCurrentMappings())
         return mappings->translate (text, resultIfNotFound);
 
     return resultIfNotFound;

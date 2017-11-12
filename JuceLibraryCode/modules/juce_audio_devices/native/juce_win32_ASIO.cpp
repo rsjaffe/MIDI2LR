@@ -409,8 +409,6 @@ public:
     Array<int> getAvailableBufferSizes() override       { return bufferSizes; }
     int getDefaultBufferSize() override                 { return preferredBufferSize; }
 
-    int getXRunCount() const noexcept override          { return xruns; }
-
     String open (const BigInteger& inputChannels,
                  const BigInteger& outputChannels,
                  double sr, int bufferSizeSamples) override
@@ -466,9 +464,6 @@ public:
         err = asioObject->getChannels (&totalNumInputChans, &totalNumOutputChans);
         jassert (err == ASE_OK);
 
-        if (asioObject->future (kAsioCanReportOverload, nullptr) != ASE_OK)
-            xruns = -1;
-
         inBuffers.calloc (totalNumInputChans + 8);
         outBuffers.calloc (totalNumOutputChans + 8);
 
@@ -508,10 +503,11 @@ public:
         if (err == ASE_OK)
         {
             buffersCreated = true;
+
             tempBuffer.calloc (totalBuffers * currentBlockSizeSamples + 32);
 
             int n = 0;
-            Array<int> types;
+            Array <int> types;
             currentBitDepth = 16;
 
             for (int i = 0; i < (int) totalNumInputChans; ++i)
@@ -793,7 +789,6 @@ private:
     bool volatile littleEndian, postOutput, needToReset;
     bool volatile insideControlPanelModalLoop;
     bool volatile shouldUsePreferredSize;
-    int xruns = 0;
 
     //==============================================================================
     static String convertASIOString (char* const text, int length)
@@ -1185,7 +1180,6 @@ private:
         totalNumOutputChans = 0;
         numActiveInputChans = 0;
         numActiveOutputChans = 0;
-        xruns = 0;
         currentCallback = nullptr;
 
         error.clear();
@@ -1355,7 +1349,7 @@ private:
         {
             case kAsioSelectorSupported:
                 if (value == kAsioResetRequest || value == kAsioEngineVersion || value == kAsioResyncRequest
-                     || value == kAsioLatenciesChanged || value == kAsioSupportsInputMonitor || value == kAsioOverload)
+                     || value == kAsioLatenciesChanged || value == kAsioSupportsInputMonitor)
                     return 1;
                 break;
 
@@ -1366,8 +1360,7 @@ private:
             case kAsioEngineVersion:    return 2;
 
             case kAsioSupportsTimeInfo:
-            case kAsioSupportsTimeCode:  return 0;
-            case kAsioOverload: xruns++; return 1;
+            case kAsioSupportsTimeCode: return 0;
         }
 
         return 0;
@@ -1439,7 +1432,16 @@ struct ASIOAudioIODevice::ASIOCallbackFunctions <sizeof(currentASIODev) / sizeof
 class ASIOAudioIODeviceType  : public AudioIODeviceType
 {
 public:
-    ASIOAudioIODeviceType() : AudioIODeviceType ("ASIO") {}
+    ASIOAudioIODeviceType()
+        : AudioIODeviceType ("ASIO"),
+          hasScanned (false)
+    {
+    }
+
+    ~ASIOAudioIODeviceType()
+    {
+        masterReference.clear();
+    }
 
     //==============================================================================
     void scanForDevices()
@@ -1535,13 +1537,13 @@ public:
         callDeviceChangeListeners();
     }
 
-    JUCE_DECLARE_WEAK_REFERENCEABLE (ASIOAudioIODeviceType)
+    WeakReference<ASIOAudioIODeviceType>::Master masterReference;
 
 private:
     StringArray deviceNames;
     Array<CLSID> classIds;
 
-    bool hasScanned = false;
+    bool hasScanned;
 
     //==============================================================================
     static bool checkClassIsOk (const String& classId)

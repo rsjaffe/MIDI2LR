@@ -126,10 +126,10 @@ public:
 private:
     class TimerThread;
     friend class TimerThread;
-    int timerCountdownMs = 0, timerPeriodMs = 0;
-    Timer* previousTimer = {}, *nextTimer = {};
+    int timerCountdownMs, timerPeriodMs; // NB: these member variable names are a little verbose
+    Timer* previousTimer, *nextTimer;    // to reduce risk of name-clashes with user subclasses
 
-    Timer& operator= (const Timer&) = delete;
+    Timer& operator= (const Timer&) JUCE_DELETED_FUNCTION;
 };
 
 } // namespace juce

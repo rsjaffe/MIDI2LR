@@ -27,11 +27,17 @@
 namespace juce
 {
 
-ResizableBorderComponent::Zone::Zone() noexcept  : zone (0) {}
+ResizableBorderComponent::Zone::Zone() noexcept
+    : zone (0)
+{}
 
-ResizableBorderComponent::Zone::Zone (const int zoneFlags) noexcept  : zone (zoneFlags) {}
+ResizableBorderComponent::Zone::Zone (const int zoneFlags) noexcept
+    : zone (zoneFlags)
+{}
 
-ResizableBorderComponent::Zone::Zone (const ResizableBorderComponent::Zone& other) noexcept  : zone (other.zone) {}
+ResizableBorderComponent::Zone::Zone (const ResizableBorderComponent::Zone& other) noexcept
+    : zone (other.zone)
+{}
 
 ResizableBorderComponent::Zone& ResizableBorderComponent::Zone::operator= (const ResizableBorderComponent::Zone& other) noexcept
 {

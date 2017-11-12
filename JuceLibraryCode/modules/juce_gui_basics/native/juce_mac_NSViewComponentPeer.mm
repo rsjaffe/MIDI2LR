@@ -81,7 +81,7 @@ public:
         appFocusChangeCallback = appFocusChanged;
         isEventBlockedByModalComps = checkEventBlockedByModalComps;
 
-        auto r = makeNSRect (component.getLocalBounds());
+        NSRect r = makeNSRect (component.getLocalBounds());
 
         view = [createViewInstance() initWithFrame: r];
         setOwner (view, this);
@@ -164,8 +164,7 @@ public:
            #endif
         }
 
-        auto alpha = component.getAlpha();
-
+        const float alpha = component.getAlpha();
         if (alpha < 1.0f)
             setAlpha (alpha);
 
@@ -248,8 +247,8 @@ public:
     {
         fullScreen = isNowFullScreen;
 
-        auto r = makeNSRect (newBounds);
-        auto oldViewSize = [view frame].size;
+        NSRect r = makeNSRect (newBounds);
+        NSSize oldViewSize = [view frame].size;
 
         if (isSharedWindow)
         {
@@ -273,7 +272,7 @@ public:
 
     Rectangle<int> getBounds (const bool global) const
     {
-        auto r = [view frame];
+        NSRect r = [view frame];
         NSWindow* viewWindow = [view window];
 
         if (global && viewWindow != nil)
@@ -339,7 +338,7 @@ public:
     {
         if (! isSharedWindow)
         {
-            auto r = lastNonFullscreenBounds;
+            Rectangle<int> r (lastNonFullscreenBounds);
 
             if (isMinimised())
                 setMinimised (false);
@@ -393,18 +392,18 @@ public:
     {
         NSRect viewFrame = [view frame];
 
-        if (! (isPositiveAndBelow (localPos.getX(), viewFrame.size.width)
-             && isPositiveAndBelow (localPos.getY(), viewFrame.size.height)))
+        if (! (isPositiveAndBelow (localPos.getX(), (int) viewFrame.size.width)
+             && isPositiveAndBelow (localPos.getY(), (int) viewFrame.size.height)))
             return false;
 
         if (! SystemStats::isRunningInAppExtensionSandbox())
         {
             if (NSWindow* const viewWindow = [view window])
             {
-                NSRect windowFrame = [viewWindow frame];
-                NSPoint windowPoint = [view convertPoint: NSMakePoint (localPos.x, viewFrame.size.height - localPos.y) toView: nil];
-                NSPoint screenPoint = NSMakePoint (windowFrame.origin.x + windowPoint.x,
-                                                   windowFrame.origin.y + windowPoint.y);
+                const NSRect windowFrame = [viewWindow frame];
+                const NSPoint windowPoint = [view convertPoint: NSMakePoint (localPos.x, viewFrame.size.height - localPos.y) toView: nil];
+                const NSPoint screenPoint = NSMakePoint (windowFrame.origin.x + windowPoint.x,
+                                                         windowFrame.origin.y + windowPoint.y);
 
                 if (! isWindowAtPoint (viewWindow, screenPoint))
                     return false;
@@ -441,7 +440,7 @@ public:
     {
         if (hasNativeTitleBar())
         {
-            auto screen = getFrameSize().subtractedFrom (component.getParentMonitorArea());
+            const Rectangle<int> screen (getFrameSize().subtractedFrom (component.getParentMonitorArea()));
 
             fullScreen = component.getScreenBounds().expanded (2, 2).contains (screen);
         }
@@ -692,12 +691,12 @@ public:
 
     bool handleKeyEvent (NSEvent* ev, bool isKeyDown)
     {
-        auto unicode = nsStringToJuce ([ev characters]);
-        auto keyCode = getKeyCodeFromEvent (ev);
+        const String unicode (nsStringToJuce ([ev characters]));
+        const int keyCode = getKeyCodeFromEvent (ev);
 
        #if JUCE_DEBUG_KEYCODES
         DBG ("unicode: " + unicode + " " + String::toHexString ((int) unicode[0]));
-        auto unmodified = nsStringToJuce ([ev charactersIgnoringModifiers]);
+        String unmodified (nsStringToJuce ([ev charactersIgnoringModifiers]));
         DBG ("unmodified: " + unmodified + " " + String::toHexString ((int) unmodified[0]));
        #endif
 
@@ -707,9 +706,9 @@ public:
             {
                 bool used = false;
 
-                for (auto u = unicode.getCharPointer(); ! u.isEmpty();)
+                for (String::CharPointerType u (unicode.getCharPointer()); ! u.isEmpty();)
                 {
-                    auto textCharacter = u.getAndAdvance();
+                    juce_wchar textCharacter = u.getAndAdvance();
 
                     switch (keyCode)
                     {
@@ -795,7 +794,7 @@ public:
         if (r.size.width < 1.0f || r.size.height < 1.0f)
             return;
 
-        auto cg = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
+        CGContextRef cg = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
 
         if (! component.isOpaque())
             CGContextClearRect (cg, CGContextGetClipBoundingBox (cg));
@@ -850,8 +849,8 @@ public:
         {
             const Point<int> offset (-roundToInt (r.origin.x),
                                      -roundToInt ([view frame].size.height - (r.origin.y + r.size.height)));
-            auto clipW = (int) (r.size.width  + 0.5f);
-            auto clipH = (int) (r.size.height + 0.5f);
+            const int clipW = (int) (r.size.width  + 0.5f);
+            const int clipH = (int) (r.size.height + 0.5f);
 
             RectangleList<int> clip;
             getClipRects (clip, offset, clipW, clipH);
@@ -864,8 +863,7 @@ public:
                             ! component.isOpaque());
 
                 {
-                    auto intScale = roundToInt (displayScale);
-
+                    const int intScale = roundToInt (displayScale);
                     if (intScale != 1)
                         clip.scaleAll (intScale);
 
@@ -900,9 +898,9 @@ public:
         if (isTimerRunning())
             return;
 
-        auto now = Time::getMillisecondCounter();
-        auto msSinceLastRepaint = (lastRepaintTime >= now) ? now - lastRepaintTime
-                                                           : (std::numeric_limits<uint32>::max() - lastRepaintTime) + now;
+        const uint32 now = Time::getMillisecondCounter();
+        uint32 msSinceLastRepaint = (lastRepaintTime >= now) ? now - lastRepaintTime
+                                                             : (std::numeric_limits<uint32>::max() - lastRepaintTime) + now;
 
         static uint32 minimumRepaintInterval = 1000 / 30; // 30fps
 
@@ -1038,12 +1036,12 @@ public:
     {
         if (constrainer != nullptr && ! isKioskMode())
         {
-            auto scale = getComponent().getDesktopScaleFactor();
+            const float scale = getComponent().getDesktopScaleFactor();
 
             auto pos      = ScalingHelpers::unscaledScreenPosToScaled (scale, convertToRectInt (flippedScreenRect (r)));
             auto original = ScalingHelpers::unscaledScreenPosToScaled (scale, convertToRectInt (flippedScreenRect ([window frame])));
 
-            auto screenBounds = Desktop::getInstance().getDisplays().getTotalBounds (true);
+            const Rectangle<int> screenBounds (Desktop::getInstance().getDisplays().getTotalBounds (true));
 
            #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
             const bool inLiveResize = [window inLiveResize];
@@ -1104,8 +1102,9 @@ public:
     static void updateKeysDown (NSEvent* ev, bool isKeyDown)
     {
         updateModifiers (ev);
+        int keyCode = getKeyCodeFromEvent (ev);
 
-        if (auto keyCode = getKeyCodeFromEvent (ev))
+        if (keyCode != 0)
         {
             if (isKeyDown)
                 keysCurrentlyDown.addIfNotAlreadyThere (keyCode);
@@ -1130,8 +1129,10 @@ public:
        #if JUCE_SUPPORT_CARBON
         if (TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource())
         {
-            if (auto layoutData = (CFDataRef) TISGetInputSourceProperty (currentKeyboard,
-                                                                         kTISPropertyUnicodeKeyLayoutData))
+            CFDataRef layoutData = (CFDataRef) TISGetInputSourceProperty (currentKeyboard,
+                                                                          kTISPropertyUnicodeKeyLayoutData);
+
+            if (layoutData != nullptr)
             {
                 if (auto* layoutPtr = (const UCKeyboardLayout*) CFDataGetBytePtr (layoutData))
                 {
@@ -1156,7 +1157,7 @@ public:
             unmodified = nsStringToJuce ([ev charactersIgnoringModifiers]);
         }
 
-        auto keyCode = (int) unmodified[0];
+        int keyCode = unmodified[0];
 
         if (keyCode == 0x19) // (backwards-tab)
             keyCode = '\t';
@@ -1380,14 +1381,14 @@ private:
         object_setInstanceVariable (viewOrWindow, "owner", newOwner);
     }
 
-    void getClipRects (RectangleList<int>& clip, Point<int> offset, int clipW, int clipH)
+    void getClipRects (RectangleList<int>& clip, const Point<int> offset, const int clipW, const int clipH)
     {
         const NSRect* rects = nullptr;
         NSInteger numRects = 0;
         [view getRectsBeingDrawn: &rects count: &numRects];
 
         const Rectangle<int> clipBounds (clipW, clipH);
-        auto viewH = [view frame].size.height;
+        const CGFloat viewH = [view frame].size.height;
 
         clip.ensureStorageAllocated ((int) numRects);
 
@@ -1422,7 +1423,6 @@ private:
             return false;
 
         NSWindow* const w = [e window];
-
         if (w == nil || [w worksWhenModal])
             return false;
 
@@ -1491,7 +1491,7 @@ private:
             if (! [NSApp isActive])
                 [NSApp activateIgnoringOtherApps: YES];
 
-            if (auto* modal = Component::getCurrentlyModalComponent())
+            if (Component* const modal = Component::getCurrentlyModalComponent())
                 modal->inputAttemptWhenModal();
         }
 
@@ -1736,8 +1736,8 @@ private:
         {
             if (auto* target = owner->findCurrentTextInputTarget())
             {
-                Range<int> r ((int) theRange.location,
-                              (int) (theRange.location + theRange.length));
+                const Range<int> r ((int) theRange.location,
+                                    (int) (theRange.location + theRange.length));
 
                 return [[[NSAttributedString alloc] initWithString: juceStringToNS (target->getTextInRange (r))] autorelease];
             }
@@ -1823,7 +1823,7 @@ private:
     {
         if (auto* owner = getOwner (self))
             if (owner->sendDragCallback (0, sender))
-                return NSDragOperationGeneric;
+                return NSDragOperationCopy | NSDragOperationMove | NSDragOperationGeneric;
 
         return NSDragOperationNone;
     }
@@ -2004,7 +2004,7 @@ ComponentPeer* NSViewComponentPeer::currentlyFocusedPeer = nullptr;
 Array<int> NSViewComponentPeer::keysCurrentlyDown;
 
 //==============================================================================
-bool KeyPress::isKeyCurrentlyDown (int keyCode)
+bool KeyPress::isKeyCurrentlyDown (const int keyCode)
 {
     if (NSViewComponentPeer::keysCurrentlyDown.contains (keyCode))
         return true;
@@ -2173,6 +2173,7 @@ const int KeyPress::F32Key          = NSF32FunctionKey;
 const int KeyPress::F33Key          = NSF33FunctionKey;
 const int KeyPress::F34Key          = NSF34FunctionKey;
 const int KeyPress::F35Key          = NSF35FunctionKey;
+
 
 const int KeyPress::numberPad0      = 0x30020;
 const int KeyPress::numberPad1      = 0x30021;

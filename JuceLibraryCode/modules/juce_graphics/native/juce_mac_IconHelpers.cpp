@@ -27,9 +27,7 @@
 namespace juce
 {
 
-extern Image JUCE_API getIconFromApplication (const String&, int);
-
-static Image getIconFromIcnsFile (const File& icnsFile, const int size)
+Image getIconFromIcnsFile (const File& icnsFile, const int size)
 {
     FileInputStream stream (icnsFile);
 

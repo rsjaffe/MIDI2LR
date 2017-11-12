@@ -229,7 +229,7 @@ private:
             if (size != bufferSize)
             {
                 bufferIndex = 0;
-                buffer.malloc (size);
+                buffer.malloc ((size_t) size);
                 bufferSize = size;
             }
 
@@ -274,7 +274,7 @@ private:
             if (size != bufferSize)
             {
                 bufferIndex = 0;
-                buffer.malloc (size);
+                buffer.malloc ((size_t) size);
                 bufferSize = size;
             }
 

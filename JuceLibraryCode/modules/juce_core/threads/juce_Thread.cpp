@@ -167,7 +167,6 @@ Thread* JUCE_CALLTYPE Thread::getCurrentThread()
 void Thread::signalThreadShouldExit()
 {
     shouldExit = true;
-    listeners.call (&Listener::exitSignalSent);
 }
 
 bool Thread::currentThreadShouldExit()
@@ -228,16 +227,6 @@ bool Thread::stopThread (const int timeOutMilliseconds)
     }
 
     return true;
-}
-
-void Thread::addListener (Listener* listener)
-{
-    listeners.add (listener);
-}
-
-void Thread::removeListener (Listener* listener)
-{
-    listeners.remove (listener);
 }
 
 //==============================================================================

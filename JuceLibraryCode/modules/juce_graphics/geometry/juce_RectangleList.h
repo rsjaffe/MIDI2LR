@@ -38,7 +38,7 @@ namespace juce
     @see Rectangle
 */
 template <typename ValueType>
-class RectangleList  final
+class RectangleList
 {
 public:
     typedef Rectangle<ValueType> RectangleType;

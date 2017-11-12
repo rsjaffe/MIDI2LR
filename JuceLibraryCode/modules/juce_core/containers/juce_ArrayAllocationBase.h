@@ -42,6 +42,7 @@ public:
     //==============================================================================
     /** Creates an empty array. */
     ArrayAllocationBase() noexcept
+        : numAllocated (0)
     {
     }
 
@@ -50,13 +51,13 @@ public:
     {
     }
 
-    ArrayAllocationBase (ArrayAllocationBase&& other) noexcept
+    ArrayAllocationBase (ArrayAllocationBase<ElementType, TypeOfCriticalSectionToUse>&& other) noexcept
         : elements (static_cast<HeapBlock<ElementType>&&> (other.elements)),
           numAllocated (other.numAllocated)
     {
     }
 
-    ArrayAllocationBase& operator= (ArrayAllocationBase&& other) noexcept
+    ArrayAllocationBase& operator= (ArrayAllocationBase<ElementType, TypeOfCriticalSectionToUse>&& other) noexcept
     {
         elements = static_cast<HeapBlock<ElementType>&&> (other.elements);
         numAllocated = other.numAllocated;
@@ -71,7 +72,7 @@ public:
 
         @param numElements  the number of elements that are needed
     */
-    void setAllocatedSize (int numElements)
+    void setAllocatedSize (const int numElements)
     {
         if (numAllocated != numElements)
         {
@@ -92,7 +93,7 @@ public:
 
         @param minNumElements  the minimum number of elements that are needed
     */
-    void ensureAllocatedSize (int minNumElements)
+    void ensureAllocatedSize (const int minNumElements)
     {
         if (minNumElements > numAllocated)
             setAllocatedSize ((minNumElements + minNumElements / 2 + 8) & ~7);
@@ -103,14 +104,14 @@ public:
     /** Minimises the amount of storage allocated so that it's no more than
         the given number of elements.
     */
-    void shrinkToNoMoreThan (int maxNumElements)
+    void shrinkToNoMoreThan (const int maxNumElements)
     {
         if (maxNumElements < numAllocated)
             setAllocatedSize (maxNumElements);
     }
 
     /** Swap the contents of two objects. */
-    void swapWith (ArrayAllocationBase& other) noexcept
+    void swapWith (ArrayAllocationBase <ElementType, TypeOfCriticalSectionToUse>& other) noexcept
     {
         elements.swapWith (other.elements);
         std::swap (numAllocated, other.numAllocated);
@@ -118,7 +119,7 @@ public:
 
     //==============================================================================
     HeapBlock<ElementType> elements;
-    int numAllocated = 0;
+    int numAllocated;
 
 private:
     JUCE_DECLARE_NON_COPYABLE (ArrayAllocationBase)

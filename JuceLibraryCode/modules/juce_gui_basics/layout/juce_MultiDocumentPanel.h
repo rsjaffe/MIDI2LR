@@ -285,14 +285,15 @@ public:
 
 private:
     //==============================================================================
-    LayoutMode mode = MaximisedWindowsWithTabs;
-    Array<Component*> components;
+    LayoutMode mode;
+    Array <Component*> components;
     ScopedPointer<TabbedComponent> tabComponent;
-    Colour backgroundColour { Colours::lightblue };
-    int maximumNumDocuments = 0, numDocsBeforeTabsUsed = 0;
+    Colour backgroundColour;
+    int maximumNumDocuments, numDocsBeforeTabsUsed;
 
-    struct TabbedComponentInternal;
+    class TabbedComponentInternal;
     friend class MultiDocumentPanelWindow;
+    friend class TabbedComponentInternal;
 
     Component* getContainerComp (Component*) const;
     void updateOrder();

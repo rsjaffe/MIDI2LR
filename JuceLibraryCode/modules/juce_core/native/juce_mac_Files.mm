@@ -295,43 +295,28 @@ bool File::moveToTrash() const
     if (! exists())
         return true;
 
+   #if JUCE_IOS
+    return deleteFile(); //xxx is there a trashcan on the iOS?
+   #else
     JUCE_AUTORELEASEPOOL
     {
-       #if (defined (__IPHONE_11_0) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_11_0) \
-         || (defined (MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8)
-        NSError* error = nil;
-        return [[NSFileManager defaultManager] trashItemAtURL: createNSURLFromFile (*this)
-                                             resultingItemURL: nil
-                                                        error: &error];
-       #elif JUCE_IOS
-        return deleteFile();
-       #else
-        [[NSWorkspace sharedWorkspace] recycleURLs: [NSArray arrayWithObject: createNSURLFromFile (*this)]
+        NSURL* url = createNSURLFromFile (*this);
+
+        [[NSWorkspace sharedWorkspace] recycleURLs: [NSArray arrayWithObject: url]
                                  completionHandler: nil];
-
-        // recycleURLs is async, so we need to block until it has finished. We can't use a
-        // run-loop here because it'd dispatch unexpected messages, so have to do this very
-        // nasty bodge. But this is only needed for support of pre-10.8 versions.
-        for (int retries = 100; --retries >= 0;)
-        {
-            if (! exists())
-                return true;
-
-            Thread::sleep (5);
-        }
-
-        return false;
-       #endif
+        return true;
     }
+   #endif
 }
 
 //==============================================================================
 class DirectoryIterator::NativeIterator::Pimpl
 {
 public:
-    Pimpl (const File& directory, const String& wildcard)
+    Pimpl (const File& directory, const String& wildCard_)
         : parentDir (File::addTrailingSeparator (directory.getFullPathName())),
-          wildCard (wildcard)
+          wildCard (wildCard_),
+          enumerator (nil)
     {
         JUCE_AUTORELEASEPOOL
         {
@@ -354,12 +339,8 @@ public:
 
             for (;;)
             {
-                if (enumerator == nil)
-                    return false;
-
-                NSString* file = [enumerator nextObject];
-
-                if (file == nil)
+                NSString* file;
+                if (enumerator == nil || (file = [enumerator nextObject]) == nil)
                     return false;
 
                 [enumerator skipDescendents];
@@ -371,7 +352,7 @@ public:
                 if (fnmatch (wildcardUTF8, filenameFound.toUTF8(), FNM_CASEFOLD) != 0)
                     continue;
 
-                auto fullPath = parentDir + filenameFound;
+                const String fullPath (parentDir + filenameFound);
                 updateStatInfoForFile (fullPath, isDir, fileSize, modTime, creationTime, isReadOnly);
 
                 if (isHidden != nullptr)
@@ -384,7 +365,7 @@ public:
 
 private:
     String parentDir, wildCard;
-    NSDirectoryEnumerator* enumerator = nil;
+    NSDirectoryEnumerator* enumerator;
 
     JUCE_DECLARE_NON_COPYABLE (Pimpl)
 };
@@ -412,6 +393,7 @@ bool JUCE_CALLTYPE Process::openDocument (const String& fileName, const String& 
     JUCE_AUTORELEASEPOOL
     {
         NSString* fileNameAsNS (juceStringToNS (fileName));
+
         NSURL* filenameAsURL ([NSURL URLWithString: fileNameAsNS]);
 
         if (filenameAsURL == nil)
