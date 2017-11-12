@@ -179,7 +179,7 @@ void ChannelModel::savedToActive() noexcept(ndebug)
         ccHigh_[a] = kMaxMIDI;
         currentV_[a].store(kMaxMIDIHalf, std::memory_order_relaxed);
     }
-    for (auto set : settingsToSave_)
+    for (const auto set : settingsToSave_)
         setCC(set.number, set.low, set.high, set.method);
 }
 
