@@ -55,7 +55,9 @@ namespace RSJ {
 
         bool try_lock() noexcept
         {
-            return !flag.exchange(true, std::memory_order_acquire);
+            if (flag.load(std::memory_order_relaxed)) //avoid cache invalidation if lock unavailable
+                return false;
+            return !flag.exchange(true, std::memory_order_acquire); //try to acquire lock
         }
 
         void unlock() noexcept

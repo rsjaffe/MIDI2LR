@@ -32,7 +32,6 @@ class MIDISender;
 class ProfileManager;
 
 class LR_IPC_IN final:
-    private juce::StreamingSocket,
     private juce::Timer,
     private juce::Thread {
 public:
@@ -43,6 +42,7 @@ public:
     //signal exit to thread
     void PleaseStopThread();
 private:
+    juce::StreamingSocket socket_{};
     // Thread interface
     void run() override;
     // Timer callback

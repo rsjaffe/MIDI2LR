@@ -502,18 +502,23 @@ LrTasks.startAsyncTask(
         local guardsetting = LrRecursionGuard('setting')
         local CurrentObserver
         --call following within guard for reading
-        local function AdjustmentChangeObserver(observer)
-          if Limits.LimitsCanBeSet() then
-            for _,param in ipairs(ParamList.SendToMidi) do
-              local lrvalue = LrDevelopController.getValue(param)
-              if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-                MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
-                observer[param] = lrvalue
-                LastParam = param
+        local function AdjustmentChangeObserver()
+          local lastrefresh = 0
+          return function(observer) -- closure
+            if Limits.LimitsCanBeSet() and lastrefresh + 0.1 < os.clock() then
+              for _,param in ipairs(ParamList.SendToMidi) do
+                local lrvalue = LrDevelopController.getValue(param)
+                if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
+                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
+                  observer[param] = lrvalue
+                  LastParam = param
+                end
               end
+              lastrefresh = os.clock()
             end
           end
         end
+        AdjustmentChangeObserver = AdjustmentChangeObserver() --complete closure
         local function InactiveObserver() end
         CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
 

@@ -46,7 +46,7 @@ namespace {
 }
 
 LR_IPC_IN::LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
-    juce::StreamingSocket{}, juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
+    juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
     controls_model_{c_model}, profile_manager_{pmanager}
 {}
 
@@ -58,7 +58,7 @@ LR_IPC_IN::~LR_IPC_IN()
         juce::Timer::stopTimer();
     }
     juce::Thread::stopThread(kStopWait);
-    juce::StreamingSocket::close();
+    socket_.close();
 }
 
 void LR_IPC_IN::Init(std::shared_ptr<MIDISender>& midi_sender) noexcept
@@ -82,7 +82,7 @@ void LR_IPC_IN::run()
         //status before each read attempt
         //doesn't terminate thread if disconnected, as currently don't have graceful
         //way to restart thread
-        if (!juce::StreamingSocket::isConnected()) {
+        if (!socket_.isConnected()) {
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
@@ -90,10 +90,10 @@ void LR_IPC_IN::run()
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
-            while (std::string(line).back() != '\n' && juce::StreamingSocket::isConnected()) {
+            while (std::string(line).back() != '\n' && socket_.isConnected()) {
                 if (juce::Thread::threadShouldExit())
                     goto threadExit;//break out of nested whiles
-                const auto wait_status = juce::StreamingSocket::waitUntilReady(true, kReadyWait);
+                const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                 switch (wait_status) {
                 case -1:
                     goto dumpLine; //read line failed, break out of switch and while
@@ -103,7 +103,7 @@ void LR_IPC_IN::run()
                 case 1:
                     if (size_read == kBufferSize)
                         throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    if (const auto read = juce::StreamingSocket::read(line + size_read, 1, false))
+                    if (const auto read = socket_.read(line + size_read, 1, false))
                         size_read += read;
                     else
                         // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
@@ -133,8 +133,8 @@ threadExit: /* empty statement */;
 void LR_IPC_IN::timerCallback()
 {
     std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
-    if (!timer_off_ && !juce::StreamingSocket::isConnected() && !juce::Thread::threadShouldExit()) {
-        if (juce::StreamingSocket::connect(kHost, kLrInPort, kConnectTryTime))
+    if (!timer_off_ && !socket_.isConnected() && !juce::Thread::threadShouldExit()) {
+        if (socket_.connect(kHost, kLrInPort, kConnectTryTime))
             if (!thread_started_) {
                 juce::Thread::startThread(); //avoid starting thread during shutdown
                 thread_started_ = true;
