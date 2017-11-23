@@ -77,10 +77,8 @@ local function GetPresetFilenames()
 	return filenames
 end
 
-local function ApplyLocalPreset(LocalPresetName)
+local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
 	local LRLocalPresetFileName = LrPathUtils.child(LocalAdjustmentPresetsPath,LocalPresetName)
-	--myLogger:trace("Local Preset: " .. LRLocalPresetFileName)
-
 	--Check to see if preset is already loaded by checking table... if so do not reload file.
 	--Reloading template file on each request would however allow the user to update and save local preset settings in lightroom.
 	if LocalPresets[tostring(LocalPresetName)] == nil then
