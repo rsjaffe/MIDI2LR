@@ -72,7 +72,6 @@ local function GetPresetFilenames()
 	--Extract filename only from full paths
 	for afile in LrFileUtils.files ( LocalAdjustmentPresetsPath ) do
 		table.insert (filenames, LrPathUtils.leafName(afile))
-		myLogger:trace (afile)
 	end
 	return filenames
 end
