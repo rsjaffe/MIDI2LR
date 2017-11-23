@@ -79,7 +79,7 @@ const std::vector<std::string> LRCommandList::Filters = {
     "Library filter 9",
     "Library filter 10",
     "Library filter 11",
-    "Library filter 11",
+    "Library filter 12",
 };
 
 const std::vector<std::string> LRCommandList::General = {
@@ -583,6 +583,11 @@ const std::vector<std::string> LRCommandList::LocalAdjustments = {
     "Reset Spot Removal",
     "Show Mask Overlay",
     "Overlay Color",
+    "Local Preset 1",
+    "Local Preset 2",
+    "Local Preset 3",
+    "Local Preset 4",
+    "Local Preset 5",
 };
 
 const std::vector<std::string> LRCommandList::Crop = {
@@ -1160,6 +1165,11 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "ResetSpotRem",
     "ShowMaskOverlay",
     "CycleMaskOverlayColor",
+    "LocalPreset1",
+    "LocalPreset2",
+    "LocalPreset3",
+    "LocalPreset4",
+    "LocalPreset5",
     /* Crop */
     "straightenAngle",
     "CropAngle",

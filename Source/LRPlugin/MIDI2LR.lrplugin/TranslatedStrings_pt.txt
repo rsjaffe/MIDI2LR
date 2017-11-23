@@ -10,3 +10,4 @@
 "$$$/MIDI2LR/Shortcuts/Key=Tecla"
 "$$$/MIDI2LR/Preferences/cantload=Não foi possível carregar as  preferências. Usando as configurações padrão."
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Série de comandos"
+"$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset"

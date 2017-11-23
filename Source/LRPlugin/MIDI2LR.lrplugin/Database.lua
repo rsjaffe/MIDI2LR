@@ -705,6 +705,11 @@ local DataBase = {
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
   {"ShowMaskOverlay",false,false,true,false,true,false,LOC("$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay"),localizedAdjustments,"Show or hide the mask overlay. *button*"},
   {"CycleMaskOverlayColor",false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color"):gsub("&",""),localizedAdjustments,"Change Mask Overlay Color. *button*"},
+  {"LocalPreset1",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 1",localizedAdjustments,"Use preset 1 for localized adjustments. *button*"},
+  {"LocalPreset2",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 2",localizedAdjustments,"Use preset 2 for localized adjustments. *button*"},
+  {"LocalPreset3",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 3",localizedAdjustments,"Use preset 3 for localized adjustments. *button*"},
+  {"LocalPreset4",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 4",localizedAdjustments,"Use preset 4 for localized adjustments. *button*"},
+  {"LocalPreset5",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 5",localizedAdjustments,"Use preset 5 for localized adjustments. *button*"},
 --
 -- Misc
 --
