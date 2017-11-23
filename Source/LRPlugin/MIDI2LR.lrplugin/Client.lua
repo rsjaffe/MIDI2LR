@@ -74,6 +74,7 @@ LrTasks.startAsyncTask(
     local CU              = require 'ClientUtilities'
     local Keys            = require 'Keys'
     local Limits          = require 'Limits'
+    local LocalPresets    = require 'LocalPresets'
     local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
@@ -177,6 +178,11 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
+      LocalPreset1 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[1]) end,
+      LocalPreset2 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[2]) end,
+      LocalPreset3 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[3]) end,
+      LocalPreset4 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[4]) end,
+      LocalPreset5 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[5]) end,
       LRCopy                   = CU.SimulateKeys('2c'),
       LRPaste                  = CU.SimulateKeys('2v'),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),

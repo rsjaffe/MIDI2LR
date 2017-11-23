@@ -72,6 +72,18 @@ local function LoadedLimits()
   end
 end
 
+--LocalPresets.lua
+
+local function UseDefaultsLocalPresets()
+  ProgramPreferences.LocalPresets = {}
+end
+
+local function LoadedLocalPresets()
+  if type(ProgramPreferences.LocalPresets) ~= 'table' then
+    UseDefaultsLocalPresets()
+  end
+end
+
 --Paste.lua
 local function UseDefaultsPaste()
   ProgramPreferences.PasteList = {}
@@ -124,6 +136,7 @@ local function LoadedAll()
   LoadedFilters()
   LoadedKeys()
   LoadedLimits()
+  LoadedLocalPresets()
   LoadedPaste()
   LoadedPresets()
   LoadedProfiles()
@@ -134,6 +147,7 @@ local function UseDefaultsAll()
   UseDefaultsFilters()
   UseDefaultsKeys()
   UseDefaultsLimits()
+  UseDefaultsLocalPresets()
   UseDefaultsPaste()
   UseDefaultsPresets()
   UseDefaultsProfiles()
@@ -144,6 +158,7 @@ return {
   LoadedFilters       = LoadedFilters,
   LoadedKeys          = LoadedKeys,
   LoadedLimits        = LoadedLimits,
+  LoadedLocalPresets  = LoadedLocalPresets,
   LoadedPaste         = LoadedPaste,
   LoadedPresets       = LoadedPresets,
   LoadedProfiles      = LoadedProfiles,
@@ -151,6 +166,7 @@ return {
   UseDefaultsFilters  = UseDefaultsFilters,
   UseDefaultsKeys     = UseDefaultsKeys,
   UseDefaultsLimits   = UseDefaultsLimits,
+  UseDefaultsLocalPresets = UseDefaultsLocalPresets,
   UseDefaultsPaste    = UseDefaultsPaste,
   UseDefaultsPresets  = UseDefaultsPresets,
   UseDefaultsProfiles = UseDefaultsProfiles,
