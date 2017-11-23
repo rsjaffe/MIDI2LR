@@ -40,7 +40,13 @@ Much of the documentation and certain files are generated from a Microsoft Acces
 - For Lua files, emulate the formatting in current files. Avoid adding code to the message loops in Client.lua unless absolutely necessary, as those changes can slow down Lightroom
 - If adding something that is stored in the Preferences, there are four functions needed: StartDialog, EndDialog, Loaded..., UseDefaults.... The Loaded... and UseDefaults... functions must be in *Init.lua*, exported, and used in the LoadedAll and UseDefaultsAll functions in *Init.lua*.
 
-
+## Typical process for adding new types of actions
+- First, write new .lua file with specialized code.
+- Then, add *Loaded* and *Default* methods to *Init.lua* to handle preference file loading.
+- Add actions to *Database.lua* and regenerate the database in Lightroom, using the *Build files (development use only)* option in the MIDI2LR menu.
+- Move generated .md files to wiki, move .h and .cpp files to Source.
+- Integrated commands into Client.lua and **require** new lua file.
+- Add menu building code to the .lua file for these actions and integrate into *Options.lua*.
 
 ## License
 
