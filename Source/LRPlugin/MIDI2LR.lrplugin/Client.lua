@@ -406,9 +406,27 @@ LrTasks.startAsyncTask(
     }
 
     local function RunActionSeries(strarg)
+      local value -- will need to assign when enable settings functions
       for i in strarg:gmatch("[%w_]+") do
-        if ACTIONS[i] then
-          ACTIONS[i]()
+        if(ACTIONS[i]) then -- perform a one time action
+          ACTIONS[i]() 
+        elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
+          SETTINGS[i](value)
+        elseif(Virtual[i]) then -- handle a virtual command
+          local lp = Virtual[i](value, UpdateParam)
+          if lp then
+            LastParam = lp
+          end
+        elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+          local resetparam = i:sub(6)
+          Ut.execFOM(LrDevelopController.resetToDefault,resetparam) 
+          if ProgramPreferences.ClientShowBezelOnChange then
+            local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
+            local lrvalue = LrDevelopController.getValue(resetparam)
+            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+          end
+        else -- otherwise update a develop parameter
+          guardsetting:performWithGuard(UpdateParam,i,tonumber(value))
         end
       end
     end
