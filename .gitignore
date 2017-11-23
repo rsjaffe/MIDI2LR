@@ -343,11 +343,3 @@ Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.app
 rtmidi/midiprobe
 
 Source/LRPlugin/luacheck\.results
-*.vcxproj
-Builds/VisualStudio2017/MIDI2LR_App.vcxproj.filters
-Builds/VisualStudio2017/MIDI2LR_App.vcxproj
-Builds/VisualStudio2017/MIDI2LR_App.vcxproj.filters
-Builds/VisualStudio2017/MIDI2LR_App.vcxproj.filters
-Source/LRPlugin/MIDI2LR.lrplugin/midiprobe.exe
-Source/LRPlugin/MIDI2LR.lrplugin/MenuList.lua
-Source/LRPlugin/MIDI2LR.lrplugin/ParamList.lua

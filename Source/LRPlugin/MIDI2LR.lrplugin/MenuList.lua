@@ -16,7 +16,7 @@
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
   PARTICULAR PURPOSE.  See the GNU General Public License for more details.
   You should have received a copy of the GNU General Public License along with
-  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
+  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
   ------------------------------------------------------------------------------]]
   local MenuList = {
   {
@@ -320,18 +320,6 @@
     true
   },
   {
-    "Filter_11",
-    "Library filter 11",
-    "Library filter",
-    true
-  },
-  {
-    "Filter_12",
-    "Library filter 12",
-    "Library filter",
-    true
-  },
-  {
     "ShoVwgrid",
     "Primary Display Grid",
     "General",
@@ -406,60 +394,6 @@
   {
     "Prev",
     "Previous Photo",
-    "General",
-    true
-  },
-  {
-    "ActionSeries1",
-    "Series of commands 1",
-    "General",
-    true
-  },
-  {
-    "ActionSeries2",
-    "Series of commands 2",
-    "General",
-    true
-  },
-  {
-    "ActionSeries3",
-    "Series of commands 3",
-    "General",
-    true
-  },
-  {
-    "ActionSeries4",
-    "Series of commands 4",
-    "General",
-    true
-  },
-  {
-    "ActionSeries5",
-    "Series of commands 5",
-    "General",
-    true
-  },
-  {
-    "ActionSeries6",
-    "Series of commands 6",
-    "General",
-    true
-  },
-  {
-    "ActionSeries7",
-    "Series of commands 7",
-    "General",
-    true
-  },
-  {
-    "ActionSeries8",
-    "Series of commands 8",
-    "General",
-    true
-  },
-  {
-    "ActionSeries9",
-    "Series of commands 9",
     "General",
     true
   },
@@ -2546,246 +2480,6 @@
     true
   },
   {
-    "Preset_41",
-    "Develop Preset 41",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_42",
-    "Develop Preset 42",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_43",
-    "Develop Preset 43",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_44",
-    "Develop Preset 44",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_45",
-    "Develop Preset 45",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_46",
-    "Develop Preset 46",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_47",
-    "Develop Preset 47",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_48",
-    "Develop Preset 48",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_49",
-    "Develop Preset 49",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_50",
-    "Develop Preset 50",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_51",
-    "Develop Preset 51",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_52",
-    "Develop Preset 52",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_53",
-    "Develop Preset 53",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_54",
-    "Develop Preset 54",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_55",
-    "Develop Preset 55",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_56",
-    "Develop Preset 56",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_57",
-    "Develop Preset 57",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_58",
-    "Develop Preset 58",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_59",
-    "Develop Preset 59",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_60",
-    "Develop Preset 60",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_61",
-    "Develop Preset 61",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_62",
-    "Develop Preset 62",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_63",
-    "Develop Preset 63",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_64",
-    "Develop Preset 64",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_65",
-    "Develop Preset 65",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_66",
-    "Develop Preset 66",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_67",
-    "Develop Preset 67",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_68",
-    "Develop Preset 68",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_69",
-    "Develop Preset 69",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_70",
-    "Develop Preset 70",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_71",
-    "Develop Preset 71",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_72",
-    "Develop Preset 72",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_73",
-    "Develop Preset 73",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_74",
-    "Develop Preset 74",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_75",
-    "Develop Preset 75",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_76",
-    "Develop Preset 76",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_77",
-    "Develop Preset 77",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_78",
-    "Develop Preset 78",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_79",
-    "Develop Preset 79",
-    "Develop Presets",
-    true
-  },
-  {
-    "Preset_80",
-    "Develop Preset 80",
-    "Develop Presets",
-    true
-  },
-  {
     "GraduatedFilter",
     "Show Graduated Filters",
     "Local Adjustments",
@@ -3075,7 +2769,7 @@
   },
   {
     "CycleMaskOverlayColor",
-    "Overlay Color",
+    "Cycle Mask Overlay Color",
     "Local Adjustments",
     true
   },
