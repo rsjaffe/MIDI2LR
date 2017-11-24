@@ -710,6 +710,9 @@ local DataBase = {
   {"LocalPreset3",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 3",localizedAdjustments,"Use preset 3 for localized adjustments. *button*"},
   {"LocalPreset4",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 4",localizedAdjustments,"Use preset 4 for localized adjustments. *button*"},
   {"LocalPreset5",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 5",localizedAdjustments,"Use preset 5 for localized adjustments. *button*"},
+  {"LocalPreset6",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 6",localizedAdjustments,"Use preset 6 for localized adjustments. *button*"},
+  {"LocalPreset7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 7",localizedAdjustments,"Use preset 7 for localized adjustments. *button*"},
+  {"LocalPreset8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset").." 8",localizedAdjustments,"Use preset 8 for localized adjustments. *button*"},
 --
 -- Misc
 --
