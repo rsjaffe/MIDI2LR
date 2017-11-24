@@ -4,35 +4,35 @@ LocalPresets.lua
 
 Procedures used by Client.lua
 
-This file is part of MIDI2LR. This file has been originally coded by Clifton Saulnier
+This file is part of MIDI2LR.
+Local Adjustment Presets by Clifton Saulnier
 
 ---------------------------------------------------------------------------------------]]
 
-	--Values from a local preset with all sliders set to maximum values
-	--[[
-		blacks2012 = 1,
-		clarity = 0,
-		clarity2012 = 1,
-		contrast = 0,
-		contrast2012 = 1,
-		defringe = 1,
-		dehaze = 1,
-		exposure = 0,
-		exposure2012 = 1,
-		highlights2012 = 1,
-		luminanceNoise = 1,
-		moire = 1,
-		saturation = 1,
-		shadows2012 = 1,
-		sharpness = 1,
-		temperature = 1,
-		tint = 1,
-		toningHue = 240,
-		toningLuminance = 0,
-		toningSaturation = 0,
-		whites2012 = 1,
-	--]]
-
+--Values from a local preset with all sliders set to maximum values
+--[[
+	blacks2012 = 1,
+	clarity = 0,
+	clarity2012 = 1,
+	contrast = 0,
+	contrast2012 = 1,
+	defringe = 1,
+	dehaze = 1,
+	exposure = 0,
+	exposure2012 = 1,
+	highlights2012 = 1,
+	luminanceNoise = 1,
+	moire = 1,
+	saturation = 1,
+	shadows2012 = 1,
+	sharpness = 1,
+	temperature = 1,
+	tint = 1,
+	toningHue = 240,
+	toningLuminance = 0,
+	toningSaturation = 0,
+	whites2012 = 1,
+--]]
 
 local LrDevelopController = import 'LrDevelopController'
 local LrPathUtils   = import 'LrPathUtils'
@@ -44,27 +44,27 @@ local LocalAdjustmentPresetsPath = LrPathUtils.child(LrPathUtils.parent(LrPathUt
 local LocalPresets = {}  --Store presets in table when reqested by user : key = filename, value = preset values table
 
 local localPresetMap = {
-		blacks2012 = "local_Blacks2012",
-		clarity = "",
-		clarity2012 = "local_Clarity",
-		contrast = "",
-		contrast2012 = "local_Contrast",
-		defringe = "local_Defringe",
-		dehaze = "local_Dehaze",
-		exposure = "",
-		exposure2012 = "local_Exposure",
-		highlights2012 = "local_Highlights",
-		luminanceNoise = "local_LuminanceNoise",
-		moire = "local_Moire",
-		saturation = "local_Saturation",
-		shadows2012 = "local_Shadows",
-		sharpness = "local_Sharpness",
-		temperature = "local_Temperature",
-		tint = "local_Tint",
-		toningHue = "", --"local_ToningHue" doesn't exsist
-		toningSaturation = "", --"local_ToningSaturation" doesn't exsist
-		toningLuminance = "local_ToningLuminance",
-		whites2012 = "local_Whites2012"
+	blacks2012 = "local_Blacks2012",
+	clarity = "",
+	clarity2012 = "local_Clarity",
+	contrast = "",
+	contrast2012 = "local_Contrast",
+	defringe = "local_Defringe",
+	dehaze = "local_Dehaze",
+	exposure = "",
+	exposure2012 = "local_Exposure",
+	highlights2012 = "local_Highlights",
+	luminanceNoise = "local_LuminanceNoise",
+	moire = "local_Moire",
+	saturation = "local_Saturation",
+	shadows2012 = "local_Shadows",
+	sharpness = "local_Sharpness",
+	temperature = "local_Temperature",
+	tint = "local_Tint",
+	toningHue = "", --"local_ToningHue" doesn't exsist
+	toningSaturation = "", --"local_ToningSaturation" doesn't exsist
+	toningLuminance = "local_ToningLuminance",
+	whites2012 = "local_Whites2012"
 }
 
 local function GetPresetFilenames()
@@ -76,10 +76,8 @@ local function GetPresetFilenames()
 	return filenames
 end
 
-local function ApplyLocalPreset(LocalPresetName)
+local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
 	local LRLocalPresetFileName = LrPathUtils.child(LocalAdjustmentPresetsPath,LocalPresetName)
-	--myLogger:trace("Local Preset: " .. LRLocalPresetFileName)
-
 	--Check to see if preset is already loaded by checking table... if so do not reload file.
 	--Reloading template file on each request would however allow the user to update and save local preset settings in lightroom.
 	if LocalPresets[tostring(LocalPresetName)] == nil then
