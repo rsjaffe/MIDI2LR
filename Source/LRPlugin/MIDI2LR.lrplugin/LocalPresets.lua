@@ -69,21 +69,12 @@ local localPresetMap = {
 }
 
 local function GetPresetFilenames()
-<<<<<<< HEAD
-	local filenames = {}
-	--Extract filename only from full paths
-	for afile in LrFileUtils.files ( LocalAdjustmentPresetsPath ) do
-		table.insert (filenames, LrPathUtils.leafName(afile))
-	end
-	return filenames
-=======
   local filenames = {}
   --Extract filename only from full paths
   for afile in LrFileUtils.files ( LocalAdjustmentPresetsPath ) do
     table.insert (filenames, LrPathUtils.leafName(afile))
   end
   return filenames
->>>>>>> pr/408
 end
 
 local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
