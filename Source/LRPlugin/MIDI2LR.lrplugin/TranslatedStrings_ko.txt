@@ -10,3 +10,4 @@
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=프로파일 변경시 알림"
 "$$$/MIDI2LR/Shortcuts/Key=키"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=일련의 명령들"
+"$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset"

@@ -67,6 +67,9 @@
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Limits.lua</origin>
             </distributionFile>
             <distributionFile>
+              <origin>../Source/LRPlugin/MIDI2LR.lrplugin/LocalPresets.lua</origin>
+            </distributionFile>
+            <distributionFile>
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/MenuList.lua</origin>
             </distributionFile>
             <distributionFile>
