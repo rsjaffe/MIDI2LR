@@ -10,4 +10,4 @@
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Visa notis vid byte av profil"
 "$$$/MIDI2LR/Shortcuts/Key=Tangent"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Serie kommandon"
-"$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset"
+"$$$/MIDI2LR/LocalPresets/Presets=Inställningar för lokala justeringar"
