@@ -29,7 +29,7 @@ static constexpr bool ndebug = true;
 static constexpr bool ndebug = false;
 #endif
 
-#ifdef __has_include(<emmintrin.h>)
+#ifdef _WIN32
 #include <emmintrin.h>
 #define CPU_RELAX _mm_pause()
 #else
