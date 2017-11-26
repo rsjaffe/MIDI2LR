@@ -76,6 +76,7 @@ void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
             command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end()) {
         return;
     }
+    //if it is a repeated command, change command_to_send appropriately and make computed value 1
     auto command_to_send = command_map_->getCommandforMessage(message);
     const auto computed_value = controls_model_->ControllerToPlugin(mm);
     command_to_send += ' ' + std::to_string(computed_value) + '\n';

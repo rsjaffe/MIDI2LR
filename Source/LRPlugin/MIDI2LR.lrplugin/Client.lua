@@ -73,6 +73,7 @@ LrTasks.startAsyncTask(
     --delay loading most modules until after data structure refreshed
     local CU              = require 'ClientUtilities'
     local Keys            = require 'Keys'
+    local KS              = require 'KeyShortcuts'
     local Limits          = require 'Limits'
     local LocalPresets    = require 'LocalPresets'
     local ParamList       = require 'ParamList'
@@ -97,15 +98,21 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
+
+
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
       AutoTone                 = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end,
+      BrushFeatherLarger       = CU.SimulateKeys(KS.KeyCode.BrushIncreaseKeyShifted,true),
+      BrushFeatherSmaller      = CU.SimulateKeys(KS.KeyCode.BrushDecreaseKeyShifted,true),
+      BrushSizeLarger          = CU.SimulateKeys(KS.KeyCode.BrushIncreaseKey,true),
+      BrushSizeSmaller         = CU.SimulateKeys(KS.KeyCode.BrushDecreaseKey,true),
       CropConstrainToWarp      = CU.fToggle01('CropConstrainToWarp'),
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
       CopySettings             = CU.CopySettings,
       CropOverlay              = CU.fToggleTool('crop'),
-      CycleMaskOverlayColor    = CU.SimulateKeys('4o'),
+      CycleMaskOverlayColor    = CU.SimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlay,true),
       DecreaseRating           = LrSelection.decreaseRating,
       DecrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
@@ -194,8 +201,8 @@ LrTasks.startAsyncTask(
       LocalPreset14 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[14]) end,
       LocalPreset15 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[15]) end,
       LocalPreset16 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[16]) end,
-      LRCopy                   = CU.SimulateKeys('2c'),
-      LRPaste                  = CU.SimulateKeys('2v'),
+      LRPaste                  = CU.SimulateKeys(KS.KeyCode.PasteKey,true),
+      LRCopy                   = CU.SimulateKeys(KS.KeyCode.CopyKey,true),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,
@@ -372,7 +379,7 @@ LrTasks.startAsyncTask(
       ShoVwloupe               = function() LrApplicationView.showView('loupe') end,
       ShoVwpeople              = function() LrApplicationView.showView('people') end,
       ShoVwsurvey              = function() LrApplicationView.showView('survey') end,
-      ShowMaskOverlay          = CU.SimulateKeys('0o'),
+      ShowMaskOverlay          = CU.SimulateKeys(KS.KeyCode.ShowAdjustmentBrushOverlayKey,true),
       SpotRemoval              = CU.fToggleTool('dust'),
       SwToMbook                = CU.fChangeModule('book'),
       SwToMdevelop             = CU.fChangeModule('develop'),

@@ -55,6 +55,12 @@ local fine = LOC("$$$/AgPrint/CalibrationDialog/Fine=Fine")
 local key = LOC("$$$/MIDI2LR/Shortcuts/Key=Key")
 local filter= LOC("$$$/Library/Filter/FilterLabel=Library filter")
 
+local brush = LOC("$$$/TouchWorkspace/Adjustments/Local/Brush=Brush")
+local feather = LOC("$$$/AgDevelop/Toolbar/Localized/BrushFeather=Feather")
+local larger = LOC("$$$/AgEmail/FontSize/larger=larger")
+local size = LOC("$$$/AgDevelop/Toolbar/Localized/BrushSize=Size")
+local smaller = LOC("$$$/AgEmail/FontSize/smaller=smaller")
+
 --[[----------------------------------------------------------------------------
 
 DataBase structure
@@ -661,6 +667,10 @@ local DataBase = {
   {"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),localizedAdjustments,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"SpotRemoval",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),localizedAdjustments,"Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"AdjustmentBrush",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),localizedAdjustments,"Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"BrushSizeSmaller",false,false,true,false,true,false,brush..' — '..size..' — '..smaller,localizedAdjustments,"Reduce adjustment brush size. *button*"},
+  {"BrushSizeLarger",false,false,true,false,true,false,brush..' — '..size..' — '..larger,localizedAdjustments,"Increase adjustment brush size. *button*"},
+  {"BrushFeatherSmaller",false,false,true,false,true,false,brush..' — '..feather..' — '..smaller,localizedAdjustments,"Reduce adjustment brush feather. *button*"},
+  {"BrushFeatherLarger",false,false,true,false,true,false,brush..' — '..feather..' — '..larger,localizedAdjustments,"Increase adjustment brush feather. *button*"},
   {"local_Temperature",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Temperature=Temp.").." (PV2012)",localizedAdjustments,"Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Tint",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Tint=Tint").." (PV2012)",localizedAdjustments,"Adjust Tint for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Exposure",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Exposure=Exposure").." (PV2010 and PV2012)",localizedAdjustments,"Adjust Exposure for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
