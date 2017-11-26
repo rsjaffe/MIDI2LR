@@ -10,3 +10,4 @@
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=當設置改變的時候告知"
 "$$$/MIDI2LR/Shortcuts/Key=鍵"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=一系列命令"
+"$$$/MIDI2LR/LocalPresets/Presets=本地調整預設"

@@ -10,3 +10,4 @@
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Waarschuwen wanneer profiel aangepast wordt."
 "$$$/MIDI2LR/Shortcuts/Key=Toets"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Reeks commando's"
+"$$$/MIDI2LR/LocalPresets/Presets=Voorinstellingen voor lokale aanpassingen"

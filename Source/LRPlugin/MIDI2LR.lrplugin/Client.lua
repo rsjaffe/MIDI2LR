@@ -74,6 +74,7 @@ LrTasks.startAsyncTask(
     local CU              = require 'ClientUtilities'
     local Keys            = require 'Keys'
     local Limits          = require 'Limits'
+    local LocalPresets    = require 'LocalPresets'
     local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
@@ -177,6 +178,11 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
+      LocalPreset1 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[1]) end,
+      LocalPreset2 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[2]) end,
+      LocalPreset3 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[3]) end,
+      LocalPreset4 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[4]) end,
+      LocalPreset5 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[5]) end,
       LRCopy                   = CU.SimulateKeys('2c'),
       LRPaste                  = CU.SimulateKeys('2v'),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
@@ -406,9 +412,27 @@ LrTasks.startAsyncTask(
     }
 
     local function RunActionSeries(strarg)
+      local value -- will need to assign when enable settings functions
       for i in strarg:gmatch("[%w_]+") do
-        if ACTIONS[i] then
-          ACTIONS[i]()
+        if(ACTIONS[i]) then -- perform a one time action
+          ACTIONS[i]() 
+        elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
+          SETTINGS[i](value)
+        elseif(Virtual[i]) then -- handle a virtual command
+          local lp = Virtual[i](value, UpdateParam)
+          if lp then
+            LastParam = lp
+          end
+        elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+          local resetparam = i:sub(6)
+          Ut.execFOM(LrDevelopController.resetToDefault,resetparam) 
+          if ProgramPreferences.ClientShowBezelOnChange then
+            local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
+            local lrvalue = LrDevelopController.getValue(resetparam)
+            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+          end
+        else -- otherwise update a develop parameter
+          guardsetting:performWithGuard(UpdateParam,i,tonumber(value))
         end
       end
     end
@@ -502,18 +526,23 @@ LrTasks.startAsyncTask(
         local guardsetting = LrRecursionGuard('setting')
         local CurrentObserver
         --call following within guard for reading
-        local function AdjustmentChangeObserver(observer)
-          if Limits.LimitsCanBeSet() then
-            for _,param in ipairs(ParamList.SendToMidi) do
-              local lrvalue = LrDevelopController.getValue(param)
-              if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
-                MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
-                observer[param] = lrvalue
-                LastParam = param
+        local function AdjustmentChangeObserver()
+          local lastrefresh = 0
+          return function(observer) -- closure
+            if Limits.LimitsCanBeSet() and lastrefresh + 0.1 < os.clock() then
+              for _,param in ipairs(ParamList.SendToMidi) do
+                local lrvalue = LrDevelopController.getValue(param)
+                if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
+                  MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
+                  observer[param] = lrvalue
+                  LastParam = param
+                end
               end
+              lastrefresh = os.clock()
             end
           end
         end
+        AdjustmentChangeObserver = AdjustmentChangeObserver() --complete closure
         local function InactiveObserver() end
         CurrentObserver = AdjustmentChangeObserver -- will change when detect loss of MIDI controller
 

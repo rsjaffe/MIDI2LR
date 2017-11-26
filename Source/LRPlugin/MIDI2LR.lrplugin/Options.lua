@@ -21,7 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local ActionSeries      = require 'ActionSeries'
 local Filters           = require 'Filters'
 local Keys              = require 'Keys'
-local Limits            = require 'Limits' 
+local Limits            = require 'Limits'
+local LocalPresets      = require 'LocalPresets'
 local OU                = require 'OptionsUtilities'
 local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
@@ -88,6 +89,11 @@ local function setOptions()
             identifier = 'commandseries',
             ActionSeries.StartDialog(properties,f),
           }, --tab_view_item
+          f:tab_view_item {
+            title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets"),
+            identifier = 'localpresets',
+            LocalPresets.StartDialog(properties,f),
+          }, --tab_view_item
         }, -- tab_view
       } -- view
 
@@ -100,11 +106,12 @@ local function setOptions()
       Filters.EndDialog(properties,result)
       Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)
+      LocalPresets.EndDialog(properties,result)
       Paste.EndDialog(properties,result)
       Profiles.EndDialog(properties,result)
       if result == 'ok' then
         local LrDevelopController = import 'LrDevelopController'
-        --following not managed by another module
+        --following not managed by another lua module file
         ProgramPreferences.ClientShowBezelOnChange = properties.ClientShowBezelOnChange
         ProgramPreferences.TrackingDelay = properties.TrackingDelay
         if ProgramPreferences.TrackingDelay ~= nil then

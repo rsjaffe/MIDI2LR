@@ -20,9 +20,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 
+#ifndef MIDI2LR_SENDKEYS_H_INCLUDED
+#define MIDI2LR_SENDKEYS_H_INCLUDED
+
 #include <string>
 
 namespace RSJ {
     void SendKeyDownUp(const std::string& key, const bool alt_opt,
         const bool control_cmd, const bool shift);
 }
+
+#endif

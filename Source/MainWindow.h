@@ -20,8 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
-#ifndef MAINWINDOW_H_INCLUDED
-#define MAINWINDOW_H_INCLUDED
+#ifndef MIDI2LR_MAINWINDOW_H_INCLUDED
+#define MIDI2LR_MAINWINDOW_H_INCLUDED
 
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"

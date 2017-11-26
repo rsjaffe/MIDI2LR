@@ -20,6 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 
+#ifndef MIDI2LR_MIDIUTILITIES_H_INCLUDED
+#define MIDI2LR_MIDIUTILITIES_H_INCLUDED
+
 /* NOTE: Channel and Number are zero-based */
 #include <functional>
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -105,3 +108,5 @@ namespace std {
         } //channel is one byte, messagetype is one byte, controller is two bytes
     };
 }
+
+#endif

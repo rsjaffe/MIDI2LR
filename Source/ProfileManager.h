@@ -19,8 +19,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef PROFILEMANAGER_H_INCLUDED
-#define PROFILEMANAGER_H_INCLUDED
+#ifndef MIDI2LR_PROFILEMANAGER_H_INCLUDED
+#define MIDI2LR_PROFILEMANAGER_H_INCLUDED
 
 #include <functional>
 #include <memory>

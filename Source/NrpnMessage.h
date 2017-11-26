@@ -19,6 +19,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+
+#ifndef MIDI2LR_NRPNMESSAGE_H_INCLUDED
+#define MIDI2LR_NRPNMESSAGE_H_INCLUDED
+
 #include <array>
 #include <mutex>
 #include <queue>
@@ -144,3 +148,5 @@ inline void NRPN_Message::SetValueMSB_(short val) noexcept(ndebug)
     value_msb_ = val & 0x7Fu;
     ready_ |= 0b100;  //"Magic number" false alarm //-V112
 }
+
+#endif

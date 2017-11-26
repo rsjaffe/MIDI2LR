@@ -705,6 +705,14 @@ local DataBase = {
   {"ResetSpotRem",false,false,true,false,true,false,LOC("$$$/AgLibrary/Ops/ResetSpotRemoval=Reset Spot Removal"),localizedAdjustments,"Delete spot removal. *button*"},
   {"ShowMaskOverlay",false,false,true,false,true,false,LOC("$$$/AgDevelop/LocalizedToolbar/ShowMaskOverlay=Show Mask Overlay"),localizedAdjustments,"Show or hide the mask overlay. *button*"},
   {"CycleMaskOverlayColor",false,false,true,false,true,false,LOC("$$$/AgDevelop/Menu/View/AdjustmentBrushOverlay/CycleOverlay=Overlay Color"):gsub("&",""),localizedAdjustments,"Change Mask Overlay Color. *button*"},
+  {"LocalPreset1",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 1",localizedAdjustments,"Use preset 1 for localized adjustments. *button*"},
+  {"LocalPreset2",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 2",localizedAdjustments,"Use preset 2 for localized adjustments. *button*"},
+  {"LocalPreset3",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 3",localizedAdjustments,"Use preset 3 for localized adjustments. *button*"},
+  {"LocalPreset4",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 4",localizedAdjustments,"Use preset 4 for localized adjustments. *button*"},
+  {"LocalPreset5",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 5",localizedAdjustments,"Use preset 5 for localized adjustments. *button*"},
+  {"LocalPreset6",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 6",localizedAdjustments,"Use preset 6 for localized adjustments. *button*"},
+  {"LocalPreset7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 7",localizedAdjustments,"Use preset 7 for localized adjustments. *button*"},
+  {"LocalPreset8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 8",localizedAdjustments,"Use preset 8 for localized adjustments. *button*"},
 --
 -- Misc
 --
