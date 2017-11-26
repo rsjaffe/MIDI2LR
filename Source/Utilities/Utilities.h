@@ -19,6 +19,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 
+#ifndef MIDI2LR_UTILITIES_H_INCLUDED
+#define MIDI2LR_UTILITIES_H_INCLUDED
+
 #include <atomic>
 #include <cctype>
 #include <condition_variable>
@@ -150,3 +153,5 @@ namespace RSJ {
         return str.find_first_of(what) != std::string::npos;
     }
 }
+
+#endif

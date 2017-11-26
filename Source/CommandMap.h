@@ -20,8 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
-#ifndef COMMANDMAP_H_INCLUDED
-#define COMMANDMAP_H_INCLUDED
+#ifndef MIDI2LR_COMMANDMAP_H_INCLUDED
+#define MIDI2LR_COMMANDMAP_H_INCLUDED
 
 #include <functional>
 #include <map>

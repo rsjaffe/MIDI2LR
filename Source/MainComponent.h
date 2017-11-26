@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef MAINCOMPONENT_H_INCLUDED
-#define MAINCOMPONENT_H_INCLUDED
+#ifndef MIDI2LR_MAINCOMPONENT_H_INCLUDED
+#define MIDI2LR_MAINCOMPONENT_H_INCLUDED
 
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
