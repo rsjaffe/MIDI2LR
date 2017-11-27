@@ -137,7 +137,7 @@ local function EndDialog(obstable, status)
     ProgramPreferences.LocalPresets = {} -- empty out prior settings
     for i = 1,numseries do
       local s = obstable['LocalPresets'..i]
-      if s:find(".lrtemplate",s:len()-10) == nil then
+      if s and s:find(".lrtemplate",s:len()-10) == nil then
         s = s..".lrtemplate"
       end
       ProgramPreferences.LocalPresets[i] = s
