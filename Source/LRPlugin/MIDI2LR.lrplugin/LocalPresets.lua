@@ -112,6 +112,7 @@ end
 local numseries = 8 -- number of presets allowed
 
 local function StartDialog(obstable,f)
+  local PresetFileNames = GetPresetFilenames()
   for i = 1,numseries do
     obstable['LocalPresets'..i] = ProgramPreferences.LocalPresets[i]
   end
@@ -120,14 +121,13 @@ local function StartDialog(obstable,f)
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
       f:static_text{title = i},
-      f:edit_field{
-        value = LrView.bind('LocalPresets'..i),
-        height_in_lines = 1,
-        width_in_chars = 80,
+      f:popup_menu{
+        items = PresetFileNames,
+        value = LrView.bind('LocalPresets'..i)
       }
     }
-  end 
-  return 
+  end
+  return
   f:column(dlgrows)
 end
 
@@ -136,11 +136,7 @@ local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.LocalPresets = {} -- empty out prior settings
     for i = 1,numseries do
-      local s = obstable['LocalPresets'..i]
-      if s:find(".lrtemplate",s:len()-10) == nil then
-        s = s..".lrtemplate"
-      end
-      ProgramPreferences.LocalPresets[i] = s
+      ProgramPreferences.LocalPresets[i] = obstable['LocalPresets'..i]
     end
   end
 end

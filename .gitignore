@@ -343,3 +343,11 @@ Source/LRPlugin/MIDI2LR.lrplugin/MIDI2LR.app
 rtmidi/midiprobe
 
 Source/LRPlugin/luacheck\.results
+<<<<<<< HEAD
+Source/LRPlugin/MIDI2LR.lrplugin/MenuList.lua
+Source/LRPlugin/MIDI2LR.lrplugin/ParamList.lua
+Source/LRPlugin/MIDI2LR.lrplugin/midiprobe.exe
+Source/LRPlugin/MIDI2LR.lrplugin/MenuList.lua
+Source/LRPlugin/MIDI2LR.lrplugin/ParamList.lua
+=======
+>>>>>>> pr/408
