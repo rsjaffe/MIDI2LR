@@ -120,7 +120,7 @@ local function StartDialog(obstable,f)
   for i=1, numseries do
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
-      f:static_text{title = i},
+      f:static_text{title = "Local Preset "..i},
       f:popup_menu{
         items = PresetFileNames,
         value = LrView.bind('LocalPresets'..i)
