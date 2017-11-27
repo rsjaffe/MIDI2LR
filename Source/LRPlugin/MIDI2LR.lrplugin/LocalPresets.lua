@@ -121,16 +121,10 @@ local function StartDialog(obstable,f)
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
       f:static_text{title = i},
-      --f:static_text{title = PresetFileNames[i]},
       f:popup_menu{
         items = PresetFileNames,
         value = LrView.bind('LocalPresets'..i)
       }
-      --[[f:edit_field{
-        value = LrView.bind('LocalPresets'..i),
-        height_in_lines = 1,
-        width_in_chars = 80,
-      }--]]
     }
   end
   return
