@@ -583,14 +583,14 @@ const std::vector<std::string> LRCommandList::LocalAdjustments = {
     "Reset Spot Removal",
     "Show Mask Overlay",
     "Overlay Color",
-    "Local Adjustments Preset 1",
-    "Local Adjustments Preset 2",
-    "Local Adjustments Preset 3",
-    "Local Adjustments Preset 4",
-    "Local Adjustments Preset 5",
-    "Local Adjustments Preset 6",
-    "Local Adjustments Preset 7",
-    "Local Adjustments Preset 8",
+    "Local adjustments presets 1",
+    "Local adjustments presets 2",
+    "Local adjustments presets 3",
+    "Local adjustments presets 4",
+    "Local adjustments presets 5",
+    "Local adjustments presets 6",
+    "Local adjustments presets 7",
+    "Local adjustments presets 8",
 };
 
 const std::vector<std::string> LRCommandList::Crop = {

@@ -90,7 +90,7 @@ local function setOptions()
             ActionSeries.StartDialog(properties,f),
           }, --tab_view_item
           f:tab_view_item {
-            title = LOC("$$$/MIDI2LR/LocalPresets/Preset=Local Adjustments Preset"),
+            title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets"),
             identifier = 'localpresets',
             LocalPresets.StartDialog(properties,f),
           }, --tab_view_item

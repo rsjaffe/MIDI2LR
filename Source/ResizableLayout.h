@@ -24,7 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 *******************************************************************************/
-
+#ifndef MIDI2LR_RESIZABLELAYOUT_H_INCLUDED
+#define MIDI2LR_RESIZABLELAYOUT_H_INCLUDED
 #include "JuceHeader.h"
 
 //==============================================================================
@@ -285,3 +286,5 @@ static constexpr juce::Point<int> anchorMidRight{ResizableLayout::anchorUnit, Re
 static constexpr juce::Point<int> anchorBottomLeft{0, ResizableLayout::anchorUnit};
 static constexpr juce::Point<int> anchorBottomCenter{ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit};
 static constexpr juce::Point<int> anchorBottomRight{ResizableLayout::anchorUnit, ResizableLayout::anchorUnit};
+
+#endif

@@ -19,8 +19,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef LR_IPC_OUT_H_INCLUDED
-#define LR_IPC_OUT_H_INCLUDED
+#ifndef MIDI2LR_LR_IPC_OUT_H_INCLUDED
+#define MIDI2LR_LR_IPC_OUT_H_INCLUDED
 
 #include <functional>
 #include <mutex>
