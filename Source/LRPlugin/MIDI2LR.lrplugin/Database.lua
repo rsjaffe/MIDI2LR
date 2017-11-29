@@ -185,6 +185,7 @@ local DataBase = {
   {"ActionSeries7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 7',general, "Sends a series of button commands. *button*"},
   {"ActionSeries8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 8',general, "Sends a series of button commands. *button*"},
   {"ActionSeries9",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 9',general, "Sends a series of button commands. *button*"},
+  {"Pause",false,false,false,false,true,false,LOC("$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"),general, "This should only be used when a series of commands does not provide the intended results. Test first before using. Pause inserts a pause into a command series to allow synchronization when using a slow command followed by a fast command: the pause should be inserted in between. Note that pauses are already automatically introduced for keystrokes. This command is not available in the application as it is only useful in a command series."},
 
   --workspace: screen mode
   --workspace: Lights Out

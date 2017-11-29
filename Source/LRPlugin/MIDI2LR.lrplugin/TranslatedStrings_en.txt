@@ -10,3 +10,4 @@
 "$$$/MIDI2LR/Profiles/NotifyWhenChanged=Notify when profile changes"
 "$$$/MIDI2LR/Shortcuts/Key=Key"
 "$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets"
+"$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"

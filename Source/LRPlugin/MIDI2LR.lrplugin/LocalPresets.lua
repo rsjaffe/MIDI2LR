@@ -127,8 +127,7 @@ local function StartDialog(obstable,f)
       }
     }
   end
-  return
-  f:column(dlgrows)
+  return f:column(dlgrows)
 end
 
 
