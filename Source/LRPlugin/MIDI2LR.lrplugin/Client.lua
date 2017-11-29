@@ -201,7 +201,7 @@ LrTasks.startAsyncTask(
       Next                     = LrSelection.nextPhoto,
       PasteSelectedSettings    = CU.PasteSelectedSettings,
       PasteSettings            = CU.PasteSettings,
-      Pause                    = function() LrTasks.sleep( 0.5 ) end,
+      Pause                    = function() LrTasks.sleep( 0.02 ) end,
       Pick                     = LrSelection.flagAsPick,
       PointCurveLinear         = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
       PointCurveMediumContrast = CU.UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",
@@ -478,14 +478,12 @@ LrTasks.startAsyncTask(
           local LastIsKeyPress = false
           for i in strarg:gmatch("[%w_]+") do
             local CurrentIsKeyPress = IsKeyPress[i]
-            if LastIsKeyPress and ~CurrentIsKeyPress then
+            if LastIsKeyPress and CurrentIsKeyPress == nil then
               if i ~= 'Pause' then
                 ACTIONS.Pause()
               end
-              LastIsKeyPress = false
-            else
-              LastIsKeyPress = CurrentIsKeyPress
             end
+            LastIsKeyPress = CurrentIsKeyPress
             if(ACTIONS[i]) then -- perform a one time action
               ACTIONS[i]()
             elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
