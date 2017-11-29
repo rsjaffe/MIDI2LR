@@ -109,7 +109,7 @@ local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (D
   end
 end
 
-local numseries = 8 -- number of presets allowed
+local numseries = 16 -- number of presets allowed
 
 local function StartDialog(obstable,f)
   local PresetFileNames = GetPresetFilenames()
