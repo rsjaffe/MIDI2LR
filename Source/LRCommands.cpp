@@ -591,6 +591,14 @@ const std::vector<std::string> LRCommandList::LocalAdjustments = {
     "Local adjustments presets 6",
     "Local adjustments presets 7",
     "Local adjustments presets 8",
+    "Local adjustments presets 9",
+    "Local adjustments presets 10",
+    "Local adjustments presets 11",
+    "Local adjustments presets 12",
+    "Local adjustments presets 13",
+    "Local adjustments presets 14",
+    "Local adjustments presets 15",
+    "Local adjustments presets 16",
 };
 
 const std::vector<std::string> LRCommandList::Crop = {
@@ -1176,6 +1184,14 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "LocalPreset6",
     "LocalPreset7",
     "LocalPreset8",
+    "LocalPreset9",
+    "LocalPreset10",
+    "LocalPreset11",
+    "LocalPreset12",
+    "LocalPreset13",
+    "LocalPreset14",
+    "LocalPreset15",
+    "LocalPreset16",
     /* Crop */
     "straightenAngle",
     "CropAngle",
