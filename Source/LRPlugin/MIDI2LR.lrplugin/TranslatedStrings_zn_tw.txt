@@ -11,3 +11,4 @@
 "$$$/MIDI2LR/Shortcuts/Key=鍵"
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=一系列命令"
 "$$$/MIDI2LR/LocalPresets/Presets=本地調整預設"
+"$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"

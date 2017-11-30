@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug)
 {
-    Expects((controltype == RSJ::kCCFlag && ccMethod_[controlnumber] == RSJ::CCmethod::absolute) ? (ccLow_[controlnumber] < ccHigh_[controlnumber]) : 1);
+    Expects((controltype == RSJ::kCCFlag && ccMethod_.at(controlnumber) == RSJ::CCmethod::absolute) ? (ccLow_.at(controlnumber) < ccHigh_.at(controlnumber)) : 1);
     Expects((controltype == RSJ::kPWFlag) ? (pitchWheelMax_ > pitchWheelMin_) : 1);
     Expects((controltype == RSJ::kPWFlag) ? value >= pitchWheelMin_ && value <= pitchWheelMax_ : 1);
     //note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7 bits, high bits are shifted one right when placed into short.

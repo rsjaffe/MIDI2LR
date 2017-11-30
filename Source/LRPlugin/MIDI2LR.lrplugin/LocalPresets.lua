@@ -72,13 +72,13 @@ local function GetPresetFilenames()
   local filenames = {}
   --Extract filename only from full paths
   for afile in LrFileUtils.files ( LocalAdjustmentPresetsPath ) do
-    table.insert (filenames, LrPathUtils.leafName(afile))
+    table.insert (filenames, LrPathUtils.removeExtension(LrPathUtils.leafName(afile)))
   end
   return filenames
 end
 
 local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
-  local LRLocalPresetFileName = LrPathUtils.child(LocalAdjustmentPresetsPath,LocalPresetName)
+  local LRLocalPresetFileName = LrPathUtils.child(LocalAdjustmentPresetsPath,LocalPresetName..".lrtemplate")
   --Check to see if preset is already loaded by checking table... if so do not reload file.
   --Reloading template file on each request would however allow the user to update and save local preset settings in lightroom.
   if LocalPresets[tostring(LocalPresetName)] == nil then
@@ -109,9 +109,10 @@ local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (D
   end
 end
 
-local numseries = 8 -- number of presets allowed
+local numseries = 16 -- number of presets allowed
 
 local function StartDialog(obstable,f)
+  local PresetFileNames = GetPresetFilenames()
   for i = 1,numseries do
     obstable['LocalPresets'..i] = ProgramPreferences.LocalPresets[i]
   end
@@ -119,16 +120,14 @@ local function StartDialog(obstable,f)
   for i=1, numseries do
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
-      f:static_text{title = i},
-      f:edit_field{
-        value = LrView.bind('LocalPresets'..i),
-        height_in_lines = 1,
-        width_in_chars = 80,
+      f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i},
+      f:popup_menu{
+        items = PresetFileNames,
+        value = LrView.bind('LocalPresets'..i)
       }
     }
-  end 
-  return 
-  f:column(dlgrows)
+  end
+  return f:column(dlgrows)
 end
 
 
@@ -136,11 +135,7 @@ local function EndDialog(obstable, status)
   if status == 'ok' then
     ProgramPreferences.LocalPresets = {} -- empty out prior settings
     for i = 1,numseries do
-      local s = obstable['LocalPresets'..i]
-      if s:find(".lrtemplate",s:len()-10) == nil then
-        s = s..".lrtemplate"
-      end
-      ProgramPreferences.LocalPresets[i] = s
+      ProgramPreferences.LocalPresets[i] = obstable['LocalPresets'..i]
     end
   end
 end

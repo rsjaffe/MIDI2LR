@@ -4,7 +4,7 @@ Client.lua
 
 Receives and processes commands from MIDI2LR
 Sends parameters to MIDI2LR
- 
+
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
 MIDI2LR is free software: you can redistribute it and/or modify it under the
@@ -16,7 +16,7 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 --[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'
@@ -25,15 +25,15 @@ LrMobdebug.start()
 
 local LrTasks = import 'LrTasks'
 -- Main task
-LrTasks.startAsyncTask( 
-  function() 
+LrTasks.startAsyncTask(
+  function()
     --[[-----------debug section, enable by adding - to beginning this line
     LrMobdebug.on()
     --]]-----------end debug section
 -------------preferences
     local Preferences     = require 'Preferences'
-    Preferences.Load() 
--------------end preferences section    
+    Preferences.Load()
+-------------end preferences section
 
 
     local LrFunctionContext   = import 'LrFunctionContext'
@@ -55,8 +55,8 @@ LrTasks.startAsyncTask(
         end
       end
 
-      if 
-      versionmismatch or 
+      if
+      versionmismatch or
       LrFileUtils.exists(appdatafile) ~= 'file' or
       LrFileUtils.exists(plugindatafile) ~= 'file' or
       ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
@@ -178,11 +178,22 @@ LrTasks.startAsyncTask(
       Key38 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(38))) end,
       Key39 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(39))) end,
       Key40 = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(40))) end,
-      LocalPreset1 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[1]) end,
-      LocalPreset2 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[2]) end,
-      LocalPreset3 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[3]) end,
-      LocalPreset4 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[4]) end,
-      LocalPreset5 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[5]) end,
+      LocalPreset1  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[1]) end,
+      LocalPreset2  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[2]) end,
+      LocalPreset3  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[3]) end,
+      LocalPreset4  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[4]) end,
+      LocalPreset5  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[5]) end,
+      LocalPreset6  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[6]) end,
+      LocalPreset7  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[7]) end,
+      LocalPreset8  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[8]) end,
+      LocalPreset9  = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[9]) end,
+      LocalPreset10 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[10]) end,
+      LocalPreset11 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[11]) end,
+      LocalPreset12 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[12]) end,
+      LocalPreset13 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[13]) end,
+      LocalPreset14 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[14]) end,
+      LocalPreset15 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[15]) end,
+      LocalPreset16 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[16]) end,
       LRCopy                   = CU.SimulateKeys('2c'),
       LRPaste                  = CU.SimulateKeys('2v'),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
@@ -190,6 +201,7 @@ LrTasks.startAsyncTask(
       Next                     = LrSelection.nextPhoto,
       PasteSelectedSettings    = CU.PasteSelectedSettings,
       PasteSettings            = CU.PasteSettings,
+      Pause                    = function() LrTasks.sleep( 0.02 ) end,
       Pick                     = LrSelection.flagAsPick,
       PointCurveLinear         = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
       PointCurveMediumContrast = CU.UpdatePointCurve({ToneCurveName="Medium Contrast",ToneCurveName2012="Medium Contrast",
@@ -264,22 +276,22 @@ LrTasks.startAsyncTask(
       Preset_62                = CU.fApplyPreset(62),
       Preset_63                = CU.fApplyPreset(63),
       Preset_64                = CU.fApplyPreset(64),
-      Preset_65                = CU.fApplyPreset(65),    
-      Preset_66                = CU.fApplyPreset(66),      
-      Preset_67                = CU.fApplyPreset(67),      
-      Preset_68                = CU.fApplyPreset(68),      
-      Preset_69                = CU.fApplyPreset(69),      
-      Preset_70                = CU.fApplyPreset(70),      
-      Preset_71                = CU.fApplyPreset(71),      
-      Preset_72                = CU.fApplyPreset(72),      
-      Preset_73                = CU.fApplyPreset(73),      
-      Preset_74                = CU.fApplyPreset(74),      
-      Preset_75                = CU.fApplyPreset(75),      
-      Preset_76                = CU.fApplyPreset(76),      
-      Preset_77                = CU.fApplyPreset(77),      
-      Preset_78                = CU.fApplyPreset(78),      
-      Preset_79                = CU.fApplyPreset(79),      
-      Preset_80                = CU.fApplyPreset(80),      
+      Preset_65                = CU.fApplyPreset(65),
+      Preset_66                = CU.fApplyPreset(66),
+      Preset_67                = CU.fApplyPreset(67),
+      Preset_68                = CU.fApplyPreset(68),
+      Preset_69                = CU.fApplyPreset(69),
+      Preset_70                = CU.fApplyPreset(70),
+      Preset_71                = CU.fApplyPreset(71),
+      Preset_72                = CU.fApplyPreset(72),
+      Preset_73                = CU.fApplyPreset(73),
+      Preset_74                = CU.fApplyPreset(74),
+      Preset_75                = CU.fApplyPreset(75),
+      Preset_76                = CU.fApplyPreset(76),
+      Preset_77                = CU.fApplyPreset(77),
+      Preset_78                = CU.fApplyPreset(78),
+      Preset_79                = CU.fApplyPreset(79),
+      Preset_80                = CU.fApplyPreset(80),
       Prev                     = LrSelection.previousPhoto,
       Profile_Adobe_Standard          = CU.UpdateCameraProfile('Adobe Standard'),
       Profile_Camera_Clear            = CU.UpdateCameraProfile('Camera Clear'),
@@ -327,7 +339,7 @@ LrTasks.startAsyncTask(
       ResetSpotRem             = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
       RevealPanelAdjust        = CU.fChangePanel('adjustPanel'),
       RevealPanelCalibrate     = CU.fChangePanel('calibratePanel'),
-      RevealPanelDetail        = CU.fChangePanel('detailPanel'), 
+      RevealPanelDetail        = CU.fChangePanel('detailPanel'),
       RevealPanelEffects       = CU.fChangePanel('effectsPanel'),
       RevealPanelLens          = CU.fChangePanel('lensCorrectionsPanel'),
       RevealPanelMixer         = CU.fChangePanel('mixerPanel'),
@@ -347,7 +359,7 @@ LrTasks.startAsyncTask(
       ShoScndVwlive_loupe      = function() LrApplicationView.showSecondaryView('live_loupe') end,
       ShoScndVwlocked_loupe    = function() LrApplicationView.showSecondaryView('locked_loupe') end,
       ShoScndVwloupe           = function() LrApplicationView.showSecondaryView('loupe') end,
-      ShoScndVwslideshow       = function() LrApplicationView.showSecondaryView('slideshow') end,  
+      ShoScndVwslideshow       = function() LrApplicationView.showSecondaryView('slideshow') end,
       ShoScndVwsurvey          = function() LrApplicationView.showSecondaryView('survey') end,
       ShoVwRefHoriz            = function() LrApplicationView.showView('develop_reference_horiz') end,
       ShoVwRefVert             = function() LrApplicationView.showView('develop_reference_vert') end,
@@ -388,7 +400,7 @@ LrTasks.startAsyncTask(
       WhiteBalanceAuto         = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto'),
       WhiteBalanceCloudy       = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
       WhiteBalanceDaylight     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
-      WhiteBalanceFlash        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),  
+      WhiteBalanceFlash        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),
       WhiteBalanceFluorescent  = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
       WhiteBalanceShade        = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
       WhiteBalanceTungsten     = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
@@ -398,43 +410,103 @@ LrTasks.startAsyncTask(
       ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
     }
 
+    local IsKeyPress = {
+      CycleMaskOverlayColor = true,
+      Key1  = true,
+      Key2  = true,
+      Key3  = true,
+      Key4  = true,
+      Key5  = true,
+      Key6  = true,
+      Key7  = true,
+      Key8  = true,
+      Key9  = true,
+      Key10 = true,
+      Key11 = true,
+      Key12 = true,
+      Key13 = true,
+      Key14 = true,
+      Key15 = true,
+      Key16 = true,
+      Key17 = true,
+      Key18 = true,
+      Key19 = true,
+      Key20 = true,
+      Key21 = true,
+      Key22 = true,
+      Key23 = true,
+      Key24 = true,
+      Key25 = true,
+      Key26 = true,
+      Key27 = true,
+      Key28 = true,
+      Key29 = true,
+      Key30 = true,
+      Key31 = true,
+      Key32 = true,
+      Key33 = true,
+      Key34 = true,
+      Key35 = true,
+      Key36 = true,
+      Key37 = true,
+      Key38 = true,
+      Key39 = true,
+      Key40 = true,
+      LRCopy = true,
+      LRPaste = true,
+      ShowMaskOverlay = true,
+    }
+
     local SETTINGS = {
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
       ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
-      Pickup             = function(enabled) 
+      Pickup             = function(enabled)
         if tonumber(enabled) == 1 then -- state machine
           UpdateParam = UpdateParamPickup
         else
           UpdateParam = UpdateParamNoPickup
         end
-      end, 
+      end,
     }
 
-    local function RunActionSeries(strarg)
-      local value -- will need to assign when enable settings functions
-      for i in strarg:gmatch("[%w_]+") do
-        if(ACTIONS[i]) then -- perform a one time action
-          ACTIONS[i]() 
-        elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
-          SETTINGS[i](value)
-        elseif(Virtual[i]) then -- handle a virtual command
-          local lp = Virtual[i](value, UpdateParam)
-          if lp then
-            LastParam = lp
+    local function RunActionSeries(strarg1)
+      local strarg = strarg1 -- make argument available to async task
+      LrTasks.startAsyncTask(
+        function()
+          local value -- will need to assign when enable settings functions
+          local LastIsKeyPress = false
+          for i in strarg:gmatch("[%w_]+") do
+            local CurrentIsKeyPress = IsKeyPress[i]
+            if LastIsKeyPress and CurrentIsKeyPress == nil then
+              if i ~= 'Pause' then
+                ACTIONS.Pause()
+              end
+            end
+            LastIsKeyPress = CurrentIsKeyPress
+            if(ACTIONS[i]) then -- perform a one time action
+              ACTIONS[i]()
+            elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
+              SETTINGS[i](value)
+            elseif(Virtual[i]) then -- handle a virtual command
+              local lp = Virtual[i](value, UpdateParam)
+              if lp then
+                LastParam = lp
+              end
+            elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+              local resetparam = i:sub(6)
+              Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
+              if ProgramPreferences.ClientShowBezelOnChange then
+                local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
+                local lrvalue = LrDevelopController.getValue(resetparam)
+                LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+              end
+            else -- otherwise update a develop parameter -- removed recursion guard as it is not in scope here
+              UpdateParam(i,tonumber(value))
+            end
           end
-        elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-          local resetparam = i:sub(6)
-          Ut.execFOM(LrDevelopController.resetToDefault,resetparam) 
-          if ProgramPreferences.ClientShowBezelOnChange then
-            local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
-            local lrvalue = LrDevelopController.getValue(resetparam)
-            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
-          end
-        else -- otherwise update a develop parameter
-          guardsetting:performWithGuard(UpdateParam,i,tonumber(value))
-        end
-      end
+        end 
+      )
     end
 
     --assign after defining RunActionSeries function
@@ -490,7 +562,7 @@ LrTasks.startAsyncTask(
     end
     UpdateParamPickup = UpdateParamPickup() --complete closure
     --called within LrRecursionGuard for setting
-    function UpdateParamNoPickup(param, midi_value, silent) 
+    function UpdateParamNoPickup(param, midi_value, silent)
       if LrApplication.activeCatalog():getTargetPhoto() == nil then return end--unable to update param
       local value
       if LrApplicationView.getCurrentModuleName() ~= 'develop' then
@@ -513,8 +585,8 @@ LrTasks.startAsyncTask(
     UpdateParam = UpdateParamPickup --initial state
 
 
-    LrFunctionContext.callWithContext( 
-      'socket_remote', 
+    LrFunctionContext.callWithContext(
+      'socket_remote',
       function( context )
         --[[-----------debug section, enable by adding - to beginning this line
         LrMobdebug.on()
@@ -554,7 +626,7 @@ LrTasks.startAsyncTask(
             port = SEND_PORT,
             mode = 'send',
             onError = function( socket )
-              if MIDI2LR.RUNNING then -- 
+              if MIDI2LR.RUNNING then --
                 socket:reconnect()
               end
             end,
@@ -572,8 +644,8 @@ LrTasks.startAsyncTask(
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
               if(ACTIONS[param]) then -- perform a one time action
-                if(tonumber(value) > BUTTON_ON) then 
-                  ACTIONS[param]() 
+                if(tonumber(value) > BUTTON_ON) then
+                  ACTIONS[param]()
                 end
               elseif(SETTINGS[param]) then -- do something requiring the transmitted value to be known
                 SETTINGS[param](value)
@@ -585,7 +657,7 @@ LrTasks.startAsyncTask(
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
                 if(tonumber(value) > BUTTON_ON) then
                   local resetparam = param:sub(6)
-                  Ut.execFOM(LrDevelopController.resetToDefault,resetparam) 
+                  Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
                     local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
                     local lrvalue = LrDevelopController.getValue(resetparam)
@@ -618,7 +690,7 @@ LrTasks.startAsyncTask(
         if(WIN_ENV) then
           LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.exe'))
         else
-          LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app')) 
+          LrShell.openFilesInApp({LrPathUtils.child(_PLUGIN.path, 'Info.lua')}, LrPathUtils.child(_PLUGIN.path, 'MIDI2LR.app'))
         end
 
         -- add an observer for develop param changes--needs to occur in develop module
@@ -635,19 +707,18 @@ LrTasks.startAsyncTask(
             LrDevelopController.setTrackingDelay(ProgramPreferences.TrackingDelay)
           end
           LrDevelopController.addAdjustmentChangeObserver(
-            context, 
-            MIDI2LR.PARAM_OBSERVER, 
-            function ( observer ) 
+            context,
+            MIDI2LR.PARAM_OBSERVER,
+            function ( observer )
               guardreading:performWithGuard(CurrentObserver,observer)
-            end 
+            end
           )
           while MIDI2LR.RUNNING do --detect halt or reload
             LrTasks.sleep( .29 )
             guardsetting:performWithGuard(Profiles.checkProfile)
           end
         end
-      end 
+      end
     )
-  end 
+  end
 )
-

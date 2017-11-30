@@ -185,6 +185,7 @@ local DataBase = {
   {"ActionSeries7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 7',general, "Sends a series of button commands. *button*"},
   {"ActionSeries8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 8',general, "Sends a series of button commands. *button*"},
   {"ActionSeries9",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 9',general, "Sends a series of button commands. *button*"},
+  {"Pause",false,false,false,false,true,false,LOC("$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"),general, "This should only be used when a series of commands does not provide the intended results. Test first before using. Pause inserts a pause into a command series to allow synchronization when using a slow command followed by a fast command: the pause should be inserted in between. Note that pauses are already automatically introduced for keystrokes. This command is not available in the application as it is only useful in a command series."},
 
   --workspace: screen mode
   --workspace: Lights Out
@@ -713,6 +714,14 @@ local DataBase = {
   {"LocalPreset6",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 6",localizedAdjustments,"Use preset 6 for localized adjustments. *button*"},
   {"LocalPreset7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 7",localizedAdjustments,"Use preset 7 for localized adjustments. *button*"},
   {"LocalPreset8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 8",localizedAdjustments,"Use preset 8 for localized adjustments. *button*"},
+  {"LocalPreset9",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 9",localizedAdjustments,"Use preset 9 for localized adjustments. *button*"},  
+  {"LocalPreset10",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 10",localizedAdjustments,"Use preset 10 for localized adjustments. *button*"},  
+  {"LocalPreset11",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 11",localizedAdjustments,"Use preset 11 for localized adjustments. *button*"},  
+  {"LocalPreset12",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 12",localizedAdjustments,"Use preset 12 for localized adjustments. *button*"},  
+  {"LocalPreset13",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 13",localizedAdjustments,"Use preset 13 for localized adjustments. *button*"},  
+  {"LocalPreset14",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 14",localizedAdjustments,"Use preset 14 for localized adjustments. *button*"},  
+  {"LocalPreset15",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 15",localizedAdjustments,"Use preset 15 for localized adjustments. *button*"}, 
+  {"LocalPreset16",false,false,true,false,true,false,LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." 16",localizedAdjustments,"Use preset 16 for localized adjustments. *button*"},  
 --
 -- Misc
 --

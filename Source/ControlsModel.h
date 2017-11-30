@@ -261,7 +261,7 @@ inline bool ChannelModel::IsNRPN_(size_t controlnumber) const noexcept(ndebug)
 
 inline double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noexcept(ndebug)
 {
-    Expects(ccHigh_[controlnumber] > 0); //CCLow will always be 0 for offset controls
+    Expects(ccHigh_.at(controlnumber) > 0); //CCLow will always be 0 for offset controls
     Expects(diff <= kMaxNRPN && diff >= -kMaxNRPN);
     Expects(controlnumber <= kMaxNRPN);
     lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
