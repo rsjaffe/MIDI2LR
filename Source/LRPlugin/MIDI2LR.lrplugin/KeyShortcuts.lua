@@ -80,6 +80,8 @@ local KeyCode = { -- format from translation list is Cmd+Shift+Option+r , where 
   CopyKey                 = LRkeytoCode("$$$/AgLayout/Menu/Edit/Copy/Key=Cmd+c"),
   CycleAdjustmentBrushOverlayKey = LRkeytoCode("$$$/AgDevelop/Menu/View/CycleAdjustmentBrushOverlay/Key=Shift+o"),
   PasteKey                = LRkeytoCode("$$$/AgLayout/Menu/Edit/Paste/Key=Cmd+v"),
+  SliderDecreaseKey       = "0cursor left",
+  SliderIncreaseKey       = "0cursor right",
   ShowAdjustmentBrushOverlayKey = LRkeytoCode("$$$/AgDevelop/Menu/View/ShowHideAdjustmentBrushOverlay/Key=o"),
   UndoKey                 = LRkeytoCode("$$$/Application/Menu/Edit/Undo/Key=Cmd+z"),
 }

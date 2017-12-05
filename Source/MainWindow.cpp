@@ -55,7 +55,7 @@ void MainWindow::Init(CommandMap* const command_map,
 
     if (window_content_)
         window_content_->Init(command_map, std::move(lr_ipc_out),
-                              midi_processor, profile_manager, settings_manager, midi_sender);
+            midi_processor, profile_manager, settings_manager, midi_sender);
 }
 
 void MainWindow::timerCallback()

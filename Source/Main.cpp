@@ -98,7 +98,7 @@ public:
             cerealLoad_();
             midi_processor_->Init();
             midi_sender_->Init();
-            lr_ipc_out_->Init(midi_processor_.get());
+            lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
             profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);

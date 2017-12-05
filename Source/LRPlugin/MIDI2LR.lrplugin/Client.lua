@@ -380,6 +380,8 @@ LrTasks.startAsyncTask(
       ShoVwpeople              = function() LrApplicationView.showView('people') end,
       ShoVwsurvey              = function() LrApplicationView.showView('survey') end,
       ShowMaskOverlay          = CU.SimulateKeys(KS.KeyCode.ShowAdjustmentBrushOverlayKey,true),
+      SliderDecrease           = CU.SimulateKeys(KS.KeyCode.SliderDecreaseKey,true),
+      SliderIncrease           = CU.SimulateKeys(KS.KeyCode.SliderIncreaseKey,true),
       SpotRemoval              = CU.fToggleTool('dust'),
       SwToMbook                = CU.fChangeModule('book'),
       SwToMdevelop             = CU.fChangeModule('develop'),

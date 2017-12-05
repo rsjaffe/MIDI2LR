@@ -58,7 +58,7 @@ void MIDISender::sendNoteOn(int midi_channel, int controller, int value) const
 {
     for (const auto& dev : output_devices_)
         dev->sendMessageNow(MidiMessage::noteOn(midi_channel, controller,
-                                                gsl::narrow_cast<juce::uint8>(value)));
+            gsl::narrow_cast<juce::uint8>(value)));
 }
 
 void MIDISender::sendPitchWheel(int midi_channel, int value) const
