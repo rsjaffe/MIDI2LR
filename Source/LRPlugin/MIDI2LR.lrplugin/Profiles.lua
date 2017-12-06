@@ -92,17 +92,22 @@ local function changeProfile(profilename, ignoreCurrent)
 end
 
 local function checkProfile()
-  --as this runs 4X/second, doing check against currentTMP here to make it faster than always deferring to changeProfile
+  --as this runs 4X/second, doing check against currentTMP here to
+  -- make it faster than always deferring to changeProfile
   local newmod = LrApplicationView.getCurrentModuleName()
-  if newmod == 'develop' then 
+  if newmod == 'develop' then
     local tool = LrDevelopController.getSelectedTool()
-    if currentTMP.Module ~= newmod and ProgramPreferences.Profiles[tool] == '' then
+    if currentTMP.Module ~= newmod and
+    ProgramPreferences.Profiles[tool] == '' then
       changeProfile(newmod)
     elseif currentTMP.Tool ~= tool then
       changeProfile(tool)
+      currentTMP.Module = newmod  -- make sure that TMP.Module is
+      -- set correctly when changing to tool profile
     end
   elseif currentTMP.Module ~= newmod then
     changeProfile(newmod)
+    currentTMP.Tool = '' -- remove tool for modules~=develop
   end
 end
 
