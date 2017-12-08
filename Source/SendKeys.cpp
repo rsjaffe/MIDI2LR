@@ -102,32 +102,27 @@ namespace {
      * on error. */
     CGKeyCode keyCodeForChar(const char c)
     {
+        static std::once_flag flag;
         static CFMutableDictionaryRef charToCodeDict = NULL;
         CGKeyCode code;
         UniChar character = c;
         CFStringRef charStr = NULL;
 
-        /* Generate table of keycodes and characters. */
-        if (charToCodeDict == NULL) {
-            size_t i;
+        std::call_once(flag, [](){/* Generate table of keycodes and characters. */
             charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
                 128,
                 &kCFCopyStringDictionaryKeyCallBacks,
                 NULL);
-            if (charToCodeDict == NULL) return UINT16_MAX;
-
             /* Loop through every keycode (0 - 127) to find its current mapping. */
-            for (i = 0; i < 128; ++i) {
+            for (size_t i = 0; i < 128; ++i) {
                 CFStringRef string = createStringForKey((CGKeyCode)i);
                 if (string != NULL) {
                     CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
                     CFRelease(string);
                 }
-            }
-        }
-
+            }});
+        if (charToCodeDict == NULL) return UINT16_MAX; //didn't initialize properly
         charStr = CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1);
-
         /* Our values may be NULL (0), so we need to use this function. */
         if (!CFDictionaryGetValueIfPresent(charToCodeDict, charStr,
             (const void **)&code)) {
@@ -289,13 +284,12 @@ namespace {
     {"numpad decimal", kVK_ANSI_KeypadDecimal}
 #endif
     };
-
-    std::mutex mutex_sending_{};
 }
 
 void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     const bool control_cmd, const bool shift)
 {
+    static std::mutex mutex_sending_{};
     const auto mapped_key = key_map_.find(to_lower(key));
     const auto in_keymap = mapped_key != key_map_.end();
 

@@ -60,7 +60,7 @@ void ProfileManager::setProfileDirectory(const juce::File& directory)
 
     current_profile_index_ = 0;
     profiles_.clear();
-    for (const auto file : file_array)
+    for (const auto& file : file_array)
         profiles_.emplace_back(file.getFileName());
 
     if (profiles_.size() > 0)

@@ -212,7 +212,7 @@ public:
     std::pair<short, short> MeasureChange(short controltype, size_t channel, short controlnumber, short value, bool recenter = true) noexcept(ndebug)
     {
         Expects(channel <= 15);
-        allControls_[channel].MeasureChange(controltype, controlnumber, value, recenter);
+        return allControls_[channel].MeasureChange(controltype, controlnumber, value, recenter);
     }
 
     void setCC(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug)
