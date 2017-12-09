@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cctype>
 #include <mutex>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 #include <vector>
 #include <gsl/gsl>
@@ -34,9 +35,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
-#include <cassert>
-#include <libproc.h>
-#include <thread>
+#include <libproc.h> //proc_ functions in GetPID
 #endif
 namespace {
 #ifndef _WIN32
@@ -233,9 +232,7 @@ namespace {
         {"numpad divide", VK_DIVIDE},
         {"numpad decimal", VK_DECIMAL}
 #else
-    {
-        "backspace", kVK_Delete
-    },
+    {"backspace", kVK_Delete},
     {"cursor down", kVK_DownArrow},
     {"cursor left", kVK_LeftArrow},
     {"cursor right", kVK_RightArrow},
