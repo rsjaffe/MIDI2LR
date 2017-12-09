@@ -83,7 +83,7 @@ namespace {
 
         UCKeyTranslate(keyboardLayout,
             keyCode,
-            kUCKeyActionDisplay,
+            kUCKeyActionDown,
             0,
             LMGetKbdType(),
             kUCKeyTranslateNoDeadKeysBit,
@@ -104,11 +104,12 @@ namespace {
     {
         static std::once_flag flag;
         static CFMutableDictionaryRef charToCodeDict = NULL;
+        static std::unordered_map<std::string, size_t> charToCodeMap;
         CGKeyCode code;
         UniChar character = c;
         CFStringRef charStr = NULL;
 
-        std::call_once(flag, [](){/* Generate table of keycodes and characters. */
+        std::call_once(flag, []() {/* Generate table of keycodes and characters. */
             charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
                 128,
                 &kCFCopyStringDictionaryKeyCallBacks,
@@ -118,6 +119,8 @@ namespace {
                 CFStringRef string = createStringForKey((CGKeyCode)i);
                 if (string != NULL) {
                     CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
+                    const std::string charvalue = juce::fromCFString(string).toStdString();
+                    charToCodeMap[charvalue] = i;
                     CFRelease(string);
                 }
             }});
@@ -345,21 +348,18 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         SendInput(1, &ip, size_ip);
     }
 #else
-    static ProcessSerialNumber psn{0};
-    static pid_t lr_pid{0};
-    if (lr_pid == 0) {
-        lr_pid = GetPID();
+    static const ProcessSerialNumber psn {[](){
+        ProcessSerialNumber temppsn{0}
+        pid_t lr_pid{GetPID()};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-        if (lr_pid) {
-            GetProcessForPID(lr_pid, &psn); //first deprecated in macOS 10.9, but no good replacement yet
-        }
-        else {
-            lr_pid = -1; // cannot find LR pid, to try to find the forground process
-            GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
-        }
+        if (lr_pid)
+            GetProcessForPID(lr_pid, &temppsn); //first deprecated in macOS 10.9, but no good replacement yet
+        else
+            GetFrontProcess(&temppsn); //first deprecated in macOS 10.9, but no good replacement yet
 #pragma GCC diagnostic pop
-    }
+        return temppsn;
+    }()};
 
     CGEventRef d;
     CGEventRef u;
