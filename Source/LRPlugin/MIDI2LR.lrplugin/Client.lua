@@ -506,9 +506,8 @@ LrTasks.startAsyncTask(
               local resetparam = i:sub(6)
               Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
               if ProgramPreferences.ClientShowBezelOnChange then
-                local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
                 local lrvalue = LrDevelopController.getValue(resetparam)
-                LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+                CU.showBezel(resetparam,lrvalue)
               end
             else -- otherwise update a develop parameter -- removed recursion guard as it is not in scope here
               UpdateParam(i,tonumber(value))
@@ -548,8 +547,7 @@ LrTasks.startAsyncTask(
           LrDevelopController.setValue(param, value)
           LastParam = param
           if ProgramPreferences.ClientShowBezelOnChange and not silent then
-            local bezelname = ParamList.ParamDisplay[param] or param
-            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+            CU.showBezel(param,value)
           end
           if ParamList.ProfileMap[param] then
             Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -558,9 +556,7 @@ LrTasks.startAsyncTask(
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
             value = CU.MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
-            local precision = Ut.precision(value)
-            local bezelname = ParamList.ParamDisplay[param] or param
-            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+            CU.showBezel(param,value,actualvalue)
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
             CU.FullRefresh()
@@ -584,8 +580,7 @@ LrTasks.startAsyncTask(
       LrDevelopController.setValue(param, value)
       LastParam = param
       if ProgramPreferences.ClientShowBezelOnChange and not silent then
-        local bezelname = ParamList.ParamDisplay[param] or param
-        LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+        CU.showBezel(param,value)
       end
       if ParamList.ProfileMap[param] then
         Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -668,9 +663,8 @@ LrTasks.startAsyncTask(
                   local resetparam = param:sub(6)
                   Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
-                    local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
                     local lrvalue = LrDevelopController.getValue(resetparam)
-                    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+                    CU.showBezel(resetparam,lrvalue)
                   end
                 end
               else -- otherwise update a develop parameter
