@@ -149,13 +149,13 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
     switch (controltype) {
     case RSJ::kPWFlag:
     {
-        const auto newv = static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
+        const short newv = static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
         pitchWheelCurrent_.store(newv, std::memory_order_release);
         return newv;
     }
     case RSJ::kCCFlag:
     {
-        const auto newv = static_cast<short>(round(pluginV *
+        const short newv = static_cast<short>(round(pluginV *
             (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
         currentV_[controlnumber].store(newv, std::memory_order_release);
         return newv;

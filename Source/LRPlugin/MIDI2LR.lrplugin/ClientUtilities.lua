@@ -280,12 +280,26 @@ local function UpdateCameraProfile(name)
   end
 end
 
-local function SimulateKeys(keys, developonly)
+local function fSimulateKeys(keys, developonly)
   return function()
-    if developonly and LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+    if developonly then
+      if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+        MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+      end
+    else
       MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
     end
   end
+end
+
+local function SimulateKeys(keys, developonly)
+  if developonly then
+    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
+      MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+    end
+  else
+    MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+  end 
 end
 
 local function UpdatePointCurve(settings)
@@ -313,6 +327,7 @@ return {
   MIDIValueToLRValue = MIDIValueToLRValue,
   LRValueToMIDIValue = LRValueToMIDIValue,
   UpdateCameraProfile = UpdateCameraProfile,
+  fSimulateKeys = fSimulateKeys,
   SimulateKeys = SimulateKeys,
   UpdatePointCurve = UpdatePointCurve
 }

@@ -35,6 +35,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
+#include "../JuceLibraryCode/JuceHeader.h"
+
 #include <libproc.h> //proc_ functions in GetPID
 #endif
 namespace {
@@ -118,7 +120,7 @@ namespace {
                 CFStringRef string = createStringForKey((CGKeyCode)i);
                 if (string != NULL) {
                     CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
-                    const std::string charvalue = juce::fromCFString(string).toStdString();
+                    const std::string charvalue = juce::String::fromCFString(string).toStdString();
                     charToCodeMap[charvalue] = i;
                     CFRelease(string);
                 }
@@ -232,7 +234,9 @@ namespace {
         {"numpad divide", VK_DIVIDE},
         {"numpad decimal", VK_DECIMAL}
 #else
-    {"backspace", kVK_Delete},
+    {
+        "backspace", kVK_Delete
+    },
     {"cursor down", kVK_DownArrow},
     {"cursor left", kVK_LeftArrow},
     {"cursor right", kVK_RightArrow},
@@ -345,19 +349,6 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         SendInput(1, &ip, size_ip);
     }
 #else
-    static const ProcessSerialNumber psn {[](){
-        ProcessSerialNumber temppsn{0}
-        pid_t lr_pid{GetPID()};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-        if (lr_pid)
-            GetProcessForPID(lr_pid, &temppsn); //first deprecated in macOS 10.9, but no good replacement yet
-        else
-            GetFrontProcess(&temppsn); //first deprecated in macOS 10.9, but no good replacement yet
-#pragma GCC diagnostic pop
-        return temppsn;
-    }()};
-
     CGEventRef d;
     CGEventRef u;
     uint64_t flags = 0;
@@ -368,7 +359,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         u = CGEventCreateKeyboardEvent(NULL, vk, false);
     }
     else {
-        const CGKeyCode keyCode = keyCodeForChar(key[0]);
+        const auto keyCode = keyCodeForChar(key[0]);
         d = CGEventCreateKeyboardEvent(NULL, keyCode, true);
         u = CGEventCreateKeyboardEvent(NULL, keyCode, false);
         flags = CGEventGetFlags(d); //in case KeyCode has associated flag
@@ -382,12 +373,36 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
 
-    {
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
+        static pid_t lrpid{[]() {
+            pid_t localpid = GetPID();
+            if (localpid == 0)
+                juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon,"Error",
+                                                  "Lightroom PID not found.");
+            return localpid;
+        }()};
+        std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
+        CGEventPostToPid(lrpid, d);
+        CGEventPostToPid(lrpid, u);
+    }
+    else {
+        static ProcessSerialNumber psn{[]() {
+            ProcessSerialNumber temppsn{0};
+            pid_t lr_pid{GetPID()};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+            if (lr_pid)
+                GetProcessForPID(lr_pid, &temppsn); //first deprecated in macOS 10.9
+            else
+                juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon,"Error",
+                                                  "Lightroom psn not found.");
+#pragma GCC diagnostic pop
+            return temppsn;
+        }()};
         std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
         CGEventPostToPSN(&psn, d);
         CGEventPostToPSN(&psn, u);
     }
-
     CFRelease(d);
     CFRelease(u);
 #endif
