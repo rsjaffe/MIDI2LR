@@ -857,6 +857,12 @@ file:write([=[
   MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ------------------------------------------------------------------------------]]
   local MenuList = ]=],serpent.block(MenuList, {comment = false}))
+file:write([=[
+
+
+return MenuList
+
+]=])
 file:close()
 
 datafile = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')

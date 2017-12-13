@@ -36,8 +36,10 @@ local LrStringUtils       = import 'LrStringUtils'
 local precisionList       = { 
   Temperature=0, Tint=0, Exposure=2, Contrast=0, Highlights=0, Brightness=0, Shadows=0,
   Whites=0, Blacks=0, Clarity=0, Vibrance=0, Saturation=0,
+
   ParametricDarks=0, ParametricLights=0, ParametricShadows=0, ParametricHighlights=0,
   ParametricShadowSplit=0, ParametricMidtoneSplit=0, ParametricHighlightSplit=0, 
+
   SaturationAdjustmentRed=0, SaturationAdjustmentOrange=0, SaturationAdjustmentYellow=0, SaturationAdjustmentGreen=0,
   SaturationAdjustmentAqua=0, SaturationAdjustmentBlue=0, SaturationAdjustmentPurple=0, SaturationAdjustmentMagenta=0,
   HueAdjustmentRed=0, HueAdjustmentOrange=0, HueAdjustmentYellow=0, HueAdjustmentGreen=0,
@@ -51,12 +53,13 @@ local precisionList       = {
   LensProfileDistortionScale=0, LensProfileChromaticAberrationScale=0, LensProfileVignettingScale=0,
   DefringePurpleAmount=0, DefringePurpleHueLo=0, DefringePurpleHueHi=0, DefringeGreenAmount=0, DefringeGreenHueLo=0, DefringeGreenHueHi=0,
   LensManualDistortionAmount=0, VignetteAmount=0, VignetteMidpoint=0,
-  PerspectiveVertical=0, PerspectiveHorizontal=0, PerspectiveRotate=1, PerspectiveScale=0, PerspectiveAspect=0, --PerspectiveX, PerspectiveY,
-  Dehaze=0, PostCropVignetteAmount=0, PostCropVignetteMidpoint=0, PostCropVignetteFeather=0, 
+  PerspectiveVertical=0, PerspectiveHorizontal=0, PerspectiveRotate=1, PerspectiveScale=0, PerspectiveAspect=0, PerspectiveX, PerspectiveY,
+  Dehaze=0,
+  PostCropVignetteAmount=0, PostCropVignetteMidpoint=0, PostCropVignetteFeather=0, 
   PostCropVignetteRoundness=0, PostCropVignetteHighlightContrast=0,
   GrainAmount=0, GrainSize=0, GrainFrequency=0,
   ShadowTint=0, RedHue=0, RedSaturation=0, GreenHue=0, GreenSaturation=0, BlueHue=0, BlueSaturation=0,
-  straightenAngle=2, CropAngle=2,
+  straightenAngle=3, CropAngle=3, CropLeft=3, CropRight=3, CropTop=3, CropBottom=3,
   local_Temperature=0, local_Tint=0, local_Exposure=2, local_Contrast=0, 
   local_Highlights=0, local_Shadows=0, local_Whites2012=0, local_Blacks2012=0,
   local_Clarity=0, local_Dehaze=0, local_Saturation=0, local_Sharpness=0,
@@ -349,8 +352,6 @@ local function showBezel(param, value1, value2)
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision))
   end
 end
-
-
 
 return {
   CopySettings = CopySettings,
