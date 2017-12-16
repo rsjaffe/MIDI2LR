@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #ifdef _WIN32
 #include "Windows.h"
+#include <tlhelp32.h>
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -181,6 +182,72 @@ namespace {
         // use keyboard of MIDI2LR application
         return GetKeyboardLayout(0);
     }
+
+    // get pid of running process
+    // http://stackoverflow.com/questions/13179410/check-whether-one-specific-process-is-running-on-windows-with-c
+    DWORD lr_pid = 0;
+    HWND lr_hwnd;
+    DWORD GetPID()
+    {
+        char* processName = "lightroom.exe";
+
+        PROCESSENTRY32 processInfo;
+        processInfo.dwSize = sizeof(processInfo);
+
+        HANDLE processesSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+        if ( processesSnapshot == INVALID_HANDLE_VALUE )
+            return 0;
+
+        Process32First(processesSnapshot, &processInfo);
+        if ( !strcmp(processName, processInfo.szExeFile) )
+        {
+            CloseHandle(processesSnapshot);
+            return processInfo.th32ProcessID;
+        }
+
+        while ( Process32Next(processesSnapshot, &processInfo) )
+        {
+            if ( !strcmp(processName, processInfo.szExeFile) )
+            {
+              CloseHandle(processesSnapshot);
+              return processInfo.th32ProcessID;
+            }
+        }
+
+        CloseHandle(processesSnapshot);
+        return 0;
+    }
+
+    // Finds a HWND from a PID
+    // http://stackoverflow.com/questions/1888863/how-to-get-main-window-handle-from-process-id
+    struct handle_data {
+      unsigned long process_id;
+      HWND best_handle;
+    };
+    BOOL is_main_window(HWND handle)
+    {
+      return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
+    }
+    BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam)
+    {
+      handle_data& data = *(handle_data*)lParam;
+      unsigned long process_id = 0;
+      GetWindowThreadProcessId(handle, &process_id);
+      if (data.process_id != process_id || !is_main_window(handle)) {
+        return TRUE;
+      }
+      data.best_handle = handle;
+      return FALSE;
+    }
+    HWND find_main_window(unsigned long process_id)
+    {
+      handle_data data;
+      data.process_id = process_id;
+      data.best_handle = 0;
+      EnumWindows(enum_windows_callback, (LPARAM)&data);
+      return data.best_handle;
+    }
+
 #endif
 
     const std::unordered_map<std::string, unsigned char> key_map_ = {
@@ -331,6 +398,16 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
             strokes.push_back(VK_MENU);
     }
 
+    if (lr_pid == 0) {
+      lr_pid = GetPID();
+      if (lr_pid) {
+        lr_hwnd = find_main_window(lr_pid);
+      }
+      else {
+        lr_pid = (DWORD) -1; // cannot find LR pid, to try to find the foreground process
+      }
+    }
+
     // construct input event.
     INPUT ip;
     constexpr auto size_ip = sizeof(ip);
@@ -341,14 +418,24 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     //send key down strokes
     std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
     for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
-        ip.ki.wVk = *it;
-        SendInput(1, &ip, size_ip);
+        if (lr_pid == -1) {
+            ip.ki.wVk = *it;
+            SendInput(1, &ip, size_ip);
+        }
+        else {
+            PostMessage(lr_hwnd, WM_KEYDOWN, static_cast<WORD>(*it), 0);
+        }
     }
     //send key up strokes
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     for (const auto it : strokes) {
-        ip.ki.wVk = it;
-        SendInput(1, &ip, size_ip);
+        if (lr_pid == -1) {
+            ip.ki.wVk = it;
+            SendInput(1, &ip, size_ip);
+        }
+        else {
+            PostMessage(lr_hwnd, WM_KEYUP, static_cast<WORD>(it), 0);
+        }
     }
 #else
     static ProcessSerialNumber psn{0};
@@ -361,7 +448,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
             GetProcessForPID(lr_pid, &psn); //first deprecated in macOS 10.9, but no good replacement yet
         }
         else {
-            lr_pid = -1; // cannot find LR pid, to try to find the forground process
+            lr_pid = -1; // cannot find LR pid, to try to find the foreground process
             GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
         }
         #pragma GCC diagnostic pop
