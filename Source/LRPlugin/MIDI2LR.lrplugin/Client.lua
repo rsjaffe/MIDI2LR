@@ -72,6 +72,8 @@ LrTasks.startAsyncTask(
 
     --delay loading most modules until after data structure refreshed
     local CU              = require 'ClientUtilities'
+    local DebugInfo       = require 'DebugInfo'
+    local Info            = require 'Info'
     local Keys            = require 'Keys'
     local KS              = require 'KeyShortcuts'
     local Limits          = require 'Limits'
@@ -419,54 +421,10 @@ LrTasks.startAsyncTask(
       ZoomOutSmallStep         = LrApplicationView.zoomOutSome,
     }
 
-    local IsKeyPress = {
-      CycleMaskOverlayColor = true,
-      Key1  = true,
-      Key2  = true,
-      Key3  = true,
-      Key4  = true,
-      Key5  = true,
-      Key6  = true,
-      Key7  = true,
-      Key8  = true,
-      Key9  = true,
-      Key10 = true,
-      Key11 = true,
-      Key12 = true,
-      Key13 = true,
-      Key14 = true,
-      Key15 = true,
-      Key16 = true,
-      Key17 = true,
-      Key18 = true,
-      Key19 = true,
-      Key20 = true,
-      Key21 = true,
-      Key22 = true,
-      Key23 = true,
-      Key24 = true,
-      Key25 = true,
-      Key26 = true,
-      Key27 = true,
-      Key28 = true,
-      Key29 = true,
-      Key30 = true,
-      Key31 = true,
-      Key32 = true,
-      Key33 = true,
-      Key34 = true,
-      Key35 = true,
-      Key36 = true,
-      Key37 = true,
-      Key38 = true,
-      Key39 = true,
-      Key40 = true,
-      LRCopy = true,
-      LRPaste = true,
-      ShowMaskOverlay = true,
-    }
-
     local SETTINGS = {
+      AppLocale          = function(value) Info.AppLocale = value end,
+      AppPath            = function(value) Info.AppPath = value; DebugInfo.write() end,
+      AppVersion         = function(value) Info.AppVersion = value end,
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
       ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
@@ -483,16 +441,11 @@ LrTasks.startAsyncTask(
       local strarg = strarg1 -- make argument available to async task
       LrTasks.startAsyncTask(
         function()
+          --[[-----------debug section, enable by adding - to beginning this line
+          LrMobdebug.on()
+          --]]-----------end debug section
           local value -- will need to assign when enable settings functions
-          local LastIsKeyPress = false
           for i in strarg:gmatch("[%w_]+") do
-            local CurrentIsKeyPress = IsKeyPress[i]
-            if LastIsKeyPress and CurrentIsKeyPress == nil then
-              if i ~= 'Pause' then
-                ACTIONS.Pause()
-              end
-            end
-            LastIsKeyPress = CurrentIsKeyPress
             if(ACTIONS[i]) then -- perform a one time action
               ACTIONS[i]()
             elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
@@ -512,6 +465,7 @@ LrTasks.startAsyncTask(
             else -- otherwise update a develop parameter -- removed recursion guard as it is not in scope here
               UpdateParam(i,tonumber(value))
             end
+            LrTasks.sleep(0.01) --pause between actions to allow synchronization with slow LR responses and keystrokes from app
           end
         end 
       )

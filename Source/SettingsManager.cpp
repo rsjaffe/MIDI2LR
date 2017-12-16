@@ -78,8 +78,13 @@ void SettingsManager::setProfileDirectory(const juce::String& profile_directory_
 void SettingsManager::ConnectionCallback(bool connected)
 {
     if (connected)
-        if (const auto ptr = lr_ipc_out_.lock())
+        if (const auto ptr = lr_ipc_out_.lock()) {
             ptr->sendCommand("Pickup "s + std::to_string(static_cast<unsigned>(getPickupEnabled())) + '\n');
+            ptr->sendCommand("AppLocale "s + juce::SystemStats::getDisplayLanguage().toStdString() + '\n');
+            ptr->sendCommand("AppVersion "s + ProjectInfo::versionString + '\n');
+            ptr->sendCommand("AppPath "s +
+                juce::File::getSpecialLocation(juce::File::currentExecutableFile).getFullPathName().toStdString() + '\n');
+        }
 }
 
 int SettingsManager::getAutoHideTime() const noexcept
