@@ -44,8 +44,8 @@ void SettingsManager::Init(std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out)
 {
     lr_ipc_out_ = std::move(lr_ipc_out);
     if (const auto ptr = lr_ipc_out_.lock())
-    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-    // settings on connection
+        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+        // settings on connection
         ptr->addCallback(this, &SettingsManager::ConnectionCallback);
     // set the profile directory
     profile_manager_->setProfileDirectory(getProfileDirectory());
@@ -78,8 +78,13 @@ void SettingsManager::setProfileDirectory(const juce::String& profile_directory_
 void SettingsManager::ConnectionCallback(bool connected)
 {
     if (connected)
-        if (const auto ptr = lr_ipc_out_.lock())
+        if (const auto ptr = lr_ipc_out_.lock()) {
             ptr->sendCommand("Pickup "s + std::to_string(static_cast<unsigned>(getPickupEnabled())) + '\n');
+            ptr->sendCommand("AppLocale "s + juce::SystemStats::getDisplayLanguage().toStdString() + '\n');
+            ptr->sendCommand("AppVersion "s + ProjectInfo::versionString + '\n');
+            ptr->sendCommand("AppPath "s +
+                juce::File::getSpecialLocation(juce::File::currentExecutableFile).getFullPathName().toStdString() + '\n');
+        }
 }
 
 int SettingsManager::getAutoHideTime() const noexcept
