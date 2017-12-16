@@ -72,6 +72,8 @@ LrTasks.startAsyncTask(
 
     --delay loading most modules until after data structure refreshed
     local CU              = require 'ClientUtilities'
+    local DebugInfo       = require 'DebugInfo'
+    local Info            = require 'Info'
     local Keys            = require 'Keys'
     local Limits          = require 'Limits'
     local LocalPresets    = require 'LocalPresets'
@@ -411,6 +413,9 @@ LrTasks.startAsyncTask(
     }
 
     local SETTINGS = {
+      AppLocale          = function(value) Info.AppLocale = value end,
+      AppPath            = function(value) Info.AppPath = value; DebugInfo.write() end,
+      AppVersion         = function(value) Info.AppVersion = value end,
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
       ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
