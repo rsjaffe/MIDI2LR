@@ -36,10 +36,8 @@ local LrStringUtils       = import 'LrStringUtils'
 local precisionList       = { 
   Temperature=0, Tint=0, Exposure=2, Contrast=0, Highlights=0, Brightness=0, Shadows=0,
   Whites=0, Blacks=0, Clarity=0, Vibrance=0, Saturation=0,
-
   ParametricDarks=0, ParametricLights=0, ParametricShadows=0, ParametricHighlights=0,
   ParametricShadowSplit=0, ParametricMidtoneSplit=0, ParametricHighlightSplit=0, 
-
   SaturationAdjustmentRed=0, SaturationAdjustmentOrange=0, SaturationAdjustmentYellow=0, SaturationAdjustmentGreen=0,
   SaturationAdjustmentAqua=0, SaturationAdjustmentBlue=0, SaturationAdjustmentPurple=0, SaturationAdjustmentMagenta=0,
   HueAdjustmentRed=0, HueAdjustmentOrange=0, HueAdjustmentYellow=0, HueAdjustmentGreen=0,
@@ -53,7 +51,7 @@ local precisionList       = {
   LensProfileDistortionScale=0, LensProfileChromaticAberrationScale=0, LensProfileVignettingScale=0,
   DefringePurpleAmount=0, DefringePurpleHueLo=0, DefringePurpleHueHi=0, DefringeGreenAmount=0, DefringeGreenHueLo=0, DefringeGreenHueHi=0,
   LensManualDistortionAmount=0, VignetteAmount=0, VignetteMidpoint=0,
-  PerspectiveVertical=0, PerspectiveHorizontal=0, PerspectiveRotate=1, PerspectiveScale=0, PerspectiveAspect=0, PerspectiveX, PerspectiveY,
+  PerspectiveVertical=0, PerspectiveHorizontal=0, PerspectiveRotate=1, PerspectiveScale=0, PerspectiveAspect=0, PerspectiveX=1, PerspectiveY=1,
   Dehaze=0,
   PostCropVignetteAmount=0, PostCropVignetteMidpoint=0, PostCropVignetteFeather=0, 
   PostCropVignetteRoundness=0, PostCropVignetteHighlightContrast=0,
