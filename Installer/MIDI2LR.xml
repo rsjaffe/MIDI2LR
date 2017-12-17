@@ -40,6 +40,9 @@
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Database.lua</origin>
             </distributionFile>
             <distributionFile>
+              <origin>../Source/LRPlugin/MIDI2LR.lrplugin/DebugInfo.lua</origin>
+            </distributionFile>
+            <distributionFile>
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/FileLoadPref.lua</origin>
             </distributionFile>
             <distributionFile>
