@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MIDI2LR_MISC_H_INCLUDED
 #define MIDI2LR_MISC_H_INCLUDED
 #include <atomic>
+#include <chrono>
 
 #ifdef NDEBUG    // asserts disabled
 static constexpr bool ndebug = true;
@@ -37,6 +38,13 @@ static constexpr bool ndebug = false;
 #endif
 
 namespace RSJ {
+    inline auto now_ms() noexcept
+    {
+        return std::chrono::time_point_cast<std::chrono::milliseconds>
+            (std::chrono::steady_clock::now()).time_since_epoch().count();
+    }
+    using timetype = decltype(now_ms());
+
     class RelaxTTasSpinLock {
     public:
         RelaxTTasSpinLock() = default;
