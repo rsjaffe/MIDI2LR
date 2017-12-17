@@ -374,7 +374,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     }
 
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
-        static pid_t lrpid{[]() {
+        static const pid_t lrpid{[]() {
             pid_t localpid = GetPID();
             if (localpid == 0)
                 juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon,"Error",

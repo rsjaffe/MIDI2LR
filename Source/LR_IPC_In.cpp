@@ -35,7 +35,7 @@ using namespace std::literals::string_literals;
 
 namespace {
     constexpr auto kHost = "127.0.0.1";
-    constexpr int kBufferSize = 256;
+    constexpr int kBufferSize = 1024;
     constexpr int kConnectTryTime = 100;
     constexpr int kEmptyWait = 100;
     constexpr int kLrInPort = 58764;
@@ -86,11 +86,11 @@ void LR_IPC_IN::run()
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
-            char line[kBufferSize + 1] = {0};//plus one for \0 at end
+            std::array<char, kBufferSize> line{}; //\0 initialized because of {}
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
-            while (std::string(line).back() != '\n' && socket_.isConnected()) {
+            while ((size_read == 0 || line[size_read - 1] != '\n') && socket_.isConnected()) {
                 if (juce::Thread::threadShouldExit())
                     goto threadExit;//break out of nested whiles
                 const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
@@ -101,13 +101,19 @@ void LR_IPC_IN::run()
                     juce::Thread::wait(kEmptyWait);
                     break; //try again to read until char shows up
                 case 1:
-                    if (size_read == kBufferSize)
-                        throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    if (const auto read = socket_.read(line + size_read, 1, false))
-                        size_read += read;
-                    else
+                    switch (socket_.read(&line.at(size_read), 1, false)) {
+                    case -1:
+                        goto dumpLine; //read error
+                    case 1:
+                        size_read++;
+                        break;
+                    case 0:
                         // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
                         juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                        break;
+                    default:
+                        Expects(!"Unexpected value for read status");
+                    }
                     break;
                 default:
                     Expects(!"Unexpected value for wait_status");
@@ -116,7 +122,7 @@ void LR_IPC_IN::run()
 
             // if lose connection, line may not be terminated
             {
-                std::string param{line};
+                std::string param{line.data()};
                 if (param.back() == '\n')
                     processLine(param);
             } //scope param
@@ -146,8 +152,8 @@ void LR_IPC_IN::processLine(const std::string& line) const
 {
     const static std::unordered_map<std::string, int> cmds = {
         {"SwitchProfile"s, 1},
-        {"SendKey"s, 2},
-        {"TerminateApplication"s, 3},
+    {"SendKey"s, 2},
+    {"TerminateApplication"s, 3},
     };
     // process input into [parameter] [Value]
     const auto trimmed_line = RSJ::trim(line);
