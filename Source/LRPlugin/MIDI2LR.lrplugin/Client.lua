@@ -562,7 +562,8 @@ LrTasks.startAsyncTask(
             if Limits.LimitsCanBeSet() and lastrefresh + 0.1 < os.clock() then
               for _,param in ipairs(ParamList.SendToMidi) do
                 local lrvalue = LrDevelopController.getValue(param)
-                if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
+                if observer[param] ~= lrvalue and type(lrvalue) == 'number' and MIDI2LR.SERVER.send then
+                  --check send not nil as may be nil in few ms after startup
                   MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
                   observer[param] = lrvalue
                   LastParam = param
