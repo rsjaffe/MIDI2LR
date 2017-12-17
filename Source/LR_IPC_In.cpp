@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
+#include <array>
 #include <bitset>
 #include <gsl/gsl>
 #include "CommandMap.h"
@@ -77,6 +78,7 @@ void LR_IPC_IN::PleaseStopThread()
 void LR_IPC_IN::run()
 {
     while (!juce::Thread::threadShouldExit()) {
+        std::array<char, kBufferSize> line{};//zero filled by {} initialization
         //if not connected, executes a wait 333 then goes back to while
         //if connected, tries to read a line, checks thread status and connection
         //status before each read attempt
@@ -86,7 +88,7 @@ void LR_IPC_IN::run()
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
-            std::array<char, kBufferSize> line{}; //\0 initialized because of {}
+            line.fill(0);//zero out buffer
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
