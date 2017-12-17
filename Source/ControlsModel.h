@@ -24,7 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <array>
 #include <atomic>
-#include <chrono>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/access.hpp>
@@ -38,12 +37,6 @@ namespace RSJ {
     enum struct CCmethod: char {
         absolute, twoscomplement, binaryoffset, signmagnitude
     };
-    inline auto now_ms() noexcept
-    {
-        return std::chrono::time_point_cast<std::chrono::milliseconds>
-            (std::chrono::steady_clock::now()).time_since_epoch().count();
-    }
-    using timetype = decltype(now_ms());
 
     struct SettingsStruct {
         short number;//not using size_t so serialized data won't vary if size_t varies
