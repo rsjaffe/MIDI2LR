@@ -81,15 +81,15 @@ void MainContentComponent::Init(CommandMap* const command_map,
     command_table_model_.Init(command_map);
 
     if (midi_processor)
-    // Add ourselves as a listener for MIDI commands
+        // Add ourselves as a listener for MIDI commands
         midi_processor->addCallback(this, &MainContentComponent::MIDIcmdCallback);
 
     if (const auto ptr = lr_ipc_out_.lock())
-    // Add ourselves as a listener for LR_IPC_OUT events
+        // Add ourselves as a listener for LR_IPC_OUT events
         ptr->addCallback(this, &MainContentComponent::LRIpcOutCallback);
 
     if (profile_manager)
-    // Add ourselves as a listener for profile changes
+        // Add ourselves as a listener for profile changes
         profile_manager->addCallback(this, &MainContentComponent::profileChanged);
 
     //Set the component size
@@ -190,7 +190,7 @@ void MainContentComponent::Init(CommandMap* const command_map,
             }
         }
         else if (profile_manager)
-        // otherwise use the last profile from the profile directory
+            // otherwise use the last profile from the profile directory
             profile_manager->switchToProfile(0);
     }
     // turn it on

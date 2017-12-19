@@ -12,3 +12,4 @@
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=一系列命令"
 "$$$/MIDI2LR/LocalPresets/Presets=本地调整预设"
 "$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"
+"$$$/MIDI2LR/Options/ActionSeriesInvalid=无效的命令"

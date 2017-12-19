@@ -23,6 +23,26 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 #include "MidiUtilities.h"
 
+double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noexcept(ndebug)
+{
+    Expects(ccHigh_.at(controlnumber) > 0); //CCLow will always be 0 for offset controls
+    Expects(diff <= kMaxNRPN && diff >= -kMaxNRPN);
+    Expects(controlnumber <= kMaxNRPN);
+    lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
+    short cv = currentV_[controlnumber].fetch_add(diff, std::memory_order_relaxed) + diff;
+    if (cv < 0) {//fix currentV unless another thread has already altered it
+        currentV_[controlnumber].compare_exchange_strong(cv, static_cast<short>(0),
+            std::memory_order_relaxed, std::memory_order_relaxed);
+        return 0.0;
+    }
+    if (cv > ccHigh_[controlnumber]) {//fix currentV unless another thread has already altered it
+        currentV_[controlnumber].compare_exchange_strong(cv, ccHigh_[controlnumber],
+            std::memory_order_relaxed, std::memory_order_relaxed);
+        return 1.0;
+    }
+    return static_cast<double>(cv) / static_cast<double>(ccHigh_[controlnumber]);
+}
+
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug)
 {
     Expects((controltype == RSJ::kCCFlag && ccMethod_.at(controlnumber) == RSJ::CCmethod::absolute) ? (ccLow_.at(controlnumber) < ccHigh_.at(controlnumber)) : 1);
@@ -31,10 +51,12 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
     //note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7 bits, high bits are shifted one right when placed into short.
     switch (controltype) {
     case RSJ::kPWFlag:
+        pitchWheelCurrent_.store(value, std::memory_order_release);
         return static_cast<double>(value - pitchWheelMin_) / static_cast<double>(pitchWheelMax_ - pitchWheelMin_);
     case RSJ::kCCFlag:
         switch (ccMethod_[controlnumber]) {
         case RSJ::CCmethod::absolute:
+            currentV_[controlnumber].store(value, std::memory_order_release);
             return static_cast<double>(value - ccLow_[controlnumber]) / static_cast<double>(ccHigh_[controlnumber] - ccLow_[controlnumber]);
         case RSJ::CCmethod::binaryoffset:
             if (IsNRPN_(controlnumber))
@@ -62,22 +84,81 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
     }
 }
 
+void ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcept
+{
+    switch (controltype) {
+    case RSJ::kPWFlag:
+        pitchWheelCurrent_.store((pitchWheelMax_ - pitchWheelMin_) / 2 + pitchWheelMin_, std::memory_order_release);
+    case RSJ::kCCFlag:
+        if (ccMethod_[controlnumber] == RSJ::CCmethod::absolute)
+            currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2 + ccLow_[controlnumber], std::memory_order_release);
+    default:
+        /* */;
+    }
+}
+
+std::pair<short, short> ChannelModel::MeasureChange(short controltype, size_t controlnumber, short value, bool recenter) noexcept(ndebug)
+{
+    Expects((controltype == RSJ::kCCFlag && ccMethod_.at(controlnumber) == RSJ::CCmethod::absolute) ? (ccLow_.at(controlnumber) < ccHigh_.at(controlnumber)) : 1);
+    Expects((controltype == RSJ::kPWFlag) ? (pitchWheelMax_ > pitchWheelMin_) : 1);
+    Expects((controltype == RSJ::kPWFlag) ? value >= pitchWheelMin_ && value <= pitchWheelMax_ : 1);
+    //note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7 bits, high bits are shifted one right when placed into short.
+    switch (controltype) {
+    case RSJ::kPWFlag:
+    {
+        short newvalue = recenter ? (pitchWheelMax_ - pitchWheelMin_) / 2 + pitchWheelMin_ : value;
+        return {value - pitchWheelCurrent_.exchange(newvalue), newvalue};
+    }
+    case RSJ::kCCFlag:
+        switch (ccMethod_[controlnumber]) {
+        case RSJ::CCmethod::absolute:
+        {
+            short newvalue = recenter ? (ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2 + ccLow_[controlnumber] : value;
+            return {value - currentV_[controlnumber].exchange(newvalue), newvalue};
+        }
+        case RSJ::CCmethod::binaryoffset:
+            if (IsNRPN_(controlnumber))
+                return {value - kBit14, 0};
+            return {value - kBit7, 0};
+        case RSJ::CCmethod::signmagnitude:
+            if (IsNRPN_(controlnumber))
+                return {(value & kBit14) ? -(value & kLow13Bits) : value, 0};
+            return {(value & kBit7) ? -(value & kLow6Bits) : value, 0};
+        case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
+            if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
+                return {(value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, 0};
+            return {(value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, 0};
+        default:
+            Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+            return {0, 0};
+        }
+    case RSJ::kNoteOnFlag:
+        return {0, 0};
+    case RSJ::kNoteOffFlag:
+        return {0, 0};
+    default:
+        Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
+        return {0, 0};
+    }
+}
+
 short ChannelModel::PluginToController(short controltype, size_t controlnumber, double pluginV) noexcept(ndebug)
 {
     Expects(controlnumber <= kMaxNRPN);
     Expects(pluginV >= 0.0 && pluginV <= 1.0);
     switch (controltype) {
     case RSJ::kPWFlag:
-        return static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
+    {
+        const short newv = static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
+        pitchWheelCurrent_.store(newv, std::memory_order_release);
+        return newv;
+    }
     case RSJ::kCCFlag:
     {
-        if (ccMethod_[controlnumber] == RSJ::CCmethod::absolute)
-            return static_cast<short>(round(pluginV *
+        const short newv = static_cast<short>(round(pluginV *
             (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
-        const auto cv = static_cast<short>(round(pluginV * ccHigh_[controlnumber])); //ccLow == 0 for non-absolute
-        if (RSJ::now_ms() - kUpdateDelay > lastUpdate_.load(std::memory_order_acquire))
-            currentV_[controlnumber].store(cv, std::memory_order_release);
-        return cv;
+        currentV_[controlnumber].store(newv, std::memory_order_release);
+        return newv;
     }
     case RSJ::kNoteOnFlag:
         return kMaxMIDI;
@@ -116,12 +197,6 @@ void ChannelModel::setCCmax(size_t controlnumber, short value) noexcept(ndebug)
         ccHigh_[controlnumber] = (value <= ccLow_[controlnumber] || value > max) ? max : value;
     }
     currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2, std::memory_order_release);
-}
-
-void ChannelModel::setCCmethod(size_t controlnumber, RSJ::CCmethod value) noexcept(ndebug)
-{
-    Expects(controlnumber <= kMaxNRPN);
-    ccMethod_[controlnumber] = value;
 }
 
 void ChannelModel::setCCmin(size_t controlnumber, short value) noexcept(ndebug)
@@ -179,7 +254,7 @@ void ChannelModel::savedToActive() noexcept(ndebug)
         ccHigh_[a] = kMaxMIDI;
         currentV_[a].store(kMaxMIDIHalf, std::memory_order_relaxed);
     }
-    for (const auto set : settingsToSave_)
+    for (const auto& set : settingsToSave_)
         setCC(set.number, set.low, set.high, set.method);
 }
 

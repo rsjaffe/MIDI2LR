@@ -28,7 +28,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "MidiUtilities.h"
 
-
 CommandTableModel::CommandTableModel() noexcept
 {}
 
@@ -155,7 +154,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
             command_select->setMsg(commands_[static_cast<size_t>(row_number)]);
 
         if (command_map_)
-        // add 1 because 0 is reserved for no selection
+            // add 1 because 0 is reserved for no selection
             command_select->setSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
                 getCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
 
@@ -184,7 +183,7 @@ void CommandTableModel::removeRow(size_t row)
 void CommandTableModel::removeAllRows()
 {
     commands_.clear();
-    if (command_map_) 
+    if (command_map_)
         command_map_->clearMap();
 }
 

@@ -12,3 +12,4 @@
 "$$$/MIDI2LR/Shortcuts/SeriesofCommands=Reeks commando's"
 "$$$/MIDI2LR/LocalPresets/Presets=Voorinstellingen voor lokale aanpassingen"
 "$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"
+"$$$/MIDI2LR/Options/ActionSeriesInvalid=Ongeldige opdrachten"

@@ -75,6 +75,7 @@ LrTasks.startAsyncTask(
     local DebugInfo       = require 'DebugInfo'
     local Info            = require 'Info'
     local Keys            = require 'Keys'
+    local KS              = require 'KeyShortcuts'
     local Limits          = require 'Limits'
     local LocalPresets    = require 'LocalPresets'
     local ParamList       = require 'ParamList'
@@ -99,15 +100,21 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
+
+
     local ACTIONS = {
       AdjustmentBrush          = CU.fToggleTool('localized'),
       AutoLateralCA            = CU.fToggle01('AutoLateralCA'),
       AutoTone                 = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end,
+      BrushFeatherLarger       = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKeyShifted,true),
+      BrushFeatherSmaller      = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKeyShifted,true),
+      BrushSizeLarger          = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKey,true),
+      BrushSizeSmaller         = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true),
       CropConstrainToWarp      = CU.fToggle01('CropConstrainToWarp'),
       ConvertToGrayscale       = CU.fToggleTF('ConvertToGrayscale'),
       CopySettings             = CU.CopySettings,
       CropOverlay              = CU.fToggleTool('crop'),
-      CycleMaskOverlayColor    = CU.SimulateKeys('4o'),
+      CycleMaskOverlayColor    = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlay,true),
       DecreaseRating           = LrSelection.decreaseRating,
       DecrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTF('EnableCalibration'),
@@ -196,8 +203,8 @@ LrTasks.startAsyncTask(
       LocalPreset14 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[14]) end,
       LocalPreset15 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[15]) end,
       LocalPreset16 = function() LocalPresets.ApplyLocalPreset(ProgramPreferences.LocalPresets[16]) end,
-      LRCopy                   = CU.SimulateKeys('2c'),
-      LRPaste                  = CU.SimulateKeys('2v'),
+      LRPaste                  = CU.fSimulateKeys(KS.KeyCode.PasteKey,true),
+      LRCopy                   = CU.fSimulateKeys(KS.KeyCode.CopyKey,true),
       LensProfileEnable        = CU.fToggle01Async('LensProfileEnable'),
       Loupe                    = CU.fToggleTool('loupe'),
       Next                     = LrSelection.nextPhoto,
@@ -374,7 +381,9 @@ LrTasks.startAsyncTask(
       ShoVwloupe               = function() LrApplicationView.showView('loupe') end,
       ShoVwpeople              = function() LrApplicationView.showView('people') end,
       ShoVwsurvey              = function() LrApplicationView.showView('survey') end,
-      ShowMaskOverlay          = CU.SimulateKeys('0o'),
+      ShowMaskOverlay          = CU.fSimulateKeys(KS.KeyCode.ShowAdjustmentBrushOverlayKey,true),
+      SliderDecrease           = CU.fSimulateKeys(KS.KeyCode.SliderDecreaseKey,true),
+      SliderIncrease           = CU.fSimulateKeys(KS.KeyCode.SliderIncreaseKey,true),
       SpotRemoval              = CU.fToggleTool('dust'),
       SwToMbook                = CU.fChangeModule('book'),
       SwToMdevelop             = CU.fChangeModule('develop'),
@@ -450,9 +459,8 @@ LrTasks.startAsyncTask(
               local resetparam = i:sub(6)
               Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
               if ProgramPreferences.ClientShowBezelOnChange then
-                local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
                 local lrvalue = LrDevelopController.getValue(resetparam)
-                LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+                CU.showBezel(resetparam,lrvalue)
               end
             else -- otherwise update a develop parameter -- removed recursion guard as it is not in scope here
               UpdateParam(i,tonumber(value))
@@ -493,8 +501,7 @@ LrTasks.startAsyncTask(
           LrDevelopController.setValue(param, value)
           LastParam = param
           if ProgramPreferences.ClientShowBezelOnChange and not silent then
-            local bezelname = ParamList.ParamDisplay[param] or param
-            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+            CU.showBezel(param,value)
           end
           if ParamList.ProfileMap[param] then
             Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -503,9 +510,7 @@ LrTasks.startAsyncTask(
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
             value = CU.MIDIValueToLRValue(param, midi_value)
             local actualvalue = LrDevelopController.getValue(param)
-            local precision = Ut.precision(value)
-            local bezelname = ParamList.ParamDisplay[param] or param
-            LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,precision)..'  '..LrStringUtils.numberToStringWithSeparators(actualvalue,precision))
+            CU.showBezel(param,value,actualvalue)
           end
           if lastfullrefresh + 1 < os.clock() then --try refreshing controller once a second
             CU.FullRefresh()
@@ -529,8 +534,7 @@ LrTasks.startAsyncTask(
       LrDevelopController.setValue(param, value)
       LastParam = param
       if ProgramPreferences.ClientShowBezelOnChange and not silent then
-        local bezelname = ParamList.ParamDisplay[param] or param
-        LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(value,Ut.precision(value)))
+        CU.showBezel(param,value)
       end
       if ParamList.ProfileMap[param] then
         Profiles.changeProfile(ParamList.ProfileMap[param])
@@ -614,9 +618,8 @@ LrTasks.startAsyncTask(
                   local resetparam = param:sub(6)
                   Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
-                    local bezelname = ParamList.ParamDisplay[resetparam] or resetparam
                     local lrvalue = LrDevelopController.getValue(resetparam)
-                    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToStringWithSeparators(lrvalue,Ut.precision(lrvalue)))
+                    CU.showBezel(resetparam,lrvalue)
                   end
                 end
               else -- otherwise update a develop parameter

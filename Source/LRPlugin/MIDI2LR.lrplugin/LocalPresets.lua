@@ -71,14 +71,18 @@ local localPresetMap = {
 local function GetPresetFilenames()
   local filenames = {}
   --Extract filename only from full paths
-  for afile in LrFileUtils.files ( LocalAdjustmentPresetsPath ) do
-    table.insert (filenames, LrPathUtils.removeExtension(LrPathUtils.leafName(afile)))
+  for afile in LrFileUtils.recursiveDirectoryEntries ( LocalAdjustmentPresetsPath ) do
+    if LrPathUtils.extension(afile) == 'lrtemplate'
+    then
+      table.insert (filenames, { title=LrPathUtils.removeExtension(LrPathUtils.leafName(afile)),value=afile } )
+    end
   end
   return filenames
 end
 
 local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
-  local LRLocalPresetFileName = LrPathUtils.child(LocalAdjustmentPresetsPath,LocalPresetName..".lrtemplate")
+  local LRLocalPresetFileName = LocalPresetName
+  LocalPresetName = LrPathUtils.removeExtension(LrPathUtils.leafName(LocalPresetName))
   --Check to see if preset is already loaded by checking table... if so do not reload file.
   --Reloading template file on each request would however allow the user to update and save local preset settings in lightroom.
   if LocalPresets[tostring(LocalPresetName)] == nil then

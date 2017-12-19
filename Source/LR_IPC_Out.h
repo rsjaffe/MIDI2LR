@@ -31,6 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class CommandMap;
 class ControlsModel;
 class MIDIProcessor;
+class MIDISender;
 namespace RSJ {
     struct MidiMessage;
 }
@@ -42,7 +43,7 @@ class LR_IPC_OUT final:
 public:
     LR_IPC_OUT(ControlsModel* const c_model, const CommandMap * const mapCommand);
     virtual ~LR_IPC_OUT();
-    void Init(MIDIProcessor* const midi_processor);
+    void Init(std::shared_ptr<MIDISender>& midiSender, MIDIProcessor* const midi_processor);
 
     template<class T> void addCallback(T* const  object, void(T::* const mf)(bool))
     {
@@ -71,6 +72,7 @@ private:
     mutable std::mutex timer_mutex_; //fix race during shutdown
     std::string command_;
     std::vector<std::function<void(bool)>> callbacks_;
+    std::shared_ptr<MIDISender> midi_sender_{nullptr};
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

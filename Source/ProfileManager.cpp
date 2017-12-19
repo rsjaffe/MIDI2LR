@@ -43,8 +43,8 @@ void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
     lr_ipc_out_ = std::move(out);
 
     if (const auto ptr = lr_ipc_out_.lock())
-    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-    // settings on connection
+        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+        // settings on connection
         ptr->addCallback(this, &ProfileManager::ConnectionCallback);
 
     if (midiProcessor)
@@ -60,7 +60,7 @@ void ProfileManager::setProfileDirectory(const juce::File& directory)
 
     current_profile_index_ = 0;
     profiles_.clear();
-    for (const auto file : file_array)
+    for (const auto& file : file_array)
         profiles_.emplace_back(file.getFileName());
 
     if (profiles_.size() > 0)

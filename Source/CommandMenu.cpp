@@ -74,7 +74,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
         {
             CCoptions ccopt;
             ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
-            gsl::narrow_cast<short>(message_.controller));
+                gsl::narrow_cast<short>(message_.controller));
             juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
                 juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
@@ -104,7 +104,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                 auto already_mapped = false;
                 if ((index - 1 < LRCommandList::LRStringList.size()) && (command_map_))
                     already_mapped =
-                        command_map_->commandHasAssociatedMessage(LRCommandList::LRStringList[index - 1]);
+                    command_map_->commandHasAssociatedMessage(LRCommandList::LRStringList[index - 1]);
 
                 // add each submenu entry, ticking the previously selected entry and
                 // disabling a previously mapped entry

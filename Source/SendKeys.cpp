@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cctype>
 #include <mutex>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 #include <vector>
 #include <gsl/gsl>
@@ -34,34 +35,48 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
-#include <cassert>
-#include <libproc.h>
-#include <thread>
+#include "../JuceLibraryCode/JuceHeader.h"
+#include <libproc.h> //proc_ functions in GetPID
 #endif
 namespace {
 #ifndef _WIN32
 
+    bool endsWith(const std::string &mainStr, const std::string &toMatch)
+    {
+        if (mainStr.size() >= toMatch.size() &&
+            mainStr.compare(mainStr.size() - toMatch.size(), toMatch.size(), toMatch) == 0)
+            return true;
+        else
+            return false;
+    }
+
+    bool endsWithCaseInsensitive(std::string mainStr, std::string toMatch)//note: C++20 will have ends_with
+    {
+        auto it = toMatch.begin();
+        return mainStr.size() >= toMatch.size() &&
+            std::all_of(std::next(mainStr.begin(), mainStr.size() - toMatch.size()), mainStr.end(), [&it](const char & c) {
+            return ::tolower(c) == ::tolower(*(it++));
+        });
+    }
+
     pid_t GetPID()
     {
-        std::string LR{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
-        int numberOfProcesses = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
-        pid_t pids[numberOfProcesses];
-        proc_listpids(PROC_ALL_PIDS, 0, pids, sizeof(pids));
+        static const std::string LR{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
+        static const std::string LRC{"Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
+        const int numberOfProcesses{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
+        std::vector<pid_t> pids(numberOfProcesses);//add a few in case more processes show up
+        proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t)*(numberOfProcesses));
         char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
-        std::size_t found;
-        for (int i = 0; i < numberOfProcesses; ++i) {
-            if (pids[i] == 0) {
+        for (const auto pid : pids) {
+            if (pid == 0)
                 continue;
-            }
-            bzero(pathBuffer, PROC_PIDPATHINFO_MAXSIZE);
-            proc_pidpath(pids[i], pathBuffer, sizeof(pathBuffer));
-            if (strlen(pathBuffer) > 0) {
-                found = std::string(pathBuffer).find(LR);
-                if (found != std::string::npos) {
-                    return pids[i];
-                }
-            }
+            memset(pathBuffer, 0, sizeof(pathBuffer));
+            proc_pidpath(pid, pathBuffer, sizeof(pathBuffer));
+            if (strlen(pathBuffer) > 0 && (endsWith(pathBuffer, LR) || endsWith(pathBuffer, LRC)))
+                return pid;
         }
+        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+            "Lightroom PID not found.");
         return 0;
     }
 
@@ -83,7 +98,7 @@ namespace {
 
         UCKeyTranslate(keyboardLayout,
             keyCode,
-            kUCKeyActionDisplay,
+            kUCKeyActionDown,
             0,
             LMGetKbdType(),
             kUCKeyTranslateNoDeadKeysBit,
@@ -102,32 +117,30 @@ namespace {
      * on error. */
     CGKeyCode keyCodeForChar(const char c)
     {
+        static std::once_flag flag;
         static CFMutableDictionaryRef charToCodeDict = NULL;
+        static std::unordered_map<std::string, size_t> charToCodeMap;
         CGKeyCode code;
         UniChar character = c;
         CFStringRef charStr = NULL;
 
-        /* Generate table of keycodes and characters. */
-        if (charToCodeDict == NULL) {
-            size_t i;
+        std::call_once(flag, []() {/* Generate table of keycodes and characters. */
             charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
                 128,
                 &kCFCopyStringDictionaryKeyCallBacks,
                 NULL);
-            if (charToCodeDict == NULL) return UINT16_MAX;
-
             /* Loop through every keycode (0 - 127) to find its current mapping. */
-            for (i = 0; i < 128; ++i) {
+            for (size_t i = 0; i < 128; ++i) {
                 CFStringRef string = createStringForKey((CGKeyCode)i);
                 if (string != NULL) {
                     CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
+                    const std::string charvalue = juce::String::fromCFString(string).toStdString();
+                    charToCodeMap[charvalue] = i;
                     CFRelease(string);
                 }
-            }
-        }
-
+            }});
+        if (charToCodeDict == NULL) return UINT16_MAX; //didn't initialize properly
         charStr = CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1);
-
         /* Our values may be NULL (0), so we need to use this function. */
         if (!CFDictionaryGetValueIfPresent(charToCodeDict, charStr,
             (const void **)&code)) {
@@ -156,15 +169,15 @@ namespace {
         if (return_value == 0) {
             const auto er = GetLastError();
             switch (er) {
-            case ERROR_INVALID_FLAGS:
-            case ERROR_INVALID_PARAMETER:
-                throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
-            case ERROR_INSUFFICIENT_BUFFER:
-                throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
-            case ERROR_NO_UNICODE_TRANSLATION:
-                throw std::domain_error("Unable to translate: MultiByteToWideChar.");
-            default:
-                throw std::runtime_error("Unknown error: MultiByteToWideChar.");
+                case ERROR_INVALID_FLAGS:
+                case ERROR_INVALID_PARAMETER:
+                    throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
+                case ERROR_INSUFFICIENT_BUFFER:
+                    throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
+                case ERROR_NO_UNICODE_TRANSLATION:
+                    throw std::domain_error("Unable to translate: MultiByteToWideChar.");
+                default:
+                    throw std::runtime_error("Unknown error: MultiByteToWideChar.");
             }
         }
         return full_character;
@@ -186,58 +199,56 @@ namespace {
     const std::unordered_map<std::string, unsigned char> key_map_ = {
 #ifdef _WIN32
         {"backspace", VK_BACK},
-        {"cursor down", VK_DOWN},
-        {"cursor left", VK_LEFT},
-        {"cursor right", VK_RIGHT},
-        {"cursor up", VK_UP},
-        {"delete", VK_DELETE},
-        {"end", VK_END},
-        {"escape", VK_ESCAPE},
-        {"home", VK_HOME},
-        {"page down", VK_NEXT},
-        {"page up", VK_PRIOR},
-        {"return", VK_RETURN},
-        {"space", VK_SPACE},
-        {"tab", VK_TAB},
-        {"f1", VK_F1},
-        {"f2", VK_F2},
-        {"f3", VK_F3},
-        {"f4", VK_F4},
-        {"f5", VK_F5},
-        {"f6", VK_F6},
-        {"f7", VK_F7},
-        {"f8", VK_F8},
-        {"f9", VK_F9},
-        {"f10", VK_F10},
-        {"f11", VK_F11},
-        {"f12", VK_F12},
-        {"f13", VK_F13},
-        {"f14", VK_F14},
-        {"f15", VK_F15},
-        {"f16", VK_F16},
-        {"f17", VK_F17},
-        {"f18", VK_F18},
-        {"f19", VK_F19},
-        {"f20", VK_F20},
-        {"numpad 0", VK_NUMPAD0},
-        {"numpad 1", VK_NUMPAD1},
-        {"numpad 2", VK_NUMPAD2},
-        {"numpad 3", VK_NUMPAD3},
-        {"numpad 4", VK_NUMPAD4},
-        {"numpad 5", VK_NUMPAD5},
-        {"numpad 6", VK_NUMPAD6},
-        {"numpad 7", VK_NUMPAD7},
-        {"numpad 8", VK_NUMPAD8},
-        {"numpad 9", VK_NUMPAD9},
-        {"numpad add", VK_ADD},
-        {"numpad subtract", VK_SUBTRACT},
-        {"numpad multiply", VK_MULTIPLY},
-        {"numpad divide", VK_DIVIDE},
-        {"numpad decimal", VK_DECIMAL}
+    {"cursor down", VK_DOWN},
+    {"cursor left", VK_LEFT},
+    {"cursor right", VK_RIGHT},
+    {"cursor up", VK_UP},
+    {"delete", VK_DELETE},
+    {"end", VK_END},
+    {"escape", VK_ESCAPE},
+    {"home", VK_HOME},
+    {"page down", VK_NEXT},
+    {"page up", VK_PRIOR},
+    {"return", VK_RETURN},
+    {"space", VK_SPACE},
+    {"tab", VK_TAB},
+    {"f1", VK_F1},
+    {"f2", VK_F2},
+    {"f3", VK_F3},
+    {"f4", VK_F4},
+    {"f5", VK_F5},
+    {"f6", VK_F6},
+    {"f7", VK_F7},
+    {"f8", VK_F8},
+    {"f9", VK_F9},
+    {"f10", VK_F10},
+    {"f11", VK_F11},
+    {"f12", VK_F12},
+    {"f13", VK_F13},
+    {"f14", VK_F14},
+    {"f15", VK_F15},
+    {"f16", VK_F16},
+    {"f17", VK_F17},
+    {"f18", VK_F18},
+    {"f19", VK_F19},
+    {"f20", VK_F20},
+    {"numpad 0", VK_NUMPAD0},
+    {"numpad 1", VK_NUMPAD1},
+    {"numpad 2", VK_NUMPAD2},
+    {"numpad 3", VK_NUMPAD3},
+    {"numpad 4", VK_NUMPAD4},
+    {"numpad 5", VK_NUMPAD5},
+    {"numpad 6", VK_NUMPAD6},
+    {"numpad 7", VK_NUMPAD7},
+    {"numpad 8", VK_NUMPAD8},
+    {"numpad 9", VK_NUMPAD9},
+    {"numpad add", VK_ADD},
+    {"numpad subtract", VK_SUBTRACT},
+    {"numpad multiply", VK_MULTIPLY},
+    {"numpad divide", VK_DIVIDE},
+    {"numpad decimal", VK_DECIMAL}
 #else
-    {
-        "backspace", kVK_Delete
-    },
+    {"backspace", kVK_Delete},
     {"cursor down", kVK_DownArrow},
     {"cursor left", kVK_LeftArrow},
     {"cursor right", kVK_RightArrow},
@@ -271,7 +282,7 @@ namespace {
     {"f18", kVK_F18},
     {"f19", kVK_F19},
     {"f20", kVK_F20},
-            //using ANSI layout codes for keypad, may cause problems in some languages
+        //using ANSI layout codes for keypad, may cause problems in some languages
     {"numpad 0", kVK_ANSI_Keypad0},
     {"numpad 1", kVK_ANSI_Keypad1},
     {"numpad 2", kVK_ANSI_Keypad2},
@@ -289,13 +300,12 @@ namespace {
     {"numpad decimal", kVK_ANSI_KeypadDecimal}
 #endif
     };
-
-    std::mutex mutex_sending_{};
 }
 
 void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     const bool control_cmd, const bool shift)
 {
+    static std::mutex mutex_sending_{};
     const auto mapped_key = key_map_.find(to_lower(key));
     const auto in_keymap = mapped_key != key_map_.end();
 
@@ -351,22 +361,6 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         SendInput(1, &ip, size_ip);
     }
 #else
-    static ProcessSerialNumber psn{0};
-    static pid_t lr_pid{0};
-    if (lr_pid == 0) {
-        lr_pid = GetPID();
-        #pragma GCC diagnostic push
-        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-        if (lr_pid) {
-            GetProcessForPID(lr_pid, &psn); //first deprecated in macOS 10.9, but no good replacement yet
-        }
-        else {
-            lr_pid = -1; // cannot find LR pid, to try to find the forground process
-            GetFrontProcess(&psn); //first deprecated in macOS 10.9, but no good replacement yet
-        }
-        #pragma GCC diagnostic pop
-    }
-
     CGEventRef d;
     CGEventRef u;
     uint64_t flags = 0;
@@ -377,7 +371,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         u = CGEventCreateKeyboardEvent(NULL, vk, false);
     }
     else {
-        const CGKeyCode keyCode = keyCodeForChar(key[0]);
+        const auto keyCode = keyCodeForChar(key[0]);
         d = CGEventCreateKeyboardEvent(NULL, keyCode, true);
         u = CGEventCreateKeyboardEvent(NULL, keyCode, false);
         flags = CGEventGetFlags(d); //in case KeyCode has associated flag
@@ -391,12 +385,31 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
     }
 
-    {
-        std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-        CGEventPostToPSN(&psn, d);
-        CGEventPostToPSN(&psn, u);
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
+        static const pid_t lrpid{GetPID()};
+        if (lrpid) {
+            std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
+            CGEventPostToPid(lrpid, d);
+            CGEventPostToPid(lrpid, u);
+        }
     }
-
+    else {
+        static ProcessSerialNumber psn{[]() {
+            ProcessSerialNumber temppsn{0};
+            pid_t lr_pid{GetPID()};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+            if (lr_pid)
+                GetProcessForPID(lr_pid, &temppsn); //first deprecated in macOS 10.9
+#pragma GCC diagnostic pop
+            return temppsn;
+        }()};
+        if (psn.highLongOfPSN != 0 || psn.lowLongOfPSN != 0) {
+            std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
+            CGEventPostToPSN(&psn, d);
+            CGEventPostToPSN(&psn, u);
+        }
+    }
     CFRelease(d);
     CFRelease(u);
 #endif
