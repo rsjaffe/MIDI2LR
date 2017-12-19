@@ -158,15 +158,15 @@ void ProfileManager::ConnectionCallback(bool connected)
 void ProfileManager::handleAsyncUpdate()
 {
     switch (switch_state_) {
-    case SWITCH_STATE::PREV:
-        switchToPreviousProfile();
-        switch_state_ = SWITCH_STATE::NONE;
-        break;
-    case SWITCH_STATE::NEXT:
-        switchToNextProfile();
-        switch_state_ = SWITCH_STATE::NONE;
-        break;
-    default:
-        break;
+        case SWITCH_STATE::PREV:
+            switchToPreviousProfile();
+            switch_state_ = SWITCH_STATE::NONE;
+            break;
+        case SWITCH_STATE::NEXT:
+            switchToNextProfile();
+            switch_state_ = SWITCH_STATE::NONE;
+            break;
+        default:
+            break;
     }
 }

@@ -39,24 +39,24 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
 {
     const RSJ::MidiMessage mess{message};
     switch (mess.message_type_byte) {
-    case RSJ::kCCFlag:
-        if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
-            const auto nrpn = nrpn_filter_.GetNRPNifReady(mess.channel);
-            if (nrpn.isValid) //send when finished
+        case RSJ::kCCFlag:
+            if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
+                const auto nrpn = nrpn_filter_.GetNRPNifReady(mess.channel);
+                if (nrpn.isValid) //send when finished
+                    for (const auto& cb : callbacks_)
+                        cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel, nrpn.control, nrpn.value});
+            }
+            else //regular message
                 for (const auto& cb : callbacks_)
-                    cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel, nrpn.control, nrpn.value});
-        }
-        else //regular message
+                    cb(mess);
+            break;
+        case RSJ::kNoteOnFlag:
+        case RSJ::kPWFlag:
             for (const auto& cb : callbacks_)
                 cb(mess);
-        break;
-    case RSJ::kNoteOnFlag:
-    case RSJ::kPWFlag:
-        for (const auto& cb : callbacks_)
-            cb(mess);
-        break;
-    default:
-        ; //no action if other type of MIDI message
+            break;
+        default:
+            ; //no action if other type of MIDI message
     }
 }
 

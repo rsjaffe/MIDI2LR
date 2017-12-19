@@ -95,20 +95,20 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
         auto channel = 0;
         switch (commands_[static_cast<size_t>(row_number)].msg_id_type) //-V108 int used as index because JUCE uses int
         {
-        case RSJ::MsgIdEnum::NOTE:
-            formatStr = "%d | Note: %d";
-            channel = commands_[static_cast<size_t>(row_number)].channel;
-            value = commands_[static_cast<size_t>(row_number)].pitch;
-            break;
-        case RSJ::MsgIdEnum::CC:
-            formatStr = "%d | CC: %d";
-            channel = commands_[static_cast<size_t>(row_number)].channel;
-            value = commands_[static_cast<size_t>(row_number)].controller;
-            break;
-        case RSJ::MsgIdEnum::PITCHBEND:
-            formatStr = "%d | Pitch: %d";
-            channel = commands_[static_cast<size_t>(row_number)].channel;
-            break;
+            case RSJ::MsgIdEnum::NOTE:
+                formatStr = "%d | Note: %d";
+                channel = commands_[static_cast<size_t>(row_number)].channel;
+                value = commands_[static_cast<size_t>(row_number)].pitch;
+                break;
+            case RSJ::MsgIdEnum::CC:
+                formatStr = "%d | CC: %d";
+                channel = commands_[static_cast<size_t>(row_number)].channel;
+                value = commands_[static_cast<size_t>(row_number)].controller;
+                break;
+            case RSJ::MsgIdEnum::PITCHBEND:
+                formatStr = "%d | Pitch: %d";
+                channel = commands_[static_cast<size_t>(row_number)].channel;
+                break;
         }
         g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
     }

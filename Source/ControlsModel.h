@@ -50,11 +50,11 @@ namespace RSJ {
         template<class Archive> void serialize(Archive& archive, uint32_t const version)
         {
             switch (version) {
-            case 1:
-                archive(number, high, low, method);//keep this order for compatibility with earlier versions
-                break;
-            default:
-                Expects(!"Wrong archive number for SettingsStruct");
+                case 1:
+                    archive(number, high, low, method);//keep this order for compatibility with earlier versions
+                    break;
+                default:
+                    Expects(!"Wrong archive number for SettingsStruct");
             }
         }
     };
@@ -264,15 +264,15 @@ template<class Archive>
 void ChannelModel::load(Archive& archive, uint32_t const version)
 {
     switch (version) {
-    case 1:
-        archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
-        break;
-    case 2:
-        archive(settingsToSave_);
-        savedToActive();
-        break;
-    default:
-        Expects(!"Archive version not acceptable");
+        case 1:
+            archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
+            break;
+        case 2:
+            archive(settingsToSave_);
+            savedToActive();
+            break;
+        default:
+            Expects(!"Archive version not acceptable");
     }
 }
 
@@ -280,15 +280,15 @@ template<class Archive>
 void ChannelModel::save(Archive& archive, uint32_t const version) const
 {
     switch (version) {
-    case 1:
-        archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
-        break;
-    case 2:
-        activeToSaved();
-        archive(settingsToSave_);
-        break;
-    default:
-        Expects(!"Wrong archive version specified for save");
+        case 1:
+            archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
+            break;
+        case 2:
+            activeToSaved();
+            archive(settingsToSave_);
+            break;
+        default:
+            Expects(!"Wrong archive version specified for save");
     }
 }
 

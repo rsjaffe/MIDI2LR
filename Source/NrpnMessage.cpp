@@ -29,52 +29,52 @@ bool NRPN_Message::ProcessMidi(short control,
     Expects(control <= 0x7Fu);
     auto ret_val = true;
     switch (control) {
-    case 6:
-    {
-        std::lock(data_guard_, queue_guard_);
-        std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
-        std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
-        if (ready_ >= 0b11) {
-            SetValueMSB_(value);
-            if (IsReady_()) {
-                nrpn_queued_.emplace(true, GetControl_(), GetValue_());
-                Clear_();
+        case 6:
+        {
+            std::lock(data_guard_, queue_guard_);
+            std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
+            std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
+            if (ready_ >= 0b11) {
+                SetValueMSB_(value);
+                if (IsReady_()) {
+                    nrpn_queued_.emplace(true, GetControl_(), GetValue_());
+                    Clear_();
+                }
             }
+            else
+                ret_val = false;
+            break;
         }
-        else
-            ret_val = false;
-        break;
-    }
-    case 38u:
-    {
-        std::lock(data_guard_, queue_guard_);
-        std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
-        std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
-        if (ready_ >= 0b11) {
-            SetValueLSB_(value);
-            if (IsReady_()) {
-                nrpn_queued_.emplace(true, GetControl_(), GetValue_());
-                Clear_();
+        case 38u:
+        {
+            std::lock(data_guard_, queue_guard_);
+            std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
+            std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
+            if (ready_ >= 0b11) {
+                SetValueLSB_(value);
+                if (IsReady_()) {
+                    nrpn_queued_.emplace(true, GetControl_(), GetValue_());
+                    Clear_();
+                }
             }
+            else
+                ret_val = false;
+            break;
         }
-        else
-            ret_val = false;
+        case 98u:
+        {
+            std::lock_guard<decltype(data_guard_)> lock(data_guard_);
+            SetControlLSB_(value);
+        }
         break;
-    }
-    case 98u:
-    {
-        std::lock_guard<decltype(data_guard_)> lock(data_guard_);
-        SetControlLSB_(value);
-    }
-    break;
-    case 99u:
-    {
-        std::lock_guard<decltype(data_guard_)> lock(data_guard_);
-        SetControlMSB_(value);
-    }
-    break;
-    default: //not an expected nrpn control #, handle as typical midi message
-        ret_val = false;
+        case 99u:
+        {
+            std::lock_guard<decltype(data_guard_)> lock(data_guard_);
+            SetControlMSB_(value);
+        }
+        break;
+        default: //not an expected nrpn control #, handle as typical midi message
+            ret_val = false;
     }
     return ret_val;
 }

@@ -58,12 +58,12 @@ void CommandMap::toXMLDocument(const juce::File& file) const
             auto* setting = new juce::XmlElement{"setting"};
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
-            case RSJ::MsgIdEnum::NOTE: setting->setAttribute("note", map_entry.first.pitch);
-                break;
-            case RSJ::MsgIdEnum::CC: setting->setAttribute("controller", map_entry.first.controller);
-                break;
-            case RSJ::MsgIdEnum::PITCHBEND: setting->setAttribute("pitchbend", 0);
-                break;
+                case RSJ::MsgIdEnum::NOTE: setting->setAttribute("note", map_entry.first.pitch);
+                    break;
+                case RSJ::MsgIdEnum::CC: setting->setAttribute("controller", map_entry.first.controller);
+                    break;
+                case RSJ::MsgIdEnum::PITCHBEND: setting->setAttribute("pitchbend", 0);
+                    break;
             }
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting);

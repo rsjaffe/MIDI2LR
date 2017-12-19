@@ -208,22 +208,22 @@ void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
     RSJ::MsgIdEnum mt{RSJ::MsgIdEnum::CC};
     juce::String commandtype{"CC"};
     switch (mm.message_type_byte) {//this is needed because mapping uses custom structure
-    case RSJ::kCCFlag: //this is default for mt and commandtype
-        break;
-    case RSJ::kNoteOnFlag:
-        mt = RSJ::MsgIdEnum::NOTE;
-        commandtype = "NOTE ON";
-        break;
-    case RSJ::kNoteOffFlag:
-        mt = RSJ::MsgIdEnum::NOTE;
-        commandtype = "NOTE OFF";
-        break;
-    case RSJ::kPWFlag:
-        mt = RSJ::MsgIdEnum::PITCHBEND;
-        commandtype = "PITCHBEND";
-        break;
-    default: //shouldn't receive any messages note categorized above
-        Expects(0);
+        case RSJ::kCCFlag: //this is default for mt and commandtype
+            break;
+        case RSJ::kNoteOnFlag:
+            mt = RSJ::MsgIdEnum::NOTE;
+            commandtype = "NOTE ON";
+            break;
+        case RSJ::kNoteOffFlag:
+            mt = RSJ::MsgIdEnum::NOTE;
+            commandtype = "NOTE OFF";
+            break;
+        case RSJ::kPWFlag:
+            mt = RSJ::MsgIdEnum::PITCHBEND;
+            commandtype = "PITCHBEND";
+            break;
+        default: //shouldn't receive any messages note categorized above
+            Expects(0);
     }
     mm.channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.channel) + ": " + commandtype +

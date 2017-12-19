@@ -70,25 +70,25 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
 {
     if (modifiers.isPopupMenu()) {
         switch (message_.msg_id_type) {
-        case RSJ::MsgIdEnum::CC:
-        {
-            CCoptions ccopt;
-            ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
-                gsl::narrow_cast<short>(message_.controller));
-            juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
-                juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
-            break;
-        }
-        case RSJ::MsgIdEnum::PITCHBEND:
-        {
-            PWoptions pwopt;
-            pwopt.bindToControl(static_cast<size_t>(message_.channel) - 1); //convert 1-based to 0 based
-            juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
-                juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
-            break;
-        }
-        default:
-            /* do nothing for other types of controllers */;
+            case RSJ::MsgIdEnum::CC:
+            {
+                CCoptions ccopt;
+                ccopt.bindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
+                    gsl::narrow_cast<short>(message_.controller));
+                juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
+                    juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+                break;
+            }
+            case RSJ::MsgIdEnum::PITCHBEND:
+            {
+                PWoptions pwopt;
+                pwopt.bindToControl(static_cast<size_t>(message_.channel) - 1); //convert 1-based to 0 based
+                juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
+                    juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+                break;
+            }
+            default:
+                /* do nothing for other types of controllers */;
         }
     }
     else {

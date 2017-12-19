@@ -50,50 +50,50 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
     Expects((controltype == RSJ::kPWFlag) ? value >= pitchWheelMin_ && value <= pitchWheelMax_ : 1);
     //note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7 bits, high bits are shifted one right when placed into short.
     switch (controltype) {
-    case RSJ::kPWFlag:
-        pitchWheelCurrent_.store(value, std::memory_order_release);
-        return static_cast<double>(value - pitchWheelMin_) / static_cast<double>(pitchWheelMax_ - pitchWheelMin_);
-    case RSJ::kCCFlag:
-        switch (ccMethod_[controlnumber]) {
-        case RSJ::CCmethod::absolute:
-            currentV_[controlnumber].store(value, std::memory_order_release);
-            return static_cast<double>(value - ccLow_[controlnumber]) / static_cast<double>(ccHigh_[controlnumber] - ccLow_[controlnumber]);
-        case RSJ::CCmethod::binaryoffset:
-            if (IsNRPN_(controlnumber))
-                return OffsetResult_(value - kBit14, controlnumber);
-            return OffsetResult_(value - kBit7, controlnumber);
-        case RSJ::CCmethod::signmagnitude:
-            if (IsNRPN_(controlnumber))
-                return OffsetResult_((value & kBit14) ? -(value & kLow13Bits) : value, controlnumber);
-            return OffsetResult_((value & kBit7) ? -(value & kLow6Bits) : value, controlnumber);
-        case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
-            if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-                return OffsetResult_((value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, controlnumber);
-            return OffsetResult_((value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, controlnumber);
-        default:
-            Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+        case RSJ::kPWFlag:
+            pitchWheelCurrent_.store(value, std::memory_order_release);
+            return static_cast<double>(value - pitchWheelMin_) / static_cast<double>(pitchWheelMax_ - pitchWheelMin_);
+        case RSJ::kCCFlag:
+            switch (ccMethod_[controlnumber]) {
+                case RSJ::CCmethod::absolute:
+                    currentV_[controlnumber].store(value, std::memory_order_release);
+                    return static_cast<double>(value - ccLow_[controlnumber]) / static_cast<double>(ccHigh_[controlnumber] - ccLow_[controlnumber]);
+                case RSJ::CCmethod::binaryoffset:
+                    if (IsNRPN_(controlnumber))
+                        return OffsetResult_(value - kBit14, controlnumber);
+                    return OffsetResult_(value - kBit7, controlnumber);
+                case RSJ::CCmethod::signmagnitude:
+                    if (IsNRPN_(controlnumber))
+                        return OffsetResult_((value & kBit14) ? -(value & kLow13Bits) : value, controlnumber);
+                    return OffsetResult_((value & kBit7) ? -(value & kLow6Bits) : value, controlnumber);
+                case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
+                    if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
+                        return OffsetResult_((value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, controlnumber);
+                    return OffsetResult_((value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, controlnumber);
+                default:
+                    Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+                    return 0.0;
+            }
+        case RSJ::kNoteOnFlag:
+            return static_cast<double>(value) / static_cast<double>((IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI));
+        case RSJ::kNoteOffFlag:
             return 0.0;
-        }
-    case RSJ::kNoteOnFlag:
-        return static_cast<double>(value) / static_cast<double>((IsNRPN_(controlnumber) ? kMaxNRPN : kMaxMIDI));
-    case RSJ::kNoteOffFlag:
-        return 0.0;
-    default:
-        Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-        return 0.0;
+        default:
+            Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
+            return 0.0;
     }
 }
 
 void ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcept
 {
     switch (controltype) {
-    case RSJ::kPWFlag:
-        pitchWheelCurrent_.store((pitchWheelMax_ - pitchWheelMin_) / 2 + pitchWheelMin_, std::memory_order_release);
-    case RSJ::kCCFlag:
-        if (ccMethod_[controlnumber] == RSJ::CCmethod::absolute)
-            currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2 + ccLow_[controlnumber], std::memory_order_release);
-    default:
-        /* */;
+        case RSJ::kPWFlag:
+            pitchWheelCurrent_.store((pitchWheelMax_ - pitchWheelMin_) / 2 + pitchWheelMin_, std::memory_order_release);
+        case RSJ::kCCFlag:
+            if (ccMethod_[controlnumber] == RSJ::CCmethod::absolute)
+                currentV_[controlnumber].store((ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2 + ccLow_[controlnumber], std::memory_order_release);
+        default:
+            /* */;
     }
 }
 
@@ -104,41 +104,41 @@ std::pair<short, short> ChannelModel::MeasureChange(short controltype, size_t co
     Expects((controltype == RSJ::kPWFlag) ? value >= pitchWheelMin_ && value <= pitchWheelMax_ : 1);
     //note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7 bits, high bits are shifted one right when placed into short.
     switch (controltype) {
-    case RSJ::kPWFlag:
-    {
-        short newvalue = recenter ? (pitchWheelMax_ - pitchWheelMin_) / 2 + pitchWheelMin_ : value;
-        return {value - pitchWheelCurrent_.exchange(newvalue), newvalue};
-    }
-    case RSJ::kCCFlag:
-        switch (ccMethod_[controlnumber]) {
-        case RSJ::CCmethod::absolute:
+        case RSJ::kPWFlag:
         {
-            short newvalue = recenter ? (ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2 + ccLow_[controlnumber] : value;
-            return {value - currentV_[controlnumber].exchange(newvalue), newvalue};
+            short newvalue = recenter ? (pitchWheelMax_ - pitchWheelMin_) / 2 + pitchWheelMin_ : value;
+            return {value - pitchWheelCurrent_.exchange(newvalue), newvalue};
         }
-        case RSJ::CCmethod::binaryoffset:
-            if (IsNRPN_(controlnumber))
-                return {value - kBit14, 0};
-            return {value - kBit7, 0};
-        case RSJ::CCmethod::signmagnitude:
-            if (IsNRPN_(controlnumber))
-                return {(value & kBit14) ? -(value & kLow13Bits) : value, 0};
-            return {(value & kBit7) ? -(value & kLow6Bits) : value, 0};
-        case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
-            if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-                return {(value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, 0};
-            return {(value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, 0};
-        default:
-            Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+        case RSJ::kCCFlag:
+            switch (ccMethod_[controlnumber]) {
+                case RSJ::CCmethod::absolute:
+                {
+                    short newvalue = recenter ? (ccHigh_[controlnumber] - ccLow_[controlnumber]) / 2 + ccLow_[controlnumber] : value;
+                    return {value - currentV_[controlnumber].exchange(newvalue), newvalue};
+                }
+                case RSJ::CCmethod::binaryoffset:
+                    if (IsNRPN_(controlnumber))
+                        return {value - kBit14, 0};
+                    return {value - kBit7, 0};
+                case RSJ::CCmethod::signmagnitude:
+                    if (IsNRPN_(controlnumber))
+                        return {(value & kBit14) ? -(value & kLow13Bits) : value, 0};
+                    return {(value & kBit7) ? -(value & kLow6Bits) : value, 0};
+                case RSJ::CCmethod::twoscomplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
+                    if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
+                        return {(value & kBit14) ? -((value ^ kMaxNRPN) + 1) : value, 0};
+                    return {(value & kBit7) ? -((value ^ kMaxMIDI) + 1) : value, 0};
+                default:
+                    Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+                    return {0, 0};
+            }
+        case RSJ::kNoteOnFlag:
             return {0, 0};
-        }
-    case RSJ::kNoteOnFlag:
-        return {0, 0};
-    case RSJ::kNoteOffFlag:
-        return {0, 0};
-    default:
-        Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-        return {0, 0};
+        case RSJ::kNoteOffFlag:
+            return {0, 0};
+        default:
+            Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
+            return {0, 0};
     }
 }
 
@@ -147,23 +147,23 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
     Expects(controlnumber <= kMaxNRPN);
     Expects(pluginV >= 0.0 && pluginV <= 1.0);
     switch (controltype) {
-    case RSJ::kPWFlag:
-    {
-        const short newv = static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
-        pitchWheelCurrent_.store(newv, std::memory_order_release);
-        return newv;
-    }
-    case RSJ::kCCFlag:
-    {
-        const short newv = static_cast<short>(round(pluginV *
-            (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
-        currentV_[controlnumber].store(newv, std::memory_order_release);
-        return newv;
-    }
-    case RSJ::kNoteOnFlag:
-        return kMaxMIDI;
-    default:
-        Expects(!"Unexpected control type");
+        case RSJ::kPWFlag:
+        {
+            const short newv = static_cast<short>(round(pluginV * (pitchWheelMax_ - pitchWheelMin_))) + pitchWheelMin_;
+            pitchWheelCurrent_.store(newv, std::memory_order_release);
+            return newv;
+        }
+        case RSJ::kCCFlag:
+        {
+            const short newv = static_cast<short>(round(pluginV *
+                (ccHigh_[controlnumber] - ccLow_[controlnumber]))) + ccLow_[controlnumber];
+            currentV_[controlnumber].store(newv, std::memory_order_release);
+            return newv;
+        }
+        case RSJ::kNoteOnFlag:
+            return kMaxMIDI;
+        default:
+            Expects(!"Unexpected control type");
     }
     return 0;
 }

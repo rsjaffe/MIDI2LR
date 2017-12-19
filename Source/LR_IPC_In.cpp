@@ -97,28 +97,28 @@ void LR_IPC_IN::run()
                     goto threadExit;//break out of nested whiles
                 const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                 switch (wait_status) {
-                case -1:
-                    goto dumpLine; //read line failed, break out of switch and while
-                case 0:
-                    juce::Thread::wait(kEmptyWait);
-                    break; //try again to read until char shows up
-                case 1:
-                    switch (socket_.read(&line.at(size_read), 1, false)) {
                     case -1:
-                        goto dumpLine; //read error
-                    case 1:
-                        size_read++;
-                        break;
+                        goto dumpLine; //read line failed, break out of switch and while
                     case 0:
-                        // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
-                        juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                        juce::Thread::wait(kEmptyWait);
+                        break; //try again to read until char shows up
+                    case 1:
+                        switch (socket_.read(&line.at(size_read), 1, false)) {
+                            case -1:
+                                goto dumpLine; //read error
+                            case 1:
+                                size_read++;
+                                break;
+                            case 0:
+                                // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
+                                juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                                break;
+                            default:
+                                Expects(!"Unexpected value for read status");
+                        }
                         break;
                     default:
-                        Expects(!"Unexpected value for read status");
-                    }
-                    break;
-                default:
-                    Expects(!"Unexpected value for wait_status");
+                        Expects(!"Unexpected value for wait_status");
                 }
             } // end while !\n and is connected
 
@@ -163,63 +163,63 @@ void LR_IPC_IN::processLine(const std::string& line) const
     const auto value_string = trimmed_line.substr(trimmed_line.find(' ') + 1);
 
     switch (cmds.count(command) ? cmds.at(command) : 0) {
-    case 1: //SwitchProfile
-        if (profile_manager_)
-            profile_manager_->switchToProfile(value_string);
-        break;
-    case 2: //SendKey
-    {
-        // ReSharper disable once CppUseAuto
-        std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-            (std::stoi(value_string))};
-        RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
-            modifiers[0], modifiers[1], modifiers[2]);//ltrim twice on purpose: first digits, then spaces
-        break;
-    }
-    case 3: //TerminateApplication
-        juce::JUCEApplication::getInstance()->systemRequestedQuit();
-        break;
-    case 0:
-        // send associated messages to MIDI OUT devices
-        if (command_map_ && midi_sender_) {
-            const auto original_value = std::stod(value_string);
-            for (const auto msg : command_map_->getMessagesForCommand(command)) {
-                short msgtype{0};
-                switch (msg->msg_id_type) {
-                case RSJ::MsgIdEnum::NOTE:
-                    msgtype = RSJ::kNoteOnFlag;
-                    break;
-                case RSJ::MsgIdEnum::CC:
-                    msgtype = RSJ::kCCFlag;
-                    break;
-                case RSJ::MsgIdEnum::PITCHBEND:
-                    msgtype = RSJ::kPWFlag;
-                }
-                const auto value = controls_model_->PluginToController(msgtype,
-                    static_cast<size_t>(msg->channel - 1),
-                    gsl::narrow_cast<short>(msg->controller), original_value);
+        case 1: //SwitchProfile
+            if (profile_manager_)
+                profile_manager_->switchToProfile(value_string);
+            break;
+        case 2: //SendKey
+        {
+            // ReSharper disable once CppUseAuto
+            std::bitset<3> modifiers{static_cast<decltype(modifiers)>
+                (std::stoi(value_string))};
+            RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
+                modifiers[0], modifiers[1], modifiers[2]);//ltrim twice on purpose: first digits, then spaces
+            break;
+        }
+        case 3: //TerminateApplication
+            juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            break;
+        case 0:
+            // send associated messages to MIDI OUT devices
+            if (command_map_ && midi_sender_) {
+                const auto original_value = std::stod(value_string);
+                for (const auto msg : command_map_->getMessagesForCommand(command)) {
+                    short msgtype{0};
+                    switch (msg->msg_id_type) {
+                        case RSJ::MsgIdEnum::NOTE:
+                            msgtype = RSJ::kNoteOnFlag;
+                            break;
+                        case RSJ::MsgIdEnum::CC:
+                            msgtype = RSJ::kCCFlag;
+                            break;
+                        case RSJ::MsgIdEnum::PITCHBEND:
+                            msgtype = RSJ::kPWFlag;
+                    }
+                    const auto value = controls_model_->PluginToController(msgtype,
+                        static_cast<size_t>(msg->channel - 1),
+                        gsl::narrow_cast<short>(msg->controller), original_value);
 
-                if (midi_sender_) {
-                    switch (msgtype) {
-                    case RSJ::kNoteOnFlag:
-                        midi_sender_->sendNoteOn(msg->channel, msg->controller, value);
-                        break;
-                    case RSJ::kCCFlag:
-                        if (controls_model_->getCCmethod(static_cast<size_t>(msg->channel - 1),
-                            gsl::narrow_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
-                            midi_sender_->sendCC(msg->channel, msg->controller, value);
-                        break;
-                    case RSJ::kPWFlag:
-                        midi_sender_->sendPitchWheel(msg->channel, value);
-                        break;
-                    default:
-                        Expects(!"Unexpected result for msgtype");
+                    if (midi_sender_) {
+                        switch (msgtype) {
+                            case RSJ::kNoteOnFlag:
+                                midi_sender_->sendNoteOn(msg->channel, msg->controller, value);
+                                break;
+                            case RSJ::kCCFlag:
+                                if (controls_model_->getCCmethod(static_cast<size_t>(msg->channel - 1),
+                                    gsl::narrow_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
+                                    midi_sender_->sendCC(msg->channel, msg->controller, value);
+                                break;
+                            case RSJ::kPWFlag:
+                                midi_sender_->sendPitchWheel(msg->channel, value);
+                                break;
+                            default:
+                                Expects(!"Unexpected result for msgtype");
+                        }
                     }
                 }
             }
-        }
-        break;
-    default:
-        Expects(!"Unexpected result for cmds");
+            break;
+        default:
+            Expects(!"Unexpected result for cmds");
     }
 }

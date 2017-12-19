@@ -43,7 +43,7 @@ public:
     void setLastVersionFound(int version_number);
 
 private:
-    ProfileManager* const profile_manager_;
+    ProfileManager * const profile_manager_;
     std::unique_ptr<juce::PropertiesFile> properties_file_;
     std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
 };

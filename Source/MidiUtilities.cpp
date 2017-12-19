@@ -30,26 +30,26 @@ RSJ::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug)
     message_type_byte = raw[0] >> 4;
     channel = raw[0] & 0xF;
     switch (message_type_byte) {
-    case kPWFlag:
-        value = (raw[2] << 7) | raw[1];
-        break;
-    case kCCFlag:
-    case kKeyPressureFlag:
-    case kNoteOffFlag:
-    case kNoteOnFlag:
-        value = raw[2];
-        number = raw[1];
-        break;
-    case kPgmChangeFlag:
-        number = raw[1];
-        break;
-    case kChanPressureFlag:
-        value = raw[1];
-        break;
-    case kSystemFlag:
-        break; //no action
-    default:
-        Expects(!"Default should be unreachable in ParseMidi");
+        case kPWFlag:
+            value = (raw[2] << 7) | raw[1];
+            break;
+        case kCCFlag:
+        case kKeyPressureFlag:
+        case kNoteOffFlag:
+        case kNoteOnFlag:
+            value = raw[2];
+            number = raw[1];
+            break;
+        case kPgmChangeFlag:
+            number = raw[1];
+            break;
+        case kChanPressureFlag:
+            value = raw[1];
+            break;
+        case kSystemFlag:
+            break; //no action
+        default:
+            Expects(!"Default should be unreachable in ParseMidi");
     }
 }
 
@@ -57,16 +57,16 @@ RSJ::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(ndebug):
     channel(rhs.channel + 1), controller(rhs.number) //channel 1-based
 {
     switch (rhs.message_type_byte) {//this is needed because mapping uses custom structure
-    case kCCFlag:
-        msg_id_type = MsgIdEnum::CC;
-        break;
-    case kNoteOnFlag:
-        msg_id_type = MsgIdEnum::NOTE;
-        break;
-    case kPWFlag:
-        msg_id_type = MsgIdEnum::PITCHBEND;
-        break;
-    default: //should be unreachable--MidiMessageId only handles a few message types
-        Expects(0);
+        case kCCFlag:
+            msg_id_type = MsgIdEnum::CC;
+            break;
+        case kNoteOnFlag:
+            msg_id_type = MsgIdEnum::NOTE;
+            break;
+        case kPWFlag:
+            msg_id_type = MsgIdEnum::PITCHBEND;
+            break;
+        default: //should be unreachable--MidiMessageId only handles a few message types
+            Expects(0);
     }
 }
