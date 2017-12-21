@@ -36,123 +36,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
 #include "../JuceLibraryCode/JuceHeader.h"
-#include <libproc.h> //proc_ functions in GetPID
+#include <libproc.h> //proc_ functions in GetPid
 #endif
 namespace {
-#ifndef _WIN32
-
-    bool endsWith(const std::string &mainStr, const std::string &toMatch)
-    {
-        if (mainStr.size() >= toMatch.size() &&
-            mainStr.compare(mainStr.size() - toMatch.size(), toMatch.size(), toMatch) == 0)
-            return true;
-        else
-            return false;
-    }
-
-    bool endsWithCaseInsensitive(std::string mainStr, std::string toMatch)//note: C++20 will have ends_with
-    {
-        auto it = toMatch.begin();
-        return mainStr.size() >= toMatch.size() &&
-            std::all_of(std::next(mainStr.begin(), mainStr.size() - toMatch.size()), mainStr.end(), [&it](const char & c) {
-            return ::tolower(c) == ::tolower(*(it++));
-        });
-    }
-
-    pid_t GetPID()
-    {
-        static const std::string LR{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
-        static const std::string LRC{"Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
-        const int numberOfProcesses{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
-        std::vector<pid_t> pids(numberOfProcesses);//add a few in case more processes show up
-        proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t)*(numberOfProcesses));
-        char pathBuffer[PROC_PIDPATHINFO_MAXSIZE];
-        for (const auto pid : pids) {
-            if (pid == 0)
-                continue;
-            memset(pathBuffer, 0, sizeof(pathBuffer));
-            proc_pidpath(pid, pathBuffer, sizeof(pathBuffer));
-            if (strlen(pathBuffer) > 0 && (endsWith(pathBuffer, LR) || endsWith(pathBuffer, LRC)))
-                return pid;
-        }
-        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-            "Lightroom PID not found.");
-        return 0;
-    }
-
-    /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
-     *
-     * Returns string representation of key, if it is printable.
-     * Ownership follows the Create Rule; that is, it is the caller's
-     * responsibility to release the returned object. */
-    CFStringRef createStringForKey(CGKeyCode keyCode)
-    {
-        TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-        CFDataRef layoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-        const UCKeyboardLayout *keyboardLayout =
-            (const UCKeyboardLayout *)CFDataGetBytePtr(layoutData);
-
-        UInt32 keysDown = 0;
-        UniChar chars[4];
-        UniCharCount realLength;
-
-        UCKeyTranslate(keyboardLayout,
-            keyCode,
-            kUCKeyActionDown,
-            0,
-            LMGetKbdType(),
-            kUCKeyTranslateNoDeadKeysBit,
-            &keysDown,
-            sizeof(chars) / sizeof(chars[0]),
-            &realLength,
-            chars);
-        CFRelease(currentKeyboard);
-
-        return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
-    }
-
-    /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
-     *
-     * Returns key code for given character via the above function, or UINT16_MAX
-     * on error. */
-    CGKeyCode keyCodeForChar(const char c)
-    {
-        static std::once_flag flag;
-        static CFMutableDictionaryRef charToCodeDict = NULL;
-        static std::unordered_map<std::string, size_t> charToCodeMap;
-        CGKeyCode code;
-        UniChar character = c;
-        CFStringRef charStr = NULL;
-
-        std::call_once(flag, []() {/* Generate table of keycodes and characters. */
-            charToCodeDict = CFDictionaryCreateMutable(kCFAllocatorDefault,
-                128,
-                &kCFCopyStringDictionaryKeyCallBacks,
-                NULL);
-            /* Loop through every keycode (0 - 127) to find its current mapping. */
-            for (size_t i = 0; i < 128; ++i) {
-                CFStringRef string = createStringForKey((CGKeyCode)i);
-                if (string != NULL) {
-                    CFDictionaryAddValue(charToCodeDict, string, (const void *)i);
-                    const std::string charvalue = juce::String::fromCFString(string).toStdString();
-                    charToCodeMap[charvalue] = i;
-                    CFRelease(string);
-                }
-            }});
-        if (charToCodeDict == NULL) return UINT16_MAX; //didn't initialize properly
-        charStr = CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1);
-        /* Our values may be NULL (0), so we need to use this function. */
-        if (!CFDictionaryGetValueIfPresent(charToCodeDict, charStr,
-            (const void **)&code)) {
-            code = UINT16_MAX;
-        }
-
-        CFRelease(charStr);
-        return code;
-    }
-
-#endif
-
     std::string ToLower(const std::string& in)
     {
         auto s = in;
@@ -160,7 +46,26 @@ namespace {
         return s;
     }
 
+    bool EndsWith(const std::string &main_str, const std::string &to_match)//note: C++20 will have ends_with
+    {
+        if (main_str.size() >= to_match.size() &&
+            main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0)
+            return true;
+        else
+            return false;
+    }
+
+    bool EndsWithCaseInsensitive(std::string main_str, std::string to_match)
+    {
+        auto it = to_match.begin();
+        return main_str.size() >= to_match.size() &&
+            std::all_of(std::next(main_str.begin(), main_str.size() - to_match.size()), main_str.end(), [&it](const char & c) {
+            return ::tolower(c) == ::tolower(*(it++));
+        });
+    }
+
 #ifdef _WIN32
+
     wchar_t MBtoWChar(const std::string& key)
     {
         wchar_t full_character;
@@ -194,11 +99,107 @@ namespace {
         // use keyboard of MIDI2LR application
         return GetKeyboardLayout(0);
     }
+
+#else
+
+    pid_t GetPid()
+    {
+        static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
+        static const std::string kLrc{"Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
+        const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
+        std::vector<pid_t> pids(number_processes);//add a few in case more processes show up
+        proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t)*(number_processes));
+        char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
+        for (const auto pid : pids) {
+            if (pid == 0)
+                continue;
+            memset(path_buffer, 0, sizeof(path_buffer));
+            proc_pidpath(pid, path_buffer, sizeof(path_buffer));
+            if (strlen(path_buffer) > 0 && (EndsWith(path_buffer, kLr) || EndsWith(path_buffer, kLrc)))
+                return pid;
+        }
+        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+            "Lightroom PID not found.");
+        return 0;
+    }
+
+    /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
+    *
+    * Returns string representation of key, if it is printable.
+    * Ownership follows the Create Rule; that is, it is the caller's
+    * responsibility to release the returned object. */
+    CFStringRef CreateStringForKey(CGKeyCode key_code)
+    {
+        TISInputSourceRef current_keyboard = TISCopyCurrentKeyboardInputSource();
+        CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(current_keyboard, kTISPropertyUnicodeKeyLayoutData);
+        const UCKeyboardLayout *keyboard_layout =
+            (const UCKeyboardLayout *)CFDataGetBytePtr(layout_data);
+
+        UInt32 keys_down = 0;
+        UniChar chars[4];
+        UniCharCount real_length;
+
+        UCKeyTranslate(keyboard_layout,
+            key_code,
+            kUCKeyActionDown,
+            0,
+            LMGetKbdType(),
+            kUCKeyTranslateNoDeadKeysBit,
+            &keys_down,
+            sizeof(chars) / sizeof(chars[0]),
+            &real_length,
+            chars);
+        CFRelease(current_keyboard);
+
+        return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
+    }
+
+    /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
+    *
+    * Returns key code for given character via the above function, or UINT16_MAX
+    * on error. */
+    CGKeyCode KeyCodeForChar(const char c)
+    {
+        static std::once_flag flag;
+        static CFMutableDictionaryRef char_code_dict {NULL};
+        static std::unordered_map<std::string, size_t> char_code_map;
+
+        std::call_once(flag, []() {/* Generate table of keycodes and characters. */
+            char_code_dict = CFDictionaryCreateMutable(kCFAllocatorDefault,
+                128,
+                &kCFCopyStringDictionaryKeyCallBacks,
+                NULL);
+            /* Loop through every keycode (0 - 127) to find its current mapping. */
+            for (size_t i = 0; i < 128; ++i) {
+                CFStringRef string = CreateStringForKey((CGKeyCode)i);
+                if (string != NULL) {
+                    CFDictionaryAddValue(char_code_dict, string, (const void *)i);
+                    const std::string char_value = juce::String::fromCFString(string).toStdString();
+                    char_code_map[char_value] = i;
+                    CFRelease(string);
+                }
+            }});
+
+        if (char_code_dict == NULL) return UINT16_MAX; //didn't initialize properly
+
+        UniChar character {c};
+        CGKeyCode code;
+        CFStringRef char_str {CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1)};
+
+        /* Our values may be NULL (0), so we need to use this function. */
+        if (!CFDictionaryGetValueIfPresent(char_code_dict, char_str,
+            (const void **)&code)) {
+            code = UINT16_MAX;
+        }
+        CFRelease(char_str);
+        return code;
+    }
+
 #endif
 
     const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
-        {"backspace", VK_BACK},
+    {"backspace", VK_BACK},
     {"cursor down", VK_DOWN},
     {"cursor left", VK_LEFT},
     {"cursor right", VK_RIGHT},
@@ -371,9 +372,9 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
         u = CGEventCreateKeyboardEvent(NULL, vk, false);
     }
     else {
-        const auto keyCode = keyCodeForChar(key[0]);
-        d = CGEventCreateKeyboardEvent(NULL, keyCode, true);
-        u = CGEventCreateKeyboardEvent(NULL, keyCode, false);
+        const auto key_code = KeyCodeForChar(key[0]);
+        d = CGEventCreateKeyboardEvent(NULL, key_code, true);
+        u = CGEventCreateKeyboardEvent(NULL, key_code, false);
         flags = CGEventGetFlags(d); //in case KeyCode has associated flag
     }
 
@@ -386,23 +387,23 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
     }
 
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
-        static const pid_t lrpid{GetPID()};
-        if (lrpid) {
+        static const pid_t lr_pid{GetPid()};
+        if (lr_pid) {
             std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-            CGEventPostToPid(lrpid, d);
-            CGEventPostToPid(lrpid, u);
+            CGEventPostToPid(lr_pid, d);
+            CGEventPostToPid(lr_pid, u);
         }
     }
     else {
         static ProcessSerialNumber psn{[]() {
-            ProcessSerialNumber temppsn{0};
-            pid_t lr_pid{GetPID()};
+            ProcessSerialNumber temp_psn{0};
+            pid_t lr_pid{GetPid()};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
             if (lr_pid)
-                GetProcessForPID(lr_pid, &temppsn); //first deprecated in macOS 10.9
+                GetProcessForPID(lr_pid, &temp_psn); //first deprecated in macOS 10.9
 #pragma GCC diagnostic pop
-            return temppsn;
+            return temp_psn;
         }()};
         if (psn.highLongOfPSN != 0 || psn.lowLongOfPSN != 0) {
             std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
