@@ -35,15 +35,15 @@ CommandMenu::CommandMenu(const rsj::MidiMessageId& message):
         "Camera Calibration", "Develop Presets", "Local Adjustments", "Crop",
         "Go to Tool, Module, or Panel", "Secondary Display", "Profiles",
         "Next/Prev Profile"}),
-    menu_entries_({LRCommandList::KeyShortcuts, LRCommandList::Filters,
-        LRCommandList::General, LRCommandList::Library, LRCommandList::Develop,
-        LRCommandList::BasicAdjustments, LRCommandList::ToneCurve, LRCommandList::Mixer,
-        LRCommandList::ResetMixer, LRCommandList::SplitToning, LRCommandList::Detail,
-        LRCommandList::LensCorrections, LRCommandList::Transform, LRCommandList::Effects,
-        LRCommandList::Calibration, LRCommandList::DevelopPresets,
-        LRCommandList::LocalAdjustments, LRCommandList::Crop,
-        LRCommandList::ToolModulePanel, LRCommandList::SecondaryDisplay,
-        LRCommandList::ProgramProfiles, LRCommandList::NextPrevProfile}),
+    menu_entries_({LrCommandList::KeyShortcuts, LrCommandList::Filters,
+        LrCommandList::General, LrCommandList::Library, LrCommandList::Develop,
+        LrCommandList::BasicAdjustments, LrCommandList::ToneCurve, LrCommandList::Mixer,
+        LrCommandList::ResetMixer, LrCommandList::SplitToning, LrCommandList::Detail,
+        LrCommandList::LensCorrections, LrCommandList::Transform, LrCommandList::Effects,
+        LrCommandList::Calibration, LrCommandList::DevelopPresets,
+        LrCommandList::LocalAdjustments, LrCommandList::Crop,
+        LrCommandList::ToolModulePanel, LrCommandList::SecondaryDisplay,
+        LrCommandList::ProgramProfiles, LrCommandList::NextPrevProfile}),
     message_{message}
 {}
 
@@ -60,10 +60,10 @@ void CommandMenu::SetMsg(const rsj::MidiMessageId& message) noexcept
 void CommandMenu::SetSelectedItem(size_t index)
 {
     selected_item_ = index;
-    if (index - 1 < LRCommandList::LRStringList.size())
-        setButtonText(LRCommandList::LRStringList[index - 1]);
+    if (index - 1 < LrCommandList::LrStringList.size())
+        setButtonText(LrCommandList::LrStringList[index - 1]);
     else
-        setButtonText(LRCommandList::NextPrevProfile[index - 1 - LRCommandList::LRStringList.size()]);
+        setButtonText(LrCommandList::NextPrevProfile[index - 1 - LrCommandList::LrStringList.size()]);
 }
 
 void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
@@ -102,9 +102,9 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             juce::PopupMenu sub_menu;
             for (const auto& command : menu_entries_[menu_index]) {
                 auto already_mapped = false;
-                if ((index - 1 < LRCommandList::LRStringList.size()) && (command_map_))
+                if ((index - 1 < LrCommandList::LrStringList.size()) && (command_map_))
                     already_mapped =
-                    command_map_->CommandHasAssociatedMessage(LRCommandList::LRStringList[index - 1]);
+                    command_map_->CommandHasAssociatedMessage(LrCommandList::LrStringList[index - 1]);
 
                 // add each submenu entry, ticking the previously selected entry and
                 // disabling a previously mapped entry
@@ -129,10 +129,10 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             // associated to this menu
             if (selected_item_ < std::numeric_limits<size_t>::max())
                 command_map_->RemoveMessage(message_);
-            if (result - 1 < LRCommandList::LRStringList.size())
-                setButtonText(LRCommandList::LRStringList[result - 1]);
+            if (result - 1 < LrCommandList::LrStringList.size())
+                setButtonText(LrCommandList::LrStringList[result - 1]);
             else
-                setButtonText(LRCommandList::NextPrevProfile[result - 1 - LRCommandList::LRStringList.size()]);
+                setButtonText(LrCommandList::NextPrevProfile[result - 1 - LrCommandList::LrStringList.size()]);
             selected_item_ = result;
             // Map the selected command to the CC
             command_map_->AddCommandforMessage(result - 1, message_);

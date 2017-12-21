@@ -87,9 +87,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     };
     if (!command_map_->MessageExistsInMap(message) ||
         command_map_->GetCommandforMessage(message) == "Unmapped"s ||
-        find(LRCommandList::NextPrevProfile.begin(),
-            LRCommandList::NextPrevProfile.end(),
-            command_map_->GetCommandforMessage(message)) != LRCommandList::NextPrevProfile.end()) {
+        find(LrCommandList::NextPrevProfile.begin(),
+            LrCommandList::NextPrevProfile.end(),
+            command_map_->GetCommandforMessage(message)) != LrCommandList::NextPrevProfile.end()) {
         return;
     }
     auto command_to_send = command_map_->GetCommandforMessage(message);

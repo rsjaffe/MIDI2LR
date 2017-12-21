@@ -155,7 +155,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
 
         if (command_map_)
             // add 1 because 0 is reserved for no selection
-            command_select->SetSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
+            command_select->SetSelectedItem(LrCommandList::GetIndexOfCommand(command_map_->
                 GetCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
 
         return command_select;
@@ -229,7 +229,7 @@ int CommandTableModel::GetRowForMessage(int midi_channel, int midi_data, rsj::Ms
 void CommandTableModel::Sort()
 {
     // use LRCommandList::getIndexOfCommand(string); to sort by command
-    const auto msg_idx = [this](rsj::MidiMessageId a) {return LRCommandList::getIndexOfCommand
+    const auto msg_idx = [this](rsj::MidiMessageId a) {return LrCommandList::GetIndexOfCommand
     (command_map_->GetCommandforMessage(a)); };
     const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) { return msg_idx(a) < msg_idx(b); };
 

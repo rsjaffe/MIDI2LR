@@ -32,12 +32,12 @@ void CommandMap::AddCommandforMessage(size_t command, const rsj::MidiMessageId& 
 {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
-    if (command < LRCommandList::LRStringList.size()) {
-        message_map_[message] = LRCommandList::LRStringList[command];
-        command_string_map_.insert({LRCommandList::LRStringList[command], message});
+    if (command < LrCommandList::LrStringList.size()) {
+        message_map_[message] = LrCommandList::LrStringList[command];
+        command_string_map_.insert({LrCommandList::LrStringList[command], message});
     }
     else
-        message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
+        message_map_[message] = LrCommandList::NextPrevProfile[command - LrCommandList::LrStringList.size()];
 }
 
 std::vector<const rsj::MidiMessageId*> CommandMap::GetMessagesForCommand(const std::string& command) const
