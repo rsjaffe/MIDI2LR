@@ -100,7 +100,9 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2017 targetFolder="Builds/VisualStudio2017" toolset="v141" cppLanguageStandard="stdcpplatest"
-            windowsTargetPlatformVersion="8.1" bigIcon="WdgQGt" smallIcon="WdgQGt">
+            windowsTargetPlatformVersion="8.1" bigIcon="WdgQGt" smallIcon="WdgQGt"
+            extraDefs="_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING=1"
+            userNotes="_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING added to quiet warnings associated with GSL &lt;multi_span&gt;">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" headerPath="..\..\"

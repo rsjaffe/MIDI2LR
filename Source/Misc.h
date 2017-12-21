@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef NDEBUG    // asserts disabled
 static constexpr bool kNdebug = true;
 #else            // asserts enabled
-static constexpr bool ndebug = false;
+static constexpr bool kNdebug = false;
 #endif
 
 #ifdef _WIN32

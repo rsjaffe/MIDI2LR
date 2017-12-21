@@ -96,9 +96,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     //if it is a repeated command, change command_to_send appropriately
     if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
         static rsj::TimeType nextresponse{0};
-        constexpr rsj::TimeType delay{10};
+        constexpr rsj::TimeType kDelay{10};
         if (const auto now = rsj::NowMs(); nextresponse < now) {
-            nextresponse = now + delay;
+            nextresponse = now + kDelay;
             const auto[change, newvalue] = controls_model_->MeasureChange(mm);
             switch (mm.message_type_byte) {
                 case rsj::kPwFlag:

@@ -82,7 +82,7 @@ public:
     ChannelModel& operator=(ChannelModel&&) = delete;
     double ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
     std::pair<short, short> MeasureChange(short controltype, size_t controlnumber, short value, bool recenter = true) noexcept(kNdebug);
-    void SetToCenter(short controltype, size_t controlnumber) noexcept(kNdebug);
+    void SetToCenter(short controltype, size_t controlnumber) noexcept;
     rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);

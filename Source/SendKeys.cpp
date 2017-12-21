@@ -343,7 +343,7 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
     // construct input event.
     INPUT ip;
-    constexpr auto size_ip = sizeof(ip);
+    constexpr auto kSizeIp = sizeof(ip);
     ip.type = INPUT_KEYBOARD;
     //ki: wVk, wScan, dwFlags, time, dwExtraInfo
     ip.ki = {0, 0, 0, 0, 0};
@@ -352,13 +352,13 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
     std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
     for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
         ip.ki.wVk = *it;
-        SendInput(1, &ip, size_ip);
+        SendInput(1, &ip, kSizeIp);
     }
     //send key up strokes
     ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
     for (const auto it : strokes) {
         ip.ki.wVk = it;
-        SendInput(1, &ip, size_ip);
+        SendInput(1, &ip, kSizeIp);
     }
 #else
     CGEventRef d;
