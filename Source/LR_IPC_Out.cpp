@@ -39,10 +39,10 @@ namespace {
     constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_OUT::LR_IPC_OUT(ControlsModel* const c_model, const CommandMap * const mapCommand):
-    juce::InterprocessConnection(), command_map_{mapCommand}, controls_model_{c_model} {}
+LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command):
+    juce::InterprocessConnection(), command_map_{map_command}, controls_model_{c_model} {}
 
-LR_IPC_OUT::~LR_IPC_OUT()
+LrIpcOut::~LrIpcOut()
 {
     {
         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
@@ -52,18 +52,18 @@ LR_IPC_OUT::~LR_IPC_OUT()
     juce::InterprocessConnection::disconnect();
 }
 
-void LR_IPC_OUT::Init(std::shared_ptr<MIDISender>& midiSender, MIDIProcessor* const midi_processor)
+void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor)
 {
-    midi_sender_ = midiSender;
+    midi_sender_ = midi_sender;
 
     if (midi_processor)
-        midi_processor->addCallback(this, &LR_IPC_OUT::MIDIcmdCallback);
+        midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
 
     //start the timer
     juce::Timer::startTimer(kTimerInterval);
 }
 
-void LR_IPC_OUT::sendCommand(const std::string& command)
+void LrIpcOut::SendCommand(const std::string& command)
 {
     {
         std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
@@ -72,44 +72,44 @@ void LR_IPC_OUT::sendCommand(const std::string& command)
     juce::AsyncUpdater::triggerAsyncUpdate();
 }
 
-void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
+void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
-    const RSJ::MidiMessageId message{mm};
-    static const std::unordered_map<std::string, std::pair<std::string, std::string>> cmdupdown{
+    const rsj::MidiMessageId message{mm};
+    static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
         {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
-    {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
-    {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
-    {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
-    {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
-    {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
-    {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
-    {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
+        {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
+        {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
+        {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
+        {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
+        {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
+        {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
+        {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
     };
-    if (!command_map_->messageExistsInMap(message) ||
-        command_map_->getCommandforMessage(message) == "Unmapped"s ||
+    if (!command_map_->MessageExistsInMap(message) ||
+        command_map_->GetCommandforMessage(message) == "Unmapped"s ||
         find(LRCommandList::NextPrevProfile.begin(),
             LRCommandList::NextPrevProfile.end(),
-            command_map_->getCommandforMessage(message)) != LRCommandList::NextPrevProfile.end()) {
+            command_map_->GetCommandforMessage(message)) != LRCommandList::NextPrevProfile.end()) {
         return;
     }
-    auto command_to_send = command_map_->getCommandforMessage(message);
+    auto command_to_send = command_map_->GetCommandforMessage(message);
     //if it is a repeated command, change command_to_send appropriately
-    if (const auto a = cmdupdown.find(command_to_send); a != cmdupdown.end()) {
-        static RSJ::timetype nextresponse{0};
-        constexpr RSJ::timetype delay{10};
-        if (const auto now = RSJ::now_ms(); nextresponse < now) {
+    if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
+        static rsj::TimeType nextresponse{0};
+        constexpr rsj::TimeType delay{10};
+        if (const auto now = rsj::NowMs(); nextresponse < now) {
             nextresponse = now + delay;
             const auto[change, newvalue] = controls_model_->MeasureChange(mm);
             switch (mm.message_type_byte) {
-                case RSJ::kPWFlag:
+                case rsj::kPwFlag:
                 {
-                    midi_sender_->sendPitchWheel(mm.channel, newvalue);
+                    midi_sender_->SendPitchWheel(mm.channel, newvalue);
                     break;
                 }
-                case RSJ::kCCFlag:
+                case rsj::kCcFlag:
                 {
-                    if (controls_model_->getCCmethod(mm.channel, mm.number) == RSJ::CCmethod::absolute)
-                        midi_sender_->sendCC(mm.channel, mm.number, newvalue);
+                    if (controls_model_->GetCcMethod(mm.channel, mm.number) == rsj::CCmethod::kAbsolute)
+                        midi_sender_->SendCc(mm.channel, mm.number, newvalue);
                     [[fallthrough]];
                 }
                 default:
@@ -146,22 +146,22 @@ void LR_IPC_OUT::MIDIcmdCallback(RSJ::MidiMessage mm)
     juce::AsyncUpdater::triggerAsyncUpdate();
 }
 
-void LR_IPC_OUT::connectionMade()
+void LrIpcOut::connectionMade()
 {
     for (const auto& cb : callbacks_)
         cb(true);
 }
 
-void LR_IPC_OUT::connectionLost()
+void LrIpcOut::connectionLost()
 {
     for (const auto& cb : callbacks_)
         cb(false);
 }
 
-void LR_IPC_OUT::messageReceived(const juce::MemoryBlock& /*msg*/)
+void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/)
 {}
 
-void LR_IPC_OUT::handleAsyncUpdate()
+void LrIpcOut::handleAsyncUpdate()
 {
     std::string command_copy;
     { //lock scope
@@ -175,7 +175,7 @@ void LR_IPC_OUT::handleAsyncUpdate()
     }
 }
 
-void LR_IPC_OUT::timerCallback()
+void LrIpcOut::timerCallback()
 {
     std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
     if (!timer_off_ && !juce::InterprocessConnection::isConnected())

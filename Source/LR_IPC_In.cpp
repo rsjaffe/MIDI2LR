@@ -46,12 +46,12 @@ namespace {
     constexpr int kTimerInterval = 1000;
 }
 
-LR_IPC_IN::LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
+LrIpcIn::LrIpcIn(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
     juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
     controls_model_{c_model}, profile_manager_{pmanager}
 {}
 
-LR_IPC_IN::~LR_IPC_IN()
+LrIpcIn::~LrIpcIn()
 {
     {
         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
@@ -62,20 +62,20 @@ LR_IPC_IN::~LR_IPC_IN()
     socket_.close();
 }
 
-void LR_IPC_IN::Init(std::shared_ptr<MIDISender>& midi_sender) noexcept
+void LrIpcIn::Init(std::shared_ptr<MidiSender>& midi_sender) noexcept
 {
     midi_sender_ = midi_sender;
     //start the timer
     juce::Timer::startTimer(kTimerInterval);
 }
 
-void LR_IPC_IN::PleaseStopThread()
+void LrIpcIn::PleaseStopThread()
 {
     juce::Thread::signalThreadShouldExit();
     juce::Thread::notify();
 }
 
-void LR_IPC_IN::run()
+void LrIpcIn::run()
 {
     while (!juce::Thread::threadShouldExit()) {
         std::array<char, kBufferSize> line{};//zero filled by {} initialization
@@ -126,7 +126,7 @@ void LR_IPC_IN::run()
             {
                 std::string param{line.data()};
                 if (param.back() == '\n')
-                    processLine(param);
+                    ProcessLine(param);
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)
@@ -138,7 +138,7 @@ threadExit: /* empty statement */;
     //thread_started_ = false; //don't change flag while depending upon it
 }
 
-void LR_IPC_IN::timerCallback()
+void LrIpcIn::timerCallback()
 {
     std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
     if (!timer_off_ && !socket_.isConnected() && !juce::Thread::threadShouldExit()) {
@@ -150,7 +150,7 @@ void LR_IPC_IN::timerCallback()
     }
 }
 
-void LR_IPC_IN::processLine(const std::string& line) const
+void LrIpcIn::ProcessLine(const std::string& line) const
 {
     const static std::unordered_map<std::string, int> cmds = {
         {"SwitchProfile"s, 1},
@@ -158,21 +158,21 @@ void LR_IPC_IN::processLine(const std::string& line) const
     {"TerminateApplication"s, 3},
     };
     // process input into [parameter] [Value]
-    const auto trimmed_line = RSJ::trim(line);
+    const auto trimmed_line = rsj::Trim(line);
     const auto command = trimmed_line.substr(0, trimmed_line.find(' '));
     const auto value_string = trimmed_line.substr(trimmed_line.find(' ') + 1);
 
     switch (cmds.count(command) ? cmds.at(command) : 0) {
         case 1: //SwitchProfile
             if (profile_manager_)
-                profile_manager_->switchToProfile(value_string);
+                profile_manager_->SwitchToProfile(value_string);
             break;
         case 2: //SendKey
         {
             // ReSharper disable once CppUseAuto
             std::bitset<3> modifiers{static_cast<decltype(modifiers)>
                 (std::stoi(value_string))};
-            RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
+            rsj::SendKeyDownUp(rsj::LTrim(rsj::LTrim(value_string, rsj::kDigit)),
                 modifiers[0], modifiers[1], modifiers[2]);//ltrim twice on purpose: first digits, then spaces
             break;
         }
@@ -183,17 +183,17 @@ void LR_IPC_IN::processLine(const std::string& line) const
             // send associated messages to MIDI OUT devices
             if (command_map_ && midi_sender_) {
                 const auto original_value = std::stod(value_string);
-                for (const auto msg : command_map_->getMessagesForCommand(command)) {
+                for (const auto msg : command_map_->GetMessagesForCommand(command)) {
                     short msgtype{0};
                     switch (msg->msg_id_type) {
-                        case RSJ::MsgIdEnum::NOTE:
-                            msgtype = RSJ::kNoteOnFlag;
+                        case rsj::MsgIdEnum::kNote:
+                            msgtype = rsj::kNoteOnFlag;
                             break;
-                        case RSJ::MsgIdEnum::CC:
-                            msgtype = RSJ::kCCFlag;
+                        case rsj::MsgIdEnum::kCc:
+                            msgtype = rsj::kCcFlag;
                             break;
-                        case RSJ::MsgIdEnum::PITCHBEND:
-                            msgtype = RSJ::kPWFlag;
+                        case rsj::MsgIdEnum::kPitchBend:
+                            msgtype = rsj::kPwFlag;
                     }
                     const auto value = controls_model_->PluginToController(msgtype,
                         static_cast<size_t>(msg->channel - 1),
@@ -201,16 +201,16 @@ void LR_IPC_IN::processLine(const std::string& line) const
 
                     if (midi_sender_) {
                         switch (msgtype) {
-                            case RSJ::kNoteOnFlag:
-                                midi_sender_->sendNoteOn(msg->channel, msg->controller, value);
+                            case rsj::kNoteOnFlag:
+                                midi_sender_->SendNoteOn(msg->channel, msg->controller, value);
                                 break;
-                            case RSJ::kCCFlag:
-                                if (controls_model_->getCCmethod(static_cast<size_t>(msg->channel - 1),
-                                    gsl::narrow_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
-                                    midi_sender_->sendCC(msg->channel, msg->controller, value);
+                            case rsj::kCcFlag:
+                                if (controls_model_->GetCcMethod(static_cast<size_t>(msg->channel - 1),
+                                    gsl::narrow_cast<short>(msg->controller)) == rsj::CCmethod::kAbsolute)
+                                    midi_sender_->SendCc(msg->channel, msg->controller, value);
                                 break;
-                            case RSJ::kPWFlag:
-                                midi_sender_->sendPitchWheel(msg->channel, value);
+                            case rsj::kPwFlag:
+                                midi_sender_->SendPitchWheel(msg->channel, value);
                                 break;
                             default:
                                 Expects(!"Unexpected result for msgtype");

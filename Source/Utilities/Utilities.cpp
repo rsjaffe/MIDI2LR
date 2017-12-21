@@ -21,7 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Utilities.h"
 
-std::string RSJ::trim(const std::string& str, const std::string& what)
+std::string rsj::Trim(const std::string& str, const std::string& what)
 {
     const auto front = str.find_first_not_of(what);
     if (front == std::string::npos)
@@ -30,7 +30,7 @@ std::string RSJ::trim(const std::string& str, const std::string& what)
     return str.substr(front, back - front + 1);
 }
 
-std::string RSJ::ltrim(const std::string& str, const std::string& what)
+std::string rsj::LTrim(const std::string& str, const std::string& what)
 {
     const auto front = str.find_first_not_of(what);
     if (front == std::string::npos)
@@ -38,7 +38,7 @@ std::string RSJ::ltrim(const std::string& str, const std::string& what)
     return str.substr(front);
 }
 
-std::string RSJ::rtrim(const std::string& str, const std::string& what)
+std::string rsj::RTrim(const std::string& str, const std::string& what)
 {
     const auto back = str.find_last_not_of(what);
     if (back == std::string::npos)

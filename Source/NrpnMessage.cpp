@@ -22,8 +22,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "NrpnMessage.h"
 
-bool NRPN_Message::ProcessMidi(short control,
-    short value) noexcept(ndebug)
+bool NrpnMessage::ProcessMidi(short control,
+    short value) noexcept(kNdebug)
 {
     Expects(value <= 0x7Fu);
     Expects(control <= 0x7Fu);
@@ -35,10 +35,10 @@ bool NRPN_Message::ProcessMidi(short control,
             std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
             std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
             if (ready_ >= 0b11) {
-                SetValueMSB_(value);
-                if (IsReady_()) {
-                    nrpn_queued_.emplace(true, GetControl_(), GetValue_());
-                    Clear_();
+                SetValueMsb(value);
+                if (IsReady()) {
+                    nrpn_queued_.emplace(true, GetControl(), GetValue());
+                    Clear();
                 }
             }
             else
@@ -51,10 +51,10 @@ bool NRPN_Message::ProcessMidi(short control,
             std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
             std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
             if (ready_ >= 0b11) {
-                SetValueLSB_(value);
-                if (IsReady_()) {
-                    nrpn_queued_.emplace(true, GetControl_(), GetValue_());
-                    Clear_();
+                SetValueLsb(value);
+                if (IsReady()) {
+                    nrpn_queued_.emplace(true, GetControl(), GetValue());
+                    Clear();
                 }
             }
             else
@@ -64,13 +64,13 @@ bool NRPN_Message::ProcessMidi(short control,
         case 98u:
         {
             std::lock_guard<decltype(data_guard_)> lock(data_guard_);
-            SetControlLSB_(value);
+            SetControlLsb(value);
         }
         break;
         case 99u:
         {
             std::lock_guard<decltype(data_guard_)> lock(data_guard_);
-            SetControlMSB_(value);
+            SetControlMsb(value);
         }
         break;
         default: //not an expected nrpn control #, handle as typical midi message
@@ -79,7 +79,7 @@ bool NRPN_Message::ProcessMidi(short control,
     return ret_val;
 }
 
-RSJ::NRPN NRPN_Message::GetNRPNifReady() noexcept
+rsj::Nrpn NrpnMessage::GetNrpnIfReady() noexcept
 {
     std::lock_guard<decltype(queue_guard_)> lock(queue_guard_);
     if (!nrpn_queued_.empty()) {
@@ -87,10 +87,10 @@ RSJ::NRPN NRPN_Message::GetNRPNifReady() noexcept
         nrpn_queued_.pop();
         return retval;
     }
-    return RSJ::invalidNRPN;
+    return rsj::kInvalidNrpn;
 }
 
-void NRPN_Message::Clear_() noexcept
+void NrpnMessage::Clear() noexcept
 {
     ready_ = 0;
     control_msb_ = 0;

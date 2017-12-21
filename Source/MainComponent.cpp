@@ -64,11 +64,11 @@ MainContentComponent::~MainContentComponent()
 {}
 
 void MainContentComponent::Init(CommandMap* const command_map,
-    std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-    std::shared_ptr<MIDIProcessor>& midi_processor,
+    std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+    std::shared_ptr<MidiProcessor>& midi_processor,
     ProfileManager* const profile_manager,
     SettingsManager* const settings_manager,
-    std::shared_ptr<MIDISender>& midi_sender)
+    std::shared_ptr<MidiSender>& midi_sender)
 {
     //copy the pointers
     command_map_ = command_map;
@@ -82,15 +82,15 @@ void MainContentComponent::Init(CommandMap* const command_map,
 
     if (midi_processor)
         // Add ourselves as a listener for MIDI commands
-        midi_processor->addCallback(this, &MainContentComponent::MIDIcmdCallback);
+        midi_processor->AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
     if (const auto ptr = lr_ipc_out_.lock())
         // Add ourselves as a listener for LR_IPC_OUT events
-        ptr->addCallback(this, &MainContentComponent::LRIpcOutCallback);
+        ptr->AddCallback(this, &MainContentComponent::LrIpcOutCallback);
 
     if (profile_manager)
         // Add ourselves as a listener for profile changes
-        profile_manager->addCallback(this, &MainContentComponent::profileChanged);
+        profile_manager->AddCallback(this, &MainContentComponent::ProfileChanged);
 
     //Set the component size
     setSize(kMainWidth, kMainHeight);
@@ -180,18 +180,18 @@ void MainContentComponent::Init(CommandMap* const command_map,
 
     if (settings_manager_) {
         // Try to load a default.xml if the user has not set a profile directory
-        if (settings_manager_->getProfileDirectory().isEmpty()) {
+        if (settings_manager_->GetProfileDirectory().isEmpty()) {
             const auto default_profile =
                 juce::File::getSpecialLocation(juce::File::currentExecutableFile).getSiblingFile("default.xml");
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(default_profile)};
             if (xml_element) {
-                command_table_model_.buildFromXml(xml_element.get());
+                command_table_model_.BuildFromXml(xml_element.get());
                 command_table_.updateContent();
             }
         }
         else if (profile_manager)
             // otherwise use the last profile from the profile directory
-            profile_manager->switchToProfile(0);
+            profile_manager->SwitchToProfile(0);
     }
     // turn it on
     activateLayout();
@@ -202,24 +202,24 @@ void MainContentComponent::paint(juce::Graphics& g)
     g.fillAll(juce::Colours::white);
 }
 
-void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
+void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    RSJ::MsgIdEnum mt{RSJ::MsgIdEnum::CC};
+    rsj::MsgIdEnum mt{rsj::MsgIdEnum::kCc};
     juce::String commandtype{"CC"};
     switch (mm.message_type_byte) {//this is needed because mapping uses custom structure
-        case RSJ::kCCFlag: //this is default for mt and commandtype
+        case rsj::kCcFlag: //this is default for mt and commandtype
             break;
-        case RSJ::kNoteOnFlag:
-            mt = RSJ::MsgIdEnum::NOTE;
+        case rsj::kNoteOnFlag:
+            mt = rsj::MsgIdEnum::kNote;
             commandtype = "NOTE ON";
             break;
-        case RSJ::kNoteOffFlag:
-            mt = RSJ::MsgIdEnum::NOTE;
+        case rsj::kNoteOffFlag:
+            mt = rsj::MsgIdEnum::kNote;
             commandtype = "NOTE OFF";
             break;
-        case RSJ::kPWFlag:
-            mt = RSJ::MsgIdEnum::PITCHBEND;
+        case rsj::kPwFlag:
+            mt = rsj::MsgIdEnum::kPitchBend;
             commandtype = "PITCHBEND";
             break;
         default: //shouldn't receive any messages note categorized above
@@ -228,12 +228,12 @@ void MainContentComponent::MIDIcmdCallback(RSJ::MidiMessage mm)
     mm.channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.channel) + ": " + commandtype +
         juce::String(mm.number) + " [" + juce::String(mm.value) + "]";
-    command_table_model_.addRow(mm.channel, mm.number, mt);
-    row_to_select_ = static_cast<size_t>(command_table_model_.getRowForMessage(mm.channel, mm.number, mt));
+    command_table_model_.AddRow(mm.channel, mm.number, mt);
+    row_to_select_ = static_cast<size_t>(command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
     triggerAsyncUpdate();
 }
 
-void MainContentComponent::LRIpcOutCallback(bool connected)
+void MainContentComponent::LrIpcOutCallback(bool connected)
 {
     if (connected) {
         connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
@@ -257,11 +257,11 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             midi_sender_->RescanDevices();
         // Send new CC parameters to MIDI Out devices
         if (const auto ptr = lr_ipc_out_.lock())
-            ptr->sendCommand("FullRefresh 1\n"s);
+            ptr->SendCommand("FullRefresh 1\n"s);
     }
     else if (button == &remove_row_button_) {
         if (command_table_.getNumRows() > 0) {
-            command_table_model_.removeAllRows();
+            command_table_model_.RemoveAllRows();
             //command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
         }
@@ -270,7 +270,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
         juce::File profile_directory;
 
         if (settings_manager_)
-            profile_directory = settings_manager_->getProfileDirectory();
+            profile_directory = settings_manager_->GetProfileDirectory();
 
         if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
@@ -287,14 +287,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             juce::Colours::lightgrey};
         if (dialog_box.show() && command_map_) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-            command_map_->toXMLDocument(selected_file);
+            command_map_->ToXmlDocument(selected_file);
         }
     }
     else if (button == &load_button_) {
         juce::File profile_directory;
 
         if (settings_manager_)
-            profile_directory = settings_manager_->getProfileDirectory();
+            profile_directory = settings_manager_->GetProfileDirectory();
 
         if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
@@ -313,10 +313,10 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                 const auto command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
 
                 if (const auto ptr = lr_ipc_out_.lock())
-                    ptr->sendCommand(command);
+                    ptr->SendCommand(command);
                 profile_name_label_.setText(new_profile.getFileName(),
                     juce::NotificationType::dontSendNotification);
-                command_table_model_.buildFromXml(xml_element.get());
+                command_table_model_.BuildFromXml(xml_element.get());
                 command_table_.updateContent();
                 command_table_.repaint();
             }
@@ -337,9 +337,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
     }
 }
 
-void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const juce::String& file_name)
+void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
-    command_table_model_.buildFromXml(xml_element);
+    command_table_model_.BuildFromXml(xml_element);
     command_table_.updateContent();
     command_table_.repaint();
     profile_name_label_.setText(file_name, NotificationType::dontSendNotification);
@@ -347,7 +347,7 @@ void MainContentComponent::profileChanged(juce::XmlElement* xml_element, const j
 
         // Send new CC parameters to MIDI Out devices
     if (const auto ptr = lr_ipc_out_.lock())
-        ptr->sendCommand("FullRefresh 1\n"s);
+        ptr->SendCommand("FullRefresh 1\n"s);
 }
 
 void MainContentComponent::SetTimerText(int time_value)

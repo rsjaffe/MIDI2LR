@@ -28,17 +28,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 class CommandMap;
 class ControlsModel;
-class MIDISender;
+class MidiSender;
 class ProfileManager;
 
-class LR_IPC_IN final:
+class LrIpcIn final:
     private juce::Timer,
     private juce::Thread {
 public:
-    LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const profileManager,
-        CommandMap* const commandMap);
-    virtual ~LR_IPC_IN();
-    void Init(std::shared_ptr<MIDISender>& midiSender) noexcept;
+    LrIpcIn(ControlsModel* const c_model, ProfileManager* const profile_manager,
+        CommandMap* const command_map);
+    virtual ~LrIpcIn();
+    void Init(std::shared_ptr<MidiSender>& midi_sender) noexcept;
     //signal exit to thread
     void PleaseStopThread();
 private:
@@ -48,7 +48,7 @@ private:
     // Timer callback
     void timerCallback() override;
     // process a line received from the socket
-    void processLine(const std::string& line) const;
+    void ProcessLine(const std::string& line) const;
 
     bool thread_started_{false};
     bool timer_off_{false};
@@ -56,7 +56,7 @@ private:
     ControlsModel* const controls_model_; //
     mutable std::mutex timer_mutex_;
     ProfileManager* const profile_manager_;
-    std::shared_ptr<MIDISender> midi_sender_{nullptr};
+    std::shared_ptr<MidiSender> midi_sender_{nullptr};
 };
 
 #endif  // LR_IPC_IN_H_INCLUDED

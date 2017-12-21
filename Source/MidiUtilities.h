@@ -28,14 +28,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Misc.h"
 
-namespace RSJ {
+namespace rsj {
     constexpr short kNoteOffFlag = 0x8;
     constexpr short kNoteOnFlag = 0x9;
     constexpr short kKeyPressureFlag = 0xA; //Individual Key Pressure
-    constexpr short kCCFlag = 0xB;
+    constexpr short kCcFlag = 0xB;
     constexpr short kPgmChangeFlag = 0xC;
     constexpr short kChanPressureFlag = 0xD; //Max Key Pressure
-    constexpr short kPWFlag = 0xE;//Pitch Wheel
+    constexpr short kPwFlag = 0xE;//Pitch Wheel
     constexpr short kSystemFlag = 0xF;
 
     struct MidiMessage {
@@ -50,11 +50,11 @@ namespace RSJ {
         message_type_byte(mt), channel(ch), number(nu), value(va)
         {}
 
-        MidiMessage(const juce::MidiMessage& mm) noexcept(ndebug);
+        MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
     };
 
     enum class MsgIdEnum: short {
-        NOTE, CC, PITCHBEND
+        kNote, kCc, kPitchBend
     };
 
     struct MidiMessageId {
@@ -67,7 +67,7 @@ namespace RSJ {
         };
 
         constexpr MidiMessageId() noexcept:
-        msg_id_type(MsgIdEnum::NOTE),
+        msg_id_type(MsgIdEnum::kNote),
             channel(0),
             data(0)
 
@@ -79,7 +79,7 @@ namespace RSJ {
             data(dat)
         {}
 
-        MidiMessageId(const MidiMessage& rhs) noexcept(ndebug);
+        MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug);
 
         constexpr bool operator==(const MidiMessageId &other) const noexcept
         {
@@ -100,8 +100,8 @@ namespace RSJ {
 // hash functions
 namespace std {
     template <>
-    struct hash<RSJ::MidiMessageId> {
-        size_t operator()(const RSJ::MidiMessageId& k) const noexcept
+    struct hash<rsj::MidiMessageId> {
+        size_t operator()(const rsj::MidiMessageId& k) const noexcept
         {
             return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type) << 8) |
                 int_fast32_t(k.channel) | (int_fast32_t(k.controller) << 16));

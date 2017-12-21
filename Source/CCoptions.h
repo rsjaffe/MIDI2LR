@@ -68,20 +68,20 @@ public:
     {
         controls_model_ = model;
     }
-    void bindToControl(size_t channel, short number);
+    void BindToControl(size_t channel, short number);
     //[/UserMethods]
 
     void paint(Graphics& g) override;
     void resized() override;
-    void buttonClicked(Button* buttonThatWasClicked) override;
+    void buttonClicked(Button* button_that_was_clicked) override;
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    TextEditor::LengthAndCharacterRestriction numrestrict{5, "0123456789"};
+    TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
     void textEditorFocusLost(TextEditor & t) override;
     static ControlsModel* controls_model_;
-    short boundchannel; //note: 0-based
-    short boundnumber;
+    short bound_channel_; //note: 0-based
+    short bound_number_;
     //[/UserVariables]
 
   //==============================================================================

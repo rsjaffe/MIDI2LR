@@ -153,7 +153,7 @@ namespace {
 
 #endif
 
-    std::string to_lower(const std::string& in)
+    std::string ToLower(const std::string& in)
     {
         auto s = in;
         std::transform(s.begin(), s.end(), s.begin(), ::tolower);
@@ -185,10 +185,10 @@ namespace {
 
     HKL GetLanguage(const std::string& program_name)
     {
-        const auto hLRWnd = FindWindow(nullptr, program_name.c_str());
-        if (hLRWnd) {
+        const auto h_lr_wnd = FindWindow(nullptr, program_name.c_str());
+        if (h_lr_wnd) {
             // get language that LR is using (if hLrWnd is found)
-            const auto thread_id = GetWindowThreadProcessId(hLRWnd, nullptr);
+            const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
             return GetKeyboardLayout(thread_id);
         }
         // use keyboard of MIDI2LR application
@@ -196,7 +196,7 @@ namespace {
     }
 #endif
 
-    const std::unordered_map<std::string, unsigned char> key_map_ = {
+    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
         {"backspace", VK_BACK},
     {"cursor down", VK_DOWN},
@@ -302,12 +302,12 @@ namespace {
     };
 }
 
-void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
+void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
     const bool control_cmd, const bool shift)
 {
-    static std::mutex mutex_sending_{};
-    const auto mapped_key = key_map_.find(to_lower(key));
-    const auto in_keymap = mapped_key != key_map_.end();
+    static std::mutex mutex_sending{};
+    const auto mapped_key = kKeyMap.find(ToLower(key));
+    const auto in_keymap = mapped_key != kKeyMap.end();
 
 #ifdef _WIN32
 
@@ -349,7 +349,7 @@ void RSJ::SendKeyDownUp(const std::string& key, const bool alt_opt,
     ip.ki = {0, 0, 0, 0, 0};
 
     //send key down strokes
-    std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
+    std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
     for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
         ip.ki.wVk = *it;
         SendInput(1, &ip, size_ip);

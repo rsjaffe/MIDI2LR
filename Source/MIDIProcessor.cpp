@@ -23,35 +23,35 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 
-MIDIProcessor::MIDIProcessor() noexcept
+MidiProcessor::MidiProcessor() noexcept
 {}
 
-MIDIProcessor::~MIDIProcessor()
+MidiProcessor::~MidiProcessor()
 {}
 
-void MIDIProcessor::Init()
+void MidiProcessor::Init()
 {
-    InitDevices_();
+    InitDevices();
 }
 
-void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
+void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     const juce::MidiMessage& message)
 {
-    const RSJ::MidiMessage mess{message};
+    const rsj::MidiMessage mess{message};
     switch (mess.message_type_byte) {
-        case RSJ::kCCFlag:
+        case rsj::kCcFlag:
             if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
-                const auto nrpn = nrpn_filter_.GetNRPNifReady(mess.channel);
-                if (nrpn.isValid) //send when finished
+                const auto nrpn = nrpn_filter_.GetNrpnIfReady(mess.channel);
+                if (nrpn.is_valid) //send when finished
                     for (const auto& cb : callbacks_)
-                        cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel, nrpn.control, nrpn.value});
+                        cb(rsj::MidiMessage{rsj::kCcFlag, mess.channel, nrpn.control, nrpn.value});
             }
             else //regular message
                 for (const auto& cb : callbacks_)
                     cb(mess);
             break;
-        case RSJ::kNoteOnFlag:
-        case RSJ::kPWFlag:
+        case rsj::kNoteOnFlag:
+        case rsj::kPwFlag:
             for (const auto& cb : callbacks_)
                 cb(mess);
             break;
@@ -60,15 +60,15 @@ void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     }
 }
 
-void MIDIProcessor::RescanDevices()
+void MidiProcessor::RescanDevices()
 {
     for (const auto& dev : devices_)
         dev->stop();
     devices_.clear();
-    InitDevices_();
+    InitDevices();
 }
 
-void MIDIProcessor::InitDevices_()
+void MidiProcessor::InitDevices()
 {
     for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
         const auto dev = juce::MidiInput::openDevice(idx, this);

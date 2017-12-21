@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 class CommandMap;
-namespace RSJ {
+namespace rsj {
     enum class MsgIdEnum: short;
     struct MidiMessageId;
 }
@@ -34,40 +34,40 @@ namespace RSJ {
 class CommandTableModel final: public juce::TableListBoxModel {
 public:
     CommandTableModel() noexcept;
-    void Init(CommandMap* const mapCommand) noexcept;
+    void Init(CommandMap* const map_command) noexcept;
     CommandTableModel& operator=(const CommandTableModel&) = delete;
     CommandTableModel(const CommandTableModel&) = delete;
     // TableListBoxModel overrides
-    void sortOrderChanged(int newSortColumnId, bool isForwards) override;
+    void sortOrderChanged(int new_sort_column_id, bool is_forwards) override;
     int getNumRows() override;
-    void paintRowBackground(juce::Graphics&, int rowNumber, int width,
-        int height, bool rowIsSelected) override;
-    void paintCell(juce::Graphics&, int rowNumber, int columnId, int width,
-        int height, bool rowIsSelected) override;
-    juce::Component *refreshComponentForCell(int rowNumber, int columnId,
-        bool isRowSelected, juce::Component *existingComponentToUpdate) override;
+    void paintRowBackground(juce::Graphics&, int row_number, int width,
+        int height, bool row_is_selected) override;
+    void paintCell(juce::Graphics&, int row_number, int column_id, int width,
+        int height, bool row_is_selected) override;
+    juce::Component *refreshComponentForCell(int row_number, int column_id,
+        bool is_row_selected, juce::Component *existing_component_to_update) override;
 
     // adds a row with a corresponding MIDI message to the table
-    void addRow(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType);
+    void AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type);
 
     // removes a row from the table
-    void removeRow(size_t row);
+    void RemoveRow(size_t row);
 
     // removes all rows from the table
-    void removeAllRows();
+    void RemoveAllRows();
 
     // builds the table from an XML file
-    void buildFromXml(const juce::XmlElement * const elem);
+    void BuildFromXml(const juce::XmlElement * const elem);
 
     // returns the index of the row associated to a particular MIDI message
-    int getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const;
+    int GetRowForMessage(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type) const;
 
 private:
     void Sort();
     CommandMap* command_map_{nullptr};
-    std::pair<int, bool> current_sort{2, true};
-    std::pair<int, bool> prior_sort{2, true};
-    std::vector<RSJ::MidiMessageId> commands_;
+    std::pair<int, bool> current_sort_{2, true};
+    std::pair<int, bool> prior_sort_{2, true};
+    std::vector<rsj::MidiMessageId> commands_;
 };
 
 #endif

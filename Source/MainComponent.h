@@ -32,12 +32,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h" //class member
 #include "ResizableLayout.h" //base class
 class CommandMap;
-class LR_IPC_OUT;
-class MIDIProcessor;
-class MIDISender;
+class LrIpcOut;
+class MidiProcessor;
+class MidiSender;
 class ProfileManager;
 class SettingsManager;
-namespace RSJ {
+namespace rsj {
     struct MidiMessage;
 }
 
@@ -53,21 +53,21 @@ public:
     MainContentComponent(const MainContentComponent&) = delete;
     MainContentComponent& operator=(const MainContentComponent&) = delete;
     void Init(CommandMap* const command_map,
-        std::weak_ptr<LR_IPC_OUT>&& out,
-        std::shared_ptr<MIDIProcessor>& midi_processor,
+        std::weak_ptr<LrIpcOut>&& out,
+        std::shared_ptr<MidiProcessor>& midi_processor,
         ProfileManager* const profile_manager,
         SettingsManager* const settings_manager,
-        std::shared_ptr<MIDISender>& midi_sender);
+        std::shared_ptr<MidiSender>& midi_sender);
 
-    void MIDIcmdCallback(RSJ::MidiMessage);
+    void MidiCmdCallback(rsj::MidiMessage);
 
-    void LRIpcOutCallback(bool);
+    void LrIpcOutCallback(bool);
 
-    void profileChanged(juce::XmlElement* elem, const juce::String& file_name);
+    void ProfileChanged(juce::XmlElement* elem, const juce::String& file_name);
     void SetTimerText(int time_value);
 
 protected:
-    void SetLabelSettings(juce::Label& lblToSet);
+    void SetLabelSettings(juce::Label& lbl_to_set);
 
 private:
     void paint(juce::Graphics&) override;
@@ -97,10 +97,10 @@ private:
     juce::TextButton settings_button_{"Settings"};
     SettingsManager* settings_manager_{nullptr};
     size_t row_to_select_{0};
-    std::shared_ptr<MIDIProcessor> midi_processor_{nullptr};
-    std::shared_ptr<MIDISender> midi_sender_{nullptr};
+    std::shared_ptr<MidiProcessor> midi_processor_{nullptr};
+    std::shared_ptr<MidiSender> midi_sender_{nullptr};
     std::unique_ptr<DialogWindow> settings_dialog_;
-    std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
+    std::weak_ptr<LrIpcOut> lr_ipc_out_;
 };
 
 #endif  // MAINCOMPONENT_H_INCLUDED

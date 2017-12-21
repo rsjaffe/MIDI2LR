@@ -26,20 +26,20 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "NrpnMessage.h"
-namespace RSJ {
+namespace rsj {
     struct MidiMessage;
 }
 
-class MIDIProcessor final: private juce::MidiInputCallback {
+class MidiProcessor final: private juce::MidiInputCallback {
 public:
-    MIDIProcessor() noexcept;
-    virtual ~MIDIProcessor();
+    MidiProcessor() noexcept;
+    virtual ~MidiProcessor();
     void Init();
 
     // re-enumerates MIDI IN devices
     void RescanDevices();
 
-    template <class T> void addCallback(T* const object, void (T::* const mf)(RSJ::MidiMessage))
+    template <class T> void AddCallback(T* const object, void (T::* const mf)(rsj::MidiMessage))
     {
         callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
     }
@@ -48,10 +48,10 @@ private:
     // overridden from MidiInputCallback
     void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
 
-    void InitDevices_();
+    void InitDevices();
 
-    NRPN_Filter nrpn_filter_;
-    std::vector <std::function <void(RSJ::MidiMessage)>> callbacks_;
+    NrpnFilter nrpn_filter_;
+    std::vector <std::function <void(rsj::MidiMessage)>> callbacks_;
     std::vector <std::unique_ptr<juce::MidiInput>> devices_;
 };
 

@@ -108,8 +108,8 @@ PWoptions::PWoptions()
     setSize(280, 350);
 
     //[Constructor] You can add your own custom stuff here..
-    minval->setInputFilter(&numrestrict, false);
-    maxval->setInputFilter(&numrestrict, false);
+    minval->setInputFilter(&numrestrict_, false);
+    maxval->setInputFilter(&numrestrict_, false);
     minval->addListener(this);
     maxval->addListener(this);
     //[/Constructor]
@@ -162,16 +162,16 @@ void PWoptions::textEditorFocusLost(TextEditor& t)
     const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
     const auto nam = t.getName();
     if (nam=="minval")
-        controls_model_->setPWmin(boundchannel, val);
+        controls_model_->SetPwMin(boundchannel_, val);
     else if (nam=="maxval")
-        controls_model_->setPWmax(boundchannel, val);
+        controls_model_->SetPwMax(boundchannel_, val);
 }
 
-void PWoptions::bindToControl(size_t channel)
+void PWoptions::BindToControl(size_t channel)
 {
-    boundchannel = channel;
-    minval->setText(juce::String(controls_model_->getPWmin(boundchannel)), juce::dontSendNotification);
-    maxval->setText(juce::String(controls_model_->getPWmax(boundchannel)), juce::dontSendNotification);
+    boundchannel_ = channel;
+    minval->setText(juce::String(controls_model_->GetPwMin(boundchannel_)), juce::dontSendNotification);
+    maxval->setText(juce::String(controls_model_->GetPwMax(boundchannel_)), juce::dontSendNotification);
 }
 //[/MiscUserCode]
 

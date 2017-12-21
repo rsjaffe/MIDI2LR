@@ -39,7 +39,7 @@ void CommandTableModel::Init(CommandMap* const map_command) noexcept
 
 /**
 */
-void CommandTableModel::sortOrderChanged(int newSortColumnId, bool isForwards)
+void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forwards)
 {
     //This callback is made when the table's sort order is changed.
 
@@ -48,7 +48,7 @@ void CommandTableModel::sortOrderChanged(int newSortColumnId, bool isForwards)
 
     // If you implement this, your method should re - sort the table using the
     // given column as the key.
-    current_sort = std::make_pair(newSortColumnId, isForwards);
+    current_sort_ = std::make_pair(new_sort_column_id, is_forwards);
     Sort();
 }
 
@@ -78,7 +78,7 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g, int /*rowNumber*/,
 void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_id,
     int width, int height, bool /*rowIsSelected*/)
 {
-    juce::String formatStr;
+    juce::String format_str;
     //This must draw one of the cells.
 
     // The graphics context's origin will already be set to the top-left of the
@@ -95,22 +95,22 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
         auto channel = 0;
         switch (commands_[static_cast<size_t>(row_number)].msg_id_type) //-V108 int used as index because JUCE uses int
         {
-            case RSJ::MsgIdEnum::NOTE:
-                formatStr = "%d | Note: %d";
+            case rsj::MsgIdEnum::kNote:
+                format_str = "%d | Note: %d";
                 channel = commands_[static_cast<size_t>(row_number)].channel;
                 value = commands_[static_cast<size_t>(row_number)].pitch;
                 break;
-            case RSJ::MsgIdEnum::CC:
-                formatStr = "%d | CC: %d";
+            case rsj::MsgIdEnum::kCc:
+                format_str = "%d | CC: %d";
                 channel = commands_[static_cast<size_t>(row_number)].channel;
                 value = commands_[static_cast<size_t>(row_number)].controller;
                 break;
-            case RSJ::MsgIdEnum::PITCHBEND:
-                formatStr = "%d | Pitch: %d";
+            case rsj::MsgIdEnum::kPitchBend:
+                format_str = "%d | Pitch: %d";
                 channel = commands_[static_cast<size_t>(row_number)].channel;
                 break;
         }
-        g.drawText(juce::String::formatted(formatStr, channel, value), 0, 0, width, height, juce::Justification::centred);
+        g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height, juce::Justification::centred);
     }
 }
 
@@ -151,68 +151,68 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
             command_select->Init(command_map_);
         }
         else
-            command_select->setMsg(commands_[static_cast<size_t>(row_number)]);
+            command_select->SetMsg(commands_[static_cast<size_t>(row_number)]);
 
         if (command_map_)
             // add 1 because 0 is reserved for no selection
-            command_select->setSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
-                getCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
+            command_select->SetSelectedItem(LRCommandList::getIndexOfCommand(command_map_->
+                GetCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
 
         return command_select;
     }
     return nullptr;
 }
 
-void CommandTableModel::addRow(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType)
+void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msgType)
 {
-    const RSJ::MidiMessageId msg{midi_channel, midi_data, msgType};
-    if (command_map_ && !command_map_->messageExistsInMap(msg)) {
+    const rsj::MidiMessageId msg{midi_channel, midi_data, msgType};
+    if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
         commands_.push_back(msg);
-        command_map_->addCommandforMessage(0, msg); // add an entry for 'no command'
+        command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
         Sort(); //re-sort list
     }
 }
 
-void CommandTableModel::removeRow(size_t row)
+void CommandTableModel::RemoveRow(size_t row)
 {
     if (command_map_)
-        command_map_->removeMessage(commands_[row]);
+        command_map_->RemoveMessage(commands_[row]);
     commands_.erase(commands_.cbegin() + row);
 }
 
-void CommandTableModel::removeAllRows()
+void CommandTableModel::RemoveAllRows()
 {
     commands_.clear();
     if (command_map_)
-        command_map_->clearMap();
+        command_map_->ClearMap();
 }
 
-void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
+void CommandTableModel::BuildFromXml(const juce::XmlElement * const root)
 {
     if (root->getTagName().compare("settings") != 0)
         return;
-    removeAllRows();
+    RemoveAllRows();
     const auto* setting = root->getFirstChildElement();
     while ((setting) && (command_map_)) {
         if (setting->hasAttribute("controller")) {
-            const RSJ::MidiMessageId message{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("controller"), RSJ::MsgIdEnum::CC};
-            addRow(message.channel, message.controller, RSJ::MsgIdEnum::CC);
-            command_map_->addCommandforMessage(setting->
+            const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
+                setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
+            AddRow(message.channel, message.controller, rsj::MsgIdEnum::kCc);
+            command_map_->AddCommandforMessage(setting->
                 getStringAttribute("command_string").toStdString(), message);
         }
         else if (setting->hasAttribute("note")) {
-            const RSJ::MidiMessageId note{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("note"), RSJ::MsgIdEnum::NOTE};
-            addRow(note.channel, note.pitch, RSJ::MsgIdEnum::NOTE);
-            command_map_->addCommandforMessage(setting->
+            const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
+                setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
+            AddRow(note.channel, note.pitch, rsj::MsgIdEnum::kNote);
+            command_map_->AddCommandforMessage(setting->
                 getStringAttribute("command_string").toStdString(), note);
         }
         else if (setting->hasAttribute("pitchbend")) {
-            const RSJ::MidiMessageId pb{setting->getIntAttribute("channel"), 0,
-                RSJ::MsgIdEnum::PITCHBEND};
-            addRow(pb.channel, 0, RSJ::MsgIdEnum::PITCHBEND);
-            command_map_->addCommandforMessage(setting->
+            const rsj::MidiMessageId pb{setting->getIntAttribute("channel"), 0,
+                rsj::MsgIdEnum::kPitchBend};
+            AddRow(pb.channel, 0, rsj::MsgIdEnum::kPitchBend);
+            command_map_->AddCommandforMessage(setting->
                 getStringAttribute("command_string").toStdString(), pb);
         }
         setting = setting->getNextElement();
@@ -220,26 +220,26 @@ void CommandTableModel::buildFromXml(const juce::XmlElement * const root)
     Sort();
 }
 
-int CommandTableModel::getRowForMessage(int midi_channel, int midi_data, RSJ::MsgIdEnum msgType) const
+int CommandTableModel::GetRowForMessage(int midi_channel, int midi_data, rsj::MsgIdEnum msgType) const
 {
-    const RSJ::MidiMessageId msg_id{midi_channel, midi_data, msgType};
+    const rsj::MidiMessageId msg_id{midi_channel, midi_data, msgType};
     return gsl::narrow_cast<int>(std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin());
 }
 
 void CommandTableModel::Sort()
 {
     // use LRCommandList::getIndexOfCommand(string); to sort by command
-    const auto msg_idx = [this](RSJ::MidiMessageId a) {return LRCommandList::getIndexOfCommand
-    (command_map_->getCommandforMessage(a)); };
-    const auto msg_sort = [&msg_idx](RSJ::MidiMessageId a, RSJ::MidiMessageId b) { return msg_idx(a) < msg_idx(b); };
+    const auto msg_idx = [this](rsj::MidiMessageId a) {return LRCommandList::getIndexOfCommand
+    (command_map_->GetCommandforMessage(a)); };
+    const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) { return msg_idx(a) < msg_idx(b); };
 
-    if (current_sort.first == 1)
-        if (current_sort.second)
+    if (current_sort_.first == 1)
+        if (current_sort_.second)
             std::sort(commands_.begin(), commands_.end());
         else
             std::sort(commands_.rbegin(), commands_.rend());
     else
-        if (current_sort.second)
+        if (current_sort_.second)
             std::sort(commands_.begin(), commands_.end(), msg_sort);
         else
             std::sort(commands_.rbegin(), commands_.rend(), msg_sort);

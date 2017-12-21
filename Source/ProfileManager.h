@@ -28,9 +28,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 class CommandMap;
 class ControlsModel;
-class LR_IPC_OUT;
-class MIDIProcessor;
-namespace RSJ {
+class LrIpcOut;
+class MidiProcessor;
+namespace rsj {
     struct MidiMessage;
     struct MidiMessageId;
 }
@@ -41,10 +41,10 @@ public:
     virtual ~ProfileManager() = default;
     ProfileManager(ProfileManager const&) = delete;
     void operator=(ProfileManager const&) = delete;
-    void Init(std::weak_ptr<LR_IPC_OUT>&& out, MIDIProcessor* const midiProcessor);
+    void Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* const midi_processor);
 
     template<class T>
-    void addCallback(T* const object,
+    void AddCallback(T* const object,
         void(T::* const mf)(juce::XmlElement*, const juce::String&))
     {
         using namespace std::placeholders;
@@ -52,35 +52,35 @@ public:
     }
 
     // sets the default profile directory and scans its contents for profiles
-    void setProfileDirectory(const juce::File& dir);
+    void SetProfileDirectory(const juce::File& dir);
 
     // returns an array of profile names
-    const std::vector<juce::String>& getMenuItems() const noexcept;
+    const std::vector<juce::String>& GetMenuItems() const noexcept;
 
     // switches to a profile defined by an index
-    void switchToProfile(int profileIdx);
+    void SwitchToProfile(int profile_idx);
 
     // switches to a profile defined by a name
-    void switchToProfile(const juce::String& profile);
+    void SwitchToProfile(const juce::String& profile);
 
     // switches to the next profile
-    void switchToNextProfile();
+    void SwitchToNextProfile();
 
     // switches to the previous profile
-    void switchToPreviousProfile();
+    void SwitchToPreviousProfile();
 
-    void MIDIcmdCallback(RSJ::MidiMessage);
+    void MidiCmdCallback(rsj::MidiMessage);
 
     void ConnectionCallback(bool);
 
 private:
-    void mapCommand(const RSJ::MidiMessageId& msg);
+    void MapCommand(const rsj::MidiMessageId& msg);
     // AsyncUpdate interface
     void handleAsyncUpdate() override;
-    enum class SWITCH_STATE {
-        NONE,
-        PREV,
-        NEXT,
+    enum class SwitchState {
+        kNone,
+        kPrev,
+        kNext,
     };
 
     CommandMap* const command_map_;
@@ -89,8 +89,8 @@ private:
     juce::File profile_location_;
     std::vector<juce::String> profiles_;
     std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
-    std::weak_ptr<LR_IPC_OUT> lr_ipc_out_;
-    SWITCH_STATE switch_state_{SWITCH_STATE::NONE};
+    std::weak_ptr<LrIpcOut> lr_ipc_out_;
+    SwitchState switch_state_{SwitchState::kNone};
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED
