@@ -118,27 +118,27 @@ std::pair<short, short> ChannelModel::MeasureChange(short controltype, size_t co
                 }
                 case rsj::CCmethod::kBinaryOffset:
                     if (IsNRPN_(controlnumber))
-                        return {value - kBit14, 0};
-                    return {value - kBit7, 0};
+                        return {value - kBit14, short(0)};
+                    return {value - kBit7, short(0)};
                 case rsj::CCmethod::kSignMagnitude:
                     if (IsNRPN_(controlnumber))
-                        return {(value & kBit14) ? -(value & kLow13Bits) : value, 0};
-                    return {(value & kBit7) ? -(value & kLow6Bits) : value, 0};
+                        return {(value & kBit14) ? -(value & kLow13Bits) : value, short(0)};
+                    return {(value & kBit7) ? -(value & kLow6Bits) : value, short(0)};
                 case rsj::CCmethod::kTwosComplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
                     if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-                        return {(value & kBit14) ? -((value ^ kMaxNrpn) + 1) : value, 0};
-                    return {(value & kBit7) ? -((value ^ kMaxMidi) + 1) : value, 0};
+                        return {(value & kBit14) ? -((value ^ kMaxNrpn) + 1) : value, short(0)};
+                    return {(value & kBit7) ? -((value ^ kMaxMidi) + 1) : value, short(0)};
                 default:
                     Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
-                    return {0, 0};
+                    return {short(0), short(0)};
             }
         case rsj::kNoteOnFlag:
-            return {0, 0};
+            return {short(0), short(0)};
         case rsj::kNoteOffFlag:
-            return {0, 0};
+            return {short(0), short(0)};
         default:
             Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-            return {0, 0};
+            return {short(0), short(0)};
     }
 }
 
