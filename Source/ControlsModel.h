@@ -128,7 +128,7 @@ private:
         return controlnumber > kMaxMidi;
     }
     double OffsetResult(short diff, size_t controlnumber) noexcept(kNdebug);
-    alignas(std::hardware_destructive_interference_size) mutable std::atomic<rsj::TimeType> last_update_{0};
+    alignas(std::hardware_destructive_interference_size) mutable rsj::RelaxTTasSpinLock current_v_mtx_;
     mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
     short pitch_wheel_max_{kMaxNrpn};
     short pitch_wheel_min_{0};
@@ -136,10 +136,11 @@ private:
     std::array<rsj::CCmethod, kMaxControls> cc_method_;
     std::array<short, kMaxControls> cc_high_;
     std::array<short, kMaxControls> cc_low_;
-    std::array<std::atomic<short>, kMaxControls> current_v_;
+    std::array<short, kMaxControls> current_v_;
     template<class Archive> void load(Archive& archive, uint32_t const version);
     template<class Archive> void save(Archive& archive, uint32_t const version) const;
     void ActiveToSaved() const;
+    void CcDefaults() noexcept;
     void SavedToActive() noexcept(kNdebug);
 };
 

@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "ControlsModel.h"
+#include <mutex>
 #include "MidiUtilities.h"
 
 double ChannelModel::OffsetResult(short diff, size_t controlnumber) noexcept(kNdebug)
@@ -28,19 +29,17 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber) noexcept(kNd
     Expects(cc_high_.at(controlnumber) > 0); //CCLow will always be 0 for offset controls
     Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
     Expects(controlnumber <= kMaxNrpn);
-    last_update_.store(rsj::NowMs(), std::memory_order_release);
-    short cv = current_v_[controlnumber].fetch_add(diff, std::memory_order_relaxed) + diff;
-    if (cv < 0) {//fix currentV unless another thread has already altered it
-        current_v_[controlnumber].compare_exchange_strong(cv, static_cast<short>(0),
-            std::memory_order_relaxed, std::memory_order_relaxed);
+    std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+    current_v_[controlnumber] += diff;
+    if (current_v_[controlnumber] < 0) {//fix currentV
+        current_v_[controlnumber] = 0;
         return 0.0;
     }
-    if (cv > cc_high_[controlnumber]) {//fix currentV unless another thread has already altered it
-        current_v_[controlnumber].compare_exchange_strong(cv, cc_high_[controlnumber],
-            std::memory_order_relaxed, std::memory_order_relaxed);
+    if (current_v_[controlnumber] > cc_high_[controlnumber]) {//fix currentV
+        current_v_[controlnumber] = cc_high_[controlnumber];
         return 1.0;
     }
-    return static_cast<double>(cv) / static_cast<double>(cc_high_[controlnumber]);
+    return static_cast<double>(current_v_[controlnumber]) / static_cast<double>(cc_high_[controlnumber]);
 }
 
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(kNdebug)
@@ -56,8 +55,11 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
         case rsj::kCcFlag:
             switch (cc_method_[controlnumber]) {
                 case rsj::CCmethod::kAbsolute:
-                    current_v_[controlnumber].store(value, std::memory_order_release);
-                    return static_cast<double>(value - cc_low_[controlnumber]) / static_cast<double>(cc_high_[controlnumber] - cc_low_[controlnumber]);
+                {
+                    std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+                    current_v_[controlnumber] = value;
+                }
+                return static_cast<double>(value - cc_low_[controlnumber]) / static_cast<double>(cc_high_[controlnumber] - cc_low_[controlnumber]);
                 case rsj::CCmethod::kBinaryOffset:
                     if (IsNRPN_(controlnumber))
                         return OffsetResult(value - kBit14, controlnumber);
@@ -89,9 +91,13 @@ void ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcept
     switch (controltype) {
         case rsj::kPwFlag:
             pitch_wheel_current_.store((pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_, std::memory_order_release);
+            break;
         case rsj::kCcFlag:
-            if (cc_method_[controlnumber] == rsj::CCmethod::kAbsolute)
-                current_v_[controlnumber].store((cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber], std::memory_order_release);
+            if (cc_method_[controlnumber] == rsj::CCmethod::kAbsolute) {
+                std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+                current_v_[controlnumber] = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber];
+            }
+            break;
         default:
             /* */;
     }
@@ -114,7 +120,10 @@ std::pair<short, short> ChannelModel::MeasureChange(short controltype, size_t co
                 case rsj::CCmethod::kAbsolute:
                 {
                     short newvalue = recenter ? (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber] : value;
-                    return {value - current_v_[controlnumber].exchange(newvalue), newvalue};
+                    std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+                    auto diff = value - current_v_[controlnumber];
+                    current_v_[controlnumber] = newvalue;
+                    return {diff, newvalue};
                 }
                 case rsj::CCmethod::kBinaryOffset:
                     if (IsNRPN_(controlnumber))
@@ -157,7 +166,10 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
         {
             const short newv = static_cast<short>(round(plugin_v *
                 (cc_high_[controlnumber] - cc_low_[controlnumber]))) + cc_low_[controlnumber];
-            current_v_[controlnumber].store(newv, std::memory_order_release);
+            {
+                std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+                current_v_[controlnumber] = newv;
+            }
             return newv;
         }
         case rsj::kNoteOnFlag:
@@ -196,7 +208,8 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value) noexcept(kNdebug)
         const auto max = (IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi);
         cc_high_[controlnumber] = (value <= cc_low_[controlnumber] || value > max) ? max : value;
     }
-    current_v_[controlnumber].store((cc_high_[controlnumber] - cc_low_[controlnumber]) / 2, std::memory_order_release);
+    //no lock as this function called in non-multithreaded manner
+    current_v_[controlnumber] = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2;
 }
 
 void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
@@ -208,7 +221,8 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
         cc_low_[controlnumber] = 0;
     else
         cc_low_[controlnumber] = (value < 0 || value >= cc_high_[controlnumber]) ? 0 : value;
-    current_v_[controlnumber].store((cc_high_[controlnumber] - cc_low_[controlnumber]) / 2, std::memory_order_release);
+    //no lock as this function called in non-multithreaded manner
+    current_v_[controlnumber] = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2;
 }
 
 void ChannelModel::SetPwMax(short value) noexcept(kNdebug)
@@ -242,33 +256,29 @@ void ChannelModel::ActiveToSaved()  const
             settings_to_save_.emplace_back(i, cc_low_[i], cc_high_[i], cc_method_[i]);
 }
 
-void ChannelModel::SavedToActive() noexcept(kNdebug)
+void ChannelModel::CcDefaults() noexcept
 {
     //program defaults
     cc_low_.fill(0);
     cc_high_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here
     cc_method_.fill(rsj::CCmethod::kAbsolute);
-    for (auto &v : current_v_) //can't use fill as copy/assign deleted for atomic
-        v.store(kMaxNrpnHalf, std::memory_order_relaxed);
+    //no lock as this function called in non-multithreaded manner
+    current_v_.fill(short(8191));
     for (size_t a = 0; a <= kMaxMidi; ++a) {
         cc_high_[a] = kMaxMidi;
-        current_v_[a].store(kMaxMidiHalf, std::memory_order_relaxed);
+        current_v_[a] = kMaxMidiHalf;
     }
+}
+
+void ChannelModel::SavedToActive() noexcept(kNdebug)
+{
+    CcDefaults();
     for (const auto& set : settings_to_save_)
         SetCc(set.number, set.low, set.high, set.method);
 }
 
 ChannelModel::ChannelModel()
 {
-    //program defaults
-    cc_low_.fill(0);
-    cc_high_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here
-    cc_method_.fill(rsj::CCmethod::kAbsolute);
-    for (auto &v : current_v_) //can't use fill as copy/assign deleted for atomic
-        v.store(kMaxNrpnHalf, std::memory_order_relaxed);
-    for (size_t a = 0; a <= kMaxMidi; ++a) {
-        cc_high_[a] = kMaxMidi;
-        current_v_[a].store(kMaxMidiHalf, std::memory_order_relaxed);
-    }
+    CcDefaults();
     //load settings
 }
