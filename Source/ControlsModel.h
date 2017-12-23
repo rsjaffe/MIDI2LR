@@ -81,7 +81,7 @@ public:
     ChannelModel(ChannelModel&&) = delete; //can't move atomics
     ChannelModel& operator=(ChannelModel&&) = delete;
     double ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
-    std::pair<short, short> MeasureChange(short controltype, size_t controlnumber, short value, bool recenter = true) noexcept(kNdebug);
+    std::pair<short, short> MeasureChange(short controltype, size_t controlnumber, short value, bool recenter) noexcept(kNdebug);
     void SetToCenter(short controltype, size_t controlnumber) noexcept;
     rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
     {
@@ -128,11 +128,11 @@ private:
         return controlnumber > kMaxMidi;
     }
     double OffsetResult(short diff, size_t controlnumber) noexcept(kNdebug);
-    mutable std::atomic<rsj::TimeType> last_update_{0};
+    alignas(std::hardware_destructive_interference_size) mutable std::atomic<rsj::TimeType> last_update_{0};
     mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
     short pitch_wheel_max_{kMaxNrpn};
     short pitch_wheel_min_{0};
-    std::atomic<short> pitch_wheel_current_;
+    alignas(std::hardware_destructive_interference_size) std::atomic<short> pitch_wheel_current_;
     std::array<rsj::CCmethod, kMaxControls> cc_method_;
     std::array<short, kMaxControls> cc_high_;
     std::array<short, kMaxControls> cc_low_;
@@ -160,7 +160,7 @@ public:
         return all_controls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
     }
 
-    std::pair<short, short> MeasureChange(const rsj::MidiMessage& mm, bool recenter = true) noexcept(kNdebug)
+    std::pair<short, short> MeasureChange(const rsj::MidiMessage& mm, bool recenter) noexcept(kNdebug)
     {
         Expects(mm.channel <= 15);
         return all_controls_[mm.channel].MeasureChange(mm.message_type_byte, mm.number, mm.value, recenter);
