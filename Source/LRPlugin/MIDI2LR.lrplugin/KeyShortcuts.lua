@@ -71,12 +71,12 @@ local function LRkeytoCode(arg1)
   return ModifierValue..KeyValue
 end
 
-
+--use shift key instead of shifted key value as have trouble on Mac getting keycode for shifted key
 local KeyCode = { -- format from translation list is Cmd+Shift+Option+r , where 'r' is the key
   BrushDecreaseKey        = LRkeytoCode("$$$/AgDevelop/Localized/BrushDecreaseKey=["),
-  BrushDecreaseKeyShifted = LRkeytoCode("$$$/AgDevelop/Localized/BrushDecreaseKeyShifted={"),
+  BrushDecreaseKeyShifted = LRkeytoCode('shift+'.."$$$/AgDevelop/Localized/BrushDecreaseKey=["),
   BrushIncreaseKey        = LRkeytoCode("$$$/AgDevelop/Localized/BrushIncreaseKey=]"),
-  BrushIncreaseKeyShifted = LRkeytoCode("$$$/AgDevelop/Localized/BrushIncreaseKeyShifted=}"),
+  BrushIncreaseKeyShifted = LRkeytoCode('shift+'.."$$$/AgDevelop/Localized/BrushIncreaseKey=]"),
   CopyKey                 = LRkeytoCode("$$$/AgLayout/Menu/Edit/Copy/Key=Cmd+c"),
   CycleAdjustmentBrushOverlayKey = LRkeytoCode("$$$/AgDevelop/Menu/View/CycleAdjustmentBrushOverlay/Key=Shift+o"),
   PasteKey                = LRkeytoCode("$$$/AgLayout/Menu/Edit/Paste/Key=Cmd+v"),
