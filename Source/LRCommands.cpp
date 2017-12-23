@@ -65,6 +65,9 @@ const std::vector<std::string> LrCommandList::KeyShortcuts = {
     "Key 38",
     "Key 39",
     "Key 40",
+    "Key 32 – Key 31",
+    "Key 34 – Key 33",
+    "Key 36 – Key 35",
     "Key 38 – Key 37",
     "Key 40 – Key 39",
 };
@@ -90,10 +93,13 @@ const std::vector<std::string> LrCommandList::General = {
     "Primary Display Compare",
     "Primary Display Survey",
     "Enable/Disable Zoom",
+    "Zoom In Some Zoom Out Some",
+    "Zoom Out Some Zoom In Some",
     "Zoom In",
     "Zoom In Some",
     "Zoom Out Some",
     "Zoom Out",
+    "Add to Selection Left Right",
     "Add to Selection Left",
     "Add to Selection Right",
     "Next Photo — Previous Photo",
@@ -704,6 +710,9 @@ const std::vector<std::string> LrCommandList::LrStringList = {
     "Key38",
     "Key39",
     "Key40",
+    "Key32Key31",
+    "Key34Key33",
+    "Key36Key35",
     "Key38Key37",
     "Key40Key39",
     /* Library filter */
@@ -725,10 +734,13 @@ const std::vector<std::string> LrCommandList::LrStringList = {
     "ShoVwcompare",
     "ShoVwsurvey",
     "ToggleZoomOffOn",
+    "ZoomInOut",
+    "ZoomOutIn",
     "ZoomInLargeStep",
     "ZoomInSmallStep",
     "ZoomOutSmallStep",
     "ZoomOutLargeStep",
+    "SelectRightLeft",
     "Select1Left",
     "Select1Right",
     "NextPrev",
@@ -1267,17 +1279,17 @@ const std::vector <std::string> LrCommandList::NextPrevProfile = {
 
 size_t LrCommandList::GetIndexOfCommand(const std::string& command)
 {
-    static std::unordered_map<std::string, size_t> index_map;
+    static std::unordered_map<std::string, size_t> indexMap;
 
     // better to check for empty then length, as empty has a constant run time behavior.
-    if (index_map.empty()) {
+    if (indexMap.empty()) {
         size_t idx = 0;
         for (const auto& str : LrStringList)
-            index_map[str] = idx++;
+            indexMap[str] = idx++;
 
         for (const auto& str : NextPrevProfile)
-            index_map[str] = idx++;
+            indexMap[str] = idx++;
     }
 
-    return index_map[command];
+    return indexMap[command];
 }
