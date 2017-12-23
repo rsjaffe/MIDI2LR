@@ -128,11 +128,11 @@ private:
         return controlnumber > kMaxMidi;
     }
     double OffsetResult(short diff, size_t controlnumber) noexcept(kNdebug);
-    alignas(std::hardware_destructive_interference_size) mutable rsj::RelaxTTasSpinLock current_v_mtx_;
+    alignas(128) mutable rsj::RelaxTTasSpinLock current_v_mtx_;
     mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
     short pitch_wheel_max_{kMaxNrpn};
     short pitch_wheel_min_{0};
-    alignas(std::hardware_destructive_interference_size) std::atomic<short> pitch_wheel_current_;
+    alignas(128) std::atomic<short> pitch_wheel_current_;
     std::array<rsj::CCmethod, kMaxControls> cc_method_;
     std::array<short, kMaxControls> cc_high_;
     std::array<short, kMaxControls> cc_low_;
