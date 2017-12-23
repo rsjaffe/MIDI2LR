@@ -40,7 +40,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <libproc.h> //proc_ functions in GetPid
 #endif
 namespace {
-    std::string ToLower(const std::string& in)
+    std::string ToLower(const std::string& in) noexcept
     {
         auto s = in;
         std::transform(s.begin(), s.end(), s.begin(), ::tolower);
@@ -157,8 +157,7 @@ namespace {
 
     /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
     *
-    * Returns key code for given character via the above function, or UINT16_MAX
-    * on error. */
+    * Returns key code for given character via the above function. Throws std::out_of_range on error. */
     CGKeyCode KeyCodeForChar(const std::string& c)
     {
         static std::once_flag flag;
