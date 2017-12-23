@@ -35,6 +35,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
+#include <exception>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <libproc.h> //proc_ functions in GetPid
 #endif
@@ -158,147 +159,129 @@ namespace {
     *
     * Returns key code for given character via the above function, or UINT16_MAX
     * on error. */
-    CGKeyCode KeyCodeForChar(const char c)
+    CGKeyCode KeyCodeForChar(const std::string& c)
     {
         static std::once_flag flag;
-        static CFMutableDictionaryRef char_code_dict {NULL};
         static std::unordered_map<std::string, size_t> char_code_map;
 
         std::call_once(flag, []() {/* Generate table of keycodes and characters. */
-            char_code_dict = CFDictionaryCreateMutable(kCFAllocatorDefault,
-                128,
-                &kCFCopyStringDictionaryKeyCallBacks,
-                NULL);
             /* Loop through every keycode (0 - 127) to find its current mapping. */
             for (size_t i = 0; i < 128; ++i) {
                 CFStringRef string = CreateStringForKey((CGKeyCode)i);
                 if (string != NULL) {
-                    CFDictionaryAddValue(char_code_dict, string, (const void *)i);
                     const std::string char_value = juce::String::fromCFString(string).toStdString();
                     char_code_map[char_value] = i;
                     CFRelease(string);
                 }
             }});
 
-        if (char_code_dict == NULL) return UINT16_MAX; //didn't initialize properly
-
-        UniChar character {c};
-        CGKeyCode code;
-        CFStringRef char_str {CFStringCreateWithCharacters(kCFAllocatorDefault, &character, 1)};
-
-        /* Our values may be NULL (0), so we need to use this function. */
-        if (!CFDictionaryGetValueIfPresent(char_code_dict, char_str,
-            (const void **)&code)) {
-            code = UINT16_MAX;
-        }
-        CFRelease(char_str);
-        return code;
+        return char_code_map.at(c);
     }
 
 #endif
 
     const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
-    {"backspace", VK_BACK},
-    {"cursor down", VK_DOWN},
-    {"cursor left", VK_LEFT},
-    {"cursor right", VK_RIGHT},
-    {"cursor up", VK_UP},
-    {"delete", VK_DELETE},
-    {"end", VK_END},
-    {"escape", VK_ESCAPE},
-    {"home", VK_HOME},
-    {"page down", VK_NEXT},
-    {"page up", VK_PRIOR},
-    {"return", VK_RETURN},
-    {"space", VK_SPACE},
-    {"tab", VK_TAB},
-    {"f1", VK_F1},
-    {"f2", VK_F2},
-    {"f3", VK_F3},
-    {"f4", VK_F4},
-    {"f5", VK_F5},
-    {"f6", VK_F6},
-    {"f7", VK_F7},
-    {"f8", VK_F8},
-    {"f9", VK_F9},
-    {"f10", VK_F10},
-    {"f11", VK_F11},
-    {"f12", VK_F12},
-    {"f13", VK_F13},
-    {"f14", VK_F14},
-    {"f15", VK_F15},
-    {"f16", VK_F16},
-    {"f17", VK_F17},
-    {"f18", VK_F18},
-    {"f19", VK_F19},
-    {"f20", VK_F20},
-    {"numpad 0", VK_NUMPAD0},
-    {"numpad 1", VK_NUMPAD1},
-    {"numpad 2", VK_NUMPAD2},
-    {"numpad 3", VK_NUMPAD3},
-    {"numpad 4", VK_NUMPAD4},
-    {"numpad 5", VK_NUMPAD5},
-    {"numpad 6", VK_NUMPAD6},
-    {"numpad 7", VK_NUMPAD7},
-    {"numpad 8", VK_NUMPAD8},
-    {"numpad 9", VK_NUMPAD9},
-    {"numpad add", VK_ADD},
-    {"numpad subtract", VK_SUBTRACT},
-    {"numpad multiply", VK_MULTIPLY},
-    {"numpad divide", VK_DIVIDE},
-    {"numpad decimal", VK_DECIMAL}
+        {"backspace", VK_BACK},
+        {"cursor down", VK_DOWN},
+        {"cursor left", VK_LEFT},
+        {"cursor right", VK_RIGHT},
+        {"cursor up", VK_UP},
+        {"delete", VK_DELETE},
+        {"end", VK_END},
+        {"escape", VK_ESCAPE},
+        {"home", VK_HOME},
+        {"page down", VK_NEXT},
+        {"page up", VK_PRIOR},
+        {"return", VK_RETURN},
+        {"space", VK_SPACE},
+        {"tab", VK_TAB},
+        {"f1", VK_F1},
+        {"f2", VK_F2},
+        {"f3", VK_F3},
+        {"f4", VK_F4},
+        {"f5", VK_F5},
+        {"f6", VK_F6},
+        {"f7", VK_F7},
+        {"f8", VK_F8},
+        {"f9", VK_F9},
+        {"f10", VK_F10},
+        {"f11", VK_F11},
+        {"f12", VK_F12},
+        {"f13", VK_F13},
+        {"f14", VK_F14},
+        {"f15", VK_F15},
+        {"f16", VK_F16},
+        {"f17", VK_F17},
+        {"f18", VK_F18},
+        {"f19", VK_F19},
+        {"f20", VK_F20},
+        {"numpad 0", VK_NUMPAD0},
+        {"numpad 1", VK_NUMPAD1},
+        {"numpad 2", VK_NUMPAD2},
+        {"numpad 3", VK_NUMPAD3},
+        {"numpad 4", VK_NUMPAD4},
+        {"numpad 5", VK_NUMPAD5},
+        {"numpad 6", VK_NUMPAD6},
+        {"numpad 7", VK_NUMPAD7},
+        {"numpad 8", VK_NUMPAD8},
+        {"numpad 9", VK_NUMPAD9},
+        {"numpad add", VK_ADD},
+        {"numpad subtract", VK_SUBTRACT},
+        {"numpad multiply", VK_MULTIPLY},
+        {"numpad divide", VK_DIVIDE},
+        {"numpad decimal", VK_DECIMAL}
 #else
-    {"backspace", kVK_Delete},
-    {"cursor down", kVK_DownArrow},
-    {"cursor left", kVK_LeftArrow},
-    {"cursor right", kVK_RightArrow},
-    {"cursor up", kVK_UpArrow},
-    {"delete", kVK_ForwardDelete},
-    {"end", kVK_End},
-    {"escape", kVK_Escape},
-    {"home", kVK_Home},
-    {"page down", kVK_PageDown},
-    {"page up", kVK_PageUp},
-    {"return", kVK_Return},
-    {"space", kVK_Space},
-    {"tab", kVK_Tab},
-    {"f1", kVK_F1},
-    {"f2", kVK_F2},
-    {"f3", kVK_F3},
-    {"f4", kVK_F4},
-    {"f5", kVK_F5},
-    {"f6", kVK_F6},
-    {"f7", kVK_F7},
-    {"f8", kVK_F8},
-    {"f9", kVK_F9},
-    {"f10", kVK_F10},
-    {"f11", kVK_F11},
-    {"f12", kVK_F12},
-    {"f13", kVK_F13},
-    {"f14", kVK_F14},
-    {"f15", kVK_F15},
-    {"f16", kVK_F16},
-    {"f17", kVK_F17},
-    {"f18", kVK_F18},
-    {"f19", kVK_F19},
-    {"f20", kVK_F20},
+        {"backspace", kVK_Delete},
+        {"cursor down", kVK_DownArrow},
+        {"cursor left", kVK_LeftArrow},
+        {"cursor right", kVK_RightArrow},
+        {"cursor up", kVK_UpArrow},
+        {"delete", kVK_ForwardDelete},
+        {"end", kVK_End},
+        {"escape", kVK_Escape},
+        {"home", kVK_Home},
+        {"page down", kVK_PageDown},
+        {"page up", kVK_PageUp},
+        {"return", kVK_Return},
+        {"space", kVK_Space},
+        {"tab", kVK_Tab},
+        {"f1", kVK_F1},
+        {"f2", kVK_F2},
+        {"f3", kVK_F3},
+        {"f4", kVK_F4},
+        {"f5", kVK_F5},
+        {"f6", kVK_F6},
+        {"f7", kVK_F7},
+        {"f8", kVK_F8},
+        {"f9", kVK_F9},
+        {"f10", kVK_F10},
+        {"f11", kVK_F11},
+        {"f12", kVK_F12},
+        {"f13", kVK_F13},
+        {"f14", kVK_F14},
+        {"f15", kVK_F15},
+        {"f16", kVK_F16},
+        {"f17", kVK_F17},
+        {"f18", kVK_F18},
+        {"f19", kVK_F19},
+        {"f20", kVK_F20},
         //using ANSI layout codes for keypad, may cause problems in some languages
-    {"numpad 0", kVK_ANSI_Keypad0},
-    {"numpad 1", kVK_ANSI_Keypad1},
-    {"numpad 2", kVK_ANSI_Keypad2},
-    {"numpad 3", kVK_ANSI_Keypad3},
-    {"numpad 4", kVK_ANSI_Keypad4},
-    {"numpad 5", kVK_ANSI_Keypad5},
-    {"numpad 6", kVK_ANSI_Keypad6},
-    {"numpad 7", kVK_ANSI_Keypad7},
-    {"numpad 8", kVK_ANSI_Keypad8},
-    {"numpad 9", kVK_ANSI_Keypad9},
-    {"numpad add", kVK_ANSI_KeypadPlus},
-    {"numpad subtract", kVK_ANSI_KeypadMinus},
-    {"numpad multiply", kVK_ANSI_KeypadMultiply},
-    {"numpad divide", kVK_ANSI_KeypadDivide},
-    {"numpad decimal", kVK_ANSI_KeypadDecimal}
+        {"numpad 0", kVK_ANSI_Keypad0},
+        {"numpad 1", kVK_ANSI_Keypad1},
+        {"numpad 2", kVK_ANSI_Keypad2},
+        {"numpad 3", kVK_ANSI_Keypad3},
+        {"numpad 4", kVK_ANSI_Keypad4},
+        {"numpad 5", kVK_ANSI_Keypad5},
+        {"numpad 6", kVK_ANSI_Keypad6},
+        {"numpad 7", kVK_ANSI_Keypad7},
+        {"numpad 8", kVK_ANSI_Keypad8},
+        {"numpad 9", kVK_ANSI_Keypad9},
+        {"numpad add", kVK_ANSI_KeypadPlus},
+        {"numpad subtract", kVK_ANSI_KeypadMinus},
+        {"numpad multiply", kVK_ANSI_KeypadMultiply},
+        {"numpad divide", kVK_ANSI_KeypadDivide},
+        {"numpad decimal", kVK_ANSI_KeypadDecimal}
 #endif
     };
 }
@@ -362,56 +345,62 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
         SendInput(1, &ip, kSizeIp);
     }
 #else
-    CGEventRef d;
-    CGEventRef u;
-    uint64_t flags = 0;
+    try { //KeyCodeForChar will throw if key not in map
+        CGEventRef d;
+        CGEventRef u;
+        uint64_t flags = 0;
 
-    if (in_keymap) {
-        const auto vk = mapped_key->second;
-        d = CGEventCreateKeyboardEvent(NULL, vk, true);
-        u = CGEventCreateKeyboardEvent(NULL, vk, false);
-    }
-    else {
-        const auto key_code = KeyCodeForChar(key[0]);
-        d = CGEventCreateKeyboardEvent(NULL, key_code, true);
-        u = CGEventCreateKeyboardEvent(NULL, key_code, false);
-        flags = CGEventGetFlags(d); //in case KeyCode has associated flag
-    }
-
-    if (control_cmd) flags |= kCGEventFlagMaskCommand;
-    if (alt_opt) flags |= kCGEventFlagMaskAlternate;
-    if (shift) flags |= kCGEventFlagMaskShift;
-    if (flags) {
-        CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-        CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-    }
-
-    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
-        static const pid_t lr_pid{GetPid()};
-        if (lr_pid) {
-            std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-            CGEventPostToPid(lr_pid, d);
-            CGEventPostToPid(lr_pid, u);
+        if (in_keymap) {
+            const auto vk = mapped_key->second;
+            d = CGEventCreateKeyboardEvent(NULL, vk, true);
+            u = CGEventCreateKeyboardEvent(NULL, vk, false);
         }
-    }
-    else {
-        static ProcessSerialNumber psn{[]() {
-            ProcessSerialNumber temp_psn{0};
-            pid_t lr_pid{GetPid()};
+        else {
+            const auto key_code = KeyCodeForChar(key);
+            d = CGEventCreateKeyboardEvent(NULL, key_code, true);
+            u = CGEventCreateKeyboardEvent(NULL, key_code, false);
+            flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+        }
+
+        if (control_cmd) flags |= kCGEventFlagMaskCommand;
+        if (alt_opt) flags |= kCGEventFlagMaskAlternate;
+        if (shift) flags |= kCGEventFlagMaskShift;
+        if (flags) {
+            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+        }
+
+        if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
+            static const pid_t lr_pid{GetPid()};
+            if (lr_pid) {
+                std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+                CGEventPostToPid(lr_pid, d);
+                CGEventPostToPid(lr_pid, u);
+            }
+        }
+        else { //use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
+            static ProcessSerialNumber psn{[]() {
+                ProcessSerialNumber temp_psn{0};
+                pid_t lr_pid{GetPid()};
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-            if (lr_pid)
-                GetProcessForPID(lr_pid, &temp_psn); //first deprecated in macOS 10.9
+                if (lr_pid)
+                    GetProcessForPID(lr_pid, &temp_psn); //first deprecated in macOS 10.9
 #pragma GCC diagnostic pop
-            return temp_psn;
-        }()};
-        if (psn.highLongOfPSN != 0 || psn.lowLongOfPSN != 0) {
-            std::lock_guard<decltype(mutex_sending_)> lock(mutex_sending_);
-            CGEventPostToPSN(&psn, d);
-            CGEventPostToPSN(&psn, u);
+                return temp_psn;
+            }()};
+            if (psn.highLongOfPSN || psn.lowLongOfPSN) {
+                std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+                CGEventPostToPSN(&psn, d);
+                CGEventPostToPSN(&psn, u);
+            }
         }
+        CFRelease(d);
+        CFRelease(u);
     }
-    CFRelease(d);
-    CFRelease(u);
+    catch (const std::out_of_range& e) {
+        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+            "Unsupported character was used: " + key + ". " + e.what());
+    }
 #endif
 }
