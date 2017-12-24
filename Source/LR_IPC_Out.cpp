@@ -67,7 +67,7 @@ void LrIpcOut::SendCommand(const std::string& command)
 {
     {
         std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-        command_ += command;
+        command_ = command;
     }
     juce::AsyncUpdater::triggerAsyncUpdate();
 }
@@ -109,13 +109,13 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             switch (mm.message_type_byte) {
                 case rsj::kPwFlag:
                 {
-                    midi_sender_->SendPitchWheel(mm.channel, newvalue);
+                    midi_sender_->SendPitchWheel(mm.channel + 1, newvalue);
                     break;
                 }
                 case rsj::kCcFlag:
                 {
                     if (controls_model_->GetCcMethod(mm.channel, mm.number) == rsj::CCmethod::kAbsolute)
-                        midi_sender_->SendCc(mm.channel, mm.number, newvalue);
+                        midi_sender_->SendCc(mm.channel + 1, mm.number, newvalue);
                     [[fallthrough]];
                 }
                 default:
@@ -147,7 +147,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     }
     { //lock scope
         std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-        command_ += command_to_send;
+        command_ = command_to_send;
     }
     juce::AsyncUpdater::triggerAsyncUpdate();
 }
