@@ -169,16 +169,18 @@ public:
             if (e) {
                 juce::Logger::writeToLog(juce::String(e->what()) + " " +
                     source_filename + " line " + juce::String(lineNumber));
-                juce::AlertWindow::showNativeDialogBox("Error",
+                juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                    "Error",
                     "Unhandled exception. " + juce::String(e->what()) + " " +
-                    source_filename + " line " + juce::String(lineNumber), false);
+                    source_filename + " line " + juce::String(lineNumber));
             }
             else {
                 juce::Logger::writeToLog(source_filename + " line " +
                     juce::String(lineNumber));
-                juce::AlertWindow::showNativeDialogBox("Error",
+                juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                    "Error",
                     "Unhandled exception. " + source_filename +
-                    " line " + juce::String(lineNumber), false);
+                    " line " + juce::String(lineNumber));
             }
         }
         std::terminate(); // can't go on with the program
@@ -204,9 +206,9 @@ private:
             oarchive(controls_model_);
         }
         else
-            juce::AlertWindow::showNativeDialogBox("Error",
-                "Unable to save control settings. Unable to open file settings.bin.",
-                false);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                "Error",
+                "Unable to save control settings. Unable to open file settings.bin.");
     }
     void cerealLoad_()
     {//scoped so archive gets flushed

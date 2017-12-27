@@ -70,7 +70,7 @@ void CommandMap::ToXmlDocument(const juce::File& file) const
         }
         if (!root.writeToFile(file, ""))
             // Give feedback if file-save doesn't work
-            juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
                 "Unable to save file as specified. Please try again, and consider saving to a different location.");
     }
 }

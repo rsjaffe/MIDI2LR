@@ -137,7 +137,7 @@ namespace {
             if (strlen(path_buffer) > 0 && (EndsWith(path_buffer, kLr) || EndsWith(path_buffer, kLrc)))
                 return pid;
         }
-        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+        juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
             "Lightroom PID not found.");
         return 0;
     }
@@ -380,8 +380,8 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
                 u = CGEventCreateKeyboardEvent(NULL, key_code, false);
                 flags = CGEventGetFlags(d); //in case KeyCode has associated flag
             }
-            auto dr = gsl::finally([&d]{CFRelease(d);});//release at end of scope
-            auto ur = gsl::finally([&u]{CFRelease(u);});
+            auto dr = gsl::finally([&d]{if(d) CFRelease(d);});//release at end of scope
+            auto ur = gsl::finally([&u]{if(u) CFRelease(u);});
 
             if (control_cmd) flags |= kCGEventFlagMaskCommand;
             if (alt_opt) flags |= kCGEventFlagMaskAlternate;
@@ -418,17 +418,17 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
             }
         }
         catch (const std::out_of_range& e) {
-            juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
                 "Unsupported character was used: " + key + ". " + e.what());
         }
 #endif
     }
     catch (const std::exception& e) {
-        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+        juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
             "Exception in key sending function for key: " + key + ". " + e.what());
     }
     catch (...) {
-        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+        juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
             "Exception in key sending function for key: " + key + ". Non-standard exception.");
     }
 }
