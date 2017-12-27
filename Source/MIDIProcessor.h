@@ -22,7 +22,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MIDI2LR_MIDIPROCESSOR_H_INCLUDED
 #define MIDI2LR_MIDIPROCESSOR_H_INCLUDED
 #include <functional>
-#include <memory>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "NrpnMessage.h"

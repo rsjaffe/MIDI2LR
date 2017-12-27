@@ -24,8 +24,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <array>
 #include <atomic>
 #include <future>
-#include <limits>
 #include "MidiUtilities.h"
+
 
 MidiProcessor::MidiProcessor() noexcept
 {}
@@ -44,17 +44,11 @@ void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     //this procedure is in near-real-time, so must return quickly. Will spin off
     //callbacks to let that happen. As future is replaced in queue, it is destroyed
     //guaranteeing that async task is run (forced to run before future destroyed if not run earlier)
-    constexpr size_t kRingSize{20}; //how many futures to store
+    constexpr size_t kRingSize{16};//how many futures to store--should be factor of two so wrap-around at max size_t doesn't clobber a recent addition
+    //but large enough that two async calls kRingSize apart are guaranteed not to be assigning to futures at the same time
     static std::array<std::future<void>, kRingSize> futures;
     static std::atomic<size_t> future_index{0};
-    static std::mutex mtx;
     const rsj::MidiMessage mess{message};
-    if (future_index.load(std::memory_order_relaxed) > std::numeric_limits<size_t>::max() / 2) {
-        std::lock_guard<decltype(mtx)> lock(mtx);//guard access to future_index as this change is non-atomic
-        if (auto curr_idx = future_index.load(std::memory_order_acquire); curr_idx > std::numeric_limits<size_t>::max() / 2)
-            future_index.store(curr_idx % kRingSize, std::memory_order_release);
-    } //note: small risk that another thread will change future_index between curr_idx load and future_index store--not big problem here
-    //worst that will happen is that it will attempt to destroy active future, in which case will block until that thread is done
     switch (mess.message_type_byte) {
         case rsj::kCcFlag:
             if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
