@@ -29,6 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include <vector>
 #include <gsl/gsl>
+#include "../JuceLibraryCode/JuceHeader.h"
 #ifdef _WIN32
 #include "Windows.h"
 #else
@@ -36,7 +37,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
 #include <exception>
-#include "../JuceLibraryCode/JuceHeader.h"
 #include <libproc.h> //proc_ functions in GetPid
 #endif
 namespace {
@@ -102,6 +102,24 @@ namespace {
     }
 
 #else
+//from https://stackoverflow.com/questions/44296468/using-stdunique-ptr-to-manage-corefoundation-cftype-resources
+    template <typename CoreFoundationType>
+    struct cfreleaser {
+        constexpr cfreleaser() noexcept = default;
+        template <typename U> cfreleaser(cfreleaser<U> const&) noexcept
+        {};
+        void operator()(CoreFoundationType __attribute__((cf_consumed)) cfp)
+        {
+            if (cfp) {
+                CFRelease(cfp); cfp = nullptr;
+            }
+        }
+    };
+
+    template <typename CoreFoundationType>
+    using cf_unique_ptr = std::unique_ptr<
+    typename std::decay_t<std::remove_pointer_t<CoreFoundationType>>,
+        cfreleaser<CoreFoundationType>>;
 
     pid_t GetPid()
     {
@@ -286,120 +304,131 @@ namespace {
 }
 
 void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
-    const bool control_cmd, const bool shift)
+    const bool control_cmd, const bool shift) noexcept
 {
-    static std::mutex mutex_sending{};
-    const auto mapped_key = kKeyMap.find(ToLower(key));
-    const auto in_keymap = mapped_key != kKeyMap.end();
+    try { 
+        static std::mutex mutex_sending{};
+        const auto mapped_key = kKeyMap.find(ToLower(key));
+        const auto in_keymap = mapped_key != kKeyMap.end();
 
 #ifdef _WIN32
 
-    BYTE vk = 0;
-    BYTE vk_modifiers = 0;
-    if (in_keymap)
-        vk = mapped_key->second;
-    else {// Translate key code to keyboard-dependent scan code, may be UTF-8
-        const auto language_id = GetLanguage("Lightroom");
-        const auto vk_code_and_shift = VkKeyScanExW(MBtoWChar(key), language_id);
-        vk = LOBYTE(vk_code_and_shift);
-        vk_modifiers = HIBYTE(vk_code_and_shift);
-    }
+        BYTE vk = 0;
+        BYTE vk_modifiers = 0;
+        if (in_keymap)
+            vk = mapped_key->second;
+        else {// Translate key code to keyboard-dependent scan code, may be UTF-8
+            const auto language_id = GetLanguage("Lightroom");
+            const auto vk_code_and_shift = VkKeyScanExW(MBtoWChar(key), language_id);
+            vk = LOBYTE(vk_code_and_shift);
+            vk_modifiers = HIBYTE(vk_code_and_shift);
+        }
 
-    //construct virtual keystroke sequence
-    std::vector<WORD> strokes{vk}; // start with actual key, then mods
-    if (shift || (vk_modifiers & 0x1)) {
-        strokes.push_back(VK_SHIFT);
-    }
-    if ((vk_modifiers & 0x06) == 0x06) {
-        strokes.push_back(VK_RMENU); //AltGr
-        if (control_cmd)
-            strokes.push_back(VK_CONTROL);
-        if (alt_opt)
-            strokes.push_back(VK_MENU);
-    }
-    else {
-        if (control_cmd || (vk_modifiers & 0x2))
-            strokes.push_back(VK_CONTROL);
-        if (alt_opt || (vk_modifiers & 0x4))
-            strokes.push_back(VK_MENU);
-    }
-
-    // construct input event.
-    INPUT ip;
-    constexpr auto kSizeIp = sizeof(ip);
-    ip.type = INPUT_KEYBOARD;
-    //ki: wVk, wScan, dwFlags, time, dwExtraInfo
-    ip.ki = {0, 0, 0, 0, 0};
-
-    //send key down strokes
-    std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
-    for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
-        ip.ki.wVk = *it;
-        SendInput(1, &ip, kSizeIp);
-    }
-    //send key up strokes
-    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-    for (const auto it : strokes) {
-        ip.ki.wVk = it;
-        SendInput(1, &ip, kSizeIp);
-    }
-#else
-    try { //KeyCodeForChar will throw if key not in map
-        CGEventRef d;
-        CGEventRef u;
-        uint64_t flags = 0;
-
-        if (in_keymap) {
-            const auto vk = mapped_key->second;
-            d = CGEventCreateKeyboardEvent(NULL, vk, true);
-            u = CGEventCreateKeyboardEvent(NULL, vk, false);
+        //construct virtual keystroke sequence
+        std::vector<WORD> strokes{vk}; // start with actual key, then mods
+        if (shift || (vk_modifiers & 0x1)) {
+            strokes.push_back(VK_SHIFT);
+        }
+        if ((vk_modifiers & 0x06) == 0x06) {
+            strokes.push_back(VK_RMENU); //AltGr
+            if (control_cmd)
+                strokes.push_back(VK_CONTROL);
+            if (alt_opt)
+                strokes.push_back(VK_MENU);
         }
         else {
-            const auto key_code = KeyCodeForChar(key);
-            d = CGEventCreateKeyboardEvent(NULL, key_code, true);
-            u = CGEventCreateKeyboardEvent(NULL, key_code, false);
-            flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+            if (control_cmd || (vk_modifiers & 0x2))
+                strokes.push_back(VK_CONTROL);
+            if (alt_opt || (vk_modifiers & 0x4))
+                strokes.push_back(VK_MENU);
         }
 
-        if (control_cmd) flags |= kCGEventFlagMaskCommand;
-        if (alt_opt) flags |= kCGEventFlagMaskAlternate;
-        if (shift) flags |= kCGEventFlagMaskShift;
-        if (flags) {
-            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-        }
+        // construct input event.
+        INPUT ip;
+        constexpr auto kSizeIp = sizeof(ip);
+        ip.type = INPUT_KEYBOARD;
+        //ki: wVk, wScan, dwFlags, time, dwExtraInfo
+        ip.ki = {0, 0, 0, 0, 0};
 
-        if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
-            static const pid_t lr_pid{GetPid()};
-            if (lr_pid) {
-                std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
-                CGEventPostToPid(lr_pid, d);
-                CGEventPostToPid(lr_pid, u);
+        //send key down strokes
+        std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+        for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
+            ip.ki.wVk = *it;
+            SendInput(1, &ip, kSizeIp);
+        }
+        //send key up strokes
+        ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+        for (const auto it : strokes) {
+            ip.ki.wVk = it;
+            SendInput(1, &ip, kSizeIp);
+        }
+#else
+        try { //In MacOS, KeyCodeForChar will throw if key not in map
+
+            CGEventRef d;
+            CGEventRef u;
+            uint64_t flags = 0;
+
+            if (in_keymap) {
+                const auto vk = mapped_key->second;
+                d = CGEventCreateKeyboardEvent(NULL, vk, true);
+                u = CGEventCreateKeyboardEvent(NULL, vk, false);
+            }
+            else {
+                const auto key_code = KeyCodeForChar(key);
+                d = CGEventCreateKeyboardEvent(NULL, key_code, true);
+                u = CGEventCreateKeyboardEvent(NULL, key_code, false);
+                flags = CGEventGetFlags(d); //in case KeyCode has associated flag
+            }
+            auto dr = gsl::finally([&d]{CFRelease(d);});//release at end of scope
+            auto ur = gsl::finally([&u]{CFRelease(u);});
+
+            if (control_cmd) flags |= kCGEventFlagMaskCommand;
+            if (alt_opt) flags |= kCGEventFlagMaskAlternate;
+            if (shift) flags |= kCGEventFlagMaskShift;
+            if (flags) {
+                CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+                CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+            }
+
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
+                static const pid_t lr_pid{GetPid()};
+                if (lr_pid) {
+                    std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+                    CGEventPostToPid(lr_pid, d);
+                    CGEventPostToPid(lr_pid, u);
+                }
+            }
+            else { //use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
+                static ProcessSerialNumber psn{[]() {
+                    ProcessSerialNumber temp_psn{0};
+                    pid_t lr_pid{GetPid()};
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+                    if (lr_pid)
+                        GetProcessForPID(lr_pid, &temp_psn); //first deprecated in macOS 10.9
+    #pragma GCC diagnostic pop
+                    return temp_psn;
+                }()};
+                if (psn.highLongOfPSN || psn.lowLongOfPSN) {
+                    std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+                    CGEventPostToPSN(&psn, d);
+                    CGEventPostToPSN(&psn, u);
+                }
             }
         }
-        else { //use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
-            static ProcessSerialNumber psn{[]() {
-                ProcessSerialNumber temp_psn{0};
-                pid_t lr_pid{GetPid()};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-                if (lr_pid)
-                    GetProcessForPID(lr_pid, &temp_psn); //first deprecated in macOS 10.9
-#pragma GCC diagnostic pop
-                return temp_psn;
-            }()};
-            if (psn.highLongOfPSN || psn.lowLongOfPSN) {
-                std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
-                CGEventPostToPSN(&psn, d);
-                CGEventPostToPSN(&psn, u);
-            }
+        catch (const std::out_of_range& e) {
+            juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+                "Unsupported character was used: " + key + ". " + e.what());
         }
-        CFRelease(d);
-        CFRelease(u);
-    }
-    catch (const std::out_of_range& e) {
-        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-            "Unsupported character was used: " + key + ". " + e.what());
-    }
 #endif
+    }
+    catch (const std::exception& e) {
+        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+            "Exception in key sending function for key: " + key + ". " + e.what());
+    }
+    catch (...) {
+        juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+            "Exception in key sending function for key: " + key + ". Non-standard exception.");
+    }
 }
