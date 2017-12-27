@@ -29,7 +29,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unordered_map>
 #include <vector>
 #include <gsl/gsl>
-#include "../JuceLibraryCode/JuceHeader.h"
 #ifdef _WIN32
 #include "Windows.h"
 #else
@@ -39,6 +38,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <libproc.h> //proc_ functions in GetPid
 #endif
+#include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
+
 namespace {
     std::string ToLower(const std::string& in) noexcept
     {
@@ -149,15 +150,13 @@ namespace {
     * responsibility to release the returned object. */
     CFStringRef CreateStringForKey(CGKeyCode key_code)
     {
-        TISInputSourceRef current_keyboard = TISCopyCurrentKeyboardInputSource();
-        CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(current_keyboard, kTISPropertyUnicodeKeyLayoutData);
+        cf_unique_ptr<TISInputSourceRef> current_keyboard{TISCopyCurrentKeyboardInputSource()};
+        CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(current_keyboard.get(), kTISPropertyUnicodeKeyLayoutData);
         const UCKeyboardLayout *keyboard_layout =
             (const UCKeyboardLayout *)CFDataGetBytePtr(layout_data);
-
         UInt32 keys_down = 0;
         UniChar chars[4];
         UniCharCount real_length;
-
         UCKeyTranslate(keyboard_layout,
             key_code,
             kUCKeyActionDown,
@@ -168,8 +167,6 @@ namespace {
             sizeof(chars) / sizeof(chars[0]),
             &real_length,
             chars);
-        CFRelease(current_keyboard);
-
         return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
     }
 
@@ -306,7 +303,7 @@ namespace {
 void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
     const bool control_cmd, const bool shift) noexcept
 {
-    try { 
+    try {
         static std::mutex mutex_sending{};
         const auto mapped_key = kKeyMap.find(ToLower(key));
         const auto in_keymap = mapped_key != kKeyMap.end();
