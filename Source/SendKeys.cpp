@@ -385,6 +385,8 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
             CGEventRef d;
             CGEventRef u;
             uint64_t flags = 0;
+            auto dr = gsl::finally([&d] {if (d) CFRelease(d); });//release at end of scope
+            auto ur = gsl::finally([&u] {if (u) CFRelease(u); });
 
             if (in_keymap) {
                 const auto vk = mapped_key->second;
@@ -397,8 +399,6 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
                 u = CGEventCreateKeyboardEvent(NULL, key_code, false);
                 flags = CGEventGetFlags(d); //in case KeyCode has associated flag
             }
-            auto dr = gsl::finally([&d]{if(d) CFRelease(d);});//release at end of scope
-            auto ur = gsl::finally([&u]{if(u) CFRelease(u);});
 
             if (control_cmd) flags |= kCGEventFlagMaskCommand;
             if (alt_opt) flags |= kCGEventFlagMaskAlternate;

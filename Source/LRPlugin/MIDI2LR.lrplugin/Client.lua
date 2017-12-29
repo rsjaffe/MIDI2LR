@@ -557,9 +557,9 @@ LrTasks.startAsyncTask(
         local CurrentObserver
         --call following within guard for reading
         local function AdjustmentChangeObserver()
-          local lastrefresh = 0
+          local lastrefresh = 0 --will be set to os.clock + increment to rate limit
           return function(observer) -- closure
-            if Limits.LimitsCanBeSet() and lastrefresh + 0.1 < os.clock() then
+            if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
               for _,param in ipairs(ParamList.SendToMidi) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then
@@ -568,7 +568,7 @@ LrTasks.startAsyncTask(
                   LastParam = param
                 end
               end
-              lastrefresh = os.clock()
+              lastrefresh = os.clock() + 0.1 --1/10 sec between refreshes
             end
           end
         end
