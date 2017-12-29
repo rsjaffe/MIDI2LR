@@ -68,24 +68,43 @@ namespace {
 
 #ifdef _WIN32
 
+    class windows_function_error: public std::exception {
+    public:
+        windows_function_error() noexcept : exception()
+        {
+            LPTSTR new_what;
+            FormatMessage(
+                FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                nullptr, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                (LPTSTR)&new_what, 0, nullptr);
+            what_ = {new_what, [](LPTSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
+        }
+        windows_function_error(const windows_function_error& other) noexcept
+        {
+            what_ = other.what_;
+        }
+        windows_function_error& operator=(const windows_function_error& other) noexcept
+        {
+            if (this != &other) {
+                what_ = other.what_;
+            }
+            return *this;
+        }
+        const char* what() const noexcept override
+        {
+            return what_.get();
+        }
+    private:
+        std::shared_ptr<std::remove_pointer<LPTSTR>::type> what_;
+    };
+
     wchar_t MBtoWChar(const std::string& key)
     {
         wchar_t full_character;
         const auto return_value = MultiByteToWideChar(CP_UTF8, 0, key.data(),
             gsl::narrow_cast<int>(key.size()), &full_character, 1);
         if (return_value == 0) {
-            const auto er = GetLastError();
-            switch (er) {
-                case ERROR_INVALID_FLAGS:
-                case ERROR_INVALID_PARAMETER:
-                    throw std::invalid_argument("Bad argument to MultiByteToWideChar.");
-                case ERROR_INSUFFICIENT_BUFFER:
-                    throw std::length_error("Insufficient buffer for MultiByteToWideChar.");
-                case ERROR_NO_UNICODE_TRANSLATION:
-                    throw std::domain_error("Unable to translate: MultiByteToWideChar.");
-                default:
-                    throw std::runtime_error("Unknown error: MultiByteToWideChar.");
-            }
+            throw windows_function_error();
         }
         return full_character;
     }
