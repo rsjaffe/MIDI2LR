@@ -67,27 +67,28 @@ namespace {
     }
 
 #ifdef _WIN32
-    static_assert(std::is_same<std::remove_pointer<LPTSTR>::type,char>(),
-       "LPTSTR doesn't point to char. Problem for windows_function_error.");//for windows_function_error
+
     class windows_function_error: public std::exception {
+        static_assert(std::is_same<std::remove_pointer<LPTSTR>::type, char>(),
+            "LPTSTR doesn't point to char. Problem for windows_function_error.");
     public:
-        windows_function_error() noexcept : exception()
+        windows_function_error() noexcept : exception(), number_(GetLastError())
         {
             LPTSTR new_what;
             FormatMessage(
                 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                nullptr, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                 (LPTSTR)&new_what, 0, nullptr);
             what_ = {new_what, [](LPTSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
         }
-        windows_function_error(const windows_function_error& other) noexcept
-        {
-            what_ = other.what_;
-        }
+        windows_function_error(const windows_function_error& other) noexcept : 
+            what_(other.what_), number_(other.number_)
+        {}
         windows_function_error& operator=(const windows_function_error& other) noexcept
         {
             if (this != &other) {
                 what_ = other.what_;
+                number_ = other.number_;
             }
             return *this;
         }
@@ -95,8 +96,13 @@ namespace {
         {
             return what_.get();
         }
+        DWORD number() const noexcept
+        {
+            return number_;
+        }
     private:
         std::shared_ptr<std::remove_pointer<LPTSTR>::type> what_;
+        DWORD number_;
     };
 
     wchar_t MBtoWChar(const std::string& key)
