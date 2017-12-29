@@ -67,7 +67,8 @@ namespace {
     }
 
 #ifdef _WIN32
-
+    static_assert(std::is_same<std::remove_pointer<LPTSTR>::type,char>(),
+       "LPTSTR doesn't point to char. Problem for windows_function_error.");//for windows_function_error
     class windows_function_error: public std::exception {
     public:
         windows_function_error() noexcept : exception()
