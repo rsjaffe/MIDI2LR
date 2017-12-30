@@ -48,7 +48,7 @@ private:
     // Timer callback
     void timerCallback() override;
     // process a line received from the socket
-    void ProcessLine(const std::string& line) const;
+    void ProcessLine(const std::string&& line) const;
 
     bool thread_started_{false};
     bool timer_off_{false};

@@ -128,7 +128,7 @@ void LrIpcIn::run()
             {
                 std::string param{line.data()};
                 if (param.back() == '\n')//run one at a time but don't wait for finish (will hold if future not finished next time around)
-                    process_line_future = std::async(std::launch::async, &LrIpcIn::ProcessLine, this, param);
+                    process_line_future = std::async(std::launch::async, &LrIpcIn::ProcessLine, this, std::move(param));
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)
@@ -152,7 +152,7 @@ void LrIpcIn::timerCallback()
     }
 }
 
-void LrIpcIn::ProcessLine(const std::string& line) const
+void LrIpcIn::ProcessLine(const std::string&& line) const
 {
     const static std::unordered_map<std::string, int> cmds = {
         {"SwitchProfile"s, 1},
