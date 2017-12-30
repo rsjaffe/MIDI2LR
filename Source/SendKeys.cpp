@@ -142,7 +142,7 @@ namespace {
 
     template <typename CoreFoundationType>
     using cf_unique_ptr = std::unique_ptr<
-    typename std::decay_t<std::remove_pointer_t<CoreFoundationType>>,
+        typename std::decay_t<std::remove_pointer_t<CoreFoundationType>>,
         cfreleaser<CoreFoundationType>>;
 
     pid_t GetPid()

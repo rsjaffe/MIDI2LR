@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include <array>
 #include <bitset>
+#include <future>
 #include <gsl/gsl>
 #include "CommandMap.h"
 #include "ControlsModel.h"
@@ -79,6 +80,7 @@ void LrIpcIn::run()
 {
     while (!juce::Thread::threadShouldExit()) {
         std::array<char, kBufferSize> line{};//zero filled by {} initialization
+        std::future<void> process_line_future;
         //if not connected, executes a wait 333 then goes back to while
         //if connected, tries to read a line, checks thread status and connection
         //status before each read attempt
@@ -125,8 +127,8 @@ void LrIpcIn::run()
             // if lose connection, line may not be terminated
             {
                 std::string param{line.data()};
-                if (param.back() == '\n')
-                    ProcessLine(param);
+                if (param.back() == '\n')//run one at a time but don't wait for finish (will hold if future not finished next time around)
+                    process_line_future = std::async(std::launch::async, &LrIpcIn::ProcessLine, this, param);
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)
