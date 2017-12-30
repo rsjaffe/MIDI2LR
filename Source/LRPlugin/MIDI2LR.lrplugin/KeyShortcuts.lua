@@ -51,10 +51,13 @@ MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Tab=Tab")]     
 MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Up=Up")]               = 'cursor up'
 
 
-local function LRkeytoCode(arg1)
+local function LRkeytoCode(arg1,addmodifier)
   local mystring = LOC(arg1)
   local KeyValue --default nil
   local ModifierValue = 0
+  if addmodifier then
+    ModifierValue = addmodifier
+  end
   for i in mystring:gmatch("[^+ ]+") do
     if Modifiers[i] then
       ModifierValue = ModifierValue + Modifiers[i]
@@ -74,9 +77,9 @@ end
 --use shift key instead of shifted key value as have trouble on Mac getting keycode for shifted key
 local KeyCode = { -- format from translation list is Cmd+Shift+Option+r , where 'r' is the key
   BrushDecreaseKey        = LRkeytoCode("$$$/AgDevelop/Localized/BrushDecreaseKey=["),
-  BrushDecreaseKeyShifted = LRkeytoCode('shift+'.."$$$/AgDevelop/Localized/BrushDecreaseKey=["),
+  BrushDecreaseKeyShifted = LRkeytoCode("$$$/AgDevelop/Localized/BrushDecreaseKey=[",0x4),
   BrushIncreaseKey        = LRkeytoCode("$$$/AgDevelop/Localized/BrushIncreaseKey=]"),
-  BrushIncreaseKeyShifted = LRkeytoCode('shift+'.."$$$/AgDevelop/Localized/BrushIncreaseKey=]"),
+  BrushIncreaseKeyShifted = LRkeytoCode("$$$/AgDevelop/Localized/BrushIncreaseKey=]",0x4),
   CopyKey                 = LRkeytoCode("$$$/AgLayout/Menu/Edit/Copy/Key=Cmd+c"),
   CycleAdjustmentBrushOverlayKey = LRkeytoCode("$$$/AgDevelop/Menu/View/CycleAdjustmentBrushOverlay/Key=Shift+o"),
   PasteKey                = LRkeytoCode("$$$/AgLayout/Menu/Edit/Paste/Key=Cmd+v"),
