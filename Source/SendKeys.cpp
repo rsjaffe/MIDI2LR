@@ -23,9 +23,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SendKeys.h"
 #include <algorithm>
 #include <cctype>
+#include <exception>
 #include <mutex>
 #include <stdexcept>
-#include <string>
 #include <unordered_map>
 #include <vector>
 #include <unicode/unistr.h>
@@ -36,7 +36,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
-#include <exception>
 #include <libproc.h> //proc_ functions in GetPid
 #endif
 #include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
@@ -67,17 +66,17 @@ namespace {
 #ifdef _WIN32
 
     class windows_function_error: public std::exception {
-        static_assert(sizeof(std::remove_pointer<LPWSTR>::type) == sizeof(UChar),
-            "LPWSTR doesn't point to 16-bit char. Problem for windows_function_error.");
+        static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(),
+            "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
     public:
         windows_function_error(DWORD n = GetLastError()) noexcept : exception(), number_(n)
         {
-            LPWSTR new_what;
-            FormatMessageW(
+            LPSTR new_what;
+            FormatMessageA(
                 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                 nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                (LPWSTR)&new_what, 0, nullptr);
-            what_ = {new_what, [](LPWSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
+                (LPSTR)&new_what, 0, nullptr);
+            what_ = {new_what, [](LPSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
         }
         windows_function_error(const windows_function_error& other) noexcept :
             what_(other.what_), number_(other.number_)
@@ -91,15 +90,15 @@ namespace {
             return *this;
         }
         const char* what() const noexcept override
-        {//C++ exceptions return char*, so have to coerce to that for UTF16 string in what_
-            return reinterpret_cast<char*>(what_.get());
+        {
+            return what_.get();
         }
         DWORD number() const noexcept
         {
             return number_;
         }
     private:
-        std::shared_ptr<std::remove_pointer<LPWSTR>::type> what_;
+        std::shared_ptr<std::remove_pointer<LPSTR>::type> what_;
         DWORD number_;
     };
 
@@ -187,7 +186,7 @@ namespace {
         if (real_length > 1)
             juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
                 juce::String("For key code ") + juce::String(key_code)
-                + juce::String(", unicode character is ") + juce::String(real_length)
+                + juce::String(", Unicode character is ") + juce::String(real_length)
                 + juce::String(" long. It is ") + juce::String((wchar_t*)chars, real_length)
                 + juce::String("."));
         return chars[0];
@@ -201,7 +200,7 @@ namespace {
         static std::once_flag flag;
         static std::unordered_map<UChar, size_t> char_code_map;
         std::call_once(flag, []() {/* Generate table of keycodes and characters. */
-            /* Loop through every keycode (0 - 127) to find its current mapping. */
+            /* Loop through every key-code (0 - 127) to find its current mapping. */
             for (size_t i = 0; i < 128; ++i) {
                 UChar uc = CreateStringForKey((CGKeyCode)i);
                 if (uc != NULL) {
@@ -330,15 +329,15 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
 
 #ifdef _WIN32
         static_assert(sizeof(WCHAR) == sizeof(UChar),
-            "For unicode handling, assuming windows wide char is same as ICU 16-bit unicode char.");
+            "For Unicode handling, assuming windows wide char is same as ICU 16-bit Unicode char.");
         BYTE vk = 0;
         BYTE vk_modifiers = 0;
         if (in_keymap)
             vk = mapped_key->second;
         else {// Translate key code to keyboard-dependent scan code, may be UTF-8
-            const icu::UnicodeString uc16_chars{icu::UnicodeString::fromUTF8(key)};
+            const UChar uc{icu::UnicodeString::fromUTF8(key)[0]};
             static const auto language_id = GetLanguage("Lightroom");
-            const auto vk_code_and_shift = VkKeyScanExW(uc16_chars[0], language_id);
+            const auto vk_code_and_shift = VkKeyScanExW(uc, language_id);
             vk = LOBYTE(vk_code_and_shift);
             vk_modifiers = HIBYTE(vk_code_and_shift);
             if (vk == 0xff && vk_modifiers == 0xff)
@@ -389,7 +388,7 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
         }
 #else
         static_assert(sizeof(UniChar) == sizeof(UChar),
-            "For unicode handling, assuming Mac wide char is same as ICU 16-bit unicode char.");
+            "For Unicode handling, assuming Mac wide char is same as ICU 16-bit Unicode char.");
         try { //In MacOS, KeyCodeForChar will throw if key not in map
             CGEventRef d;
             CGEventRef u;
@@ -403,8 +402,8 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
                 u = CGEventCreateKeyboardEvent(NULL, vk, false);
             }
             else {
-                UChar u16_char = icu::UnicodeString::fromUTF8(key)[0];
-                const auto key_code = KeyCodeForChar(u16_char);
+                const UChar uc{icu::UnicodeString::fromUTF8(key)[0]};
+                const auto key_code = KeyCodeForChar(uc);
                 d = CGEventCreateKeyboardEvent(NULL, key_code, true);
                 u = CGEventCreateKeyboardEvent(NULL, key_code, false);
                 flags = CGEventGetFlags(d); //in case KeyCode has associated flag
