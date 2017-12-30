@@ -73,8 +73,8 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;GSL_THROW_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.6.0.10;JUCE_APP_VERSION_HEX=0x206000a;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../icu/source/common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;U_STATIC_IMPLEMENTATION=1;GSL_THROW_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.6.0.10;JUCE_APP_VERSION_HEX=0x206000a;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -114,8 +114,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.6.0.10;JUCE_APP_VERSION_HEX=0x206000a;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../icu/source/common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;U_STATIC_IMPLEMENTATION=1;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.6.0.10;JUCE_APP_VERSION_HEX=0x206000a;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -148,6 +148,18 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\icu\source\common\appendable.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\bytestream.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\cmemory.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\cstring.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\udataswp.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\uinvchar.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\unistr.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\uobject.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\ustring.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\ustrtrns.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\utf_impl.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\utypes.cpp"/>
     <ClCompile Include="..\..\Source\Utilities\Utilities.cpp"/>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
     <ClCompile Include="..\..\Source\CommandMap.cpp"/>

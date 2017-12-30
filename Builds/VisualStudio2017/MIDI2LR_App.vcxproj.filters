@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="MIDI2LR\Source\ICU">
+      <UniqueIdentifier>{B3E17E61-B0AA-30C5-71AD-CBB2B038DFA0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MIDI2LR\Source\Utilities">
       <UniqueIdentifier>{B820A69E-EA0D-FED3-B62A-3F9F88E4B1FF}</UniqueIdentifier>
     </Filter>
@@ -238,6 +241,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\icu\source\common\appendable.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\bytestream.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\cmemory.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\cstring.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\udataswp.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\uinvchar.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\unistr.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\uobject.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\ustring.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\ustrtrns.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\utf_impl.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\utypes.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Utilities\Utilities.cpp">
       <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClCompile>

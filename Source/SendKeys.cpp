@@ -28,6 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <unicode/unistr.h>
 #include <gsl/gsl>
 #ifdef _WIN32
 #include "Windows.h"
@@ -50,11 +51,8 @@ namespace {
 
     bool EndsWith(const std::string &main_str, const std::string &to_match)//note: C++20 will have ends_with
     {
-        if (main_str.size() >= to_match.size() &&
-            main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0)
-            return true;
-        else
-            return false;
+        return main_str.size() >= to_match.size() &&
+            main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
     }
 
     bool EndsWithCaseInsensitive(std::string main_str, std::string to_match)
@@ -62,7 +60,7 @@ namespace {
         auto it = to_match.begin();
         return main_str.size() >= to_match.size() &&
             std::all_of(std::next(main_str.begin(), main_str.size() - to_match.size()), main_str.end(), [&it](const char & c) {
-            return ::tolower(c) == ::tolower(*(it++));
+            return ::tolower(c) == ::tolower(*it++);
         });
     }
 
@@ -81,7 +79,7 @@ namespace {
                 (LPTSTR)&new_what, 0, nullptr);
             what_ = {new_what, [](LPTSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
         }
-        windows_function_error(const windows_function_error& other) noexcept : 
+        windows_function_error(const windows_function_error& other) noexcept :
             what_(other.what_), number_(other.number_)
         {}
         windows_function_error& operator=(const windows_function_error& other) noexcept
@@ -174,7 +172,7 @@ namespace {
     * Returns string representation of key, if it is printable.
     * Ownership follows the Create Rule; that is, it is the caller's
     * responsibility to release the returned object. */
-    CFStringRef CreateStringForKey(CGKeyCode key_code)
+    UChar CreateStringForKey(CGKeyCode key_code)
     {
         cf_unique_ptr<TISInputSourceRef> current_keyboard{TISCopyCurrentKeyboardInputSource()};
         CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(current_keyboard.get(), kTISPropertyUnicodeKeyLayoutData);
@@ -183,38 +181,34 @@ namespace {
         UInt32 keys_down = 0;
         UniChar chars[4];
         UniCharCount real_length;
-        UCKeyTranslate(keyboard_layout,
-            key_code,
-            kUCKeyActionDown,
-            0,
-            LMGetKbdType(),
-            kUCKeyTranslateNoDeadKeysBit,
-            &keys_down,
-            sizeof(chars) / sizeof(chars[0]),
-            &real_length,
-            chars);
-        return CFStringCreateWithCharacters(kCFAllocatorDefault, chars, 1);
+        UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0,
+            LMGetKbdType(), kUCKeyTranslateNoDeadKeysBit, &keys_down,
+            sizeof(chars) / sizeof(chars[0]), &real_length, chars);
+        if (real_length > 1)
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+                                                   juce::String("For key code ") + juce::String(key_code)
+                                                   + juce::String(", unicode character is ") + juce::String(real_length)
+                                                   + juce::String(". It is ") + juce::String((wchar_t*)chars,4)
+                                                   + juce::String("."));
+        return chars[0];
     }
 
     /* From: https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
     *
     * Returns key code for given character via the above function. Throws std::out_of_range on error. */
-    CGKeyCode KeyCodeForChar(const std::string& c)
+    CGKeyCode KeyCodeForChar(UChar c)
     {
         static std::once_flag flag;
-        static std::unordered_map<std::string, size_t> char_code_map;
-
+        static std::unordered_map<UChar, size_t> char_code_map;
         std::call_once(flag, []() {/* Generate table of keycodes and characters. */
             /* Loop through every keycode (0 - 127) to find its current mapping. */
             for (size_t i = 0; i < 128; ++i) {
-                CFStringRef string = CreateStringForKey((CGKeyCode)i);
-                if (string != NULL) {
-                    const std::string char_value = juce::String::fromCFString(string).toStdString();
-                    char_code_map[char_value] = i;
-                    CFRelease(string);
+                UChar uc = CreateStringForKey((CGKeyCode)i);
+                if (uc != NULL) {
+                    char_code_map[uc] = i;
                 }
-            }});
-
+            }
+        });
         return char_code_map.at(c);
     }
 
@@ -335,21 +329,25 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
         const auto in_keymap = mapped_key != kKeyMap.end();
 
 #ifdef _WIN32
-
+        static_assert(sizeof(WCHAR) == sizeof(UChar),
+            "For unicode handling, assuming windows wide char is same as ICU 16-bit unicode char.");
         BYTE vk = 0;
         BYTE vk_modifiers = 0;
         if (in_keymap)
             vk = mapped_key->second;
         else {// Translate key code to keyboard-dependent scan code, may be UTF-8
-            const auto language_id = GetLanguage("Lightroom");
-            const auto vk_code_and_shift = VkKeyScanExW(MBtoWChar(key), language_id);
+            const icu::UnicodeString uc16_chars{icu::UnicodeString::fromUTF8(key)};
+            static const auto language_id = GetLanguage("Lightroom");
+            const auto vk_code_and_shift = VkKeyScanExW(uc16_chars[0], language_id);
             vk = LOBYTE(vk_code_and_shift);
             vk_modifiers = HIBYTE(vk_code_and_shift);
+            if (vk == 0xff && vk_modifiers == 0xff)
+                throw windows_function_error();
         }
 
         //construct virtual keystroke sequence
         std::vector<WORD> strokes{vk}; // start with actual key, then mods
-        if (shift || (vk_modifiers & 0x1)) {
+        if (shift || vk_modifiers & 0x1) {
             strokes.push_back(VK_SHIFT);
         }
         if ((vk_modifiers & 0x06) == 0x06) {
@@ -360,9 +358,9 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
                 strokes.push_back(VK_MENU);
         }
         else {
-            if (control_cmd || (vk_modifiers & 0x2))
+            if (control_cmd || vk_modifiers & 0x2)
                 strokes.push_back(VK_CONTROL);
-            if (alt_opt || (vk_modifiers & 0x4))
+            if (alt_opt || vk_modifiers & 0x4)
                 strokes.push_back(VK_MENU);
         }
 
@@ -377,17 +375,22 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
         std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
         for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
             ip.ki.wVk = *it;
-            SendInput(1, &ip, kSizeIp);
+            UINT result = SendInput(1, &ip, kSizeIp);
+            if (result == 0)
+                throw windows_function_error();
         }
         //send key up strokes
         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
         for (const auto it : strokes) {
             ip.ki.wVk = it;
-            SendInput(1, &ip, kSizeIp);
+            UINT result = SendInput(1, &ip, kSizeIp);
+            if (result == 0)
+                throw windows_function_error();
         }
 #else
+        static_assert(sizeof(UniChar) == sizeof(UChar),
+            "For unicode handling, assuming Mac wide char is same as ICU 16-bit unicode char.");
         try { //In MacOS, KeyCodeForChar will throw if key not in map
-
             CGEventRef d;
             CGEventRef u;
             uint64_t flags = 0;
@@ -400,7 +403,8 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
                 u = CGEventCreateKeyboardEvent(NULL, vk, false);
             }
             else {
-                const auto key_code = KeyCodeForChar(key);
+                UChar u16_char = icu::UnicodeString::fromUTF8(key)[0];
+                const auto key_code = KeyCodeForChar(u16_char);
                 d = CGEventCreateKeyboardEvent(NULL, key_code, true);
                 u = CGEventCreateKeyboardEvent(NULL, key_code, false);
                 flags = CGEventGetFlags(d); //in case KeyCode has associated flag
