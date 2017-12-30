@@ -67,17 +67,17 @@ namespace {
 #ifdef _WIN32
 
     class windows_function_error: public std::exception {
-        static_assert(std::is_same<std::remove_pointer<LPTSTR>::type, char>(),
-            "LPTSTR doesn't point to char. Problem for windows_function_error.");
+        static_assert(sizeof(std::remove_pointer<LPWSTR>::type) == sizeof(UChar),
+            "LPWSTR doesn't point to 16-bit char. Problem for windows_function_error.");
     public:
-        windows_function_error() noexcept : exception(), number_(GetLastError())
+        windows_function_error(DWORD n = GetLastError()) noexcept : exception(), number_(n)
         {
-            LPTSTR new_what;
-            FormatMessage(
+            LPWSTR new_what;
+            FormatMessageW(
                 FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                 nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                (LPTSTR)&new_what, 0, nullptr);
-            what_ = {new_what, [](LPTSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
+                (LPWSTR)&new_what, 0, nullptr);
+            what_ = {new_what, [](LPWSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
         }
         windows_function_error(const windows_function_error& other) noexcept :
             what_(other.what_), number_(other.number_)
@@ -91,15 +91,15 @@ namespace {
             return *this;
         }
         const char* what() const noexcept override
-        {
-            return what_.get();
+        {//C++ exceptions return char*, so have to coerce to that for UTF16 string in what_
+            return reinterpret_cast<char*>(what_.get());
         }
         DWORD number() const noexcept
         {
             return number_;
         }
     private:
-        std::shared_ptr<std::remove_pointer<LPTSTR>::type> what_;
+        std::shared_ptr<std::remove_pointer<LPWSTR>::type> what_;
         DWORD number_;
     };
 
@@ -186,10 +186,10 @@ namespace {
             sizeof(chars) / sizeof(chars[0]), &real_length, chars);
         if (real_length > 1)
             juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-                                                   juce::String("For key code ") + juce::String(key_code)
-                                                   + juce::String(", unicode character is ") + juce::String(real_length)
-                                                   + juce::String(". It is ") + juce::String((wchar_t*)chars,4)
-                                                   + juce::String("."));
+                juce::String("For key code ") + juce::String(key_code)
+                + juce::String(", unicode character is ") + juce::String(real_length)
+                + juce::String(" long. It is ") + juce::String((wchar_t*)chars, real_length)
+                + juce::String("."));
         return chars[0];
     }
 
