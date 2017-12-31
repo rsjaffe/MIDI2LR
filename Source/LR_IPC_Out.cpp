@@ -112,7 +112,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
                     == rsj::CCmethod::kAbsolute)) {
                 timer_b_.SetMidiMessage(mm);
             }
-            const auto[change, newvalue] = controls_model_->MeasureChange(mm, false);
+            const auto change = controls_model_->MeasureChange(mm);
             if (change == 0)
                 return;//don't send any signal
             if (change > 0) //turned clockwise

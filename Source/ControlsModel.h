@@ -81,7 +81,7 @@ public:
     ChannelModel(ChannelModel&&) = delete; //can't move atomics
     ChannelModel& operator=(ChannelModel&&) = delete;
     double ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
-    std::pair<short, short> MeasureChange(short controltype, size_t controlnumber, short value, bool recenter) noexcept(kNdebug);
+    short MeasureChange(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
     short SetToCenter(short controltype, size_t controlnumber) noexcept;
     rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
     {
@@ -161,10 +161,10 @@ public:
         return all_controls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
     }
 
-    std::pair<short, short> MeasureChange(const rsj::MidiMessage& mm, bool recenter) noexcept(kNdebug)
+    short MeasureChange(const rsj::MidiMessage& mm) noexcept(kNdebug)
     {
         Expects(mm.channel <= 15);
-        return all_controls_[mm.channel].MeasureChange(mm.message_type_byte, mm.number, mm.value, recenter);
+        return all_controls_[mm.channel].MeasureChange(mm.message_type_byte, mm.number, mm.value);
     }
     short SetToCenter(const rsj::MidiMessage& mm) noexcept
     {
@@ -208,10 +208,10 @@ public:
         return all_controls_[channel].PluginToController(controltype, controlnumber, value);
     }
 
-    std::pair<short, short> MeasureChange(short controltype, size_t channel, short controlnumber, short value, bool recenter = true) noexcept(kNdebug)
+    short MeasureChange(short controltype, size_t channel, short controlnumber, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].MeasureChange(controltype, controlnumber, value, recenter);
+        return all_controls_[channel].MeasureChange(controltype, controlnumber, value);
     }
 
     void SetCc(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug)

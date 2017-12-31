@@ -107,7 +107,7 @@ short ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcep
     return retval;
 }
 
-std::pair<short, short> ChannelModel::MeasureChange(short controltype, size_t controlnumber, short value, bool recenter) noexcept(kNdebug)
+short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short value) noexcept(kNdebug)
 {
     Expects((controltype == rsj::kCcFlag && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) ? (cc_low_.at(controlnumber) < cc_high_.at(controlnumber)) : 1);
     Expects((controltype == rsj::kPwFlag) ? (pitch_wheel_max_ > pitch_wheel_min_) : 1);
@@ -116,42 +116,40 @@ std::pair<short, short> ChannelModel::MeasureChange(short controltype, size_t co
     switch (controltype) {
         case rsj::kPwFlag:
         {
-            short newvalue = recenter ? (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_ : value;
-            return {value - pitch_wheel_current_.exchange(newvalue), newvalue};
+            return value - pitch_wheel_current_.exchange(value);
         }
         case rsj::kCcFlag:
             switch (cc_method_[controlnumber]) {
                 case rsj::CCmethod::kAbsolute:
                 {
-                    short newvalue = recenter ? (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber] : value;
                     std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
                     auto diff = value - current_v_[controlnumber];
-                    current_v_[controlnumber] = newvalue;
-                    return {diff, newvalue};
+                    current_v_[controlnumber] = value;
+                    return diff;
                 }
                 case rsj::CCmethod::kBinaryOffset:
                     if (IsNRPN_(controlnumber))
-                        return {value - kBit14, short(0)};
-                    return {value - kBit7, short(0)};
+                        return value - kBit14;
+                    return value - kBit7;
                 case rsj::CCmethod::kSignMagnitude:
                     if (IsNRPN_(controlnumber))
-                        return {(value & kBit14) ? -(value & kLow13Bits) : value, short(0)};
-                    return {(value & kBit7) ? -(value & kLow6Bits) : value, short(0)};
+                        return (value & kBit14) ? -(value & kLow13Bits) : value;
+                    return (value & kBit7) ? -(value & kLow6Bits) : value;
                 case rsj::CCmethod::kTwosComplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
                     if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-                        return {(value & kBit14) ? -((value ^ kMaxNrpn) + 1) : value, short(0)};
-                    return {(value & kBit7) ? -((value ^ kMaxMidi) + 1) : value, short(0)};
+                        return (value & kBit14) ? -((value ^ kMaxNrpn) + 1) : value;
+                    return (value & kBit7) ? -((value ^ kMaxMidi) + 1) : value;
                 default:
                     Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
-                    return {short(0), short(0)};
+                    return short(0);
             }
         case rsj::kNoteOnFlag:
-            return {short(0), short(0)};
+            return short(0);
         case rsj::kNoteOffFlag:
-            return {short(0), short(0)};
+            return short(0);
         default:
             Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-            return {short(0), short(0)};
+            return short(0);
     }
 }
 
