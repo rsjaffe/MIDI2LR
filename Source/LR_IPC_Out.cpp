@@ -37,6 +37,8 @@ namespace {
     constexpr int kConnectTryTime = 100;
     constexpr int kLrOutPort = 58763;
     constexpr int kTimerInterval = 1000;
+    constexpr rsj::TimeType kDelay{10}; //in between recurrent actions
+    constexpr rsj::TimeType kResetTimer{kDelay + kDelay / 2};
 }
 
 LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command):
@@ -47,7 +49,7 @@ LrIpcOut::~LrIpcOut()
     {
         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
         timer_off_ = true;
-        juce::Timer::stopTimer();
+        timer_a_.juce::Timer::stopTimer();
     }
     juce::InterprocessConnection::disconnect();
 }
@@ -60,7 +62,7 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* con
         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
 
     //start the timer
-    juce::Timer::startTimer(kTimerInterval);
+    timer_a_.juce::Timer::startTimer(kTimerInterval);
 }
 
 void LrIpcOut::SendCommand(const std::string& command)
@@ -77,19 +79,19 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     const rsj::MidiMessageId message{mm};
     static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
         {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
-        {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
-        {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
-        {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
-        {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
-        {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
-        {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
-        {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
-        {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
-        {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
-        {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
-        {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
-        {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
-        {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
+    {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
+    {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
+    {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
+    {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
+    {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
+    {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
+    {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
+    {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
+    {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
+    {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
+    {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
+    {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
+    {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
     };
     if (!command_map_->MessageExistsInMap(message) ||
         command_map_->GetCommandforMessage(message) == "Unmapped"s ||
@@ -102,43 +104,21 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     //if it is a repeated command, change command_to_send appropriately
     if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
         static rsj::TimeType nextresponse{0};
-        constexpr rsj::TimeType kDelay{10};
         if (const auto now = rsj::NowMs(); nextresponse < now) {
             nextresponse = now + kDelay;
-            const auto[change, newvalue] = controls_model_->MeasureChange(mm, true);
-            switch (mm.message_type_byte) {
-                case rsj::kPwFlag:
-                {
-                    midi_sender_->SendPitchWheel(mm.channel + 1, newvalue);
-                    break;
-                }
-                case rsj::kCcFlag:
-                {
-                    if (controls_model_->GetCcMethod(mm.channel, mm.number) == rsj::CCmethod::kAbsolute)
-                        midi_sender_->SendCc(mm.channel + 1, mm.number, newvalue);
-                    [[fallthrough]];
-                }
-                default:
-                    /* ignore everything else */;
+            if (mm.message_type_byte == rsj::kPwFlag ||
+                (mm.message_type_byte == rsj::kCcFlag &&
+                    controls_model_->GetCcMethod(mm.channel, mm.number)
+                    == rsj::CCmethod::kAbsolute)) {
+                timer_b_.SetMidiMessage(mm);
             }
-            switch (change) {//knob may be far off center first time used
-                case -5:
-                case -4:
-                case -3:
-                case -2:
-                case -1:
-                    command_to_send = a->second.second;
-                    break;//a->second is std::pair of selected unordered_map element
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    command_to_send = a->second.first;
-                    [[fallthrough]];
-                default:
-                    /*do nothing*/;
-            }
+            const auto[change, newvalue] = controls_model_->MeasureChange(mm, false);
+            if (change == 0)
+                return;//don't send any signal
+            if (change > 0) //turned clockwise
+                command_to_send = a->second.second;
+            else //turned counterclockwise
+                command_to_send = a->second.first;
         }
     }
     else {
@@ -181,9 +161,42 @@ void LrIpcOut::handleAsyncUpdate()
     }
 }
 
-void LrIpcOut::timerCallback()
+void LrIpcOut::timer_a::timerCallback()
 {
-    std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-    if (!timer_off_ && !juce::InterprocessConnection::isConnected())
-        juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+    std::lock_guard<decltype(timer_mutex_)> lock(owner_->timer_mutex_);
+    if (!owner_->timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
+        owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+}
+
+
+
+void LrIpcOut::timer_b::SetMidiMessage(rsj::MidiMessage mm)
+{
+    std::lock_guard<decltype(mtx_)> lock(mtx_);
+    mm_ = mm;
+    juce::Timer::startTimer(kResetTimer);
+
+}
+
+void LrIpcOut::timer_b::timerCallback()
+{
+    rsj::MidiMessage local_mm{};
+    {
+        std::lock_guard<decltype(mtx_)> lock(mtx_);
+        juce::Timer::stopTimer();
+        local_mm = mm_;
+    }
+    auto center = owner_->controls_model_->SetToCenter(local_mm);
+    //send center to control//
+    switch (local_mm.message_type_byte) {
+        case rsj::kPwFlag:
+        {
+            owner_->midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
+            break;
+        }
+        case rsj::kCcFlag:
+        {
+            owner_->midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
+        }
+    }
 }

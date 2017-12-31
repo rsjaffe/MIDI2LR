@@ -86,21 +86,25 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
     }
 }
 
-void ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcept
+short ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcept
 {
+    short retval{0};
     switch (controltype) {
         case rsj::kPwFlag:
-            pitch_wheel_current_.store((pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_, std::memory_order_release);
+            retval = (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_;
+            pitch_wheel_current_.store(retval, std::memory_order_release);
             break;
         case rsj::kCcFlag:
             if (cc_method_[controlnumber] == rsj::CCmethod::kAbsolute) {
                 std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
-                current_v_[controlnumber] = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber];
+                retval = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber] + 1;
+                current_v_[controlnumber] = retval;
             }
             break;
         default:
             /* */;
     }
+    return retval;
 }
 
 std::pair<short, short> ChannelModel::MeasureChange(short controltype, size_t controlnumber, short value, bool recenter) noexcept(kNdebug)

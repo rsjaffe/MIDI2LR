@@ -28,18 +28,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Misc.h"
+#include "MidiUtilities.h"
 class CommandMap;
 class ControlsModel;
 class MidiProcessor;
 class MidiSender;
-namespace rsj {
-    struct MidiMessage;
-}
+
 
 class LrIpcOut final:
     private juce::InterprocessConnection,
-    private juce::AsyncUpdater,
-    private juce::Timer {
+    private juce::AsyncUpdater {
 public:
     LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command);
     virtual ~LrIpcOut();
@@ -63,8 +61,27 @@ private:
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
     // Timer callback
-    void timerCallback() override;
-
+    class timer_a:public juce::Timer {
+    public:
+        timer_a(LrIpcOut* owner):owner_(owner)
+        {}
+    private:
+        void timerCallback() override;
+        LrIpcOut* owner_;
+    };
+    class timer_b:public juce::Timer {
+    public:
+        timer_b(LrIpcOut* owner):owner_{owner}
+        {}
+        void SetMidiMessage(rsj::MidiMessage mm);
+    private:
+        void timerCallback() override;
+        LrIpcOut* owner_;
+        rsj::RelaxTTasSpinLock mtx_;
+        rsj::MidiMessage mm_{};
+    };
+    timer_a timer_a_{this};
+    timer_b timer_b_{this};
     bool timer_off_{false};
     const CommandMap * const command_map_;
     ControlsModel* const controls_model_;

@@ -80,7 +80,7 @@ void LrIpcIn::run()
 {
     while (!juce::Thread::threadShouldExit()) {
         std::array<char, kBufferSize> line{};//zero filled by {} initialization
-        std::future<void> process_line_future;
+        std::future<void> process_fut;
         //if not connected, executes a wait 333 then goes back to while
         //if connected, tries to read a line, checks thread status and connection
         //status before each read attempt
@@ -123,18 +123,18 @@ void LrIpcIn::run()
                         Expects(!"Unexpected value for wait_status");
                 }
             } // end while !\n and is connected
-
             // if lose connection, line may not be terminated
             {
                 std::string param{line.data()};
-                if (param.back() == '\n')//run one at a time but don't wait for finish (will hold if future not finished next time around)
-                    process_line_future = std::async(std::launch::async, &LrIpcIn::ProcessLine, this, std::move(param));
+                if (param.back() == '\n')
+                    //run one at a time but don't wait for finish (will hold if future not finished next time around)
+                    process_fut = std::async(std::launch::async, &LrIpcIn::ProcessLine, this, std::move(param));
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)
     } //while not threadshouldexit
 threadExit: /* empty statement */;
-    std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
+    std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
     timer_off_ = true;
     juce::Timer::stopTimer();
     //thread_started_ = false; //don't change flag while depending upon it
@@ -156,8 +156,8 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
 {
     const static std::unordered_map<std::string, int> cmds = {
         {"SwitchProfile"s, 1},
-    {"SendKey"s, 2},
-    {"TerminateApplication"s, 3},
+        {"SendKey"s, 2},
+        {"TerminateApplication"s, 3},
     };
     // process input into [parameter] [Value]
     const auto trimmed_line = rsj::Trim(line);
@@ -200,7 +200,6 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
                     const auto value = controls_model_->PluginToController(msgtype,
                         static_cast<size_t>(msg->channel - 1),
                         gsl::narrow_cast<short>(msg->controller), original_value);
-
                     if (midi_sender_) {
                         switch (msgtype) {
                             case rsj::kNoteOnFlag:
