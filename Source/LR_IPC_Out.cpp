@@ -46,23 +46,16 @@ LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_co
 
 LrIpcOut::~LrIpcOut()
 {
-    {
-        std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-        timer_off_ = true;
-        timer_a_.juce::Timer::stopTimer();
-    }
+    connect_timer_.stop();
     juce::InterprocessConnection::disconnect();
 }
 
 void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor)
 {
     midi_sender_ = midi_sender;
-
     if (midi_processor)
         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
-
-    //start the timer
-    timer_a_.juce::Timer::startTimer(kTimerInterval);
+    connect_timer_.start();
 }
 
 void LrIpcOut::SendCommand(const std::string& command)
@@ -79,19 +72,19 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     const rsj::MidiMessageId message{mm};
     static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
         {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
-    {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
-    {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
-    {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
-    {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
-    {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
-    {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
-    {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
-    {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
-    {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
-    {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
-    {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
-    {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
-    {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
+        {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
+        {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
+        {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
+        {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
+        {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
+        {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
+        {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
+        {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
+        {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
+        {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
+        {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
+        {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
+        {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
     };
     if (!command_map_->MessageExistsInMap(message) ||
         command_map_->GetCommandforMessage(message) == "Unmapped"s ||
@@ -110,7 +103,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
                 (mm.message_type_byte == rsj::kCcFlag &&
                     controls_model_->GetCcMethod(mm.channel, mm.number)
                     == rsj::CCmethod::kAbsolute)) {
-                timer_b_.SetMidiMessage(mm);
+                recenter_timer_.SetMidiMessage(mm);
             }
             const auto change = controls_model_->MeasureChange(mm);
             if (change == 0)
@@ -161,24 +154,35 @@ void LrIpcOut::handleAsyncUpdate()
     }
 }
 
-void LrIpcOut::timer_a::timerCallback()
+void LrIpcOut::connect_timer::start()
 {
-    std::lock_guard<decltype(timer_mutex_)> lock(owner_->timer_mutex_);
-    if (!owner_->timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
+    std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+    juce::Timer::startTimer(kTimerInterval);
+    timer_off_ = false;
+}
+
+void LrIpcOut::connect_timer::stop()
+{
+    std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+    juce::Timer::stopTimer();
+    timer_off_ = true;
+}
+
+void LrIpcOut::connect_timer::timerCallback()
+{
+    std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+    if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
         owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
-
-
-void LrIpcOut::timer_b::SetMidiMessage(rsj::MidiMessage mm)
+void LrIpcOut::recenter_timer::SetMidiMessage(rsj::MidiMessage mm)
 {
     std::lock_guard<decltype(mtx_)> lock(mtx_);
     mm_ = mm;
     juce::Timer::startTimer(kResetTimer);
-
 }
 
-void LrIpcOut::timer_b::timerCallback()
+void LrIpcOut::recenter_timer::timerCallback()
 {
     rsj::MidiMessage local_mm{};
     {

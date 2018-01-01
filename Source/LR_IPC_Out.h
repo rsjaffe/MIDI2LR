@@ -61,17 +61,21 @@ private:
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
     // Timer callback
-    class timer_a:public juce::Timer {
+    class connect_timer:public juce::Timer {
     public:
-        timer_a(LrIpcOut* owner):owner_(owner)
+        connect_timer(LrIpcOut* owner):owner_(owner)
         {}
+        void start();
+        void stop();
     private:
         void timerCallback() override;
         LrIpcOut* owner_;
+        bool timer_off_{false};
+        mutable std::mutex connect_mutex_; //fix race during shutdown
     };
-    class timer_b:public juce::Timer {
+    class recenter_timer:public juce::Timer {
     public:
-        timer_b(LrIpcOut* owner):owner_{owner}
+        recenter_timer(LrIpcOut* owner):owner_{owner}
         {}
         void SetMidiMessage(rsj::MidiMessage mm);
     private:
@@ -80,13 +84,11 @@ private:
         rsj::RelaxTTasSpinLock mtx_;
         rsj::MidiMessage mm_{};
     };
-    timer_a timer_a_{this};
-    timer_b timer_b_{this};
-    bool timer_off_{false};
+    connect_timer connect_timer_{this};
+    recenter_timer recenter_timer_{this};
     const CommandMap * const command_map_;
     ControlsModel* const controls_model_;
     mutable rsj::RelaxTTasSpinLock command_mutex_; //fast spinlock for brief use
-    mutable std::mutex timer_mutex_; //fix race during shutdown
     std::string command_;
     std::vector<std::function<void(bool)>> callbacks_;
     std::shared_ptr<MidiSender> midi_sender_{nullptr};
