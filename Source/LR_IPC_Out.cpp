@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include <gsl/gsl>
+#include <algorithm>
 #include <unordered_map>
 #include <utility>
 #include "LR_IPC_Out.h"
@@ -37,8 +38,9 @@ namespace {
     constexpr int kConnectTryTime = 100;
     constexpr int kLrOutPort = 58763;
     constexpr int kTimerInterval = 1000;
-    constexpr rsj::TimeType kDelay{8}; //in between recurrent actions
-    constexpr rsj::TimeType kResetTimer{kDelay + kDelay / 2};
+    constexpr int kDelay{8}; //in between recurrent actions
+    constexpr int kMinResetTimer{250}; //give controller enough of a refractory period before resetting it
+    constexpr int kResetTimer{std::max(kMinResetTimer, kDelay + kDelay / 2)};//don't change, change kDelay and kMinResetTimer
 }
 
 LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command):
@@ -118,11 +120,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
         const auto computed_value = controls_model_->ControllerToPlugin(mm);
         command_to_send += ' ' + std::to_string(computed_value) + '\n';
     }
-    { //lock scope
-        std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-        command_ = command_to_send;
-    }
-    juce::AsyncUpdater::triggerAsyncUpdate();
+    SendCommand(command_to_send);
 }
 
 void LrIpcOut::connectionMade()
@@ -190,7 +188,7 @@ void LrIpcOut::recenter_timer::timerCallback()
         juce::Timer::stopTimer();
         local_mm = mm_;
     }
-    auto center = owner_->controls_model_->SetToCenter(local_mm);
+    const auto center = owner_->controls_model_->SetToCenter(local_mm);
     //send center to control//
     switch (local_mm.message_type_byte) {
         case rsj::kPwFlag:
@@ -201,6 +199,7 @@ void LrIpcOut::recenter_timer::timerCallback()
         case rsj::kCcFlag:
         {
             owner_->midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
+            break;
         }
     }
 }
