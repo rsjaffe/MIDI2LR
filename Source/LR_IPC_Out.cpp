@@ -37,7 +37,7 @@ namespace {
     constexpr int kConnectTryTime = 100;
     constexpr int kLrOutPort = 58763;
     constexpr int kTimerInterval = 1000;
-    constexpr rsj::TimeType kDelay{10}; //in between recurrent actions
+    constexpr rsj::TimeType kDelay{8}; //in between recurrent actions
     constexpr rsj::TimeType kResetTimer{kDelay + kDelay / 2};
 }
 
@@ -109,9 +109,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             if (change == 0)
                 return;//don't send any signal
             if (change > 0) //turned clockwise
-                command_to_send = a->second.second;
-            else //turned counterclockwise
                 command_to_send = a->second.first;
+            else //turned counterclockwise
+                command_to_send = a->second.second;
         }
     }
     else {
