@@ -312,11 +312,13 @@ local function UpdateCameraProfile(name)
   end
 end
 
-local function fSimulateKeys(keys, developonly)
+local function fSimulateKeys(keys, developonly, tool)
   return function()
     if developonly then
       if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
-        MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+        if tool == nil or tool == LrDevelopController.getSelectedTool() then
+          MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+        end
       end
     else
       MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
@@ -324,10 +326,12 @@ local function fSimulateKeys(keys, developonly)
   end
 end
 
-local function SimulateKeys(keys, developonly)
+local function SimulateKeys(keys, developonly, tool)
   if developonly then
     if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
-      MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+      if tool == nil or tool == LrDevelopController.getSelectedTool() then
+        MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+      end
     end
   else
     MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
