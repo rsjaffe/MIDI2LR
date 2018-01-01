@@ -2,8 +2,6 @@
 
 Looking to contribute something to MIDI2LR? **Here's how you can help.**
 
-
-
 ## Reporting issues
 
 We only accept issues that are bug reports or feature requests. Bugs must be isolated and reproducible problems that we can fix within the MIDI2LR code. Lightroom bugs and questions/concerns about the MIDI2LR program may be discussed in our [MIDI2LR Group Page](https://groups.google.com/forum/#!forum/midi2lr). Please read the following guidelines before opening any issue.
@@ -12,28 +10,15 @@ We only accept issues that are bug reports or feature requests. Bugs must be iso
 2. **Create an isolated and reproducible test case.** Be sure the problem exists in MIDI2LR's code with a description of the steps to replicate the bug that should be included in each bug report.
 3. **Share as much information as possible.** Include operating system and version, Lightroom version, version of MIDI2LR, etc. where appropriate. Also include steps to reproduce the bug.
 
-
-
 ## Key branches
 
 - `master` is the latest, deployed version.
 - `gh-pages` is the hosted docs (not to be used for pull requests).
 - `develop` is the official work in progress branch for the next release.
 
-
-
-## Notes on the repo
-
-Much of the documentation and certain files are generated from a Microsoft Access database. It is in a separate repository at https://github.com/rsjaffe/MIDI2LRdb because of its size. Please review the contents of the database before making changes to the program
-
-
-
 ## Pull requests
 
 - Try to submit pull requests against the `develop` branch for easier merging.
-
-
-
 
 ## Coding standards
 - For C++ files, use the formatting rules in `Visual Studio text editor settings.vssettings`.
