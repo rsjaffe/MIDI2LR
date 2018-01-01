@@ -166,7 +166,7 @@ public:
         Expects(mm.channel <= 15);
         return all_controls_[mm.channel].MeasureChange(mm.message_type_byte, mm.number, mm.value);
     }
-    short SetToCenter(const rsj::MidiMessage& mm) noexcept
+    short SetToCenter(const rsj::MidiMessage& mm) noexcept(kNdebug)
     {
         Expects(mm.channel <= 15);
         return all_controls_[mm.channel].SetToCenter(mm.message_type_byte, mm.number);
