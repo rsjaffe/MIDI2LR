@@ -73,9 +73,9 @@ private:
         bool timer_off_{false};
         mutable std::mutex connect_mutex_; //fix race during shutdown
     };
-    class recenter_timer:public juce::Timer {
+    class recenter:public juce::Timer {
     public:
-        recenter_timer(LrIpcOut* owner):owner_{owner}
+        recenter(LrIpcOut* owner):owner_{owner}
         {}
         void SetMidiMessage(rsj::MidiMessage mm);
     private:
@@ -85,7 +85,7 @@ private:
         rsj::MidiMessage mm_{};
     };
     connect_timer connect_timer_{this};
-    recenter_timer recenter_timer_{this};
+    recenter recenter_{this};
     const CommandMap * const command_map_;
     ControlsModel* const controls_model_;
     mutable rsj::RelaxTTasSpinLock command_mutex_; //fast spinlock for brief use

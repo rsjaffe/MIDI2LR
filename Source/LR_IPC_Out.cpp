@@ -35,12 +35,12 @@ using namespace std::string_literals;
 
 namespace {
     constexpr auto kHost = "127.0.0.1";
+    constexpr int kConnectTimer = 1000;
     constexpr int kConnectTryTime = 100;
-    constexpr int kLrOutPort = 58763;
-    constexpr int kTimerInterval = 1000;
     constexpr int kDelay{8}; //in between recurrent actions
-    constexpr int kMinResetTimer{250}; //give controller enough of a refractory period before resetting it
-    constexpr int kResetTimer{std::max(kMinResetTimer, kDelay + kDelay / 2)};//don't change, change kDelay and kMinResetTimer
+    constexpr int kLrOutPort = 58763;
+    constexpr int kMinRecenterTimer{250}; //give controller enough of a refractory period before resetting it
+    constexpr int kRecenterTimer{std::max(kMinRecenterTimer, kDelay + kDelay / 2)};//don't change, change kDelay and kMinRecenterTimer
 }
 
 LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command):
@@ -105,7 +105,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
                 (mm.message_type_byte == rsj::kCcFlag &&
                     controls_model_->GetCcMethod(mm.channel, mm.number)
                     == rsj::CCmethod::kAbsolute)) {
-                recenter_timer_.SetMidiMessage(mm);
+                recenter_.SetMidiMessage(mm);
             }
             const auto change = controls_model_->MeasureChange(mm);
             if (change == 0)
@@ -155,7 +155,7 @@ void LrIpcOut::handleAsyncUpdate()
 void LrIpcOut::connect_timer::start()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
-    juce::Timer::startTimer(kTimerInterval);
+    juce::Timer::startTimer(kConnectTimer);
     timer_off_ = false;
 }
 
@@ -173,14 +173,14 @@ void LrIpcOut::connect_timer::timerCallback()
         owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
-void LrIpcOut::recenter_timer::SetMidiMessage(rsj::MidiMessage mm)
+void LrIpcOut::recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
     std::lock_guard<decltype(mtx_)> lock(mtx_);
     mm_ = mm;
-    juce::Timer::startTimer(kResetTimer);
+    juce::Timer::startTimer(kRecenterTimer);
 }
 
-void LrIpcOut::recenter_timer::timerCallback()
+void LrIpcOut::recenter::timerCallback()
 {
     rsj::MidiMessage local_mm{};
     {

@@ -44,7 +44,7 @@ namespace {
     constexpr int kNotConnectedWait = 333;
     constexpr int kReadyWait = 1000;
     constexpr int kStopWait = 1000;
-    constexpr int kTimerInterval = 1000;
+    constexpr int kConnectTimer = 1000;
 }
 
 LrIpcIn::LrIpcIn(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
@@ -67,7 +67,7 @@ void LrIpcIn::Init(std::shared_ptr<MidiSender>& midi_sender) noexcept
 {
     midi_sender_ = midi_sender;
     //start the timer
-    juce::Timer::startTimer(kTimerInterval);
+    juce::Timer::startTimer(kConnectTimer);
 }
 
 void LrIpcIn::PleaseStopThread()
