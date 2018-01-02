@@ -48,7 +48,7 @@ LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_co
 
 LrIpcOut::~LrIpcOut()
 {
-    connect_timer_.stop();
+    connect_timer_.Stop();
     juce::InterprocessConnection::disconnect();
 }
 
@@ -57,7 +57,7 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* con
     midi_sender_ = midi_sender;
     if (midi_processor)
         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
-    connect_timer_.start();
+    connect_timer_.Start();
 }
 
 void LrIpcOut::SendCommand(const std::string& command)
@@ -152,14 +152,14 @@ void LrIpcOut::handleAsyncUpdate()
     }
 }
 
-void LrIpcOut::connect_timer::start()
+void LrIpcOut::connect_timer::Start()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     juce::Timer::startTimer(kConnectTimer);
     timer_off_ = false;
 }
 
-void LrIpcOut::connect_timer::stop()
+void LrIpcOut::connect_timer::Stop()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     juce::Timer::stopTimer();

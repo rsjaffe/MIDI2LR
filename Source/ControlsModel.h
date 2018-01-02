@@ -121,6 +121,15 @@ public:
     void SetPwMin(short value) noexcept(kNdebug);
 
 private:
+    short CenterCc(size_t controlnumber)
+    {
+        return (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 +
+            cc_low_[controlnumber] + (cc_high_[controlnumber] - cc_low_[controlnumber]) % 2;
+    }
+    short CenterPw()
+    {
+        return  (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_ + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
+    }
     friend class cereal::access;
     bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
     {

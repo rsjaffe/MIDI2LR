@@ -24,7 +24,7 @@ local LrPathUtils    = import 'LrPathUtils'
 local LrSystemInfo   = import 'LrSystemInfo'
 
 local function writeDebug()
-  local mess = 'Lightroom version ' .. LrApplication.versionString() .. '\n'
+  local mess = 'Lightroom version ' .. LrApplication.versionString() .. '\nOperating system '
   .. LrSystemInfo.summaryString() .. '\nPlugin version ' .. Info.VERSION.major 
   .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
   if Info.AppVersion then
@@ -42,7 +42,7 @@ local function writeDebug()
   .. '\nApplication data path ' .. LrPathUtils.getStandardFilePath ('appData')
 
 
-  local datafile = LrPathUtils.child(_PLUGIN.path, 'debug.txt')
+  local datafile = LrPathUtils.child(LrPathUtils.parent(_PLUGIN.path), 'MIDI2LRinfo.txt')
   local file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
   file:write(mess)
   file:close()

@@ -92,14 +92,13 @@ short ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcep
     short retval{0};
     switch (controltype) {
         case rsj::kPwFlag:
-            retval = (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_ + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
+            retval = CenterPw();
             pitch_wheel_current_.store(retval, std::memory_order_release);
             break;
         case rsj::kCcFlag:
             if (cc_method_[controlnumber] == rsj::CCmethod::kAbsolute) {
                 std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
-                retval = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 +
-                    cc_low_[controlnumber] + (cc_high_[controlnumber] - cc_low_[controlnumber]) % 2;
+                retval = CenterCc(controlnumber);
                 current_v_[controlnumber] = retval;
             }
             break;
@@ -213,8 +212,7 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value) noexcept(kNdebug)
         cc_high_[controlnumber] = (value <= cc_low_[controlnumber] || value > max) ? max : value;
     }
     //no lock as this function called in non-multithreaded manner
-    current_v_[controlnumber] = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber] +
-        (cc_high_[controlnumber] - cc_low_[controlnumber]) % 2;
+    current_v_[controlnumber] = CenterCc(controlnumber);
 }
 
 void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
@@ -227,8 +225,7 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
     else
         cc_low_[controlnumber] = (value < 0 || value >= cc_high_[controlnumber]) ? 0 : value;
     //no lock as this function called in non-multithreaded manner
-    current_v_[controlnumber] = (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 + cc_low_[controlnumber] +
-        (cc_high_[controlnumber] - cc_low_[controlnumber]) % 2;
+    current_v_[controlnumber] = CenterCc(controlnumber);
 }
 
 void ChannelModel::SetPwMax(short value) noexcept(kNdebug)
@@ -239,6 +236,7 @@ void ChannelModel::SetPwMax(short value) noexcept(kNdebug)
         pitch_wheel_max_ = kMaxNrpn;
     else
         pitch_wheel_max_ = value;
+    pitch_wheel_current_.store(CenterPw(),std::memory_order_relaxed);
 }
 
 void ChannelModel::SetPwMin(short value) noexcept(kNdebug)
@@ -249,6 +247,7 @@ void ChannelModel::SetPwMin(short value) noexcept(kNdebug)
         pitch_wheel_min_ = 0;
     else
         pitch_wheel_min_ = value;
+    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 
 void ChannelModel::ActiveToSaved()  const
