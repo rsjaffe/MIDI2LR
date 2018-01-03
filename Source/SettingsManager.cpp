@@ -83,7 +83,7 @@ void SettingsManager::ConnectionCallback(bool connected)
             ptr->SendCommand("AppLocale "s + juce::SystemStats::getDisplayLanguage().toStdString() + '\n');
             ptr->SendCommand("AppVersion "s + ProjectInfo::versionString + '\n');
             ptr->SendCommand("AppPath "s +
-                juce::File::getSpecialLocation(juce::File::currentExecutableFile).getFullPathName().toStdString() + '\n');
+                juce::File::getSpecialLocation(juce::File::currentApplicationFile).getFullPathName().toStdString() + '\n');
         }
 }
 
