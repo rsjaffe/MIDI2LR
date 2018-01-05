@@ -1,7 +1,7 @@
 <project>
   <shortName>MIDI2LR</shortName>
   <fullName>MIDI2LR</fullName>
-  <version>2.5.0.3</version>
+  <version>2.6.0.14</version>
   <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
   <licenseFile>../LICENSE.txt</licenseFile>
   <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
@@ -40,6 +40,9 @@
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Database.lua</origin>
             </distributionFile>
             <distributionFile>
+              <origin>../Source/LRPlugin/MIDI2LR.lrplugin/DebugInfo.lua</origin>
+            </distributionFile>
+            <distributionFile>
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/FileLoadPref.lua</origin>
             </distributionFile>
             <distributionFile>
@@ -56,6 +59,9 @@
             </distributionFile>
             <distributionFile>
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Keys.lua</origin>
+            </distributionFile>
+            <distributionFile>
+              <origin>../Source/LRPlugin/MIDI2LR.lrplugin/KeyShortcuts.lua</origin>
             </distributionFile>
             <distributionFile>
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/LaunchServer.lua</origin>

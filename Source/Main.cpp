@@ -49,7 +49,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 
 namespace {
-    const juce::String ShutDownString{"--LRSHUTDOWN"};
+    const juce::String kShutDownString{"--LRSHUTDOWN"};
 }
 
 class MIDI2LRApplication final: public juce::JUCEApplication {
@@ -58,7 +58,7 @@ public:
     {
         CCoptions::LinkToControlsModel(&controls_model_);
         PWoptions::LinkToControlsModel(&controls_model_);
-        juce::LookAndFeel::setDefaultLookAndFeel(look_feel.get());
+        juce::LookAndFeel::setDefaultLookAndFeel(look_feel_.get());
     }
 
     // ReSharper disable once CppConstValueFunctionReturnType
@@ -94,11 +94,11 @@ public:
         // start - up after all, it can just call the quit() method and the event
         // loop won't be run.
 
-        if (command_line != ShutDownString) {
+        if (command_line != kShutDownString) {
             cerealLoad_();
             midi_processor_->Init();
             midi_sender_->Init();
-            lr_ipc_out_->Init(midi_processor_.get());
+            lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
             profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
@@ -150,13 +150,13 @@ public:
         // When another instance of the application is launched while this one is
         // running, this method is invoked, and the commandLine parameter tells
         // you what the other instance's command-line arguments were.
-        if (command_line == ShutDownString)
+        if (command_line == kShutDownString)
             //shutting down
             systemRequestedQuit();
     }
 
     void unhandledException(const std::exception * e,
-        const juce::String& sourceFilename, int lineNumber) override
+        const juce::String& source_filename, int lineNumber) override
     {
         // If any unhandled exceptions make it through to the message dispatch
         // loop, this callback will be triggered, in case you want to log them or
@@ -168,17 +168,19 @@ public:
         if (juce::Logger::getCurrentLogger()) {
             if (e) {
                 juce::Logger::writeToLog(juce::String(e->what()) + " " +
-                    sourceFilename + " line " + juce::String(lineNumber));
-                juce::AlertWindow::showNativeDialogBox("Error",
+                    source_filename + " line " + juce::String(lineNumber));
+                juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                    "Error",
                     "Unhandled exception. " + juce::String(e->what()) + " " +
-                    sourceFilename + " line " + juce::String(lineNumber), false);
+                    source_filename + " line " + juce::String(lineNumber));
             }
             else {
-                juce::Logger::writeToLog(sourceFilename + " line " +
+                juce::Logger::writeToLog(source_filename + " line " +
                     juce::String(lineNumber));
-                juce::AlertWindow::showNativeDialogBox("Error",
-                    "Unhandled exception. " + sourceFilename +
-                    " line " + juce::String(lineNumber), false);
+                juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                    "Error",
+                    "Unhandled exception. " + source_filename +
+                    " line " + juce::String(lineNumber));
             }
         }
         std::terminate(); // can't go on with the program
@@ -190,7 +192,7 @@ private:
         const auto profilefile =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
             getSiblingFile("default.xml");
-        command_map_.toXMLDocument(profilefile);
+        command_map_.ToXmlDocument(profilefile);
     }
     void cerealSave_()
     {//scoped so archive gets flushed
@@ -204,9 +206,9 @@ private:
             oarchive(controls_model_);
         }
         else
-            juce::AlertWindow::showNativeDialogBox("Error",
-                "Unable to save control settings. Unable to open file settings.bin.",
-                false);
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
+                "Error",
+                "Unable to save control settings. Unable to open file settings.bin.");
     }
     void cerealLoad_()
     {//scoped so archive gets flushed
@@ -223,13 +225,13 @@ private:
     ControlsModel controls_model_{};
     ProfileManager profile_manager_{&controls_model_, &command_map_};
     SettingsManager settings_manager_{&profile_manager_};
-    std::shared_ptr<LR_IPC_IN> lr_ipc_in_{std::make_shared<LR_IPC_IN>
+    std::shared_ptr<LrIpcIn> lr_ipc_in_{std::make_shared<LrIpcIn>
         (&controls_model_, &profile_manager_, &command_map_)};
-    std::shared_ptr<LR_IPC_OUT> lr_ipc_out_{std::make_shared<LR_IPC_OUT>
+    std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>
         (&controls_model_, &command_map_)};
-    std::shared_ptr<MIDIProcessor> midi_processor_{std::make_shared<MIDIProcessor>()};
-    std::shared_ptr<MIDISender> midi_sender_{std::make_shared<MIDISender>()};
-    std::unique_ptr<juce::LookAndFeel> look_feel{std::make_unique<juce::LookAndFeel_V3>()};
+    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
+    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
+    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
     std::unique_ptr<MainWindow> main_window_{nullptr};
     VersionChecker version_checker_{&settings_manager_};
 };

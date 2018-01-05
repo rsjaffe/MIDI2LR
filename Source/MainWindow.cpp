@@ -41,21 +41,21 @@ juce::DocumentWindow::closeButton}, juce::Timer()
 }
 
 void MainWindow::Init(CommandMap* const command_map,
-    std::weak_ptr<LR_IPC_OUT>&& lr_ipc_out,
-    std::shared_ptr<MIDIProcessor>& midi_processor,
+    std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+    std::shared_ptr<MidiProcessor>& midi_processor,
     ProfileManager* const profile_manager,
     SettingsManager* const settings_manager,
-    std::shared_ptr<MIDISender>& midi_sender)
+    std::shared_ptr<MidiSender>& midi_sender)
 {
     // get the auto time setting
-    auto_hide_counter_ = (settings_manager) ? settings_manager->getAutoHideTime() : 0;
+    auto_hide_counter_ = (settings_manager) ? settings_manager->GetAutoHideTime() : 0;
 
     //start timing
     juce::Timer::startTimer(1000);
 
     if (window_content_)
         window_content_->Init(command_map, std::move(lr_ipc_out),
-                              midi_processor, profile_manager, settings_manager, midi_sender);
+            midi_processor, profile_manager, settings_manager, midi_sender);
 }
 
 void MainWindow::timerCallback()

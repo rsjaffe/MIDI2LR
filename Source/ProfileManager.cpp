@@ -36,22 +36,22 @@ ProfileManager::ProfileManager(ControlsModel* const c_model, CommandMap* const c
 command_map_{cmap}, controls_model_{c_model}
 {}
 
-void ProfileManager::Init(std::weak_ptr<LR_IPC_OUT>&& out,
-    MIDIProcessor* const midiProcessor)
+void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out,
+    MidiProcessor* const midiProcessor)
 {
     //copy the pointers
     lr_ipc_out_ = std::move(out);
 
     if (const auto ptr = lr_ipc_out_.lock())
-    // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-    // settings on connection
-        ptr->addCallback(this, &ProfileManager::ConnectionCallback);
+        // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+        // settings on connection
+        ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
 
     if (midiProcessor)
-        midiProcessor->addCallback(this, &ProfileManager::MIDIcmdCallback);
+        midiProcessor->AddCallback(this, &ProfileManager::MidiCmdCallback);
 }
 
-void ProfileManager::setProfileDirectory(const juce::File& directory)
+void ProfileManager::SetProfileDirectory(const juce::File& directory)
 {
     profile_location_ = directory;
 
@@ -60,27 +60,27 @@ void ProfileManager::setProfileDirectory(const juce::File& directory)
 
     current_profile_index_ = 0;
     profiles_.clear();
-    for (const auto file : file_array)
+    for (const auto& file : file_array)
         profiles_.emplace_back(file.getFileName());
 
     if (profiles_.size() > 0)
-        switchToProfile(profiles_[0]);
+        SwitchToProfile(profiles_[0]);
 }
 
-const std::vector<juce::String>& ProfileManager::getMenuItems() const noexcept
+const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
 {
     return profiles_;
 }
 
-void ProfileManager::switchToProfile(int profile_index)
+void ProfileManager::SwitchToProfile(int profile_index)
 {
     if (profile_index >= 0 && profile_index < gsl::narrow_cast<int>(profiles_.size())) {
-        switchToProfile(profiles_[static_cast<size_t>(profile_index)]);
+        SwitchToProfile(profiles_[static_cast<size_t>(profile_index)]);
         current_profile_index_ = profile_index;
     }
 }
 
-void ProfileManager::switchToProfile(const juce::String& profile)
+void ProfileManager::SwitchToProfile(const juce::String& profile)
 {
     const auto profile_file = profile_location_.getChildFile(profile);
 
@@ -94,53 +94,53 @@ void ProfileManager::switchToProfile(const juce::String& profile)
                 auto command = "ChangedToDirectory "s +
                     juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
                     '\n';
-                ptr->sendCommand(command);
+                ptr->SendCommand(command);
                 command = "ChangedToFile "s + profile.toStdString() + '\n';
-                ptr->sendCommand(command);
+                ptr->SendCommand(command);
             }
         }
     }
 }
 
-void ProfileManager::switchToNextProfile()
+void ProfileManager::SwitchToNextProfile()
 {
     current_profile_index_++;
     if (current_profile_index_ == gsl::narrow_cast<int>(profiles_.size()))
         current_profile_index_ = 0;
-    switchToProfile(current_profile_index_);
+    SwitchToProfile(current_profile_index_);
 }
 
-void ProfileManager::switchToPreviousProfile()
+void ProfileManager::SwitchToPreviousProfile()
 {
     current_profile_index_--;
     if (current_profile_index_ < 0)
         current_profile_index_ = gsl::narrow_cast<int>(profiles_.size()) - 1;
-    switchToProfile(current_profile_index_);
+    SwitchToProfile(current_profile_index_);
 }
 
-void ProfileManager::mapCommand(const RSJ::MidiMessageId& msg)
+void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
-    const auto cmd = command_map_->getCommandforMessage(msg);
+    const auto cmd = command_map_->GetCommandforMessage(msg);
     if (cmd == "Previous Profile"s) {
-        switch_state_ = SWITCH_STATE::PREV;
+        switch_state_ = SwitchState::kPrev;
         triggerAsyncUpdate();
     }
     else if (cmd == "Next Profile"s) {
-        switch_state_ = SWITCH_STATE::NEXT;
+        switch_state_ = SwitchState::kNext;
         triggerAsyncUpdate();
     }
 }
 
-void ProfileManager::MIDIcmdCallback(RSJ::MidiMessage mm)
+void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 {
     if (command_map_) {
-        const RSJ::MidiMessageId cc = mm;
+        const rsj::MidiMessageId cc = mm;
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
         if ((controls_model_->ControllerToPlugin(mm) < 0.4)
-            || !command_map_->messageExistsInMap(cc))
+            || !command_map_->MessageExistsInMap(cc))
             return;
-        mapCommand(cc);
+        MapCommand(cc);
     }
 }
 
@@ -151,22 +151,22 @@ void ProfileManager::ConnectionCallback(bool connected)
             juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
             '\n';
         if (const auto ptr = lr_ipc_out_.lock())
-            ptr->sendCommand(command);
+            ptr->SendCommand(command);
     }
 }
 
 void ProfileManager::handleAsyncUpdate()
 {
     switch (switch_state_) {
-    case SWITCH_STATE::PREV:
-        switchToPreviousProfile();
-        switch_state_ = SWITCH_STATE::NONE;
-        break;
-    case SWITCH_STATE::NEXT:
-        switchToNextProfile();
-        switch_state_ = SWITCH_STATE::NONE;
-        break;
-    default:
-        break;
+        case SwitchState::kPrev:
+            SwitchToPreviousProfile();
+            switch_state_ = SwitchState::kNone;
+            break;
+        case SwitchState::kNext:
+            SwitchToNextProfile();
+            switch_state_ = SwitchState::kNone;
+            break;
+        default:
+            break;
     }
 }

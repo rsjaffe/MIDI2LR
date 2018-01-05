@@ -24,7 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <array>
 #include <atomic>
-#include <chrono>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/access.hpp>
@@ -34,34 +33,28 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "Misc.h"
 
-namespace RSJ {
+namespace rsj {
     enum struct CCmethod: char {
-        absolute, twoscomplement, binaryoffset, signmagnitude
+        kAbsolute, kTwosComplement, kBinaryOffset, kSignMagnitude
     };
-    inline auto now_ms() noexcept
-    {
-        return std::chrono::time_point_cast<std::chrono::milliseconds>
-            (std::chrono::steady_clock::now()).time_since_epoch().count();
-    }
-    using timetype = decltype(now_ms());
 
     struct SettingsStruct {
         short number;//not using size_t so serialized data won't vary if size_t varies
         short low;
         short high;
-        RSJ::CCmethod method;
-        SettingsStruct(short n = 0, short l = 0, short h = 0x7F, RSJ::CCmethod m = RSJ::CCmethod::absolute):
+        rsj::CCmethod method;
+        SettingsStruct(short n = 0, short l = 0, short h = 0x7F, rsj::CCmethod m = rsj::CCmethod::kAbsolute):
             number{n}, low{l}, high{h}, method{m}
         {}
 
         template<class Archive> void serialize(Archive& archive, uint32_t const version)
         {
             switch (version) {
-            case 1:
-                archive(number, high, low, method);//keep this order for compatibility with earlier versions
-                break;
-            default:
-                Expects(!"Wrong archive number for SettingsStruct");
+                case 1:
+                    archive(number, high, low, method);//keep this order for compatibility with earlier versions
+                    break;
+                default:
+                    Expects(!"Wrong archive number for SettingsStruct");
             }
         }
     };
@@ -73,12 +66,12 @@ private:
     constexpr static short kBit7 = 0x40;
     constexpr static short kLow13Bits = 0x1FFF;
     constexpr static short kLow6Bits = 0x3F;
-    constexpr static short kMaxMIDI = 0x7F;
-    constexpr static short kMaxMIDIHalf = kMaxMIDI / 2;
-    constexpr static short kMaxNRPN = 0x3FFF;
-    constexpr static short kMaxNRPNHalf = kMaxNRPN / 2;
+    constexpr static short kMaxMidi = 0x7F;
+    constexpr static short kMaxMidiHalf = kMaxMidi / 2;
+    constexpr static short kMaxNrpn = 0x3FFF;
+    constexpr static short kMaxNrpnHalf = kMaxNrpn / 2;
     constexpr static size_t kMaxControls = 0x4000;
-    constexpr static RSJ::timetype kUpdateDelay = 250;
+    constexpr static rsj::TimeType kUpdateDelay = 250;
 public:
     ChannelModel();
     ~ChannelModel() = default;
@@ -87,37 +80,77 @@ public:
     ChannelModel& operator= (const ChannelModel&) = delete;
     ChannelModel(ChannelModel&&) = delete; //can't move atomics
     ChannelModel& operator=(ChannelModel&&) = delete;
-    double ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(ndebug);
-    RSJ::CCmethod getCCmethod(size_t controlnumber) const noexcept(ndebug);
-    short getCCmax(size_t controlnumber) const noexcept(ndebug);
-    short getCCmin(size_t controlnumber) const noexcept(ndebug);
-    short getPWmax() const noexcept;
-    short getPWmin() const noexcept;
-    short PluginToController(short controltype, size_t controlnumber, double value) noexcept(ndebug);
-    void setCC(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug);
-    void setCCall(size_t controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug);
-    void setCCmax(size_t controlnumber, short value) noexcept(ndebug);
-    void setCCmethod(size_t controlnumber, RSJ::CCmethod value) noexcept(ndebug);
-    void setCCmin(size_t controlnumber, short value) noexcept(ndebug);
-    void setPWmax(short value) noexcept(ndebug);
-    void setPWmin(short value) noexcept(ndebug);
+    double ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
+    short MeasureChange(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
+    short SetToCenter(short controltype, size_t controlnumber) noexcept;
+    rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
+    {
+        Expects(controlnumber <= kMaxNrpn);
+        return cc_method_[controlnumber];
+    }
+    short GetCcMax(size_t controlnumber) const noexcept(kNdebug)
+    {
+        Expects(controlnumber <= kMaxNrpn);
+        return cc_high_[controlnumber];
+    }
+    short GetCcMin(size_t controlnumber) const noexcept(kNdebug)
+    {
+        Expects(controlnumber <= kMaxNrpn);
+        return cc_low_[controlnumber];
+    }
+
+    short GetPwMax() const noexcept
+    {
+        return pitch_wheel_max_;
+    }
+    short GetPwMin() const noexcept
+    {
+        return pitch_wheel_min_;
+    }
+    short PluginToController(short controltype, size_t controlnumber, double value) noexcept(kNdebug);
+    void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug);
+    void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug);
+    void SetCcMax(size_t controlnumber, short value) noexcept(kNdebug);
+    void SetCcMethod(size_t controlnumber, rsj::CCmethod value) noexcept(kNdebug)
+    {
+        Expects(controlnumber <= kMaxNrpn);
+        cc_method_[controlnumber] = value;
+    }
+    void SetCcMin(size_t controlnumber, short value) noexcept(kNdebug);
+    void SetPwMax(short value) noexcept(kNdebug);
+    void SetPwMin(short value) noexcept(kNdebug);
 
 private:
+    short CenterCc(size_t controlnumber)
+    {
+        return (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 +
+            cc_low_[controlnumber] + (cc_high_[controlnumber] - cc_low_[controlnumber]) % 2;
+    }
+    short CenterPw()
+    {
+        return  (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_ + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
+    }
     friend class cereal::access;
-    bool IsNRPN_(size_t controlnumber) const noexcept(ndebug);
-    double OffsetResult_(short diff, size_t controlnumber) noexcept(ndebug);
-    mutable std::atomic<RSJ::timetype> lastUpdate_{0};
-    mutable std::vector<RSJ::SettingsStruct> settingsToSave_{};
-    short pitchWheelMax_{kMaxNRPN};
-    short pitchWheelMin_{0};
-    std::array<RSJ::CCmethod, kMaxControls> ccMethod_;
-    std::array<short, kMaxControls> ccHigh_;
-    std::array<short, kMaxControls> ccLow_;
-    std::array<std::atomic<short>, kMaxControls> currentV_;
+    bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
+    {
+        Expects(controlnumber <= kMaxNrpn);
+        return controlnumber > kMaxMidi;
+    }
+    double OffsetResult(short diff, size_t controlnumber) noexcept(kNdebug);
+    mutable rsj::RelaxTTasSpinLock current_v_mtx_;
+    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
+    short pitch_wheel_max_{kMaxNrpn};
+    short pitch_wheel_min_{0};
+    std::atomic<short> pitch_wheel_current_;
+    std::array<rsj::CCmethod, kMaxControls> cc_method_;
+    std::array<short, kMaxControls> cc_high_;
+    std::array<short, kMaxControls> cc_low_;
+    std::array<short, kMaxControls> current_v_;
     template<class Archive> void load(Archive& archive, uint32_t const version);
     template<class Archive> void save(Archive& archive, uint32_t const version) const;
-    void activeToSaved() const;
-    void savedToActive() noexcept(ndebug);
+    void ActiveToSaved() const;
+    void CcDefaults() noexcept;
+    void SavedToActive() noexcept(kNdebug);
 };
 
 class ControlsModel {
@@ -131,87 +164,104 @@ public:
     ControlsModel& operator= (const ControlsModel&) = delete;
     ControlsModel(ControlsModel&&) = delete; //can't move atomics
     ControlsModel& operator=(ControlsModel&&) = delete;
-    double ControllerToPlugin(const RSJ::MidiMessage& mm) noexcept(ndebug)
+    double ControllerToPlugin(const rsj::MidiMessage& mm) noexcept(kNdebug)
     {
         Expects(mm.channel <= 15);
-        return allControls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
+        return all_controls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
     }
 
-    RSJ::CCmethod getCCmethod(size_t channel, short controlnumber) const noexcept(ndebug)
+    short MeasureChange(const rsj::MidiMessage& mm) noexcept(kNdebug)
     {
-        Expects(channel <= 15);
-        return allControls_[channel].getCCmethod(controlnumber);
+        Expects(mm.channel <= 15);
+        return all_controls_[mm.channel].MeasureChange(mm.message_type_byte, mm.number, mm.value);
+    }
+    short SetToCenter(const rsj::MidiMessage& mm) noexcept(kNdebug)
+    {
+        Expects(mm.channel <= 15);
+        return all_controls_[mm.channel].SetToCenter(mm.message_type_byte, mm.number);
     }
 
-    short getCCmax(size_t channel, short controlnumber) const noexcept(ndebug)
+    rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return allControls_[channel].getCCmax(controlnumber);
+        return all_controls_[channel].GetCcMethod(controlnumber);
     }
 
-    short getCCmin(size_t channel, short controlnumber) noexcept(ndebug)
+    short GetCcMax(size_t channel, short controlnumber) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return allControls_[channel].getCCmin(controlnumber);
+        return all_controls_[channel].GetCcMax(controlnumber);
     }
 
-    short getPWmax(size_t channel) const noexcept(ndebug)
+    short GetCcMin(size_t channel, short controlnumber) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return allControls_[channel].getPWmax();
+        return all_controls_[channel].GetCcMin(controlnumber);
     }
 
-    short getPWmin(size_t channel) const noexcept(ndebug)
+    short GetPwMax(size_t channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return allControls_[channel].getPWmin();
+        return all_controls_[channel].GetPwMax();
     }
 
-    short PluginToController(short controltype, size_t channel, short controlnumber, double value) noexcept(ndebug)
+    short GetPwMin(size_t channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return allControls_[channel].PluginToController(controltype, controlnumber, value);
+        return all_controls_[channel].GetPwMin();
     }
 
-    void setCC(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug)
+    short PluginToController(short controltype, size_t channel, short controlnumber, double value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        allControls_[channel].setCC(controlnumber, min, max, controltype);
-    }
-    void setCCall(size_t channel, short controlnumber, short min, short max, RSJ::CCmethod controltype) noexcept(ndebug)
-    {
-        Expects(channel <= 15);
-        allControls_[channel].setCCall(controlnumber, min, max, controltype);
+        return all_controls_[channel].PluginToController(controltype, controlnumber, value);
     }
 
-    void setCCmax(size_t channel, short controlnumber, short value) noexcept(ndebug)
+    short MeasureChange(short controltype, size_t channel, short controlnumber, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        allControls_[channel].setCCmax(controlnumber, value);
+        return all_controls_[channel].MeasureChange(controltype, controlnumber, value);
     }
 
-    void setCCmethod(size_t channel, short controlnumber, RSJ::CCmethod value) noexcept(ndebug)
+    void SetCc(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        allControls_[channel].setCCmethod(controlnumber, value);
+        all_controls_[channel].SetCc(controlnumber, min, max, controltype);
+    }
+    void SetCcAll(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug)
+    {
+        Expects(channel <= 15);
+        all_controls_[channel].SetCcAll(controlnumber, min, max, controltype);
     }
 
-    void setCCmin(size_t channel, short controlnumber, short value) noexcept(ndebug)
+    void SetCcMax(size_t channel, short controlnumber, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        allControls_[channel].setCCmin(controlnumber, value);
+        all_controls_[channel].SetCcMax(controlnumber, value);
     }
 
-    void setPWmax(size_t channel, short value) noexcept(ndebug)
+    void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        allControls_[channel].setPWmax(value);
+        all_controls_[channel].SetCcMethod(controlnumber, value);
     }
 
-    void setPWmin(size_t channel, short value) noexcept(ndebug)
+    void SetCcMin(size_t channel, short controlnumber, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        allControls_[channel].setPWmin(value);
+        all_controls_[channel].SetCcMin(controlnumber, value);
+    }
+
+    void SetPwMax(size_t channel, short value) noexcept(kNdebug)
+    {
+        Expects(channel <= 15);
+        all_controls_[channel].SetPwMax(value);
+    }
+
+    void SetPwMin(size_t channel, short value) noexcept(kNdebug)
+    {
+        Expects(channel <= 15);
+        all_controls_[channel].SetPwMin(value);
     }
 
 private:
@@ -220,78 +270,24 @@ private:
     void serialize(Archive& archive, uint32_t const version)
     {
         if (version == 1)// serialize things by passing them to the archive
-            archive(allControls_);
+            archive(all_controls_);
     }
-    std::array<ChannelModel, 16> allControls_;
+    std::array<ChannelModel, 16> all_controls_;
 };
-
-inline RSJ::CCmethod ChannelModel::getCCmethod(size_t controlnumber) const noexcept(ndebug)
-{
-    Expects(controlnumber <= kMaxNRPN);
-    return ccMethod_[controlnumber];
-}
-
-inline short ChannelModel::getCCmax(size_t controlnumber) const noexcept(ndebug)
-{
-    Expects(controlnumber <= kMaxNRPN);
-    return ccHigh_[controlnumber];
-}
-
-inline short ChannelModel::getCCmin(size_t controlnumber) const noexcept(ndebug)
-{
-    Expects(controlnumber <= kMaxNRPN);
-    return ccLow_[controlnumber];
-}
-
-inline short ChannelModel::getPWmax() const noexcept
-{
-    return pitchWheelMax_;
-}
-
-inline short ChannelModel::getPWmin() const noexcept
-{
-    return pitchWheelMin_;
-}
-
-inline bool ChannelModel::IsNRPN_(size_t controlnumber) const noexcept(ndebug)
-{
-    Expects(controlnumber <= kMaxNRPN);
-    return controlnumber > kMaxMIDI;
-}
-
-inline double ChannelModel::OffsetResult_(short diff, size_t controlnumber) noexcept(ndebug)
-{
-    Expects(ccHigh_.at(controlnumber) > 0); //CCLow will always be 0 for offset controls
-    Expects(diff <= kMaxNRPN && diff >= -kMaxNRPN);
-    Expects(controlnumber <= kMaxNRPN);
-    lastUpdate_.store(RSJ::now_ms(), std::memory_order_release);
-    short cv = currentV_[controlnumber].fetch_add(diff, std::memory_order_relaxed) + diff;
-    if (cv < 0) {//fix currentV unless another thread has already altered it
-        currentV_[controlnumber].compare_exchange_strong(cv, static_cast<short>(0),
-            std::memory_order_relaxed, std::memory_order_relaxed);
-        return 0.0;
-    }
-    if (cv > ccHigh_[controlnumber]) {//fix currentV unless another thread has already altered it
-        currentV_[controlnumber].compare_exchange_strong(cv, ccHigh_[controlnumber],
-            std::memory_order_relaxed, std::memory_order_relaxed);
-        return 1.0;
-    }
-    return static_cast<double>(cv) / static_cast<double>(ccHigh_[controlnumber]);
-}
 
 template<class Archive>
 void ChannelModel::load(Archive& archive, uint32_t const version)
 {
     switch (version) {
-    case 1:
-        archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
-        break;
-    case 2:
-        archive(settingsToSave_);
-        savedToActive();
-        break;
-    default:
-        Expects(!"Archive version not acceptable");
+        case 1:
+            archive(cc_method_, cc_high_, cc_low_, pitch_wheel_max_, pitch_wheel_min_);
+            break;
+        case 2:
+            archive(settings_to_save_);
+            SavedToActive();
+            break;
+        default:
+            Expects(!"Archive version not acceptable");
     }
 }
 
@@ -299,19 +295,19 @@ template<class Archive>
 void ChannelModel::save(Archive& archive, uint32_t const version) const
 {
     switch (version) {
-    case 1:
-        archive(ccMethod_, ccHigh_, ccLow_, pitchWheelMax_, pitchWheelMin_);
-        break;
-    case 2:
-        activeToSaved();
-        archive(settingsToSave_);
-        break;
-    default:
-        Expects(!"Wrong archive version specified for save");
+        case 1:
+            archive(cc_method_, cc_high_, cc_low_, pitch_wheel_max_, pitch_wheel_min_);
+            break;
+        case 2:
+            ActiveToSaved();
+            archive(settings_to_save_);
+            break;
+        default:
+            Expects(!"Wrong archive version specified for save");
     }
 }
 
 CEREAL_CLASS_VERSION(ChannelModel, 2);
 CEREAL_CLASS_VERSION(ControlsModel, 1);
-CEREAL_CLASS_VERSION(RSJ::SettingsStruct, 1);
+CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1);
 #endif

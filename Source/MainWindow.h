@@ -26,9 +26,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include "../JuceLibraryCode/JuceHeader.h"
 class CommandMap;
-class LR_IPC_OUT;
-class MIDIProcessor;
-class MIDISender;
+class LrIpcOut;
+class MidiProcessor;
+class MidiSender;
 class MainContentComponent;
 class ProfileManager;
 class SettingsManager;
@@ -39,11 +39,11 @@ public:
     MainWindow& operator=(const MainWindow&) = delete;
     MainWindow(const MainWindow&) = delete;
 
-    void Init(CommandMap* const command_map, std::weak_ptr<LR_IPC_OUT>&& out,
-        std::shared_ptr<MIDIProcessor>& midi_processor,
+    void Init(CommandMap* const command_map, std::weak_ptr<LrIpcOut>&& out,
+        std::shared_ptr<MidiProcessor>& midi_processor,
         ProfileManager* const profile_manager,
         SettingsManager* const settings_manager,
-        std::shared_ptr<MIDISender>& midi_sender);
+        std::shared_ptr<MidiSender>& midi_sender);
 
     /* Note: Be careful if you override any DocumentWindow methods - the base
        class uses a lot of them, so by overriding you might break its functionality.

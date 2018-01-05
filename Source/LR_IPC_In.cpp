@@ -21,7 +21,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "LR_IPC_In.h"
+#include <array>
 #include <bitset>
+#include <future>
 #include <gsl/gsl>
 #include "CommandMap.h"
 #include "ControlsModel.h"
@@ -35,22 +37,22 @@ using namespace std::literals::string_literals;
 
 namespace {
     constexpr auto kHost = "127.0.0.1";
-    constexpr int kBufferSize = 256;
+    constexpr int kBufferSize = 1024;
     constexpr int kConnectTryTime = 100;
     constexpr int kEmptyWait = 100;
     constexpr int kLrInPort = 58764;
     constexpr int kNotConnectedWait = 333;
     constexpr int kReadyWait = 1000;
     constexpr int kStopWait = 1000;
-    constexpr int kTimerInterval = 1000;
+    constexpr int kConnectTimer = 1000;
 }
 
-LR_IPC_IN::LR_IPC_IN(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
+LrIpcIn::LrIpcIn(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
     juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
     controls_model_{c_model}, profile_manager_{pmanager}
 {}
 
-LR_IPC_IN::~LR_IPC_IN()
+LrIpcIn::~LrIpcIn()
 {
     {
         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
@@ -61,22 +63,24 @@ LR_IPC_IN::~LR_IPC_IN()
     socket_.close();
 }
 
-void LR_IPC_IN::Init(std::shared_ptr<MIDISender>& midi_sender) noexcept
+void LrIpcIn::Init(std::shared_ptr<MidiSender>& midi_sender) noexcept
 {
     midi_sender_ = midi_sender;
     //start the timer
-    juce::Timer::startTimer(kTimerInterval);
+    juce::Timer::startTimer(kConnectTimer);
 }
 
-void LR_IPC_IN::PleaseStopThread()
+void LrIpcIn::PleaseStopThread()
 {
     juce::Thread::signalThreadShouldExit();
     juce::Thread::notify();
 }
 
-void LR_IPC_IN::run()
+void LrIpcIn::run()
 {
     while (!juce::Thread::threadShouldExit()) {
+        std::array<char, kBufferSize> line{};//zero filled by {} initialization
+        std::future<void> process_fut;
         //if not connected, executes a wait 333 then goes back to while
         //if connected, tries to read a line, checks thread status and connection
         //status before each read attempt
@@ -86,51 +90,57 @@ void LR_IPC_IN::run()
             juce::Thread::wait(kNotConnectedWait);
         } //end if (is not connected)
         else {
-            char line[kBufferSize + 1] = {0};//plus one for \0 at end
+            line.fill(0);//zero out buffer
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
-            while (std::string(line).back() != '\n' && socket_.isConnected()) {
+            while ((size_read == 0 || line[size_read - 1] != '\n') && socket_.isConnected()) {
                 if (juce::Thread::threadShouldExit())
                     goto threadExit;//break out of nested whiles
                 const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                 switch (wait_status) {
-                case -1:
-                    goto dumpLine; //read line failed, break out of switch and while
-                case 0:
-                    juce::Thread::wait(kEmptyWait);
-                    break; //try again to read until char shows up
-                case 1:
-                    if (size_read == kBufferSize)
-                        throw std::out_of_range("Buffer overflow in LR_IPC_IN");
-                    if (const auto read = socket_.read(line + size_read, 1, false))
-                        size_read += read;
-                    else
-                        // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
-                        juce::JUCEApplication::getInstance()->systemRequestedQuit();
-                    break;
-                default:
-                    Expects(!"Unexpected value for wait_status");
+                    case -1:
+                        goto dumpLine; //read line failed, break out of switch and while
+                    case 0:
+                        juce::Thread::wait(kEmptyWait);
+                        break; //try again to read until char shows up
+                    case 1:
+                        switch (socket_.read(&line.at(size_read), 1, false)) {
+                            case -1:
+                                goto dumpLine; //read error
+                            case 1:
+                                size_read++;
+                                break;
+                            case 0:
+                                // waitUntilReady returns 1 but read will is 0: it's an indication of a broken socket.
+                                juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                                break;
+                            default:
+                                Expects(!"Unexpected value for read status");
+                        }
+                        break;
+                    default:
+                        Expects(!"Unexpected value for wait_status");
                 }
             } // end while !\n and is connected
-
             // if lose connection, line may not be terminated
             {
-                std::string param{line};
+                std::string param{line.data()};
                 if (param.back() == '\n')
-                    processLine(param);
+                    //run one at a time but don't wait for finish (will hold if future not finished next time around)
+                    process_fut = std::async(std::launch::async, &LrIpcIn::ProcessLine, this, std::move(param));
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)
     } //while not threadshouldexit
 threadExit: /* empty statement */;
-    std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
+    std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
     timer_off_ = true;
     juce::Timer::stopTimer();
     //thread_started_ = false; //don't change flag while depending upon it
 }
 
-void LR_IPC_IN::timerCallback()
+void LrIpcIn::timerCallback()
 {
     std::lock_guard< decltype(timer_mutex_) > lock(timer_mutex_);
     if (!timer_off_ && !socket_.isConnected() && !juce::Thread::threadShouldExit()) {
@@ -142,7 +152,7 @@ void LR_IPC_IN::timerCallback()
     }
 }
 
-void LR_IPC_IN::processLine(const std::string& line) const
+void LrIpcIn::ProcessLine(const std::string&& line) const
 {
     const static std::unordered_map<std::string, int> cmds = {
         {"SwitchProfile"s, 1},
@@ -150,68 +160,67 @@ void LR_IPC_IN::processLine(const std::string& line) const
         {"TerminateApplication"s, 3},
     };
     // process input into [parameter] [Value]
-    const auto trimmed_line = RSJ::trim(line);
+    const auto trimmed_line = rsj::Trim(line);
     const auto command = trimmed_line.substr(0, trimmed_line.find(' '));
     const auto value_string = trimmed_line.substr(trimmed_line.find(' ') + 1);
 
     switch (cmds.count(command) ? cmds.at(command) : 0) {
-    case 1: //SwitchProfile
-        if (profile_manager_)
-            profile_manager_->switchToProfile(value_string);
-        break;
-    case 2: //SendKey
-    {
-        // ReSharper disable once CppUseAuto
-        std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-            (std::stoi(value_string))};
-        RSJ::SendKeyDownUp(RSJ::ltrim(RSJ::ltrim(value_string, RSJ::digit)),
-            modifiers[0], modifiers[1], modifiers[2]);//ltrim twice on purpose: first digits, then spaces
-        break;
-    }
-    case 3: //TerminateApplication
-        juce::JUCEApplication::getInstance()->systemRequestedQuit();
-        break;
-    case 0:
-        // send associated messages to MIDI OUT devices
-        if (command_map_ && midi_sender_) {
-            const auto original_value = std::stod(value_string);
-            for (const auto msg : command_map_->getMessagesForCommand(command)) {
-                short msgtype{0};
-                switch (msg->msg_id_type) {
-                case RSJ::MsgIdEnum::NOTE:
-                    msgtype = RSJ::kNoteOnFlag;
-                    break;
-                case RSJ::MsgIdEnum::CC:
-                    msgtype = RSJ::kCCFlag;
-                    break;
-                case RSJ::MsgIdEnum::PITCHBEND:
-                    msgtype = RSJ::kPWFlag;
-                }
-                const auto value = controls_model_->PluginToController(msgtype,
-                    static_cast<size_t>(msg->channel - 1),
-                    gsl::narrow_cast<short>(msg->controller), original_value);
-
-                if (midi_sender_) {
-                    switch (msgtype) {
-                    case RSJ::kNoteOnFlag:
-                        midi_sender_->sendNoteOn(msg->channel, msg->controller, value);
-                        break;
-                    case RSJ::kCCFlag:
-                        if (controls_model_->getCCmethod(static_cast<size_t>(msg->channel - 1),
-                            gsl::narrow_cast<short>(msg->controller)) == RSJ::CCmethod::absolute)
-                            midi_sender_->sendCC(msg->channel, msg->controller, value);
-                        break;
-                    case RSJ::kPWFlag:
-                        midi_sender_->sendPitchWheel(msg->channel, value);
-                        break;
-                    default:
-                        Expects(!"Unexpected result for msgtype");
+        case 1: //SwitchProfile
+            if (profile_manager_)
+                profile_manager_->SwitchToProfile(value_string);
+            break;
+        case 2: //SendKey
+        {
+            // ReSharper disable once CppUseAuto
+            std::bitset<3> modifiers{static_cast<decltype(modifiers)>
+                (std::stoi(value_string))};
+            rsj::SendKeyDownUp(rsj::LTrim(rsj::LTrim(value_string, rsj::kDigit)),
+                modifiers[0], modifiers[1], modifiers[2]);//ltrim twice on purpose: first digits, then spaces
+            break;
+        }
+        case 3: //TerminateApplication
+            juce::JUCEApplication::getInstance()->systemRequestedQuit();
+            break;
+        case 0:
+            // send associated messages to MIDI OUT devices
+            if (command_map_ && midi_sender_) {
+                const auto original_value = std::stod(value_string);
+                for (const auto msg : command_map_->GetMessagesForCommand(command)) {
+                    short msgtype{0};
+                    switch (msg->msg_id_type) {
+                        case rsj::MsgIdEnum::kNote:
+                            msgtype = rsj::kNoteOnFlag;
+                            break;
+                        case rsj::MsgIdEnum::kCc:
+                            msgtype = rsj::kCcFlag;
+                            break;
+                        case rsj::MsgIdEnum::kPitchBend:
+                            msgtype = rsj::kPwFlag;
+                    }
+                    const auto value = controls_model_->PluginToController(msgtype,
+                        static_cast<size_t>(msg->channel - 1),
+                        gsl::narrow_cast<short>(msg->controller), original_value);
+                    if (midi_sender_) {
+                        switch (msgtype) {
+                            case rsj::kNoteOnFlag:
+                                midi_sender_->SendNoteOn(msg->channel, msg->controller, value);
+                                break;
+                            case rsj::kCcFlag:
+                                if (controls_model_->GetCcMethod(static_cast<size_t>(msg->channel - 1),
+                                    gsl::narrow_cast<short>(msg->controller)) == rsj::CCmethod::kAbsolute)
+                                    midi_sender_->SendCc(msg->channel, msg->controller, value);
+                                break;
+                            case rsj::kPwFlag:
+                                midi_sender_->SendPitchWheel(msg->channel, value);
+                                break;
+                            default:
+                                Expects(!"Unexpected result for msgtype");
+                        }
                     }
                 }
             }
-        }
-        break;
-    default:
-        Expects(!"Unexpected result for cmds");
+            break;
+        default:
+            Expects(!"Unexpected result for cmds");
     }
 }

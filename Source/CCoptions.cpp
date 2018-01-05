@@ -147,8 +147,8 @@ CCoptions::CCoptions()
     setSize(280, 350);
 
     //[Constructor] You can add your own custom stuff here..
-    maxvaltext->setInputFilter(&numrestrict, false);
-    minvaltext->setInputFilter(&numrestrict, false);
+    maxvaltext->setInputFilter(&numrestrict_, false);
+    minvaltext->setInputFilter(&numrestrict_, false);
     maxvaltext->addListener(this);
     minvaltext->addListener(this);
     //[/Constructor]
@@ -207,63 +207,63 @@ void CCoptions::resized()
     //[/UserResized]
 }
 
-void CCoptions::buttonClicked(Button* buttonThatWasClicked)
+void CCoptions::buttonClicked(Button* button_that_was_clicked)
 {
     //[UserbuttonClicked_Pre]
     //[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked==twosbutton) {
+    if (button_that_was_clicked==twosbutton) {
         //[UserButtonCode_twosbutton] -- add your button handler code here..
         minvaltext->setVisible(false);
         minvallabel->setVisible(false);
         maxvallabel->setText(TRANS("Resolution"), juce::dontSendNotification);
         minvaltext->setText("0", juce::dontSendNotification);
-        controls_model_->setCCmethod(boundchannel, boundnumber, RSJ::CCmethod::twoscomplement);
+        controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kTwosComplement);
         //[/UserButtonCode_twosbutton]
     }
-    else if (buttonThatWasClicked==absbutton) {
+    else if (button_that_was_clicked==absbutton) {
         //[UserButtonCode_absbutton] -- add your button handler code here..
         minvaltext->setVisible(true);
         minvallabel->setVisible(true);
         maxvallabel->setText(TRANS("Maximum value"), juce::dontSendNotification);
-        controls_model_->setCCmethod(boundchannel, boundnumber, RSJ::CCmethod::absolute);
+        controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kAbsolute);
         //[/UserButtonCode_absbutton]
     }
-    else if (buttonThatWasClicked==binbutton) {
+    else if (button_that_was_clicked==binbutton) {
         //[UserButtonCode_binbutton] -- add your button handler code here..
         minvaltext->setVisible(false);
         minvallabel->setVisible(false);
         maxvallabel->setText(TRANS("Resolution"), juce::dontSendNotification);
         minvaltext->setText("0", juce::dontSendNotification);
-        controls_model_->setCCmethod(boundchannel, boundnumber, RSJ::CCmethod::binaryoffset);
+        controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kBinaryOffset);
 
         //[/UserButtonCode_binbutton]
     }
-    else if (buttonThatWasClicked==signbutton) {
+    else if (button_that_was_clicked==signbutton) {
         //[UserButtonCode_signbutton] -- add your button handler code here..
         minvaltext->setVisible(false);
         minvallabel->setVisible(false);
         maxvallabel->setText(TRANS("Resolution"), juce::dontSendNotification);
         minvaltext->setText("0", juce::dontSendNotification);
-        controls_model_->setCCmethod(boundchannel, boundnumber, RSJ::CCmethod::signmagnitude);
+        controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kSignMagnitude);
         //[/UserButtonCode_signbutton]
     }
-    else if (buttonThatWasClicked==applyAll) {
+    else if (button_that_was_clicked==applyAll) {
         //[UserButtonCode_applyAll] -- add your button handler code here..
-        RSJ::CCmethod ccm;
+        rsj::CCmethod ccm;
         if (twosbutton->getToggleState())
-            ccm = RSJ::CCmethod::twoscomplement;
+            ccm = rsj::CCmethod::kTwosComplement;
         else if (absbutton->getToggleState())
-            ccm = RSJ::CCmethod::absolute;
+            ccm = rsj::CCmethod::kAbsolute;
         else if (binbutton->getToggleState())
-            ccm = RSJ::CCmethod::binaryoffset;
+            ccm = rsj::CCmethod::kBinaryOffset;
         else if (signbutton->getToggleState())
-            ccm = RSJ::CCmethod::signmagnitude;
+            ccm = rsj::CCmethod::kSignMagnitude;
         else {
-            ccm = RSJ::CCmethod::absolute;
+            ccm = rsj::CCmethod::kAbsolute;
             Expects(!"Should be unreachable apply all button");
         }
-        controls_model_->setCCall(boundchannel, boundnumber,
+        controls_model_->SetCcAll(bound_channel_, bound_number_,
             gsl::narrow_cast<short>(minvaltext->getText().getIntValue()),
             gsl::narrow_cast<short>(maxvaltext->getText().getIntValue()), ccm);
         //[/UserButtonCode_applyAll]
@@ -279,30 +279,30 @@ void CCoptions::textEditorFocusLost(TextEditor& t)
     const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
     const auto nam = t.getName();
     if (nam=="minvaltext")
-        controls_model_->setCCmin(boundchannel, boundnumber, val);
+        controls_model_->SetCcMin(bound_channel_, bound_number_, val);
     else if (nam=="maxvaltext")
-        controls_model_->setCCmax(boundchannel, boundnumber, val);
+        controls_model_->SetCcMax(bound_channel_, bound_number_, val);
 }
 
-void CCoptions::bindToControl(size_t channel, short number)
+void CCoptions::BindToControl(size_t channel, short number)
 {
-    boundchannel = gsl::narrow_cast<short>(channel);
-    boundnumber = number;
+    bound_channel_ = gsl::narrow_cast<short>(channel);
+    bound_number_ = number;
     controlID->setText("channel "+juce::String(gsl::narrow_cast<unsigned>(channel))+" number "+juce::String(number),
         juce::dontSendNotification);
-    minvaltext->setText(juce::String(controls_model_->getCCmin(boundchannel, boundnumber)), juce::dontSendNotification);
-    maxvaltext->setText(juce::String(controls_model_->getCCmax(boundchannel, boundnumber)), juce::dontSendNotification);
-    switch (controls_model_->getCCmethod(boundchannel, boundnumber)) {
-    case RSJ::CCmethod::absolute:
+    minvaltext->setText(juce::String(controls_model_->GetCcMin(bound_channel_, bound_number_)), juce::dontSendNotification);
+    maxvaltext->setText(juce::String(controls_model_->GetCcMax(bound_channel_, bound_number_)), juce::dontSendNotification);
+    switch (controls_model_->GetCcMethod(bound_channel_, bound_number_)) {
+    case rsj::CCmethod::kAbsolute:
         absbutton->setToggleState(true, juce::sendNotification);
         break;
-    case RSJ::CCmethod::binaryoffset:
+    case rsj::CCmethod::kBinaryOffset:
         binbutton->setToggleState(true, juce::sendNotification);
         break;
-    case RSJ::CCmethod::signmagnitude:
+    case rsj::CCmethod::kSignMagnitude:
         signbutton->setToggleState(true, juce::sendNotification);
         break;
-    case RSJ::CCmethod::twoscomplement:
+    case rsj::CCmethod::kTwosComplement:
         twosbutton->setToggleState(true, juce::sendNotification);
         break;
     }

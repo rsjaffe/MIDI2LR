@@ -171,8 +171,8 @@ local function OptionsRows(f,obstable)
         title = LOC("$$$/AgLibrary/CameraRawView/PresetMenu/DefaultSettings=Default settings"),
         action = function ()
           if p == 'Temperature' and low > 0 then
-            obstable.TemperatureLow = 3000
-            obstable.TemperatureHigh = 9000
+            obstable.LimitsTemperatureLow = 3000
+            obstable.LimitsTemperatureHigh = 9000
           else
             obstable['Limits'..p..'Low'] = low
             obstable['Limits'..p..'High'] = high

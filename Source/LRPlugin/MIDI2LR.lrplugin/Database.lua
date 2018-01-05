@@ -55,6 +55,12 @@ local fine = LOC("$$$/AgPrint/CalibrationDialog/Fine=Fine")
 local key = LOC("$$$/MIDI2LR/Shortcuts/Key=Key")
 local filter= LOC("$$$/Library/Filter/FilterLabel=Library filter")
 
+local brush = LOC("$$$/TouchWorkspace/Adjustments/Local/Brush=Brush")
+local feather = LOC("$$$/AgDevelop/Toolbar/Localized/BrushFeather=Feather")
+local larger = LOC("$$$/AgEmail/FontSize/larger=larger")
+local size = LOC("$$$/AgDevelop/Toolbar/Localized/BrushSize=Size")
+local smaller = LOC("$$$/AgEmail/FontSize/smaller=smaller")
+
 --[[----------------------------------------------------------------------------
 
 DataBase structure
@@ -98,59 +104,64 @@ To do: integrate "straightenAngle", translate RetouchInfo orientation
 
 local DataBase = {
   --Keyboard shortcuts
-  {'Key1',false,false,true,false,true,false,key..' 1',keyshortcuts,'Key 1. *button*'},
-  {'Key2',false,false,true,false,true,false,key..' 2',keyshortcuts,'Key 2. *button*'},
-  {'Key3',false,false,true,false,true,false,key..' 3',keyshortcuts,'Key 3. *button*'},
-  {'Key4',false,false,true,false,true,false,key..' 4',keyshortcuts,'Key 4. *button*'},
-  {'Key5',false,false,true,false,true,false,key..' 5',keyshortcuts,'Key 5. *button*'},
-  {'Key6',false,false,true,false,true,false,key..' 6',keyshortcuts,'Key 6. *button*'},
-  {'Key7',false,false,true,false,true,false,key..' 7',keyshortcuts,'Key 7. *button*'},
-  {'Key8',false,false,true,false,true,false,key..' 8',keyshortcuts,'Key 8. *button*'},
-  {'Key9',false,false,true,false,true,false,key..' 9',keyshortcuts,'Key 9. *button*'},
-  {'Key10',false,false,true,false,true,false,key..' 10',keyshortcuts,'Key 10. *button*'},
-  {'Key11',false,false,true,false,true,false,key..' 11',keyshortcuts,'Key 11. *button*'},
-  {'Key12',false,false,true,false,true,false,key..' 12',keyshortcuts,'Key 12. *button*'},
-  {'Key13',false,false,true,false,true,false,key..' 13',keyshortcuts,'Key 13. *button*'},
-  {'Key14',false,false,true,false,true,false,key..' 14',keyshortcuts,'Key 14. *button*'},
-  {'Key15',false,false,true,false,true,false,key..' 15',keyshortcuts,'Key 15. *button*'},
-  {'Key16',false,false,true,false,true,false,key..' 16',keyshortcuts,'Key 16. *button*'},
-  {'Key17',false,false,true,false,true,false,key..' 17',keyshortcuts,'Key 17. *button*'},
-  {'Key18',false,false,true,false,true,false,key..' 18',keyshortcuts,'Key 18. *button*'},
-  {'Key19',false,false,true,false,true,false,key..' 19',keyshortcuts,'Key 19. *button*'},
-  {'Key20',false,false,true,false,true,false,key..' 20',keyshortcuts,'Key 20. *button*'},
-  {'Key21',false,false,true,false,true,false,key..' 21',keyshortcuts,'Key 21. *button*'},
-  {'Key22',false,false,true,false,true,false,key..' 22',keyshortcuts,'Key 22. *button*'},
-  {'Key23',false,false,true,false,true,false,key..' 23',keyshortcuts,'Key 23. *button*'},
-  {'Key24',false,false,true,false,true,false,key..' 24',keyshortcuts,'Key 24. *button*'},
-  {'Key25',false,false,true,false,true,false,key..' 25',keyshortcuts,'Key 25. *button*'},
-  {'Key26',false,false,true,false,true,false,key..' 26',keyshortcuts,'Key 26. *button*'},
-  {'Key27',false,false,true,false,true,false,key..' 27',keyshortcuts,'Key 27. *button*'},
-  {'Key28',false,false,true,false,true,false,key..' 28',keyshortcuts,'Key 28. *button*'},
-  {'Key29',false,false,true,false,true,false,key..' 29',keyshortcuts,'Key 29. *button*'},
-  {'Key30',false,false,true,false,true,false,key..' 30',keyshortcuts,'Key 30. *button*'},
-  {'Key31',false,false,true,false,true,false,key..' 31',keyshortcuts,'Key 31. *button*'},
-  {'Key32',false,false,true,false,true,false,key..' 32',keyshortcuts,'Key 32. *button*'},
-  {'Key33',false,false,true,false,true,false,key..' 33',keyshortcuts,'Key 33. *button*'},
-  {'Key34',false,false,true,false,true,false,key..' 34',keyshortcuts,'Key 34. *button*'},
-  {'Key35',false,false,true,false,true,false,key..' 35',keyshortcuts,'Key 35. *button*'},
-  {'Key36',false,false,true,false,true,false,key..' 36',keyshortcuts,'Key 36. *button*'},
-  {'Key37',false,false,true,false,true,false,key..' 37',keyshortcuts,'Key 37. *button*'},
-  {'Key38',false,false,true,false,true,false,key..' 38',keyshortcuts,'Key 38. *button*'},
-  {'Key39',false,false,true,false,true,false,key..' 39',keyshortcuts,'Key 39. *button*'},
-  {'Key40',false,false,true,false,true,false,key..' 40',keyshortcuts,'Key 40. *button*'},
+  {'Key1',false,false,true,false,true,false,key..' 1',keyshortcuts,'Key 1. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key2',false,false,true,false,true,false,key..' 2',keyshortcuts,'Key 2. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key3',false,false,true,false,true,false,key..' 3',keyshortcuts,'Key 3. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key4',false,false,true,false,true,false,key..' 4',keyshortcuts,'Key 4. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key5',false,false,true,false,true,false,key..' 5',keyshortcuts,'Key 5. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key6',false,false,true,false,true,false,key..' 6',keyshortcuts,'Key 6. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key7',false,false,true,false,true,false,key..' 7',keyshortcuts,'Key 7. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key8',false,false,true,false,true,false,key..' 8',keyshortcuts,'Key 8. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key9',false,false,true,false,true,false,key..' 9',keyshortcuts,'Key 9. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key10',false,false,true,false,true,false,key..' 10',keyshortcuts,'Key 10. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key11',false,false,true,false,true,false,key..' 11',keyshortcuts,'Key 11. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key12',false,false,true,false,true,false,key..' 12',keyshortcuts,'Key 12. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key13',false,false,true,false,true,false,key..' 13',keyshortcuts,'Key 13. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key14',false,false,true,false,true,false,key..' 14',keyshortcuts,'Key 14. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key15',false,false,true,false,true,false,key..' 15',keyshortcuts,'Key 15. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key16',false,false,true,false,true,false,key..' 16',keyshortcuts,'Key 16. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key17',false,false,true,false,true,false,key..' 17',keyshortcuts,'Key 17. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key18',false,false,true,false,true,false,key..' 18',keyshortcuts,'Key 18. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key19',false,false,true,false,true,false,key..' 19',keyshortcuts,'Key 19. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key20',false,false,true,false,true,false,key..' 20',keyshortcuts,'Key 20. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key21',false,false,true,false,true,false,key..' 21',keyshortcuts,'Key 21. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key22',false,false,true,false,true,false,key..' 22',keyshortcuts,'Key 22. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key23',false,false,true,false,true,false,key..' 23',keyshortcuts,'Key 23. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key24',false,false,true,false,true,false,key..' 24',keyshortcuts,'Key 24. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key25',false,false,true,false,true,false,key..' 25',keyshortcuts,'Key 25. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key26',false,false,true,false,true,false,key..' 26',keyshortcuts,'Key 26. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key27',false,false,true,false,true,false,key..' 27',keyshortcuts,'Key 27. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key28',false,false,true,false,true,false,key..' 28',keyshortcuts,'Key 28. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key29',false,false,true,false,true,false,key..' 29',keyshortcuts,'Key 29. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key30',false,false,true,false,true,false,key..' 30',keyshortcuts,'Key 30. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key31',false,false,true,false,true,false,key..' 31',keyshortcuts,'Key 31. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key32',false,false,true,false,true,false,key..' 32',keyshortcuts,'Key 32. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key33',false,false,true,false,true,false,key..' 33',keyshortcuts,'Key 33. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key34',false,false,true,false,true,false,key..' 34',keyshortcuts,'Key 34. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key35',false,false,true,false,true,false,key..' 35',keyshortcuts,'Key 35. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key36',false,false,true,false,true,false,key..' 36',keyshortcuts,'Key 36. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key37',false,false,true,false,true,false,key..' 37',keyshortcuts,'Key 37. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key38',false,false,true,false,true,false,key..' 38',keyshortcuts,'Key 38. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key39',false,false,true,false,true,false,key..' 39',keyshortcuts,'Key 39. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key40',false,false,true,false,true,false,key..' 40',keyshortcuts,'Key 40. See [Keyboard Shortcuts](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#keyboard-shortcuts) for more information. *button*'},
+  {'Key32Key31',false,false,true,false,true,false,key..' 32 – '..key..' 31',keyshortcuts,'Turning knob clockwise sends Key32 signals to Lightroom, counterclockwise Key31. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
+  {'Key34Key33',false,false,true,false,true,false,key..' 34 – '..key..' 33',keyshortcuts,'Turning knob clockwise sends Key34 signals to Lightroom, counterclockwise Key33. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
+  {'Key36Key35',false,false,true,false,true,false,key..' 36 – '..key..' 35',keyshortcuts,'Turning knob clockwise sends Key36 signals to Lightroom, counterclockwise Key35. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
+  {'Key38Key37',false,false,true,false,true,false,key..' 38 – '..key..' 37',keyshortcuts,'Turning knob clockwise sends Key38 signals to Lightroom, counterclockwise Key37. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
+  {'Key40Key39',false,false,true,false,true,false,key..' 40 – '..key..' 39',keyshortcuts,'Turning knob clockwise sends Key40 signals to Lightroom, counterclockwise Key39. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
   --library filters
-  {'Filter_1',false,false,true,false,true,false,filter..' 1',filter,'Library filter 1. *button*'},
-  {'Filter_2',false,false,true,false,true,false,filter..' 2',filter,'Library filter 2. *button*'},
-  {'Filter_3',false,false,true,false,true,false,filter..' 3',filter,'Library filter 3. *button*'},
-  {'Filter_4',false,false,true,false,true,false,filter..' 4',filter,'Library filter 4. *button*'},
-  {'Filter_5',false,false,true,false,true,false,filter..' 5',filter,'Library filter 5. *button*'},
-  {'Filter_6',false,false,true,false,true,false,filter..' 6',filter,'Library filter 6. *button*'},
-  {'Filter_7',false,false,true,false,true,false,filter..' 7',filter,'Library filter 7. *button*'},
-  {'Filter_8',false,false,true,false,true,false,filter..' 8',filter,'Library filter 8. *button*'},
-  {'Filter_9',false,false,true,false,true,false,filter..' 9',filter,'Library filter 9. *button*'},
-  {'Filter_10',false,false,true,false,true,false,filter..' 10',filter,'Library filter 10. *button*'},  
-  {'Filter_11',false,false,true,false,true,false,filter..' 11',filter,'Library filter 11. *button*'},  
-  {'Filter_12',false,false,true,false,true,false,filter..' 12',filter,'Library filter 12. *button*'},  
+  {'Filter_1',false,false,true,false,true,false,filter..' 1',filter,'Library filter 1. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_2',false,false,true,false,true,false,filter..' 2',filter,'Library filter 2. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_3',false,false,true,false,true,false,filter..' 3',filter,'Library filter 3. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_4',false,false,true,false,true,false,filter..' 4',filter,'Library filter 4. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_5',false,false,true,false,true,false,filter..' 5',filter,'Library filter 5. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_6',false,false,true,false,true,false,filter..' 6',filter,'Library filter 6. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_7',false,false,true,false,true,false,filter..' 7',filter,'Library filter 7. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_8',false,false,true,false,true,false,filter..' 8',filter,'Library filter 8. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_9',false,false,true,false,true,false,filter..' 9',filter,'Library filter 9. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},
+  {'Filter_10',false,false,true,false,true,false,filter..' 10',filter,'Library filter 10. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},  
+  {'Filter_11',false,false,true,false,true,false,filter..' 11',filter,'Library filter 11. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},  
+  {'Filter_12',false,false,true,false,true,false,filter..' 12',filter,'Library filter 12. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information. *button*'},  
 
   --General Workspace
   --workspace: grid view options
@@ -163,6 +174,8 @@ local DataBase = {
   {"ShoVwsurvey",false,false,true,false,true,false,primaryDisplay..' '..LOC("$$$/AgPhotoBin/ViewMode/Library/Survey=Survey"),general,"Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell. *button*"},
   --workspace: zoom
   {"ToggleZoomOffOn",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom"):gsub("&",""),general,"*button*"},
+  {'ZoomInOut',false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some")..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some"),general,'Turning knob clockwise zooms in, counterclockwise zooms out. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
+  {'ZoomOutIn',false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some")..' '..LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some"),general,'Turning knob clockwise zooms out, counterclockwise zooms in. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
   {"ZoomInLargeStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In"),general,"*button*"},
   {"ZoomInSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some"),general,"*button*"},
   {"ZoomOutSmallStep",false,false,true,false,true,false,LOC("$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some"),general,"*button*"},
@@ -171,21 +184,23 @@ local DataBase = {
   --workspace: view options
   --workspace: panels
   --workspace: Selections
+  {"SelectRightLeft",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Left=Left")..' '..LOC("$$$/AgWatermarking/Alignment/Right=Right"),general,"Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},   
   {"Select1Left",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Left=Left"),general,"Extend selection one picture to the left. *button*"},
   {"Select1Right",false,false,true,false,true,false,LOC("$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection")..' '..LOC("$$$/AgWatermarking/Alignment/Right=Right"),general,"Extend selection one picture to the right. *button*"},
+  {"NextPrev",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Next_Photo=Next Photo").." — "..LOC("$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo"),general,"Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
   {"Next",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Next_Photo=Next Photo"),general,"*button*"},
   {"Prev",false,false,true,false,true,false,LOC("$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo"),general,"*button*"},
 
-  {"ActionSeries1",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 1',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries2",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 2',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries3",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 3',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries4",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 4',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries5",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 5',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries6",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 6',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 7',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 8',general, "Sends a series of button commands. *button*"},
-  {"ActionSeries9",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 9',general, "Sends a series of button commands. *button*"},
-  {"Pause",false,false,false,false,true,false,LOC("$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"),general, "This should only be used when a series of commands does not provide the intended results. Test first before using. Pause inserts a pause into a command series to allow synchronization when using a slow command followed by a fast command: the pause should be inserted in between. Note that pauses are already automatically introduced for keystrokes. This command is not available in the application as it is only useful in a command series."},
+  {"ActionSeries1",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 1',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries2",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 2',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries3",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 3',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries4",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 4',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries5",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 5',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries6",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 6',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries7",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 7',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries8",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 8',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"ActionSeries9",false,false,true,false,true,false,LOC("$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands") .. ' 9',general, "Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*"},
+  {"Pause",false,false,false,false,true,false,LOC("$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"),general, "This should only be used when a series of commands does not provide the intended results. Test first before using. Pause inserts a pause into a command series to allow synchronization when using a slow command followed by a fast command: the pause should be inserted in between. Note that pauses are already automatically introduced for keystrokes. This command is not available in the application as it is only useful in a command series. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information."},
 
   --workspace: screen mode
   --workspace: Lights Out
@@ -229,8 +244,13 @@ local DataBase = {
   {"VirtualCopy",false,false,true,false,true,false,LOC("$$$/AgLibrary/Bezel/CreateVirtualCopy=Create Virtual Copy"):gsub('&',''),develop,"Creates a virtual copy for each of the currently selected photos and videos. The new virtual copies will be selected. *button*"},
   {"ResetAll",false,false,true,false,true,false,LOC("$$$/AgCameraRawNamedSettings/Ops/ResetSettings=Reset Settings"),develop,"Reset to defaults. *button*"},
   {"ResetLast",false,false,true,false,true,false,reset..' '..LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified"):gsub(':',''),develop,"Resets the last parameter that was adjusted by an encoder or fader to default. *button*"},
+  {"ChangeLastDevelopParameter",false,false,true,false,true,false,LOC("$$$/ImportView/More=More").." – "..LOC("$$$/ImportView/Less=Less").." "..LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified"),develop,"Increments or decrements the last parameter that was adjusted by an encoder or fader. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
   {"IncrementLastDevelopParameter",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/TargetAdjustment/Increase=^1 Increase: ^2",'',LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified")):gsub(':',''):gsub("^%s*(.-)%s*$", "%1"),develop,"Increments the last parameter that was adjusted by an encoder or fader. *button*"},
   {"DecrementLastDevelopParameter",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/TargetAdjustment/Decrease=^1 Decrease: ^2",'',LOC("$$$/LibraryUpgradeCatalogUtils/CatalogInfo/LastModified/Label=Last Modified")):gsub(':',''):gsub("^%s*(.-)%s*$", "%1"),develop,"Decrements the last parameter that was adjusted by an encoder or fader. *button*"},
+  {"ChangeCurrentSlider",false,false,true,false,true,false,LOC("$$$/ImportView/More=More").." – "..LOC("$$$/ImportView/Less=Less"),develop,"Adjusts selected develop slider up or down. Turning knob clockwise sends Increment signals to Lightroom, counterclockwise Decrement. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
+  {"SliderIncrease",false,false,true,false,true,false,LOC("$$$/ImportView/More=More"),develop,"Increases the selected develop slider. *button*"},
+  {"SliderDecrease",false,false,true,false,true,false,LOC("$$$/ImportView/Less=Less"),develop,"Decreases the selected develop slider. *button*"},
+  {"RedoUndo",false,false,true,false,true,false,LOC("$$$/Bezel/RedoTitle=Redo").." – "..LOC("$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo"),develop,"Turning knob clockwise sends Redo signals to Lightroom, counterclockwise Undo. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
   {"Undo",false,false,true,false,true,false,LOC("$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo"),develop,"*button*"},
   {"Redo",false,false,true,false,true,false,LOC("$$$/Bezel/RedoTitle=Redo"),develop,"*button*"},
   --develop: before/after previews
@@ -661,6 +681,12 @@ local DataBase = {
   {"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),localizedAdjustments,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"SpotRemoval",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),localizedAdjustments,"Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"AdjustmentBrush",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),localizedAdjustments,"Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View. *button*"},
+  {"ChangeBrushSize",false,false,true,false,true,false,brush..' — '..size,localizedAdjustments,"Change adjustment brush size. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
+  {"BrushSizeSmaller",false,false,true,false,true,false,brush..' — '..size..' — '..smaller,localizedAdjustments,"Reduce adjustment brush size. *button*"},
+  {"BrushSizeLarger",false,false,true,false,true,false,brush..' — '..size..' — '..larger,localizedAdjustments,"Increase adjustment brush size. *button*"},
+  {"ChangeFeatherSize",false,false,true,false,true,false,brush..' — '..feather,localizedAdjustments,"Change adjustment brush feather size. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
+  {"BrushFeatherSmaller",false,false,true,false,true,false,brush..' — '..feather..' — '..smaller,localizedAdjustments,"Reduce adjustment brush feather. *button*"},
+  {"BrushFeatherLarger",false,false,true,false,true,false,brush..' — '..feather..' — '..larger,localizedAdjustments,"Increase adjustment brush feather. *button*"},
   {"local_Temperature",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Temperature=Temp.").." (PV2012)",localizedAdjustments,"Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Tint",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Tint=Tint").." (PV2012)",localizedAdjustments,"Adjust Tint for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Exposure",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Exposure=Exposure").." (PV2010 and PV2012)",localizedAdjustments,"Adjust Exposure for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
@@ -837,6 +863,12 @@ file:write([=[
   MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ------------------------------------------------------------------------------]]
   local MenuList = ]=],serpent.block(MenuList, {comment = false}))
+file:write([=[
+
+
+return MenuList
+
+]=])
 file:close()
 
 datafile = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')

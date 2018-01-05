@@ -91,20 +91,20 @@ for _,v in ipairs(Database.DataBase) do
       if menulocation~="" then
         file:write("};\n\n")
       end
-      file:write("const std::vector<std::string> LRCommandList::"..Database.cppvectors[v[9]][1].." = {\n")
+      file:write("const std::vector<std::string> LrCommandList::"..Database.cppvectors[v[9]][1].." = {\n")
       menulocation = v[9]
       menus_ = menus_ .. '"' .. Database.cppvectors[v[9]][2] .. '", '
-      menu_entries_ = menu_entries_ .. 'LRCommandList::' .. Database.cppvectors[v[9]][1] .. ', '
+      menu_entries_ = menu_entries_ .. 'LrCommandList::' .. Database.cppvectors[v[9]][1] .. ', '
       lrcommandsh = lrcommandsh .. '\nstatic const std::vector<std::string> ' .. Database.cppvectors[v[9]][1] ..';'
     end
     file:write('"'..v[8]..'",\n')
   end
 end
 menus_ = menus_ .. '"Next/Prev Profile" })'
-menu_entries_ = menu_entries_ .. 'LRCommandList::NextPrevProfile })'
+menu_entries_ = menu_entries_ .. 'LrCommandList::NextPrevProfile })'
 lrcommandsh = lrcommandsh .. '\n'
 
-file:write("};\n\nconst std::vector<std::string> LRCommandList::LRStringList = {\n\"Unmapped\",\n")
+file:write("};\n\nconst std::vector<std::string> LrCommandList::LrStringList = {\n\"Unmapped\",\n")
 menulocation = ""
 for _,v in ipairs(Database.DataBase) do
   if v[4] then
@@ -117,18 +117,18 @@ for _,v in ipairs(Database.DataBase) do
 end
 file:write([=[};
 
-const std::vector <std::string> LRCommandList::NextPrevProfile = {
+const std::vector <std::string> LrCommandList::NextPrevProfile = {
   "Previous Profile",
   "Next Profile",
 };
 
-size_t LRCommandList::getIndexOfCommand(const std::string& command) {
+size_t LrCommandList::GetIndexOfCommand(const std::string& command) {
   static std::unordered_map<std::string, size_t> indexMap;
 
   // better to check for empty then length, as empty has a constant run time behavior.
   if (indexMap.empty()) {
     size_t idx = 0;
-    for (const auto& str : LRStringList)
+    for (const auto& str : LrStringList)
       indexMap[str] = idx++;
 
     for (const auto& str : NextPrevProfile)
@@ -192,19 +192,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class LRCommandList {
+class LrCommandList {
 public:
     // Strings that LR uses
-  static const std::vector<std::string> LRStringList;
+  static const std::vector<std::string> LrStringList;
 
   // Sectioned and readable develop param strings]=],lrcommandsh,[=[
   // MIDI2LR commands
   static const std::vector<std::string> NextPrevProfile;
 
   // Map of command strings to indices
-  static size_t getIndexOfCommand(const std::string& command);
+  static size_t GetIndexOfCommand(const std::string& command);
 
-  LRCommandList() = delete;
+  LrCommandList() = delete;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED]=])

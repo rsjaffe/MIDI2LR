@@ -27,32 +27,31 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "MidiUtilities.h"
 #include "Misc.h"
 class CommandMap;
 class ControlsModel;
-class MIDIProcessor;
-namespace RSJ {
-    struct MidiMessage;
-}
+class MidiProcessor;
+class MidiSender;
 
-class LR_IPC_OUT final:
+
+class LrIpcOut final:
     private juce::InterprocessConnection,
-    private juce::AsyncUpdater,
-    private juce::Timer {
+    private juce::AsyncUpdater {
 public:
-    LR_IPC_OUT(ControlsModel* const c_model, const CommandMap * const mapCommand);
-    virtual ~LR_IPC_OUT();
-    void Init(MIDIProcessor* const midi_processor);
+    LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command);
+    virtual ~LrIpcOut();
+    void Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor);
 
-    template<class T> void addCallback(T* const  object, void(T::* const mf)(bool))
+    template<class T> void AddCallback(T* const  object, void(T::* const mf)(bool))
     {
         callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
     }
 
     // sends a command to the plugin
-    void sendCommand(const std::string& command);
+    void SendCommand(const std::string& command);
 
-    void MIDIcmdCallback(RSJ::MidiMessage);
+    void MidiCmdCallback(rsj::MidiMessage);
 
 private:
     // IPC interface
@@ -62,15 +61,37 @@ private:
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
     // Timer callback
-    void timerCallback() override;
-
-    bool timer_off_{false};
+    class connect_timer:public juce::Timer {
+    public:
+        connect_timer(LrIpcOut* owner):owner_(owner)
+        {}
+        void Start();
+        void Stop();
+    private:
+        void timerCallback() override;
+        LrIpcOut* owner_;
+        bool timer_off_{false};
+        mutable std::mutex connect_mutex_; //fix race during shutdown
+    };
+    class recenter:public juce::Timer {
+    public:
+        recenter(LrIpcOut* owner):owner_{owner}
+        {}
+        void SetMidiMessage(rsj::MidiMessage mm);
+    private:
+        void timerCallback() override;
+        LrIpcOut* owner_;
+        rsj::RelaxTTasSpinLock mtx_;
+        rsj::MidiMessage mm_{};
+    };
+    connect_timer connect_timer_{this};
+    recenter recenter_{this};
     const CommandMap * const command_map_;
     ControlsModel* const controls_model_;
-    mutable RSJ::RelaxTTasSpinLock command_mutex_; //fast spinlock for brief use
-    mutable std::mutex timer_mutex_; //fix race during shutdown
+    mutable rsj::RelaxTTasSpinLock command_mutex_; //fast spinlock for brief use
     std::string command_;
     std::vector<std::function<void(bool)>> callbacks_;
+    std::shared_ptr<MidiSender> midi_sender_{nullptr};
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

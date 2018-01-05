@@ -22,11 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MIDI2LR_MISC_H_INCLUDED
 #define MIDI2LR_MISC_H_INCLUDED
 #include <atomic>
+#include <chrono>
 
 #ifdef NDEBUG    // asserts disabled
-static constexpr bool ndebug = true;
+static constexpr bool kNdebug = true;
 #else            // asserts enabled
-static constexpr bool ndebug = false;
+static constexpr bool kNdebug = false;
 #endif
 
 #ifdef _WIN32
@@ -36,7 +37,14 @@ static constexpr bool ndebug = false;
 #define CPU_RELAX __builtin_ia32_pause()
 #endif
 
-namespace RSJ {
+namespace rsj {
+    inline auto NowMs() noexcept
+    {
+        return std::chrono::time_point_cast<std::chrono::milliseconds>
+            (std::chrono::steady_clock::now()).time_since_epoch().count();
+    }
+    using TimeType = decltype(NowMs());
+
     class RelaxTTasSpinLock {
     public:
         RelaxTTasSpinLock() = default;
@@ -48,25 +56,25 @@ namespace RSJ {
         void lock() noexcept
         {
             do {
-                while (flag.load(std::memory_order_relaxed))
+                while (flag_.load(std::memory_order_relaxed))
                     CPU_RELAX;//spin without expensive exchange
-            } while (flag.exchange(true, std::memory_order_acquire));
+            } while (flag_.exchange(true, std::memory_order_acquire));
         }
 
         bool try_lock() noexcept
         {
-            if (flag.load(std::memory_order_relaxed)) //avoid cache invalidation if lock unavailable
+            if (flag_.load(std::memory_order_relaxed)) //avoid cache invalidation if lock unavailable
                 return false;
-            return !flag.exchange(true, std::memory_order_acquire); //try to acquire lock
+            return !flag_.exchange(true, std::memory_order_acquire); //try to acquire lock
         }
 
         void unlock() noexcept
         {
-            flag.store(false, std::memory_order_release);
+            flag_.store(false, std::memory_order_release);
         }
 
     private:
-        std::atomic<bool> flag{false};
+        std::atomic<bool> flag_{false};
     };
 }
 #endif  // MISC_H_INCLUDED

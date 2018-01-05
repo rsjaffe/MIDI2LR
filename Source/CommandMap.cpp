@@ -28,28 +28,28 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 CommandMap::CommandMap() noexcept
 {}
 
-void CommandMap::addCommandforMessage(size_t command, const RSJ::MidiMessageId& message)
+void CommandMap::AddCommandforMessage(size_t command, const rsj::MidiMessageId& message)
 {
     // adds a message to the message:command map, and its associated command to the
     // command:message map
-    if (command < LRCommandList::LRStringList.size()) {
-        message_map_[message] = LRCommandList::LRStringList[command];
-        command_string_map_.insert({LRCommandList::LRStringList[command], message});
+    if (command < LrCommandList::LrStringList.size()) {
+        message_map_[message] = LrCommandList::LrStringList[command];
+        command_string_map_.insert({LrCommandList::LrStringList[command], message});
     }
     else
-        message_map_[message] = LRCommandList::NextPrevProfile[command - LRCommandList::LRStringList.size()];
+        message_map_[message] = LrCommandList::NextPrevProfile[command - LrCommandList::LrStringList.size()];
 }
 
-std::vector<const RSJ::MidiMessageId*> CommandMap::getMessagesForCommand(const std::string& command) const
+std::vector<const rsj::MidiMessageId*> CommandMap::GetMessagesForCommand(const std::string& command) const
 {
-    std::vector<const RSJ::MidiMessageId*> mm;
+    std::vector<const rsj::MidiMessageId*> mm;
     const auto range = command_string_map_.equal_range(command);
     for (auto it = range.first; it != range.second; ++it)
         mm.push_back(&it->second);
     return mm;
 }
 
-void CommandMap::toXMLDocument(const juce::File& file) const
+void CommandMap::ToXmlDocument(const juce::File& file) const
 {
     if (message_map_.size()) {//don't bother if map is empty
       // save the contents of the command map to an xml file
@@ -58,19 +58,19 @@ void CommandMap::toXMLDocument(const juce::File& file) const
             auto* setting = new juce::XmlElement{"setting"};
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
-            case RSJ::MsgIdEnum::NOTE: setting->setAttribute("note", map_entry.first.pitch);
-                break;
-            case RSJ::MsgIdEnum::CC: setting->setAttribute("controller", map_entry.first.controller);
-                break;
-            case RSJ::MsgIdEnum::PITCHBEND: setting->setAttribute("pitchbend", 0);
-                break;
+                case rsj::MsgIdEnum::kNote: setting->setAttribute("note", map_entry.first.pitch);
+                    break;
+                case rsj::MsgIdEnum::kCc: setting->setAttribute("controller", map_entry.first.controller);
+                    break;
+                case rsj::MsgIdEnum::kPitchBend: setting->setAttribute("pitchbend", 0);
+                    break;
             }
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting);
         }
         if (!root.writeToFile(file, ""))
             // Give feedback if file-save doesn't work
-            juce::AlertWindow::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "File Save Error",
                 "Unable to save file as specified. Please try again, and consider saving to a different location.");
     }
 }

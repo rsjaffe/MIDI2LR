@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "CommandMap.h"
 
-const std::vector<std::string> LRCommandList::KeyShortcuts = {
+const std::vector<std::string> LrCommandList::KeyShortcuts = {
     "Key 1",
     "Key 2",
     "Key 3",
@@ -65,9 +65,14 @@ const std::vector<std::string> LRCommandList::KeyShortcuts = {
     "Key 38",
     "Key 39",
     "Key 40",
+    "Key 32 – Key 31",
+    "Key 34 – Key 33",
+    "Key 36 – Key 35",
+    "Key 38 – Key 37",
+    "Key 40 – Key 39",
 };
 
-const std::vector<std::string> LRCommandList::Filters = {
+const std::vector<std::string> LrCommandList::Filters = {
     "Library filter 1",
     "Library filter 2",
     "Library filter 3",
@@ -82,18 +87,22 @@ const std::vector<std::string> LRCommandList::Filters = {
     "Library filter 12",
 };
 
-const std::vector<std::string> LRCommandList::General = {
+const std::vector<std::string> LrCommandList::General = {
     "Primary Display Grid",
     "Primary Display Loupe",
     "Primary Display Compare",
     "Primary Display Survey",
     "Enable/Disable Zoom",
+    "Zoom In Some Zoom Out Some",
+    "Zoom Out Some Zoom In Some",
     "Zoom In",
     "Zoom In Some",
     "Zoom Out Some",
     "Zoom Out",
+    "Add to Selection Left Right",
     "Add to Selection Left",
     "Add to Selection Right",
+    "Next Photo — Previous Photo",
     "Next Photo",
     "Previous Photo",
     "Series of commands 1",
@@ -107,7 +116,7 @@ const std::vector<std::string> LRCommandList::General = {
     "Series of commands 9",
 };
 
-const std::vector<std::string> LRCommandList::Library = {
+const std::vector<std::string> LrCommandList::Library = {
     "Show Library",
     "Set Pick Flag",
     "Set Rejected Flag",
@@ -128,7 +137,7 @@ const std::vector<std::string> LRCommandList::Library = {
     "Primary Display People",
 };
 
-const std::vector<std::string> LRCommandList::Develop = {
+const std::vector<std::string> LrCommandList::Develop = {
     "Show Develop",
     "Lightroom Copy Settings",
     "Lightroom Paste Settings",
@@ -138,8 +147,13 @@ const std::vector<std::string> LRCommandList::Develop = {
     "Create Virtual Copy",
     "Reset Settings",
     "Reset Last Modified",
+    "More – Less Last Modified",
     "Increase Last Modified",
     "Decrease Last Modified",
+    "More – Less",
+    "More",
+    "Less",
+    "Redo – Undo",
     "Undo",
     "Redo",
     "Primary Display Before/After Left/Right",
@@ -150,7 +164,7 @@ const std::vector<std::string> LRCommandList::Develop = {
     "Primary Display Loupe",
 };
 
-const std::vector<std::string> LRCommandList::BasicAdjustments = {
+const std::vector<std::string> LrCommandList::BasicAdjustments = {
     "Show Basic Tone",
     "White Balance As Shot",
     "White Balance Auto",
@@ -186,7 +200,7 @@ const std::vector<std::string> LRCommandList::BasicAdjustments = {
     "Reset Saturation",
 };
 
-const std::vector<std::string> LRCommandList::ToneCurve = {
+const std::vector<std::string> LrCommandList::ToneCurve = {
     "Show Tone Curve",
     "Enable Tone Curve",
     "Dark Tones",
@@ -208,7 +222,7 @@ const std::vector<std::string> LRCommandList::ToneCurve = {
     "Tone Curve Strong Contrast",
 };
 
-const std::vector<std::string> LRCommandList::Mixer = {
+const std::vector<std::string> LrCommandList::Mixer = {
     "Show Color Adjustments",
     "Enable Color Adjustments",
     "Saturation Adjustment Red",
@@ -248,7 +262,7 @@ const std::vector<std::string> LRCommandList::Mixer = {
     "Gray Mixer Magenta",
 };
 
-const std::vector<std::string> LRCommandList::ResetMixer = {
+const std::vector<std::string> LrCommandList::ResetMixer = {
     "Reset Saturation Adjustment Red",
     "Reset Saturation Adjustment Orange",
     "Reset Saturation Adjustment Yellow",
@@ -284,7 +298,7 @@ const std::vector<std::string> LRCommandList::ResetMixer = {
     "Reset Gray Mixer Magenta",
 };
 
-const std::vector<std::string> LRCommandList::SplitToning = {
+const std::vector<std::string> LrCommandList::SplitToning = {
     "Show Split Toning",
     "Enable Split Toning",
     "Shadow Hue",
@@ -299,7 +313,7 @@ const std::vector<std::string> LRCommandList::SplitToning = {
     "Reset Split Toning Balance",
 };
 
-const std::vector<std::string> LRCommandList::Detail = {
+const std::vector<std::string> LrCommandList::Detail = {
     "Show Detail",
     "Enable Detail",
     "Sharpness",
@@ -324,7 +338,7 @@ const std::vector<std::string> LRCommandList::Detail = {
     "Reset Color Noise Reduction Smoothness",
 };
 
-const std::vector<std::string> LRCommandList::LensCorrections = {
+const std::vector<std::string> LrCommandList::LensCorrections = {
     "Show Lens Corrections",
     "Enable Lens Corrections",
     "Toggle Profile Corrections",
@@ -356,7 +370,7 @@ const std::vector<std::string> LRCommandList::LensCorrections = {
     "Reset Vignette Midpoint",
 };
 
-const std::vector<std::string> LRCommandList::Transform = {
+const std::vector<std::string> LrCommandList::Transform = {
     "Show Transform",
     "Enable Transform",
     "Perspective Correction Off",
@@ -382,7 +396,7 @@ const std::vector<std::string> LRCommandList::Transform = {
     "Reset Perspective Y",
 };
 
-const std::vector<std::string> LRCommandList::Effects = {
+const std::vector<std::string> LrCommandList::Effects = {
     "Show Effects",
     "Enable Effects",
     "Dehaze Amount",
@@ -410,7 +424,7 @@ const std::vector<std::string> LRCommandList::Effects = {
     "Reset Grain Roughness",
 };
 
-const std::vector<std::string> LRCommandList::Calibration = {
+const std::vector<std::string> LrCommandList::Calibration = {
     "Show Calibration",
     "Enable Calibration",
     "Adobe Standard",
@@ -450,7 +464,7 @@ const std::vector<std::string> LRCommandList::Calibration = {
     "Reset Blue Saturation Calibration",
 };
 
-const std::vector<std::string> LRCommandList::DevelopPresets = {
+const std::vector<std::string> LrCommandList::DevelopPresets = {
     "Develop Preset 1",
     "Develop Preset 2",
     "Develop Preset 3",
@@ -533,12 +547,18 @@ const std::vector<std::string> LRCommandList::DevelopPresets = {
     "Develop Preset 80",
 };
 
-const std::vector<std::string> LRCommandList::LocalAdjustments = {
+const std::vector<std::string> LrCommandList::LocalAdjustments = {
     "Show Graduated Filters",
     "Show Radial Filters",
     "Show Red-Eye Correction",
     "Show Spot Removal",
     "Show Brush Adjustments",
+    "Brush — Size",
+    "Brush — Size — smaller",
+    "Brush — Size — larger",
+    "Brush — Feather",
+    "Brush — Feather — smaller",
+    "Brush — Feather — larger",
     "Local Adjustments Temp. (PV2012)",
     "Local Adjustments Tint (PV2012)",
     "Local Adjustments Exposure (PV2010 and PV2012)",
@@ -601,7 +621,7 @@ const std::vector<std::string> LRCommandList::LocalAdjustments = {
     "Local adjustments presets 16",
 };
 
-const std::vector<std::string> LRCommandList::Crop = {
+const std::vector<std::string> LrCommandList::Crop = {
     "Straighten Angle",
     "Crop Angle",
     "Crop - Bottom",
@@ -613,7 +633,7 @@ const std::vector<std::string> LRCommandList::Crop = {
     "Show Crop",
 };
 
-const std::vector<std::string> LRCommandList::ToolModulePanel = {
+const std::vector<std::string> LrCommandList::ToolModulePanel = {
     "Show Loupe",
     "Show Map",
     "Show Book",
@@ -622,7 +642,7 @@ const std::vector<std::string> LRCommandList::ToolModulePanel = {
     "Show Web",
 };
 
-const std::vector<std::string> LRCommandList::SecondaryDisplay = {
+const std::vector<std::string> LrCommandList::SecondaryDisplay = {
     "Secondary Display Loupe",
     "Secondary Display Live Loupe",
     "Secondary Display Locked Loupe",
@@ -633,7 +653,7 @@ const std::vector<std::string> LRCommandList::SecondaryDisplay = {
     "Secondary Display Show",
 };
 
-const std::vector<std::string> LRCommandList::ProgramProfiles = {
+const std::vector<std::string> LrCommandList::ProgramProfiles = {
     "Profile: 1",
     "Profile: 2",
     "Profile: 3",
@@ -647,7 +667,7 @@ const std::vector<std::string> LRCommandList::ProgramProfiles = {
     "Manual Update",
 };
 
-const std::vector<std::string> LRCommandList::LRStringList = {
+const std::vector<std::string> LrCommandList::LrStringList = {
     "Unmapped",
     /* Keyboard Shortcuts for User */
     "Key1",
@@ -690,6 +710,11 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "Key38",
     "Key39",
     "Key40",
+    "Key32Key31",
+    "Key34Key33",
+    "Key36Key35",
+    "Key38Key37",
+    "Key40Key39",
     /* Library filter */
     "Filter_1",
     "Filter_2",
@@ -709,12 +734,16 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "ShoVwcompare",
     "ShoVwsurvey",
     "ToggleZoomOffOn",
+    "ZoomInOut",
+    "ZoomOutIn",
     "ZoomInLargeStep",
     "ZoomInSmallStep",
     "ZoomOutSmallStep",
     "ZoomOutLargeStep",
+    "SelectRightLeft",
     "Select1Left",
     "Select1Right",
+    "NextPrev",
     "Next",
     "Prev",
     "ActionSeries1",
@@ -755,8 +784,13 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "VirtualCopy",
     "ResetAll",
     "ResetLast",
+    "ChangeLastDevelopParameter",
     "IncrementLastDevelopParameter",
     "DecrementLastDevelopParameter",
+    "ChangeCurrentSlider",
+    "SliderIncrease",
+    "SliderDecrease",
+    "RedoUndo",
     "Undo",
     "Redo",
     "ShoVwdevelop_before_after_horiz",
@@ -1132,6 +1166,12 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "RedEye",
     "SpotRemoval",
     "AdjustmentBrush",
+    "ChangeBrushSize",
+    "BrushSizeSmaller",
+    "BrushSizeLarger",
+    "ChangeFeatherSize",
+    "BrushFeatherSmaller",
+    "BrushFeatherLarger",
     "local_Temperature",
     "local_Tint",
     "local_Exposure",
@@ -1232,19 +1272,19 @@ const std::vector<std::string> LRCommandList::LRStringList = {
     "FullRefresh",
 };
 
-const std::vector <std::string> LRCommandList::NextPrevProfile = {
+const std::vector <std::string> LrCommandList::NextPrevProfile = {
     "Previous Profile",
     "Next Profile",
 };
 
-size_t LRCommandList::getIndexOfCommand(const std::string& command)
+size_t LrCommandList::GetIndexOfCommand(const std::string& command)
 {
     static std::unordered_map<std::string, size_t> indexMap;
 
     // better to check for empty then length, as empty has a constant run time behavior.
     if (indexMap.empty()) {
         size_t idx = 0;
-        for (const auto& str : LRStringList)
+        for (const auto& str : LrStringList)
             indexMap[str] = idx++;
 
         for (const auto& str : NextPrevProfile)

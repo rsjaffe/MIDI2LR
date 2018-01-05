@@ -21,54 +21,67 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
+#include <array>
+#include <atomic>
+#include <future>
 #include "MidiUtilities.h"
 
-MIDIProcessor::MIDIProcessor() noexcept
+
+MidiProcessor::MidiProcessor() noexcept
 {}
 
-MIDIProcessor::~MIDIProcessor()
+MidiProcessor::~MidiProcessor()
 {}
 
-void MIDIProcessor::Init()
+void MidiProcessor::Init()
 {
-    InitDevices_();
+    InitDevices();
 }
 
-void MIDIProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
+void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     const juce::MidiMessage& message)
 {
-    const RSJ::MidiMessage mess{message};
+    //this procedure is in near-real-time, so must return quickly. Will spin off
+    //callbacks to let that happen. As future is replaced in queue, it is destroyed
+    //guaranteeing that async task is run (forced to run before future destroyed if not run earlier)
+    constexpr size_t kRingSize{16};//how many futures to store--should be factor of two so wrap-around at max size_t doesn't clobber a recent addition
+    //but large enough that two async calls kRingSize apart are guaranteed not to be assigning to futures at the same time
+    static std::array<std::future<void>, kRingSize> futures;
+    static std::atomic<size_t> future_index{0};
+    const rsj::MidiMessage mess{message};
     switch (mess.message_type_byte) {
-    case RSJ::kCCFlag:
-        if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
-            const auto nrpn = nrpn_filter_.GetNRPNifReady(mess.channel);
-            if (nrpn.isValid) //send when finished
+        case rsj::kCcFlag:
+            if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { //true if nrpn piece
+                const auto nrpn = nrpn_filter_.GetNrpnIfReady(mess.channel);
+                if (nrpn.is_valid) {//send when finished
+                    const auto n_message{rsj::MidiMessage{rsj::kCcFlag, mess.channel, nrpn.control, nrpn.value}};
+                    for (const auto& cb : callbacks_)
+                        futures[future_index++ % kRingSize] = std::async(std::launch::async, cb, n_message);
+                }
+            }
+            else //regular message
                 for (const auto& cb : callbacks_)
-                    cb(RSJ::MidiMessage{RSJ::kCCFlag, mess.channel, nrpn.control, nrpn.value});
-        }
-        else //regular message
+                    futures[future_index++ % kRingSize] = std::async(std::launch::async, cb, mess);
+            break;
+        case rsj::kNoteOnFlag:
+        case rsj::kPwFlag:
             for (const auto& cb : callbacks_)
-                cb(mess);
-        break;
-    case RSJ::kNoteOnFlag:
-    case RSJ::kPWFlag:
-        for (const auto& cb : callbacks_)
-            cb(mess);
-        break;
-    default:
-        ; //no action if other type of MIDI message
+                futures[future_index++ % kRingSize] = std::async(std::launch::async, cb, mess);
+            break;
+        default:
+            ; //no action if other type of MIDI message
     }
 }
 
-void MIDIProcessor::RescanDevices()
+void MidiProcessor::RescanDevices()
 {
     for (const auto& dev : devices_)
         dev->stop();
     devices_.clear();
-    InitDevices_();
+    InitDevices();
 }
 
-void MIDIProcessor::InitDevices_()
+void MidiProcessor::InitDevices()
 {
     for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
         const auto dev = juce::MidiInput::openDevice(idx, this);

@@ -27,10 +27,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class LRCommandList {
+class LrCommandList {
 public:
     // Strings that LR uses
-    static const std::vector<std::string> LRStringList;
+    static const std::vector<std::string> LrStringList;
 
     // Sectioned and readable develop param strings
     static const std::vector<std::string> KeyShortcuts;
@@ -58,9 +58,9 @@ public:
     static const std::vector<std::string> NextPrevProfile;
 
     // Map of command strings to indices
-    static size_t getIndexOfCommand(const std::string& command);
+    static size_t GetIndexOfCommand(const std::string& command);
 
-    LRCommandList() = delete;
+    LrCommandList() = delete;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED
