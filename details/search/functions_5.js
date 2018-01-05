@@ -1,6 +1,29 @@
 var searchData=
 [
-  ['init',['Init',['../class_command_menu.html#a62bf7357be5efb68cfb278ecda900621',1,'CommandMenu::Init()'],['../class_command_table_model.html#a19068c19b0955cdf4bfc7fa3889d0e47',1,'CommandTableModel::Init()'],['../class_l_r___i_p_c___i_n.html#a9f81e75908c4e84bb74d4c5fa49b75cd',1,'LR_IPC_IN::Init()'],['../class_m_i_d_i_sender.html#ab563687fe6dd2b274a1694140ef7c08c',1,'MIDISender::Init()'],['../class_profile_manager.html#a904b6c80cbe32b798c72bf1ddda27e76',1,'ProfileManager::Init()'],['../class_l_r___i_p_c___o_u_t.html#a82c5b38c9c3af06fd1bd30a9f91885f8',1,'LR_IPC_OUT::Init()'],['../class_m_i_d_i_processor.html#af936f3238ca697c70f7f98a5d2af651f',1,'MIDIProcessor::Init()'],['../class_main_content_component.html#a2ac30d8ddd2179417e18117dc7b4b5b1',1,'MainContentComponent::Init()'],['../class_main_window.html#a1769667597eaacde4cd8a4df70989f62',1,'MainWindow::Init()'],['../class_settings_manager.html#a0057a18385879af2e820983ad6ed14db',1,'SettingsManager::Init()'],['../class_settings_component.html#a29baa1f6c3d21bc45e53e9294556b718',1,'SettingsComponent::Init()']]],
-  ['initialise',['initialise',['../class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4',1,'MIDI2LRApplication']]],
-  ['isinprocess',['IsInProcess',['../class_n_r_p_n___message.html#a9497d26fe53df4d7396ba231c90af8d8',1,'NRPN_Message::IsInProcess()'],['../class_n_r_p_n___filter.html#a8c3959d7b1e54ade7c0e432aa201f342',1,'NRPN_Filter::IsInProcess()']]]
+  ['getapplicationname',['getApplicationName',['../class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40',1,'MIDI2LRApplication']]],
+  ['getapplicationversion',['getApplicationVersion',['../class_m_i_d_i2_l_r_application.html#ac7c4482812427f5f86fef87fe91b4c99',1,'MIDI2LRApplication']]],
+  ['getautohidetime',['GetAutoHideTime',['../class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd',1,'SettingsManager']]],
+  ['getccmax',['GetCcMax',['../class_channel_model.html#aa67ac90293e4ec8253397b9c212dffb8',1,'ChannelModel::GetCcMax()'],['../class_controls_model.html#ad573b10e82930ee5c605029fb7e5bda3',1,'ControlsModel::GetCcMax()']]],
+  ['getccmethod',['GetCcMethod',['../class_channel_model.html#a655387956382d555fd01e8ba0ecc3a02',1,'ChannelModel::GetCcMethod()'],['../class_controls_model.html#a8a88652d41cdefd0492335d3f8c1f27a',1,'ControlsModel::GetCcMethod()']]],
+  ['getccmin',['GetCcMin',['../class_channel_model.html#ab2b0b896cd8165b3105a7d4e48922a63',1,'ChannelModel::GetCcMin()'],['../class_controls_model.html#a06815f22a32010063bfdd6e04b72e5e6',1,'ControlsModel::GetCcMin()']]],
+  ['getcommandformessage',['GetCommandforMessage',['../class_command_map.html#aaf6fddbe9327afae476f4da9909027ad',1,'CommandMap']]],
+  ['getcontrol',['GetControl',['../class_nrpn_message.html#ad51ca4198c5806466a9eb193a19e13bf',1,'NrpnMessage']]],
+  ['getheight',['getHeight',['../struct_resizable_layout_1_1_rect.html#a7844e2ed42488574d012fdc0f6ce21dd',1,'ResizableLayout::Rect']]],
+  ['getindexofcommand',['GetIndexOfCommand',['../class_lr_command_list.html#a2077f1e22e2682f0165f54318292da3c',1,'LrCommandList']]],
+  ['getlastversionfound',['GetLastVersionFound',['../class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c',1,'SettingsManager']]],
+  ['getmaximumheight',['getMaximumHeight',['../class_resizable_child.html#a91c544f2152d9df8e0509ddf8374be3c',1,'ResizableChild']]],
+  ['getmaximumwidth',['getMaximumWidth',['../class_resizable_child.html#a4a8eb736e0d2433f969b7e4fc3c4f395',1,'ResizableChild']]],
+  ['getmenuitems',['GetMenuItems',['../class_profile_manager.html#ac0889d5b0aaae8f6ccad24d745280fdf',1,'ProfileManager']]],
+  ['getmessagesforcommand',['GetMessagesForCommand',['../class_command_map.html#ab6deb2692ab52708ce8a25f4e8862a62',1,'CommandMap']]],
+  ['getminimumheight',['getMinimumHeight',['../class_resizable_child.html#a05afa247fb97494b54cb4832f7ce33dd',1,'ResizableChild']]],
+  ['getminimumwidth',['getMinimumWidth',['../class_resizable_child.html#a41fd1e4fd50d371618c61a46ae78a648',1,'ResizableChild']]],
+  ['getnrpnifready',['GetNrpnIfReady',['../class_nrpn_message.html#a7c6f6a979094d4421f3f33c08311c09d',1,'NrpnMessage::GetNrpnIfReady()'],['../class_nrpn_filter.html#a817b76b09fc4dd2304ac53f55ec4a36d',1,'NrpnFilter::GetNrpnIfReady()']]],
+  ['getnumrows',['getNumRows',['../class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2',1,'CommandTableModel']]],
+  ['getpickupenabled',['GetPickupEnabled',['../class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b',1,'SettingsManager']]],
+  ['getprofiledirectory',['GetProfileDirectory',['../class_settings_manager.html#adc8d58846516e741e4c3940945100c83',1,'SettingsManager']]],
+  ['getpwmax',['GetPwMax',['../class_channel_model.html#a61e0bae6450eea46ab6b8f9998e21e17',1,'ChannelModel::GetPwMax()'],['../class_controls_model.html#ae0fcc8c826fa8eda93861ac02664f677',1,'ControlsModel::GetPwMax()']]],
+  ['getpwmin',['GetPwMin',['../class_channel_model.html#ae0678993a163d10d22ac10edc5950266',1,'ChannelModel::GetPwMin()'],['../class_controls_model.html#a13c4942fc660881748a86b8e58b64555',1,'ControlsModel::GetPwMin()']]],
+  ['getrowformessage',['GetRowForMessage',['../class_command_table_model.html#a9874055f2a7e607bfde28e6714ddc090',1,'CommandTableModel']]],
+  ['getvalue',['GetValue',['../class_nrpn_message.html#a1f884ca50a492512c7921b3022bebaad',1,'NrpnMessage']]],
+  ['getwidth',['getWidth',['../struct_resizable_layout_1_1_rect.html#ac88f37be52d2462c15bc21f8bad0cf75',1,'ResizableLayout::Rect']]]
 ];

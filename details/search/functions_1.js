@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['bindtocontrol',['bindToControl',['../class_c_coptions.html#a23681ed4e4f098fc28ff3ba57d71f533',1,'CCoptions::bindToControl()'],['../class_p_woptions.html#a790554fc29b4e091cd79e9c84d463dff',1,'PWoptions::bindToControl()']]],
-  ['buildfromxml',['buildFromXml',['../class_command_table_model.html#a63e2d1cc744c6132dcbd167fb0b82c67',1,'CommandTableModel']]],
-  ['buttonclicked',['buttonClicked',['../class_c_coptions.html#ac25a7dd04f5e83fe73c4497697e30e21',1,'CCoptions']]]
+  ['bindtocontrol',['BindToControl',['../class_c_coptions.html#ac0ee4f364944cdf3b41f47e5ecde5264',1,'CCoptions::BindToControl()'],['../class_p_woptions.html#a7fd98b93609325f9c302615d88707435',1,'PWoptions::BindToControl()']]],
+  ['buildfromxml',['BuildFromXml',['../class_command_table_model.html#a56f5adec1d5673fd057c652f13496138',1,'CommandTableModel']]],
+  ['buttonclicked',['buttonClicked',['../class_c_coptions.html#a6fa1f66a6cbb53b8593f52495dc5349c',1,'CCoptions::buttonClicked()'],['../class_main_content_component.html#ac231a927dad9e612f7c5adfd82ec58b3',1,'MainContentComponent::buttonClicked()'],['../class_settings_component.html#ad0b8e223bf7f76e536e98f2869143367',1,'SettingsComponent::buttonClicked()']]]
 ];

@@ -1,19 +1,20 @@
 var _midi_utilities_8h =
 [
-    [ "hash< RSJ::MidiMessageId >", "structstd_1_1hash_3_01_r_s_j_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01_r_s_j_1_1_midi_message_id_01_4" ],
-    [ "MidiMessage", "struct_r_s_j_1_1_midi_message.html", "struct_r_s_j_1_1_midi_message" ],
-    [ "MidiMessageId", "struct_r_s_j_1_1_midi_message_id.html", "struct_r_s_j_1_1_midi_message_id" ],
-    [ "MsgIdEnum", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65c", [
-      [ "NOTE", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65ca10de4bc81f754b19b0d27246a0589c05", null ],
-      [ "CC", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65caaa53ca0b650dfd85c4f59fa156f7a2cc", null ],
-      [ "PITCHBEND", "_midi_utilities_8h.html#a45732ba190d17bd00577dd22809bf65ca0a2db7e0135c29ea78f67ddea73dcf85", null ]
+    [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ],
+    [ "MidiMessage", "structrsj_1_1_midi_message.html", "structrsj_1_1_midi_message" ],
+    [ "MidiMessageId", "structrsj_1_1_midi_message_id.html", "structrsj_1_1_midi_message_id" ],
+    [ "MIDI2LR_MIDIUTILITIES_H_INCLUDED", "_midi_utilities_8h.html#a0a8c807782dea084a3b759c2ee000351", null ],
+    [ "MsgIdEnum", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3", [
+      [ "kNote", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc", null ],
+      [ "kCc", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447", null ],
+      [ "kPitchBend", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3a4fce6f297fc06f82a964472e8a8921b5", null ]
     ] ],
-    [ "kCCFlag", "_midi_utilities_8h.html#a108ff40656bd50df8ece242697d3d8cd", null ],
-    [ "kChanPressureFlag", "_midi_utilities_8h.html#af094b0d162f8985ff9ed700df573ec5b", null ],
-    [ "kKeyPressureFlag", "_midi_utilities_8h.html#aa60799dab5d8e3797c0284109e522d79", null ],
-    [ "kNoteOffFlag", "_midi_utilities_8h.html#a796c3b94e9a676f01cc869b3b58084e3", null ],
-    [ "kNoteOnFlag", "_midi_utilities_8h.html#a67deb7d36958e34fe9371253ab246f7b", null ],
-    [ "kPgmChangeFlag", "_midi_utilities_8h.html#a3e2639bb067c96cf1db38a5eb42ade1c", null ],
-    [ "kPWFlag", "_midi_utilities_8h.html#a24c07f078b52d7f94007b33e85480b5a", null ],
-    [ "kSystemFlag", "_midi_utilities_8h.html#ae316b71dab075e25f697d2d825c3f876", null ]
+    [ "kCcFlag", "_midi_utilities_8h.html#acfed8fcd3b55962e621fe38cc51b5fe6", null ],
+    [ "kChanPressureFlag", "_midi_utilities_8h.html#a3eef0c8742c77199734e77031216dd18", null ],
+    [ "kKeyPressureFlag", "_midi_utilities_8h.html#a93c6b6eb3c616627e32d70dd236845a3", null ],
+    [ "kNoteOffFlag", "_midi_utilities_8h.html#a97cd7add2b87a200bbae84ed975c10b2", null ],
+    [ "kNoteOnFlag", "_midi_utilities_8h.html#a00ff6073cf6383716fe22b247f5f3293", null ],
+    [ "kPgmChangeFlag", "_midi_utilities_8h.html#af303da09e1d2f2719d8f6b4e5794a274", null ],
+    [ "kPwFlag", "_midi_utilities_8h.html#ab9695f0cf779654d5b7f110ba08d54c7", null ],
+    [ "kSystemFlag", "_midi_utilities_8h.html#a2ac9d1f37d4a7f66e5327f28f0004250", null ]
 ];

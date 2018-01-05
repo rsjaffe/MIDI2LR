@@ -1,0 +1,6 @@
+<map id="LrCommandList::GetIndexOfCommand" name="LrCommandList::GetIndexOfCommand">
+<area shape="rect" id="node2" href="$class_command_table_model.html#ae09e29497cc0a7d3c666d41661c9a542" title="CommandTableModel::Sort" alt="" coords="240,78,419,105"/>
+<area shape="rect" id="node3" href="$class_command_table_model.html#a093a71b6fbc81dddd367ebdfc4d78b0d" title="CommandTableModel::\lAddRow" alt="" coords="467,5,621,47"/>
+<area shape="rect" id="node4" href="$class_command_table_model.html#a56f5adec1d5673fd057c652f13496138" title="CommandTableModel::\lBuildFromXml" alt="" coords="467,71,621,112"/>
+<area shape="rect" id="node5" href="$class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00" title="CommandTableModel::\lsortOrderChanged" alt="" coords="467,136,621,177"/>
+</map>

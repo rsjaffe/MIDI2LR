@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['value',['value',['../struct_r_s_j_1_1_midi_message.html#a3eb78e04f2bf0cc4aa71901f97650309',1,'RSJ::MidiMessage::value()'],['../struct_r_s_j_1_1_n_r_p_n.html#a519a13bbf9443b9f3bacebfcf1a89024',1,'RSJ::NRPN::value()']]],
-  ['versionchecker',['VersionChecker',['../class_version_checker.html',1,'VersionChecker'],['../class_version_checker.html#acdfee6f603630bc51cccdca3f2422296',1,'VersionChecker::VersionChecker()']]],
-  ['versionchecker_2ecpp',['VersionChecker.cpp',['../_version_checker_8cpp.html',1,'']]],
-  ['versionchecker_2eh',['VersionChecker.h',['../_version_checker_8h.html',1,'']]],
-  ['versionchecker_5fh_5fincluded',['VERSIONCHECKER_H_INCLUDED',['../_version_checker_8h.html#a1280025b39ab0710f9879457be3c1c34',1,'VersionChecker.h']]]
+  ['unhandledexception',['unhandledException',['../class_m_i_d_i2_l_r_application.html#ad34fde5f16225239b8ae7e0e753cf9cc',1,'MIDI2LRApplication']]],
+  ['unlock',['unlock',['../classrsj_1_1_relax_t_tas_spin_lock.html#a089e84c2a32bd3fd48b83af12bced544',1,'rsj::RelaxTTasSpinLock']]],
+  ['updatelayout',['updateLayout',['../class_resizable_layout.html#a10cbba9de1d02206344941f9aab6d37f',1,'ResizableLayout']]],
+  ['updatelayoutfor',['updateLayoutFor',['../class_resizable_layout.html#a3d50b5102dd652d52be7f5f9259d3745',1,'ResizableLayout']]],
+  ['utilities_2ecpp',['Utilities.cpp',['../_utilities_8cpp.html',1,'']]],
+  ['utilities_2eh',['Utilities.h',['../_utilities_8h.html',1,'']]]
 ];

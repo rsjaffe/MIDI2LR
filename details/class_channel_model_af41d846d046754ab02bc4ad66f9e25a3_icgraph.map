@@ -1,0 +1,5 @@
+<map id="ChannelModel::CenterPw" name="ChannelModel::CenterPw">
+<area shape="rect" id="node2" href="$class_channel_model.html#a2ba31acacf5322805c2c218953671c2e" title="ChannelModel::SetPwMax" alt="" coords="226,5,401,32"/>
+<area shape="rect" id="node3" href="$class_channel_model.html#aed7d4da927abc1cad68722927f76df05" title="ChannelModel::SetPwMin" alt="" coords="228,56,399,83"/>
+<area shape="rect" id="node4" href="$class_channel_model.html#a4ae616bda9a51fa70d60df94adc691f8" title="ChannelModel::SetToCenter" alt="" coords="221,107,405,133"/>
+</map>

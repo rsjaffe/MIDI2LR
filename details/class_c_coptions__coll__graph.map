@@ -1,2 +1,6 @@
 <map id="CCoptions" name="CCoptions">
+<area shape="rect" id="node5" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1095,157,1200,184"/>
+<area shape="rect" id="node7" href="$class_channel_model.html" title="ChannelModel" alt="" coords="571,157,675,184"/>
+<area shape="rect" id="node9" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,72,132,99"/>
+<area shape="rect" id="node10" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,131,405,157"/>
 </map>

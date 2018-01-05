@@ -1,5 +1,5 @@
 var _profile_manager_8h =
 [
     [ "ProfileManager", "class_profile_manager.html", "class_profile_manager" ],
-    [ "PROFILEMANAGER_H_INCLUDED", "_profile_manager_8h.html#a0b23e478115c51d09aaae064ee97e276", null ]
+    [ "MIDI2LR_PROFILEMANAGER_H_INCLUDED", "_profile_manager_8h.html#a9421eb3245d07d7d9c4dd6bb93414312", null ]
 ];

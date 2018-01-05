@@ -1,2 +1,6 @@
 <map id="PWoptions" name="PWoptions">
+<area shape="rect" id="node4" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1080,107,1185,133"/>
+<area shape="rect" id="node6" href="$class_channel_model.html" title="ChannelModel" alt="" coords="571,107,675,133"/>
+<area shape="rect" id="node8" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,21,132,48"/>
+<area shape="rect" id="node9" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,80,405,107"/>
 </map>

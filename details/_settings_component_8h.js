@@ -1,5 +1,5 @@
 var _settings_component_8h =
 [
     [ "SettingsComponent", "class_settings_component.html", "class_settings_component" ],
-    [ "SETTINGSCOMPONENT_H_INCLUDED", "_settings_component_8h.html#a4b98fc2b6b20e861fa99d31ff51f5ae0", null ]
+    [ "MIDI2LR_SETTINGSCOMPONENT_H_INCLUDED", "_settings_component_8h.html#a383d4a27cc4759f4970aa8635e33ec1d", null ]
 ];

@@ -1,4 +1,5 @@
 <map id="TopLevelResizableLayout" name="TopLevelResizableLayout">
-<area shape="rect" id="node2" href="$class_resizable_layout.html" title="ResizableLayout" alt="" coords="80,80,199,107"/>
-<area shape="rect" id="node3" href="$class_resizable_child.html" title="ResizableChild" alt="" coords="5,5,113,32"/>
+<area shape="rect" id="node5" href="$class_top_level_resizable_layout_1_1_constrainer.html" title="TopLevelResizableLayout\l::Constrainer" alt="" coords="173,247,341,288"/>
+<area shape="rect" id="node2" href="$class_resizable_layout.html" title="ResizableLayout" alt="" coords="285,81,404,108"/>
+<area shape="rect" id="node3" href="$class_resizable_child.html" title="ResizableChild" alt="" coords="211,5,319,32"/>
 </map>

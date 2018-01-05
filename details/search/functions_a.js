@@ -1,13 +1,16 @@
 var searchData=
 [
-  ['paint',['paint',['../class_c_coptions.html#a8f6e7e7e68a1f6fa32e00e12942205e2',1,'CCoptions::paint()'],['../class_p_woptions.html#aa15cb4cecbb83c2bcfc51e0131370a8a',1,'PWoptions::paint()']]],
-  ['paintcell',['paintCell',['../class_command_table_model.html#ad1731d1e69cd6391c72fa04e00544339',1,'CommandTableModel']]],
-  ['paintrowbackground',['paintRowBackground',['../class_command_table_model.html#a414acf39781c1ad44e881a7d81d13d87',1,'CommandTableModel']]],
-  ['pleasestopthread',['PleaseStopThread',['../class_l_r___i_p_c___i_n.html#a743ecc24843926e97ef181d59b1b25cb',1,'LR_IPC_IN']]],
-  ['plugintocontroller',['PluginToController',['../class_channel_model.html#a301d982711eccd719e550fd1d072de43',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a07212c943c37cff9557a0c75ddd6104a',1,'ControlsModel::PluginToController()']]],
-  ['processmidi',['ProcessMidi',['../class_n_r_p_n___message.html#a371b974b03d367b5092cfe7870031824',1,'NRPN_Message::ProcessMidi()'],['../class_n_r_p_n___filter.html#a757b5bb29ae87dc9193e738eef5187f3',1,'NRPN_Filter::ProcessMidi()']]],
-  ['profilechanged',['profileChanged',['../class_main_content_component.html#aff0f99bdba40757988e4390168ed6356',1,'MainContentComponent']]],
-  ['profilemanager',['ProfileManager',['../class_profile_manager.html#ac147457c9dc4816fe787e3f022489745',1,'ProfileManager::ProfileManager(ControlsModel *const c_model, CommandMap *const cmap) noexcept'],['../class_profile_manager.html#a9fbfc1c269deebffb24cb483c5554d64',1,'ProfileManager::ProfileManager(ProfileManager const &amp;)=delete']]],
-  ['push',['push',['../class_r_s_j_1_1threadsafe__queue.html#a48dcbcecf1bb852c1a3ec97957090f18',1,'RSJ::threadsafe_queue']]],
-  ['pwoptions',['PWoptions',['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions']]]
+  ['maincontentcomponent',['MainContentComponent',['../class_main_content_component.html#aaf120c1478fb7f2d0ffb9d1ef5a7adcb',1,'MainContentComponent::MainContentComponent()'],['../class_main_content_component.html#a5a44920712793b1d33be790b1705e574',1,'MainContentComponent::MainContentComponent(const MainContentComponent &amp;)=delete']]],
+  ['mainwindow',['MainWindow',['../class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f',1,'MainWindow::MainWindow(juce::String name)'],['../class_main_window.html#af1d822d2183a379458e4bc0e2ea2bf3b',1,'MainWindow::MainWindow(const MainWindow &amp;)=delete']]],
+  ['mapcommand',['MapCommand',['../class_profile_manager.html#a498ff5dcfc0fadef110e0241ea82b6fd',1,'ProfileManager']]],
+  ['measurechange',['MeasureChange',['../class_channel_model.html#aaa75015f9a22ef1fd65e17622a690067',1,'ChannelModel::MeasureChange()'],['../class_controls_model.html#a18a67dd5ebefed337fe0b0a71152d404',1,'ControlsModel::MeasureChange(const rsj::MidiMessage &amp;mm) noexcept(kNdebug)'],['../class_controls_model.html#a26cab26416723114fc11775534582725',1,'ControlsModel::MeasureChange(short controltype, size_t channel, short controlnumber, short value) noexcept(kNdebug)']]],
+  ['messageexistsinmap',['MessageExistsInMap',['../class_command_map.html#a525b74a85b07be21de6da75fa3dc84ee',1,'CommandMap']]],
+  ['messagereceived',['messageReceived',['../class_lr_ipc_out.html#a656b0fa21f497439a79cb84b2fe9156d',1,'LrIpcOut']]],
+  ['midi2lrapplication',['MIDI2LRApplication',['../class_m_i_d_i2_l_r_application.html#a88492c86eb83772dffb248cbeff75667',1,'MIDI2LRApplication']]],
+  ['midicmdcallback',['MidiCmdCallback',['../class_profile_manager.html#a1d84fc917489f92e3c024adc7ae2b7b6',1,'ProfileManager::MidiCmdCallback()'],['../class_lr_ipc_out.html#a27ee32e8a38df4706daba31ff7e20cab',1,'LrIpcOut::MidiCmdCallback()'],['../class_main_content_component.html#a20affb5b561c098afe948341c8cbc7f2',1,'MainContentComponent::MidiCmdCallback()']]],
+  ['midimessage',['MidiMessage',['../structrsj_1_1_midi_message.html#a7994463d1a4f0ec77c7c7163e5e9ba3a',1,'rsj::MidiMessage::MidiMessage() noexcept'],['../structrsj_1_1_midi_message.html#ad17aaff71dae689c4a3c0dfde9c4cdfa',1,'rsj::MidiMessage::MidiMessage(short mt, short ch, short nu, short va) noexcept'],['../structrsj_1_1_midi_message.html#a5e6c3f8ecfb29a0bf4fbdadcf39d32b5',1,'rsj::MidiMessage::MidiMessage(const juce::MidiMessage &amp;mm) noexcept(kNdebug)']]],
+  ['midimessageid',['MidiMessageId',['../structrsj_1_1_midi_message_id.html#a50b7f521d2255615a1eb8e0205f80351',1,'rsj::MidiMessageId::MidiMessageId() noexcept'],['../structrsj_1_1_midi_message_id.html#a7e59537497691eeba2d0422e748c0a13',1,'rsj::MidiMessageId::MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept'],['../structrsj_1_1_midi_message_id.html#a3b021d6fcb5df9cd5814df7c685ff7c1',1,'rsj::MidiMessageId::MidiMessageId(const MidiMessage &amp;rhs) noexcept(kNdebug)']]],
+  ['midiprocessor',['MidiProcessor',['../class_midi_processor.html#acdbd43d212ec64017df2a5b3a5bb29f6',1,'MidiProcessor']]],
+  ['midisender',['MidiSender',['../class_midi_sender.html#a10013cdffc124b09571aba5c440b1841',1,'MidiSender']]],
+  ['morethanoneinstanceallowed',['moreThanOneInstanceAllowed',['../class_m_i_d_i2_l_r_application.html#abd55f782b5d696a1d6df5ab3ee03f816',1,'MIDI2LRApplication']]]
 ];

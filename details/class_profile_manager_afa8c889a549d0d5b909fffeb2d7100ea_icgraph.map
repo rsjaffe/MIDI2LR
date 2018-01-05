@@ -1,0 +1,6 @@
+<map id="ProfileManager::SwitchToProfile" name="ProfileManager::SwitchToProfile">
+<area shape="rect" id="node2" href="$class_main_content_component.html#a4aeb8aa69118986cf16f9ac3c6ee4154" title="MainContentComponent\l::Init" alt="" coords="227,5,388,47"/>
+<area shape="rect" id="node3" href="$class_profile_manager.html#a1131eaee6fd426d056ce3d22721ce182" title="ProfileManager::SwitchTo\lNextProfile" alt="" coords="223,71,392,112"/>
+<area shape="rect" id="node5" href="$class_profile_manager.html#aef2511c27587834a675de11f0512b0ea" title="ProfileManager::SwitchTo\lPreviousProfile" alt="" coords="223,136,392,177"/>
+<area shape="rect" id="node4" href="$class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a" title="ProfileManager::handleAsync\lUpdate" alt="" coords="440,104,631,145"/>
+</map>

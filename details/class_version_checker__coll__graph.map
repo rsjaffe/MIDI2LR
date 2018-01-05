@@ -1,2 +1,16 @@
 <map id="VersionChecker" name="VersionChecker">
+<area shape="rect" id="node6" href="$class_profile_manager.html" title="ProfileManager" alt="" coords="2109,247,2217,273"/>
+<area shape="rect" id="node5" href="$class_settings_manager.html" title="SettingsManager" alt="" coords="2397,216,2517,243"/>
+<area shape="rect" id="node8" href="$class_command_map.html" title="CommandMap" alt="" coords="1227,127,1334,153"/>
+<area shape="rect" id="node24" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1551,388,1621,415"/>
+<area shape="rect" id="node10" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,39,701,65"/>
+<area shape="rect" id="node11" title="STL class. " alt="" coords="596,152,676,179"/>
+<area shape="rect" id="node12" title="STL class. " alt="" coords="262,145,389,186"/>
+<area shape="rect" id="node15" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1228,519,1333,545"/>
+<area shape="rect" id="node17" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,519,688,545"/>
+<area shape="rect" id="node19" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,521,132,548"/>
+<area shape="rect" id="node20" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,348,405,375"/>
+<area shape="rect" id="node27" href="$class_lr_ipc_out_1_1recenter.html" title="LrIpcOut::recenter" alt="" coords="1822,320,1949,347"/>
+<area shape="rect" id="node31" href="$class_lr_ipc_out_1_1connect__timer.html" title="LrIpcOut::connect_timer" alt="" coords="1805,501,1966,528"/>
+<area shape="rect" id="node29" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="1525,291,1647,317"/>
 </map>

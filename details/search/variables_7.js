@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['high',['high',['../struct_r_s_j_1_1_settings_struct.html#ae83b38cd259bc6f081c42042ec4938cc',1,'RSJ::SettingsStruct']]]
+  ['high',['high',['../structrsj_1_1_settings_struct.html#a2a39af6257e4d41c76a6f06b0bf0fc3d',1,'rsj::SettingsStruct']]]
 ];

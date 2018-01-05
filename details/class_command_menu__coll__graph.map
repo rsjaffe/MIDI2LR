@@ -1,2 +1,6 @@
 <map id="CommandMenu" name="CommandMenu">
+<area shape="rect" id="node4" href="$class_command_map.html" title="CommandMap" alt="" coords="820,181,927,208"/>
+<area shape="rect" id="node6" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="181,157,312,184"/>
+<area shape="rect" id="node7" title="STL class. " alt="" coords="207,293,287,320"/>
+<area shape="rect" id="node8" title="STL class. " alt="" coords="5,286,132,327"/>
 </map>

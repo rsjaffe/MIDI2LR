@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['isvalid',['isValid',['../struct_r_s_j_1_1_n_r_p_n.html#a0605dbb9ab331cf4b4f0fe90f94600fb',1,'RSJ::NRPN']]]
+  ['is_5fvalid',['is_valid',['../structrsj_1_1_nrpn.html#abe5c68c274a5405bba59dfc71058e39f',1,'rsj::Nrpn']]]
 ];

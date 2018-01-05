@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['linktocontrolsmodel',['LinkToControlsModel',['../class_c_coptions.html#ab52f4239cfc0f073d5f1df6620371842',1,'CCoptions::LinkToControlsModel()'],['../class_p_woptions.html#accc08ae0bffb906fbacee1296f01a05a',1,'PWoptions::LinkToControlsModel()']]],
-  ['lock',['lock',['../class_r_s_j_1_1_relax_t_tas_spin_lock.html#a9986509a76ec7d755152c51fd722db74',1,'RSJ::RelaxTTasSpinLock']]],
-  ['lr_5fipc_5fin',['LR_IPC_IN',['../class_l_r___i_p_c___i_n.html#a89fd1d1561700c42dd903737dabac40d',1,'LR_IPC_IN']]],
-  ['lr_5fipc_5fout',['LR_IPC_OUT',['../class_l_r___i_p_c___o_u_t.html#a1f0d052387cd93204dae24554be73c8a',1,'LR_IPC_OUT']]],
-  ['lrcommandlist',['LRCommandList',['../class_l_r_command_list.html#abf986921d8ad6037398a0164c7c2d750',1,'LRCommandList']]],
-  ['lripcoutcallback',['LRIpcOutCallback',['../class_main_content_component.html#a85bddb9b97d0b443bd6bf0f53de09f41',1,'MainContentComponent']]],
-  ['ltrim',['ltrim',['../namespace_r_s_j.html#aad280f0b636be1c144203a8a97037f8c',1,'RSJ']]]
+  ['handleasyncupdate',['handleAsyncUpdate',['../class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a',1,'ProfileManager::handleAsyncUpdate()'],['../class_lr_ipc_out.html#afd7112e301bf97cce161d1d3b27e9f77',1,'LrIpcOut::handleAsyncUpdate()'],['../class_main_content_component.html#a9be726b895f68c0e9163d618ee4d20f6',1,'MainContentComponent::handleAsyncUpdate()'],['../class_version_checker.html#a3be0b90040969fec02cc547f7012accc',1,'VersionChecker::handleAsyncUpdate()']]],
+  ['handleincomingmidimessage',['handleIncomingMidiMessage',['../class_midi_processor.html#af52ca24508d14149188c5233553f7acc',1,'MidiProcessor']]]
 ];

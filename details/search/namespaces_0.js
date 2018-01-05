@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rsj',['RSJ',['../namespace_r_s_j.html',1,'']]]
+  ['rsj',['rsj',['../namespacersj.html',1,'']]]
 ];

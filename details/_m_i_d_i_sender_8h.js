@@ -1,5 +1,5 @@
 var _m_i_d_i_sender_8h =
 [
-    [ "MIDISender", "class_m_i_d_i_sender.html", "class_m_i_d_i_sender" ],
-    [ "MIDISENDER_H_INCLUDED", "_m_i_d_i_sender_8h.html#a03ddd2fc24eb87386a3ef3566f784f37", null ]
+    [ "MidiSender", "class_midi_sender.html", "class_midi_sender" ],
+    [ "MIDI2LR_MIDISENDER_H_INCLUDED", "_m_i_d_i_sender_8h.html#a83d8e30d314a152af8efef1ec339bd9f", null ]
 ];

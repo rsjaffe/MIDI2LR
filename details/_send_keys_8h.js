@@ -1,4 +1,5 @@
 var _send_keys_8h =
 [
-    [ "SendKeyDownUp", "_send_keys_8h.html#a860384e52fd39547dccf094da34f81f1", null ]
+    [ "MIDI2LR_SENDKEYS_H_INCLUDED", "_send_keys_8h.html#aff1b36f6bb7624c1eca0215b45a78828", null ],
+    [ "SendKeyDownUp", "_send_keys_8h.html#af8d9fa6890ab42fcf663408d6dd532b4", null ]
 ];

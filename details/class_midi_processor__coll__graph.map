@@ -1,0 +1,6 @@
+<map id="MidiProcessor" name="MidiProcessor">
+<area shape="rect" id="node4" href="$class_nrpn_filter.html" title="NrpnFilter" alt="" coords="1059,123,1137,149"/>
+<area shape="rect" id="node6" href="$class_nrpn_message.html" title="NrpnMessage" alt="" coords="473,119,576,145"/>
+<area shape="rect" id="node8" href="$structrsj_1_1_nrpn.html" title="rsj::Nrpn" alt="" coords="5,88,76,115"/>
+<area shape="rect" id="node9" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="181,148,340,175"/>
+</map>

@@ -1,4 +1,4 @@
 var _settings_manager_8cpp =
 [
-    [ "AutoHideSection", "_settings_manager_8cpp.html#a6d293829dbd5f95e332ef2d26e08010b", null ]
+    [ "kAutoHideSection", "_settings_manager_8cpp.html#ab7a08dca53b1c56789435b2e33c9a0cc", null ]
 ];

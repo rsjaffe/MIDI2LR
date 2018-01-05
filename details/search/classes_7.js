@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['settingscomponent',['SettingsComponent',['../class_settings_component.html',1,'']]],
-  ['settingsmanager',['SettingsManager',['../class_settings_manager.html',1,'']]],
-  ['settingsstruct',['SettingsStruct',['../struct_r_s_j_1_1_settings_struct.html',1,'RSJ']]]
+  ['recenter',['recenter',['../class_lr_ipc_out_1_1recenter.html',1,'LrIpcOut']]],
+  ['rect',['Rect',['../struct_resizable_layout_1_1_rect.html',1,'ResizableLayout']]],
+  ['relaxttasspinlock',['RelaxTTasSpinLock',['../classrsj_1_1_relax_t_tas_spin_lock.html',1,'rsj']]],
+  ['resizablechild',['ResizableChild',['../class_resizable_child.html',1,'']]],
+  ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html',1,'']]]
 ];

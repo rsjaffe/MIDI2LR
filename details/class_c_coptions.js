@@ -2,8 +2,25 @@ var class_c_coptions =
 [
     [ "CCoptions", "class_c_coptions.html#a1d8d9d83f1823c1f016de242ecfe44d3", null ],
     [ "~CCoptions", "class_c_coptions.html#a7d12f2662d4da84b42808a4bcfee8057", null ],
-    [ "bindToControl", "class_c_coptions.html#a23681ed4e4f098fc28ff3ba57d71f533", null ],
-    [ "buttonClicked", "class_c_coptions.html#ac25a7dd04f5e83fe73c4497697e30e21", null ],
+    [ "BindToControl", "class_c_coptions.html#ac0ee4f364944cdf3b41f47e5ecde5264", null ],
+    [ "buttonClicked", "class_c_coptions.html#a6fa1f66a6cbb53b8593f52495dc5349c", null ],
+    [ "LinkToControlsModel", "class_c_coptions.html#ab52f4239cfc0f073d5f1df6620371842", null ],
     [ "paint", "class_c_coptions.html#a8f6e7e7e68a1f6fa32e00e12942205e2", null ],
-    [ "resized", "class_c_coptions.html#a5d08843370dbba861d25fec42f47862f", null ]
+    [ "resized", "class_c_coptions.html#a5d08843370dbba861d25fec42f47862f", null ],
+    [ "textEditorFocusLost", "class_c_coptions.html#a2d10a597094ea99b50572c34e82f24c8", null ],
+    [ "absbutton", "class_c_coptions.html#a952544cc21957433932eb6b087a3f85d", null ],
+    [ "applyAll", "class_c_coptions.html#a31a4532987c9eaa653d7d37df866af7a", null ],
+    [ "binbutton", "class_c_coptions.html#a26ab7c8046c90d7db9af6a2ff91291f8", null ],
+    [ "bound_channel_", "class_c_coptions.html#a4f3410fbfd0122c84b8c94f2e7562bb5", null ],
+    [ "bound_number_", "class_c_coptions.html#a6e32c7d44f6f73c6f9103320898dbb7f", null ],
+    [ "controlID", "class_c_coptions.html#a1a03fe23e81567485adbf3515bc62586", null ],
+    [ "controls_model_", "class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e", null ],
+    [ "groupComponent", "class_c_coptions.html#a547d82f9e737ff0f07230444473b520f", null ],
+    [ "maxvallabel", "class_c_coptions.html#a11ad140b09fe706c0876d84c18dd7a63", null ],
+    [ "maxvaltext", "class_c_coptions.html#a9acabfea9373c945ca2b24c9d3f66bd0", null ],
+    [ "minvallabel", "class_c_coptions.html#a1c0c7880150c7b7ed7061c5a69856314", null ],
+    [ "minvaltext", "class_c_coptions.html#a0ee567b977dbe5d1293a3e80e50cee47", null ],
+    [ "numrestrict_", "class_c_coptions.html#ae075207d6ee2501e619140f18279bde8", null ],
+    [ "signbutton", "class_c_coptions.html#af8ccc733f31441e210b1af0667b35a86", null ],
+    [ "twosbutton", "class_c_coptions.html#aa05f2a60b260b482b0c02c298f076e2e", null ]
 ];
