@@ -70,7 +70,7 @@ local localPresetMap = {
 }
 
 local function GetPresetFilenames()
-  local filenames = {}
+  local filenames = { { title='', value='' }, }
   --Extract filename only from full paths
   for afile in LrFileUtils.recursiveDirectoryEntries ( LocalAdjustmentPresetsPath ) do
     if LrPathUtils.extension(afile) == 'lrtemplate'
@@ -81,25 +81,31 @@ local function GetPresetFilenames()
   return filenames
 end
 
-local function ApplyLocalPreset(LocalPresetName)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
-  local LRLocalPresetFileName = LocalPresetName
-  LocalPresetName = LrPathUtils.removeExtension(LrPathUtils.leafName(LocalPresetName))
+local function ApplyLocalPreset(LocalPresetFilename)  --LocalPresetName eg: 'Burn (Darken).lrtemplate'
+  local LocalPresetName = LrPathUtils.removeExtension(LrPathUtils.leafName(LocalPresetFilename))
   if LrApplicationView.getCurrentModuleName() == 'develop' and ( LrDevelopController.getSelectedTool() == 'gradient' or LrDevelopController.getSelectedTool() == 'circularGradient' or LrDevelopController.getSelectedTool() == 'localized' ) then
+    if LocalPresetFilename == '' or LocalPresetFilename == nil then
+      return
+    end
+    if not LrFileUtils.exists(LocalPresetFilename) then
+      LrDialogs:message(LOC("$$$/AgImageIO/Errors/FileNotFound=File not found") .. ': ' .. LocalPresetName,'warning')
+      return
+    end
     --Check to see if preset is already loaded by checking table... if so do not reload file.
     --Reloading template file on each request would however allow the user to update and save local preset settings in lightroom.
     if LocalPresets[tostring(LocalPresetName)] == nil then
-      local f = io.open(LRLocalPresetFileName)
+      local f = io.open(LocalPresetFilename)
       local strPreset = f:read("*a")
       f:close()
 
       --I had to remove 'ZSTR' from the built-in .lrtemplate preset files as it would not load/execute file
-      local LRLocalPresetFile = loadstring(string.gsub(strPreset,'ZSTR',''))  --Loads into a function which is later called
-      LRLocalPresetFile() --Execute the loaded file string as lua code.  This will give access to the variable 's'
+      local LocalPresetFile = loadstring(string.gsub(strPreset,'ZSTR',''))  --Loads into a function which is later called
+      LocalPresetFile() --Execute the loaded file string as lua code.  This will give access to the variable 's'
 
       LocalPresets[tostring(LocalPresetName)] = s['value'] --Add the currently selected preset to the table of presets
     end
 
-    LrDialogs.showBezel (LrPathUtils.removeExtension(LocalPresetName))
+    LrDialogs.showBezel (LocalPresetName)
 
     --Apply preset to LR
     for param, MappedParam in pairs(localPresetMap) do
