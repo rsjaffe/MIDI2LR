@@ -61,6 +61,12 @@
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Keys.lua</origin>
             </distributionFile>
             <distributionFile>
+              <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Keywords.lua</origin>
+            </distributionFile>
+            <distributionFile>
+              <origin>../Source/LRPlugin/MIDI2LR.lrplugin/KeywordsDialog.lua</origin>
+            </distributionFile>
+            <distributionFile>
               <origin>../Source/LRPlugin/MIDI2LR.lrplugin/KeyShortcuts.lua</origin>
             </distributionFile>
             <distributionFile>
