@@ -37,6 +37,10 @@ return {
       file = 'PresetsDialog.lua',
     },
     {
+      title = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords"),
+      file = 'KeywordsDialog.lua',
+    },
+    {
       title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
       file = "About.lua",
     },

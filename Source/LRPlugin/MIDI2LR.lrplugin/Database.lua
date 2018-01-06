@@ -32,6 +32,8 @@ local effects = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effect
 local general = LOC("$$$/WFCatSearch/TermCategories/General=General")
 local gotoToolModulePanel = LOC("$$$/AgDialogs/Select=Select").. ' '..LOC("$$$/AgDevelop/Menu/Tools=Tools"):gsub('&','')..LOC("$$$/AgStringUtils/localizedList/separatorString=, ")..LOC("$$$/Application/Menu/Window/Modules=Modules:"):gsub(':','')..LOC("$$$/AgStringUtils/localizedList/finalSeparatorString= and ")..LOC("$$$/AgPreferences/Interface/GroupTitle/Panels=Panels")
 local keyshortcuts = LOC("$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User")
+local keyword = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword")
+local keywords = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords")
 local lensCorrections = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections")
 local library = LOC("$$$/AgLibraryModule/ModuleTitle=Library")
 local localizedAdjustments = LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")
@@ -673,6 +675,27 @@ local DataBase = {
   {"Preset_80",false,false,true,false,true,false,developPreset.." 80",developPresets,"Apply preset 80 to active photo only. *button*"},
 
 --
+--keywords
+--
+
+  {"Keyword1",false,false,true,false,true,false,keyword.." 1",keywords,"Apply keyword 1 to active photo only. *button*"},
+  {"Keyword2",false,false,true,false,true,false,keyword.." 2",keywords,"Apply keyword 2 to active photo only. *button*"},
+  {"Keyword3",false,false,true,false,true,false,keyword.." 3",keywords,"Apply keyword 3 to active photo only. *button*"},
+  {"Keyword4",false,false,true,false,true,false,keyword.." 4",keywords,"Apply keyword 4 to active photo only. *button*"},
+  {"Keyword5",false,false,true,false,true,false,keyword.." 5",keywords,"Apply keyword 5 to active photo only. *button*"},
+  {"Keyword6",false,false,true,false,true,false,keyword.." 6",keywords,"Apply keyword 6 to active photo only. *button*"},
+  {"Keyword7",false,false,true,false,true,false,keyword.." 7",keywords,"Apply keyword 7 to active photo only. *button*"},
+  {"Keyword8",false,false,true,false,true,false,keyword.." 8",keywords,"Apply keyword 8 to active photo only. *button*"},
+  {"Keyword9",false,false,true,false,true,false,keyword.." 9",keywords,"Apply keyword 9 to active photo only. *button*"},
+  {"Keyword10",false,false,true,false,true,false,keyword.." 10",keywords,"Apply keyword 10 to active photo only. *button*"},
+  {"Keyword11",false,false,true,false,true,false,keyword.." 11",keywords,"Apply keyword 11 to active photo only. *button*"},
+  {"Keyword12",false,false,true,false,true,false,keyword.." 12",keywords,"Apply keyword 12 to active photo only. *button*"},
+  {"Keyword13",false,false,true,false,true,false,keyword.." 13",keywords,"Apply keyword 13 to active photo only. *button*"},
+  {"Keyword14",false,false,true,false,true,false,keyword.." 14",keywords,"Apply keyword 14 to active photo only. *button*"},
+  {"Keyword15",false,false,true,false,true,false,keyword.." 15",keywords,"Apply keyword 15 to active photo only. *button*"},
+  {"Keyword16",false,false,true,false,true,false,keyword.." 16",keywords,"Apply keyword 16 to active photo only. *button*"},
+
+--
 --develop: localized adjustments
 --
   {"GraduatedFilter",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/GraduatedFilters=Graduated Filters"),localizedAdjustments,"Select Graduated Filter mode in Develop Module. Repeated press toggles Loupe View. *button*"},
@@ -994,6 +1017,7 @@ local cppvectors ={
   [general]={'General',general},
   [gotoToolModulePanel]={'ToolModulePanel','Go to Tool, Module, or Panel'},
   [keyshortcuts]={'KeyShortcuts',keyshortcuts},
+  [keywords]={'Keywords',keywords},
   [lensCorrections]={'LensCorrections','Lens Corrections'},
   [library]={'Library',library},
   [localizedAdjustments]={'LocalAdjustments','Local Adjustments'},
