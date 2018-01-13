@@ -152,6 +152,7 @@
     <ClCompile Include="..\..\icu\source\common\bytestream.cpp"/>
     <ClCompile Include="..\..\icu\source\common\cmemory.cpp"/>
     <ClCompile Include="..\..\icu\source\common\cstring.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\stringpiece.cpp"/>
     <ClCompile Include="..\..\icu\source\common\udataswp.cpp"/>
     <ClCompile Include="..\..\icu\source\common\uinvchar.cpp"/>
     <ClCompile Include="..\..\icu\source\common\unistr.cpp"/>

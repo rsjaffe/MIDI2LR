@@ -13,6 +13,7 @@
         <FILE id="P3ODDi" name="bytestream.cpp" compile="1" resource="0" file="icu/source/common/bytestream.cpp"/>
         <FILE id="qUTyhN" name="cmemory.cpp" compile="1" resource="0" file="icu/source/common/cmemory.cpp"/>
         <FILE id="HtGu5R" name="cstring.cpp" compile="1" resource="0" file="icu/source/common/cstring.cpp"/>
+        <FILE id="CMTcKk" name="stringpiece.cpp" compile="1" resource="0" file="icu/source/common/stringpiece.cpp"/>
         <FILE id="Cj6e49" name="udataswp.cpp" compile="1" resource="0" file="icu/source/common/udataswp.cpp"/>
         <FILE id="Vixl4T" name="uinvchar.cpp" compile="1" resource="0" file="icu/source/common/uinvchar.cpp"/>
         <FILE id="uJ5dfZ" name="unistr.cpp" compile="1" resource="0" file="icu/source/common/unistr.cpp"/>

@@ -21,6 +21,7 @@
 		62E94195B2776B053A2E9D89 = {isa = PBXBuildFile; fileRef = 24553985217E4B226037C6F3; };
 		36FA01BA7641D506553B7B8E = {isa = PBXBuildFile; fileRef = 59CD927695FB58E83462A595; };
 		20CB1B060B92C246FD7C289C = {isa = PBXBuildFile; fileRef = 12A5F5628D5F8A75606C954E; };
+		B4098ABABA27CCE98D5241AD = {isa = PBXBuildFile; fileRef = C2B252278F9F41CD4ECBC136; };
 		24A2605ECB4B5CF5B2860925 = {isa = PBXBuildFile; fileRef = 3D128D668CE5E04EB23EFD7F; };
 		08426575E13DB439C4529BB4 = {isa = PBXBuildFile; fileRef = 9382779AB8718EDE24CC7F8B; };
 		93AEBA197560B4B909B28237 = {isa = PBXBuildFile; fileRef = 53A4007D19F3B95C335C15D2; };
@@ -135,6 +136,7 @@
 		BE4A6A9BFE719894CA1629CF = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_core"; path = "../../JuceLibraryCode/modules/juce_core"; sourceTree = "SOURCE_ROOT"; };
 		C1A4312173453BECFEF3C667 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ustring.cpp; path = ../../icu/source/common/ustring.cpp; sourceTree = "SOURCE_ROOT"; };
 		C2ADE5E967FA64B83D591E5D = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LRCommands.h; path = ../../Source/LRCommands.h; sourceTree = "SOURCE_ROOT"; };
+		C2B252278F9F41CD4ECBC136 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = stringpiece.cpp; path = ../../icu/source/common/stringpiece.cpp; sourceTree = "SOURCE_ROOT"; };
 		C58E726D80235E018C2E6235 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CommandMenu.cpp; path = ../../Source/CommandMenu.cpp; sourceTree = "SOURCE_ROOT"; };
 		C767DD9CCF0D2A54A87C281A = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VersionChecker.h; path = ../../Source/VersionChecker.h; sourceTree = "SOURCE_ROOT"; };
 		CB2B029E30CD65563F3B0DEE = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PWoptions.h; path = ../../Source/PWoptions.h; sourceTree = "SOURCE_ROOT"; };
@@ -157,6 +159,7 @@
 					24553985217E4B226037C6F3,
 					59CD927695FB58E83462A595,
 					12A5F5628D5F8A75606C954E,
+					C2B252278F9F41CD4ECBC136,
 					3D128D668CE5E04EB23EFD7F,
 					9382779AB8718EDE24CC7F8B,
 					53A4007D19F3B95C335C15D2,
@@ -421,6 +424,7 @@
 					62E94195B2776B053A2E9D89,
 					36FA01BA7641D506553B7B8E,
 					20CB1B060B92C246FD7C289C,
+					B4098ABABA27CCE98D5241AD,
 					24A2605ECB4B5CF5B2860925,
 					08426575E13DB439C4529BB4,
 					93AEBA197560B4B909B28237,
