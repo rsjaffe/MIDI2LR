@@ -56,15 +56,22 @@ public:
 
 private:
     // IPC interface
-    void connectionMade() override;
     void connectionLost() override;
+    void connectionMade() override;
     void messageReceived(const juce::MemoryBlock& msg) override;
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
-    // Timer callback
+    //private members
+    const CommandMap* const command_map_{};
+    ControlsModel* const controls_model_{};
+    mutable std::mutex command_mutex_;
+    std::queue<std::string> command_{};
+    std::shared_ptr<MidiSender> midi_sender_{nullptr};
+    std::vector<std::function<void(bool)>> callbacks_{};
+    // helper classes
     class connect_timer:public juce::Timer {
     public:
-        connect_timer(LrIpcOut* owner):owner_(owner)
+        explicit connect_timer(LrIpcOut* owner):owner_(owner)
         {}
         void Start();
         void Stop();
@@ -76,7 +83,7 @@ private:
     };
     class recenter:public juce::Timer {
     public:
-        recenter(LrIpcOut* owner):owner_{owner}
+        explicit recenter(LrIpcOut* owner):owner_{owner}
         {}
         void SetMidiMessage(rsj::MidiMessage mm);
     private:
@@ -87,12 +94,6 @@ private:
     };
     connect_timer connect_timer_{this};
     recenter recenter_{this};
-    const CommandMap * const command_map_{};
-    ControlsModel* const controls_model_{};
-    mutable rsj::RelaxTTasSpinLock command_mutex_; //fast spinlock for brief use
-    mutable std::queue<std::string> command_{};
-    std::vector<std::function<void(bool)>> callbacks_{};
-    std::shared_ptr<MidiSender> midi_sender_{nullptr};
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

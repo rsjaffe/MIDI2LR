@@ -153,6 +153,8 @@ void LrIpcOut::handleAsyncUpdate()
         }
         //check if there is a connection
         if (juce::InterprocessConnection::isConnected()) {
+            if (command_copy.back() != '\n') //should be terminated with \n
+                command_copy += '\n';
             juce::InterprocessConnection::getSocket()->
                 write(command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
         }
