@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <functional>
 #include <mutex>
+#include <queue>
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -49,7 +50,7 @@ public:
     }
 
     // sends a command to the plugin
-    void SendCommand(const std::string& command);
+    void SendCommand(std::string&& command);
 
     void MidiCmdCallback(rsj::MidiMessage);
 
@@ -86,11 +87,11 @@ private:
     };
     connect_timer connect_timer_{this};
     recenter recenter_{this};
-    const CommandMap * const command_map_;
-    ControlsModel* const controls_model_;
+    const CommandMap * const command_map_{};
+    ControlsModel* const controls_model_{};
     mutable rsj::RelaxTTasSpinLock command_mutex_; //fast spinlock for brief use
-    std::string command_;
-    std::vector<std::function<void(bool)>> callbacks_;
+    mutable std::queue<std::string> command_{};
+    std::vector<std::function<void(bool)>> callbacks_{};
     std::shared_ptr<MidiSender> midi_sender_{nullptr};
 };
 

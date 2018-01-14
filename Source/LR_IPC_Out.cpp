@@ -60,11 +60,11 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* con
     connect_timer_.Start();
 }
 
-void LrIpcOut::SendCommand(const std::string& command)
+void LrIpcOut::SendCommand(std::string&& command)
 {
     {
         std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-        command_ = command;
+        command_.push(std::move(command));
     }
     juce::AsyncUpdater::triggerAsyncUpdate();
 }
@@ -74,19 +74,19 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     const rsj::MidiMessageId message{mm};
     static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
         {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
-    {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
-    {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
-    {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
-    {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
-    {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
-    {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
-    {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
-    {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
-    {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
-    {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
-    {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
-    {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
-    {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
+        {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
+        {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
+        {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
+        {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
+        {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
+        {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
+        {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
+        {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
+        {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
+        {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
+        {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
+        {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
+        {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
     };
     if (!command_map_->MessageExistsInMap(message) ||
         command_map_->GetCommandforMessage(message) == "Unmapped"s ||
@@ -122,7 +122,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
         const auto computed_value = controls_model_->ControllerToPlugin(mm);
         command_to_send += ' ' + std::to_string(computed_value) + '\n';
     }
-    SendCommand(command_to_send);
+    SendCommand(std::move(command_to_send));
 }
 
 void LrIpcOut::connectionMade()
@@ -142,16 +142,21 @@ void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/)
 
 void LrIpcOut::handleAsyncUpdate()
 {
-    std::string command_copy;
-    { //lock scope
-        std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-        command_copy.swap(command_);
-    }
-    //check if there is a connection
-    if (juce::InterprocessConnection::isConnected()) {
-        juce::InterprocessConnection::getSocket()->
-            write(command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
-    }
+    do {
+        std::string command_copy;
+        { //lock scope
+            std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
+            if (command_.empty())
+                return;
+            command_copy = command_.front();
+            command_.pop();
+        }
+        //check if there is a connection
+        if (juce::InterprocessConnection::isConnected()) {
+            juce::InterprocessConnection::getSocket()->
+                write(command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
+        }
+    } while (true);
 }
 
 void LrIpcOut::connect_timer::Start()
