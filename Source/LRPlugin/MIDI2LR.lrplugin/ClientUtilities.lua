@@ -141,6 +141,14 @@ end
 
 local function fToggleTF(param)
   return function()
+    local v = Ut.execFOM(LrDevelopController.getValue, param)
+    v = not v
+    LrDevelopController.setValue(param,v)    
+  end
+end
+
+local function fToggleTFasync(param)
+  return function()
     LrTasks.startAsyncTask ( function ()
         if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
         LrApplication.activeCatalog():withWriteAccessDo(
@@ -365,6 +373,7 @@ return {
   fToggle01Async = fToggle01Async,
   fToggle1ModN = fToggle1ModN,
   fToggleTF = fToggleTF,
+  fToggleTFasync = fToggleTFasync,
   fToggleTool = fToggleTool,
   FullRefresh = FullRefresh,
   PasteSelectedSettings = PasteSelectedSettings,

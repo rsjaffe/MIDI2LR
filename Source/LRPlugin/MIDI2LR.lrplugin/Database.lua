@@ -319,7 +319,7 @@ local DataBase = {
 --develop: tone curve panel
 --
   {"RevealPanelTone",false,false,true,false,true,false,show..' '..toneCurve,toneCurve,"Open Tone Curve Panel in Develop Module. *button*"},
-  {"EnableToneCurve",'toneCurve',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableToneCurve=Enable Tone Curve"),toneCurve,"Enable or disable tone curve. *button*",'tonePanel'},
+--  {"EnableToneCurve",'toneCurve',true,true,false,true,true,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableToneCurve=Enable Tone Curve"),toneCurve,"Enable or disable tone curve. *button*",'tonePanel'}, --can't read EnableToneCurve, only write--can't synchronize with LR
   {"ToneCurve",'toneCurve',true,false,false,true,false,toneCurve},
   {"ToneCurveName",false,true,false,false,true,false,"ToneCurve"},
   {"ToneCurveName2012",false,true,false,false,true,false,"ToneCurve"},
