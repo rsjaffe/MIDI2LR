@@ -34,8 +34,8 @@ local NotifyFinished = false
 local function GetKeywordChildren(KeywordList, Keyword, Name)
   local KeywordChildren = Keyword:getChildren()
   for _,v in ipairs(KeywordChildren) do
-    table.insert(KeywordList, { title=Name..'\226\134\146' .. string.lower(v:getName()), value=v.localIdentifier } )
-    GetKeywordChildren(KeywordList, v, Name .. '\226\134\146' .. string.lower(v:getName()))
+    table.insert(KeywordList, { title=Name..'>' .. string.lower(v:getName()), value=v.localIdentifier } )
+    GetKeywordChildren(KeywordList, v, Name .. '>' .. string.lower(v:getName()))
     LrTasks.yield()
   end
 end
@@ -54,6 +54,7 @@ local function GetKeywords()
         GetKeywordChildren(KeywordList, v, string.lower(v:getName()))
         LrTasks.yield()
       end
+      --table.sort(KeywordList,function(k1, k2) return k1.title < k2.title end) --sorting doesn't speed up dialog box
       ListReady = true
       if NotifyFinished then
         LrDialogs.showBezel(LOC("$$$/CRaw/QueueStatus/Finished=Finished").. ' ' ..
