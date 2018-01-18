@@ -24,9 +24,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <functional>
 #include <mutex>
-#include <queue>
 #include <string>
 #include <vector>
+#include "MoodyCamel/concurrentqueue.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -64,8 +64,7 @@ private:
     //private members
     const CommandMap* const command_map_{};
     ControlsModel* const controls_model_{};
-    mutable std::mutex command_mutex_;
-    std::queue<std::string> command_{};
+    moodycamel::ConcurrentQueue<std::string> command_;
     std::shared_ptr<MidiSender> midi_sender_{nullptr};
     std::vector<std::function<void(bool)>> callbacks_{};
     // helper classes

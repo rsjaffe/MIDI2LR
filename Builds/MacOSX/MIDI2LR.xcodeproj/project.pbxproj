@@ -88,6 +88,7 @@
 		41E9EC1BCC4BC4AB420A4FAC = {isa = PBXFileReference; lastKnownFileType = image.png; name = MIDI2LR.png; path = ../../Source/MIDI2LR.png; sourceTree = "SOURCE_ROOT"; };
 		42AF703239A2938413EE43A0 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ResizableLayout.h; path = ../../Source/ResizableLayout.h; sourceTree = "SOURCE_ROOT"; };
 		488A37C1B3B96ECCE82B27FE = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "LR_IPC_Out.h"; path = "../../Source/LR_IPC_Out.h"; sourceTree = "SOURCE_ROOT"; };
+		514FA99CFA4E0B52209B5343 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = concurrentqueue.h; path = ../../MoodyCamel/concurrentqueue.h; sourceTree = "SOURCE_ROOT"; };
 		5205E1551934B25B9956903B = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ProfileManager.cpp; path = ../../Source/ProfileManager.cpp; sourceTree = "SOURCE_ROOT"; };
 		53A4007D19F3B95C335C15D2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = unistr.cpp; path = ../../icu/source/common/unistr.cpp; sourceTree = "SOURCE_ROOT"; };
 		596A515E74C727B658C08FBE = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MidiUtilities.cpp; path = ../../Source/MidiUtilities.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -184,6 +185,7 @@
 					66B56E601E325C222061D3BF,
 					97FB8F5E08C9C1AABF120771,
 					8565E4E927BFAE2FFFE8F5F6,
+					514FA99CFA4E0B52209B5343,
 					EAA66C94AD90C8523B09EBA6,
 					3E59E20F56C0DF0C3D94DD7C,
 					334B209B53531AD494AD8132,

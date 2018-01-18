@@ -1665,6 +1665,9 @@
     <ClInclude Include="..\..\Source\CommandTableModel.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\MoodyCamel\concurrentqueue.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\ControlsModel.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>

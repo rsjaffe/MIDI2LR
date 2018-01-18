@@ -62,10 +62,8 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* con
 
 void LrIpcOut::SendCommand(std::string&& command)
 {
-    {
-        std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-        command_.push(std::move(command));
-    }
+    const thread_local moodycamel::ProducerToken ptok(command_);
+    command_.enqueue(ptok, std::move(command));
     juce::AsyncUpdater::triggerAsyncUpdate();
 }
 
@@ -144,13 +142,8 @@ void LrIpcOut::handleAsyncUpdate()
 {
     do {
         std::string command_copy;
-        { //lock scope
-            std::lock_guard<decltype(command_mutex_)> lock(command_mutex_);
-            if (command_.empty())
-                return;
-            command_copy = command_.front();
-            command_.pop();
-        }
+        if (!command_.try_dequeue(command_copy))
+            return;
         //check if there is a connection
         if (juce::InterprocessConnection::isConnected()) {
             if (command_copy.back() != '\n') //should be terminated with \n
@@ -210,5 +203,7 @@ void LrIpcOut::recenter::timerCallback()
             owner_->midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
             break;
         }
+        default:
+            /* no action */;
     }
 }

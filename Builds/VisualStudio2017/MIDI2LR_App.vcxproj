@@ -1401,6 +1401,7 @@
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
     <ClInclude Include="..\..\Source\CommandTableModel.h"/>
+    <ClInclude Include="..\..\MoodyCamel\concurrentqueue.h"/>
     <ClInclude Include="..\..\Source\ControlsModel.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>

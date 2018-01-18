@@ -40,6 +40,8 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
+      <FILE id="ae0mwV" name="concurrentqueue.h" compile="0" resource="0"
+            file="MoodyCamel/concurrentqueue.h"/>
       <FILE id="zLeGKN" name="ControlsModel.cpp" compile="1" resource="0"
             file="Source/ControlsModel.cpp"/>
       <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="Source/ControlsModel.h"/>
