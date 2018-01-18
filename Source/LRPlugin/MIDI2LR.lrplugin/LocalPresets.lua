@@ -133,7 +133,8 @@ local function StartDialog(obstable,f)
   for i=1, numseries do
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
-      f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i},
+      f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i,
+        width = LrView.share('localtitlewidth')},
       f:popup_menu{
         items = PresetFileNames,
         value = LrView.bind('LocalPresets'..i)
