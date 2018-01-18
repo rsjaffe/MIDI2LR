@@ -41,7 +41,7 @@ local LrFileUtils   = import 'LrFileUtils'
 local LrPathUtils   = import 'LrPathUtils'
 local LrView        = import 'LrView'
 
-local LocalAdjustmentPresetsPath = LrPathUtils.child(LrPathUtils.parent(LrPathUtils.getStandardFilePath ('appPrefs')) , 'Local Adjustment Presets')
+local LocalAdjustmentPresetsPath = LrPathUtils.child(LrPathUtils.getStandardFilePath ('appData') , 'Local Adjustment Presets')
 
 local LocalPresets = {}  --Store presets in table when reqested by user : key = filename, value = preset values table
 
@@ -73,11 +73,12 @@ local function GetPresetFilenames()
   local filenames = { { title='', value='' }, }
   --Extract filename only from full paths
   for afile in LrFileUtils.recursiveDirectoryEntries ( LocalAdjustmentPresetsPath ) do
-    if LrPathUtils.extension(afile) == 'lrtemplate'
+    if LrFileUtils.fileAttributes(afile).fileSize and LrPathUtils.extension(afile) == 'lrtemplate'
     then
-      table.insert (filenames, { title=LrPathUtils.removeExtension(LrPathUtils.leafName(afile)),value=afile } )
+      table.insert (filenames, { title=string.gsub(LrPathUtils.removeExtension(LrPathUtils.leafName(afile)),'-','|'),value=afile } )
     end
   end
+  table.sort(filenames, function (a,b) return (a.title < b.title) end)
   return filenames
 end
 
@@ -133,8 +134,7 @@ local function StartDialog(obstable,f)
   for i=1, numseries do
     dlgrows[i] = f:row{
       bind_to_object = obstable, -- default bound table
-      f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i,
-        width = LrView.share('localtitlewidth')},
+      f:static_text{title = LOC("$$$/MIDI2LR/LocalPresets/Presets=Local adjustments presets").." "..i},
       f:popup_menu{
         items = PresetFileNames,
         value = LrView.bind('LocalPresets'..i)
