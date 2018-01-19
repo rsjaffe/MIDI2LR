@@ -198,7 +198,7 @@ private:
     {//scoped so archive gets flushed
         const auto controllerfile =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toStdString();
+            getSiblingFile("settings.bin").getFullPathName().toWideCharPointer();
         std::ofstream outfile(controllerfile, std::ios::out |
             std::ios::binary | std::ios::trunc);
         if (outfile.is_open()) {
@@ -214,7 +214,7 @@ private:
     {//scoped so archive gets flushed
         const auto controllerfile =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toStdString();
+            getSiblingFile("settings.bin").getFullPathName().toWideCharPointer();
         std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
         if (infile.is_open() && !infile.eof()) {
             cereal::BinaryInputArchive iarchive(infile);
