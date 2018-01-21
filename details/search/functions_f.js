@@ -3,7 +3,7 @@ var searchData=
   ['save',['save',['../class_channel_model.html#a99fd90758b48ed815fbbd52633c6062a',1,'ChannelModel']]],
   ['savedtoactive',['SavedToActive',['../class_channel_model.html#a47a461b60368f1627c8c65e868091377',1,'ChannelModel']]],
   ['sendcc',['SendCc',['../class_midi_sender.html#a9d06167810c23140236fca47665add0a',1,'MidiSender']]],
-  ['sendcommand',['SendCommand',['../class_lr_ipc_out.html#a6b8db52b73d7be8a488e3c795b5a6df8',1,'LrIpcOut']]],
+  ['sendcommand',['SendCommand',['../class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac',1,'LrIpcOut']]],
   ['sendkeydownup',['SendKeyDownUp',['../namespacersj.html#af8d9fa6890ab42fcf663408d6dd532b4',1,'rsj']]],
   ['sendnoteon',['SendNoteOn',['../class_midi_sender.html#a050f75ae7bddedb3cd395316c0e28f41',1,'MidiSender']]],
   ['sendpitchwheel',['SendPitchWheel',['../class_midi_sender.html#a585c35f0b46534b8f2dc616aa51f66a8',1,'MidiSender']]],

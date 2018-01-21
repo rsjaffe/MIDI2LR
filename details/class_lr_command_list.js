@@ -12,6 +12,7 @@ var class_lr_command_list =
     [ "Filters", "class_lr_command_list.html#adea5e3d8cc64f09ec37f0b4217464ce9", null ],
     [ "General", "class_lr_command_list.html#a99bcb9f7a6b00e3bc714d9f95e027475", null ],
     [ "KeyShortcuts", "class_lr_command_list.html#ad3466dc5e603a62a4c1dcceeb28ac53b", null ],
+    [ "Keywords", "class_lr_command_list.html#a33c62e36dcef9c8271e8a223636f51f5", null ],
     [ "LensCorrections", "class_lr_command_list.html#ab847f4c9a243be96a043f3fc79cf3990", null ],
     [ "Library", "class_lr_command_list.html#a592315111c4ed2ed26ff7a468941d8fe", null ],
     [ "LocalAdjustments", "class_lr_command_list.html#ad7b28631112df035552d22f6beeeeab8", null ],
