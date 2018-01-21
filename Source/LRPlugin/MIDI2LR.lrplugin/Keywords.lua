@@ -18,17 +18,16 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ---------------------------------------------------------------------------------------]]
 
-
-
 local LrApplication         = import 'LrApplication'
-local LrTasks               = import 'LrTasks'
 local LrDialogs             = import 'LrDialogs'
+local LrTasks               = import 'LrTasks'
 local LrView                = import 'LrView'
 
+local DialogStartedSuccessfully = false
 local KeywordList
 local ListReady = false
-local DialogStartedSuccessfully = false
 local NotifyFinished = false
+local numseries = 16 -- number of keywords allowed
 
 local function GetKeywordChildren(KeywordList, Keyword, Name)
   local KeywordChildren = Keyword:getChildren()
@@ -53,7 +52,7 @@ local function GetKeywords()
         GetKeywordChildren(KeywordList, v, string.lower(v:getName()))
         LrTasks.yield()
       end
-      --table.sort(KeywordList,function(k1, k2) return k1.title < k2.title end) --sorting doesn't speed up dialog box
+      table.sort(KeywordList,function(k1, k2) return k1.title < k2.title end) 
       ListReady = true
       if NotifyFinished then
         LrDialogs.showBezel(LOC("$$$/CRaw/QueueStatus/Finished=Finished")..' '..
@@ -62,7 +61,6 @@ local function GetKeywords()
     end
   )
 end
-
 
 local function ApplyKeyword(Keyword)
   LrTasks.startAsyncTask( function(context)
@@ -80,40 +78,49 @@ local function ApplyKeyword(Keyword)
   )
 end
 
-local numseries = 16 -- number of keywords allowed
-
-if KeywordList == nil then --memoize this task
-  GetKeywords()
-end
-
 local function StartDialog(obstable,f)
-  if ListReady then --need to add dialog box for when list isn't ready yet
+  local group_rows, group_cols = 4,4 -- row X col must equal numseries
+  if ListReady then
     DialogStartedSuccessfully = true
-    LrDialogs.showBezel(LOC("$$$/AgDevelop/Toolbar/SortTool=Sorting")..' '..#KeywordList..' '..LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords"), 3)
     for i = 1,numseries do
-      obstable['Keyword'..i] = ProgramPreferences.Keywords[i]
+      obstable['Keyword'..i] = {}
+      obstable['Keyword'..i][1] = ProgramPreferences.Keywords[i]
     end
-    local dlgrows = {}
-    for i=1, numseries do
-      dlgrows[i] = f:row{
-        bind_to_object = obstable, -- default bound table
-        f:static_text{title = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword").." "..i,
-          width = LrView.share('KeywordTitle')},
-        f:popup_menu{
-          items = KeywordList,
-          value = LrView.bind('Keyword'..i)
-        }
-      }
+    local groupkeywords = {}
+    -- set up each group of simple_list s
+    for i = 1, group_cols do
+      groupkeywords[i] = {}
+      for j = 1, group_rows do
+        local k = group_rows * (i - 1) + j        
+        groupkeywords[i][#groupkeywords[i]+1] = f:row{
+          f:static_text{title = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword").." "..k, 
+            width = LrView.share('KeywordTitle')}, 
+          f:simple_list {items = KeywordList, 
+            allows_multiple_selection = false, 
+            width = 900,
+            value = LrView.bind('Keyword'..k) }}
+        LrTasks.yield()
+      end
+    end
+    -- set up tabs
+    local tabs = {}
+    for i = 1,group_cols do
+      local label = (i-1)*group_rows+1 .. '-' ..i*group_rows
+      tabs[i] = f:tab_view_item {title = label, 
+        identifier = 'keywords-'..label,
+        f:row{
+          f:column(groupkeywords[i]),
+        } -- row
+      } -- tabviewitem
       LrTasks.yield()
     end
-    return f:column(dlgrows)
-  else
+    return f:tab_view(tabs)
+  else -- keyword enumeration not completed
     NotifyFinished = true
     return f:column(f:static_text{title = LOC("$$$/CRaw/QueueStatus/Processing=Processing")..'\n'..
         LOC("$$$/AgLibrary/KeywordsPanel/KeywordCountTooltip=Keyword count: ^1",#KeywordList)})
   end
 end
-
 
 local function EndDialog(obstable, status)
   if DialogStartedSuccessfully then
@@ -121,10 +128,17 @@ local function EndDialog(obstable, status)
     if status == 'ok' then
       ProgramPreferences.Keywords = {} -- empty out prior settings
       for i = 1,numseries do
-        ProgramPreferences.Keywords[i] = obstable['Keyword'..i]
+        if type(obstable['Keyword'..i])=='table' and obstable['Keyword'..i][1] ~= 0 then -- simple_list should return a table
+          --obstable == 0 excluded as that is blank--trying to erase keyword
+          ProgramPreferences.Keywords[i] = obstable['Keyword'..i][1]
+        end
       end
     end
   end
+end
+
+if KeywordList == nil then --memoize KeywordList
+  GetKeywords()
 end
 
 return {
