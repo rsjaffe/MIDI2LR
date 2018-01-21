@@ -2,11 +2,18 @@
 
 LocalPresets.lua
 
-Procedures used by Client.lua
+This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
-This file is part of MIDI2LR.
-Local Adjustment Presets by Clifton Saulnier
+MIDI2LR is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
 
+MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ---------------------------------------------------------------------------------------]]
 
 --Values from a local preset with all sliders set to maximum values
@@ -41,7 +48,7 @@ local LrFileUtils   = import 'LrFileUtils'
 local LrPathUtils   = import 'LrPathUtils'
 local LrView        = import 'LrView'
 
-local LocalAdjustmentPresetsPath = LrPathUtils.child(LrPathUtils.parent(LrPathUtils.getStandardFilePath ('appPrefs')) , 'Local Adjustment Presets')
+local LocalAdjustmentPresetsPath = LrPathUtils.child(LrPathUtils.getStandardFilePath ('appData') , 'Local Adjustment Presets')
 
 local LocalPresets = {}  --Store presets in table when reqested by user : key = filename, value = preset values table
 
@@ -73,11 +80,12 @@ local function GetPresetFilenames()
   local filenames = { { title='', value='' }, }
   --Extract filename only from full paths
   for afile in LrFileUtils.recursiveDirectoryEntries ( LocalAdjustmentPresetsPath ) do
-    if LrPathUtils.extension(afile) == 'lrtemplate'
+    if LrFileUtils.fileAttributes(afile).fileSize and LrPathUtils.extension(afile) == 'lrtemplate'
     then
-      table.insert (filenames, { title=LrPathUtils.removeExtension(LrPathUtils.leafName(afile)),value=afile } )
+      table.insert (filenames, { title=string.gsub(LrPathUtils.removeExtension(LrPathUtils.leafName(afile)),'-','|'),value=afile } )
     end
   end
+  table.sort(filenames, function (a,b) return (a.title < b.title) end)
   return filenames
 end
 

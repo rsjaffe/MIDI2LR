@@ -547,6 +547,25 @@ const std::vector<std::string> LrCommandList::DevelopPresets = {
     "Develop Preset 80",
 };
 
+const std::vector<std::string> LrCommandList::Keywords = {
+    "Keyword 1",
+    "Keyword 2",
+    "Keyword 3",
+    "Keyword 4",
+    "Keyword 5",
+    "Keyword 6",
+    "Keyword 7",
+    "Keyword 8",
+    "Keyword 9",
+    "Keyword 10",
+    "Keyword 11",
+    "Keyword 12",
+    "Keyword 13",
+    "Keyword 14",
+    "Keyword 15",
+    "Keyword 16",
+};
+
 const std::vector<std::string> LrCommandList::LocalAdjustments = {
     "Show Graduated Filters",
     "Show Radial Filters",
@@ -1160,6 +1179,23 @@ const std::vector<std::string> LrCommandList::LrStringList = {
     "Preset_78",
     "Preset_79",
     "Preset_80",
+    /* Keywords */
+    "Keyword1",
+    "Keyword2",
+    "Keyword3",
+    "Keyword4",
+    "Keyword5",
+    "Keyword6",
+    "Keyword7",
+    "Keyword8",
+    "Keyword9",
+    "Keyword10",
+    "Keyword11",
+    "Keyword12",
+    "Keyword13",
+    "Keyword14",
+    "Keyword15",
+    "Keyword16",
     /* Local Adjustments */
     "GraduatedFilter",
     "RadialFilter",

@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <mutex>
 #include <string>
 #include <vector>
+#include "MoodyCamel/concurrentqueue.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -49,21 +50,27 @@ public:
     }
 
     // sends a command to the plugin
-    void SendCommand(const std::string& command);
+    void SendCommand(std::string&& command);
 
     void MidiCmdCallback(rsj::MidiMessage);
 
 private:
     // IPC interface
-    void connectionMade() override;
     void connectionLost() override;
+    void connectionMade() override;
     void messageReceived(const juce::MemoryBlock& msg) override;
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
-    // Timer callback
+    //private members
+    const CommandMap* const command_map_{};
+    ControlsModel* const controls_model_{};
+    moodycamel::ConcurrentQueue<std::string> command_;
+    std::shared_ptr<MidiSender> midi_sender_{nullptr};
+    std::vector<std::function<void(bool)>> callbacks_{};
+    // helper classes
     class connect_timer:public juce::Timer {
     public:
-        connect_timer(LrIpcOut* owner):owner_(owner)
+        explicit connect_timer(LrIpcOut* owner):owner_(owner)
         {}
         void Start();
         void Stop();
@@ -75,7 +82,7 @@ private:
     };
     class recenter:public juce::Timer {
     public:
-        recenter(LrIpcOut* owner):owner_{owner}
+        explicit recenter(LrIpcOut* owner):owner_{owner}
         {}
         void SetMidiMessage(rsj::MidiMessage mm);
     private:
@@ -86,12 +93,6 @@ private:
     };
     connect_timer connect_timer_{this};
     recenter recenter_{this};
-    const CommandMap * const command_map_;
-    ControlsModel* const controls_model_;
-    mutable rsj::RelaxTTasSpinLock command_mutex_; //fast spinlock for brief use
-    std::string command_;
-    std::vector<std::function<void(bool)>> callbacks_;
-    std::shared_ptr<MidiSender> midi_sender_{nullptr};
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

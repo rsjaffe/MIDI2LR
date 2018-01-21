@@ -49,6 +49,16 @@ local function LoadedFilters()
   end
 end
 
+--Keywords.lua
+local function UseDefaultsKeywords()
+  ProgramPreferences.Keywords = {}
+end
+local function LoadedKeywords()
+  if type(ProgramPreferences.Keywords) ~= 'table' then
+    UseDefaultsKeywords()
+  end
+end
+
 --Limits.lua
 
 local function UseDefaultsLimits()
@@ -73,7 +83,6 @@ local function LoadedLimits()
 end
 
 --LocalPresets.lua
-
 local function UseDefaultsLocalPresets()
   ProgramPreferences.LocalPresets = {}
 end
@@ -135,6 +144,7 @@ local function LoadedAll()
   LoadedActionSeries()
   LoadedFilters()
   LoadedKeys()
+  LoadedKeywords()
   LoadedLimits()
   LoadedLocalPresets()
   LoadedPaste()
@@ -146,6 +156,7 @@ local function UseDefaultsAll()
   UseDefaultsActionSeries()
   UseDefaultsFilters()
   UseDefaultsKeys()
+  UseDefaultsKeywords()
   UseDefaultsLimits()
   UseDefaultsLocalPresets()
   UseDefaultsPaste()
@@ -157,6 +168,7 @@ return {
   LoadedActionSeries  = LoadedActionSeries,
   LoadedFilters       = LoadedFilters,
   LoadedKeys          = LoadedKeys,
+  LoadedKeywords      = LoadedKeywords,
   LoadedLimits        = LoadedLimits,
   LoadedLocalPresets  = LoadedLocalPresets,
   LoadedPaste         = LoadedPaste,
@@ -165,6 +177,7 @@ return {
   UseDefaultsActionSeries = UseDefaultsActionSeries,
   UseDefaultsFilters  = UseDefaultsFilters,
   UseDefaultsKeys     = UseDefaultsKeys,
+  UseDefaultsKeywords = UseDefaultsKeywords,
   UseDefaultsLimits   = UseDefaultsLimits,
   UseDefaultsLocalPresets = UseDefaultsLocalPresets,
   UseDefaultsPaste    = UseDefaultsPaste,

@@ -94,9 +94,9 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
                 auto command = "ChangedToDirectory "s +
                     juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
                     '\n';
-                ptr->SendCommand(command);
+                ptr->SendCommand(std::move(command));
                 command = "ChangedToFile "s + profile.toStdString() + '\n';
-                ptr->SendCommand(command);
+                ptr->SendCommand(std::move(command));
             }
         }
     }
@@ -147,11 +147,11 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 void ProfileManager::ConnectionCallback(bool connected)
 {
     if (connected) {
-        const auto command = "ChangedToDirectory "s +
-            juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
-            '\n';
-        if (const auto ptr = lr_ipc_out_.lock())
-            ptr->SendCommand(command);
+        if (const auto ptr = lr_ipc_out_.lock()) {
+            ptr->SendCommand("ChangedToDirectory "s +
+                juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +
+                '\n');
+        }
     }
 }
 

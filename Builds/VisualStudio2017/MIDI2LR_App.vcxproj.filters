@@ -253,6 +253,9 @@
     <ClCompile Include="..\..\icu\source\common\cstring.cpp">
       <Filter>MIDI2LR\Source\ICU</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\icu\source\common\stringpiece.cpp">
+      <Filter>MIDI2LR\Source\ICU</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\icu\source\common\udataswp.cpp">
       <Filter>MIDI2LR\Source\ICU</Filter>
     </ClCompile>
@@ -1660,6 +1663,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CommandTableModel.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MoodyCamel\concurrentqueue.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ControlsModel.h">

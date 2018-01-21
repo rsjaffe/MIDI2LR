@@ -16,2965 +16,3586 @@
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
   PARTICULAR PURPOSE.  See the GNU General Public License for more details.
   You should have received a copy of the GNU General Public License along with
-  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
+  MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ------------------------------------------------------------------------------]]
   local MenuList = {
   {
     "Key1",
-    "Key 1",
-    "Keyboard Shortcuts for User",
+    "Touche 1",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key2",
-    "Key 2",
-    "Keyboard Shortcuts for User",
+    "Touche 2",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key3",
-    "Key 3",
-    "Keyboard Shortcuts for User",
+    "Touche 3",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key4",
-    "Key 4",
-    "Keyboard Shortcuts for User",
+    "Touche 4",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key5",
-    "Key 5",
-    "Keyboard Shortcuts for User",
+    "Touche 5",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key6",
-    "Key 6",
-    "Keyboard Shortcuts for User",
+    "Touche 6",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key7",
-    "Key 7",
-    "Keyboard Shortcuts for User",
+    "Touche 7",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key8",
-    "Key 8",
-    "Keyboard Shortcuts for User",
+    "Touche 8",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key9",
-    "Key 9",
-    "Keyboard Shortcuts for User",
+    "Touche 9",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key10",
-    "Key 10",
-    "Keyboard Shortcuts for User",
+    "Touche 10",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key11",
-    "Key 11",
-    "Keyboard Shortcuts for User",
+    "Touche 11",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key12",
-    "Key 12",
-    "Keyboard Shortcuts for User",
+    "Touche 12",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key13",
-    "Key 13",
-    "Keyboard Shortcuts for User",
+    "Touche 13",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key14",
-    "Key 14",
-    "Keyboard Shortcuts for User",
+    "Touche 14",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key15",
-    "Key 15",
-    "Keyboard Shortcuts for User",
+    "Touche 15",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key16",
-    "Key 16",
-    "Keyboard Shortcuts for User",
+    "Touche 16",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key17",
-    "Key 17",
-    "Keyboard Shortcuts for User",
+    "Touche 17",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key18",
-    "Key 18",
-    "Keyboard Shortcuts for User",
+    "Touche 18",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key19",
-    "Key 19",
-    "Keyboard Shortcuts for User",
+    "Touche 19",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key20",
-    "Key 20",
-    "Keyboard Shortcuts for User",
+    "Touche 20",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key21",
-    "Key 21",
-    "Keyboard Shortcuts for User",
+    "Touche 21",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key22",
-    "Key 22",
-    "Keyboard Shortcuts for User",
+    "Touche 22",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key23",
-    "Key 23",
-    "Keyboard Shortcuts for User",
+    "Touche 23",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key24",
-    "Key 24",
-    "Keyboard Shortcuts for User",
+    "Touche 24",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key25",
-    "Key 25",
-    "Keyboard Shortcuts for User",
+    "Touche 25",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key26",
-    "Key 26",
-    "Keyboard Shortcuts for User",
+    "Touche 26",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key27",
-    "Key 27",
-    "Keyboard Shortcuts for User",
+    "Touche 27",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key28",
-    "Key 28",
-    "Keyboard Shortcuts for User",
+    "Touche 28",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key29",
-    "Key 29",
-    "Keyboard Shortcuts for User",
+    "Touche 29",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key30",
-    "Key 30",
-    "Keyboard Shortcuts for User",
+    "Touche 30",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key31",
-    "Key 31",
-    "Keyboard Shortcuts for User",
+    "Touche 31",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key32",
-    "Key 32",
-    "Keyboard Shortcuts for User",
+    "Touche 32",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key33",
-    "Key 33",
-    "Keyboard Shortcuts for User",
+    "Touche 33",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key34",
-    "Key 34",
-    "Keyboard Shortcuts for User",
+    "Touche 34",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key35",
-    "Key 35",
-    "Keyboard Shortcuts for User",
+    "Touche 35",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key36",
-    "Key 36",
-    "Keyboard Shortcuts for User",
+    "Touche 36",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key37",
-    "Key 37",
-    "Keyboard Shortcuts for User",
+    "Touche 37",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key38",
-    "Key 38",
-    "Keyboard Shortcuts for User",
+    "Touche 38",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key39",
-    "Key 39",
-    "Keyboard Shortcuts for User",
+    "Touche 39",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Key40",
-    "Key 40",
-    "Keyboard Shortcuts for User",
+    "Touche 40",
+    "Raccourcis d'interface utilisateur",
+    true
+  },
+  {
+    "Key32Key31",
+    "Touche 32 – Touche 31",
+    "Raccourcis d'interface utilisateur",
+    true
+  },
+  {
+    "Key34Key33",
+    "Touche 34 – Touche 33",
+    "Raccourcis d'interface utilisateur",
+    true
+  },
+  {
+    "Key36Key35",
+    "Touche 36 – Touche 35",
+    "Raccourcis d'interface utilisateur",
+    true
+  },
+  {
+    "Key38Key37",
+    "Touche 38 – Touche 37",
+    "Raccourcis d'interface utilisateur",
+    true
+  },
+  {
+    "Key40Key39",
+    "Touche 40 – Touche 39",
+    "Raccourcis d'interface utilisateur",
     true
   },
   {
     "Filter_1",
-    "Library filter 1",
-    "Library filter",
+    "Filtre de bibliothèque : 1",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_2",
-    "Library filter 2",
-    "Library filter",
+    "Filtre de bibliothèque : 2",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_3",
-    "Library filter 3",
-    "Library filter",
+    "Filtre de bibliothèque : 3",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_4",
-    "Library filter 4",
-    "Library filter",
+    "Filtre de bibliothèque : 4",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_5",
-    "Library filter 5",
-    "Library filter",
+    "Filtre de bibliothèque : 5",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_6",
-    "Library filter 6",
-    "Library filter",
+    "Filtre de bibliothèque : 6",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_7",
-    "Library filter 7",
-    "Library filter",
+    "Filtre de bibliothèque : 7",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_8",
-    "Library filter 8",
-    "Library filter",
+    "Filtre de bibliothèque : 8",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_9",
-    "Library filter 9",
-    "Library filter",
+    "Filtre de bibliothèque : 9",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "Filter_10",
-    "Library filter 10",
-    "Library filter",
+    "Filtre de bibliothèque : 10",
+    "Filtre de bibliothèque :",
+    true
+  },
+  {
+    "Filter_11",
+    "Filtre de bibliothèque : 11",
+    "Filtre de bibliothèque :",
+    true
+  },
+  {
+    "Filter_12",
+    "Filtre de bibliothèque : 12",
+    "Filtre de bibliothèque :",
     true
   },
   {
     "ShoVwgrid",
-    "Primary Display Grid",
-    "General",
+    "Fenêtre principale Grille",
+    "Général",
     true
   },
   {
     "ShoVwloupe",
-    "Primary Display Loupe",
-    "General",
+    "Fenêtre principale Loupe",
+    "Général",
     true
   },
   {
     "ShoVwcompare",
-    "Primary Display Compare",
-    "General",
+    "Fenêtre principale Comparaison",
+    "Général",
     true
   },
   {
     "ShoVwsurvey",
-    "Primary Display Survey",
-    "General",
+    "Fenêtre principale Ensemble",
+    "Général",
     true
   },
   {
     "ToggleZoomOffOn",
-    "Enable/Disable Zoom",
-    "General",
+    "Activer/Désactiver le mode Zoom",
+    "Général",
+    true
+  },
+  {
+    "ZoomInOut",
+    "Léger zoom avant Léger zoom arrière",
+    "Général",
+    true
+  },
+  {
+    "ZoomOutIn",
+    "Léger zoom arrière Léger zoom avant",
+    "Général",
     true
   },
   {
     "ZoomInLargeStep",
-    "Zoom In",
-    "General",
+    "Zoom avant",
+    "Général",
     true
   },
   {
     "ZoomInSmallStep",
-    "Zoom In Some",
-    "General",
+    "Léger zoom avant",
+    "Général",
     true
   },
   {
     "ZoomOutSmallStep",
-    "Zoom Out Some",
-    "General",
+    "Léger zoom arrière",
+    "Général",
     true
   },
   {
     "ZoomOutLargeStep",
-    "Zoom Out",
-    "General",
+    "Zoom arrière",
+    "Général",
+    true
+  },
+  {
+    "SelectRightLeft",
+    "Ajouter à la sélection Gauche Droite",
+    "Général",
     true
   },
   {
     "Select1Left",
-    "Add to Selection Left",
-    "General",
+    "Ajouter à la sélection Gauche",
+    "Général",
     true
   },
   {
     "Select1Right",
-    "Add to Selection Right",
-    "General",
+    "Ajouter à la sélection Droite",
+    "Général",
+    true
+  },
+  {
+    "NextPrev",
+    "Photo suivante — Photo précédente",
+    "Général",
     true
   },
   {
     "Next",
-    "Next Photo",
-    "General",
+    "Photo suivante",
+    "Général",
     true
   },
   {
     "Prev",
-    "Previous Photo",
-    "General",
+    "Photo précédente",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries1",
+    "Série de commandes 1",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries2",
+    "Série de commandes 2",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries3",
+    "Série de commandes 3",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries4",
+    "Série de commandes 4",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries5",
+    "Série de commandes 5",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries6",
+    "Série de commandes 6",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries7",
+    "Série de commandes 7",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries8",
+    "Série de commandes 8",
+    "Général",
+    true
+  },
+  {
+    "ActionSeries9",
+    "Série de commandes 9",
+    "Général",
     true
   },
   {
     "SwToMlibrary",
-    "Show Library",
-    "Library",
+    "Afficher Bibliothèque",
+    "Bibliothèque",
     true
   },
   {
     "Pick",
-    "Set Pick Flag",
-    "Library",
+    "Définir un marqueur de retenue",
+    "Bibliothèque",
     true
   },
   {
     "Reject",
-    "Set Rejected Flag",
-    "Library",
+    "Définir un marqueur de rejet",
+    "Bibliothèque",
     true
   },
   {
     "RemoveFlag",
-    "Unflagged",
-    "Library",
+    "Neutre",
+    "Bibliothèque",
     true
   },
   {
     "SetRating0",
-    "0 Stars",
-    "Library",
+    "0 étoiles",
+    "Bibliothèque",
     true
   },
   {
     "SetRating1",
-    "1 Star",
-    "Library",
+    "1 étoile",
+    "Bibliothèque",
     true
   },
   {
     "SetRating2",
-    "2 Stars",
-    "Library",
+    "2 étoiles",
+    "Bibliothèque",
     true
   },
   {
     "SetRating3",
-    "3 Stars",
-    "Library",
+    "3 étoiles",
+    "Bibliothèque",
     true
   },
   {
     "SetRating4",
-    "4 Stars",
-    "Library",
+    "4 étoiles",
+    "Bibliothèque",
     true
   },
   {
     "SetRating5",
-    "5 Stars",
-    "Library",
+    "5 étoiles",
+    "Bibliothèque",
     true
   },
   {
     "IncreaseRating",
-    "Increase Rating",
-    "Library",
+    "Augmenter la note",
+    "Bibliothèque",
     true
   },
   {
     "DecreaseRating",
-    "Decrease Rating",
-    "Library",
+    "Baisser la note",
+    "Bibliothèque",
     true
   },
   {
     "ToggleBlue",
-    "Label Blue Enable/Disable",
-    "Library",
+    "Afficher/Masquer le libellé Bleu",
+    "Bibliothèque",
     true
   },
   {
     "ToggleGreen",
-    "Label Green Enable/Disable",
-    "Library",
+    "Afficher/Masquer le libellé Vert",
+    "Bibliothèque",
     true
   },
   {
     "ToggleRed",
-    "Label Red Enable/Disable",
-    "Library",
+    "Afficher/Masquer le libellé Rouge",
+    "Bibliothèque",
     true
   },
   {
     "TogglePurple",
-    "Label Purple Enable/Disable",
-    "Library",
+    "Afficher/Masquer le libellé Pourpre",
+    "Bibliothèque",
     true
   },
   {
     "ToggleYellow",
-    "Label Yellow Enable/Disable",
-    "Library",
+    "Afficher/Masquer le libellé Jaune",
+    "Bibliothèque",
     true
   },
   {
     "ShoVwpeople",
-    "Primary Display People",
-    "Library",
+    "Fenêtre principale Personnes",
+    "Bibliothèque",
     true
   },
   {
     "SwToMdevelop",
-    "Show Develop",
-    "Develop",
+    "Afficher Développer",
+    "Développer",
     true
   },
   {
     "LRCopy",
-    "Lightroom Copy Settings",
-    "Develop",
+    "Lightroom Copier les paramètres...",
+    "Développer",
     true
   },
   {
     "LRPaste",
-    "Lightroom Paste Settings",
-    "Develop",
+    "Lightroom Coller les paramètres",
+    "Développer",
     true
   },
   {
     "CopySettings",
-    "Copy Settings",
-    "Develop",
+    "Copier les paramètres...",
+    "Développer",
     true
   },
   {
     "PasteSettings",
-    "Paste Settings",
-    "Develop",
+    "Coller les paramètres",
+    "Développer",
     true
   },
   {
     "PasteSelectedSettings",
     "Paste Selected Settings",
-    "Develop",
+    "Développer",
     true
   },
   {
     "VirtualCopy",
-    "Create Virtual Copy",
-    "Develop",
+    "Créer une copie virtuelle",
+    "Développer",
     true
   },
   {
     "ResetAll",
-    "Reset Settings",
-    "Develop",
+    "Réinitialiser les paramètres",
+    "Développer",
     true
   },
   {
     "ResetLast",
-    "Reset Last Modified",
-    "Develop",
+    "Réinitialiser Date de la dernière modification ",
+    "Développer",
+    true
+  },
+  {
+    "ChangeLastDevelopParameter",
+    "Plus – Moins Date de la dernière modification :",
+    "Développer",
     true
   },
   {
     "IncrementLastDevelopParameter",
-    "Increase Last Modified",
-    "Develop",
+    "Augmenter   Date de la dernière modification",
+    "Développer",
     true
   },
   {
     "DecrementLastDevelopParameter",
-    "Decrease Last Modified",
-    "Develop",
+    "Réduire   Date de la dernière modification",
+    "Développer",
+    true
+  },
+  {
+    "ChangeCurrentSlider",
+    "Plus – Moins",
+    "Développer",
+    true
+  },
+  {
+    "SliderIncrease",
+    "Plus",
+    "Développer",
+    true
+  },
+  {
+    "SliderDecrease",
+    "Moins",
+    "Développer",
+    true
+  },
+  {
+    "RedoUndo",
+    "Rétablir – Annuler",
+    "Développer",
     true
   },
   {
     "Undo",
-    "Undo",
-    "Develop",
+    "Annuler",
+    "Développer",
     true
   },
   {
     "Redo",
-    "Redo",
-    "Develop",
+    "Rétablir",
+    "Développer",
     true
   },
   {
     "ShoVwdevelop_before_after_horiz",
-    "Primary Display Before/After Left/Right",
-    "Develop",
+    "Fenêtre principale Avant/Après - Gauche/Droite",
+    "Développer",
     true
   },
   {
     "ShoVwdevelop_before_after_vert",
-    "Primary Display Before/After Top/Bottom",
-    "Develop",
+    "Fenêtre principale Avant/Après - Haut/Bas",
+    "Développer",
     true
   },
   {
     "ShoVwdevelop_before",
-    "Primary Display Before",
-    "Develop",
+    "Fenêtre principale Avant",
+    "Développer",
     true
   },
   {
     "ShoVwRefHoriz",
-    "Primary Display Reference View — Left/Right",
-    "Develop",
+    "Fenêtre principale Vue de référence - Gauche/Droite",
+    "Développer",
     true
   },
   {
     "ShoVwRefVert",
-    "Primary Display Reference View — Top/Bottom",
-    "Develop",
+    "Fenêtre principale Vue de référence - Haut/Bas",
+    "Développer",
     true
   },
   {
     "ShoVwdevelop_loupe",
-    "Primary Display Loupe",
-    "Develop",
+    "Fenêtre principale Loupe",
+    "Développer",
     true
   },
   {
     "RevealPanelAdjust",
-    "Show Basic Tone",
-    "Basic Tone",
+    "Afficher Tonalité simple",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceAs_Shot",
-    "White Balance As Shot",
-    "Basic Tone",
+    "Balance des blancs Telle quelle",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceAuto",
-    "White Balance Auto",
-    "Basic Tone",
+    "Balance des blancs Auto",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceCloudy",
-    "White Balance Cloudy",
-    "Basic Tone",
+    "Balance des blancs Temps nuageux",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceDaylight",
-    "White Balance Daylight",
-    "Basic Tone",
+    "Balance des blancs Lumière naturelle",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceFlash",
-    "White Balance Flash",
-    "Basic Tone",
+    "Balance des blancs Flash",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceFluorescent",
-    "White Balance Fluorescent",
-    "Basic Tone",
+    "Balance des blancs Fluorescente",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceShade",
-    "White Balance Shade",
-    "Basic Tone",
+    "Balance des blancs Ombre",
+    "Tonalité simple",
     true
   },
   {
     "WhiteBalanceTungsten",
-    "White Balance Tungsten",
-    "Basic Tone",
+    "Balance des blancs Tungstène",
+    "Tonalité simple",
     true
   },
   {
     "AutoTone",
-    "Basic Tone Auto Tone",
-    "Basic Tone",
+    "Tonalité simple Tonalité automatique",
+    "Tonalité simple",
     true
   },
   {
     "Temperature",
-    "Temperature",
-    "Basic Tone",
+    "Température",
+    "Tonalité simple",
     false
   },
   {
     "Tint",
-    "Tint",
-    "Basic Tone",
+    "Teinte",
+    "Tonalité simple",
     false
   },
   {
     "Exposure",
-    "Exposure",
-    "Basic Tone",
+    "Exposition",
+    "Tonalité simple",
     false
   },
   {
     "Contrast",
-    "Contrast",
-    "Basic Tone",
+    "Contraste",
+    "Tonalité simple",
     false
   },
   {
     "Highlights",
-    "Highlights (Highlight Recovery in PV2003 and PV2010)",
-    "Basic Tone",
+    "Hautes lumières (Récupération des hautes lumières in PV2003 et PV2010)",
+    "Tonalité simple",
     false
   },
   {
     "Brightness",
-    "Brightness",
-    "Basic Tone",
+    "Luminosité",
+    "Tonalité simple",
     false
   },
   {
     "Shadows",
-    "Shadows (Fill Light in PV2003 and PV2010)",
-    "Basic Tone",
+    "Ombres (Lumière d'appoint in PV2003 et PV2010)",
+    "Tonalité simple",
     false
   },
   {
     "Whites",
-    "Whites (no effect in PV2003 and PV2010)",
-    "Basic Tone",
+    "Blancs (no effect in PV2003 et PV2010)",
+    "Tonalité simple",
     false
   },
   {
     "Blacks",
-    "Blacks",
-    "Basic Tone",
+    "Noirs",
+    "Tonalité simple",
     false
   },
   {
     "Clarity",
-    "Clarity",
-    "Basic Tone",
+    "Clarté",
+    "Tonalité simple",
     false
   },
   {
     "Vibrance",
     "Vibrance",
-    "Basic Tone",
+    "Tonalité simple",
     false
   },
   {
     "Saturation",
     "Saturation",
-    "Basic Tone",
+    "Tonalité simple",
     false
   },
   {
     "ResetTemperature",
-    "Reset Temperature",
-    "Basic Tone",
+    "Réinitialiser Température",
+    "Tonalité simple",
     true
   },
   {
     "ResetTint",
-    "Reset Tint",
-    "Basic Tone",
+    "Réinitialiser Teinte",
+    "Tonalité simple",
     true
   },
   {
     "ResetExposure",
-    "Reset Exposure",
-    "Basic Tone",
+    "Réinitialiser Exposition",
+    "Tonalité simple",
     true
   },
   {
     "ResetContrast",
-    "Reset Contrast",
-    "Basic Tone",
+    "Réinitialiser Contraste",
+    "Tonalité simple",
     true
   },
   {
     "ResetHighlights",
-    "Reset Highlights",
-    "Basic Tone",
+    "Réinitialiser Hautes lumières",
+    "Tonalité simple",
     true
   },
   {
     "ResetShadows",
-    "Reset Shadows",
-    "Basic Tone",
+    "Réinitialiser Ombres",
+    "Tonalité simple",
     true
   },
   {
     "ResetWhites",
-    "Reset Whites",
-    "Basic Tone",
+    "Réinitialiser Blancs",
+    "Tonalité simple",
     true
   },
   {
     "ResetBlacks",
-    "Reset Blacks",
-    "Basic Tone",
+    "Réinitialiser Noirs",
+    "Tonalité simple",
     true
   },
   {
     "ResetClarity",
-    "Reset Clarity",
-    "Basic Tone",
+    "Réinitialiser Clarté",
+    "Tonalité simple",
     true
   },
   {
     "ResetVibrance",
-    "Reset Vibrance",
-    "Basic Tone",
+    "Réinitialiser Vibrance",
+    "Tonalité simple",
     true
   },
   {
     "ResetSaturation",
-    "Reset Saturation",
-    "Basic Tone",
+    "Réinitialiser Saturation",
+    "Tonalité simple",
     true
   },
   {
     "RevealPanelTone",
-    "Show Tone Curve",
-    "Tone Curve",
+    "Afficher Courbe des tonalités",
+    "Courbe des tonalités",
     true
   },
   {
     "EnableToneCurve",
-    "Enable Tone Curve",
-    "Tone Curve",
+    "Activer la courbe des tonalités",
+    "Courbe des tonalités",
     true
   },
   {
     "ParametricDarks",
-    "Dark Tones",
-    "Tone Curve",
+    "Teintes sombres",
+    "Courbe des tonalités",
     false
   },
   {
     "ParametricLights",
-    "Light Tones",
-    "Tone Curve",
+    "Teintes claires",
+    "Courbe des tonalités",
     false
   },
   {
     "ParametricShadows",
-    "Shadow Tones",
-    "Tone Curve",
+    "Tonalité des ombres",
+    "Courbe des tonalités",
     false
   },
   {
     "ParametricHighlights",
-    "Highlight Tones",
-    "Tone Curve",
+    "Tonalité des hautes lumières",
+    "Courbe des tonalités",
     false
   },
   {
     "ParametricShadowSplit",
-    "Shadow Split",
-    "Tone Curve",
+    "Séparation des ombres",
+    "Courbe des tonalités",
     false
   },
   {
     "ParametricMidtoneSplit",
-    "Midtone Split",
-    "Tone Curve",
+    "Séparation des tons moyens",
+    "Courbe des tonalités",
     false
   },
   {
     "ParametricHighlightSplit",
-    "Highlight Split",
-    "Tone Curve",
+    "Séparation des hautes lumières",
+    "Courbe des tonalités",
     false
   },
   {
     "ResetParametricDarks",
-    "Reset Dark Tones",
-    "Tone Curve",
+    "Réinitialiser Teintes sombres",
+    "Courbe des tonalités",
     true
   },
   {
     "ResetParametricLights",
-    "Reset Light Tones",
-    "Tone Curve",
+    "Réinitialiser Teintes claires",
+    "Courbe des tonalités",
     true
   },
   {
     "ResetParametricShadows",
-    "Reset Shadow Tones",
-    "Tone Curve",
+    "Réinitialiser Tonalité des ombres",
+    "Courbe des tonalités",
     true
   },
   {
     "ResetParametricHighlights",
-    "Reset Highlight Tones",
-    "Tone Curve",
+    "Réinitialiser Tonalité des hautes lumières",
+    "Courbe des tonalités",
     true
   },
   {
     "ResetParametricShadowSplit",
-    "Reset Shadow Split",
-    "Tone Curve",
+    "Réinitialiser Séparation des ombres",
+    "Courbe des tonalités",
     true
   },
   {
     "ResetParametricMidtoneSplit",
-    "Reset Midtone Split",
-    "Tone Curve",
+    "Réinitialiser Séparation des tons moyens",
+    "Courbe des tonalités",
     true
   },
   {
     "ResetParametricHighlightSplit",
-    "Reset Highlight Split",
-    "Tone Curve",
+    "Réinitialiser Séparation des hautes lumières",
+    "Courbe des tonalités",
     true
   },
   {
     "PointCurveLinear",
-    "Tone Curve Linear",
-    "Tone Curve",
+    "Courbe des tonalités Linéaire",
+    "Courbe des tonalités",
     true
   },
   {
     "PointCurveMediumContrast",
-    "Tone Curve Medium Contrast",
-    "Tone Curve",
+    "Courbe des tonalités Contraste moyen",
+    "Courbe des tonalités",
     true
   },
   {
     "PointCurveStrongContrast",
-    "Tone Curve Strong Contrast",
-    "Tone Curve",
+    "Courbe des tonalités Contraste fort",
+    "Courbe des tonalités",
     true
   },
   {
     "RevealPanelMixer",
-    "Show Color Adjustments",
-    "Color Adjustments",
+    "Afficher Réglages des couleurs",
+    "Réglages des couleurs",
     true
   },
   {
     "EnableColorAdjustments",
-    "Enable Color Adjustments",
-    "Color Adjustments",
+    "Activer les réglages des couleurs",
+    "Réglages des couleurs",
     true
   },
   {
     "SaturationAdjustmentRed",
-    "Saturation Adjustment Red",
-    "Color Adjustments",
+    "Variation de la saturation du rouge",
+    "Réglages des couleurs",
     false
   },
   {
     "SaturationAdjustmentOrange",
-    "Saturation Adjustment Orange",
-    "Color Adjustments",
+    "Variation de la saturation du orange",
+    "Réglages des couleurs",
     false
   },
   {
     "SaturationAdjustmentYellow",
-    "Saturation Adjustment Yellow",
-    "Color Adjustments",
+    "Variation de la saturation du jaune",
+    "Réglages des couleurs",
     false
   },
   {
     "SaturationAdjustmentGreen",
-    "Saturation Adjustment Green",
-    "Color Adjustments",
+    "Variation de la saturation du vert",
+    "Réglages des couleurs",
     false
   },
   {
     "SaturationAdjustmentAqua",
-    "Saturation Adjustment Aqua",
-    "Color Adjustments",
+    "Variation de la saturation du bleu vert",
+    "Réglages des couleurs",
     false
   },
   {
     "SaturationAdjustmentBlue",
-    "Saturation Adjustment Blue",
-    "Color Adjustments",
+    "Variation de la saturation du bleu",
+    "Réglages des couleurs",
     false
   },
   {
     "SaturationAdjustmentPurple",
-    "Saturation Adjustment Purple",
-    "Color Adjustments",
+    "Variation de la saturation du pourpre",
+    "Réglages des couleurs",
     false
   },
   {
     "SaturationAdjustmentMagenta",
-    "Saturation Adjustment Magenta",
-    "Color Adjustments",
+    "Variation de la saturation du magenta",
+    "Réglages des couleurs",
     false
   },
   {
     "AllSaturationAdjustment",
     "All Saturation Adjustment",
-    "Color Adjustments",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentRed",
-    "Hue Adjustment Red",
-    "Color Adjustments",
+    "Variation de la teinte rouge",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentOrange",
-    "Hue Adjustment Orange",
-    "Color Adjustments",
+    "Variation de la teinte orange",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentYellow",
-    "Hue Adjustment Yellow",
-    "Color Adjustments",
+    "Variation de la teinte jaune",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentGreen",
-    "Hue Adjustment Green",
-    "Color Adjustments",
+    "Variation de la teinte verte",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentAqua",
-    "Hue Adjustment Aqua",
-    "Color Adjustments",
+    "Variation de la teinte bleu vert",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentBlue",
-    "Hue Adjustment Blue",
-    "Color Adjustments",
+    "Variation de la teinte bleue",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentPurple",
-    "Hue Adjustment Purple",
-    "Color Adjustments",
+    "Variation de la teinte pourpre",
+    "Réglages des couleurs",
     false
   },
   {
     "HueAdjustmentMagenta",
-    "Hue Adjustment Magenta",
-    "Color Adjustments",
+    "Variation de la teinte magenta",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentRed",
-    "Luminance Adjustment Red",
-    "Color Adjustments",
+    "Variation de la luminance du rouge",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentOrange",
-    "Luminance Adjustment Orange",
-    "Color Adjustments",
+    "Variation de la luminance du orange",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentYellow",
-    "Luminance Adjustment Yellow",
-    "Color Adjustments",
+    "Variation de la luminance du jaune",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentGreen",
-    "Luminance Adjustment Green",
-    "Color Adjustments",
+    "Variation de la luminance du vert",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentAqua",
-    "Luminance Adjustment Aqua",
-    "Color Adjustments",
+    "Variation de la luminance du bleu vert",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentBlue",
-    "Luminance Adjustment Blue",
-    "Color Adjustments",
+    "Variation de la luminance du bleu",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentPurple",
-    "Luminance Adjustment Purple",
-    "Color Adjustments",
+    "Variation de la luminance du pourpre",
+    "Réglages des couleurs",
     false
   },
   {
     "LuminanceAdjustmentMagenta",
-    "Luminance Adjustment Magenta",
-    "Color Adjustments",
+    "Variation de la luminance du magenta",
+    "Réglages des couleurs",
     false
   },
   {
     "ConvertToGrayscale",
-    "Convert to Grayscale",
-    "Color Adjustments",
+    "Convertir en noir et blanc",
+    "Réglages des couleurs",
     true
   },
   {
     "EnableGrayscaleMix",
-    "Enable Grayscale Mix",
-    "Color Adjustments",
+    "Activer le mélange noir et blanc",
+    "Réglages des couleurs",
     true
   },
   {
     "GrayMixerRed",
-    "Gray Mixer Red",
-    "Color Adjustments",
+    "Niveau de gris rouge",
+    "Réglages des couleurs",
     false
   },
   {
     "GrayMixerOrange",
-    "Gray Mixer Orange",
-    "Color Adjustments",
+    "Niveau de gris orange",
+    "Réglages des couleurs",
     false
   },
   {
     "GrayMixerYellow",
-    "Gray Mixer Yellow",
-    "Color Adjustments",
+    "Niveau de gris jaune",
+    "Réglages des couleurs",
     false
   },
   {
     "GrayMixerGreen",
-    "Gray Mixer Green",
-    "Color Adjustments",
+    "Niveau de gris vert",
+    "Réglages des couleurs",
     false
   },
   {
     "GrayMixerAqua",
-    "Gray Mixer Aqua",
-    "Color Adjustments",
+    "Niveau de gris bleu vert",
+    "Réglages des couleurs",
     false
   },
   {
     "GrayMixerBlue",
-    "Gray Mixer Blue",
-    "Color Adjustments",
+    "Niveau de gris bleu",
+    "Réglages des couleurs",
     false
   },
   {
     "GrayMixerPurple",
-    "Gray Mixer Purple",
-    "Color Adjustments",
+    "Niveau de gris pourpre",
+    "Réglages des couleurs",
     false
   },
   {
     "GrayMixerMagenta",
-    "Gray Mixer Magenta",
-    "Color Adjustments",
+    "Niveau de gris magenta",
+    "Réglages des couleurs",
     false
   },
   {
     "ResetSaturationAdjustmentRed",
-    "Reset Saturation Adjustment Red",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du rouge",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetSaturationAdjustmentOrange",
-    "Reset Saturation Adjustment Orange",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du orange",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetSaturationAdjustmentYellow",
-    "Reset Saturation Adjustment Yellow",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du jaune",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetSaturationAdjustmentGreen",
-    "Reset Saturation Adjustment Green",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du vert",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetSaturationAdjustmentAqua",
-    "Reset Saturation Adjustment Aqua",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du bleu vert",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetSaturationAdjustmentBlue",
-    "Reset Saturation Adjustment Blue",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du bleu",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetSaturationAdjustmentPurple",
-    "Reset Saturation Adjustment Purple",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du pourpre",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetSaturationAdjustmentMagenta",
-    "Reset Saturation Adjustment Magenta",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la saturation du magenta",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetAllSaturationAdjustment",
-    "Reset All Saturation Adjustment",
-    "Reset Color Adjustments",
+    "Réinitialiser All Saturation Adjustment",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentRed",
-    "Reset Hue Adjustment Red",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte rouge",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentOrange",
-    "Reset Hue Adjustment Orange",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte orange",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentYellow",
-    "Reset Hue Adjustment Yellow",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte jaune",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentGreen",
-    "Reset Hue Adjustment Green",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte verte",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentAqua",
-    "Reset Hue Adjustment Aqua",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte bleu vert",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentBlue",
-    "Reset Hue Adjustment Blue",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte bleue",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentPurple",
-    "Reset Hue Adjustment Purple",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte pourpre",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetHueAdjustmentMagenta",
-    "Reset Hue Adjustment Magenta",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la teinte magenta",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentRed",
-    "Reset Luminance Adjustment Red",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du rouge",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentOrange",
-    "Reset Luminance Adjustment Orange",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du orange",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentYellow",
-    "Reset Luminance Adjustment Yellow",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du jaune",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentGreen",
-    "Reset Luminance Adjustment Green",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du vert",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentAqua",
-    "Reset Luminance Adjustment Aqua",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du bleu vert",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentBlue",
-    "Reset Luminance Adjustment Blue",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du bleu",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentPurple",
-    "Reset Luminance Adjustment Purple",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du pourpre",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetLuminanceAdjustmentMagenta",
-    "Reset Luminance Adjustment Magenta",
-    "Reset Color Adjustments",
+    "Réinitialiser Variation de la luminance du magenta",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerRed",
-    "Reset Gray Mixer Red",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris rouge",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerOrange",
-    "Reset Gray Mixer Orange",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris orange",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerYellow",
-    "Reset Gray Mixer Yellow",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris jaune",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerGreen",
-    "Reset Gray Mixer Green",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris vert",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerAqua",
-    "Reset Gray Mixer Aqua",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris bleu vert",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerBlue",
-    "Reset Gray Mixer Blue",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris bleu",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerPurple",
-    "Reset Gray Mixer Purple",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris pourpre",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "ResetGrayMixerMagenta",
-    "Reset Gray Mixer Magenta",
-    "Reset Color Adjustments",
+    "Réinitialiser Niveau de gris magenta",
+    "Réinitialiser Réglages des couleurs",
     true
   },
   {
     "RevealPanelSplit",
-    "Show Split Toning",
-    "Split Toning",
+    "Afficher Virage partiel",
+    "Virage partiel",
     true
   },
   {
     "EnableSplitToning",
-    "Enable Split Toning",
-    "Split Toning",
+    "Activer le virage partiel",
+    "Virage partiel",
     true
   },
   {
     "SplitToningShadowHue",
-    "Shadow Hue",
-    "Split Toning",
+    "Teinte des ombres",
+    "Virage partiel",
     false
   },
   {
     "SplitToningShadowSaturation",
-    "Shadow Saturation",
-    "Split Toning",
+    "Saturation des ombres",
+    "Virage partiel",
     false
   },
   {
     "SplitToningHighlightHue",
-    "Highlight Hue",
-    "Split Toning",
+    "Teinte des hautes lumières",
+    "Virage partiel",
     false
   },
   {
     "SplitToningHighlightSaturation",
-    "Highlight Saturation",
-    "Split Toning",
+    "Saturation des hautes lumières",
+    "Virage partiel",
     false
   },
   {
     "SplitToningBalance",
-    "Split Toning Balance",
-    "Split Toning",
+    "Balance du virage partiel",
+    "Virage partiel",
     false
   },
   {
     "ResetSplitToningShadowHue",
-    "Reset Shadow Hue",
-    "Split Toning",
+    "Réinitialiser Teinte des ombres",
+    "Virage partiel",
     true
   },
   {
     "ResetSplitToningShadowSaturation",
-    "Reset Shadow Saturation",
-    "Split Toning",
+    "Réinitialiser Saturation des ombres",
+    "Virage partiel",
     true
   },
   {
     "ResetSplitToningHighlightHue",
-    "Reset Highlight Hue",
-    "Split Toning",
+    "Réinitialiser Teinte des hautes lumières",
+    "Virage partiel",
     true
   },
   {
     "ResetSplitToningHighlightSaturation",
-    "Reset Highlight Saturation",
-    "Split Toning",
+    "Réinitialiser Saturation des hautes lumières",
+    "Virage partiel",
     true
   },
   {
     "ResetSplitToningBalance",
-    "Reset Split Toning Balance",
-    "Split Toning",
+    "Réinitialiser Balance du virage partiel",
+    "Virage partiel",
     true
   },
   {
     "RevealPanelDetail",
-    "Show Detail",
-    "Detail",
+    "Afficher Détail",
+    "Détail",
     true
   },
   {
     "EnableDetail",
-    "Enable Detail",
-    "Detail",
+    "Activer le détail",
+    "Détail",
     true
   },
   {
     "Sharpness",
-    "Sharpness",
-    "Detail",
+    "Netteté",
+    "Détail",
     false
   },
   {
     "SharpenRadius",
-    "Sharpen Radius",
-    "Detail",
+    "Accentuer le rayon",
+    "Détail",
     false
   },
   {
     "SharpenDetail",
-    "Sharpen Detail",
-    "Detail",
+    "Accentuer le détail",
+    "Détail",
     false
   },
   {
     "SharpenEdgeMasking",
-    "Sharpen Edge Masking",
-    "Detail",
+    "Masque de contour",
+    "Détail",
     false
   },
   {
     "LuminanceSmoothing",
-    "Luminance Smoothing",
-    "Detail",
+    "Lissage de la luminance",
+    "Détail",
     false
   },
   {
     "LuminanceNoiseReductionDetail",
-    "Luminance Detail",
-    "Detail",
+    "Détail de luminance",
+    "Détail",
     false
   },
   {
     "LuminanceNoiseReductionContrast",
-    "Luminance Contrast",
-    "Detail",
+    "Contraste de luminance",
+    "Détail",
     false
   },
   {
     "ColorNoiseReduction",
-    "Color Noise Reduction",
-    "Detail",
+    "Réduction du bruit chromatique",
+    "Détail",
     false
   },
   {
     "ColorNoiseReductionDetail",
-    "Color Noise Reduction Detail",
-    "Detail",
+    "Détail de la couleur",
+    "Détail",
     false
   },
   {
     "ColorNoiseReductionSmoothness",
-    "Color Noise Reduction Smoothness",
-    "Detail",
+    "Lissage des couleurs",
+    "Détail",
     false
   },
   {
     "ResetSharpness",
-    "Reset Sharpness",
-    "Detail",
+    "Réinitialiser Netteté",
+    "Détail",
     true
   },
   {
     "ResetSharpenRadius",
-    "Reset Sharpen Radius",
-    "Detail",
+    "Réinitialiser Accentuer le rayon",
+    "Détail",
     true
   },
   {
     "ResetSharpenDetail",
-    "Reset Sharpen Detail",
-    "Detail",
+    "Réinitialiser Accentuer le détail",
+    "Détail",
     true
   },
   {
     "ResetSharpenEdgeMasking",
-    "Reset Sharpen Edge Masking",
-    "Detail",
+    "Réinitialiser Masque de contour",
+    "Détail",
     true
   },
   {
     "ResetLuminanceSmoothing",
-    "Reset Luminance Smoothing",
-    "Detail",
+    "Réinitialiser Lissage de la luminance",
+    "Détail",
     true
   },
   {
     "ResetLuminanceNoiseReductionDetail",
-    "Reset Luminance Detail",
-    "Detail",
+    "Réinitialiser Détail de luminance",
+    "Détail",
     true
   },
   {
     "ResetLuminanceNoiseReductionContrast",
-    "Reset Luminance Contrast",
-    "Detail",
+    "Réinitialiser Contraste de luminance",
+    "Détail",
     true
   },
   {
     "ResetColorNoiseReduction",
-    "Reset Color Noise Reduction",
-    "Detail",
+    "Réinitialiser Réduction du bruit chromatique",
+    "Détail",
     true
   },
   {
     "ResetColorNoiseReductionDetail",
-    "Reset Color Noise Reduction Detail",
-    "Detail",
+    "Réinitialiser Détail de la couleur",
+    "Détail",
     true
   },
   {
     "ResetColorNoiseReductionSmoothness",
-    "Reset Color Noise Reduction Smoothness",
-    "Detail",
+    "Réinitialiser Lissage des couleurs",
+    "Détail",
     true
   },
   {
     "RevealPanelLens",
-    "Show Lens Corrections",
-    "Lens Corrections",
+    "Afficher Corrections de l'objectif",
+    "Corrections de l'objectif",
     true
   },
   {
     "EnableLensCorrections",
-    "Enable Lens Corrections",
-    "Lens Corrections",
+    "Activer les corrections de l'objectif",
+    "Corrections de l'objectif",
     true
   },
   {
     "LensProfileEnable",
-    "Toggle Profile Corrections",
-    "Lens Corrections",
+    "Activer le profil de l'objectif",
+    "Corrections de l'objectif",
     true
   },
   {
     "AutoLateralCA",
-    "Remove Chromatic Aberration",
-    "Lens Corrections",
+    "Supprimer l'aberration chromatique",
+    "Corrections de l'objectif",
     true
   },
   {
     "LensProfileDistortionScale",
-    "Lens Profile Distortion Scale",
-    "Lens Corrections",
+    "Echelle de distorsion",
+    "Corrections de l'objectif",
     false
   },
   {
     "LensProfileChromaticAberrationScale",
-    "Lens Profile Chromatic Aberration Scale",
-    "Lens Corrections",
+    "Echelle d'aberration chromatique",
+    "Corrections de l'objectif",
     false
   },
   {
     "LensProfileVignettingScale",
-    "Lens Profile Vignetting Scale",
-    "Lens Corrections",
+    "Echelle de vignetage",
+    "Corrections de l'objectif",
     false
   },
   {
     "CropConstrainToWarp",
-    "Constrain to Warp",
-    "Lens Corrections",
+    "Contraindre le recadrage",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetLensProfileDistortionScale",
-    "Reset Lens Profile Distortion Scale",
-    "Lens Corrections",
+    "Réinitialiser Echelle de distorsion",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetLensProfileChromaticAberrationScale",
-    "Reset Lens Profile Chromatic Aberration Scale",
-    "Lens Corrections",
+    "Réinitialiser Echelle d'aberration chromatique",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetLensProfileVignettingScale",
-    "Reset Lens Profile Vignetting Scale",
-    "Lens Corrections",
+    "Réinitialiser Echelle de vignetage",
+    "Corrections de l'objectif",
     true
   },
   {
     "DefringePurpleAmount",
-    "Defringe Purple Amount",
-    "Lens Corrections",
+    "Valeur de violet pour la suppression des franges",
+    "Corrections de l'objectif",
     false
   },
   {
     "DefringePurpleHueLo",
-    "Defringe Purple Hue - Low",
-    "Lens Corrections",
+    "Teinte de violet pour la suppression des franges - Faible",
+    "Corrections de l'objectif",
     false
   },
   {
     "DefringePurpleHueHi",
-    "Defringe Purple Hue - High",
-    "Lens Corrections",
+    "Teinte de violet pour la suppression des franges - Elevé",
+    "Corrections de l'objectif",
     false
   },
   {
     "DefringeGreenAmount",
-    "Defringe Green Amount",
-    "Lens Corrections",
+    "Valeur de vert pour la suppression des franges",
+    "Corrections de l'objectif",
     false
   },
   {
     "DefringeGreenHueLo",
-    "Defringe Green Hue - Low",
-    "Lens Corrections",
+    "Teinte de vert pour la suppression des franges - Faible",
+    "Corrections de l'objectif",
     false
   },
   {
     "DefringeGreenHueHi",
-    "Defringe Green Hue - High",
-    "Lens Corrections",
+    "Teinte de vert pour la suppression des franges - Elevé",
+    "Corrections de l'objectif",
     false
   },
   {
     "ResetDefringePurpleAmount",
-    "Reset Defringe Purple Amount",
-    "Lens Corrections",
+    "Réinitialiser Valeur de violet pour la suppression des franges",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetDefringePurpleHueLo",
-    "Reset Defringe Purple Hue - Low",
-    "Lens Corrections",
+    "Réinitialiser Teinte de violet pour la suppression des franges - Faible",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetDefringePurpleHueHi",
-    "Reset Defringe Purple Hue - High",
-    "Lens Corrections",
+    "Réinitialiser Teinte de violet pour la suppression des franges - Elevé",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetDefringeGreenAmount",
-    "Reset Defringe Green Amount",
-    "Lens Corrections",
+    "Réinitialiser Valeur de vert pour la suppression des franges",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetDefringeGreenHueLo",
-    "Reset Defringe Green Hue - Low",
-    "Lens Corrections",
+    "Réinitialiser Teinte de vert pour la suppression des franges - Faible",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetDefringeGreenHueHi",
-    "Reset Defringe Green Hue - High",
-    "Lens Corrections",
+    "Réinitialiser Teinte de vert pour la suppression des franges - Elevé",
+    "Corrections de l'objectif",
     true
   },
   {
     "LensManualDistortionAmount",
-    "Lens Manual Distortion Amount",
-    "Lens Corrections",
+    "Quantité de distorsion",
+    "Corrections de l'objectif",
     false
   },
   {
     "VignetteAmount",
-    "Vignette Amount",
-    "Lens Corrections",
+    "Quantité de vignettage",
+    "Corrections de l'objectif",
     false
   },
   {
     "VignetteMidpoint",
-    "Vignette Midpoint",
-    "Lens Corrections",
+    "Milieu de vignette",
+    "Corrections de l'objectif",
     false
   },
   {
     "ResetLensManualDistortionAmount",
-    "Reset Lens Manual Distortion Amount",
-    "Lens Corrections",
+    "Réinitialiser Quantité de distorsion",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetVignetteAmount",
-    "Reset Vignette Amount",
-    "Lens Corrections",
+    "Réinitialiser Quantité de vignettage",
+    "Corrections de l'objectif",
     true
   },
   {
     "ResetVignetteMidpoint",
-    "Reset Vignette Midpoint",
-    "Lens Corrections",
+    "Réinitialiser Milieu de vignette",
+    "Corrections de l'objectif",
     true
   },
   {
     "RevealPanelTransform",
-    "Show Transform",
-    "Transform",
+    "Afficher Transformation",
+    "Transformation",
     true
   },
   {
     "EnableTransform",
-    "Enable Transform",
-    "Transform",
+    "Activer la transformation",
+    "Transformation",
     true
   },
   {
     "UprightOff",
-    "Perspective Correction Off",
-    "Transform",
+    "Perspective Upright Désactivé",
+    "Transformation",
     true
   },
   {
     "UprightAuto",
-    "Perspective Correction Auto",
-    "Transform",
+    "Perspective Upright Auto",
+    "Transformation",
     true
   },
   {
     "UprightLevel",
-    "Perspective Correction Level",
-    "Transform",
+    "Perspective Upright Niveau",
+    "Transformation",
     true
   },
   {
     "UprightVertical",
-    "Perspective Correction Vertical",
-    "Transform",
+    "Perspective Upright Vertical",
+    "Transformation",
     true
   },
   {
     "UprightGuided",
-    "Perspective Correction Guided",
-    "Transform",
+    "Perspective Upright Avec repères",
+    "Transformation",
     true
   },
   {
     "UprightFull",
-    "Perspective Correction Full",
-    "Transform",
+    "Perspective Upright Complète",
+    "Transformation",
     true
   },
   {
     "ResetPerspectiveUpright",
-    "Reset Upright Settings",
-    "Transform",
+    "Réinitialiser les paramètres Upright",
+    "Transformation",
     true
   },
   {
     "PerspectiveVertical",
-    "Perspective Vertical",
-    "Transform",
+    "Perspective verticale",
+    "Transformation",
     false
   },
   {
     "PerspectiveHorizontal",
-    "Perspective Horizontal",
-    "Transform",
+    "Perspective horizontale",
+    "Transformation",
     false
   },
   {
     "PerspectiveRotate",
-    "Perspective Rotate",
-    "Transform",
+    "Rotation en perspective",
+    "Transformation",
     false
   },
   {
     "PerspectiveScale",
-    "Perspective Scale",
-    "Transform",
+    "Echelle de perspective",
+    "Transformation",
     false
   },
   {
     "PerspectiveAspect",
-    "Perspective Aspect",
-    "Transform",
+    "Aspect en perspective",
+    "Transformation",
     false
   },
   {
     "PerspectiveX",
-    "Perspective X",
-    "Transform",
+    "Décalage X",
+    "Transformation",
     false
   },
   {
     "PerspectiveY",
-    "Perspective Y",
-    "Transform",
+    "Décalage Y",
+    "Transformation",
     false
   },
   {
     "ResetPerspectiveVertical",
-    "Reset Perspective Vertical",
-    "Transform",
+    "Réinitialiser Perspective verticale",
+    "Transformation",
     true
   },
   {
     "ResetPerspectiveHorizontal",
-    "Reset Perspective Horizontal",
-    "Transform",
+    "Réinitialiser Perspective horizontale",
+    "Transformation",
     true
   },
   {
     "ResetPerspectiveRotate",
-    "Reset Perspective Rotate",
-    "Transform",
+    "Réinitialiser Rotation en perspective",
+    "Transformation",
     true
   },
   {
     "ResetPerspectiveScale",
-    "Reset Perspective Scale",
-    "Transform",
+    "Réinitialiser Echelle de perspective",
+    "Transformation",
     true
   },
   {
     "ResetPerspectiveAspect",
-    "Reset Perspective Aspect",
-    "Transform",
+    "Réinitialiser Aspect en perspective",
+    "Transformation",
     true
   },
   {
     "ResetPerspectiveX",
-    "Reset Perspective X",
-    "Transform",
+    "Réinitialiser Décalage X",
+    "Transformation",
     true
   },
   {
     "ResetPerspectiveY",
-    "Reset Perspective Y",
-    "Transform",
+    "Réinitialiser Décalage Y",
+    "Transformation",
     true
   },
   {
     "RevealPanelEffects",
-    "Show Effects",
-    "Effects",
+    "Afficher Effets",
+    "Effets",
     true
   },
   {
     "EnableEffects",
-    "Enable Effects",
-    "Effects",
+    "Activer les effets",
+    "Effets",
     true
   },
   {
     "Dehaze",
-    "Dehaze Amount",
-    "Effects",
+    "Niveau de correction du voile",
+    "Effets",
     false
   },
   {
     "PostCropVignetteAmount",
-    "Post Crop Vignette Amount",
-    "Effects",
+    "Quantité de vignettage après recadrage",
+    "Effets",
     false
   },
   {
     "PostCropVignetteMidpoint",
-    "Post Crop Vignette Midpoint",
-    "Effects",
+    "Milieu de vignette après recadrage",
+    "Effets",
     false
   },
   {
     "PostCropVignetteFeather",
-    "Post Crop Vignette Feather",
-    "Effects",
+    "Contour progressif de la vignette après recadrage",
+    "Effets",
     false
   },
   {
     "PostCropVignetteRoundness",
-    "Post Crop Vignette Roundness",
-    "Effects",
+    "Arrondi de la vignette après recadrage",
+    "Effets",
     false
   },
   {
     "PostCropVignetteStyle",
-    "Post Crop Vignette Style",
-    "Effects",
+    "Style de vignette après recadrage",
+    "Effets",
     false
   },
   {
     "PostCropVignetteStyleHighlightPriority",
-    "Highlight Priority",
-    "Effects",
+    "Priorité des hautes lumières",
+    "Effets",
     true
   },
   {
     "PostCropVignetteStyleColorPriority",
-    "Color Priority",
-    "Effects",
+    "Priorité de la couleur",
+    "Effets",
     true
   },
   {
     "PostCropVignetteStylePaintOverlay",
-    "Paint Overlay",
-    "Effects",
+    "Incrustation de peinture",
+    "Effets",
     true
   },
   {
     "PostCropVignetteHighlightContrast",
-    "Post Crop Vignette Highlight Contrast",
-    "Effects",
+    "Hautes lumières des vignettes après recadrage",
+    "Effets",
     false
   },
   {
     "GrainAmount",
-    "Grain Amount",
-    "Effects",
+    "Niveau de grain",
+    "Effets",
     false
   },
   {
     "GrainSize",
-    "Grain Size",
-    "Effects",
+    "Taille du grain",
+    "Effets",
     false
   },
   {
     "GrainFrequency",
-    "Grain Roughness",
-    "Effects",
+    "Rugosité du grain",
+    "Effets",
     false
   },
   {
     "ResetDehaze",
-    "Reset Dehaze Amount",
-    "Effects",
+    "Réinitialiser Niveau de correction du voile",
+    "Effets",
     true
   },
   {
     "ResetPostCropVignetteAmount",
-    "Reset Post Crop Vignette Amount",
-    "Effects",
+    "Réinitialiser Quantité de vignettage après recadrage",
+    "Effets",
     true
   },
   {
     "ResetPostCropVignetteMidpoint",
-    "Reset Post Crop Vignette Midpoint",
-    "Effects",
+    "Réinitialiser Milieu de vignette après recadrage",
+    "Effets",
     true
   },
   {
     "ResetPostCropVignetteFeather",
-    "Reset Post Crop Vignette Feather",
-    "Effects",
+    "Réinitialiser Contour progressif de la vignette après recadrage",
+    "Effets",
     true
   },
   {
     "ResetPostCropVignetteRoundness",
-    "Reset Post Crop Vignette Roundness",
-    "Effects",
+    "Réinitialiser Arrondi de la vignette après recadrage",
+    "Effets",
     true
   },
   {
     "ResetPostCropVignetteStyle",
-    "Reset Post Crop Vignette Style",
-    "Effects",
+    "Réinitialiser Style de vignette après recadrage",
+    "Effets",
     true
   },
   {
     "ResetPostCropVignetteHighlightContrast",
-    "Reset Post Crop Vignette Highlight Contrast",
-    "Effects",
+    "Réinitialiser Hautes lumières des vignettes après recadrage",
+    "Effets",
     true
   },
   {
     "ResetGrainAmount",
-    "Reset Grain Amount",
-    "Effects",
+    "Réinitialiser Niveau de grain",
+    "Effets",
     true
   },
   {
     "ResetGrainSize",
-    "Reset Grain Size",
-    "Effects",
+    "Réinitialiser Taille du grain",
+    "Effets",
     true
   },
   {
     "ResetGrainFrequency",
-    "Reset Grain Roughness",
-    "Effects",
+    "Réinitialiser Rugosité du grain",
+    "Effets",
     true
   },
   {
     "RevealPanelCalibrate",
-    "Show Calibration",
-    "Calibration",
+    "Afficher Etalonnage",
+    "Etalonnage",
     true
   },
   {
     "EnableCalibration",
-    "Enable Calibration",
-    "Calibration",
+    "Activer l'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "Profile_Adobe_Standard",
     "Adobe Standard",
-    "Calibration",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Clear",
-    "Camera Clear",
-    "Calibration",
+    "Appareil photo - Net",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Darker_Skin_Tone",
-    "Camera Darker Skin Tone",
-    "Calibration",
+    "Appareil photo - Coloration de la peau plus foncée",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Deep",
-    "Camera Deep",
-    "Calibration",
+    "Appareil photo - Profond",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Faithful",
-    "Camera Faithful",
-    "Calibration",
+    "Appareil photo - Fidèle",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Flat",
-    "Camera Flat",
-    "Calibration",
+    "Appareil photo - Plat",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Landscape",
-    "Camera Landscape",
-    "Calibration",
+    "Appareil photo - Paysage",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Light",
-    "Camera Light",
-    "Calibration",
+    "Appareil photo - Clair",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Lighter_Skin_Tone",
-    "Camera Lighter Skin Tone",
-    "Calibration",
+    "Appareil photo - Coloration de la peau plus claire",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Monochrome",
-    "Camera Monochrome",
-    "Calibration",
+    "Appareil photo - Monochrome",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Monotone",
-    "Camera Monotone",
-    "Calibration",
+    "Appareil photo - Tonalité unique",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Muted",
-    "Camera Muted",
-    "Calibration",
+    "Appareil photo - Discret",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Natural",
-    "Camera Natural",
-    "Calibration",
+    "Appareil photo - Naturel",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Neutral",
-    "Camera Neutral",
-    "Calibration",
+    "Appareil photo - Neutre",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Portrait",
-    "Camera Portrait",
-    "Calibration",
+    "Appareil photo - Portrait",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Positive_Film",
-    "Camera Positive Film",
-    "Calibration",
+    "Appareil photo - Film positif",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Standard",
-    "Camera Standard",
-    "Calibration",
+    "Appareil photo - Standard",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Vivid",
-    "Camera Vivid",
-    "Calibration",
+    "Appareil photo - Vif",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Vivid_Blue",
-    "Camera Vivid Blue",
-    "Calibration",
+    "Appareil photo - Bleu vif",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Vivid_Green",
-    "Camera Vivid Green",
-    "Calibration",
+    "Appareil photo - Vert vif",
+    "Etalonnage",
     true
   },
   {
     "Profile_Camera_Vivid_Red",
-    "Camera Vivid Red",
-    "Calibration",
+    "Appareil photo - Rouge vif",
+    "Etalonnage",
     true
   },
   {
     "ShadowTint",
-    "Shadow Tint Calibration",
-    "Calibration",
+    "Teinte foncée d'étalonnage",
+    "Etalonnage",
     false
   },
   {
     "RedHue",
-    "Red Hue Calibration",
-    "Calibration",
+    "Teinte du rouge d'étalonnage",
+    "Etalonnage",
     false
   },
   {
     "RedSaturation",
-    "Red Saturation Calibration",
-    "Calibration",
+    "Saturation du rouge d'étalonnage",
+    "Etalonnage",
     false
   },
   {
     "GreenHue",
-    "Green Hue Calibration",
-    "Calibration",
+    "Teinte du vert d'étalonnage",
+    "Etalonnage",
     false
   },
   {
     "GreenSaturation",
-    "Green Saturation Calibration",
-    "Calibration",
+    "Saturation du vert d'étalonnage",
+    "Etalonnage",
     false
   },
   {
     "BlueHue",
-    "Blue Hue Calibration",
-    "Calibration",
+    "Teinte du bleu d'étalonnage",
+    "Etalonnage",
     false
   },
   {
     "BlueSaturation",
-    "Blue Saturation Calibration",
-    "Calibration",
+    "Saturation du bleu d'étalonnage",
+    "Etalonnage",
     false
   },
   {
     "ResetShadowTint",
-    "Reset Shadow Tint Calibration",
-    "Calibration",
+    "Réinitialiser Teinte foncée d'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "ResetRedHue",
-    "Reset Red Hue Calibration",
-    "Calibration",
+    "Réinitialiser Teinte du rouge d'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "ResetRedSaturation",
-    "Reset Red Saturation Calibration",
-    "Calibration",
+    "Réinitialiser Saturation du rouge d'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "ResetGreenHue",
-    "Reset Green Hue Calibration",
-    "Calibration",
+    "Réinitialiser Teinte du vert d'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "ResetGreenSaturation",
-    "Reset Green Saturation Calibration",
-    "Calibration",
+    "Réinitialiser Saturation du vert d'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "ResetBlueHue",
-    "Reset Blue Hue Calibration",
-    "Calibration",
+    "Réinitialiser Teinte du bleu d'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "ResetBlueSaturation",
-    "Reset Blue Saturation Calibration",
-    "Calibration",
+    "Réinitialiser Saturation du bleu d'étalonnage",
+    "Etalonnage",
     true
   },
   {
     "Preset_1",
-    "Develop Preset 1",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 1",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_2",
-    "Develop Preset 2",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 2",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_3",
-    "Develop Preset 3",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 3",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_4",
-    "Develop Preset 4",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 4",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_5",
-    "Develop Preset 5",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 5",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_6",
-    "Develop Preset 6",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 6",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_7",
-    "Develop Preset 7",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 7",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_8",
-    "Develop Preset 8",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 8",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_9",
-    "Develop Preset 9",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 9",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_10",
-    "Develop Preset 10",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 10",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_11",
-    "Develop Preset 11",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 11",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_12",
-    "Develop Preset 12",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 12",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_13",
-    "Develop Preset 13",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 13",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_14",
-    "Develop Preset 14",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 14",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_15",
-    "Develop Preset 15",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 15",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_16",
-    "Develop Preset 16",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 16",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_17",
-    "Develop Preset 17",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 17",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_18",
-    "Develop Preset 18",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 18",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_19",
-    "Develop Preset 19",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 19",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_20",
-    "Develop Preset 20",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 20",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_21",
-    "Develop Preset 21",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 21",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_22",
-    "Develop Preset 22",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 22",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_23",
-    "Develop Preset 23",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 23",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_24",
-    "Develop Preset 24",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 24",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_25",
-    "Develop Preset 25",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 25",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_26",
-    "Develop Preset 26",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 26",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_27",
-    "Develop Preset 27",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 27",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_28",
-    "Develop Preset 28",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 28",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_29",
-    "Develop Preset 29",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 29",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_30",
-    "Develop Preset 30",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 30",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_31",
-    "Develop Preset 31",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 31",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_32",
-    "Develop Preset 32",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 32",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_33",
-    "Develop Preset 33",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 33",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_34",
-    "Develop Preset 34",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 34",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_35",
-    "Develop Preset 35",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 35",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_36",
-    "Develop Preset 36",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 36",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_37",
-    "Develop Preset 37",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 37",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_38",
-    "Develop Preset 38",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 38",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_39",
-    "Develop Preset 39",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 39",
+    "Paramètres prédéfinis de développement",
     true
   },
   {
     "Preset_40",
-    "Develop Preset 40",
-    "Develop Presets",
+    "Paramètre prédéfini de développement 40",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_41",
+    "Paramètre prédéfini de développement 41",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_42",
+    "Paramètre prédéfini de développement 42",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_43",
+    "Paramètre prédéfini de développement 43",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_44",
+    "Paramètre prédéfini de développement 44",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_45",
+    "Paramètre prédéfini de développement 45",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_46",
+    "Paramètre prédéfini de développement 46",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_47",
+    "Paramètre prédéfini de développement 47",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_48",
+    "Paramètre prédéfini de développement 48",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_49",
+    "Paramètre prédéfini de développement 49",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_50",
+    "Paramètre prédéfini de développement 50",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_51",
+    "Paramètre prédéfini de développement 51",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_52",
+    "Paramètre prédéfini de développement 52",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_53",
+    "Paramètre prédéfini de développement 53",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_54",
+    "Paramètre prédéfini de développement 54",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_55",
+    "Paramètre prédéfini de développement 55",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_56",
+    "Paramètre prédéfini de développement 56",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_57",
+    "Paramètre prédéfini de développement 57",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_58",
+    "Paramètre prédéfini de développement 58",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_59",
+    "Paramètre prédéfini de développement 59",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_60",
+    "Paramètre prédéfini de développement 60",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_61",
+    "Paramètre prédéfini de développement 61",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_62",
+    "Paramètre prédéfini de développement 62",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_63",
+    "Paramètre prédéfini de développement 63",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_64",
+    "Paramètre prédéfini de développement 64",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_65",
+    "Paramètre prédéfini de développement 65",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_66",
+    "Paramètre prédéfini de développement 66",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_67",
+    "Paramètre prédéfini de développement 67",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_68",
+    "Paramètre prédéfini de développement 68",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_69",
+    "Paramètre prédéfini de développement 69",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_70",
+    "Paramètre prédéfini de développement 70",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_71",
+    "Paramètre prédéfini de développement 71",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_72",
+    "Paramètre prédéfini de développement 72",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_73",
+    "Paramètre prédéfini de développement 73",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_74",
+    "Paramètre prédéfini de développement 74",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_75",
+    "Paramètre prédéfini de développement 75",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_76",
+    "Paramètre prédéfini de développement 76",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_77",
+    "Paramètre prédéfini de développement 77",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_78",
+    "Paramètre prédéfini de développement 78",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_79",
+    "Paramètre prédéfini de développement 79",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Preset_80",
+    "Paramètre prédéfini de développement 80",
+    "Paramètres prédéfinis de développement",
+    true
+  },
+  {
+    "Keyword1",
+    "Mot-clé 1",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword2",
+    "Mot-clé 2",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword3",
+    "Mot-clé 3",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword4",
+    "Mot-clé 4",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword5",
+    "Mot-clé 5",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword6",
+    "Mot-clé 6",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword7",
+    "Mot-clé 7",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword8",
+    "Mot-clé 8",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword9",
+    "Mot-clé 9",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword10",
+    "Mot-clé 10",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword11",
+    "Mot-clé 11",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword12",
+    "Mot-clé 12",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword13",
+    "Mot-clé 13",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword14",
+    "Mot-clé 14",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword15",
+    "Mot-clé 15",
+    "Mots-clés",
+    true
+  },
+  {
+    "Keyword16",
+    "Mot-clé 16",
+    "Mots-clés",
     true
   },
   {
     "GraduatedFilter",
-    "Show Graduated Filters",
-    "Local Adjustments",
+    "Afficher Filtre gradué",
+    "Réglages locaux",
     true
   },
   {
     "RadialFilter",
-    "Show Radial Filters",
-    "Local Adjustments",
+    "Afficher Filtre radial",
+    "Réglages locaux",
     true
   },
   {
     "RedEye",
-    "Show Red-Eye Correction",
-    "Local Adjustments",
+    "Afficher Correction des yeux rouges",
+    "Réglages locaux",
     true
   },
   {
     "SpotRemoval",
-    "Show Spot Removal",
-    "Local Adjustments",
+    "Afficher Suppression des défauts",
+    "Réglages locaux",
     true
   },
   {
     "AdjustmentBrush",
-    "Show Brush Adjustments",
-    "Local Adjustments",
+    "Afficher Réglage du pinceau",
+    "Réglages locaux",
+    true
+  },
+  {
+    "ChangeBrushSize",
+    "Pinceau — Taille",
+    "Réglages locaux",
+    true
+  },
+  {
+    "BrushSizeSmaller",
+    "Pinceau — Taille — Très petite",
+    "Réglages locaux",
+    true
+  },
+  {
+    "BrushSizeLarger",
+    "Pinceau — Taille — Très grande",
+    "Réglages locaux",
+    true
+  },
+  {
+    "ChangeFeatherSize",
+    "Pinceau — Contour progressif",
+    "Réglages locaux",
+    true
+  },
+  {
+    "BrushFeatherSmaller",
+    "Pinceau — Contour progressif — Très petite",
+    "Réglages locaux",
+    true
+  },
+  {
+    "BrushFeatherLarger",
+    "Pinceau — Contour progressif — Très grande",
+    "Réglages locaux",
     true
   },
   {
     "local_Temperature",
-    "Local Adjustments Temp. (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Température (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Tint",
-    "Local Adjustments Tint (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Teinte (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Exposure",
-    "Local Adjustments Exposure (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Exposition (PV2010 and PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Contrast",
-    "Local Adjustments Contrast (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Contraste (PV2010 and PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Highlights",
-    "Local Adjustments Highlights (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Hautes lumières (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Shadows",
-    "Local Adjustments Shadows (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Ombres (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Whites2012",
-    "Local Adjustments Whites (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Blancs (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Blacks2012",
-    "Local Adjustments Blacks (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Noirs (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Clarity",
-    "Local Adjustments Clarity (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Clarté (PV2010 and PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Dehaze",
-    "Local Adjustments Dehaze (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Correction du voile (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Saturation",
-    "Local Adjustments Saturation (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Saturation (PV2010 and PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Sharpness",
-    "Local Adjustments Sharpness (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Netteté (PV2010 and PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_LuminanceNoise",
-    "Local Adjustments Luminence Noise Reduction (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Bruit (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Moire",
-    "Local Adjustments Moire (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Moiré (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_Defringe",
-    "Local Adjustments Defringe (PV2012)",
-    "Local Adjustments",
+    "Réglages locaux Supprimer la frange (PV2012)",
+    "Réglages locaux",
     false
   },
   {
     "local_ToningLuminance",
     "Local Toning Luminance (PV2010)",
-    "Local Adjustments",
+    "Réglages locaux",
     false
   },
   {
     "Resetlocal_Temperature",
-    "Reset Local Adjustments Temp. (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Température (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Tint",
-    "Reset Local Adjustments Tint (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Teinte (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Exposure",
-    "Reset Local Adjustments Exposure (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Exposition (PV2010 and PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Contrast",
-    "Reset Local Adjustments Contrast (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Contraste (PV2010 and PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Highlights",
-    "Reset Local Adjustments Highlights (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Hautes lumières (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Shadows",
-    "Reset Local Adjustments Shadows (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Ombres (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Whites2012",
-    "Reset Local Adjustments Whites (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Blancs (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Blacks2012",
-    "Reset Local Adjustments Blacks (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Noirs (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Clarity",
-    "Reset Local Adjustments Clarity (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Clarté (PV2010 and PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Dehaze",
-    "Reset Local Adjustments Dehaze (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Correction du voile (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Saturation",
-    "Reset Local Adjustments Saturation (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Saturation (PV2010 and PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Sharpness",
-    "Reset Local Adjustments Sharpness (PV2010 and PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Netteté (PV2010 and PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_LuminanceNoise",
-    "Reset Local Adjustments Luminence Noise Reduction (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Bruit (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Moire",
-    "Reset Local Adjustments Moire (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Moiré (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_Defringe",
-    "Reset Local Adjustments Defringe (PV2012)",
-    "Local Adjustments",
+    "Réinitialiser Réglages locaux Supprimer la frange (PV2012)",
+    "Réglages locaux",
     true
   },
   {
     "Resetlocal_ToningLuminance",
     "Reset Local Toning Luminance (PV2010)",
-    "Local Adjustments",
+    "Réglages locaux",
     true
   },
   {
     "EnableCircularGradientBasedCorrections",
-    "Enable Radial Filter",
-    "Local Adjustments",
+    "Activer le filtre radial",
+    "Réglages locaux",
     true
   },
   {
     "EnableGradientBasedCorrections",
-    "Enable Graduated Filter",
-    "Local Adjustments",
+    "Activer le filtre gradué",
+    "Réglages locaux",
     true
   },
   {
     "EnablePaintBasedCorrections",
-    "Enable Brush Adjustments",
-    "Local Adjustments",
+    "Activer les réglages du pinceau",
+    "Réglages locaux",
     true
   },
   {
     "EnableRedEye",
-    "Enable Red-Eye",
-    "Local Adjustments",
+    "Activer la correction des yeux rouges",
+    "Réglages locaux",
     true
   },
   {
     "EnableRetouch",
-    "Enable Spot Removal",
-    "Local Adjustments",
+    "Activer la suppression des défauts",
+    "Réglages locaux",
     true
   },
   {
     "ResetCircGrad",
-    "Reset Radial Filters",
-    "Local Adjustments",
+    "Réinitialiser le filtre radial",
+    "Réglages locaux",
     true
   },
   {
     "ResetGradient",
-    "Reset Graduated Filters",
-    "Local Adjustments",
+    "Réinitialiser le filtre gradué",
+    "Réglages locaux",
     true
   },
   {
     "ResetBrushing",
-    "Reset Brush Corrections",
-    "Local Adjustments",
+    "Annuler tous les réglages au pinceau",
+    "Réglages locaux",
     true
   },
   {
     "ResetRedeye",
-    "Reset Red-Eye",
-    "Local Adjustments",
+    "Réinitialiser les yeux rouges",
+    "Réglages locaux",
     true
   },
   {
     "ResetSpotRem",
-    "Reset Spot Removal",
-    "Local Adjustments",
+    "Réinitialiser la suppression des défauts",
+    "Réglages locaux",
     true
   },
   {
     "ShowMaskOverlay",
-    "Show Mask Overlay",
-    "Local Adjustments",
+    "Afficher l'incrustation de masque sélectionnée",
+    "Réglages locaux",
     true
   },
   {
     "CycleMaskOverlayColor",
-    "Cycle Mask Overlay Color",
-    "Local Adjustments",
+    "Alterner entre les couleurs d'incrustation",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset1",
+    "Réglages prédéfinis locaux 1",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset2",
+    "Réglages prédéfinis locaux 2",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset3",
+    "Réglages prédéfinis locaux 3",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset4",
+    "Réglages prédéfinis locaux 4",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset5",
+    "Réglages prédéfinis locaux 5",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset6",
+    "Réglages prédéfinis locaux 6",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset7",
+    "Réglages prédéfinis locaux 7",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset8",
+    "Réglages prédéfinis locaux 8",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset9",
+    "Réglages prédéfinis locaux 9",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset10",
+    "Réglages prédéfinis locaux 10",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset11",
+    "Réglages prédéfinis locaux 11",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset12",
+    "Réglages prédéfinis locaux 12",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset13",
+    "Réglages prédéfinis locaux 13",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset14",
+    "Réglages prédéfinis locaux 14",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset15",
+    "Réglages prédéfinis locaux 15",
+    "Réglages locaux",
+    true
+  },
+  {
+    "LocalPreset16",
+    "Réglages prédéfinis locaux 16",
+    "Réglages locaux",
     true
   },
   {
     "straightenAngle",
-    "Straighten Angle",
-    "Crop",
+    "Angle de redressement",
+    "Recadrage",
     false
   },
   {
     "CropAngle",
-    "Crop Angle",
-    "Crop",
+    "Angle de recadrage",
+    "Recadrage",
     false
   },
   {
     "CropBottom",
-    "Crop - Bottom",
-    "Crop",
+    "Recadrage - Bas",
+    "Recadrage",
     false
   },
   {
     "CropLeft",
-    "Crop - Left",
-    "Crop",
+    "Recadrage - Gauche",
+    "Recadrage",
     false
   },
   {
     "CropRight",
-    "Crop - Right",
-    "Crop",
+    "Recadrage - Droite",
+    "Recadrage",
     false
   },
   {
     "CropTop",
-    "Crop - Top",
-    "Crop",
+    "Recadrage - Haut",
+    "Recadrage",
     false
   },
   {
     "ResetCrop",
-    "Reset Crop",
-    "Crop",
+    "Réinitialiser le cadrage",
+    "Recadrage",
     true
   },
   {
     "ResetstraightenAngle",
-    "Reset Straighten Angle",
-    "Crop",
+    "Réinitialiser Angle de redressement",
+    "Recadrage",
     true
   },
   {
     "CropOverlay",
-    "Show Crop",
-    "Crop",
+    "Afficher Recadrage",
+    "Recadrage",
     true
   },
   {
     "Loupe",
-    "Show Loupe",
-    "Select Tools, Modules and Panels",
+    "Afficher Loupe",
+    "Sélectionner Outils, Modules  et Panneaux",
     true
   },
   {
     "SwToMmap",
-    "Show Map",
-    "Select Tools, Modules and Panels",
+    "Afficher Cartes",
+    "Sélectionner Outils, Modules  et Panneaux",
     true
   },
   {
     "SwToMbook",
-    "Show Book",
-    "Select Tools, Modules and Panels",
+    "Afficher Livres",
+    "Sélectionner Outils, Modules  et Panneaux",
     true
   },
   {
     "SwToMslideshow",
-    "Show Slideshow",
-    "Select Tools, Modules and Panels",
+    "Afficher Diaporama",
+    "Sélectionner Outils, Modules  et Panneaux",
     true
   },
   {
     "SwToMprint",
-    "Show Print",
-    "Select Tools, Modules and Panels",
+    "Afficher Imprimer",
+    "Sélectionner Outils, Modules  et Panneaux",
     true
   },
   {
     "SwToMweb",
-    "Show Web",
-    "Select Tools, Modules and Panels",
+    "Afficher Raccourcis du module web",
+    "Sélectionner Outils, Modules  et Panneaux",
     true
   },
   {
     "ShoScndVwloupe",
-    "Secondary Display Loupe",
-    "Secondary Display",
+    "Affichage secondaire Loupe",
+    "Affichage secondaire",
     true
   },
   {
     "ShoScndVwlive_loupe",
-    "Secondary Display Live Loupe",
-    "Secondary Display",
+    "Affichage secondaire Loupe interactive",
+    "Affichage secondaire",
     true
   },
   {
     "ShoScndVwlocked_loupe",
-    "Secondary Display Locked Loupe",
-    "Secondary Display",
+    "Affichage secondaire Loupe verrouillée",
+    "Affichage secondaire",
     true
   },
   {
     "ShoScndVwgrid",
-    "Secondary Display Grid",
-    "Secondary Display",
+    "Affichage secondaire Grille",
+    "Affichage secondaire",
     true
   },
   {
     "ShoScndVwcompare",
-    "Secondary Display Compare",
-    "Secondary Display",
+    "Affichage secondaire Comparaison",
+    "Affichage secondaire",
     true
   },
   {
     "ShoScndVwsurvey",
-    "Secondary Display Survey",
-    "Secondary Display",
+    "Affichage secondaire Ensemble",
+    "Affichage secondaire",
     true
   },
   {
     "ShoScndVwslideshow",
-    "Secondary Display Slideshow",
-    "Secondary Display",
+    "Affichage secondaire Diaporama",
+    "Affichage secondaire",
     true
   },
   {
     "ToggleScreenTwo",
-    "Secondary Display Show",
-    "Secondary Display",
+    "Affichage secondaire Afficher",
+    "Affichage secondaire",
     true
   },
   {
     "profile1",
-    "Profile: 1",
-    "Profiles",
+    "Profil : 1",
+    "Profils",
     true
   },
   {
     "profile2",
-    "Profile: 2",
-    "Profiles",
+    "Profil : 2",
+    "Profils",
     true
   },
   {
     "profile3",
-    "Profile: 3",
-    "Profiles",
+    "Profil : 3",
+    "Profils",
     true
   },
   {
     "profile4",
-    "Profile: 4",
-    "Profiles",
+    "Profil : 4",
+    "Profils",
     true
   },
   {
     "profile5",
-    "Profile: 5",
-    "Profiles",
+    "Profil : 5",
+    "Profils",
     true
   },
   {
     "profile6",
-    "Profile: 6",
-    "Profiles",
+    "Profil : 6",
+    "Profils",
     true
   },
   {
     "profile7",
-    "Profile: 7",
-    "Profiles",
+    "Profil : 7",
+    "Profils",
     true
   },
   {
     "profile8",
-    "Profile: 8",
-    "Profiles",
+    "Profil : 8",
+    "Profils",
     true
   },
   {
     "profile9",
-    "Profile: 9",
-    "Profiles",
+    "Profil : 9",
+    "Profils",
     true
   },
   {
     "profile10",
-    "Profile: 10",
-    "Profiles",
+    "Profil : 10",
+    "Profils",
     true
   },
   {
     "FullRefresh",
-    "Manual Update",
-    "Profiles",
+    "Actualisation manuelle",
+    "Profils",
     true
   }
 }
+
+return MenuList
+

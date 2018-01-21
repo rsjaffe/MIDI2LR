@@ -49,6 +49,7 @@ public:
     static const std::vector<std::string> Effects;
     static const std::vector<std::string> Calibration;
     static const std::vector<std::string> DevelopPresets;
+    static const std::vector<std::string> Keywords;
     static const std::vector<std::string> LocalAdjustments;
     static const std::vector<std::string> Crop;
     static const std::vector<std::string> ToolModulePanel;

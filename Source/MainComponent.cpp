@@ -310,10 +310,10 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(browser.getSelectedFile(0))};
             if (xml_element) {
                 const auto new_profile = browser.getSelectedFile(0);
-                const auto command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
+                auto command = "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
 
                 if (const auto ptr = lr_ipc_out_.lock())
-                    ptr->SendCommand(command);
+                    ptr->SendCommand(std::move(command));
                 profile_name_label_.setText(new_profile.getFileName(),
                     juce::NotificationType::dontSendNotification);
                 command_table_model_.BuildFromXml(xml_element.get());
