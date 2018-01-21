@@ -41,10 +41,6 @@ return {
       file = 'KeywordsDialog.lua',
     },
     {
-      title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
-      file = "About.lua",
-    },
-    {
       title = LOC("$$$/AgPluginManager/Status/HttpServer/StartServer=Start Server"),
       file = "LaunchServer.lua"
     },
@@ -64,6 +60,11 @@ return {
       title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
     },
+        {
+      title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
+      file = "About.lua",
+    },
+
   },
-  VERSION = { major=2, minor=6, revision=0, build=14}
+  VERSION = { major=2, minor=7, revision=0, build=0}
 }

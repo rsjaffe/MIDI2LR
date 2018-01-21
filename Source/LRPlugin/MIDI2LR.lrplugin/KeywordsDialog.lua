@@ -43,7 +43,6 @@ local function setOptions()
         bind_to_object = properties, -- default bound table
         Keywords.StartDialog(properties,f),
       } -- view
-
       -- display dialog
       local result = LrDialogs.presentModalDialog {
         title = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords"),

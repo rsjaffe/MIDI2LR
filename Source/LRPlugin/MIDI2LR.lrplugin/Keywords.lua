@@ -33,8 +33,8 @@ local NotifyFinished = false
 local function GetKeywordChildren(KeywordList, Keyword, Name)
   local KeywordChildren = Keyword:getChildren()
   for _,v in ipairs(KeywordChildren) do
-    table.insert(KeywordList, { title=Name..'>' .. string.lower(v:getName()), value=v.localIdentifier } )
-    GetKeywordChildren(KeywordList, v, Name .. '>' .. string.lower(v:getName()))
+    table.insert(KeywordList, {title=Name..'\226\134\146'..string.lower(v:getName()), value=v.localIdentifier } )
+    GetKeywordChildren(KeywordList, v, Name..'\226\134\146'..string.lower(v:getName()))
     LrTasks.yield()
   end
 end
@@ -56,7 +56,7 @@ local function GetKeywords()
       --table.sort(KeywordList,function(k1, k2) return k1.title < k2.title end) --sorting doesn't speed up dialog box
       ListReady = true
       if NotifyFinished then
-        LrDialogs.showBezel(LOC("$$$/CRaw/QueueStatus/Finished=Finished").. ' ' ..
+        LrDialogs.showBezel(LOC("$$$/CRaw/QueueStatus/Finished=Finished")..' '..
           LOC("$$$/AgLibrary/KeywordsPanel/KeywordCountTooltip=Keyword count: ^1",#KeywordList),3)
       end
     end
@@ -73,7 +73,7 @@ local function ApplyKeyword(Keyword)
         if LrKeyword then
           local LrKeywordName = LrKeyword:getName()
           LrCat:withWriteAccessDo( 'addKeyword',function( context ) TargetPhoto:addKeyword(LrKeyword) end, { timeout = 2 } )
-          LrDialogs.showBezel(LOC("$$$/AgLibrary/AddKeyword=Add Keyword") .. ': ' .. LrKeywordName)
+          LrDialogs.showBezel(LOC("$$$/AgLibrary/AddKeyword=Add Keyword")..': '..LrKeywordName)
         end 
       end
     end
@@ -89,7 +89,7 @@ end
 local function StartDialog(obstable,f)
   if ListReady then --need to add dialog box for when list isn't ready yet
     DialogStartedSuccessfully = true
-    LrDialogs.showBezel(LOC("$$$/AgDevelop/Toolbar/SortTool=Sorting")..' '.. #KeywordList ..' '..LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords"),2)
+    LrDialogs.showBezel(LOC("$$$/AgDevelop/Toolbar/SortTool=Sorting")..' '..#KeywordList..' '..LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords"), 3)
     for i = 1,numseries do
       obstable['Keyword'..i] = ProgramPreferences.Keywords[i]
     end
@@ -97,18 +97,19 @@ local function StartDialog(obstable,f)
     for i=1, numseries do
       dlgrows[i] = f:row{
         bind_to_object = obstable, -- default bound table
-        f:static_text{title = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword") .. " " .. i,
+        f:static_text{title = LOC("$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword").." "..i,
           width = LrView.share('KeywordTitle')},
         f:popup_menu{
           items = KeywordList,
           value = LrView.bind('Keyword'..i)
         }
       }
+      LrTasks.yield()
     end
     return f:column(dlgrows)
   else
     NotifyFinished = true
-    return f:column(f:static_text{title = LOC("$$$/CRaw/QueueStatus/Processing=Processing") .. '\n' .. 
+    return f:column(f:static_text{title = LOC("$$$/CRaw/QueueStatus/Processing=Processing")..'\n'..
         LOC("$$$/AgLibrary/KeywordsPanel/KeywordCountTooltip=Keyword count: ^1",#KeywordList)})
   end
 end
