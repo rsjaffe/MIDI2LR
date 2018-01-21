@@ -30,38 +30,38 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class LrCommandList {
 public:
     // Strings that LR uses
-  static const std::vector<std::string> LrStringList;
+    static const std::vector<std::string> LrStringList;
 
-  // Sectioned and readable develop param strings
-static const std::vector<std::string> KeyShortcuts;
-static const std::vector<std::string> Filters;
-static const std::vector<std::string> General;
-static const std::vector<std::string> Library;
-static const std::vector<std::string> Develop;
-static const std::vector<std::string> BasicAdjustments;
-static const std::vector<std::string> ToneCurve;
-static const std::vector<std::string> Mixer;
-static const std::vector<std::string> ResetMixer;
-static const std::vector<std::string> SplitToning;
-static const std::vector<std::string> Detail;
-static const std::vector<std::string> LensCorrections;
-static const std::vector<std::string> Transform;
-static const std::vector<std::string> Effects;
-static const std::vector<std::string> Calibration;
-static const std::vector<std::string> DevelopPresets;
-static const std::vector<std::string> Keywords;
-static const std::vector<std::string> LocalAdjustments;
-static const std::vector<std::string> Crop;
-static const std::vector<std::string> ToolModulePanel;
-static const std::vector<std::string> SecondaryDisplay;
-static const std::vector<std::string> ProgramProfiles;
-  // MIDI2LR commands
-  static const std::vector<std::string> NextPrevProfile;
+    // Sectioned and readable develop param strings
+    static const std::vector<std::string> KeyShortcuts;
+    static const std::vector<std::string> Filters;
+    static const std::vector<std::string> General;
+    static const std::vector<std::string> Library;
+    static const std::vector<std::string> Develop;
+    static const std::vector<std::string> BasicAdjustments;
+    static const std::vector<std::string> ToneCurve;
+    static const std::vector<std::string> Mixer;
+    static const std::vector<std::string> ResetMixer;
+    static const std::vector<std::string> SplitToning;
+    static const std::vector<std::string> Detail;
+    static const std::vector<std::string> LensCorrections;
+    static const std::vector<std::string> Transform;
+    static const std::vector<std::string> Effects;
+    static const std::vector<std::string> Calibration;
+    static const std::vector<std::string> DevelopPresets;
+    static const std::vector<std::string> Keywords;
+    static const std::vector<std::string> LocalAdjustments;
+    static const std::vector<std::string> Crop;
+    static const std::vector<std::string> ToolModulePanel;
+    static const std::vector<std::string> SecondaryDisplay;
+    static const std::vector<std::string> ProgramProfiles;
+    // MIDI2LR commands
+    static const std::vector<std::string> NextPrevProfile;
 
-  // Map of command strings to indices
-  static size_t GetIndexOfCommand(const std::string& command);
+    // Map of command strings to indices
+    static size_t GetIndexOfCommand(const std::string& command);
 
-  LrCommandList() = delete;
+    LrCommandList() = delete;
 };
 
 #endif  // LRCOMMANDS_H_INCLUDED
