@@ -93,6 +93,7 @@ LrTasks.startAsyncTask(
     --local variables
     local LastParam           = ''
     local UpdateParamPickup, UpdateParamNoPickup, UpdateParam
+    local sendIsConnected = false --tell whether send socket is up or not
     --local constants--may edit these to change program behaviors
     local BUTTON_ON        = 0.40 -- sending 1.0, but use > BUTTON_ON because of note keypressess not hitting 100%
     local PICKUP_THRESHOLD = 0.03 -- roughly equivalent to 4/127
@@ -574,6 +575,7 @@ LrTasks.startAsyncTask(
         local function AdjustmentChangeObserver()
           local lastrefresh = 0 --will be set to os.clock + increment to rate limit
           return function(observer) -- closure
+            if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
               for _,param in ipairs(ParamList.SendToMidi) do
                 local lrvalue = LrDevelopController.getValue(param)
@@ -598,7 +600,10 @@ LrTasks.startAsyncTask(
             plugin = _PLUGIN,
             port = SEND_PORT,
             mode = 'send',
+            onClosed = function () sendIsConnected = false end,
+            onConnected = function () sendIsConnected = true end,
             onError = function( socket )
+              sendIsConnected = false
               if MIDI2LR.RUNNING then --
                 socket:reconnect()
               end
