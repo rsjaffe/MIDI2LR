@@ -98,7 +98,8 @@ local function StartDialog(obstable,f)
           f:simple_list {items = KeywordList, 
             allows_multiple_selection = false, 
             width = 900,
-            value = LrView.bind('Keyword'..k) }}
+            value = LrView.bind('Keyword'..k) }
+        }
         LrTasks.yield()
       end
     end
@@ -106,7 +107,8 @@ local function StartDialog(obstable,f)
     local tabs = {}
     for i = 1,group_cols do
       local label = (i-1)*group_rows+1 .. '-' ..i*group_rows
-      tabs[i] = f:tab_view_item {title = label, 
+      tabs[i] = f:tab_view_item {
+        title = label, 
         identifier = 'keywords-'..label,
         f:row{
           f:column(groupkeywords[i]),
