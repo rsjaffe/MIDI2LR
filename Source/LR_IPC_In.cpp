@@ -25,6 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <bitset>
 #include <future>
 #include <gsl/gsl>
+#include <string_view>
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDISender.h"
@@ -152,6 +153,15 @@ void LrIpcIn::timerCallback()
     }
 }
 
+namespace {
+    inline void Trim(std::string_view& value)
+    {
+        value.remove_prefix(std::min(value.find_first_not_of(" \n"), value.size()));
+        if (const auto tr = value.find_last_not_of(" \t"); tr != value.npos)
+            value.remove_suffix(value.size() - tr);
+    }
+};
+
 void LrIpcIn::ProcessLine(const std::string&& line) const
 {
     const static std::unordered_map<std::string, int> cmds = {
@@ -160,22 +170,24 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
         {"TerminateApplication"s, 3},
     };
     // process input into [parameter] [Value]
-    const auto trimmed_line = rsj::Trim(line);
-    const auto command = trimmed_line.substr(0, trimmed_line.find(' '));
-    const auto value_string = trimmed_line.substr(trimmed_line.find(' ') + 1);
+    std::string_view v{line};
+    Trim(v);
+    auto value_string{v.substr(v.find_first_of(" \t") + 1)};
+    value_string.remove_prefix(std::min(value_string.find_first_not_of(" \n"), value_string.size()));
+    const auto command{std::string(v.substr(0, v.find_first_of(" \t")))}; //use this a lot, so convert to string once
 
     switch (cmds.count(command) ? cmds.at(command) : 0) {
         case 1: //SwitchProfile
             if (profile_manager_)
-                profile_manager_->SwitchToProfile(value_string);
+                profile_manager_->SwitchToProfile(std::string(value_string));
             break;
         case 2: //SendKey
         {
-            // ReSharper disable once CppUseAuto
-            std::bitset<3> modifiers{static_cast<decltype(modifiers)>
-                (std::stoi(value_string))};
-            rsj::SendKeyDownUp(rsj::LTrim(rsj::LTrim(value_string, rsj::kDigit)),
-                modifiers[0], modifiers[1], modifiers[2]);//ltrim twice on purpose: first digits, then spaces
+            std::bitset<3> modifiers{unsigned(value_string[0] - 48)}; //'0' is decimal 48
+            //trim twice on purpose: first digit, then spaces
+            value_string.remove_prefix(1);
+            value_string.remove_prefix(std::min(value_string.find_first_not_of(" \n"), value_string.size()));
+            rsj::SendKeyDownUp(std::string(value_string), modifiers[0], modifiers[1], modifiers[2]);
             break;
         }
         case 3: //TerminateApplication
@@ -184,7 +196,7 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
         case 0:
             // send associated messages to MIDI OUT devices
             if (command_map_ && midi_sender_) {
-                const auto original_value = std::stod(value_string);
+                const auto original_value = std::stod(std::string(value_string));
                 for (const auto msg : command_map_->GetMessagesForCommand(command)) {
                     short msgtype{0};
                     switch (msg->msg_id_type) {

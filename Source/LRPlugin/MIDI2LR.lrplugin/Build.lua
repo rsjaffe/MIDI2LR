@@ -146,7 +146,9 @@ file:write ([=[Running Build.lua generates several files that need to be
   moved to their proper positions in the build, including LRCommands.cpp and
   LRCommands.h. Build.lua also generates files for the wiki:
   Limits-Available-Parameters.md and Commands.md. These files need to replace the
-  current files in the wiki.
+  current files in the wiki. And ParamList.lua and MenuList.lua need to be copied
+  back to the repository so that the correct translations are available when starting
+  up the new release for the first time.
   
   Following are two items, first some code that may need to be pasted into
   CommandMenu.cpp, and then test results for the database.
