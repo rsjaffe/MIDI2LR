@@ -419,7 +419,7 @@ local function fSimulateKeys(keys, developonly, tool)
   return function()
     if developonly then
       if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
-        if tool == nil or tool == LrDevelopController.getSelectedTool() then
+        if tool == nil or tool[LrDevelopController.getSelectedTool()] then
           MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
         end
       end
