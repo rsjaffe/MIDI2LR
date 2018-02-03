@@ -33,36 +33,131 @@ local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
 local LrStringUtils       = import 'LrStringUtils'
 
-local precisionList       = { 
-  Temperature=0, Tint=0, Exposure=2, Contrast=0, Highlights=0, Brightness=0, Shadows=0,
-  Whites=0, Blacks=0, Clarity=0, Vibrance=0, Saturation=0,
-  ParametricDarks=0, ParametricLights=0, ParametricShadows=0, ParametricHighlights=0,
-  ParametricShadowSplit=0, ParametricMidtoneSplit=0, ParametricHighlightSplit=0, 
-  SaturationAdjustmentRed=0, SaturationAdjustmentOrange=0, SaturationAdjustmentYellow=0, SaturationAdjustmentGreen=0,
-  SaturationAdjustmentAqua=0, SaturationAdjustmentBlue=0, SaturationAdjustmentPurple=0, SaturationAdjustmentMagenta=0,
-  HueAdjustmentRed=0, HueAdjustmentOrange=0, HueAdjustmentYellow=0, HueAdjustmentGreen=0,
-  HueAdjustmentAqua=0, HueAdjustmentBlue=0, HueAdjustmentPurple=0, HueAdjustmentMagenta=0,
-  LuminanceAdjustmentRed=0, LuminanceAdjustmentOrange=0, LuminanceAdjustmentYellow=0, LuminanceAdjustmentGreen=0,
-  LuminanceAdjustmentAqua=0, LuminanceAdjustmentBlue=0, LuminanceAdjustmentPurple=0, LuminanceAdjustmentMagenta=0,
-  SplitToningShadowHue=0, SplitToningShadowSaturation=0, SplitToningHighlightHue=0, SplitToningHighlightSaturation=0, SplitToningBalance=0,
-  SharpenDetail=0, SharpenRadius=1, SharpenEdgeMasking=0, 
-  LuminanceSmoothing=0, LuminanceNoiseReductionDetail=0, LuminanceNoiseReductionContrast=0,
-  ColorNoiseReduction=0, ColorNoiseReductionDetail=0, ColorNoiseReductionSmoothness=0,
-  LensProfileDistortionScale=0, LensProfileChromaticAberrationScale=0, LensProfileVignettingScale=0,
-  DefringePurpleAmount=0, DefringePurpleHueLo=0, DefringePurpleHueHi=0, DefringeGreenAmount=0, DefringeGreenHueLo=0, DefringeGreenHueHi=0,
-  LensManualDistortionAmount=0, VignetteAmount=0, VignetteMidpoint=0,
-  PerspectiveVertical=0, PerspectiveHorizontal=0, PerspectiveRotate=1, PerspectiveScale=0, PerspectiveAspect=0, PerspectiveX=1, PerspectiveY=1,
-  Dehaze=0,
-  PostCropVignetteAmount=0, PostCropVignetteMidpoint=0, PostCropVignetteFeather=0, 
-  PostCropVignetteRoundness=0, PostCropVignetteHighlightContrast=0,
-  GrainAmount=0, GrainSize=0, GrainFrequency=0,
-  ShadowTint=0, RedHue=0, RedSaturation=0, GreenHue=0, GreenSaturation=0, BlueHue=0, BlueSaturation=0,
-  straightenAngle=3, CropAngle=3, CropLeft=3, CropRight=3, CropTop=3, CropBottom=3,
-  local_Temperature=0, local_Tint=0, local_Exposure=2, local_Contrast=0, 
-  local_Highlights=0, local_Shadows=0, local_Whites2012=0, local_Blacks2012=0,
-  local_Clarity=0, local_Dehaze=0, local_Saturation=0, local_Sharpness=0,
-  local_LuminanceNoise=0, local_Moire=0, local_Defringe=0,
-}
+
+local function showBezel(param, value1, value2)
+  local precisionList = { 
+    Blacks=0,
+    BlueHue=0,
+    BlueSaturation=0,
+    Brightness=0,
+    Clarity=0,
+    ColorNoiseReduction=0,
+    ColorNoiseReductionDetail=0,
+    ColorNoiseReductionSmoothness=0,
+    Contrast=0,
+    CropAngle=3,
+    CropBottom=3,
+    CropLeft=3,
+    CropRight=3,
+    CropTop=3,
+    DefringeGreenAmount=0,
+    DefringeGreenHueHi=0,
+    DefringeGreenHueLo=0,
+    DefringePurpleAmount=0,
+    DefringePurpleHueHi=0,
+    DefringePurpleHueLo=0,
+    Dehaze=0,
+    Exposure=2,
+    GrainAmount=0,
+    GrainFrequency=0,
+    GrainSize=0,
+    GreenHue=0,
+    GreenSaturation=0,
+    Highlights=0,
+    HueAdjustmentAqua=0,
+    HueAdjustmentBlue=0,
+    HueAdjustmentGreen=0,
+    HueAdjustmentMagenta=0,
+    HueAdjustmentOrange=0,
+    HueAdjustmentPurple=0,
+    HueAdjustmentRed=0,
+    HueAdjustmentYellow=0,
+    LensManualDistortionAmount=0,
+    LensProfileChromaticAberrationScale=0,
+    LensProfileDistortionScale=0,
+    LensProfileVignettingScale=0,
+    LuminanceAdjustmentAqua=0,
+    LuminanceAdjustmentBlue=0,
+    LuminanceAdjustmentGreen=0,
+    LuminanceAdjustmentMagenta=0,
+    LuminanceAdjustmentOrange=0,
+    LuminanceAdjustmentPurple=0,
+    LuminanceAdjustmentRed=0,
+    LuminanceAdjustmentYellow=0,
+    LuminanceNoiseReductionContrast=0,
+    LuminanceNoiseReductionDetail=0,
+    LuminanceSmoothing=0,
+    ParametricDarks=0,
+    ParametricHighlightSplit=0,
+    ParametricHighlights=0,
+    ParametricLights=0,
+    ParametricMidtoneSplit=0,
+    ParametricShadowSplit=0,
+    ParametricShadows=0,
+    PerspectiveAspect=0,
+    PerspectiveHorizontal=0,
+    PerspectiveRotate=1,
+    PerspectiveScale=0,
+    PerspectiveVertical=0,
+    PerspectiveX=1,
+    PerspectiveY=1,
+    PostCropVignetteAmount=0,
+    PostCropVignetteFeather=0,
+    PostCropVignetteHighlightContrast=0,
+    PostCropVignetteMidpoint=0,
+    PostCropVignetteRoundness=0,
+    RedHue=0,
+    RedSaturation=0,
+    Saturation=0,
+    SaturationAdjustmentAqua=0,
+    SaturationAdjustmentBlue=0,
+    SaturationAdjustmentGreen=0,
+    SaturationAdjustmentMagenta=0,
+    SaturationAdjustmentOrange=0,
+    SaturationAdjustmentPurple=0,
+    SaturationAdjustmentRed=0,
+    SaturationAdjustmentYellow=0,
+    ShadowTint=0,
+    Shadows=0,
+    SharpenDetail=0,
+    SharpenEdgeMasking=0,
+    SharpenRadius=1,
+    SplitToningBalance=0,
+    SplitToningHighlightHue=0,
+    SplitToningHighlightSaturation=0,
+    SplitToningShadowHue=0,
+    SplitToningShadowSaturation=0,
+    Temperature=0,
+    Tint=0,
+    Vibrance=0,
+    VignetteAmount=0,
+    VignetteMidpoint=0,
+    Whites=0,
+    local_Blacks2012=0,
+    local_Clarity=0,
+    local_Contrast=0,
+    local_Defringe=0,
+    local_Dehaze=0,
+    local_Exposure=2,
+    local_Highlights=0,
+    local_LuminanceNoise=0,
+    local_Moire=0,
+    local_Saturation=0,
+    local_Shadows=0,
+    local_Sharpness=0,
+    local_Temperature=0,
+    local_Tint=0,
+    local_Whites2012=0,
+    straightenAngle=3,
+  }
+  local precision = precisionList[param] or 4
+  local bezelname = ParamList.ParamDisplay[param] or param
+  if value2 then
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision) .. '  ' ..LrStringUtils.numberToString(value2,precision) )
+  else
+    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision))
+  end
+end
 
 local function fApplyFilter(filternumber)
   return function()
@@ -324,7 +419,7 @@ local function fSimulateKeys(keys, developonly, tool)
   return function()
     if developonly then
       if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
-        if tool == nil or tool == LrDevelopController.getSelectedTool() then
+        if tool == nil or tool[LrDevelopController.getSelectedTool()] then
           MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
         end
       end
@@ -353,37 +448,27 @@ local function UpdatePointCurve(settings)
   end
 end
 
-local function showBezel(param, value1, value2)
-  local precision = precisionList[param] or 4
-  local bezelname = ParamList.ParamDisplay[param] or param
-  if value2 then
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision) .. '  ' ..LrStringUtils.numberToString(value2,precision) )
-  else
-    LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision))
-  end
-end
-
 return {
+  ApplySettings = ApplySettings,
   CopySettings = CopySettings,
+  FullRefresh = FullRefresh,
+  LRValueToMIDIValue = LRValueToMIDIValue,
+  MIDIValueToLRValue = MIDIValueToLRValue,
+  PasteSelectedSettings = PasteSelectedSettings,
+  PasteSettings = PasteSettings,
+  SimulateKeys = SimulateKeys,
+  UpdateCameraProfile = UpdateCameraProfile,
+  UpdatePointCurve = UpdatePointCurve,
   fApplyFilter = fApplyFilter,
   fApplyPreset = fApplyPreset,
   fChangeModule = fChangeModule,
   fChangePanel = fChangePanel,
+  fSimulateKeys = fSimulateKeys,
   fToggle01 = fToggle01,
   fToggle01Async = fToggle01Async,
   fToggle1ModN = fToggle1ModN,
   fToggleTF = fToggleTF,
   fToggleTFasync = fToggleTFasync,
   fToggleTool = fToggleTool,
-  FullRefresh = FullRefresh,
-  PasteSelectedSettings = PasteSelectedSettings,
-  PasteSettings = PasteSettings,
-  ApplySettings = ApplySettings,
-  MIDIValueToLRValue = MIDIValueToLRValue,
-  LRValueToMIDIValue = LRValueToMIDIValue,
-  UpdateCameraProfile = UpdateCameraProfile,
-  fSimulateKeys = fSimulateKeys,
-  SimulateKeys = SimulateKeys,
-  UpdatePointCurve = UpdatePointCurve,
   showBezel = showBezel
 }

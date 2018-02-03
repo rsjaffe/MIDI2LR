@@ -18,30 +18,33 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 local Info           = require 'Info'
 local LrApplication  = import 'LrApplication'
-local LrDialogs      = import 'LrDialogs'
+local LrFileUtils    = import 'LrFileUtils'
 local LrLocalization = import 'LrLocalization'
 local LrPathUtils    = import 'LrPathUtils'
 local LrSystemInfo   = import 'LrSystemInfo'
 
 local function writeDebug()
-  local mess = 'Lightroom version ' .. LrApplication.versionString() .. '\nOperating system '
-  .. LrSystemInfo.summaryString() .. '\nPlugin version ' .. Info.VERSION.major 
-  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
-  if Info.AppVersion then
-    mess = mess .. '\nApp version ' .. Info.AppVersion
+  local testfile = LrPathUtils.child(_PLUGIN.path,'Client.lua')
+  local writeable = ''
+  if not LrFileUtils.isWritable(testfile) then
+    writeable = '\nError: plugin directory is not writeable'
   end
-  mess = mess .. '\nLightroom language ' .. LrLocalization.currentLanguage() 
-  if Info.AppLocale then
-    mess = mess .. '\nSystem language ' .. Info.AppLocale
-  end
-  mess = mess .. '\nPlugin path ' .._PLUGIN.path 
-  if Info.AppPath then
-    mess = mess .. '\nApp path ' .. Info.AppPath
-  end
-  mess = mess .. '\nPreferences path ' .. LrPathUtils.getStandardFilePath ('appPrefs') 
-  .. '\nApplication data path ' .. LrPathUtils.getStandardFilePath ('appData')
 
-
+  local mess = '\LIGHTROOM -----------'
+  .. '\nOperating system ' .. LrSystemInfo.summaryString()
+  .. '\nLightroom version ' .. LrApplication.versionString()
+  .. '\nLightroom language ' .. LrLocalization.currentLanguage() 
+  .. '\nLightroom preferences path ' .. LrPathUtils.getStandardFilePath ('appPrefs') 
+  .. '\nLightroom application data path ' .. LrPathUtils.getStandardFilePath ('appData')
+  .. '\nPLUGIN -----------' 
+  .. '\nMIDI2LR plugin version ' .. Info.VERSION.major  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
+  .. '\nMIDI2LR plugin path ' .._PLUGIN.path .. writeable
+  if (type(Info.AppInfo) == 'table') then
+    mess = mess .. '\nAPP -----------'
+    for _,v in ipairs(Info.AppInfo) do
+      mess = mess .. '\n' .. v
+    end
+  end
   local datafile = LrPathUtils.child(LrPathUtils.parent(_PLUGIN.path), 'MIDI2LRinfo.txt')
   local file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
   file:write(mess)

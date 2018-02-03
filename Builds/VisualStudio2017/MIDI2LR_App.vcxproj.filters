@@ -301,6 +301,12 @@
     <ClCompile Include="..\..\Source\ControlsModel.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\DebugInfo.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\DebugInfo.mm">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1669,6 +1675,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ControlsModel.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DebugInfo.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LR_IPC_In.h">

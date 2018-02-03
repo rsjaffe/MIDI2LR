@@ -24,7 +24,6 @@ local Keys              = require 'Keys'
 local Limits            = require 'Limits'
 local LocalPresets      = require 'LocalPresets'
 local OU                = require 'OptionsUtilities'
-local Paste             = require 'Paste'
 local Preferences       = require 'Preferences'
 local Profiles          = require 'Profiles'
 local LrBinding         = import 'LrBinding'
@@ -55,11 +54,6 @@ local function setOptions()
       f:view{
         bind_to_object = properties, -- default bound table
         f:tab_view {
-          f:tab_view_item {
-            title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections'),
-            identifier = 'pasteselections',
-            Paste.StartDialog(properties,f),
-          }, -- tab_view_item
           f:tab_view_item{
             title = LOC("$$$/CRaw/Style/Profiles=Profiles"),
             identifier = 'profiles',
@@ -107,7 +101,6 @@ local function setOptions()
       Keys.EndDialog(properties,result)
       Limits.EndDialog(properties,result)
       LocalPresets.EndDialog(properties,result)
-      Paste.EndDialog(properties,result)
       Profiles.EndDialog(properties,result)
       if result == 'ok' then
         local LrDevelopController = import 'LrDevelopController'

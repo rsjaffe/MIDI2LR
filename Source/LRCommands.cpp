@@ -141,9 +141,6 @@ const std::vector<std::string> LrCommandList::Develop = {
     "Show Develop",
     "Lightroom Copy Settings",
     "Lightroom Paste Settings",
-    "Copy Settings",
-    "Paste Settings",
-    "Paste Selected Settings",
     "Create Virtual Copy",
     "Reset Settings",
     "Reset Last Modified",
@@ -202,7 +199,6 @@ const std::vector<std::string> LrCommandList::BasicAdjustments = {
 
 const std::vector<std::string> LrCommandList::ToneCurve = {
     "Show Tone Curve",
-    "Enable Tone Curve",
     "Dark Tones",
     "Light Tones",
     "Shadow Tones",
@@ -797,9 +793,6 @@ const std::vector<std::string> LrCommandList::LrStringList = {
     "SwToMdevelop",
     "LRCopy",
     "LRPaste",
-    "CopySettings",
-    "PasteSettings",
-    "PasteSelectedSettings",
     "VirtualCopy",
     "ResetAll",
     "ResetLast",
@@ -854,7 +847,6 @@ const std::vector<std::string> LrCommandList::LrStringList = {
     "ResetSaturation",
     /* Tone Curve */
     "RevealPanelTone",
-    "EnableToneCurve",
     "ParametricDarks",
     "ParametricLights",
     "ParametricShadows",

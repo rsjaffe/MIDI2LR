@@ -104,12 +104,14 @@ LrTasks.startAsyncTask(
 
     local ACTIONS = {
       AdjustmentBrush                        = CU.fToggleTool('localized'),
+      AppInfoClear                           = function() Info.AppInfo = {}; end,
+      AppInfoDone                            = DebugInfo.write,
       AutoLateralCA                          = CU.fToggle01('AutoLateralCA'),
       AutoTone                               = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end,
-      BrushFeatherLarger                     = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKeyShifted,true,'localized'),
-      BrushFeatherSmaller                    = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKeyShifted,true,'localized'),
-      BrushSizeLarger                        = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKey,true,'localized'),
-      BrushSizeSmaller                       = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true,'localized'),
+      BrushFeatherLarger                     = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKeyShifted,true,{dust = true, localized = true}),
+      BrushFeatherSmaller                    = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKeyShifted,true,{dust = true, localized = true}),
+      BrushSizeLarger                        = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKey,true,{dust = true, localized = true}),
+      BrushSizeSmaller                       = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true,{dust = true, localized = true}),
       CropConstrainToWarp                    = CU.fToggle01('CropConstrainToWarp'),
       ConvertToGrayscale                     = CU.fToggleTFasync('ConvertToGrayscale'),
       CopySettings                           = CU.CopySettings,
@@ -438,9 +440,7 @@ LrTasks.startAsyncTask(
     }
 
     local SETTINGS = {
-      AppLocale          = function(value) Info.AppLocale = value end,
-      AppPath            = function(value) Info.AppPath = value; DebugInfo.write() end,
-      AppVersion         = function(value) Info.AppVersion = value end,
+      AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
       ChangedToDirectory = function(value) Profiles.setDirectory(value) end,
       ChangedToFile      = function(value) Profiles.setFile(value) end,
       ChangedToFullPath  = function(value) Profiles.setFullPath(value) end,
