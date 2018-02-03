@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include <string>
 #include <utility>
+#include "DebugInfo.h"
 #include "LR_IPC_Out.h"
 #include "ProfileManager.h"
 using namespace std::literals::string_literals;
@@ -77,13 +78,15 @@ void SettingsManager::SetProfileDirectory(const juce::String& profile_directory_
 
 void SettingsManager::ConnectionCallback(bool connected)
 {
+    DebugInfo db{};
     if (connected)
         if (const auto ptr = lr_ipc_out_.lock()) {
             ptr->SendCommand("Pickup "s + std::to_string(static_cast<unsigned>(GetPickupEnabled())) + '\n');
-            ptr->SendCommand("AppLocale "s + juce::SystemStats::getDisplayLanguage().toStdString() + '\n');
-            ptr->SendCommand("AppVersion "s + ProjectInfo::versionString + '\n');
-            ptr->SendCommand("AppPath "s +
-                juce::File::getSpecialLocation(juce::File::currentApplicationFile).getFullPathName().toStdString() + '\n');
+            ptr->SendCommand("AppInfoClear 1\n"s);
+            while (const auto info = db.GetInfo()) {
+                ptr->SendCommand("AppInfo "s + *info + '\n');
+            }
+            ptr->SendCommand("AppInfoDone 1\n"s);
         }
 }
 

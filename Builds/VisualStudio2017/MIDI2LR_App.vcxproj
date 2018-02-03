@@ -168,6 +168,7 @@
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>
     <ClCompile Include="..\..\Source\CommandTableModel.cpp"/>
     <ClCompile Include="..\..\Source\ControlsModel.cpp"/>
+    <ClCompile Include="..\..\Source\DebugInfo.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
     <ClCompile Include="..\..\Source\LRCommands.cpp"/>
@@ -1403,6 +1404,7 @@
     <ClInclude Include="..\..\Source\CommandTableModel.h"/>
     <ClInclude Include="..\..\MoodyCamel\concurrentqueue.h"/>
     <ClInclude Include="..\..\Source\ControlsModel.h"/>
+    <ClInclude Include="..\..\Source\DebugInfo.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>
     <ClInclude Include="..\..\Source\LRCommands.h"/>

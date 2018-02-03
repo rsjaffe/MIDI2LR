@@ -45,6 +45,9 @@
       <FILE id="zLeGKN" name="ControlsModel.cpp" compile="1" resource="0"
             file="Source/ControlsModel.cpp"/>
       <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="Source/ControlsModel.h"/>
+      <FILE id="XJw3l2" name="DebugInfo.cpp" compile="1" resource="0" file="Source/DebugInfo.cpp"/>
+      <FILE id="ayq2tF" name="DebugInfo.h" compile="0" resource="0" file="Source/DebugInfo.h"/>
+      <FILE id="pcD8nw" name="DebugInfo.mm" compile="1" resource="0" file="Source/DebugInfo.mm"/>
       <FILE id="rBAqs7" name="LR_IPC_In.cpp" compile="1" resource="0" file="Source/LR_IPC_In.cpp"/>
       <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
       <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
