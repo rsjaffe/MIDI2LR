@@ -254,8 +254,8 @@ DebugInfo::DebugInfo()
 {
     using namespace std::string_literals;
     info.emplace_back("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
-    info.emplace_back("App version "s + ProjectInfo::versionString);
-    info.emplace_back("MIDI2LR app path "s +
+    info.emplace_back("Version "s + ProjectInfo::versionString);
+    info.emplace_back("App path "s +
         juce::File::getSpecialLocation(juce::File::currentApplicationFile).getFullPathName().toStdString());
     info.emplace_back("Keyboard type "s + rsj::GetKeyboardLayout());
 }

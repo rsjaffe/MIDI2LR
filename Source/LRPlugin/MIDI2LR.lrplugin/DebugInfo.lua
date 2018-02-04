@@ -30,17 +30,17 @@ local function writeDebug()
     writeable = '\nError: plugin directory is not writeable'
   end
 
-  local mess = '\LIGHTROOM -----------'
+  local mess = '----------- \LIGHTROOM -----------'
   .. '\nOperating system ' .. LrSystemInfo.summaryString()
-  .. '\nLightroom version ' .. LrApplication.versionString()
-  .. '\nLightroom language ' .. LrLocalization.currentLanguage() 
-  .. '\nLightroom preferences path ' .. LrPathUtils.getStandardFilePath ('appPrefs') 
-  .. '\nLightroom application data path ' .. LrPathUtils.getStandardFilePath ('appData')
-  .. '\nPLUGIN -----------' 
-  .. '\nMIDI2LR plugin version ' .. Info.VERSION.major  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
-  .. '\nMIDI2LR plugin path ' .._PLUGIN.path .. writeable
+  .. '\nVersion ' .. LrApplication.versionString()
+  .. '\nLanguage ' .. LrLocalization.currentLanguage() 
+  .. '\nPreferences path ' .. LrPathUtils.getStandardFilePath ('appPrefs') 
+  .. '\nLApplication data path ' .. LrPathUtils.getStandardFilePath ('appData')
+  .. '\n----------- PLUGIN -----------' 
+  .. '\nVersion ' .. Info.VERSION.major  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
+  .. '\nPath ' .._PLUGIN.path .. writeable
   if (type(Info.AppInfo) == 'table') then
-    mess = mess .. '\nAPP -----------'
+    mess = mess .. '\n----------- APP -----------'
     for _,v in ipairs(Info.AppInfo) do
       mess = mess .. '\n' .. v
     end
