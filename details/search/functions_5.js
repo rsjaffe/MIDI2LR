@@ -10,6 +10,8 @@ var searchData=
   ['getcontrol',['GetControl',['../class_nrpn_message.html#ad51ca4198c5806466a9eb193a19e13bf',1,'NrpnMessage']]],
   ['getheight',['getHeight',['../struct_resizable_layout_1_1_rect.html#a7844e2ed42488574d012fdc0f6ce21dd',1,'ResizableLayout::Rect']]],
   ['getindexofcommand',['GetIndexOfCommand',['../class_lr_command_list.html#a2077f1e22e2682f0165f54318292da3c',1,'LrCommandList']]],
+  ['getinfo',['GetInfo',['../class_debug_info.html#a781249ed3f05bf017ec145ef8805d21a',1,'DebugInfo']]],
+  ['getkeyboardlayout',['GetKeyboardLayout',['../namespacersj.html#a778472503c5212546ea3b720b96f0661',1,'rsj']]],
   ['getlastversionfound',['GetLastVersionFound',['../class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c',1,'SettingsManager']]],
   ['getmaximumheight',['getMaximumHeight',['../class_resizable_child.html#a91c544f2152d9df8e0509ddf8374be3c',1,'ResizableChild']]],
   ['getmaximumwidth',['getMaximumWidth',['../class_resizable_child.html#a4a8eb736e0d2433f969b7e4fc3c4f395',1,'ResizableChild']]],

@@ -1,15 +1,9 @@
 var searchData=
 [
-  ['main_2ecpp',['Main.cpp',['../_main_8cpp.html',1,'']]],
-  ['maincomponent_2ecpp',['MainComponent.cpp',['../_main_component_8cpp.html',1,'']]],
-  ['maincomponent_2eh',['MainComponent.h',['../_main_component_8h.html',1,'']]],
-  ['mainwindow_2ecpp',['MainWindow.cpp',['../_main_window_8cpp.html',1,'']]],
-  ['mainwindow_2eh',['MainWindow.h',['../_main_window_8h.html',1,'']]],
-  ['midiprocessor_2ecpp',['MIDIProcessor.cpp',['../_m_i_d_i_processor_8cpp.html',1,'']]],
-  ['midiprocessor_2eh',['MIDIProcessor.h',['../_m_i_d_i_processor_8h.html',1,'']]],
-  ['midisender_2ecpp',['MIDISender.cpp',['../_m_i_d_i_sender_8cpp.html',1,'']]],
-  ['midisender_2eh',['MIDISender.h',['../_m_i_d_i_sender_8h.html',1,'']]],
-  ['midiutilities_2ecpp',['MidiUtilities.cpp',['../_midi_utilities_8cpp.html',1,'']]],
-  ['midiutilities_2eh',['MidiUtilities.h',['../_midi_utilities_8h.html',1,'']]],
-  ['misc_2eh',['Misc.h',['../_misc_8h.html',1,'']]]
+  ['lr_5fipc_5fin_2ecpp',['LR_IPC_In.cpp',['../_l_r___i_p_c___in_8cpp.html',1,'']]],
+  ['lr_5fipc_5fin_2eh',['LR_IPC_In.h',['../_l_r___i_p_c___in_8h.html',1,'']]],
+  ['lr_5fipc_5fout_2ecpp',['LR_IPC_Out.cpp',['../_l_r___i_p_c___out_8cpp.html',1,'']]],
+  ['lr_5fipc_5fout_2eh',['LR_IPC_Out.h',['../_l_r___i_p_c___out_8h.html',1,'']]],
+  ['lrcommands_2ecpp',['LRCommands.cpp',['../_l_r_commands_8cpp.html',1,'']]],
+  ['lrcommands_2eh',['LRCommands.h',['../_l_r_commands_8h.html',1,'']]]
 ];

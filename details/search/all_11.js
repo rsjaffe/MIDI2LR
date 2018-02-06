@@ -63,7 +63,7 @@ var searchData=
   ['start',['Start',['../class_lr_ipc_out_1_1connect__timer.html#a7c610a53a1c9f0a879adca41f724d1b7',1,'LrIpcOut::connect_timer']]],
   ['state',['State',['../struct_resizable_layout_1_1_state.html',1,'ResizableLayout::State'],['../struct_resizable_layout_1_1_state.html#a2819d36795450657c3e9a0fb21e6833e',1,'ResizableLayout::State::State(juce::Component *component=nullptr) noexcept'],['../struct_resizable_layout_1_1_state.html#a4443b5ff552634ea53fae43153375646',1,'ResizableLayout::State::State(const State &amp;other) noexcept']]],
   ['stop',['Stop',['../class_lr_ipc_out_1_1connect__timer.html#ad5f7aade76ffd24384f44ecff2eec5df',1,'LrIpcOut::connect_timer']]],
-  ['style',['Style',['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8',1,'ResizableLayout::Style()'],['../struct_resizable_layout_1_1_anchor.html#aa8ac3ce7d9c551d0c5b70b9ec2e87f0a',1,'ResizableLayout::Anchor::style()']]],
+  ['style',['style',['../struct_resizable_layout_1_1_anchor.html#aa8ac3ce7d9c551d0c5b70b9ec2e87f0a',1,'ResizableLayout::Anchor::style()'],['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8',1,'ResizableLayout::Style()']]],
   ['stylefixedaspect',['styleFixedAspect',['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8af8fff0fce0d91bee082bb2d92a77e73b',1,'ResizableLayout']]],
   ['stylestretch',['styleStretch',['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70',1,'ResizableLayout']]],
   ['switch_5fstate_5f',['switch_state_',['../class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6',1,'ProfileManager']]],

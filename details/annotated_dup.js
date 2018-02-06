@@ -11,6 +11,7 @@ var annotated_dup =
     [ "CommandTable", "class_command_table.html", "class_command_table" ],
     [ "CommandTableModel", "class_command_table_model.html", "class_command_table_model" ],
     [ "ControlsModel", "class_controls_model.html", "class_controls_model" ],
+    [ "DebugInfo", "class_debug_info.html", "class_debug_info" ],
     [ "LrCommandList", "class_lr_command_list.html", "class_lr_command_list" ],
     [ "LrIpcIn", "class_lr_ipc_in.html", "class_lr_ipc_in" ],
     [ "LrIpcOut", "class_lr_ipc_out.html", "class_lr_ipc_out" ],

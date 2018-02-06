@@ -36,6 +36,7 @@ var hierarchy =
     ] ],
     [ "ControlsModel", "class_controls_model.html", null ],
     [ "rsj::Counter< T >", "structrsj_1_1_counter.html", null ],
+    [ "DebugInfo", "class_debug_info.html", null ],
     [ "DocumentWindow", null, [
       [ "MainWindow", "class_main_window.html", null ]
     ] ],
