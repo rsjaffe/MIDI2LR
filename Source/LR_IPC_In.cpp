@@ -156,8 +156,8 @@ void LrIpcIn::timerCallback()
 namespace {
     inline void Trim(std::string_view& value)
     {
-        value.remove_prefix(std::min(value.find_first_not_of(" \n"), value.size()));
-        if (const auto tr = value.find_last_not_of(" \t"); tr != value.npos)
+        value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
+        if (const auto tr = value.find_last_not_of(" \t\n"); tr != value.npos)
             value.remove_suffix(value.size() - tr);
     }
 };
@@ -172,9 +172,9 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
     // process input into [parameter] [Value]
     std::string_view v{line};
     Trim(v);
-    auto value_string{v.substr(v.find_first_of(" \t") + 1)};
-    value_string.remove_prefix(std::min(value_string.find_first_not_of(" \n"), value_string.size()));
-    const auto command{std::string(v.substr(0, v.find_first_of(" \t")))}; //use this a lot, so convert to string once
+    auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
+    value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
+    const auto command{std::string(v.substr(0, v.find_first_of(" \t\n")))}; //use this a lot, so convert to string once
 
     switch (cmds.count(command) ? cmds.at(command) : 0) {
         case 1: //SwitchProfile
@@ -186,7 +186,7 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
             std::bitset<3> modifiers{unsigned(value_string[0] - 48)}; //'0' is decimal 48
             //trim twice on purpose: first digit, then spaces
             value_string.remove_prefix(1);
-            value_string.remove_prefix(std::min(value_string.find_first_not_of(" \n"), value_string.size()));
+            value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
             rsj::SendKeyDownUp(std::string(value_string), modifiers[0], modifiers[1], modifiers[2]);
             break;
         }
