@@ -158,7 +158,7 @@ namespace {
     {
         value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
         if (const auto tr = value.find_last_not_of(" \t\n"); tr != value.npos)
-            value.remove_suffix(value.size() - tr);
+            value.remove_suffix(value.size() - tr - 1);
     }
 };
 
