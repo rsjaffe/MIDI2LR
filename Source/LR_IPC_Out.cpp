@@ -62,6 +62,7 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* con
 
 void LrIpcOut::SendCommand(std::string&& command)
 {
+    if (sending_stopped_) return;
     const thread_local moodycamel::ProducerToken ptok(command_);
     command_.enqueue(ptok, std::move(command));
     juce::AsyncUpdater::triggerAsyncUpdate();
@@ -72,19 +73,19 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     const rsj::MidiMessageId message{mm};
     static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
         {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
-        {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
-        {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
-        {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
-        {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
-        {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
-        {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
-        {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
-        {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
-        {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
-        {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
-        {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
-        {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
-        {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
+    {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
+    {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
+    {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
+    {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
+    {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
+    {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
+    {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
+    {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
+    {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
+    {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
+    {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
+    {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
+    {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
     };
     if (!command_map_->MessageExistsInMap(message) ||
         command_map_->GetCommandforMessage(message) == "Unmapped"s ||
@@ -123,16 +124,34 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
     SendCommand(std::move(command_to_send));
 }
 
+void LrIpcOut::Stop()
+{
+    sending_stopped_ = true;
+    auto connected = isConnected();
+    for (const auto& cb : callbacks_)
+        cb(connected, true);
+}
+
+void LrIpcOut::Restart()
+{
+    sending_stopped_ = false;
+    auto connected = isConnected();
+    for (const auto& cb : callbacks_)
+        cb(connected, false);
+    //resync controls
+    SendCommand("FullRefresh 1\n"s);
+}
+
 void LrIpcOut::connectionMade()
 {
     for (const auto& cb : callbacks_)
-        cb(true);
+        cb(true, sending_stopped_);
 }
 
 void LrIpcOut::connectionLost()
 {
     for (const auto& cb : callbacks_)
-        cb(false);
+        cb(false, sending_stopped_);
 }
 
 void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/)

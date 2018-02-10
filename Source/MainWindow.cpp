@@ -29,13 +29,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 MainWindow::MainWindow(juce::String name): juce::DocumentWindow{name,
 juce::Colours::lightgrey,
 juce::DocumentWindow::minimiseButton |
-juce::DocumentWindow::closeButton}, juce::Timer()
+juce::DocumentWindow::closeButton}
 {
     juce::TopLevelWindow::setUsingNativeTitleBar(true);
     window_content_ = new MainContentComponent{};
-
     juce::ResizableWindow::setContentOwned(window_content_, true);
-
     juce::Component::centreWithSize(getWidth(), getHeight());
     juce::Component::setVisible(true);
 }
@@ -47,35 +45,7 @@ void MainWindow::Init(CommandMap* const command_map,
     SettingsManager* const settings_manager,
     std::shared_ptr<MidiSender>& midi_sender)
 {
-    // get the auto time setting
-    auto_hide_counter_ = (settings_manager) ? settings_manager->GetAutoHideTime() : 0;
-
-    //start timing
-    juce::Timer::startTimer(1000);
-
     if (window_content_)
         window_content_->Init(command_map, std::move(lr_ipc_out),
             midi_processor, profile_manager, settings_manager, midi_sender);
-}
-
-void MainWindow::timerCallback()
-{
-    auto decreased_value = false;
-
-    if (auto_hide_counter_ > 0) {
-        //decrement counter
-        --auto_hide_counter_;
-        decreased_value = true;
-    }
-
-    //set the new timer text
-    window_content_->SetTimerText(auto_hide_counter_);
-
-    if (auto_hide_counter_ == 0) {
-        //first stop the timer so it will not be called again
-        juce::Timer::stopTimer();
-        //check if the window is not already minimized
-        if (!juce::ResizableWindow::isMinimised() && decreased_value)
-            juce::DocumentWindow::minimiseButtonPressed();
-    }
 }

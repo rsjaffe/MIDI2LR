@@ -54,7 +54,7 @@ namespace {
     constexpr int kCommandLabelY = kMainHeight - 100;
     constexpr int kRemoveRowY = kMainHeight - 75;
     constexpr int kRescanY = kMainHeight - 50;
-    constexpr int kCurrentStatusY = kMainHeight - 30;
+    constexpr int kDisconnect = kMainHeight - 25;
 }
 
 MainContentComponent::MainContentComponent(): ResizableLayout{this}
@@ -171,12 +171,12 @@ void MainContentComponent::Init(CommandMap* const command_map,
     addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(rescan_button_);
 
-    // adding the current status label, used for counting down.
-    current_status_.setBounds(kMainLeft, kCurrentStatusY, kFullWidth, kStandardHeight);
-    addToLayout(&current_status_, anchorMidLeft, anchorMidRight);
-    current_status_.setJustificationType(juce::Justification::centred);
-    SetLabelSettings(current_status_);
-    addAndMakeVisible(current_status_);
+    // Disconnect button
+    disconnect_button_.addListener(this);
+    disconnect_button_.setBounds(kMainLeft, kDisconnect, kFullWidth, kStandardHeight);
+    disconnect_button_.setClickingTogglesState(true);
+    addToLayout(&disconnect_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(disconnect_button_);
 
     if (settings_manager_) {
         // Try to load a default.xml if the user has not set a profile directory
@@ -233,11 +233,17 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
     triggerAsyncUpdate();
 }
 
-void MainContentComponent::LrIpcOutCallback(bool connected)
+void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked)
 {
     if (connected) {
-        connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
-        connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
+        if (sending_blocked) {
+            connection_label_.setText("Sending halted", juce::NotificationType::dontSendNotification);
+            connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
+        }
+        else {
+            connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
+            connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
+        }
     }
     else {
         connection_label_.setText("Not connected to LR", juce::NotificationType::dontSendNotification);
@@ -247,6 +253,7 @@ void MainContentComponent::LrIpcOutCallback(bool connected)
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
+    static auto is_disconnected = false;
     if (button == &rescan_button_) {
         // Re-enumerate MIDI IN and OUT devices
 
@@ -264,6 +271,18 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             command_table_model_.RemoveAllRows();
             //command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
+        }
+    }
+    else if (button == &disconnect_button_) {
+        if (const auto ptr = lr_ipc_out_.lock()) {
+            if (is_disconnected) {
+                ptr->Restart();
+                is_disconnected = false;
+            }
+            else {
+                ptr->Stop();
+                is_disconnected = true;
+            }
         }
     }
     else if (button == &save_button_) {
@@ -348,15 +367,6 @@ void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element, const j
         // Send new CC parameters to MIDI Out devices
     if (const auto ptr = lr_ipc_out_.lock())
         ptr->SendCommand("FullRefresh 1\n"s);
-}
-
-void MainContentComponent::SetTimerText(int time_value)
-{
-    if (time_value > 0)
-        current_status_.setText(juce::String::formatted("Hiding in %i Sec.", time_value),
-            juce::NotificationType::dontSendNotification);
-    else
-        current_status_.setText("", juce::NotificationType::dontSendNotification);
 }
 
 void MainContentComponent::SetLabelSettings(juce::Label& label_to_set)

@@ -33,7 +33,7 @@ class MainContentComponent;
 class ProfileManager;
 class SettingsManager;
 
-class MainWindow final: private juce::DocumentWindow, private juce::Timer {
+class MainWindow final: private juce::DocumentWindow {
 public:
     explicit MainWindow(juce::String name);
     MainWindow& operator=(const MainWindow&) = delete;
@@ -61,8 +61,6 @@ private:
         juce::JUCEApplication::getInstance()->systemRequestedQuit();
     }
     // the timer callback function
-    void timerCallback() override;
-    int auto_hide_counter_{0};
     MainContentComponent *window_content_;
 };
 

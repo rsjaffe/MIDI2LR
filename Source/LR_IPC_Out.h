@@ -44,15 +44,17 @@ public:
     virtual ~LrIpcOut();
     void Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor);
 
-    template<class T> void AddCallback(T* const  object, void(T::* const mf)(bool))
+    template<class T> void AddCallback(T* const  object, void(T::* const mf)(bool,bool))
     {
-        callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
+        callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1, std::placeholders::_2));
     }
 
     // sends a command to the plugin
     void SendCommand(std::string&& command);
 
     void MidiCmdCallback(rsj::MidiMessage);
+    void Stop();
+    void Restart();
 
 private:
     // IPC interface
@@ -65,8 +67,9 @@ private:
     const CommandMap* const command_map_{};
     ControlsModel* const controls_model_{};
     moodycamel::ConcurrentQueue<std::string> command_;
+    bool sending_stopped_{false};
     std::shared_ptr<MidiSender> midi_sender_{nullptr};
-    std::vector<std::function<void(bool)>> callbacks_{};
+    std::vector<std::function<void(bool,bool)>> callbacks_{};
     // helper classes
     class connect_timer:public juce::Timer {
     public:

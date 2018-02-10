@@ -71,8 +71,6 @@ public:
 
     void MidiCmdCallback(rsj::MidiMessage);
 
-    void ConnectionCallback(bool);
-
 private:
     void MapCommand(const rsj::MidiMessageId& msg);
     // AsyncUpdate interface
@@ -91,6 +89,7 @@ private:
     std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
     std::weak_ptr<LrIpcOut> lr_ipc_out_;
     SwitchState switch_state_{SwitchState::kNone};
+    void ConnectionCallback(bool, bool);
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

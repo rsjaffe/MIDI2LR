@@ -59,12 +59,7 @@ public:
         SettingsManager* const settings_manager,
         std::shared_ptr<MidiSender>& midi_sender);
 
-    void MidiCmdCallback(rsj::MidiMessage);
-
-    void LrIpcOutCallback(bool);
-
     void ProfileChanged(juce::XmlElement* elem, const juce::String& file_name);
-    void SetTimerText(int time_value);
 
 protected:
     void SetLabelSettings(juce::Label& lbl_to_set);
@@ -79,17 +74,20 @@ private:
     // Timer interface
     void timerCallback() override;
 
+    void LrIpcOutCallback(bool, bool);
+    void MidiCmdCallback(rsj::MidiMessage);
+
     CommandMap* command_map_{nullptr};
     CommandTable command_table_{"Table", nullptr};
     CommandTableModel command_table_model_{};
     juce::DropShadowEffect title_shadow_;
     juce::Label command_label_{"Command", ""};
     juce::Label connection_label_{"Connection", "Not connected to LR"};
-    juce::Label current_status_{"CurrentStatus", "no extra info"};
     juce::Label profile_name_label_{"ProfileNameLabel", ""};
     juce::Label title_label_{"Title", "MIDI2LR"};
     juce::Label version_label_{"Version", "Version " + juce::String{ProjectInfo::versionString}};
     juce::String last_command_;
+    juce::TextButton disconnect_button_{"Halt sending to Lightroom"};
     juce::TextButton load_button_{"Load"};
     juce::TextButton remove_row_button_{"Clear ALL rows"};
     juce::TextButton rescan_button_{"Rescan MIDI devices"};

@@ -144,9 +144,9 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
     }
 }
 
-void ProfileManager::ConnectionCallback(bool connected)
+void ProfileManager::ConnectionCallback(bool connected, bool blocked)
 {
-    if (connected) {
+    if (connected && !blocked) {
         if (const auto ptr = lr_ipc_out_.lock()) {
             ptr->SendCommand("ChangedToDirectory "s +
                 juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +

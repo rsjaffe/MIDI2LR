@@ -76,11 +76,11 @@ void SettingsManager::SetProfileDirectory(const juce::String& profile_directory_
     profile_manager_->SetProfileDirectory(profile_directory_name);
 }
 
-void SettingsManager::ConnectionCallback(bool connected)
+void SettingsManager::ConnectionCallback(bool connected, bool blocked)
 {
-    DebugInfo db{};
-    if (connected)
+    if (connected && !blocked)
         if (const auto ptr = lr_ipc_out_.lock()) {
+            DebugInfo db{};
             ptr->SendCommand("Pickup "s + std::to_string(static_cast<unsigned>(GetPickupEnabled())) + '\n');
             ptr->SendCommand("AppInfoClear 1\n"s);
             while (const auto info = db.GetInfo()) {
@@ -88,6 +88,7 @@ void SettingsManager::ConnectionCallback(bool connected)
             }
             ptr->SendCommand("AppInfoDone 1\n"s);
         }
+    }
 }
 
 int SettingsManager::GetAutoHideTime() const noexcept

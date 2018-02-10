@@ -232,6 +232,7 @@ namespace {
         {0x0000046a, "Yoruba"}
     };
 };
+
 std::string rsj::GetKeyboardLayout()
 {
     using namespace std::string_literals;
