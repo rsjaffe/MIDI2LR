@@ -253,7 +253,6 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
-    static auto is_disconnected = false;
     if (button == &rescan_button_) {
         // Re-enumerate MIDI IN and OUT devices
 
@@ -275,14 +274,10 @@ void MainContentComponent::buttonClicked(juce::Button* button)
     }
     else if (button == &disconnect_button_) {
         if (const auto ptr = lr_ipc_out_.lock()) {
-            if (is_disconnected) {
-                ptr->Restart();
-                is_disconnected = false;
-            }
-            else {
+            if (disconnect_button_.getToggleState())
                 ptr->Stop();
-                is_disconnected = true;
-            }
+            else
+                ptr->Restart();
         }
     }
     else if (button == &save_button_) {

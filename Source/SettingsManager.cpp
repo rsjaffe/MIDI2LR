@@ -88,7 +88,6 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
             }
             ptr->SendCommand("AppInfoDone 1\n"s);
         }
-    }
 }
 
 int SettingsManager::GetAutoHideTime() const noexcept
