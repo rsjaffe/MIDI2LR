@@ -95,14 +95,14 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
         size_t index = 1;
         auto submenu_tick_set = false;
         juce::PopupMenu main_menu;
-        main_menu.addItem(gsl::narrow_cast<int>(index), "Unmapped", true, submenu_tick_set = (index == selected_item_));
+        main_menu.addItem(gsl::narrow_cast<int>(index), "Unmapped", true, submenu_tick_set = index == selected_item_);
         index++;
         // add each submenu
         for (size_t menu_index = 0; menu_index < menus_.size(); ++menu_index) {
             juce::PopupMenu sub_menu;
             for (const auto& command : menu_entries_[menu_index]) {
                 auto already_mapped = false;
-                if ((index - 1 < LrCommandList::LrStringList.size()) && (command_map_))
+                if (index - 1 < LrCommandList::LrStringList.size() && command_map_)
                     already_mapped =
                     command_map_->CommandHasAssociatedMessage(LrCommandList::LrStringList[index - 1]);
 
@@ -120,11 +120,11 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             // entries is selected)
             main_menu.addSubMenu(menus_[menu_index], sub_menu, true, nullptr,
                 selected_item_ < index && !submenu_tick_set);
-            submenu_tick_set |= (selected_item_ < index && !submenu_tick_set);
+            submenu_tick_set |= selected_item_ < index && !submenu_tick_set;
         }
 
         const auto result = static_cast<size_t>(main_menu.show());
-        if ((result) && (command_map_)) {
+        if (result && command_map_) {
             // user chose a different command, remove previous command mapping
             // associated to this menu
             if (selected_item_ < std::numeric_limits<size_t>::max())

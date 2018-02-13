@@ -193,7 +193,7 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement * const root)
         return;
     RemoveAllRows();
     const auto* setting = root->getFirstChildElement();
-    while ((setting) && (command_map_)) {
+    while (setting && command_map_) {
         if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};

@@ -39,7 +39,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
-#include "MainComponent.h"
 #include "MainWindow.h"
 #include "MIDIProcessor.h"
 #include "MIDISender.h"
@@ -95,7 +94,7 @@ public:
         // loop won't be run.
 
         if (command_line != kShutDownString) {
-            cerealLoad_();
+            CerealLoad();
             midi_processor_->Init();
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
@@ -141,7 +140,7 @@ public:
         if (lr_ipc_in_)
             lr_ipc_in_->PleaseStopThread();
         defaultProfileSave_();
-        cerealSave_();
+        CerealSave();
         quit();
     }
 
@@ -194,7 +193,7 @@ private:
             getSiblingFile("default.xml");
         command_map_.ToXmlDocument(profilefile);
     }
-    void cerealSave_()
+    void CerealSave()
     {//scoped so archive gets flushed
         const auto controllerfile =
 #ifdef _WIN32
@@ -215,7 +214,7 @@ private:
                 "Error",
                 "Unable to save control settings. Unable to open file settings.bin.");
     }
-    void cerealLoad_()
+    void CerealLoad()
     {//scoped so archive gets flushed
         const auto controllerfile =
 #ifdef _WIN32

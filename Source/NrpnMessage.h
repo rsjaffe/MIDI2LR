@@ -81,19 +81,19 @@ public:
     bool ProcessMidi(short channel, short control, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].ProcessMidi(control, value);
+        return nrpn_messages_[channel & 0xF].ProcessMidi(control, value);
     }
 
     bool IsInProcess(short channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].IsInProcess();
+        return nrpn_messages_[channel & 0xF].IsInProcess();
     }
 
     rsj::Nrpn GetNrpnIfReady(short channel) noexcept(kNdebug)
     {
         Expects(channel <= 15 && channel >= 0);
-        return nrpn_messages_[(channel) & 0xF].GetNrpnIfReady();
+        return nrpn_messages_[channel & 0xF].GetNrpnIfReady();
     }
 
 private:

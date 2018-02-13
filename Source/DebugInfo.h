@@ -25,11 +25,11 @@ class DebugInfo {
 public:
     DebugInfo();
     ~DebugInfo() = default;
-    void ResetOutput() noexcept {iterate = 0;}
+    void ResetOutput() noexcept {iterate_ = 0;}
     std::string const * const GetInfo();
 private:
-    std::vector<std::string> info;
-    size_t iterate{0};
+    std::vector<std::string> info_;
+    size_t iterate_{0};
 };
 
 namespace rsj

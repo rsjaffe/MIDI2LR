@@ -27,7 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LR_IPC_Out.h"
-#include "LRCommands.h"
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 using namespace std::literals::string_literals;
@@ -37,7 +36,7 @@ command_map_{cmap}, controls_model_{c_model}
 {}
 
 void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out,
-    MidiProcessor* const midiProcessor)
+    MidiProcessor* const midi_processor)
 {
     //copy the pointers
     lr_ipc_out_ = std::move(out);
@@ -47,8 +46,8 @@ void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out,
         // settings on connection
         ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
 
-    if (midiProcessor)
-        midiProcessor->AddCallback(this, &ProfileManager::MidiCmdCallback);
+    if (midi_processor)
+        midi_processor->AddCallback(this, &ProfileManager::MidiCmdCallback);
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)
@@ -137,7 +136,7 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
         const rsj::MidiMessageId cc = mm;
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
-        if ((controls_model_->ControllerToPlugin(mm) < 0.4)
+        if (controls_model_->ControllerToPlugin(mm) < 0.4
             || !command_map_->MessageExistsInMap(cc))
             return;
         MapCommand(cc);

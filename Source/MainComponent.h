@@ -59,23 +59,19 @@ public:
         SettingsManager* const settings_manager,
         std::shared_ptr<MidiSender>& midi_sender);
 
-    void ProfileChanged(juce::XmlElement* elem, const juce::String& file_name);
-
-protected:
-    void SetLabelSettings(juce::Label& lbl_to_set);
-
 private:
+    void SetLabelSettings(juce::Label& lbl_to_set);
     void paint(juce::Graphics&) override;
     // Button interface
     void buttonClicked(juce::Button* button) override;
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
-
     // Timer interface
     void timerCallback() override;
-
+    // callbacks
     void LrIpcOutCallback(bool, bool);
     void MidiCmdCallback(rsj::MidiMessage);
+    void ProfileChanged(juce::XmlElement* elem, const juce::String& file_name);
 
     CommandMap* command_map_{nullptr};
     CommandTable command_table_{"Table", nullptr};

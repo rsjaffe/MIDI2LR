@@ -30,10 +30,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
-#include "Misc.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
-#include "Utilities/Utilities.h"
 using namespace std::literals::string_literals;
 
 namespace {
@@ -81,7 +79,7 @@ void LrIpcIn::run()
 {
     while (!juce::Thread::threadShouldExit()) {
         std::array<char, kBufferSize> line{};//zero filled by {} initialization
-        std::future<void> process_fut;
+        thread_local std::future<void> process_fut;
         //if not connected, executes a wait 333 then goes back to while
         //if connected, tries to read a line, checks thread status and connection
         //status before each read attempt
@@ -160,7 +158,7 @@ namespace {
         if (const auto tr = value.find_last_not_of(" \t\n"); tr != value.npos)
             value.remove_suffix(value.size() - tr - 1);
     }
-};
+}
 
 void LrIpcIn::ProcessLine(const std::string&& line) const
 {

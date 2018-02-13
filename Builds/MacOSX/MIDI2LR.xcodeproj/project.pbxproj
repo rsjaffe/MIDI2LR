@@ -30,7 +30,6 @@
 		52FC8C52DDEE0E1620A26B97 = {isa = PBXBuildFile; fileRef = 1057E7E38D9DB91EFBC2D932; };
 		78863CB0D6D521A76B3BE1A5 = {isa = PBXBuildFile; fileRef = 11A085E103F4DB635F250B4F; };
 		08E1D9130BD9CDE61903C2F8 = {isa = PBXBuildFile; fileRef = F23A50E73FE3C8B924013EDB; };
-		AC84367CD5D5CED546873EA6 = {isa = PBXBuildFile; fileRef = 26B20138C8D26938DBF3AAA6; };
 		BFAB1A9B97A0C128DF41C02A = {isa = PBXBuildFile; fileRef = 0ED56980FCA5D40E4BCC5C8A; };
 		50AF5769741041F9CA022231 = {isa = PBXBuildFile; fileRef = 80AD4E80805D14FC930C2AE8; };
 		FD5777A03748CDE3465E71D3 = {isa = PBXBuildFile; fileRef = C58E726D80235E018C2E6235; };
@@ -81,7 +80,6 @@
 		21C6B16D556E368BC28C907B = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		2234B03A15325106E88CB84D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "LR_IPC_Out.cpp"; path = "../../Source/LR_IPC_Out.cpp"; sourceTree = "SOURCE_ROOT"; };
 		24553985217E4B226037C6F3 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = bytestream.cpp; path = ../../icu/source/common/bytestream.cpp; sourceTree = "SOURCE_ROOT"; };
-		26B20138C8D26938DBF3AAA6 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Utilities.cpp; path = ../../Source/Utilities/Utilities.cpp; sourceTree = "SOURCE_ROOT"; };
 		334B209B53531AD494AD8132 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "LR_IPC_In.cpp"; path = "../../Source/LR_IPC_In.cpp"; sourceTree = "SOURCE_ROOT"; };
 		357B44B34E653363B6C68855 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		36A7383EFEFEFF833CFE957B = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_devices"; path = "../../JuceLibraryCode/modules/juce_audio_devices"; sourceTree = "SOURCE_ROOT"; };
@@ -149,7 +147,6 @@
 		CBC8F83DB3BDB858EFBB0BD7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "LR_IPC_In.h"; path = "../../Source/LR_IPC_In.h"; sourceTree = "SOURCE_ROOT"; };
 		CFE017FDA090DB4518F95826 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MIDISender.cpp; path = ../../Source/MIDISender.cpp; sourceTree = "SOURCE_ROOT"; };
 		D2EACC606605DFFAF801E68B = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		D3EB9CABC0016989295F149B = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = ../../Source/Utilities/Utilities.h; sourceTree = "SOURCE_ROOT"; };
 		D5FA0A80CA88684540228A78 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SendKeys.h; path = ../../Source/SendKeys.h; sourceTree = "SOURCE_ROOT"; };
 		D64745008A83831C99FA8727 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = appendable.cpp; path = ../../icu/source/common/appendable.cpp; sourceTree = "SOURCE_ROOT"; };
 		DEBD9FE98B3F63E8D660310D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PWoptions.cpp; path = ../../Source/PWoptions.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -174,12 +171,8 @@
 					1057E7E38D9DB91EFBC2D932,
 					11A085E103F4DB635F250B4F,
 					F23A50E73FE3C8B924013EDB, ); name = ICU; sourceTree = "<group>"; };
-		3A2ACD2C7AF27315DB53ADC3 = {isa = PBXGroup; children = (
-					26B20138C8D26938DBF3AAA6,
-					D3EB9CABC0016989295F149B, ); name = Utilities; sourceTree = "<group>"; };
 		55BA6062DF892191C9E9B3BE = {isa = PBXGroup; children = (
 					883E81735D4CB00E1EBE5978,
-					3A2ACD2C7AF27315DB53ADC3,
 					0ED56980FCA5D40E4BCC5C8A,
 					63E78BF979E4A935FEA74E26,
 					80AD4E80805D14FC930C2AE8,
@@ -443,7 +436,6 @@
 					52FC8C52DDEE0E1620A26B97,
 					78863CB0D6D521A76B3BE1A5,
 					08E1D9130BD9CDE61903C2F8,
-					AC84367CD5D5CED546873EA6,
 					BFAB1A9B97A0C128DF41C02A,
 					50AF5769741041F9CA022231,
 					FD5777A03748CDE3465E71D3,

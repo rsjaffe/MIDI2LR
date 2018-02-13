@@ -127,7 +127,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 void LrIpcOut::Stop()
 {
     sending_stopped_ = true;
-    auto connected = isConnected();
+    const auto connected = isConnected();
     for (const auto& cb : callbacks_)
         cb(connected, true);
 }
@@ -135,7 +135,7 @@ void LrIpcOut::Stop()
 void LrIpcOut::Restart()
 {
     sending_stopped_ = false;
-    auto connected = isConnected();
+    const auto connected = isConnected();
     for (const auto& cb : callbacks_)
         cb(connected, false);
     //resync controls
@@ -173,35 +173,35 @@ void LrIpcOut::handleAsyncUpdate()
     } while (true);
 }
 
-void LrIpcOut::connect_timer::Start()
+void LrIpcOut::ConnectTimer::Start()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     juce::Timer::startTimer(kConnectTimer);
     timer_off_ = false;
 }
 
-void LrIpcOut::connect_timer::Stop()
+void LrIpcOut::ConnectTimer::Stop()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     juce::Timer::stopTimer();
     timer_off_ = true;
 }
 
-void LrIpcOut::connect_timer::timerCallback()
+void LrIpcOut::ConnectTimer::timerCallback()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
         owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
-void LrIpcOut::recenter::SetMidiMessage(rsj::MidiMessage mm)
+void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
     std::lock_guard<decltype(mtx_)> lock(mtx_);
     mm_ = mm;
     juce::Timer::startTimer(kRecenterTimer);
 }
 
-void LrIpcOut::recenter::timerCallback()
+void LrIpcOut::Recenter::timerCallback()
 {
     rsj::MidiMessage local_mm{};
     {

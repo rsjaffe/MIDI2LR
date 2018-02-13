@@ -5,9 +5,6 @@
     <Filter Include="MIDI2LR\Source\ICU">
       <UniqueIdentifier>{B3E17E61-B0AA-30C5-71AD-CBB2B038DFA0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MIDI2LR\Source\Utilities">
-      <UniqueIdentifier>{B820A69E-EA0D-FED3-B62A-3F9F88E4B1FF}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MIDI2LR\Source">
       <UniqueIdentifier>{9CED966C-7B4E-F384-6407-7CEF1B0DF423}</UniqueIdentifier>
     </Filter>
@@ -279,9 +276,6 @@
     </ClCompile>
     <ClCompile Include="..\..\icu\source\common\utypes.cpp">
       <Filter>MIDI2LR\Source\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp">
-      <Filter>MIDI2LR\Source\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\CCoptions.cpp">
       <Filter>MIDI2LR\Source</Filter>
@@ -1653,9 +1647,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Utilities\Utilities.h">
-      <Filter>MIDI2LR\Source\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\CCoptions.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>

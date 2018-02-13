@@ -161,7 +161,6 @@
     <ClCompile Include="..\..\icu\source\common\ustrtrns.cpp"/>
     <ClCompile Include="..\..\icu\source\common\utf_impl.cpp"/>
     <ClCompile Include="..\..\icu\source\common\utypes.cpp"/>
-    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp"/>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
     <ClCompile Include="..\..\Source\CommandMap.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
@@ -1396,7 +1395,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Utilities\Utilities.h"/>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
     <ClInclude Include="..\..\Source\CommandMap.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>

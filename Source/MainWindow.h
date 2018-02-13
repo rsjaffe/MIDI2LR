@@ -60,7 +60,6 @@ private:
         // whatever you need.
         juce::JUCEApplication::getInstance()->systemRequestedQuit();
     }
-    // the timer callback function
     MainContentComponent *window_content_;
 };
 

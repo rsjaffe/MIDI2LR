@@ -83,7 +83,7 @@ namespace rsj {
 
         constexpr bool operator==(const MidiMessageId &other) const noexcept
         {
-            return (msg_id_type == other.msg_id_type && channel == other.channel && data == other.data);
+            return msg_id_type == other.msg_id_type && channel == other.channel && data == other.data;
         }
 
         constexpr bool operator<(const MidiMessageId& other) const noexcept

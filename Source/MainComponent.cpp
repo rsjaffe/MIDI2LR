@@ -205,7 +205,7 @@ void MainContentComponent::paint(juce::Graphics& g)
 void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    rsj::MsgIdEnum mt{rsj::MsgIdEnum::kCc};
+    auto mt{rsj::MsgIdEnum::kCc};
     juce::String commandtype{"CC"};
     switch (mm.message_type_byte) {//this is needed because mapping uses custom structure
         case rsj::kCcFlag: //this is default for mt and commandtype

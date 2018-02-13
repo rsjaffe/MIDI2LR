@@ -66,12 +66,12 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
                     return OffsetResult(value - kBit7, controlnumber);
                 case rsj::CCmethod::kSignMagnitude:
                     if (IsNRPN_(controlnumber))
-                        return OffsetResult((value & kBit14) ? -(value & kLow13Bits) : value, controlnumber);
-                    return OffsetResult((value & kBit7) ? -(value & kLow6Bits) : value, controlnumber);
+                        return OffsetResult(value & kBit14 ? -(value & kLow13Bits) : value, controlnumber);
+                    return OffsetResult(value & kBit7 ? -(value & kLow6Bits) : value, controlnumber);
                 case rsj::CCmethod::kTwosComplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
                     if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-                        return OffsetResult((value & kBit14) ? -((value ^ kMaxNrpn) + 1) : value, controlnumber);
-                    return OffsetResult((value & kBit7) ? -((value ^ kMaxMidi) + 1) : value, controlnumber);
+                        return OffsetResult(value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber);
+                    return OffsetResult(value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber);
                 default:
                     Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
                     return 0.0;
@@ -124,7 +124,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
                 case rsj::CCmethod::kAbsolute:
                 {
                     std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
-                    auto diff = value - current_v_[controlnumber];
+                    const short diff = value - current_v_[controlnumber];
                     current_v_[controlnumber] = value;
                     return diff;
                 }
@@ -134,12 +134,12 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
                     return value - kBit7;
                 case rsj::CCmethod::kSignMagnitude:
                     if (IsNRPN_(controlnumber))
-                        return (value & kBit14) ? -(value & kLow13Bits) : value;
-                    return (value & kBit7) ? -(value & kLow6Bits) : value;
+                        return value & kBit14 ? -(value & kLow13Bits) : value;
+                    return value & kBit7 ? -(value & kLow6Bits) : value;
                 case rsj::CCmethod::kTwosComplement: //see https://en.wikipedia.org/wiki/Signed_number_representations#Two.27s_complement
                     if (IsNRPN_(controlnumber)) //flip twos comp and subtract--independent of processor architecture
-                        return (value & kBit14) ? -((value ^ kMaxNrpn) + 1) : value;
-                    return (value & kBit7) ? -((value ^ kMaxMidi) + 1) : value;
+                        return value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value;
+                    return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
                 default:
                     Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
                     return short(0);
@@ -206,10 +206,10 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value) noexcept(kNdebug)
     Expects(value <= kMaxNrpn);
     Expects(value >= 0);
     if (cc_method_[controlnumber] != rsj::CCmethod::kAbsolute)
-        cc_high_[controlnumber] = (value < 0) ? 1000 : value;
+        cc_high_[controlnumber] = value < 0 ? 1000 : value;
     else {
-        const auto max = (IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi);
-        cc_high_[controlnumber] = (value <= cc_low_[controlnumber] || value > max) ? max : value;
+        const auto max = IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi;
+        cc_high_[controlnumber] = value <= cc_low_[controlnumber] || value > max ? max : value;
     }
     //no lock as this function called in non-multithreaded manner
     current_v_[controlnumber] = CenterCc(controlnumber);
@@ -223,7 +223,7 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
     if (cc_method_[controlnumber] != rsj::CCmethod::kAbsolute)
         cc_low_[controlnumber] = 0;
     else
-        cc_low_[controlnumber] = (value < 0 || value >= cc_high_[controlnumber]) ? 0 : value;
+        cc_low_[controlnumber] = value < 0 || value >= cc_high_[controlnumber] ? 0 : value;
     //no lock as this function called in non-multithreaded manner
     current_v_[controlnumber] = CenterCc(controlnumber);
 }

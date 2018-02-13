@@ -1043,7 +1043,7 @@ namespace moodycamel {
         template<typename It>
         bool enqueue_bulk(It itemFirst, size_t count)
         {
-            if constexpr(INITIAL_IMPLICIT_PRODUCER_HASH_SIZE == 0)
+            if constexpr (INITIAL_IMPLICIT_PRODUCER_HASH_SIZE == 0)
                 return false;
             else
                 return inner_enqueue_bulk<CanAlloc>(itemFirst, count);

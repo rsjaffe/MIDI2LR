@@ -25,9 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <array>
 #include <atomic>
 #include <vector>
-#include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/access.hpp>
-#include <cereal/types/array.hpp>
+#include <cereal/types/array.hpp> //required, ReSharper falsely marks as not needed
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
 #include "MidiUtilities.h"

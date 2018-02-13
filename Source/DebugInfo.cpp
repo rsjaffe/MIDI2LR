@@ -52,7 +52,7 @@ namespace {
         {0x00010445, "Bangla (India - Legacy)"},
         {0x0000201a, "Bosnian (Cyrillic)"},
         {0x000b0c00, "Buginese"},
-        {0x0030402, "Bulgarian"},
+        {0x00030402, "Bulgarian"},
         {0x00010402, "Bulgarian (Latin)"},
         {0x00020402, "Bulgarian (phonetic layout)"},
         {0x00040402, "Bulgarian (phonetic traditional)"},
@@ -61,7 +61,6 @@ namespace {
         {0x00000c0c, "Canadian French (Legacy)"},
         {0x00011009, "Canadian Multilingual Standard"},
         {0x0000085f, "Central Atlas Tamazight"},
-        {0x00000429, "Central Kurdish"},
         {0x0000045c, "Cherokee Nation"},
         {0x0001045c, "Cherokee Nation Phonetic"},
         {0x00000804, "Chinese (Simplified) - US Keyboard"},
@@ -94,7 +93,7 @@ namespace {
         {0x00010407, "German (IBM)"},
         {0x000c0c00, "Gothic"},
         {0x00000408, "Greek"},
-        {0x00010408, "Greek (220)"},
+        {0x00010408, "Greek (220) or Uyghur"}, //microsoft assigns both to same KLID
         {0x00030408, "Greek (220) Latin"},
         {0x00020408, "Greek (319)"},
         {0x00040408, "Greek (319) Latin"},
@@ -110,7 +109,7 @@ namespace {
         {0x0001040e, "Hungarian 101-key"},
         {0x0000040f, "Icelandic"},
         {0x00000470, "Igbo"},
-        {0x000004009, "India"},
+        {0x00004009, "India"},
         {0x0000085d, "Inuktitut - Latin"},
         {0x0001045d, "Inuktitut - Naqittaut"},
         {0x00001809, "Irish"},
@@ -155,7 +154,7 @@ namespace {
         {0x000f0c00, "Old Italic"},
         {0x000e0c00, "Osmanya"},
         {0x00000463, "Pashto (Afghanistan)"},
-        {0x00000429, "Persian"},
+        {0x00000429, "Persian or Central Kurdish"}, //microsoft assigns both to same KLID
         {0x00050429, "Persian (Standard)"},
         {0x000a0c00, "Phags-pa"},
         {0x00010415, "Polish (214)"},
@@ -170,7 +169,7 @@ namespace {
         {0x00000419, "Russian"},
         {0x00020419, "Russian - Mnemonic"},
         {0x00010419, "Russian (Typewriter)"},
-        {0x00000485, "Sakha"},
+        {0x00000485, "Sakha or Yakut"}, //microsoft assigns both to same KLID
         {0x0002083b, "Sami Extended Finland-Sweden"},
         {0x0001043b, "Sami Extended Norway"},
         {0x00011809, "Scottish Gaelic"},
@@ -212,7 +211,6 @@ namespace {
         {0x0001041f, "Turkish F"},
         {0x0000041f, "Turkish Q"},
         {0x00000442, "Turkmen"},
-        {0x00010408, "Uyghur"},
         {0x00000480, "Uyghur (Legacy)"},
         {0x00000422, "Ukrainian"},
         {0x00020422, "Ukrainian (Enhanced)"},
@@ -228,10 +226,9 @@ namespace {
         {0x00000843, "Uzbek Cyrillic"},
         {0x0000042a, "Vietnamese"},
         {0x00000488, "Wolof"},
-        {0x00000485, "Yakut"},
         {0x0000046a, "Yoruba"}
     };
-};
+}
 
 std::string rsj::GetKeyboardLayout()
 {
@@ -241,7 +238,7 @@ std::string rsj::GetKeyboardLayout()
     std::array<CHAR, KL_NAMELENGTH> klid_ascii;
     if (GetKeyboardLayoutNameA(klid_ascii.data())) {
         size_t pos{0};
-        auto klid {std::stoi(std::string(klid_ascii.data()),&pos,16)};
+        const auto klid {std::stoi(std::string(klid_ascii.data()),&pos,16)};
         if (keyboard_names.find(klid)!=keyboard_names.end())
             return keyboard_names[klid];
         return "KLID 0x"s + klid_ascii.data() + " not found in list of names"s;
@@ -254,16 +251,16 @@ std::string rsj::GetKeyboardLayout()
 DebugInfo::DebugInfo()
 {
     using namespace std::string_literals;
-    info.emplace_back("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
-    info.emplace_back("Version "s + ProjectInfo::versionString);
-    info.emplace_back("App path "s +
+    info_.emplace_back("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
+    info_.emplace_back("Version "s + ProjectInfo::versionString);
+    info_.emplace_back("App path "s +
         juce::File::getSpecialLocation(juce::File::currentApplicationFile).getFullPathName().toStdString());
-    info.emplace_back("Keyboard type "s + rsj::GetKeyboardLayout());
+    info_.emplace_back("Keyboard type "s + rsj::GetKeyboardLayout());
 }
 
 std::string const * const DebugInfo::GetInfo()
 {
-    if (iterate >= info.size())
+    if (iterate_ >= info_.size())
         return nullptr;
-    return &info[iterate++];
+    return &info_[iterate_++];
 }

@@ -71,9 +71,9 @@ private:
     std::shared_ptr<MidiSender> midi_sender_{nullptr};
     std::vector<std::function<void(bool,bool)>> callbacks_{};
     // helper classes
-    class connect_timer:public juce::Timer {
+    class ConnectTimer:public juce::Timer {
     public:
-        explicit connect_timer(LrIpcOut* owner):owner_(owner)
+        explicit ConnectTimer(LrIpcOut* owner):owner_(owner)
         {}
         void Start();
         void Stop();
@@ -83,9 +83,9 @@ private:
         bool timer_off_{false};
         mutable std::mutex connect_mutex_; //fix race during shutdown
     };
-    class recenter:public juce::Timer {
+    class Recenter:public juce::Timer {
     public:
-        explicit recenter(LrIpcOut* owner):owner_{owner}
+        explicit Recenter(LrIpcOut* owner):owner_{owner}
         {}
         void SetMidiMessage(rsj::MidiMessage mm);
     private:
@@ -94,8 +94,8 @@ private:
         rsj::RelaxTTasSpinLock mtx_;
         rsj::MidiMessage mm_{};
     };
-    connect_timer connect_timer_{this};
-    recenter recenter_{this};
+    ConnectTimer connect_timer_{this};
+    Recenter recenter_{this};
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED
