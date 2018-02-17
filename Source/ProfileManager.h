@@ -50,31 +50,26 @@ public:
         using namespace std::placeholders;
         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
     }
-
     // sets the default profile directory and scans its contents for profiles
     void SetProfileDirectory(const juce::File& dir);
-
-    // returns an array of profile names
-    const std::vector<juce::String>& GetMenuItems() const noexcept;
-
     // switches to a profile defined by an index
     void SwitchToProfile(int profile_idx);
-
     // switches to a profile defined by a name
     void SwitchToProfile(const juce::String& profile);
 
+private:
+    // returns an array of profile names
+    const std::vector<juce::String>& GetMenuItems() const noexcept;
     // switches to the next profile
     void SwitchToNextProfile();
-
     // switches to the previous profile
     void SwitchToPreviousProfile();
-
-    void MidiCmdCallback(rsj::MidiMessage);
-
-private:
-    void MapCommand(const rsj::MidiMessageId& msg);
     // AsyncUpdate interface
     void handleAsyncUpdate() override;
+
+    void MidiCmdCallback(rsj::MidiMessage);
+    void MapCommand(const rsj::MidiMessageId& msg);
+
     enum class SwitchState {
         kNone,
         kPrev,

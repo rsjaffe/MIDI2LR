@@ -239,8 +239,8 @@ std::string rsj::GetKeyboardLayout()
     if (GetKeyboardLayoutNameA(klid_ascii.data())) {
         size_t pos{0};
         const auto klid {std::stoi(std::string(klid_ascii.data()),&pos,16)};
-        if (keyboard_names.find(klid)!=keyboard_names.end())
-            return keyboard_names[klid];
+        if (const auto f = keyboard_names.find(klid); f !=keyboard_names.end())
+            return f->second;
         return "KLID 0x"s + klid_ascii.data() + " not found in list of names"s;
     }
     return "unable to get KLID"s;
