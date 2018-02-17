@@ -327,7 +327,7 @@ void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
             static const auto language_id = GetLanguage("Lightroom");
             static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff, "Assuming VkKeyScanEx returns 0xffff on error");
             const auto vk_code_and_shift = VkKeyScanExW(uc, language_id);
-            if (vk_code_and_shift == 0xffff)
+            if (vk_code_and_shift == 0xffff) //-V547
                 throw WindowsFunctionError();
             vk = LOBYTE(vk_code_and_shift);
             vk_modifiers = HIBYTE(vk_code_and_shift);

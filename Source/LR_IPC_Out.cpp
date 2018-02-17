@@ -161,7 +161,8 @@ void LrIpcOut::handleAsyncUpdate()
 {
     do {
         std::string command_copy;
-        if (!command_.try_dequeue(command_copy))
+        thread_local moodycamel::ConsumerToken ctok(command_);
+        if (!command_.try_dequeue(ctok, command_copy))
             return;
         //check if there is a connection
         if (juce::InterprocessConnection::isConnected()) {

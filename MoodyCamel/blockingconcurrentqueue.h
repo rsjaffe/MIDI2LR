@@ -4,6 +4,9 @@
 // Uses Jeff Preshing's semaphore implementation (under the terms of its
 // separate zlib license, embedded below).
 
+//Rory Jaffe: edited.
+// includes PR 105 (fix infinite loop on OSX)
+
 #pragma once
 
 #include "concurrentqueue.h"
@@ -148,7 +151,7 @@ namespace details
 				// added in OSX 10.10: https://developer.apple.com/library/prerelease/mac/documentation/General/Reference/APIDiffsMacOSX10_10SeedDiff/modules/Darwin.html
 				kern_return_t rc = semaphore_timedwait(m_sema, ts);
 
-				return rc != KERN_OPERATION_TIMED_OUT;
+				return rc != KERN_OPERATION_TIMED_OUT && rc != KERN_ABORTED;
 			}
 
 			void signal()

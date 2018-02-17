@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <array>
 #include <mutex>
-#include <queue>
+#include "MoodyCamel/concurrentqueue.h"
 #include <gsl/gsl>
 #include "Misc.h"
 
@@ -65,12 +65,11 @@ private:
     void SetValueMsb(short val) noexcept(kNdebug);
 
     mutable rsj::RelaxTTasSpinLock data_guard_;
-    mutable rsj::RelaxTTasSpinLock queue_guard_;
     short control_lsb_{0};
     short control_msb_{0};
     short value_lsb_{0};
     short value_msb_{0};
-    std::queue<rsj::Nrpn> nrpn_queued_{};
+    moodycamel::ConcurrentQueue<rsj::Nrpn> nrpn_queued_{};
     unsigned char ready_{0};
 };
 

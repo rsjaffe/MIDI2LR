@@ -27,17 +27,16 @@ bool NrpnMessage::ProcessMidi(short control,
 {
     Expects(value <= 0x7Fu);
     Expects(control <= 0x7Fu);
+    const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
     auto ret_val = true;
     switch (control) {
         case 6:
         {
-            std::lock(data_guard_, queue_guard_);
-            std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
-            std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
+            std::lock_guard<decltype(data_guard_)> dlock(data_guard_);
             if (ready_ >= 0b11) {
                 SetValueMsb(value);
                 if (IsReady()) {
-                    nrpn_queued_.emplace(true, GetControl(), GetValue());
+                    nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
                     Clear();
                 }
             }
@@ -47,13 +46,11 @@ bool NrpnMessage::ProcessMidi(short control,
         }
         case 38u:
         {
-            std::lock(data_guard_, queue_guard_);
-            std::lock_guard<decltype(data_guard_)> dlock(data_guard_, std::adopt_lock);
-            std::lock_guard<decltype(queue_guard_)> qlock(queue_guard_, std::adopt_lock);
+            std::lock_guard<decltype(data_guard_)> dlock(data_guard_);
             if (ready_ >= 0b11) {
                 SetValueLsb(value);
                 if (IsReady()) {
-                    nrpn_queued_.emplace(true, GetControl(), GetValue());
+                    nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
                     Clear();
                 }
             }
@@ -81,10 +78,9 @@ bool NrpnMessage::ProcessMidi(short control,
 
 rsj::Nrpn NrpnMessage::GetNrpnIfReady() noexcept
 {
-    std::lock_guard<decltype(queue_guard_)> lock(queue_guard_);
-    if (!nrpn_queued_.empty()) {
-        const auto retval{nrpn_queued_.front()};
-        nrpn_queued_.pop();
+    thread_local moodycamel::ConsumerToken ctok(nrpn_queued_);
+    rsj::Nrpn retval;
+    if (nrpn_queued_.try_dequeue(ctok, retval)) {
         return retval;
     }
     return rsj::kInvalidNrpn;
