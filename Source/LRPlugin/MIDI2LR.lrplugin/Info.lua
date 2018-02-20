@@ -60,7 +60,11 @@ return {
       title = LOC("$$$/MIDI2LR/Info/BuildFiles=Build files (development use only)"),
       file = "Build.lua"
     },
-        {
+    {
+      title = LOC("$$$/AgPreferences/Performance/CameraRawRenderer/SystemInfo=System information"),
+      file = "SystemInfo.lua"
+    },
+    {
       title = LOC("$$$/AgWPG/Dialogs/About/Title=About"),
       file = "About.lua",
     },

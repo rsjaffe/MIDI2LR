@@ -121,6 +121,9 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/StopServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/SystemInfo.lua</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_de.txt</origin>
                         </distributionFile>
                         <distributionFile>
