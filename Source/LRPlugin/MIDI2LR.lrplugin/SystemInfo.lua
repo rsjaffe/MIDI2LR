@@ -19,12 +19,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrDialogs = import 'LrDialogs'
 local LrView    = import 'LrView'
 local DebugInfo = require 'DebugInfo'
-local answer, length = DebugInfo.gatherInformation()
-local _, count = answer:gsub('\n','\n')
+local answer, lines, length = DebugInfo.gatherInformation()
 local f = LrView.osFactory()
 LrDialogs.presentModalDialog({resizable = true,
     contents = f:edit_field({
         value = answer,
-        height_in_lines = count,
+        height_in_lines = lines,
         width_in_chars = length})
   })

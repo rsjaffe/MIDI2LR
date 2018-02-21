@@ -39,14 +39,17 @@ local function gatherInformation()
   .. '\n----------- PLUGIN -----------' 
   .. '\nVersion ' .. Info.VERSION.major  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
   .. '\nPath ' .._PLUGIN.path .. writeable
+  local lines = 9 -- update if change above message
   if (type(Info.AppInfo) == 'table') then
     mess = mess .. '\n----------- APP -----------'
+    lines = lines + 1
     for _,v in ipairs(Info.AppInfo) do
       longest = math.max(longest, v:len())
+      lines = lines + 1
       mess = mess .. '\n' .. v
     end
   end
-  return mess, longest
+  return mess, lines, longest
 end
 
 local function writeDebug()
