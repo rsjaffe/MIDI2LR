@@ -43,9 +43,8 @@ namespace rsj {
         short channel{0};
         short number{0};
         short value{0};
-        constexpr MidiMessage() noexcept
-        {}
-
+        constexpr MidiMessage() noexcept = default;
+        
         constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
         message_type_byte(mt), channel(ch), number(nu), value(va)
         {}

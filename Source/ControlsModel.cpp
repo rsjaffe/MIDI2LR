@@ -30,16 +30,16 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber) noexcept(kNd
     Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
     Expects(controlnumber <= kMaxNrpn);
     std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
-    current_v_[controlnumber] += diff;
-    if (current_v_[controlnumber] < 0) {//fix currentV
-        current_v_[controlnumber] = 0;
+    current_v_.at(controlnumber) += diff;
+    if (current_v_.at(controlnumber) < 0) {//fix currentV
+        current_v_.at(controlnumber) = 0;
         return 0.0;
     }
-    if (current_v_[controlnumber] > cc_high_[controlnumber]) {//fix currentV
-        current_v_[controlnumber] = cc_high_[controlnumber];
+    if (current_v_.at(controlnumber) > cc_high_.at(controlnumber)) {//fix currentV
+        current_v_.at(controlnumber) = cc_high_.at(controlnumber);
         return 1.0;
     }
-    return static_cast<double>(current_v_[controlnumber]) / static_cast<double>(cc_high_[controlnumber]);
+    return static_cast<double>(current_v_.at(controlnumber)) / static_cast<double>(cc_high_.at(controlnumber));
 }
 
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(kNdebug)
@@ -53,13 +53,13 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
             pitch_wheel_current_.store(value, std::memory_order_release);
             return static_cast<double>(value - pitch_wheel_min_) / static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_);
         case rsj::kCcFlag:
-            switch (cc_method_[controlnumber]) {
+            switch (cc_method_.at(controlnumber)) {
                 case rsj::CCmethod::kAbsolute:
                 {
                     std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
-                    current_v_[controlnumber] = value;
+                    current_v_.at(controlnumber) = value;
                 }
-                return static_cast<double>(value - cc_low_[controlnumber]) / static_cast<double>(cc_high_[controlnumber] - cc_low_[controlnumber]);
+                return static_cast<double>(value - cc_low_.at(controlnumber)) / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
                 case rsj::CCmethod::kBinaryOffset:
                     if (IsNRPN_(controlnumber))
                         return OffsetResult(value - kBit14, controlnumber);
@@ -96,10 +96,10 @@ short ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcep
             pitch_wheel_current_.store(retval, std::memory_order_release);
             break;
         case rsj::kCcFlag:
-            if (cc_method_[controlnumber] == rsj::CCmethod::kAbsolute) {
+            if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
                 std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
                 retval = CenterCc(controlnumber);
-                current_v_[controlnumber] = retval;
+                current_v_.at(controlnumber) = retval;
             }
             break;
         default:
@@ -120,12 +120,12 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
             return value - pitch_wheel_current_.exchange(value);
         }
         case rsj::kCcFlag:
-            switch (cc_method_[controlnumber]) {
+            switch (cc_method_.at(controlnumber)) {
                 case rsj::CCmethod::kAbsolute:
                 {
                     std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
-                    const short diff = value - current_v_[controlnumber];
-                    current_v_[controlnumber] = value;
+                    const short diff = value - current_v_.at(controlnumber);
+                    current_v_.at(controlnumber) = value;
                     return diff;
                 }
                 case rsj::CCmethod::kBinaryOffset:
@@ -142,36 +142,36 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
                     return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
                 default:
                     Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
-                    return short(0);
+                    return short{0};
             }
         case rsj::kNoteOnFlag:
-            return short(0);
+            return short{0};
         case rsj::kNoteOffFlag:
-            return short(0);
+            return short{0};
         default:
             Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
-            return short(0);
+            return short{0};
     }
 }
 
-short ChannelModel::PluginToController(short controltype, size_t controlnumber, double plugin_v) noexcept(kNdebug)
+short ChannelModel::PluginToController(short controltype, size_t controlnumber, double value) noexcept(kNdebug)
 {
     Expects(controlnumber <= kMaxNrpn);
-    Expects(plugin_v >= 0.0 && plugin_v <= 1.0);
+    Expects(value >= 0.0 && value <= 1.0);
     switch (controltype) {
         case rsj::kPwFlag:
         {
-            const short newv = static_cast<short>(round(plugin_v * (pitch_wheel_max_ - pitch_wheel_min_))) + pitch_wheel_min_;
+            const short newv = static_cast<short>(round(value * (pitch_wheel_max_ - pitch_wheel_min_))) + pitch_wheel_min_;
             pitch_wheel_current_.store(newv, std::memory_order_release);
             return newv;
         }
         case rsj::kCcFlag:
         {
-            const short newv = static_cast<short>(round(plugin_v *
-                (cc_high_[controlnumber] - cc_low_[controlnumber]))) + cc_low_[controlnumber];
+            const short newv = static_cast<short>(round(value *
+                (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))) + cc_low_.at(controlnumber);
             {
                 std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
-                current_v_[controlnumber] = newv;
+                current_v_.at(controlnumber) = newv;
             }
             return newv;
         }
@@ -205,14 +205,14 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value) noexcept(kNdebug)
     Expects(controlnumber <= kMaxNrpn);
     Expects(value <= kMaxNrpn);
     Expects(value >= 0);
-    if (cc_method_[controlnumber] != rsj::CCmethod::kAbsolute)
-        cc_high_[controlnumber] = value < 0 ? 1000 : value;
+    if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
+        cc_high_.at(controlnumber) = value < 0 ? 1000 : value;
     else {
         const auto max = IsNRPN_(controlnumber) ? kMaxNrpn : kMaxMidi;
-        cc_high_[controlnumber] = value <= cc_low_[controlnumber] || value > max ? max : value;
+        cc_high_.at(controlnumber) = value <= cc_low_.at(controlnumber) || value > max ? max : value;
     }
     //no lock as this function called in non-multithreaded manner
-    current_v_[controlnumber] = CenterCc(controlnumber);
+    current_v_.at(controlnumber) = CenterCc(controlnumber);
 }
 
 void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
@@ -220,12 +220,12 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
     Expects(controlnumber <= kMaxNrpn);
     Expects(value <= kMaxNrpn);
     Expects(value >= 0);
-    if (cc_method_[controlnumber] != rsj::CCmethod::kAbsolute)
-        cc_low_[controlnumber] = 0;
+    if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
+        cc_low_.at(controlnumber) = 0;
     else
-        cc_low_[controlnumber] = value < 0 || value >= cc_high_[controlnumber] ? 0 : value;
+        cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
     //no lock as this function called in non-multithreaded manner
-    current_v_[controlnumber] = CenterCc(controlnumber);
+    current_v_.at(controlnumber) = CenterCc(controlnumber);
 }
 
 void ChannelModel::SetPwMax(short value) noexcept(kNdebug)
@@ -236,7 +236,7 @@ void ChannelModel::SetPwMax(short value) noexcept(kNdebug)
         pitch_wheel_max_ = kMaxNrpn;
     else
         pitch_wheel_max_ = value;
-    pitch_wheel_current_.store(CenterPw(),std::memory_order_relaxed);
+    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 
 void ChannelModel::SetPwMin(short value) noexcept(kNdebug)
@@ -254,11 +254,11 @@ void ChannelModel::ActiveToSaved()  const
 {
     settings_to_save_.clear();
     for (short i = 0; i <= kMaxMidi; ++i)
-        if (cc_method_[i] != rsj::CCmethod::kAbsolute || cc_high_[i] != kMaxMidi || cc_low_[i] != 0)
-            settings_to_save_.emplace_back(i, cc_low_[i], cc_high_[i], cc_method_[i]);
+        if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxMidi || cc_low_.at(i) != 0)
+            settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
     for (short i = kMaxMidi + 1; i <= kMaxNrpn; ++i)
-        if (cc_method_[i] != rsj::CCmethod::kAbsolute || cc_high_[i] != kMaxNrpn || cc_low_[i] != 0)
-            settings_to_save_.emplace_back(i, cc_low_[i], cc_high_[i], cc_method_[i]);
+        if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxNrpn || cc_low_.at(i) != 0)
+            settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
 }
 
 void ChannelModel::CcDefaults() noexcept
@@ -268,10 +268,10 @@ void ChannelModel::CcDefaults() noexcept
     cc_high_.fill(0x3FFF);//XCode throws linker error when use ChannelModel::kMaxNRPN here
     cc_method_.fill(rsj::CCmethod::kAbsolute);
     //no lock as this function called in non-multithreaded manner
-    current_v_.fill(short(8191));
+    current_v_.fill(short{8191});
     for (size_t a = 0; a <= kMaxMidi; ++a) {
-        cc_high_[a] = kMaxMidi;
-        current_v_[a] = kMaxMidiHalf;
+        cc_high_.at(a) = kMaxMidi;
+        current_v_.at(a) = kMaxMidiHalf;
     }
 }
 
@@ -282,7 +282,7 @@ void ChannelModel::SavedToActive() noexcept(kNdebug)
         SetCc(set.number, set.low, set.high, set.method);
 }
 
-ChannelModel::ChannelModel()
+ChannelModel::ChannelModel() noexcept
 {
     CcDefaults();
     //load settings

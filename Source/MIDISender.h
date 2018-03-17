@@ -27,8 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class MidiSender {
 public:
-    MidiSender() noexcept;
-    virtual ~MidiSender();
     void Init();
 
     // sends a CC message to all output devices

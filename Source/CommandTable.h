@@ -28,9 +28,11 @@ class CommandTableModel;
 class CommandTable final: public juce::TableListBox {
 public:
     CommandTable(const juce::String& component_name, CommandTableModel *model);
-    CommandTable(const CommandTable&) = delete;
-    CommandTable& operator=(const CommandTable&) = delete;
-
+    ~CommandTable() = default;
+    CommandTable(const CommandTable& other) = delete;
+    CommandTable(CommandTable&& other) = delete;
+    CommandTable& operator=(const CommandTable& other) = delete;
+    CommandTable& operator=(CommandTable&& other) = delete;
 private:
     bool keyPressed(const KeyPress &k) override;
 };

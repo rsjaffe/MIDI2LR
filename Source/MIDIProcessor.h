@@ -31,8 +31,6 @@ namespace rsj {
 
 class MidiProcessor final: private juce::MidiInputCallback {
 public:
-    MidiProcessor() noexcept;
-    virtual ~MidiProcessor();
     void Init();
 
     // re-enumerates MIDI IN devices

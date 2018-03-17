@@ -1319,5 +1319,5 @@ size_t LrCommandList::GetIndexOfCommand(const std::string& command)
             indexMap[str] = idx++;
     }
 
-    return indexMap[command];
+    return indexMap.at(command);
 }

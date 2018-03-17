@@ -28,10 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "MidiUtilities.h"
 
-CommandTableModel::CommandTableModel() noexcept
-{}
-
-void CommandTableModel::Init(CommandMap* const map_command) noexcept
+void CommandTableModel::Init(CommandMap* map_command) noexcept
 {
     //copy the pointer
     command_map_ = map_command;
@@ -52,7 +49,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
     Sort();
 }
 
-int CommandTableModel::getNumRows()
+int CommandTableModel::getNumRows() noexcept
 {
     //This must return the number of rows currently in the table.
 
@@ -93,21 +90,21 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
     {
         auto value = 0;
         auto channel = 0;
-        switch (commands_[static_cast<size_t>(row_number)].msg_id_type) //-V108 int used as index because JUCE uses int
+        switch (commands_.at(gsl::narrow_cast<size_t>(row_number)).msg_id_type) //-V108 int used as index because JUCE uses int
         {
             case rsj::MsgIdEnum::kNote:
                 format_str = "%d | Note: %d";
-                channel = commands_[static_cast<size_t>(row_number)].channel;
-                value = commands_[static_cast<size_t>(row_number)].pitch;
+                channel = commands_.at(gsl::narrow_cast<size_t>(row_number)).channel;
+                value = commands_.at(gsl::narrow_cast<size_t>(row_number)).pitch;
                 break;
             case rsj::MsgIdEnum::kCc:
                 format_str = "%d | CC: %d";
-                channel = commands_[static_cast<size_t>(row_number)].channel;
-                value = commands_[static_cast<size_t>(row_number)].controller;
+                channel = commands_.at(gsl::narrow_cast<size_t>(row_number)).channel;
+                value = commands_.at(gsl::narrow_cast<size_t>(row_number)).controller;
                 break;
             case rsj::MsgIdEnum::kPitchBend:
                 format_str = "%d | Pitch: %d";
-                channel = commands_[static_cast<size_t>(row_number)].channel;
+                channel = commands_.at(gsl::narrow_cast<size_t>(row_number)).channel;
                 break;
         }
         g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height, juce::Justification::centred);
@@ -147,25 +144,25 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
 
         // create a new command menu
         if (command_select == nullptr) {
-            command_select = new CommandMenu{commands_[static_cast<size_t>(row_number)]};
+            command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
             command_select->Init(command_map_);
         }
         else
-            command_select->SetMsg(commands_[static_cast<size_t>(row_number)]);
+            command_select->SetMsg(commands_.at(gsl::narrow_cast<size_t>(row_number)));
 
         if (command_map_)
             // add 1 because 0 is reserved for no selection
             command_select->SetSelectedItem(LrCommandList::GetIndexOfCommand(command_map_->
-                GetCommandforMessage(commands_[static_cast<size_t>(row_number)])) + 1);
+                GetCommandforMessage(commands_.at(gsl::narrow_cast<size_t>(row_number)))) + 1);
 
         return command_select;
     }
     return nullptr;
 }
 
-void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msgType)
+void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type)
 {
-    const rsj::MidiMessageId msg{midi_channel, midi_data, msgType};
+    const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
     if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
         commands_.push_back(msg);
         command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
@@ -176,20 +173,20 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
 void CommandTableModel::RemoveRow(size_t row)
 {
     if (command_map_)
-        command_map_->RemoveMessage(commands_[row]);
+        command_map_->RemoveMessage(commands_.at(row));
     commands_.erase(commands_.cbegin() + row);
 }
 
-void CommandTableModel::RemoveAllRows()
+void CommandTableModel::RemoveAllRows() noexcept
 {
     commands_.clear();
     if (command_map_)
         command_map_->ClearMap();
 }
 
-void CommandTableModel::BuildFromXml(const juce::XmlElement * const root)
+void CommandTableModel::BuildFromXml(const juce::XmlElement * root)
 {
-    if (root->getTagName().compare("settings") != 0)
+    if (!root || root->getTagName().compare("settings") != 0)
         return;
     RemoveAllRows();
     const auto* setting = root->getFirstChildElement();
@@ -220,9 +217,9 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement * const root)
     Sort();
 }
 
-int CommandTableModel::GetRowForMessage(int midi_channel, int midi_data, rsj::MsgIdEnum msgType) const
+int CommandTableModel::GetRowForMessage(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type) const
 {
-    const rsj::MidiMessageId msg_id{midi_channel, midi_data, msgType};
+    const rsj::MidiMessageId msg_id{midi_channel, midi_data, msg_type};
     return gsl::narrow_cast<int>(std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin());
 }
 

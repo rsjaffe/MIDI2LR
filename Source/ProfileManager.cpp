@@ -31,12 +31,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel* const c_model, CommandMap* const cmap) noexcept:
+ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* cmap) noexcept:
 command_map_{cmap}, controls_model_{c_model}
 {}
 
 void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out,
-    MidiProcessor* const midi_processor)
+    MidiProcessor* midi_processor)
 {
     //copy the pointers
     lr_ipc_out_ = std::move(out);
@@ -62,7 +62,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
     for (const auto& file : file_array)
         profiles_.emplace_back(file.getFileName());
 
-    if (profiles_.size() > 0)
+    if (!profiles_.empty())
         SwitchToProfile(profiles_[0]);
 }
 
@@ -74,7 +74,7 @@ const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
 void ProfileManager::SwitchToProfile(int profile_index)
 {
     if (profile_index >= 0 && profile_index < gsl::narrow_cast<int>(profiles_.size())) {
-        SwitchToProfile(profiles_[static_cast<size_t>(profile_index)]);
+        SwitchToProfile(profiles_.at(gsl::narrow_cast<size_t>(profile_index)));
         current_profile_index_ = profile_index;
     }
 }

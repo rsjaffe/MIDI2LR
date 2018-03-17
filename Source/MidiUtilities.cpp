@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 {//anything not set below is set to zero by default constructor
     const auto raw = mm.getRawData();
-    Expects(raw != nullptr);
+    Expects(raw);
     message_type_byte = raw[0] >> 4;
     channel = raw[0] & 0xF;
     switch (message_type_byte) {

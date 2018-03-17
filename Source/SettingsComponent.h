@@ -27,15 +27,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class SettingsManager;
 
 class SettingsComponent final:
-    public juce::Component,
-    private juce::ButtonListener,
-    private ResizableLayout,
-    private juce::Slider::Listener {
+    public juce::Component, juce::ButtonListener,
+    ResizableLayout, juce::Slider::Listener {
 public:
-    explicit SettingsComponent(SettingsManager* const settings_manager);
-    ~SettingsComponent();
-    SettingsComponent(const SettingsComponent&) = delete;
-    SettingsComponent& operator=(const SettingsComponent&) = delete;
+    explicit SettingsComponent(SettingsManager* settings_manager);
+    ~SettingsComponent() = default;
+    SettingsComponent(const SettingsComponent& other) = delete;
+    SettingsComponent(SettingsComponent&& other) = delete;
+    SettingsComponent& operator=(const SettingsComponent& other) = delete;
+    SettingsComponent& operator=(SettingsComponent&& other) = delete;
     void Init();
 
 private:

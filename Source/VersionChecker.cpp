@@ -23,8 +23,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 #include "SettingsManager.h"
 
-VersionChecker::VersionChecker(SettingsManager* const setmgr) noexcept :
-juce::Thread{"VersionChecker"}, settings_manager_{setmgr}{}
+VersionChecker::VersionChecker(SettingsManager* settings_manager) noexcept :
+juce::Thread{"VersionChecker"}, settings_manager_{settings_manager}{}
 
 VersionChecker::~VersionChecker()
 {
@@ -36,7 +36,7 @@ void VersionChecker::run()
     const juce::URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
     const std::unique_ptr<juce::XmlElement> version_xml_element{version_url.readEntireXmlStream()};
 
-    if (version_xml_element != nullptr) {
+    if (version_xml_element) {
         const auto last_checked = settings_manager_->GetLastVersionFound();
         new_version_ = version_xml_element->getIntAttribute("latest");
         if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {

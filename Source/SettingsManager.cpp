@@ -27,10 +27,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 #include "ProfileManager.h"
 using namespace std::literals::string_literals;
+namespace {
+    constexpr auto kAutoHideSection{"autohide"};
+}
 
-const juce::String kAutoHideSection{"autohide"};
-
-SettingsManager::SettingsManager(ProfileManager* const pmanager):profile_manager_{pmanager}
+SettingsManager::SettingsManager(ProfileManager * profile_manager):profile_manager_{profile_manager}
 {
     juce::PropertiesFile::Options file_options;
     file_options.applicationName = "MIDI2LR";
@@ -62,18 +63,18 @@ void SettingsManager::SetPickupEnabled(bool enabled)
     properties_file_->setValue("pickup_enabled", enabled);
     properties_file_->saveIfNeeded();
     if (const auto ptr = lr_ipc_out_.lock())
-        ptr->SendCommand("Pickup "s + std::to_string(static_cast<unsigned>(enabled)) + '\n');
+        ptr->SendCommand("Pickup "s + std::to_string(unsigned{enabled}) + '\n');
 }
 juce::String SettingsManager::GetProfileDirectory() const noexcept
 {
     return properties_file_->getValue("profile_directory");
 }
 
-void SettingsManager::SetProfileDirectory(const juce::String& profile_directory_name)
+void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
 {
-    properties_file_->setValue("profile_directory", profile_directory_name);
+    properties_file_->setValue("profile_directory", profile_directory);
     properties_file_->saveIfNeeded();
-    profile_manager_->SetProfileDirectory(profile_directory_name);
+    profile_manager_->SetProfileDirectory(profile_directory);
 }
 
 void SettingsManager::ConnectionCallback(bool connected, bool blocked)
@@ -81,7 +82,7 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
     if (connected && !blocked)
         if (const auto ptr = lr_ipc_out_.lock()) {
             DebugInfo db{};
-            ptr->SendCommand("Pickup "s + std::to_string(static_cast<unsigned>(GetPickupEnabled())) + '\n');
+            ptr->SendCommand("Pickup "s + std::to_string(unsigned{GetPickupEnabled()}) + '\n');
             ptr->SendCommand("AppInfoClear 1\n"s);
             while (const auto info = db.GetInfo()) {
                 ptr->SendCommand("AppInfo "s + *info + '\n');
@@ -106,8 +107,8 @@ int SettingsManager::GetLastVersionFound() const noexcept
     return properties_file_->getIntValue("LastVersionFound", 0);
 }
 
-void SettingsManager::SetLastVersionFound(int new_version)
+void SettingsManager::SetLastVersionFound(int version_number)
 {
-    properties_file_->setValue("LastVersionFound", new_version);
+    properties_file_->setValue("LastVersionFound", version_number);
     properties_file_->saveIfNeeded();
 }

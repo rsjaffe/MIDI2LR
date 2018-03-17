@@ -43,8 +43,8 @@ namespace {
     constexpr int kRecenterTimer{std::max(kMinRecenterTimer, kDelay + kDelay / 2)};//don't change, change kDelay and kMinRecenterTimer
 }
 
-LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command):
-    juce::InterprocessConnection(), command_map_{map_command}, controls_model_{c_model} {}
+LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap * map_command):
+    command_map_{map_command}, controls_model_{c_model} {}
 
 LrIpcOut::~LrIpcOut()
 {
@@ -52,9 +52,9 @@ LrIpcOut::~LrIpcOut()
     juce::InterprocessConnection::disconnect();
 }
 
-void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor)
+void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
 {
-    midi_sender_ = midi_sender;
+    midi_sender_ = std::move(midi_sender);
     if (midi_processor)
         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
     connect_timer_.Start();
@@ -71,6 +71,7 @@ void LrIpcOut::SendCommand(std::string&& command)
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
     const rsj::MidiMessageId message{mm};
+#pragma warning(suppress: 26426)
     static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
         {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
         {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
@@ -154,7 +155,7 @@ void LrIpcOut::connectionLost()
         cb(false, sending_stopped_);
 }
 
-void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/)
+void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept
 {}
 
 void LrIpcOut::handleAsyncUpdate()

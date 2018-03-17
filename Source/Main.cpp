@@ -48,12 +48,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 
 namespace {
-    const juce::String kShutDownString{"--LRSHUTDOWN"};
+    const auto kShutDownString{"--LRSHUTDOWN"};
 }
 
 class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
-    MIDI2LRApplication()
+    MIDI2LRApplication() noexcept
     {
         CCoptions::LinkToControlsModel(&controls_model_);
         PWoptions::LinkToControlsModel(&controls_model_);
@@ -70,7 +70,7 @@ public:
     {
         return ProjectInfo::versionString;
     }
-    bool moreThanOneInstanceAllowed() override
+    bool moreThanOneInstanceAllowed() noexcept override
     {
         return false;
     }
@@ -113,7 +113,7 @@ public:
         }
     }
 
-    void shutdown() override
+    void shutdown() noexcept override
     {
         //Called to allow the application to clear up before exiting.
 
@@ -247,4 +247,5 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the application.
+#pragma warning(suppress: 26409 26425)
 START_JUCE_APPLICATION(MIDI2LRApplication)

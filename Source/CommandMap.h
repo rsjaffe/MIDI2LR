@@ -31,19 +31,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class CommandMap {
 public:
-    CommandMap() noexcept;
-    virtual ~CommandMap() = default;
-    CommandMap(const CommandMap&) = delete;
-    CommandMap& operator=(const CommandMap&) = delete;
 
     // adds an entry to the message:command map, and a corresponding entry to the
     // command:message map will look up the string by the index (but it is preferred to
     // directly use the string)
-    void AddCommandforMessage(size_t command, const rsj::MidiMessageId& cc);
+    void AddCommandforMessage(size_t command, const rsj::MidiMessageId& message);
 
     // adds an entry to the message:command map, and a corresponding entry to the
     // command:message map
-    void AddCommandforMessage(const std::string& command, const rsj::MidiMessageId& cc);
+    void AddCommandforMessage(const std::string& command, const rsj::MidiMessageId& message);
 
     // gets the LR command associated to a MIDI message
     const std::string& GetCommandforMessage(const rsj::MidiMessageId& message) const;
@@ -87,7 +83,7 @@ inline void CommandMap::RemoveMessage(const rsj::MidiMessageId& message)
 {
     // removes message from the message:command map, and its associated command from
     // the command:message map
-    command_string_map_.erase(message_map_[message]);
+    command_string_map_.erase(message_map_.at(message));
     message_map_.erase(message);
 }
 

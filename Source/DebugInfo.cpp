@@ -29,6 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Windows.h"
 //from https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
+#pragma warning(suppress: 26426)
     std::unordered_map<int, std::string> keyboard_names{
         {0x0000041c, "Albanian"},
         {0x00000401, "Arabic (101)"},
@@ -235,11 +236,11 @@ std::string rsj::GetKeyboardLayout()
     using namespace std::string_literals;
     static_assert(sizeof(CHAR) == sizeof(char),
         "Windows CHAR and char different sizes.");
-    std::array<CHAR, KL_NAMELENGTH> klid_ascii;
+    std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
     if (GetKeyboardLayoutNameA(klid_ascii.data())) {
         size_t pos{0};
-        const auto klid {std::stoi(std::string(klid_ascii.data()),&pos,16)};
-        if (const auto f = keyboard_names.find(klid); f !=keyboard_names.end())
+        const auto klid{std::stoi(std::string(klid_ascii.data()), &pos, 16)};
+        if (const auto f = keyboard_names.find(klid); f != keyboard_names.end())
             return f->second;
         return "KLID 0x"s + klid_ascii.data() + " not found in list of names"s;
     }
@@ -247,8 +248,7 @@ std::string rsj::GetKeyboardLayout()
 }
 #endif
 
-
-DebugInfo::DebugInfo()
+DebugInfo::DebugInfo() noexcept
 {
     using namespace std::string_literals;
     info_.emplace_back("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
@@ -258,9 +258,9 @@ DebugInfo::DebugInfo()
     info_.emplace_back("Keyboard type "s + rsj::GetKeyboardLayout());
 }
 
-std::string const * const DebugInfo::GetInfo()
+std::string const * DebugInfo::GetInfo()
 {
     if (iterate_ >= info_.size())
         return nullptr;
-    return &info_[iterate_++];
+    return &info_.at(iterate_++);
 }

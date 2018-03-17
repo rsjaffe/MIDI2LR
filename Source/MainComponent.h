@@ -42,25 +42,25 @@ namespace rsj {
 }
 
 class MainContentComponent final:
-    public juce::Component,
-    private juce::AsyncUpdater,
-    private juce::Timer,
-    private juce::ButtonListener,
+    public juce::Component, juce::AsyncUpdater,
+     juce::Timer, juce::ButtonListener,
     public ResizableLayout { //ResizableLayout.h
 public:
-    MainContentComponent();
-    virtual ~MainContentComponent();
-    MainContentComponent(const MainContentComponent&) = delete;
-    MainContentComponent& operator=(const MainContentComponent&) = delete;
-    void Init(CommandMap* const command_map,
-        std::weak_ptr<LrIpcOut>&& out,
-        std::shared_ptr<MidiProcessor>& midi_processor,
-        ProfileManager* const profile_manager,
-        SettingsManager* const settings_manager,
-        std::shared_ptr<MidiSender>& midi_sender);
+    MainContentComponent() noexcept;
+    ~MainContentComponent() = default;
+    MainContentComponent(const MainContentComponent& other) = delete;
+    MainContentComponent(MainContentComponent&& other) = delete;
+    MainContentComponent& operator=(const MainContentComponent& other) = delete;
+    MainContentComponent& operator=(MainContentComponent&& other) = delete;
+    void Init(CommandMap* command_map,
+        std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+        std::shared_ptr<MidiProcessor> midi_processor,
+        ProfileManager* profile_manager,
+        SettingsManager* settings_manager,
+        std::shared_ptr<MidiSender> midi_sender);
 
 private:
-    void SetLabelSettings(juce::Label& lbl_to_set);
+    void SetLabelSettings(juce::Label& label_to_set);
     void paint(juce::Graphics&) override;
     // Button interface
     void buttonClicked(juce::Button* button) override;
@@ -71,7 +71,7 @@ private:
     // callbacks
     void LrIpcOutCallback(bool, bool);
     void MidiCmdCallback(rsj::MidiMessage);
-    void ProfileChanged(juce::XmlElement* elem, const juce::String& file_name);
+    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
 
     CommandMap* command_map_{nullptr};
     CommandTable command_table_{"Table", nullptr};

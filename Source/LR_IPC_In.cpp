@@ -46,9 +46,9 @@ namespace {
     constexpr int kConnectTimer = 1000;
 }
 
-LrIpcIn::LrIpcIn(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
-    juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
-    controls_model_{c_model}, profile_manager_{pmanager}
+LrIpcIn::LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, CommandMap* command_map):
+    juce::Thread{"LR_IPC_IN"}, command_map_{command_map},
+    controls_model_{c_model}, profile_manager_{profile_manager}
 {}
 
 LrIpcIn::~LrIpcIn()
@@ -62,9 +62,9 @@ LrIpcIn::~LrIpcIn()
     socket_.close();
 }
 
-void LrIpcIn::Init(std::shared_ptr<MidiSender>& midi_sender) noexcept
+void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender) noexcept
 {
-    midi_sender_ = midi_sender;
+    midi_sender_ = std::move(midi_sender);
     //start the timer
     juce::Timer::startTimer(kConnectTimer);
 }
@@ -93,7 +93,7 @@ void LrIpcIn::run()
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
-            while ((size_read == 0 || line[size_read - 1] != '\n') && socket_.isConnected()) {
+            while ((size_read == 0 || line.at(size_read - 1) != '\n') && socket_.isConnected()) {
                 if (juce::Thread::threadShouldExit())
                     goto threadExit;//break out of nested whiles
                 const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
@@ -152,10 +152,10 @@ void LrIpcIn::timerCallback()
 }
 
 namespace {
-    inline void Trim(std::string_view& value)
+    void Trim(std::string_view& value) noexcept
     {
         value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
-        if (const auto tr = value.find_last_not_of(" \t\n"); tr != value.npos)
+        if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
             value.remove_suffix(value.size() - tr - 1);
     }
 }
@@ -181,7 +181,7 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
             break;
         case 2: //SendKey
         {
-            std::bitset<3> modifiers{unsigned(value_string[0] - 48)}; //'0' is decimal 48
+            std::bitset<3> modifiers{gsl::narrow_cast<unsigned>(value_string[0] - 48)}; //'0' is decimal 48
             //trim twice on purpose: first digit, then spaces
             value_string.remove_prefix(1);
             value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
@@ -208,7 +208,7 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
                             msgtype = rsj::kPwFlag;
                     }
                     const auto value = controls_model_->PluginToController(msgtype,
-                        static_cast<size_t>(msg->channel - 1),
+                        gsl::narrow_cast<size_t>(msg->channel - 1),
                         gsl::narrow_cast<short>(msg->controller), original_value);
                     if (midi_sender_) {
                         switch (msgtype) {
@@ -216,7 +216,7 @@ void LrIpcIn::ProcessLine(const std::string&& line) const
                                 midi_sender_->SendNoteOn(msg->channel, msg->controller, value);
                                 break;
                             case rsj::kCcFlag:
-                                if (controls_model_->GetCcMethod(static_cast<size_t>(msg->channel - 1),
+                                if (controls_model_->GetCcMethod(gsl::narrow_cast<size_t>(msg->channel - 1),
                                     gsl::narrow_cast<short>(msg->controller)) == rsj::CCmethod::kAbsolute)
                                     midi_sender_->SendCc(msg->channel, msg->controller, value);
                                 break;

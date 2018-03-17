@@ -25,8 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 bool NrpnMessage::ProcessMidi(short control,
     short value) noexcept(kNdebug)
 {
-    Expects(value <= 0x7Fu);
-    Expects(control <= 0x7Fu);
+    Expects(value <= 0x7F);
+    Expects(control <= 0x7F);
     const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
     auto ret_val = true;
     switch (control) {

@@ -57,32 +57,29 @@ namespace {
     constexpr int kDisconnect = kMainHeight - 25;
 }
 
-MainContentComponent::MainContentComponent(): ResizableLayout{this}
+MainContentComponent::MainContentComponent() noexcept : ResizableLayout{this}
 {}
 
-MainContentComponent::~MainContentComponent()
-{}
-
-void MainContentComponent::Init(CommandMap* const command_map,
+void MainContentComponent::Init(CommandMap* command_map,
     std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiProcessor>& midi_processor,
-    ProfileManager* const profile_manager,
-    SettingsManager* const settings_manager,
-    std::shared_ptr<MidiSender>& midi_sender)
+    std::shared_ptr<MidiProcessor> midi_processor,
+    ProfileManager* profile_manager,
+    SettingsManager* settings_manager,
+    std::shared_ptr<MidiSender> midi_sender)
 {
     //copy the pointers
     command_map_ = command_map;
     lr_ipc_out_ = std::move(lr_ipc_out);
     settings_manager_ = settings_manager;
-    midi_processor_ = midi_processor;
-    midi_sender_ = midi_sender;
+    midi_processor_ = std::move(midi_processor);
+    midi_sender_ = std::move(midi_sender);
 
     //call the function of the sub component.
     command_table_model_.Init(command_map);
 
-    if (midi_processor)
+    if (midi_processor_)
         // Add ourselves as a listener for MIDI commands
-        midi_processor->AddCallback(this, &MainContentComponent::MidiCmdCallback);
+        midi_processor_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
     if (const auto ptr = lr_ipc_out_.lock())
         // Add ourselves as a listener for LR_IPC_OUT events
@@ -229,7 +226,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
     last_command_ = juce::String(mm.channel) + ": " + commandtype +
         juce::String(mm.number) + " [" + juce::String(mm.value) + "]";
     command_table_model_.AddRow(mm.channel, mm.number, mt);
-    row_to_select_ = static_cast<size_t>(command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
+    row_to_select_ = gsl::narrow_cast<size_t>(command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
     triggerAsyncUpdate();
 }
 
@@ -340,9 +337,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
         juce::DialogWindow::LaunchOptions dialog_options;
         dialog_options.dialogTitle = "Settings";
         //create new object
-        auto* const component = new SettingsComponent{settings_manager_};
+        auto component = std::make_unique<SettingsComponent>(settings_manager_);
         component->Init();
-        dialog_options.content.setOwned(component);
+        dialog_options.content.setOwned(component.release());
         dialog_options.content->setSize(400, 300);
         dialog_options.escapeKeyTriggersCloseButton = true;
         dialog_options.useNativeTitleBar = false;
@@ -351,6 +348,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
     }
 }
 
+#pragma warning(suppress: 26461) //must not change function signature, used as callback
 void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
     command_table_model_.BuildFromXml(xml_element);

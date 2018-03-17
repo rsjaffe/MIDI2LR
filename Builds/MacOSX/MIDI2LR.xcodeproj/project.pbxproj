@@ -91,7 +91,6 @@
 		41E9EC1BCC4BC4AB420A4FAC = {isa = PBXFileReference; lastKnownFileType = image.png; name = MIDI2LR.png; path = ../../Source/MIDI2LR.png; sourceTree = "SOURCE_ROOT"; };
 		42AF703239A2938413EE43A0 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ResizableLayout.h; path = ../../Source/ResizableLayout.h; sourceTree = "SOURCE_ROOT"; };
 		488A37C1B3B96ECCE82B27FE = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "LR_IPC_Out.h"; path = "../../Source/LR_IPC_Out.h"; sourceTree = "SOURCE_ROOT"; };
-		514FA99CFA4E0B52209B5343 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = concurrentqueue.h; path = ../../MoodyCamel/concurrentqueue.h; sourceTree = "SOURCE_ROOT"; };
 		5205E1551934B25B9956903B = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ProfileManager.cpp; path = ../../Source/ProfileManager.cpp; sourceTree = "SOURCE_ROOT"; };
 		53A4007D19F3B95C335C15D2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = unistr.cpp; path = ../../icu/source/common/unistr.cpp; sourceTree = "SOURCE_ROOT"; };
 		596A515E74C727B658C08FBE = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MidiUtilities.cpp; path = ../../Source/MidiUtilities.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -183,7 +182,6 @@
 					66B56E601E325C222061D3BF,
 					97FB8F5E08C9C1AABF120771,
 					8565E4E927BFAE2FFFE8F5F6,
-					514FA99CFA4E0B52209B5343,
 					EAA66C94AD90C8523B09EBA6,
 					3E59E20F56C0DF0C3D94DD7C,
 					002720811583B714F7F4E32F,
@@ -233,7 +231,7 @@
 					76D0BB2FF84132476210F67C,
 					B446079A6B06BE5A346C9E9A,
 					8F2D5EAE12FD6A627FF1B87A,
-					AE2F237424B688356628C6DA, ); name = "Juce Modules"; sourceTree = "<group>"; };
+					AE2F237424B688356628C6DA, ); name = "JUCE Modules"; sourceTree = "<group>"; };
 		880ECA955CB34C1D3A0D3CAE = {isa = PBXGroup; children = (
 					9D1B7F0D08AB3D37196D1D24,
 					6E89AD5369AA123E9CA80EF2,
@@ -245,7 +243,7 @@
 					92C2D3FB1EEBAD3ABBBD265E,
 					B51C9A997215558260161815,
 					739A784726BEA0F8DD905386,
-					0678BF604113B5922F2377D8, ); name = "Juce Library Code"; sourceTree = "<group>"; };
+					0678BF604113B5922F2377D8, ); name = "JUCE Library Code"; sourceTree = "<group>"; };
 		AB1A7D15C01166657C1A737C = {isa = PBXGroup; children = (
 					6536424AE5EDE9D686FC9F18,
 					F3184CED9270796B369FA288,
@@ -482,7 +480,7 @@
 					B7736F3EB47E2A80B299E0F6,
 					5F5721809F326210B38EECA0,
 					0CDF5F2E47B14285D9BAC74E, ); buildRules = ( ); dependencies = (  ); name = "MIDI2LR - App"; productName = MIDI2LR; productReference = A1E0EDD95E3D41298A5FED32; productType = "com.apple.product-type.application"; };
-		DFD30DF9237597CD5AF365AE = {isa = PBXProject; buildConfigurationList = 1F2C01BA514CBFEA905450CC; attributes = { LastUpgradeCheck = 0830; TargetAttributes = { FD946FDE29418E71B61DACDC = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; }; }; }; compatibilityVersion = "Xcode 3.2"; hasScannedForEncodings = 0; mainGroup = 1C312ECBCB4990D995AB81D1; projectDirPath = ""; projectRoot = ""; targets = (FD946FDE29418E71B61DACDC); };
+		DFD30DF9237597CD5AF365AE = {isa = PBXProject; buildConfigurationList = 1F2C01BA514CBFEA905450CC; attributes = { LastUpgradeCheck = 0830; ORGANIZATIONNAME = ""; TargetAttributes = { FD946FDE29418E71B61DACDC = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; }; }; }; compatibilityVersion = "Xcode 3.2"; hasScannedForEncodings = 0; mainGroup = 1C312ECBCB4990D995AB81D1; projectDirPath = ""; projectRoot = ""; targets = (FD946FDE29418E71B61DACDC); };
 	};
 	rootObject = DFD30DF9237597CD5AF365AE;
 }

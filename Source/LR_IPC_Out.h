@@ -35,13 +35,15 @@ class ControlsModel;
 class MidiProcessor;
 class MidiSender;
 
-class LrIpcOut final:
-    private juce::InterprocessConnection,
-    private juce::AsyncUpdater {
+class LrIpcOut final: juce::InterprocessConnection, juce::AsyncUpdater {
 public:
-    LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command);
-    virtual ~LrIpcOut();
-    void Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor);
+    LrIpcOut(ControlsModel* c_model, const CommandMap * map_command);
+    ~LrIpcOut();
+    LrIpcOut(const LrIpcOut& other) = delete;
+    LrIpcOut(LrIpcOut&& other) = delete;
+    LrIpcOut& operator=(const LrIpcOut& other) = delete;
+    LrIpcOut& operator=(LrIpcOut&& other) = delete;
+    void Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor);
 
     template<class T> void AddCallback(T* const  object, void(T::* const mf)(bool, bool))
     {
@@ -59,7 +61,7 @@ private:
     // IPC interface
     void connectionLost() override;
     void connectionMade() override;
-    void messageReceived(const juce::MemoryBlock& msg) override;
+    void messageReceived(const juce::MemoryBlock& msg) noexcept override;
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
     //private members
@@ -72,7 +74,7 @@ private:
     // helper classes
     class ConnectTimer:public juce::Timer {
     public:
-        explicit ConnectTimer(LrIpcOut* owner):owner_(owner)
+        explicit ConnectTimer(LrIpcOut* owner) noexcept : owner_(owner)
         {}
         void Start();
         void Stop();
@@ -84,7 +86,7 @@ private:
     };
     class Recenter:public juce::Timer {
     public:
-        explicit Recenter(LrIpcOut* owner):owner_{owner}
+        explicit Recenter(LrIpcOut* owner) noexcept : owner_{owner}
         {}
         void SetMidiMessage(rsj::MidiMessage mm);
     private:

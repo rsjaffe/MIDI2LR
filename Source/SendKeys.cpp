@@ -44,7 +44,7 @@ namespace {
     std::string ToLower(const std::string& in) noexcept
     {
         auto s = in;
-        std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) { return std::tolower(c); });
+        std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
         return s;
     }
 }
@@ -55,26 +55,21 @@ class WindowsFunctionError: public std::exception {
     static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(),
         "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
 public:
-    WindowsFunctionError(DWORD n = GetLastError()) noexcept : exception(), number_(n)
+    WindowsFunctionError(DWORD n = GetLastError()) noexcept : number_(n)
     {
         LPSTR new_what;
         FormatMessageA(
             FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
             nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
             LPSTR(&new_what), 0, nullptr); //-V206
-        what_ = {new_what, [](LPSTR w) {HeapFree(GetProcessHeap(), 0, w); }};
+        what_ = {new_what, [](LPSTR w) noexcept {HeapFree(GetProcessHeap(), 0, w); }};
     }
-    WindowsFunctionError(const WindowsFunctionError& other) noexcept :
-    what_(other.what_), number_(other.number_)
-    {}
-    WindowsFunctionError& operator=(const WindowsFunctionError& other) noexcept
-    {
-        if (this != &other) {
-            what_ = other.what_;
-            number_ = other.number_;
-        }
-        return *this;
-    }
+    ~WindowsFunctionError() noexcept = default;
+    WindowsFunctionError(const WindowsFunctionError& other) noexcept = default;
+    WindowsFunctionError(WindowsFunctionError&& other) noexcept = default;
+    WindowsFunctionError& operator=(const WindowsFunctionError& other) noexcept = default;
+    WindowsFunctionError& operator=(WindowsFunctionError&& other) noexcept = default;
+
     const char* what() const noexcept override
     {
         return what_.get();
@@ -99,7 +94,7 @@ wchar_t MBtoWChar(const std::string& key)
     return full_character;
 }
 
-HKL GetLanguage(const std::string& program_name)
+HKL GetLanguage(const std::string& program_name) noexcept
 {
     const auto h_lr_wnd = FindWindow(nullptr, program_name.c_str());
     if (h_lr_wnd) {
@@ -306,9 +301,8 @@ const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #endif
 };
 
-
-void rsj::SendKeyDownUp(const std::string& key, const bool alt_opt,
-    const bool control_cmd, const bool shift) noexcept
+void rsj::SendKeyDownUp(const std::string& key, bool alt_opt,
+    bool control_cmd, bool shift) noexcept
 {
     try {
         static std::mutex mutex_sending{};

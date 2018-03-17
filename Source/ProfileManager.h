@@ -35,13 +35,16 @@ namespace rsj {
     struct MidiMessageId;
 }
 
-class ProfileManager final: private juce::AsyncUpdater {
+class ProfileManager final: juce::AsyncUpdater {
 public:
-    ProfileManager(ControlsModel* const c_model, CommandMap* const cmap) noexcept;
-    virtual ~ProfileManager() = default;
-    ProfileManager(ProfileManager const&) = delete;
-    void operator=(ProfileManager const&) = delete;
-    void Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* const midi_processor);
+    ProfileManager(ControlsModel* c_model, CommandMap* cmap) noexcept;
+    ~ProfileManager() = default;
+    ProfileManager(const ProfileManager& other) = delete;
+    ProfileManager(ProfileManager&& other) = delete;
+    ProfileManager& operator=(const ProfileManager& other) = delete;
+    ProfileManager& operator=(ProfileManager&& other) = delete;
+
+    void Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_processor);
 
     template<class T>
     void AddCallback(T* const object,
@@ -51,9 +54,9 @@ public:
         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
     }
     // sets the default profile directory and scans its contents for profiles
-    void SetProfileDirectory(const juce::File& dir);
+    void SetProfileDirectory(const juce::File& directory);
     // switches to a profile defined by an index
-    void SwitchToProfile(int profile_idx);
+    void SwitchToProfile(int profile_index);
     // switches to a profile defined by a name
     void SwitchToProfile(const juce::String& profile);
 

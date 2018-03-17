@@ -26,13 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <future>
 #include "MidiUtilities.h"
 
-
-MidiProcessor::MidiProcessor() noexcept
-{}
-
-MidiProcessor::~MidiProcessor()
-{}
-
 void MidiProcessor::Init()
 {
     InitDevices();

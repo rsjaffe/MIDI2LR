@@ -48,8 +48,6 @@ class NrpnMessage {
     // message. If the 4th message is dropped, this class silently consumes the
     // message without emitting anything.
 public:
-    NrpnMessage() = default;
-    ~NrpnMessage() = default;
     bool IsInProcess() const noexcept;
     bool ProcessMidi(short control, short value) noexcept(kNdebug);
     rsj::Nrpn GetNrpnIfReady() noexcept;
@@ -75,24 +73,22 @@ private:
 
 class NrpnFilter {
 public:
-    NrpnFilter() = default;
-    ~NrpnFilter() = default;
     bool ProcessMidi(short channel, short control, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15 && channel >= 0);
-        return nrpn_messages_[channel & 0xF].ProcessMidi(control, value);
+        return nrpn_messages_.at(channel & 0xF).ProcessMidi(control, value);
     }
 
     bool IsInProcess(short channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15 && channel >= 0);
-        return nrpn_messages_[channel & 0xF].IsInProcess();
+        return nrpn_messages_.at(channel & 0xF).IsInProcess();
     }
 
     rsj::Nrpn GetNrpnIfReady(short channel) noexcept(kNdebug)
     {
         Expects(channel <= 15 && channel >= 0);
-        return nrpn_messages_[channel & 0xF].GetNrpnIfReady();
+        return nrpn_messages_.at(channel & 0xF).GetNrpnIfReady();
     }
 
 private:
@@ -122,29 +118,29 @@ inline short NrpnMessage::GetValue() const noexcept
 
 inline void NrpnMessage::SetControlLsb(short val) noexcept(kNdebug)
 {
-    Expects(val <= 0x7Fu);
-    control_lsb_ = val & 0x7Fu;
+    Expects(val <= 0x7F);
+    control_lsb_ = val & 0x7F;
     ready_ |= 0b10;
 }
 
 inline void NrpnMessage::SetControlMsb(short val) noexcept(kNdebug)
 {
-    Expects(val <= 0x7Fu);
-    control_msb_ = val & 0x7Fu;
+    Expects(val <= 0x7F);
+    control_msb_ = val & 0x7F;
     ready_ |= 0b1;
 }
 
 inline void NrpnMessage::SetValueLsb(short val) noexcept(kNdebug)
 {
-    Expects(val <= 0x7Fu);
-    value_lsb_ = val & 0x7Fu;
+    Expects(val <= 0x7F);
+    value_lsb_ = val & 0x7F;
     ready_ |= 0b1000;
 }
 
 inline void NrpnMessage::SetValueMsb(short val) noexcept(kNdebug)
 {
-    Expects(val <= 0x7Fu);
-    value_msb_ = val & 0x7Fu;
+    Expects(val <= 0x7F);
+    value_msb_ = val & 0x7F;
     ready_ |= 0b100;  //"Magic number" false alarm //-V112
 }
 

@@ -38,14 +38,14 @@ juce::DocumentWindow::closeButton}
     juce::Component::setVisible(true);
 }
 
-void MainWindow::Init(CommandMap* const command_map,
+void MainWindow::Init(CommandMap* command_map,
     std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiProcessor>& midi_processor,
-    ProfileManager* const profile_manager,
-    SettingsManager* const settings_manager,
-    std::shared_ptr<MidiSender>& midi_sender)
+    std::shared_ptr<MidiProcessor> midi_processor,
+    ProfileManager* profile_manager,
+    SettingsManager* settings_manager,
+    std::shared_ptr<MidiSender> midi_sender)
 {
     if (window_content_)
         window_content_->Init(command_map, std::move(lr_ipc_out),
-            midi_processor, profile_manager, settings_manager, midi_sender);
+            std::move(midi_processor), profile_manager, settings_manager, std::move(midi_sender));
 }
