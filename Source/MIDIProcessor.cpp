@@ -21,10 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
-#include <array>
-#include <atomic>
 #include <future>
-#include "MidiUtilities.h"
 
 void MidiProcessor::Init()
 {
@@ -34,13 +31,10 @@ void MidiProcessor::Init()
 void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
     const juce::MidiMessage& message)
 {
-    //this procedure is in near-real-time, so must return quickly. Will spin off
-    //callbacks to let that happen. As future is replaced in queue, it is destroyed
-    //guaranteeing that async task is run (forced to run before future destroyed if not run earlier)
-    constexpr size_t kRingSize{16};//how many futures to store--should be factor of two so wrap-around at max size_t doesn't clobber a recent addition
-    //but large enough that two async calls kRingSize apart are guaranteed not to be assigning to futures at the same time
-    static std::array<std::future<void>, kRingSize> futures;
-    static std::atomic<size_t> future_index{0};
+    //this procedure is in near-real-time, so must return quickly.
+    //will place message in multithreaded queue and let separate process handle the messages
+    const thread_local moodycamel::ProducerToken ptok(messages_);
+
     const rsj::MidiMessage mess{message};
     switch (mess.message_type_byte) {
         case rsj::kCcFlag:
@@ -48,18 +42,16 @@ void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
                 const auto nrpn = nrpn_filter_.GetNrpnIfReady(mess.channel);
                 if (nrpn.is_valid) {//send when finished
                     const auto n_message{rsj::MidiMessage{rsj::kCcFlag, mess.channel, nrpn.control, nrpn.value}};
-                    for (const auto& cb : callbacks_)
-                        futures[future_index++ % kRingSize] = std::async(std::launch::async, cb, n_message);
+                    messages_.enqueue(ptok, n_message);
+                    triggerAsyncUpdate();
                 }
+                break; //finished with nrpn piece
             }
-            else //regular message
-                for (const auto& cb : callbacks_)
-                    futures[future_index++ % kRingSize] = std::async(std::launch::async, cb, mess);
-            break;
+            [[fallthrough]]; //if not nrpn, handle like other messages
         case rsj::kNoteOnFlag:
         case rsj::kPwFlag:
-            for (const auto& cb : callbacks_)
-                futures[future_index++ % kRingSize] = std::async(std::launch::async, cb, mess);
+            messages_.enqueue(ptok, mess);
+            triggerAsyncUpdate();
             break;
         default:
             ; //no action if other type of MIDI message
@@ -78,9 +70,21 @@ void MidiProcessor::InitDevices()
 {
     for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
         const auto dev = juce::MidiInput::openDevice(idx, this);
-        if (dev != nullptr) {
+        if (dev) {
             devices_.emplace_back(dev);
             dev->start();
         }
     }
+}
+
+void MidiProcessor::handleAsyncUpdate()
+{
+    thread_local moodycamel::ConsumerToken ctok(messages_);
+    do {
+        rsj::MidiMessage message_copy;
+        if (!messages_.try_dequeue(ctok, message_copy))
+            return;
+        for (const auto& cb : callbacks_)
+            cb(message_copy);
+    } while (true);
 }

@@ -23,16 +23,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_MIDIPROCESSOR_H_INCLUDED
 #include <functional>
 #include <vector>
+#include "MoodyCamel/concurrentqueue.h"
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "MidiUtilities.h"
 #include "NrpnMessage.h"
-namespace rsj {
-    struct MidiMessage;
-}
 
-class MidiProcessor final: private juce::MidiInputCallback {
+class MidiProcessor final: juce::MidiInputCallback, juce::AsyncUpdater {
 public:
     void Init();
-
     // re-enumerates MIDI IN devices
     void RescanDevices();
 
@@ -42,11 +40,11 @@ public:
     }
 
 private:
-    // overridden from MidiInputCallback
     void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
-
+    void handleAsyncUpdate() override;
     void InitDevices();
 
+    moodycamel::ConcurrentQueue<rsj::MidiMessage> messages_;
     NrpnFilter nrpn_filter_;
     std::vector <std::function <void(rsj::MidiMessage)>> callbacks_;
     std::vector <std::unique_ptr<juce::MidiInput>> devices_;
