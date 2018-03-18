@@ -90,21 +90,21 @@ void CommandTableModel::paintCell(juce::Graphics& g, int row_number, int column_
     {
         auto value = 0;
         auto channel = 0;
-        switch (commands_.at(gsl::narrow_cast<size_t>(row_number)).msg_id_type) //-V108 int used as index because JUCE uses int
+        switch (auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number)); cmd.msg_id_type)
         {
             case rsj::MsgIdEnum::kNote:
                 format_str = "%d | Note: %d";
-                channel = commands_.at(gsl::narrow_cast<size_t>(row_number)).channel;
-                value = commands_.at(gsl::narrow_cast<size_t>(row_number)).pitch;
+                channel = cmd.channel;
+                value = cmd.pitch;
                 break;
             case rsj::MsgIdEnum::kCc:
                 format_str = "%d | CC: %d";
-                channel = commands_.at(gsl::narrow_cast<size_t>(row_number)).channel;
-                value = commands_.at(gsl::narrow_cast<size_t>(row_number)).controller;
+                channel = cmd.channel;
+                value = cmd.controller;
                 break;
             case rsj::MsgIdEnum::kPitchBend:
                 format_str = "%d | Pitch: %d";
-                channel = commands_.at(gsl::narrow_cast<size_t>(row_number)).channel;
+                channel = cmd.channel;
                 break;
         }
         g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height, juce::Justification::centred);
