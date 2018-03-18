@@ -23,9 +23,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include <future>
 
+namespace {
+    constexpr rsj::MidiMessage kTerminate{0,129,0,0};//impossible channel
+}
+
+MidiProcessor::~MidiProcessor()
+{
+    messages_.enqueue(kTerminate);
+}
+
 void MidiProcessor::Init()
 {
     InitDevices();
+    dispatch_future_ = std::async(std::launch::async,&MidiProcessor::DispatchMessages,this);
 }
 
 void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
@@ -43,7 +53,6 @@ void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
                 if (nrpn.is_valid) {//send when finished
                     const auto n_message{rsj::MidiMessage{rsj::kCcFlag, mess.channel, nrpn.control, nrpn.value}};
                     messages_.enqueue(ptok, n_message);
-                    triggerAsyncUpdate();
                 }
                 break; //finished with nrpn piece
             }
@@ -51,7 +60,6 @@ void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
         case rsj::kNoteOnFlag:
         case rsj::kPwFlag:
             messages_.enqueue(ptok, mess);
-            triggerAsyncUpdate();
             break;
         default:
             ; //no action if other type of MIDI message
@@ -77,12 +85,14 @@ void MidiProcessor::InitDevices()
     }
 }
 
-void MidiProcessor::handleAsyncUpdate()
+void MidiProcessor::DispatchMessages()
 {
     thread_local moodycamel::ConsumerToken ctok(messages_);
     do {
         rsj::MidiMessage message_copy;
         if (!messages_.try_dequeue(ctok, message_copy))
+            messages_.wait_dequeue(message_copy);
+        if (message_copy == kTerminate)
             return;
         for (const auto& cb : callbacks_)
             cb(message_copy);

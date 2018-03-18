@@ -22,14 +22,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MIDI2LR_MIDIPROCESSOR_H_INCLUDED
 #define MIDI2LR_MIDIPROCESSOR_H_INCLUDED
 #include <functional>
+#include <future>
 #include <vector>
-#include "MoodyCamel/concurrentqueue.h"
+#include "MoodyCamel/blockingconcurrentqueue.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"
 
-class MidiProcessor final: juce::MidiInputCallback, juce::AsyncUpdater {
+class MidiProcessor final: juce::MidiInputCallback {
 public:
+    MidiProcessor() = default;
+    ~MidiProcessor();
+    MidiProcessor(const MidiProcessor& other) = delete;
+    MidiProcessor(MidiProcessor&& other) = delete;
+    MidiProcessor& operator=(const MidiProcessor& other) = delete;
+    MidiProcessor& operator=(MidiProcessor&& other) = delete;
     void Init();
     // re-enumerates MIDI IN devices
     void RescanDevices();
@@ -41,11 +48,12 @@ public:
 
 private:
     void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
-    void handleAsyncUpdate() override;
+    void DispatchMessages();
     void InitDevices();
 
-    moodycamel::ConcurrentQueue<rsj::MidiMessage> messages_;
+    moodycamel::BlockingConcurrentQueue<rsj::MidiMessage> messages_;
     NrpnFilter nrpn_filter_;
+    std::future<void> dispatch_future_;
     std::vector <std::function <void(rsj::MidiMessage)>> callbacks_;
     std::vector <std::unique_ptr<juce::MidiInput>> devices_;
 };
