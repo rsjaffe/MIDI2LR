@@ -1318,8 +1318,11 @@ size_t LrCommandList::GetIndexOfCommand(const std::string& command)
         for (const auto& str : NextPrevProfile)
             indexMap[str] = idx++;
     }
-    if (indexMap.find(command)!=indexMap.end())
+    if (indexMap.find(command) != indexMap.end())
         return indexMap.at(command);
-    else
+    else {
+        juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+            "Non-existent command name in GetIndexOfCommand: " + command);
         return 0;
+    }
 }
