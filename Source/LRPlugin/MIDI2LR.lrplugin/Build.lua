@@ -122,20 +122,23 @@ const std::vector <std::string> LrCommandList::NextPrevProfile = {
   "Next Profile",
 };
 
-size_t LrCommandList::GetIndexOfCommand(const std::string& command) {
-  static std::unordered_map<std::string, size_t> indexMap;
+size_t LrCommandList::GetIndexOfCommand(const std::string& command)
+{
+    static std::unordered_map<std::string, size_t> indexMap;
 
-  // better to check for empty then length, as empty has a constant run time behavior.
-  if (indexMap.empty()) {
-    size_t idx = 0;
-    for (const auto& str : LrStringList)
-      indexMap[str] = idx++;
+    // better to check for empty then length, as empty has a constant run time behavior.
+    if (indexMap.empty()) {
+        size_t idx = 0;
+        for (const auto& str : LrStringList)
+            indexMap[str] = idx++;
 
-    for (const auto& str : NextPrevProfile)
-      indexMap[str] = idx++;
-  }
-
-  return indexMap[command];
+        for (const auto& str : NextPrevProfile)
+            indexMap[str] = idx++;
+    }
+    if (indexMap.find(command)!=indexMap.end())
+        return indexMap.at(command);
+    else
+        return 0;
 }]=])
 file:close()
 

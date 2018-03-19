@@ -1318,6 +1318,8 @@ size_t LrCommandList::GetIndexOfCommand(const std::string& command)
         for (const auto& str : NextPrevProfile)
             indexMap[str] = idx++;
     }
-
-    return indexMap.at(command);
+    if (indexMap.find(command)!=indexMap.end())
+        return indexMap.at(command);
+    else
+        return 0;
 }
