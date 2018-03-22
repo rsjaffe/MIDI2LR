@@ -1307,22 +1307,22 @@ const std::vector <std::string> LrCommandList::NextPrevProfile = {
 
 size_t LrCommandList::GetIndexOfCommand(const std::string& command)
 {
-    static std::unordered_map<std::string, size_t> indexMap;
-
-    // better to check for empty then length, as empty has a constant run time behavior.
-    if (indexMap.empty()) {
-        size_t idx = 0;
+    static const std::unordered_map<std::string, size_t> indexMap{[] {
+        std::unordered_map<std::string, size_t> idx_build;
+        size_t idx{0};
         for (const auto& str : LrStringList)
-            indexMap[str] = idx++;
-
+            idx_build[str] = idx++;
         for (const auto& str : NextPrevProfile)
-            indexMap[str] = idx++;
-    }
+            idx_build[str] = idx++;
+        return idx_build;
+    }()};
     if (indexMap.find(command) != indexMap.end())
         return indexMap.at(command);
     else {
-        juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-            "Non-existent command name in GetIndexOfCommand: " + command);
+        //don't show error on deprecated commands, only misspelled ones
+        if (command != "CopySettings" && command != "PasteSettings")
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+                "Non-existent command name in GetIndexOfCommand: " + command);
         return 0;
     }
 }
