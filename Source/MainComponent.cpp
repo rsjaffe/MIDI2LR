@@ -58,7 +58,10 @@ namespace {
 }
 
 MainContentComponent::MainContentComponent() noexcept : ResizableLayout{this}
-{}
+{
+    //Set the component size
+    setSize(kMainWidth, kMainHeight);
+}
 
 void MainContentComponent::Init(CommandMap* command_map,
     std::weak_ptr<LrIpcOut>&& lr_ipc_out,
@@ -88,9 +91,6 @@ void MainContentComponent::Init(CommandMap* command_map,
     if (profile_manager)
         // Add ourselves as a listener for profile changes
         profile_manager->AddCallback(this, &MainContentComponent::ProfileChanged);
-
-    //Set the component size
-    setSize(kMainWidth, kMainHeight);
 
     // Main title
     title_label_.setFont(juce::Font{36.f, juce::Font::bold});
@@ -351,6 +351,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
 #pragma warning(suppress: 26461) //must not change function signature, used as callback
 void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
+    const MessageManagerLock mmLock;
     command_table_model_.BuildFromXml(xml_element);
     command_table_.updateContent();
     command_table_.repaint();
