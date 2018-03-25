@@ -53,7 +53,7 @@ private:
 
     moodycamel::BlockingConcurrentQueue<rsj::MidiMessage> messages_;
     NrpnFilter nrpn_filter_;
-    std::future<void> dispatch_future_;
+    std::future<void> dispatch_messages_future_;
     std::vector <std::function <void(rsj::MidiMessage)>> callbacks_;
     std::vector <std::unique_ptr<juce::MidiInput>> devices_;
 };

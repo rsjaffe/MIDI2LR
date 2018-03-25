@@ -303,7 +303,7 @@ void ChannelModel::save(Archive& archive, uint32_t const version) const
     }
 }
 #pragma warning(push)
-#pragma warning(disable: 26440 26426)
+#pragma warning(disable: 26440 26426 26444)
 CEREAL_CLASS_VERSION(ChannelModel, 2)
 CEREAL_CLASS_VERSION(ControlsModel, 1)
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)

@@ -347,7 +347,7 @@ void rsj::SendKeyDownUp(const std::string& key, bool alt_opt,
         }
 
         // construct input event.
-        INPUT ip;
+        INPUT ip{};
         constexpr auto kSizeIp = sizeof(ip);
         ip.type = INPUT_KEYBOARD;
         //ki: wVk, wScan, dwFlags, time, dwExtraInfo

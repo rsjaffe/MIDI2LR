@@ -144,6 +144,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number,
 
         // create a new command menu
         if (command_select == nullptr) {
+#pragma warning(suppress: 26409 24623 24624)
             command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
             command_select->Init(command_map_);
         }

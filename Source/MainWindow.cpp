@@ -32,6 +32,7 @@ juce::DocumentWindow::minimiseButton |
 juce::DocumentWindow::closeButton}
 {
     juce::TopLevelWindow::setUsingNativeTitleBar(true);
+#pragma warning(suppress: 26409 24623)
     window_content_ = new MainContentComponent{};
     juce::ResizableWindow::setContentOwned(window_content_, true);
     juce::Component::centreWithSize(getWidth(), getHeight());

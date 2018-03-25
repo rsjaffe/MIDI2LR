@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 CommandTable::CommandTable(const juce::String& component_name, CommandTableModel *model):
     juce::TableListBox{component_name, model} {
+#pragma warning(suppress: 26409 24624)
     setHeader(new juce::TableHeaderComponent{});
     getHeader().addColumn("MIDI Command", 1, 150, 30, -1,
         juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);

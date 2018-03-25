@@ -95,10 +95,12 @@ void LrIpcIn::run()
             // connection lost
             while ((size_read == 0 || line.at(size_read - 1) != '\n') && socket_.isConnected()) {
                 if (juce::Thread::threadShouldExit())
+#pragma warning(suppress: 26438)
                     goto threadExit;//break out of nested whiles
                 const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                 switch (wait_status) {
                     case -1:
+#pragma warning(suppress: 26438)
                         goto dumpLine; //read line failed, break out of switch and while
                     case 0:
                         juce::Thread::wait(kEmptyWait);
@@ -106,6 +108,7 @@ void LrIpcIn::run()
                     case 1:
                         switch (socket_.read(&line.at(size_read), 1, false)) {
                             case -1:
+#pragma warning(suppress: 26438)
                                 goto dumpLine; //read error
                             case 1:
                                 size_read++;

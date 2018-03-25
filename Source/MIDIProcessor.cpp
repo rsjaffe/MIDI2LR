@@ -29,13 +29,21 @@ namespace {
 
 MidiProcessor::~MidiProcessor()
 {
+    for (const auto& dev : devices_)
+        dev->stop();
+    moodycamel::ConsumerToken ctok(messages_);
+    rsj::MidiMessage message_copy{};
+    while (messages_.try_dequeue(ctok, message_copy))
+    {
+        /* pump the queue empty */
+    }
     messages_.enqueue(kTerminate);
 }
 
 void MidiProcessor::Init()
 {
     InitDevices();
-    dispatch_future_ = std::async(std::launch::async,&MidiProcessor::DispatchMessages,this);
+    dispatch_messages_future_ = std::async(std::launch::async,&MidiProcessor::DispatchMessages,this);
 }
 
 void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
