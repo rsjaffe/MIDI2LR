@@ -79,7 +79,7 @@ void LrIpcIn::run()
 {
     while (!juce::Thread::threadShouldExit()) {
         std::array<char, kBufferSize> line{};//zero filled by {} initialization
-        thread_local std::future<void> process_fut;
+        static thread_local std::future<void> process_fut;
         //if not connected, executes a wait 333 then goes back to while
         //if connected, tries to read a line, checks thread status and connection
         //status before each read attempt

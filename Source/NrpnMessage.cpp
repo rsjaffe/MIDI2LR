@@ -27,7 +27,7 @@ bool NrpnMessage::ProcessMidi(short control,
 {
     Expects(value <= 0x7F);
     Expects(control <= 0x7F);
-    const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
+    static const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
     auto ret_val = true;
     switch (control) {
         case 6:
@@ -78,7 +78,7 @@ bool NrpnMessage::ProcessMidi(short control,
 
 rsj::Nrpn NrpnMessage::GetNrpnIfReady() noexcept
 {
-    thread_local moodycamel::ConsumerToken ctok(nrpn_queued_);
+    static thread_local moodycamel::ConsumerToken ctok(nrpn_queued_);
     rsj::Nrpn retval;
     if (nrpn_queued_.try_dequeue(ctok, retval)) {
         return retval;

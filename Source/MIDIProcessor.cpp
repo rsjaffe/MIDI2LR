@@ -43,7 +43,7 @@ void MidiProcessor::handleIncomingMidiMessage(juce::MidiInput * /*device*/,
 {
     //this procedure is in near-real-time, so must return quickly.
     //will place message in multithreaded queue and let separate process handle the messages
-    const thread_local moodycamel::ProducerToken ptok(messages_);
+    static const thread_local moodycamel::ProducerToken ptok(messages_);
 
     const rsj::MidiMessage mess{message};
     switch (mess.message_type_byte) {
@@ -87,7 +87,7 @@ void MidiProcessor::InitDevices()
 
 void MidiProcessor::DispatchMessages()
 {
-    thread_local moodycamel::ConsumerToken ctok(messages_);
+    static thread_local moodycamel::ConsumerToken ctok(messages_);
     do {
         rsj::MidiMessage message_copy;
         if (!messages_.try_dequeue(ctok, message_copy))

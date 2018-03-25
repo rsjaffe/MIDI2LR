@@ -23,10 +23,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_LR_IPC_OUT_H_INCLUDED
 
 #include <functional>
+#include <future>
 #include <mutex>
 #include <string>
 #include <vector>
-#include "MoodyCamel/concurrentqueue.h"
+#include "MoodyCamel/blockingconcurrentqueue.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -35,7 +36,7 @@ class ControlsModel;
 class MidiProcessor;
 class MidiSender;
 
-class LrIpcOut final: juce::InterprocessConnection, juce::AsyncUpdater {
+class LrIpcOut final: juce::InterprocessConnection {
 public:
     LrIpcOut(ControlsModel* c_model, const CommandMap * map_command);
     ~LrIpcOut();
@@ -52,25 +53,26 @@ public:
 
     // sends a command to the plugin
     void SendCommand(std::string&& command);
+    void SendCommand(const std::string& command);
 
     void Stop();
     void Restart();
 
 private:
-    void MidiCmdCallback(rsj::MidiMessage);
-    // IPC interface
     void connectionLost() override;
     void connectionMade() override;
     void messageReceived(const juce::MemoryBlock& msg) noexcept override;
-    // AsyncUpdater interface
-    void handleAsyncUpdate() override;
-    //private members
+    void MidiCmdCallback(rsj::MidiMessage);
+    void SendOut();
+
+    bool sending_stopped_{false};
     const CommandMap* const command_map_{};
     ControlsModel* const controls_model_{};
-    moodycamel::ConcurrentQueue<std::string> command_;
-    bool sending_stopped_{false};
+    moodycamel::BlockingConcurrentQueue<std::string> command_;
+    std::future<void> send_out_future_;
     std::shared_ptr<MidiSender> midi_sender_{nullptr};
     std::vector<std::function<void(bool, bool)>> callbacks_{};
+
     // helper classes
     class ConnectTimer:public juce::Timer {
     public:

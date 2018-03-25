@@ -34,20 +34,28 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std::string_literals;
 
 namespace {
-    constexpr auto kHost = "127.0.0.1";
-    constexpr int kConnectTimer = 1000;
-    constexpr int kConnectTryTime = 100;
+    constexpr auto kHost{"127.0.0.1"};
+    constexpr auto kTerminate{"!!!@#$%^"};
+    constexpr int kConnectTimer{1000};
+    constexpr int kConnectTryTime{100};
     constexpr int kDelay{8}; //in between recurrent actions
-    constexpr int kLrOutPort = 58763;
+    constexpr int kLrOutPort{58763};
     constexpr int kMinRecenterTimer{250}; //give controller enough of a refractory period before resetting it
     constexpr int kRecenterTimer{std::max(kMinRecenterTimer, kDelay + kDelay / 2)};//don't change, change kDelay and kMinRecenterTimer
 }
 
 LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap * map_command):
-    command_map_{map_command}, controls_model_{c_model} {}
+    command_map_{map_command}, controls_model_{c_model}
+{}
 
 LrIpcOut::~LrIpcOut()
 {
+    moodycamel::ConsumerToken ctok(command_);
+    std::string command_copy_;
+    while (command_.try_dequeue(ctok, command_copy_)) {
+        /* pump the queue empty */
+    }
+    command_.enqueue(kTerminate);
     connect_timer_.Stop();
     juce::InterprocessConnection::disconnect();
 }
@@ -55,18 +63,13 @@ LrIpcOut::~LrIpcOut()
 void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
 {
     midi_sender_ = std::move(midi_sender);
+    connect_timer_.Start();
+    send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
     if (midi_processor)
         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
-    connect_timer_.Start();
 }
 
-void LrIpcOut::SendCommand(std::string&& command)
-{
-    if (sending_stopped_) return;
-    const thread_local moodycamel::ProducerToken ptok(command_);
-    command_.enqueue(ptok, std::move(command));
-    juce::AsyncUpdater::triggerAsyncUpdate();
-}
+
 
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
@@ -111,18 +114,30 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             if (change == 0)
                 return;//don't send any signal
             if (change > 0) //turned clockwise
-                command_to_send = a->second.first;
+                SendCommand(a->second.first);
             else //turned counterclockwise
-                command_to_send = a->second.second;
+                SendCommand(a->second.second);
         }
-        else
-            return; //too soon, don't send anything
+        return; //if repeated command
     }
-    else {
+    else { //not repeated command
         const auto computed_value = controls_model_->ControllerToPlugin(mm);
-        command_to_send += ' ' + std::to_string(computed_value) + '\n';
+        SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
     }
-    SendCommand(std::move(command_to_send));
+}
+
+void LrIpcOut::SendCommand(std::string&& command)
+{
+    if (sending_stopped_) return;
+    static const thread_local moodycamel::ProducerToken ptok(command_);
+    command_.enqueue(ptok, std::move(command));
+}
+
+void LrIpcOut::SendCommand(const std::string& command)
+{
+    if (sending_stopped_) return;
+    static const thread_local moodycamel::ProducerToken ptok(command_);
+    command_.enqueue(ptok, command);
 }
 
 void LrIpcOut::Stop()
@@ -158,12 +173,14 @@ void LrIpcOut::connectionLost()
 void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept
 {}
 
-void LrIpcOut::handleAsyncUpdate()
+void LrIpcOut::SendOut()
 {
     do {
         std::string command_copy;
-        thread_local moodycamel::ConsumerToken ctok(command_);
+        static thread_local moodycamel::ConsumerToken ctok(command_);
         if (!command_.try_dequeue(ctok, command_copy))
+            command_.wait_dequeue(command_copy);
+        if (command_copy == kTerminate)
             return;
         //check if there is a connection
         if (juce::InterprocessConnection::isConnected()) {
