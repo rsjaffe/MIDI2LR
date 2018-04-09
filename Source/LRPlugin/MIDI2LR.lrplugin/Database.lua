@@ -809,6 +809,18 @@ local DataBase = {
   {"TrimEnd",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimEnd=Set Trim End")},
   {"TrimStart",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimStart=Set Trim Start")},
 }
+local LrApplication  = import 'LrApplication'
+local lrvers = LrApplication.versionTable()
+if (lrvers.major == 7 and lrvers.minor > 2) or lrvers.major > 7 then
+  for i,v in ipairs(DataBase) do
+    if v[1] == "Dehaze" then
+      DataBase[i] =   {"Dehaze",'basicTone',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount"),effects,"Controls the amount of haze in a photograph. Drag to the right to remove haze; drag to the left to add haze.",'basicTone'}
+      break
+    end
+  end
+end
+
+
 
 local MenuList = {}
 local SelectivePasteMenu = {}
@@ -930,6 +942,8 @@ file:write([=[
   local ProfileMap = ]==],serpent.block(ProfileMap, {comment = false}), [==[
   
   local ParamDisplay = ]==],serpent.block(paramdisp, {comment = false}), [==[
+
+  
   
 return {
     SelectivePasteMenu = SelectivePasteMenu,
