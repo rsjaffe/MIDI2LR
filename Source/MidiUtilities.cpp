@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 {//anything not set below is set to zero by default constructor
     const auto raw = mm.getRawData();
-    Expects(raw);
+    Ensures(raw);
     message_type_byte = raw[0] >> 4;
     channel = raw[0] & 0xF;
     switch (message_type_byte) {
@@ -49,7 +49,7 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
         case kSystemFlag:
             break; //no action
         default:
-            Expects(!"Default should be unreachable in ParseMidi");
+            Ensures(!"Default should be unreachable in ParseMidi");
     }
 }
 
@@ -67,6 +67,6 @@ rsj::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug):
             msg_id_type = MsgIdEnum::kPitchBend;
             break;
         default: //should be unreachable--MidiMessageId only handles a few message types
-            Expects(0);
+            Ensures(0);
     }
 }

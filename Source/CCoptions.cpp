@@ -261,7 +261,7 @@ void CCoptions::buttonClicked(Button* button_that_was_clicked)
             ccm = rsj::CCmethod::kSignMagnitude;
         else {
             ccm = rsj::CCmethod::kAbsolute;
-            Expects(!"Should be unreachable apply all button");
+            Ensures(!"Should be unreachable apply all button");
         }
         controls_model_->SetCcAll(bound_channel_, bound_number_,
             gsl::narrow_cast<short>(minvaltext->getText().getIntValue()),

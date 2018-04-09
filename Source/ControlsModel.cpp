@@ -73,7 +73,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
                         return OffsetResult(value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value, controlnumber);
                     return OffsetResult(value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber);
                 default:
-                    Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+                    Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
                     return 0.0;
             }
         case rsj::kNoteOnFlag:
@@ -81,7 +81,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
         case rsj::kNoteOffFlag:
             return 0.0;
         default:
-            Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
+            Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
             return 0.0;
     }
 }
@@ -141,7 +141,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
                         return value & kBit14 ? -((value ^ kMaxNrpn) + 1) : value;
                     return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
                 default:
-                    Expects(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+                    Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
                     return short{0};
             }
         case rsj::kNoteOnFlag:
@@ -149,7 +149,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
         case rsj::kNoteOffFlag:
             return short{0};
         default:
-            Expects(!"Should be unreachable code in ControllerToPlugin--unknown control type");
+            Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
             return short{0};
     }
 }
@@ -178,7 +178,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
         case rsj::kNoteOnFlag:
             return kMaxMidi;
         default:
-            Expects(!"Unexpected control type");
+            Ensures(!"Unexpected control type");
     }
     return 0;
 }

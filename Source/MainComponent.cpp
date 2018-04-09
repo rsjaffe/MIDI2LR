@@ -220,7 +220,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
             commandtype = "PITCHBEND";
             break;
         default: //shouldn't receive any messages note categorized above
-            Expects(0);
+            Ensures(0);
     }
     mm.channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.channel) + ": " + commandtype +
