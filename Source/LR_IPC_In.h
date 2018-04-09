@@ -22,9 +22,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MIDI2LR_LR_IPC_IN_H_INCLUDED
 #define MIDI2LR_LR_IPC_IN_H_INCLUDED
 
+#include <future>
 #include <memory>
 #include <mutex>
 #include <string>
+#include "MoodyCamel/readerwriterqueue.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 class CommandMap;
 class ControlsModel;
@@ -50,7 +52,9 @@ private:
     // Timer callback
     void timerCallback() override;
     // process a line received from the socket
-    void ProcessLine(const std::string&& line) const;
+    void ProcessLine();
+    moodycamel::BlockingReaderWriterQueue<std::string> line_;
+    std::future<void> process_line_future_;
 
     bool thread_started_{false};
     bool timer_off_{false};
