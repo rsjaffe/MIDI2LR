@@ -25,11 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "MidiUtilities.h"
 class CommandMap;
-namespace rsj {
-    enum class MsgIdEnum: short;
-    struct MidiMessageId;
-}
 
 class CommandTableModel final: public juce::TableListBoxModel {
 public:
