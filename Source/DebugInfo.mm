@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "DebugInfo.h"
-#import <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 
 std::string rsj::GetKeyboardLayout()
@@ -29,11 +28,9 @@ std::string rsj::GetKeyboardLayout()
     // get current keyboard layout by name
     TISInputSourceRef current_source = TISCopyCurrentKeyboardInputSource();
     NSString *s = (__bridge NSString *)(TISGetInputSourceProperty(current_source, kTISPropertyInputSourceID));
-    if (s) {
-        // get last part of string (without com.apple.keylayout.)
-        NSUInteger last_dot_num = [s rangeOfString:@"." options:NSBackwardsSearch].location;
-        NSString *substring = [s substringFromIndex:last_dot_num + 1];
-        return std::string([substring UTF8String]);
+    NSString *t = (__bridge NSString *)(TISGetInputSourceProperty(current_source, kTISPropertyLocalizedName));
+    if (s and t) {
+        return std::string([s UTF8String]) + ' '+ std::string([t UTF8String]);
     }
     return std::string("could not get input source ID");
 }

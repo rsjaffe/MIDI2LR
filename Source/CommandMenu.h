@@ -30,13 +30,13 @@ class CommandMap;
 
 class CommandMenu final: public juce::TextButton {
 public:
-    explicit CommandMenu(const rsj::MidiMessageId& msg);
-    void Init(CommandMap* const map_command) noexcept;
+    explicit CommandMenu(const rsj::MidiMessageId& message);
+    void Init(CommandMap* map_command) noexcept;
     // sets the MIDI message associated to this menu component
-    void SetMsg(const rsj::MidiMessageId& msg) noexcept;
+    void SetMsg(const rsj::MidiMessageId& message) noexcept;
 
     // sets which item in the menu is selected
-    void SetSelectedItem(size_t idx);
+    void SetSelectedItem(size_t index);
 
 private:
     void clicked(const juce::ModifierKeys& modifiers) override;

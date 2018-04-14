@@ -47,7 +47,7 @@ CommandMenu::CommandMenu(const rsj::MidiMessageId& message):
     message_{message}
 {}
 
-void CommandMenu::Init(CommandMap* const map_command) noexcept
+void CommandMenu::Init(CommandMap* map_command) noexcept
 {
     command_map_ = map_command;
 }
@@ -61,9 +61,9 @@ void CommandMenu::SetSelectedItem(size_t index)
 {
     selected_item_ = index;
     if (index - 1 < LrCommandList::LrStringList.size())
-        setButtonText(LrCommandList::LrStringList[index - 1]);
+        setButtonText(LrCommandList::LrStringList.at(index - 1));
     else
-        setButtonText(LrCommandList::NextPrevProfile[index - 1 - LrCommandList::LrStringList.size()]);
+        setButtonText(LrCommandList::NextPrevProfile.at(index - 1 - LrCommandList::LrStringList.size()));
 }
 
 void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
@@ -73,7 +73,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             case rsj::MsgIdEnum::kCc:
             {
                 CCoptions ccopt;
-                ccopt.BindToControl(static_cast<size_t>(message_.channel) - 1, // convert 1-based to 0-based
+                ccopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to 0-based
                     gsl::narrow_cast<short>(message_.controller));
                 juce::DialogWindow::showModalDialog("Adjust CC dialog", &ccopt, nullptr,
                     juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
@@ -82,7 +82,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             case rsj::MsgIdEnum::kPitchBend:
             {
                 PWoptions pwopt;
-                pwopt.BindToControl(static_cast<size_t>(message_.channel) - 1); //convert 1-based to 0 based
+                pwopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1)); //convert 1-based to 0 based
                 juce::DialogWindow::showModalDialog("Adjust PW dialog", &pwopt, nullptr,
                     juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
                 break;
@@ -95,16 +95,16 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
         size_t index = 1;
         auto submenu_tick_set = false;
         juce::PopupMenu main_menu;
-        main_menu.addItem(gsl::narrow_cast<int>(index), "Unmapped", true, submenu_tick_set = (index == selected_item_));
+        main_menu.addItem(gsl::narrow_cast<int>(index), "Unmapped", true, submenu_tick_set = index == selected_item_);
         index++;
         // add each submenu
         for (size_t menu_index = 0; menu_index < menus_.size(); ++menu_index) {
             juce::PopupMenu sub_menu;
-            for (const auto& command : menu_entries_[menu_index]) {
+            for (const auto& command : menu_entries_.at(menu_index)) {
                 auto already_mapped = false;
-                if ((index - 1 < LrCommandList::LrStringList.size()) && (command_map_))
+                if (index - 1 < LrCommandList::LrStringList.size() && command_map_)
                     already_mapped =
-                    command_map_->CommandHasAssociatedMessage(LrCommandList::LrStringList[index - 1]);
+                    command_map_->CommandHasAssociatedMessage(LrCommandList::LrStringList.at(index - 1));
 
                 // add each submenu entry, ticking the previously selected entry and
                 // disabling a previously mapped entry
@@ -118,21 +118,21 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             }
             // set whether or not the submenu is ticked (true if one of the submenu's
             // entries is selected)
-            main_menu.addSubMenu(menus_[menu_index], sub_menu, true, nullptr,
+            main_menu.addSubMenu(menus_.at(menu_index), sub_menu, true, nullptr,
                 selected_item_ < index && !submenu_tick_set);
-            submenu_tick_set |= (selected_item_ < index && !submenu_tick_set);
+            submenu_tick_set |= selected_item_ < index && !submenu_tick_set;
         }
 
-        const auto result = static_cast<size_t>(main_menu.show());
-        if ((result) && (command_map_)) {
+        const auto result = gsl::narrow_cast<size_t>(main_menu.show());
+        if (result && command_map_) {
             // user chose a different command, remove previous command mapping
             // associated to this menu
             if (selected_item_ < std::numeric_limits<size_t>::max())
                 command_map_->RemoveMessage(message_);
             if (result - 1 < LrCommandList::LrStringList.size())
-                setButtonText(LrCommandList::LrStringList[result - 1]);
+                setButtonText(LrCommandList::LrStringList.at(result - 1));
             else
-                setButtonText(LrCommandList::NextPrevProfile[result - 1 - LrCommandList::LrStringList.size()]);
+                setButtonText(LrCommandList::NextPrevProfile.at(result - 1 - LrCommandList::LrStringList.size()));
             selected_item_ = result;
             // Map the selected command to the CC
             command_map_->AddCommandforMessage(result - 1, message_);

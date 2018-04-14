@@ -23,6 +23,7 @@
                  Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <LinkIncremental>true</LinkIncremental>
     <PlatformToolset>v141</PlatformToolset>
     <PlatformToolset>v141</PlatformToolset>
@@ -74,8 +75,8 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../icu/source/common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;U_STATIC_IMPLEMENTATION=1;GSL_THROW_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.7.0.4;JUCE_APP_VERSION_HEX=0x2070004;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;U_STATIC_IMPLEMENTATION=1;GSL_THROW_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.8.0.0;JUCE_APP_VERSION_HEX=0x2080000;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
@@ -115,8 +116,8 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../icu/source/common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;U_STATIC_IMPLEMENTATION=1;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.7.0.4;JUCE_APP_VERSION_HEX=0x2070004;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;U_STATIC_IMPLEMENTATION=1;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;JUCER_VS2017_78A5024=1;JUCE_APP_VERSION=2.8.0.0;JUCE_APP_VERSION_HEX=0x2080000;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
@@ -161,7 +162,6 @@
     <ClCompile Include="..\..\icu\source\common\ustrtrns.cpp"/>
     <ClCompile Include="..\..\icu\source\common\utf_impl.cpp"/>
     <ClCompile Include="..\..\icu\source\common\utypes.cpp"/>
-    <ClCompile Include="..\..\Source\Utilities\Utilities.cpp"/>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
     <ClCompile Include="..\..\Source\CommandMap.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
@@ -1396,13 +1396,11 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Utilities\Utilities.h"/>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
     <ClInclude Include="..\..\Source\CommandMap.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
     <ClInclude Include="..\..\Source\CommandTableModel.h"/>
-    <ClInclude Include="..\..\MoodyCamel\concurrentqueue.h"/>
     <ClInclude Include="..\..\Source\ControlsModel.h"/>
     <ClInclude Include="..\..\Source\DebugInfo.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>

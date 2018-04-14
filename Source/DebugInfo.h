@@ -23,16 +23,22 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 class DebugInfo {
 public:
-    DebugInfo();
+    DebugInfo() noexcept;
     ~DebugInfo() = default;
-    void ResetOutput() noexcept {iterate = 0;}
-    std::string const * const GetInfo();
+    DebugInfo(const DebugInfo& other) = default;
+    DebugInfo(DebugInfo&& other) = default;
+    DebugInfo& operator=(const DebugInfo& other) = default;
+    DebugInfo& operator=(DebugInfo&& other) = default;
+    void ResetOutput() noexcept
+    {
+        iterate_ = 0;
+    }
+    std::string const * GetInfo();
 private:
-    std::vector<std::string> info;
-    size_t iterate{0};
+    std::vector<std::string> info_;
+    size_t iterate_{0};
 };
 
-namespace rsj
-{
+namespace rsj {
     std::string GetKeyboardLayout();
 }

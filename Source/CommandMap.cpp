@@ -21,12 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 
-#include <cassert>
 #include "CommandMap.h"
 #include "LRCommands.h"
-
-CommandMap::CommandMap() noexcept
-{}
 
 void CommandMap::AddCommandforMessage(size_t command, const rsj::MidiMessageId& message)
 {
@@ -37,7 +33,7 @@ void CommandMap::AddCommandforMessage(size_t command, const rsj::MidiMessageId& 
         command_string_map_.insert({LrCommandList::LrStringList[command], message});
     }
     else
-        message_map_[message] = LrCommandList::NextPrevProfile[command - LrCommandList::LrStringList.size()];
+        message_map_[message] = LrCommandList::NextPrevProfile.at(command - LrCommandList::LrStringList.size());
 }
 
 std::vector<const rsj::MidiMessageId*> CommandMap::GetMessagesForCommand(const std::string& command) const
@@ -51,11 +47,11 @@ std::vector<const rsj::MidiMessageId*> CommandMap::GetMessagesForCommand(const s
 
 void CommandMap::ToXmlDocument(const juce::File& file) const
 {
-    if (message_map_.size()) {//don't bother if map is empty
+    if (!message_map_.empty()) {//don't bother if map is empty
       // save the contents of the command map to an xml file
         juce::XmlElement root{"settings"};
         for (const auto& map_entry : message_map_) {
-            auto* setting = new juce::XmlElement{"setting"};
+            auto setting = std::make_unique<juce::XmlElement>("setting");
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
                 case rsj::MsgIdEnum::kNote: setting->setAttribute("note", map_entry.first.pitch);
@@ -66,7 +62,7 @@ void CommandMap::ToXmlDocument(const juce::File& file) const
                     break;
             }
             setting->setAttribute("command_string", map_entry.second);
-            root.addChildElement(setting);
+            root.addChildElement(setting.release());
         }
         if (!root.writeToFile(file, ""))
             // Give feedback if file-save doesn't work

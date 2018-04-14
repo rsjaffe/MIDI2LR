@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.7.0.4"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.8.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.2.0" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.2.1" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="U_STATIC_IMPLEMENTATION=1" headerPath="../../&#10;../../icu/source/common/">
@@ -23,10 +23,6 @@
         <FILE id="iBnWqs" name="utf_impl.cpp" compile="1" resource="0" file="icu/source/common/utf_impl.cpp"/>
         <FILE id="ipO4BO" name="utypes.cpp" compile="1" resource="0" file="icu/source/common/utypes.cpp"/>
       </GROUP>
-      <GROUP id="{64A53798-7D11-73F5-9678-76E2C116E917}" name="Utilities">
-        <FILE id="FNdro6" name="Utilities.cpp" compile="1" resource="0" file="Source/Utilities/Utilities.cpp"/>
-        <FILE id="HksVIV" name="Utilities.h" compile="0" resource="0" file="Source/Utilities/Utilities.h"/>
-      </GROUP>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
       <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
@@ -40,8 +36,6 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
-      <FILE id="ae0mwV" name="concurrentqueue.h" compile="0" resource="0"
-            file="MoodyCamel/concurrentqueue.h"/>
       <FILE id="zLeGKN" name="ControlsModel.cpp" compile="1" resource="0"
             file="Source/ControlsModel.cpp"/>
       <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="Source/ControlsModel.h"/>
@@ -101,11 +95,11 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
+        <CONFIGURATION name="Debug" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
                        enablePluginBinaryCopyStep="1"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
+        <CONFIGURATION name="Release" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
                        enablePluginBinaryCopyStep="1"/>
@@ -153,9 +147,8 @@
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
     <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="disabled"
-               JUCE_USE_CDREADER="disabled" JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="disabled"
-               JUCE_WASAPI_EXCLUSIVE="disabled"/>
+  <JUCEOPTIONS JUCE_USE_OGGVORBIS="disabled" JUCE_USE_ANDROID_OPENSLES="0" JUCE_USE_CDREADER="disabled"
+               JUCE_USE_CDBURNER="disabled" JUCE_WASAPI="0" JUCE_WASAPI_EXCLUSIVE="0"/>
   <LIVE_SETTINGS>
     <WINDOWS enableCxx11="1"/>
   </LIVE_SETTINGS>

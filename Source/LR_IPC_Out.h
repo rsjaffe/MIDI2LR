@@ -23,10 +23,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_LR_IPC_OUT_H_INCLUDED
 
 #include <functional>
+#include <future>
 #include <mutex>
 #include <string>
 #include <vector>
-#include "MoodyCamel/concurrentqueue.h"
+#include "MoodyCamel/blockingconcurrentqueue.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -35,42 +36,47 @@ class ControlsModel;
 class MidiProcessor;
 class MidiSender;
 
-
-class LrIpcOut final:
-    private juce::InterprocessConnection,
-    private juce::AsyncUpdater {
+class LrIpcOut final: juce::InterprocessConnection {
 public:
-    LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command);
-    virtual ~LrIpcOut();
-    void Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor);
+    LrIpcOut(ControlsModel* c_model, const CommandMap * map_command);
+    ~LrIpcOut();
+    LrIpcOut(const LrIpcOut& other) = delete;
+    LrIpcOut(LrIpcOut&& other) = delete;
+    LrIpcOut& operator=(const LrIpcOut& other) = delete;
+    LrIpcOut& operator=(LrIpcOut&& other) = delete;
+    void Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor);
 
-    template<class T> void AddCallback(T* const  object, void(T::* const mf)(bool))
+    template<class T> void AddCallback(T* const  object, void(T::* const mf)(bool, bool))
     {
-        callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
+        callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1, std::placeholders::_2));
     }
 
     // sends a command to the plugin
     void SendCommand(std::string&& command);
+    void SendCommand(const std::string& command);
 
-    void MidiCmdCallback(rsj::MidiMessage);
+    void Stop();
+    void Restart();
 
 private:
-    // IPC interface
     void connectionLost() override;
     void connectionMade() override;
-    void messageReceived(const juce::MemoryBlock& msg) override;
-    // AsyncUpdater interface
-    void handleAsyncUpdate() override;
-    //private members
+    void messageReceived(const juce::MemoryBlock& msg) noexcept override;
+    void MidiCmdCallback(rsj::MidiMessage);
+    void SendOut();
+
+    bool sending_stopped_{false};
     const CommandMap* const command_map_{};
     ControlsModel* const controls_model_{};
-    moodycamel::ConcurrentQueue<std::string> command_;
+    moodycamel::BlockingConcurrentQueue<std::string> command_;
+    std::future<void> send_out_future_;
     std::shared_ptr<MidiSender> midi_sender_{nullptr};
-    std::vector<std::function<void(bool)>> callbacks_{};
+    std::vector<std::function<void(bool, bool)>> callbacks_{};
+
     // helper classes
-    class connect_timer:public juce::Timer {
+    class ConnectTimer:public juce::Timer {
     public:
-        explicit connect_timer(LrIpcOut* owner):owner_(owner)
+        explicit ConnectTimer(LrIpcOut* owner) noexcept : owner_(owner)
         {}
         void Start();
         void Stop();
@@ -80,9 +86,9 @@ private:
         bool timer_off_{false};
         mutable std::mutex connect_mutex_; //fix race during shutdown
     };
-    class recenter:public juce::Timer {
+    class Recenter:public juce::Timer {
     public:
-        explicit recenter(LrIpcOut* owner):owner_{owner}
+        explicit Recenter(LrIpcOut* owner) noexcept : owner_{owner}
         {}
         void SetMidiMessage(rsj::MidiMessage mm);
     private:
@@ -91,8 +97,8 @@ private:
         rsj::RelaxTTasSpinLock mtx_;
         rsj::MidiMessage mm_{};
     };
-    connect_timer connect_timer_{this};
-    recenter recenter_{this};
+    ConnectTimer connect_timer_{this};
+    Recenter recenter_{this};
 };
 
 #endif  // LR_IPC_OUT_H_INCLUDED

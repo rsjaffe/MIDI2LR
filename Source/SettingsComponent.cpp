@@ -31,11 +31,8 @@ namespace {
     constexpr auto kSettingsHeight = 300;
 }
 
-SettingsComponent::SettingsComponent(SettingsManager* const settings_manager): ResizableLayout{this},
+SettingsComponent::SettingsComponent(SettingsManager* settings_manager): ResizableLayout{this},
 settings_manager_{settings_manager}
-{}
-
-SettingsComponent::~SettingsComponent()
 {}
 
 void SettingsComponent::Init()

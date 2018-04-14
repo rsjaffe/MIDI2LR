@@ -27,17 +27,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LR_IPC_Out.h"
-#include "LRCommands.h"
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel* const c_model, CommandMap* const cmap) noexcept:
+ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* cmap) noexcept:
 command_map_{cmap}, controls_model_{c_model}
 {}
 
 void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out,
-    MidiProcessor* const midiProcessor)
+    MidiProcessor* midi_processor)
 {
     //copy the pointers
     lr_ipc_out_ = std::move(out);
@@ -47,8 +46,8 @@ void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out,
         // settings on connection
         ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
 
-    if (midiProcessor)
-        midiProcessor->AddCallback(this, &ProfileManager::MidiCmdCallback);
+    if (midi_processor)
+        midi_processor->AddCallback(this, &ProfileManager::MidiCmdCallback);
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)
@@ -63,7 +62,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
     for (const auto& file : file_array)
         profiles_.emplace_back(file.getFileName());
 
-    if (profiles_.size() > 0)
+    if (!profiles_.empty())
         SwitchToProfile(profiles_[0]);
 }
 
@@ -75,7 +74,7 @@ const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
 void ProfileManager::SwitchToProfile(int profile_index)
 {
     if (profile_index >= 0 && profile_index < gsl::narrow_cast<int>(profiles_.size())) {
-        SwitchToProfile(profiles_[static_cast<size_t>(profile_index)]);
+        SwitchToProfile(profiles_.at(gsl::narrow_cast<size_t>(profile_index)));
         current_profile_index_ = profile_index;
     }
 }
@@ -137,16 +136,16 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
         const rsj::MidiMessageId cc = mm;
         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
         // profile-related command
-        if ((controls_model_->ControllerToPlugin(mm) < 0.4)
+        if (controls_model_->ControllerToPlugin(mm) < 0.4
             || !command_map_->MessageExistsInMap(cc))
             return;
         MapCommand(cc);
     }
 }
 
-void ProfileManager::ConnectionCallback(bool connected)
+void ProfileManager::ConnectionCallback(bool connected, bool blocked)
 {
-    if (connected) {
+    if (connected && !blocked) {
         if (const auto ptr = lr_ipc_out_.lock()) {
             ptr->SendCommand("ChangedToDirectory "s +
                 juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString() +

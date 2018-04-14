@@ -25,9 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <array>
 #include <atomic>
 #include <vector>
-#include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/access.hpp>
-#include <cereal/types/array.hpp>
+#include <cereal/types/array.hpp> //required, ReSharper falsely marks as not needed
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
 #include "MidiUtilities.h"
@@ -43,8 +42,8 @@ namespace rsj {
         short low;
         short high;
         rsj::CCmethod method;
-        SettingsStruct(short n = 0, short l = 0, short h = 0x7F, rsj::CCmethod m = rsj::CCmethod::kAbsolute):
-            number{n}, low{l}, high{h}, method{m}
+        SettingsStruct(short n = 0, short l = 0, short h = 0x7F, rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept:
+        number{n}, low{l}, high{h}, method{m}
         {}
 
         template<class Archive> void serialize(Archive& archive, uint32_t const version)
@@ -61,7 +60,6 @@ namespace rsj {
 }
 
 class ChannelModel {
-private:
     constexpr static short kBit14 = 0x2000;
     constexpr static short kBit7 = 0x40;
     constexpr static short kLow13Bits = 0x1FFF;
@@ -73,7 +71,7 @@ private:
     constexpr static size_t kMaxControls = 0x4000;
     constexpr static rsj::TimeType kUpdateDelay = 250;
 public:
-    ChannelModel();
+    ChannelModel() noexcept;
     ~ChannelModel() = default;
     //Can write copy and move with special handling for atomics, but in lieu of that, delete
     ChannelModel(const ChannelModel&) = delete; //can't copy atomics
@@ -86,17 +84,17 @@ public:
     rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
-        return cc_method_[controlnumber];
+        return cc_method_.at(controlnumber);
     }
     short GetCcMax(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
-        return cc_high_[controlnumber];
+        return cc_high_.at(controlnumber);
     }
     short GetCcMin(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
-        return cc_low_[controlnumber];
+        return cc_low_.at(controlnumber);
     }
 
     short GetPwMax() const noexcept
@@ -114,19 +112,19 @@ public:
     void SetCcMethod(size_t controlnumber, rsj::CCmethod value) noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
-        cc_method_[controlnumber] = value;
+        cc_method_.at(controlnumber) = value;
     }
     void SetCcMin(size_t controlnumber, short value) noexcept(kNdebug);
     void SetPwMax(short value) noexcept(kNdebug);
     void SetPwMin(short value) noexcept(kNdebug);
 
 private:
-    short CenterCc(size_t controlnumber)
+    short CenterCc(size_t controlnumber) noexcept
     {
-        return (cc_high_[controlnumber] - cc_low_[controlnumber]) / 2 +
-            cc_low_[controlnumber] + (cc_high_[controlnumber] - cc_low_[controlnumber]) % 2;
+        return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2 +
+            cc_low_.at(controlnumber) + (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) % 2;
     }
-    short CenterPw()
+    short CenterPw() noexcept
     {
         return  (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_ + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
     }
@@ -155,9 +153,7 @@ private:
 
 class ControlsModel {
 public:
-    ControlsModel()
-    {}
-
+    ControlsModel() = default;
     ~ControlsModel() = default;
     //Can write copy and move with special handling for atomics, but in lieu of that, delete
     ControlsModel(const ControlsModel&) = delete; //can't copy atomics
@@ -167,101 +163,101 @@ public:
     double ControllerToPlugin(const rsj::MidiMessage& mm) noexcept(kNdebug)
     {
         Expects(mm.channel <= 15);
-        return all_controls_[mm.channel].ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
+        return all_controls_.at(mm.channel).ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
     }
 
     short MeasureChange(const rsj::MidiMessage& mm) noexcept(kNdebug)
     {
         Expects(mm.channel <= 15);
-        return all_controls_[mm.channel].MeasureChange(mm.message_type_byte, mm.number, mm.value);
+        return all_controls_.at(mm.channel).MeasureChange(mm.message_type_byte, mm.number, mm.value);
     }
     short SetToCenter(const rsj::MidiMessage& mm) noexcept(kNdebug)
     {
         Expects(mm.channel <= 15);
-        return all_controls_[mm.channel].SetToCenter(mm.message_type_byte, mm.number);
+        return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.number);
     }
 
     rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].GetCcMethod(controlnumber);
+        return all_controls_.at(channel).GetCcMethod(controlnumber);
     }
 
     short GetCcMax(size_t channel, short controlnumber) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].GetCcMax(controlnumber);
+        return all_controls_.at(channel).GetCcMax(controlnumber);
     }
 
     short GetCcMin(size_t channel, short controlnumber) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].GetCcMin(controlnumber);
+        return all_controls_.at(channel).GetCcMin(controlnumber);
     }
 
     short GetPwMax(size_t channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].GetPwMax();
+        return all_controls_.at(channel).GetPwMax();
     }
 
     short GetPwMin(size_t channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].GetPwMin();
+        return all_controls_.at(channel).GetPwMin();
     }
 
     short PluginToController(short controltype, size_t channel, short controlnumber, double value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].PluginToController(controltype, controlnumber, value);
+        return all_controls_.at(channel).PluginToController(controltype, controlnumber, value);
     }
 
     short MeasureChange(short controltype, size_t channel, short controlnumber, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        return all_controls_[channel].MeasureChange(controltype, controlnumber, value);
+        return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
     }
 
     void SetCc(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        all_controls_[channel].SetCc(controlnumber, min, max, controltype);
+        all_controls_.at(channel).SetCc(controlnumber, min, max, controltype);
     }
     void SetCcAll(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        all_controls_[channel].SetCcAll(controlnumber, min, max, controltype);
+        all_controls_.at(channel).SetCcAll(controlnumber, min, max, controltype);
     }
 
     void SetCcMax(size_t channel, short controlnumber, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        all_controls_[channel].SetCcMax(controlnumber, value);
+        all_controls_.at(channel).SetCcMax(controlnumber, value);
     }
 
     void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        all_controls_[channel].SetCcMethod(controlnumber, value);
+        all_controls_.at(channel).SetCcMethod(controlnumber, value);
     }
 
     void SetCcMin(size_t channel, short controlnumber, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        all_controls_[channel].SetCcMin(controlnumber, value);
+        all_controls_.at(channel).SetCcMin(controlnumber, value);
     }
 
     void SetPwMax(size_t channel, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        all_controls_[channel].SetPwMax(value);
+        all_controls_.at(channel).SetPwMax(value);
     }
 
     void SetPwMin(size_t channel, short value) noexcept(kNdebug)
     {
         Expects(channel <= 15);
-        all_controls_[channel].SetPwMin(value);
+        all_controls_.at(channel).SetPwMin(value);
     }
 
 private:
@@ -306,8 +302,10 @@ void ChannelModel::save(Archive& archive, uint32_t const version) const
             Expects(!"Wrong archive version specified for save");
     }
 }
-
-CEREAL_CLASS_VERSION(ChannelModel, 2);
-CEREAL_CLASS_VERSION(ControlsModel, 1);
-CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1);
+#pragma warning(push)
+#pragma warning(disable: 26440 26426 26444)
+CEREAL_CLASS_VERSION(ChannelModel, 2)
+CEREAL_CLASS_VERSION(ControlsModel, 1)
+CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)
+#pragma warning(pop)
 #endif

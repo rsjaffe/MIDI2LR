@@ -33,17 +33,19 @@ class MainContentComponent;
 class ProfileManager;
 class SettingsManager;
 
-class MainWindow final: private juce::DocumentWindow, private juce::Timer {
+class MainWindow final: juce::DocumentWindow {
 public:
     explicit MainWindow(juce::String name);
-    MainWindow& operator=(const MainWindow&) = delete;
-    MainWindow(const MainWindow&) = delete;
-
-    void Init(CommandMap* const command_map, std::weak_ptr<LrIpcOut>&& out,
-        std::shared_ptr<MidiProcessor>& midi_processor,
-        ProfileManager* const profile_manager,
-        SettingsManager* const settings_manager,
-        std::shared_ptr<MidiSender>& midi_sender);
+    ~MainWindow() = default;
+    MainWindow(const MainWindow& other) = delete;
+    MainWindow(MainWindow&& other) = delete;
+    MainWindow& operator=(const MainWindow& other) = delete;
+    MainWindow& operator=(MainWindow&& other) = delete;
+    void Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+        std::shared_ptr<MidiProcessor> midi_processor,
+        ProfileManager* profile_manager,
+        SettingsManager* settings_manager,
+        std::shared_ptr<MidiSender> midi_sender);
 
     /* Note: Be careful if you override any DocumentWindow methods - the base
        class uses a lot of them, so by overriding you might break its functionality.
@@ -60,9 +62,6 @@ private:
         // whatever you need.
         juce::JUCEApplication::getInstance()->systemRequestedQuit();
     }
-    // the timer callback function
-    void timerCallback() override;
-    int auto_hide_counter_{0};
     MainContentComponent *window_content_;
 };
 

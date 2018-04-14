@@ -39,7 +39,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ControlsModel.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
-#include "MainComponent.h"
 #include "MainWindow.h"
 #include "MIDIProcessor.h"
 #include "MIDISender.h"
@@ -49,12 +48,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 
 namespace {
-    const juce::String kShutDownString{"--LRSHUTDOWN"};
+    const auto kShutDownString{"--LRSHUTDOWN"};
 }
 
 class MIDI2LRApplication final: public juce::JUCEApplication {
 public:
-    MIDI2LRApplication()
+    MIDI2LRApplication() noexcept
     {
         CCoptions::LinkToControlsModel(&controls_model_);
         PWoptions::LinkToControlsModel(&controls_model_);
@@ -71,7 +70,7 @@ public:
     {
         return ProjectInfo::versionString;
     }
-    bool moreThanOneInstanceAllowed() override
+    bool moreThanOneInstanceAllowed() noexcept override
     {
         return false;
     }
@@ -95,7 +94,7 @@ public:
         // loop won't be run.
 
         if (command_line != kShutDownString) {
-            cerealLoad_();
+            CerealLoad();
             midi_processor_->Init();
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
@@ -114,7 +113,7 @@ public:
         }
     }
 
-    void shutdown() override
+    void shutdown() noexcept override
     {
         //Called to allow the application to clear up before exiting.
 
@@ -141,7 +140,7 @@ public:
         if (lr_ipc_in_)
             lr_ipc_in_->PleaseStopThread();
         defaultProfileSave_();
-        cerealSave_();
+        CerealSave();
         quit();
     }
 
@@ -194,7 +193,7 @@ private:
             getSiblingFile("default.xml");
         command_map_.ToXmlDocument(profilefile);
     }
-    void cerealSave_()
+    void CerealSave()
     {//scoped so archive gets flushed
         const auto controllerfile =
 #ifdef _WIN32
@@ -215,7 +214,7 @@ private:
                 "Error",
                 "Unable to save control settings. Unable to open file settings.bin.");
     }
-    void cerealLoad_()
+    void CerealLoad()
     {//scoped so archive gets flushed
         const auto controllerfile =
 #ifdef _WIN32
@@ -248,4 +247,5 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the application.
+#pragma warning(suppress: 26409 26425)
 START_JUCE_APPLICATION(MIDI2LRApplication)

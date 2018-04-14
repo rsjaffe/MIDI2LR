@@ -35,13 +35,16 @@ namespace rsj {
     struct MidiMessageId;
 }
 
-class ProfileManager final: private juce::AsyncUpdater {
+class ProfileManager final: juce::AsyncUpdater {
 public:
-    ProfileManager(ControlsModel* const c_model, CommandMap* const cmap) noexcept;
-    virtual ~ProfileManager() = default;
-    ProfileManager(ProfileManager const&) = delete;
-    void operator=(ProfileManager const&) = delete;
-    void Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* const midi_processor);
+    ProfileManager(ControlsModel* c_model, CommandMap* cmap) noexcept;
+    ~ProfileManager() = default;
+    ProfileManager(const ProfileManager& other) = delete;
+    ProfileManager(ProfileManager&& other) = delete;
+    ProfileManager& operator=(const ProfileManager& other) = delete;
+    ProfileManager& operator=(ProfileManager&& other) = delete;
+
+    void Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_processor);
 
     template<class T>
     void AddCallback(T* const object,
@@ -50,33 +53,26 @@ public:
         using namespace std::placeholders;
         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
     }
-
     // sets the default profile directory and scans its contents for profiles
-    void SetProfileDirectory(const juce::File& dir);
-
-    // returns an array of profile names
-    const std::vector<juce::String>& GetMenuItems() const noexcept;
-
+    void SetProfileDirectory(const juce::File& directory);
     // switches to a profile defined by an index
-    void SwitchToProfile(int profile_idx);
-
+    void SwitchToProfile(int profile_index);
     // switches to a profile defined by a name
     void SwitchToProfile(const juce::String& profile);
 
+private:
+    // returns an array of profile names
+    const std::vector<juce::String>& GetMenuItems() const noexcept;
     // switches to the next profile
     void SwitchToNextProfile();
-
     // switches to the previous profile
     void SwitchToPreviousProfile();
-
-    void MidiCmdCallback(rsj::MidiMessage);
-
-    void ConnectionCallback(bool);
-
-private:
-    void MapCommand(const rsj::MidiMessageId& msg);
     // AsyncUpdate interface
     void handleAsyncUpdate() override;
+
+    void MidiCmdCallback(rsj::MidiMessage);
+    void MapCommand(const rsj::MidiMessageId& msg);
+
     enum class SwitchState {
         kNone,
         kPrev,
@@ -91,6 +87,7 @@ private:
     std::vector<std::function<void(juce::XmlElement*, const juce::String&)>> callbacks_;
     std::weak_ptr<LrIpcOut> lr_ipc_out_;
     SwitchState switch_state_{SwitchState::kNone};
+    void ConnectionCallback(bool, bool);
 };
 
 #endif  // PROFILEMANAGER_H_INCLUDED

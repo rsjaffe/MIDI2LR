@@ -22,9 +22,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTable.h"
 #include "CommandTableModel.h"
+#include <gsl/gsl_util>
 
 CommandTable::CommandTable(const juce::String& component_name, CommandTableModel *model):
     juce::TableListBox{component_name, model} {
+#pragma warning(suppress: 26409 24624)
     setHeader(new juce::TableHeaderComponent{});
     getHeader().addColumn("MIDI Command", 1, 150, 30, -1,
         juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);
@@ -38,7 +40,7 @@ bool CommandTable::keyPressed(const KeyPress& k)
     if (k.isKeyCode(KeyPress::deleteKey) && getSelectedRow() != -1) {
         const auto last = getSelectedRow() == getNumRows() - 1;
         if (const auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
-            ptr->RemoveRow(static_cast<size_t>(getSelectedRow()));
+            ptr->RemoveRow(gsl::narrow_cast<size_t>(getSelectedRow()));
         updateContent();
         if (last) // keep selection at the end
             selectRow(getNumRows() - 1);

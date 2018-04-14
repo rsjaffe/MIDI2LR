@@ -34,42 +34,47 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std::string_literals;
 
 namespace {
-    constexpr auto kHost = "127.0.0.1";
-    constexpr int kConnectTimer = 1000;
-    constexpr int kConnectTryTime = 100;
+    constexpr auto kHost{"127.0.0.1"};
+    constexpr auto kTerminate{"!!!@#$%^"};
+    constexpr int kConnectTimer{1000};
+    constexpr int kConnectTryTime{100};
     constexpr int kDelay{8}; //in between recurrent actions
-    constexpr int kLrOutPort = 58763;
+    constexpr int kLrOutPort{58763};
     constexpr int kMinRecenterTimer{250}; //give controller enough of a refractory period before resetting it
     constexpr int kRecenterTimer{std::max(kMinRecenterTimer, kDelay + kDelay / 2)};//don't change, change kDelay and kMinRecenterTimer
 }
 
-LrIpcOut::LrIpcOut(ControlsModel* const c_model, const CommandMap * const map_command):
-    juce::InterprocessConnection(), command_map_{map_command}, controls_model_{c_model} {}
+LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap * map_command):
+    command_map_{map_command}, controls_model_{c_model}
+{}
 
 LrIpcOut::~LrIpcOut()
 {
+    moodycamel::ConsumerToken ctok(command_);
+    std::string command_copy;
+    while (command_.try_dequeue(ctok, command_copy)) {
+        /* pump the queue empty */
+    }
+    command_.enqueue(kTerminate);
     connect_timer_.Stop();
     juce::InterprocessConnection::disconnect();
 }
 
-void LrIpcOut::Init(std::shared_ptr<MidiSender>& midi_sender, MidiProcessor* const midi_processor)
+void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
 {
-    midi_sender_ = midi_sender;
+    midi_sender_ = std::move(midi_sender);
+    connect_timer_.Start();
+    send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
     if (midi_processor)
         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
-    connect_timer_.Start();
 }
 
-void LrIpcOut::SendCommand(std::string&& command)
-{
-    const thread_local moodycamel::ProducerToken ptok(command_);
-    command_.enqueue(ptok, std::move(command));
-    juce::AsyncUpdater::triggerAsyncUpdate();
-}
+
 
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
     const rsj::MidiMessageId message{mm};
+#pragma warning(suppress: 26426)
     static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
         {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
         {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
@@ -93,7 +98,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             command_map_->GetCommandforMessage(message)) != LrCommandList::NextPrevProfile.end()) {
         return;
     }
-    auto command_to_send = command_map_->GetCommandforMessage(message);
+    const auto command_to_send = command_map_->GetCommandforMessage(message);
     //if it is a repeated command, change command_to_send appropriately
     if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
         static rsj::TimeType nextresponse{0};
@@ -109,40 +114,73 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             if (change == 0)
                 return;//don't send any signal
             if (change > 0) //turned clockwise
-                command_to_send = a->second.first;
+                SendCommand(a->second.first);
             else //turned counterclockwise
-                command_to_send = a->second.second;
+                SendCommand(a->second.second);
         }
-        else
-            return; //too soon, don't send anything
+        return; //if repeated command
     }
-    else {
+    else { //not repeated command
         const auto computed_value = controls_model_->ControllerToPlugin(mm);
-        command_to_send += ' ' + std::to_string(computed_value) + '\n';
+        SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
     }
-    SendCommand(std::move(command_to_send));
+}
+
+void LrIpcOut::SendCommand(std::string&& command)
+{
+    if (sending_stopped_) return;
+    static const thread_local moodycamel::ProducerToken ptok(command_);
+    command_.enqueue(ptok, std::move(command));
+}
+
+void LrIpcOut::SendCommand(const std::string& command)
+{
+    if (sending_stopped_) return;
+    static const thread_local moodycamel::ProducerToken ptok(command_);
+    command_.enqueue(ptok, command);
+}
+
+void LrIpcOut::Stop()
+{
+    sending_stopped_ = true;
+    const auto connected = isConnected();
+    for (const auto& cb : callbacks_)
+        cb(connected, true);
+}
+
+void LrIpcOut::Restart()
+{
+    sending_stopped_ = false;
+    const auto connected = isConnected();
+    for (const auto& cb : callbacks_)
+        cb(connected, false);
+    //resync controls
+    SendCommand("FullRefresh 1\n"s);
 }
 
 void LrIpcOut::connectionMade()
 {
     for (const auto& cb : callbacks_)
-        cb(true);
+        cb(true, sending_stopped_);
 }
 
 void LrIpcOut::connectionLost()
 {
     for (const auto& cb : callbacks_)
-        cb(false);
+        cb(false, sending_stopped_);
 }
 
-void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/)
+void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept
 {}
 
-void LrIpcOut::handleAsyncUpdate()
+void LrIpcOut::SendOut()
 {
     do {
         std::string command_copy;
-        if (!command_.try_dequeue(command_copy))
+        static thread_local moodycamel::ConsumerToken ctok(command_);
+        if (!command_.try_dequeue(ctok, command_copy))
+            command_.wait_dequeue(command_copy);
+        if (command_copy == kTerminate)
             return;
         //check if there is a connection
         if (juce::InterprocessConnection::isConnected()) {
@@ -154,35 +192,35 @@ void LrIpcOut::handleAsyncUpdate()
     } while (true);
 }
 
-void LrIpcOut::connect_timer::Start()
+void LrIpcOut::ConnectTimer::Start()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     juce::Timer::startTimer(kConnectTimer);
     timer_off_ = false;
 }
 
-void LrIpcOut::connect_timer::Stop()
+void LrIpcOut::ConnectTimer::Stop()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     juce::Timer::stopTimer();
     timer_off_ = true;
 }
 
-void LrIpcOut::connect_timer::timerCallback()
+void LrIpcOut::ConnectTimer::timerCallback()
 {
     std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
     if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
         owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
-void LrIpcOut::recenter::SetMidiMessage(rsj::MidiMessage mm)
+void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
     std::lock_guard<decltype(mtx_)> lock(mtx_);
     mm_ = mm;
     juce::Timer::startTimer(kRecenterTimer);
 }
 
-void LrIpcOut::recenter::timerCallback()
+void LrIpcOut::Recenter::timerCallback()
 {
     rsj::MidiMessage local_mm{};
     {

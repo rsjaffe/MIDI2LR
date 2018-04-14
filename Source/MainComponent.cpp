@@ -54,35 +54,35 @@ namespace {
     constexpr int kCommandLabelY = kMainHeight - 100;
     constexpr int kRemoveRowY = kMainHeight - 75;
     constexpr int kRescanY = kMainHeight - 50;
-    constexpr int kCurrentStatusY = kMainHeight - 30;
+    constexpr int kDisconnect = kMainHeight - 25;
 }
 
-MainContentComponent::MainContentComponent(): ResizableLayout{this}
-{}
+MainContentComponent::MainContentComponent() noexcept : ResizableLayout{this}
+{
+    //Set the component size
+    setSize(kMainWidth, kMainHeight);
+}
 
-MainContentComponent::~MainContentComponent()
-{}
-
-void MainContentComponent::Init(CommandMap* const command_map,
+void MainContentComponent::Init(CommandMap* command_map,
     std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiProcessor>& midi_processor,
-    ProfileManager* const profile_manager,
-    SettingsManager* const settings_manager,
-    std::shared_ptr<MidiSender>& midi_sender)
+    std::shared_ptr<MidiProcessor> midi_processor,
+    ProfileManager* profile_manager,
+    SettingsManager* settings_manager,
+    std::shared_ptr<MidiSender> midi_sender)
 {
     //copy the pointers
     command_map_ = command_map;
     lr_ipc_out_ = std::move(lr_ipc_out);
     settings_manager_ = settings_manager;
-    midi_processor_ = midi_processor;
-    midi_sender_ = midi_sender;
+    midi_processor_ = std::move(midi_processor);
+    midi_sender_ = std::move(midi_sender);
 
     //call the function of the sub component.
     command_table_model_.Init(command_map);
 
-    if (midi_processor)
+    if (midi_processor_)
         // Add ourselves as a listener for MIDI commands
-        midi_processor->AddCallback(this, &MainContentComponent::MidiCmdCallback);
+        midi_processor_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
     if (const auto ptr = lr_ipc_out_.lock())
         // Add ourselves as a listener for LR_IPC_OUT events
@@ -91,9 +91,6 @@ void MainContentComponent::Init(CommandMap* const command_map,
     if (profile_manager)
         // Add ourselves as a listener for profile changes
         profile_manager->AddCallback(this, &MainContentComponent::ProfileChanged);
-
-    //Set the component size
-    setSize(kMainWidth, kMainHeight);
 
     // Main title
     title_label_.setFont(juce::Font{36.f, juce::Font::bold});
@@ -171,12 +168,12 @@ void MainContentComponent::Init(CommandMap* const command_map,
     addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
     addAndMakeVisible(rescan_button_);
 
-    // adding the current status label, used for counting down.
-    current_status_.setBounds(kMainLeft, kCurrentStatusY, kFullWidth, kStandardHeight);
-    addToLayout(&current_status_, anchorMidLeft, anchorMidRight);
-    current_status_.setJustificationType(juce::Justification::centred);
-    SetLabelSettings(current_status_);
-    addAndMakeVisible(current_status_);
+    // Disconnect button
+    disconnect_button_.addListener(this);
+    disconnect_button_.setBounds(kMainLeft, kDisconnect, kFullWidth, kStandardHeight);
+    disconnect_button_.setClickingTogglesState(true);
+    addToLayout(&disconnect_button_, anchorMidLeft, anchorMidRight);
+    addAndMakeVisible(disconnect_button_);
 
     if (settings_manager_) {
         // Try to load a default.xml if the user has not set a profile directory
@@ -205,7 +202,7 @@ void MainContentComponent::paint(juce::Graphics& g)
 void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
     // Display the CC parameters and add/highlight row in table corresponding to the CC
-    rsj::MsgIdEnum mt{rsj::MsgIdEnum::kCc};
+    auto mt{rsj::MsgIdEnum::kCc};
     juce::String commandtype{"CC"};
     switch (mm.message_type_byte) {//this is needed because mapping uses custom structure
         case rsj::kCcFlag: //this is default for mt and commandtype
@@ -223,21 +220,27 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
             commandtype = "PITCHBEND";
             break;
         default: //shouldn't receive any messages note categorized above
-            Expects(0);
+            Ensures(0);
     }
     mm.channel++; //used to 1-based channel numbers
     last_command_ = juce::String(mm.channel) + ": " + commandtype +
         juce::String(mm.number) + " [" + juce::String(mm.value) + "]";
     command_table_model_.AddRow(mm.channel, mm.number, mt);
-    row_to_select_ = static_cast<size_t>(command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
+    row_to_select_ = gsl::narrow_cast<size_t>(command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
     triggerAsyncUpdate();
 }
 
-void MainContentComponent::LrIpcOutCallback(bool connected)
+void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked)
 {
     if (connected) {
-        connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
-        connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
+        if (sending_blocked) {
+            connection_label_.setText("Sending halted", juce::NotificationType::dontSendNotification);
+            connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
+        }
+        else {
+            connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
+            connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
+        }
     }
     else {
         connection_label_.setText("Not connected to LR", juce::NotificationType::dontSendNotification);
@@ -264,6 +267,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             command_table_model_.RemoveAllRows();
             //command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
+        }
+    }
+    else if (button == &disconnect_button_) {
+        if (const auto ptr = lr_ipc_out_.lock()) {
+            if (disconnect_button_.getToggleState())
+                ptr->Stop();
+            else
+                ptr->Restart();
         }
     }
     else if (button == &save_button_) {
@@ -326,9 +337,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
         juce::DialogWindow::LaunchOptions dialog_options;
         dialog_options.dialogTitle = "Settings";
         //create new object
-        auto* const component = new SettingsComponent{settings_manager_};
+        auto component = std::make_unique<SettingsComponent>(settings_manager_);
         component->Init();
-        dialog_options.content.setOwned(component);
+        dialog_options.content.setOwned(component.release());
         dialog_options.content->setSize(400, 300);
         dialog_options.escapeKeyTriggersCloseButton = true;
         dialog_options.useNativeTitleBar = false;
@@ -337,26 +348,19 @@ void MainContentComponent::buttonClicked(juce::Button* button)
     }
 }
 
+#pragma warning(suppress: 26461) //must not change function signature, used as callback
 void MainContentComponent::ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
     command_table_model_.BuildFromXml(xml_element);
     command_table_.updateContent();
-    command_table_.repaint();
+    {
+        const MessageManagerLock mmLock;
+        command_table_.repaint();
+    }
     profile_name_label_.setText(file_name, NotificationType::dontSendNotification);
-    //  _systemTrayComponent.showInfoBubble(filename, "Profile loaded");
-
-        // Send new CC parameters to MIDI Out devices
+// Send new CC parameters to MIDI Out devices
     if (const auto ptr = lr_ipc_out_.lock())
         ptr->SendCommand("FullRefresh 1\n"s);
-}
-
-void MainContentComponent::SetTimerText(int time_value)
-{
-    if (time_value > 0)
-        current_status_.setText(juce::String::formatted("Hiding in %i Sec.", time_value),
-            juce::NotificationType::dontSendNotification);
-    else
-        current_status_.setText("", juce::NotificationType::dontSendNotification);
 }
 
 void MainContentComponent::SetLabelSettings(juce::Label& label_to_set)

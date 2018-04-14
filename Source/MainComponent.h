@@ -42,42 +42,36 @@ namespace rsj {
 }
 
 class MainContentComponent final:
-    public juce::Component,
-    private juce::AsyncUpdater,
-    private juce::Timer,
-    private juce::ButtonListener,
+    public juce::Component, juce::AsyncUpdater,
+     juce::Timer, juce::ButtonListener,
     public ResizableLayout { //ResizableLayout.h
 public:
-    MainContentComponent();
-    virtual ~MainContentComponent();
-    MainContentComponent(const MainContentComponent&) = delete;
-    MainContentComponent& operator=(const MainContentComponent&) = delete;
-    void Init(CommandMap* const command_map,
-        std::weak_ptr<LrIpcOut>&& out,
-        std::shared_ptr<MidiProcessor>& midi_processor,
-        ProfileManager* const profile_manager,
-        SettingsManager* const settings_manager,
-        std::shared_ptr<MidiSender>& midi_sender);
-
-    void MidiCmdCallback(rsj::MidiMessage);
-
-    void LrIpcOutCallback(bool);
-
-    void ProfileChanged(juce::XmlElement* elem, const juce::String& file_name);
-    void SetTimerText(int time_value);
-
-protected:
-    void SetLabelSettings(juce::Label& lbl_to_set);
+    MainContentComponent() noexcept;
+    ~MainContentComponent() = default;
+    MainContentComponent(const MainContentComponent& other) = delete;
+    MainContentComponent(MainContentComponent&& other) = delete;
+    MainContentComponent& operator=(const MainContentComponent& other) = delete;
+    MainContentComponent& operator=(MainContentComponent&& other) = delete;
+    void Init(CommandMap* command_map,
+        std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+        std::shared_ptr<MidiProcessor> midi_processor,
+        ProfileManager* profile_manager,
+        SettingsManager* settings_manager,
+        std::shared_ptr<MidiSender> midi_sender);
 
 private:
+    void SetLabelSettings(juce::Label& label_to_set);
     void paint(juce::Graphics&) override;
     // Button interface
     void buttonClicked(juce::Button* button) override;
     // AsyncUpdater interface
     void handleAsyncUpdate() override;
-
     // Timer interface
     void timerCallback() override;
+    // callbacks
+    void LrIpcOutCallback(bool, bool);
+    void MidiCmdCallback(rsj::MidiMessage);
+    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
 
     CommandMap* command_map_{nullptr};
     CommandTable command_table_{"Table", nullptr};
@@ -85,11 +79,11 @@ private:
     juce::DropShadowEffect title_shadow_;
     juce::Label command_label_{"Command", ""};
     juce::Label connection_label_{"Connection", "Not connected to LR"};
-    juce::Label current_status_{"CurrentStatus", "no extra info"};
     juce::Label profile_name_label_{"ProfileNameLabel", ""};
     juce::Label title_label_{"Title", "MIDI2LR"};
     juce::Label version_label_{"Version", "Version " + juce::String{ProjectInfo::versionString}};
     juce::String last_command_;
+    juce::TextButton disconnect_button_{"Halt sending to Lightroom"};
     juce::TextButton load_button_{"Load"};
     juce::TextButton remove_row_button_{"Clear ALL rows"};
     juce::TextButton rescan_button_{"Rescan MIDI devices"};

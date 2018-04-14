@@ -23,21 +23,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 #include <array>
 #include <bitset>
-#include <future>
 #include <gsl/gsl>
 #include <string_view>
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
-#include "Misc.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
-#include "Utilities/Utilities.h"
 using namespace std::literals::string_literals;
 
 namespace {
     constexpr auto kHost = "127.0.0.1";
+    constexpr auto kTerminate{"MBxegp3VXilFy0"};
     constexpr int kBufferSize = 1024;
     constexpr int kConnectTryTime = 100;
     constexpr int kEmptyWait = 100;
@@ -48,9 +46,9 @@ namespace {
     constexpr int kConnectTimer = 1000;
 }
 
-LrIpcIn::LrIpcIn(ControlsModel* const c_model, ProfileManager* const pmanager, CommandMap* const cmap):
-    juce::Thread{"LR_IPC_IN"}, command_map_{cmap},
-    controls_model_{c_model}, profile_manager_{pmanager}
+LrIpcIn::LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, CommandMap* command_map):
+    juce::Thread{"LR_IPC_IN"}, command_map_{command_map},
+    controls_model_{c_model}, profile_manager_{profile_manager}
 {}
 
 LrIpcIn::~LrIpcIn()
@@ -61,14 +59,16 @@ LrIpcIn::~LrIpcIn()
         juce::Timer::stopTimer();
     }
     juce::Thread::stopThread(kStopWait);
+    line_.enqueue(kTerminate);
     socket_.close();
 }
 
-void LrIpcIn::Init(std::shared_ptr<MidiSender>& midi_sender) noexcept
+void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender) noexcept
 {
-    midi_sender_ = midi_sender;
+    midi_sender_ = std::move(midi_sender);
     //start the timer
     juce::Timer::startTimer(kConnectTimer);
+    process_line_future_ = std::async(std::launch::async, &LrIpcIn::ProcessLine, this);
 }
 
 void LrIpcIn::PleaseStopThread()
@@ -81,7 +81,6 @@ void LrIpcIn::run()
 {
     while (!juce::Thread::threadShouldExit()) {
         std::array<char, kBufferSize> line{};//zero filled by {} initialization
-        std::future<void> process_fut;
         //if not connected, executes a wait 333 then goes back to while
         //if connected, tries to read a line, checks thread status and connection
         //status before each read attempt
@@ -95,12 +94,14 @@ void LrIpcIn::run()
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
-            while ((size_read == 0 || line[size_read - 1] != '\n') && socket_.isConnected()) {
+            while ((size_read == 0 || line.at(size_read - 1) != '\n') && socket_.isConnected()) {
                 if (juce::Thread::threadShouldExit())
+#pragma warning(suppress: 26438)
                     goto threadExit;//break out of nested whiles
                 const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                 switch (wait_status) {
                     case -1:
+#pragma warning(suppress: 26438)
                         goto dumpLine; //read line failed, break out of switch and while
                     case 0:
                         juce::Thread::wait(kEmptyWait);
@@ -108,6 +109,7 @@ void LrIpcIn::run()
                     case 1:
                         switch (socket_.read(&line.at(size_read), 1, false)) {
                             case -1:
+#pragma warning(suppress: 26438)
                                 goto dumpLine; //read error
                             case 1:
                                 size_read++;
@@ -117,19 +119,19 @@ void LrIpcIn::run()
                                 juce::JUCEApplication::getInstance()->systemRequestedQuit();
                                 break;
                             default:
-                                Expects(!"Unexpected value for read status");
+                                Ensures(!"Unexpected value for read status");
                         }
                         break;
                     default:
-                        Expects(!"Unexpected value for wait_status");
+                        Ensures(!"Unexpected value for wait_status");
                 }
             } // end while !\n and is connected
             // if lose connection, line may not be terminated
             {
                 std::string param{line.data()};
-                if (param.back() == '\n')
-                    //run one at a time but don't wait for finish (will hold if future not finished next time around)
-                    process_fut = std::async(std::launch::async, &LrIpcIn::ProcessLine, this, std::move(param));
+                if (param.back() == '\n') {
+                    line_.enqueue(std::move(param));
+                }
             } //scope param
         dumpLine: /* empty statement */;
         } //end else (is connected)
@@ -154,85 +156,92 @@ void LrIpcIn::timerCallback()
 }
 
 namespace {
-    inline void Trim(std::string_view& value)
+    void Trim(std::string_view& value) noexcept
     {
         value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
-        if (const auto tr = value.find_last_not_of(" \t\n"); tr != value.npos)
+        if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
             value.remove_suffix(value.size() - tr - 1);
     }
-};
+}
 
-void LrIpcIn::ProcessLine(const std::string&& line) const
+void LrIpcIn::ProcessLine()
 {
     const static std::unordered_map<std::string, int> cmds = {
         {"SwitchProfile"s, 1},
         {"SendKey"s, 2},
-        {"TerminateApplication"s, 3},
+        {"TerminateApplication"s, 3}
     };
-    // process input into [parameter] [Value]
-    std::string_view v{line};
-    Trim(v);
-    auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
-    value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
-    const auto command{std::string(v.substr(0, v.find_first_of(" \t\n")))}; //use this a lot, so convert to string once
+    do {
+        // process input into [parameter] [Value]
+        std::string line_copy{};
+        if (!line_.try_dequeue(line_copy))
+            line_.wait_dequeue(line_copy);
+        if (line_copy == kTerminate)
+            return;
+        std::string_view v{line_copy};
+        Trim(v);
+        auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
+        value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
+        const auto command{std::string(v.substr(0, v.find_first_of(" \t\n")))}; //use this a lot, so convert to string once
 
-    switch (cmds.count(command) ? cmds.at(command) : 0) {
-        case 1: //SwitchProfile
-            if (profile_manager_)
-                profile_manager_->SwitchToProfile(std::string(value_string));
-            break;
-        case 2: //SendKey
-        {
-            std::bitset<3> modifiers{unsigned(value_string[0] - 48)}; //'0' is decimal 48
-            //trim twice on purpose: first digit, then spaces
-            value_string.remove_prefix(1);
-            value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
-            rsj::SendKeyDownUp(std::string(value_string), modifiers[0], modifiers[1], modifiers[2]);
-            break;
-        }
-        case 3: //TerminateApplication
-            juce::JUCEApplication::getInstance()->systemRequestedQuit();
-            break;
-        case 0:
-            // send associated messages to MIDI OUT devices
-            if (command_map_ && midi_sender_) {
-                const auto original_value = std::stod(std::string(value_string));
-                for (const auto msg : command_map_->GetMessagesForCommand(command)) {
-                    short msgtype{0};
-                    switch (msg->msg_id_type) {
-                        case rsj::MsgIdEnum::kNote:
-                            msgtype = rsj::kNoteOnFlag;
-                            break;
-                        case rsj::MsgIdEnum::kCc:
-                            msgtype = rsj::kCcFlag;
-                            break;
-                        case rsj::MsgIdEnum::kPitchBend:
-                            msgtype = rsj::kPwFlag;
-                    }
-                    const auto value = controls_model_->PluginToController(msgtype,
-                        static_cast<size_t>(msg->channel - 1),
-                        gsl::narrow_cast<short>(msg->controller), original_value);
-                    if (midi_sender_) {
-                        switch (msgtype) {
-                            case rsj::kNoteOnFlag:
-                                midi_sender_->SendNoteOn(msg->channel, msg->controller, value);
+        switch (cmds.count(command) ? cmds.at(command) : 0) {
+            case 1: //SwitchProfile
+                if (profile_manager_)
+                    profile_manager_->SwitchToProfile(std::string(value_string));
+                break;
+            case 2: //SendKey
+            {
+                std::bitset<3> modifiers{gsl::narrow_cast<unsigned>(value_string[0] - 48)}; //'0' is decimal 48
+                //trim twice on purpose: first digit, then spaces
+                value_string.remove_prefix(1);
+                value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
+                rsj::SendKeyDownUp(std::string(value_string), modifiers[0], modifiers[1], modifiers[2]);
+                break;
+            }
+            case 3: //TerminateApplication
+                juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                return;
+            case 0:
+                // send associated messages to MIDI OUT devices
+                if (command_map_ && midi_sender_) {
+                    const auto original_value = std::stod(std::string(value_string));
+                    for (const auto msg : command_map_->GetMessagesForCommand(command)) {
+                        short msgtype{0};
+                        switch (msg->msg_id_type) {
+                            case rsj::MsgIdEnum::kNote:
+                                msgtype = rsj::kNoteOnFlag;
                                 break;
-                            case rsj::kCcFlag:
-                                if (controls_model_->GetCcMethod(static_cast<size_t>(msg->channel - 1),
-                                    gsl::narrow_cast<short>(msg->controller)) == rsj::CCmethod::kAbsolute)
-                                    midi_sender_->SendCc(msg->channel, msg->controller, value);
+                            case rsj::MsgIdEnum::kCc:
+                                msgtype = rsj::kCcFlag;
                                 break;
-                            case rsj::kPwFlag:
-                                midi_sender_->SendPitchWheel(msg->channel, value);
-                                break;
-                            default:
-                                Expects(!"Unexpected result for msgtype");
+                            case rsj::MsgIdEnum::kPitchBend:
+                                msgtype = rsj::kPwFlag;
+                        }
+                        const auto value = controls_model_->PluginToController(msgtype,
+                            gsl::narrow_cast<size_t>(msg->channel - 1),
+                            gsl::narrow_cast<short>(msg->controller), original_value);
+                        if (midi_sender_) {
+                            switch (msgtype) {
+                                case rsj::kNoteOnFlag:
+                                    midi_sender_->SendNoteOn(msg->channel, msg->controller, value);
+                                    break;
+                                case rsj::kCcFlag:
+                                    if (controls_model_->GetCcMethod(gsl::narrow_cast<size_t>(msg->channel - 1),
+                                        gsl::narrow_cast<short>(msg->controller)) == rsj::CCmethod::kAbsolute)
+                                        midi_sender_->SendCc(msg->channel, msg->controller, value);
+                                    break;
+                                case rsj::kPwFlag:
+                                    midi_sender_->SendPitchWheel(msg->channel, value);
+                                    break;
+                                default:
+                                    Ensures(!"Unexpected result for msgtype");
+                            }
                         }
                     }
                 }
-            }
-            break;
-        default:
-            Expects(!"Unexpected result for cmds");
-    }
+                break;
+            default:
+                Ensures(!"Unexpected result for cmds");
+        }
+    } while (true);
 }

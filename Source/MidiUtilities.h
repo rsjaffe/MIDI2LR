@@ -43,8 +43,7 @@ namespace rsj {
         short channel{0};
         short number{0};
         short value{0};
-        constexpr MidiMessage() noexcept
-        {}
+        constexpr MidiMessage() noexcept = default;
 
         constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
         message_type_byte(mt), channel(ch), number(nu), value(va)
@@ -52,6 +51,14 @@ namespace rsj {
 
         MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
     };
+
+    constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs)
+    {
+        return lhs.message_type_byte == rhs.message_type_byte &&
+            lhs.channel == rhs.channel &&
+            lhs.number == rhs.number &&
+            lhs.value == rhs.value;
+    }
 
     enum class MsgIdEnum: short {
         kNote, kCc, kPitchBend
@@ -83,7 +90,7 @@ namespace rsj {
 
         constexpr bool operator==(const MidiMessageId &other) const noexcept
         {
-            return (msg_id_type == other.msg_id_type && channel == other.channel && data == other.data);
+            return msg_id_type == other.msg_id_type && channel == other.channel && data == other.data;
         }
 
         constexpr bool operator<(const MidiMessageId& other) const noexcept

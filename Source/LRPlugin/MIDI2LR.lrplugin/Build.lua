@@ -81,6 +81,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <set>
 #include "LRCommands.h"
 #include "CommandMap.h"
   
@@ -122,20 +123,31 @@ const std::vector <std::string> LrCommandList::NextPrevProfile = {
   "Next Profile",
 };
 
-size_t LrCommandList::GetIndexOfCommand(const std::string& command) {
-  static std::unordered_map<std::string, size_t> indexMap;
-
-  // better to check for empty then length, as empty has a constant run time behavior.
-  if (indexMap.empty()) {
-    size_t idx = 0;
-    for (const auto& str : LrStringList)
-      indexMap[str] = idx++;
-
-    for (const auto& str : NextPrevProfile)
-      indexMap[str] = idx++;
-  }
-
-  return indexMap[command];
+size_t LrCommandList::GetIndexOfCommand(const std::string& command)
+{
+    static std::set<std::string> warning_given_;
+    static const std::unordered_map<std::string, size_t> indexMap{[] {
+        std::unordered_map<std::string, size_t> idx_build;
+        size_t idx{0};
+        for (const auto& str : LrStringList)
+            idx_build[str] = idx++;
+        for (const auto& str : NextPrevProfile)
+            idx_build[str] = idx++;
+        return idx_build;
+    }()};
+    if (indexMap.find(command) != indexMap.end())
+        return indexMap.at(command);
+    else {
+        //don't show error on deprecated commands, only misspelled ones
+        if (command != "CopySettings" && command != "PasteSettings") {
+            if (warning_given_.count(command) == 0) {
+                juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+                    "Non-existent command name in GetIndexOfCommand: " + command);
+                warning_given_.insert(command);
+            }
+        }
+        return 0;
+    }
 }]=])
 file:close()
 
@@ -189,7 +201,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef MIDI2LR_LRCOMMANDS_H_INCLUDED
 #define MIDI2LR_LRCOMMANDS_H_INCLUDED
-
+#include <set>
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -205,7 +217,7 @@ public:
 
   // Map of command strings to indices
   static size_t GetIndexOfCommand(const std::string& command);
-
+  static std::set<std::string> warning_given_;
   LrCommandList() = delete;
 };
 

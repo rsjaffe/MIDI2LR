@@ -1,7 +1,7 @@
 --[[ 
 
 DebugInfo.lua
-Shows debug info
+Saves debug info to a file
  
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -23,13 +23,13 @@ local LrLocalization = import 'LrLocalization'
 local LrPathUtils    = import 'LrPathUtils'
 local LrSystemInfo   = import 'LrSystemInfo'
 
-local function writeDebug()
+local function gatherInformation()
   local testfile = LrPathUtils.child(_PLUGIN.path,'Client.lua')
   local writeable = ''
   if not LrFileUtils.isWritable(testfile) then
     writeable = '\nError: plugin directory is not writeable'
   end
-
+  local longest = 40
   local mess = '----------- \LIGHTROOM -----------'
   .. '\nOperating system ' .. LrSystemInfo.summaryString()
   .. '\nVersion ' .. LrApplication.versionString()
@@ -39,18 +39,28 @@ local function writeDebug()
   .. '\n----------- PLUGIN -----------' 
   .. '\nVersion ' .. Info.VERSION.major  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
   .. '\nPath ' .._PLUGIN.path .. writeable
+  local lines = 9 -- update if change above message
   if (type(Info.AppInfo) == 'table') then
     mess = mess .. '\n----------- APP -----------'
+    lines = lines + 1
     for _,v in ipairs(Info.AppInfo) do
+      longest = math.max(longest, v:len())
+      lines = lines + 1
       mess = mess .. '\n' .. v
     end
   end
+  return mess, lines, longest
+end
+
+local function writeDebug()
+
   local datafile = LrPathUtils.child(LrPathUtils.parent(_PLUGIN.path), 'MIDI2LRinfo.txt')
   local file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
-  file:write(mess)
+  file:write(gatherInformation())
   file:close()
 end
 
 return {
+  gatherInformation = gatherInformation,
   write = writeDebug,
 }

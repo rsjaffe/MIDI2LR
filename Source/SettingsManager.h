@@ -29,14 +29,17 @@ class ProfileManager;
 
 class SettingsManager final {
 public:
-    explicit SettingsManager(ProfileManager* const profile_manager);
+    explicit SettingsManager(ProfileManager * profile_manager);
     ~SettingsManager() = default;
+    SettingsManager(const SettingsManager& other) = delete;
+    SettingsManager(SettingsManager&& other) = delete;
+    SettingsManager& operator=(const SettingsManager& other) = delete;
+    SettingsManager& operator=(SettingsManager&& other) = delete;
     void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out);
     bool GetPickupEnabled() const noexcept;
     void SetPickupEnabled(bool enabled);
     juce::String GetProfileDirectory() const noexcept;
     void SetProfileDirectory(const juce::String& profile_directory);
-    void ConnectionCallback(bool);
     int GetAutoHideTime() const noexcept;
     void SetAutoHideTime(int new_time);
     int GetLastVersionFound() const noexcept;
@@ -46,6 +49,7 @@ private:
     ProfileManager * const profile_manager_;
     std::unique_ptr<juce::PropertiesFile> properties_file_;
     std::weak_ptr<LrIpcOut> lr_ipc_out_;
+    void ConnectionCallback(bool, bool);
 };
 
 #endif  // SETTINGSMANAGER_H_INCLUDED

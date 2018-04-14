@@ -23,12 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDISender.h"
 #include <gsl/gsl>
 
-MidiSender::MidiSender() noexcept
-{}
-
-MidiSender::~MidiSender()
-{}
-
 void MidiSender::Init()
 {
     InitDevices();
@@ -77,7 +71,7 @@ void MidiSender::InitDevices()
 {
     for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); ++idx) {
         auto dev = juce::MidiOutput::openDevice(idx);
-        if (dev != nullptr)
+        if (dev)
             output_devices_.emplace_back(dev);
     }
 }

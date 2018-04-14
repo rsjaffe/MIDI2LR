@@ -26,11 +26,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 class SettingsManager;
 
-class VersionChecker final: public juce::Thread, private juce::AsyncUpdater {
+class VersionChecker final: public juce::Thread, juce::AsyncUpdater {
 public:
-    explicit VersionChecker(SettingsManager* const settings_manager) noexcept;
+    explicit VersionChecker(SettingsManager* settings_manager) noexcept;
     ~VersionChecker();
-
+    VersionChecker(const VersionChecker& other) = delete;
+    VersionChecker(VersionChecker&& other) = delete;
+    VersionChecker& operator=(const VersionChecker& other) = delete;
+    VersionChecker& operator=(VersionChecker&& other) = delete;
 private:
     // Thread interface
     void run() override;

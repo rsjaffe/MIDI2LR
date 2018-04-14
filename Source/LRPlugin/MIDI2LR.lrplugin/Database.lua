@@ -701,12 +701,12 @@ local DataBase = {
   {"RedEye",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Redeye=Red-Eye Correction"),localizedAdjustments,"Select Red Eye mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"SpotRemoval",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/SpotRemoval=Spot Removal"),localizedAdjustments,"Select Spot Removal mode in Develop Module. Repeated press toggles Loupe View. *button*"},
   {"AdjustmentBrush",false,false,true,false,true,false,show..' '..LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/BrushAdjustments=Brush Adjustments"),localizedAdjustments,"Select Adjustment Brush mode in Develop Module. Repeated press toggles Loupe View. *button*"},
-  {"ChangeBrushSize",false,false,true,false,true,false,brush..' — '..size,localizedAdjustments,"Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. Caution, with gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
-  {"BrushSizeSmaller",false,false,true,false,true,false,brush..' — '..size..' — '..smaller,localizedAdjustments,"Reduce adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. Caution, with gradient and radial filter, make sure *brush* is selected when using this command. *button*"},
-  {"BrushSizeLarger",false,false,true,false,true,false,brush..' — '..size..' — '..larger,localizedAdjustments,"Increase adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. Caution, with gradient and radial filter, make sure *brush* is selected when using this command. *button*"},
-  {"ChangeFeatherSize",false,false,true,false,true,false,brush..' — '..feather,localizedAdjustments,"Change adjustment brush feather size.  This works with spot, gradient, radial filter and localized adjustment tools. Caution, with gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
-  {"BrushFeatherSmaller",false,false,true,false,true,false,brush..' — '..feather..' — '..smaller,localizedAdjustments,"Reduce adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. Caution, with gradient and radial filter, make sure *brush* is selected when using this command.  *button*"},
-  {"BrushFeatherLarger",false,false,true,false,true,false,brush..' — '..feather..' — '..larger,localizedAdjustments,"Increase adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. Caution, with gradient and radial filter, make sure *brush* is selected when using this command.  *button*"},
+  {"ChangeBrushSize",false,false,true,false,true,false,brush..' — '..size,localizedAdjustments,"Change adjustment brush size. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
+  {"BrushSizeSmaller",false,false,true,false,true,false,brush..' — '..size..' — '..smaller,localizedAdjustments,"Reduce adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. *button*"},
+  {"BrushSizeLarger",false,false,true,false,true,false,brush..' — '..size..' — '..larger,localizedAdjustments,"Increase adjustment brush size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. *button*"},
+  {"ChangeFeatherSize",false,false,true,false,true,false,brush..' — '..feather,localizedAdjustments,"Change adjustment brush feather size.  This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command. Turning knob clockwise sends Increase Size signals to Lightroom, counterclockwise Decrease Size. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands)."},
+  {"BrushFeatherSmaller",false,false,true,false,true,false,brush..' — '..feather..' — '..smaller,localizedAdjustments,"Reduce adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.  *button*"},
+  {"BrushFeatherLarger",false,false,true,false,true,false,brush..' — '..feather..' — '..larger,localizedAdjustments,"Increase adjustment brush feather. This works with spot, gradient, radial filter and localized adjustment tools. **Caution**: With gradient and radial filter, make sure *brush* is selected when using this command.  *button*"},
   {"local_Temperature",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Temperature=Temp.").." (PV2012)",localizedAdjustments,"Adjust Temperature for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Tint",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Tint=Tint").." (PV2012)",localizedAdjustments,"Adjust Tint for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
   {"local_Exposure",false,false,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments")..' '..LOC("$$$/AgDevelop/Localized/Exposure=Exposure").." (PV2010 and PV2012)",localizedAdjustments,"Adjust Exposure for the currently active tool: Brush, Radial Filter, or Graduated Filter."},
@@ -809,6 +809,18 @@ local DataBase = {
   {"TrimEnd",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimEnd=Set Trim End")},
   {"TrimStart",true,true,false,false,true,false,LOC("$$$/AgLibrary/Ops/setTrimStart=Set Trim Start")},
 }
+local LrApplication  = import 'LrApplication'
+local lrvers = LrApplication.versionTable()
+if (lrvers.major == 7 and lrvers.minor > 2) or lrvers.major > 7 then
+  for i,v in ipairs(DataBase) do
+    if v[1] == "Dehaze" then
+      DataBase[i] =   {"Dehaze",'basicTone',true,true,true,false,false,LOC("$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount"),effects,"Controls the amount of haze in a photograph. Drag to the right to remove haze; drag to the left to add haze.",'basicTone'}
+      break
+    end
+  end
+end
+
+
 
 local MenuList = {}
 local SelectivePasteMenu = {}
@@ -930,6 +942,8 @@ file:write([=[
   local ProfileMap = ]==],serpent.block(ProfileMap, {comment = false}), [==[
   
   local ParamDisplay = ]==],serpent.block(paramdisp, {comment = false}), [==[
+
+  
   
 return {
     SelectivePasteMenu = SelectivePasteMenu,
