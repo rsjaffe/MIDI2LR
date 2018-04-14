@@ -51,8 +51,8 @@ LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap * map_command):
 LrIpcOut::~LrIpcOut()
 {
     moodycamel::ConsumerToken ctok(command_);
-    std::string command_copy_;
-    while (command_.try_dequeue(ctok, command_copy_)) {
+    std::string command_copy;
+    while (command_.try_dequeue(ctok, command_copy)) {
         /* pump the queue empty */
     }
     command_.enqueue(kTerminate);
@@ -98,7 +98,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             command_map_->GetCommandforMessage(message)) != LrCommandList::NextPrevProfile.end()) {
         return;
     }
-    auto command_to_send = command_map_->GetCommandforMessage(message);
+    const auto command_to_send = command_map_->GetCommandforMessage(message);
     //if it is a repeated command, change command_to_send appropriately
     if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
         static rsj::TimeType nextresponse{0};
