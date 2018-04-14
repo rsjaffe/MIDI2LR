@@ -11,11 +11,14 @@
 // Also has a basic atomic type (limited to hardware-supported atomics with no memory ordering guarantees).
 // Uses the AE_* prefix for macros (historical reasons), and the "moodycamel" namespace for symbols.
 
+//Rory Jaffe edited for constexpr and using limits header
+
 #include <cassert>
 #include <type_traits>
 #include <cerrno>
 #include <cstdint>
 #include <ctime>
+#include <limits> //edited RJ
 
 // Platform detection
 #if defined(__INTEL_COMPILER)
@@ -47,7 +50,7 @@
 #if defined(AE_VCPP) || defined(AE_ICC)
 #define AE_FORCEINLINE __forceinline
 #elif defined(AE_GCC)
-//#define AE_FORCEINLINE __attribute__((always_inline)) 
+//#define AE_FORCEINLINE __attribute__((always_inline))
 #define AE_FORCEINLINE inline
 #else
 #define AE_FORCEINLINE inline
@@ -245,13 +248,13 @@ public:
 
 	AE_FORCEINLINE operator T() const { return load(); }
 
-	
+
 #ifndef AE_USE_STD_ATOMIC_FOR_WEAK_ATOMIC
 	template<typename U> AE_FORCEINLINE weak_atomic const& operator=(U&& x) { value = std::forward<U>(x); return *this; }
 	AE_FORCEINLINE weak_atomic const& operator=(weak_atomic const& other) { value = other.value; return *this; }
-	
+
 	AE_FORCEINLINE T load() const { return value; }
-	
+
 	AE_FORCEINLINE T fetch_add_acquire(T increment)
 	{
 #if defined(AE_ARCH_X64) || defined(AE_ARCH_X86)
@@ -265,7 +268,7 @@ public:
 		assert(false && "T must be either a 32 or 64 bit type");
 		return value;
 	}
-	
+
 	AE_FORCEINLINE T fetch_add_release(T increment)
 	{
 #if defined(AE_ARCH_X64) || defined(AE_ARCH_X86)
@@ -286,7 +289,7 @@ public:
 		value.store(std::forward<U>(x), std::memory_order_relaxed);
 		return *this;
 	}
-	
+
 	AE_FORCEINLINE weak_atomic const& operator=(weak_atomic const& other)
 	{
 		value.store(other.value.load(std::memory_order_relaxed), std::memory_order_relaxed);
@@ -294,18 +297,18 @@ public:
 	}
 
 	AE_FORCEINLINE T load() const { return value.load(std::memory_order_relaxed); }
-	
+
 	AE_FORCEINLINE T fetch_add_acquire(T increment)
 	{
 		return value.fetch_add(increment, std::memory_order_acquire);
 	}
-	
+
 	AE_FORCEINLINE T fetch_add_release(T increment)
 	{
 		return value.fetch_add(increment, std::memory_order_release);
 	}
 #endif
-	
+
 
 private:
 #ifndef AE_USE_STD_ATOMIC_FOR_WEAK_ATOMIC
@@ -372,7 +375,7 @@ namespace moodycamel
 		{
 		private:
 		    void* m_hSema;
-		    
+
 		    Semaphore(const Semaphore& other);
 		    Semaphore& operator=(const Semaphore& other);
 
@@ -380,7 +383,7 @@ namespace moodycamel
 		    Semaphore(int initialCount = 0)
 		    {
 		        assert(initialCount >= 0);
-		        const long maxLong = 0x7fffffff;
+		        constexpr long maxLong = std::numeric_limits<long>::max();//edited RJ
 		        m_hSema = CreateSemaphoreW(nullptr, initialCount, maxLong, nullptr);
 		    }
 
@@ -391,19 +394,19 @@ namespace moodycamel
 
 		    void wait()
 		    {
-		    	const unsigned long infinite = 0xffffffff;
+		    	constexpr unsigned long infinite = std::numeric_limits<unsigned long>::max();//edited RJ
 		        WaitForSingleObject(m_hSema, infinite);
 		    }
 
 			bool try_wait()
 			{
-				const unsigned long RC_WAIT_TIMEOUT = 0x00000102;
+				constexpr unsigned long RC_WAIT_TIMEOUT = 0x00000102;//edited RJ
 				return WaitForSingleObject(m_hSema, 0) != RC_WAIT_TIMEOUT;
 			}
 
 			bool timed_wait(std::uint64_t usecs)
 			{
-				const unsigned long RC_WAIT_TIMEOUT = 0x00000102;
+				constexpr unsigned long RC_WAIT_TIMEOUT = 0x00000102;//edited RJ
 				return WaitForSingleObject(m_hSema, (unsigned long)(usecs / 1000)) != RC_WAIT_TIMEOUT;
 			}
 
@@ -519,8 +522,8 @@ namespace moodycamel
 			bool timed_wait(std::uint64_t usecs)
 			{
 				struct timespec ts;
-				const int usecs_in_1_sec = 1000000;
-				const int nsecs_in_1_sec = 1000000000;
+				constexpr int usecs_in_1_sec = 1000000;//edited RJ
+				constexpr int nsecs_in_1_sec = 1000000000;//edited RJ
 				clock_gettime(CLOCK_REALTIME, &ts);
 				ts.tv_sec += usecs / usecs_in_1_sec;
 				ts.tv_nsec += (usecs % usecs_in_1_sec) * 1000;
@@ -562,7 +565,7 @@ namespace moodycamel
 		{
 		public:
 			typedef std::make_signed<std::size_t>::type ssize_t;
-			
+
 		private:
 		    weak_atomic<ssize_t> m_count;
 		    Semaphore m_sema;
@@ -647,7 +650,7 @@ namespace moodycamel
 		            m_sema.signal(1);
 		        }
 		    }
-		    
+
 		    ssize_t availableApprox() const
 		    {
 		    	ssize_t count = m_count.load();
