@@ -196,13 +196,8 @@ private:
     void CerealSave()
     {//scoped so archive gets flushed
         const auto controllerfile =
-#ifdef _WIN32
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toWideCharPointer();
-#else
-            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toUTF8();
-#endif
+            getSiblingFile("settings.bin").getFullPathName().toStdString();
         std::ofstream outfile(controllerfile, std::ios::out |
             std::ios::binary | std::ios::trunc);
         if (outfile.is_open()) {
@@ -217,13 +212,8 @@ private:
     void CerealLoad()
     {//scoped so archive gets flushed
         const auto controllerfile =
-#ifdef _WIN32
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toWideCharPointer();
-#else
-            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toUTF8();
-#endif
+            getSiblingFile("settings.bin").getFullPathName().toStdString();
         std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
         if (infile.is_open() && !infile.eof()) {
             cereal::BinaryInputArchive iarchive(infile);
