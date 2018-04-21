@@ -87,8 +87,8 @@ namespace moodycamel {
 namespace moodycamel {
     namespace details {
         typedef std::uint32_t thread_id_t;
-        static constexpr thread_id_t invalid_thread_id = 0xFFFFFFFFU;
-        static constexpr thread_id_t invalid_thread_id2 = 0xFFFFFFFEU;
+        static constexpr thread_id_t invalid_thread_id = std::numeric_limits<thread_it_t>::max();
+        static constexpr thread_id_t invalid_thread_id2 = std::numeric_limits<thread_it_t>::max()-1;
         static inline thread_id_t thread_id()
         {
             return rl::thread_index();
@@ -103,8 +103,8 @@ namespace moodycamel {
     namespace details {
         static_assert(sizeof(unsigned long) == sizeof(std::uint32_t), "Expected size of unsigned long to be 32 bits on Windows");
         typedef std::uint32_t thread_id_t;
-        static constexpr thread_id_t invalid_thread_id = 0;			// See http://blogs.msdn.com/b/oldnewthing/archive/2004/02/23/78395.aspx
-        static constexpr thread_id_t invalid_thread_id2 = 0xFFFFFFFFU;	// Not technically guaranteed to be invalid, but is never used in practice. Note that all Win32 thread IDs are presently multiples of 4.
+        static constexpr thread_id_t invalid_thread_id = std::numeric_limits<thread_id_t>::min();			// See http://blogs.msdn.com/b/oldnewthing/archive/2004/02/23/78395.aspx
+        static constexpr thread_id_t invalid_thread_id2 = std::numeric_limits<thread_id_t>::max();	// Not technically guaranteed to be invalid, but is never used in practice. Note that all Win32 thread IDs are presently multiples of 4.
         static inline thread_id_t thread_id()
         {
             return static_cast<thread_id_t>(::GetCurrentThreadId());
@@ -1553,8 +1553,8 @@ namespace moodycamel {
             // Implemented like a stack, but where node order doesn't matter (nodes are inserted out of order under contention)
             std::atomic<N*> freeListHead;
 
-            static constexpr std::uint32_t REFS_MASK = 0x7FFFFFFF;
-            static constexpr std::uint32_t SHOULD_BE_ON_FREELIST = 0x80000000;
+            static constexpr std::uint32_t REFS_MASK = std::numeric_limits<uint32_t>::max() >> 1;
+            static constexpr std::uint32_t SHOULD_BE_ON_FREELIST = std::numeric_limits<uint32_t>::max() ^ REFS_MASK;
 
 #if MCDBGQ_NOLOCKFREE_FREELIST
             debug::DebugMutex mutex;

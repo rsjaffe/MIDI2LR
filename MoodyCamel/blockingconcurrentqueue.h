@@ -11,6 +11,7 @@
 #include "concurrentqueue.h"
 #include <type_traits>
 #include <cerrno>
+#include <limits>//edited RJ
 #include <memory>
 #include <chrono>
 #include <ctime>
@@ -70,7 +71,7 @@ namespace moodycamel {
                 Semaphore(int initialCount = 0)
                 {
                     assert(initialCount >= 0);
-                    constexpr long maxLong = 0x7fffffff;
+                    constexpr long maxLong = std::numeric_limits<long>::max();//edited RJ 
                     m_hSema = CreateSemaphoreW(nullptr, initialCount, maxLong, nullptr);
                 }
 
@@ -81,7 +82,7 @@ namespace moodycamel {
 
                 void wait()
                 {
-                    constexpr unsigned long infinite = 0xffffffff;
+                    constexpr unsigned long infinite = std::numeric_limits<unsigned long>::max();//edited RJ 
                     WaitForSingleObject(m_hSema, infinite);
                 }
 
