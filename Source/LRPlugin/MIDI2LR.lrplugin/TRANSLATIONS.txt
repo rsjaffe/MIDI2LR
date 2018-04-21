@@ -1,12 +1,4 @@
-﻿I'm adding translation of menu items for the Lightroom plugin (but not the app). I 
-need assistance for the following languages:
-* Chinese (Simplified)
-* Chinese (Traditional)
-* Swedish
-* Korean
-* Japanese
-
-To provide a translation for the project, look at TranslatedString_en.txt. That lists
+﻿To provide a translation for the project, look at TranslatedString_en.txt. That lists
 all strings that need translation into other languages.
 
 Each line in the file is formatted like "$$$/MIDI2LR/Stuff/name=The text to translate".
