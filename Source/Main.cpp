@@ -32,6 +32,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <fstream>
 #include <memory>
+#ifdef _WIN32
+#include <filesystem> //not available in XCode yet
+namespace fs = std::experimental::filesystem;
+#include "Windows.h"
+#endif
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
 #include "CCoptions.h"
@@ -47,8 +52,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 #include "VersionChecker.h"
 
+/**********************************************
+ * Once we get filesystem in MacOS, the code to obtain the path from the mac
+ * will be
+ * std::filesystem::path ExecutablePath() {
+ * const char * pathToProgram =
+ *    [[[[NSBundle mainBundle] bundlePath] stringByDeletingLastPathComponent] UTF8String];
+ * return std::filesystem::u8path(std::string(pathToProgram)) / "settings.bin";
+ * }
+ *********************************************/
+
 namespace {
     const auto kShutDownString{"--LRSHUTDOWN"};
+    const auto kSettingsFile{"settings.bin"};
 }
 
 class MIDI2LRApplication final: public juce::JUCEApplication {
@@ -195,10 +211,17 @@ private:
     }
     void CerealSave()
     {//scoped so archive gets flushed
-        const auto controllerfile =
+#ifdef _WIN32
+        wchar_t path[MAX_PATH];
+        GetModuleFileNameW(nullptr, path, MAX_PATH);
+        fs::path p{path};
+        p = p.replace_filename(kSettingsFile);
+#else
+        const auto p =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toStdString();
-        std::ofstream outfile(controllerfile, std::ios::out |
+            getSiblingFile(kSettingsFile).getFullPathName().toStdString();
+#endif
+        std::ofstream outfile(p, std::ios::out |
             std::ios::binary | std::ios::trunc);
         if (outfile.is_open()) {
             cereal::BinaryOutputArchive oarchive(outfile);
@@ -211,10 +234,17 @@ private:
     }
     void CerealLoad()
     {//scoped so archive gets flushed
-        const auto controllerfile =
+#ifdef _WIN32
+        wchar_t path[MAX_PATH];
+        GetModuleFileNameW(nullptr, path, MAX_PATH);
+        fs::path p {path};
+        p = p.replace_filename(kSettingsFile);
+#else
+        const auto p =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("settings.bin").getFullPathName().toStdString();
-        std::ifstream infile(controllerfile, std::ios::in | std::ios::binary);
+            getSiblingFile(kSettingsFile).getFullPathName().toStdString();
+#endif
+        std::ifstream infile(p, std::ios::in | std::ios::binary);
         if (infile.is_open() && !infile.eof()) {
             cereal::BinaryInputArchive iarchive(infile);
             iarchive(controls_model_);
