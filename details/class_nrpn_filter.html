@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -105,18 +105,13 @@ $(document).ready(function(){initNavTree('class_nrpn_filter.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_nrpn_filter__coll__graph.png" border="0" usemap="#_nrpn_filter_coll__map" alt="Collaboration graph"/></div>
 <map name="_nrpn_filter_coll__map" id="_nrpn_filter_coll__map">
-<area shape="rect" id="node3" href="class_nrpn_message.html" title="NrpnMessage" alt="" coords="155,199,257,225"/>
-<area shape="rect" id="node5" href="structrsj_1_1_nrpn.html" title="rsj::Nrpn" alt="" coords="48,5,119,32"/>
-<area shape="rect" id="node6" href="classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="185,95,344,121"/>
+<area shape="rect" id="node3" href="class_nrpn_message.html" title="NrpnMessage" alt="" coords="41,95,143,121"/>
+<area shape="rect" id="node4" href="classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="13,5,171,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1da418a14c1eebe27c2ba88f9437e69f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a1da418a14c1eebe27c2ba88f9437e69f">NrpnFilter</a> ()=default</td></tr>
-<tr class="separator:a1da418a14c1eebe27c2ba88f9437e69f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acea6b98611f09e5d4e28af81334d86a5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#acea6b98611f09e5d4e28af81334d86a5">~NrpnFilter</a> ()=default</td></tr>
-<tr class="separator:acea6b98611f09e5d4e28af81334d86a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a817b76b09fc4dd2304ac53f55ec4a36d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrsj_1_1_nrpn.html">rsj::Nrpn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a817b76b09fc4dd2304ac53f55ec4a36d">GetNrpnIfReady</a> (short channel) noexcept(<a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</td></tr>
 <tr class="separator:a817b76b09fc4dd2304ac53f55ec4a36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94efa98717bc67bb58bf183a90f7965c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a94efa98717bc67bb58bf183a90f7965c">IsInProcess</a> (short channel) const noexcept(<a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</td></tr>
@@ -129,57 +124,6 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aa4d9c066079ffb9089bc7b1f69f317db"><td class="memItemLeft" align="right" valign="top">std::array&lt; <a class="el" href="class_nrpn_message.html">NrpnMessage</a>, 16 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a> {}</td></tr>
 <tr class="separator:aa4d9c066079ffb9089bc7b1f69f317db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1da418a14c1eebe27c2ba88f9437e69f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1da418a14c1eebe27c2ba88f9437e69f">&#9670;&nbsp;</a></span>NrpnFilter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">NrpnFilter::NrpnFilter </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acea6b98611f09e5d4e28af81334d86a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acea6b98611f09e5d4e28af81334d86a5">&#9670;&nbsp;</a></span>~NrpnFilter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">NrpnFilter::~NrpnFilter </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a817b76b09fc4dd2304ac53f55ec4a36d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a817b76b09fc4dd2304ac53f55ec4a36d">&#9670;&nbsp;</a></span>GetNrpnIfReady()</h2>
@@ -204,8 +148,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    {</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>[(channel) &amp; 0xF].<a class="code" href="class_nrpn_filter.html#a817b76b09fc4dd2304ac53f55ec4a36d">GetNrpnIfReady</a>();</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div><div class="ttc" id="class_nrpn_filter_html_a817b76b09fc4dd2304ac53f55ec4a36d"><div class="ttname"><a href="class_nrpn_filter.html#a817b76b09fc4dd2304ac53f55ec4a36d">NrpnFilter::GetNrpnIfReady</a></div><div class="ttdeci">rsj::Nrpn GetNrpnIfReady(short channel) noexcept(kNdebug)</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:93</div></div>
-<div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:100</div></div>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).GetNrpnIfReady();</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div><div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:95</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -232,8 +175,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>[(channel) &amp; 0xF].<a class="code" href="class_nrpn_filter.html#a94efa98717bc67bb58bf183a90f7965c">IsInProcess</a>();</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div><div class="ttc" id="class_nrpn_filter_html_a94efa98717bc67bb58bf183a90f7965c"><div class="ttname"><a href="class_nrpn_filter.html#a94efa98717bc67bb58bf183a90f7965c">NrpnFilter::IsInProcess</a></div><div class="ttdeci">bool IsInProcess(short channel) const noexcept(kNdebug)</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:87</div></div>
-<div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:100</div></div>
+<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).IsInProcess();</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div><div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:95</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -276,8 +218,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>[(channel) &amp; 0xF].<a class="code" href="class_nrpn_filter.html#a08445d0c8ede53cf4a2dc5a4ca8a41ed">ProcessMidi</a>(control, value);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div><div class="ttc" id="class_nrpn_filter_html_a08445d0c8ede53cf4a2dc5a4ca8a41ed"><div class="ttname"><a href="class_nrpn_filter.html#a08445d0c8ede53cf4a2dc5a4ca8a41ed">NrpnFilter::ProcessMidi</a></div><div class="ttdeci">bool ProcessMidi(short channel, short control, short value) noexcept(kNdebug)</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:81</div></div>
-<div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:100</div></div>
+<div class="fragment"><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    {</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).ProcessMidi(control, value);</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div><div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:95</div></div>
 </div><!-- fragment -->
 </div>
 </div>

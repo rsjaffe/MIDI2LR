@@ -4,8 +4,7 @@ var searchData=
   ['load',['load',['../class_channel_model.html#a9286a06325714cfb1fea1d33d76fb3c7',1,'ChannelModel']]],
   ['lock',['lock',['../classrsj_1_1_relax_t_tas_spin_lock.html#aab40f62bd0d4387e26ae8f82c5c4d62b',1,'rsj::RelaxTTasSpinLock']]],
   ['lrcommandlist',['LrCommandList',['../class_lr_command_list.html#a15aa2c44778a9abc140bd9157ea295ad',1,'LrCommandList']]],
-  ['lripcin',['LrIpcIn',['../class_lr_ipc_in.html#a05497e0e228a4d66fd92ce3a910e0b95',1,'LrIpcIn']]],
-  ['lripcout',['LrIpcOut',['../class_lr_ipc_out.html#a5934614aa0aa5bfe7aca0aea7e450eff',1,'LrIpcOut']]],
-  ['lripcoutcallback',['LrIpcOutCallback',['../class_main_content_component.html#ab0af9ed1ab1dc797ff8faebe0a55e904',1,'MainContentComponent']]],
-  ['ltrim',['LTrim',['../namespacersj.html#a330ed504be54e4caa07775f01dd53cf8',1,'rsj']]]
+  ['lripcin',['LrIpcIn',['../class_lr_ipc_in.html#acd661d3f120ed44b7be1734909f362d0',1,'LrIpcIn::LrIpcIn(ControlsModel *c_model, ProfileManager *profile_manager, CommandMap *command_map)'],['../class_lr_ipc_in.html#a468b27abc43e7f1f6d4012eb8dc14bfd',1,'LrIpcIn::LrIpcIn(const LrIpcIn &amp;other)=delete'],['../class_lr_ipc_in.html#adfbf863dc7341c0ebc8b7f5ab13e71fc',1,'LrIpcIn::LrIpcIn(LrIpcIn &amp;&amp;other)=delete']]],
+  ['lripcout',['LrIpcOut',['../class_lr_ipc_out.html#a78a1f27b02d07126d1c84d26217188d2',1,'LrIpcOut::LrIpcOut(ControlsModel *c_model, const CommandMap *map_command)'],['../class_lr_ipc_out.html#a6d2c565aa0b5bafded8524bd2fc5e5c8',1,'LrIpcOut::LrIpcOut(const LrIpcOut &amp;other)=delete'],['../class_lr_ipc_out.html#a34874e90a87db6ab6ac9bad8ead0969e',1,'LrIpcOut::LrIpcOut(LrIpcOut &amp;&amp;other)=delete']]],
+  ['lripcoutcallback',['LrIpcOutCallback',['../class_main_content_component.html#a5c7da1ac272d106cfed84954a4816334',1,'MainContentComponent']]]
 ];

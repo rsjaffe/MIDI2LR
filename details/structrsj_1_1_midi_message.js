@@ -1,6 +1,6 @@
 var structrsj_1_1_midi_message =
 [
-    [ "MidiMessage", "structrsj_1_1_midi_message.html#a7994463d1a4f0ec77c7c7163e5e9ba3a", null ],
+    [ "MidiMessage", "structrsj_1_1_midi_message.html#a59ccfc926c8ced7df08863b46c2bc9d1", null ],
     [ "MidiMessage", "structrsj_1_1_midi_message.html#ad17aaff71dae689c4a3c0dfde9c4cdfa", null ],
     [ "MidiMessage", "structrsj_1_1_midi_message.html#a5e6c3f8ecfb29a0bf4fbdadcf39d32b5", null ],
     [ "channel", "structrsj_1_1_midi_message.html#aad2f386f5ae0d1666983903e3ac25f97", null ],

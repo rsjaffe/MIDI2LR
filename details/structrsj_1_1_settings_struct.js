@@ -1,6 +1,6 @@
 var structrsj_1_1_settings_struct =
 [
-    [ "SettingsStruct", "structrsj_1_1_settings_struct.html#ab4c587a81e39782e95272d0e8e16d3de", null ],
+    [ "SettingsStruct", "structrsj_1_1_settings_struct.html#a88895a58292cb0763eba9bb6a21e35b0", null ],
     [ "serialize", "structrsj_1_1_settings_struct.html#a5343328beb8d31000008efebe9a861dc", null ],
     [ "high", "structrsj_1_1_settings_struct.html#a2a39af6257e4d41c76a6f06b0bf0fc3d", null ],
     [ "low", "structrsj_1_1_settings_struct.html#a5dc765c00e077ed13048125f37b9acbd", null ],

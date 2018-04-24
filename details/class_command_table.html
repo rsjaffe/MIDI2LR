@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -121,10 +121,16 @@ $(document).ready(function(){initNavTree('class_command_table.html','');});
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3b6a10db22daaf27dcfeb486438c583"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable</a> (const juce::String &amp;component_name, <a class="el" href="class_command_table_model.html">CommandTableModel</a> *model)</td></tr>
 <tr class="separator:ac3b6a10db22daaf27dcfeb486438c583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6bac85f320434503c8d769d021df433"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#ac6bac85f320434503c8d769d021df433">CommandTable</a> (const <a class="el" href="class_command_table.html">CommandTable</a> &amp;)=delete</td></tr>
-<tr class="separator:ac6bac85f320434503c8d769d021df433"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51329dae2c15ad4774c05c5bd0f76092"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_command_table.html">CommandTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#a51329dae2c15ad4774c05c5bd0f76092">operator=</a> (const <a class="el" href="class_command_table.html">CommandTable</a> &amp;)=delete</td></tr>
-<tr class="separator:a51329dae2c15ad4774c05c5bd0f76092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4406188275d88e04cd083a6f6606c222"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#a4406188275d88e04cd083a6f6606c222">CommandTable</a> (const <a class="el" href="class_command_table.html">CommandTable</a> &amp;other)=delete</td></tr>
+<tr class="separator:a4406188275d88e04cd083a6f6606c222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53767aa4eab7b11ae8b66a428d247933"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#a53767aa4eab7b11ae8b66a428d247933">CommandTable</a> (<a class="el" href="class_command_table.html">CommandTable</a> &amp;&amp;other)=delete</td></tr>
+<tr class="separator:a53767aa4eab7b11ae8b66a428d247933"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a236cd1fe642fd8208ee76b2b6ce0fce1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#a236cd1fe642fd8208ee76b2b6ce0fce1">~CommandTable</a> ()=default</td></tr>
+<tr class="separator:a236cd1fe642fd8208ee76b2b6ce0fce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51dc0c24d4ff20aaac760a5b14e1da05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_command_table.html">CommandTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#a51dc0c24d4ff20aaac760a5b14e1da05">operator=</a> (const <a class="el" href="class_command_table.html">CommandTable</a> &amp;other)=delete</td></tr>
+<tr class="separator:a51dc0c24d4ff20aaac760a5b14e1da05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33732b269b501c3b1416d7d19927884"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_command_table.html">CommandTable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table.html#ac33732b269b501c3b1416d7d19927884">operator=</a> (<a class="el" href="class_command_table.html">CommandTable</a> &amp;&amp;other)=delete</td></tr>
+<tr class="separator:ac33732b269b501c3b1416d7d19927884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -133,7 +139,7 @@ Private Member Functions</h2></td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac3b6a10db22daaf27dcfeb486438c583"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3b6a10db22daaf27dcfeb486438c583">&#9670;&nbsp;</a></span>CommandTable() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3b6a10db22daaf27dcfeb486438c583">&#9670;&nbsp;</a></span>CommandTable() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +167,7 @@ Private Member Functions</h2></td></tr>
 <p class="reference">References <a class="el" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                                                                                    :</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    juce::TableListBox{component_name, model} {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    setHeader(<span class="keyword">new</span> juce::TableHeaderComponent{});</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    getHeader().addColumn(<span class="stringliteral">&quot;MIDI Command&quot;</span>, 1, 150, 30, -1,</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    getHeader().addColumn(<span class="stringliteral">&quot;LR Command&quot;</span>, 2, 150, 30, -1,</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable |</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        juce::TableHeaderComponent::sortedForwards);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div></div><!-- fragment --><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                                                                    :</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    juce::TableListBox{component_name, model} {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#pragma warning(suppress: 26409 24624)</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    setHeader(<span class="keyword">new</span> juce::TableHeaderComponent{});</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    getHeader().addColumn(<span class="stringliteral">&quot;MIDI Command&quot;</span>, 1, 150, 30, -1,</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    getHeader().addColumn(<span class="stringliteral">&quot;LR Command&quot;</span>, 2, 150, 30, -1,</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable |</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        juce::TableHeaderComponent::sortedForwards);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div></div><!-- fragment --><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
@@ -182,8 +188,33 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac6bac85f320434503c8d769d021df433"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6bac85f320434503c8d769d021df433">&#9670;&nbsp;</a></span>CommandTable() <span class="overload">[2/2]</span></h2>
+<a id="a236cd1fe642fd8208ee76b2b6ce0fce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a236cd1fe642fd8208ee76b2b6ce0fce1">&#9670;&nbsp;</a></span>~CommandTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CommandTable::~CommandTable </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4406188275d88e04cd083a6f6606c222"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4406188275d88e04cd083a6f6606c222">&#9670;&nbsp;</a></span>CommandTable() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,7 +226,33 @@ Private Member Functions</h2></td></tr>
           <td class="memname">CommandTable::CommandTable </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_command_table.html">CommandTable</a> &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a53767aa4eab7b11ae8b66a428d247933"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53767aa4eab7b11ae8b66a428d247933">&#9670;&nbsp;</a></span>CommandTable() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CommandTable::CommandTable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_command_table.html">CommandTable</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -232,11 +289,11 @@ Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::deleteKey) &amp;&amp; getSelectedRow() != -1) {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> last = getSelectedRow() == getNumRows() - 1;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> ptr = dynamic_cast&lt;CommandTableModel*&gt;(getModel()))</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            ptr-&gt;RemoveRow(static_cast&lt;size_t&gt;(getSelectedRow()));</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        updateContent();</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">if</span> (last) <span class="comment">// keep selection at the end</span></div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            selectRow(getNumRows() - 1);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::downKey) &amp;&amp; getSelectedRow() != -1 &amp;&amp; getSelectedRow() &lt; getNumRows() - 1) {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        selectRow(getSelectedRow() + 1);</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::upKey) &amp;&amp; getSelectedRow() &gt; 0 &amp;&amp; getNumRows() &gt; 1) {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        selectRow(getSelectedRow() - 1);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::pageUpKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">auto</span> row = getSelectedRow() - 20;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">if</span> (row &lt; 0)</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            row = 0;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        selectRow(row);</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::pageDownKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">auto</span> row = getSelectedRow() + 20;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> (row &gt;= getNumRows())</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            row = getNumRows() - 1;</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        selectRow(row);</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::homeKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        selectRow(0);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::endKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        selectRow(getNumRows() - 1);</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::deleteKey) &amp;&amp; getSelectedRow() != -1) {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> last = getSelectedRow() == getNumRows() - 1;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> ptr = dynamic_cast&lt;CommandTableModel*&gt;(getModel()))</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            ptr-&gt;RemoveRow(gsl::narrow_cast&lt;size_t&gt;(getSelectedRow()));</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        updateContent();</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">if</span> (last) <span class="comment">// keep selection at the end</span></div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            selectRow(getNumRows() - 1);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::downKey) &amp;&amp; getSelectedRow() != -1 &amp;&amp; getSelectedRow() &lt; getNumRows() - 1) {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        selectRow(getSelectedRow() + 1);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::upKey) &amp;&amp; getSelectedRow() &gt; 0 &amp;&amp; getNumRows() &gt; 1) {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        selectRow(getSelectedRow() - 1);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::pageUpKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">auto</span> row = getSelectedRow() - 20;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> (row &lt; 0)</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            row = 0;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        selectRow(row);</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::pageDownKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">auto</span> row = getSelectedRow() + 20;</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (row &gt;= getNumRows())</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            row = getNumRows() - 1;</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        selectRow(row);</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::homeKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        selectRow(0);</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (k.isKeyCode(KeyPress::endKey) &amp;&amp; getNumRows() &gt; 0) {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        selectRow(getNumRows() - 1);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a51329dae2c15ad4774c05c5bd0f76092"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51329dae2c15ad4774c05c5bd0f76092">&#9670;&nbsp;</a></span>operator=()</h2>
+<a id="a51dc0c24d4ff20aaac760a5b14e1da05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51dc0c24d4ff20aaac760a5b14e1da05">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -248,7 +305,33 @@ Private Member Functions</h2></td></tr>
           <td class="memname"><a class="el" href="class_command_table.html">CommandTable</a>&amp; CommandTable::operator= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_command_table.html">CommandTable</a> &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac33732b269b501c3b1416d7d19927884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33732b269b501c3b1416d7d19927884">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_command_table.html">CommandTable</a>&amp; CommandTable::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_command_table.html">CommandTable</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

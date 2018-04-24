@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -90,7 +90,6 @@ $(document).ready(function(){initNavTree('_command_table_model_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">CommandTableModel.h File Reference</div>  </div>
@@ -99,6 +98,7 @@ $(document).ready(function(){initNavTree('_command_table_model_8h.html','');});
 <div class="textblock"><code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for CommandTableModel.h:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -106,6 +106,8 @@ $(document).ready(function(){initNavTree('_command_table_model_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_command_table_model_8h__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_command_table_model_8h" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_command_table_model_8h" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_command_table_model_8h">
+<area shape="rect" id="node5" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="223,109,323,136"/>
+<area shape="rect" id="node7" href="_misc_8h.html" title="Misc.h" alt="" coords="356,191,417,218"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -118,9 +120,8 @@ $(document).ready(function(){initNavTree('_command_table_model_8h.html','');});
 <area shape="rect" id="node2" href="_command_table_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandTable.cpp" alt="" coords="5,117,244,158"/>
 <area shape="rect" id="node3" href="_command_table_model_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/CommandTable\lModel.cpp" alt="" coords="268,109,483,165"/>
 <area shape="rect" id="node4" href="_main_component_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.h" alt="" coords="507,117,737,158"/>
-<area shape="rect" id="node5" href="_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="299,213,476,255"/>
-<area shape="rect" id="node6" href="_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="501,213,743,255"/>
-<area shape="rect" id="node7" href="_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="768,213,991,255"/>
+<area shape="rect" id="node5" href="_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="371,213,614,255"/>
+<area shape="rect" id="node6" href="_main_window_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainWindow.cpp" alt="" coords="639,213,861,255"/>
 </map>
 </div>
 </div>
@@ -129,11 +130,6 @@ $(document).ready(function(){initNavTree('_command_table_model_8h.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_table_model.html">CommandTableModel</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacersj"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html">rsj</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>

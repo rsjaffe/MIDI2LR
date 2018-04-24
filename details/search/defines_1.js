@@ -20,6 +20,5 @@ var searchData=
   ['midi2lr_5fsendkeys_5fh_5fincluded',['MIDI2LR_SENDKEYS_H_INCLUDED',['../_send_keys_8h.html#aff1b36f6bb7624c1eca0215b45a78828',1,'SendKeys.h']]],
   ['midi2lr_5fsettingscomponent_5fh_5fincluded',['MIDI2LR_SETTINGSCOMPONENT_H_INCLUDED',['../_settings_component_8h.html#a383d4a27cc4759f4970aa8635e33ec1d',1,'SettingsComponent.h']]],
   ['midi2lr_5fsettingsmanager_5fh_5fincluded',['MIDI2LR_SETTINGSMANAGER_H_INCLUDED',['../_settings_manager_8h.html#a463b336c435abea6b297287fe43f45aa',1,'SettingsManager.h']]],
-  ['midi2lr_5futilities_5fh_5fincluded',['MIDI2LR_UTILITIES_H_INCLUDED',['../_utilities_8h.html#a2ce247ea398255aa2f603ae1ca2f7e57',1,'Utilities.h']]],
   ['midi2lr_5fversionchecker_5fh_5fincluded',['MIDI2LR_VERSIONCHECKER_H_INCLUDED',['../_version_checker_8h.html#a0cf21ffe9cb71c5ccf25865756db7922',1,'VersionChecker.h']]]
 ];

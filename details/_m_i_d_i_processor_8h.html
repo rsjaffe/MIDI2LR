@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -90,15 +90,17 @@ $(document).ready(function(){initNavTree('_m_i_d_i_processor_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">MIDIProcessor.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;future&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;MoodyCamel/blockingconcurrentqueue.h&quot;</code><br />
 <code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_nrpn_message_8h_source.html">NrpnMessage.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for MIDIProcessor.h:</div>
@@ -107,8 +109,9 @@ $(document).ready(function(){initNavTree('_m_i_d_i_processor_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_m_i_d_i_processor_8h__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_m_i_d_i_processor_8h" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_m_i_d_i_processor_8h" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_m_i_d_i_processor_8h">
-<area shape="rect" id="node5" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="342,102,455,129"/>
-<area shape="rect" id="node10" href="_misc_8h.html" title="Misc.h" alt="" coords="536,184,597,211"/>
+<area shape="rect" id="node7" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="202,95,302,121"/>
+<area shape="rect" id="node11" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="326,95,439,121"/>
+<area shape="rect" id="node8" href="_misc_8h.html" title="Misc.h" alt="" coords="261,177,323,203"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -131,11 +134,6 @@ $(document).ready(function(){initNavTree('_m_i_d_i_processor_8h.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_processor.html">MidiProcessor</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacersj"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html">rsj</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>

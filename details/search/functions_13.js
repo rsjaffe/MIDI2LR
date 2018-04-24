@@ -1,4 +1,21 @@
 var searchData=
 [
-  ['waitandpop',['WaitAndPop',['../classrsj_1_1_threadsafe_queue.html#a2b89701029e30d4d8c25d052a15d68ed',1,'rsj::ThreadsafeQueue::WaitAndPop(T &amp;value)'],['../classrsj_1_1_threadsafe_queue.html#a096d1a905ff4dfccc1f961082e22d845',1,'rsj::ThreadsafeQueue::WaitAndPop()']]]
+  ['_7eccoptions',['~CCoptions',['../class_c_coptions.html#a7d12f2662d4da84b42808a4bcfee8057',1,'CCoptions']]],
+  ['_7echannelmodel',['~ChannelModel',['../class_channel_model.html#afcdeee3d748343a45485c2c63e618964',1,'ChannelModel']]],
+  ['_7ecommandtable',['~CommandTable',['../class_command_table.html#a236cd1fe642fd8208ee76b2b6ce0fce1',1,'CommandTable']]],
+  ['_7econtrolsmodel',['~ControlsModel',['../class_controls_model.html#ae598d9113a0c3705592140a1199d1569',1,'ControlsModel']]],
+  ['_7edebuginfo',['~DebugInfo',['../class_debug_info.html#af78d70b6248ca553399d029034860d8d',1,'DebugInfo']]],
+  ['_7elripcin',['~LrIpcIn',['../class_lr_ipc_in.html#adaf86ae884e93a8e7f509d19e2a47231',1,'LrIpcIn']]],
+  ['_7elripcout',['~LrIpcOut',['../class_lr_ipc_out.html#a91c2d833ff148181947056450f5009c0',1,'LrIpcOut']]],
+  ['_7emaincontentcomponent',['~MainContentComponent',['../class_main_content_component.html#a0ad6ee663c2e5f135946a23bed278320',1,'MainContentComponent']]],
+  ['_7emainwindow',['~MainWindow',['../class_main_window.html#a767824566011a82d1d75339774258614',1,'MainWindow']]],
+  ['_7emidiprocessor',['~MidiProcessor',['../class_midi_processor.html#a22c2a1ed5ce0a32419bc08aa3fc1fe06',1,'MidiProcessor']]],
+  ['_7eprofilemanager',['~ProfileManager',['../class_profile_manager.html#af749cc966b2fc9287c5a6218be3f7e20',1,'ProfileManager']]],
+  ['_7epwoptions',['~PWoptions',['../class_p_woptions.html#a0fbbb29546c930f7f2156475754a8815',1,'PWoptions']]],
+  ['_7erelaxttasspinlock',['~RelaxTTasSpinLock',['../classrsj_1_1_relax_t_tas_spin_lock.html#a5d087728dd997db15a721cc609f711a4',1,'rsj::RelaxTTasSpinLock']]],
+  ['_7eresizablechild',['~ResizableChild',['../class_resizable_child.html#a57a06b3f6301466017274dc58aea8904',1,'ResizableChild']]],
+  ['_7eresizablelayout',['~ResizableLayout',['../class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc',1,'ResizableLayout']]],
+  ['_7esettingscomponent',['~SettingsComponent',['../class_settings_component.html#a7a4688bc9cfe9c8868124bd62f5d8a4d',1,'SettingsComponent']]],
+  ['_7esettingsmanager',['~SettingsManager',['../class_settings_manager.html#a52d99a3329704af7cd146a9009e1d8bf',1,'SettingsManager']]],
+  ['_7eversionchecker',['~VersionChecker',['../class_version_checker.html#a71054f63bc53a7633a38b25783540cac',1,'VersionChecker']]]
 ];

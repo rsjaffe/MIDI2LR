@@ -5,6 +5,7 @@ var annotated_dup =
       [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ]
     ] ],
     [ "CCoptions", "class_c_coptions.html", "class_c_coptions" ],
+    [ "cfreleaser", "structcfreleaser.html", "structcfreleaser" ],
     [ "ChannelModel", "class_channel_model.html", "class_channel_model" ],
     [ "CommandMap", "class_command_map.html", "class_command_map" ],
     [ "CommandMenu", "class_command_menu.html", "class_command_menu" ],

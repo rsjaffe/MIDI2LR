@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -104,10 +104,8 @@ $(document).ready(function(){initNavTree('class_nrpn_message.html','');});
   <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#a1f884ca50a492512c7921b3022bebaad">GetValue</a>() const noexcept</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_nrpn_message.html#a85409a39452240da6af026e77b546ac0">IsInProcess</a>() const noexcept</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#a88038f5dd4c1b38f83e47fc25ad2a49b">IsReady</a>() const noexcept</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_nrpn_message.html#a78407271f568beec93ce668124e943bd">nrpn_queued_</a></td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#ab582b9869114fbfc1ade3b965a852faf">NrpnMessage</a>()=default</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_nrpn_message.html#a8954bba6e4ef6848a6d120bdfa49f97d">ProcessMidi</a>(short control, short value) noexcept(kNdebug)</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#a1e067cd85ccb1fb332cadf99fab61875">queue_guard_</a></td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">mutable</span><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_nrpn_message.html#ad73c3c97a0435be5d0507bcef38f65aa">nrpn_queued_</a></td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#a8954bba6e4ef6848a6d120bdfa49f97d">ProcessMidi</a>(short control, short value) noexcept(kNdebug)</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_nrpn_message.html#a00b6efcccb51f22cb26e2b2ac82e0c10">ready_</a></td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#a073ea5f36072b30556c2fcca13b1c8b9">SetControlLsb</a>(short val) noexcept(kNdebug)</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_nrpn_message.html#adf0e62caa7eb7b88062beda9154cd298">SetControlMsb</a>(short val) noexcept(kNdebug)</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
@@ -115,7 +113,6 @@ $(document).ready(function(){initNavTree('class_nrpn_message.html','');});
   <tr><td class="entry"><a class="el" href="class_nrpn_message.html#a82a315dbe694d73575c13f6f89cc7800">SetValueMsb</a>(short val) noexcept(kNdebug)</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#a9211e5df87f33d007a6c13dedec0b2a9">value_lsb_</a></td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_nrpn_message.html#a76eb6b2221b6ffaa0317a6df97694670">value_msb_</a></td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_nrpn_message.html#a356de668fe49b60a9ea43c5154a777bf">~NrpnMessage</a>()=default</td><td class="entry"><a class="el" href="class_nrpn_message.html">NrpnMessage</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

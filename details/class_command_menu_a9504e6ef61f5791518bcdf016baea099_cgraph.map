@@ -1,4 +1,3 @@
 <map id="CommandMenu::clicked" name="CommandMenu::clicked">
-<area shape="rect" id="node2" href="$class_p_woptions.html#a7fd98b93609325f9c302615d88707435" title="PWoptions::BindToControl" alt="" coords="235,5,410,32"/>
-<area shape="rect" id="node3" href="$class_command_map.html#a652e7def69ae9a1b0ad4eca3a5f7ef88" title="CommandMap::RemoveMessage" alt="" coords="216,56,429,83"/>
+<area shape="rect" id="node2" href="$class_command_map.html#a652e7def69ae9a1b0ad4eca3a5f7ef88" title="CommandMap::RemoveMessage" alt="" coords="216,5,429,32"/>
 </map>

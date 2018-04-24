@@ -1,0 +1,13 @@
+<map id="LrIpcOut::ConnectTimer" name="LrIpcOut::ConnectTimer">
+<area shape="rect" id="node3" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1551,244,1621,271"/>
+<area shape="rect" id="node20" href="$class_lr_ipc_out_1_1_recenter.html" title="LrIpcOut::Recenter" alt="" coords="1753,363,1884,389"/>
+<area shape="rect" id="node5" href="$class_command_map.html" title="CommandMap" alt="" coords="1227,93,1334,120"/>
+<area shape="rect" id="node7" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,5,701,32"/>
+<area shape="rect" id="node8" title="STL class. " alt="" coords="596,63,676,89"/>
+<area shape="rect" id="node9" title="STL class. " alt="" coords="262,55,389,97"/>
+<area shape="rect" id="node11" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1228,144,1333,171"/>
+<area shape="rect" id="node13" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,193,688,220"/>
+<area shape="rect" id="node15" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,128,132,155"/>
+<area shape="rect" id="node16" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,344,405,371"/>
+<area shape="rect" id="node22" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="1525,464,1647,491"/>
+</map>

@@ -9,6 +9,7 @@ var _midi_utilities_8h =
       [ "kCc", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447", null ],
       [ "kPitchBend", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3a4fce6f297fc06f82a964472e8a8921b5", null ]
     ] ],
+    [ "operator==", "_midi_utilities_8h.html#ac953a84e0017225a1c5b7cfb067ba50b", null ],
     [ "kCcFlag", "_midi_utilities_8h.html#acfed8fcd3b55962e621fe38cc51b5fe6", null ],
     [ "kChanPressureFlag", "_midi_utilities_8h.html#a3eef0c8742c77199734e77031216dd18", null ],
     [ "kKeyPressureFlag", "_midi_utilities_8h.html#a93c6b6eb3c616627e32d70dd236845a3", null ],

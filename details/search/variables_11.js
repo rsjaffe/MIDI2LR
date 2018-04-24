@@ -1,15 +1,14 @@
 var searchData=
 [
-  ['save_5fbutton_5f',['save_button_',['../class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884',1,'MainContentComponent']]],
-  ['secondarydisplay',['SecondaryDisplay',['../class_lr_command_list.html#a8c420946b1f6afb8c3abb1cd29711816',1,'LrCommandList']]],
-  ['selected_5fitem_5f',['selected_item_',['../class_command_menu.html#a2f031de592778295c9c404b7f421530d',1,'CommandMenu']]],
-  ['settings_5fbutton_5f',['settings_button_',['../class_main_content_component.html#a4b8201db4fce61cfe7022aebf692ac20',1,'MainContentComponent']]],
-  ['settings_5fdialog_5f',['settings_dialog_',['../class_main_content_component.html#a037783db566754b63e805e31caf0704c',1,'MainContentComponent']]],
-  ['settings_5fmanager_5f',['settings_manager_',['../class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1',1,'MIDI2LRApplication::settings_manager_()'],['../class_main_content_component.html#a71a33a966c447e3bae3c6a098d800c83',1,'MainContentComponent::settings_manager_()'],['../class_version_checker.html#a987dd913ae41f9cee15242c8ec1a87af',1,'VersionChecker::settings_manager_()'],['../class_settings_component.html#ade30272a6ed451be7fb8b9351d5e662f',1,'SettingsComponent::settings_manager_()']]],
-  ['settings_5fto_5fsave_5f',['settings_to_save_',['../class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a',1,'ChannelModel']]],
-  ['signbutton',['signbutton',['../class_c_coptions.html#af8ccc733f31441e210b1af0667b35a86',1,'CCoptions']]],
-  ['socket_5f',['socket_',['../class_lr_ipc_in.html#a0e7eee4dead5ab5c16f72efceca368ef',1,'LrIpcIn']]],
-  ['splittoning',['SplitToning',['../class_lr_command_list.html#a5e1297ba6d83dcbee3177fe6eb3696af',1,'LrCommandList']]],
-  ['style',['style',['../struct_resizable_layout_1_1_anchor.html#aa8ac3ce7d9c551d0c5b70b9ec2e87f0a',1,'ResizableLayout::Anchor']]],
-  ['switch_5fstate_5f',['switch_state_',['../class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6',1,'ProfileManager']]]
+  ['thread_5fstarted_5f',['thread_started_',['../class_lr_ipc_in.html#a1895f71ee39819bbe3b21176b26efa3e',1,'LrIpcIn']]],
+  ['timer_5fmutex_5f',['timer_mutex_',['../class_lr_ipc_in.html#ad890e2526d30ab952a78772a8b75cfb2',1,'LrIpcIn']]],
+  ['timer_5foff_5f',['timer_off_',['../class_lr_ipc_in.html#a13272196c3d4c3f4410a1df7d84e5c01',1,'LrIpcIn::timer_off_()'],['../class_lr_ipc_out_1_1_connect_timer.html#a6cdea147b78f1b0757f39680ae10c14f',1,'LrIpcOut::ConnectTimer::timer_off_()']]],
+  ['title_5flabel_5f',['title_label_',['../class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110',1,'MainContentComponent']]],
+  ['title_5fshadow_5f',['title_shadow_',['../class_main_content_component.html#a8074d32c4e01a43d317cc1af183ce344',1,'MainContentComponent']]],
+  ['tonecurve',['ToneCurve',['../class_lr_command_list.html#adbc15036183d6547f78a8828a5be4684',1,'LrCommandList']]],
+  ['toolmodulepanel',['ToolModulePanel',['../class_lr_command_list.html#a99096925bd895d7d3407441abf9490dc',1,'LrCommandList']]],
+  ['top',['top',['../struct_resizable_layout_1_1_rect.html#a716da87456311e9e66b7c9d1daf255a9',1,'ResizableLayout::Rect']]],
+  ['topleft',['topLeft',['../struct_resizable_layout_1_1_anchor.html#aedb860daace9c7c030f43997f58abbc7',1,'ResizableLayout::Anchor']]],
+  ['transform',['Transform',['../class_lr_command_list.html#a7b066e802a47e18dce89bf9af6e83599',1,'LrCommandList']]],
+  ['twosbutton',['twosbutton',['../class_c_coptions.html#aa05f2a60b260b482b0c02c298f076e2e',1,'CCoptions']]]
 ];

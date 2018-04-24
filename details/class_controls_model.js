@@ -1,6 +1,6 @@
 var class_controls_model =
 [
-    [ "ControlsModel", "class_controls_model.html#aa007c9d352d9f92734c62f7d146ee4d5", null ],
+    [ "ControlsModel", "class_controls_model.html#a0781b48b5267bca6c0fc32e1e997d0dc", null ],
     [ "~ControlsModel", "class_controls_model.html#ae598d9113a0c3705592140a1199d1569", null ],
     [ "ControlsModel", "class_controls_model.html#a23c6411981fe10b19ab2ffb6a3459ab8", null ],
     [ "ControlsModel", "class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8", null ],

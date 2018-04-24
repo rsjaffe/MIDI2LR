@@ -1,6 +1,5 @@
 var dir_74389ed8173ad57b461b9d623a1f3867 =
 [
-    [ "Utilities", "dir_9004245aaaaa2dad7b2f90fc9db90e30.html", "dir_9004245aaaaa2dad7b2f90fc9db90e30" ],
     [ "CCoptions.cpp", "_c_coptions_8cpp.html", null ],
     [ "CCoptions.h", "_c_coptions_8h.html", [
       [ "CCoptions", "class_c_coptions.html", "class_c_coptions" ]
@@ -48,11 +47,11 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     ] ],
     [ "ResizableLayout.cpp", "_resizable_layout_8cpp.html", null ],
     [ "ResizableLayout.h", "_resizable_layout_8h.html", "_resizable_layout_8h" ],
-    [ "SendKeys.cpp", "_send_keys_8cpp.html", null ],
+    [ "SendKeys.cpp", "_send_keys_8cpp.html", "_send_keys_8cpp" ],
     [ "SendKeys.h", "_send_keys_8h.html", "_send_keys_8h" ],
     [ "SettingsComponent.cpp", "_settings_component_8cpp.html", null ],
     [ "SettingsComponent.h", "_settings_component_8h.html", "_settings_component_8h" ],
-    [ "SettingsManager.cpp", "_settings_manager_8cpp.html", "_settings_manager_8cpp" ],
+    [ "SettingsManager.cpp", "_settings_manager_8cpp.html", null ],
     [ "SettingsManager.h", "_settings_manager_8h.html", "_settings_manager_8h" ],
     [ "VersionChecker.cpp", "_version_checker_8cpp.html", null ],
     [ "VersionChecker.h", "_version_checker_8h.html", "_version_checker_8h" ]

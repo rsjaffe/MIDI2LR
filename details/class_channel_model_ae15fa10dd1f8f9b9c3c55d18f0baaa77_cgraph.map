@@ -1,6 +1,0 @@
-<map id="ChannelModel::SetCc" name="ChannelModel::SetCc">
-<area shape="rect" id="node2" href="$class_channel_model.html#ac9439fac54a4025ac1d19183fd2ff47a" title="ChannelModel::SetCcMax" alt="" coords="210,5,383,32"/>
-<area shape="rect" id="node4" href="$class_channel_model.html#a5be68a23304e7682dd20e11e0e194717" title="ChannelModel::SetCcMethod" alt="" coords="201,56,392,83"/>
-<area shape="rect" id="node5" href="$class_channel_model.html#a817e99931d5a65a279dd5004dbeccc57" title="ChannelModel::SetCcMin" alt="" coords="212,107,381,133"/>
-<area shape="rect" id="node3" href="$class_channel_model.html#ab09dc6ae94238d3e6601bf9ee672acdb" title="ChannelModel::IsNRPN_" alt="" coords="440,5,605,32"/>
-</map>

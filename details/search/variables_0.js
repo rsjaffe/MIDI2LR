@@ -14,7 +14,6 @@ var searchData=
   ['anchortopright',['anchorTopRight',['../_resizable_layout_8h.html#ac897009443aeedd320f7aa47d5b9c27a',1,'ResizableLayout.h']]],
   ['applyall',['applyAll',['../class_c_coptions.html#a31a4532987c9eaa653d7d37df866af7a',1,'CCoptions']]],
   ['aspect',['aspect',['../struct_resizable_layout_1_1_state.html#a30bbeb2ddc25b42dd5ba10491ada33d2',1,'ResizableLayout::State']]],
-  ['auto_5fhide_5fcounter_5f',['auto_hide_counter_',['../class_main_window.html#a7a2e249979712d923126f91ae6ff6e7e',1,'MainWindow']]],
   ['autohide_5fexplain_5flabel_5f',['autohide_explain_label_',['../class_settings_component.html#a55053eacfda31da77c3b47df31d08a90',1,'SettingsComponent']]],
   ['autohide_5fgroup_5f',['autohide_group_',['../class_settings_component.html#ad72c07e03e96de1113929c7c558044c9',1,'SettingsComponent']]],
   ['autohide_5fsetting_5f',['autohide_setting_',['../class_settings_component.html#adb56f9b0ff05d77b81663f5c6d61df00',1,'SettingsComponent']]]

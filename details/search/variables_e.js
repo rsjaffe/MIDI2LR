@@ -8,6 +8,7 @@ var searchData=
   ['pitch_5fwheel_5fmax_5f',['pitch_wheel_max_',['../class_channel_model.html#abd950b38a9229e5ea4ce6dd8f6a593ea',1,'ChannelModel']]],
   ['pitch_5fwheel_5fmin_5f',['pitch_wheel_min_',['../class_channel_model.html#ad4f1dff6fef975888a50a61df568dc67',1,'ChannelModel']]],
   ['prior_5fsort_5f',['prior_sort_',['../class_command_table_model.html#af8b8c8fc9d359ef3f53c4bd1a645e896',1,'CommandTableModel']]],
+  ['process_5fline_5ffuture_5f',['process_line_future_',['../class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3',1,'LrIpcIn']]],
   ['profile_5fgroup_5f',['profile_group_',['../class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5',1,'SettingsComponent']]],
   ['profile_5flocation_5f',['profile_location_',['../class_profile_manager.html#a6e08a701bab52d887e1712d3b73e8c62',1,'ProfileManager']]],
   ['profile_5flocation_5fbutton_5f',['profile_location_button_',['../class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6',1,'SettingsComponent']]],

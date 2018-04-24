@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -95,14 +95,15 @@ $(document).ready(function(){initNavTree('class_main_window.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_main_window.html">MainWindow</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#a7a2e249979712d923126f91ae6ff6e7e">auto_hide_counter_</a></td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_main_window.html#a50d2e609ff67f40e10806605f8281bc4">closeButtonPressed</a>() override</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#a902ee341862a91dfc9d4889f89f69c05">Init</a>(CommandMap *const command_map, std::weak_ptr&lt; LrIpcOut &gt; &amp;&amp;out, std::shared_ptr&lt; MidiProcessor &gt; &amp;midi_processor, ProfileManager *const profile_manager, SettingsManager *const settings_manager, std::shared_ptr&lt; MidiSender &gt; &amp;midi_sender)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f">MainWindow</a>(juce::String name)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#af1d822d2183a379458e4bc0e2ea2bf3b">MainWindow</a>(const MainWindow &amp;)=delete</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_main_window.html#aaa4474cfd4fdb8d3386764a6eb1a4684">operator=</a>(const MainWindow &amp;)=delete</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#a2c5579248bf8b2d75942957078b584e7">timerCallback</a>() override</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#a50d2e609ff67f40e10806605f8281bc4">closeButtonPressed</a>() override</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_main_window.html#a1919bffff6fccf024c593434439c8963">Init</a>(CommandMap *command_map, std::weak_ptr&lt; LrIpcOut &gt; &amp;&amp;lr_ipc_out, std::shared_ptr&lt; MidiProcessor &gt; midi_processor, ProfileManager *profile_manager, SettingsManager *settings_manager, std::shared_ptr&lt; MidiSender &gt; midi_sender)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#a4cf4842be7f8aa941b4b8c3ba3ef0e5f">MainWindow</a>(juce::String name)</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_main_window.html#a5131f33b942ec84ac58cc8c6fd659b69">MainWindow</a>(const MainWindow &amp;other)=delete</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#ae2b38c91456f2034e8d354f97c453dd3">MainWindow</a>(MainWindow &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_main_window.html#ae6e0e61eb18c597ea788e98f72f3768c">operator=</a>(const MainWindow &amp;other)=delete</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#a7815cd3a5ff047f1641fb3533c06f10c">operator=</a>(MainWindow &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_main_window.html#a958d7c09864b61760fc35dfc3002f337">window_content_</a></td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_main_window.html#a767824566011a82d1d75339774258614">~MainWindow</a>()=default</td><td class="entry"><a class="el" href="class_main_window.html">MainWindow</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,7 +1,5 @@
 var class_midi_sender =
 [
-    [ "MidiSender", "class_midi_sender.html#a10013cdffc124b09571aba5c440b1841", null ],
-    [ "~MidiSender", "class_midi_sender.html#ab1a9d24fa337dfa87f303d01c35e9f3b", null ],
     [ "Init", "class_midi_sender.html#a4796ce8aad7d5d9678224213389f5bd7", null ],
     [ "InitDevices", "class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8", null ],
     [ "RescanDevices", "class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9", null ],

@@ -1,15 +1,13 @@
 var searchData=
 [
-  ['kautohidesection',['kAutoHideSection',['../_settings_manager_8cpp.html#ab7a08dca53b1c56789435b2e33c9a0cc',1,'SettingsManager.cpp']]],
   ['kbit14',['kBit14',['../class_channel_model.html#ad789778e908c89a6b3f7effa3807ffae',1,'ChannelModel']]],
   ['kbit7',['kBit7',['../class_channel_model.html#a1aa5e5787ec882519c44c0af0c25a6d4',1,'ChannelModel']]],
-  ['kblank',['kBlank',['../namespacersj.html#a45ee85b09e5c2c0c86abca899f72f476',1,'rsj']]],
   ['kccflag',['kCcFlag',['../namespacersj.html#acfed8fcd3b55962e621fe38cc51b5fe6',1,'rsj']]],
   ['kchanpressureflag',['kChanPressureFlag',['../namespacersj.html#a3eef0c8742c77199734e77031216dd18',1,'rsj']]],
-  ['kdigit',['kDigit',['../namespacersj.html#adfeab0f0af29540032ee993128cde509',1,'rsj']]],
   ['keyshortcuts',['KeyShortcuts',['../class_lr_command_list.html#ad3466dc5e603a62a4c1dcceeb28ac53b',1,'LrCommandList']]],
   ['keywords',['Keywords',['../class_lr_command_list.html#a33c62e36dcef9c8271e8a223636f51f5',1,'LrCommandList']]],
   ['kinvalidnrpn',['kInvalidNrpn',['../namespacersj.html#a1154e66eca3d296817f27ce478205b5b',1,'rsj']]],
+  ['kkeymap',['kKeyMap',['../_send_keys_8cpp.html#a43966ed166936ba61c615b70b098a588',1,'SendKeys.cpp']]],
   ['kkeypressureflag',['kKeyPressureFlag',['../namespacersj.html#a93c6b6eb3c616627e32d70dd236845a3',1,'rsj']]],
   ['klow13bits',['kLow13Bits',['../class_channel_model.html#a6190a8f24df92e5841dae683e5666ca5',1,'ChannelModel']]],
   ['klow6bits',['kLow6Bits',['../class_channel_model.html#a8471ddb372dc8aff7373529e662d4b3e',1,'ChannelModel']]],
@@ -23,7 +21,6 @@ var searchData=
   ['knoteonflag',['kNoteOnFlag',['../namespacersj.html#a00ff6073cf6383716fe22b247f5f3293',1,'rsj']]],
   ['kpgmchangeflag',['kPgmChangeFlag',['../namespacersj.html#af303da09e1d2f2719d8f6b4e5794a274',1,'rsj']]],
   ['kpwflag',['kPwFlag',['../namespacersj.html#ab9695f0cf779654d5b7f110ba08d54c7',1,'rsj']]],
-  ['kspace',['kSpace',['../namespacersj.html#a365e99b8ca3d5c1b358ae1e42c9b4e3f',1,'rsj']]],
   ['ksystemflag',['kSystemFlag',['../namespacersj.html#a2ac9d1f37d4a7f66e5327f28f0004250',1,'rsj']]],
   ['kupdatedelay',['kUpdateDelay',['../class_channel_model.html#ab7394655972e94ae493cb1effc0e050b',1,'ChannelModel']]]
 ];

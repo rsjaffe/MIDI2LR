@@ -1,18 +1,18 @@
 <map id="SettingsComponent" name="SettingsComponent">
-<area shape="rect" id="node4" href="$class_resizable_layout.html" title="ResizableLayout" alt="" coords="2419,107,2538,133"/>
-<area shape="rect" id="node5" href="$class_resizable_child.html" title="ResizableChild" alt="" coords="2120,56,2228,83"/>
-<area shape="rect" id="node8" href="$class_settings_manager.html" title="SettingsManager" alt="" coords="2419,212,2539,239"/>
-<area shape="rect" id="node9" href="$class_profile_manager.html" title="ProfileManager" alt="" coords="2120,224,2228,251"/>
-<area shape="rect" id="node12" href="$class_command_map.html" title="CommandMap" alt="" coords="1227,191,1334,217"/>
-<area shape="rect" id="node28" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1551,355,1621,381"/>
-<area shape="rect" id="node14" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,188,701,215"/>
-<area shape="rect" id="node15" title="STL class. " alt="" coords="596,281,676,308"/>
-<area shape="rect" id="node16" title="STL class. " alt="" coords="262,274,389,315"/>
-<area shape="rect" id="node19" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1228,291,1333,317"/>
-<area shape="rect" id="node21" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,419,688,445"/>
-<area shape="rect" id="node23" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,353,132,380"/>
-<area shape="rect" id="node24" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,580,405,607"/>
-<area shape="rect" id="node31" href="$class_lr_ipc_out_1_1recenter.html" title="LrIpcOut::recenter" alt="" coords="1822,489,1949,516"/>
-<area shape="rect" id="node35" href="$class_lr_ipc_out_1_1connect__timer.html" title="LrIpcOut::connect_timer" alt="" coords="1805,360,1966,387"/>
-<area shape="rect" id="node33" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="1525,559,1647,585"/>
+<area shape="rect" id="node4" href="$class_resizable_layout.html" title="ResizableLayout" alt="" coords="2419,123,2538,149"/>
+<area shape="rect" id="node5" href="$class_resizable_child.html" title="ResizableChild" alt="" coords="2120,72,2228,99"/>
+<area shape="rect" id="node8" href="$class_settings_manager.html" title="SettingsManager" alt="" coords="2419,228,2539,255"/>
+<area shape="rect" id="node9" href="$class_profile_manager.html" title="ProfileManager" alt="" coords="2120,173,2228,200"/>
+<area shape="rect" id="node12" href="$class_command_map.html" title="CommandMap" alt="" coords="1227,149,1334,176"/>
+<area shape="rect" id="node28" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1551,317,1621,344"/>
+<area shape="rect" id="node14" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,131,701,157"/>
+<area shape="rect" id="node15" title="STL class. " alt="" coords="596,185,676,212"/>
+<area shape="rect" id="node16" title="STL class. " alt="" coords="262,178,389,219"/>
+<area shape="rect" id="node19" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1228,267,1333,293"/>
+<area shape="rect" id="node21" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,323,688,349"/>
+<area shape="rect" id="node23" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,257,132,284"/>
+<area shape="rect" id="node24" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,475,405,501"/>
+<area shape="rect" id="node31" href="$class_lr_ipc_out_1_1_recenter.html" title="LrIpcOut::Recenter" alt="" coords="1820,493,1951,520"/>
+<area shape="rect" id="node34" href="$class_lr_ipc_out_1_1_connect_timer.html" title="LrIpcOut::ConnectTimer" alt="" coords="1806,355,1965,381"/>
+<area shape="rect" id="node33" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="1525,595,1647,621"/>
 </map>

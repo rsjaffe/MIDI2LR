@@ -1,13 +1,13 @@
 var class_channel_model =
 [
-    [ "ChannelModel", "class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170", null ],
+    [ "ChannelModel", "class_channel_model.html#adb396137b3fd31f3c094c94dd702f56c", null ],
     [ "~ChannelModel", "class_channel_model.html#afcdeee3d748343a45485c2c63e618964", null ],
     [ "ChannelModel", "class_channel_model.html#ae58634778121ef70d9463efae626ac46", null ],
     [ "ChannelModel", "class_channel_model.html#a94970f20ecec2eb2ed52200a45fbb203", null ],
     [ "ActiveToSaved", "class_channel_model.html#a02c98af20857bc809f51840908a9b5b8", null ],
     [ "CcDefaults", "class_channel_model.html#a3500dcb70960e1798268333fafeebd4f", null ],
-    [ "CenterCc", "class_channel_model.html#ab9ad422407ca2540ccaf93e26a3afe65", null ],
-    [ "CenterPw", "class_channel_model.html#af41d846d046754ab02bc4ad66f9e25a3", null ],
+    [ "CenterCc", "class_channel_model.html#a566c421062ed003362fc391fa331d138", null ],
+    [ "CenterPw", "class_channel_model.html#af1a729cb0912358c6893c8bac28b5582", null ],
     [ "ControllerToPlugin", "class_channel_model.html#a1ee3a57eb978f78b15da443a925ad5d8", null ],
     [ "GetCcMax", "class_channel_model.html#aa67ac90293e4ec8253397b9c212dffb8", null ],
     [ "GetCcMethod", "class_channel_model.html#a655387956382d555fd01e8ba0ecc3a02", null ],

@@ -2,7 +2,6 @@ var hierarchy =
 [
     [ "ResizableLayout::Anchor", "struct_resizable_layout_1_1_anchor.html", null ],
     [ "AsyncUpdater", null, [
-      [ "LrIpcOut", "class_lr_ipc_out.html", null ],
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "ProfileManager", "class_profile_manager.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
@@ -14,6 +13,7 @@ var hierarchy =
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
+    [ "cfreleaser< CoreFoundationType >", "structcfreleaser.html", null ],
     [ "ChannelModel", "class_channel_model.html", null ],
     [ "CommandMap", "class_command_map.html", null ],
     [ "Component", null, [
@@ -35,7 +35,6 @@ var hierarchy =
       ] ]
     ] ],
     [ "ControlsModel", "class_controls_model.html", null ],
-    [ "rsj::Counter< T >", "structrsj_1_1_counter.html", null ],
     [ "DebugInfo", "class_debug_info.html", null ],
     [ "DocumentWindow", null, [
       [ "MainWindow", "class_main_window.html", null ]
@@ -85,12 +84,10 @@ var hierarchy =
       [ "LrIpcIn", "class_lr_ipc_in.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
-    [ "rsj::ThreadsafeQueue< T >", "classrsj_1_1_threadsafe_queue.html", null ],
     [ "Timer", null, [
       [ "LrIpcIn", "class_lr_ipc_in.html", null ],
-      [ "LrIpcOut::connect_timer", "class_lr_ipc_out_1_1connect__timer.html", null ],
-      [ "LrIpcOut::recenter", "class_lr_ipc_out_1_1recenter.html", null ],
-      [ "MainContentComponent", "class_main_content_component.html", null ],
-      [ "MainWindow", "class_main_window.html", null ]
+      [ "LrIpcOut::ConnectTimer", "class_lr_ipc_out_1_1_connect_timer.html", null ],
+      [ "LrIpcOut::Recenter", "class_lr_ipc_out_1_1_recenter.html", null ],
+      [ "MainContentComponent", "class_main_content_component.html", null ]
     ] ]
 ];

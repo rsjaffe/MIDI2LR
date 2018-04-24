@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -96,9 +96,12 @@ $(document).ready(function(){initNavTree('class_command_table.html','');});
 <p>This is the complete list of members for <a class="el" href="class_command_table.html">CommandTable</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable</a>(const juce::String &amp;component_name, CommandTableModel *model)</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_table.html#ac6bac85f320434503c8d769d021df433">CommandTable</a>(const CommandTable &amp;)=delete</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_command_table.html#a4e97163b8476110ba028c9d66f1d7c54">keyPressed</a>(const KeyPress &amp;k) override</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="class_command_table.html#a51329dae2c15ad4774c05c5bd0f76092">operator=</a>(const CommandTable &amp;)=delete</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_table.html#a4406188275d88e04cd083a6f6606c222">CommandTable</a>(const CommandTable &amp;other)=delete</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table.html#a53767aa4eab7b11ae8b66a428d247933">CommandTable</a>(CommandTable &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_table.html#a4e97163b8476110ba028c9d66f1d7c54">keyPressed</a>(const KeyPress &amp;k) override</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table.html#a51dc0c24d4ff20aaac760a5b14e1da05">operator=</a>(const CommandTable &amp;other)=delete</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_command_table.html#ac33732b269b501c3b1416d7d19927884">operator=</a>(CommandTable &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_command_table.html#a236cd1fe642fd8208ee76b2b6ce0fce1">~CommandTable</a>()=default</td><td class="entry"><a class="el" href="class_command_table.html">CommandTable</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

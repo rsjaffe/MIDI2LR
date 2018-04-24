@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -95,20 +95,24 @@ $(document).ready(function(){initNavTree('class_settings_manager.html','');});
 
 <p>This is the complete list of members for <a class="el" href="class_settings_manager.html">SettingsManager</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#a6e115ff726bcaeebc281af85fa7cab9b">ConnectionCallback</a>(bool)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">ConnectionCallback</a>(bool, bool)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd">GetAutoHideTime</a>() const noexcept</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c">GetLastVersionFound</a>() const noexcept</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b">GetPickupEnabled</a>() const noexcept</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#adc8d58846516e741e4c3940945100c83">GetProfileDirectory</a>() const noexcept</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_settings_manager.html#a37b17e553aaa19ccbd1d90a0733c6074">Init</a>(std::weak_ptr&lt; LrIpcOut &gt; &amp;&amp;lr_ipc_out)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#aaf2dd7dea1784c68d7773e1a0531ef9e">lr_ipc_out_</a></td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_settings_manager.html#ad36fe93a322ba086f6ba1a12173b54ed">operator=</a>(const SettingsManager &amp;other)=delete</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#aee5957f44fd7c4051b42b0a7685d14d9">operator=</a>(SettingsManager &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_settings_manager.html#a634be944aa96b32088bb222d55acf7c5">profile_manager_</a></td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#ace80bfa9373c5f1613b202e612fef025">properties_file_</a></td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_settings_manager.html#ae7ffc72fc568559369271dd1497da53b">SetAutoHideTime</a>(int new_time)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088">SetLastVersionFound</a>(int version_number)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_settings_manager.html#a838cdaffb2fccb100bd18985d6ea1337">SetPickupEnabled</a>(bool enabled)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#af9bc82888f253394d2ae8c9015bab30b">SetProfileDirectory</a>(const juce::String &amp;profile_directory)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_settings_manager.html#a25345658f5d212560e5f8519b15dd78a">SettingsManager</a>(ProfileManager *const profile_manager)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr><td class="entry"><a class="el" href="class_settings_manager.html#a9f4f88465afe5786bc2117dd4ac57487">SettingsManager</a>(ProfileManager *profile_manager)</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#a5e280037c8b05ac85f11715e23a9e16c">SettingsManager</a>(const SettingsManager &amp;other)=delete</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_settings_manager.html#aeaed46fd598895a0b04b8fddf07b6e13">SettingsManager</a>(SettingsManager &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_settings_manager.html#a52d99a3329704af7cd146a9009e1d8bf">~SettingsManager</a>()=default</td><td class="entry"><a class="el" href="class_settings_manager.html">SettingsManager</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->

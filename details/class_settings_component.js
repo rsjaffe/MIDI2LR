@@ -1,11 +1,13 @@
 var class_settings_component =
 [
-    [ "SettingsComponent", "class_settings_component.html#a86eae5e47ff291d7e6c98c28aae543e8", null ],
-    [ "~SettingsComponent", "class_settings_component.html#a2ed5c4f0e9f7a6e0425d244d03d31dcf", null ],
-    [ "SettingsComponent", "class_settings_component.html#a37e820c54b8c2ae80c512122db678325", null ],
+    [ "SettingsComponent", "class_settings_component.html#ad009b00bebb9ba8b9ab6bfdd4b6922a0", null ],
+    [ "~SettingsComponent", "class_settings_component.html#a7a4688bc9cfe9c8868124bd62f5d8a4d", null ],
+    [ "SettingsComponent", "class_settings_component.html#a4c04e063982bb0a3e62cf92c55370b10", null ],
+    [ "SettingsComponent", "class_settings_component.html#a8cd20aeff90426909a5be7f92da008f8", null ],
     [ "buttonClicked", "class_settings_component.html#ad0b8e223bf7f76e536e98f2869143367", null ],
     [ "Init", "class_settings_component.html#a29baa1f6c3d21bc45e53e9294556b718", null ],
-    [ "operator=", "class_settings_component.html#a7a538f25dda4b249638c18c0f0543101", null ],
+    [ "operator=", "class_settings_component.html#acd7b2e5b3ab28c282070f0ec008a9387", null ],
+    [ "operator=", "class_settings_component.html#adc851a162d17c14f9624d0a0cc0654d8", null ],
     [ "paint", "class_settings_component.html#aa8e6b6d8622109acfecf070ffc56f62e", null ],
     [ "sliderValueChanged", "class_settings_component.html#a4073f683db73af083c8ac19272f1c4ad", null ],
     [ "autohide_explain_label_", "class_settings_component.html#a55053eacfda31da77c3b47df31d08a90", null ],

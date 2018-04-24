@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.7.0.3</span>
+   &#160;<span id="projectnumber">2.8.0.2</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_lr_command_list.html#a928efdcc46bdc4ecf753266d3bfc6d9c">LrCommandList</a>
 </li>
 <li>callbacks_
-: <a class="el" href="class_lr_ipc_out.html#ae712b409665e9ee9fd690a6bea7d4297">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517">LrIpcOut</a>
 , <a class="el" href="class_midi_processor.html#ad0d32fd22ef00526d88e89eae20a3857">MidiProcessor</a>
 , <a class="el" href="class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9">ProfileManager</a>
 </li>
@@ -118,27 +118,30 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_c_coptions.html#a1d8d9d83f1823c1f016de242ecfe44d3">CCoptions</a>
 </li>
 <li>CenterCc()
-: <a class="el" href="class_channel_model.html#ab9ad422407ca2540ccaf93e26a3afe65">ChannelModel</a>
+: <a class="el" href="class_channel_model.html#a566c421062ed003362fc391fa331d138">ChannelModel</a>
 </li>
 <li>CenterPw()
-: <a class="el" href="class_channel_model.html#af41d846d046754ab02bc4ad66f9e25a3">ChannelModel</a>
+: <a class="el" href="class_channel_model.html#af1a729cb0912358c6893c8bac28b5582">ChannelModel</a>
 </li>
 <li>cereal::access
 : <a class="el" href="class_channel_model.html#ab2f44cbb59a08132f4c843e5225bba0e">ChannelModel</a>
 , <a class="el" href="class_controls_model.html#ab2f44cbb59a08132f4c843e5225bba0e">ControlsModel</a>
 </li>
-<li>cerealLoad_()
-: <a class="el" href="class_m_i_d_i2_l_r_application.html#ac10fe54d8495e1a42f951741e84d459f">MIDI2LRApplication</a>
+<li>CerealLoad()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a1e52f4c3aae1ef33e77574284b15af32">MIDI2LRApplication</a>
 </li>
-<li>cerealSave_()
-: <a class="el" href="class_m_i_d_i2_l_r_application.html#ae314a0cee6b37dfc62f50b01f5ce2052">MIDI2LRApplication</a>
+<li>CerealSave()
+: <a class="el" href="class_m_i_d_i2_l_r_application.html#a5fb189d2ada453e581d91bca94a470d8">MIDI2LRApplication</a>
+</li>
+<li>cfreleaser()
+: <a class="el" href="structcfreleaser.html#af6bebeffa93ef636f86a3d425e585be7">cfreleaser&lt; CoreFoundationType &gt;</a>
 </li>
 <li>channel
 : <a class="el" href="structrsj_1_1_midi_message.html#aad2f386f5ae0d1666983903e3ac25f97">rsj::MidiMessage</a>
 , <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId</a>
 </li>
 <li>ChannelModel()
-: <a class="el" href="class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170">ChannelModel</a>
+: <a class="el" href="class_channel_model.html#adb396137b3fd31f3c094c94dd702f56c">ChannelModel</a>
 </li>
 <li>child
 : <a class="el" href="struct_resizable_layout_1_1_anchor.html#a89db71378ff46dc2daa65c6e5313fcbe">ResizableLayout::Anchor</a>
@@ -156,7 +159,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_main_window.html#a50d2e609ff67f40e10806605f8281bc4">MainWindow</a>
 </li>
 <li>command_
-: <a class="el" href="class_lr_ipc_out.html#adf5cf9c7b581f8b452c525d50bf04dec">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_out.html#a42c0633691c3b2765c9e3fa6be414ecd">LrIpcOut</a>
 </li>
 <li>command_label_
 : <a class="el" href="class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f">MainContentComponent</a>
@@ -182,20 +185,14 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>CommandHasAssociatedMessage()
 : <a class="el" href="class_command_map.html#a4233516a5cd109ca4f65fd97be9f8c00">CommandMap</a>
 </li>
-<li>CommandMap()
-: <a class="el" href="class_command_map.html#a17917c3a5fb0f352b09b4a42344e4d11">CommandMap</a>
-</li>
 <li>CommandMenu()
-: <a class="el" href="class_command_menu.html#af1104327b1dcd72977f4f77ab43392a7">CommandMenu</a>
+: <a class="el" href="class_command_menu.html#a4ec1b3931919b44680a8c714adf44877">CommandMenu</a>
 </li>
 <li>commands_
 : <a class="el" href="class_command_table_model.html#aeb48a52c6b092a8063a668d387908221">CommandTableModel</a>
 </li>
 <li>CommandTable()
 : <a class="el" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable</a>
-</li>
-<li>CommandTableModel()
-: <a class="el" href="class_command_table_model.html#a453446bc5758a638f82e047f16436c18">CommandTableModel</a>
 </li>
 <li>component
 : <a class="el" href="struct_resizable_layout_1_1_anchor.html#af9de1ce94c24414412aa471ee104900b">ResizableLayout::Anchor</a>
@@ -208,26 +205,26 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_resizable_layout.html#ad106c8c769784ef1b7722f10cb83d07f">ResizableLayout</a>
 </li>
 <li>connect_mutex_
-: <a class="el" href="class_lr_ipc_out_1_1connect__timer.html#a0ffd5718f2e15b60dd2c58967c17be9e">LrIpcOut::connect_timer</a>
-</li>
-<li>connect_timer()
-: <a class="el" href="class_lr_ipc_out_1_1connect__timer.html#ad54abd6853dc6a39b06fe331c59af03c">LrIpcOut::connect_timer</a>
+: <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#ad989dffecfd5c1d5f130f0d6c08e6fdf">LrIpcOut::ConnectTimer</a>
 </li>
 <li>connect_timer_
-: <a class="el" href="class_lr_ipc_out.html#a8f05cb86a32606d2d9574e2ba654eaaa">LrIpcOut</a>
+: <a class="el" href="class_lr_ipc_out.html#a9b937b4c723cc217b33637ad45d57508">LrIpcOut</a>
 </li>
 <li>connection_label_
 : <a class="el" href="class_main_content_component.html#a5565899fbeb870365742e50dd249a55d">MainContentComponent</a>
 </li>
 <li>ConnectionCallback()
-: <a class="el" href="class_profile_manager.html#aa03f6e3ff3d38226407934ec3b3237e5">ProfileManager</a>
-, <a class="el" href="class_settings_manager.html#a6e115ff726bcaeebc281af85fa7cab9b">SettingsManager</a>
+: <a class="el" href="class_profile_manager.html#af420264117a28ff453b27bd0ef122a94">ProfileManager</a>
+, <a class="el" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager</a>
 </li>
 <li>connectionLost()
 : <a class="el" href="class_lr_ipc_out.html#aaa3116833f1e71df912c4c6383c01365">LrIpcOut</a>
 </li>
 <li>connectionMade()
 : <a class="el" href="class_lr_ipc_out.html#af257f7b0c2b58951565ce0b0d3438926">LrIpcOut</a>
+</li>
+<li>ConnectTimer()
+: <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#a5d1eda1ecc2097da910efa39459de208">LrIpcOut::ConnectTimer</a>
 </li>
 <li>Constrainer()
 : <a class="el" href="class_top_level_resizable_layout_1_1_constrainer.html#ac1138a9c4319d8413f04f3bfb749e969">TopLevelResizableLayout::Constrainer</a>
@@ -260,10 +257,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="class_p_woptions.html#a5a17d4a0e03749beec712a452427e0ac">PWoptions</a>
 </li>
 <li>ControlsModel()
-: <a class="el" href="class_controls_model.html#a23c6411981fe10b19ab2ffb6a3459ab8">ControlsModel</a>
-</li>
-<li>Counter()
-: <a class="el" href="structrsj_1_1_counter.html#a2dcad3961fd0c1a44aaee9bd3958b4b8">rsj::Counter&lt; T &gt;</a>
+: <a class="el" href="class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8">ControlsModel</a>
 </li>
 <li>Crop
 : <a class="el" href="class_lr_command_list.html#a80df1a68a473f9f1fb6ef8df4aa9be0a">LrCommandList</a>
@@ -273,9 +267,6 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 </li>
 <li>current_sort_
 : <a class="el" href="class_command_table_model.html#aa34a37908cfdc4eaaff00248e43798ac">CommandTableModel</a>
-</li>
-<li>current_status_
-: <a class="el" href="class_main_content_component.html#a9f2ba4f3cadcba22e0d5be5575a11ff0">MainContentComponent</a>
 </li>
 <li>current_v_
 : <a class="el" href="class_channel_model.html#ac08a877289473714da539fc516fddb42">ChannelModel</a>

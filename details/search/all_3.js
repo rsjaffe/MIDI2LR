@@ -1,10 +1,8 @@
 var searchData=
 [
   ['data',['data',['../structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f',1,'rsj::MidiMessageId']]],
-  ['data_5fcond_5f',['data_cond_',['../classrsj_1_1_threadsafe_queue.html#a9129e03f91ee6d5d344ea98ccab6ebad',1,'rsj::ThreadsafeQueue']]],
   ['data_5fguard_5f',['data_guard_',['../class_nrpn_message.html#ab5d5ffbfa778cfa611931e4e2b611029',1,'NrpnMessage']]],
-  ['data_5fqueue_5f',['data_queue_',['../classrsj_1_1_threadsafe_queue.html#acbf550b0a56c6ce78a4372c99a76564e',1,'rsj::ThreadsafeQueue']]],
-  ['debuginfo',['DebugInfo',['../class_debug_info.html',1,'DebugInfo'],['../class_debug_info.html#a34faad571e3cd7f951c18171b543a653',1,'DebugInfo::DebugInfo()']]],
+  ['debuginfo',['DebugInfo',['../class_debug_info.html',1,'DebugInfo'],['../class_debug_info.html#ab34eedb001c42e559fe16ad62f49149e',1,'DebugInfo::DebugInfo() noexcept'],['../class_debug_info.html#ae7439815cd8ede3777764e42711acf0a',1,'DebugInfo::DebugInfo(const DebugInfo &amp;other)=default'],['../class_debug_info.html#a6e849a8e7f872232727c64f010ee34e2',1,'DebugInfo::DebugInfo(DebugInfo &amp;&amp;other)=default']]],
   ['debuginfo_2ecpp',['DebugInfo.cpp',['../_debug_info_8cpp.html',1,'']]],
   ['debuginfo_2eh',['DebugInfo.h',['../_debug_info_8h.html',1,'']]],
   ['debuginfo_2emm',['DebugInfo.mm',['../_debug_info_8mm.html',1,'']]],
@@ -13,5 +11,8 @@ var searchData=
   ['develop',['Develop',['../class_lr_command_list.html#a3a50aa82c79528166ee6cecfa3b08895',1,'LrCommandList']]],
   ['developpresets',['DevelopPresets',['../class_lr_command_list.html#a757d5f0e857d2b0f8f59bec990539673',1,'LrCommandList']]],
   ['devices_5f',['devices_',['../class_midi_processor.html#af960e4e5fbf8c1046a9267631757c063',1,'MidiProcessor']]],
-  ['dialog_5f',['dialog_',['../class_version_checker.html#a953e24d19d0cf2b5dc56b1d89da93f8a',1,'VersionChecker']]]
+  ['dialog_5f',['dialog_',['../class_version_checker.html#a953e24d19d0cf2b5dc56b1d89da93f8a',1,'VersionChecker']]],
+  ['disconnect_5fbutton_5f',['disconnect_button_',['../class_main_content_component.html#ae3cbeca500ed2cf5a068fce6475207ad',1,'MainContentComponent']]],
+  ['dispatch_5fmessages_5ffuture_5f',['dispatch_messages_future_',['../class_midi_processor.html#ab103c97e24ee7fe4f7cb41b4b73da21d',1,'MidiProcessor']]],
+  ['dispatchmessages',['DispatchMessages',['../class_midi_processor.html#a932ff64cea723b61bba7c50577ae77d6',1,'MidiProcessor']]]
 ];
