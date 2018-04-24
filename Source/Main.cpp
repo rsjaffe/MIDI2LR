@@ -219,7 +219,7 @@ private:
 #else
         const auto p =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile(kSettingsFile).getFullPathName().toUTF8();
+            getSiblingFile(kSettingsFile).getFullPathName().toStdString();
 #endif
         std::ofstream outfile(p, std::ios::out |
             std::ios::binary | std::ios::trunc);
@@ -242,7 +242,7 @@ private:
 #else
         const auto p =
             juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile(kSettingsFile).getFullPathName().toUTF8();
+            getSiblingFile(kSettingsFile).getFullPathName().toStdString();
 #endif
         std::ifstream infile(p, std::ios::in | std::ios::binary);
         if (infile.is_open() && !infile.eof()) {
