@@ -298,6 +298,7 @@
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
     <osxApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxApplicationBundleIcon>
+    <osxPlatforms>osx-x86_64</osxPlatforms>
     <osxUninstallerApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
