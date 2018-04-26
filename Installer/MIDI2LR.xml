@@ -301,8 +301,12 @@
     <osxPlatforms>osx-x86_64</osxPlatforms>
     <osxUninstallerApplicationBundleIcon>../Builds/MacOSX/Icon.icns</osxUninstallerApplicationBundleIcon>
     <outputDirectory>../..</outputDirectory>
+    <productDisplayIcon>../Builds/VisualStudio2017/icon.ico</productDisplayIcon>
+    <productUrlHelpLink>https://groups.google.com/forum/#!forum/midi2lr</productUrlHelpLink>
+    <productUrlInfoAbout>https://rsjaffe.github.io/MIDI2LR/</productUrlInfoAbout>
     <readmeFileEncoding>utf-8</readmeFileEncoding>
     <saveRelativePaths>1</saveRelativePaths>
+    <singleInstanceCheck>1</singleInstanceCheck>
     <uninstallerDirectory>${installdir}/MIDI2LR.lrplugin</uninstallerDirectory>
     <uninstallerName>uninstallMIDI2LR</uninstallerName>
     <vendor>MIDI2LR</vendor>

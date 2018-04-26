@@ -119,12 +119,12 @@ public:
     void SetPwMin(short value) noexcept(kNdebug);
 
 private:
-    short CenterCc(size_t controlnumber) noexcept
+    short CenterCc(size_t controlnumber) const noexcept
     {
         return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2 +
             cc_low_.at(controlnumber) + (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) % 2;
     }
-    short CenterPw() noexcept
+    short CenterPw() const noexcept
     {
         return  (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_ + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
     }
