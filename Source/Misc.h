@@ -38,7 +38,7 @@ static constexpr bool kNdebug = false;
 #endif
 
 namespace rsj {
-    inline auto NowMs() noexcept
+    [[nodiscard]] inline auto NowMs() noexcept
     {
         return std::chrono::time_point_cast<std::chrono::milliseconds>
             (std::chrono::steady_clock::now()).time_since_epoch().count();

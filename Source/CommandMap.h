@@ -42,7 +42,7 @@ public:
     void AddCommandforMessage(const std::string& command, const rsj::MidiMessageId& message);
 
     // gets the LR command associated to a MIDI message
-    const std::string& GetCommandforMessage(const rsj::MidiMessageId& message) const;
+    [[nodiscard]] const std::string& GetCommandforMessage(const rsj::MidiMessageId& message) const;
 
     // in the command:message map
     // removes a MIDI message from the message:command map, and it's associated entry
@@ -52,13 +52,13 @@ public:
     void ClearMap() noexcept;
 
     // returns true if there is a mapping for a particular MIDI message
-    bool MessageExistsInMap(const rsj::MidiMessageId& message) const;
+    [[nodiscard]] bool MessageExistsInMap(const rsj::MidiMessageId& message) const;
 
     std::vector<const rsj::MidiMessageId*> GetMessagesForCommand(const std::string& command) const;
     // gets the MIDI message associated to a LR command
 
     // returns true if there is a mapping for a particular LR command
-    bool CommandHasAssociatedMessage(const std::string& command) const;
+    [[nodiscard]] bool CommandHasAssociatedMessage(const std::string& command) const;
 
     // saves the message:command map as an XML file
     void ToXmlDocument(const juce::File& file) const;

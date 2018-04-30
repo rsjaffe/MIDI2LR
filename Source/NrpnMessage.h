@@ -48,14 +48,14 @@ class NrpnMessage {
     // message. If the 4th message is dropped, this class silently consumes the
     // message without emitting anything.
 public:
-    bool IsInProcess() const noexcept;
+    [[nodiscard]] bool IsInProcess() const noexcept;
     bool ProcessMidi(short control, short value) noexcept(kNdebug);
     rsj::Nrpn GetNrpnIfReady() noexcept;
 
 private:
-    bool IsReady() const noexcept;
-    short GetControl() const noexcept;
-    short GetValue() const noexcept;
+    [[nodiscard]] bool IsReady() const noexcept;
+    [[nodiscard]] short GetControl() const noexcept;
+    [[nodiscard]] short GetValue() const noexcept;
     void Clear() noexcept;
     void SetControlLsb(short val) noexcept(kNdebug);
     void SetControlMsb(short val) noexcept(kNdebug);

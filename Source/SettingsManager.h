@@ -36,13 +36,13 @@ public:
     SettingsManager& operator=(const SettingsManager& other) = delete;
     SettingsManager& operator=(SettingsManager&& other) = delete;
     void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out);
-    bool GetPickupEnabled() const noexcept;
+    [[nodiscard]] bool GetPickupEnabled() const noexcept;
     void SetPickupEnabled(bool enabled);
-    juce::String GetProfileDirectory() const noexcept;
+    [[nodiscard]] juce::String GetProfileDirectory() const noexcept;
     void SetProfileDirectory(const juce::String& profile_directory);
-    int GetAutoHideTime() const noexcept;
+    [[nodiscard]] int GetAutoHideTime() const noexcept;
     void SetAutoHideTime(int new_time);
-    int GetLastVersionFound() const noexcept;
+    [[nodiscard]] int GetLastVersionFound() const noexcept;
     void SetLastVersionFound(int version_number);
 
 private:

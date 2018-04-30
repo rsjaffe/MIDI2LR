@@ -62,7 +62,7 @@ public:
 
 private:
     // returns an array of profile names
-    const std::vector<juce::String>& GetMenuItems() const noexcept;
+    [[nodiscard]] const std::vector<juce::String>& GetMenuItems() const noexcept;
     // switches to the next profile
     void SwitchToNextProfile();
     // switches to the previous profile

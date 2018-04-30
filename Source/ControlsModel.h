@@ -81,27 +81,27 @@ public:
     double ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
     short MeasureChange(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
     short SetToCenter(short controltype, size_t controlnumber) noexcept;
-    rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
+    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
         return cc_method_.at(controlnumber);
     }
-    short GetCcMax(size_t controlnumber) const noexcept(kNdebug)
+    [[nodiscard]] short GetCcMax(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
         return cc_high_.at(controlnumber);
     }
-    short GetCcMin(size_t controlnumber) const noexcept(kNdebug)
+    [[nodiscard]] short GetCcMin(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
         return cc_low_.at(controlnumber);
     }
 
-    short GetPwMax() const noexcept
+    [[nodiscard]] short GetPwMax() const noexcept
     {
         return pitch_wheel_max_;
     }
-    short GetPwMin() const noexcept
+    [[nodiscard]] short GetPwMin() const noexcept
     {
         return pitch_wheel_min_;
     }
@@ -119,17 +119,17 @@ public:
     void SetPwMin(short value) noexcept(kNdebug);
 
 private:
-    short CenterCc(size_t controlnumber) const noexcept
+    [[nodiscard]] short CenterCc(size_t controlnumber) const noexcept
     {
         return (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) / 2 +
             cc_low_.at(controlnumber) + (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)) % 2;
     }
-    short CenterPw() const noexcept
+    [[nodiscard]] short CenterPw() const noexcept
     {
         return  (pitch_wheel_max_ - pitch_wheel_min_) / 2 + pitch_wheel_min_ + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
     }
     friend class cereal::access;
-    bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
+    [[nodiscard]] bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
     {
         Expects(controlnumber <= kMaxNrpn);
         return controlnumber > kMaxMidi;
@@ -177,13 +177,13 @@ public:
         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.number);
     }
 
-    rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const noexcept(kNdebug)
+    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
         return all_controls_.at(channel).GetCcMethod(controlnumber);
     }
 
-    short GetCcMax(size_t channel, short controlnumber) const noexcept(kNdebug)
+    [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
         return all_controls_.at(channel).GetCcMax(controlnumber);
@@ -195,13 +195,13 @@ public:
         return all_controls_.at(channel).GetCcMin(controlnumber);
     }
 
-    short GetPwMax(size_t channel) const noexcept(kNdebug)
+    [[nodiscard]] short GetPwMax(size_t channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
         return all_controls_.at(channel).GetPwMax();
     }
 
-    short GetPwMin(size_t channel) const noexcept(kNdebug)
+    [[nodiscard]] short GetPwMin(size_t channel) const noexcept(kNdebug)
     {
         Expects(channel <= 15);
         return all_controls_.at(channel).GetPwMin();
