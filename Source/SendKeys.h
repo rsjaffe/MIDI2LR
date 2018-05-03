@@ -26,8 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 namespace rsj {
-    void SendKeyDownUp(const std::string& key, bool alt_opt,
-        bool control_cmd, bool shift) noexcept;
+    void SendKeyDownUp(const std::string& key, int modifiers) noexcept;
 }
 
 #endif

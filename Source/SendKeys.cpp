@@ -108,7 +108,7 @@ HKL GetLanguage(const std::string& program_name) noexcept
 
 #else
 
-bool EndsWith(const std::string &main_str, const std::string &to_match)//note: C++20 will have ends_with 
+bool EndsWith(const std::string &main_str, const std::string &to_match)//note: C++20 will have ends_with
 {
     return main_str.size() >= to_match.size() &&
         main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
@@ -308,9 +308,13 @@ const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #endif
 };
 
-void rsj::SendKeyDownUp(const std::string& key, bool alt_opt,
-    bool control_cmd, bool shift) noexcept
+void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 {
+    const bool alt_opt{gsl::narrow_cast<bool>(modifiers & 0x1)};
+    const bool command{gsl::narrow_cast<bool>(modifiers & 0x8)};
+    const bool control{gsl::narrow_cast<bool>(modifiers & 0x2)};
+    const bool shift{gsl::narrow_cast<bool>(modifiers & 0x4)};
+
     try {
         static std::mutex mutex_sending{};
         const auto mapped_key = kKeyMap.find(ToLower(key));
@@ -341,16 +345,12 @@ void rsj::SendKeyDownUp(const std::string& key, bool alt_opt,
         }
         if ((vk_modifiers & 0x06) == 0x06) {
             strokes.push_back(VK_RMENU); //AltGr
-            if (control_cmd)
-                strokes.push_back(VK_CONTROL);
-            if (alt_opt)
-                strokes.push_back(VK_MENU);
+            if (alt_opt) strokes.push_back(VK_MENU);
+            if (control) strokes.push_back(VK_CONTROL);
         }
         else {
-            if (control_cmd || vk_modifiers & 0x2)
-                strokes.push_back(VK_CONTROL);
-            if (alt_opt || vk_modifiers & 0x4)
-                strokes.push_back(VK_MENU);
+            if (alt_opt || vk_modifiers & 0x4) strokes.push_back(VK_MENU);
+            if (control || vk_modifiers & 0x2) strokes.push_back(VK_CONTROL);
         }
 
         // construct input event.
@@ -399,8 +399,9 @@ void rsj::SendKeyDownUp(const std::string& key, bool alt_opt,
                 flags = CGEventGetFlags(d); //in case KeyCode has associated flag
             }
 
-            if (control_cmd) flags |= kCGEventFlagMaskCommand;
             if (alt_opt) flags |= kCGEventFlagMaskAlternate;
+            if (command) flags |= kCGEventFlagMaskCommand;
+            if (control) flags |= kCGEventFlagMaskControl;
             if (shift) flags |= kCGEventFlagMaskShift;
             if (flags) {
                 CGEventSetFlags(d, static_cast<CGEventFlags>(flags));

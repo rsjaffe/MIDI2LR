@@ -191,11 +191,11 @@ void LrIpcIn::ProcessLine()
                 break;
             case 2: //SendKey
             {
-                std::bitset<3> modifiers{gsl::narrow_cast<unsigned>(value_string[0] - 48)}; //'0' is decimal 48
-                //trim twice on purpose: first digit, then spaces
-                value_string.remove_prefix(1);
+                const auto modifiers = std::stoi(std::string(value_string));
+                //trim twice on purpose: first digit, then spaces, as key may be digit
+                value_string.remove_prefix(std::min(value_string.find_first_not_of("0123456789"), value_string.size()));
                 value_string.remove_prefix(std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
-                rsj::SendKeyDownUp(std::string(value_string), modifiers[0], modifiers[1], modifiers[2]);
+                rsj::SendKeyDownUp(std::string(value_string), modifiers);
                 break;
             }
             case 3: //TerminateApplication

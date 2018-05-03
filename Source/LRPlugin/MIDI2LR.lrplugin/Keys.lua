@@ -76,13 +76,13 @@ for _,k in ipairs(completion) do
   legalanswers[k] = true
 end
 
-local control, alt
+local control, alt, command
 local shift = LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift")
+control = LOC("$$$/AgBezels/KeyRemapping/WinControl=Control")
 if(WIN_ENV) then
-  control = LOC("$$$/AgBezels/KeyRemapping/WinControl=Control")
   alt = LOC("$$$/AgBezels/KeyRemapping/WinAlt=Alt")
 else
-  control = LOC("$$$/AgBezels/KeyRemapping/MacCommand=Command")
+  command = LOC("$$$/AgBezels/KeyRemapping/MacCommand=Command")
   alt = LOC("$$$/AgBezels/KeyRemapping/MacOption=Option")
 end
 
@@ -101,29 +101,60 @@ end
 local function StartDialog(obstable,f)
   local internalview1 = {}
   for i = 1,20 do
-    obstable['Keyscontrol'..i] = ProgramPreferences.Keys[i]['control']
     obstable['Keysalt'..i] = ProgramPreferences.Keys[i]['alt']
-    obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
+    obstable['Keyscommand'..i] = ProgramPreferences.Keys[i]['command']
+    obstable['Keyscontrol'..i] = ProgramPreferences.Keys[i]['control']
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
-    internalview1[#internalview1+1] = f:row{
-      f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
-      f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
-      f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
-      f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-      f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+    obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
+    if WIN_ENV == nil and ProgramPreferences.Keys[i]['command'] == nil and ProgramPreferences.Keys[i]['control'] then
+      obstable['Keyscontrol'..i] = false --was saved under older version MIDI2LR where control meant command
+      obstable['Keyscommand'..i] = true
+    end
+    if(WIN_ENV) then    
+      internalview1[#internalview1+1] = f:row{
+        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
+        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+    else
+      internalview1[#internalview1+1] = f:row{
+        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
+        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = command, value = LrView.bind('Keyscommand'..i)},
+        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+    end
   end
   local internalview2 = {}
   for i = 21,40 do
-    obstable['Keyscontrol'..i] = ProgramPreferences.Keys[i]['control']
     obstable['Keysalt'..i] = ProgramPreferences.Keys[i]['alt']
-    obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
+    obstable['Keyscommand'..i] = ProgramPreferences.Keys[i]['command']
+    obstable['Keyscontrol'..i] = ProgramPreferences.Keys[i]['control']
     obstable['Keyskey'..i] = ProgramPreferences.Keys[i]['key']
-    internalview2[#internalview2+1] = f:row{
-      f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
-      f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
-      f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
-      f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
-      f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+    obstable['Keysshift'..i] = ProgramPreferences.Keys[i]['shift']
+    if WIN_ENV == nil and ProgramPreferences.Keys[i]['command'] == nil and ProgramPreferences.Keys[i]['control'] then
+      obstable['Keyscontrol'..i] = false --was saved under older version MIDI2LR where control meant command
+      obstable['Keyscommand'..i] = true
+    end    
+    if(WIN_ENV) then     
+      internalview2[#internalview2+1] = f:row{
+        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
+        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+    else
+      internalview2[#internalview2+1] = f:row{
+        f:static_text{title = LOC("$$$/MIDI2LR/Keys/Shortcut=Keyboard shortcut")..' '..i,width = LrView.share('key_name')},
+        f:checkbox{title = control, value = LrView.bind('Keyscontrol'..i)},
+        f:checkbox{title = command, value = LrView.bind('Keyscommand'..i)},      
+        f:checkbox{title = alt, value = LrView.bind('Keysalt'..i)},
+        f:checkbox{title = shift, value = LrView.bind('Keysshift'..i)},
+        f:edit_field{value = LrView.bind('Keyskey'..i), validate = validate, completion = completion, width_in_chars = maxlength} } 
+    end
+
   end
   return f:row{ f:column (internalview1), f:column (internalview2) }
 end
@@ -134,15 +165,17 @@ local function EndDialog(obstable, status)
     for i = 1,40 do
       ProgramPreferences.Keys[i] = {}
       if obstable['Keyskey'..i] ~= nil and obstable['Keyskey'..i] ~= '' and validate(obstable['Keyskey'..i]) == true then
-        ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i]
         ProgramPreferences.Keys[i]['alt'] = obstable['Keysalt'..i]
-        ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i]
+        ProgramPreferences.Keys[i]['command'] = obstable['Keyscommand'..i]
+        ProgramPreferences.Keys[i]['control'] = obstable['Keyscontrol'..i]
         ProgramPreferences.Keys[i]['key'] = obstable['Keyskey'..i]
+        ProgramPreferences.Keys[i]['shift'] = obstable['Keysshift'..i]
       else
-        ProgramPreferences.Keys[i]['control'] = false
         ProgramPreferences.Keys[i]['alt'] = false
-        ProgramPreferences.Keys[i]['shift'] = false
+        ProgramPreferences.Keys[i]['command'] = false
+        ProgramPreferences.Keys[i]['control'] = false
         ProgramPreferences.Keys[i]['key'] = ''
+        ProgramPreferences.Keys[i]['shift'] = false
       end
     end
   end
@@ -159,6 +192,12 @@ local function GetKey(i)
   end
   if ProgramPreferences.Keys[i]['shift'] then
     modifiers = modifiers + 0x4
+  end
+  if ProgramPreferences.Keys[i]['command'] then
+    modifiers = modifiers + 0x8
+  end
+  if WIN_ENV == nil and ProgramPreferences.Keys[i]['command'] == nil and ProgramPreferences.Keys[i]['control'] then
+    modifiers = modifiers + 6 --was saved under older version MIDI2LR where control meant command
   end
   return string.format('%u',modifiers) .. ProgramPreferences.Keys[i]['key']
 end
