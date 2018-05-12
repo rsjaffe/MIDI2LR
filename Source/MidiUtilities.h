@@ -29,91 +29,86 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 
 namespace rsj {
-    constexpr short kNoteOffFlag = 0x8;
-    constexpr short kNoteOnFlag = 0x9;
-    constexpr short kKeyPressureFlag = 0xA; //Individual Key Pressure
-    constexpr short kCcFlag = 0xB;
-    constexpr short kPgmChangeFlag = 0xC;
-    constexpr short kChanPressureFlag = 0xD; //Max Key Pressure
-    constexpr short kPwFlag = 0xE;//Pitch Wheel
-    constexpr short kSystemFlag = 0xF;
+   constexpr short kNoteOffFlag = 0x8;
+   constexpr short kNoteOnFlag = 0x9;
+   constexpr short kKeyPressureFlag = 0xA; // Individual Key Pressure
+   constexpr short kCcFlag = 0xB;
+   constexpr short kPgmChangeFlag = 0xC;
+   constexpr short kChanPressureFlag = 0xD; // Max Key Pressure
+   constexpr short kPwFlag = 0xE;           // Pitch Wheel
+   constexpr short kSystemFlag = 0xF;
 
-    struct MidiMessage {
-        short message_type_byte{0};
-        short channel{0};
-        short number{0};
-        short value{0};
-        constexpr MidiMessage() noexcept = default;
+   struct MidiMessage {
+      short message_type_byte{0};
+      short channel{0};
+      short number{0};
+      short value{0};
+      constexpr MidiMessage() noexcept = default;
 
-        constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept:
-        message_type_byte(mt), channel(ch), number(nu), value(va)
-        {}
+      constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept
+          : message_type_byte(mt), channel(ch), number(nu), value(va)
+      {
+      }
 
-        MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
-    };
+      MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
+   };
 
-    constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs)
-    {
-        return lhs.message_type_byte == rhs.message_type_byte &&
-            lhs.channel == rhs.channel &&
-            lhs.number == rhs.number &&
-            lhs.value == rhs.value;
-    }
+   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs)
+   {
+      return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
+             && lhs.number == rhs.number && lhs.value == rhs.value;
+   }
 
-    enum class MsgIdEnum: short {
-        kNote, kCc, kPitchBend
-    };
+   enum class MsgIdEnum : short { kNote, kCc, kPitchBend };
 
-    struct MidiMessageId {
-        MsgIdEnum msg_id_type;
-        int channel;
-        union {
-            int controller;
-            int pitch;
-            int data;
-        };
+   struct MidiMessageId {
+      MsgIdEnum msg_id_type;
+      int channel;
+      union {
+         int controller;
+         int pitch;
+         int data;
+      };
 
-        constexpr MidiMessageId() noexcept:
-        msg_id_type(MsgIdEnum::kNote),
-            channel(0),
-            data(0)
+      constexpr MidiMessageId() noexcept : msg_id_type(rsj::MsgIdEnum::kNote), channel(0), data(0)
+      {
+      }
 
-        {}
+      constexpr MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept
+          : msg_id_type(msgType), channel(ch), data(dat)
+      {
+      }
 
-        constexpr MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept:
-        msg_id_type(msgType),
-            channel(ch),
-            data(dat)
-        {}
+      MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug);
 
-        MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug);
+      constexpr bool operator==(const MidiMessageId& other) const noexcept
+      {
+         return msg_id_type == other.msg_id_type && channel == other.channel && data == other.data;
+      }
 
-        constexpr bool operator==(const MidiMessageId &other) const noexcept
-        {
-            return msg_id_type == other.msg_id_type && channel == other.channel && data == other.data;
-        }
-
-        constexpr bool operator<(const MidiMessageId& other) const noexcept
-        {
-            if (channel < other.channel) return true;
-            if (channel == other.channel) {
-                if (data < other.data) return true;
-                if (data == other.data && msg_id_type < other.msg_id_type) return true;
-            }
-            return false;
-        }
-    };
-}
+      constexpr bool operator<(const MidiMessageId& other) const noexcept
+      {
+         if (channel < other.channel)
+            return true;
+         if (channel == other.channel) {
+            if (data < other.data)
+               return true;
+            if (data == other.data && msg_id_type < other.msg_id_type)
+               return true;
+         }
+         return false;
+      }
+   };
+} // namespace rsj
 // hash functions
 namespace std {
-    template <>
-    struct hash<rsj::MidiMessageId> {
-        size_t operator()(const rsj::MidiMessageId& k) const noexcept
-        {
-            return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type) << 8) |
-                int_fast32_t(k.channel) | (int_fast32_t(k.controller) << 16));
-        } //channel is one byte, messagetype is one byte, controller is two bytes
-    };
-}
+   template<> struct hash<rsj::MidiMessageId> {
+      size_t operator()(const rsj::MidiMessageId& k) const noexcept
+      {
+         return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type) << 8) | int_fast32_t(k.channel)
+                                     | (int_fast32_t(k.controller) << 16));
+      } // channel is one byte, messagetype is one byte, controller is two bytes
+   };
+} // namespace std
 
 #endif

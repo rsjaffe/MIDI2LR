@@ -34,214 +34,215 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std::string_literals;
 
 namespace {
-    constexpr auto kHost{"127.0.0.1"};
-    constexpr auto kTerminate{"!!!@#$%^"};
-    constexpr int kConnectTimer{1000};
-    constexpr int kConnectTryTime{100};
-    constexpr int kDelay{8}; //in between recurrent actions
-    constexpr int kLrOutPort{58763};
-    constexpr int kMinRecenterTimer{250}; //give controller enough of a refractory period before resetting it
-    constexpr int kRecenterTimer{std::max(kMinRecenterTimer, kDelay + kDelay / 2)};//don't change, change kDelay and kMinRecenterTimer
-}
+   constexpr auto kHost{"127.0.0.1"};
+   constexpr auto kTerminate{"!!!@#$%^"};
+   constexpr int kConnectTimer{1000};
+   constexpr int kConnectTryTime{100};
+   constexpr int kDelay{8}; // in between recurrent actions
+   constexpr int kLrOutPort{58763};
+   constexpr int kMinRecenterTimer{
+       250}; // give controller enough of a refractory period before resetting it
+   constexpr int kRecenterTimer{std::max(kMinRecenterTimer,
+       kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
+} // namespace
 
-LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap * map_command):
-    command_map_{map_command}, controls_model_{c_model}
-{}
+LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command)
+    : command_map_{map_command}, controls_model_{c_model}
+{
+}
 
 LrIpcOut::~LrIpcOut()
 {
-    moodycamel::ConsumerToken ctok(command_);
-    std::string command_copy;
-    while (command_.try_dequeue(ctok, command_copy)) {
-        /* pump the queue empty */
-    }
-    command_.enqueue(kTerminate);
-    connect_timer_.Stop();
-    juce::InterprocessConnection::disconnect();
+   moodycamel::ConsumerToken ctok(command_);
+   std::string command_copy;
+   while (command_.try_dequeue(ctok, command_copy)) {
+      /* pump the queue empty */
+   }
+   command_.enqueue(kTerminate);
+   connect_timer_.Stop();
+   juce::InterprocessConnection::disconnect();
 }
 
 void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
 {
-    midi_sender_ = std::move(midi_sender);
-    connect_timer_.Start();
-    send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
-    if (midi_processor)
-        midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
+   midi_sender_ = std::move(midi_sender);
+   connect_timer_.Start();
+   send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
+   if (midi_processor)
+      midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
 }
-
-
 
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
-    const rsj::MidiMessageId message{mm};
-#pragma warning(suppress: 26426)
-    static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
-        {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
-        {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
-        {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
-        {"ChangeLastDevelopParameter"s, {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
-        {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
-        {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
-        {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
-        {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
-        {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
-        {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
-        {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
-        {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
-        {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
-        {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
-    };
-    if (!command_map_->MessageExistsInMap(message) ||
-        command_map_->GetCommandforMessage(message) == "Unmapped"s ||
-        find(LrCommandList::NextPrevProfile.begin(),
-            LrCommandList::NextPrevProfile.end(),
-            command_map_->GetCommandforMessage(message)) != LrCommandList::NextPrevProfile.end()) {
-        return;
-    }
-    const auto command_to_send = command_map_->GetCommandforMessage(message);
-    //if it is a repeated command, change command_to_send appropriately
-    if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-        static rsj::TimeType nextresponse{0};
-        if (const auto now = rsj::NowMs(); nextresponse < now) {
-            nextresponse = now + kDelay;
-            if (mm.message_type_byte == rsj::kPwFlag ||
-                (mm.message_type_byte == rsj::kCcFlag &&
-                    controls_model_->GetCcMethod(mm.channel, mm.number)
-                    == rsj::CCmethod::kAbsolute)) {
-                recenter_.SetMidiMessage(mm);
-            }
-            const auto change = controls_model_->MeasureChange(mm);
-            if (change == 0)
-                return;//don't send any signal
-            if (change > 0) //turned clockwise
-                SendCommand(a->second.first);
-            else //turned counterclockwise
-                SendCommand(a->second.second);
-        }
-        return; //if repeated command
-    }
-    else { //not repeated command
-        const auto computed_value = controls_model_->ControllerToPlugin(mm);
-        SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
-    }
+   const rsj::MidiMessageId message{mm};
+#pragma warning(suppress : 26426)
+   static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
+       {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
+       {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
+       {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
+       {"ChangeLastDevelopParameter"s,
+           {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
+       {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
+       {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
+       {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
+       {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
+       {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
+       {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
+       {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
+       {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
+       {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
+       {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
+   };
+   if (!command_map_->MessageExistsInMap(message)
+       || command_map_->GetCommandforMessage(message) == "Unmapped"s
+       || find(LrCommandList::NextPrevProfile.begin(), LrCommandList::NextPrevProfile.end(),
+              command_map_->GetCommandforMessage(message))
+              != LrCommandList::NextPrevProfile.end()) {
+      return;
+   }
+   const auto command_to_send = command_map_->GetCommandforMessage(message);
+   // if it is a repeated command, change command_to_send appropriately
+   if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
+      static rsj::TimeType nextresponse{0};
+      if (const auto now = rsj::NowMs(); nextresponse < now) {
+         nextresponse = now + kDelay;
+         if (mm.message_type_byte == rsj::kPwFlag
+             || (mm.message_type_byte == rsj::kCcFlag
+                    && controls_model_->GetCcMethod(mm.channel, mm.number)
+                           == rsj::CCmethod::kAbsolute)) {
+            recenter_.SetMidiMessage(mm);
+         }
+         const auto change = controls_model_->MeasureChange(mm);
+         if (change == 0)
+            return;      // don't send any signal
+         if (change > 0) // turned clockwise
+            SendCommand(a->second.first);
+         else // turned counterclockwise
+            SendCommand(a->second.second);
+      }
+      return; // if repeated command
+   }
+   else { // not repeated command
+      const auto computed_value = controls_model_->ControllerToPlugin(mm);
+      SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
+   }
 }
 
 void LrIpcOut::SendCommand(std::string&& command)
 {
-    if (sending_stopped_) return;
-    static const thread_local moodycamel::ProducerToken ptok(command_);
-    command_.enqueue(ptok, std::move(command));
+   if (sending_stopped_)
+      return;
+   static const thread_local moodycamel::ProducerToken ptok(command_);
+   command_.enqueue(ptok, std::move(command));
 }
 
 void LrIpcOut::SendCommand(const std::string& command)
 {
-    if (sending_stopped_) return;
-    static const thread_local moodycamel::ProducerToken ptok(command_);
-    command_.enqueue(ptok, command);
+   if (sending_stopped_)
+      return;
+   static const thread_local moodycamel::ProducerToken ptok(command_);
+   command_.enqueue(ptok, command);
 }
 
 void LrIpcOut::Stop()
 {
-    sending_stopped_ = true;
-    const auto connected = isConnected();
-    for (const auto& cb : callbacks_)
-        cb(connected, true);
+   sending_stopped_ = true;
+   const auto connected = isConnected();
+   for (const auto& cb : callbacks_)
+      cb(connected, true);
 }
 
 void LrIpcOut::Restart()
 {
-    sending_stopped_ = false;
-    const auto connected = isConnected();
-    for (const auto& cb : callbacks_)
-        cb(connected, false);
-    //resync controls
-    SendCommand("FullRefresh 1\n"s);
+   sending_stopped_ = false;
+   const auto connected = isConnected();
+   for (const auto& cb : callbacks_)
+      cb(connected, false);
+   // resync controls
+   SendCommand("FullRefresh 1\n"s);
 }
 
 void LrIpcOut::connectionMade()
 {
-    for (const auto& cb : callbacks_)
-        cb(true, sending_stopped_);
+   for (const auto& cb : callbacks_)
+      cb(true, sending_stopped_);
 }
 
 void LrIpcOut::connectionLost()
 {
-    for (const auto& cb : callbacks_)
-        cb(false, sending_stopped_);
+   for (const auto& cb : callbacks_)
+      cb(false, sending_stopped_);
 }
 
-void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept
-{}
+void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept {}
 
 void LrIpcOut::SendOut()
 {
-    do {
-        std::string command_copy;
-        static thread_local moodycamel::ConsumerToken ctok(command_);
-        if (!command_.try_dequeue(ctok, command_copy))
-            command_.wait_dequeue(command_copy);
-        if (command_copy == kTerminate)
-            return;
-        //check if there is a connection
-        if (juce::InterprocessConnection::isConnected()) {
-            if (command_copy.back() != '\n') //should be terminated with \n
-                command_copy += '\n';
-            juce::InterprocessConnection::getSocket()->
-                write(command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
-        }
-    } while (true);
+   do {
+      std::string command_copy;
+      static thread_local moodycamel::ConsumerToken ctok(command_);
+      if (!command_.try_dequeue(ctok, command_copy))
+         command_.wait_dequeue(command_copy);
+      if (command_copy == kTerminate)
+         return;
+      // check if there is a connection
+      if (juce::InterprocessConnection::isConnected()) {
+         if (command_copy.back() != '\n') // should be terminated with \n
+            command_copy += '\n';
+         juce::InterprocessConnection::getSocket()->write(
+             command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
+      }
+   } while (true);
 }
 
 void LrIpcOut::ConnectTimer::Start()
 {
-    std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
-    juce::Timer::startTimer(kConnectTimer);
-    timer_off_ = false;
+   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   juce::Timer::startTimer(kConnectTimer);
+   timer_off_ = false;
 }
 
 void LrIpcOut::ConnectTimer::Stop()
 {
-    std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
-    juce::Timer::stopTimer();
-    timer_off_ = true;
+   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   juce::Timer::stopTimer();
+   timer_off_ = true;
 }
 
 void LrIpcOut::ConnectTimer::timerCallback()
 {
-    std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
-    if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
-        owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
+      owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
-    std::lock_guard<decltype(mtx_)> lock(mtx_);
-    mm_ = mm;
-    juce::Timer::startTimer(kRecenterTimer);
+   std::lock_guard<decltype(mtx_)> lock(mtx_);
+   mm_ = mm;
+   juce::Timer::startTimer(kRecenterTimer);
 }
 
 void LrIpcOut::Recenter::timerCallback()
 {
-    rsj::MidiMessage local_mm{};
-    {
-        std::lock_guard<decltype(mtx_)> lock(mtx_);
-        juce::Timer::stopTimer();
-        local_mm = mm_;
-    }
-    const auto center = owner_->controls_model_->SetToCenter(local_mm);
-    //send center to control//
-    switch (local_mm.message_type_byte) {
-        case rsj::kPwFlag:
-        {
-            owner_->midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
-            break;
-        }
-        case rsj::kCcFlag:
-        {
-            owner_->midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
-            break;
-        }
-        default:
-            /* no action */;
-    }
+   rsj::MidiMessage local_mm{};
+   {
+      std::lock_guard<decltype(mtx_)> lock(mtx_);
+      juce::Timer::stopTimer();
+      local_mm = mm_;
+   }
+   const auto center = owner_->controls_model_->SetToCenter(local_mm);
+   // send center to control//
+   switch (local_mm.message_type_byte) {
+   case rsj::kPwFlag: {
+      owner_->midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
+      break;
+   }
+   case rsj::kCcFlag: {
+      owner_->midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
+      break;
+   }
+   default:
+       /* no action */;
+   }
 }

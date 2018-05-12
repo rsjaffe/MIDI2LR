@@ -30,76 +30,77 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 
 class CommandMap {
-public:
+ public:
+   // adds an entry to the message:command map, and a corresponding entry to the
+   // command:message map will look up the string by the index (but it is
+   // preferred to directly use the string)
+   void AddCommandforMessage(size_t command, const rsj::MidiMessageId& message);
 
-    // adds an entry to the message:command map, and a corresponding entry to the
-    // command:message map will look up the string by the index (but it is preferred to
-    // directly use the string)
-    void AddCommandforMessage(size_t command, const rsj::MidiMessageId& message);
+   // adds an entry to the message:command map, and a corresponding entry to the
+   // command:message map
+   void AddCommandforMessage(const std::string& command, const rsj::MidiMessageId& message);
 
-    // adds an entry to the message:command map, and a corresponding entry to the
-    // command:message map
-    void AddCommandforMessage(const std::string& command, const rsj::MidiMessageId& message);
+   // gets the LR command associated to a MIDI message
+   [[nodiscard]] const std::string& GetCommandforMessage(const rsj::MidiMessageId& message) const;
 
-    // gets the LR command associated to a MIDI message
-    [[nodiscard]] const std::string& GetCommandforMessage(const rsj::MidiMessageId& message) const;
+   // in the command:message map
+   // removes a MIDI message from the message:command map, and it's associated
+   // entry
+   void RemoveMessage(const rsj::MidiMessageId& message);
 
-    // in the command:message map
-    // removes a MIDI message from the message:command map, and it's associated entry
-    void RemoveMessage(const rsj::MidiMessageId& message);
+   // clears both message:command and command:message maps
+   void ClearMap() noexcept;
 
-    // clears both message:command and command:message maps
-    void ClearMap() noexcept;
+   // returns true if there is a mapping for a particular MIDI message
+   [[nodiscard]] bool MessageExistsInMap(const rsj::MidiMessageId& message) const;
 
-    // returns true if there is a mapping for a particular MIDI message
-    [[nodiscard]] bool MessageExistsInMap(const rsj::MidiMessageId& message) const;
+   std::vector<const rsj::MidiMessageId*> GetMessagesForCommand(const std::string& command) const;
+   // gets the MIDI message associated to a LR command
 
-    std::vector<const rsj::MidiMessageId*> GetMessagesForCommand(const std::string& command) const;
-    // gets the MIDI message associated to a LR command
+   // returns true if there is a mapping for a particular LR command
+   [[nodiscard]] bool CommandHasAssociatedMessage(const std::string& command) const;
 
-    // returns true if there is a mapping for a particular LR command
-    [[nodiscard]] bool CommandHasAssociatedMessage(const std::string& command) const;
+   // saves the message:command map as an XML file
+   void ToXmlDocument(const juce::File& file) const;
 
-    // saves the message:command map as an XML file
-    void ToXmlDocument(const juce::File& file) const;
-
-private:
-    std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
-    std::unordered_map<rsj::MidiMessageId, std::string> message_map_;
+ private:
+   std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
+   std::unordered_map<rsj::MidiMessageId, std::string> message_map_;
 };
 
-inline void CommandMap::AddCommandforMessage(const std::string& command, const rsj::MidiMessageId& message)
+inline void CommandMap::AddCommandforMessage(
+    const std::string& command, const rsj::MidiMessageId& message)
 {
-    message_map_[message] = command;
-    command_string_map_.insert({command, message});
+   message_map_[message] = command;
+   command_string_map_.insert({command, message});
 }
 
 inline const std::string& CommandMap::GetCommandforMessage(const rsj::MidiMessageId& message) const
 {
-    return message_map_.at(message);
+   return message_map_.at(message);
 }
 
 inline void CommandMap::RemoveMessage(const rsj::MidiMessageId& message)
 {
-    // removes message from the message:command map, and its associated command from
-    // the command:message map
-    command_string_map_.erase(message_map_.at(message));
-    message_map_.erase(message);
+   // removes message from the message:command map, and its associated command
+   // from the command:message map
+   command_string_map_.erase(message_map_.at(message));
+   message_map_.erase(message);
 }
 
 inline void CommandMap::ClearMap() noexcept
 {
-    command_string_map_.clear();
-    message_map_.clear();
+   command_string_map_.clear();
+   message_map_.clear();
 }
 
 inline bool CommandMap::MessageExistsInMap(const rsj::MidiMessageId& message) const
 {
-    return message_map_.find(message) != message_map_.end();
+   return message_map_.find(message) != message_map_.end();
 }
 
 inline bool CommandMap::CommandHasAssociatedMessage(const std::string& command) const
 {
-    return command_string_map_.find(command) != command_string_map_.end();
+   return command_string_map_.find(command) != command_string_map_.end();
 }
-#endif  // COMMANDMAP_H_INCLUDED
+#endif // COMMANDMAP_H_INCLUDED

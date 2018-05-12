@@ -29,33 +29,33 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"
 
-class MidiProcessor final: juce::MidiInputCallback {
-public:
-    MidiProcessor() = default;
-    ~MidiProcessor();
-    MidiProcessor(const MidiProcessor& other) = delete;
-    MidiProcessor(MidiProcessor&& other) = delete;
-    MidiProcessor& operator=(const MidiProcessor& other) = delete;
-    MidiProcessor& operator=(MidiProcessor&& other) = delete;
-    void Init();
-    // re-enumerates MIDI IN devices
-    void RescanDevices();
+class MidiProcessor final : juce::MidiInputCallback {
+ public:
+   MidiProcessor() = default;
+   ~MidiProcessor();
+   MidiProcessor(const MidiProcessor& other) = delete;
+   MidiProcessor(MidiProcessor&& other) = delete;
+   MidiProcessor& operator=(const MidiProcessor& other) = delete;
+   MidiProcessor& operator=(MidiProcessor&& other) = delete;
+   void Init();
+   // re-enumerates MIDI IN devices
+   void RescanDevices();
 
-    template <class T> void AddCallback(T* const object, void (T::* const mf)(rsj::MidiMessage))
-    {
-        callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
-    }
+   template<class T> void AddCallback(T* const object, void (T::*const mf)(rsj::MidiMessage))
+   {
+      callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
+   }
 
-private:
-    void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
-    void DispatchMessages();
-    void InitDevices();
+ private:
+   void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
+   void DispatchMessages();
+   void InitDevices();
 
-    moodycamel::BlockingConcurrentQueue<rsj::MidiMessage> messages_;
-    NrpnFilter nrpn_filter_;
-    std::future<void> dispatch_messages_future_;
-    std::vector <std::function <void(rsj::MidiMessage)>> callbacks_;
-    std::vector <std::unique_ptr<juce::MidiInput>> devices_;
+   moodycamel::BlockingConcurrentQueue<rsj::MidiMessage> messages_;
+   NrpnFilter nrpn_filter_;
+   std::future<void> dispatch_messages_future_;
+   std::vector<std::function<void(rsj::MidiMessage)>> callbacks_;
+   std::vector<std::unique_ptr<juce::MidiInput>> devices_;
 };
 
-#endif  // MIDIPROCESSOR_H_INCLUDED
+#endif // MIDIPROCESSOR_H_INCLUDED

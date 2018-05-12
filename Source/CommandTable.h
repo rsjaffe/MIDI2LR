@@ -25,16 +25,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 class CommandTableModel;
 
-class CommandTable final: public juce::TableListBox {
-public:
-    CommandTable(const juce::String& component_name, CommandTableModel *model);
-    ~CommandTable() = default;
-    CommandTable(const CommandTable& other) = delete;
-    CommandTable(CommandTable&& other) = delete;
-    CommandTable& operator=(const CommandTable& other) = delete;
-    CommandTable& operator=(CommandTable&& other) = delete;
-private:
-    bool keyPressed(const KeyPress &k) override;
+class CommandTable final : public juce::TableListBox {
+ public:
+   CommandTable(const juce::String& component_name, CommandTableModel* model);
+   ~CommandTable() = default;
+   CommandTable(const CommandTable& other) = delete;
+   CommandTable(CommandTable&& other) = delete;
+   CommandTable& operator=(const CommandTable& other) = delete;
+   CommandTable& operator=(CommandTable&& other) = delete;
+
+ private:
+   bool keyPressed(const KeyPress& k) override;
 };
 
 #endif

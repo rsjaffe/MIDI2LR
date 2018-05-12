@@ -33,36 +33,34 @@ class MainContentComponent;
 class ProfileManager;
 class SettingsManager;
 
-class MainWindow final: juce::DocumentWindow {
-public:
-    explicit MainWindow(juce::String name);
-    ~MainWindow() = default;
-    MainWindow(const MainWindow& other) = delete;
-    MainWindow(MainWindow&& other) = delete;
-    MainWindow& operator=(const MainWindow& other) = delete;
-    MainWindow& operator=(MainWindow&& other) = delete;
-    void Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-        std::shared_ptr<MidiProcessor> midi_processor,
-        ProfileManager* profile_manager,
-        SettingsManager* settings_manager,
-        std::shared_ptr<MidiSender> midi_sender);
+class MainWindow final : juce::DocumentWindow {
+ public:
+   explicit MainWindow(juce::String name);
+   ~MainWindow() = default;
+   MainWindow(const MainWindow& other) = delete;
+   MainWindow(MainWindow&& other) = delete;
+   MainWindow& operator=(const MainWindow& other) = delete;
+   MainWindow& operator=(MainWindow&& other) = delete;
+   void Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+       std::shared_ptr<MidiProcessor> midi_processor, ProfileManager* profile_manager,
+       SettingsManager* settings_manager, std::shared_ptr<MidiSender> midi_sender);
 
-    /* Note: Be careful if you override any DocumentWindow methods - the base
-       class uses a lot of them, so by overriding you might break its functionality.
-       It's best to do all your work in your content component instead, but if
-       you really have to override any DocumentWindow methods, make sure your
-       subclass also calls the superclass's method.
-    */
+   /* Note: Be careful if you override any DocumentWindow methods - the base
+      class uses a lot of them, so by overriding you might break its functionality.
+      It's best to do all your work in your content component instead, but if
+      you really have to override any DocumentWindow methods, make sure your
+      subclass also calls the superclass's method.
+   */
 
-private:
-    void closeButtonPressed() override
-    {
-        // This is called when the user tries to close this window. Here, we'll just
-        // ask the app to quit when this happens, but you can change this to do
-        // whatever you need.
-        juce::JUCEApplication::getInstance()->systemRequestedQuit();
-    }
-    MainContentComponent *window_content_;
+ private:
+   void closeButtonPressed() override
+   {
+      // This is called when the user tries to close this window. Here, we'll just
+      // ask the app to quit when this happens, but you can change this to do
+      // whatever you need.
+      juce::JUCEApplication::getInstance()->systemRequestedQuit();
+   }
+   MainContentComponent* window_content_;
 };
 
-#endif  // MAINWINDOW_H_INCLUDED
+#endif // MAINWINDOW_H_INCLUDED

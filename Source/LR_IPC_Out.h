@@ -36,69 +36,69 @@ class ControlsModel;
 class MidiProcessor;
 class MidiSender;
 
-class LrIpcOut final: juce::InterprocessConnection {
-public:
-    LrIpcOut(ControlsModel* c_model, const CommandMap * map_command);
-    ~LrIpcOut();
-    LrIpcOut(const LrIpcOut& other) = delete;
-    LrIpcOut(LrIpcOut&& other) = delete;
-    LrIpcOut& operator=(const LrIpcOut& other) = delete;
-    LrIpcOut& operator=(LrIpcOut&& other) = delete;
-    void Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor);
+class LrIpcOut final : juce::InterprocessConnection {
+ public:
+   LrIpcOut(ControlsModel* c_model, const CommandMap* map_command);
+   ~LrIpcOut();
+   LrIpcOut(const LrIpcOut& other) = delete;
+   LrIpcOut(LrIpcOut&& other) = delete;
+   LrIpcOut& operator=(const LrIpcOut& other) = delete;
+   LrIpcOut& operator=(LrIpcOut&& other) = delete;
+   void Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor);
 
-    template<class T> void AddCallback(T* const  object, void(T::* const mf)(bool, bool))
-    {
-        callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1, std::placeholders::_2));
-    }
+   template<class T> void AddCallback(T* const object, void (T::*const mf)(bool, bool))
+   {
+      callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1, std::placeholders::_2));
+   }
 
-    // sends a command to the plugin
-    void SendCommand(std::string&& command);
-    void SendCommand(const std::string& command);
+   // sends a command to the plugin
+   void SendCommand(std::string&& command);
+   void SendCommand(const std::string& command);
 
-    void Stop();
-    void Restart();
+   void Stop();
+   void Restart();
 
-private:
-    void connectionLost() override;
-    void connectionMade() override;
-    void messageReceived(const juce::MemoryBlock& msg) noexcept override;
-    void MidiCmdCallback(rsj::MidiMessage);
-    void SendOut();
+ private:
+   void connectionLost() override;
+   void connectionMade() override;
+   void messageReceived(const juce::MemoryBlock& msg) noexcept override;
+   void MidiCmdCallback(rsj::MidiMessage);
+   void SendOut();
 
-    bool sending_stopped_{false};
-    const CommandMap* const command_map_{};
-    ControlsModel* const controls_model_{};
-    moodycamel::BlockingConcurrentQueue<std::string> command_;
-    std::future<void> send_out_future_;
-    std::shared_ptr<MidiSender> midi_sender_{nullptr};
-    std::vector<std::function<void(bool, bool)>> callbacks_{};
+   bool sending_stopped_{false};
+   const CommandMap* const command_map_{};
+   ControlsModel* const controls_model_{};
+   moodycamel::BlockingConcurrentQueue<std::string> command_;
+   std::future<void> send_out_future_;
+   std::shared_ptr<MidiSender> midi_sender_{nullptr};
+   std::vector<std::function<void(bool, bool)>> callbacks_{};
 
-    // helper classes
-    class ConnectTimer:public juce::Timer {
+   // helper classes
+   class ConnectTimer : public juce::Timer {
     public:
-        explicit ConnectTimer(LrIpcOut* owner) noexcept : owner_(owner)
-        {}
-        void Start();
-        void Stop();
+      explicit ConnectTimer(LrIpcOut* owner) noexcept : owner_(owner) {}
+      void Start();
+      void Stop();
+
     private:
-        void timerCallback() override;
-        LrIpcOut* owner_;
-        bool timer_off_{false};
-        mutable std::mutex connect_mutex_; //fix race during shutdown
-    };
-    class Recenter:public juce::Timer {
+      void timerCallback() override;
+      LrIpcOut* owner_;
+      bool timer_off_{false};
+      mutable std::mutex connect_mutex_; // fix race during shutdown
+   };
+   class Recenter : public juce::Timer {
     public:
-        explicit Recenter(LrIpcOut* owner) noexcept : owner_{owner}
-        {}
-        void SetMidiMessage(rsj::MidiMessage mm);
+      explicit Recenter(LrIpcOut* owner) noexcept : owner_{owner} {}
+      void SetMidiMessage(rsj::MidiMessage mm);
+
     private:
-        void timerCallback() override;
-        LrIpcOut* owner_;
-        rsj::RelaxTTasSpinLock mtx_;
-        rsj::MidiMessage mm_{};
-    };
-    ConnectTimer connect_timer_{this};
-    Recenter recenter_{this};
+      void timerCallback() override;
+      LrIpcOut* owner_;
+      rsj::RelaxTTasSpinLock mtx_;
+      rsj::MidiMessage mm_{};
+   };
+   ConnectTimer connect_timer_{this};
+   Recenter recenter_{this};
 };
 
-#endif  // LR_IPC_OUT_H_INCLUDED
+#endif // LR_IPC_OUT_H_INCLUDED

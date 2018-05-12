@@ -28,24 +28,24 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 class CommandMap;
 
-class CommandMenu final: public juce::TextButton {
-public:
-    explicit CommandMenu(const rsj::MidiMessageId& message);
-    void Init(CommandMap* map_command) noexcept;
-    // sets the MIDI message associated to this menu component
-    void SetMsg(const rsj::MidiMessageId& message) noexcept;
+class CommandMenu final : public juce::TextButton {
+ public:
+   explicit CommandMenu(const rsj::MidiMessageId& message);
+   void Init(CommandMap* map_command) noexcept;
+   // sets the MIDI message associated to this menu component
+   void SetMsg(const rsj::MidiMessageId& message) noexcept;
 
-    // sets which item in the menu is selected
-    void SetSelectedItem(size_t index);
+   // sets which item in the menu is selected
+   void SetSelectedItem(size_t index);
 
-private:
-    void clicked(const juce::ModifierKeys& modifiers) override;
+ private:
+   void clicked(const juce::ModifierKeys& modifiers) override;
 
-    CommandMap* command_map_{nullptr};
-    const std::vector<juce::String> menus_;
-    const std::vector<std::vector<std::string>> menu_entries_;
-    rsj::MidiMessageId message_;
-    size_t selected_item_{std::numeric_limits<size_t>::max()};
+   CommandMap* command_map_{nullptr};
+   const std::vector<juce::String> menus_;
+   const std::vector<std::vector<std::string>> menu_entries_;
+   rsj::MidiMessageId message_;
+   size_t selected_item_{std::numeric_limits<size_t>::max()};
 };
 
-#endif  // COMMANDMENU_H_INCLUDED
+#endif // COMMANDMENU_H_INCLUDED

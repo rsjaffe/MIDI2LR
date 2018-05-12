@@ -28,28 +28,28 @@ class LrIpcOut;
 class ProfileManager;
 
 class SettingsManager final {
-public:
-    explicit SettingsManager(ProfileManager * profile_manager);
-    ~SettingsManager() = default;
-    SettingsManager(const SettingsManager& other) = delete;
-    SettingsManager(SettingsManager&& other) = delete;
-    SettingsManager& operator=(const SettingsManager& other) = delete;
-    SettingsManager& operator=(SettingsManager&& other) = delete;
-    void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out);
-    [[nodiscard]] bool GetPickupEnabled() const noexcept;
-    void SetPickupEnabled(bool enabled);
-    [[nodiscard]] juce::String GetProfileDirectory() const noexcept;
-    void SetProfileDirectory(const juce::String& profile_directory);
-    [[nodiscard]] int GetAutoHideTime() const noexcept;
-    void SetAutoHideTime(int new_time);
-    [[nodiscard]] int GetLastVersionFound() const noexcept;
-    void SetLastVersionFound(int version_number);
+ public:
+   explicit SettingsManager(ProfileManager* profile_manager);
+   ~SettingsManager() = default;
+   SettingsManager(const SettingsManager& other) = delete;
+   SettingsManager(SettingsManager&& other) = delete;
+   SettingsManager& operator=(const SettingsManager& other) = delete;
+   SettingsManager& operator=(SettingsManager&& other) = delete;
+   void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out);
+   [[nodiscard]] bool GetPickupEnabled() const noexcept;
+   void SetPickupEnabled(bool enabled);
+   [[nodiscard]] juce::String GetProfileDirectory() const noexcept;
+   void SetProfileDirectory(const juce::String& profile_directory);
+   [[nodiscard]] int GetAutoHideTime() const noexcept;
+   void SetAutoHideTime(int new_time);
+   [[nodiscard]] int GetLastVersionFound() const noexcept;
+   void SetLastVersionFound(int version_number);
 
-private:
-    ProfileManager * const profile_manager_;
-    std::unique_ptr<juce::PropertiesFile> properties_file_;
-    std::weak_ptr<LrIpcOut> lr_ipc_out_;
-    void ConnectionCallback(bool, bool);
+ private:
+   ProfileManager* const profile_manager_;
+   std::unique_ptr<juce::PropertiesFile> properties_file_;
+   std::weak_ptr<LrIpcOut> lr_ipc_out_;
+   void ConnectionCallback(bool, bool);
 };
 
-#endif  // SETTINGSMANAGER_H_INCLUDED
+#endif // SETTINGSMANAGER_H_INCLUDED

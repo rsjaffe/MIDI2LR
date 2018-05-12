@@ -63,209 +63,204 @@ namespace fs = std::experimental::filesystem;
  *********************************************/
 
 namespace {
-    const auto kShutDownString{"--LRSHUTDOWN"};
-    const auto kSettingsFile{"settings.bin"};
-}
+   const auto kShutDownString{"--LRSHUTDOWN"};
+   const auto kSettingsFile{"settings.bin"};
+} // namespace
 
-class MIDI2LRApplication final: public juce::JUCEApplication {
-public:
-    MIDI2LRApplication() noexcept
-    {
-        CCoptions::LinkToControlsModel(&controls_model_);
-        PWoptions::LinkToControlsModel(&controls_model_);
-        juce::LookAndFeel::setDefaultLookAndFeel(look_feel_.get());
-    }
+class MIDI2LRApplication final : public juce::JUCEApplication {
+ public:
+   MIDI2LRApplication() noexcept
+   {
+      CCoptions::LinkToControlsModel(&controls_model_);
+      PWoptions::LinkToControlsModel(&controls_model_);
+      juce::LookAndFeel::setDefaultLookAndFeel(look_feel_.get());
+   }
 
-    // ReSharper disable once CppConstValueFunctionReturnType
-    const juce::String getApplicationName() override
-    {
-        return ProjectInfo::projectName;
-    }
-    // ReSharper disable once CppConstValueFunctionReturnType
-    const juce::String getApplicationVersion() override
-    {
-        return ProjectInfo::versionString;
-    }
-    bool moreThanOneInstanceAllowed() noexcept override
-    {
-        return false;
-    }
+   // ReSharper disable once CppConstValueFunctionReturnType
+   const juce::String getApplicationName() override
+   {
+      return ProjectInfo::projectName;
+   }
+   // ReSharper disable once CppConstValueFunctionReturnType
+   const juce::String getApplicationVersion() override
+   {
+      return ProjectInfo::versionString;
+   }
+   bool moreThanOneInstanceAllowed() noexcept override
+   {
+      return false;
+   }
 
-    //==============================================================================
+   //==============================================================================
 
-    void initialise(const juce::String& command_line) override
-    {
-        //Called when the application starts.
+   void initialise(const juce::String& command_line) override
+   {
+      // Called when the application starts.
 
-        // This will be called once to let the application do whatever
-        // initialization it needs, create its windows, etc.
+      // This will be called once to let the application do whatever
+      // initialization it needs, create its windows, etc.
 
-        // After the method returns, the normal event - dispatch loop will be
-        // run, until the quit() method is called, at which point the shutdown()
-        // method will be called to let the application clear up anything it
-        // needs to delete.
+      // After the method returns, the normal event - dispatch loop will be
+      // run, until the quit() method is called, at which point the shutdown()
+      // method will be called to let the application clear up anything it
+      // needs to delete.
 
-        // If during the initialise() method, the application decides not to
-        // start - up after all, it can just call the quit() method and the event
-        // loop won't be run.
+      // If during the initialise() method, the application decides not to
+      // start - up after all, it can just call the quit() method and the event
+      // loop won't be run.
 
-        if (command_line != kShutDownString) {
-            CerealLoad();
-            midi_processor_->Init();
-            midi_sender_->Init();
-            lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
-            profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
-            lr_ipc_in_->Init(midi_sender_);
-            settings_manager_.Init(lr_ipc_out_);
-            main_window_ = std::make_unique<MainWindow>(getApplicationName());
-            main_window_->Init(&command_map_, lr_ipc_out_, midi_processor_,
-                &profile_manager_, &settings_manager_, midi_sender_);
-            // Check for latest version
-            version_checker_.startThread();
-        }
-        else {
-            // apparently the application is already terminated
-            quit();
-        }
-    }
+      if (command_line != kShutDownString) {
+         CerealLoad();
+         midi_processor_->Init();
+         midi_sender_->Init();
+         lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
+         profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
+         lr_ipc_in_->Init(midi_sender_);
+         settings_manager_.Init(lr_ipc_out_);
+         main_window_ = std::make_unique<MainWindow>(getApplicationName());
+         main_window_->Init(&command_map_, lr_ipc_out_, midi_processor_, &profile_manager_,
+             &settings_manager_, midi_sender_);
+         // Check for latest version
+         version_checker_.startThread();
+      }
+      else {
+         // apparently the application is already terminated
+         quit();
+      }
+   }
 
-    void shutdown() noexcept override
-    {
-        //Called to allow the application to clear up before exiting.
+   void shutdown() noexcept override
+   {
+      // Called to allow the application to clear up before exiting.
 
-        // After JUCEApplication::quit() has been called, the event - dispatch
-        // loop will terminate, and this method will get called to allow the
-        // application to sort itself out.
+      // After JUCEApplication::quit() has been called, the event - dispatch
+      // loop will terminate, and this method will get called to allow the
+      // application to sort itself out.
 
-        // Be careful that nothing happens in this method that might rely on
-        // messages being sent, or any kind of window activity, because the
-        // message loop is no longer running at this point.
-        lr_ipc_out_.reset();
-        lr_ipc_in_.reset();
-        midi_processor_.reset();
-        midi_sender_.reset();
-        main_window_.reset(); // (deletes our window)
-    }
+      // Be careful that nothing happens in this method that might rely on
+      // messages being sent, or any kind of window activity, because the
+      // message loop is no longer running at this point.
+      lr_ipc_out_.reset();
+      lr_ipc_in_.reset();
+      midi_processor_.reset();
+      midi_sender_.reset();
+      main_window_.reset(); // (deletes our window)
+   }
 
-    //==========================================================================
-    void systemRequestedQuit() override
-    {
-        // This is called when the application is being asked to quit: you can
-        // ignore this request and let the application carry on running, or call
-        // quit() to allow the application to close.
-        if (lr_ipc_in_)
-            lr_ipc_in_->PleaseStopThread();
-        defaultProfileSave_();
-        CerealSave();
-        quit();
-    }
+   //==========================================================================
+   void systemRequestedQuit() override
+   {
+      // This is called when the application is being asked to quit: you can
+      // ignore this request and let the application carry on running, or call
+      // quit() to allow the application to close.
+      if (lr_ipc_in_)
+         lr_ipc_in_->PleaseStopThread();
+      defaultProfileSave_();
+      CerealSave();
+      quit();
+   }
 
-    void anotherInstanceStarted(const juce::String& command_line) override
-    {
-        // When another instance of the application is launched while this one is
-        // running, this method is invoked, and the commandLine parameter tells
-        // you what the other instance's command-line arguments were.
-        if (command_line == kShutDownString)
-            //shutting down
-            systemRequestedQuit();
-    }
+   void anotherInstanceStarted(const juce::String& command_line) override
+   {
+      // When another instance of the application is launched while this one is
+      // running, this method is invoked, and the commandLine parameter tells
+      // you what the other instance's command-line arguments were.
+      if (command_line == kShutDownString)
+         // shutting down
+         systemRequestedQuit();
+   }
 
-    void unhandledException(const std::exception * e,
-        const juce::String& source_filename, int lineNumber) override
-    {
-        // If any unhandled exceptions make it through to the message dispatch
-        // loop, this callback will be triggered, in case you want to log them or
-        // do some other type of error-handling.
-        //
-        // If the type of exception is derived from the std::exception class, the
-        // pointer passed-in will be valid. If the exception is of unknown type,
-        // this pointer will be null.
-        if (juce::Logger::getCurrentLogger()) {
-            if (e) {
-                juce::Logger::writeToLog(juce::String(e->what()) + " " +
-                    source_filename + " line " + juce::String(lineNumber));
-                juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
-                    "Error",
-                    "Unhandled exception. " + juce::String(e->what()) + " " +
-                    source_filename + " line " + juce::String(lineNumber));
-            }
-            else {
-                juce::Logger::writeToLog(source_filename + " line " +
-                    juce::String(lineNumber));
-                juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
-                    "Error",
-                    "Unhandled exception. " + source_filename +
-                    " line " + juce::String(lineNumber));
-            }
-        }
-        std::terminate(); // can't go on with the program
-    }
+   void unhandledException(
+       const std::exception* e, const juce::String& source_filename, int lineNumber) override
+   {
+      // If any unhandled exceptions make it through to the message dispatch
+      // loop, this callback will be triggered, in case you want to log them or
+      // do some other type of error-handling.
+      //
+      // If the type of exception is derived from the std::exception class, the
+      // pointer passed-in will be valid. If the exception is of unknown type,
+      // this pointer will be null.
+      if (juce::Logger::getCurrentLogger()) {
+         if (e) {
+            juce::Logger::writeToLog(juce::String(e->what()) + " " + source_filename + " line "
+                                     + juce::String(lineNumber));
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+                "Unhandled exception. " + juce::String(e->what()) + " " + source_filename + " line "
+                    + juce::String(lineNumber));
+         }
+         else {
+            juce::Logger::writeToLog(source_filename + " line " + juce::String(lineNumber));
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+                "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber));
+         }
+      }
+      std::terminate(); // can't go on with the program
+   }
 
-private:
-    void defaultProfileSave_()
-    {
-        const auto profilefile =
-            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile("default.xml");
-        command_map_.ToXmlDocument(profilefile);
-    }
-    void CerealSave()
-    {//scoped so archive gets flushed
+ private:
+   void defaultProfileSave_()
+   {
+      const auto profilefile = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                                   .getSiblingFile("default.xml");
+      command_map_.ToXmlDocument(profilefile);
+   }
+   void CerealSave()
+   { // scoped so archive gets flushed
 #ifdef _WIN32
-        wchar_t path[MAX_PATH];
-        GetModuleFileNameW(nullptr, path, MAX_PATH);
-        fs::path p{path};
-        p = p.replace_filename(kSettingsFile);
+      wchar_t path[MAX_PATH];
+      GetModuleFileNameW(nullptr, path, MAX_PATH);
+      fs::path p{path};
+      p = p.replace_filename(kSettingsFile);
 #else
-        const auto p =
-            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile(kSettingsFile).getFullPathName().toStdString();
+      const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                         .getSiblingFile(kSettingsFile)
+                         .getFullPathName()
+                         .toStdString();
 #endif
-        std::ofstream outfile(p, std::ios::out |
-            std::ios::binary | std::ios::trunc);
-        if (outfile.is_open()) {
-            cereal::BinaryOutputArchive oarchive(outfile);
-            oarchive(controls_model_);
-        }
-        else
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
-                "Error",
-                "Unable to save control settings. Unable to open file settings.bin.");
-    }
-    void CerealLoad()
-    {//scoped so archive gets flushed
+      std::ofstream outfile(p, std::ios::out | std::ios::binary | std::ios::trunc);
+      if (outfile.is_open()) {
+         cereal::BinaryOutputArchive oarchive(outfile);
+         oarchive(controls_model_);
+      }
+      else
+         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+             "Unable to save control settings. Unable to open file settings.bin.");
+   }
+   void CerealLoad()
+   { // scoped so archive gets flushed
 #ifdef _WIN32
-        wchar_t path[MAX_PATH];
-        GetModuleFileNameW(nullptr, path, MAX_PATH);
-        fs::path p {path};
-        p = p.replace_filename(kSettingsFile);
+      wchar_t path[MAX_PATH];
+      GetModuleFileNameW(nullptr, path, MAX_PATH);
+      fs::path p{path};
+      p = p.replace_filename(kSettingsFile);
 #else
-        const auto p =
-            juce::File::getSpecialLocation(juce::File::currentExecutableFile).
-            getSiblingFile(kSettingsFile).getFullPathName().toStdString();
+      const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                         .getSiblingFile(kSettingsFile)
+                         .getFullPathName()
+                         .toStdString();
 #endif
-        std::ifstream infile(p, std::ios::in | std::ios::binary);
-        if (infile.is_open() && !infile.eof()) {
-            cereal::BinaryInputArchive iarchive(infile);
-            iarchive(controls_model_);
-        }
-    }
-    CommandMap command_map_{};
-    ControlsModel controls_model_{};
-    ProfileManager profile_manager_{&controls_model_, &command_map_};
-    SettingsManager settings_manager_{&profile_manager_};
-    std::shared_ptr<LrIpcIn> lr_ipc_in_{std::make_shared<LrIpcIn>
-        (&controls_model_, &profile_manager_, &command_map_)};
-    std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>
-        (&controls_model_, &command_map_)};
-    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
-    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
-    std::unique_ptr<MainWindow> main_window_{nullptr};
-    VersionChecker version_checker_{&settings_manager_};
+      std::ifstream infile(p, std::ios::in | std::ios::binary);
+      if (infile.is_open() && !infile.eof()) {
+         cereal::BinaryInputArchive iarchive(infile);
+         iarchive(controls_model_);
+      }
+   }
+   CommandMap command_map_{};
+   ControlsModel controls_model_{};
+   ProfileManager profile_manager_{&controls_model_, &command_map_};
+   SettingsManager settings_manager_{&profile_manager_};
+   std::shared_ptr<LrIpcIn> lr_ipc_in_{
+       std::make_shared<LrIpcIn>(&controls_model_, &profile_manager_, &command_map_)};
+   std::shared_ptr<LrIpcOut> lr_ipc_out_{
+       std::make_shared<LrIpcOut>(&controls_model_, &command_map_)};
+   std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
+   std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
+   std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
+   std::unique_ptr<MainWindow> main_window_{nullptr};
+   VersionChecker version_checker_{&settings_manager_};
 };
 
 //==============================================================================
 // This macro generates the main() routine that launches the application.
-#pragma warning(suppress: 26409 26425)
+#pragma warning(suppress : 26409 26425)
 START_JUCE_APPLICATION(MIDI2LRApplication)
