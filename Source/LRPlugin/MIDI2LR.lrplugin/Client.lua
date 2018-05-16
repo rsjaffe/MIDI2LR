@@ -336,6 +336,7 @@ LrTasks.startAsyncTask(
       Profile_Camera_Neutral          = CU.UpdateCameraProfile('Camera Neutral'),
       Profile_Camera_Portrait         = CU.UpdateCameraProfile('Camera Portrait'),
       Profile_Camera_Positive_Film    = CU.UpdateCameraProfile('Camera Positive Film'),
+      Profile_Camera_Scenery          = CU.UpdateCameraProfile('Camera Scenery'),
       Profile_Camera_Standard         = CU.UpdateCameraProfile('Camera Standard'),
       Profile_Camera_Vivid            = CU.UpdateCameraProfile('Camera Vivid'),
       Profile_Camera_Vivid_Blue       = CU.UpdateCameraProfile('Camera Vivid Blue'),

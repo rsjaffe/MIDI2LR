@@ -2270,6 +2270,12 @@
     true
   },
   {
+    "Profile_Camera_Scenery",
+    "Camera Scenery",
+    "Calibration",
+    true
+  },
+  {
     "Profile_Camera_Standard",
     "Camera Standard",
     "Calibration",
