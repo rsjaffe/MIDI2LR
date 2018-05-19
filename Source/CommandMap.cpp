@@ -29,8 +29,9 @@ void CommandMap::AddCommandforMessage(size_t command, const rsj::MidiMessageId& 
    // adds a message to the message:command map, and its associated command to the
    // command:message map
    if (command < LrCommandList::LrStringList.size()) {
-      message_map_[message] = LrCommandList::LrStringList[command];
-      command_string_map_.insert({LrCommandList::LrStringList[command], message});
+      auto cmd_abbreviation = LrCommandList::LrStringList.at(command);
+      message_map_[message] = cmd_abbreviation;
+      command_string_map_.insert({cmd_abbreviation, message});
    }
    else
       message_map_[message] =
