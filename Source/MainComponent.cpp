@@ -352,12 +352,12 @@ void MainContentComponent::ProfileChanged(
     juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
    command_table_model_.BuildFromXml(xml_element);
-   command_table_.updateContent();
    {
       const MessageManagerLock mmLock;
+      command_table_.updateContent();
       command_table_.repaint();
+      profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
    }
-   profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
    // Send new CC parameters to MIDI Out devices
    if (const auto ptr = lr_ipc_out_.lock())
       ptr->SendCommand("FullRefresh 1\n"s);
