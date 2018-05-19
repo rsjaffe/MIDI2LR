@@ -33,36 +33,36 @@ class ControlsModel;
 class MidiSender;
 class ProfileManager;
 
-class LrIpcIn final: juce::Timer, juce::Thread {
-public:
-    LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager,
-        CommandMap* command_map);
-    ~LrIpcIn();
-    LrIpcIn(const LrIpcIn& other) = delete;
-    LrIpcIn(LrIpcIn&& other) = delete;
-    LrIpcIn& operator=(const LrIpcIn& other) = delete;
-    LrIpcIn& operator=(LrIpcIn&& other) = delete;
-    void Init(std::shared_ptr<MidiSender> midi_sender) noexcept;
-    //signal exit to thread
-    void PleaseStopThread();
-private:
-    juce::StreamingSocket socket_{};
-    // Thread interface
-    void run() override;
-    // Timer callback
-    void timerCallback() override;
-    // process a line received from the socket
-    void ProcessLine();
-    moodycamel::BlockingReaderWriterQueue<std::string> line_;
-    std::future<void> process_line_future_;
+class LrIpcIn final : juce::Timer, juce::Thread {
+ public:
+   LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, CommandMap* command_map);
+   ~LrIpcIn();
+   LrIpcIn(const LrIpcIn& other) = delete;
+   LrIpcIn(LrIpcIn&& other) = delete;
+   LrIpcIn& operator=(const LrIpcIn& other) = delete;
+   LrIpcIn& operator=(LrIpcIn&& other) = delete;
+   void Init(std::shared_ptr<MidiSender> midi_sender) noexcept;
+   // signal exit to thread
+   void PleaseStopThread();
 
-    bool thread_started_{false};
-    bool timer_off_{false};
-    CommandMap* const command_map_;
-    ControlsModel* const controls_model_; //
-    mutable std::mutex timer_mutex_;
-    ProfileManager* const profile_manager_;
-    std::shared_ptr<MidiSender> midi_sender_{nullptr};
+ private:
+   juce::StreamingSocket socket_{};
+   // Thread interface
+   void run() override;
+   // Timer callback
+   void timerCallback() override;
+   // process a line received from the socket
+   void ProcessLine();
+   moodycamel::BlockingReaderWriterQueue<std::string> line_;
+   std::future<void> process_line_future_;
+
+   bool thread_started_{false};
+   bool timer_off_{false};
+   CommandMap* const command_map_;
+   ControlsModel* const controls_model_; //
+   mutable std::mutex timer_mutex_;
+   ProfileManager* const profile_manager_;
+   std::shared_ptr<MidiSender> midi_sender_{nullptr};
 };
 
-#endif  // LR_IPC_IN_H_INCLUDED
+#endif // LR_IPC_IN_H_INCLUDED

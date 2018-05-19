@@ -201,7 +201,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef MIDI2LR_LRCOMMANDS_H_INCLUDED
 #define MIDI2LR_LRCOMMANDS_H_INCLUDED
-#include <set>
 #include <string>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -217,7 +216,6 @@ public:
 
   // Map of command strings to indices
   static size_t GetIndexOfCommand(const std::string& command);
-  static std::set<std::string> warning_given_;
   LrCommandList() = delete;
 };
 

@@ -24,9 +24,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <atomic>
 #include <chrono>
 
-#ifdef NDEBUG    // asserts disabled
+#ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
-#else            // asserts enabled
+#else // asserts enabled
 static constexpr bool kNdebug = false;
 #endif
 
@@ -38,43 +38,45 @@ static constexpr bool kNdebug = false;
 #endif
 
 namespace rsj {
-    inline auto NowMs() noexcept
-    {
-        return std::chrono::time_point_cast<std::chrono::milliseconds>
-            (std::chrono::steady_clock::now()).time_since_epoch().count();
-    }
-    using TimeType = decltype(NowMs());
+   [[nodiscard]] inline auto NowMs() noexcept
+   {
+      return std::chrono::time_point_cast<std::chrono::milliseconds>(
+          std::chrono::steady_clock::now())
+          .time_since_epoch()
+          .count();
+   }
+   using TimeType = decltype(NowMs());
 
-    class RelaxTTasSpinLock {
+   class RelaxTTasSpinLock {
     public:
-        RelaxTTasSpinLock() = default;
-        ~RelaxTTasSpinLock() = default;
-        RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
-        RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;
-        RelaxTTasSpinLock& operator=(const RelaxTTasSpinLock& other) = delete;
-        RelaxTTasSpinLock& operator=(RelaxTTasSpinLock&& other) = delete;
-        void lock() noexcept
-        {
-            do {
-                while (flag_.load(std::memory_order_relaxed))
-                    CPU_RELAX;//spin without expensive exchange
-            } while (flag_.exchange(true, std::memory_order_acquire));
-        }
+      RelaxTTasSpinLock() = default;
+      ~RelaxTTasSpinLock() = default;
+      RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
+      RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;
+      RelaxTTasSpinLock& operator=(const RelaxTTasSpinLock& other) = delete;
+      RelaxTTasSpinLock& operator=(RelaxTTasSpinLock&& other) = delete;
+      void lock() noexcept
+      {
+         do {
+            while (flag_.load(std::memory_order_relaxed))
+               CPU_RELAX; // spin without expensive exchange
+         } while (flag_.exchange(true, std::memory_order_acquire));
+      }
 
-        bool try_lock() noexcept
-        {
-            if (flag_.load(std::memory_order_relaxed)) //avoid cache invalidation if lock unavailable
-                return false;
-            return !flag_.exchange(true, std::memory_order_acquire); //try to acquire lock
-        }
+      bool try_lock() noexcept
+      {
+         if (flag_.load(std::memory_order_relaxed)) // avoid cache invalidation if lock unavailable
+            return false;
+         return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
+      }
 
-        void unlock() noexcept
-        {
-            flag_.store(false, std::memory_order_release);
-        }
+      void unlock() noexcept
+      {
+         flag_.store(false, std::memory_order_release);
+      }
 
     private:
-        std::atomic<bool> flag_{false};
-    };
-}
-#endif  // MISC_H_INCLUDED
+      std::atomic<bool> flag_{false};
+   };
+} // namespace rsj
+#endif // MISC_H_INCLUDED

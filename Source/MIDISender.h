@@ -26,22 +26,22 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class MidiSender {
-public:
-    void Init();
+ public:
+   void Init();
 
-    // sends a CC message to all output devices
-    void SendCc(int midi_channel, int controller, int value) const;
-    // sends a PitchBend message to all output devices
-    void SendPitchWheel(int midi_channel, int value) const;
+   // sends a CC message to all output devices
+   void SendCc(int midi_channel, int controller, int value) const;
+   // sends a PitchBend message to all output devices
+   void SendPitchWheel(int midi_channel, int value) const;
 
-    void SendNoteOn(int midi_channel, int controller, int value) const;
+   void SendNoteOn(int midi_channel, int controller, int value) const;
 
-    // re-enumerates MIDI OUT devices
-    void RescanDevices();
+   // re-enumerates MIDI OUT devices
+   void RescanDevices();
 
-private:
-    void InitDevices();
-    std::vector<std::unique_ptr<juce::MidiOutput>> output_devices_;
+ private:
+   void InitDevices();
+   std::vector<std::unique_ptr<juce::MidiOutput>> output_devices_;
 };
 
-#endif  // MIDISENDER_H_INCLUDED
+#endif // MIDISENDER_H_INCLUDED

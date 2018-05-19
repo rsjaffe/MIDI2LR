@@ -21,7 +21,7 @@ We only accept issues that are bug reports or feature requests. Bugs must be iso
 - Try to submit pull requests against the `develop` branch for easier merging.
 
 ## Coding standards
-- For C++ files, use the formatting rules in `Visual Studio text editor settings.vssettings`.
+- For C++ and Objective-C++ files, use the formatting rules in `.clang-format`.
 - Naming rules in C++:
   - UpperCamelCase: Classes, Structs, Enums, Unions, Template parameters, Global functions, Class and struct methods, Typedefs, Properties
   - all_lower: Parameters, Local variables, Global variables, Class and struct public fields, Union members, Namespaces

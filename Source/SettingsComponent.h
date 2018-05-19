@@ -26,33 +26,34 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ResizableLayout.h"
 class SettingsManager;
 
-class SettingsComponent final:
-    public juce::Component, juce::ButtonListener,
-    ResizableLayout, juce::Slider::Listener {
+class SettingsComponent final : public juce::Component,
+                                juce::ButtonListener,
+                                ResizableLayout,
+                                juce::Slider::Listener {
 public:
-    explicit SettingsComponent(SettingsManager* settings_manager);
-    ~SettingsComponent() = default;
-    SettingsComponent(const SettingsComponent& other) = delete;
-    SettingsComponent(SettingsComponent&& other) = delete;
-    SettingsComponent& operator=(const SettingsComponent& other) = delete;
-    SettingsComponent& operator=(SettingsComponent&& other) = delete;
-    void Init();
+  explicit SettingsComponent(SettingsManager* settings_manager);
+  ~SettingsComponent() = default;
+  SettingsComponent(const SettingsComponent& other) = delete;
+  SettingsComponent(SettingsComponent&& other) = delete;
+  SettingsComponent& operator=(const SettingsComponent& other) = delete;
+  SettingsComponent& operator=(SettingsComponent&& other) = delete;
+  void Init();
 
 private:
-    void paint(juce::Graphics&) override;
-    void buttonClicked(juce::Button* button) override;
-    void sliderValueChanged(juce::Slider* slider) override;
+  void paint(juce::Graphics&) override;
+  void buttonClicked(juce::Button* button) override;
+  void sliderValueChanged(juce::Slider* slider) override;
 
-    juce::GroupComponent autohide_group_{};
-    juce::GroupComponent pickup_group_{};
-    juce::GroupComponent profile_group_{};
-    juce::Label autohide_explain_label_{};
-    juce::Label pickup_label_{"PickupLabel", ""};
-    juce::Label profile_location_label_{"Profile Label"};
-    juce::Slider autohide_setting_;
-    juce::TextButton profile_location_button_{"Choose Profile Folder"};
-    juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
-    SettingsManager* const settings_manager_;
+  juce::GroupComponent autohide_group_{};
+  juce::GroupComponent pickup_group_{};
+  juce::GroupComponent profile_group_{};
+  juce::Label autohide_explain_label_{};
+  juce::Label pickup_label_{"PickupLabel", ""};
+  juce::Label profile_location_label_{"Profile Label"};
+  juce::Slider autohide_setting_;
+  juce::TextButton profile_location_button_{"Choose Profile Folder"};
+  juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
+  SettingsManager* const settings_manager_;
 };
 
-#endif  // SETTINGSCOMPONENT_H_INCLUDED
+#endif // SETTINGSCOMPONENT_H_INCLUDED

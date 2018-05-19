@@ -1665,6 +1665,7 @@
   Profile_Camera_Neutral = "calibratePanel",
   Profile_Camera_Portrait = "calibratePanel",
   Profile_Camera_Positive_Film = "calibratePanel",
+  Profile_Camera_Scenery = "calibratePanel",
   Profile_Camera_Standard = "calibratePanel",
   Profile_Camera_Vivid = "calibratePanel",
   Profile_Camera_Vivid_Blue = "calibratePanel",
