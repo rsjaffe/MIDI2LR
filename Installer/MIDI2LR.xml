@@ -7,6 +7,8 @@
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
     <logoImage>MIDI2LR48.png</logoImage>
     <splashImage>../Source/MIDI2LR.png</splashImage>
+    <defaultLanguage>auto</defaultLanguage>
+    <allowLanguageSelection>1</allowLanguageSelection>
     <componentList>
         <component>
             <name>default</name>
