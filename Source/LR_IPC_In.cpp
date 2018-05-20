@@ -60,6 +60,10 @@ LrIpcIn::~LrIpcIn()
       juce::Timer::stopTimer();
    }
    juce::Thread::stopThread(kStopWait);
+   std::string line_copy{};
+   while (line_.try_dequeue(line_copy)) {
+      /* pump the queue empty */
+   }
    line_.enqueue(kTerminate);
    socket_.close();
 }

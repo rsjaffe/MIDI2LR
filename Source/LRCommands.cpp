@@ -1328,8 +1328,8 @@ size_t LrCommandList::GetIndexOfCommand(const std::string& command)
          idx_build[str] = idx++;
       return idx_build;
    }()};
-   if (indexMap.find(command) != indexMap.end())
-      return indexMap.at(command);
+   if (const auto cmd_loc = indexMap.find(command); cmd_loc != indexMap.end())
+      return cmd_loc->second;
    else {
       // don't show error on deprecated commands, only misspelled ones
       if (command != "CopySettings" && command != "PasteSettings") {

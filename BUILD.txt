@@ -3,7 +3,7 @@ Prerequisites
 
 Lightroom is required for building the application.
 
-On Windows, you need Visual Studio 2015 or 2017 (the Community edition is free). 
+On Windows, you need Visual Studio 2017 (the Community edition is free). 
 On Mac, you need XCode, also free.
 
 The Visual Studio text editor file settings.vssettings should be loaded into
@@ -18,7 +18,8 @@ projects. The Introjucer project file (MIDI2LR.jucer) is located in the root
 directory.
 
 When changing the version number, not only will you need to do so in Projucer,
-but also in Info.lua (the VERSION variable).
+but also in Info.lua (the VERSION variable), Installer/MIDI2LR.xml, and
+DoxyGen/Midi2lr.Doxyfile.
 
 The project files for both platforms will be located in Builds/ (MIDI2LR.sln for
 Visual studio, and MIDI2LR.xcodeproj for XCode) once you've run Juce.
@@ -26,14 +27,9 @@ Visual studio, and MIDI2LR.xcodeproj for XCode) once you've run Juce.
 Database-driven translations and commands
 ------------------------------------------
 
-Any new user-visible strings in the lua plugin need to be translated. The database
-for this is at https://github.com/rsjaffe/MIDI2LRdb. It was not included in the
-main git project for space reasons.
-
-Also, any new commands need to go into the database in order to update the proper 
-Database.lua file. Once the Database.lua file is updated, the rest of the table 
-generation will occur in the lua plugin as described below in step 2 of the build
-process.
+Any new commands need to go into the the Database.lua file. Once the Database.lua
+file is updated, the rest of the table generation will occur in the lua plugin as 
+described below in step 2 of the build process.
 
 Build process
 --------------------
