@@ -90,7 +90,7 @@ void CommandTableModel::paintCell(
    {
       auto value = 0;
       auto channel = 0;
-      switch (auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number)); cmd.msg_id_type) {
+      switch (const auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number)); cmd.msg_id_type) {
       case rsj::MsgIdEnum::kNote:
          format_str = "%d | Note: %d";
          channel = cmd.channel;
