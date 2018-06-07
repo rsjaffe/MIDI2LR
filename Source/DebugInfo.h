@@ -33,7 +33,7 @@ class DebugInfo {
    {
       iterate_ = 0;
    }
-   std::string const* GetInfo();
+   const std::string* GetInfo() noexcept;
 
  private:
    std::vector<std::string> info_;

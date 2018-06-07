@@ -31,8 +31,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
 #pragma warning(suppress : 26426)
-   std::unordered_map<int, std::string> keyboard_names{{0x0000041c, "Albanian"},
-       {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
+   static const std::unordered_map<unsigned long int, std::string> keyboard_names{
+       {0x0000041c, "Albanian"}, {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
        {0x0001042b, "Armenian Western"}, {0x0000044d, "Assamese - Inscript"},
@@ -128,31 +128,60 @@ std::string rsj::GetKeyboardLayout()
    static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
    std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
    if (GetKeyboardLayoutNameA(klid_ascii.data())) {
-      size_t pos{0};
-      const auto klid{std::stoi(std::string(klid_ascii.data()), &pos, 16)};
-      if (const auto f = keyboard_names.find(klid); f != keyboard_names.end())
-         return f->second;
-      return "KLID 0x"s + klid_ascii.data() + " not found in list of names"s;
+      try {
+         size_t pos{0};
+         const auto klid{std::stoul(std::string(klid_ascii.data()), &pos, 16)};
+         if (const auto f = keyboard_names.find(klid); f != keyboard_names.end())
+            return f->second;
+         return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
+      }
+      catch (...) {
+         return "Exception when finding KLID name. KLID: 0x"s + klid_ascii.data();
+      }
    }
-   return "unable to get KLID"s;
+   return "Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s;
 }
 #endif
 
 DebugInfo::DebugInfo() noexcept
 {
-   using namespace std::string_literals;
-   info_.emplace_back("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
-   info_.emplace_back("Version "s + ProjectInfo::versionString);
-   info_.emplace_back("App path "s
-                      + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                            .getFullPathName()
-                            .toStdString());
-   info_.emplace_back("Keyboard type "s + rsj::GetKeyboardLayout());
+   try {
+      using namespace std::string_literals;
+      info_.emplace_back(
+          "System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
+      info_.emplace_back("Version "s + ProjectInfo::versionString);
+      info_.emplace_back("App path "s
+                         + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+                               .getFullPathName()
+                               .toStdString());
+      info_.emplace_back("Keyboard type "s + rsj::GetKeyboardLayout());
+   }
+   catch (...) {
+      try {
+         info_.emplace_back("Failed to obtain app info. Exception.");
+      }
+      catch (...) {
+      }
+   }
 }
+namespace {
+   // placing kErrorNotice here instead of in exception handler so that handler doesn't have any
+   // chance of throwing another exception
+   static const std::string kErrorNotice{"Exception in GetInfo."};
+} // namespace
 
-std::string const* DebugInfo::GetInfo()
+const std::string* DebugInfo::GetInfo() noexcept
 {
-   if (iterate_ >= info_.size())
-      return nullptr;
-   return &info_.at(iterate_++);
+   try {
+      if (iterate_ >= info_.size())
+         return nullptr;
+      return &info_.at(iterate_++);
+   }
+   catch (...) {
+      static auto second_time{false};
+      if (second_time)
+         return nullptr;
+      second_time = true;
+      return &kErrorNotice;
+   }
 }
