@@ -277,7 +277,7 @@ void CCoptions::buttonClicked(Button* button_that_was_clicked)
 void CCoptions::textEditorFocusLost(TextEditor& t)
 {
     const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
-    const auto nam = t.getName();
+    const auto& nam = t.getName();
     if (nam=="minvaltext")
         controls_model_->SetCcMin(bound_channel_, bound_number_, val);
     else if (nam=="maxvaltext")

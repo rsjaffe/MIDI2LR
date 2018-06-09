@@ -31,7 +31,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
 #pragma warning(suppress : 26426)
-   static const std::unordered_map<unsigned long int, std::string> keyboard_names{
+   const std::unordered_map<unsigned long int, std::string> keyboard_names{
        {0x0000041c, "Albanian"}, {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
@@ -118,7 +118,7 @@ namespace {
        {0x00020409, "United States - International"},
        {0x00030409, "United States-Dvorak for left hand"},
        {0x00040409, "United States-Dvorak for right hand"}, {0x00000409, "United States - English"},
-       {0x00000420, "Urdu"}, {0x00010480, "Uyghur"}, {0x00000843, "Uzbek Cyrillic"},
+       {0x00000420, "Urdu"}, {0x00010480, "Uyghur (Legacy)"}, {0x00000843, "Uzbek Cyrillic"},
        {0x0000042a, "Vietnamese"}, {0x00000488, "Wolof"}, {0x0000046a, "Yoruba"}};
 }
 

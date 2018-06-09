@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.9.1.1"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.9.2.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="5.2.1" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
@@ -96,7 +96,7 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" smallIcon="WdgQGt" bigIcon="WdgQGt">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
-                       isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="1"
+                       isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="0"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
                        enablePluginBinaryCopyStep="1"/>
         <CONFIGURATION name="Release" osxCompatibility="10.9 SDK" osxArchitecture="64BitIntel"
@@ -121,11 +121,12 @@
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" headerPath=""
                        enableIncrementalLinking="1" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
-                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"/>
+                       debugInformationFormat="ProgramDatabase" enablePluginBinaryCopyStep="0"
+                       useRuntimeLibDLL="0"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" headerPath=""
                        defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1" debugInformationFormat="ProgramDatabase"
-                       enablePluginBinaryCopyStep="0" linkTimeOptimisation="1"/>
+                       enablePluginBinaryCopyStep="0" linkTimeOptimisation="1" postbuildCommand="$(SolutionDir)luacompile.bat"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>

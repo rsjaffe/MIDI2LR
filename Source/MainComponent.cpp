@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MainComponent.h"
+#include <exception>
 #include <string>
 #include <utility>
 #include <gsl/gsl>
@@ -67,129 +68,138 @@ void MainContentComponent::Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>
     std::shared_ptr<MidiProcessor> midi_processor, ProfileManager* profile_manager,
     SettingsManager* settings_manager, std::shared_ptr<MidiSender> midi_sender)
 {
-   // copy the pointers
-   command_map_ = command_map;
-   lr_ipc_out_ = std::move(lr_ipc_out);
-   settings_manager_ = settings_manager;
-   midi_processor_ = std::move(midi_processor);
-   midi_sender_ = std::move(midi_sender);
+   try {
+      // copy the pointers
+      command_map_ = command_map;
+      lr_ipc_out_ = std::move(lr_ipc_out);
+      settings_manager_ = settings_manager;
+      midi_processor_ = std::move(midi_processor);
+      midi_sender_ = std::move(midi_sender);
 
-   // call the function of the sub component.
-   command_table_model_.Init(command_map);
+      // call the function of the sub component.
+      command_table_model_.Init(command_map);
 
-   if (midi_processor_)
-      // Add ourselves as a listener for MIDI commands
-      midi_processor_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
+      if (midi_processor_)
+         // Add ourselves as a listener for MIDI commands
+         midi_processor_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
-   if (const auto ptr = lr_ipc_out_.lock())
-      // Add ourselves as a listener for LR_IPC_OUT events
-      ptr->AddCallback(this, &MainContentComponent::LrIpcOutCallback);
+      if (const auto ptr = lr_ipc_out_.lock())
+         // Add ourselves as a listener for LR_IPC_OUT events
+         ptr->AddCallback(this, &MainContentComponent::LrIpcOutCallback);
 
-   if (profile_manager)
-      // Add ourselves as a listener for profile changes
-      profile_manager->AddCallback(this, &MainContentComponent::ProfileChanged);
+      if (profile_manager)
+         // Add ourselves as a listener for profile changes
+         profile_manager->AddCallback(this, &MainContentComponent::ProfileChanged);
 
-   // Main title
-   title_label_.setFont(juce::Font{36.f, juce::Font::bold});
-   title_label_.setEditable(false);
-   title_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
-   title_label_.setComponentEffect(&title_shadow_);
-   title_label_.setBounds(kMainLeft, 10, kFullWidth, 30);
-   addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(title_label_);
+      // Main title
+      title_label_.setFont(juce::Font{36.f, juce::Font::bold});
+      title_label_.setEditable(false);
+      title_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+      title_label_.setComponentEffect(&title_shadow_);
+      title_label_.setBounds(kMainLeft, 10, kFullWidth, 30);
+      addToLayout(&title_label_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(title_label_);
 
-   // Version label
-   SetLabelSettings(version_label_);
-   version_label_.setBounds(kMainLeft, 40, kFullWidth, 10);
-   addToLayout(&version_label_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(version_label_);
+      // Version label
+      SetLabelSettings(version_label_);
+      version_label_.setBounds(kMainLeft, 40, kFullWidth, 10);
+      addToLayout(&version_label_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(version_label_);
 
-   // Connection status
-   connection_label_.setFont(juce::Font{12.f, juce::Font::bold});
-   connection_label_.setEditable(false);
-   connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
-   connection_label_.setColour(juce::Label::textColourId, juce::Colours::black);
-   connection_label_.setJustificationType(juce::Justification::centred);
-   connection_label_.setBounds(200, 15, kConnectionLabelWidth, kStandardHeight);
-   addToLayout(&connection_label_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(connection_label_);
+      // Connection status
+      connection_label_.setFont(juce::Font{12.f, juce::Font::bold});
+      connection_label_.setEditable(false);
+      connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
+      connection_label_.setColour(juce::Label::textColourId, juce::Colours::black);
+      connection_label_.setJustificationType(juce::Justification::centred);
+      connection_label_.setBounds(200, 15, kConnectionLabelWidth, kStandardHeight);
+      addToLayout(&connection_label_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(connection_label_);
 
-   // Load button
-   load_button_.addListener(this);
-   load_button_.setBounds(kFirstButtonX, 60, kButtonWidth, kStandardHeight);
-   addToLayout(&load_button_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(load_button_);
+      // Load button
+      load_button_.addListener(this);
+      load_button_.setBounds(kFirstButtonX, 60, kButtonWidth, kStandardHeight);
+      addToLayout(&load_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(load_button_);
 
-   // Save button
-   save_button_.addListener(this);
-   save_button_.setBounds(kSecondButtonX, 60, kButtonWidth, kStandardHeight);
-   addToLayout(&save_button_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(save_button_);
+      // Save button
+      save_button_.addListener(this);
+      save_button_.setBounds(kSecondButtonX, 60, kButtonWidth, kStandardHeight);
+      addToLayout(&save_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(save_button_);
 
-   // Settings button
-   settings_button_.addListener(this);
-   settings_button_.setBounds(kThirdButtonX, 60, kButtonWidth, kStandardHeight);
-   addToLayout(&settings_button_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(settings_button_);
+      // Settings button
+      settings_button_.addListener(this);
+      settings_button_.setBounds(kThirdButtonX, 60, kButtonWidth, kStandardHeight);
+      addToLayout(&settings_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(settings_button_);
 
-   // Command Table
-   command_table_.setModel(&command_table_model_);
-   command_table_.setBounds(kMainLeft, 100, kFullWidth, kCommandTableHeight);
-   addToLayout(&command_table_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(command_table_);
+      // Command Table
+      command_table_.setModel(&command_table_model_);
+      command_table_.setBounds(kMainLeft, 100, kFullWidth, kCommandTableHeight);
+      addToLayout(&command_table_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(command_table_);
 
-   // Profile name label
-   SetLabelSettings(profile_name_label_);
-   profile_name_label_.setBounds(kMainLeft, kProfileNameY, kLabelWidth, kStandardHeight);
-   addToLayout(&profile_name_label_, anchorMidLeft, anchorMidRight);
-   profile_name_label_.setJustificationType(juce::Justification::centred);
-   addAndMakeVisible(profile_name_label_);
+      // Profile name label
+      SetLabelSettings(profile_name_label_);
+      profile_name_label_.setBounds(kMainLeft, kProfileNameY, kLabelWidth, kStandardHeight);
+      addToLayout(&profile_name_label_, anchorMidLeft, anchorMidRight);
+      profile_name_label_.setJustificationType(juce::Justification::centred);
+      addAndMakeVisible(profile_name_label_);
 
-   // Last MIDI command
-   command_label_.setFont(juce::Font{12.f, juce::Font::bold});
-   command_label_.setEditable(false);
-   command_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
-   command_label_.setBounds(kCommandLabelX, kCommandLabelY, kLabelWidth, kStandardHeight);
-   addToLayout(&command_label_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(command_label_);
+      // Last MIDI command
+      command_label_.setFont(juce::Font{12.f, juce::Font::bold});
+      command_label_.setEditable(false);
+      command_label_.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+      command_label_.setBounds(kCommandLabelX, kCommandLabelY, kLabelWidth, kStandardHeight);
+      addToLayout(&command_label_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(command_label_);
 
-   // Remove row button
-   remove_row_button_.addListener(this);
-   remove_row_button_.setBounds(kMainLeft, kRemoveRowY, kFullWidth, kStandardHeight);
-   addToLayout(&remove_row_button_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(remove_row_button_);
+      // Remove row button
+      remove_row_button_.addListener(this);
+      remove_row_button_.setBounds(kMainLeft, kRemoveRowY, kFullWidth, kStandardHeight);
+      addToLayout(&remove_row_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(remove_row_button_);
 
-   // Rescan MIDI button
-   rescan_button_.addListener(this);
-   rescan_button_.setBounds(kMainLeft, kRescanY, kFullWidth, kStandardHeight);
-   addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(rescan_button_);
+      // Rescan MIDI button
+      rescan_button_.addListener(this);
+      rescan_button_.setBounds(kMainLeft, kRescanY, kFullWidth, kStandardHeight);
+      addToLayout(&rescan_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(rescan_button_);
 
-   // Disconnect button
-   disconnect_button_.addListener(this);
-   disconnect_button_.setBounds(kMainLeft, kDisconnect, kFullWidth, kStandardHeight);
-   disconnect_button_.setClickingTogglesState(true);
-   addToLayout(&disconnect_button_, anchorMidLeft, anchorMidRight);
-   addAndMakeVisible(disconnect_button_);
+      // Disconnect button
+      disconnect_button_.addListener(this);
+      disconnect_button_.setBounds(kMainLeft, kDisconnect, kFullWidth, kStandardHeight);
+      disconnect_button_.setClickingTogglesState(true);
+      addToLayout(&disconnect_button_, anchorMidLeft, anchorMidRight);
+      addAndMakeVisible(disconnect_button_);
 
-   if (settings_manager_) {
-      // Try to load a default.xml if the user has not set a profile directory
-      if (settings_manager_->GetProfileDirectory().isEmpty()) {
-         const auto default_profile =
-             juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                 .getSiblingFile("default.xml");
-         std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(default_profile)};
-         if (xml_element) {
-            command_table_model_.BuildFromXml(xml_element.get());
-            command_table_.updateContent();
+      if (settings_manager_) {
+         // Try to load a default.xml if the user has not set a profile directory
+         if (settings_manager_->GetProfileDirectory().isEmpty()) {
+            const auto default_profile =
+                juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                    .getSiblingFile("default.xml");
+            std::unique_ptr<juce::XmlElement> xml_element{
+                juce::XmlDocument::parse(default_profile)};
+            if (xml_element) {
+               command_table_model_.BuildFromXml(xml_element.get());
+               command_table_.updateContent();
+            }
          }
+         else if (profile_manager)
+            // otherwise use the last profile from the profile directory
+            profile_manager->SwitchToProfile(0);
       }
-      else if (profile_manager)
-         // otherwise use the last profile from the profile directory
-         profile_manager->SwitchToProfile(0);
+      // turn it on
+      activateLayout();
    }
-   // turn it on
-   activateLayout();
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 void MainContentComponent::paint(juce::Graphics& g)
@@ -199,151 +209,178 @@ void MainContentComponent::paint(juce::Graphics& g)
 
 void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
-   // Display the CC parameters and add/highlight row in table corresponding to the CC
-   auto mt{rsj::MsgIdEnum::kCc};
-   juce::String commandtype{"CC"};
-   switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
-   case rsj::kCcFlag:              // this is default for mt and commandtype
-      break;
-   case rsj::kNoteOnFlag:
-      mt = rsj::MsgIdEnum::kNote;
-      commandtype = "NOTE ON";
-      break;
-   case rsj::kNoteOffFlag:
-      mt = rsj::MsgIdEnum::kNote;
-      commandtype = "NOTE OFF";
-      break;
-   case rsj::kPwFlag:
-      mt = rsj::MsgIdEnum::kPitchBend;
-      commandtype = "PITCHBEND";
-      break;
-   default: // shouldn't receive any messages note categorized above
-      Ensures(0);
+   try {
+      // Display the CC parameters and add/highlight row in table corresponding to the CC
+      auto mt{rsj::MsgIdEnum::kCc};
+      juce::String commandtype{"CC"};
+      switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
+      case rsj::kCcFlag:              // this is default for mt and commandtype
+         break;
+      case rsj::kNoteOnFlag:
+         mt = rsj::MsgIdEnum::kNote;
+         commandtype = "NOTE ON";
+         break;
+      case rsj::kNoteOffFlag:
+         mt = rsj::MsgIdEnum::kNote;
+         commandtype = "NOTE OFF";
+         break;
+      case rsj::kPwFlag:
+         mt = rsj::MsgIdEnum::kPitchBend;
+         commandtype = "PITCHBEND";
+         break;
+      default: // shouldn't receive any messages note categorized above
+         Ensures(0);
+      }
+      mm.channel++; // used to 1-based channel numbers
+      last_command_ = juce::String(mm.channel) + ": " + commandtype + juce::String(mm.number) + " ["
+                      + juce::String(mm.value) + "]";
+      command_table_model_.AddRow(mm.channel, mm.number, mt);
+      row_to_select_ = gsl::narrow_cast<size_t>(
+          command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
+      triggerAsyncUpdate();
    }
-   mm.channel++; // used to 1-based channel numbers
-   last_command_ = juce::String(mm.channel) + ": " + commandtype + juce::String(mm.number) + " ["
-                   + juce::String(mm.value) + "]";
-   command_table_model_.AddRow(mm.channel, mm.number, mt);
-   row_to_select_ =
-       gsl::narrow_cast<size_t>(command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
-   triggerAsyncUpdate();
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked)
 {
-   if (connected) {
-      if (sending_blocked) {
-         connection_label_.setText("Sending halted", juce::NotificationType::dontSendNotification);
-         connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
+   try {
+      if (connected) {
+         if (sending_blocked) {
+            connection_label_.setText(
+                "Sending halted", juce::NotificationType::dontSendNotification);
+            connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
+         }
+         else {
+            connection_label_.setText(
+                "Connected to LR", juce::NotificationType::dontSendNotification);
+            connection_label_.setColour(
+                juce::Label::backgroundColourId, juce::Colours::greenyellow);
+         }
       }
       else {
-         connection_label_.setText("Connected to LR", juce::NotificationType::dontSendNotification);
-         connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
+         connection_label_.setText(
+             "Not connected to LR", juce::NotificationType::dontSendNotification);
+         connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
       }
    }
-   else {
-      connection_label_.setText(
-          "Not connected to LR", juce::NotificationType::dontSendNotification);
-      connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
-   if (button == &rescan_button_) {
-      // Re-enumerate MIDI IN and OUT devices
+   try {
+      if (button == &rescan_button_) {
+         // Re-enumerate MIDI IN and OUT devices
 
-      if (midi_processor_)
-         midi_processor_->RescanDevices();
+         if (midi_processor_)
+            midi_processor_->RescanDevices();
 
-      if (midi_sender_)
-         midi_sender_->RescanDevices();
-      // Send new CC parameters to MIDI Out devices
-      if (const auto ptr = lr_ipc_out_.lock())
-         ptr->SendCommand("FullRefresh 1\n"s);
-   }
-   else if (button == &remove_row_button_) {
-      if (command_table_.getNumRows() > 0) {
-         command_table_model_.RemoveAllRows();
-         // command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
-         command_table_.updateContent();
+         if (midi_sender_)
+            midi_sender_->RescanDevices();
+         // Send new CC parameters to MIDI Out devices
+         if (const auto ptr = lr_ipc_out_.lock())
+            ptr->SendCommand("FullRefresh 1\n"s);
       }
-   }
-   else if (button == &disconnect_button_) {
-      if (const auto ptr = lr_ipc_out_.lock()) {
-         if (disconnect_button_.getToggleState())
-            ptr->Stop();
-         else
-            ptr->Restart();
-      }
-   }
-   else if (button == &save_button_) {
-      juce::File profile_directory;
-
-      if (settings_manager_)
-         profile_directory = settings_manager_->GetProfileDirectory();
-
-      if (!profile_directory.exists())
-         profile_directory = juce::File::getCurrentWorkingDirectory();
-
-      juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
-      juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
-                                             | juce::FileBrowserComponent::saveMode
-                                             | juce::FileBrowserComponent::warnAboutOverwriting,
-          profile_directory, &wildcard_filter, nullptr};
-      juce::FileChooserDialogBox dialog_box{"Save profile", "Enter filename to save profile",
-          browser, true, juce::Colours::lightgrey};
-      if (dialog_box.show() && command_map_) {
-         const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-         command_map_->ToXmlDocument(selected_file);
-      }
-   }
-   else if (button == &load_button_) {
-      juce::File profile_directory;
-
-      if (settings_manager_)
-         profile_directory = settings_manager_->GetProfileDirectory();
-
-      if (!profile_directory.exists())
-         profile_directory = juce::File::getCurrentWorkingDirectory();
-
-      juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
-      juce::FileBrowserComponent browser{
-          juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
-          profile_directory, &wildcard_filter, nullptr};
-      juce::FileChooserDialogBox dialog_box{
-          "Open profile", "Select a profile to open", browser, true, juce::Colours::lightgrey};
-
-      if (dialog_box.show()) {
-         std::unique_ptr<juce::XmlElement> xml_element{
-             juce::XmlDocument::parse(browser.getSelectedFile(0))};
-         if (xml_element) {
-            const auto new_profile = browser.getSelectedFile(0);
-            auto command =
-                "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
-
-            if (const auto ptr = lr_ipc_out_.lock())
-               ptr->SendCommand(std::move(command));
-            profile_name_label_.setText(
-                new_profile.getFileName(), juce::NotificationType::dontSendNotification);
-            command_table_model_.BuildFromXml(xml_element.get());
+      else if (button == &remove_row_button_) {
+         if (command_table_.getNumRows() > 0) {
+            command_table_model_.RemoveAllRows();
+            // command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
-            command_table_.repaint();
          }
       }
+      else if (button == &disconnect_button_) {
+         if (const auto ptr = lr_ipc_out_.lock()) {
+            if (disconnect_button_.getToggleState())
+               ptr->Stop();
+            else
+               ptr->Restart();
+         }
+      }
+      else if (button == &save_button_) {
+         juce::File profile_directory;
+
+         if (settings_manager_)
+            profile_directory = settings_manager_->GetProfileDirectory();
+
+         if (!profile_directory.exists())
+            profile_directory = juce::File::getCurrentWorkingDirectory();
+
+         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+         juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
+                                                | juce::FileBrowserComponent::saveMode
+                                                | juce::FileBrowserComponent::warnAboutOverwriting,
+             profile_directory, &wildcard_filter, nullptr};
+         juce::FileChooserDialogBox dialog_box{"Save profile", "Enter filename to save profile",
+             browser, true, juce::Colours::lightgrey};
+         if (dialog_box.show() && command_map_) {
+            const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
+            command_map_->ToXmlDocument(selected_file);
+         }
+      }
+      else if (button == &load_button_) {
+         juce::File profile_directory;
+
+         if (settings_manager_)
+            profile_directory = settings_manager_->GetProfileDirectory();
+
+         if (!profile_directory.exists())
+            profile_directory = juce::File::getCurrentWorkingDirectory();
+
+         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+         juce::FileBrowserComponent browser{
+             juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
+             profile_directory, &wildcard_filter, nullptr};
+         juce::FileChooserDialogBox dialog_box{
+             "Open profile", "Select a profile to open", browser, true, juce::Colours::lightgrey};
+
+         if (dialog_box.show()) {
+            std::unique_ptr<juce::XmlElement> xml_element{
+                juce::XmlDocument::parse(browser.getSelectedFile(0))};
+            if (xml_element) {
+               const auto new_profile = browser.getSelectedFile(0);
+               auto command =
+                   "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
+
+               if (const auto ptr = lr_ipc_out_.lock())
+                  ptr->SendCommand(std::move(command));
+               profile_name_label_.setText(
+                   new_profile.getFileName(), juce::NotificationType::dontSendNotification);
+               command_table_model_.BuildFromXml(xml_element.get());
+               command_table_.updateContent();
+               command_table_.repaint();
+            }
+         }
+      }
+      else if (button == &settings_button_) {
+         juce::DialogWindow::LaunchOptions dialog_options;
+         dialog_options.dialogTitle = "Settings";
+         // create new object
+         auto component = std::make_unique<SettingsComponent>(settings_manager_);
+         component->Init();
+         dialog_options.content.setOwned(component.release());
+         dialog_options.content->setSize(400, 300);
+         dialog_options.escapeKeyTriggersCloseButton = true;
+         dialog_options.useNativeTitleBar = false;
+         settings_dialog_.reset(dialog_options.create());
+         settings_dialog_->setVisible(true);
+      }
    }
-   else if (button == &settings_button_) {
-      juce::DialogWindow::LaunchOptions dialog_options;
-      dialog_options.dialogTitle = "Settings";
-      // create new object
-      auto component = std::make_unique<SettingsComponent>(settings_manager_);
-      component->Init();
-      dialog_options.content.setOwned(component.release());
-      dialog_options.content->setSize(400, 300);
-      dialog_options.escapeKeyTriggersCloseButton = true;
-      dialog_options.useNativeTitleBar = false;
-      settings_dialog_.reset(dialog_options.create());
-      settings_dialog_->setVisible(true);
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 

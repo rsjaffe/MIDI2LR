@@ -41,7 +41,7 @@ class LrIpcIn final : juce::Timer, juce::Thread {
    LrIpcIn(LrIpcIn&& other) = delete;
    LrIpcIn& operator=(const LrIpcIn& other) = delete;
    LrIpcIn& operator=(LrIpcIn&& other) = delete;
-   void Init(std::shared_ptr<MidiSender> midi_sender) noexcept;
+   void Init(std::shared_ptr<MidiSender> midi_sender);
    // signal exit to thread
    void PleaseStopThread();
 

@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <mutex>
 #include "MidiUtilities.h"
 
-double ChannelModel::OffsetResult(short diff, size_t controlnumber) noexcept(kNdebug)
+double ChannelModel::OffsetResult(short diff, size_t controlnumber)
 {
    Expects(cc_high_.at(controlnumber) > 0); // CCLow will always be 0 for offset controls
    Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
@@ -43,8 +43,7 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber) noexcept(kNd
           / static_cast<double>(cc_high_.at(controlnumber));
 }
 
-double ChannelModel::ControllerToPlugin(
-    short controltype, size_t controlnumber, short value) noexcept(kNdebug)
+double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value)
 {
    Expects((controltype == rsj::kCcFlag && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute)
                ? (cc_low_.at(controlnumber) < cc_high_.at(controlnumber))
@@ -99,7 +98,7 @@ double ChannelModel::ControllerToPlugin(
 
 // Note: rounding up on set to center (adding remainder of %2) to center the control's LED when
 // centered
-short ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcept
+short ChannelModel::SetToCenter(short controltype, size_t controlnumber)
 {
    short retval{0};
    switch (controltype) {
@@ -120,8 +119,7 @@ short ChannelModel::SetToCenter(short controltype, size_t controlnumber) noexcep
    return retval;
 }
 
-short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short value) noexcept(
-    kNdebug)
+short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short value)
 {
    Expects((controltype == rsj::kCcFlag && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute)
                ? (cc_low_.at(controlnumber) < cc_high_.at(controlnumber))
@@ -172,8 +170,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
    }
 }
 
-short ChannelModel::PluginToController(
-    short controltype, size_t controlnumber, double value) noexcept(kNdebug)
+short ChannelModel::PluginToController(short controltype, size_t controlnumber, double value)
 {
    Expects(controlnumber <= kMaxNrpn);
    Expects(value >= 0.0 && value <= 1.0);
@@ -202,8 +199,7 @@ short ChannelModel::PluginToController(
    return 0;
 }
 
-void ChannelModel::SetCc(
-    size_t controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug)
+void ChannelModel::SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype)
 {
    SetCcMethod(controlnumber, controltype); // has to be set before others or ranges won't be
                                             // correct
@@ -211,8 +207,7 @@ void ChannelModel::SetCc(
    SetCcMax(controlnumber, max);
 }
 
-void ChannelModel::SetCcAll(
-    size_t controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(kNdebug)
+void ChannelModel::SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype)
 {
    if (IsNRPN_(controlnumber))
       for (short a = kMaxMidi + 1; a <= kMaxNrpn; ++a)
@@ -222,7 +217,7 @@ void ChannelModel::SetCcAll(
          SetCc(a, min, max, controltype);
 }
 
-void ChannelModel::SetCcMax(size_t controlnumber, short value) noexcept(kNdebug)
+void ChannelModel::SetCcMax(size_t controlnumber, short value)
 {
    Expects(controlnumber <= kMaxNrpn);
    Expects(value <= kMaxNrpn);
@@ -237,7 +232,7 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value) noexcept(kNdebug)
    current_v_.at(controlnumber) = CenterCc(controlnumber);
 }
 
-void ChannelModel::SetCcMin(size_t controlnumber, short value) noexcept(kNdebug)
+void ChannelModel::SetCcMin(size_t controlnumber, short value)
 {
    Expects(controlnumber <= kMaxNrpn);
    Expects(value <= kMaxNrpn);
@@ -299,7 +294,7 @@ void ChannelModel::CcDefaults() noexcept
    }
 }
 
-void ChannelModel::SavedToActive() noexcept(kNdebug)
+void ChannelModel::SavedToActive()
 {
    CcDefaults();
    for (const auto& set : settings_to_save_)
