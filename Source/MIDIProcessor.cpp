@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDIProcessor.h"
+#include <exception>
 #include <future>
 
 namespace {
@@ -41,68 +42,108 @@ MidiProcessor::~MidiProcessor()
 
 void MidiProcessor::Init()
 {
-   InitDevices();
-   dispatch_messages_future_ =
-       std::async(std::launch::async, &MidiProcessor::DispatchMessages, this);
+   try {
+      InitDevices();
+      dispatch_messages_future_ =
+          std::async(std::launch::async, &MidiProcessor::DispatchMessages, this);
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 void MidiProcessor::handleIncomingMidiMessage(
     juce::MidiInput* /*device*/, const juce::MidiMessage& message)
 {
-   // this procedure is in near-real-time, so must return quickly.
-   // will place message in multithreaded queue and let separate process handle the messages
-   static const thread_local moodycamel::ProducerToken ptok(messages_);
-   const rsj::MidiMessage mess{message};
-   switch (mess.message_type_byte) {
-   case rsj::kCcFlag:
-      if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { // true if nrpn
-                                                                             // piece
-         const auto nrpn = nrpn_filter_.GetNrpnIfReady(mess.channel);
-         if (nrpn.is_valid) { // send when finished
-            const auto n_message{
-                rsj::MidiMessage{rsj::kCcFlag, mess.channel, nrpn.control, nrpn.value}};
-            messages_.enqueue(ptok, n_message);
+   try {
+      // this procedure is in near-real-time, so must return quickly.
+      // will place message in multithreaded queue and let separate process handle the messages
+      static const thread_local moodycamel::ProducerToken ptok(messages_);
+      const rsj::MidiMessage mess{message};
+      switch (mess.message_type_byte) {
+      case rsj::kCcFlag:
+         if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { // true if nrpn
+                                                                                // piece
+            const auto nrpn = nrpn_filter_.GetNrpnIfReady(mess.channel);
+            if (nrpn.is_valid) { // send when finished
+               const auto n_message{
+                   rsj::MidiMessage{rsj::kCcFlag, mess.channel, nrpn.control, nrpn.value}};
+               messages_.enqueue(ptok, n_message);
+            }
+            break; // finished with nrpn piece
          }
-         break; // finished with nrpn piece
+         [[fallthrough]]; // if not nrpn, handle like other messages
+      case rsj::kNoteOnFlag:
+      case rsj::kPwFlag:
+         messages_.enqueue(ptok, mess);
+         break;
+      default:; // no action if other type of MIDI message
       }
-      [[fallthrough]]; // if not nrpn, handle like other messages
-   case rsj::kNoteOnFlag:
-   case rsj::kPwFlag:
-      messages_.enqueue(ptok, mess);
-      break;
-   default:; // no action if other type of MIDI message
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
 void MidiProcessor::RescanDevices()
 {
-   for (const auto& dev : devices_)
-      dev->stop();
-   devices_.clear();
-   InitDevices();
+   try {
+      for (const auto& dev : devices_)
+         dev->stop();
+      devices_.clear();
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
+   InitDevices(); // initdevices has own try catch block
 }
 
 void MidiProcessor::InitDevices()
 {
-   for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
-      const auto dev = juce::MidiInput::openDevice(idx, this);
-      if (dev) {
-         devices_.emplace_back(dev);
-         dev->start();
+   try {
+      for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
+         const auto dev = juce::MidiInput::openDevice(idx, this);
+         if (dev) {
+            devices_.emplace_back(dev);
+            dev->start();
+         }
       }
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
 void MidiProcessor::DispatchMessages()
 {
-   static thread_local moodycamel::ConsumerToken ctok(messages_);
-   do {
-      rsj::MidiMessage message_copy;
-      if (!messages_.try_dequeue(ctok, message_copy))
-         messages_.wait_dequeue(message_copy);
-      if (message_copy == kTerminate)
-         return;
-      for (const auto& cb : callbacks_)
-         cb(message_copy);
-   } while (true);
+   try {
+      static thread_local moodycamel::ConsumerToken ctok(messages_);
+      do {
+         rsj::MidiMessage message_copy;
+         if (!messages_.try_dequeue(ctok, message_copy))
+            messages_.wait_dequeue(message_copy);
+         if (message_copy == kTerminate)
+            return;
+         for (const auto& cb : callbacks_)
+            cb(message_copy);
+      } while (true);
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }

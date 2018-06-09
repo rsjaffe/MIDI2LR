@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <gsl/gsl>
 #include <algorithm>
+#include <exception>
 #include <unordered_map>
 #include <utility>
 #include "LR_IPC_Out.h"
@@ -65,66 +66,82 @@ LrIpcOut::~LrIpcOut()
 
 void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
 {
-   midi_sender_ = std::move(midi_sender);
-   connect_timer_.Start();
-   send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
-   if (midi_processor)
-      midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
+   try {
+      midi_sender_ = std::move(midi_sender);
+      connect_timer_.Start();
+      send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
+      if (midi_processor)
+         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
-   const rsj::MidiMessageId message{mm};
+   try {
+      const rsj::MidiMessageId message{mm};
 #pragma warning(suppress : 26426)
-   static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
-       {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
-       {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
-       {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
-       {"ChangeLastDevelopParameter"s,
-           {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
-       {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
-       {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
-       {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
-       {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
-       {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
-       {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
-       {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
-       {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
-       {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
-       {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
-   };
-   if (!command_map_->MessageExistsInMap(message)
-       || command_map_->GetCommandforMessage(message) == "Unmapped"s
-       || find(LrCommandList::NextPrevProfile.begin(), LrCommandList::NextPrevProfile.end(),
-              command_map_->GetCommandforMessage(message))
-              != LrCommandList::NextPrevProfile.end()) {
-      return;
-   }
-   const auto command_to_send = command_map_->GetCommandforMessage(message);
-   // if it is a repeated command, change command_to_send appropriately
-   if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-      static rsj::TimeType nextresponse{0};
-      if (const auto now = rsj::NowMs(); nextresponse < now) {
-         nextresponse = now + kDelay;
-         if (mm.message_type_byte == rsj::kPwFlag
-             || (mm.message_type_byte == rsj::kCcFlag
-                    && controls_model_->GetCcMethod(mm.channel, mm.number)
-                           == rsj::CCmethod::kAbsolute)) {
-            recenter_.SetMidiMessage(mm);
-         }
-         const auto change = controls_model_->MeasureChange(mm);
-         if (change == 0)
-            return;      // don't send any signal
-         if (change > 0) // turned clockwise
-            SendCommand(a->second.first);
-         else // turned counterclockwise
-            SendCommand(a->second.second);
+      static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
+          {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
+          {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
+          {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
+          {"ChangeLastDevelopParameter"s,
+              {"IncrementLastDevelopParameter 1\n"s, "DecrementLastDevelopParameter 1\n"s}},
+          {"Key32Key31"s, {"Key32 1\n"s, "Key31 1\n"s}},
+          {"Key34Key33"s, {"Key34 1\n"s, "Key33 1\n"s}},
+          {"Key36Key35"s, {"Key36 1\n"s, "Key35 1\n"s}},
+          {"Key38Key37"s, {"Key38 1\n"s, "Key37 1\n"s}},
+          {"Key40Key39"s, {"Key40 1\n"s, "Key39 1\n"s}},
+          {"NextPrev"s, {"Next 1\n"s, "Prev 1\n"s}},
+          {"RedoUndo"s, {"Redo 1\n"s, "Undo 1\n"s}},
+          {"SelectRightLeft"s, {"Select1Right 1\n"s, "Select1Left 1\n"s}},
+          {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
+          {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
+      };
+      if (!command_map_->MessageExistsInMap(message)
+          || command_map_->GetCommandforMessage(message) == "Unmapped"s
+          || find(LrCommandList::NextPrevProfile.begin(), LrCommandList::NextPrevProfile.end(),
+                 command_map_->GetCommandforMessage(message))
+                 != LrCommandList::NextPrevProfile.end()) {
+         return;
       }
-      return; // if repeated command
+      const auto command_to_send = command_map_->GetCommandforMessage(message);
+      // if it is a repeated command, change command_to_send appropriately
+      if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
+         static rsj::TimeType nextresponse{0};
+         if (const auto now = rsj::NowMs(); nextresponse < now) {
+            nextresponse = now + kDelay;
+            if (mm.message_type_byte == rsj::kPwFlag
+                || (mm.message_type_byte == rsj::kCcFlag
+                       && controls_model_->GetCcMethod(mm.channel, mm.number)
+                              == rsj::CCmethod::kAbsolute)) {
+               recenter_.SetMidiMessage(mm);
+            }
+            const auto change = controls_model_->MeasureChange(mm);
+            if (change == 0)
+               return;      // don't send any signal
+            if (change > 0) // turned clockwise
+               SendCommand(a->second.first);
+            else // turned counterclockwise
+               SendCommand(a->second.second);
+         }
+         return; // if repeated command
+      }
+      else { // not repeated command
+         const auto computed_value = controls_model_->ControllerToPlugin(mm);
+         SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
+      }
    }
-   else { // not repeated command
-      const auto computed_value = controls_model_->ControllerToPlugin(mm);
-      SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
@@ -178,21 +195,29 @@ void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept {}
 
 void LrIpcOut::SendOut()
 {
-   do {
-      std::string command_copy;
-      static thread_local moodycamel::ConsumerToken ctok(command_);
-      if (!command_.try_dequeue(ctok, command_copy))
-         command_.wait_dequeue(command_copy);
-      if (command_copy == kTerminate)
-         return;
-      // check if there is a connection
-      if (juce::InterprocessConnection::isConnected()) {
-         if (command_copy.back() != '\n') // should be terminated with \n
-            command_copy += '\n';
-         juce::InterprocessConnection::getSocket()->write(
-             command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
-      }
-   } while (true);
+   try {
+      do {
+         std::string command_copy;
+         static thread_local moodycamel::ConsumerToken ctok(command_);
+         if (!command_.try_dequeue(ctok, command_copy))
+            command_.wait_dequeue(command_copy);
+         if (command_copy == kTerminate)
+            return;
+         // check if there is a connection
+         if (juce::InterprocessConnection::isConnected()) {
+            if (command_copy.back() != '\n') // should be terminated with \n
+               command_copy += '\n';
+            juce::InterprocessConnection::getSocket()->write(
+                command_copy.c_str(), gsl::narrow_cast<int>(command_copy.length()));
+         }
+      } while (true);
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 void LrIpcOut::ConnectTimer::Start()

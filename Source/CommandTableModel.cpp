@@ -75,101 +75,126 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g,
 void CommandTableModel::paintCell(
     juce::Graphics& g, int row_number, int column_id, int width, int height, bool /*rowIsSelected*/)
 {
-   juce::String format_str;
-   // This must draw one of the cells.
+   try {
+      juce::String format_str;
+      // This must draw one of the cells.
 
-   // The graphics context's origin will already be set to the top-left of the
-   // cell, whose size is specified by(width, height).
+      // The graphics context's origin will already be set to the top-left of the
+      // cell, whose size is specified by(width, height).
 
-   // Note that the rowNumber value may be greater than the number of rows in your
-   // list, so be careful that you don't assume it's less than getNumRows().
-   g.setColour(juce::Colours::black);
-   g.setFont(12.0f);
+      // Note that the rowNumber value may be greater than the number of rows in your
+      // list, so be careful that you don't assume it's less than getNumRows().
+      g.setColour(juce::Colours::black);
+      g.setFont(12.0f);
 
-   if (column_id == 1) // write the MIDI message in the MIDI command column
-   {
-      auto value = 0;
-      auto channel = 0;
-      switch (const auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number)); cmd.msg_id_type) {
-      case rsj::MsgIdEnum::kNote:
-         format_str = "%d | Note: %d";
-         channel = cmd.channel;
-         value = cmd.pitch;
-         break;
-      case rsj::MsgIdEnum::kCc:
-         format_str = "%d | CC: %d";
-         channel = cmd.channel;
-         value = cmd.controller;
-         break;
-      case rsj::MsgIdEnum::kPitchBend:
-         format_str = "%d | Pitch: %d";
-         channel = cmd.channel;
-         break;
+      if (column_id == 1) // write the MIDI message in the MIDI command column
+      {
+         auto value = 0;
+         auto channel = 0;
+         switch (const auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number));
+                 cmd.msg_id_type) {
+         case rsj::MsgIdEnum::kNote:
+            format_str = "%d | Note: %d";
+            channel = cmd.channel;
+            value = cmd.pitch;
+            break;
+         case rsj::MsgIdEnum::kCc:
+            format_str = "%d | CC: %d";
+            channel = cmd.channel;
+            value = cmd.controller;
+            break;
+         case rsj::MsgIdEnum::kPitchBend:
+            format_str = "%d | Pitch: %d";
+            channel = cmd.channel;
+            break;
+         }
+         g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height,
+             juce::Justification::centred);
       }
-      g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height,
-          juce::Justification::centred);
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
 juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int column_id,
     bool /*isRowSelected*/, juce::Component* existing_component_to_update)
 {
-   // This is used to create or update a custom component to go in a cell.
+   try {
+      // This is used to create or update a custom component to go in a cell.
 
-   // Any cell may contain a custom component, or can just be drawn with the
-   // paintCell() method and handle mouse clicks with cellClicked().
+      // Any cell may contain a custom component, or can just be drawn with the
+      // paintCell() method and handle mouse clicks with cellClicked().
 
-   // This method will be called whenever a custom component might need to be
-   // updated - e.g. when the table is changed, or TableListBox::updateContent()
-   // is called.
+      // This method will be called whenever a custom component might need to be
+      // updated - e.g. when the table is changed, or TableListBox::updateContent()
+      // is called.
 
-   // If you don't need a custom component for the specified cell, then return
-   // nullptr. (Bear in mind that even if you're not creating a new component,
-   // you may still need to delete existingComponentToUpdate if it's non-null).
+      // If you don't need a custom component for the specified cell, then return
+      // nullptr. (Bear in mind that even if you're not creating a new component,
+      // you may still need to delete existingComponentToUpdate if it's non-null).
 
-   // If you do want a custom component, and the existingComponentToUpdate is
-   // null, then this method must create a new component suitable for the cell,
-   // and return it.
+      // If you do want a custom component, and the existingComponentToUpdate is
+      // null, then this method must create a new component suitable for the cell,
+      // and return it.
 
-   // If the existingComponentToUpdate is non - null, it will be a pointer to a
-   // component previously created by this method.In this case, the method must
-   // either update it to make sure it's correctly representing the given
-   // cell(which may be different from the one that the component was created
-   // for), or it can delete this component and return a new one.
-   //// Because Juce recycles these components when scrolling, we need to reset
-   //// their properties
-   if (column_id == 2) // LR command column
-   {
-      auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
+      // If the existingComponentToUpdate is non - null, it will be a pointer to a
+      // component previously created by this method.In this case, the method must
+      // either update it to make sure it's correctly representing the given
+      // cell(which may be different from the one that the component was created
+      // for), or it can delete this component and return a new one.
+      //// Because Juce recycles these components when scrolling, we need to reset
+      //// their properties
+      if (column_id == 2) // LR command column
+      {
+         auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
 
-      // create a new command menu
-      if (command_select == nullptr) {
+         // create a new command menu
+         if (command_select == nullptr) {
 #pragma warning(suppress : 26409 24623 24624)
-         command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
-         command_select->Init(command_map_);
+            command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
+            command_select->Init(command_map_);
+         }
+         else
+            command_select->SetMsg(commands_.at(gsl::narrow_cast<size_t>(row_number)));
+
+         if (command_map_)
+            // add 1 because 0 is reserved for no selection
+            command_select->SetSelectedItem(
+                LrCommandList::GetIndexOfCommand(command_map_->GetCommandforMessage(
+                    commands_.at(gsl::narrow_cast<size_t>(row_number))))
+                + 1);
+
+         return command_select;
       }
-      else
-         command_select->SetMsg(commands_.at(gsl::narrow_cast<size_t>(row_number)));
-
-      if (command_map_)
-         // add 1 because 0 is reserved for no selection
-         command_select->SetSelectedItem(
-             LrCommandList::GetIndexOfCommand(command_map_->GetCommandforMessage(
-                 commands_.at(gsl::narrow_cast<size_t>(row_number))))
-             + 1);
-
-      return command_select;
+      return nullptr;
    }
-   return nullptr;
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type)
 {
-   const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
-   if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
-      commands_.push_back(msg);
-      command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
-      Sort();                                     // re-sort list
+   try {
+      const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
+      if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
+         commands_.push_back(msg);
+         command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
+         Sort();                                     // re-sort list
+      }
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
@@ -189,35 +214,43 @@ void CommandTableModel::RemoveAllRows() noexcept
 
 void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
 {
-   if (!root || root->getTagName().compare("settings") != 0)
-      return;
-   RemoveAllRows();
-   const auto* setting = root->getFirstChildElement();
-   while (setting && command_map_) {
-      if (setting->hasAttribute("controller")) {
-         const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
-             setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
-         AddRow(message.channel, message.controller, rsj::MsgIdEnum::kCc);
-         command_map_->AddCommandforMessage(
-             setting->getStringAttribute("command_string").toStdString(), message);
+   try {
+      if (!root || root->getTagName().compare("settings") != 0)
+         return;
+      RemoveAllRows();
+      const auto* setting = root->getFirstChildElement();
+      while (setting && command_map_) {
+         if (setting->hasAttribute("controller")) {
+            const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
+                setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
+            AddRow(message.channel, message.controller, rsj::MsgIdEnum::kCc);
+            command_map_->AddCommandforMessage(
+                setting->getStringAttribute("command_string").toStdString(), message);
+         }
+         else if (setting->hasAttribute("note")) {
+            const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
+                setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
+            AddRow(note.channel, note.pitch, rsj::MsgIdEnum::kNote);
+            command_map_->AddCommandforMessage(
+                setting->getStringAttribute("command_string").toStdString(), note);
+         }
+         else if (setting->hasAttribute("pitchbend")) {
+            const rsj::MidiMessageId pb{
+                setting->getIntAttribute("channel"), 0, rsj::MsgIdEnum::kPitchBend};
+            AddRow(pb.channel, 0, rsj::MsgIdEnum::kPitchBend);
+            command_map_->AddCommandforMessage(
+                setting->getStringAttribute("command_string").toStdString(), pb);
+         }
+         setting = setting->getNextElement();
       }
-      else if (setting->hasAttribute("note")) {
-         const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
-             setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
-         AddRow(note.channel, note.pitch, rsj::MsgIdEnum::kNote);
-         command_map_->AddCommandforMessage(
-             setting->getStringAttribute("command_string").toStdString(), note);
-      }
-      else if (setting->hasAttribute("pitchbend")) {
-         const rsj::MidiMessageId pb{
-             setting->getIntAttribute("channel"), 0, rsj::MsgIdEnum::kPitchBend};
-         AddRow(pb.channel, 0, rsj::MsgIdEnum::kPitchBend);
-         command_map_->AddCommandforMessage(
-             setting->getStringAttribute("command_string").toStdString(), pb);
-      }
-      setting = setting->getNextElement();
+      Sort();
    }
-   Sort();
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 int CommandTableModel::GetRowForMessage(

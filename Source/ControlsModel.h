@@ -80,21 +80,20 @@ class ChannelModel {
    ChannelModel& operator=(const ChannelModel&) = delete;
    ChannelModel(ChannelModel&&) = delete; // can't move atomics
    ChannelModel& operator=(ChannelModel&&) = delete;
-   double ControllerToPlugin(short controltype, size_t controlnumber, short value) noexcept(
-       kNdebug);
-   short MeasureChange(short controltype, size_t controlnumber, short value) noexcept(kNdebug);
-   short SetToCenter(short controltype, size_t controlnumber) noexcept;
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const noexcept(kNdebug)
+   double ControllerToPlugin(short controltype, size_t controlnumber, short value);
+   short MeasureChange(short controltype, size_t controlnumber, short value);
+   short SetToCenter(short controltype, size_t controlnumber);
+   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const
    {
       Expects(controlnumber <= kMaxNrpn);
       return cc_method_.at(controlnumber);
    }
-   [[nodiscard]] short GetCcMax(size_t controlnumber) const noexcept(kNdebug)
+   [[nodiscard]] short GetCcMax(size_t controlnumber) const
    {
       Expects(controlnumber <= kMaxNrpn);
       return cc_high_.at(controlnumber);
    }
-   [[nodiscard]] short GetCcMin(size_t controlnumber) const noexcept(kNdebug)
+   [[nodiscard]] short GetCcMin(size_t controlnumber) const
    {
       Expects(controlnumber <= kMaxNrpn);
       return cc_low_.at(controlnumber);
@@ -108,19 +107,16 @@ class ChannelModel {
    {
       return pitch_wheel_min_;
    }
-   short PluginToController(short controltype, size_t controlnumber, double value) noexcept(
-       kNdebug);
-   void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(
-       kNdebug);
-   void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype) noexcept(
-       kNdebug);
-   void SetCcMax(size_t controlnumber, short value) noexcept(kNdebug);
-   void SetCcMethod(size_t controlnumber, rsj::CCmethod value) noexcept(kNdebug)
+   short PluginToController(short controltype, size_t controlnumber, double value);
+   void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
+   void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
+   void SetCcMax(size_t controlnumber, short value);
+   void SetCcMethod(size_t controlnumber, rsj::CCmethod value)
    {
       Expects(controlnumber <= kMaxNrpn);
       cc_method_.at(controlnumber) = value;
    }
-   void SetCcMin(size_t controlnumber, short value) noexcept(kNdebug);
+   void SetCcMin(size_t controlnumber, short value);
    void SetPwMax(short value) noexcept(kNdebug);
    void SetPwMin(short value) noexcept(kNdebug);
 
@@ -137,12 +133,12 @@ class ChannelModel {
              + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
    }
    friend class cereal::access;
-   [[nodiscard]] bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
+   [[nodiscard]] bool IsNRPN_(size_t controlnumber) const
    {
       Expects(controlnumber <= kMaxNrpn);
       return controlnumber > kMaxMidi;
    }
-   double OffsetResult(short diff, size_t controlnumber) noexcept(kNdebug);
+   double OffsetResult(short diff, size_t controlnumber);
    mutable rsj::RelaxTTasSpinLock current_v_mtx_;
    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
    short pitch_wheel_max_{kMaxNrpn};
@@ -156,7 +152,7 @@ class ChannelModel {
    template<class Archive> void save(Archive& archive, uint32_t const version) const;
    void ActiveToSaved() const;
    void CcDefaults() noexcept;
-   void SavedToActive() noexcept(kNdebug);
+   void SavedToActive();
 };
 
 class ControlsModel {
@@ -168,107 +164,104 @@ class ControlsModel {
    ControlsModel& operator=(const ControlsModel&) = delete;
    ControlsModel(ControlsModel&&) = delete; // can't move atomics
    ControlsModel& operator=(ControlsModel&&) = delete;
-   double ControllerToPlugin(const rsj::MidiMessage& mm) noexcept(kNdebug)
+   double ControllerToPlugin(const rsj::MidiMessage& mm)
    {
       Expects(mm.channel <= 15);
       return all_controls_.at(mm.channel)
           .ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
    }
 
-   short MeasureChange(const rsj::MidiMessage& mm) noexcept(kNdebug)
+   short MeasureChange(const rsj::MidiMessage& mm)
    {
       Expects(mm.channel <= 15);
       return all_controls_.at(mm.channel).MeasureChange(mm.message_type_byte, mm.number, mm.value);
    }
-   short SetToCenter(const rsj::MidiMessage& mm) noexcept(kNdebug)
+   short SetToCenter(const rsj::MidiMessage& mm)
    {
       Expects(mm.channel <= 15);
       return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.number);
    }
 
    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const
-       noexcept(kNdebug)
+
    {
       Expects(channel <= 15);
       return all_controls_.at(channel).GetCcMethod(controlnumber);
    }
 
-   [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const noexcept(kNdebug)
+   [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
    {
       Expects(channel <= 15);
       return all_controls_.at(channel).GetCcMax(controlnumber);
    }
 
-   short GetCcMin(size_t channel, short controlnumber) noexcept(kNdebug)
+   short GetCcMin(size_t channel, short controlnumber)
    {
       Expects(channel <= 15);
       return all_controls_.at(channel).GetCcMin(controlnumber);
    }
 
-   [[nodiscard]] short GetPwMax(size_t channel) const noexcept(kNdebug)
+   [[nodiscard]] short GetPwMax(size_t channel) const
    {
       Expects(channel <= 15);
       return all_controls_.at(channel).GetPwMax();
    }
 
-   [[nodiscard]] short GetPwMin(size_t channel) const noexcept(kNdebug)
+   [[nodiscard]] short GetPwMin(size_t channel) const
    {
       Expects(channel <= 15);
       return all_controls_.at(channel).GetPwMin();
    }
 
-   short PluginToController(
-       short controltype, size_t channel, short controlnumber, double value) noexcept(kNdebug)
+   short PluginToController(short controltype, size_t channel, short controlnumber, double value)
    {
       Expects(channel <= 15);
       return all_controls_.at(channel).PluginToController(controltype, controlnumber, value);
    }
 
-   short MeasureChange(
-       short controltype, size_t channel, short controlnumber, short value) noexcept(kNdebug)
+   short MeasureChange(short controltype, size_t channel, short controlnumber, short value)
    {
       Expects(channel <= 15);
       return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
    }
 
-   void SetCc(size_t channel, short controlnumber, short min, short max,
-       rsj::CCmethod controltype) noexcept(kNdebug)
+   void SetCc(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)
    {
       Expects(channel <= 15);
       all_controls_.at(channel).SetCc(controlnumber, min, max, controltype);
    }
-   void SetCcAll(size_t channel, short controlnumber, short min, short max,
-       rsj::CCmethod controltype) noexcept(kNdebug)
+   void SetCcAll(
+       size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)
    {
       Expects(channel <= 15);
       all_controls_.at(channel).SetCcAll(controlnumber, min, max, controltype);
    }
 
-   void SetCcMax(size_t channel, short controlnumber, short value) noexcept(kNdebug)
+   void SetCcMax(size_t channel, short controlnumber, short value)
    {
       Expects(channel <= 15);
       all_controls_.at(channel).SetCcMax(controlnumber, value);
    }
 
-   void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value) noexcept(kNdebug)
+   void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value)
    {
       Expects(channel <= 15);
       all_controls_.at(channel).SetCcMethod(controlnumber, value);
    }
 
-   void SetCcMin(size_t channel, short controlnumber, short value) noexcept(kNdebug)
+   void SetCcMin(size_t channel, short controlnumber, short value)
    {
       Expects(channel <= 15);
       all_controls_.at(channel).SetCcMin(controlnumber, value);
    }
 
-   void SetPwMax(size_t channel, short value) noexcept(kNdebug)
+   void SetPwMax(size_t channel, short value)
    {
       Expects(channel <= 15);
       all_controls_.at(channel).SetPwMax(value);
    }
 
-   void SetPwMin(size_t channel, short value) noexcept(kNdebug)
+   void SetPwMin(size_t channel, short value)
    {
       Expects(channel <= 15);
       all_controls_.at(channel).SetPwMin(value);

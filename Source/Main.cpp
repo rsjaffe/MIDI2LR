@@ -95,37 +95,45 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void initialise(const juce::String& command_line) override
    {
-      // Called when the application starts.
+      try {
+         // Called when the application starts.
 
-      // This will be called once to let the application do whatever
-      // initialization it needs, create its windows, etc.
+         // This will be called once to let the application do whatever
+         // initialization it needs, create its windows, etc.
 
-      // After the method returns, the normal event - dispatch loop will be
-      // run, until the quit() method is called, at which point the shutdown()
-      // method will be called to let the application clear up anything it
-      // needs to delete.
+         // After the method returns, the normal event - dispatch loop will be
+         // run, until the quit() method is called, at which point the shutdown()
+         // method will be called to let the application clear up anything it
+         // needs to delete.
 
-      // If during the initialise() method, the application decides not to
-      // start - up after all, it can just call the quit() method and the event
-      // loop won't be run.
+         // If during the initialise() method, the application decides not to
+         // start - up after all, it can just call the quit() method and the event
+         // loop won't be run.
 
-      if (command_line != kShutDownString) {
-         CerealLoad();
-         midi_processor_->Init();
-         midi_sender_->Init();
-         lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
-         profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
-         lr_ipc_in_->Init(midi_sender_);
-         settings_manager_.Init(lr_ipc_out_);
-         main_window_ = std::make_unique<MainWindow>(getApplicationName());
-         main_window_->Init(&command_map_, lr_ipc_out_, midi_processor_, &profile_manager_,
-             &settings_manager_, midi_sender_);
-         // Check for latest version
-         version_checker_.startThread();
+         if (command_line != kShutDownString) {
+            CerealLoad();
+            midi_processor_->Init();
+            midi_sender_->Init();
+            lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
+            profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
+            lr_ipc_in_->Init(midi_sender_);
+            settings_manager_.Init(lr_ipc_out_);
+            main_window_ = std::make_unique<MainWindow>(getApplicationName());
+            main_window_->Init(&command_map_, lr_ipc_out_, midi_processor_, &profile_manager_,
+                &settings_manager_, midi_sender_);
+            // Check for latest version
+            version_checker_.startThread();
+         }
+         else {
+            // apparently the application is already terminated
+            quit();
+         }
       }
-      else {
-         // apparently the application is already terminated
-         quit();
+      catch (const std::exception& e) {
+         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+             juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+                 + ProjectInfo::versionString);
+         throw;
       }
    }
 
@@ -206,43 +214,59 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
    void CerealSave()
    { // scoped so archive gets flushed
+      try {
 #ifdef _WIN32
-      wchar_t path[MAX_PATH];
-      GetModuleFileNameW(nullptr, path, MAX_PATH);
-      fs::path p{path};
-      p = p.replace_filename(kSettingsFile);
+         wchar_t path[MAX_PATH];
+         GetModuleFileNameW(nullptr, path, MAX_PATH);
+         fs::path p{path};
+         p = p.replace_filename(kSettingsFile);
 #else
-      const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                         .getSiblingFile(kSettingsFile)
-                         .getFullPathName()
-                         .toStdString();
+         const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                            .getSiblingFile(kSettingsFile)
+                            .getFullPathName()
+                            .toStdString();
 #endif
-      std::ofstream outfile(p, std::ios::out | std::ios::binary | std::ios::trunc);
-      if (outfile.is_open()) {
-         cereal::BinaryOutputArchive oarchive(outfile);
-         oarchive(controls_model_);
+         std::ofstream outfile(p, std::ios::out | std::ios::binary | std::ios::trunc);
+         if (outfile.is_open()) {
+            cereal::BinaryOutputArchive oarchive(outfile);
+            oarchive(controls_model_);
+         }
+         else
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+                "Unable to save control settings. Unable to open file settings.bin.");
       }
-      else
+      catch (const std::exception& e) {
          juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-             "Unable to save control settings. Unable to open file settings.bin.");
+             juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+                 + ProjectInfo::versionString);
+         throw;
+      }
    }
    void CerealLoad()
    { // scoped so archive gets flushed
+      try {
 #ifdef _WIN32
-      wchar_t path[MAX_PATH];
-      GetModuleFileNameW(nullptr, path, MAX_PATH);
-      fs::path p{path};
-      p = p.replace_filename(kSettingsFile);
+         wchar_t path[MAX_PATH];
+         GetModuleFileNameW(nullptr, path, MAX_PATH);
+         fs::path p{path};
+         p = p.replace_filename(kSettingsFile);
 #else
-      const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                         .getSiblingFile(kSettingsFile)
-                         .getFullPathName()
-                         .toStdString();
+         const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                            .getSiblingFile(kSettingsFile)
+                            .getFullPathName()
+                            .toStdString();
 #endif
-      std::ifstream infile(p, std::ios::in | std::ios::binary);
-      if (infile.is_open() && !infile.eof()) {
-         cereal::BinaryInputArchive iarchive(infile);
-         iarchive(controls_model_);
+         std::ifstream infile(p, std::ios::in | std::ios::binary);
+         if (infile.is_open() && !infile.eof()) {
+            cereal::BinaryInputArchive iarchive(infile);
+            iarchive(controls_model_);
+         }
+      }
+      catch (const std::exception& e) {
+         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+             juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+                 + ProjectInfo::versionString);
+         throw;
       }
    }
    CommandMap command_map_{};

@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "ProfileManager.h"
+#include <exception>
 #include <string>
 #include <utility>
 #include <gsl/gsl>
@@ -52,18 +53,26 @@ void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_pro
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)
 {
-   profile_location_ = directory;
+   try {
+      profile_location_ = directory;
 
-   juce::Array<juce::File> file_array;
-   directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
+      juce::Array<juce::File> file_array;
+      directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
 
-   current_profile_index_ = 0;
-   profiles_.clear();
-   for (const auto& file : file_array)
-      profiles_.emplace_back(file.getFileName());
+      current_profile_index_ = 0;
+      profiles_.clear();
+      for (const auto& file : file_array)
+         profiles_.emplace_back(file.getFileName());
 
-   if (!profiles_.empty())
-      SwitchToProfile(profiles_[0]);
+      if (!profiles_.empty())
+         SwitchToProfile(profiles_[0]);
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
+   }
 }
 
 const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
@@ -81,24 +90,33 @@ void ProfileManager::SwitchToProfile(int profile_index)
 
 void ProfileManager::SwitchToProfile(const juce::String& profile)
 {
-   const auto profile_file = profile_location_.getChildFile(profile);
+   try {
+      const auto profile_file = profile_location_.getChildFile(profile);
 
-   if (profile_file.exists()) {
-      std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
-      if (xml_element) {
-         for (const auto& cb : callbacks_)
-            cb(xml_element.get(), profile);
+      if (profile_file.exists()) {
+         std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
+         if (xml_element) {
+            for (const auto& cb : callbacks_)
+               cb(xml_element.get(), profile);
 
-         if (const auto ptr = lr_ipc_out_.lock()) {
-            auto command = "ChangedToDirectory "s
-                           + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
-                                 .toStdString()
-                           + '\n';
-            ptr->SendCommand(std::move(command));
-            command = "ChangedToFile "s + profile.toStdString() + '\n';
-            ptr->SendCommand(std::move(command));
+            if (const auto ptr = lr_ipc_out_.lock()) {
+               auto command =
+                   "ChangedToDirectory "s
+                   + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
+                         .toStdString()
+                   + '\n';
+               ptr->SendCommand(std::move(command));
+               command = "ChangedToFile "s + profile.toStdString() + '\n';
+               ptr->SendCommand(std::move(command));
+            }
          }
       }
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
@@ -133,13 +151,21 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 
 void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 {
-   if (command_map_) {
-      const rsj::MidiMessageId cc = mm;
-      // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
-      // profile-related command
-      if (controls_model_->ControllerToPlugin(mm) < 0.4 || !command_map_->MessageExistsInMap(cc))
-         return;
-      MapCommand(cc);
+   try {
+      if (command_map_) {
+         const rsj::MidiMessageId cc = mm;
+         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
+         // profile-related command
+         if (controls_model_->ControllerToPlugin(mm) < 0.4 || !command_map_->MessageExistsInMap(cc))
+            return;
+         MapCommand(cc);
+      }
+   }
+   catch (const std::exception& e) {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
+              + ProjectInfo::versionString);
+      throw;
    }
 }
 
