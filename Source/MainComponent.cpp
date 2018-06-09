@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
 #include "ProfileManager.h"
 #include "SettingsComponent.h"
 #include "SettingsManager.h"
@@ -195,9 +196,7 @@ void MainContentComponent::Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>
       activateLayout();
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -240,9 +239,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -270,9 +267,7 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -377,9 +372,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

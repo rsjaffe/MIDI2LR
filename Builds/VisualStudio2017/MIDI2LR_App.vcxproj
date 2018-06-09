@@ -181,6 +181,7 @@
     <ClCompile Include="..\..\Source\MIDIProcessor.cpp"/>
     <ClCompile Include="..\..\Source\MIDISender.cpp"/>
     <ClCompile Include="..\..\Source\MidiUtilities.cpp"/>
+    <ClCompile Include="..\..\Source\Misc.cpp"/>
     <ClCompile Include="..\..\Source\NrpnMessage.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
     <ClCompile Include="..\..\Source\PWoptions.cpp"/>

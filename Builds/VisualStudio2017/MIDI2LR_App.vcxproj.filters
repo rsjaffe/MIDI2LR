@@ -328,6 +328,9 @@
     <ClCompile Include="..\..\Source\MidiUtilities.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Misc.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\NrpnMessage.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>

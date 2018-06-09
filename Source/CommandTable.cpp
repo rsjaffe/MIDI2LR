@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <gsl/gsl_util>
 #include "CommandTableModel.h"
+#include "Misc.h"
 
 CommandTable::CommandTable(const juce::String& component_name, CommandTableModel* model) try : juce
    ::TableListBox{component_name, model}
@@ -37,9 +38,7 @@ CommandTable::CommandTable(const juce::String& component_name, CommandTableModel
               | juce::TableHeaderComponent::sortedForwards);
    }
 catch (const std::exception& e) {
-   juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-       juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-           + ProjectInfo::versionString);
+   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    throw;
 }
 
@@ -89,9 +88,7 @@ bool CommandTable::keyPressed(const KeyPress& k)
       return false;
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

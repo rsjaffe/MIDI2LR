@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include "CommandMap.h"
 #include "LRCommands.h"
+#include "Misc.h"
 
 void CommandMap::AddCommandforMessage(size_t command, const rsj::MidiMessageId& message)
 {
@@ -32,16 +33,14 @@ void CommandMap::AddCommandforMessage(size_t command, const rsj::MidiMessageId& 
       if (command < LrCommandList::LrStringList.size()) {
          auto cmd_abbreviation = LrCommandList::LrStringList.at(command);
          message_map_[message] = cmd_abbreviation;
-         command_string_map_.insert({cmd_abbreviation, message});
+         command_string_map_.emplace(cmd_abbreviation, message);
       }
       else
          message_map_[message] =
              LrCommandList::NextPrevProfile.at(command - LrCommandList::LrStringList.size());
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -57,9 +56,7 @@ std::vector<const rsj::MidiMessageId*> CommandMap::GetMessagesForCommand(
       return mm;
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -96,9 +93,7 @@ void CommandMap::ToXmlDocument(const juce::File& file) const
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

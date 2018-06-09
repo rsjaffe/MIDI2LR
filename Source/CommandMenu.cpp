@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CCoptions.h"
 #include "CommandMap.h"
 #include "LRCommands.h"
+#include "Misc.h"
 #include "PWoptions.h"
 
 CommandMenu::CommandMenu(const rsj::MidiMessageId& message) try : juce
@@ -47,9 +48,7 @@ CommandMenu::CommandMenu(const rsj::MidiMessageId& message) try : juce
    {
    }
 catch (const std::exception& e) {
-   juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-       juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-           + ProjectInfo::versionString);
+   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    throw;
 }
 
@@ -74,9 +73,7 @@ void CommandMenu::SetSelectedItem(size_t index)
              LrCommandList::NextPrevProfile.at(index - 1 - LrCommandList::LrStringList.size()));
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -158,9 +155,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

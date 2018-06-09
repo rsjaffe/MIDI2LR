@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "CommandMenu.h"
 #include "LRCommands.h"
+#include "Misc.h"
 
 void CommandTableModel::Init(CommandMap* map_command) noexcept
 {
@@ -113,9 +114,7 @@ void CommandTableModel::paintCell(
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -173,9 +172,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
       return nullptr;
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -191,9 +188,7 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -246,9 +241,7 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
       Sort();
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

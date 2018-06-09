@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include <exception>
 #include <future>
+#include "Misc.h"
 
 namespace {
    constexpr rsj::MidiMessage kTerminate{0, 129, 0, 0}; // impossible channel
@@ -48,9 +49,7 @@ void MidiProcessor::Init()
           std::async(std::launch::async, &MidiProcessor::DispatchMessages, this);
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -84,9 +83,7 @@ void MidiProcessor::handleIncomingMidiMessage(
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -119,9 +116,7 @@ void MidiProcessor::InitDevices()
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -141,9 +136,7 @@ void MidiProcessor::DispatchMessages()
       } while (true);
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

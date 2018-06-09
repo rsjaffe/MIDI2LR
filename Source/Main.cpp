@@ -47,6 +47,7 @@ namespace fs = std::experimental::filesystem;
 #include "MainWindow.h"
 #include "MIDIProcessor.h"
 #include "MIDISender.h"
+#include "Misc.h"
 #include "PWoptions.h"
 #include "ProfileManager.h"
 #include "SettingsManager.h"
@@ -130,9 +131,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-             juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-                 + ProjectInfo::versionString);
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
          throw;
       }
    }
@@ -236,9 +235,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                 "Unable to save control settings. Unable to open file settings.bin.");
       }
       catch (const std::exception& e) {
-         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-             juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-                 + ProjectInfo::versionString);
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
          throw;
       }
    }
@@ -263,9 +260,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
       }
       catch (const std::exception& e) {
-         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-             juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-                 + ProjectInfo::versionString);
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
          throw;
       }
    }
