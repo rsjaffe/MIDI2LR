@@ -1,16 +1,6 @@
 version: 1.0.{build}
-branches:
-  only:
-  - master
+image: Visual Studio 2017
+configuration: Release
 build:
-  project: Builds/VisualStudio2017/MIDI2LR.sln
+  project: Builds\VisualStudio2017
   verbosity: minimal
-after_test:
-  - bash <(curl -s https://codecov.io/bash)
-notifications:
-- provider: Email
-  to:
-  - rsjaffe@gmail.com
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: true
