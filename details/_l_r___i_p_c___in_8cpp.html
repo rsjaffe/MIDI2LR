@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.8.1.0</span>
+   &#160;<span id="projectnumber">2.9.2.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -95,6 +95,7 @@ $(document).ready(function(){initNavTree('_l_r___i_p_c___in_8cpp.html','');});
 <div class="textblock"><code>#include &quot;<a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_In.h</a>&quot;</code><br />
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;bitset&gt;</code><br />
+<code>#include &lt;exception&gt;</code><br />
 <code>#include &lt;gsl/gsl&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 <code>#include &quot;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&quot;</code><br />
@@ -111,13 +112,13 @@ $(document).ready(function(){initNavTree('_l_r___i_p_c___in_8cpp.html','');});
 <div class="center"><img src="_l_r___i_p_c___in_8cpp__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_l_r___i_p_c___in_8cpp" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_l_r___i_p_c___in_8cpp" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_l_r___i_p_c___in_8cpp">
 <area shape="rect" id="node2" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="372,109,467,136"/>
-<area shape="rect" id="node13" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="633,109,750,136"/>
-<area shape="rect" id="node16" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1040,184,1140,211"/>
-<area shape="rect" id="node21" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="1288,109,1404,136"/>
-<area shape="rect" id="node26" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="821,109,921,136"/>
-<area shape="rect" id="node27" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="945,109,1064,136"/>
-<area shape="rect" id="node28" href="_send_keys_8h.html" title="SendKeys.h" alt="" coords="503,109,597,136"/>
-<area shape="rect" id="node18" href="_misc_8h.html" title="Misc.h" alt="" coords="1717,266,1778,293"/>
+<area shape="rect" id="node14" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="633,109,750,136"/>
+<area shape="rect" id="node17" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1040,184,1140,211"/>
+<area shape="rect" id="node22" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="1244,109,1360,136"/>
+<area shape="rect" id="node27" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="824,109,924,136"/>
+<area shape="rect" id="node28" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="948,109,1067,136"/>
+<area shape="rect" id="node29" href="_send_keys_8h.html" title="SendKeys.h" alt="" coords="503,109,597,136"/>
+<area shape="rect" id="node19" href="_misc_8h.html" title="Misc.h" alt="" coords="1717,266,1778,293"/>
 </map>
 </div>
 </div></div><!-- contents -->

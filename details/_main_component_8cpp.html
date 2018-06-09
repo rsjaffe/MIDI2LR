@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.8.1.0</span>
+   &#160;<span id="projectnumber">2.9.2.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -93,6 +93,7 @@ $(document).ready(function(){initNavTree('_main_component_8cpp.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_main_component_8h_source.html">MainComponent.h</a>&quot;</code><br />
+<code>#include &lt;exception&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;gsl/gsl&gt;</code><br />
@@ -112,19 +113,19 @@ $(document).ready(function(){initNavTree('_main_component_8cpp.html','');});
 <div class="center"><img src="_main_component_8cpp__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8cpp" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8cpp" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_component_8cpp">
 <area shape="rect" id="node2" href="_main_component_8h.html" title="MainComponent.h" alt="" coords="223,95,350,121"/>
-<area shape="rect" id="node9" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1039,244,1139,271"/>
-<area shape="rect" id="node18" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="1743,169,1860,196"/>
-<area shape="rect" id="node21" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_Out.h" alt="" coords="1451,169,1557,196"/>
-<area shape="rect" id="node25" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1134,169,1253,196"/>
-<area shape="rect" id="node29" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="815,169,915,196"/>
-<area shape="rect" id="node30" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="939,169,1058,196"/>
-<area shape="rect" id="node31" href="_settings_component_8h.html" title="SettingsComponent.h" alt="" coords="15,95,161,121"/>
-<area shape="rect" id="node32" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="660,169,791,196"/>
+<area shape="rect" id="node9" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1021,244,1121,271"/>
+<area shape="rect" id="node19" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="1724,169,1841,196"/>
+<area shape="rect" id="node22" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_Out.h" alt="" coords="1433,169,1538,196"/>
+<area shape="rect" id="node26" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1134,169,1253,196"/>
+<area shape="rect" id="node30" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="815,169,915,196"/>
+<area shape="rect" id="node31" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="939,169,1058,196"/>
+<area shape="rect" id="node32" href="_settings_component_8h.html" title="SettingsComponent.h" alt="" coords="15,95,161,121"/>
+<area shape="rect" id="node33" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="660,169,791,196"/>
 <area shape="rect" id="node5" href="_command_table_8h.html" title="CommandTable.h" alt="" coords="228,169,351,196"/>
 <area shape="rect" id="node6" href="_command_table_model_8h.html" title="CommandTableModel.h" alt="" coords="426,169,585,196"/>
 <area shape="rect" id="node14" href="_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="23,169,153,196"/>
-<area shape="rect" id="node11" href="_misc_8h.html" title="Misc.h" alt="" coords="1519,326,1580,353"/>
-<area shape="rect" id="node26" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="1727,244,1841,271"/>
+<area shape="rect" id="node11" href="_misc_8h.html" title="Misc.h" alt="" coords="1500,326,1561,353"/>
+<area shape="rect" id="node27" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="1709,244,1822,271"/>
 </map>
 </div>
 </div></div><!-- contents -->

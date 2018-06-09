@@ -12,7 +12,7 @@ var class_midi_processor =
     [ "operator=", "class_midi_processor.html#a599e0dd2d0d43b3a4fcd1622be8cf2bf", null ],
     [ "operator=", "class_midi_processor.html#a8e3f24dcd397c883b88b3720d9e0698a", null ],
     [ "RescanDevices", "class_midi_processor.html#a57242eb9f899d7d421489c3d02d3cf31", null ],
-    [ "callbacks_", "class_midi_processor.html#ad0d32fd22ef00526d88e89eae20a3857", null ],
+    [ "callbacks_", "class_midi_processor.html#a10f19f9c64444d5f86e3cb8f861e28b9", null ],
     [ "devices_", "class_midi_processor.html#af960e4e5fbf8c1046a9267631757c063", null ],
     [ "dispatch_messages_future_", "class_midi_processor.html#ab103c97e24ee7fe4f7cb41b4b73da21d", null ],
     [ "messages_", "class_midi_processor.html#ad7f7f0a7d64edf00bdb63e812138ef8f", null ],

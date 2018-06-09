@@ -23,7 +23,7 @@ var searchData=
   ['maxval',['maxval',['../class_p_woptions.html#ae959346bc9f40330a8aea91da61003df',1,'PWoptions']]],
   ['maxvallabel',['maxvallabel',['../class_c_coptions.html#a11ad140b09fe706c0876d84c18dd7a63',1,'CCoptions']]],
   ['maxvaltext',['maxvaltext',['../class_c_coptions.html#a9acabfea9373c945ca2b24c9d3f66bd0',1,'CCoptions']]],
-  ['measurechange',['MeasureChange',['../class_channel_model.html#aaa75015f9a22ef1fd65e17622a690067',1,'ChannelModel::MeasureChange()'],['../class_controls_model.html#a18a67dd5ebefed337fe0b0a71152d404',1,'ControlsModel::MeasureChange(const rsj::MidiMessage &amp;mm) noexcept(kNdebug)'],['../class_controls_model.html#a26cab26416723114fc11775534582725',1,'ControlsModel::MeasureChange(short controltype, size_t channel, short controlnumber, short value) noexcept(kNdebug)']]],
+  ['measurechange',['MeasureChange',['../class_channel_model.html#a3567d62c8b3cfc046b28fbf6efbb5860',1,'ChannelModel::MeasureChange()'],['../class_controls_model.html#a4c650884166a2b3d44869e3d60f96f4c',1,'ControlsModel::MeasureChange(const rsj::MidiMessage &amp;mm)'],['../class_controls_model.html#a6f2e681ddeb13773507b7bda57a504b8',1,'ControlsModel::MeasureChange(short controltype, size_t channel, short controlnumber, short value)']]],
   ['menu_5fentries_5f',['menu_entries_',['../class_command_menu.html#aec8bb1859808f0e81781b2abbbd0464e',1,'CommandMenu']]],
   ['menus_5f',['menus_',['../class_command_menu.html#a38222aad3f173fea50e2044c4c06c2f9',1,'CommandMenu']]],
   ['message_5f',['message_',['../class_command_menu.html#a4ecfce93e2902c3a0c9419c12ab4f92e',1,'CommandMenu']]],

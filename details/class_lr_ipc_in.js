@@ -4,7 +4,7 @@ var class_lr_ipc_in =
     [ "~LrIpcIn", "class_lr_ipc_in.html#adaf86ae884e93a8e7f509d19e2a47231", null ],
     [ "LrIpcIn", "class_lr_ipc_in.html#a468b27abc43e7f1f6d4012eb8dc14bfd", null ],
     [ "LrIpcIn", "class_lr_ipc_in.html#adfbf863dc7341c0ebc8b7f5ab13e71fc", null ],
-    [ "Init", "class_lr_ipc_in.html#aef90938c6424505739d70225d3d8245b", null ],
+    [ "Init", "class_lr_ipc_in.html#a2884c14529768d5d4716840976b489dd", null ],
     [ "operator=", "class_lr_ipc_in.html#a4d9c6d1172bcf7ca18065613b6c37fdf", null ],
     [ "operator=", "class_lr_ipc_in.html#a9cc668e71e6fc6555dfcc33cd80a6dd7", null ],
     [ "PleaseStopThread", "class_lr_ipc_in.html#a8d1398654e822a1b2a411fe3c3a163ff", null ],

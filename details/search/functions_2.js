@@ -3,8 +3,8 @@ var searchData=
   ['calcboundsofchildren',['calcBoundsOfChildren',['../class_resizable_layout.html#a94ecea095ab66c30121aa71cf187eb38',1,'ResizableLayout']]],
   ['ccdefaults',['CcDefaults',['../class_channel_model.html#a3500dcb70960e1798268333fafeebd4f',1,'ChannelModel']]],
   ['ccoptions',['CCoptions',['../class_c_coptions.html#a1d8d9d83f1823c1f016de242ecfe44d3',1,'CCoptions']]],
-  ['centercc',['CenterCc',['../class_channel_model.html#a566c421062ed003362fc391fa331d138',1,'ChannelModel']]],
-  ['centerpw',['CenterPw',['../class_channel_model.html#af1a729cb0912358c6893c8bac28b5582',1,'ChannelModel']]],
+  ['centercc',['CenterCc',['../class_channel_model.html#aa745e87e089bbddcccc41124045b3b50',1,'ChannelModel']]],
+  ['centerpw',['CenterPw',['../class_channel_model.html#a8f7061971fc2e13c925e8ba6756c1af7',1,'ChannelModel']]],
   ['cerealload',['CerealLoad',['../class_m_i_d_i2_l_r_application.html#a1e52f4c3aae1ef33e77574284b15af32',1,'MIDI2LRApplication']]],
   ['cerealsave',['CerealSave',['../class_m_i_d_i2_l_r_application.html#a5fb189d2ada453e581d91bca94a470d8',1,'MIDI2LRApplication']]],
   ['cfreleaser',['cfreleaser',['../structcfreleaser.html#af6bebeffa93ef636f86a3d425e585be7',1,'cfreleaser::cfreleaser() noexcept=default'],['../structcfreleaser.html#aeb0bca16258da6816909403253c01d9b',1,'cfreleaser::cfreleaser(cfreleaser&lt; U &gt; const &amp;) noexcept']]],
@@ -23,7 +23,7 @@ var searchData=
   ['connectionmade',['connectionMade',['../class_lr_ipc_out.html#af257f7b0c2b58951565ce0b0d3438926',1,'LrIpcOut']]],
   ['connecttimer',['ConnectTimer',['../class_lr_ipc_out_1_1_connect_timer.html#a5d1eda1ecc2097da910efa39459de208',1,'LrIpcOut::ConnectTimer']]],
   ['constrainer',['Constrainer',['../class_top_level_resizable_layout_1_1_constrainer.html#ac1138a9c4319d8413f04f3bfb749e969',1,'TopLevelResizableLayout::Constrainer']]],
-  ['controllertoplugin',['ControllerToPlugin',['../class_channel_model.html#a1ee3a57eb978f78b15da443a925ad5d8',1,'ChannelModel::ControllerToPlugin()'],['../class_controls_model.html#a854d0e5ae6901f8a96ef056d48c9501b',1,'ControlsModel::ControllerToPlugin()']]],
+  ['controllertoplugin',['ControllerToPlugin',['../class_channel_model.html#aaf55f67e8b306f47e9f0aac2fce8ac3c',1,'ChannelModel::ControllerToPlugin()'],['../class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0',1,'ControlsModel::ControllerToPlugin()']]],
   ['controlsmodel',['ControlsModel',['../class_controls_model.html#a0781b48b5267bca6c0fc32e1e997d0dc',1,'ControlsModel::ControlsModel()=default'],['../class_controls_model.html#a23c6411981fe10b19ab2ffb6a3459ab8',1,'ControlsModel::ControlsModel(const ControlsModel &amp;)=delete'],['../class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8',1,'ControlsModel::ControlsModel(ControlsModel &amp;&amp;)=delete']]],
   ['createstringforkey',['CreateStringForKey',['../_send_keys_8cpp.html#a3a194c23cf004bb622d88b8daab22384',1,'SendKeys.cpp']]]
 ];

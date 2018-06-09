@@ -1,7 +1,7 @@
 var searchData=
 [
   ['calibration',['Calibration',['../class_lr_command_list.html#a928efdcc46bdc4ecf753266d3bfc6d9c',1,'LrCommandList']]],
-  ['callbacks_5f',['callbacks_',['../class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9',1,'ProfileManager::callbacks_()'],['../class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517',1,'LrIpcOut::callbacks_()'],['../class_midi_processor.html#ad0d32fd22ef00526d88e89eae20a3857',1,'MidiProcessor::callbacks_()']]],
+  ['callbacks_5f',['callbacks_',['../class_profile_manager.html#abbe77680917497809ae1bf0aee0d89f9',1,'ProfileManager::callbacks_()'],['../class_lr_ipc_out.html#abb27f1d461176785f1efb3456fed7517',1,'LrIpcOut::callbacks_()'],['../class_midi_processor.html#a10f19f9c64444d5f86e3cb8f861e28b9',1,'MidiProcessor::callbacks_()']]],
   ['cc_5fhigh_5f',['cc_high_',['../class_channel_model.html#a6bda6b4e78f9b79f2d690991fe88029b',1,'ChannelModel']]],
   ['cc_5flow_5f',['cc_low_',['../class_channel_model.html#a3dadb5b4757f397c7c06038455e720b4',1,'ChannelModel']]],
   ['cc_5fmethod_5f',['cc_method_',['../class_channel_model.html#a23cb22ed1b9c874f58496d032f68f938',1,'ChannelModel']]],

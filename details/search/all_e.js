@@ -11,7 +11,7 @@ var searchData=
   ['pitch_5fwheel_5fmax_5f',['pitch_wheel_max_',['../class_channel_model.html#abd950b38a9229e5ea4ce6dd8f6a593ea',1,'ChannelModel']]],
   ['pitch_5fwheel_5fmin_5f',['pitch_wheel_min_',['../class_channel_model.html#ad4f1dff6fef975888a50a61df568dc67',1,'ChannelModel']]],
   ['pleasestopthread',['PleaseStopThread',['../class_lr_ipc_in.html#a8d1398654e822a1b2a411fe3c3a163ff',1,'LrIpcIn']]],
-  ['plugintocontroller',['PluginToController',['../class_channel_model.html#a3971500097093ef98a5d507bea91ac1b',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#aa59fc242cd45c965c030373bc6abfbb3',1,'ControlsModel::PluginToController()']]],
+  ['plugintocontroller',['PluginToController',['../class_channel_model.html#ae448886fd87c60b1be036b256df253e9',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a326448f1fee495486332fd22c1ce3b3a',1,'ControlsModel::PluginToController()']]],
   ['prior_5fsort_5f',['prior_sort_',['../class_command_table_model.html#af8b8c8fc9d359ef3f53c4bd1a645e896',1,'CommandTableModel']]],
   ['process_5fline_5ffuture_5f',['process_line_future_',['../class_lr_ipc_in.html#a31844f93eb6e2ba93a30caa1e4f4f0e3',1,'LrIpcIn']]],
   ['processline',['ProcessLine',['../class_lr_ipc_in.html#a833e0157f89d7f78447d7d6fccac69e4',1,'LrIpcIn']]],

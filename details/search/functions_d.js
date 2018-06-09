@@ -4,7 +4,7 @@ var searchData=
   ['paintcell',['paintCell',['../class_command_table_model.html#ab9d3adb581848e33679d31dd2f8df60b',1,'CommandTableModel']]],
   ['paintrowbackground',['paintRowBackground',['../class_command_table_model.html#ac8a674bdc1c19da4d97c1276db02ac63',1,'CommandTableModel']]],
   ['pleasestopthread',['PleaseStopThread',['../class_lr_ipc_in.html#a8d1398654e822a1b2a411fe3c3a163ff',1,'LrIpcIn']]],
-  ['plugintocontroller',['PluginToController',['../class_channel_model.html#a3971500097093ef98a5d507bea91ac1b',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#aa59fc242cd45c965c030373bc6abfbb3',1,'ControlsModel::PluginToController()']]],
+  ['plugintocontroller',['PluginToController',['../class_channel_model.html#ae448886fd87c60b1be036b256df253e9',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a326448f1fee495486332fd22c1ce3b3a',1,'ControlsModel::PluginToController()']]],
   ['processline',['ProcessLine',['../class_lr_ipc_in.html#a833e0157f89d7f78447d7d6fccac69e4',1,'LrIpcIn']]],
   ['processmidi',['ProcessMidi',['../class_nrpn_message.html#a8954bba6e4ef6848a6d120bdfa49f97d',1,'NrpnMessage::ProcessMidi()'],['../class_nrpn_filter.html#a08445d0c8ede53cf4a2dc5a4ca8a41ed',1,'NrpnFilter::ProcessMidi()']]],
   ['profilechanged',['ProfileChanged',['../class_main_content_component.html#a337ef400359712b24a924d6a8056be93',1,'MainContentComponent']]],
