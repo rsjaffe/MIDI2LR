@@ -187,19 +187,15 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // If the type of exception is derived from the std::exception class, the
       // pointer passed-in will be valid. If the exception is of unknown type,
       // this pointer will be null.
-      if (juce::Logger::getCurrentLogger()) {
-         if (e) {
-            juce::Logger::writeToLog(juce::String(e->what()) + " " + source_filename + " line "
-                                     + juce::String(lineNumber));
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-                "Unhandled exception. " + juce::String(e->what()) + " " + source_filename + " line "
-                    + juce::String(lineNumber));
-         }
-         else {
-            juce::Logger::writeToLog(source_filename + " line " + juce::String(lineNumber));
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+      try {
+         if (e)
+            rsj::LogAndAlertError("Unhandled exception. " + juce::String(e->what()) + " "
+                                  + source_filename + " line " + juce::String(lineNumber));
+         else
+            rsj::LogAndAlertError(
                 "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber));
-         }
+      }
+      catch (...) { // we'll terminate anyway
       }
       std::terminate(); // can't go on with the program
    }
@@ -231,8 +227,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             oarchive(controls_model_);
          }
          else
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-                "Unable to save control settings. Unable to open file settings.bin.");
+            rsj::LogAndAlertError("Unable to save control settings. Unable to open file "
+                                  "settings.bin.");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -274,6 +270,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        std::make_shared<LrIpcOut>(&controls_model_, &command_map_)};
    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
+   // log file created at C:\Users\YOURNAME\AppData\Roaming (Windows) or
+   // C:\Users\YOURNAME\AppData\Roaming (OSX)
+   std::unique_ptr<juce::FileLogger> logger_{
+       juce::FileLogger::createDefaultAppLogger("", "MIDI2LR.log", "", 32 * 1024)};
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    VersionChecker version_checker_{&settings_manager_};

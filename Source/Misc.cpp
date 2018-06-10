@@ -25,35 +25,50 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 
 namespace rsj {
-// from http://www.cplusplus.com/forum/beginner/175177/
-// use as rsj::Demangle(typeid(*this).name()) to add class information to exception message
+// from http://www.cplusplus.com/forum/beginner/175177 and
+// https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156
+
 #ifdef __GNUG__ // gnu C++ compiler
 #include <cxxabi.h>
 #include <memory>
-   template<typename T> T Demangle(const char* mangled_name)
+#include <type_traits>
+   template<typename T> T Demangle(const char* mangled_name) noexcept
    {
+      static_assert(::std::is_pointer<T>() == false,
+          "Result must be copied as __cxa_demagle returns "
+          "pointer to temporary. Cannot use pointer type "
+          "for this template.");
       ::std::size_t len = 0;
       int status = 0;
       ::std::unique_ptr<char, decltype(&::std::free)> ptr(
-          __cxxabiv1::__cxa_demangle(mangled_name, nullptr, &len, &status), &::std::free);
+          abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &::std::free);
+      if (status)
+         return mangled_name;
       return ptr.get();
    }
-#else
-   template<typename T> T Demangle(const char* mangled_name)
+#else  // ndef _GNUG_
+   template<typename T> T Demangle(const char* mangled_name) noexcept
    {
       return mangled_name;
    }
 #endif // _GNUG_
-
+   void LogAndAlertError(const juce::String& error_text)
+   {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(error_text);
+   }
+   // use typeid(this).name() for first argument to add class information
+   // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept
    {
       try {
-         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-             juce::String("Exception ") + e.what() + ' ' + Demangle<juce::String>(id) + "::" + fu
-                 + " Version " + ProjectInfo::versionString);
+         const juce::String error_text{juce::String("Exception ") + e.what() + ' '
+                                       + Demangle<juce::String>(id) + "::" + fu + " Version "
+                                       + ProjectInfo::versionString};
+         LogAndAlertError(error_text);
       }
       catch (...) {
       }
    }
-
 } // namespace rsj

@@ -84,12 +84,12 @@ void CommandMap::ToXmlDocument(const juce::File& file) const
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting.release());
          }
-         if (!root.writeToFile(file, ""))
+         if (!root.writeToFile(file, "")) {
             // Give feedback if file-save doesn't work
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon,
-                "File Save Error",
+            rsj::LogAndAlertError(
                 "Unable to save file as specified. Please try again, and consider saving to a "
                 "different location.");
+         }
       }
    }
    catch (const std::exception& e) {
