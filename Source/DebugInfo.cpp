@@ -138,13 +138,13 @@ std::string rsj::GetKeyboardLayout()
       catch (...) {
          const std::string msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
          if (juce::Logger::getCurrentLogger())
-            juce::Logger::writeToLog(msg);
+            juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
          return msg;
       }
    }
    const std::string msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
    if (juce::Logger::getCurrentLogger())
-      juce::Logger::writeToLog(msg);
+      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
    return msg;
 }
 #endif
@@ -156,29 +156,32 @@ DebugInfo::DebugInfo() noexcept
       auto msg{"System language "s + juce::SystemStats::getDisplayLanguage().toStdString()};
       info_.emplace_back(msg);
       if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(msg);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
       msg = "Version "s + ProjectInfo::versionString;
+#ifndef NDEBUG
+      msg += "-debug"s;
+#endif
       info_.emplace_back(msg);
       if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(msg);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
       msg = "App path "s
             + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                   .getFullPathName()
                   .toStdString();
       info_.emplace_back(msg);
       if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(msg);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
       msg = "Keyboard type "s + rsj::GetKeyboardLayout();
       info_.emplace_back(msg);
       if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(msg);
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
    }
    catch (...) {
       try {
          static constexpr auto kErr{"Failed to obtain app info. Exception."};
          info_.emplace_back(kErr);
          if (juce::Logger::getCurrentLogger())
-            juce::Logger::writeToLog(kErr);
+            juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + kErr);
       }
       catch (...) {
       }
@@ -202,7 +205,8 @@ const std::string* DebugInfo::GetInfo() noexcept
       if (second_time)
          return nullptr;
       if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(kErrorNotice);
+         juce::Logger::writeToLog(
+             juce::Time::getCurrentTime().toISO8601(false) + ": " + kErrorNotice);
       second_time = true;
       return &kErrorNotice;
    }

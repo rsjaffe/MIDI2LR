@@ -88,6 +88,5 @@ namespace rsj {
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& err);
-
 } // namespace rsj
 #endif // MISC_H_INCLUDED

@@ -110,7 +110,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // If during the initialise() method, the application decides not to
          // start - up after all, it can just call the quit() method and the event
          // loop won't be run.
-
+         juce::Logger::setCurrentLogger(logger_.get());
          if (command_line != kShutDownString) {
             CerealLoad();
             midi_processor_->Init();
@@ -152,6 +152,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       midi_processor_.reset();
       midi_sender_.reset();
       main_window_.reset(); // (deletes our window)
+      juce::Logger::setCurrentLogger(nullptr);
    }
 
    //==========================================================================
@@ -271,7 +272,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
    // log file created at C:\Users\YOURNAME\AppData\Roaming (Windows) or
-   // C:\Users\YOURNAME\AppData\Roaming (OSX)
+   // ~/Library/Logs (OSX)
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("", "MIDI2LR.log", "", 32 * 1024)};
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};

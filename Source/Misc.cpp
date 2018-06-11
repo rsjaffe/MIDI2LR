@@ -56,7 +56,8 @@ namespace rsj {
    {
       juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
       if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(error_text);
+         juce::Logger::writeToLog(
+             juce::Time::getCurrentTime().toISO8601(false) + ": " + error_text);
    }
    // use typeid(this).name() for first argument to add class information
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);

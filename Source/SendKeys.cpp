@@ -183,9 +183,9 @@ UChar CreateStringForKey(CGKeyCode key_code)
        chars);
    if (real_length > 1)
       rsj::LogAndAlertError(juce::String("For key code ") + juce::String(key_code)
-                       + juce::String(", Unicode character is ") + juce::String(real_length)
-                       + juce::String(" long. It is ") + juce::String((wchar_t*)chars, real_length)
-                       + juce::String("."));
+                            + juce::String(", Unicode character is ") + juce::String(real_length)
+                            + juce::String(" long. It is ")
+                            + juce::String((wchar_t*)chars, real_length) + juce::String("."));
    return chars[0];
 }
 
