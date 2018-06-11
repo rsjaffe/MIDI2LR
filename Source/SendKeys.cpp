@@ -29,6 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <unicode/unistr.h>
 #include <gsl/gsl>
+#include "Misc.h"
 #ifdef _WIN32
 #include "Windows.h"
 #else
@@ -158,8 +159,7 @@ pid_t GetPid()
       if (strlen(path_buffer) > 0 && (EndsWith(path_buffer, kLr) || EndsWith(path_buffer, kLrc)))
          return pid;
    }
-   juce::NativeMessageBox::showMessageBox(
-       juce::AlertWindow::WarningIcon, "Error", "Lightroom PID not found.");
+   rsj::LogAndAlertError("Lightroom PID not found.");
    return 0;
 }
 
@@ -182,11 +182,10 @@ UChar CreateStringForKey(CGKeyCode key_code)
        kUCKeyTranslateNoDeadKeysBit, &keys_down, sizeof(chars) / sizeof(chars[0]), &real_length,
        chars);
    if (real_length > 1)
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("For key code ") + juce::String(key_code)
-              + juce::String(", Unicode character is ") + juce::String(real_length)
-              + juce::String(" long. It is ") + juce::String((wchar_t*)chars, real_length)
-              + juce::String("."));
+      rsj::LogAndAlertError(juce::String("For key code ") + juce::String(key_code)
+                            + juce::String(", Unicode character is ") + juce::String(real_length)
+                            + juce::String(" long. It is ")
+                            + juce::String((wchar_t*)chars, real_length) + juce::String("."));
    return chars[0];
 }
 
@@ -389,17 +388,15 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
       }
       catch (const std::out_of_range& e) {
-         juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-             "Unsupported character was used: " + key + ". " + e.what());
+         rsj::LogAndAlertError("Unsupported character was used: " + key + ". " + e.what());
       }
 #endif
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          "Exception in key sending function for key: " + key + ". " + e.what());
+      rsj::LogAndAlertError("Exception in key sending function for key: " + key + ". " + e.what());
    }
    catch (...) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
+      rsj::LogAndAlertError(
           "Exception in key sending function for key: " + key + ". Non-standard exception.");
    }
 }

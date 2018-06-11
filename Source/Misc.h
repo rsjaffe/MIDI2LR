@@ -24,14 +24,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <atomic>
 #include <chrono>
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
-
-#ifdef NDEBUG // asserts disabled
-static constexpr bool kNdebug = true;
-#else // asserts enabled
+namespace juce {
+   class String;
+}
 namespace std {
    class exception;
 }
-
+#ifdef NDEBUG // asserts disabled
+static constexpr bool kNdebug = true;
+#else // asserts enabled
 static constexpr bool kNdebug = false;
 #endif
 
@@ -86,6 +87,6 @@ namespace rsj {
 
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept;
-
+   void LogAndAlertError(const juce::String& err);
 } // namespace rsj
 #endif // MISC_H_INCLUDED

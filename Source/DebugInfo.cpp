@@ -31,8 +31,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
 #pragma warning(suppress : 26426)
-   const std::unordered_map<unsigned long int, std::string> keyboard_names{
-       {0x0000041c, "Albanian"}, {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
+   const std::unordered_map<unsigned long int, std::string> keyboard_names{{0x0000041c, "Albanian"},
+       {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
        {0x0001042b, "Armenian Western"}, {0x0000044d, "Assamese - Inscript"},
@@ -136,10 +136,16 @@ std::string rsj::GetKeyboardLayout()
          return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
       }
       catch (...) {
-         return "Exception when finding KLID name. KLID: 0x"s + klid_ascii.data();
+         const std::string msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
+         if (juce::Logger::getCurrentLogger())
+            juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+         return msg;
       }
    }
-   return "Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s;
+   const std::string msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
+   if (juce::Logger::getCurrentLogger())
+      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+   return msg;
 }
 #endif
 
@@ -147,18 +153,35 @@ DebugInfo::DebugInfo() noexcept
 {
    try {
       using namespace std::string_literals;
-      info_.emplace_back(
-          "System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
-      info_.emplace_back("Version "s + ProjectInfo::versionString);
-      info_.emplace_back("App path "s
-                         + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                               .getFullPathName()
-                               .toStdString());
-      info_.emplace_back("Keyboard type "s + rsj::GetKeyboardLayout());
+      auto msg{"System language "s + juce::SystemStats::getDisplayLanguage().toStdString()};
+      info_.emplace_back(msg);
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+      msg = "Version "s + ProjectInfo::versionString;
+#ifndef NDEBUG
+      msg += "-debug"s;
+#endif
+      info_.emplace_back(msg);
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+      msg = "App path "s
+            + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+                  .getFullPathName()
+                  .toStdString();
+      info_.emplace_back(msg);
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+      msg = "Keyboard type "s + rsj::GetKeyboardLayout();
+      info_.emplace_back(msg);
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
    }
    catch (...) {
       try {
-         info_.emplace_back("Failed to obtain app info. Exception.");
+         static constexpr auto kErr{"Failed to obtain app info. Exception."};
+         info_.emplace_back(kErr);
+         if (juce::Logger::getCurrentLogger())
+            juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + kErr);
       }
       catch (...) {
       }
@@ -181,6 +204,9 @@ const std::string* DebugInfo::GetInfo() noexcept
       static auto second_time{false};
       if (second_time)
          return nullptr;
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(
+             juce::Time::getCurrentTime().toISO8601(false) + ": " + kErrorNotice);
       second_time = true;
       return &kErrorNotice;
    }

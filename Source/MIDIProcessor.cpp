@@ -96,9 +96,7 @@ void MidiProcessor::RescanDevices()
       devices_.clear();
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
    InitDevices(); // initdevices has own try catch block

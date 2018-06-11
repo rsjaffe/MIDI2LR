@@ -1334,8 +1334,7 @@ size_t LrCommandList::GetIndexOfCommand(const std::string& command)
       // don't show error on deprecated commands, only misspelled ones
       if (command != "CopySettings" && command != "PasteSettings") {
          if (warning_given_.count(command) == 0) {
-            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-                "Non-existent command name in GetIndexOfCommand: " + command);
+            rsj::LogAndAlertError("Non-existent command name in GetIndexOfCommand: " + command);
             warning_given_.insert(command);
          }
       }
