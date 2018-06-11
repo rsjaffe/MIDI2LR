@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
 using namespace std::literals::string_literals;
 
 ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* cmap) noexcept
@@ -68,9 +69,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
          SwitchToProfile(profiles_[0]);
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -113,9 +112,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -162,9 +159,7 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

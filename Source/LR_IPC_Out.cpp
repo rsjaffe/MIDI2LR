@@ -32,6 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 #include "MIDISender.h"
+#include "Misc.h"
 using namespace std::string_literals;
 
 namespace {
@@ -74,9 +75,7 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi
          midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -138,9 +137,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -213,9 +210,7 @@ void LrIpcOut::SendOut()
       } while (true);
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

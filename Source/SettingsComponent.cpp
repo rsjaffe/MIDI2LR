@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsComponent.h"
 #include <exception>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Misc.h"
 #include "SettingsManager.h"
 
 namespace {
@@ -118,9 +119,7 @@ void SettingsComponent::Init()
       activateLayout();
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -157,9 +156,7 @@ void SettingsComponent::buttonClicked(juce::Button* button)
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

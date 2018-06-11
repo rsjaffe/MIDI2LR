@@ -23,10 +23,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_MISC_H_INCLUDED
 #include <atomic>
 #include <chrono>
+#include <typeinfo> //for typeid, used in calls to ExceptionResponse
 
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
 #else // asserts enabled
+namespace std {
+   class exception;
+}
+
 static constexpr bool kNdebug = false;
 #endif
 
@@ -78,5 +83,9 @@ namespace rsj {
     private:
       std::atomic<bool> flag_{false};
    };
+
+   // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   void ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept;
+
 } // namespace rsj
 #endif // MISC_H_INCLUDED

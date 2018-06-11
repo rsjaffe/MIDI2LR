@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "VersionChecker.h"
 #include <exception>
+#include "Misc.h"
 #include "SettingsManager.h"
 
 VersionChecker::VersionChecker(SettingsManager* settings_manager) noexcept
@@ -51,9 +52,7 @@ void VersionChecker::run()
       }
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -81,9 +80,7 @@ void VersionChecker::handleAsyncUpdate()
       dialog_->setVisible(true);
    }
    catch (const std::exception& e) {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error",
-          juce::String("Exception ") + e.what() + ' ' + __func__ + ' ' + __FILE__ + ". Version "
-              + ProjectInfo::versionString);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

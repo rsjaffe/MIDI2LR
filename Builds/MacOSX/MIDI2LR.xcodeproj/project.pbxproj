@@ -47,6 +47,7 @@
 		BE7E7EF06FF4053F4417663C = {isa = PBXBuildFile; fileRef = 788447911A56FA34C9F8468E; };
 		92A115CF461BA5CFDF750CA7 = {isa = PBXBuildFile; fileRef = CFE017FDA090DB4518F95826; };
 		02A7CE68913E06429425B72C = {isa = PBXBuildFile; fileRef = 596A515E74C727B658C08FBE; };
+		BDE4152EF99D34942A18B128 = {isa = PBXBuildFile; fileRef = 17EC4CDCF4664D03C47FC1AE; };
 		5B1E88868F714EDC30BD06A1 = {isa = PBXBuildFile; fileRef = 8B172E18F0E34AE94D47AC12; };
 		1CBFBED27592AE60502C81C3 = {isa = PBXBuildFile; fileRef = 5205E1551934B25B9956903B; };
 		71E4A94C6C0AA69DC27972DF = {isa = PBXBuildFile; fileRef = DEBD9FE98B3F63E8D660310D; };
@@ -75,6 +76,7 @@
 		11A085E103F4DB635F250B4F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "utf_impl.cpp"; path = "../../icu/source/common/utf_impl.cpp"; sourceTree = "SOURCE_ROOT"; };
 		12A5F5628D5F8A75606C954E = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = cstring.cpp; path = ../../icu/source/common/cstring.cpp; sourceTree = "SOURCE_ROOT"; };
 		143DA00B5265FB49526E86AB = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DebugInfo.mm; path = ../../Source/DebugInfo.mm; sourceTree = "SOURCE_ROOT"; };
+		17EC4CDCF4664D03C47FC1AE = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Misc.cpp; path = ../../Source/Misc.cpp; sourceTree = "SOURCE_ROOT"; };
 		1C376A7F89CA0BC18630F667 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainComponent.h; path = ../../Source/MainComponent.h; sourceTree = "SOURCE_ROOT"; };
 		21006303504EA15B0A68D6C7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainWindow.h; path = ../../Source/MainWindow.h; sourceTree = "SOURCE_ROOT"; };
 		21C6B16D556E368BC28C907B = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -205,6 +207,7 @@
 					E03CBAF954A7A416CC4C5EFB,
 					596A515E74C727B658C08FBE,
 					F4C90FF76D76F4C7A08E98AD,
+					17EC4CDCF4664D03C47FC1AE,
 					04B184211B8A075FD6F0CCA8,
 					8B172E18F0E34AE94D47AC12,
 					872F7D5733C0B0577CA8C02B,
@@ -450,6 +453,7 @@
 					BE7E7EF06FF4053F4417663C,
 					92A115CF461BA5CFDF750CA7,
 					02A7CE68913E06429425B72C,
+					BDE4152EF99D34942A18B128,
 					5B1E88868F714EDC30BD06A1,
 					1CBFBED27592AE60502C81C3,
 					71E4A94C6C0AA69DC27972DF,

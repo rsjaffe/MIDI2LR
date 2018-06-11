@@ -179,10 +179,16 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Builds/VisualStudio2017/x64/Debug/App/MIDI2LR.exe</origin>
+                            <origin>../Builds/VisualStudio2017/EnableUserDumps.reg</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../Builds/VisualStudio2017/EnableUserDumps.txt</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../rtmidi/midiprobe.exe</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../Builds/VisualStudio2017/x64/Debug/App/MIDI2LR.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>

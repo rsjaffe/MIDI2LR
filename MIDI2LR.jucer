@@ -63,6 +63,7 @@
       <FILE id="Z5nYLY" name="MidiUtilities.cpp" compile="1" resource="0"
             file="Source/MidiUtilities.cpp"/>
       <FILE id="rID3Fo" name="MidiUtilities.h" compile="0" resource="0" file="Source/MidiUtilities.h"/>
+      <FILE id="gxafEg" name="Misc.cpp" compile="1" resource="0" file="Source/Misc.cpp"/>
       <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
       <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="Source/NrpnMessage.cpp"/>
       <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="Source/NrpnMessage.h"/>
