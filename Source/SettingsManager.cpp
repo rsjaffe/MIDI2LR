@@ -82,7 +82,7 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
 {
    if (connected && !blocked)
       if (const auto ptr = lr_ipc_out_.lock()) {
-         DebugInfo db{};
+         DebugInfo db{GetProfileDirectory()};
          ptr->SendCommand("Pickup "s + std::to_string(unsigned{GetPickupEnabled()}) + '\n');
          ptr->SendCommand("AppInfoClear 1\n"s);
          while (const auto info = db.GetInfo()) {

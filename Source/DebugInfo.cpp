@@ -149,32 +149,22 @@ std::string rsj::GetKeyboardLayout()
 }
 #endif
 
-DebugInfo::DebugInfo() noexcept
+DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
       using namespace std::string_literals;
-      auto msg{"System language "s + juce::SystemStats::getDisplayLanguage().toStdString()};
-      info_.emplace_back(msg);
-      if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
-      msg = "Version "s + ProjectInfo::versionString;
-#ifndef NDEBUG
-      msg += "-debug"s;
+      Send("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
+#ifdef NDEBUG
+      Send("Version "s + ProjectInfo::versionString);
+#else
+      Send("Version "s + ProjectInfo::versionString + "-debug"s);
 #endif
-      info_.emplace_back(msg);
-      if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
-      msg = "App path "s
-            + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                  .getFullPathName()
-                  .toStdString();
-      info_.emplace_back(msg);
-      if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
-      msg = "Keyboard type "s + rsj::GetKeyboardLayout();
-      info_.emplace_back(msg);
-      if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+      Send("App path "s
+           + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+                 .getFullPathName()
+                 .toStdString());
+      Send("Profile directory "s + profile_directory.toStdString());
+      Send("Keyboard type "s + rsj::GetKeyboardLayout());
    }
    catch (...) {
       try {
@@ -187,6 +177,14 @@ DebugInfo::DebugInfo() noexcept
       }
    }
 }
+
+void DebugInfo::Send(std::string&& msg)
+{
+   if (juce::Logger::getCurrentLogger())
+      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+   info_.emplace_back(std::move(msg));
+}
+
 namespace {
    // placing kErrorNotice here instead of in exception handler so that handler doesn't have any
    // chance of throwing another exception

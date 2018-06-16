@@ -24,9 +24,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_NRPNMESSAGE_H_INCLUDED
 
 #include <array>
+#include <gsl/gsl>
 #include <mutex>
 #include "MoodyCamel/concurrentqueue.h"
-#include <gsl/gsl>
 #include "Misc.h"
 
 namespace rsj {
@@ -50,8 +50,8 @@ class NrpnMessage {
    // message without emitting anything.
  public:
    [[nodiscard]] bool IsInProcess() const noexcept;
-   bool ProcessMidi(short control, short value) noexcept(kNdebug);
-   rsj::Nrpn GetNrpnIfReady() noexcept;
+   bool ProcessMidi(short control, short value);
+   rsj::Nrpn GetNrpnIfReady();
 
  private:
    [[nodiscard]] bool IsReady() const noexcept;
@@ -74,22 +74,40 @@ class NrpnMessage {
 
 class NrpnFilter {
  public:
-   bool ProcessMidi(short channel, short control, short value) noexcept(kNdebug)
+   bool ProcessMidi(short channel, short control, short value)
    {
-      Expects(channel <= 15 && channel >= 0);
-      return nrpn_messages_.at(channel & 0xF).ProcessMidi(control, value);
+      try {
+         Expects(channel <= 15 && channel >= 0);
+         return nrpn_messages_.at(channel & 0xF).ProcessMidi(control, value);
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
-   bool IsInProcess(short channel) const noexcept(kNdebug)
+   bool IsInProcess(short channel) const
    {
-      Expects(channel <= 15 && channel >= 0);
-      return nrpn_messages_.at(channel & 0xF).IsInProcess();
+      try {
+         Expects(channel <= 15 && channel >= 0);
+         return nrpn_messages_.at(channel & 0xF).IsInProcess();
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
-   rsj::Nrpn GetNrpnIfReady(short channel) noexcept(kNdebug)
+   rsj::Nrpn GetNrpnIfReady(short channel)
    {
-      Expects(channel <= 15 && channel >= 0);
-      return nrpn_messages_.at(channel & 0xF).GetNrpnIfReady();
+      try {
+         Expects(channel <= 15 && channel >= 0);
+         return nrpn_messages_.at(channel & 0xF).GetNrpnIfReady();
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
  private:

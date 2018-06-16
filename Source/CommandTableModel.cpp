@@ -45,6 +45,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
 
    // If you implement this, your method should re - sort the table using the
    // given column as the key.
+   std::unique_lock<std::shared_mutex> grd{cmdmap_mutex_};
    current_sort_ = std::make_pair(new_sort_column_id, is_forwards);
    Sort();
 }
@@ -55,6 +56,7 @@ int CommandTableModel::getNumRows() noexcept
 
    // If the number of rows changes, you must call TableListBox::updateContent()
    // to cause it to refresh the list.
+   std::shared_lock<std::shared_mutex> lck{cmdmap_mutex_};
    return gsl::narrow_cast<int>(commands_.size());
 }
 
@@ -87,30 +89,37 @@ void CommandTableModel::paintCell(
       // list, so be careful that you don't assume it's less than getNumRows().
       g.setColour(juce::Colours::black);
       g.setFont(12.0f);
-
       if (column_id == 1) // write the MIDI message in the MIDI command column
       {
          auto value = 0;
          auto channel = 0;
-         switch (const auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number));
-                 cmd.msg_id_type) {
-         case rsj::MsgIdEnum::kNote:
-            format_str = "%d | Note: %d";
-            channel = cmd.channel;
-            value = cmd.pitch;
-            break;
-         case rsj::MsgIdEnum::kCc:
-            format_str = "%d | CC: %d";
-            channel = cmd.channel;
-            value = cmd.controller;
-            break;
-         case rsj::MsgIdEnum::kPitchBend:
-            format_str = "%d | Pitch: %d";
-            channel = cmd.channel;
-            break;
+         std::shared_lock<std::shared_mutex> lck{cmdmap_mutex_};
+         // cmdmap_mutex_ should fix the following problem
+         if (commands_.size()
+             <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell not filled yet
+            g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
          }
-         g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height,
-             juce::Justification::centred);
+         else {
+            switch (const auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number));
+                    cmd.msg_id_type) {
+            case rsj::MsgIdEnum::kNote:
+               format_str = "%d | Note: %d";
+               channel = cmd.channel;
+               value = cmd.pitch;
+               break;
+            case rsj::MsgIdEnum::kCc:
+               format_str = "%d | CC: %d";
+               channel = cmd.channel;
+               value = cmd.controller;
+               break;
+            case rsj::MsgIdEnum::kPitchBend:
+               format_str = "%d | Pitch: %d";
+               channel = cmd.channel;
+               break;
+            }
+            g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height,
+                juce::Justification::centred);
+         }
       }
    }
    catch (const std::exception& e) {
@@ -152,6 +161,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
 
          // create a new command menu
+         std::shared_lock<std::shared_mutex> lck{cmdmap_mutex_};
          if (command_select == nullptr) {
 #pragma warning(suppress : 26409 24623 24624)
             command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
@@ -181,6 +191,7 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
 {
    try {
       const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
+      std::unique_lock<std::shared_mutex> grd{cmdmap_mutex_};
       if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
          commands_.push_back(msg);
          command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
@@ -195,13 +206,21 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
 
 void CommandTableModel::RemoveRow(size_t row)
 {
-   if (command_map_)
-      command_map_->RemoveMessage(commands_.at(row));
-   commands_.erase(commands_.cbegin() + row);
+   try {
+      std::unique_lock<std::shared_mutex> grd{cmdmap_mutex_};
+      if (command_map_)
+         command_map_->RemoveMessage(commands_.at(row));
+      commands_.erase(commands_.cbegin() + row);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void CommandTableModel::RemoveAllRows() noexcept
 {
+   std::unique_lock<std::shared_mutex> grd{cmdmap_mutex_};
    commands_.clear();
    if (command_map_)
       command_map_->ClearMap();
@@ -210,6 +229,7 @@ void CommandTableModel::RemoveAllRows() noexcept
 void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
 {
    try {
+      //std::unique_lock<std::shared_mutex> grd{cmdmap_mutex_}; //causes deadlock
       if (!root || root->getTagName().compare("settings") != 0)
          return;
       RemoveAllRows();
@@ -255,7 +275,7 @@ int CommandTableModel::GetRowForMessage(
 }
 
 void CommandTableModel::Sort()
-{
+{ // always call within unique_lock
    // use LRCommandList::getIndexOfCommand(string); to sort by command
    const auto msg_idx = [this](rsj::MidiMessageId a) {
       return LrCommandList::GetIndexOfCommand(command_map_->GetCommandforMessage(a));

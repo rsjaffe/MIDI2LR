@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <set>
 #include "LRCommands.h"
 #include "CommandMap.h"
+#include "Misc.h"
 
 const std::vector<std::string> LrCommandList::KeyShortcuts = {
     "Key 1",
@@ -1318,26 +1319,32 @@ const std::vector<std::string> LrCommandList::NextPrevProfile = {
 
 size_t LrCommandList::GetIndexOfCommand(const std::string& command)
 {
-   static std::set<std::string> warning_given_;
-   static const std::unordered_map<std::string, size_t> indexMap{[] {
-      std::unordered_map<std::string, size_t> idx_build;
-      size_t idx{0};
-      for (const auto& str : LrStringList)
-         idx_build[str] = idx++;
-      for (const auto& str : NextPrevProfile)
-         idx_build[str] = idx++;
-      return idx_build;
-   }()};
-   if (const auto cmd_loc = indexMap.find(command); cmd_loc != indexMap.end())
-      return cmd_loc->second;
-   else {
-      // don't show error on deprecated commands, only misspelled ones
-      if (command != "CopySettings" && command != "PasteSettings") {
-         if (warning_given_.count(command) == 0) {
-            rsj::LogAndAlertError("Non-existent command name in GetIndexOfCommand: " + command);
-            warning_given_.insert(command);
+   try {
+      static std::set<std::string> warning_given_;
+      static const std::unordered_map<std::string, size_t> indexMap{[] {
+         std::unordered_map<std::string, size_t> idx_build;
+         size_t idx{0};
+         for (const auto& str : LrStringList)
+            idx_build[str] = idx++;
+         for (const auto& str : NextPrevProfile)
+            idx_build[str] = idx++;
+         return idx_build;
+      }()};
+      if (const auto cmd_loc = indexMap.find(command); cmd_loc != indexMap.end())
+         return cmd_loc->second;
+      else {
+         // don't show error on deprecated commands, only misspelled ones
+         if (command != "CopySettings" && command != "PasteSettings") {
+            if (warning_given_.count(command) == 0) {
+               rsj::LogAndAlertError("Non-existent command name in GetIndexOfCommand: " + command);
+               warning_given_.insert(command);
+            }
          }
+         return 0;
       }
-      return 0;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse("static LrCommandList", __func__, e);
+      throw;
    }
 }
