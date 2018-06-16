@@ -72,208 +72,202 @@ activateLayout();
 */
 
 class ResizableChild {
-public:
-    ResizableChild() noexcept :
-        m_minW(0), m_maxW(0x3fffffff), m_minH(0), m_maxH(0x3fffffff)
-    {}
+ public:
+   ResizableChild() noexcept : m_minW(0), m_maxW(0x3fffffff), m_minH(0), m_maxH(0x3fffffff) {}
 
-    virtual ~ResizableChild() = default;//added 6/2016 because there is a virtual member function
+   virtual ~ResizableChild() = default; // added 6/2016 because there is a virtual member function
 
-    void setMinimumWidth(int minimumWidth) noexcept
-    {
-        m_minW = minimumWidth;
-    }
-    void setMaximumWidth(int maximumWidth) noexcept
-    {
-        m_maxW = maximumWidth;
-    }
-    void setMinimumHeight(int minimumHeight) noexcept
-    {
-        m_minH = minimumHeight;
-    }
-    void setMaximumHeight(int maximumHeight) noexcept
-    {
-        m_maxH = maximumHeight;
-    }
+   void setMinimumWidth(int minimumWidth) noexcept
+   {
+      m_minW = minimumWidth;
+   }
+   void setMaximumWidth(int maximumWidth) noexcept
+   {
+      m_maxW = maximumWidth;
+   }
+   void setMinimumHeight(int minimumHeight) noexcept
+   {
+      m_minH = minimumHeight;
+   }
+   void setMaximumHeight(int maximumHeight) noexcept
+   {
+      m_maxH = maximumHeight;
+   }
 
-    int getMinimumWidth() const noexcept
-    {
-        return m_minW;
-    }
-    int getMaximumWidth() const noexcept
-    {
-        return m_maxW;
-    }
-    int getMinimumHeight() const noexcept
-    {
-        return m_minH;
-    }
-    int getMaximumHeight() const noexcept
-    {
-        return m_maxH;
-    }
+   int getMinimumWidth() const noexcept
+   {
+      return m_minW;
+   }
+   int getMaximumWidth() const noexcept
+   {
+      return m_maxW;
+   }
+   int getMinimumHeight() const noexcept
+   {
+      return m_minH;
+   }
+   int getMaximumHeight() const noexcept
+   {
+      return m_maxH;
+   }
 
-    void setMinimumSize(int minimumWidth, int minimumHeight) noexcept
-    {
-        setMinimumWidth(minimumWidth);
-        setMinimumHeight(minimumHeight);
-    }
+   void setMinimumSize(int minimumWidth, int minimumHeight) noexcept
+   {
+      setMinimumWidth(minimumWidth);
+      setMinimumHeight(minimumHeight);
+   }
 
-    void setMaximumSize(int maximumWidth, int maximumHeight) noexcept
-    {
-        setMaximumWidth(maximumWidth);
-        setMaximumHeight(maximumHeight);
-    }
+   void setMaximumSize(int maximumWidth, int maximumHeight) noexcept
+   {
+      setMaximumWidth(maximumWidth);
+      setMaximumHeight(maximumHeight);
+   }
 
-    void setSizeLimits(int minimumWidth, int minimumHeight, int maximumWidth,
-        int maximumHeight) noexcept
-    {
-        setMinimumWidth(minimumWidth);
-        setMaximumWidth(maximumWidth);
-        setMinimumHeight(minimumHeight);
-        setMaximumHeight(maximumHeight);
-    }
+   void setSizeLimits(
+       int minimumWidth, int minimumHeight, int maximumWidth, int maximumHeight) noexcept
+   {
+      setMinimumWidth(minimumWidth);
+      setMaximumWidth(maximumWidth);
+      setMinimumHeight(minimumHeight);
+      setMaximumHeight(maximumHeight);
+   }
 
-    virtual void resizeStart() noexcept
-    {}
+   virtual void resizeStart() noexcept {}
 
-private:
-    int m_minW;
-    int m_maxW;
-    int m_minH;
-    int m_maxH;
+ private:
+   int m_minW;
+   int m_maxW;
+   int m_minH;
+   int m_maxH;
 };
 
-class ResizableLayout: public ResizableChild, private juce::ComponentListener {
-public:
-    enum {
-        anchorUnit = 100
-    };
+class ResizableLayout : public ResizableChild, private juce::ComponentListener {
+ public:
+   enum { anchorUnit = 100 };
 
-    enum Style {
-        styleStretch,
-        styleFixedAspect
-    };
+   enum Style { styleStretch, styleFixedAspect };
 
+   ResizableLayout(juce::Component* owner);
+   ~ResizableLayout();
 
+   // Add a Component to the Layout. topLeft and bottomRight are the percentages
+   // that the top left and bottom right of the Component should move by, when
+   // the layout is resized. So if you wanted to have the control take on the
+   // full width of the parent, and half the height, you would use
+   // bottomRight.x=100, bottomRight.y=50. or use the constant anchorMidRight
+   void addToLayout(juce::Component* component, const juce::Point<int>& topLeft,
+       const juce::Point<int>& bottomRight = juce::Point<int>{-1, -1}, Style style = styleStretch);
+   // Remove a Component from the Layout.
+   void removeFromLayout(juce::Component* component) noexcept;
+   // Activate (or deactivate) the Layout. The Layout is initially inactive, to
+   // prevent spurious recalculation while a Component and its children are
+   // being constructed (causing resized() messages). Activating the Layout for
+   // the first time will cause an Update().
+   void activateLayout(bool isActive = true) noexcept;
+   // Call this to manually update the state information for a single control
+   // after it has been moved or resized from elsewhere.
+   // UNFINISHED API
+   void updateLayoutFor(juce::Component* component) noexcept;
+   // Convenience function
+   static juce::Rectangle<int> calcBoundsOfChildren(juce::Component* parent) noexcept;
+   void recalculateLayout() const;
 
-    ResizableLayout(juce::Component* owner);
-    ~ResizableLayout();
+ private:
+   // Update the state information for all items. This is used on the first
+   // Activate(), and can also be used if multiple controls are moved or resized
+   // from elsewhere. UNFINISHED API
+   void updateLayout() noexcept;
+   void resizeStart() noexcept override;
 
-    // Add a Component to the Layout. topLeft and bottomRight are the percentages
-    // that the top left and bottom right of the Component should move by, when
-    // the layout is resized. So if you wanted to have the control take on the
-    // full width of the parent, and half the height, you would use
-    // bottomRight.x=100, bottomRight.y=50. or use the constant anchorMidRight
-    void addToLayout(juce::Component *component, const juce::Point<int>& topLeft,
-        const juce::Point<int>& bottomRight = juce::Point<int>{-1,-1},
-        Style style = styleStretch);
-    // Remove a Component from the Layout.
-    void removeFromLayout(juce::Component* component) noexcept;
-    // Activate (or deactivate) the Layout. The Layout is initially inactive, to
-    // prevent spurious recalculation while a Component and its children are
-    // being constructed (causing resized() messages). Activating the Layout for
-    // the first time will cause an Update().
-    void activateLayout(bool isActive = true) noexcept;
-    // Call this to manually update the state information for a single control
-    // after it has been moved or resized from elsewhere.
-    // UNFINISHED API
-    void updateLayoutFor(juce::Component *component) noexcept;
-    // Convenience function
-    static juce::Rectangle<int> calcBoundsOfChildren(juce::Component* parent) noexcept;
-    void recalculateLayout() const;
+   friend class TopLevelResizableLayout;
 
-private:
-    // Update the state information for all items. This is used on the first
-    // Activate(), and can also be used if multiple controls are moved or resized
-    // from elsewhere. UNFINISHED API
-    void updateLayout() noexcept;
-    void resizeStart() noexcept override;
+   struct Rect {
+      Rect() noexcept {}
+      Rect(int top0, int left0, int bottom0, int right0) noexcept
+          : top{top0}, left{left0}, bottom{bottom0}, right{right0}
+      {
+      }
+      Rect(const juce::Rectangle<int>& r) noexcept
+          : top{int(r.getY())}, left{int(r.getX())}, bottom{int(r.getBottom())}, right{int(
+                                                                                     r.getRight())}
+      {
+      }
+      operator juce::Rectangle<int>() const noexcept
+      {
+         return juce::Rectangle<int>(left, top, getWidth(), getHeight());
+      }
+      int getHeight() const noexcept
+      {
+         return bottom - top;
+      }
+      int getWidth() const noexcept
+      {
+         return right - left;
+      }
+      void reduce(int dx, int dy) noexcept
+      {
+         top += dy;
+         left += dx;
+         bottom -= dy;
+         right -= dx;
+      }
 
-    friend class TopLevelResizableLayout;
+      int top{0};
+      int left{0};
+      int bottom{0};
+      int right{0};
+   };
 
-    struct Rect {
-        Rect() noexcept
-        {}
-        Rect(int top0, int left0, int bottom0, int right0) noexcept: top{top0},
-            left{left0}, bottom{bottom0}, right{right0}
-        {}
-        Rect(const juce::Rectangle<int>& r) noexcept : top{int(r.getY())},
-            left{int(r.getX())}, bottom{int(r.getBottom())},
-            right{int(r.getRight())}
-        {}
-        operator juce::Rectangle<int>() const noexcept
-        {
-            return juce::Rectangle<int>(left, top, getWidth(), getHeight());
-        }
-        int getHeight() const noexcept
-        {
-            return bottom - top;
-        }
-        int getWidth() const noexcept
-        {
-            return right - left;
-        }
-        void reduce(int dx, int dy) noexcept
-        {
-            top += dy; left += dx; bottom -= dy; right -= dx;
-        }
+   struct Anchor {
+      Style style{Style::styleFixedAspect};
+      juce::Component* component;
+      ResizableChild* child;
+      juce::Point<int> topLeft;
+      juce::Point<int> bottomRight;
+      Anchor(juce::Component* component = nullptr);
+      bool operator==(const Anchor& rhs) const noexcept;
+      bool operator>=(const Anchor& rhs) const noexcept;
+      bool operator<(const Anchor& rhs) const noexcept;
+   };
 
-        int top{0};
-        int left{0};
-        int bottom{0};
-        int right{0};
-    };
+   struct State {
+      juce::Component* component;
+      double aspect{0.0};
+      Rect margin;
+      State(juce::Component* component = nullptr) noexcept;
+      State(const State& other) noexcept;
+      State& operator=(const State& other) noexcept;
+      bool operator==(const State& rhs) const noexcept;
+      bool operator>=(const State& rhs) const noexcept;
+      bool operator<(const State& rhs) const noexcept;
+   };
 
-    struct Anchor {
-        Style style{Style::styleFixedAspect};
-        juce::Component* component;
-        ResizableChild* child;
-        juce::Point<int> topLeft;
-        juce::Point<int> bottomRight;
-        Anchor(juce::Component* component = nullptr);
-        bool operator== (const Anchor& rhs) const noexcept;
-        bool operator>= (const Anchor& rhs) const noexcept;
-        bool operator<  (const Anchor& rhs) const noexcept;
-    };
-
-    struct State {
-        juce::Component* component;
-        double aspect{0.0};
-        Rect margin;
-        State(juce::Component* component = nullptr) noexcept;
-        State(const State& other) noexcept;
-        State& operator=(const State& other) noexcept;
-        bool operator== (const State& rhs) const noexcept;
-        bool operator>= (const State& rhs) const noexcept;
-        bool operator<  (const State& rhs) const noexcept;
-    };
-
-    void addStateFor(const Anchor& anchor) noexcept;
-    void componentMovedOrResized(juce::Component& component,
-        bool wasMoved, bool wasResized) override;
-    void componentBeingDeleted(juce::Component& component) noexcept override;
-    juce::Component* m_owner;
-    juce::SortedSet<Anchor> m_anchors;
-    juce::SortedSet<State> m_states;
-    bool m_bFirstTime;
-    bool m_isActive;
+   void addStateFor(const Anchor& anchor) noexcept;
+   void componentMovedOrResized(
+       juce::Component& component, bool wasMoved, bool wasResized) override;
+   void componentBeingDeleted(juce::Component& component) noexcept override;
+   juce::Component* m_owner;
+   juce::SortedSet<Anchor> m_anchors;
+   juce::SortedSet<State> m_states;
+   bool m_bFirstTime;
+   bool m_isActive;
 };
 
-class TopLevelResizableLayout: public ResizableLayout {
-public:
-    TopLevelResizableLayout(juce::Component* owner);
-    void setAsConstrainerFor(juce::ResizableWindow* window);
+class TopLevelResizableLayout : public ResizableLayout {
+ public:
+   TopLevelResizableLayout(juce::Component* owner);
+   void setAsConstrainerFor(juce::ResizableWindow* window);
 
-private:
-    class Constrainer: public juce::ComponentBoundsConstrainer {
+ private:
+   class Constrainer : public juce::ComponentBoundsConstrainer {
     public:
-        Constrainer(TopLevelResizableLayout* owner) noexcept;
-        void resizeStart() noexcept override;
+      Constrainer(TopLevelResizableLayout* owner) noexcept;
+      void resizeStart() noexcept override;
+
     private:
-        TopLevelResizableLayout& m_owner;
-    };
-    Constrainer m_constrainer;
+      TopLevelResizableLayout& m_owner;
+   };
+   Constrainer m_constrainer;
 };
 
 static constexpr juce::Point<int> anchorNone{-1, -1};
@@ -281,10 +275,14 @@ static constexpr juce::Point<int> anchorTopLeft{0, 0};
 static constexpr juce::Point<int> anchorTopCenter{ResizableLayout::anchorUnit / 2, 0};
 static constexpr juce::Point<int> anchorTopRight{ResizableLayout::anchorUnit, 0};
 static constexpr juce::Point<int> anchorMidLeft{0, ResizableLayout::anchorUnit / 2};
-static constexpr juce::Point<int> anchorMidCenter{ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit / 2};
-static constexpr juce::Point<int> anchorMidRight{ResizableLayout::anchorUnit, ResizableLayout::anchorUnit / 2};
+static constexpr juce::Point<int> anchorMidCenter{
+    ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit / 2};
+static constexpr juce::Point<int> anchorMidRight{
+    ResizableLayout::anchorUnit, ResizableLayout::anchorUnit / 2};
 static constexpr juce::Point<int> anchorBottomLeft{0, ResizableLayout::anchorUnit};
-static constexpr juce::Point<int> anchorBottomCenter{ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit};
-static constexpr juce::Point<int> anchorBottomRight{ResizableLayout::anchorUnit, ResizableLayout::anchorUnit};
+static constexpr juce::Point<int> anchorBottomCenter{
+    ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit};
+static constexpr juce::Point<int> anchorBottomRight{
+    ResizableLayout::anchorUnit, ResizableLayout::anchorUnit};
 
 #endif

@@ -196,7 +196,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::LogAndAlertError(
                 "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber));
       }
-      catch (...) { // we'll terminate anyway
+      catch (...) { // we'll terminate anyway //-V565
       }
       std::terminate(); // can't go on with the program
    }
@@ -274,7 +274,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    // log file created at C:\Users\YOURNAME\AppData\Roaming (Windows) or
    // ~/Library/Logs (OSX)
    std::unique_ptr<juce::FileLogger> logger_{
-       juce::FileLogger::createDefaultAppLogger("", "MIDI2LR.log", "", 32 * 1024)};
+       juce::FileLogger::createDefaultAppLogger("", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    VersionChecker version_checker_{&settings_manager_};

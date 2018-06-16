@@ -22,9 +22,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 #include <array>
-#include <bitset>
 #include <exception>
 #include <gsl/gsl>
+#include <string>
 #include <string_view>
 #include "CommandMap.h"
 #include "ControlsModel.h"

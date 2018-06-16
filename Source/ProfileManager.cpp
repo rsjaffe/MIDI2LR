@@ -119,16 +119,14 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 
 void ProfileManager::SwitchToNextProfile()
 {
-   current_profile_index_++;
-   if (current_profile_index_ == gsl::narrow_cast<int>(profiles_.size()))
+   if (++current_profile_index_ == gsl::narrow_cast<int>(profiles_.size()))
       current_profile_index_ = 0;
    SwitchToProfile(current_profile_index_);
 }
 
 void ProfileManager::SwitchToPreviousProfile()
 {
-   current_profile_index_--;
-   if (current_profile_index_ < 0)
+   if (--current_profile_index_ < 0)
       current_profile_index_ = gsl::narrow_cast<int>(profiles_.size()) - 1;
    SwitchToProfile(current_profile_index_);
 }
