@@ -52,6 +52,10 @@ class ProfileManager final : juce::AsyncUpdater {
       using namespace std::placeholders;
       callbacks_.emplace_back(std::bind(mf, object, _1, _2));
    }
+   const juce::String& GetProfileDirectory() const noexcept
+   {
+      return profile_location_.getFullPathName();
+   }
    // sets the default profile directory and scans its contents for profiles
    void SetProfileDirectory(const juce::File& directory);
    // switches to a profile defined by an index

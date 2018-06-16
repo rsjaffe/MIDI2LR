@@ -21,9 +21,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <string>
 #include <vector>
+
+namespace juce {
+   class String;
+}
+
 class DebugInfo {
  public:
-   DebugInfo() noexcept;
+   DebugInfo(const juce::String& profile_directory) noexcept;
    ~DebugInfo() = default;
    DebugInfo(const DebugInfo& other) = default;
    DebugInfo(DebugInfo&& other) = default;
@@ -36,6 +41,7 @@ class DebugInfo {
    const std::string* GetInfo() noexcept;
 
  private:
+   void Send(std::string&& msg);
    std::vector<std::string> info_;
    size_t iterate_{0};
 };
