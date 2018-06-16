@@ -231,7 +231,7 @@
     </componentList>
     <initializationActionList>
         <throwError>
-            <text>This application runs on OS X 10.9 or above only.</text>
+            <text>This application runs on MacOS 10.12 or above only. Use MID2OR versions 2.9.3 or earlier if you must use an earlier version of MacOS.</text>
             <ruleList>
                 <platformTest>
                     <type>osx</type>
