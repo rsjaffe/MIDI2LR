@@ -38,7 +38,7 @@ class MidiSender;
 
 class LrIpcOut final : juce::InterprocessConnection {
  public:
-   LrIpcOut(ControlsModel* c_model, const CommandMap* map_command);
+   LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexcept;
    ~LrIpcOut();
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;

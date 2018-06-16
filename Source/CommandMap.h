@@ -27,6 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Misc.h"
 #include "MidiUtilities.h"
 
 class CommandMap {
@@ -77,7 +78,13 @@ inline void CommandMap::AddCommandforMessage(
 
 inline const std::string& CommandMap::GetCommandforMessage(const rsj::MidiMessageId& message) const
 {
-   return message_map_.at(message);
+   try {
+      return message_map_.at(message);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 inline void CommandMap::RemoveMessage(const rsj::MidiMessageId& message)

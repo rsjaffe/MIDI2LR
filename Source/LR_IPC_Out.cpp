@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include <algorithm>
 #include <exception>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include "LR_IPC_Out.h"
@@ -48,7 +49,7 @@ namespace {
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
 
-LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command)
+LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexcept
     : command_map_{map_command}, controls_model_{c_model}
 {
 }
@@ -144,18 +145,30 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 
 void LrIpcOut::SendCommand(std::string&& command)
 {
-   if (sending_stopped_)
-      return;
-   static const thread_local moodycamel::ProducerToken ptok(command_);
-   command_.enqueue(ptok, std::move(command));
+   try {
+      if (sending_stopped_)
+         return;
+      static const thread_local moodycamel::ProducerToken ptok(command_);
+      command_.enqueue(ptok, std::move(command));
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::SendCommand(const std::string& command)
 {
-   if (sending_stopped_)
-      return;
-   static const thread_local moodycamel::ProducerToken ptok(command_);
-   command_.enqueue(ptok, command);
+   try {
+      if (sending_stopped_)
+         return;
+      static const thread_local moodycamel::ProducerToken ptok(command_);
+      command_.enqueue(ptok, command);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::Stop()

@@ -22,61 +22,73 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "NrpnMessage.h"
 
-bool NrpnMessage::ProcessMidi(short control, short value) noexcept(kNdebug)
+bool NrpnMessage::ProcessMidi(short control, short value)
 {
-   Expects(value <= 0x7F);
-   Expects(control <= 0x7F);
-   static const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
-   auto ret_val = true;
-   switch (control) {
-   case 6: {
-      std::lock_guard<decltype(data_guard_)> dlock(data_guard_);
-      if (ready_ >= 0b11) {
-         SetValueMsb(value);
-         if (IsReady()) {
-            nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
-            Clear();
+   try {
+      Expects(value <= 0x7F);
+      Expects(control <= 0x7F);
+      static const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
+      auto ret_val = true;
+      switch (control) {
+      case 6: {
+         std::lock_guard<decltype(data_guard_)> dlock(data_guard_);
+         if (ready_ >= 0b11) {
+            SetValueMsb(value);
+            if (IsReady()) {
+               nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
+               Clear();
+            }
          }
+         else
+            ret_val = false;
+         break;
       }
-      else
-         ret_val = false;
-      break;
-   }
-   case 38u: {
-      std::lock_guard<decltype(data_guard_)> dlock(data_guard_);
-      if (ready_ >= 0b11) {
-         SetValueLsb(value);
-         if (IsReady()) {
-            nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
-            Clear();
+      case 38u: {
+         std::lock_guard<decltype(data_guard_)> dlock(data_guard_);
+         if (ready_ >= 0b11) {
+            SetValueLsb(value);
+            if (IsReady()) {
+               nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
+               Clear();
+            }
          }
+         else
+            ret_val = false;
+         break;
       }
-      else
+      case 98u: {
+         std::lock_guard<decltype(data_guard_)> lock(data_guard_);
+         SetControlLsb(value);
+      } break;
+      case 99u: {
+         std::lock_guard<decltype(data_guard_)> lock(data_guard_);
+         SetControlMsb(value);
+      } break;
+      default: // not an expected nrpn control #, handle as typical midi message
          ret_val = false;
-      break;
+      }
+      return ret_val;
    }
-   case 98u: {
-      std::lock_guard<decltype(data_guard_)> lock(data_guard_);
-      SetControlLsb(value);
-   } break;
-   case 99u: {
-      std::lock_guard<decltype(data_guard_)> lock(data_guard_);
-      SetControlMsb(value);
-   } break;
-   default: // not an expected nrpn control #, handle as typical midi message
-      ret_val = false;
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
-   return ret_val;
 }
 
-rsj::Nrpn NrpnMessage::GetNrpnIfReady() noexcept
+rsj::Nrpn NrpnMessage::GetNrpnIfReady()
 {
-   static thread_local moodycamel::ConsumerToken ctok(nrpn_queued_);
-   rsj::Nrpn retval;
-   if (nrpn_queued_.try_dequeue(ctok, retval)) {
-      return retval;
+   try {
+      static thread_local moodycamel::ConsumerToken ctok(nrpn_queued_);
+      rsj::Nrpn retval;
+      if (nrpn_queued_.try_dequeue(ctok, retval)) {
+         return retval;
+      }
+      return rsj::kInvalidNrpn;
    }
-   return rsj::kInvalidNrpn;
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void NrpnMessage::Clear() noexcept
