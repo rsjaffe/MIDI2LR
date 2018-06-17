@@ -271,7 +271,8 @@
 					3C627E3A462E92E632DE784D, ); name = Source; sourceTree = "<group>"; };
 		8AC4BD74D39B7DB8C818AC28 = {isa = XCBuildConfiguration; buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "c++1z";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
@@ -301,11 +302,13 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
+				SDKROOT = macosx10.12;
 				SDKROOT_ppc = macosx10.5;
 				USE_HEADERMAP = NO; }; name = Debug; };
 		42610182D1784D52AA1AE979 = {isa = XCBuildConfiguration; buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "c++1z";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
@@ -337,6 +340,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
+				SDKROOT = macosx10.12;
 				SDKROOT_ppc = macosx10.5;
 				USE_HEADERMAP = NO; }; name = Release; };
 		A2D85D5403DF5412CD4FEA31 = {isa = XCBuildConfiguration; buildSettings = {
@@ -483,7 +487,7 @@
 					B7736F3EB47E2A80B299E0F6,
 					5F5721809F326210B38EECA0,
 					0CDF5F2E47B14285D9BAC74E, ); buildRules = ( ); dependencies = (  ); name = "MIDI2LR - App"; productName = MIDI2LR; productReference = A1E0EDD95E3D41298A5FED32; productType = "com.apple.product-type.application"; };
-		DFD30DF9237597CD5AF365AE = {isa = PBXProject; buildConfigurationList = 1F2C01BA514CBFEA905450CC; attributes = { LastUpgradeCheck = 0830; ORGANIZATIONNAME = ""; TargetAttributes = { FD946FDE29418E71B61DACDC = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; }; }; }; compatibilityVersion = "Xcode 3.2"; hasScannedForEncodings = 0; mainGroup = 1C312ECBCB4990D995AB81D1; projectDirPath = ""; projectRoot = ""; targets = (FD946FDE29418E71B61DACDC); };
+		DFD30DF9237597CD5AF365AE = {isa = PBXProject; buildConfigurationList = 1F2C01BA514CBFEA905450CC; attributes = { LastUpgradeCheck = 0930; ORGANIZATIONNAME = ""; TargetAttributes = { FD946FDE29418E71B61DACDC = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; }; }; }; }; compatibilityVersion = "Xcode 3.2"; hasScannedForEncodings = 0; mainGroup = 1C312ECBCB4990D995AB81D1; projectDirPath = ""; projectRoot = ""; targets = (FD946FDE29418E71B61DACDC); };
 	};
 	rootObject = DFD30DF9237597CD5AF365AE;
 }
