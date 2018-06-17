@@ -24,6 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_COMMANDMAP_H_INCLUDED
 
 #include <map>
+#include <shared_mutex>
 #include <string>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -65,6 +66,7 @@ class CommandMap {
    void ToXmlDocument(const juce::File& file) const;
 
  private:
+   mutable std::shared_mutex cmdmap_mutex_;
    std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
    std::unordered_map<rsj::MidiMessageId, std::string> message_map_;
 };
@@ -72,6 +74,7 @@ class CommandMap {
 inline void CommandMap::AddCommandforMessage(
     const std::string& command, const rsj::MidiMessageId& message)
 {
+   std::unique_lock<std::shared_mutex> guard{cmdmap_mutex_};
    message_map_[message] = command;
    command_string_map_.insert({command, message});
 }
@@ -79,6 +82,7 @@ inline void CommandMap::AddCommandforMessage(
 inline const std::string& CommandMap::GetCommandforMessage(const rsj::MidiMessageId& message) const
 {
    try {
+      std::shared_lock<std::shared_mutex> guard{cmdmap_mutex_};
       return message_map_.at(message);
    }
    catch (const std::exception& e) {
@@ -91,23 +95,27 @@ inline void CommandMap::RemoveMessage(const rsj::MidiMessageId& message)
 {
    // removes message from the message:command map, and its associated command
    // from the command:message map
+   std::unique_lock<std::shared_mutex> guard{cmdmap_mutex_};
    command_string_map_.erase(message_map_.at(message));
    message_map_.erase(message);
 }
 
 inline void CommandMap::ClearMap() noexcept
 {
+   std::unique_lock<std::shared_mutex> guard{cmdmap_mutex_};
    command_string_map_.clear();
    message_map_.clear();
 }
 
 inline bool CommandMap::MessageExistsInMap(const rsj::MidiMessageId& message) const
 {
+   std::shared_lock<std::shared_mutex> guard{cmdmap_mutex_};
    return message_map_.find(message) != message_map_.end();
 }
 
 inline bool CommandMap::CommandHasAssociatedMessage(const std::string& command) const
 {
+   std::shared_lock<std::shared_mutex> guard{cmdmap_mutex_};
    return command_string_map_.find(command) != command_string_map_.end();
 }
 #endif // COMMANDMAP_H_INCLUDED

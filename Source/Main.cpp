@@ -196,7 +196,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::LogAndAlertError(
                 "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber));
       }
-      catch (...) { // we'll terminate anyway //-V565
+      catch (...) { // we'll terminate anyway
+         std::terminate();
       }
       std::terminate(); // can't go on with the program
    }

@@ -58,7 +58,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
        juce::Component* existing_component_to_update) override;
    void Sort();
    CommandMap* command_map_{nullptr};
-   mutable std::shared_mutex cmdmap_mutex_;
+   mutable std::shared_mutex cmd_table_mod_mtx_;
    std::pair<int, bool> current_sort_{2, true};
    std::pair<int, bool> prior_sort_{2, true};
    std::vector<rsj::MidiMessageId> commands_;
