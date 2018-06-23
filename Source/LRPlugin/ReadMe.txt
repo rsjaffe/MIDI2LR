@@ -2,8 +2,8 @@
 Prerequisites
 =============
 
-- Lightroom 6+ or CC
-- Windowws 7+ or OSX 10.9+
+- Lightroom 6+ or CC classic
+- Windowws 7+ or MacOS 10.12+
 - A USB MIDI controller (eg: Korg nanoKONTROL, etc.)
 
 =====
@@ -11,7 +11,7 @@ Setup
 =====
 
 1. Download the installer for your operating system from 
-   https://github.com/rsjaffe/MIDI2LR/releases, where you will always fint the
+   https://github.com/rsjaffe/MIDI2LR/releases, where you will always find the
    latest version. When selecting a folder for installation, make sure you don't
    need administrator privileges to write to that folder—the plugin may crash if it
    is running in a restricted folder.
