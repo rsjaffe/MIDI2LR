@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h"
 #include <exception>
 #include <gsl/gsl_util>
+#include <unordered_map>
 #include "CommandTableModel.h"
 #include "Misc.h"
 

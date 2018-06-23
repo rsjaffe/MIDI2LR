@@ -99,11 +99,11 @@
         <CONFIGURATION name="Debug" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" linkTimeOptimisation="0"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
-                       enablePluginBinaryCopyStep="1" osxSDK="10.12 SDK"/>
+                       enablePluginBinaryCopyStep="1"/>
         <CONFIGURATION name="Release" osxCompatibility="10.12 SDK" osxArchitecture="64BitIntel"
                        isDebug="0" optimisation="3" targetName="MIDI2LR" linkTimeOptimisation="1"
                        binaryPath="" cppLanguageStandard="c++14" headerPath="" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
-                       enablePluginBinaryCopyStep="1" osxSDK="10.12 SDK"/>
+                       enablePluginBinaryCopyStep="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>

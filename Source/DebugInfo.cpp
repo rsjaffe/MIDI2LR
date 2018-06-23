@@ -21,13 +21,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "DebugInfo.h"
+#include "Misc.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
 #ifdef _WIN32
 #include <array>
 #include <unordered_map>
 #include "Windows.h"
-#include "Misc.h"
 // from
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {

@@ -302,7 +302,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
-				SDKROOT = macosx10.12;
 				SDKROOT_ppc = macosx10.5;
 				USE_HEADERMAP = NO; }; name = Debug; };
 		42610182D1784D52AA1AE979 = {isa = XCBuildConfiguration; buildSettings = {
@@ -340,7 +339,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rsjaffe.MIDI2LR;
-				SDKROOT = macosx10.12;
 				SDKROOT_ppc = macosx10.5;
 				USE_HEADERMAP = NO; }; name = Release; };
 		A2D85D5403DF5412CD4FEA31 = {isa = XCBuildConfiguration; buildSettings = {

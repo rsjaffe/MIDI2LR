@@ -231,7 +231,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #ifdef _WIN32
             rsj::Log("Cereal archive saved to " + juce::String(p.c_str()));
 #else
-            rsj::Log("Cereal archive saved to " + p.getFullPathName());
+            rsj::Log("Cereal archive saved to " + p);
 #endif
          }
          else
@@ -264,7 +264,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #ifdef _WIN32
             rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
 #else
-            rsj::Log("Cereal archive loaded from " + p.getFullPathName());
+            rsj::Log("Cereal archive loaded from " + p);
 #endif
          }
       }
