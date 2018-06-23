@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h"
 #include <exception>
 #include <gsl/gsl_util>
+#include <unordered_map>
 #include "CommandTableModel.h"
 #include "Misc.h"
 
@@ -45,45 +46,66 @@ catch (const std::exception& e) {
 bool CommandTable::keyPressed(const KeyPress& k)
 {
    try {
-      if (k.isKeyCode(KeyPress::deleteKey) && getSelectedRow() != -1) {
-         const auto last = getSelectedRow() == getNumRows() - 1;
-         if (const auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
-            ptr->RemoveRow(gsl::narrow_cast<size_t>(getSelectedRow()));
-         updateContent();
-         if (last) // keep selection at the end
-            selectRow(getNumRows() - 1);
-         return true;
-      }
-      if (k.isKeyCode(KeyPress::downKey) && getSelectedRow() != -1
-          && getSelectedRow() < getNumRows() - 1) {
-         selectRow(getSelectedRow() + 1);
-         return true;
-      }
-      if (k.isKeyCode(KeyPress::upKey) && getSelectedRow() > 0 && getNumRows() > 1) {
-         selectRow(getSelectedRow() - 1);
-         return true;
-      }
-      if (k.isKeyCode(KeyPress::pageUpKey) && getNumRows() > 0) {
-         auto row = getSelectedRow() - 20;
-         if (row < 0)
-            row = 0;
-         selectRow(row);
-         return true;
-      }
-      if (k.isKeyCode(KeyPress::pageDownKey) && getNumRows() > 0) {
-         auto row = getSelectedRow() + 20;
-         if (row >= getNumRows())
-            row = getNumRows() - 1;
-         selectRow(row);
-         return true;
-      }
-      if (k.isKeyCode(KeyPress::homeKey) && getNumRows() > 0) {
-         selectRow(0);
-         return true;
-      }
-      if (k.isKeyCode(KeyPress::endKey) && getNumRows() > 0) {
-         selectRow(getNumRows() - 1);
-         return true;
+      static const std::unordered_map<int, int> keytoaction{{juce::KeyPress::deleteKey, 1},
+          {juce::KeyPress::downKey, 2}, {juce::KeyPress::upKey, 3}, {juce::KeyPress::pageUpKey, 4},
+          {juce::KeyPress::pageDownKey, 5}, {juce::KeyPress::homeKey, 6},
+          {juce::KeyPress::endKey, 7}};
+      if (const auto f = keytoaction.find(k.getKeyCode()); f != keytoaction.end()) {
+         switch (f->second) {
+         case 1: // deleteKey
+            if (getSelectedRow() != -1) {
+               const auto last = getSelectedRow() == getNumRows() - 1;
+               if (const auto ptr = dynamic_cast<CommandTableModel*>(getModel()))
+                  ptr->RemoveRow(gsl::narrow_cast<size_t>(getSelectedRow()));
+               updateContent();
+               if (last) // keep selection at the end
+                  selectRow(getNumRows() - 1);
+               return true;
+            }
+            return false;
+         case 2: // downKey
+            if (getSelectedRow() != -1 && getSelectedRow() < getNumRows() - 1) {
+               selectRow(getSelectedRow() + 1);
+               return true;
+            }
+            return false;
+         case 3: // upKey
+            if (getSelectedRow() > 0 && getNumRows() > 1) {
+               selectRow(getSelectedRow() - 1);
+               return true;
+            }
+            return false;
+         case 4: // pageUpKey
+            if (getNumRows() > 0) {
+               auto row = getSelectedRow() - 20;
+               if (row < 0)
+                  row = 0;
+               selectRow(row);
+               return true;
+            }
+            return false;
+         case 5: // pageDownKey
+            if (getNumRows() > 0) {
+               auto row = getSelectedRow() + 20;
+               if (row >= getNumRows())
+                  row = getNumRows() - 1;
+               selectRow(row);
+               return true;
+            }
+            return false;
+         case 6: // homeKey
+            if (getNumRows() > 0) {
+               selectRow(0);
+               return true;
+            }
+            return false;
+         case 7: // endKey
+            if (getNumRows() > 0) {
+               selectRow(getNumRows() - 1);
+               return true;
+            }
+            return false;
+         }
       }
       return false;
    }

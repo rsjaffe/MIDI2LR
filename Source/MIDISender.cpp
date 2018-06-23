@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDISender.h"
 #include <exception>
 #include <gsl/gsl>
+#include "../JuceLibraryCode/JuceHeader.h"
 #include "Misc.h"
 
 void MidiSender::Init()
@@ -66,6 +67,7 @@ void MidiSender::SendPitchWheel(int midi_channel, int value) const
 void MidiSender::RescanDevices()
 {
    output_devices_.clear();
+   rsj::Log("Cleared output devices");
    InitDevices();
 }
 
@@ -74,8 +76,10 @@ void MidiSender::InitDevices()
    try {
       for (auto idx = 0; idx < juce::MidiOutput::getDevices().size(); ++idx) {
          auto dev = juce::MidiOutput::openDevice(idx);
-         if (dev)
+         if (dev) {
             output_devices_.emplace_back(dev);
+            rsj::Log("Opened output device " + dev->getName());
+         }
       }
    }
    catch (const std::exception& e) {

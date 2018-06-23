@@ -56,6 +56,8 @@ LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexce
 
 LrIpcOut::~LrIpcOut()
 {
+   if (const auto m = command_.size_approx())
+      rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
    moodycamel::ConsumerToken ctok(command_);
    std::string command_copy;
    while (command_.try_dequeue(ctok, command_copy)) {
@@ -193,12 +195,14 @@ void LrIpcOut::connectionMade()
 {
    for (const auto& cb : callbacks_)
       cb(true, sending_stopped_);
+   rsj::Log("Connected to Lightroom plugin");
 }
 
 void LrIpcOut::connectionLost()
 {
    for (const auto& cb : callbacks_)
       cb(false, sending_stopped_);
+   rsj::Log("Disconnected from Lightroom plugin");
 }
 
 void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept {}

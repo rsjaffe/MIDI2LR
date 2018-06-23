@@ -74,7 +74,9 @@ juce::String SettingsManager::GetProfileDirectory() const noexcept
 void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
 {
    properties_file_->setValue("profile_directory", profile_directory);
-   properties_file_->saveIfNeeded();
+   if (!properties_file_->saveIfNeeded())
+      rsj::Log("SettingsManager::SetProfileDirectory saveIfNeeded failed. Directory "
+               + profile_directory);
    profile_manager_->SetProfileDirectory(profile_directory);
 }
 
@@ -84,6 +86,8 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
       if (const auto ptr = lr_ipc_out_.lock()) {
          DebugInfo db{GetProfileDirectory()};
          ptr->SendCommand("Pickup "s + std::to_string(unsigned{GetPickupEnabled()}) + '\n');
+         rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
+         //rest of info about app is logged by DebugInfo
          ptr->SendCommand("AppInfoClear 1\n"s);
          while (const auto info = db.GetInfo()) {
             ptr->SendCommand("AppInfo "s + *info + '\n');
@@ -111,5 +115,7 @@ int SettingsManager::GetLastVersionFound() const noexcept
 void SettingsManager::SetLastVersionFound(int version_number)
 {
    properties_file_->setValue("LastVersionFound", version_number);
-   properties_file_->saveIfNeeded();
+   if (!properties_file_->saveIfNeeded())
+      rsj::Log("SettingsManager::SetLastVersionFound saveIfNeeded failed. Directory "
+               + GetProfileDirectory());
 }

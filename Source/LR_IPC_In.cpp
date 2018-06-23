@@ -61,7 +61,10 @@ LrIpcIn::~LrIpcIn()
       timer_off_ = true;
       juce::Timer::stopTimer();
    }
-   juce::Thread::stopThread(kStopWait);
+   if (!juce::Thread::stopThread(kStopWait))
+      rsj::Log("stopThread failed in LrIpcIn destructor");
+   if (const auto m = line_.size_approx())
+      rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
    std::string line_copy{};
    while (line_.try_dequeue(line_copy)) {
       /* pump the queue empty */

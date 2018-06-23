@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "DebugInfo.h"
+#include "Misc.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
 #ifdef _WIN32
@@ -137,14 +138,12 @@ std::string rsj::GetKeyboardLayout()
       }
       catch (...) {
          const std::string msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
-         if (juce::Logger::getCurrentLogger())
-            juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+         rsj::Log(msg);
          return msg;
       }
    }
    const std::string msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
-   if (juce::Logger::getCurrentLogger())
-      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+   rsj::Log(msg);
    return msg;
 }
 #endif
@@ -170,8 +169,7 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
       try {
          static constexpr auto kErr{"Failed to obtain app info. Exception."};
          info_.emplace_back(kErr);
-         if (juce::Logger::getCurrentLogger())
-            juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + kErr);
+         rsj::Log(kErr);
       }
       catch (...) {
       }
@@ -180,8 +178,7 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 
 void DebugInfo::Send(std::string&& msg)
 {
-   if (juce::Logger::getCurrentLogger())
-      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + msg);
+   rsj::Log(msg);
    info_.emplace_back(std::move(msg));
 }
 
@@ -202,9 +199,7 @@ const std::string* DebugInfo::GetInfo() noexcept
       static auto second_time{false};
       if (second_time)
          return nullptr;
-      if (juce::Logger::getCurrentLogger())
-         juce::Logger::writeToLog(
-             juce::Time::getCurrentTime().toISO8601(false) + ": " + kErrorNotice);
+      rsj::Log(kErrorNotice);
       second_time = true;
       return &kErrorNotice;
    }
