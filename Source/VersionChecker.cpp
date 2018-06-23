@@ -32,7 +32,8 @@ VersionChecker::VersionChecker(SettingsManager* settings_manager) noexcept
 
 VersionChecker::~VersionChecker()
 {
-   stopThread(100);
+   if (!juce::Thread::stopThread(100))
+      rsj::Log("stopThread failed in VersionChecker destructor");
 }
 
 void VersionChecker::run()
@@ -45,6 +46,9 @@ void VersionChecker::run()
       if (version_xml_element) {
          const auto last_checked = settings_manager_->GetLastVersionFound();
          new_version_ = version_xml_element->getIntAttribute("latest");
+         rsj::Log("Version available " + juce::String(new_version_) + ", version last checked "
+                  + juce::String(last_checked) + ", current version "
+                  + juce::String(ProjectInfo::versionNumber));
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
             settings_manager_->SetLastVersionFound(new_version_);
             triggerAsyncUpdate();

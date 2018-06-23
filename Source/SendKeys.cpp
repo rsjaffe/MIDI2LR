@@ -24,14 +24,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <algorithm>
 #include <cctype>
 #include <exception>
+#include <gsl/gsl>
 #include <mutex>
+#include <unicode/unistr.h>
 #include <unordered_map>
 #include <vector>
-#include <unicode/unistr.h>
-#include <gsl/gsl>
 #include "Misc.h"
 #ifdef _WIN32
-#include "Windows.h"
+#include <Windows.h>
 #else
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -249,7 +249,9 @@ const std::unordered_map<std::string, unsigned char> kKeyMap = {
 void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 {
    const bool alt_opt{gsl::narrow_cast<bool>(modifiers & 0x1)};
+#ifndef _WIN32
    const bool command{gsl::narrow_cast<bool>(modifiers & 0x8)};
+#endif
    const bool control{gsl::narrow_cast<bool>(modifiers & 0x2)};
    const bool shift{gsl::narrow_cast<bool>(modifiers & 0x4)};
 

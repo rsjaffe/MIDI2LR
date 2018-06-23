@@ -31,8 +31,12 @@ namespace {
 
 MidiProcessor::~MidiProcessor()
 {
-   for (const auto& dev : devices_)
+   for (const auto& dev : devices_) {
       dev->stop();
+      rsj::Log("Stopped input device " + dev->getName());
+   }
+   if (const auto m = messages_.size_approx())
+      rsj::Log(juce::String(m) + " left in queue in MidiProcessor destructor");
    moodycamel::ConsumerToken ctok(messages_);
    rsj::MidiMessage message_copy{};
    while (messages_.try_dequeue(ctok, message_copy)) {
@@ -91,9 +95,12 @@ void MidiProcessor::handleIncomingMidiMessage(
 void MidiProcessor::RescanDevices()
 {
    try {
-      for (const auto& dev : devices_)
+      for (const auto& dev : devices_) {
          dev->stop();
+         rsj::Log("Stopped input device " + dev->getName());
+      }
       devices_.clear();
+      rsj::Log("Cleared input devices");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -110,6 +117,7 @@ void MidiProcessor::InitDevices()
          if (dev) {
             devices_.emplace_back(dev);
             dev->start();
+            rsj::Log("Opened input device " + dev->getName());
          }
       }
    }

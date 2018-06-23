@@ -296,21 +296,22 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &disconnect_button_) {
          if (const auto ptr = lr_ipc_out_.lock()) {
-            if (disconnect_button_.getToggleState())
+            if (disconnect_button_.getToggleState()) {
                ptr->Stop();
-            else
+               rsj::Log("Sending halted");
+            }
+            else {
                ptr->Restart();
+               rsj::Log("Sending restarted");
+            }
          }
       }
       else if (button == &save_button_) {
          juce::File profile_directory;
-
          if (settings_manager_)
             profile_directory = settings_manager_->GetProfileDirectory();
-
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-
          juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
          juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
                                                 | juce::FileBrowserComponent::saveMode
@@ -325,20 +326,16 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &load_button_) {
          juce::File profile_directory;
-
          if (settings_manager_)
             profile_directory = settings_manager_->GetProfileDirectory();
-
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-
          juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
          juce::FileBrowserComponent browser{
              juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
              profile_directory, &wildcard_filter, nullptr};
          juce::FileChooserDialogBox dialog_box{
              "Open profile", "Select a profile to open", browser, true, juce::Colours::lightgrey};
-
          if (dialog_box.show()) {
             std::unique_ptr<juce::XmlElement> xml_element{
                 juce::XmlDocument::parse(browser.getSelectedFile(0))};
@@ -346,7 +343,6 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                const auto new_profile = browser.getSelectedFile(0);
                auto command =
                    "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
-
                if (const auto ptr = lr_ipc_out_.lock())
                   ptr->SendCommand(std::move(command));
                profile_name_label_.setText(
@@ -354,6 +350,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                command_table_model_.BuildFromXml(xml_element.get());
                command_table_.updateContent();
                command_table_.repaint();
+            }
+            else {
+               rsj::Log("Unable to load profile " + browser.getSelectedFile(0).getFullPathName());
             }
          }
       }

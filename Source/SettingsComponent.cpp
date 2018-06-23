@@ -133,8 +133,11 @@ void SettingsComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
    try {
       if (button == &pickup_enabled_) {
-         if (settings_manager_)
-            settings_manager_->SetPickupEnabled(pickup_enabled_.getToggleState());
+         if (settings_manager_) {
+            const auto pickup_state = pickup_enabled_.getToggleState();
+            settings_manager_->SetPickupEnabled(pickup_state);
+            rsj::Log(pickup_state ? "Pickup set to enabled" : "Pickup set to disabled");
+         }
       }
       else if (button == &profile_location_button_) {
          juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectDirectories
@@ -150,6 +153,7 @@ void SettingsComponent::buttonClicked(juce::Button* button)
             if (settings_manager_) {
                settings_manager_->SetProfileDirectory(profile_location);
             }
+            rsj::Log("Profile location set to " + profile_location);
             profile_location_label_.setText(
                 profile_location, juce::NotificationType::dontSendNotification);
          }
@@ -163,7 +167,10 @@ void SettingsComponent::buttonClicked(juce::Button* button)
 
 void SettingsComponent::sliderValueChanged(juce::Slider* slider)
 { //-V2009 overridden method
-   if (slider && &autohide_setting_ == slider)
+   if (slider && &autohide_setting_ == slider) {
       settings_manager_->SetAutoHideTime(static_cast<int>(
           round(autohide_setting_.getValue()))); //-V2003 intentional cast double to int
+      rsj::Log("Autohide time set to " + juce::String(settings_manager_->GetAutoHideTime())
+               + " seconds");
+   }
 }

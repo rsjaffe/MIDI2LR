@@ -35,7 +35,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
 namespace fs = std::experimental::filesystem;
-#include "Windows.h"
+#include <Windows.h>
 #endif
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
@@ -208,6 +208,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       const auto profilefile = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
                                    .getSiblingFile("default.xml");
       command_map_.ToXmlDocument(profilefile);
+      rsj::Log("Default profile saved to " + profilefile.getFullPathName());
    }
    void CerealSave()
    { // scoped so archive gets flushed
@@ -227,6 +228,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          if (outfile.is_open()) {
             cereal::BinaryOutputArchive oarchive(outfile);
             oarchive(controls_model_);
+#ifdef _WIN32
+            rsj::Log("Cereal archive saved to " + juce::String(p.c_str()));
+#else
+            rsj::Log("Cereal archive saved to " + p.getFullPathName());
+#endif
          }
          else
             rsj::LogAndAlertError("Unable to save control settings. Unable to open file "
@@ -255,6 +261,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          if (infile.is_open() && !infile.eof()) {
             cereal::BinaryInputArchive iarchive(infile);
             iarchive(controls_model_);
+#ifdef _WIN32
+            rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
+#else
+            rsj::Log("Cereal archive loaded from " + p.getFullPathName());
+#endif
          }
       }
       catch (const std::exception& e) {
@@ -275,7 +286,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    // log file created at C:\Users\YOURNAME\AppData\Roaming (Windows) or
    // ~/Library/Logs (OSX)
    std::unique_ptr<juce::FileLogger> logger_{
-       juce::FileLogger::createDefaultAppLogger("", "MIDI2LR.log", "", 32 * 1024)}; //-V112
+       juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    VersionChecker version_checker_{&settings_manager_};

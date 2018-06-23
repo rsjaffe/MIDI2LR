@@ -76,7 +76,7 @@ inline void CommandMap::AddCommandforMessage(
 {
    std::unique_lock<std::shared_mutex> guard{cmdmap_mutex_};
    message_map_[message] = command;
-   command_string_map_.insert({command, message});
+   command_string_map_.emplace(command, message);
 }
 
 inline const std::string& CommandMap::GetCommandforMessage(const rsj::MidiMessageId& message) const

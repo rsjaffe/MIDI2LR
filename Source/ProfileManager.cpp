@@ -47,7 +47,6 @@ void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_pro
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
       // settings on connection
       ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
-
    if (midi_processor)
       midi_processor->AddCallback(this, &ProfileManager::MidiCmdCallback);
 }
@@ -56,15 +55,12 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
 {
    try {
       profile_location_ = directory;
-
       juce::Array<juce::File> file_array;
       directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
-
       current_profile_index_ = 0;
       profiles_.clear();
       for (const auto& file : file_array)
          profiles_.emplace_back(file.getFileName());
-
       if (!profiles_.empty())
          SwitchToProfile(profiles_[0]);
    }
@@ -91,7 +87,6 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 {
    try {
       const auto profile_file = profile_location_.getChildFile(profile);
-
       if (profile_file.exists()) {
          std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
          if (xml_element) {
