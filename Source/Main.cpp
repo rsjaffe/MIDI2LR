@@ -64,8 +64,8 @@ namespace fs = std::experimental::filesystem;
  *********************************************/
 
 namespace {
-   const auto kShutDownString{"--LRSHUTDOWN"};
-   const auto kSettingsFile{"settings.bin"};
+   constexpr auto kShutDownString{"--LRSHUTDOWN"};
+   constexpr auto kSettingsFile{"settings.bin"};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
@@ -178,7 +178,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          systemRequestedQuit();
    }
 
-   void unhandledException(
+   [[noreturn]] void unhandledException(
        const std::exception* e, const juce::String& source_filename, int lineNumber) override
    {
       // If any unhandled exceptions make it through to the message dispatch
@@ -283,8 +283,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        std::make_shared<LrIpcOut>(&controls_model_, &command_map_)};
    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-   // log file created at C:\Users\YOURNAME\AppData\Roaming (Windows) or
-   // ~/Library/Logs (OSX)
+   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};

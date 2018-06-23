@@ -196,18 +196,24 @@ UChar CreateStringForKey(CGKeyCode key_code)
  */
 CGKeyCode KeyCodeForChar(UChar c)
 {
-   static std::once_flag flag;
-   static std::unordered_map<UChar, size_t> char_code_map;
-   std::call_once(flag, []() { /* Generate table of keycodes and characters. */
-      /* Loop through every key-code (0 - 127) to find its current mapping. */
-      for (size_t i = 0; i < 128; ++i) {
-         auto uc = CreateStringForKey((CGKeyCode)i);
-         if (uc) {
-            char_code_map[uc] = i;
+   try {
+      static std::once_flag flag;
+      static std::unordered_map<UChar, size_t> char_code_map;
+      std::call_once(flag, []() { /* Generate table of keycodes and characters. */
+         /* Loop through every key-code (0 - 127) to find its current mapping. */
+         for (size_t i = 0; i < 128; ++i) {
+            auto uc = CreateStringForKey((CGKeyCode)i);
+            if (uc) {
+               char_code_map[uc] = i;
+            }
          }
-      }
-   });
-   return char_code_map.at(c);
+      });
+      return char_code_map.at(c);
+   }
+   catch (const std::exception& e) {
+      rsj::LogAndAlertError("Exception in KeyCodeForChar function for key: " + c + ". " + e.what());
+      return 0;
+   }
 }
 
 #endif
