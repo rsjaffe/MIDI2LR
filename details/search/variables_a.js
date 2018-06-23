@@ -10,6 +10,7 @@ var searchData=
   ['line_5f',['line_',['../class_lr_ipc_in.html#ac3c9589ef438786ec84d5a340a8c2546',1,'LrIpcIn']]],
   ['load_5fbutton_5f',['load_button_',['../class_main_content_component.html#a82f5785ac57e1ed2eff21365d10347ea',1,'MainContentComponent']]],
   ['localadjustments',['LocalAdjustments',['../class_lr_command_list.html#ad7b28631112df035552d22f6beeeeab8',1,'LrCommandList']]],
+  ['logger_5f',['logger_',['../class_m_i_d_i2_l_r_application.html#a793173a9549f50724d983c9c4501fdee',1,'MIDI2LRApplication']]],
   ['look_5ffeel_5f',['look_feel_',['../class_m_i_d_i2_l_r_application.html#a849feda385bdd6d2062b1c5aeb35882f',1,'MIDI2LRApplication']]],
   ['low',['low',['../structrsj_1_1_settings_struct.html#a5dc765c00e077ed13048125f37b9acbd',1,'rsj::SettingsStruct']]],
   ['lr_5fipc_5fin_5f',['lr_ipc_in_',['../class_m_i_d_i2_l_r_application.html#a2f53b0b90ba9807ee26b7fc34eac5a0a',1,'MIDI2LRApplication']]],

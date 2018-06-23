@@ -6,7 +6,7 @@ var searchData=
   ['pleasestopthread',['PleaseStopThread',['../class_lr_ipc_in.html#a8d1398654e822a1b2a411fe3c3a163ff',1,'LrIpcIn']]],
   ['plugintocontroller',['PluginToController',['../class_channel_model.html#ae448886fd87c60b1be036b256df253e9',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a326448f1fee495486332fd22c1ce3b3a',1,'ControlsModel::PluginToController()']]],
   ['processline',['ProcessLine',['../class_lr_ipc_in.html#a833e0157f89d7f78447d7d6fccac69e4',1,'LrIpcIn']]],
-  ['processmidi',['ProcessMidi',['../class_nrpn_message.html#a8954bba6e4ef6848a6d120bdfa49f97d',1,'NrpnMessage::ProcessMidi()'],['../class_nrpn_filter.html#a08445d0c8ede53cf4a2dc5a4ca8a41ed',1,'NrpnFilter::ProcessMidi()']]],
+  ['processmidi',['ProcessMidi',['../class_nrpn_message.html#aa49450ff5a3ad5be3c74c1c5d9bbab29',1,'NrpnMessage::ProcessMidi()'],['../class_nrpn_filter.html#a0744bdf95f590470b1aa80f178f1c68a',1,'NrpnFilter::ProcessMidi()']]],
   ['profilechanged',['ProfileChanged',['../class_main_content_component.html#a337ef400359712b24a924d6a8056be93',1,'MainContentComponent']]],
   ['profilemanager',['ProfileManager',['../class_profile_manager.html#a91914326b0b30d7afa7e5726373d9de1',1,'ProfileManager::ProfileManager(ControlsModel *c_model, CommandMap *cmap) noexcept'],['../class_profile_manager.html#aaffb92ccc235cddab69d58828ae416ad',1,'ProfileManager::ProfileManager(const ProfileManager &amp;other)=delete'],['../class_profile_manager.html#a86deeeecd4bbead0afd50bdc636d1983',1,'ProfileManager::ProfileManager(ProfileManager &amp;&amp;other)=delete']]],
   ['pwoptions',['PWoptions',['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions']]]

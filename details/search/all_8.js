@@ -5,8 +5,8 @@ var searchData=
   ['initdevices',['InitDevices',['../class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8',1,'MidiSender::InitDevices()'],['../class_midi_processor.html#ac0fe34f1008e58444d2cfd5d9f0113ed',1,'MidiProcessor::InitDevices()']]],
   ['initialise',['initialise',['../class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4',1,'MIDI2LRApplication']]],
   ['is_5fvalid',['is_valid',['../structrsj_1_1_nrpn.html#abe5c68c274a5405bba59dfc71058e39f',1,'rsj::Nrpn']]],
-  ['isinprocess',['IsInProcess',['../class_nrpn_message.html#a85409a39452240da6af026e77b546ac0',1,'NrpnMessage::IsInProcess()'],['../class_nrpn_filter.html#a94efa98717bc67bb58bf183a90f7965c',1,'NrpnFilter::IsInProcess()']]],
-  ['isnrpn_5f',['IsNRPN_',['../class_channel_model.html#af5a0f85ee141b4d9f9bb5be33b4f13ca',1,'ChannelModel']]],
+  ['isinprocess',['IsInProcess',['../class_nrpn_message.html#a85409a39452240da6af026e77b546ac0',1,'NrpnMessage::IsInProcess()'],['../class_nrpn_filter.html#ab605d4902ae926601f7e34d7b17fb87a',1,'NrpnFilter::IsInProcess()']]],
+  ['isnrpn_5f',['IsNRPN_',['../class_channel_model.html#ab09dc6ae94238d3e6601bf9ee672acdb',1,'ChannelModel']]],
   ['isready',['IsReady',['../class_nrpn_message.html#a88038f5dd4c1b38f83e47fc25ad2a49b',1,'NrpnMessage']]],
   ['iterate_5f',['iterate_',['../class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435',1,'DebugInfo']]]
 ];

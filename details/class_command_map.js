@@ -9,6 +9,7 @@ var class_command_map =
     [ "MessageExistsInMap", "class_command_map.html#a525b74a85b07be21de6da75fa3dc84ee", null ],
     [ "RemoveMessage", "class_command_map.html#a652e7def69ae9a1b0ad4eca3a5f7ef88", null ],
     [ "ToXmlDocument", "class_command_map.html#a433d9ccc320f6a4f9f03a6966ceb3109", null ],
+    [ "cmdmap_mutex_", "class_command_map.html#a8a02ee442023a32234c4b3ca75cdc71b", null ],
     [ "command_string_map_", "class_command_map.html#a59244b7b9c1e221fcc418019c7a0c954", null ],
     [ "message_map_", "class_command_map.html#ab4d9861bed207cab3bf9e4baf3f76605", null ]
 ];

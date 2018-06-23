@@ -1,0 +1,3 @@
+<map id="Listener" name="Listener">
+<area shape="rect" id="node2" href="$class_settings_component.html" title="{SettingsComponent\n|&#45; autohide_explain_label_\l&#45; autohide_group_\l&#45; autohide_setting_\l&#45; pickup_enabled_\l&#45; pickup_group_\l&#45; pickup_label_\l&#45; profile_group_\l&#45; profile_location_button_\l&#45; profile_location_label_\l&#45; settings_manager_\l|+ SettingsComponent()\l+ SettingsComponent()\l+ SettingsComponent()\l+ ~SettingsComponent()\l+ Init()\l+ operator=()\l+ operator=()\l&#45; buttonClicked()\l&#45; paint()\l&#45; sliderValueChanged()\l}" alt="" coords="5,131,173,472"/>
+</map>

@@ -1,6 +1,8 @@
 <map id="CCoptions" name="CCoptions">
-<area shape="rect" id="node5" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1095,157,1200,184"/>
-<area shape="rect" id="node7" href="$class_channel_model.html" title="ChannelModel" alt="" coords="571,157,675,184"/>
-<area shape="rect" id="node9" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,72,132,99"/>
-<area shape="rect" id="node10" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,131,405,157"/>
+<area shape="rect" id="node2" href="$class_component.html" title="{Component\n||}" alt="" coords="364,1417,452,1494"/>
+<area shape="rect" id="node4" href="$class_button_listener.html" title="{ButtonListener\n||}" alt="" coords="636,1417,743,1494"/>
+<area shape="rect" id="node9" href="$class_channel_model.html" title="{ChannelModel\n||+ ChannelModel()\l+ ChannelModel()\l+ ChannelModel()\l+ ~ChannelModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 12 more...\l&#45; ActiveToSaved()\l&#45; CcDefaults()\l&#45; CenterCc()\l&#45; CenterPw()\l&#45; IsNRPN_()\l&#45; load()\l&#45; OffsetResult()\l&#45; save()\l&#45; SavedToActive()\l}" alt="" coords="607,763,753,1119"/>
+<area shape="rect" id="node11" href="$structrsj_1_1_settings_struct.html" title="{rsj::SettingsStruct\n||+ SettingsStruct()\l+ serialize()\l}" alt="" coords="762,175,889,267"/>
+<area shape="rect" id="node7" href="$class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="999,1336,1145,1575"/>
+<area shape="rect" id="node15" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="323,505,488,700"/>
 </map>

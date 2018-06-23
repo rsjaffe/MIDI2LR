@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -108,8 +108,10 @@ $(document).ready(function(){initNavTree('class_c_coptions.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_c_coptions__inherit__graph.png" border="0" usemap="#_c_coptions_inherit__map" alt="Inheritance graph"/></div>
 <map name="_c_coptions_inherit__map" id="_c_coptions_inherit__map">
+<area shape="rect" id="node2" href="class_component.html" title="{Component\n||}" alt="" coords="5,5,93,83"/>
+<area shape="rect" id="node4" href="class_button_listener.html" title="{ButtonListener\n||}" alt="" coords="277,5,384,83"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for CCoptions:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -117,12 +119,14 @@ $(document).ready(function(){initNavTree('class_c_coptions.html','');});
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_c_coptions__coll__graph.png" border="0" usemap="#_c_coptions_coll__map" alt="Collaboration graph"/></div>
 <map name="_c_coptions_coll__map" id="_c_coptions_coll__map">
-<area shape="rect" id="node5" href="class_controls_model.html" title="ControlsModel" alt="" coords="1095,157,1200,184"/>
-<area shape="rect" id="node7" href="class_channel_model.html" title="ChannelModel" alt="" coords="571,157,675,184"/>
-<area shape="rect" id="node9" href="structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,72,132,99"/>
-<area shape="rect" id="node10" href="classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,131,405,157"/>
+<area shape="rect" id="node2" href="class_component.html" title="{Component\n||}" alt="" coords="364,1417,452,1494"/>
+<area shape="rect" id="node4" href="class_button_listener.html" title="{ButtonListener\n||}" alt="" coords="636,1417,743,1494"/>
+<area shape="rect" id="node9" href="class_channel_model.html" title="{ChannelModel\n||+ ChannelModel()\l+ ChannelModel()\l+ ChannelModel()\l+ ~ChannelModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 12 more...\l&#45; ActiveToSaved()\l&#45; CcDefaults()\l&#45; CenterCc()\l&#45; CenterPw()\l&#45; IsNRPN_()\l&#45; load()\l&#45; OffsetResult()\l&#45; save()\l&#45; SavedToActive()\l}" alt="" coords="607,763,753,1119"/>
+<area shape="rect" id="node11" href="structrsj_1_1_settings_struct.html" title="{rsj::SettingsStruct\n||+ SettingsStruct()\l+ serialize()\l}" alt="" coords="762,175,889,267"/>
+<area shape="rect" id="node7" href="class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="999,1336,1145,1575"/>
+<area shape="rect" id="node15" href="classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="323,505,488,700"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -281,15 +285,15 @@ Static Private Attributes</h2></td></tr>
 <div class="ttc" id="class_c_coptions_html_a952544cc21957433932eb6b087a3f85d"><div class="ttname"><a href="class_c_coptions.html#a952544cc21957433932eb6b087a3f85d">CCoptions::absbutton</a></div><div class="ttdeci">ScopedPointer&lt; ToggleButton &gt; absbutton</div><div class="ttdef"><b>Definition:</b> CCoptions.h:90</div></div>
 <div class="ttc" id="class_c_coptions_html_a0ee567b977dbe5d1293a3e80e50cee47"><div class="ttname"><a href="class_c_coptions.html#a0ee567b977dbe5d1293a3e80e50cee47">CCoptions::minvaltext</a></div><div class="ttdeci">ScopedPointer&lt; TextEditor &gt; minvaltext</div><div class="ttdef"><b>Definition:</b> CCoptions.h:94</div></div>
 <div class="ttc" id="class_c_coptions_html_a4f3410fbfd0122c84b8c94f2e7562bb5"><div class="ttname"><a href="class_c_coptions.html#a4f3410fbfd0122c84b8c94f2e7562bb5">CCoptions::bound_channel_</a></div><div class="ttdeci">short bound_channel_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:83</div></div>
-<div class="ttc" id="class_controls_model_html_a47e5dcd1623403bfb8543f6989e8d0e5"><div class="ttname"><a href="class_controls_model.html#a47e5dcd1623403bfb8543f6989e8d0e5">ControlsModel::GetCcMin</a></div><div class="ttdeci">short GetCcMin(size_t channel, short controlnumber)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:198</div></div>
+<div class="ttc" id="class_controls_model_html_a47e5dcd1623403bfb8543f6989e8d0e5"><div class="ttname"><a href="class_controls_model.html#a47e5dcd1623403bfb8543f6989e8d0e5">ControlsModel::GetCcMin</a></div><div class="ttdeci">short GetCcMin(size_t channel, short controlnumber)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:243</div></div>
 <div class="ttc" id="namespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf">rsj::CCmethod::kSignMagnitude</a></div></div>
 <div class="ttc" id="class_c_coptions_html_aa05f2a60b260b482b0c02c298f076e2e"><div class="ttname"><a href="class_c_coptions.html#aa05f2a60b260b482b0c02c298f076e2e">CCoptions::twosbutton</a></div><div class="ttdeci">ScopedPointer&lt; ToggleButton &gt; twosbutton</div><div class="ttdef"><b>Definition:</b> CCoptions.h:89</div></div>
 <div class="ttc" id="namespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a></div></div>
 <div class="ttc" id="class_c_coptions_html_a1f6d0bcd7fb9713f32d4b05ca697334e"><div class="ttname"><a href="class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e">CCoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:82</div></div>
-<div class="ttc" id="class_controls_model_html_af365c9f63b78da7b742f472bd3ff2dfc"><div class="ttname"><a href="class_controls_model.html#af365c9f63b78da7b742f472bd3ff2dfc">ControlsModel::GetCcMethod</a></div><div class="ttdeci">rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:185</div></div>
+<div class="ttc" id="class_controls_model_html_af365c9f63b78da7b742f472bd3ff2dfc"><div class="ttname"><a href="class_controls_model.html#af365c9f63b78da7b742f472bd3ff2dfc">ControlsModel::GetCcMethod</a></div><div class="ttdeci">rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:221</div></div>
 <div class="ttc" id="class_c_coptions_html_a26ab7c8046c90d7db9af6a2ff91291f8"><div class="ttname"><a href="class_c_coptions.html#a26ab7c8046c90d7db9af6a2ff91291f8">CCoptions::binbutton</a></div><div class="ttdeci">ScopedPointer&lt; ToggleButton &gt; binbutton</div><div class="ttdef"><b>Definition:</b> CCoptions.h:91</div></div>
 <div class="ttc" id="class_c_coptions_html_af8ccc733f31441e210b1af0667b35a86"><div class="ttname"><a href="class_c_coptions.html#af8ccc733f31441e210b1af0667b35a86">CCoptions::signbutton</a></div><div class="ttdeci">ScopedPointer&lt; ToggleButton &gt; signbutton</div><div class="ttdef"><b>Definition:</b> CCoptions.h:92</div></div>
-<div class="ttc" id="class_controls_model_html_a2cc43f82444914af6453ff7697616fe9"><div class="ttname"><a href="class_controls_model.html#a2cc43f82444914af6453ff7697616fe9">ControlsModel::GetCcMax</a></div><div class="ttdeci">short GetCcMax(size_t channel, short controlnumber) const</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:192</div></div>
+<div class="ttc" id="class_controls_model_html_a2cc43f82444914af6453ff7697616fe9"><div class="ttname"><a href="class_controls_model.html#a2cc43f82444914af6453ff7697616fe9">ControlsModel::GetCcMax</a></div><div class="ttdeci">short GetCcMax(size_t channel, short controlnumber) const</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:232</div></div>
 <div class="ttc" id="class_c_coptions_html_a6e32c7d44f6f73c6f9103320898dbb7f"><div class="ttname"><a href="class_c_coptions.html#a6e32c7d44f6f73c6f9103320898dbb7f">CCoptions::bound_number_</a></div><div class="ttdeci">short bound_number_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:84</div></div>
 </div><!-- fragment --><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
@@ -299,6 +303,7 @@ Static Private Attributes</h2></td></tr>
 <div class="center"><img src="class_c_coptions_ac0ee4f364944cdf3b41f47e5ecde5264_cgraph.png" border="0" usemap="#class_c_coptions_ac0ee4f364944cdf3b41f47e5ecde5264_cgraph" alt=""/></div>
 <map name="class_c_coptions_ac0ee4f364944cdf3b41f47e5ecde5264_cgraph" id="class_c_coptions_ac0ee4f364944cdf3b41f47e5ecde5264_cgraph">
 <area shape="rect" id="node2" href="class_controls_model.html#af365c9f63b78da7b742f472bd3ff2dfc" title="ControlsModel::GetCcMethod" alt="" coords="224,5,417,32"/>
+<area shape="rect" id="node3" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="465,5,625,32"/>
 </map>
 </div>
 
@@ -336,7 +341,7 @@ Static Private Attributes</h2></td></tr>
 <div class="ttc" id="class_c_coptions_html_a31a4532987c9eaa653d7d37df866af7a"><div class="ttname"><a href="class_c_coptions.html#a31a4532987c9eaa653d7d37df866af7a">CCoptions::applyAll</a></div><div class="ttdeci">ScopedPointer&lt; TextButton &gt; applyAll</div><div class="ttdef"><b>Definition:</b> CCoptions.h:97</div></div>
 <div class="ttc" id="namespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a">rsj::CCmethod::kAbsolute</a></div></div>
 <div class="ttc" id="class_c_coptions_html_a1c0c7880150c7b7ed7061c5a69856314"><div class="ttname"><a href="class_c_coptions.html#a1c0c7880150c7b7ed7061c5a69856314">CCoptions::minvallabel</a></div><div class="ttdeci">ScopedPointer&lt; Label &gt; minvallabel</div><div class="ttdef"><b>Definition:</b> CCoptions.h:95</div></div>
-<div class="ttc" id="class_controls_model_html_ac24b523fa7b2466690fec2ff6ae0bacf"><div class="ttname"><a href="class_controls_model.html#ac24b523fa7b2466690fec2ff6ae0bacf">ControlsModel::SetCcAll</a></div><div class="ttdeci">void SetCcAll(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:233</div></div>
+<div class="ttc" id="class_controls_model_html_ac24b523fa7b2466690fec2ff6ae0bacf"><div class="ttname"><a href="class_controls_model.html#ac24b523fa7b2466690fec2ff6ae0bacf">ControlsModel::SetCcAll</a></div><div class="ttdeci">void SetCcAll(size_t channel, short controlnumber, short min, short max, rsj::CCmethod controltype)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:308</div></div>
 <div class="ttc" id="class_c_coptions_html_a952544cc21957433932eb6b087a3f85d"><div class="ttname"><a href="class_c_coptions.html#a952544cc21957433932eb6b087a3f85d">CCoptions::absbutton</a></div><div class="ttdeci">ScopedPointer&lt; ToggleButton &gt; absbutton</div><div class="ttdef"><b>Definition:</b> CCoptions.h:90</div></div>
 <div class="ttc" id="class_c_coptions_html_a0ee567b977dbe5d1293a3e80e50cee47"><div class="ttname"><a href="class_c_coptions.html#a0ee567b977dbe5d1293a3e80e50cee47">CCoptions::minvaltext</a></div><div class="ttdeci">ScopedPointer&lt; TextEditor &gt; minvaltext</div><div class="ttdef"><b>Definition:</b> CCoptions.h:94</div></div>
 <div class="ttc" id="class_c_coptions_html_a4f3410fbfd0122c84b8c94f2e7562bb5"><div class="ttname"><a href="class_c_coptions.html#a4f3410fbfd0122c84b8c94f2e7562bb5">CCoptions::bound_channel_</a></div><div class="ttdeci">short bound_channel_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:83</div></div>
@@ -345,7 +350,7 @@ Static Private Attributes</h2></td></tr>
 <div class="ttc" id="namespacersj_html_a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d"><div class="ttname"><a href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d">rsj::CCmethod::kTwosComplement</a></div></div>
 <div class="ttc" id="class_c_coptions_html_a1f6d0bcd7fb9713f32d4b05ca697334e"><div class="ttname"><a href="class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e">CCoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:82</div></div>
 <div class="ttc" id="class_c_coptions_html_a26ab7c8046c90d7db9af6a2ff91291f8"><div class="ttname"><a href="class_c_coptions.html#a26ab7c8046c90d7db9af6a2ff91291f8">CCoptions::binbutton</a></div><div class="ttdeci">ScopedPointer&lt; ToggleButton &gt; binbutton</div><div class="ttdef"><b>Definition:</b> CCoptions.h:91</div></div>
-<div class="ttc" id="class_controls_model_html_a6750e1866efff9739030c1281b3756b3"><div class="ttname"><a href="class_controls_model.html#a6750e1866efff9739030c1281b3756b3">ControlsModel::SetCcMethod</a></div><div class="ttdeci">void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:246</div></div>
+<div class="ttc" id="class_controls_model_html_a6750e1866efff9739030c1281b3756b3"><div class="ttname"><a href="class_controls_model.html#a6750e1866efff9739030c1281b3756b3">ControlsModel::SetCcMethod</a></div><div class="ttdeci">void SetCcMethod(size_t channel, short controlnumber, rsj::CCmethod value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:331</div></div>
 <div class="ttc" id="class_c_coptions_html_af8ccc733f31441e210b1af0667b35a86"><div class="ttname"><a href="class_c_coptions.html#af8ccc733f31441e210b1af0667b35a86">CCoptions::signbutton</a></div><div class="ttdeci">ScopedPointer&lt; ToggleButton &gt; signbutton</div><div class="ttdef"><b>Definition:</b> CCoptions.h:92</div></div>
 <div class="ttc" id="class_c_coptions_html_a6e32c7d44f6f73c6f9103320898dbb7f"><div class="ttname"><a href="class_c_coptions.html#a6e32c7d44f6f73c6f9103320898dbb7f">CCoptions::bound_number_</a></div><div class="ttdeci">short bound_number_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:84</div></div>
 </div><!-- fragment --><div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -356,6 +361,7 @@ Static Private Attributes</h2></td></tr>
 <div class="center"><img src="class_c_coptions_a6fa1f66a6cbb53b8593f52495dc5349c_cgraph.png" border="0" usemap="#class_c_coptions_a6fa1f66a6cbb53b8593f52495dc5349c_cgraph" alt=""/></div>
 <map name="class_c_coptions_a6fa1f66a6cbb53b8593f52495dc5349c_cgraph" id="class_c_coptions_a6fa1f66a6cbb53b8593f52495dc5349c_cgraph">
 <area shape="rect" id="node2" href="class_controls_model.html#a6750e1866efff9739030c1281b3756b3" title="ControlsModel::SetCcMethod" alt="" coords="223,5,415,32"/>
+<area shape="rect" id="node3" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="463,5,623,32"/>
 </map>
 </div>
 
@@ -476,10 +482,10 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;{</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> val = gsl::narrow_cast&lt;<span class="keywordtype">short</span>&gt;(t.getText().getIntValue());</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; nam = t.getName();</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordflow">if</span> (nam==<span class="stringliteral">&quot;minvaltext&quot;</span>)</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        <a class="code" href="class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e">controls_model_</a>-&gt;<a class="code" href="class_controls_model.html#a63cf941b071bc7f7198c873b402611ca">SetCcMin</a>(<a class="code" href="class_c_coptions.html#a4f3410fbfd0122c84b8c94f2e7562bb5">bound_channel_</a>, <a class="code" href="class_c_coptions.html#a6e32c7d44f6f73c6f9103320898dbb7f">bound_number_</a>, val);</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (nam==<span class="stringliteral">&quot;maxvaltext&quot;</span>)</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <a class="code" href="class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e">controls_model_</a>-&gt;<a class="code" href="class_controls_model.html#a103762da9ee82ee35019d0fe07c3204b">SetCcMax</a>(<a class="code" href="class_c_coptions.html#a4f3410fbfd0122c84b8c94f2e7562bb5">bound_channel_</a>, <a class="code" href="class_c_coptions.html#a6e32c7d44f6f73c6f9103320898dbb7f">bound_number_</a>, val);</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;}</div><div class="ttc" id="class_c_coptions_html_a4f3410fbfd0122c84b8c94f2e7562bb5"><div class="ttname"><a href="class_c_coptions.html#a4f3410fbfd0122c84b8c94f2e7562bb5">CCoptions::bound_channel_</a></div><div class="ttdeci">short bound_channel_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:83</div></div>
-<div class="ttc" id="class_controls_model_html_a63cf941b071bc7f7198c873b402611ca"><div class="ttname"><a href="class_controls_model.html#a63cf941b071bc7f7198c873b402611ca">ControlsModel::SetCcMin</a></div><div class="ttdeci">void SetCcMin(size_t channel, short controlnumber, short value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:252</div></div>
+<div class="ttc" id="class_controls_model_html_a63cf941b071bc7f7198c873b402611ca"><div class="ttname"><a href="class_controls_model.html#a63cf941b071bc7f7198c873b402611ca">ControlsModel::SetCcMin</a></div><div class="ttdeci">void SetCcMin(size_t channel, short controlnumber, short value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:342</div></div>
 <div class="ttc" id="class_c_coptions_html_a1f6d0bcd7fb9713f32d4b05ca697334e"><div class="ttname"><a href="class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e">CCoptions::controls_model_</a></div><div class="ttdeci">static ControlsModel * controls_model_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:82</div></div>
 <div class="ttc" id="class_c_coptions_html_a6e32c7d44f6f73c6f9103320898dbb7f"><div class="ttname"><a href="class_c_coptions.html#a6e32c7d44f6f73c6f9103320898dbb7f">CCoptions::bound_number_</a></div><div class="ttdeci">short bound_number_</div><div class="ttdef"><b>Definition:</b> CCoptions.h:84</div></div>
-<div class="ttc" id="class_controls_model_html_a103762da9ee82ee35019d0fe07c3204b"><div class="ttname"><a href="class_controls_model.html#a103762da9ee82ee35019d0fe07c3204b">ControlsModel::SetCcMax</a></div><div class="ttdeci">void SetCcMax(size_t channel, short controlnumber, short value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:240</div></div>
+<div class="ttc" id="class_controls_model_html_a103762da9ee82ee35019d0fe07c3204b"><div class="ttname"><a href="class_controls_model.html#a103762da9ee82ee35019d0fe07c3204b">ControlsModel::SetCcMax</a></div><div class="ttdeci">void SetCcMax(size_t channel, short controlnumber, short value)</div><div class="ttdef"><b>Definition:</b> ControlsModel.h:320</div></div>
 </div><!-- fragment -->
 </div>
 </div>

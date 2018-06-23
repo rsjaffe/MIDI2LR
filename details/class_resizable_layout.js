@@ -12,7 +12,7 @@ var class_resizable_layout =
     [ "~ResizableLayout", "class_resizable_layout.html#a05aab7565920919ed1a7c62e8a4544bc", null ],
     [ "activateLayout", "class_resizable_layout.html#afd4d193db907fc27c85e2045170b6710", null ],
     [ "addStateFor", "class_resizable_layout.html#a6d6f6015a51dbe7c950de80ed8b0ab49", null ],
-    [ "addToLayout", "class_resizable_layout.html#a59717eb43f92a399b2619d3c5aff495a", null ],
+    [ "addToLayout", "class_resizable_layout.html#a03404473dc0f19ec3552cd8bf471a5cf", null ],
     [ "calcBoundsOfChildren", "class_resizable_layout.html#a94ecea095ab66c30121aa71cf187eb38", null ],
     [ "componentBeingDeleted", "class_resizable_layout.html#a87fb5e236eb558a902c7977ba41fffb2", null ],
     [ "componentMovedOrResized", "class_resizable_layout.html#ad106c8c769784ef1b7722f10cb83d07f", null ],

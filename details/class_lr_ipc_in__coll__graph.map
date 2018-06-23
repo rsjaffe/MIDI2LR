@@ -1,15 +1,15 @@
 <map id="LrIpcIn" name="LrIpcIn">
-<area shape="rect" id="node26" href="$class_lr_ipc_out_1_1_recenter.html" title="LrIpcOut::Recenter" alt="" coords="1215,354,1346,381"/>
-<area shape="rect" id="node4" href="$class_profile_manager.html" title="ProfileManager" alt="" coords="2056,255,2164,282"/>
-<area shape="rect" id="node7" href="$class_command_map.html" title="CommandMap" alt="" coords="1227,190,1334,217"/>
-<area shape="rect" id="node23" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1533,361,1604,387"/>
-<area shape="rect" id="node9" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,159,701,186"/>
-<area shape="rect" id="node10" title="STL class. " alt="" coords="596,245,676,271"/>
-<area shape="rect" id="node11" title="STL class. " alt="" coords="262,237,389,279"/>
-<area shape="rect" id="node14" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1228,77,1333,103"/>
-<area shape="rect" id="node16" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,78,688,105"/>
-<area shape="rect" id="node18" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,13,132,39"/>
-<area shape="rect" id="node19" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,303,405,330"/>
-<area shape="rect" id="node28" href="$class_lr_ipc_out_1_1_connect_timer.html" title="LrIpcOut::ConnectTimer" alt="" coords="1771,489,1930,515"/>
-<area shape="rect" id="node27" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="841,354,963,381"/>
+<area shape="rect" id="node42" href="$class_lr_ipc_out_1_1_recenter.html" title="{LrIpcOut::Recenter\n||+ Recenter()\l+ SetMidiMessage()\l&#45; timerCallback()\l}" alt="" coords="1180,1509,1319,1615"/>
+<area shape="rect" id="node4" href="$class_profile_manager.html" title="{ProfileManager\n||+ ProfileManager()\l+ ProfileManager()\l+ ProfileManager()\l+ ~ProfileManager()\l+ AddCallback()\l+ GetProfileDirectory()\l+ Init()\l+ operator=()\l+ operator=()\l+ SetProfileDirectory()\l+ SwitchToProfile()\l+ SwitchToProfile()\l&#45; ConnectionCallback()\l&#45; GetMenuItems()\l&#45; handleAsyncUpdate()\l&#45; MapCommand()\l&#45; MidiCmdCallback()\l&#45; SwitchToNextProfile()\l&#45; SwitchToPreviousProfile()\l}" alt="" coords="684,2303,860,2644"/>
+<area shape="rect" id="node8" href="$class_command_map.html" title="{CommandMap\n||+ AddCommandforMessage()\l+ AddCommandforMessage()\l+ ClearMap()\l+ CommandHasAssociatedMessage()\l+ GetCommandforMessage()\l+ GetMessagesForCommand()\l+ MessageExistsInMap()\l+ RemoveMessage()\l+ ToXmlDocument()\l}" alt="" coords="79,1465,321,1659"/>
+<area shape="rect" id="node34" href="$class_lr_ipc_out.html" title="{LrIpcOut\n||+ LrIpcOut()\l+ LrIpcOut()\l+ LrIpcOut()\l+ ~LrIpcOut()\l+ AddCallback()\l+ Init()\l+ operator=()\l+ operator=()\l+ Restart()\l+ SendCommand()\l+ SendCommand()\l+ Stop()\l&#45; connectionLost()\l&#45; connectionMade()\l&#45; messageReceived()\l&#45; MidiCmdCallback()\l&#45; SendOut()\l}" alt="" coords="1385,1744,1527,2056"/>
+<area shape="rect" id="node11" href="$structrsj_1_1_midi_message_id.html" title="{rsj::MidiMessageId\n||+ MidiMessageId()\l+ MidiMessageId()\l+ MidiMessageId()\l+ operator\&lt;()\l+ operator==()\l}" alt="" coords="381,965,512,1101"/>
+<area shape="rect" id="node15" title="STL class. " alt="" coords="172,994,252,1071"/>
+<area shape="rect" id="node16" title="STL class. " alt="" coords="149,557,275,649"/>
+<area shape="rect" id="node20" href="$class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="959,1443,1105,1681"/>
+<area shape="rect" id="node22" href="$class_channel_model.html" title="{ChannelModel\n||+ ChannelModel()\l+ ChannelModel()\l+ ChannelModel()\l+ ~ChannelModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 12 more...\l&#45; ActiveToSaved()\l&#45; CcDefaults()\l&#45; CenterCc()\l&#45; CenterPw()\l&#45; IsNRPN_()\l&#45; load()\l&#45; OffsetResult()\l&#45; save()\l&#45; SavedToActive()\l}" alt="" coords="959,855,1105,1211"/>
+<area shape="rect" id="node24" href="$structrsj_1_1_settings_struct.html" title="{rsj::SettingsStruct\n||+ SettingsStruct()\l+ serialize()\l}" alt="" coords="985,175,1111,267"/>
+<area shape="rect" id="node43" href="$structrsj_1_1_midi_message.html" title="{rsj::MidiMessage\n||+ MidiMessage()\l+ MidiMessage()\l+ MidiMessage()\l}" alt="" coords="1719,724,1841,831"/>
+<area shape="rect" id="node28" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="1607,505,1772,700"/>
+<area shape="rect" id="node44" href="$class_lr_ipc_out_1_1_connect_timer.html" title="{LrIpcOut::ConnectTimer\n||+ ConnectTimer()\l+ Start()\l+ Stop()\l&#45; timerCallback()\l}" alt="" coords="1614,2119,1773,2240"/>
 </map>

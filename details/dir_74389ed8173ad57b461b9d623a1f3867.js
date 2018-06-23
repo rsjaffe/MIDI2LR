@@ -36,6 +36,7 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "MIDISender.h", "_m_i_d_i_sender_8h.html", "_m_i_d_i_sender_8h" ],
     [ "MidiUtilities.cpp", "_midi_utilities_8cpp.html", null ],
     [ "MidiUtilities.h", "_midi_utilities_8h.html", "_midi_utilities_8h" ],
+    [ "Misc.cpp", "_misc_8cpp.html", "_misc_8cpp" ],
     [ "Misc.h", "_misc_8h.html", "_misc_8h" ],
     [ "NrpnMessage.cpp", "_nrpn_message_8cpp.html", null ],
     [ "NrpnMessage.h", "_nrpn_message_8h.html", "_nrpn_message_8h" ],

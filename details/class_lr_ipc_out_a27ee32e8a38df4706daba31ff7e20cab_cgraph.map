@@ -1,6 +1,7 @@
 <map id="LrIpcOut::MidiCmdCallback" name="LrIpcOut::MidiCmdCallback">
 <area shape="rect" id="node2" href="$class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0" title="ControlsModel::Controller\lToPlugin" alt="" coords="253,5,421,47"/>
-<area shape="rect" id="node3" href="$class_controls_model.html#af365c9f63b78da7b742f472bd3ff2dfc" title="ControlsModel::GetCcMethod" alt="" coords="240,71,433,98"/>
-<area shape="rect" id="node4" href="$class_controls_model.html#a4c650884166a2b3d44869e3d60f96f4c" title="ControlsModel::MeasureChange" alt="" coords="233,122,440,149"/>
-<area shape="rect" id="node5" href="$structrsj_1_1_midi_message_id.html#a3b021d6fcb5df9cd5814df7c685ff7c1" title="rsj::MidiMessageId\l::MidiMessageId" alt="" coords="271,173,402,215"/>
+<area shape="rect" id="node3" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="488,97,648,123"/>
+<area shape="rect" id="node4" href="$class_controls_model.html#af365c9f63b78da7b742f472bd3ff2dfc" title="ControlsModel::GetCcMethod" alt="" coords="240,122,433,149"/>
+<area shape="rect" id="node5" href="$class_controls_model.html#a4c650884166a2b3d44869e3d60f96f4c" title="ControlsModel::MeasureChange" alt="" coords="233,173,440,199"/>
+<area shape="rect" id="node6" href="$structrsj_1_1_midi_message_id.html#a3b021d6fcb5df9cd5814df7c685ff7c1" title="rsj::MidiMessageId\l::MidiMessageId" alt="" coords="271,224,402,265"/>
 </map>

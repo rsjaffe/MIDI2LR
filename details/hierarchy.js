@@ -6,7 +6,7 @@ var hierarchy =
       [ "ProfileManager", "class_profile_manager.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
-    [ "ButtonListener", null, [
+    [ "ButtonListener", "class_button_listener.html", [
       [ "CCoptions", "class_c_coptions.html", null ]
     ] ],
     [ "ButtonListener", null, [
@@ -16,7 +16,7 @@ var hierarchy =
     [ "cfreleaser< CoreFoundationType >", "structcfreleaser.html", null ],
     [ "ChannelModel", "class_channel_model.html", null ],
     [ "CommandMap", "class_command_map.html", null ],
-    [ "Component", null, [
+    [ "Component", "class_component.html", [
       [ "CCoptions", "class_c_coptions.html", null ],
       [ "PWoptions", "class_p_woptions.html", null ]
     ] ],
@@ -50,7 +50,7 @@ var hierarchy =
       [ "CCoptions", "class_c_coptions.html", null ],
       [ "PWoptions", "class_p_woptions.html", null ]
     ] ],
-    [ "Listener", null, [
+    [ "Listener", "classjuce_1_1_slider_1_1_listener.html", [
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
     [ "LrCommandList", "class_lr_command_list.html", null ],

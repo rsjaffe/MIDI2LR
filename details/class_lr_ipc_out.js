@@ -2,7 +2,7 @@ var class_lr_ipc_out =
 [
     [ "ConnectTimer", "class_lr_ipc_out_1_1_connect_timer.html", "class_lr_ipc_out_1_1_connect_timer" ],
     [ "Recenter", "class_lr_ipc_out_1_1_recenter.html", "class_lr_ipc_out_1_1_recenter" ],
-    [ "LrIpcOut", "class_lr_ipc_out.html#a78a1f27b02d07126d1c84d26217188d2", null ],
+    [ "LrIpcOut", "class_lr_ipc_out.html#af01012f1440687e768b6cc6b2f0ba8c5", null ],
     [ "~LrIpcOut", "class_lr_ipc_out.html#a91c2d833ff148181947056450f5009c0", null ],
     [ "LrIpcOut", "class_lr_ipc_out.html#a6d2c565aa0b5bafded8524bd2fc5e5c8", null ],
     [ "LrIpcOut", "class_lr_ipc_out.html#a34874e90a87db6ab6ac9bad8ead0969e", null ],

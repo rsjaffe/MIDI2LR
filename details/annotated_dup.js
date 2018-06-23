@@ -4,6 +4,7 @@ var annotated_dup =
     [ "std", null, [
       [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ]
     ] ],
+    [ "ButtonListener", "class_button_listener.html", null ],
     [ "CCoptions", "class_c_coptions.html", "class_c_coptions" ],
     [ "cfreleaser", "structcfreleaser.html", "structcfreleaser" ],
     [ "ChannelModel", "class_channel_model.html", "class_channel_model" ],
@@ -11,8 +12,10 @@ var annotated_dup =
     [ "CommandMenu", "class_command_menu.html", "class_command_menu" ],
     [ "CommandTable", "class_command_table.html", "class_command_table" ],
     [ "CommandTableModel", "class_command_table_model.html", "class_command_table_model" ],
+    [ "Component", "class_component.html", null ],
     [ "ControlsModel", "class_controls_model.html", "class_controls_model" ],
     [ "DebugInfo", "class_debug_info.html", "class_debug_info" ],
+    [ "Listener", "classjuce_1_1_slider_1_1_listener.html", null ],
     [ "LrCommandList", "class_lr_command_list.html", "class_lr_command_list" ],
     [ "LrIpcIn", "class_lr_ipc_in.html", "class_lr_ipc_in" ],
     [ "LrIpcOut", "class_lr_ipc_out.html", "class_lr_ipc_out" ],

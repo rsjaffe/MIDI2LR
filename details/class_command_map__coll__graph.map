@@ -1,5 +1,5 @@
 <map id="CommandMap" name="CommandMap">
-<area shape="rect" id="node3" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="181,5,312,32"/>
-<area shape="rect" id="node4" title="STL class. " alt="" coords="207,96,287,123"/>
-<area shape="rect" id="node5" title="STL class. " alt="" coords="5,89,132,130"/>
+<area shape="rect" id="node4" href="$structrsj_1_1_midi_message_id.html" title="{rsj::MidiMessageId\n||+ MidiMessageId()\l+ MidiMessageId()\l+ MidiMessageId()\l+ operator\&lt;()\l+ operator==()\l}" alt="" coords="132,204,263,340"/>
+<area shape="rect" id="node8" title="STL class. " alt="" coords="381,233,461,311"/>
+<area shape="rect" id="node9" title="STL class. " alt="" coords="358,5,485,97"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="NrpnFilter" name="NrpnFilter">
-<area shape="rect" id="node3" href="$class_nrpn_message.html" title="NrpnMessage" alt="" coords="41,95,143,121"/>
-<area shape="rect" id="node4" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="13,5,171,32"/>
+<area shape="rect" id="node3" href="$class_nrpn_message.html" title="{NrpnMessage\n||+ GetNrpnIfReady()\l+ IsInProcess()\l+ ProcessMidi()\l&#45; Clear()\l&#45; GetControl()\l&#45; GetValue()\l&#45; IsReady()\l&#45; SetControlLsb()\l&#45; SetControlMsb()\l&#45; SetValueLsb()\l&#45; SetValueMsb()\l}" alt="" coords="215,447,348,671"/>
+<area shape="rect" id="node7" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="381,145,547,340"/>
 </map>

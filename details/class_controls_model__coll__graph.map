@@ -1,5 +1,5 @@
 <map id="ControlsModel" name="ControlsModel">
-<area shape="rect" id="node3" href="$class_channel_model.html" title="ChannelModel" alt="" coords="571,98,675,125"/>
-<area shape="rect" id="node5" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,13,132,39"/>
-<area shape="rect" id="node6" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,71,405,98"/>
+<area shape="rect" id="node3" href="$class_channel_model.html" title="{ChannelModel\n||+ ChannelModel()\l+ ChannelModel()\l+ ChannelModel()\l+ ~ChannelModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 12 more...\l&#45; ActiveToSaved()\l&#45; CcDefaults()\l&#45; CenterCc()\l&#45; CenterPw()\l&#45; IsNRPN_()\l&#45; load()\l&#45; OffsetResult()\l&#45; save()\l&#45; SavedToActive()\l}" alt="" coords="497,763,644,1119"/>
+<area shape="rect" id="node5" href="$structrsj_1_1_settings_struct.html" title="{rsj::SettingsStruct\n||+ SettingsStruct()\l+ serialize()\l}" alt="" coords="211,175,338,267"/>
+<area shape="rect" id="node10" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="868,505,1033,700"/>
 </map>

@@ -14,6 +14,7 @@ var class_m_i_d_i2_l_r_application =
     [ "unhandledException", "class_m_i_d_i2_l_r_application.html#ad34fde5f16225239b8ae7e0e753cf9cc", null ],
     [ "command_map_", "class_m_i_d_i2_l_r_application.html#a01dc7aaabd6e448cd984429e0a06f2ce", null ],
     [ "controls_model_", "class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3", null ],
+    [ "logger_", "class_m_i_d_i2_l_r_application.html#a793173a9549f50724d983c9c4501fdee", null ],
     [ "look_feel_", "class_m_i_d_i2_l_r_application.html#a849feda385bdd6d2062b1c5aeb35882f", null ],
     [ "lr_ipc_in_", "class_m_i_d_i2_l_r_application.html#a2f53b0b90ba9807ee26b7fc34eac5a0a", null ],
     [ "lr_ipc_out_", "class_m_i_d_i2_l_r_application.html#aea03895fe55bec34004667a3f5d72a72", null ],

@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -90,6 +90,7 @@ $(document).ready(function(){initNavTree('class_debug_info.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_debug_info-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -105,15 +106,15 @@ $(document).ready(function(){initNavTree('class_debug_info.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_debug_info__coll__graph.png" border="0" usemap="#_debug_info_coll__map" alt="Collaboration graph"/></div>
 <map name="_debug_info_coll__map" id="_debug_info_coll__map">
-<area shape="rect" id="node3" title="STL class. " alt="" coords="47,96,127,123"/>
-<area shape="rect" id="node4" title="STL class. " alt="" coords="24,5,151,47"/>
+<area shape="rect" id="node4" title="STL class. " alt="" coords="129,147,209,224"/>
+<area shape="rect" id="node5" title="STL class. " alt="" coords="105,5,232,97"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab34eedb001c42e559fe16ad62f49149e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#ab34eedb001c42e559fe16ad62f49149e">DebugInfo</a> () noexcept</td></tr>
-<tr class="separator:ab34eedb001c42e559fe16ad62f49149e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071053365a3097369dc3255505f51e07"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#a071053365a3097369dc3255505f51e07">DebugInfo</a> (const juce::String &amp;profile_directory) noexcept</td></tr>
+<tr class="separator:a071053365a3097369dc3255505f51e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7439815cd8ede3777764e42711acf0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#ae7439815cd8ede3777764e42711acf0a">DebugInfo</a> (const <a class="el" href="class_debug_info.html">DebugInfo</a> &amp;other)=default</td></tr>
 <tr class="separator:ae7439815cd8ede3777764e42711acf0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e849a8e7f872232727c64f010ee34e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#a6e849a8e7f872232727c64f010ee34e2">DebugInfo</a> (<a class="el" href="class_debug_info.html">DebugInfo</a> &amp;&amp;other)=default</td></tr>
@@ -129,6 +130,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5957c986b801635d8aa60887d9357441"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#a5957c986b801635d8aa60887d9357441">ResetOutput</a> () noexcept</td></tr>
 <tr class="separator:a5957c986b801635d8aa60887d9357441"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a95924d878d8f03807b7ecb8e3ffbf956"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">Send</a> (std::string &amp;&amp;msg)</td></tr>
+<tr class="separator:a95924d878d8f03807b7ecb8e3ffbf956"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a575d4944d074eb26910c200f953a3b33"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a></td></tr>
@@ -137,8 +143,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a0faa9c7ec0356a42044ee6a82263a435"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab34eedb001c42e559fe16ad62f49149e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab34eedb001c42e559fe16ad62f49149e">&#9670;&nbsp;</a></span>DebugInfo() <span class="overload">[1/3]</span></h2>
+<a id="a071053365a3097369dc3255505f51e07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a071053365a3097369dc3255505f51e07">&#9670;&nbsp;</a></span>DebugInfo() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,7 +155,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">DebugInfo::DebugInfo </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const juce::String &amp;&#160;</td>
+          <td class="paramname"><em>profile_directory</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -159,22 +166,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;{</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;      <span class="keyword">using namespace </span><a class="code" href="namespacestd_1_1string__literals.html">std::string_literals</a>;</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;      <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;          <span class="stringliteral">&quot;System language &quot;</span>s + juce::SystemStats::getDisplayLanguage().toStdString());</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(<span class="stringliteral">&quot;Version &quot;</span>s + ProjectInfo::versionString);</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(<span class="stringliteral">&quot;App path &quot;</span>s</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                         + juce::File::getSpecialLocation(juce::File::currentApplicationFile)</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                               .getFullPathName()</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                               .toStdString());</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;      <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(<span class="stringliteral">&quot;Keyboard type &quot;</span>s + <a class="code" href="namespacersj.html#a778472503c5212546ea3b720b96f0661">rsj::GetKeyboardLayout</a>());</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;   }</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;   <span class="keywordflow">catch</span> (...) {</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;         <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(<span class="stringliteral">&quot;Failed to obtain app info. Exception.&quot;</span>);</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;      }</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      <span class="keywordflow">catch</span> (...) {</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      }</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;   }</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}</div><div class="ttc" id="namespacestd_1_1string__literals_html"><div class="ttname"><a href="namespacestd_1_1string__literals.html">string_literals</a></div></div>
+<div class="fragment"><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;{</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <span class="keyword">using namespace </span><a class="code" href="namespacestd_1_1string__literals.html">std::string_literals</a>;</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <a class="code" href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">Send</a>(<span class="stringliteral">&quot;System language &quot;</span>s + juce::SystemStats::getDisplayLanguage().toStdString());</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="preprocessor">#ifdef NDEBUG</span></div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;      <a class="code" href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">Send</a>(<span class="stringliteral">&quot;Version &quot;</span>s + ProjectInfo::versionString);</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#else</span></div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;      <a class="code" href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">Send</a>(<span class="stringliteral">&quot;Version &quot;</span>s + ProjectInfo::versionString + <span class="stringliteral">&quot;-debug&quot;</span>s);</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      <a class="code" href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">Send</a>(<span class="stringliteral">&quot;App path &quot;</span>s</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;           + juce::File::getSpecialLocation(juce::File::currentApplicationFile)</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                 .getFullPathName()</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                 .toStdString());</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      <a class="code" href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">Send</a>(<span class="stringliteral">&quot;Profile directory &quot;</span>s + profile_directory.toStdString());</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;      <a class="code" href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">Send</a>(<span class="stringliteral">&quot;Keyboard type &quot;</span>s + <a class="code" href="namespacersj.html#a778472503c5212546ea3b720b96f0661">rsj::GetKeyboardLayout</a>());</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;   }</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;   <span class="keywordflow">catch</span> (...) {</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;         <span class="keyword">static</span> constexpr <span class="keyword">auto</span> kErr{<span class="stringliteral">&quot;Failed to obtain app info. Exception.&quot;</span>};</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;         <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(kErr);</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;         <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(kErr);</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      }</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      <span class="keywordflow">catch</span> (...) {</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      }</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;   }</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;}</div><div class="ttc" id="namespacestd_1_1string__literals_html"><div class="ttname"><a href="namespacestd_1_1string__literals.html">string_literals</a></div></div>
+<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:55</div></div>
 <div class="ttc" id="namespacersj_html_a778472503c5212546ea3b720b96f0661"><div class="ttname"><a href="namespacersj.html#a778472503c5212546ea3b720b96f0661">rsj::GetKeyboardLayout</a></div><div class="ttdeci">std::string GetKeyboardLayout()</div><div class="ttdef"><b>Definition:</b> DebugInfo.mm:26</div></div>
-<div class="ttc" id="class_debug_info_html_a575d4944d074eb26910c200f953a3b33"><div class="ttname"><a href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">DebugInfo::info_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; info_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:39</div></div>
-</div><!-- fragment --><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_debug_info_ab34eedb001c42e559fe16ad62f49149e_icgraph.png" border="0" usemap="#class_debug_info_ab34eedb001c42e559fe16ad62f49149e_icgraph" alt=""/></div>
-<map name="class_debug_info_ab34eedb001c42e559fe16ad62f49149e_icgraph" id="class_debug_info_ab34eedb001c42e559fe16ad62f49149e_icgraph">
-<area shape="rect" id="node2" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8" title="SettingsManager::Connection\lCallback" alt="" coords="197,5,391,47"/>
-</map>
-</div>
-
+<div class="ttc" id="class_debug_info_html_a95924d878d8f03807b7ecb8e3ffbf956"><div class="ttname"><a href="class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956">DebugInfo::Send</a></div><div class="ttdeci">void Send(std::string &amp;&amp;msg)</div><div class="ttdef"><b>Definition:</b> DebugInfo.cpp:179</div></div>
+<div class="ttc" id="class_debug_info_html_a575d4944d074eb26910c200f953a3b33"><div class="ttname"><a href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">DebugInfo::info_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; info_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:45</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="af78d70b6248ca553399d029034860d8d"></a>
@@ -281,13 +278,14 @@ Private Attributes</h2></td></tr>
 <p class="reference">References <a class="el" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>, and <a class="el" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8">SettingsManager::ConnectionCallback()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;{</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a> &gt;= <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.size())</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      <span class="keywordflow">return</span> &amp;<a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.at(<a class="code" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a>++);</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;   }</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;   <span class="keywordflow">catch</span> (...) {</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <span class="keyword">static</span> <span class="keyword">auto</span> second_time{<span class="keyword">false</span>};</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;      <span class="keywordflow">if</span> (second_time)</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      second_time = <span class="keyword">true</span>;</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      <span class="keywordflow">return</span> &amp;kErrorNotice;</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;   }</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div><div class="ttc" id="class_debug_info_html_a0faa9c7ec0356a42044ee6a82263a435"><div class="ttname"><a href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">DebugInfo::iterate_</a></div><div class="ttdeci">size_t iterate_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:40</div></div>
-<div class="ttc" id="class_debug_info_html_a575d4944d074eb26910c200f953a3b33"><div class="ttname"><a href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">DebugInfo::info_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; info_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:39</div></div>
-</div><!-- fragment --><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+<div class="fragment"><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;{</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      <span class="keywordflow">if</span> (<a class="code" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a> &gt;= <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.size())</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <span class="keywordflow">return</span> &amp;<a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.at(<a class="code" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a>++);</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;   }</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;   <span class="keywordflow">catch</span> (...) {</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      <span class="keyword">static</span> <span class="keyword">auto</span> second_time{<span class="keyword">false</span>};</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      <span class="keywordflow">if</span> (second_time)</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(kErrorNotice);</div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      second_time = <span class="keyword">true</span>;</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      <span class="keywordflow">return</span> &amp;kErrorNotice;</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;   }</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;}</div><div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:55</div></div>
+<div class="ttc" id="class_debug_info_html_a0faa9c7ec0356a42044ee6a82263a435"><div class="ttname"><a href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">DebugInfo::iterate_</a></div><div class="ttdeci">size_t iterate_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:46</div></div>
+<div class="ttc" id="class_debug_info_html_a575d4944d074eb26910c200f953a3b33"><div class="ttname"><a href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">DebugInfo::info_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; info_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:45</div></div>
+</div><!-- fragment --><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_debug_info_a8243679467ba847690b89c57708d8165_icgraph.png" border="0" usemap="#class_debug_info_a8243679467ba847690b89c57708d8165_icgraph" alt=""/></div>
 <map name="class_debug_info_a8243679467ba847690b89c57708d8165_icgraph" id="class_debug_info_a8243679467ba847690b89c57708d8165_icgraph">
 <area shape="rect" id="node2" href="class_settings_manager.html#a0f59381a05adefe4ed87846127092ba8" title="SettingsManager::Connection\lCallback" alt="" coords="181,5,375,47"/>
@@ -372,7 +370,35 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="reference">References <a class="el" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;   {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <a class="code" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a> = 0;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   }</div><div class="ttc" id="class_debug_info_html_a0faa9c7ec0356a42044ee6a82263a435"><div class="ttname"><a href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">DebugInfo::iterate_</a></div><div class="ttdeci">size_t iterate_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:40</div></div>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;   {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      <a class="code" href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">iterate_</a> = 0;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   }</div><div class="ttc" id="class_debug_info_html_a0faa9c7ec0356a42044ee6a82263a435"><div class="ttname"><a href="class_debug_info.html#a0faa9c7ec0356a42044ee6a82263a435">DebugInfo::iterate_</a></div><div class="ttdeci">size_t iterate_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:46</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a95924d878d8f03807b7ecb8e3ffbf956"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95924d878d8f03807b7ecb8e3ffbf956">&#9670;&nbsp;</a></span>Send()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DebugInfo::Send </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&amp;&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;{</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;   <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(msg);</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;   <a class="code" href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">info_</a>.emplace_back(std::move(msg));</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;}</div><div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:55</div></div>
+<div class="ttc" id="class_debug_info_html_a575d4944d074eb26910c200f953a3b33"><div class="ttname"><a href="class_debug_info.html#a575d4944d074eb26910c200f953a3b33">DebugInfo::info_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; info_</div><div class="ttdef"><b>Definition:</b> DebugInfo.h:45</div></div>
 </div><!-- fragment -->
 </div>
 </div>

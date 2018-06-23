@@ -1,20 +1,13 @@
 <map id="MainContentComponent" name="MainContentComponent">
-<area shape="rect" id="node32" href="$class_lr_ipc_out_1_1_recenter.html" title="LrIpcOut::Recenter" alt="" coords="1290,561,1421,588"/>
-<area shape="rect" id="node6" href="$class_resizable_layout.html" title="ResizableLayout" alt="" coords="2589,727,2708,753"/>
-<area shape="rect" id="node7" href="$class_resizable_child.html" title="ResizableChild" alt="" coords="2253,696,2361,723"/>
-<area shape="rect" id="node9" href="$class_command_map.html" title="CommandMap" alt="" coords="1302,188,1409,215"/>
-<area shape="rect" id="node16" href="$class_profile_manager.html" title="ProfileManager" alt="" coords="2253,387,2361,413"/>
-<area shape="rect" id="node29" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1638,513,1709,540"/>
-<area shape="rect" id="node37" href="$class_command_table_model.html" title="CommandTableModel" alt="" coords="1600,99,1747,125"/>
-<area shape="rect" id="node11" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,73,701,100"/>
-<area shape="rect" id="node12" title="STL class. " alt="" coords="596,187,676,213"/>
-<area shape="rect" id="node13" title="STL class. " alt="" coords="262,179,389,221"/>
-<area shape="rect" id="node15" href="$class_settings_manager.html" title="SettingsManager" alt="" coords="2589,483,2709,509"/>
-<area shape="rect" id="node20" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1303,389,1408,416"/>
-<area shape="rect" id="node22" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,389,688,416"/>
-<area shape="rect" id="node24" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,291,132,317"/>
-<area shape="rect" id="node25" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,496,405,523"/>
-<area shape="rect" id="node34" href="$class_lr_ipc_out_1_1_connect_timer.html" title="LrIpcOut::ConnectTimer" alt="" coords="1906,568,2065,595"/>
-<area shape="rect" id="node33" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="841,557,963,584"/>
-<area shape="rect" id="node41" href="$class_command_table.html" title="CommandTable" alt="" coords="2593,828,2705,855"/>
+<area shape="rect" id="node6" href="$class_resizable_layout.html" title="{ResizableLayout\n||+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="454,1219,654,1472"/>
+<area shape="rect" id="node7" href="$class_resizable_child.html" title="{ResizableChild\n||+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="970,349,1125,617"/>
+<area shape="rect" id="node18" href="$structrsj_1_1_midi_message_id.html" title="{rsj::MidiMessageId\n||+ MidiMessageId()\l+ MidiMessageId()\l+ MidiMessageId()\l+ operator\&lt;()\l+ operator==()\l}" alt="" coords="2203,189,2334,325"/>
+<area shape="rect" id="node23" href="$class_profile_manager.html" title="{ProfileManager\n||+ ProfileManager()\l+ ProfileManager()\l+ ProfileManager()\l+ ~ProfileManager()\l+ AddCallback()\l+ GetProfileDirectory()\l+ Init()\l+ operator=()\l+ operator=()\l+ SetProfileDirectory()\l+ SwitchToProfile()\l+ SwitchToProfile()\l&#45; ConnectionCallback()\l&#45; GetMenuItems()\l&#45; handleAsyncUpdate()\l&#45; MapCommand()\l&#45; MidiCmdCallback()\l&#45; SwitchToNextProfile()\l&#45; SwitchToPreviousProfile()\l}" alt="" coords="1805,1733,1981,2075"/>
+<area shape="rect" id="node29" href="$class_lr_ipc_out.html" title="{LrIpcOut\n||+ LrIpcOut()\l+ LrIpcOut()\l+ LrIpcOut()\l+ ~LrIpcOut()\l+ AddCallback()\l+ Init()\l+ operator=()\l+ operator=()\l+ Restart()\l+ SendCommand()\l+ SendCommand()\l+ Stop()\l&#45; connectionLost()\l&#45; connectionMade()\l&#45; messageReceived()\l&#45; MidiCmdCallback()\l&#45; SendOut()\l}" alt="" coords="1331,1189,1473,1501"/>
+<area shape="rect" id="node15" href="$class_command_map.html" title="{CommandMap\n||+ AddCommandforMessage()\l+ AddCommandforMessage()\l+ ClearMap()\l+ CommandHasAssociatedMessage()\l+ GetCommandforMessage()\l+ GetMessagesForCommand()\l+ MessageExistsInMap()\l+ RemoveMessage()\l+ ToXmlDocument()\l}" alt="" coords="2141,895,2383,1090"/>
+<area shape="rect" id="node40" href="$class_command_table_model.html" title="{CommandTableModel\n||+ AddRow()\l+ BuildFromXml()\l+ GetRowForMessage()\l+ Init()\l+ RemoveAllRows()\l+ RemoveRow()\l&#45; getNumRows()\l&#45; paintCell()\l&#45; paintRowBackground()\l&#45; refreshComponentForCell()\l&#45; Sort()\l&#45; sortOrderChanged()\l}" alt="" coords="2499,1226,2683,1465"/>
+<area shape="rect" id="node19" title="STL class. " alt="" coords="2038,219,2118,296"/>
+<area shape="rect" id="node22" href="$class_settings_manager.html" title="{SettingsManager\n||+ SettingsManager()\l+ SettingsManager()\l+ SettingsManager()\l+ ~SettingsManager()\l+ GetAutoHideTime()\l+ GetLastVersionFound()\l+ GetPickupEnabled()\l+ GetProfileDirectory()\l+ Init()\l+ operator=()\l+ operator=()\l+ SetAutoHideTime()\l+ SetLastVersionFound()\l+ SetPickupEnabled()\l+ SetProfileDirectory()\l&#45; ConnectionCallback()\l}" alt="" coords="2098,2137,2266,2435"/>
+<area shape="rect" id="node27" href="$class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="1786,873,1933,1112"/>
+<area shape="rect" id="node49" href="$class_command_table.html" title="{CommandTable\n||+ CommandTable()\l+ CommandTable()\l+ CommandTable()\l+ ~CommandTable()\l+ operator=()\l+ operator=()\l&#45; keyPressed()\l}" alt="" coords="3265,2203,3405,2369"/>
 </map>

@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('class_lr_ipc_out.html','');});
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out.html#af257f7b0c2b58951565ce0b0d3438926">connectionMade</a>() override</td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_out.html#a725c711f030938c981fab00fa70e1e9d">controls_model_</a></td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out.html#ab331fcd7e93a189afa5a1d7277283262">Init</a>(std::shared_ptr&lt; MidiSender &gt; midi_sender, MidiProcessor *midi_processor)</td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_lr_ipc_out.html#a78a1f27b02d07126d1c84d26217188d2">LrIpcOut</a>(ControlsModel *c_model, const CommandMap *map_command)</td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="class_lr_ipc_out.html#af01012f1440687e768b6cc6b2f0ba8c5">LrIpcOut</a>(ControlsModel *c_model, const CommandMap *map_command) noexcept</td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out.html#a6d2c565aa0b5bafded8524bd2fc5e5c8">LrIpcOut</a>(const LrIpcOut &amp;other)=delete</td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_lr_ipc_out.html#a34874e90a87db6ab6ac9bad8ead0969e">LrIpcOut</a>(LrIpcOut &amp;&amp;other)=delete</td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_lr_ipc_out.html#ae043684c8134422430238495fe810eef">messageReceived</a>(const juce::MemoryBlock &amp;msg) noexcept override</td><td class="entry"><a class="el" href="class_lr_ipc_out.html">LrIpcOut</a></td><td class="entry"><span class="mlabel">private</span></td></tr>

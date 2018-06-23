@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -98,6 +98,15 @@ $(document).ready(function(){initNavTree('classrsj_1_1_relax_t_tas_spin_lock.htm
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_misc_8h_source.html">Misc.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for rsj::RelaxTTasSpinLock:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classrsj_1_1_relax_t_tas_spin_lock__coll__graph.png" border="0" usemap="#rsj_1_1_relax_t_tas_spin_lock_coll__map" alt="Collaboration graph"/></div>
+<map name="rsj_1_1_relax_t_tas_spin_lock_coll__map" id="rsj_1_1_relax_t_tas_spin_lock_coll__map">
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -253,8 +262,8 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="reference">References <a class="el" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.</p>
-<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      {</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;         <span class="keywordflow">do</span> {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.load(std::memory_order_relaxed))</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;               <a class="code" href="_misc_8h.html#a13145a5381714b1208044380235ffbf9">CPU_RELAX</a>; <span class="comment">// spin without expensive exchange</span></div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;         } <span class="keywordflow">while</span> (<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire));</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      }</div><div class="ttc" id="_misc_8h_html_a13145a5381714b1208044380235ffbf9"><div class="ttname"><a href="_misc_8h.html#a13145a5381714b1208044380235ffbf9">CPU_RELAX</a></div><div class="ttdeci">#define CPU_RELAX</div><div class="ttdef"><b>Definition:</b> Misc.h:37</div></div>
-<div class="ttc" id="classrsj_1_1_relax_t_tas_spin_lock_html_a87b4a330846d6c8b2aa2cba0d081fbbf"><div class="ttname"><a href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">rsj::RelaxTTasSpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Misc.h:79</div></div>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;         <span class="keywordflow">do</span> {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.load(std::memory_order_relaxed))</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;               <a class="code" href="_misc_8h.html#a13145a5381714b1208044380235ffbf9">CPU_RELAX</a>; <span class="comment">// spin without expensive exchange</span></div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;         } <span class="keywordflow">while</span> (<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire));</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      }</div><div class="ttc" id="_misc_8h_html_a13145a5381714b1208044380235ffbf9"><div class="ttname"><a href="_misc_8h.html#a13145a5381714b1208044380235ffbf9">CPU_RELAX</a></div><div class="ttdeci">#define CPU_RELAX</div><div class="ttdef"><b>Definition:</b> Misc.h:43</div></div>
+<div class="ttc" id="classrsj_1_1_relax_t_tas_spin_lock_html_a87b4a330846d6c8b2aa2cba0d081fbbf"><div class="ttname"><a href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">rsj::RelaxTTasSpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Misc.h:85</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -334,7 +343,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="reference">References <a class="el" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.</p>
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.load(std::memory_order_relaxed)) <span class="comment">// avoid cache invalidation if lock unavailable</span></div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         <span class="keywordflow">return</span> !<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire); <span class="comment">// try to acquire lock</span></div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      }</div><div class="ttc" id="classrsj_1_1_relax_t_tas_spin_lock_html_a87b4a330846d6c8b2aa2cba0d081fbbf"><div class="ttname"><a href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">rsj::RelaxTTasSpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Misc.h:79</div></div>
+<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      {</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.load(std::memory_order_relaxed)) <span class="comment">// avoid cache invalidation if lock unavailable</span></div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;         <span class="keywordflow">return</span> !<a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.exchange(<span class="keyword">true</span>, std::memory_order_acquire); <span class="comment">// try to acquire lock</span></div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      }</div><div class="ttc" id="classrsj_1_1_relax_t_tas_spin_lock_html_a87b4a330846d6c8b2aa2cba0d081fbbf"><div class="ttname"><a href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">rsj::RelaxTTasSpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Misc.h:85</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -362,7 +371,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="reference">References <a class="el" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.</p>
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;         <a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.store(<span class="keyword">false</span>, std::memory_order_release);</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      }</div><div class="ttc" id="classrsj_1_1_relax_t_tas_spin_lock_html_a87b4a330846d6c8b2aa2cba0d081fbbf"><div class="ttname"><a href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">rsj::RelaxTTasSpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Misc.h:79</div></div>
+<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;         <a class="code" href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">flag_</a>.store(<span class="keyword">false</span>, std::memory_order_release);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      }</div><div class="ttc" id="classrsj_1_1_relax_t_tas_spin_lock_html_a87b4a330846d6c8b2aa2cba0d081fbbf"><div class="ttname"><a href="classrsj_1_1_relax_t_tas_spin_lock.html#a87b4a330846d6c8b2aa2cba0d081fbbf">rsj::RelaxTTasSpinLock::flag_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; flag_</div><div class="ttdef"><b>Definition:</b> Misc.h:85</div></div>
 </div><!-- fragment -->
 </div>
 </div>

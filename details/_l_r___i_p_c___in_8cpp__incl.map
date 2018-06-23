@@ -1,10 +1,10 @@
 <map id="Q:/Documents/GitHub/MIDI2LR/Source/LR_IPC_In.cpp" name="Q:/Documents/GitHub/MIDI2LR/Source/LR_IPC_In.cpp">
-<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="372,109,467,136"/>
-<area shape="rect" id="node14" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="633,109,750,136"/>
-<area shape="rect" id="node17" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1040,184,1140,211"/>
-<area shape="rect" id="node22" href="$_controls_model_8h.html" title="ControlsModel.h" alt="" coords="1244,109,1360,136"/>
-<area shape="rect" id="node27" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="824,109,924,136"/>
-<area shape="rect" id="node28" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="948,109,1067,136"/>
-<area shape="rect" id="node29" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="503,109,597,136"/>
-<area shape="rect" id="node19" href="$_misc_8h.html" title="Misc.h" alt="" coords="1717,266,1778,293"/>
+<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="1249,109,1344,136"/>
+<area shape="rect" id="node13" href="$_command_map_8h.html" title="CommandMap.h" alt="" coords="1642,109,1759,136"/>
+<area shape="rect" id="node17" href="$_misc_8h.html" title="Misc.h" alt="" coords="1031,266,1092,293"/>
+<area shape="rect" id="node21" href="$_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="1012,184,1112,211"/>
+<area shape="rect" id="node23" href="$_controls_model_8h.html" title="ControlsModel.h" alt="" coords="617,109,733,136"/>
+<area shape="rect" id="node28" href="$_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="157,109,257,136"/>
+<area shape="rect" id="node29" href="$_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="14,109,133,136"/>
+<area shape="rect" id="node30" href="$_send_keys_8h.html" title="SendKeys.h" alt="" coords="1506,109,1599,136"/>
 </map>

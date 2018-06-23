@@ -12,6 +12,7 @@ var class_profile_manager =
     [ "AddCallback", "class_profile_manager.html#a60aaa040f437267441cfbec6f8ec454b", null ],
     [ "ConnectionCallback", "class_profile_manager.html#af420264117a28ff453b27bd0ef122a94", null ],
     [ "GetMenuItems", "class_profile_manager.html#ac0889d5b0aaae8f6ccad24d745280fdf", null ],
+    [ "GetProfileDirectory", "class_profile_manager.html#a6de418c8dafd9f6881aae664a792a1a5", null ],
     [ "handleAsyncUpdate", "class_profile_manager.html#a06dda29b41856d4c2e9e85132a79da5a", null ],
     [ "Init", "class_profile_manager.html#aa08c0fb97b3eafbf9abc1c8c0bd088a0", null ],
     [ "MapCommand", "class_profile_manager.html#a498ff5dcfc0fadef110e0241ea82b6fd", null ],

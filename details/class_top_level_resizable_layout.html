@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -106,10 +106,10 @@ $(document).ready(function(){initNavTree('class_top_level_resizable_layout.html'
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_top_level_resizable_layout__inherit__graph.png" border="0" usemap="#_top_level_resizable_layout_inherit__map" alt="Inheritance graph"/></div>
 <map name="_top_level_resizable_layout_inherit__map" id="_top_level_resizable_layout_inherit__map">
-<area shape="rect" id="node2" href="class_resizable_layout.html" title="ResizableLayout" alt="" coords="80,80,199,107"/>
-<area shape="rect" id="node3" href="class_resizable_child.html" title="ResizableChild" alt="" coords="5,5,113,32"/>
+<area shape="rect" id="node2" href="class_resizable_layout.html" title="{ResizableLayout\n|&#45; m_anchors\l&#45; m_bFirstTime\l&#45; m_isActive\l&#45; m_owner\l&#45; m_states\l|+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="75,365,275,677"/>
+<area shape="rect" id="node3" href="class_resizable_child.html" title="{ResizableChild\n|&#45; m_maxH\l&#45; m_maxW\l&#45; m_minH\l&#45; m_minW\l|+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="5,5,160,317"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for TopLevelResizableLayout:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -117,11 +117,11 @@ $(document).ready(function(){initNavTree('class_top_level_resizable_layout.html'
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_top_level_resizable_layout__coll__graph.png" border="0" usemap="#_top_level_resizable_layout_coll__map" alt="Collaboration graph"/></div>
 <map name="_top_level_resizable_layout_coll__map" id="_top_level_resizable_layout_coll__map">
-<area shape="rect" id="node5" href="class_top_level_resizable_layout_1_1_constrainer.html" title="TopLevelResizableLayout\l::Constrainer" alt="" coords="173,247,341,288"/>
-<area shape="rect" id="node2" href="class_resizable_layout.html" title="ResizableLayout" alt="" coords="285,81,404,108"/>
-<area shape="rect" id="node3" href="class_resizable_child.html" title="ResizableChild" alt="" coords="211,5,319,32"/>
+<area shape="rect" id="node10" href="class_top_level_resizable_layout_1_1_constrainer.html" title="{TopLevelResizableLayout\l::Constrainer\n||+ Constrainer()\l+ resizeStart()\l}" alt="" coords="293,992,461,1099"/>
+<area shape="rect" id="node2" href="class_resizable_layout.html" title="{ResizableLayout\n||+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="369,535,569,788"/>
+<area shape="rect" id="node3" href="class_resizable_child.html" title="{ResizableChild\n||+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="5,189,160,457"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -141,8 +141,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a05aab7565920919ed1a7c62e8a4544bc inherit pub_methods_class_resizable_layout"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd4d193db907fc27c85e2045170b6710 inherit pub_methods_class_resizable_layout"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#afd4d193db907fc27c85e2045170b6710">activateLayout</a> (bool isActive=true) noexcept</td></tr>
 <tr class="separator:afd4d193db907fc27c85e2045170b6710 inherit pub_methods_class_resizable_layout"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59717eb43f92a399b2619d3c5aff495a inherit pub_methods_class_resizable_layout"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a59717eb43f92a399b2619d3c5aff495a">addToLayout</a> (juce::Component *component, const juce::Point&lt; int &gt; &amp;topLeft, const juce::Point&lt; int &gt; &amp;bottomRight=juce::Point&lt; int &gt;{-1,-1}, <a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8">Style</a> style=<a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70">styleStretch</a>)</td></tr>
-<tr class="separator:a59717eb43f92a399b2619d3c5aff495a inherit pub_methods_class_resizable_layout"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03404473dc0f19ec3552cd8bf471a5cf inherit pub_methods_class_resizable_layout"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#a03404473dc0f19ec3552cd8bf471a5cf">addToLayout</a> (juce::Component *component, const juce::Point&lt; int &gt; &amp;topLeft, const juce::Point&lt; int &gt; &amp;bottomRight=juce::Point&lt; int &gt;{-1, -1}, <a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8">Style</a> style=<a class="el" href="class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70">styleStretch</a>)</td></tr>
+<tr class="separator:a03404473dc0f19ec3552cd8bf471a5cf inherit pub_methods_class_resizable_layout"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1ae3c1fd2275c3963eea6f098373970 inherit pub_methods_class_resizable_layout"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#af1ae3c1fd2275c3963eea6f098373970">recalculateLayout</a> () const</td></tr>
 <tr class="separator:af1ae3c1fd2275c3963eea6f098373970 inherit pub_methods_class_resizable_layout"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4441decbaeb450d2c393a85d67c3178 inherit pub_methods_class_resizable_layout"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_resizable_layout.html#ad4441decbaeb450d2c393a85d67c3178">removeFromLayout</a> (juce::Component *component) noexcept</td></tr>
@@ -216,8 +216,8 @@ Additional Inherited Members</h2></td></tr>
 <p class="reference">References <a class="el" href="class_top_level_resizable_layout_1_1_constrainer.html#ac1138a9c4319d8413f04f3bfb749e969">TopLevelResizableLayout::Constrainer::Constrainer()</a>, <a class="el" href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">m_constrainer</a>, and <a class="el" href="class_top_level_resizable_layout.html#af29b22c3f9484cd604e08cead5692589">TopLevelResizableLayout()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_top_level_resizable_layout.html#af29b22c3f9484cd604e08cead5692589">TopLevelResizableLayout()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    : <a class="code" href="class_resizable_layout.html#a463232fab8660fd7663adf18381012d2">ResizableLayout</a>(owner), <a class="code" href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">m_constrainer</a>(<span class="keyword">this</span>)</div><div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;{}</div><div class="ttc" id="class_resizable_layout_html_a463232fab8660fd7663adf18381012d2"><div class="ttname"><a href="class_resizable_layout.html#a463232fab8660fd7663adf18381012d2">ResizableLayout::ResizableLayout</a></div><div class="ttdeci">ResizableLayout(juce::Component *owner)</div><div class="ttdef"><b>Definition:</b> ResizableLayout.cpp:88</div></div>
-<div class="ttc" id="class_top_level_resizable_layout_html_a2bd82937665fabafc57b54c0f373e31a"><div class="ttname"><a href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">TopLevelResizableLayout::m_constrainer</a></div><div class="ttdeci">Constrainer m_constrainer</div><div class="ttdef"><b>Definition:</b> ResizableLayout.h:276</div></div>
+<div class="fragment"><div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    : <a class="code" href="class_resizable_layout.html#a463232fab8660fd7663adf18381012d2">ResizableLayout</a>(owner), <a class="code" href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">m_constrainer</a>(<span class="keyword">this</span>)</div><div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;{</div><div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;}</div><div class="ttc" id="class_resizable_layout_html_a463232fab8660fd7663adf18381012d2"><div class="ttname"><a href="class_resizable_layout.html#a463232fab8660fd7663adf18381012d2">ResizableLayout::ResizableLayout</a></div><div class="ttdeci">ResizableLayout(juce::Component *owner)</div><div class="ttdef"><b>Definition:</b> ResizableLayout.cpp:88</div></div>
+<div class="ttc" id="class_top_level_resizable_layout_html_a2bd82937665fabafc57b54c0f373e31a"><div class="ttname"><a href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">TopLevelResizableLayout::m_constrainer</a></div><div class="ttdeci">Constrainer m_constrainer</div><div class="ttdef"><b>Definition:</b> ResizableLayout.h:270</div></div>
 </div><!-- fragment --><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -256,7 +256,7 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;{</div><div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    window-&gt;setConstrainer(&amp;<a class="code" href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">m_constrainer</a>);</div><div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;}</div><div class="ttc" id="class_top_level_resizable_layout_html_a2bd82937665fabafc57b54c0f373e31a"><div class="ttname"><a href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">TopLevelResizableLayout::m_constrainer</a></div><div class="ttdeci">Constrainer m_constrainer</div><div class="ttdef"><b>Definition:</b> ResizableLayout.h:276</div></div>
+<div class="fragment"><div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;{</div><div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;   window-&gt;setConstrainer(&amp;<a class="code" href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">m_constrainer</a>);</div><div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;}</div><div class="ttc" id="class_top_level_resizable_layout_html_a2bd82937665fabafc57b54c0f373e31a"><div class="ttname"><a href="class_top_level_resizable_layout.html#a2bd82937665fabafc57b54c0f373e31a">TopLevelResizableLayout::m_constrainer</a></div><div class="ttdeci">Constrainer m_constrainer</div><div class="ttdef"><b>Definition:</b> ResizableLayout.h:270</div></div>
 </div><!-- fragment -->
 </div>
 </div>

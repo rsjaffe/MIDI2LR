@@ -1,6 +1,6 @@
 <map id="CommandMenu" name="CommandMenu">
-<area shape="rect" id="node4" href="$class_command_map.html" title="CommandMap" alt="" coords="820,181,927,208"/>
-<area shape="rect" id="node6" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="181,157,312,184"/>
-<area shape="rect" id="node7" title="STL class. " alt="" coords="207,293,287,320"/>
-<area shape="rect" id="node8" title="STL class. " alt="" coords="5,286,132,327"/>
+<area shape="rect" id="node5" href="$class_command_map.html" title="{CommandMap\n||+ AddCommandforMessage()\l+ AddCommandforMessage()\l+ ClearMap()\l+ CommandHasAssociatedMessage()\l+ GetCommandforMessage()\l+ GetMessagesForCommand()\l+ MessageExistsInMap()\l+ RemoveMessage()\l+ ToXmlDocument()\l}" alt="" coords="349,572,592,767"/>
+<area shape="rect" id="node8" href="$structrsj_1_1_midi_message_id.html" title="{rsj::MidiMessageId\n||+ MidiMessageId()\l+ MidiMessageId()\l+ MidiMessageId()\l+ operator\&lt;()\l+ operator==()\l}" alt="" coords="483,204,613,340"/>
+<area shape="rect" id="node12" title="STL class. " alt="" coords="748,233,828,311"/>
+<area shape="rect" id="node13" title="STL class. " alt="" coords="725,5,851,97"/>
 </map>

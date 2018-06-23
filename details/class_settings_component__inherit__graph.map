@@ -1,4 +1,5 @@
 <map id="SettingsComponent" name="SettingsComponent">
-<area shape="rect" id="node4" href="$class_resizable_layout.html" title="ResizableLayout" alt="" coords="313,80,431,107"/>
-<area shape="rect" id="node5" href="$class_resizable_child.html" title="ResizableChild" alt="" coords="238,5,346,32"/>
+<area shape="rect" id="node4" href="$class_resizable_layout.html" title="{ResizableLayout\n|&#45; m_anchors\l&#45; m_bFirstTime\l&#45; m_isActive\l&#45; m_owner\l&#45; m_states\l|+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="312,365,512,677"/>
+<area shape="rect" id="node5" href="$class_resizable_child.html" title="{ResizableChild\n|&#45; m_maxH\l&#45; m_maxW\l&#45; m_minH\l&#45; m_minW\l|+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="243,5,397,317"/>
+<area shape="rect" id="node7" href="$classjuce_1_1_slider_1_1_listener.html" title="{juce::Slider::Listener\n||}" alt="" coords="536,483,677,560"/>
 </map>

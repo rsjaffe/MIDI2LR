@@ -2,6 +2,7 @@ var searchData=
 [
   ['save',['save',['../class_channel_model.html#a99fd90758b48ed815fbbd52633c6062a',1,'ChannelModel']]],
   ['savedtoactive',['SavedToActive',['../class_channel_model.html#a71495c165527c071c1793b8634b23bb5',1,'ChannelModel']]],
+  ['send',['Send',['../class_debug_info.html#a95924d878d8f03807b7ecb8e3ffbf956',1,'DebugInfo']]],
   ['sendcc',['SendCc',['../class_midi_sender.html#a9d06167810c23140236fca47665add0a',1,'MidiSender']]],
   ['sendcommand',['SendCommand',['../class_lr_ipc_out.html#ae1e40469ef8e53e58ef1c833774f8dac',1,'LrIpcOut::SendCommand(std::string &amp;&amp;command)'],['../class_lr_ipc_out.html#a6b8db52b73d7be8a488e3c795b5a6df8',1,'LrIpcOut::SendCommand(const std::string &amp;command)']]],
   ['sendkeydownup',['SendKeyDownUp',['../namespacersj.html#afcefdb772d6703355689a0b68accc86c',1,'rsj']]],

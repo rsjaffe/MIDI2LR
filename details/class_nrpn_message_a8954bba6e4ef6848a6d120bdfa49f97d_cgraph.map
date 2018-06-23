@@ -1,8 +1,0 @@
-<map id="NrpnMessage::ProcessMidi" name="NrpnMessage::ProcessMidi">
-<area shape="rect" id="node2" href="$class_nrpn_message.html#aac9971284d016abef47ce81062af2630" title="NrpnMessage::Clear" alt="" coords="264,5,404,32"/>
-<area shape="rect" id="node3" href="$class_nrpn_message.html#a88038f5dd4c1b38f83e47fc25ad2a49b" title="NrpnMessage::IsReady" alt="" coords="255,56,413,83"/>
-<area shape="rect" id="node4" href="$class_nrpn_message.html#a073ea5f36072b30556c2fcca13b1c8b9" title="NrpnMessage::SetControlLsb" alt="" coords="238,107,430,133"/>
-<area shape="rect" id="node5" href="$class_nrpn_message.html#adf0e62caa7eb7b88062beda9154cd298" title="NrpnMessage::SetControlMsb" alt="" coords="236,157,432,184"/>
-<area shape="rect" id="node6" href="$class_nrpn_message.html#ac45863ad3f89c9898d49266e9a07d4c2" title="NrpnMessage::SetValueLsb" alt="" coords="242,208,426,235"/>
-<area shape="rect" id="node7" href="$class_nrpn_message.html#a82a315dbe694d73575c13f6f89cc7800" title="NrpnMessage::SetValueMsb" alt="" coords="240,259,428,285"/>
-</map>

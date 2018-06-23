@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -105,19 +105,19 @@ $(document).ready(function(){initNavTree('class_nrpn_filter.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_nrpn_filter__coll__graph.png" border="0" usemap="#_nrpn_filter_coll__map" alt="Collaboration graph"/></div>
 <map name="_nrpn_filter_coll__map" id="_nrpn_filter_coll__map">
-<area shape="rect" id="node3" href="class_nrpn_message.html" title="NrpnMessage" alt="" coords="41,95,143,121"/>
-<area shape="rect" id="node4" href="classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="13,5,171,32"/>
+<area shape="rect" id="node3" href="class_nrpn_message.html" title="{NrpnMessage\n||+ GetNrpnIfReady()\l+ IsInProcess()\l+ ProcessMidi()\l&#45; Clear()\l&#45; GetControl()\l&#45; GetValue()\l&#45; IsReady()\l&#45; SetControlLsb()\l&#45; SetControlMsb()\l&#45; SetValueLsb()\l&#45; SetValueMsb()\l}" alt="" coords="215,447,348,671"/>
+<area shape="rect" id="node7" href="classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="381,145,547,340"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a817b76b09fc4dd2304ac53f55ec4a36d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrsj_1_1_nrpn.html">rsj::Nrpn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a817b76b09fc4dd2304ac53f55ec4a36d">GetNrpnIfReady</a> (short channel) noexcept(<a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</td></tr>
-<tr class="separator:a817b76b09fc4dd2304ac53f55ec4a36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94efa98717bc67bb58bf183a90f7965c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a94efa98717bc67bb58bf183a90f7965c">IsInProcess</a> (short channel) const noexcept(<a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</td></tr>
-<tr class="separator:a94efa98717bc67bb58bf183a90f7965c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08445d0c8ede53cf4a2dc5a4ca8a41ed"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a08445d0c8ede53cf4a2dc5a4ca8a41ed">ProcessMidi</a> (short channel, short control, short value) noexcept(<a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</td></tr>
-<tr class="separator:a08445d0c8ede53cf4a2dc5a4ca8a41ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab20ef82a1f4c0adba1765a911de73ece"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structrsj_1_1_nrpn.html">rsj::Nrpn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#ab20ef82a1f4c0adba1765a911de73ece">GetNrpnIfReady</a> (short channel)</td></tr>
+<tr class="separator:ab20ef82a1f4c0adba1765a911de73ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab605d4902ae926601f7e34d7b17fb87a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#ab605d4902ae926601f7e34d7b17fb87a">IsInProcess</a> (short channel) const</td></tr>
+<tr class="separator:ab605d4902ae926601f7e34d7b17fb87a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0744bdf95f590470b1aa80f178f1c68a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_nrpn_filter.html#a0744bdf95f590470b1aa80f178f1c68a">ProcessMidi</a> (short channel, short control, short value)</td></tr>
+<tr class="separator:a0744bdf95f590470b1aa80f178f1c68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -125,8 +125,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aa4d9c066079ffb9089bc7b1f69f317db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a817b76b09fc4dd2304ac53f55ec4a36d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a817b76b09fc4dd2304ac53f55ec4a36d">&#9670;&nbsp;</a></span>GetNrpnIfReady()</h2>
+<a id="ab20ef82a1f4c0adba1765a911de73ece"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab20ef82a1f4c0adba1765a911de73ece">&#9670;&nbsp;</a></span>GetNrpnIfReady()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,16 +144,29 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;   {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).GetNrpnIfReady();</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;   }</div><div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:96</div></div>
-</div><!-- fragment -->
+
+<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;   {</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;         Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).GetNrpnIfReady();</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      }</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;         <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;         <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      }</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;   }</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:68</div></div>
+<div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:114</div></div>
+</div><!-- fragment --><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph.png" border="0" usemap="#class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph" alt=""/></div>
+<map name="class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph" id="class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph">
+<area shape="rect" id="node2" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="231,5,391,32"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="a94efa98717bc67bb58bf183a90f7965c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94efa98717bc67bb58bf183a90f7965c">&#9670;&nbsp;</a></span>IsInProcess()</h2>
+<a id="ab605d4902ae926601f7e34d7b17fb87a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab605d4902ae926601f7e34d7b17fb87a">&#9670;&nbsp;</a></span>IsInProcess()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,16 +184,29 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;   {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).IsInProcess();</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;   }</div><div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:96</div></div>
-</div><!-- fragment -->
+
+<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;   {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;         Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).IsInProcess();</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      }</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;         <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;         <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      }</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;   }</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:68</div></div>
+<div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:114</div></div>
+</div><!-- fragment --><div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph.png" border="0" usemap="#class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph" alt=""/></div>
+<map name="class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph" id="class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph">
+<area shape="rect" id="node2" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="208,5,368,32"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="a08445d0c8ede53cf4a2dc5a4ca8a41ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08445d0c8ede53cf4a2dc5a4ca8a41ed">&#9670;&nbsp;</a></span>ProcessMidi()</h2>
+<a id="a0744bdf95f590470b1aa80f178f1c68a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0744bdf95f590470b1aa80f178f1c68a">&#9670;&nbsp;</a></span>ProcessMidi()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,12 +240,25 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;   {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).ProcessMidi(control, value);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;   }</div><div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:96</div></div>
-</div><!-- fragment -->
+
+<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;   {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;         Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).ProcessMidi(control, value);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      }</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;         <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;         <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      }</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;   }</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:68</div></div>
+<div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:114</div></div>
+</div><!-- fragment --><div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph.png" border="0" usemap="#class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph" alt=""/></div>
+<map name="class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph" id="class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph">
+<area shape="rect" id="node2" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="212,5,372,32"/>
+</map>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>

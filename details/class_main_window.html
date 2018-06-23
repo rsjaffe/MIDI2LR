@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -107,7 +107,7 @@ $(document).ready(function(){initNavTree('class_main_window.html','');});
 <div class="center"><img src="class_main_window__inherit__graph.png" border="0" usemap="#_main_window_inherit__map" alt="Inheritance graph"/></div>
 <map name="_main_window_inherit__map" id="_main_window_inherit__map">
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for MainWindow:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -115,27 +115,20 @@ $(document).ready(function(){initNavTree('class_main_window.html','');});
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_main_window__coll__graph.png" border="0" usemap="#_main_window_coll__map" alt="Collaboration graph"/></div>
 <map name="_main_window_coll__map" id="_main_window_coll__map">
-<area shape="rect" id="node3" href="class_main_content_component.html" title="MainContentComponent" alt="" coords="2919,573,3080,600"/>
-<area shape="rect" id="node34" href="class_lr_ipc_out_1_1_recenter.html" title="LrIpcOut::Recenter" alt="" coords="1290,561,1421,588"/>
-<area shape="rect" id="node8" href="class_resizable_layout.html" title="ResizableLayout" alt="" coords="2589,725,2708,752"/>
-<area shape="rect" id="node9" href="class_resizable_child.html" title="ResizableChild" alt="" coords="2253,704,2361,731"/>
-<area shape="rect" id="node11" href="class_command_map.html" title="CommandMap" alt="" coords="1302,188,1409,215"/>
-<area shape="rect" id="node18" href="class_profile_manager.html" title="ProfileManager" alt="" coords="2253,387,2361,413"/>
-<area shape="rect" id="node31" href="class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1638,511,1709,537"/>
-<area shape="rect" id="node39" href="class_command_table_model.html" title="CommandTableModel" alt="" coords="1600,99,1747,125"/>
-<area shape="rect" id="node13" href="structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,73,701,100"/>
-<area shape="rect" id="node14" title="STL class. " alt="" coords="596,187,676,213"/>
-<area shape="rect" id="node15" title="STL class. " alt="" coords="262,179,389,221"/>
-<area shape="rect" id="node17" href="class_settings_manager.html" title="SettingsManager" alt="" coords="2589,481,2709,508"/>
-<area shape="rect" id="node22" href="class_controls_model.html" title="ControlsModel" alt="" coords="1303,389,1408,416"/>
-<area shape="rect" id="node24" href="class_channel_model.html" title="ChannelModel" alt="" coords="584,389,688,416"/>
-<area shape="rect" id="node26" href="structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,291,132,317"/>
-<area shape="rect" id="node27" href="classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,496,405,523"/>
-<area shape="rect" id="node36" href="class_lr_ipc_out_1_1_connect_timer.html" title="LrIpcOut::ConnectTimer" alt="" coords="1906,568,2065,595"/>
-<area shape="rect" id="node35" href="structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="841,557,963,584"/>
-<area shape="rect" id="node43" href="class_command_table.html" title="CommandTable" alt="" coords="2593,827,2705,853"/>
+<area shape="rect" id="node3" href="class_main_content_component.html" title="{MainContentComponent\n||+ MainContentComponent()\l+ MainContentComponent()\l+ MainContentComponent()\l+ ~MainContentComponent()\l+ Init()\l+ operator=()\l+ operator=()\l&#45; buttonClicked()\l&#45; handleAsyncUpdate()\l&#45; LrIpcOutCallback()\l&#45; MidiCmdCallback()\l&#45; paint()\l&#45; ProfileChanged()\l&#45; SetLabelSettings()\l&#45; timerCallback()\l}" alt="" coords="2191,2615,2381,2897"/>
+<area shape="rect" id="node8" href="class_resizable_layout.html" title="{ResizableLayout\n||+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="454,1219,654,1472"/>
+<area shape="rect" id="node9" href="class_resizable_child.html" title="{ResizableChild\n||+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="813,349,967,617"/>
+<area shape="rect" id="node20" href="structrsj_1_1_midi_message_id.html" title="{rsj::MidiMessageId\n||+ MidiMessageId()\l+ MidiMessageId()\l+ MidiMessageId()\l+ operator\&lt;()\l+ operator==()\l}" alt="" coords="2287,189,2418,325"/>
+<area shape="rect" id="node25" href="class_profile_manager.html" title="{ProfileManager\n||+ ProfileManager()\l+ ProfileManager()\l+ ProfileManager()\l+ ~ProfileManager()\l+ AddCallback()\l+ GetProfileDirectory()\l+ Init()\l+ operator=()\l+ operator=()\l+ SetProfileDirectory()\l+ SwitchToProfile()\l+ SwitchToProfile()\l&#45; ConnectionCallback()\l&#45; GetMenuItems()\l&#45; handleAsyncUpdate()\l&#45; MapCommand()\l&#45; MidiCmdCallback()\l&#45; SwitchToNextProfile()\l&#45; SwitchToPreviousProfile()\l}" alt="" coords="1635,1733,1811,2075"/>
+<area shape="rect" id="node31" href="class_lr_ipc_out.html" title="{LrIpcOut\n||+ LrIpcOut()\l+ LrIpcOut()\l+ LrIpcOut()\l+ ~LrIpcOut()\l+ AddCallback()\l+ Init()\l+ operator=()\l+ operator=()\l+ Restart()\l+ SendCommand()\l+ SendCommand()\l+ Stop()\l&#45; connectionLost()\l&#45; connectionMade()\l&#45; messageReceived()\l&#45; MidiCmdCallback()\l&#45; SendOut()\l}" alt="" coords="1272,1189,1415,1501"/>
+<area shape="rect" id="node17" href="class_command_map.html" title="{CommandMap\n||+ AddCommandforMessage()\l+ AddCommandforMessage()\l+ ClearMap()\l+ CommandHasAssociatedMessage()\l+ GetCommandforMessage()\l+ GetMessagesForCommand()\l+ MessageExistsInMap()\l+ RemoveMessage()\l+ ToXmlDocument()\l}" alt="" coords="2130,895,2373,1090"/>
+<area shape="rect" id="node40" href="class_command_table_model.html" title="{CommandTableModel\n||+ AddRow()\l+ BuildFromXml()\l+ GetRowForMessage()\l+ Init()\l+ RemoveAllRows()\l+ RemoveRow()\l&#45; getNumRows()\l&#45; paintCell()\l&#45; paintRowBackground()\l&#45; refreshComponentForCell()\l&#45; Sort()\l&#45; sortOrderChanged()\l}" alt="" coords="2529,1226,2713,1465"/>
+<area shape="rect" id="node21" title="STL class. " alt="" coords="2146,219,2226,296"/>
+<area shape="rect" id="node24" href="class_settings_manager.html" title="{SettingsManager\n||+ SettingsManager()\l+ SettingsManager()\l+ SettingsManager()\l+ ~SettingsManager()\l+ GetAutoHideTime()\l+ GetLastVersionFound()\l+ GetPickupEnabled()\l+ GetProfileDirectory()\l+ Init()\l+ operator=()\l+ operator=()\l+ SetAutoHideTime()\l+ SetLastVersionFound()\l+ SetPickupEnabled()\l+ SetProfileDirectory()\l&#45; ConnectionCallback()\l}" alt="" coords="2125,2137,2293,2435"/>
+<area shape="rect" id="node29" href="class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="1473,873,1619,1112"/>
+<area shape="rect" id="node49" href="class_command_table.html" title="{CommandTable\n||+ CommandTable()\l+ CommandTable()\l+ CommandTable()\l+ ~CommandTable()\l+ operator=()\l+ operator=()\l&#45; keyPressed()\l}" alt="" coords="3297,2203,3437,2369"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -367,7 +360,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;   <span class="keywordflow">if</span> (<a class="code" href="class_main_window.html#a958d7c09864b61760fc35dfc3002f337">window_content_</a>)</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <a class="code" href="class_main_window.html#a958d7c09864b61760fc35dfc3002f337">window_content_</a>-&gt;<a class="code" href="class_main_content_component.html#a466f7b70e3caba93c777b291d56687a3">Init</a>(command_map, std::move(lr_ipc_out), std::move(midi_processor),</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;          profile_manager, settings_manager, std::move(midi_sender));</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div><div class="ttc" id="class_main_content_component_html_a466f7b70e3caba93c777b291d56687a3"><div class="ttname"><a href="class_main_content_component.html#a466f7b70e3caba93c777b291d56687a3">MainContentComponent::Init</a></div><div class="ttdeci">void Init(CommandMap *command_map, std::weak_ptr&lt; LrIpcOut &gt; &amp;&amp;lr_ipc_out, std::shared_ptr&lt; MidiProcessor &gt; midi_processor, ProfileManager *profile_manager, SettingsManager *settings_manager, std::shared_ptr&lt; MidiSender &gt; midi_sender)</div><div class="ttdef"><b>Definition:</b> MainComponent.cpp:67</div></div>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;   <span class="keywordflow">if</span> (<a class="code" href="class_main_window.html#a958d7c09864b61760fc35dfc3002f337">window_content_</a>)</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <a class="code" href="class_main_window.html#a958d7c09864b61760fc35dfc3002f337">window_content_</a>-&gt;<a class="code" href="class_main_content_component.html#a466f7b70e3caba93c777b291d56687a3">Init</a>(command_map, std::move(lr_ipc_out), std::move(midi_processor),</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;          profile_manager, settings_manager, std::move(midi_sender));</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div><div class="ttc" id="class_main_content_component_html_a466f7b70e3caba93c777b291d56687a3"><div class="ttname"><a href="class_main_content_component.html#a466f7b70e3caba93c777b291d56687a3">MainContentComponent::Init</a></div><div class="ttdeci">void Init(CommandMap *command_map, std::weak_ptr&lt; LrIpcOut &gt; &amp;&amp;lr_ipc_out, std::shared_ptr&lt; MidiProcessor &gt; midi_processor, ProfileManager *profile_manager, SettingsManager *settings_manager, std::shared_ptr&lt; MidiSender &gt; midi_sender)</div><div class="ttdef"><b>Definition:</b> MainComponent.cpp:68</div></div>
 <div class="ttc" id="class_main_window_html_a958d7c09864b61760fc35dfc3002f337"><div class="ttname"><a href="class_main_window.html#a958d7c09864b61760fc35dfc3002f337">MainWindow::window_content_</a></div><div class="ttdeci">MainContentComponent * window_content_</div><div class="ttdef"><b>Definition:</b> MainWindow.h:63</div></div>
 </div><!-- fragment -->
 </div>

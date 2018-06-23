@@ -1,14 +1,14 @@
 <map id="ProfileManager" name="ProfileManager">
-<area shape="rect" id="node4" href="$class_command_map.html" title="CommandMap" alt="" coords="1227,464,1334,491"/>
-<area shape="rect" id="node20" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1551,332,1621,359"/>
-<area shape="rect" id="node6" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,413,701,440"/>
-<area shape="rect" id="node7" title="STL class. " alt="" coords="596,491,676,517"/>
-<area shape="rect" id="node8" title="STL class. " alt="" coords="262,483,389,525"/>
-<area shape="rect" id="node11" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1228,281,1333,308"/>
-<area shape="rect" id="node13" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,347,688,373"/>
-<area shape="rect" id="node15" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,281,132,308"/>
-<area shape="rect" id="node16" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,571,405,597"/>
-<area shape="rect" id="node23" href="$class_lr_ipc_out_1_1_recenter.html" title="LrIpcOut::Recenter" alt="" coords="1820,459,1951,485"/>
-<area shape="rect" id="node26" href="$class_lr_ipc_out_1_1_connect_timer.html" title="LrIpcOut::ConnectTimer" alt="" coords="1806,304,1965,331"/>
-<area shape="rect" id="node25" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="1525,491,1647,517"/>
+<area shape="rect" id="node5" href="$class_command_map.html" title="{CommandMap\n||+ AddCommandforMessage()\l+ AddCommandforMessage()\l+ ClearMap()\l+ CommandHasAssociatedMessage()\l+ GetCommandforMessage()\l+ GetMessagesForCommand()\l+ MessageExistsInMap()\l+ RemoveMessage()\l+ ToXmlDocument()\l}" alt="" coords="457,1465,700,1659"/>
+<area shape="rect" id="node32" href="$class_lr_ipc_out.html" title="{LrIpcOut\n||+ LrIpcOut()\l+ LrIpcOut()\l+ LrIpcOut()\l+ ~LrIpcOut()\l+ AddCallback()\l+ Init()\l+ operator=()\l+ operator=()\l+ Restart()\l+ SendCommand()\l+ SendCommand()\l+ Stop()\l&#45; connectionLost()\l&#45; connectionMade()\l&#45; messageReceived()\l&#45; MidiCmdCallback()\l&#45; SendOut()\l}" alt="" coords="1161,1744,1303,2056"/>
+<area shape="rect" id="node8" href="$structrsj_1_1_midi_message_id.html" title="{rsj::MidiMessageId\n||+ MidiMessageId()\l+ MidiMessageId()\l+ MidiMessageId()\l+ operator\&lt;()\l+ operator==()\l}" alt="" coords="369,965,500,1101"/>
+<area shape="rect" id="node12" title="STL class. " alt="" coords="632,994,712,1071"/>
+<area shape="rect" id="node13" title="STL class. " alt="" coords="646,557,773,649"/>
+<area shape="rect" id="node17" href="$class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="1784,1443,1931,1681"/>
+<area shape="rect" id="node19" href="$class_channel_model.html" title="{ChannelModel\n||+ ChannelModel()\l+ ChannelModel()\l+ ChannelModel()\l+ ~ChannelModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 12 more...\l&#45; ActiveToSaved()\l&#45; CcDefaults()\l&#45; CenterCc()\l&#45; CenterPw()\l&#45; IsNRPN_()\l&#45; load()\l&#45; OffsetResult()\l&#45; save()\l&#45; SavedToActive()\l}" alt="" coords="1769,855,1916,1211"/>
+<area shape="rect" id="node21" href="$structrsj_1_1_settings_struct.html" title="{rsj::SettingsStruct\n||+ SettingsStruct()\l+ serialize()\l}" alt="" coords="1421,175,1547,267"/>
+<area shape="rect" id="node42" href="$structrsj_1_1_midi_message.html" title="{rsj::MidiMessage\n||+ MidiMessage()\l+ MidiMessage()\l+ MidiMessage()\l}" alt="" coords="1055,724,1177,831"/>
+<area shape="rect" id="node26" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="1987,505,2152,700"/>
+<area shape="rect" id="node40" href="$class_lr_ipc_out_1_1_recenter.html" title="{LrIpcOut::Recenter\n||+ Recenter()\l+ SetMidiMessage()\l&#45; timerCallback()\l}" alt="" coords="1576,2126,1715,2233"/>
+<area shape="rect" id="node43" href="$class_lr_ipc_out_1_1_connect_timer.html" title="{LrIpcOut::ConnectTimer\n||+ ConnectTimer()\l+ Start()\l+ Stop()\l&#45; timerCallback()\l}" alt="" coords="802,2119,961,2240"/>
 </map>

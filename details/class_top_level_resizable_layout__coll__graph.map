@@ -1,5 +1,5 @@
 <map id="TopLevelResizableLayout" name="TopLevelResizableLayout">
-<area shape="rect" id="node5" href="$class_top_level_resizable_layout_1_1_constrainer.html" title="TopLevelResizableLayout\l::Constrainer" alt="" coords="173,247,341,288"/>
-<area shape="rect" id="node2" href="$class_resizable_layout.html" title="ResizableLayout" alt="" coords="285,81,404,108"/>
-<area shape="rect" id="node3" href="$class_resizable_child.html" title="ResizableChild" alt="" coords="211,5,319,32"/>
+<area shape="rect" id="node10" href="$class_top_level_resizable_layout_1_1_constrainer.html" title="{TopLevelResizableLayout\l::Constrainer\n||+ Constrainer()\l+ resizeStart()\l}" alt="" coords="293,992,461,1099"/>
+<area shape="rect" id="node2" href="$class_resizable_layout.html" title="{ResizableLayout\n||+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="369,535,569,788"/>
+<area shape="rect" id="node3" href="$class_resizable_child.html" title="{ResizableChild\n||+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="5,189,160,457"/>
 </map>

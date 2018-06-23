@@ -12,6 +12,7 @@ var class_command_table_model =
     [ "RemoveRow", "class_command_table_model.html#a56bd37021d8ff9e11f642223b1afa8e6", null ],
     [ "Sort", "class_command_table_model.html#ae09e29497cc0a7d3c666d41661c9a542", null ],
     [ "sortOrderChanged", "class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00", null ],
+    [ "cmd_table_mod_mtx_", "class_command_table_model.html#a53df58ec3e3c39656cd3a38f2c95dad1", null ],
     [ "command_map_", "class_command_table_model.html#a29b04c088ff15ec88f2c4d7b9020d6f5", null ],
     [ "commands_", "class_command_table_model.html#aeb48a52c6b092a8063a668d387908221", null ],
     [ "current_sort_", "class_command_table_model.html#aa34a37908cfdc4eaaff00248e43798ac", null ],

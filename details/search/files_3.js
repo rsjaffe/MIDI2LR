@@ -11,5 +11,6 @@ var searchData=
   ['midisender_2eh',['MIDISender.h',['../_m_i_d_i_sender_8h.html',1,'']]],
   ['midiutilities_2ecpp',['MidiUtilities.cpp',['../_midi_utilities_8cpp.html',1,'']]],
   ['midiutilities_2eh',['MidiUtilities.h',['../_midi_utilities_8h.html',1,'']]],
+  ['misc_2ecpp',['Misc.cpp',['../_misc_8cpp.html',1,'']]],
   ['misc_2eh',['Misc.h',['../_misc_8h.html',1,'']]]
 ];

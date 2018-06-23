@@ -1,6 +1,7 @@
 <map id="PWoptions" name="PWoptions">
-<area shape="rect" id="node4" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1080,107,1185,133"/>
-<area shape="rect" id="node6" href="$class_channel_model.html" title="ChannelModel" alt="" coords="571,107,675,133"/>
-<area shape="rect" id="node8" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,21,132,48"/>
-<area shape="rect" id="node9" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,80,405,107"/>
+<area shape="rect" id="node2" href="$class_component.html" title="{Component\n||}" alt="" coords="292,1417,380,1494"/>
+<area shape="rect" id="node4" href="$class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="497,1336,644,1575"/>
+<area shape="rect" id="node6" href="$class_channel_model.html" title="{ChannelModel\n||+ ChannelModel()\l+ ChannelModel()\l+ ChannelModel()\l+ ~ChannelModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 12 more...\l&#45; ActiveToSaved()\l&#45; CcDefaults()\l&#45; CenterCc()\l&#45; CenterPw()\l&#45; IsNRPN_()\l&#45; load()\l&#45; OffsetResult()\l&#45; save()\l&#45; SavedToActive()\l}" alt="" coords="497,763,644,1119"/>
+<area shape="rect" id="node8" href="$structrsj_1_1_settings_struct.html" title="{rsj::SettingsStruct\n||+ SettingsStruct()\l+ serialize()\l}" alt="" coords="211,175,338,267"/>
+<area shape="rect" id="node13" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="868,505,1033,700"/>
 </map>

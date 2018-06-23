@@ -1,7 +1,7 @@
 var searchData=
 [
   ['calcboundsofchildren',['calcBoundsOfChildren',['../class_resizable_layout.html#a94ecea095ab66c30121aa71cf187eb38',1,'ResizableLayout']]],
-  ['ccdefaults',['CcDefaults',['../class_channel_model.html#a3500dcb70960e1798268333fafeebd4f',1,'ChannelModel']]],
+  ['ccdefaults',['CcDefaults',['../class_channel_model.html#a9bd2331bfeac64d647cb3ebb575e6540',1,'ChannelModel']]],
   ['ccoptions',['CCoptions',['../class_c_coptions.html#a1d8d9d83f1823c1f016de242ecfe44d3',1,'CCoptions']]],
   ['centercc',['CenterCc',['../class_channel_model.html#aa745e87e089bbddcccc41124045b3b50',1,'ChannelModel']]],
   ['centerpw',['CenterPw',['../class_channel_model.html#a8f7061971fc2e13c925e8ba6756c1af7',1,'ChannelModel']]],

@@ -1,13 +1,13 @@
 <map id="LrIpcOut::Recenter" name="LrIpcOut::Recenter">
-<area shape="rect" id="node5" href="$class_lr_ipc_out.html" title="LrIpcOut" alt="" coords="1533,199,1604,225"/>
-<area shape="rect" id="node3" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="rsj::RelaxTTasSpinLock" alt="" coords="246,337,405,364"/>
-<area shape="rect" id="node15" href="$class_channel_model.html" title="ChannelModel" alt="" coords="584,196,688,223"/>
-<area shape="rect" id="node4" href="$structrsj_1_1_midi_message.html" title="rsj::MidiMessage" alt="" coords="841,253,963,280"/>
-<area shape="rect" id="node21" href="$class_lr_ipc_out_1_1_connect_timer.html" title="LrIpcOut::ConnectTimer" alt="" coords="1753,168,1912,195"/>
-<area shape="rect" id="node7" href="$class_command_map.html" title="CommandMap" alt="" coords="1227,125,1334,152"/>
-<area shape="rect" id="node9" href="$structrsj_1_1_midi_message_id.html" title="rsj::MidiMessageId" alt="" coords="571,5,701,32"/>
-<area shape="rect" id="node10" title="STL class. " alt="" coords="596,64,676,91"/>
-<area shape="rect" id="node11" title="STL class. " alt="" coords="262,57,389,98"/>
-<area shape="rect" id="node13" href="$class_controls_model.html" title="ControlsModel" alt="" coords="1228,181,1333,208"/>
-<area shape="rect" id="node17" href="$structrsj_1_1_settings_struct.html" title="rsj::SettingsStruct" alt="" coords="5,196,132,223"/>
+<area shape="rect" id="node7" href="$class_lr_ipc_out.html" title="{LrIpcOut\n||+ LrIpcOut()\l+ LrIpcOut()\l+ LrIpcOut()\l+ ~LrIpcOut()\l+ AddCallback()\l+ Init()\l+ operator=()\l+ operator=()\l+ Restart()\l+ SendCommand()\l+ SendCommand()\l+ Stop()\l&#45; connectionLost()\l&#45; connectionMade()\l&#45; messageReceived()\l&#45; MidiCmdCallback()\l&#45; SendOut()\l}" alt="" coords="1096,1725,1239,2037"/>
+<area shape="rect" id="node3" href="$classrsj_1_1_relax_t_tas_spin_lock.html" title="{rsj::RelaxTTasSpinLock\n||+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ RelaxTTasSpinLock()\l+ ~RelaxTTasSpinLock()\l+ lock()\l+ operator=()\l+ operator=()\l+ try_lock()\l+ unlock()\l}" alt="" coords="170,535,335,729"/>
+<area shape="rect" id="node22" href="$class_channel_model.html" title="{ChannelModel\n||+ ChannelModel()\l+ ChannelModel()\l+ ChannelModel()\l+ ~ChannelModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 12 more...\l&#45; ActiveToSaved()\l&#45; CcDefaults()\l&#45; CenterCc()\l&#45; CenterPw()\l&#45; IsNRPN_()\l&#45; load()\l&#45; OffsetResult()\l&#45; save()\l&#45; SavedToActive()\l}" alt="" coords="521,836,667,1192"/>
+<area shape="rect" id="node5" href="$structrsj_1_1_midi_message.html" title="{rsj::MidiMessage\n||+ MidiMessage()\l+ MidiMessage()\l+ MidiMessage()\l}" alt="" coords="73,362,195,469"/>
+<area shape="rect" id="node24" href="$structrsj_1_1_settings_struct.html" title="{rsj::SettingsStruct\n||+ SettingsStruct()\l+ serialize()\l}" alt="" coords="539,204,665,296"/>
+<area shape="rect" id="node36" href="$class_lr_ipc_out_1_1_connect_timer.html" title="{LrIpcOut::ConnectTimer\n||+ ConnectTimer()\l+ Start()\l+ Stop()\l&#45; timerCallback()\l}" alt="" coords="1767,2100,1925,2221"/>
+<area shape="rect" id="node10" href="$class_command_map.html" title="{CommandMap\n||+ AddCommandforMessage()\l+ AddCommandforMessage()\l+ ClearMap()\l+ CommandHasAssociatedMessage()\l+ GetCommandforMessage()\l+ GetMessagesForCommand()\l+ MessageExistsInMap()\l+ RemoveMessage()\l+ ToXmlDocument()\l}" alt="" coords="1173,1446,1415,1641"/>
+<area shape="rect" id="node13" href="$structrsj_1_1_midi_message_id.html" title="{rsj::MidiMessageId\n||+ MidiMessageId()\l+ MidiMessageId()\l+ MidiMessageId()\l+ operator\&lt;()\l+ operator==()\l}" alt="" coords="1421,946,1551,1082"/>
+<area shape="rect" id="node17" title="STL class. " alt="" coords="1291,975,1371,1053"/>
+<area shape="rect" id="node18" title="STL class. " alt="" coords="1268,586,1395,678"/>
+<area shape="rect" id="node20" href="$class_controls_model.html" title="{ControlsModel\n||+ ControlsModel()\l+ ControlsModel()\l+ ControlsModel()\l+ ~ControlsModel()\l+ ControllerToPlugin()\l+ GetCcMax()\l+ GetCcMethod()\l+ GetCcMin()\l+ GetPwMax()\l+ GetPwMin()\land 13 more...\l&#45; serialize()\l}" alt="" coords="491,1424,638,1663"/>
 </map>

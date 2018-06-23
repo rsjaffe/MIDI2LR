@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">2.9.2.0</span>
+   &#160;<span id="projectnumber">2.9.5.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6/CC. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -107,6 +107,7 @@ $(document).ready(function(){initNavTree('_main_8cpp.html','');});
 <code>#include &quot;<a class="el" href="_main_window_8h_source.html">MainWindow.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_m_i_d_i_processor_8h_source.html">MIDIProcessor.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_m_i_d_i_sender_8h_source.html">MIDISender.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_misc_8h_source.html">Misc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_p_woptions_8h_source.html">PWoptions.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_settings_manager_8h_source.html">SettingsManager.h</a>&quot;</code><br />
@@ -118,21 +119,21 @@ $(document).ready(function(){initNavTree('_main_8cpp.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_main_8cpp__incl.png" border="0" usemap="#_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_8cpp" alt=""/></div>
 <map name="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_8cpp" id="_q_1_2_documents_2_git_hub_2_m_i_d_i2_l_r_2_source_2_main_8cpp">
-<area shape="rect" id="node7" href="_c_coptions_8h.html" title="CCoptions.h" alt="" coords="386,169,479,196"/>
-<area shape="rect" id="node8" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="1174,95,1291,121"/>
-<area shape="rect" id="node17" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="2645,95,2761,121"/>
-<area shape="rect" id="node24" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="1316,95,1411,121"/>
-<area shape="rect" id="node28" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_Out.h" alt="" coords="1740,95,1845,121"/>
-<area shape="rect" id="node30" href="_main_window_8h.html" title="MainWindow.h" alt="" coords="570,95,677,121"/>
-<area shape="rect" id="node31" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="2145,95,2264,121"/>
-<area shape="rect" id="node34" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="907,95,1007,121"/>
-<area shape="rect" id="node35" href="_p_woptions_8h.html" title="PWoptions.h" alt="" coords="197,95,295,121"/>
-<area shape="rect" id="node36" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="1031,95,1149,121"/>
-<area shape="rect" id="node37" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="701,95,831,121"/>
-<area shape="rect" id="node38" href="_version_checker_8h.html" title="VersionChecker.h" alt="" coords="421,95,546,121"/>
-<area shape="rect" id="node12" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="2325,169,2425,196"/>
-<area shape="rect" id="node14" href="_misc_8h.html" title="Misc.h" alt="" coords="2311,251,2373,278"/>
-<area shape="rect" id="node32" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="2552,169,2665,196"/>
+<area shape="rect" id="node7" href="_c_coptions_8h.html" title="CCoptions.h" alt="" coords="337,169,430,196"/>
+<area shape="rect" id="node8" href="_command_map_8h.html" title="CommandMap.h" alt="" coords="1315,95,1433,121"/>
+<area shape="rect" id="node13" href="_misc_8h.html" title="Misc.h" alt="" coords="2465,251,2526,278"/>
+<area shape="rect" id="node19" href="_controls_model_8h.html" title="ControlsModel.h" alt="" coords="2725,95,2841,121"/>
+<area shape="rect" id="node26" href="_l_r___i_p_c___in_8h.html" title="LR_IPC_In.h" alt="" coords="907,95,1001,121"/>
+<area shape="rect" id="node30" href="_l_r___i_p_c___out_8h.html" title="LR_IPC_Out.h" alt="" coords="1768,95,1873,121"/>
+<area shape="rect" id="node32" href="_main_window_8h.html" title="MainWindow.h" alt="" coords="570,95,677,121"/>
+<area shape="rect" id="node33" href="_m_i_d_i_processor_8h.html" title="MIDIProcessor.h" alt="" coords="1971,95,2089,121"/>
+<area shape="rect" id="node36" href="_m_i_d_i_sender_8h.html" title="MIDISender.h" alt="" coords="1168,95,1268,121"/>
+<area shape="rect" id="node37" href="_p_woptions_8h.html" title="PWoptions.h" alt="" coords="197,95,295,121"/>
+<area shape="rect" id="node38" href="_profile_manager_8h.html" title="ProfileManager.h" alt="" coords="1025,95,1144,121"/>
+<area shape="rect" id="node39" href="_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="701,95,831,121"/>
+<area shape="rect" id="node40" href="_version_checker_8h.html" title="VersionChecker.h" alt="" coords="421,95,546,121"/>
+<area shape="rect" id="node17" href="_midi_utilities_8h.html" title="MidiUtilities.h" alt="" coords="2021,169,2121,196"/>
+<area shape="rect" id="node34" href="_nrpn_message_8h.html" title="NrpnMessage.h" alt="" coords="2632,169,2745,196"/>
 </map>
 </div>
 </div><table class="memberdecls">
