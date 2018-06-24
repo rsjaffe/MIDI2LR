@@ -1,8 +1,5 @@
-language: objective-c
 os: osx
-osx_image: xcode9.3
-script: xcodebuild -configuration Release -project Builds/MacOSX/MIDI2LR.xcodeproj
-branches:
-    only:
-      - develop
-      - master
+osx_image: xcode9.4
+language: objective-c
+xcode_project: Builds/MacOSX/MIDI2LR.xcodeproj
+xcode_scheme: "MIDI2LR - App"
