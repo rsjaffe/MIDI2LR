@@ -95,7 +95,7 @@ ResizableLayout::ResizableLayout(juce::Component* owner) : m_owner(owner)
 
 ResizableLayout::~ResizableLayout() {}
 
-void ResizableLayout::addToLayout(Component* component, const juce::Point<int>& topLeft,
+void ResizableLayout::addToLayout(juce::Component* component, const juce::Point<int>& topLeft,
     const juce::Point<int>& bottomRight, Style style)
 {
    jassert(topLeft != anchorNone);
@@ -113,7 +113,7 @@ void ResizableLayout::addToLayout(Component* component, const juce::Point<int>& 
    component->addComponentListener(this);
 }
 
-void ResizableLayout::removeFromLayout(Component* component) noexcept
+void ResizableLayout::removeFromLayout(juce::Component* component) noexcept
 {
    m_anchors.removeValue(component);
    m_states.removeValue(component);
@@ -236,7 +236,7 @@ void ResizableLayout::componentBeingDeleted(juce::Component& component) noexcept
    }
 }
 
-Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) noexcept
+juce::Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) noexcept
 {
    juce::Rectangle<int> r;
 
@@ -282,13 +282,13 @@ void ResizableLayout::resizeStart() noexcept
             auto d = anchor.bottomRight.getX() - anchor.topLeft.getX();
             if (d != 0) {
                m = (xmin1 + state.margin.left - state.margin.right) * anchorUnit / d;
-               xmin0 = jmax(xmin0, m);
+               xmin0 = juce::jmax(xmin0, m);
             }
 
             d = anchor.bottomRight.getY() - anchor.topLeft.getY();
             if (d != 0) {
                m = (ymin1 + state.margin.top - state.margin.bottom) * anchorUnit / d;
-               ymin0 = jmax(ymin0, m);
+               ymin0 = juce::jmax(ymin0, m);
             }
          }
       }

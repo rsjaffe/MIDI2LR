@@ -42,6 +42,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
+// NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
 
 //==============================================================================
@@ -52,7 +53,7 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class PWoptions : public Component, private TextEditor::Listener {
+class PWoptions : public juce::Component, private juce::TextEditor::Listener {
  public:
    //==============================================================================
    PWoptions();
@@ -67,23 +68,23 @@ class PWoptions : public Component, private TextEditor::Listener {
    void BindToControl(size_t channel);
    //[/UserMethods]
 
-   void paint(Graphics& g) override;
+   void paint(juce::Graphics& g) override;
    void resized() override;
 
  private:
    //[UserVariables]   -- You can add your own custom variables in this section.
-   TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
-   void textEditorFocusLost(TextEditor& t) override;
+   juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
+   void textEditorFocusLost(juce::TextEditor& t) override;
    static ControlsModel* controls_model_;
-   size_t boundchannel_; // note: 0-based
+   size_t boundchannel_{0}; // note: 0-based
    //[/UserVariables]
 
    //==============================================================================
-   std::unique_ptr<Label> label;
-   std::unique_ptr<TextEditor> minval;
-   std::unique_ptr<Label> label2;
-   std::unique_ptr<TextEditor> maxval;
-   std::unique_ptr<Label> label3;
+   std::unique_ptr<juce::Label> label;
+   std::unique_ptr<juce::TextEditor> minval;
+   std::unique_ptr<juce::Label> label2;
+   std::unique_ptr<juce::TextEditor> maxval;
+   std::unique_ptr<juce::Label> label3;
 
    //==============================================================================
    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)

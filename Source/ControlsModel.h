@@ -163,11 +163,11 @@ class ChannelModel {
    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
    short pitch_wheel_max_{kMaxNrpn};
    short pitch_wheel_min_{0};
-   std::atomic<short> pitch_wheel_current_;
-   std::array<rsj::CCmethod, kMaxControls> cc_method_;
-   std::array<short, kMaxControls> cc_high_;
-   std::array<short, kMaxControls> cc_low_;
-   std::array<short, kMaxControls> current_v_;
+   std::atomic<short> pitch_wheel_current_{0};
+   std::array<rsj::CCmethod, kMaxControls> cc_method_{};
+   std::array<short, kMaxControls> cc_high_{};
+   std::array<short, kMaxControls> cc_low_{};
+   std::array<short, kMaxControls> current_v_{};
    template<class Archive> void load(Archive& archive, uint32_t const version);
    template<class Archive> void save(Archive& archive, uint32_t const version) const;
    void ActiveToSaved() const;

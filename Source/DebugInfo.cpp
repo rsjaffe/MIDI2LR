@@ -137,12 +137,12 @@ std::string rsj::GetKeyboardLayout()
          return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
       }
       catch (...) {
-         const std::string msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
+         const auto msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
          rsj::Log(msg);
          return msg;
       }
    }
-   const std::string msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
+   const auto msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
    rsj::Log(msg);
    return msg;
 }
@@ -171,7 +171,7 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
          info_.emplace_back(kErr);
          rsj::Log(kErr);
       }
-      catch (...) {
+      catch (...) { //-V565
       }
    }
 }

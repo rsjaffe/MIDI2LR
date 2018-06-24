@@ -5,7 +5,8 @@
               jucerVersion="5.3.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
-              defines="U_STATIC_IMPLEMENTATION=1" headerPath="../../&#10;../../icu/source/common/">
+              defines="U_STATIC_IMPLEMENTATION=1&#10;DONT_SET_USING_JUCE_NAMESPACE=1"
+              headerPath="../../&#10;../../icu/source/common/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <GROUP id="{E3105D44-45AE-CAD8-B1B5-48D167BBA6FB}" name="ICU">

@@ -42,6 +42,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
+//NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
 
 //==============================================================================
@@ -52,7 +53,9 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class CCoptions : public Component, private TextEditor::Listener, public Button::Listener {
+class CCoptions : public juce::Component,
+                  private juce::TextEditor::Listener,
+                  public juce::Button::Listener {
  public:
    //==============================================================================
    CCoptions();
@@ -67,31 +70,31 @@ class CCoptions : public Component, private TextEditor::Listener, public Button:
    void BindToControl(size_t channel, short number);
    //[/UserMethods]
 
-   void paint(Graphics& g) override;
+   void paint(juce::Graphics& g) override;
    void resized() override;
-   void buttonClicked(Button* buttonThatWasClicked) override;
+   void buttonClicked(juce::Button* buttonThatWasClicked) override;
 
  private:
    //[UserVariables]   -- You can add your own custom variables in this section.
-   TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
-   void textEditorFocusLost(TextEditor& t) override;
+   juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
+   void textEditorFocusLost(juce::TextEditor& t) override;
    static ControlsModel* controls_model_;
-   short bound_channel_; // note: 0-based
-   short bound_number_;
+   short bound_channel_{0}; // note: 0-based
+   short bound_number_{0};
    //[/UserVariables]
 
    //==============================================================================
-   std::unique_ptr<GroupComponent> groupComponent;
-   std::unique_ptr<ToggleButton> twosbutton;
-   std::unique_ptr<ToggleButton> absbutton;
-   std::unique_ptr<ToggleButton> binbutton;
-   std::unique_ptr<ToggleButton> signbutton;
-   std::unique_ptr<TextEditor> maxvaltext;
-   std::unique_ptr<TextEditor> minvaltext;
-   std::unique_ptr<Label> minvallabel;
-   std::unique_ptr<Label> maxvallabel;
-   std::unique_ptr<TextButton> applyAll;
-   std::unique_ptr<Label> controlID;
+   std::unique_ptr<juce::GroupComponent> groupComponent;
+   std::unique_ptr<juce::ToggleButton> twosbutton;
+   std::unique_ptr<juce::ToggleButton> absbutton;
+   std::unique_ptr<juce::ToggleButton> binbutton;
+   std::unique_ptr<juce::ToggleButton> signbutton;
+   std::unique_ptr<juce::TextEditor> maxvaltext;
+   std::unique_ptr<juce::TextEditor> minvaltext;
+   std::unique_ptr<juce::Label> minvallabel;
+   std::unique_ptr<juce::Label> maxvallabel;
+   std::unique_ptr<juce::TextButton> applyAll;
+   std::unique_ptr<juce::Label> controlID;
 
    //==============================================================================
    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)

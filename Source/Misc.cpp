@@ -68,12 +68,12 @@ namespace rsj {
    void ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept
    {
       try {
-         const juce::String error_text{juce::String("Exception ") + e.what() + ' '
+         const auto error_text{juce::String("Exception ") + e.what() + ' '
                                        + Demangle<juce::String>(id) + "::" + fu + " Version "
                                        + ProjectInfo::versionString};
          LogAndAlertError(error_text);
       }
-      catch (...) {
+      catch (...) { //-V565
       }
    }
 } // namespace rsj

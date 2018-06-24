@@ -91,7 +91,7 @@ class MainContentComponent final : public juce::Component,
    size_t row_to_select_{0};
    std::shared_ptr<MidiProcessor> midi_processor_{nullptr};
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
-   std::unique_ptr<DialogWindow> settings_dialog_;
+   std::unique_ptr<juce::DialogWindow> settings_dialog_;
    std::weak_ptr<LrIpcOut> lr_ipc_out_;
 };
 

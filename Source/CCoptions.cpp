@@ -42,6 +42,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <gsl/gsl>
 #include "ControlsModel.h"
+using namespace juce;
 //[/Headers]
 
 #include "CCoptions.h"
@@ -101,7 +102,7 @@ CCoptions::CCoptions()
    addAndMakeVisible(signbutton.get());
    signbutton->setTooltip(
        TRANS("Control value is near 1 when turned one way, and near 65 when turned the other."));
-   signbutton->setExplicitFocusOrder(4);
+   signbutton->setExplicitFocusOrder(4); //-V112
    signbutton->setButtonText(TRANS("Sign and magnitude"));
    signbutton->setConnectedEdges(Button::ConnectedOnTop);
    signbutton->setRadioGroupId(1);

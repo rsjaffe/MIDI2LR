@@ -63,8 +63,8 @@ class WindowsFunctionError : public std::exception {
       LPSTR new_what;
       FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM
                          | FORMAT_MESSAGE_IGNORE_INSERTS,
-          nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), LPSTR(&new_what), 0,
-          nullptr); //-V206
+          nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), LPSTR(&new_what), 0, //-V206
+          nullptr);
       what_ = {new_what, [](LPSTR w) noexcept {HeapFree(GetProcessHeap(), 0, w);
    }
 };

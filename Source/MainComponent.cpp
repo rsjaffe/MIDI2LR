@@ -312,7 +312,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             profile_directory = settings_manager_->GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String(), "MIDI2LR profiles"};
          juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
                                                 | juce::FileBrowserComponent::saveMode
                                                 | juce::FileBrowserComponent::warnAboutOverwriting,
@@ -330,7 +330,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             profile_directory = settings_manager_->GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String(), "MIDI2LR profiles"};
          juce::FileBrowserComponent browser{
              juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
              profile_directory, &wildcard_filter, nullptr};
@@ -381,7 +381,7 @@ void MainContentComponent::ProfileChanged(
     juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
    {
-      const MessageManagerLock mmLock;
+      const juce::MessageManagerLock mmLock;
       command_table_model_.BuildFromXml(xml_element);
       command_table_.updateContent();
       command_table_.repaint();

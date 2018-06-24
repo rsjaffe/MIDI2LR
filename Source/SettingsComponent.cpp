@@ -54,7 +54,7 @@ void SettingsComponent::Init()
       pickup_label_.setText("Disabling the pickup mode may be better for touchscreen interfaces "
                             "and "
                             "may solve issues with LR not picking up fast fader/knob movements",
-          NotificationType::dontSendNotification);
+          juce::NotificationType::dontSendNotification);
       pickup_label_.setBounds(kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&pickup_label_, anchorMidLeft, anchorMidRight);
       pickup_label_.setEditable(false);

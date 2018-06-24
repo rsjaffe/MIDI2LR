@@ -43,7 +43,7 @@ catch (const std::exception& e) {
    throw;
 }
 
-bool CommandTable::keyPressed(const KeyPress& k)
+bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
       static const std::unordered_map<int, int> keytoaction{{juce::KeyPress::deleteKey, 1},
