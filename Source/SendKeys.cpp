@@ -211,7 +211,7 @@ CGKeyCode KeyCodeForChar(UChar c)
       return char_code_map.at(c);
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError("Exception in KeyCodeForChar function for key: " + c + ". " + e.what());
+      rsj::LogAndAlertError("Exception in KeyCodeForChar function for key: " + juce::String(c) + ". " + e.what());
       return 0;
    }
 }
