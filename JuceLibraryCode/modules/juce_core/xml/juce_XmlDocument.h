@@ -34,7 +34,7 @@ namespace juce
     @code
 
     XmlDocument myDocument (File ("myfile.xml"));
-    ScopedPointer<XmlElement> mainElement (myDocument.getDocumentElement());
+    std::unique_ptr<XmlElement> mainElement (myDocument.getDocumentElement());
 
     if (mainElement == nullptr)
     {
@@ -50,7 +50,7 @@ namespace juce
     Or you can use the static helper methods for quick parsing..
 
     @code
-    ScopedPointer<XmlElement> xml (XmlDocument::parse (myXmlFile));
+    std::unique_ptr<XmlElement> xml (XmlDocument::parse (myXmlFile));
 
     if (xml != nullptr && xml->hasTagName ("foobar"))
     {
@@ -59,6 +59,8 @@ namespace juce
     @endcode
 
     @see XmlElement
+
+    @tags{Core}
 */
 class JUCE_API  XmlDocument
 {
@@ -149,7 +151,7 @@ private:
     String lastError, dtdText;
     StringArray tokenisedDTD;
     bool needToLoadDTD = false, ignoreEmptyTextElements = true;
-    ScopedPointer<InputSource> inputSource;
+    std::unique_ptr<InputSource> inputSource;
 
     XmlElement* parseDocumentElement (String::CharPointerType, bool outer);
     void setLastError (const String&, bool carryOn);

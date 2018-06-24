@@ -57,6 +57,7 @@ namespace juce
 - (void) applicationWillResignActive: (UIApplication*) application;
 - (void) application: (UIApplication*) application handleEventsForBackgroundURLSession: (NSString*) identifier
    completionHandler: (void (^)(void)) completionHandler;
+- (void) applicationDidReceiveMemoryWarning: (UIApplication *) application;
 #if JUCE_PUSH_NOTIFICATIONS
 - (void) application: (UIApplication*) application didRegisterUserNotificationSettings: (UIUserNotificationSettings*) notificationSettings;
 - (void) application: (UIApplication*) application didRegisterForRemoteNotificationsWithDeviceToken: (NSData*) deviceToken;
@@ -92,9 +93,9 @@ namespace juce
     self = [super init];
     appSuspendTask = UIBackgroundTaskInvalid;
 
-  #if JUCE_PUSH_NOTIFICATIONS && defined (__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+   #if JUCE_PUSH_NOTIFICATIONS && defined (__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-  #endif
+   #endif
 
     return self;
 }
@@ -104,7 +105,7 @@ namespace juce
     ignoreUnused (application);
     initialiseJuce_GUI();
 
-    if (JUCEApplicationBase* app = JUCEApplicationBase::createInstance())
+    if (auto* app = JUCEApplicationBase::createInstance())
     {
         if (! app->initialiseApp())
             exit (app->shutdownApp());
@@ -123,7 +124,7 @@ namespace juce
 
 - (void) applicationDidEnterBackground: (UIApplication*) application
 {
-    if (JUCEApplicationBase* const app = JUCEApplicationBase::getInstance())
+    if (auto* app = JUCEApplicationBase::getInstance())
     {
        #if JUCE_EXECUTE_APP_SUSPEND_ON_BACKGROUND_TASK
         appSuspendTask = [application beginBackgroundTaskWithName:@"JUCE Suspend Task" expirationHandler:^{
@@ -134,7 +135,7 @@ namespace juce
             }
         }];
 
-        MessageManager::callAsync ([self,application,app] ()  { app->suspended(); });
+        MessageManager::callAsync ([app] { app->suspended(); });
        #else
         ignoreUnused (application);
         app->suspended();
@@ -146,7 +147,7 @@ namespace juce
 {
     ignoreUnused (application);
 
-    if (JUCEApplicationBase* const app = JUCEApplicationBase::getInstance())
+    if (auto* app = JUCEApplicationBase::getInstance())
         app->resumed();
 }
 
@@ -172,6 +173,14 @@ namespace juce
     ignoreUnused (application);
     URL::DownloadTask::juce_iosURLSessionNotify (nsStringToJuce (identifier));
     completionHandler();
+}
+
+- (void) applicationDidReceiveMemoryWarning: (UIApplication*) application
+{
+    ignoreUnused (application);
+
+    if (auto* app = JUCEApplicationBase::getInstance())
+        app->memoryWarningReceived();
 }
 
 - (void) setPushNotificationsDelegateToUse: (NSObject*) delegate
@@ -405,10 +414,10 @@ namespace juce
 namespace juce
 {
 
-int juce_iOSMain (int argc, const char* argv[], void* customDelgatePtr);
-int juce_iOSMain (int argc, const char* argv[], void* customDelagetPtr)
+int juce_iOSMain (int argc, const char* argv[], void* customDelegatePtr);
+int juce_iOSMain (int argc, const char* argv[], void* customDelegatePtr)
 {
-    Class delegateClass = (customDelagetPtr != nullptr ? reinterpret_cast<Class> (customDelagetPtr) : [JuceAppStartupDelegate class]);
+    Class delegateClass = (customDelegatePtr != nullptr ? reinterpret_cast<Class> (customDelegatePtr) : [JuceAppStartupDelegate class]);
 
     return UIApplicationMain (argc, const_cast<char**> (argv), nil, NSStringFromClass (delegateClass));
 }
@@ -527,7 +536,7 @@ public:
 private:
     int result;
     bool resultReceived;
-    ScopedPointer<ModalComponentManager::Callback> callback;
+    std::unique_ptr<ModalComponentManager::Callback> callback;
     const bool isAsync;
 
    #if JUCE_USE_NEW_IOS_ALERTWINDOW
@@ -592,8 +601,8 @@ bool JUCE_CALLTYPE NativeMessageBox::showOkCancelBox (AlertWindow::AlertIconType
                                                       Component* /*associatedComponent*/,
                                                       ModalComponentManager::Callback* callback)
 {
-    ScopedPointer<iOSMessageBox> mb (new iOSMessageBox (title, message, @"Cancel", @"OK",
-                                                        nil, callback, callback != nullptr));
+    std::unique_ptr<iOSMessageBox> mb (new iOSMessageBox (title, message, @"Cancel", @"OK",
+                                                          nil, callback, callback != nullptr));
 
     if (callback == nullptr)
         return mb->getResult() == 1;
@@ -607,7 +616,7 @@ int JUCE_CALLTYPE NativeMessageBox::showYesNoCancelBox (AlertWindow::AlertIconTy
                                                         Component* /*associatedComponent*/,
                                                         ModalComponentManager::Callback* callback)
 {
-    ScopedPointer<iOSMessageBox> mb (new iOSMessageBox (title, message, @"Cancel", @"Yes", @"No", callback, callback != nullptr));
+    std::unique_ptr<iOSMessageBox> mb (new iOSMessageBox (title, message, @"Cancel", @"Yes", @"No", callback, callback != nullptr));
 
     if (callback == nullptr)
         return mb->getResult();
@@ -621,7 +630,7 @@ int JUCE_CALLTYPE NativeMessageBox::showYesNoBox (AlertWindow::AlertIconType /*i
                                                   Component* /*associatedComponent*/,
                                                   ModalComponentManager::Callback* callback)
 {
-    ScopedPointer<iOSMessageBox> mb (new iOSMessageBox (title, message, @"No", @"Yes", nil, callback, callback != nullptr));
+    std::unique_ptr<iOSMessageBox> mb (new iOSMessageBox (title, message, @"No", @"Yes", nil, callback, callback != nullptr));
 
     if (callback == nullptr)
         return mb->getResult();

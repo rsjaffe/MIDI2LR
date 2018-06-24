@@ -220,7 +220,6 @@ public:
     JuceUIView* view;
     JuceUIViewController* controller;
     bool isSharedWindow, fullScreen, insideDrawRect, isAppex;
-    static ModifierKeys currentModifiers;
 
     static int64 getMouseTime (UIEvent* e) noexcept
     {
@@ -368,7 +367,7 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
 
     // On some devices the screen-size isn't yet updated at this point, so also trigger another
     // async update to double-check..
-    MessageManager::callAsync ([=]() { sendScreenBoundsUpdate (self); });
+    MessageManager::callAsync ([=] { sendScreenBoundsUpdate (self); });
 }
 
 - (BOOL) prefersStatusBarHidden
@@ -534,18 +533,6 @@ namespace juce
 bool KeyPress::isKeyCurrentlyDown (int)
 {
     return false;
-}
-
-ModifierKeys UIViewComponentPeer::currentModifiers;
-
-ModifierKeys ModifierKeys::getCurrentModifiersRealtime() noexcept
-{
-    return UIViewComponentPeer::currentModifiers;
-}
-
-void ModifierKeys::updateCurrentModifiers() noexcept
-{
-    currentModifiers = UIViewComponentPeer::currentModifiers;
 }
 
 Point<float> juce_lastMousePos;
@@ -844,15 +831,15 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, cons
         const int64 time = getMouseTime (event);
         const int touchIndex = currentTouches.getIndexOfTouch (this, touch);
 
-        ModifierKeys modsToSend (currentModifiers);
+        ModifierKeys modsToSend (ModifierKeys::currentModifiers);
 
         if (isDown)
         {
             if ([touch phase] != UITouchPhaseBegan)
                 continue;
 
-            currentModifiers = currentModifiers.withoutMouseButtons().withFlags (ModifierKeys::leftButtonModifier);
-            modsToSend = currentModifiers;
+            ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons().withFlags (ModifierKeys::leftButtonModifier);
+            modsToSend = ModifierKeys::currentModifiers;
 
             // this forces a mouse-enter/up event, in case for some reason we didn't get a mouse-up before.
             handleMouseEvent (MouseInputSource::InputSourceType::touch, pos, modsToSend.withoutMouseButtons(),
@@ -876,7 +863,7 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, cons
         if (isCancel)
         {
             currentTouches.clearTouch (touchIndex);
-            modsToSend = currentModifiers = currentModifiers.withoutMouseButtons();
+            modsToSend = ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons();
         }
 
         // NB: some devices return 0 or 1.0 if pressure is unknown, so we'll clip our value to a believable range:

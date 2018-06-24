@@ -44,6 +44,8 @@ namespace juce
     ToolbarButton class.
 
     @see ToolbarButton, Toolbar, ToolbarItemFactory
+
+    @tags{GUI}
 */
 class JUCE_API  ToolbarItemComponent  : public Button
 {
@@ -194,7 +196,7 @@ private:
     const int itemId;
     ToolbarEditingMode mode;
     Toolbar::ToolbarItemStyle toolbarStyle;
-    ScopedPointer<Component> overlayComp;
+    std::unique_ptr<Component> overlayComp;
     int dragOffsetX, dragOffsetY;
     bool isActive, isBeingDragged, isBeingUsedAsAButton;
     Rectangle<int> contentArea;

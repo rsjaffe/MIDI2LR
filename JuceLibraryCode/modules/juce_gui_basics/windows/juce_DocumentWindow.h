@@ -49,6 +49,8 @@ namespace juce
     method.
 
     @see ResizableWindow, DialogWindow
+
+    @tags{GUI}
 */
 class JUCE_API  DocumentWindow   : public ResizableWindow
 {
@@ -278,14 +280,14 @@ private:
     //==============================================================================
     int titleBarHeight = 26, menuBarHeight = 24, requiredButtons;
     bool positionTitleBarButtonsOnLeft, drawTitleTextCentred = true;
-    ScopedPointer<Button> titleBarButtons [3];
+    std::unique_ptr<Button> titleBarButtons [3];
     Image titleBarIcon;
-    ScopedPointer<Component> menuBar;
+    std::unique_ptr<Component> menuBar;
     MenuBarModel* menuBarModel = nullptr;
 
     class ButtonListenerProxy;
     friend struct ContainerDeletePolicy<ButtonListenerProxy>;
-    ScopedPointer<ButtonListenerProxy> buttonListener;
+    std::unique_ptr<ButtonListenerProxy> buttonListener;
 
     void repaintTitleBar();
 

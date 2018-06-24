@@ -35,6 +35,8 @@ namespace juce
     'normal', 'over' and 'down' states.
 
     @see Button
+
+    @tags{GUI}
 */
 class JUCE_API  DrawableButton  : public Button
 {
@@ -180,7 +182,7 @@ public:
 private:
     //==============================================================================
     ButtonStyle style;
-    ScopedPointer<Drawable> normalImage, overImage, downImage, disabledImage,
+    std::unique_ptr<Drawable> normalImage, overImage, downImage, disabledImage,
                             normalImageOn, overImageOn, downImageOn, disabledImageOn;
     Drawable* currentImage = nullptr;
     int edgeIndent = 3;

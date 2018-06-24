@@ -39,9 +39,9 @@ namespace juce
 
 #if JUCE_NATIVE_WCHAR_IS_UTF32 || DOXYGEN
  /** A platform-independent 32-bit unicode character type. */
- typedef wchar_t        juce_wchar;
+ using juce_wchar = wchar_t;
 #else
- typedef uint32         juce_wchar;
+ using juce_wchar = uint32;
 #endif
 
 #ifndef DOXYGEN
@@ -60,18 +60,22 @@ namespace juce
  #define T(stringLiteral)   JUCE_T(stringLiteral)
 #endif
 
+#if ! DOXYGEN
+
 //==============================================================================
 // GNU libstdc++ does not have std::make_unsigned
 namespace internal
 {
-    template <typename Type> struct make_unsigned               { typedef Type type; };
-    template <> struct make_unsigned<signed char>               { typedef unsigned char      type; };
-    template <> struct make_unsigned<char>                      { typedef unsigned char      type; };
-    template <> struct make_unsigned<short>                     { typedef unsigned short     type; };
-    template <> struct make_unsigned<int>                       { typedef unsigned int       type; };
-    template <> struct make_unsigned<long>                      { typedef unsigned long      type; };
-    template <> struct make_unsigned<long long>                 { typedef unsigned long long type; };
+    template <typename Type> struct make_unsigned               { using type = Type; };
+    template <> struct make_unsigned<signed char>               { using type = unsigned char; };
+    template <> struct make_unsigned<char>                      { using type = unsigned char; };
+    template <> struct make_unsigned<short>                     { using type = unsigned short; };
+    template <> struct make_unsigned<int>                       { using type = unsigned int; };
+    template <> struct make_unsigned<long>                      { using type = unsigned long; };
+    template <> struct make_unsigned<long long>                 { using type = unsigned long long; };
 }
+
+#endif
 
 //==============================================================================
 /**
@@ -81,6 +85,8 @@ namespace internal
     classes, but some of them may be useful to call directly.
 
     @see String, CharPointer_UTF8, CharPointer_UTF16, CharPointer_UTF32
+
+    @tags{Core}
 */
 class JUCE_API  CharacterFunctions
 {
@@ -377,7 +383,7 @@ public:
     template <typename IntType, typename CharPointerType>
     static IntType getIntValue (const CharPointerType text) noexcept
     {
-        typedef typename internal::make_unsigned<IntType>::type UIntType;
+        using UIntType = typename internal::make_unsigned<IntType>::type;
 
         UIntType v = 0;
         auto s = text.findEndOfWhitespace();
@@ -399,6 +405,7 @@ public:
         return isNeg ? - (IntType) v : (IntType) v;
     }
 
+    /** Parses a character string, to read a hexadecimal value. */
     template <typename ResultType>
     struct HexParser
     {

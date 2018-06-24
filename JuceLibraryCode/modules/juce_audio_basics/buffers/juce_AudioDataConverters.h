@@ -29,6 +29,8 @@ namespace juce
     audio sample format class.
 
     @see AudioData::Pointer.
+
+    @tags{Audio}
 */
 class JUCE_API  AudioData
 {
@@ -306,7 +308,7 @@ public:
     class NonConst
     {
     public:
-        typedef void VoidType;
+        using VoidType = void;
         static inline void* toVoidPtr (VoidType* v) noexcept { return v; }
         enum { isConst = 0 };
     };
@@ -314,7 +316,7 @@ public:
     class Const
     {
     public:
-        typedef const void VoidType;
+        using VoidType = const void;
         static inline void* toVoidPtr (VoidType* v) noexcept { return const_cast<void*> (v); }
         enum { isConst = 1 };
     };
@@ -648,6 +650,8 @@ public:
 
     Note that these functions are deprecated - the AudioData class provides a much more
     flexible set of conversion classes now.
+
+    @tags{Audio}
 */
 class JUCE_API  AudioDataConverters
 {

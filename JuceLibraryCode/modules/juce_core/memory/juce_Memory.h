@@ -33,7 +33,7 @@ inline void zerostruct (Type& structure) noexcept                   { memset (&s
 
 /** Delete an object pointer, and sets the pointer to null.
 
-    Remember that it's not good c++ practice to use delete directly - always try to use a ScopedPointer
+    Remember that it's not good c++ practice to use delete directly - always try to use a std::unique_ptr
     or other automatic lifetime-management system rather than resorting to deleting raw pointers!
 */
 template <typename Type>
@@ -88,6 +88,8 @@ inline void writeUnaligned (void* dstPtr, Type value) noexcept
 
  /** A handy C++ wrapper that creates and deletes an NSAutoreleasePool object using RAII.
      You should use the JUCE_AUTORELEASEPOOL macro to create a local auto-release pool on the stack.
+
+     @tags{Core}
  */
  class JUCE_API  ScopedAutoReleasePool
  {

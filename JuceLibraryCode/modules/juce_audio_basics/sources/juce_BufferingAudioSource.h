@@ -32,6 +32,8 @@ namespace juce
     directly, or use it indirectly using an AudioTransportSource.
 
     @see PositionableAudioSource, AudioTransportSource
+
+    @tags{Audio}
 */
 class JUCE_API  BufferingAudioSource  : public PositionableAudioSource,
                                         private TimeSliceClient
@@ -100,12 +102,12 @@ private:
     OptionalScopedPointer<PositionableAudioSource> source;
     TimeSliceThread& backgroundThread;
     int numberOfSamplesToBuffer, numberOfChannels;
-    AudioSampleBuffer buffer;
+    AudioBuffer<float> buffer;
     CriticalSection bufferStartPosLock;
     WaitableEvent bufferReadyEvent;
-    int64 volatile bufferValidStart, bufferValidEnd, nextPlayPos;
-    double volatile sampleRate;
-    bool wasSourceLooping, isPrepared, prefillBuffer;
+    std::atomic<int64> bufferValidStart { 0 }, bufferValidEnd { 0 }, nextPlayPos { 0 };
+    double sampleRate = 0;
+    bool wasSourceLooping = false, isPrepared = false, prefillBuffer;
 
     bool readNextBufferChunk();
     void readBufferSection (int64 start, int length, int bufferOffset);

@@ -31,9 +31,11 @@ void MACAddress::findAllAddresses (Array<MACAddress>& result)
     {
         for (const ifaddrs* cursor = addrs; cursor != nullptr; cursor = cursor->ifa_next)
         {
-            auto sto = (sockaddr_storage*) cursor->ifa_addr;
+            // Required to avoid misaligned pointer access
+            sockaddr_storage sto;
+            std::memcpy (&sto, cursor->ifa_addr, sizeof (sockaddr_storage));
 
-            if (sto->ss_family == AF_LINK)
+            if (sto.ss_family == AF_LINK)
             {
                 auto sadd = (const sockaddr_dl*) cursor->ifa_addr;
 
@@ -447,6 +449,9 @@ struct BackgroundDownloadTask  : public URL::DownloadTask
         if (session != nullptr)
             downloadTask = [session downloadTaskWithRequest:request];
 
+        // Workaround for an Apple bug. See https://github.com/AFNetworking/AFNetworking/issues/2334
+        [request HTTPBody];
+
         [request release];
     }
 
@@ -642,7 +647,7 @@ HashMap<String, BackgroundDownloadTask*, DefaultHashFunctions, CriticalSection> 
 
 URL::DownloadTask* URL::downloadToFile (const File& targetLocation, String extraHeaders, DownloadTask::Listener* listener, bool usePostRequest)
 {
-    ScopedPointer<BackgroundDownloadTask> downloadTask = new BackgroundDownloadTask (*this, targetLocation, extraHeaders, listener, usePostRequest);
+    std::unique_ptr<BackgroundDownloadTask> downloadTask (new BackgroundDownloadTask (*this, targetLocation, extraHeaders, listener, usePostRequest));
 
     if (downloadTask->initOK() && downloadTask->connect())
         return downloadTask.release();
@@ -941,7 +946,7 @@ public:
 
     ~Pimpl()
     {
-        connection = nullptr;
+        connection.reset();
     }
 
     bool connect (WebInputStream::Listener* webInputListener, int numRetries = 0)
@@ -963,12 +968,12 @@ public:
            #if ! (JUCE_IOS || (defined (__MAC_OS_X_VERSION_MIN_REQUIRED) && defined (__MAC_10_10) && __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10))
             if (numRetries == 0 && connection->nsUrlErrorCode == NSURLErrorNetworkConnectionLost)
             {
-                connection = nullptr;
+                connection.reset();
                 return connect (webInputListener, ++numRetries);
             }
            #endif
 
-            connection = nullptr;
+            connection.reset();
             return false;
         }
 
@@ -1071,7 +1076,7 @@ public:
 private:
     WebInputStream& owner;
     URL url;
-    ScopedPointer<URLConnectionState> connection;
+    std::unique_ptr<URLConnectionState> connection;
     String headers;
     MemoryBlock postData;
     int64 position = 0;
@@ -1116,7 +1121,10 @@ private:
                     [req addValue: juceStringToNS (value) forHTTPHeaderField: juceStringToNS (key)];
             }
 
-            connection = new URLConnectionState (req, numRedirectsToFollow);
+            // Workaround for an Apple bug. See https://github.com/AFNetworking/AFNetworking/issues/2334
+            [req HTTPBody];
+
+            connection.reset (new URLConnectionState (req, numRedirectsToFollow));
         }
     }
 

@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class SettingsManager;
 
 class SettingsComponent final : public juce::Component,
-                                juce::ButtonListener,
+                                juce::Button::Listener,
                                 ResizableLayout,
                                 juce::Slider::Listener {
  public:

@@ -7,18 +7,17 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.3.0
+  Created with Projucer version: 5.3.2
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_992DAFFC08D2DB3C__
-#define __JUCE_HEADER_992DAFFC08D2DB3C__
+#pragma once
 
 //[Headers]     -- You can add your own extra header files here --
 /*
@@ -41,7 +40,6 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
 //[/Headers]
@@ -54,54 +52,50 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class CCoptions: public Component,
-    private TextEditor::Listener,
-    public ButtonListener {
-public:
-    //==============================================================================
-    CCoptions();
-    ~CCoptions();
+class CCoptions : public Component, private TextEditor::Listener, public Button::Listener {
+ public:
+   //==============================================================================
+   CCoptions();
+   ~CCoptions();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
-    static void LinkToControlsModel(ControlsModel* model) noexcept
-    {
-        controls_model_ = model;
-    }
-    void BindToControl(size_t channel, short number);
-    //[/UserMethods]
+   //==============================================================================
+   //[UserMethods]     -- You can add your own custom methods in this section.
+   static void LinkToControlsModel(ControlsModel* model) noexcept
+   {
+      controls_model_ = model;
+   }
+   void BindToControl(size_t channel, short number);
+   //[/UserMethods]
 
-    void paint(Graphics& g) override;
-    void resized() override;
-    void buttonClicked(Button* button_that_was_clicked) override;
+   void paint(Graphics& g) override;
+   void resized() override;
+   void buttonClicked(Button* buttonThatWasClicked) override;
 
-private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-    TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
-    void textEditorFocusLost(TextEditor & t) override;
-    static ControlsModel* controls_model_;
-    short bound_channel_; //note: 0-based
-    short bound_number_;
-    //[/UserVariables]
+ private:
+   //[UserVariables]   -- You can add your own custom variables in this section.
+   TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
+   void textEditorFocusLost(TextEditor& t) override;
+   static ControlsModel* controls_model_;
+   short bound_channel_; // note: 0-based
+   short bound_number_;
+   //[/UserVariables]
 
-  //==============================================================================
-    ScopedPointer<GroupComponent> groupComponent;
-    ScopedPointer<ToggleButton> twosbutton;
-    ScopedPointer<ToggleButton> absbutton;
-    ScopedPointer<ToggleButton> binbutton;
-    ScopedPointer<ToggleButton> signbutton;
-    ScopedPointer<TextEditor> maxvaltext;
-    ScopedPointer<TextEditor> minvaltext;
-    ScopedPointer<Label> minvallabel;
-    ScopedPointer<Label> maxvallabel;
-    ScopedPointer<TextButton> applyAll;
-    ScopedPointer<Label> controlID;
+   //==============================================================================
+   std::unique_ptr<GroupComponent> groupComponent;
+   std::unique_ptr<ToggleButton> twosbutton;
+   std::unique_ptr<ToggleButton> absbutton;
+   std::unique_ptr<ToggleButton> binbutton;
+   std::unique_ptr<ToggleButton> signbutton;
+   std::unique_ptr<TextEditor> maxvaltext;
+   std::unique_ptr<TextEditor> minvaltext;
+   std::unique_ptr<Label> minvallabel;
+   std::unique_ptr<Label> maxvallabel;
+   std::unique_ptr<TextButton> applyAll;
+   std::unique_ptr<Label> controlID;
 
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
+   //==============================================================================
+   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
-
-#endif   // __JUCE_HEADER_992DAFFC08D2DB3C__
