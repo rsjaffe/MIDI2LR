@@ -214,9 +214,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         wchar_t path[MAX_PATH];
-         GetModuleFileNameW(nullptr, path, MAX_PATH);
-         fs::path p{path};
+         std::array<wchar_t, MAX_PATH> path{};
+         GetModuleFileNameW(nullptr, path.data(), path.size());
+         fs::path p{path.data()};
          p = p.replace_filename(kSettingsFile);
 #else
          const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
@@ -247,9 +247,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         wchar_t path[MAX_PATH];
-         GetModuleFileNameW(nullptr, path, MAX_PATH);
-         fs::path p{path};
+         std::array<wchar_t, MAX_PATH> path{};
+         GetModuleFileNameW(nullptr, path.data(), path.size());
+
+         fs::path p{path.data()};
          p = p.replace_filename(kSettingsFile);
 #else
          const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
