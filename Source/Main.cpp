@@ -36,6 +36,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <filesystem> //not available in XCode yet
 namespace fs = std::experimental::filesystem;
 #include <Windows.h>
+constexpr auto kSettingsFile{L"settings.bin"};
+constexpr auto kDefaultsFile{L"default.xml"};
+#else
+constexpr auto kSettingsFile{"settings.bin"};
+constexpr auto kDefaultsFile{"default.xml"};
 #endif
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
@@ -53,19 +58,8 @@ namespace fs = std::experimental::filesystem;
 #include "SettingsManager.h"
 #include "VersionChecker.h"
 
-/**********************************************
- * Once we get filesystem in MacOS, the code to obtain the path from the mac
- * will be
- * std::filesystem::path ExecutablePath() {
- * const char * pathToProgram =
- *    [[[[NSBundle mainBundle] bundlePath] stringByDeletingLastPathComponent] UTF8String];
- * return std::filesystem::u8path(std::string(pathToProgram)) / "settings.bin";
- * }
- *********************************************/
-
 namespace {
    constexpr auto kShutDownString{"--LRSHUTDOWN"};
-   constexpr auto kSettingsFile{"settings.bin"};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
@@ -205,8 +199,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
  private:
    void defaultProfileSave_()
    {
-      const auto profilefile = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                                   .getSiblingFile("default.xml");
+      const auto filename = rsj::AppDataFilePath(kDefaultsFile);
+      const auto profilefile = juce::File(filename.data());
       command_map_.ToXmlDocument(profilefile);
       rsj::Log("Default profile saved to " + profilefile.getFullPathName());
    }
@@ -214,15 +208,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         std::array<wchar_t, MAX_PATH> path{};
-         GetModuleFileNameW(nullptr, path.data(), path.size());
-         fs::path p{path.data()};
-         p = p.replace_filename(kSettingsFile);
+         fs::path p{rsj::AppDataFilePath(kSettingsFile)};
 #else
-         const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                            .getSiblingFile(kSettingsFile)
-                            .getFullPathName()
-                            .toStdString();
+         const auto p = rsj::AppDataFilePath(kSettingsFile);
 #endif
          std::ofstream outfile(p, std::ios::out | std::ios::binary | std::ios::trunc);
          if (outfile.is_open()) {
@@ -247,16 +235,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         std::array<wchar_t, MAX_PATH> path{};
-         GetModuleFileNameW(nullptr, path.data(), path.size());
-
-         fs::path p{path.data()};
-         p = p.replace_filename(kSettingsFile);
+         const fs::path p{rsj::AppDataFilePath(L"settings.bin")};
 #else
-         const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                            .getSiblingFile(kSettingsFile)
-                            .getFullPathName()
-                            .toStdString();
+         const auto p = rsj::AppDataFilePath("settings.bin");
 #endif
          std::ifstream infile(p, std::ios::in | std::ios::binary);
          if (infile.is_open() && !infile.eof()) {

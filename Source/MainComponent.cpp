@@ -57,6 +57,11 @@ namespace {
    constexpr int kRemoveRowY = kMainHeight - 75;
    constexpr int kRescanY = kMainHeight - 50;
    constexpr int kDisconnect = kMainHeight - 25;
+#ifdef _WIN32
+   constexpr auto kDefaultsFile{L"default.xml"};
+#else
+   constexpr auto kDefaultsFile{"default.xml"};
+#endif
 } // namespace
 
 MainContentComponent::MainContentComponent() noexcept : ResizableLayout{this}
@@ -178,9 +183,8 @@ void MainContentComponent::Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>
       if (settings_manager_) {
          // Try to load a default.xml if the user has not set a profile directory
          if (settings_manager_->GetProfileDirectory().isEmpty()) {
-            const auto default_profile =
-                juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                    .getSiblingFile("default.xml");
+            const auto filename = rsj::AppDataFilePath(kDefaultsFile);
+            const auto default_profile = juce::File(filename.data());
             std::unique_ptr<juce::XmlElement> xml_element{
                 juce::XmlDocument::parse(default_profile)};
             if (xml_element) {

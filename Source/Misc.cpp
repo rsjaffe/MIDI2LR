@@ -21,8 +21,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "Misc.h"
-#include <exception>
 #include "../JuceLibraryCode/JuceHeader.h"
+#ifdef _WIN32
+#include <gsl/gsl_util>
+#include <Windows.h>
+#include <ShlObj.h>
+#endif
 
 namespace rsj {
 // from http://www.cplusplus.com/forum/beginner/175177 and
@@ -32,7 +36,7 @@ namespace rsj {
 #include <cxxabi.h>
 #include <memory>
 #include <type_traits>
-   template<typename T> T Demangle(const char* mangled_name) noexcept
+   template<typename T>[[nodiscard]] T Demangle(const char* mangled_name) noexcept
    {
       static_assert(::std::is_pointer<T>() == false,
           "Result must be copied as __cxa_demagle returns "
@@ -47,7 +51,7 @@ namespace rsj {
       return ptr.get();
    }
 #else  // ndef _GNUG_
-   template<typename T> T Demangle(const char* mangled_name) noexcept
+   template<typename T>[[nodiscard]] T Demangle(const char* mangled_name) noexcept
    {
       return mangled_name;
    }
@@ -69,11 +73,26 @@ namespace rsj {
    {
       try {
          const auto error_text{juce::String("Exception ") + e.what() + ' '
-                                       + Demangle<juce::String>(id) + "::" + fu + " Version "
-                                       + ProjectInfo::versionString};
+                               + Demangle<juce::String>(id) + "::" + fu + " Version "
+                               + ProjectInfo::versionString};
          LogAndAlertError(error_text);
       }
       catch (...) { //-V565
       }
    }
+
+#ifdef _WIN32
+   ::std::wstring AppDataFilePath(const ::std::wstring& file_name)
+   {
+      wchar_t* pathptr{nullptr};
+      auto dp = gsl::finally([&pathptr] {
+         if (pathptr)
+            CoTaskMemFree(pathptr);
+      });
+      const HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr);
+      if (SUCCEEDED(hr))
+         return ::std::wstring(pathptr) + L"\\MIDI2LR\\" + file_name;
+      return ::std::wstring(file_name);
+   }
+#endif
 } // namespace rsj
