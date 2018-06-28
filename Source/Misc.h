@@ -92,6 +92,7 @@ namespace rsj {
    void Log(const juce::String& info);
 #ifdef _WIN32
    [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::wstring& file_name);
+   [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::string& file_name);
 #else
    [[nodiscard]] inline ::std::string AppDataFilePath(const ::std::string& file_name)
    {
@@ -99,4 +100,5 @@ namespace rsj {
    }
 #endif // def _WIN32
 } // namespace rsj
+
 #endif // MISC_H_INCLUDED

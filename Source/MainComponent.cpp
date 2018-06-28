@@ -57,11 +57,7 @@ namespace {
    constexpr int kRemoveRowY = kMainHeight - 75;
    constexpr int kRescanY = kMainHeight - 50;
    constexpr int kDisconnect = kMainHeight - 25;
-#ifdef _WIN32
-   constexpr auto kDefaultsFile{L"default.xml"};
-#else
    constexpr auto kDefaultsFile{"default.xml"};
-#endif
 } // namespace
 
 MainContentComponent::MainContentComponent() noexcept : ResizableLayout{this}

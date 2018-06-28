@@ -36,11 +36,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <filesystem> //not available in XCode yet
 namespace fs = std::experimental::filesystem;
 #include <Windows.h>
-constexpr auto kSettingsFile{L"settings.bin"};
-constexpr auto kDefaultsFile{L"default.xml"};
-#else
-constexpr auto kSettingsFile{"settings.bin"};
-constexpr auto kDefaultsFile{"default.xml"};
 #endif
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
@@ -60,6 +55,8 @@ constexpr auto kDefaultsFile{"default.xml"};
 
 namespace {
    constexpr auto kShutDownString{"--LRSHUTDOWN"};
+   constexpr auto kSettingsFile{"settings.bin"};
+   constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
