@@ -21,11 +21,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "Misc.h"
+#include "UtfUtilities.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #ifdef _WIN32
 #include <gsl/gsl_util>
 #include <ShlObj.h>
-#include <unicode/unistr.h>
 #include <Windows.h>
 #endif
 
@@ -83,38 +83,6 @@ namespace rsj {
    }
 
 #ifdef _WIN32
-   template<typename T, typename R> auto UTFConvert(::std::basic_string<T>&& input)
-   {
-      if constexpr (::std::is_same<T, R>::value)
-         return ::std::forward<R>(input);
-      else if constexpr (sizeof(R) == sizeof(T))
-         return ::std::forward<R>(reinterpret_cast<R>(input));
-      else
-         return static_cast<R>(input); // will fail
-   }
-
-   template<typename T, typename R>
-   ::std::basic_string<R> UTFConvert(const ::std::basic_string_view<T>& input)
-   {
-      constexpr auto sizeR{sizeof(R)};
-      constexpr auto sizeT{sizeof(T)};
-      if constexpr (::std::is_same<T, R>::value)
-         return input;
-      else if constexpr (sizeT == sizeR)
-         return reinterpret_cast<R>(input);
-      else if constexpr (sizeR == 2 && sizeT == 1) {
-         const auto uc{::icu::UnicodeString::fromUTF8(reinterpret_cast<::std::string>(input))};
-         return ::std::basic_string<R>(reinterpret_cast<R*>(uc.getBuffer()));
-      }
-      else if constexpr (sizeR == 2 && sizeT == 4) {
-         const auto uc{::icu::UnicodeString::fromUTF32(
-             reinterpret_cast<UChar32*>(input.c_str()), input.length())};
-         return ::std::basic_string<R>(reinterpret_cast<R*>(uc.getBuffer()));
-      }
-      else
-         return static_cast<R>(input); // haven't finished everything yet--this will error
-   }
-
    ::std::wstring AppDataFilePath(const ::std::wstring& file_name)
    {
       wchar_t* pathptr{nullptr};
@@ -127,6 +95,7 @@ namespace rsj {
          return ::std::wstring(pathptr) + L"\\MIDI2LR\\" + file_name;
       return ::std::wstring(file_name);
    }
+
    ::std::wstring AppDataFilePath(const ::std::string& file_name)
    {
       return AppDataFilePath(UTFConvert<char, wchar_t>(file_name));

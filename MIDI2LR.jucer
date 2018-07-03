@@ -88,6 +88,7 @@
             file="Source/SettingsManager.cpp"/>
       <FILE id="qQDY29" name="SettingsManager.h" compile="0" resource="0"
             file="Source/SettingsManager.h"/>
+      <FILE id="ACrFaG" name="UtfUtilities.h" compile="0" resource="0" file="Source/UtfUtilities.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"

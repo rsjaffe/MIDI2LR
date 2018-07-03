@@ -1452,6 +1452,7 @@
     <ClInclude Include="..\..\Source\SendKeys.h"/>
     <ClInclude Include="..\..\Source\SettingsComponent.h"/>
     <ClInclude Include="..\..\Source\SettingsManager.h"/>
+    <ClInclude Include="..\..\Source\UtfUtilities.h"/>
     <ClInclude Include="..\..\Source\VersionChecker.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>

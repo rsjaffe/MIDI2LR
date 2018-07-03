@@ -67,6 +67,7 @@
 		002720811583B714F7F4E32F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DebugInfo.cpp; path = ../../Source/DebugInfo.cpp; sourceTree = "SOURCE_ROOT"; };
 		04B184211B8A075FD6F0CCA8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Misc.h; path = ../../Source/Misc.h; sourceTree = "SOURCE_ROOT"; };
 		0678BF604113B5922F2377D8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JuceHeader.h; path = ../../JuceLibraryCode/JuceHeader.h; sourceTree = "SOURCE_ROOT"; };
+		0D219CE3042B31D28711DBE0 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UtfUtilities.h; path = ../../Source/UtfUtilities.h; sourceTree = "SOURCE_ROOT"; };
 		0DE6A1845E62083EB881160E = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CommandMap.h; path = ../../Source/CommandMap.h; sourceTree = "SOURCE_ROOT"; };
 		0ED56980FCA5D40E4BCC5C8A = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CCoptions.cpp; path = ../../Source/CCoptions.cpp; sourceTree = "SOURCE_ROOT"; };
 		0F1673C5F027441E02A71C9F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CommandTable.cpp; path = ../../Source/CommandTable.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -223,6 +224,7 @@
 					6C172730F53564B934CB040F,
 					65E2C6C9B28AA3EC1CC7C8FC,
 					AAD7763B1A01636F834617D5,
+					0D219CE3042B31D28711DBE0,
 					8A8EAF03FF5DECFB9DFA6B3A,
 					C767DD9CCF0D2A54A87C281A, ); name = Source; sourceTree = "<group>"; };
 		20B6AA664C4D34D8A4811550 = {isa = PBXGroup; children = (
