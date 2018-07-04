@@ -26,7 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <unicode/unistr.h>
 
 namespace rsj {
-
    template<typename T, typename R>
    [[nodiscard]] std::basic_string<R> UTFConvert(const ::std::basic_string<T>& input)
    {
@@ -100,7 +99,6 @@ namespace rsj {
          return result;
       }
    }
-
 } // namespace rsj
 
 #ifndef NDEBUG

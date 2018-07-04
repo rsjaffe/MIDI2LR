@@ -250,19 +250,19 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       if (connected) {
          if (sending_blocked) {
             connection_label_.setText(
-                "Sending halted", juce::NotificationType::dontSendNotification);
+                TRANS("Sending halted"), juce::NotificationType::dontSendNotification);
             connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
          }
          else {
             connection_label_.setText(
-                "Connected to LR", juce::NotificationType::dontSendNotification);
+                TRANS("Connected to LR"), juce::NotificationType::dontSendNotification);
             connection_label_.setColour(
                 juce::Label::backgroundColourId, juce::Colours::greenyellow);
          }
       }
       else {
          connection_label_.setText(
-             "Not connected to LR", juce::NotificationType::dontSendNotification);
+             TRANS("Not connected to LR"), juce::NotificationType::dontSendNotification);
          connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
       }
    }
@@ -312,13 +312,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             profile_directory = settings_manager_->GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String(), "MIDI2LR profiles"};
+         juce::WildcardFileFilter wildcard_filter{
+             "*.xml", juce::String(), TRANS("MIDI2LR profiles")};
          juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
                                                 | juce::FileBrowserComponent::saveMode
                                                 | juce::FileBrowserComponent::warnAboutOverwriting,
              profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{"Save profile", "Enter filename to save profile",
-             browser, true, juce::Colours::lightgrey};
+         juce::FileChooserDialogBox dialog_box{TRANS("Save profile"),
+             TRANS("Enter filename to save profile"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show() && command_map_) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
             command_map_->ToXmlDocument(selected_file);
@@ -330,12 +331,13 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             profile_directory = settings_manager_->GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String(), "MIDI2LR profiles"};
+         juce::WildcardFileFilter wildcard_filter{
+             "*.xml", juce::String(), TRANS("MIDI2LR profiles")};
          juce::FileBrowserComponent browser{
              juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
              profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{
-             "Open profile", "Select a profile to open", browser, true, juce::Colours::lightgrey};
+         juce::FileChooserDialogBox dialog_box{TRANS("Open profile"),
+             TRANS("Select a profile to open"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show()) {
             std::unique_ptr<juce::XmlElement> xml_element{
                 juce::XmlDocument::parse(browser.getSelectedFile(0))};
@@ -358,7 +360,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &settings_button_) {
          juce::DialogWindow::LaunchOptions dialog_options;
-         dialog_options.dialogTitle = "Settings";
+         dialog_options.dialogTitle = TRANS("Settings");
          // create new object
          auto component = std::make_unique<SettingsComponent>(settings_manager_);
          component->Init();

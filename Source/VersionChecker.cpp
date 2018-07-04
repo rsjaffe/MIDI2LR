@@ -66,13 +66,13 @@ void VersionChecker::handleAsyncUpdate()
    try {
       // show a dialog box indicating there is a newer version available
       juce::DialogWindow::LaunchOptions dialog_options;
-      dialog_options.dialogTitle = "New Version Available!";
+      dialog_options.dialogTitle = TRANS("New Version Available!");
       const auto major{(new_version_ & 0xFF000000) >> 24};
       const auto minor{(new_version_ & 0xFF0000) >> 16};
       const auto rev{(new_version_ & 0xFF00) >> 8};
       const auto build{(new_version_ & 0xFF)};
-      const auto version_string{
-          juce::String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build)};
+      const auto version_string{juce::String::formatted(
+          TRANS("New version %d.%d.%d.%d available"), major, minor, rev, build)};
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
 #pragma warning(suppress : 26409 24624)
       dialog_options.content.setOwned(new juce::HyperlinkButton{version_string, download_url});
