@@ -51,6 +51,7 @@ namespace fs = std::experimental::filesystem;
 #include "PWoptions.h"
 #include "ProfileManager.h"
 #include "SettingsManager.h"
+#include "Translate.h"
 #include "VersionChecker.h"
 
 namespace {
@@ -108,6 +109,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
             profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
+            rsj::SetLanguage("en");//replace with task of getting language from plugin
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName());
