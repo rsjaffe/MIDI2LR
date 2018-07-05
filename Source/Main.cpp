@@ -39,6 +39,7 @@ namespace fs = std::experimental::filesystem;
 #endif
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
+#include <cereal/archives/xml.hpp>
 #include "CCoptions.h"
 #include "CommandMap.h"
 #include "ControlsModel.h"
@@ -57,6 +58,7 @@ namespace fs = std::experimental::filesystem;
 namespace {
    constexpr auto kShutDownString{"--LRSHUTDOWN"};
    constexpr auto kSettingsFile{"settings.bin"};
+   constexpr auto kSettingsFileX("settings.xml");
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
@@ -109,7 +111,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
             profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
-            rsj::SetLanguage("en");//replace with task of getting language from plugin
+            rsj::SetLanguage("en"); // replace with task of getting language from plugin
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName());
@@ -207,13 +209,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         fs::path p{rsj::AppDataFilePath(kSettingsFile)};
+         fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
 #else
-         const auto p = rsj::AppDataFilePath(kSettingsFile);
+         const auto p = rsj::AppDataFilePath(kSettingsFileX);
 #endif
-         std::ofstream outfile(p, std::ios::out | std::ios::binary | std::ios::trunc);
+         std::ofstream outfile(p, std::ios::out | std::ios::trunc);
          if (outfile.is_open()) {
-            cereal::BinaryOutputArchive oarchive(outfile);
+            cereal::XMLOutputArchive oarchive(outfile);
             oarchive(controls_model_);
 #ifdef _WIN32
             rsj::Log("Cereal archive saved to " + juce::String(p.c_str()));
@@ -222,8 +224,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          }
          else
-            rsj::LogAndAlertError("Unable to save control settings. Unable to open file "
-                                  "settings.bin.");
+            rsj::LogAndAlertError(
+                "Unable to save control settings to xml file. Unable to open file "
+                "settings.bin.");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -234,19 +237,42 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         const fs::path p{rsj::AppDataFilePath(L"settings.bin")};
+         const fs::path px{rsj::AppDataFilePath(L"settings.xml")};
 #else
-         const auto p = rsj::AppDataFilePath("settings.bin");
+         const auto px = rsj::AppDataFilePath("settings.xml");
 #endif
-         std::ifstream infile(p, std::ios::in | std::ios::binary);
-         if (infile.is_open() && !infile.eof()) {
-            cereal::BinaryInputArchive iarchive(infile);
+         std::ifstream infilex(px, std::ios::in);
+         if (infilex.is_open() && !infilex.eof()) {
+            cereal::XMLInputArchive iarchive(infilex);
             iarchive(controls_model_);
 #ifdef _WIN32
-            rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
+            rsj::Log("Cereal archive loaded from " + juce::String(px.c_str()));
 #else
-            rsj::Log("Cereal archive loaded from " + p);
+            rsj::Log("Cereal archive loaded from " + px);
 #endif
+         }
+         else {
+#ifdef _WIN32
+            wchar_t path[MAX_PATH];
+            GetModuleFileNameW(nullptr, path, MAX_PATH);
+            fs::path p{path};
+            p = p.replace_filename(kSettingsFile);
+#else
+            const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                               .getSiblingFile(kSettingsFile)
+                               .getFullPathName()
+                               .toStdString();
+#endif
+            std::ifstream infile(p, std::ios::in | std::ios::binary);
+            if (infile.is_open() && !infile.eof()) {
+               cereal::BinaryInputArchive iarchive(infile);
+               iarchive(controls_model_);
+#ifdef _WIN32
+               rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
+#else
+               rsj::Log("Cereal archive loaded from " + p);
+#endif
+            }
          }
       }
       catch (const std::exception& e) {
