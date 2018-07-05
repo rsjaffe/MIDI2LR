@@ -99,6 +99,15 @@ namespace rsj {
          return result;
       }
    }
+
+   template<typename T, typename R,
+       typename = ::std::enable_if_t<::std::is_rvalue_reference_v<T&&>>,
+       typename = ::std::enable_if_t<
+           ::std::is_convertible_v<::std::basic_string<T>, ::std::basic_string<R>>>>
+   [[nodiscard]] std::basic_string<R> UTFConvert(::std::basic_string<T>&& input)
+   {
+      return ::std::forward<::std::basic_string<T>>(input);
+   }
 } // namespace rsj
 
 #ifndef NDEBUG
