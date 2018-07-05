@@ -84,19 +84,10 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/LocalPresets.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/MenuList.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Options.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/OptionsUtilities.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/ParamList.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Paste.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Preferences.lua</origin>
@@ -287,6 +278,24 @@
             </ruleList>
         </registryGet>
     </preInstallationActionList>
+    <postInstallationActionList>
+        <createDirectory>
+            <path>%{env(APPDATA)}/MIDI2LR/</path>
+            <ruleList>
+                <platformTest>
+                    <type>windows</type>
+                </platformTest>
+            </ruleList>
+        </createDirectory>
+        <createDirectory>
+            <path>~/Library/Application Support/MIDI2LR/</path>
+            <ruleList>
+                <platformTest>
+                    <type>osx</type>
+                </platformTest>
+            </ruleList>
+        </createDirectory>
+    </postInstallationActionList>
     <preUninstallationActionList>
         <addFilesToUninstaller>
             <files>settings.bin</files>

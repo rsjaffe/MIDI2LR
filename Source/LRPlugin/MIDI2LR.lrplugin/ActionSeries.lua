@@ -19,18 +19,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 local LrView        = import 'LrView'
-local MenuList      = require 'MenuList'
+local Database      = require 'Database'
 
-local validActions = {}
-for _,v in ipairs(MenuList) do
-  validActions[v[1]]=true
-end
-validActions.Pause = true --this is additional to the menu list
+Database.ValidActions.Pause = true --this is additional to the menu list
 
 local function ValidateActions(_,value)
   local stack = nil 
   for a in value:gmatch("[%w_]+") do
-    if not validActions[a] then
+    if not Database.ValidActions[a] then
       if not stack then
         stack = a
       else

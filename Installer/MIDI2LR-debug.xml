@@ -84,19 +84,10 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/LocalPresets.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/MenuList.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Options.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/OptionsUtilities.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/ParamList.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Paste.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/Preferences.lua</origin>
@@ -293,6 +284,24 @@
             </ruleList>
         </registryGet>
     </preInstallationActionList>
+    <postInstallationActionList> 
+        <createDirectory> 
+            <path>%{env(APPDATA)}/MIDI2LR/</path> 
+            <ruleList> 
+                <platformTest> 
+                    <type>windows</type> 
+                </platformTest> 
+            </ruleList> 
+        </createDirectory> 
+        <createDirectory> 
+            <path>~/Library/Application Support/MIDI2LR/</path> 
+            <ruleList> 
+                <platformTest> 
+                    <type>osx</type> 
+                </platformTest> 
+            </ruleList> 
+        </createDirectory> 
+    </postInstallationActionList> 
     <preUninstallationActionList>
         <addFilesToUninstaller>
             <files>settings.bin</files>
