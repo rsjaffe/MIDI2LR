@@ -123,7 +123,7 @@ namespace rsj_test {
       ::std::u32string u32nc{U"Γαζέες καὶ μυρτιὲς δὲν θὰ βρῶ πιὰ στὸ χρυσαφὶ ξέφωτο"};
       ::std::wstring uwnc{L"Γαζέες καὶ μυρτιὲς δὲν θὰ βρῶ πιὰ στὸ χρυσαφὶ ξέφωτο"};
       const auto ttt = ::std::basic_string<char16_t>(uw.begin(), uw.end());
-      const auto res = rsj::UtfConvert<wchar_t>(std::move(uw));
+      const auto res = rsj::UtfConvert<wchar_t>(std::move(uwnc));
 
       const auto u8fromu16{rsj::UtfConvert<char>(u16)};
       const auto u8fromu32{rsj::UtfConvert<char>(u32)};

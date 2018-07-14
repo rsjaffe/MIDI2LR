@@ -85,16 +85,21 @@ namespace rsj {
             }
             archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
                 cereal::make_nvp("method", methodstr));
-            if (methodstr == "Absolute")
-               method = CCmethod::kAbsolute;
-            else if (methodstr == "BinaryOffset")
+            switch (methodstr.front()) {
+            case 'B':
                method = CCmethod::kBinaryOffset;
-            else if (methodstr == "SignMagnitude")
+               break;
+            case 'S':
                method = CCmethod::kSignMagnitude;
-            else if (methodstr == "TwosComplement")
+               break;
+            case 'T':
                method = CCmethod::kTwosComplement;
-            else
+               break;
+            case 'A':
+            default:
                method = CCmethod::kAbsolute;
+               break;
+            }
             break;
          }
          default:
@@ -437,6 +442,11 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          archive(settings_to_save_);
          SavedToActive();
          break;
+      case 3:
+         archive(settings_to_save_, cereal::make_nvp("PWmax", pitch_wheel_max_),
+             cereal::make_nvp("PWmin", pitch_wheel_min_));
+         SavedToActive();
+         break;
       default:
          rsj::LogAndAlertError("Archive version not acceptable");
       }
@@ -458,6 +468,11 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
          ActiveToSaved();
          archive(settings_to_save_);
          break;
+      case 3:
+         ActiveToSaved();
+         archive(settings_to_save_, cereal::make_nvp("PWmax", pitch_wheel_max_),
+             cereal::make_nvp("PWmin", pitch_wheel_min_));
+         break;
       default:
          rsj::LogAndAlertError("Wrong archive version specified for save");
       }
@@ -469,7 +484,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
 }
 #pragma warning(push)
 #pragma warning(disable : 26440 26426 26444)
-CEREAL_CLASS_VERSION(ChannelModel, 2)
+CEREAL_CLASS_VERSION(ChannelModel, 3)
 CEREAL_CLASS_VERSION(ControlsModel, 1)
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)
 #pragma warning(pop)
