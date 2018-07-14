@@ -29,74 +29,50 @@ namespace rsj {
    template<typename R, typename Tstring>
    [[nodiscard]] std::basic_string<R> UtfConvert(const Tstring& input)
    {
-      constexpr auto sizeR{sizeof(R)};
-      constexpr auto sizeT{sizeof(Tstring::value_type)};
       using Rstring = ::std::basic_string<R>;
       using T = typename Tstring::value_type;
       using Ustring = ::icu::UnicodeString;
+      constexpr auto sizeR{sizeof(R)};
+      constexpr auto sizeT{sizeof(T)};
       static_assert(
           ((sizeR == 1 || sizeR == 2 || sizeR == 4) && (sizeT == 1 || sizeT == 2 || sizeT == 4))
           || ::std::is_convertible_v<Tstring, Rstring> || sizeT == sizeR);
 
       if constexpr (::std::is_convertible_v<Tstring, Rstring>)
          return input;
-      else if constexpr (sizeT == sizeR)
+      else if constexpr (sizeT == sizeR) // same encoding, just copy it
          return Rstring{input.begin(), input.end()};
-      else if constexpr (sizeT == 1 && sizeR == 2) {
-         // convert 8-bit string to UnicodeString
-         const auto uc{Ustring::fromUTF8(input)};
-         // convert UnicodeString to 16-bit string
-         return Rstring{
-             reinterpret_cast<const R*>(uc.getBuffer()), ::gsl::narrow_cast<size_t>(uc.length())};
-      }
-      else if constexpr (sizeT == 2 && sizeR == 1) {
-         // convert 16-bit string to UnicodeString
-         const Ustring uc{input.data(), ::gsl::narrow_cast<int32_t>(input.length())};
-         // convert UnicodeString to 8-bit string
-         ::std::basic_string<R> result{};
-         return uc.toUTF8String(result);
-      }
-      else if constexpr (sizeT == 4 && sizeR == 2) { //-V112
-         // convert 32-bit string to UnicodeString
-         const auto uc{Ustring::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()),
-             ::gsl::narrow_cast<int32_t>(input.length()))};
-         // convert UnicodeString to 16-bit string
-         return Rstring{
-             reinterpret_cast<const R*>(uc.getBuffer()), ::gsl::narrow_cast<size_t>(uc.length())};
-      }
-      else if constexpr (sizeT == 2 && sizeR == 4) { //-V112
-         // convert 16-bit string to UnicodeString
-         const Ustring uc{input.data(), ::gsl::narrow_cast<int32_t>(input.length())};
-         // convert UnicodeString to 32-bit string
-         Rstring result(uc.countChar32() + 1, 0);
-         auto err{U_ZERO_ERROR};
-         uc.toUTF32(reinterpret_cast<UChar32*>(result.data()),
-             ::gsl::narrow_cast<int32_t>(result.length()), err);
-         if (err > U_ZERO_ERROR) {
-            throw ::std::runtime_error(u_errorName(err));
+      else { // need to convert encoding
+         Ustring uc{};
+
+         // convert to icu::UnicodeString (UTF-16) as intermediary
+         if constexpr (sizeT == 1)
+            uc = Ustring::fromUTF8(input);
+         else if constexpr (sizeT == 2) // already in UTF-16, just copy it
+            uc = Ustring{input.data(), ::gsl::narrow_cast<int32_t>(input.length())};
+         else // sizeT == 4
+            uc = Ustring::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()),
+                ::gsl::narrow_cast<int32_t>(input.length()));
+
+         // convert to output encoding and return it
+         if constexpr (sizeR == 1) {
+            Rstring result{};
+            return uc.toUTF8String(result);
          }
-         return result;
-      }
-      else if constexpr (sizeT == 4 && sizeR == 1) { //-V112
-         // convert 32-bit string to UnicodeString
-         const auto uc{Ustring::fromUTF32(reinterpret_cast<const UChar32*>(input.c_str()),
-             ::gsl::narrow_cast<int32_t>(input.length()))};
-         // convert UnicodeString to 8-bit string
-         ::std::basic_string<R> result{};
-         return uc.toUTF8String(result);
-      }
-      else { // (sizeT == 1 && sizeR == 4))
-         // convert 8-bit string to UnicodeString
-         const auto uc{Ustring::fromUTF8(input)};
-         // convert UnicodeString to 32-bit string
-         Rstring result(uc.countChar32() + 1, 0);
-         auto err{U_ZERO_ERROR};
-         uc.toUTF32(reinterpret_cast<UChar32*>(result.data()),
-             ::gsl::narrow_cast<int32_t>(result.length()), err);
-         if (err > U_ZERO_ERROR) {
-            throw ::std::runtime_error(u_errorName(err));
+         else if constexpr (sizeR == 2) // same encoding, just copy it
+            return Rstring{reinterpret_cast<const R*>(uc.getBuffer()),
+                ::gsl::narrow_cast<size_t>(uc.length())};
+         else // sizeR == 4
+         {
+            Rstring result(uc.countChar32() + 1, 0); // filled with zeros
+            auto err{U_ZERO_ERROR};
+            uc.toUTF32(reinterpret_cast<UChar32*>(result.data()),
+                ::gsl::narrow_cast<int32_t>(result.length()), err);
+            if (err > U_ZERO_ERROR) {
+               throw ::std::runtime_error(u_errorName(err));
+            }
+            return result;
          }
-         return result;
       }
    }
 
