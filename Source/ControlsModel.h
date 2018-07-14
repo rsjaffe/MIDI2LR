@@ -46,15 +46,59 @@ namespace rsj {
       {
       }
 
-      template<class Archive> void serialize(Archive& archive, uint32_t const version)
+      template<class Archive,
+          cereal::traits::DisableIf<cereal::traits::is_text_archive<Archive>::value> =
+              cereal::traits::sfinae>
+      void serialize(Archive& archive, uint32_t const version)
       {
          switch (version) {
          case 1:
-            archive(number, high, low,
-                method); // keep this order for compatibility with earlier versions
+            archive(number, high, low, method);
             break;
          default:
-            Expects(!"Wrong archive number for SettingsStruct");
+            rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
+         }
+      }
+
+      template<class Archive,
+          cereal::traits::EnableIf<cereal::traits::is_text_archive<Archive>::value> =
+              cereal::traits::sfinae>
+      void serialize(Archive& archive, uint32_t const version)
+      {
+         switch (version) {
+         case 1: {
+            std::string methodstr{"undefined"};
+            switch (method) {
+            case CCmethod::kAbsolute:
+               methodstr = "Absolute";
+               break;
+            case CCmethod::kBinaryOffset:
+               methodstr = "BinaryOffset";
+               break;
+            case CCmethod::kSignMagnitude:
+               methodstr = "SignMagnitute";
+               break;
+            case CCmethod::kTwosComplement:
+               methodstr = "TwosComplement";
+            default:
+               break; // leave "undefined"
+            }
+            archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
+                cereal::make_nvp("method", methodstr));
+            if (methodstr == "Absolute")
+               method = CCmethod::kAbsolute;
+            else if (methodstr == "BinaryOffset")
+               method = CCmethod::kBinaryOffset;
+            else if (methodstr == "SignMagnitude")
+               method = CCmethod::kSignMagnitude;
+            else if (methodstr == "TwosComplement")
+               method = CCmethod::kTwosComplement;
+            else
+               method = CCmethod::kAbsolute;
+            break;
+         }
+         default:
+            rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
          }
       }
    };
@@ -394,7 +438,7 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          SavedToActive();
          break;
       default:
-         Expects(!"Archive version not acceptable");
+         rsj::LogAndAlertError("Archive version not acceptable");
       }
    }
    catch (const std::exception& e) {
@@ -415,7 +459,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
          archive(settings_to_save_);
          break;
       default:
-         Expects(!"Wrong archive version specified for save");
+         rsj::LogAndAlertError("Wrong archive version specified for save");
       }
    }
    catch (const std::exception& e) {

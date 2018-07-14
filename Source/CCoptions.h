@@ -42,7 +42,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
-//NOTE: must add juce:: qualifiers in header if regenerate file
+// NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
 
 //==============================================================================

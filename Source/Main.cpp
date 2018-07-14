@@ -34,7 +34,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 #include <Windows.h>
 #endif
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -158,7 +158,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // quit() to allow the application to close.
       if (lr_ipc_in_)
          lr_ipc_in_->PleaseStopThread();
-      defaultProfileSave_();
+      DefaultProfileSave();
       CerealSave();
       quit();
    }
@@ -198,14 +198,15 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
  private:
-   void defaultProfileSave_()
+   void DefaultProfileSave() const
    {
       const auto filename = rsj::AppDataFilePath(kDefaultsFile);
       const auto profilefile = juce::File(filename.data());
       command_map_.ToXmlDocument(profilefile);
       rsj::Log("Default profile saved to " + profilefile.getFullPathName());
    }
-   void CerealSave()
+
+   void CerealSave() const noexcept
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
@@ -230,10 +231,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
       }
    }
-   void CerealLoad()
+
+   void CerealLoad() noexcept
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
@@ -251,7 +252,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::Log("Cereal archive loaded from " + px);
 #endif
          }
-         else {
+         else { //see if old-style settings file is available
 #ifdef _WIN32
             wchar_t path[MAX_PATH];
             GetModuleFileNameW(nullptr, path, MAX_PATH);
@@ -277,7 +278,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
       }
    }
    CommandMap command_map_{};

@@ -96,6 +96,11 @@ void LrIpcIn::PleaseStopThread()
 void LrIpcIn::run()
 {
    try {
+      auto _ = gsl::finally([this] {
+         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+         timer_off_ = true;
+         juce::Timer::stopTimer();
+      });
       while (!juce::Thread::threadShouldExit()) {
          std::array<char, kBufferSize> line{}; // zero filled by {} initialization
          // if not connected, executes a wait 333 then goes back to while
@@ -113,8 +118,7 @@ void LrIpcIn::run()
             // connection lost
             while ((size_read == 0 || line.at(size_read - 1) != '\n') && socket_.isConnected()) {
                if (juce::Thread::threadShouldExit())
-#pragma warning(suppress : 26438)
-                  goto threadExit; // break out of nested whiles
+                  return; // after final action
                const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                switch (wait_status) {
                case -1:
@@ -154,11 +158,7 @@ void LrIpcIn::run()
          dumpLine: /* empty statement */;
          } // end else (is connected)
       }    // while not threadshouldexit
-   threadExit: /* empty statement */;
-      std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-      timer_off_ = true;
-      juce::Timer::stopTimer();
-      // thread_started_ = false; //don't change flag while depending upon it
+           // finally handles exit code
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

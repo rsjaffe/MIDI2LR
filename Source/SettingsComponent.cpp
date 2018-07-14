@@ -168,8 +168,7 @@ void SettingsComponent::buttonClicked(juce::Button* button)
 void SettingsComponent::sliderValueChanged(juce::Slider* slider)
 { //-V2009 overridden method
    if (slider && &autohide_setting_ == slider) {
-      settings_manager_->SetAutoHideTime(static_cast<int>(
-          round(autohide_setting_.getValue()))); //-V2003 intentional cast double to int
+      settings_manager_->SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
       rsj::Log("Autohide time set to " + juce::String(settings_manager_->GetAutoHideTime())
                + " seconds");
    }

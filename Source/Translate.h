@@ -20,7 +20,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <string>
-namespace rsj
-{
-   void SetLanguage(::std::string lg);
+namespace rsj {
+   void SetLanguage(const ::std::string& lg);
 }

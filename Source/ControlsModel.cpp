@@ -205,13 +205,14 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       Expects(value >= 0.0 && value <= 1.0);
       switch (controltype) {
       case rsj::kPwFlag: {
-         const short newv = static_cast<short>(round(value * (pitch_wheel_max_ - pitch_wheel_min_)))
-                            + pitch_wheel_min_;
+         const short newv =
+             static_cast<short>(juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)))
+             + pitch_wheel_min_;
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::kCcFlag: {
-         const short newv = static_cast<short>(round(
+         const short newv = static_cast<short>(juce::roundToInt(
                                 value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber))))
                             + cc_low_.at(controlnumber);
          {

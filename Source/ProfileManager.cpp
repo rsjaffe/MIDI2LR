@@ -62,7 +62,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       for (const auto& file : file_array)
          profiles_.emplace_back(file.getFileName());
       if (!profiles_.empty())
-         SwitchToProfile(profiles_[0]);
+         SwitchToProfile(profiles_.at(0));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
