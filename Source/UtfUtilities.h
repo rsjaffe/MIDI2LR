@@ -43,9 +43,9 @@ namespace rsj {
       else if constexpr (sizeT == sizeR) // same encoding, just copy it
          return Rstring{input.begin(), input.end()};
       else { // need to convert encoding
-         Ustring uc{};
 
          // convert to icu::UnicodeString (UTF-16) as intermediary
+         Ustring uc{};
          if constexpr (sizeT == 1)
             uc = Ustring::fromUTF8(input);
          else if constexpr (sizeT == 2) // already in UTF-16, just copy it
@@ -64,13 +64,12 @@ namespace rsj {
                 ::gsl::narrow_cast<size_t>(uc.length())};
          else // sizeR == 4
          {
-            Rstring result(uc.countChar32() + 1, 0); // filled with zeros
+            Rstring result(static_cast<size_t>(uc.countChar32()) + 1, 0); // filled with zeros
             auto err{U_ZERO_ERROR};
             uc.toUTF32(reinterpret_cast<UChar32*>(result.data()),
                 ::gsl::narrow_cast<int32_t>(result.length()), err);
-            if (err > U_ZERO_ERROR) {
+            if (err > U_ZERO_ERROR)
                throw ::std::runtime_error(u_errorName(err));
-            }
             return result;
          }
       }
