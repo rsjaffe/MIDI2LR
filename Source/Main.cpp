@@ -70,6 +70,15 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
       juce::LookAndFeel::setDefaultLookAndFeel(look_feel_.get());
+      // juce (as of July 2018) uses the following font defaults
+      // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
+      // sans defaults do not support Asian languages
+      //         MacOS            Windows
+      // Sans    Lucida Grande    Verdana
+      // Serif   Times New Roman  Times New Roman
+      // Fixed   Menlo            Lucida Console
+      juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+          "Arial Unicode MS"); // available in MacOS and Windows
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
@@ -112,7 +121,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
             profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
-            rsj::SetLanguage("en"); // replace with task of getting language from plugin
+            rsj::SetLanguage("en"); // TODO(rj): replace with task of getting language from plugin
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName());
@@ -207,10 +216,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       rsj::Log("Default profile saved to " + profilefile.getFullPathName());
    }
 
-   void CerealSave() const noexcept
-   { // scoped so archive gets flushed
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+   void CerealSave() const noexcept
+   { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
          fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
@@ -235,13 +244,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       }
-#pragma warning(pop)
    }
+#pragma warning(pop)
 
-   void CerealLoad() noexcept
-   { // scoped so archive gets flushed
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+   void CerealLoad() noexcept
+   { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
          const fs::path px{rsj::AppDataFilePath(L"settings.xml")};
@@ -285,8 +294,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       }
-#pragma warning(pop)
    }
+#pragma warning(pop)
+
    CommandMap command_map_{};
    ControlsModel controls_model_{};
    ProfileManager profile_manager_{&controls_model_, &command_map_};

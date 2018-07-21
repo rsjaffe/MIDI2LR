@@ -54,10 +54,10 @@ LrIpcIn::LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, Comman
 {
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26447)
 LrIpcIn::~LrIpcIn()
 {
-#pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
    try {
       {
          std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
@@ -79,8 +79,8 @@ LrIpcIn::~LrIpcIn()
       rsj::LogAndAlertError("Exception thrown in LrIpcIn destructor.");
       std::terminate();
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)
 
 void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender)
 {

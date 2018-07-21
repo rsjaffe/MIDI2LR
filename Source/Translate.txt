@@ -1,7 +1,7 @@
-﻿
+﻿// Saved in UTF-8 encoding codepage 65001
 namespace rsj
 {
-   const auto de = uR"===(language: German
+   const auto de = u8R"===(language: German
 countries: de
 
 "CC Message Type" = "CC-Nachrichtentyp"
@@ -53,7 +53,7 @@ countries: de
 "Enable Pickup Mode" = "Aktivieren Sie den Abholmodus"
 "New Version Available!" = "Neue Version verfügbar!"
 "New version %d.%d.%d.%d available" = "Neue Version %d.%d.%d.%d verfügbar")===";
-   const auto es = uR"===(language: Spanish
+   const auto es = u8R"===(language: Spanish
 countries: es
 
 "CC Message Type" = "Tipo de mensaje CC"
@@ -105,7 +105,7 @@ countries: es
 "Enable Pickup Mode" = "Habilitar el modo de captura"
 "New Version Available!" = "¡Nueva versión disponible!"
 "New version %d.%d.%d.%d available" = "Nueva versión %d.%d.%d.%d disponible")===";
-   const auto fr = uR"===(language: French
+   const auto fr = u8R"===(language: French
 countries: fr
 
 "CC Message Type" = "Type de message CC"
@@ -157,7 +157,7 @@ countries: fr
 "Enable Pickup Mode" = "Activer le mode de collecte"
 "New Version Available!" = "Nouvelle version disponible!"
 "New version %d.%d.%d.%d available" = "Nouvelle version %d.%d.%d.%d disponible")===";
-   const auto it = uR"===(language: Italian
+   const auto it = u8R"===(language: Italian
 countries: it
 
 "CC Message Type" = "Tipo di messaggio CC"
@@ -209,7 +209,7 @@ countries: it
 "Enable Pickup Mode" = "Abilita modalità di ritiro"
 "New Version Available!" = "Nuova versione disponibile!"
 "New version %d.%d.%d.%d available" = "Nuova versione %d.%d.%d.%d disponibile")===";
-   const auto ja = uR"===(language: Japanese
+   const auto ja = u8R"===(language: Japanese
 countries: ja
 
 "CC Message Type" = "CCメッセージタイプ"
@@ -261,7 +261,7 @@ countries: ja
 "Enable Pickup Mode" = "ピックアップモードを有効にする"
 "New Version Available!" = "新しいバージョンがあります！"
 "New version %d.%d.%d.%d available" = "新しいバージョン %d.%d.%d.%d available")===";
-   const auto ko = uR"===(language: Korean
+   const auto ko = u8R"===(language: Korean
 countries: ko
 
 "CC Message Type" = "CC 메시지 유형"
@@ -313,7 +313,7 @@ countries: ko
 "Enable Pickup Mode" = "픽업 모드 사용"
 "New Version Available!" = "새 버전을 사용할 수 있습니다!"
 "New version %d.%d.%d.%d available" = "새 버전 %d.%d.%d.%d 사용 가능")===";
-   const auto nl = uR"===(language: Dutch
+   const auto nl = u8R"===(language: Dutch
 countries: nl
 
 "CC Message Type" = "CC berichttype"
@@ -365,7 +365,7 @@ countries: nl
 "Enable Pickup Mode" = "Activeer de pickup-modus"
 "New Version Available!" = "Nieuwe versie beschikbaar!"
 "New version %d.%d.%d.%d available" = "Nieuwe versie %d.%d.%d.%d beschikbaar")===";
-   const auto pt = uR"===(language: Portuguese
+   const auto pt = u8R"===(language: Portuguese
 countries: pt
 
 "CC Message Type" = "Tipo de mensagem CC"
@@ -417,7 +417,7 @@ countries: pt
 "Enable Pickup Mode" = "Ativar o modo de recebimento"
 "New Version Available!" = "Nova versão disponível!"
 "New version %d.%d.%d.%d available" = "Nova versão %d.%d.%d.%d disponível")===";
-   const auto sv = uR"===(language: Swedish
+   const auto sv = u8R"===(language: Swedish
 countries: sv
 
 "CC Message Type" = "CC-meddelande typ"
@@ -469,7 +469,7 @@ countries: sv
 "Enable Pickup Mode" = "Aktivera Pickup Mode"
 "New Version Available!" = "Ny version tillgänglig!"
 "New version %d.%d.%d.%d available" = "Ny version %d.%d.%d.%d tillgänglig")===";
-   const auto zn_cn = uR"===(language: Chinese simplified
+   const auto zn_cn = u8R"===(language: Chinese simplified
 countries: zh-cn
 
 "CC Message Type" = "CC消息类型"
@@ -521,7 +521,7 @@ countries: zh-cn
 "Enable Pickup Mode" = "启用代答模式"
 "New Version Available!" = "新版本可用！"
 "New version %d.%d.%d.%d available" = "新版 %d.%d.%d.%d 可用")===";
-   const auto zn_tw = uR"===(language: Chinese traditional
+   const auto zn_tw = u8R"===(language: Chinese traditional
 countries: zh-tw
 
 "CC Message Type" = "CC消息類型"

@@ -54,10 +54,10 @@ LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexce
 {
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26447)
 LrIpcOut::~LrIpcOut()
 {
-#pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions caught by catch blocks
    try {
       if (const auto m = command_.size_approx())
          rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
@@ -74,8 +74,8 @@ LrIpcOut::~LrIpcOut()
       rsj::LogAndAlertError("Exception in LrIpcOut destructor.");
       std::terminate();
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)
 
 void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
 {

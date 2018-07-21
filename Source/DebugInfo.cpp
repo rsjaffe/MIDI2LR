@@ -148,10 +148,10 @@ std::string rsj::GetKeyboardLayout()
 }
 #endif
 
-DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
-{
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
+{
    try {
       using namespace std::string_literals;
       Send("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
@@ -176,8 +176,8 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
       catch (...) { //-V565
       }
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)
 
 void DebugInfo::Send(std::string&& msg)
 {
@@ -192,10 +192,10 @@ namespace {
    static const std::string kErrorNotice{"Exception in GetInfo."};
 } // namespace
 
-const std::string* DebugInfo::GetInfo() noexcept
-{
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+const std::string* DebugInfo::GetInfo() noexcept
+{
    try {
       if (iterate_ >= info_.size())
          return nullptr;
@@ -209,5 +209,5 @@ const std::string* DebugInfo::GetInfo() noexcept
       second_time = true;
       return &kErrorNotice;
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)

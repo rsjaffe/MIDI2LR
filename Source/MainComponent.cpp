@@ -60,7 +60,7 @@ namespace {
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
-#pragma warning(suppress: 26439)
+#pragma warning(suppress : 26439) // false warning: member initalizers can throw
 MainContentComponent::MainContentComponent() : ResizableLayout{this}
 {
    // Set the component size

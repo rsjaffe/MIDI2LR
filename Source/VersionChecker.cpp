@@ -30,10 +30,10 @@ VersionChecker::VersionChecker(SettingsManager* settings_manager)
 {
 }
 
-VersionChecker::~VersionChecker()
-{
 #pragma warning(push)
 #pragma warning(disable : 26447)
+VersionChecker::~VersionChecker()
+{
    try {
       if (!juce::Thread::stopThread(100))
          rsj::Log("stopThread failed in VersionChecker destructor");
@@ -41,8 +41,8 @@ VersionChecker::~VersionChecker()
    catch (...) {
       std::terminate();
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)
 
 void VersionChecker::run()
 {

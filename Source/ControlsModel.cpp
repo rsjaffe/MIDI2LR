@@ -359,7 +359,7 @@ void ChannelModel::SavedToActive()
       SetCc(set.number, set.low, set.high, set.method);
 }
 
-#pragma warning(suppress : 26439)
+#pragma warning(suppress : 26439) // false warning: member initalizers can throw
 ChannelModel::ChannelModel()
 {
    CcDefaults();

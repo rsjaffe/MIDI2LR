@@ -66,12 +66,13 @@ void rsj::LogAndAlertError(const juce::String& error_text)
    juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
    rsj::Log(error_text);
 }
+
+#pragma warning(push)
+#pragma warning(disable : 26447)
 // use typeid(this).name() for first argument to add class information
 // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
 void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept
 {
-#pragma warning(push)
-#pragma warning(disable : 26447)
    try {
       const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle<juce::String>(id)
                             + "::" + fu + " Version " + ProjectInfo::versionString};
@@ -79,8 +80,8 @@ void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception
    }
    catch (...) { //-V565
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)
 
 #ifdef _WIN32
 std::wstring rsj::AppDataFilePath(const std::wstring& file_name)

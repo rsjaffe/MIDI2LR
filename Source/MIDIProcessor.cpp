@@ -29,10 +29,10 @@ namespace {
    constexpr rsj::MidiMessage kTerminate{0, 129, 0, 0}; // impossible channel
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26447)
 MidiProcessor::~MidiProcessor()
 {
-#pragma warning(push)
-#pragma warning(disable : 26447) // exceptions are handled
    try {
       for (const auto& dev : devices_) {
          dev->stop();
@@ -55,8 +55,8 @@ MidiProcessor::~MidiProcessor()
       rsj::LogAndAlertError("Exception in MidiProcessor Destructor. Non-standard exception.");
       std::terminate();
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)
 
 void MidiProcessor::Init()
 {

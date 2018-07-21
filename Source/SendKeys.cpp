@@ -73,6 +73,7 @@ class WindowsFunctionError : public std::exception {
 };
 }
 #pragma warning(pop)
+
 ~WindowsFunctionError() noexcept = default;
 WindowsFunctionError(const WindowsFunctionError& other) noexcept = default;
 WindowsFunctionError(WindowsFunctionError&& other) noexcept = default;
@@ -258,6 +259,8 @@ const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #endif
 };
 
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions caught and suppressed
 void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 {
    const bool alt_opt{gsl::narrow_cast<bool>(modifiers & 0x1)};
@@ -266,8 +269,6 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 #endif
    const bool control{gsl::narrow_cast<bool>(modifiers & 0x2)};
    const bool shift{gsl::narrow_cast<bool>(modifiers & 0x4)};
-#pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions caught and suppressed
    try {
 #pragma warning(suppress : 26426)
       static std::mutex mutex_sending{};
@@ -415,5 +416,5 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       rsj::LogAndAlertError(
           "Exception in key sending function for key: " + key + ". Non-standard exception.");
    }
-#pragma warning(pop)
 }
+#pragma warning(pop)
