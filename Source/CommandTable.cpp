@@ -46,6 +46,7 @@ catch (const std::exception& e) {
 bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
+#pragma warning(suppress : 26426)
       static const std::unordered_map<int, int> keytoaction{{juce::KeyPress::deleteKey, 1},
           {juce::KeyPress::downKey, 2}, {juce::KeyPress::upKey, 3}, {juce::KeyPress::pageUpKey, 4},
           {juce::KeyPress::pageDownKey, 5}, {juce::KeyPress::homeKey, 6},

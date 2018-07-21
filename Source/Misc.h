@@ -55,7 +55,7 @@ namespace rsj {
 
    class RelaxTTasSpinLock {
     public:
-      RelaxTTasSpinLock() = default;
+      RelaxTTasSpinLock() noexcept = default;
       ~RelaxTTasSpinLock() = default;
       RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
       RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;

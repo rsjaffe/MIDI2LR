@@ -60,7 +60,8 @@ namespace {
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
-MainContentComponent::MainContentComponent() noexcept : ResizableLayout{this}
+#pragma warning(suppress: 26439)
+MainContentComponent::MainContentComponent() : ResizableLayout{this}
 {
    // Set the component size
    setSize(kMainWidth, kMainHeight);

@@ -64,11 +64,7 @@ namespace rsj {
    struct MidiMessageId {
       MsgIdEnum msg_id_type;
       int channel;
-      union {
-         int controller;
-         int pitch;
-         int data;
-      };
+      int data;
 
       constexpr MidiMessageId() noexcept : msg_id_type(rsj::MsgIdEnum::kNote), channel(0), data(0)
       {
@@ -106,7 +102,7 @@ namespace std {
       size_t operator()(const rsj::MidiMessageId& k) const noexcept
       {
          return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type) << 8) | int_fast32_t(k.channel)
-                                     | (int_fast32_t(k.controller) << 16));
+                                     | (int_fast32_t(k.data) << 16));
       } // channel is one byte, messagetype is one byte, controller is two bytes
    };
 } // namespace std

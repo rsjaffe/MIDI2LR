@@ -25,6 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 { // anything not set below is set to zero by default constructor
+#pragma warning(push)
+#pragma warning(disable : 26481) // doing raw pointer arithmetic, parsing low-level structure
    const auto raw = mm.getRawData();
    Ensures(raw);
    message_type_byte = raw[0] >> 4;
@@ -51,10 +53,12 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
    default:
       Ensures(!"Default should be unreachable in ParseMidi");
    }
+#pragma warning(pop)
 }
 
 rsj::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug)
-    : channel(rhs.channel + 1), controller(rhs.number) // channel 1-based
+    : msg_id_type{rsj::MsgIdEnum::kCc}, channel(rhs.channel + 1),
+      data(rhs.number) // channel 1-based
 {
    switch (rhs.message_type_byte) { // this is needed because mapping uses custom structure
    case kCcFlag:

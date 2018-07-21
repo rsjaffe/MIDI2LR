@@ -31,18 +31,31 @@ namespace {
 
 MidiProcessor::~MidiProcessor()
 {
-   for (const auto& dev : devices_) {
-      dev->stop();
-      rsj::Log("Stopped input device " + dev->getName());
+#pragma warning(push)
+#pragma warning(disable : 26447) // exceptions are handled
+   try {
+      for (const auto& dev : devices_) {
+         dev->stop();
+         rsj::Log("Stopped input device " + dev->getName());
+      }
+      if (const auto m = messages_.size_approx())
+         rsj::Log(juce::String(m) + " left in queue in MidiProcessor destructor");
+      moodycamel::ConsumerToken ctok(messages_);
+      rsj::MidiMessage message_copy{};
+      while (messages_.try_dequeue(ctok, message_copy)) {
+         /* pump the queue empty */
+      }
+      messages_.enqueue(kTerminate);
    }
-   if (const auto m = messages_.size_approx())
-      rsj::Log(juce::String(m) + " left in queue in MidiProcessor destructor");
-   moodycamel::ConsumerToken ctok(messages_);
-   rsj::MidiMessage message_copy{};
-   while (messages_.try_dequeue(ctok, message_copy)) {
-      /* pump the queue empty */
+   catch (const std::exception& e) {
+      rsj::LogAndAlertError(juce::String("Exception in MidiProcessor Destructor. ") + e.what());
+      terminate();
    }
-   messages_.enqueue(kTerminate);
+   catch (...) {
+      rsj::LogAndAlertError("Exception in MidiProcessor Destructor. Non-standard exception.");
+      terminate();
+   }
+#pragma warning(pop)
 }
 
 void MidiProcessor::Init()
@@ -62,8 +75,9 @@ void MidiProcessor::handleIncomingMidiMessage(
     juce::MidiInput* /*device*/, const juce::MidiMessage& message)
 {
    try {
-      // this procedure is in near-real-time, so must return quickly.
-      // will place message in multithreaded queue and let separate process handle the messages
+   // this procedure is in near-real-time, so must return quickly.
+   // will place message in multithreaded queue and let separate process handle the messages
+#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(messages_);
       const rsj::MidiMessage mess{message};
       switch (mess.message_type_byte) {

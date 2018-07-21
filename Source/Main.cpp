@@ -64,7 +64,8 @@ namespace {
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
  public:
-   MIDI2LRApplication() noexcept
+#pragma warning(suppress : 26439) // false warning: member initalizers can throw
+   MIDI2LRApplication()
    {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
@@ -208,6 +209,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void CerealSave() const noexcept
    { // scoped so archive gets flushed
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
       try {
 #ifdef _WIN32
          fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
@@ -232,10 +235,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       }
+#pragma warning(pop)
    }
 
    void CerealLoad() noexcept
    { // scoped so archive gets flushed
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
       try {
 #ifdef _WIN32
          const fs::path px{rsj::AppDataFilePath(L"settings.xml")};
@@ -252,10 +258,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             rsj::Log("Cereal archive loaded from " + px);
 #endif
          }
-         else { //see if old-style settings file is available
+         else { // see if old-style settings file is available
 #ifdef _WIN32
             wchar_t path[MAX_PATH];
-            GetModuleFileNameW(nullptr, path, MAX_PATH);
+            GetModuleFileNameW(nullptr, static_cast<LPWSTR>(path), MAX_PATH);
             fs::path p{path};
             p = p.replace_filename(kSettingsFile);
 #else
@@ -279,6 +285,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       }
+#pragma warning(pop)
    }
    CommandMap command_map_{};
    ControlsModel controls_model_{};

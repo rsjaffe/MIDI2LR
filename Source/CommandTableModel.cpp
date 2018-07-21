@@ -45,18 +45,18 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
 
    // If you implement this, your method should re - sort the table using the
    // given column as the key.
-   std::unique_lock<std::shared_mutex> grd{cmd_table_mod_mtx_};
+   std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
    current_sort_ = std::make_pair(new_sort_column_id, is_forwards);
    Sort();
 }
 
-int CommandTableModel::getNumRows() noexcept
+int CommandTableModel::getNumRows()
 {
    // This must return the number of rows currently in the table.
 
    // If the number of rows changes, you must call TableListBox::updateContent()
    // to cause it to refresh the list.
-   std::shared_lock<std::shared_mutex> lck{cmd_table_mod_mtx_};
+   std::shared_lock<decltype(cmd_table_mod_mtx_)> lck{cmd_table_mod_mtx_};
    return gsl::narrow_cast<int>(commands_.size());
 }
 
@@ -93,7 +93,7 @@ void CommandTableModel::paintCell(
       {
          auto value = 0;
          auto channel = 0;
-         std::shared_lock<std::shared_mutex> lck{cmd_table_mod_mtx_};
+         std::shared_lock<decltype(cmd_table_mod_mtx_)> lck{cmd_table_mod_mtx_};
          // cmdmap_mutex_ should fix the following problem
          if (commands_.size()
              <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell not filled yet
@@ -105,12 +105,12 @@ void CommandTableModel::paintCell(
             case rsj::MsgIdEnum::kNote:
                format_str = "%d | Note: %d";
                channel = cmd.channel;
-               value = cmd.pitch;
+               value = cmd.data;
                break;
             case rsj::MsgIdEnum::kCc:
                format_str = "%d | CC: %d";
                channel = cmd.channel;
-               value = cmd.controller;
+               value = cmd.data;
                break;
             case rsj::MsgIdEnum::kPitchBend:
                format_str = "%d | Pitch: %d";
@@ -161,9 +161,9 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
 
          // create a new command menu
-         std::shared_lock<std::shared_mutex> lck{cmd_table_mod_mtx_};
+         std::shared_lock<decltype(cmd_table_mod_mtx_)> lck{cmd_table_mod_mtx_};
          if (command_select == nullptr) {
-#pragma warning(suppress : 26409 24623 24624)
+#pragma warning(suppress : 26400 26409 24623 24624)
             command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
             command_select->Init(command_map_);
          }
@@ -191,7 +191,7 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
 {
    try {
       const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
-      std::unique_lock<std::shared_mutex> grd{cmd_table_mod_mtx_};
+      std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
       if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
          commands_.push_back(msg);
          command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
@@ -207,7 +207,7 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
 void CommandTableModel::RemoveRow(size_t row)
 {
    try {
-      std::unique_lock<std::shared_mutex> grd{cmd_table_mod_mtx_};
+      std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
       if (command_map_)
          command_map_->RemoveMessage(commands_.at(row));
       commands_.erase(commands_.cbegin() + row);
@@ -218,9 +218,9 @@ void CommandTableModel::RemoveRow(size_t row)
    }
 }
 
-void CommandTableModel::RemoveAllRows() noexcept
+void CommandTableModel::RemoveAllRows()
 {
-   std::unique_lock<std::shared_mutex> grd{cmd_table_mod_mtx_};
+   std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
    commands_.clear();
    if (command_map_)
       command_map_->ClearMap();
@@ -239,14 +239,14 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
-            AddRow(message.channel, message.controller, rsj::MsgIdEnum::kCc);
+            AddRow(message.channel, message.data, rsj::MsgIdEnum::kCc);
             command_map_->AddCommandforMessage(
                 setting->getStringAttribute("command_string").toStdString(), message);
          }
          else if (setting->hasAttribute("note")) {
             const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
-            AddRow(note.channel, note.pitch, rsj::MsgIdEnum::kNote);
+            AddRow(note.channel, note.data, rsj::MsgIdEnum::kNote);
             command_map_->AddCommandforMessage(
                 setting->getStringAttribute("command_string").toStdString(), note);
          }
@@ -259,7 +259,7 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
          }
          setting = setting->getNextElement();
       }
-      std::unique_lock<std::shared_mutex> grd{cmd_table_mod_mtx_};
+      std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
       Sort();
    }
    catch (const std::exception& e) {
@@ -271,7 +271,7 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
 int CommandTableModel::GetRowForMessage(
     int midi_channel, int midi_data, rsj::MsgIdEnum msg_type) const
 {
-   std::shared_lock<std::shared_mutex> grd{cmd_table_mod_mtx_};
+   std::shared_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
    const rsj::MidiMessageId msg_id{midi_channel, midi_data, msg_type};
    return gsl::narrow_cast<int>(
        std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin());

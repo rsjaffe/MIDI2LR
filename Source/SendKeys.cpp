@@ -42,7 +42,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace {
    // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-   std::string ToLower(const std::string& in) noexcept
+   std::string ToLower(const std::string& in)
    {
       auto s = in;
       std::transform(
@@ -58,17 +58,21 @@ class WindowsFunctionError : public std::exception {
        "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
 
  public:
+#pragma warning(push)
+#pragma warning(disable : 26447) // we're toast if shared_ptr throws (only possible exception)
    WindowsFunctionError(DWORD n = GetLastError()) noexcept : number_(n)
    {
       LPSTR new_what;
+#pragma warning(suppress : 26490)
       FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM
                          | FORMAT_MESSAGE_IGNORE_INSERTS,
-          nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), LPSTR(&new_what), 0, //-V206
-          nullptr);
+          nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+          reinterpret_cast<LPSTR>(&new_what), 0, nullptr);
       what_ = {new_what, [](LPSTR w) noexcept {HeapFree(GetProcessHeap(), 0, w);
    }
 };
 }
+#pragma warning(pop)
 ~WindowsFunctionError() noexcept = default;
 WindowsFunctionError(const WindowsFunctionError& other) noexcept = default;
 WindowsFunctionError(WindowsFunctionError&& other) noexcept = default;
@@ -219,6 +223,7 @@ CGKeyCode KeyCodeForChar(UChar c)
 
 #endif
 
+#pragma warning(suppress : 26426)
 const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
     {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
@@ -261,8 +266,10 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 #endif
    const bool control{gsl::narrow_cast<bool>(modifiers & 0x2)};
    const bool shift{gsl::narrow_cast<bool>(modifiers & 0x4)};
-
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions caught and suppressed
    try {
+#pragma warning(suppress : 26426)
       static std::mutex mutex_sending{};
       const auto mapped_key = kKeyMap.find(ToLower(key));
       const auto in_keymap = mapped_key != kKeyMap.end();
@@ -408,4 +415,5 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       rsj::LogAndAlertError(
           "Exception in key sending function for key: " + key + ". Non-standard exception.");
    }
+#pragma warning(pop)
 }

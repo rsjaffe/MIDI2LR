@@ -122,7 +122,7 @@ class ChannelModel {
    constexpr static rsj::TimeType kUpdateDelay = 250;
 
  public:
-   ChannelModel() noexcept;
+   ChannelModel();
    ~ChannelModel() = default;
    // Can write copy and move with special handling for atomics, but in lieu of that, delete
    ChannelModel(const ChannelModel&) = delete; // can't copy atomics

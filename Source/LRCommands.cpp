@@ -25,7 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LRCommands.h"
 #include "CommandMap.h"
 #include "Misc.h"
-
+#pragma warning(push)
+#pragma warning(disable : 26426)
 const std::vector<std::string> LrCommandList::KeyShortcuts = {
     "Key 1",
     "Key 2",
@@ -1348,3 +1349,4 @@ size_t LrCommandList::GetIndexOfCommand(const std::string& command)
       throw;
    }
 }
+#pragma warning(pop) // disabled 26426

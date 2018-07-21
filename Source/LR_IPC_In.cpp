@@ -56,21 +56,30 @@ LrIpcIn::LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, Comman
 
 LrIpcIn::~LrIpcIn()
 {
-   {
-      std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-      timer_off_ = true;
-      juce::Timer::stopTimer();
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+   try {
+      {
+         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+         timer_off_ = true;
+         juce::Timer::stopTimer();
+      }
+      if (!juce::Thread::stopThread(kStopWait))
+         rsj::Log("stopThread failed in LrIpcIn destructor");
+      if (const auto m = line_.size_approx())
+         rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
+      std::string line_copy{};
+      while (line_.try_dequeue(line_copy)) {
+         /* pump the queue empty */
+      }
+      line_.enqueue(kTerminate);
+      socket_.close();
    }
-   if (!juce::Thread::stopThread(kStopWait))
-      rsj::Log("stopThread failed in LrIpcIn destructor");
-   if (const auto m = line_.size_approx())
-      rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
-   std::string line_copy{};
-   while (line_.try_dequeue(line_copy)) {
-      /* pump the queue empty */
+   catch (...) {
+      rsj::LogAndAlertError("Exception thrown in LrIpcIn destructor.");
+      terminate();
    }
-   line_.enqueue(kTerminate);
-   socket_.close();
+#pragma warning(pop)
 }
 
 void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender)
@@ -116,7 +125,8 @@ void LrIpcIn::run()
             auto size_read = 0;
             // parse input until we have a line, then process that line, quit if
             // connection lost
-            while ((size_read == 0 || line.at(size_read - 1) != '\n') && socket_.isConnected()) {
+            while ((size_read == 0 || line.at(gsl::narrow_cast<size_t>(size_read) - 1) != '\n')
+                   && socket_.isConnected()) {
                if (juce::Thread::threadShouldExit())
                   return; // after final action
                const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
@@ -157,8 +167,7 @@ void LrIpcIn::run()
             } // scope param
          dumpLine: /* empty statement */;
          } // end else (is connected)
-      }    // while not threadshouldexit
-           // finally handles exit code
+      }    // while not threadshouldexit, finally handles exit code
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -196,6 +205,7 @@ namespace {
 void LrIpcIn::ProcessLine()
 {
    try {
+#pragma warning(suppress : 26426)
       const static std::unordered_map<std::string, int> cmds = {
           {"SwitchProfile"s, 1}, {"SendKey"s, 2}, {"TerminateApplication"s, 3}};
       do {
@@ -250,17 +260,17 @@ void LrIpcIn::ProcessLine()
                   }
                   const auto value = controls_model_->PluginToController(msgtype,
                       gsl::narrow_cast<size_t>(msg->channel - 1),
-                      gsl::narrow_cast<short>(msg->controller), original_value);
+                      gsl::narrow_cast<short>(msg->data), original_value);
                   if (midi_sender_) {
                      switch (msgtype) {
                      case rsj::kNoteOnFlag:
-                        midi_sender_->SendNoteOn(msg->channel, msg->controller, value);
+                        midi_sender_->SendNoteOn(msg->channel, msg->data, value);
                         break;
                      case rsj::kCcFlag:
                         if (controls_model_->GetCcMethod(gsl::narrow_cast<size_t>(msg->channel - 1),
-                                gsl::narrow_cast<short>(msg->controller))
+                                gsl::narrow_cast<short>(msg->data))
                             == rsj::CCmethod::kAbsolute)
-                           midi_sender_->SendCc(msg->channel, msg->controller, value);
+                           midi_sender_->SendCc(msg->channel, msg->data, value);
                         break;
                      case rsj::kPwFlag:
                         midi_sender_->SendPitchWheel(msg->channel, value);

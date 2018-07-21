@@ -25,15 +25,23 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 #include "SettingsManager.h"
 
-VersionChecker::VersionChecker(SettingsManager* settings_manager) noexcept
+VersionChecker::VersionChecker(SettingsManager* settings_manager)
     : juce::Thread{"VersionChecker"}, settings_manager_{settings_manager}
 {
 }
 
 VersionChecker::~VersionChecker()
 {
-   if (!juce::Thread::stopThread(100))
-      rsj::Log("stopThread failed in VersionChecker destructor");
+#pragma warning(push)
+#pragma warning(disable : 26447)
+   try {
+      if (!juce::Thread::stopThread(100))
+         rsj::Log("stopThread failed in VersionChecker destructor");
+   }
+   catch (...) {
+      terminate();
+   }
+#pragma warning(pop)
 }
 
 void VersionChecker::run()

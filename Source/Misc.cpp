@@ -36,7 +36,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cxxabi.h>
 #include <memory>
 #include <type_traits>
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name) noexcept
+template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
 {
    static_assert(std::is_pointer<T>() == false, "Result must be copied as __cxa_demagle returns "
                                                 "pointer to temporary. Cannot use pointer type "
@@ -50,7 +50,7 @@ template<typename T>[[nodiscard]] T Demangle(const char* mangled_name) noexcept
    return ptr.get();
 }
 #else  // ndef _GNUG_
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name) noexcept
+template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
 {
    return mangled_name;
 }
@@ -70,6 +70,8 @@ void rsj::LogAndAlertError(const juce::String& error_text)
 // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
 void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept
 {
+#pragma warning(push)
+#pragma warning(disable : 26447)
    try {
       const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle<juce::String>(id)
                             + "::" + fu + " Version " + ProjectInfo::versionString};
@@ -77,6 +79,7 @@ void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception
    }
    catch (...) { //-V565
    }
+#pragma warning(pop)
 }
 
 #ifdef _WIN32

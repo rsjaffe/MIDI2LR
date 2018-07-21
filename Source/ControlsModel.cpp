@@ -65,6 +65,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
       switch (controltype) {
       case rsj::kPwFlag:
          pitch_wheel_current_.store(value, std::memory_order_release);
+         // TODO(C26451): short mixed with double: can it overflow?
          return static_cast<double>(value - pitch_wheel_min_)
                 / static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_);
       case rsj::kCcFlag:
@@ -73,6 +74,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
             std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
             current_v_.at(controlnumber) = value;
          }
+            // TODO(C26451): short mixed with double: can it overflow?
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
@@ -205,14 +207,16 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       Expects(value >= 0.0 && value <= 1.0);
       switch (controltype) {
       case rsj::kPwFlag: {
-         const short newv =
-             static_cast<short>(juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)))
-             + pitch_wheel_min_;
+         // TODO(C26451): short mixed with double: can it overflow?
+         const short newv = gsl::narrow_cast<short>(
+                                juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)))
+                            + pitch_wheel_min_;
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::kCcFlag: {
-         const short newv = static_cast<short>(juce::roundToInt(
+         // TODO(C26451): short mixed with double: can it overflow?
+         const short newv = gsl::narrow_cast<short>(juce::roundToInt(
                                 value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber))))
                             + cc_low_.at(controlnumber);
          {
@@ -355,7 +359,8 @@ void ChannelModel::SavedToActive()
       SetCc(set.number, set.low, set.high, set.method);
 }
 
-ChannelModel::ChannelModel() noexcept
+#pragma warning(suppress : 26439)
+ChannelModel::ChannelModel()
 {
    CcDefaults();
    // load settings

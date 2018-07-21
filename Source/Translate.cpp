@@ -34,13 +34,15 @@ using CharType = int16;
 
 void rsj::SetLanguage(const std::string& lg)
 {
+#pragma warning(suppress : 26426)
    static const std::map<std::string, const char16_t*> translation_table{{"de", de}, {"es", es},
        {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"sv", sv},
        {"zn_cn", zn_cn}, {"zn_tw", zn_tw}};
    if (const auto found = translation_table.find(lg); found != translation_table.end()) {
+#pragma warning(suppress : 26490)
       const juce::String str(reinterpret_cast<const CharType*>(found->second));
-      const auto ls = new juce::LocalisedStrings(str, false);
-      juce::LocalisedStrings::setCurrentMappings(ls); // takes ownership of ls
+      auto ls = std::make_unique<juce::LocalisedStrings>(str, false);
+      juce::LocalisedStrings::setCurrentMappings(ls.release()); // takes ownership of ls
    }
    else
       juce::LocalisedStrings::setCurrentMappings(nullptr);

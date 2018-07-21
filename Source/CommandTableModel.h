@@ -39,7 +39,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
    // removes a row from the table
    void RemoveRow(size_t row);
    // removes all rows from the table
-   void RemoveAllRows() noexcept;
+   void RemoveAllRows();
    // builds the table from an XML file
    void BuildFromXml(const juce::XmlElement* root);
    // returns the index of the row associated to a particular MIDI message
@@ -49,7 +49,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
  private:
    // TableListBoxModel overrides
    void sortOrderChanged(int new_sort_column_id, bool is_forwards) override;
-   [[nodiscard]] int getNumRows() noexcept override;
+   [[nodiscard]] int getNumRows() override;
    void paintRowBackground(
        juce::Graphics&, int row_number, int width, int height, bool row_is_selected) override;
    void paintCell(juce::Graphics&, int row_number, int column_id, int width, int height,

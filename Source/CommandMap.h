@@ -51,7 +51,7 @@ class CommandMap {
    void RemoveMessage(const rsj::MidiMessageId& message);
 
    // clears both message:command and command:message maps
-   void ClearMap() noexcept;
+   void ClearMap();
 
    // returns true if there is a mapping for a particular MIDI message
    [[nodiscard]] bool MessageExistsInMap(const rsj::MidiMessageId& message) const;
@@ -74,7 +74,7 @@ class CommandMap {
 inline void CommandMap::AddCommandforMessage(
     const std::string& command, const rsj::MidiMessageId& message)
 {
-   std::unique_lock<std::shared_mutex> guard{cmdmap_mutex_};
+   std::unique_lock<decltype(cmdmap_mutex_)> guard{cmdmap_mutex_};
    message_map_[message] = command;
    command_string_map_.emplace(command, message);
 }
@@ -82,7 +82,7 @@ inline void CommandMap::AddCommandforMessage(
 inline const std::string& CommandMap::GetCommandforMessage(const rsj::MidiMessageId& message) const
 {
    try {
-      std::shared_lock<std::shared_mutex> guard{cmdmap_mutex_};
+      std::shared_lock<decltype(cmdmap_mutex_)> guard{cmdmap_mutex_};
       return message_map_.at(message);
    }
    catch (const std::exception& e) {
@@ -95,27 +95,27 @@ inline void CommandMap::RemoveMessage(const rsj::MidiMessageId& message)
 {
    // removes message from the message:command map, and its associated command
    // from the command:message map
-   std::unique_lock<std::shared_mutex> guard{cmdmap_mutex_};
+   std::unique_lock<decltype(cmdmap_mutex_)> guard{cmdmap_mutex_};
    command_string_map_.erase(message_map_.at(message));
    message_map_.erase(message);
 }
 
-inline void CommandMap::ClearMap() noexcept
+inline void CommandMap::ClearMap()
 {
-   std::unique_lock<std::shared_mutex> guard{cmdmap_mutex_};
+   std::unique_lock<decltype(cmdmap_mutex_)> guard{cmdmap_mutex_};
    command_string_map_.clear();
    message_map_.clear();
 }
 
 inline bool CommandMap::MessageExistsInMap(const rsj::MidiMessageId& message) const
 {
-   std::shared_lock<std::shared_mutex> guard{cmdmap_mutex_};
+   std::shared_lock<decltype(cmdmap_mutex_)> guard{cmdmap_mutex_};
    return message_map_.find(message) != message_map_.end();
 }
 
 inline bool CommandMap::CommandHasAssociatedMessage(const std::string& command) const
 {
-   std::shared_lock<std::shared_mutex> guard{cmdmap_mutex_};
+   std::shared_lock<decltype(cmdmap_mutex_)> guard{cmdmap_mutex_};
    return command_string_map_.find(command) != command_string_map_.end();
 }
 #endif // COMMANDMAP_H_INCLUDED

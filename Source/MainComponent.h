@@ -47,7 +47,7 @@ class MainContentComponent final : public juce::Component,
                                    juce::Button::Listener,
                                    public ResizableLayout { // ResizableLayout.h
  public:
-   MainContentComponent() noexcept;
+   MainContentComponent();
    ~MainContentComponent() = default;
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;

@@ -43,7 +43,6 @@ namespace rsj {
       else if constexpr (sizeT == sizeR) // same encoding, just copy it
          return Rstring{input.begin(), input.end()};
       else { // need to convert encoding
-
          // convert to icu::UnicodeString (UTF-16) as intermediary
          Ustring uc{};
          if constexpr (sizeT == 1)
@@ -60,11 +59,12 @@ namespace rsj {
             return uc.toUTF8String(result);
          }
          else if constexpr (sizeR == 2) // same encoding, just copy it
-            return Rstring{reinterpret_cast<const R*>(uc.getBuffer()),
+#pragma warning(suppress : 26490)
+            return {reinterpret_cast<const R*>(uc.getBuffer()),
                 ::gsl::narrow_cast<size_t>(uc.length())};
          else // sizeR == 4
          {
-            Rstring result(static_cast<size_t>(uc.countChar32()) + 1, 0); // filled with zeros
+            Rstring result(gsl::narrow_cast<size_t>(uc.countChar32()) + 1, 0); // filled with zeros
             auto err{U_ZERO_ERROR};
             uc.toUTF32(reinterpret_cast<UChar32*>(result.data()),
                 ::gsl::narrow_cast<int32_t>(result.length()), err);
@@ -78,7 +78,7 @@ namespace rsj {
    template<typename R, typename Tstring,
        typename = ::std::enable_if_t<::std::is_rvalue_reference_v<Tstring&&>>,
        typename = ::std::enable_if_t<::std::is_convertible_v<Tstring, ::std::basic_string<R>>>>
-   [[nodiscard]] std::basic_string<R> UtfConvert(Tstring&& input)
+   [[nodiscard]] std::basic_string<R> UtfConvert(Tstring&& input) noexcept
    {
       return ::std::forward<Tstring>(input);
    }

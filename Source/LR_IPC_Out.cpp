@@ -56,16 +56,25 @@ LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexce
 
 LrIpcOut::~LrIpcOut()
 {
-   if (const auto m = command_.size_approx())
-      rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
-   moodycamel::ConsumerToken ctok(command_);
-   std::string command_copy;
-   while (command_.try_dequeue(ctok, command_copy)) {
-      /* pump the queue empty */
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions caught by catch blocks
+   try {
+      if (const auto m = command_.size_approx())
+         rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
+      moodycamel::ConsumerToken ctok(command_);
+      std::string command_copy;
+      while (command_.try_dequeue(ctok, command_copy)) {
+         /* pump the queue empty */
+      }
+      command_.enqueue(kTerminate);
+      connect_timer_.Stop();
+      juce::InterprocessConnection::disconnect();
    }
-   command_.enqueue(kTerminate);
-   connect_timer_.Stop();
-   juce::InterprocessConnection::disconnect();
+   catch (...) {
+      rsj::LogAndAlertError("Exception in LrIpcOut destructor.");
+      terminate();
+   }
+#pragma warning(pop)
 }
 
 void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
@@ -150,6 +159,7 @@ void LrIpcOut::SendCommand(std::string&& command)
    try {
       if (sending_stopped_)
          return;
+#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, std::move(command));
    }
@@ -164,6 +174,7 @@ void LrIpcOut::SendCommand(const std::string& command)
    try {
       if (sending_stopped_)
          return;
+#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, command);
    }
