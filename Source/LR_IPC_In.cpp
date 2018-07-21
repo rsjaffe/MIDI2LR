@@ -77,7 +77,7 @@ LrIpcIn::~LrIpcIn()
    }
    catch (...) {
       rsj::LogAndAlertError("Exception thrown in LrIpcIn destructor.");
-      terminate();
+      std::terminate();
    }
 #pragma warning(pop)
 }

@@ -39,7 +39,7 @@ VersionChecker::~VersionChecker()
          rsj::Log("stopThread failed in VersionChecker destructor");
    }
    catch (...) {
-      terminate();
+      std::terminate();
    }
 #pragma warning(pop)
 }

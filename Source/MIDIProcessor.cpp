@@ -49,11 +49,11 @@ MidiProcessor::~MidiProcessor()
    }
    catch (const std::exception& e) {
       rsj::LogAndAlertError(juce::String("Exception in MidiProcessor Destructor. ") + e.what());
-      terminate();
+      std::terminate();
    }
    catch (...) {
       rsj::LogAndAlertError("Exception in MidiProcessor Destructor. Non-standard exception.");
-      terminate();
+      std::terminate();
    }
 #pragma warning(pop)
 }

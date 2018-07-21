@@ -72,7 +72,7 @@ LrIpcOut::~LrIpcOut()
    }
    catch (...) {
       rsj::LogAndAlertError("Exception in LrIpcOut destructor.");
-      terminate();
+      std::terminate();
    }
 #pragma warning(pop)
 }
