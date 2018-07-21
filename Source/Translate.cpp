@@ -29,7 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #if JUCE_NATIVE_WCHAR_IS_UTF16
 using CharType = wchar_t;
 #else
-using CharType = int16;
+using CharType = int16_t;
 #endif
 
 void rsj::SetLanguage(const std::string& lg)
