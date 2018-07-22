@@ -55,9 +55,10 @@ ControlsModel* PWoptions::controls_model_{nullptr};
 //==============================================================================
 PWoptions::PWoptions()
 {
-   //[Constructor_pre] You can add your own custom stuff here..
-   //[/Constructor_pre]
+//[Constructor_pre] You can add your own custom stuff here..
+//[/Constructor_pre]
 
+#pragma warning(suppress : 26409)
    label.reset(new Label("new label", TRANS("Minimum value")));
    addAndMakeVisible(label.get());
    label->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
@@ -68,6 +69,7 @@ PWoptions::PWoptions()
 
    label->setBounds(32, 48, 150, 24); //-V112
 
+#pragma warning(suppress : 26409)
    minval.reset(new TextEditor("minval"));
    addAndMakeVisible(minval.get());
    minval->setExplicitFocusOrder(1);
@@ -80,7 +82,7 @@ PWoptions::PWoptions()
    minval->setText(TRANS("0"));
 
    minval->setBounds(32, 80, 150, 24); //-V112
-
+#pragma warning(suppress : 26409)
    label2.reset(new Label("new label", TRANS("Maximum value")));
    addAndMakeVisible(label2.get());
    label2->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));

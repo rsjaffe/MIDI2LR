@@ -50,7 +50,8 @@ class ProfileManager final : juce::AsyncUpdater {
    void AddCallback(T* const object, void (T::*const mf)(juce::XmlElement*, const juce::String&))
    {
       using namespace std::placeholders;
-      callbacks_.emplace_back(std::bind(mf, object, _1, _2));
+      if (object && mf) // only store non-empty functions
+         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
    }
    const juce::String& GetProfileDirectory() const noexcept
    {

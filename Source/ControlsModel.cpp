@@ -50,6 +50,8 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber)
    }
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26451) // see TODO below
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value)
 {
    try {
@@ -112,6 +114,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
       throw;
    }
 }
+#pragma warning(pop)
 
 // Note: rounding up on set to center (adding remainder of %2) to center the control's LED when
 // centered
@@ -200,6 +203,8 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
    }
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26451) // see TODO below
 short ChannelModel::PluginToController(short controltype, size_t controlnumber, double value)
 {
    try {
@@ -237,6 +242,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       throw;
    }
 }
+#pragma warning(pop)
 
 void ChannelModel::SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype)
 {

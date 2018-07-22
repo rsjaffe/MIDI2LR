@@ -40,3 +40,19 @@ void rsj::SetLanguage(const std::string& lg)
    else
       juce::LocalisedStrings::setCurrentMappings(nullptr);
 }
+
+/* Notes for future use with ICU
+ * Locales to be used:
+ * Locale("de", "DE");
+ * Locale("en", "US");
+ * Locale("es", "ES");
+ * Locale("fr", "FR");
+ * Locale("it", "IT");
+ * Locale("ja", "JP");
+ * Locale("ko", "KR");
+ * Locale("nl", "NL");
+ * Locale("pt", "BR");
+ * Locale("sv", "SE");
+ * Locale("zh", "CN");
+ * Locale("zh", "TW");
+ */

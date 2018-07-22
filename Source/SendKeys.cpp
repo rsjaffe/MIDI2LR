@@ -54,8 +54,9 @@ namespace {
 #ifdef _WIN32
 
 class WindowsFunctionError : public std::exception {
-   static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(),
-       "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
+   static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(), "LPSTR doesn't point to "
+                                                                         "8-bit char. Problem for "
+                                                                         "windows_function_error.");
 
  public:
 #pragma warning(push)
@@ -68,7 +69,8 @@ class WindowsFunctionError : public std::exception {
                          | FORMAT_MESSAGE_IGNORE_INSERTS,
           nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
           reinterpret_cast<LPSTR>(&new_what), 0, nullptr);
-      what_ = {new_what, [](LPSTR w) noexcept {HeapFree(GetProcessHeap(), 0, w);
+      if (new_what)
+         what_ = {new_what, [](LPSTR w) noexcept {if (w) HeapFree(GetProcessHeap(), 0, w);
    }
 };
 }
@@ -410,7 +412,12 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 #endif
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError("Exception in key sending function for key: " + key + ". " + e.what());
+      if (e.what())
+         rsj::LogAndAlertError(
+             "Exception in key sending function for key: " + key + ". " + e.what());
+      else
+         rsj::LogAndAlertError("Exception in key sending function for key: " + key
+                               + ". Standard exception, unknown 'what'.");
    }
    catch (...) {
       rsj::LogAndAlertError(

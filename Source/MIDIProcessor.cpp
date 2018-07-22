@@ -152,6 +152,7 @@ void MidiProcessor::DispatchMessages()
          if (message_copy == kTerminate)
             return;
          for (const auto& cb : callbacks_)
+#pragma warning(suppress : 26489) // false alarm, checked for existence before adding to callbacks_
             cb(message_copy);
       } while (true);
    }

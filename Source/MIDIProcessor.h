@@ -43,7 +43,9 @@ class MidiProcessor final : juce::MidiInputCallback {
 
    template<class T> void AddCallback(T* const object, void (T::*const mf)(rsj::MidiMessage))
    {
-      callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1));
+      using namespace std::placeholders;
+      if (object && mf) // only store non-empty functions
+         callbacks_.emplace_back(std::bind(mf, object, _1));
    }
 
  private:

@@ -95,6 +95,7 @@ ResizableLayout::ResizableLayout(juce::Component* owner) : m_owner(owner)
 
 ResizableLayout::~ResizableLayout() {}
 
+#pragma warning(suppress : 26429)
 void ResizableLayout::addToLayout(juce::Component* component, const juce::Point<int>& topLeft,
     const juce::Point<int>& bottomRight, Style style)
 {
@@ -108,6 +109,7 @@ void ResizableLayout::addToLayout(juce::Component* component, const juce::Point<
    else
       anchor.bottomRight = bottomRight;
 
+#pragma warning(suppress : 26486)
    m_anchors.add(anchor);
 
    component->addComponentListener(this);
@@ -135,17 +137,20 @@ void ResizableLayout::updateLayout() noexcept
 {
    m_states.clearQuick();
    for (int i = 0; i < m_anchors.size(); i++)
+#pragma warning(suppress : 26446)
       addStateFor(m_anchors[i]);
 }
 
 void ResizableLayout::updateLayoutFor(juce::Component* component) noexcept
 {
    m_states.removeValue(component);
+#pragma warning(suppress : 26446)
    addStateFor(m_anchors[m_anchors.indexOf(component)]);
 }
 
 void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
 {
+#pragma warning(suppress : 26496)
    Rect rb = anchor.component->getBounds();
 
    const auto w = m_owner->getWidth();
@@ -161,16 +166,20 @@ void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
 
    state.aspect = double(rb.getWidth()) / rb.getHeight();
 
+#pragma warning(suppress : 26486)
    m_states.add(state);
 }
 
 void ResizableLayout::recalculateLayout() const
 {
    if (m_isActive) {
+#pragma warning(suppress : 26496)
       Rect rp = m_owner->getBounds();
 
       for (int i = 0; i < m_states.size(); i++) {
+#pragma warning(suppress : 26446)
          auto anchor = m_anchors[i];
+#pragma warning(suppress : 26446)
          const auto state = m_states[i];
          jassert(anchor.component == state.component);
 
@@ -236,6 +245,7 @@ void ResizableLayout::componentBeingDeleted(juce::Component& component) noexcept
    }
 }
 
+#pragma warning(suppress : 26429 26461)
 juce::Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) noexcept
 {
    juce::Rectangle<int> r;
@@ -322,6 +332,7 @@ TopLevelResizableLayout::TopLevelResizableLayout(juce::Component* owner)
 {
 }
 
+#pragma warning(suppress : 26429)
 void TopLevelResizableLayout::setAsConstrainerFor(juce::ResizableWindow* window)
 {
    window->setConstrainer(&m_constrainer);

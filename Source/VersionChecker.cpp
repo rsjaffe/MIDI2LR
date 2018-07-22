@@ -82,7 +82,7 @@ void VersionChecker::handleAsyncUpdate()
       const auto version_string{juce::String::formatted(
           TRANS("New version %d.%d.%d.%d available"), major, minor, rev, build)};
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
-#pragma warning(suppress : 26409 24624)
+#pragma warning(suppress : 26409 24624 26489)
       dialog_options.content.setOwned(new juce::HyperlinkButton{version_string, download_url});
       dialog_options.content->setSize(300, 100);
       if (auto ptr = dynamic_cast<juce::HyperlinkButton*>(dialog_options.content.get()))

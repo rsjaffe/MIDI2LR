@@ -182,9 +182,8 @@ void MainContentComponent::Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>
          if (settings_manager_->GetProfileDirectory().isEmpty()) {
             const auto filename = rsj::AppDataFilePath(kDefaultsFile);
             const auto default_profile = juce::File(filename.data());
-            std::unique_ptr<juce::XmlElement> xml_element{
-                juce::XmlDocument::parse(default_profile)};
-            if (xml_element) {
+            if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
+               std::unique_ptr<juce::XmlElement> xml_element{parsed};
                command_table_model_.BuildFromXml(xml_element.get());
                command_table_.updateContent();
             }
@@ -340,9 +339,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          juce::FileChooserDialogBox dialog_box{TRANS("Open profile"),
              TRANS("Select a profile to open"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show()) {
-            std::unique_ptr<juce::XmlElement> xml_element{
-                juce::XmlDocument::parse(browser.getSelectedFile(0))};
-            if (xml_element) {
+            if (const auto parsed{juce::XmlDocument::parse(browser.getSelectedFile(0))}) {
+               std::unique_ptr<juce::XmlElement> xml_element{parsed};
                const auto new_profile = browser.getSelectedFile(0);
                auto command =
                    "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';

@@ -54,14 +54,16 @@ ControlsModel* CCoptions::controls_model_{nullptr};
 //==============================================================================
 CCoptions::CCoptions()
 {
-   //[Constructor_pre] You can add your own custom stuff here..
-   //[/Constructor_pre]
+//[Constructor_pre] You can add your own custom stuff here..
+//[/Constructor_pre]
 
+#pragma warning(suppress : 26409)
    groupComponent.reset(new GroupComponent("CCmethod", TRANS("CC Message Type")));
    addAndMakeVisible(groupComponent.get());
 
    groupComponent->setBounds(16, 60, 240, 157);
 
+#pragma warning(suppress : 26409)
    twosbutton.reset(new ToggleButton("twoscomp"));
    addAndMakeVisible(twosbutton.get());
    twosbutton->setTooltip(TRANS("Control value is 1 or greater when turned one way, and 127 or "
@@ -74,6 +76,7 @@ CCoptions::CCoptions()
 
    twosbutton->setBounds(40, 117, 150, 24);
 
+#pragma warning(suppress : 26409)
    absbutton.reset(new ToggleButton("Absolute"));
    addAndMakeVisible(absbutton.get());
    absbutton->setTooltip(
@@ -85,7 +88,7 @@ CCoptions::CCoptions()
    absbutton->setToggleState(true, dontSendNotification);
 
    absbutton->setBounds(40, 85, 150, 24);
-
+#pragma warning(suppress : 26409)
    binbutton.reset(new ToggleButton("Binaryoffset"));
    addAndMakeVisible(binbutton.get());
    binbutton->setTooltip(
