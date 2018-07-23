@@ -24,8 +24,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_MIDIUTILITIES_H_INCLUDED
 
 /* NOTE: Channel and Number are zero-based */
-#include <functional>
-#include "../JuceLibraryCode/JuceHeader.h"
+// Get the declaration of the primary std::hash template.
+// We are not permitted to declare it ourselves.
+// <typeindex> is guaranteed to provide such a declaration,
+// and is much cheaper to include than <functional>.
+// See https://en.cppreference.com/w/cpp/language/extending_std.
+#include <typeindex>
+#include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 
 namespace rsj {
@@ -97,13 +102,17 @@ namespace rsj {
    };
 } // namespace rsj
 // hash functions
+// It is allowed to add template specializations for any standard library class template to the
+// namespace std only if the declaration depends on at least one program-defined type and the
+// specialization satisfies all requirements for the original template, except where such
+// specializations are prohibited.
 namespace std {
    template<> struct hash<rsj::MidiMessageId> {
       size_t operator()(const rsj::MidiMessageId& k) const noexcept
       {
-         return hash<int_fast32_t>()((int_fast32_t(k.msg_id_type) << 8) | int_fast32_t(k.channel)
-                                     | (int_fast32_t(k.data) << 16));
-      } // channel is one byte, messagetype is one byte, controller is two bytes
+         return hash<int_fast32_t>()(int_fast32_t(k.channel) | int_fast32_t(k.msg_id_type) << 8
+                                     | int_fast32_t(k.data) << 16);
+      } // channel is one byte, messagetype is one byte, controller (data) is two bytes
    };
 } // namespace std
 

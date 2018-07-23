@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
 #pragma warning(suppress : 26426)
-   const std::unordered_map<unsigned long int, std::string> keyboard_names{{0x0000041c, "Albanian"},
+   const std::unordered_map<unsigned long int, std::string> kKeyboardNames{{0x0000041c, "Albanian"},
        {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
@@ -132,7 +132,7 @@ std::string rsj::GetKeyboardLayout()
       try {
          size_t pos{0};
          const auto klid{std::stoul(std::string(klid_ascii.data()), &pos, 16)};
-         if (const auto f = keyboard_names.find(klid); f != keyboard_names.end())
+         if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
             return f->second;
          return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
       }

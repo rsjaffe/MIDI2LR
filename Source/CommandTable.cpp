@@ -47,11 +47,11 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
 #pragma warning(suppress : 26426)
-      static const std::unordered_map<int, int> keytoaction{{juce::KeyPress::deleteKey, 1},
+      static const std::unordered_map<int, int> kKeyToAction{{juce::KeyPress::deleteKey, 1},
           {juce::KeyPress::downKey, 2}, {juce::KeyPress::upKey, 3}, {juce::KeyPress::pageUpKey, 4},
           {juce::KeyPress::pageDownKey, 5}, {juce::KeyPress::homeKey, 6},
           {juce::KeyPress::endKey, 7}};
-      if (const auto f = keytoaction.find(k.getKeyCode()); f != keytoaction.end()) {
+      if (const auto f = kKeyToAction.find(k.getKeyCode()); f != kKeyToAction.end()) {
          switch (f->second) {
          case 1: // deleteKey
             if (getSelectedRow() != -1) {

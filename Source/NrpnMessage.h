@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <array>
 #include <gsl/gsl>
 #include <mutex>
-#include "MoodyCamel/concurrentqueue.h"
+#include <MoodyCamel/concurrentqueue.h>
 #include "Misc.h"
 
 namespace rsj {

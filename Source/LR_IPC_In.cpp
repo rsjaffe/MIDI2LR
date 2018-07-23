@@ -33,7 +33,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
-using namespace std::literals::string_literals;
 
 namespace {
    constexpr auto kHost = "127.0.0.1";
@@ -204,9 +203,10 @@ namespace {
 
 void LrIpcIn::ProcessLine()
 {
+   using namespace std::literals::string_literals;
    try {
 #pragma warning(suppress : 26426)
-      const static std::unordered_map<std::string, int> cmds = {
+      const static std::unordered_map<std::string, int> kCmds = {
           {"SwitchProfile"s, 1}, {"SendKey"s, 2}, {"TerminateApplication"s, 3}};
       do {
          // process input into [parameter] [Value]
@@ -223,7 +223,7 @@ void LrIpcIn::ProcessLine()
          const auto command{std::string(
              v.substr(0, v.find_first_of(" \t\n")))}; // use this a lot, so convert to string once
 
-         switch (cmds.count(command) ? cmds.at(command) : 0) {
+         switch (kCmds.count(command) ? kCmds.at(command) : 0) {
          case 1: // SwitchProfile
             if (profile_manager_)
                profile_manager_->SwitchToProfile(std::string(value_string));

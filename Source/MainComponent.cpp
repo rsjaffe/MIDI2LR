@@ -34,7 +34,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "SettingsComponent.h"
 #include "SettingsManager.h"
-using namespace std::literals::string_literals;
 
 namespace {
    constexpr int kMainWidth = 400;
@@ -60,7 +59,6 @@ namespace {
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
-#pragma warning(suppress : 26439) // false warning: member initalizers can throw
 MainContentComponent::MainContentComponent() : ResizableLayout{this}
 {
    // Set the component size
@@ -274,6 +272,7 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
+   using namespace std::literals::string_literals;
    try {
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
@@ -381,8 +380,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
 void MainContentComponent::ProfileChanged(
     juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
+   using namespace std::literals::string_literals;
    {
-      const juce::MessageManagerLock mmLock;
+      const juce::MessageManagerLock mm_lock;
       command_table_model_.BuildFromXml(xml_element);
       command_table_.updateContent();
       command_table_.repaint();

@@ -39,8 +39,12 @@ static constexpr bool kNdebug = false;
 #ifdef _WIN32
 #include <emmintrin.h>
 #define CPU_RELAX _mm_pause()
+constexpr auto MSWindows{true};
+constexpr auto OSX{false};
 #else
 #define CPU_RELAX __builtin_ia32_pause()
+constexpr auto MSWindows{false};
+constexpr auto OSX{true};
 #endif
 
 namespace rsj {

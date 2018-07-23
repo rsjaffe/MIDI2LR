@@ -54,9 +54,8 @@ namespace {
 #ifdef _WIN32
 
 class WindowsFunctionError : public std::exception {
-   static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(), "LPSTR doesn't point to "
-                                                                         "8-bit char. Problem for "
-                                                                         "windows_function_error.");
+   static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(),
+       "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
 
  public:
 #pragma warning(push)
@@ -152,8 +151,8 @@ using cf_unique_ptr =
 pid_t GetPid()
 {
    static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
-   static const std::string kLrc{"Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom "
-                                 "Classic"};
+   static const std::string kLrc{
+       "Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
    const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
    std::vector<pid_t> pids(number_processes); // add a few in case more processes show up
    proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
@@ -278,8 +277,8 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       const auto in_keymap = mapped_key != kKeyMap.end();
 
 #ifdef _WIN32
-      static_assert(sizeof(WCHAR) == sizeof(UChar), "For Unicode handling, assuming windows wide "
-                                                    "char is same as ICU 16-bit Unicode char.");
+      static_assert(sizeof(WCHAR) == sizeof(UChar),
+          "For Unicode handling, assuming windows wide char is same as ICU 16-bit Unicode char.");
       BYTE vk = 0;
       BYTE vk_modifiers = 0;
       if (in_keymap)
@@ -287,8 +286,8 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       else { // Translate key code to keyboard-dependent scan code, may be UTF-8
          const auto uc{icu::UnicodeString::fromUTF8(key)[0]};
          static const auto language_id = GetLanguage("Lightroom");
-         static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff, "Assuming VkKeyScanEx "
-                                                                         "returns 0xffff on error");
+         static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff,
+             "Assuming VkKeyScanEx returns 0xffff on error");
          const auto vk_code_and_shift = VkKeyScanExW(uc, language_id);
          if (vk_code_and_shift == 0xffff) //-V547
             throw WindowsFunctionError();
@@ -339,8 +338,8 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
             throw WindowsFunctionError();
       }
 #else
-      static_assert(sizeof(UniChar) == sizeof(UChar), "For Unicode handling, assuming Mac wide "
-                                                      "char is same as ICU 16-bit Unicode char.");
+      static_assert(sizeof(UniChar) == sizeof(UChar),
+          "For Unicode handling, assuming Mac wide char is same as ICU 16-bit Unicode char.");
       try { // In MacOS, KeyCodeForChar will throw if key not in map
          CGEventRef d;
          CGEventRef u;

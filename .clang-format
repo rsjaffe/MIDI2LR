@@ -63,10 +63,10 @@ MacroBlockEnd: ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PenaltyBreakAssignment: 2
-PenaltyBreakBeforeFirstCallParameter: 100
+PenaltyBreakBeforeFirstCallParameter: 75
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
-PenaltyBreakString: 10
+PenaltyBreakString: 80
 PenaltyExcessCharacter: 1000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left

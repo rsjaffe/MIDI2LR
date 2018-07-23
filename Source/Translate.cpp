@@ -26,13 +26,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 #include <map>
 
-void rsj::SetLanguage(const std::string& lg)
+void rsj::Translate(const std::string& lg)
 {
 #pragma warning(suppress : 26426)
-   static const std::map<std::string, const char*> translation_table{{"de", de}, {"es", es},
+   static const std::map<std::string, const char*> kTranslationTable{{"de", de}, {"es", es},
        {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"sv", sv},
        {"zn_cn", zn_cn}, {"zn_tw", zn_tw}};
-   if (const auto found = translation_table.find(lg); found != translation_table.end()) {
+   if (const auto found = kTranslationTable.find(lg); found != kTranslationTable.end()) {
       const juce::String str(juce::CharPointer_UTF8(found->second));
       auto ls = std::make_unique<juce::LocalisedStrings>(str, false);
       juce::LocalisedStrings::setCurrentMappings(ls.release()); // takes ownership of ls
@@ -40,19 +40,3 @@ void rsj::SetLanguage(const std::string& lg)
    else
       juce::LocalisedStrings::setCurrentMappings(nullptr);
 }
-
-/* Notes for future use with ICU
- * Locales to be used:
- * Locale("de", "DE");
- * Locale("en", "US");
- * Locale("es", "ES");
- * Locale("fr", "FR");
- * Locale("it", "IT");
- * Locale("ja", "JP");
- * Locale("ko", "KR");
- * Locale("nl", "NL");
- * Locale("pt", "BR");
- * Locale("sv", "SE");
- * Locale("zh", "CN");
- * Locale("zh", "TW");
- */

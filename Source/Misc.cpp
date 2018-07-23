@@ -39,8 +39,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
 {
    static_assert(std::is_pointer<T>() == false, "Result must be copied as __cxa_demagle returns "
-                                                "pointer to temporary. Cannot use pointer type "
-                                                "for this template.");
+                                                "pointer to temporary. Cannot use pointer type for "
+                                                "this template.");
    std::size_t len = 0;
    int status = 0;
    std::unique_ptr<char, decltype(&std::free)> ptr(
@@ -91,7 +91,7 @@ std::wstring rsj::AppDataFilePath(const std::wstring& file_name)
       if (pathptr)
          CoTaskMemFree(pathptr);
    });
-   const HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr);
+   const auto hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr);
    if (SUCCEEDED(hr))
       return std::wstring(pathptr) + L"\\MIDI2LR\\" + file_name;
    return std::wstring(file_name);

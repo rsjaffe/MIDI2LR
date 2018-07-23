@@ -64,21 +64,11 @@ namespace {
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
  public:
-#pragma warning(suppress : 26439) // false warning: member initalizers can throw
    MIDI2LRApplication()
    {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
       juce::LookAndFeel::setDefaultLookAndFeel(look_feel_.get());
-      // juce (as of July 2018) uses the following font defaults
-      // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
-      // sans defaults do not support Asian languages
-      //         MacOS            Windows
-      // Sans    Lucida Grande    Verdana
-      // Serif   Times New Roman  Times New Roman
-      // Fixed   Menlo            Lucida Console
-      juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-          "Arial Unicode MS"); // available in MacOS and Windows
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
@@ -121,7 +111,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
             profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
-            rsj::SetLanguage("en"); // TODO(rj): replace with task of getting language from plugin
+            SetAppLanguage(); // set language and load appropriate fonts and files
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName());
@@ -238,8 +228,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          }
          else
             rsj::LogAndAlertError(
-                "Unable to save control settings to xml file. Unable to open file "
-                "settings.bin.");
+                "Unable to save control settings to xml file. Unable to open file settings.bin.");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -296,6 +285,57 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 #pragma warning(pop)
+
+   void SetAppLanguage()
+   {
+      const std::string lang{"en"}; // TODO(rj): replace with task of getting language from plugin
+
+      // juce (as of July 2018) uses the following font defaults
+      // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
+      // sans defaults do not support Asian languages
+      //         MacOS            Windows
+      // Sans    Lucida Grande    Verdana
+      // Serif   Times New Roman  Times New Roman
+      // Fixed   Menlo            Lucida Console
+#ifdef _WIN32
+      if (lang == "ko")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Malgun Gothic");
+      else if (lang == "zn_cn" || lang == "zn_tw")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Microsoft JhengHei UI");
+      else if (lang == "ja")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Microsoft JhengHei UI");
+#else
+      if (lang == "ko")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Apple SD Gothic Neo");
+      else if (lang == "zn_cn" || lang == "zn_tw")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Hiragino Sans GB");
+      else if (lang == "ja")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Hiragino Maru Gothic ProN");
+#endif
+      rsj::Translate(lang);
+
+      /* Notes for future use with ICU
+       * Locales to be used:
+       * Locale("de", "DE");
+       * Locale("en", "US");
+       * Locale("es", "ES");
+       * Locale("fr", "FR");
+       * Locale("it", "IT");
+       * Locale("ja", "JP");
+       * Locale("ko", "KR");
+       * Locale("nl", "NL");
+       * Locale("pt", "BR");
+       * Locale("sv", "SE");
+       * Locale("zh", "CN");
+       * Locale("zh", "TW");
+       */
+   }
 
    CommandMap command_map_{};
    ControlsModel controls_model_{};

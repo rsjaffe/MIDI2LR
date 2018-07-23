@@ -34,7 +34,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "MIDISender.h"
 #include "Misc.h"
-using namespace std::string_literals;
 
 namespace {
    constexpr auto kHost{"127.0.0.1"};
@@ -94,6 +93,7 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi
 
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
+   using namespace std::string_literals;
    try {
       const rsj::MidiMessageId message{mm};
 #pragma warning(suppress : 26426)
@@ -141,7 +141,6 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             else // turned counterclockwise
                SendCommand(a->second.second);
          }
-         return; // if repeated command
       }
       else { // not repeated command
          const auto computed_value = controls_model_->ControllerToPlugin(mm);
@@ -194,6 +193,7 @@ void LrIpcOut::Stop()
 
 void LrIpcOut::Restart()
 {
+   using namespace std::string_literals;
    sending_stopped_ = false;
    const auto connected = isConnected();
    for (const auto& cb : callbacks_)
