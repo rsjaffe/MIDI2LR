@@ -5,8 +5,10 @@ configuration:
   - Release
 before_build:
   - ps: Start-FileDownload 'https://sourceforge.net/projects/luabinaries/files/5.1.5/Tools%20Executables/lua-5.1.5_Win64_bin.zip/download'
+  - rename download lua515.zip
   - dir
-  - 7z e lua-5.1.5_Win64_bin.zip luac5.1.exe
+  - 7z e lua515.zip luac5.1.exe
+  - dir
   - rename luac5.1.exe luac.exe
 build:
   project: Builds\VisualStudio2017\MIDI2LR.sln
