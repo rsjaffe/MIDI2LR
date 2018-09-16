@@ -1,5 +1,5 @@
 ---
-# Visual Studio currently (May 2018) using clang-format v 5. Options for later versions (up to v 7)
+# Visual Studio currently (Sept 2018) using clang-format v 6. Options for later versions (up to v 7)
 # are included but commented out. Uncomment if used with a later version of clang-format.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
@@ -52,7 +52,7 @@ IncludeCategories:
     Priority: 3
 IncludeIsMainRegex: '(Test)?$'
 IndentCaseLabels: false
-#IndentPPDirectives: None
+IndentPPDirectives: None
 IndentWidth: 3
 IndentWrappedFunctionNames: false
 JavaScriptQuotes: Single
