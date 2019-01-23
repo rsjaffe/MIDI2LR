@@ -186,8 +186,8 @@ class ChannelModel {
       }
    }
    void SetCcMin(size_t controlnumber, short value);
-   void SetPwMax(short value) noexcept(kNdebug);
-   void SetPwMin(short value) noexcept(kNdebug);
+   void SetPwMax(short value) noexcept;
+   void SetPwMin(short value) noexcept;
 
  private:
    [[nodiscard]] short CenterCc(size_t controlnumber) const noexcept

@@ -286,8 +286,6 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value)
 {
    try {
       Expects(controlnumber <= kMaxNrpn);
-      Expects(value <= kMaxNrpn);
-      Expects(value >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_low_.at(controlnumber) = 0;
       else
@@ -301,25 +299,15 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value)
    }
 }
 
-void ChannelModel::SetPwMax(short value) noexcept(kNdebug)
+void ChannelModel::SetPwMax(short value) noexcept
 {
-   Expects(value <= kMaxNrpn);
-   Expects(value >= 0);
-   if (value > kMaxNrpn || value <= pitch_wheel_min_)
-      pitch_wheel_max_ = kMaxNrpn;
-   else
-      pitch_wheel_max_ = value;
+   pitch_wheel_max_ = (value > kMaxNrpn || value <= pitch_wheel_min_) ? kMaxNrpn : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 
-void ChannelModel::SetPwMin(short value) noexcept(kNdebug)
+void ChannelModel::SetPwMin(short value) noexcept
 {
-   Expects(value <= kMaxNrpn);
-   Expects(value >= 0);
-   if (value < 0 || value >= pitch_wheel_max_)
-      pitch_wheel_min_ = 0;
-   else
-      pitch_wheel_min_ = value;
+   pitch_wheel_min_ = (value < 0 || value >= pitch_wheel_max_) ? 0 : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 
