@@ -57,7 +57,7 @@ LrIpcIn::~LrIpcIn()
 {
    try {
       {
-         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+         auto lock = std::lock_guard(timer_mutex_);
          timer_off_ = true;
          juce::Timer::stopTimer();
       }
@@ -103,25 +103,23 @@ void LrIpcIn::run()
 {
    try {
       auto _ = gsl::finally([this] {
-         std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+         auto lock = std::lock_guard(timer_mutex_);
          timer_off_ = true;
          juce::Timer::stopTimer();
       });
       while (!juce::Thread::threadShouldExit()) {
          std::array<char, kBufferSize> line{}; // zero filled by {} initialization
-         // if not connected, executes a wait 333 then goes back to while
-         // if connected, tries to read a line, checks thread status and connection
-         // status before each read attempt
-         // doesn't terminate thread if disconnected, as currently don't have graceful
-         // way to restart thread
+         // if not connected, executes a wait 333 then goes back to while. if connected, tries to
+         // read a line, checks thread status and connection status before each read attempt.
+         // Doesn't terminate thread if disconnected, as currently don't have graceful way to
+         // restart thread.
          if (!socket_.isConnected()) {
             juce::Thread::wait(kNotConnectedWait);
          } // end if (is not connected)
          else {
             line.fill(0); // zero out buffer
             auto size_read = 0;
-            // parse input until we have a line, then process that line, quit if
-            // connection lost
+            // parse input until we have a line, then process that line, quit if connection lost
             while ((size_read == 0 || line.at(gsl::narrow_cast<size_t>(size_read) - 1) != '\n')
                    && socket_.isConnected()) {
                if (juce::Thread::threadShouldExit())
@@ -143,8 +141,8 @@ void LrIpcIn::run()
                      size_read++;
                      break;
                   case 0:
-                     // waitUntilReady returns 1 but read will is 0: it's an indication of a
-                     // broken socket.
+                     // waitUntilReady returns 1 but read will is 0: it's an indication of a broken
+                     // socket.
                      juce::JUCEApplication::getInstance()->systemRequestedQuit();
                      break;
                   default:
@@ -175,7 +173,7 @@ void LrIpcIn::run()
 void LrIpcIn::timerCallback()
 {
    try {
-      std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+      auto lock = std::lock_guard(timer_mutex_);
       if (!timer_off_ && !socket_.isConnected() && !juce::Thread::threadShouldExit()) {
          if (socket_.connect(kHost, kLrInPort, kConnectTryTime))
             if (!thread_started_) {

@@ -29,7 +29,7 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber)
       Expects(cc_high_.at(controlnumber) > 0); // CCLow will always be 0 for offset controls
       Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
       Expects(controlnumber <= kMaxNrpn);
-      std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+      auto lock = std::lock_guard(current_v_mtx_);
       current_v_.at(controlnumber) += diff;
       if (current_v_.at(controlnumber) < 0) { // fix currentV
          current_v_.at(controlnumber) = 0;
@@ -71,7 +71,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
       case rsj::kCcFlag:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute: {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             current_v_.at(controlnumber) = value;
          }
             // TODO(C26451): short mixed with double: can it overflow?
@@ -127,7 +127,7 @@ short ChannelModel::SetToCenter(short controltype, size_t controlnumber)
          break;
       case rsj::kCcFlag:
          if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             retval = CenterCc(controlnumber);
             current_v_.at(controlnumber) = retval;
          }
@@ -162,7 +162,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
       case rsj::kCcFlag:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute: {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             const short diff = value - current_v_.at(controlnumber);
             current_v_.at(controlnumber) = value;
             return diff;
@@ -223,7 +223,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
                                 value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber))))
                             + cc_low_.at(controlnumber);
          {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             current_v_.at(controlnumber) = newv;
          }
          return newv;

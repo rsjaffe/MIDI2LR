@@ -40,8 +40,8 @@ namespace {
    constexpr int kConnectTryTime{100};
    constexpr int kDelay{8}; // in between recurrent actions
    constexpr int kLrOutPort{58763};
-   constexpr int kMinRecenterTimer{
-       250}; // give controller enough of a refractory period before resetting it
+   constexpr int kMinRecenterTimer{250}; // give controller enough of a refractory period before
+                                         // resetting it
    constexpr int kRecenterTimer{std::max(kMinRecenterTimer,
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
@@ -243,28 +243,28 @@ void LrIpcOut::SendOut()
 
 void LrIpcOut::ConnectTimer::Start()
 {
-   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   auto lock = std::lock_guard(connect_mutex_);
    juce::Timer::startTimer(kConnectTimer);
    timer_off_ = false;
 }
 
 void LrIpcOut::ConnectTimer::Stop()
 {
-   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   auto lock = std::lock_guard(connect_mutex_);
    juce::Timer::stopTimer();
    timer_off_ = true;
 }
 
 void LrIpcOut::ConnectTimer::timerCallback()
 {
-   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   auto lock = std::lock_guard(connect_mutex_);
    if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
       owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
-   std::lock_guard<decltype(mtx_)> lock(mtx_);
+   auto lock = std::lock_guard(mtx_);
    mm_ = mm;
    juce::Timer::startTimer(kRecenterTimer);
 }
@@ -273,7 +273,7 @@ void LrIpcOut::Recenter::timerCallback()
 {
    rsj::MidiMessage local_mm{};
    {
-      std::lock_guard<decltype(mtx_)> lock(mtx_);
+      auto lock = std::lock_guard(mtx_);
       juce::Timer::stopTimer();
       local_mm = mm_;
    }

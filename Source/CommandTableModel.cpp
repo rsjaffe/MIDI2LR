@@ -43,7 +43,7 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
 
    // If you implement this, your method should re - sort the table using the
    // given column as the key.
-   std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
+   auto guard = std::unique_lock{cmd_table_mod_mtx_};
    current_sort_ = std::make_pair(new_sort_column_id, is_forwards);
    Sort();
 }
@@ -54,7 +54,7 @@ int CommandTableModel::getNumRows()
 
    // If the number of rows changes, you must call TableListBox::updateContent()
    // to cause it to refresh the list.
-   std::shared_lock<decltype(cmd_table_mod_mtx_)> lck{cmd_table_mod_mtx_};
+   auto guard = std::shared_lock{cmd_table_mod_mtx_};
    return gsl::narrow_cast<int>(commands_.size());
 }
 
@@ -91,10 +91,10 @@ void CommandTableModel::paintCell(
       {
          auto value = 0;
          auto channel = 0;
-         std::shared_lock<decltype(cmd_table_mod_mtx_)> lck{cmd_table_mod_mtx_};
+         auto guard = std::shared_lock{cmd_table_mod_mtx_};
          // cmdmap_mutex_ should fix the following problem
-         if (commands_.size()
-             <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell not filled yet
+         if (commands_.size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell not
+                                                                         // filled yet
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
          }
          else {
@@ -159,7 +159,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
 
          // create a new command menu
-         std::shared_lock<decltype(cmd_table_mod_mtx_)> lck{cmd_table_mod_mtx_};
+         auto guard = std::shared_lock{cmd_table_mod_mtx_};
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
             command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
@@ -189,7 +189,7 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
 {
    try {
       const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
-      std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
+      auto guard = std::unique_lock{cmd_table_mod_mtx_};
       if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
          commands_.push_back(msg);
          command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
@@ -205,7 +205,7 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
 void CommandTableModel::RemoveRow(size_t row)
 {
    try {
-      std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
+      auto guard = std::unique_lock{cmd_table_mod_mtx_};
       if (command_map_)
          command_map_->RemoveMessage(commands_.at(row));
       commands_.erase(commands_.cbegin() + row);
@@ -218,7 +218,7 @@ void CommandTableModel::RemoveRow(size_t row)
 
 void CommandTableModel::RemoveAllRows()
 {
-   std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
+   auto guard = std::unique_lock{cmd_table_mod_mtx_};
    commands_.clear();
    if (command_map_)
       command_map_->ClearMap();
@@ -257,7 +257,7 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
          }
          setting = setting->getNextElement();
       }
-      std::unique_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
+      auto guard = std::unique_lock{cmd_table_mod_mtx_};
       Sort();
    }
    catch (const std::exception& e) {
@@ -269,7 +269,7 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
 int CommandTableModel::GetRowForMessage(
     int midi_channel, int midi_data, rsj::MsgIdEnum msg_type) const
 {
-   std::shared_lock<decltype(cmd_table_mod_mtx_)> grd{cmd_table_mod_mtx_};
+   auto guard = std::shared_lock{cmd_table_mod_mtx_};
    const rsj::MidiMessageId msg_id{midi_channel, midi_data, msg_type};
    return gsl::narrow_cast<int>(
        std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin());

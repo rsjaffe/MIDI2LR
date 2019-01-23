@@ -320,7 +320,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       ip.ki = {0, 0, 0, 0, 0};
 
       // send key down strokes
-      std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+      auto lock = std::lock_guard(mutex_sending);
       for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
          ip.ki.wVk = *it;
          const auto result = SendInput(1, &ip, kSizeIp);
@@ -380,7 +380,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
             static const pid_t lr_pid{GetPid()};
             if (lr_pid) {
-               std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+               auto lock = std::lock_guard(mutex_sending);
                CGEventPostToPid(lr_pid, d);
                CGEventPostToPid(lr_pid, u);
             }
@@ -397,7 +397,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
                return temp_psn;
             }()};
             if (psn.highLongOfPSN || psn.lowLongOfPSN) {
-               std::lock_guard<decltype(mutex_sending)> lock(mutex_sending);
+               auto lock = std::lock_guard(mutex_sending);
                CGEventPostToPSN(&psn, d);
                CGEventPostToPSN(&psn, u);
             }
