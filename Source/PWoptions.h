@@ -77,6 +77,8 @@ class PWoptions : public juce::Component, private juce::TextEditor::Listener {
    void textEditorFocusLost(juce::TextEditor& t) override;
    static ControlsModel* controls_model_;
    size_t boundchannel_{0}; // note: 0-based
+   PWoptions(PWoptions&& other) noexcept = delete;
+   PWoptions& operator=(PWoptions&& other) noexcept = delete;
    //[/UserVariables]
 
    //==============================================================================

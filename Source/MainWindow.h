@@ -35,7 +35,7 @@ class SettingsManager;
 
 class MainWindow final : juce::DocumentWindow {
  public:
-   explicit MainWindow(juce::String name);
+   explicit MainWindow(const juce::String& name);
    ~MainWindow() = default;
    MainWindow(const MainWindow& other) = delete;
    MainWindow(MainWindow&& other) = delete;

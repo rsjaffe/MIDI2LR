@@ -81,7 +81,10 @@ class CCoptions : public juce::Component,
    static ControlsModel* controls_model_;
    short bound_channel_{0}; // note: 0-based
    short bound_number_{0};
+   CCoptions(CCoptions&& other) noexcept = delete;
+   CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserVariables]
+
 
    //==============================================================================
    std::unique_ptr<juce::GroupComponent> groupComponent;

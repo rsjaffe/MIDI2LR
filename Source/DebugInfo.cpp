@@ -187,7 +187,7 @@ namespace {
 // placing kErrorNotice here instead of in exception handler so that handler doesn't have any
 // chance of throwing another exception
 #pragma warning(suppress : 26426)
-   static const std::string kErrorNotice{"Exception in GetInfo."};
+   const std::string kErrorNotice{"Exception in GetInfo."};
 } // namespace
 
 #pragma warning(push)

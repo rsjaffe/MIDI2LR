@@ -167,7 +167,7 @@ void PWoptions::resized()
 void PWoptions::textEditorFocusLost(TextEditor& t)
 {
    const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
-   const auto nam = t.getName();
+   const auto& nam = t.getName();
    if (nam == "minval")
       controls_model_->SetPwMin(boundchannel_, val);
    else if (nam == "maxval")
