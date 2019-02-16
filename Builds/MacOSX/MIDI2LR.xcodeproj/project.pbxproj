@@ -113,6 +113,10 @@
 			isa = PBXBuildFile;
 			fileRef = C58E726D80235E018C2E6235;
 		};
+		6A3DFFA80DF0E07C64B4871F = {
+			isa = PBXBuildFile;
+			fileRef = 1CEFC806801B346F7A85EDAD;
+		};
 		65EAA878A18A9E490DC550DF = {
 			isa = PBXBuildFile;
 			fileRef = 0F1673C5F027441E02A71C9F;
@@ -344,6 +348,13 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = MainComponent.h;
 			path = ../../Source/MainComponent.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		1CEFC806801B346F7A85EDAD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = CommandSet.cpp;
+			path = ../../Source/CommandSet.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		21006303504EA15B0A68D6C7 = {
@@ -892,6 +903,13 @@
 			path = ../../icu/source/common/utypes.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		F26D6A0ECE3AA94228AF1547 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = CommandSet.h;
+			path = ../../Source/CommandSet.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		F3184CED9270796B369FA288 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file.nib;
@@ -950,6 +968,8 @@
 				0DE6A1845E62083EB881160E,
 				C58E726D80235E018C2E6235,
 				5D4227783C1F686DA2A11AC2,
+				1CEFC806801B346F7A85EDAD,
+				F26D6A0ECE3AA94228AF1547,
 				0F1673C5F027441E02A71C9F,
 				66B56E601E325C222061D3BF,
 				97FB8F5E08C9C1AABF120771,
@@ -1326,6 +1346,7 @@
 				BFAB1A9B97A0C128DF41C02A,
 				50AF5769741041F9CA022231,
 				FD5777A03748CDE3465E71D3,
+				6A3DFFA80DF0E07C64B4871F,
 				65EAA878A18A9E490DC550DF,
 				BAB76C37DDD1539CF0949580,
 				5C88DBE8F18CA34568D543B1,
