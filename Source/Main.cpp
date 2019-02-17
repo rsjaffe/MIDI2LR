@@ -40,6 +40,7 @@ namespace fs = std::filesystem;
 #include <cereal/archives/xml.hpp>
 #include "CCoptions.h"
 #include "CommandMap.h"
+#include "CommandSet.h"
 #include "ControlsModel.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
@@ -172,8 +173,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
    [[noreturn]] void unhandledException(
-       const std::exception* e, const juce::String& source_filename, int lineNumber) override
-   {
+       const std::exception* e, const juce::String& source_filename, int lineNumber) override {
       // If any unhandled exceptions make it through to the message dispatch
       // loop, this callback will be triggered, in case you want to log them or
       // do some other type of error-handling.
@@ -195,8 +195,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       std::terminate(); // can't go on with the program
    }
 
- private:
-   void DefaultProfileSave() const
+   private : void DefaultProfileSave() const
    {
       const auto filename = rsj::AppDataFilePath(kDefaultsFile);
       const auto profilefile = juce::File(filename.data());
@@ -334,8 +333,11 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * Locale("zh", "TW");
        */
    }
-
+   //create logger first, makes sure that MIDI2LR directory is created for writing by other modules
+   std::unique_ptr<juce::FileLogger> logger_{
+       juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    CommandMap command_map_{};
+   CommandSet command_set_{};
    ControlsModel controls_model_{};
    ProfileManager profile_manager_{&controls_model_, &command_map_};
    SettingsManager settings_manager_{&profile_manager_};
@@ -346,8 +348,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
    // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
-   std::unique_ptr<juce::FileLogger> logger_{
-       juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
+
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    VersionChecker version_checker_{&settings_manager_};
