@@ -19,7 +19,9 @@ class CommandSet {
       return m_impl.language_;
    }
 
-   class Impl { // public so cereal can access it. should be private
+
+ private:
+   class Impl {
     public:
       Impl();
       ~Impl() = default;
@@ -40,11 +42,15 @@ class CommandSet {
     private:
    };
 
- private:
+   friend class cereal::access;
+   // see https://github.com/USCiLab/cereal/issues/270
+   friend struct cereal::detail::Version<CommandSet::Impl>; 
    const Impl& m_impl;
    const Impl& make_impl();
 
    std::unordered_map<std::string, size_t> cmd_idx_{};
+
+
 };
 #pragma warning(push)
 #pragma warning(disable : 26440 26426 26444)

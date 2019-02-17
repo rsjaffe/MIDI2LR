@@ -285,7 +285,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void SetAppLanguage()
    {
-      const std::string lang{"en"}; // TODO(rj): replace with task of getting language from plugin
+      const std::string lang{command_set_.GetLanguage()};
 
       // juce (as of July 2018) uses the following font defaults
       // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
