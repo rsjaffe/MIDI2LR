@@ -548,7 +548,7 @@ local DataBase = {
   {Command='Profile_Camera_Landscape',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/Landscape=Camera Landscape'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. *button*',Panel='calibratePanel'},
   {Command='Profile_Camera_Light',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/Light=Camera Light'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. *button*',Panel='calibratePanel'},
   {Command='Profile_Camera_Lighter_Skin_Tone',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/LighterSkinTone=Camera Lighter Skin Tone'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens. *button*', 'calibratePanel'},
-    {Command='Profile_Camera_LMonochrome',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/LMonochrome=Camera L-Monochrome'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens. *button*', 'calibratePanel'},
+  {Command='Profile_Camera_LMonochrome',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/LMonochrome=Camera L-Monochrome'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens. *button*', 'calibratePanel'},
   {Command='Profile_Camera_Monochrome',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/Monochrome=Camera Monochrome'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens. *button*', 'calibratePanel'},
   {Command='Profile_Camera_Monotone',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/Monotone=Camera Monotone'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens. *button*', 'calibratePanel'},
   {Command='Profile_Camera_Muted',Type='button',Experimental=true,Explanation=LOC('$$$/CRaw/Style/Profile/Postfix/Muted=Camera Muted'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens. *button*', 'calibratePanel'},
@@ -813,13 +813,41 @@ end
 
 local LrPathUtils = import 'LrPathUtils'
 local AppTrans = LrPathUtils.child(_PLUGIN.path, 'MenuTrans.txt') 
-local function WriteAppTrans() 
+local function WriteAppTrans(language) 
   local file = assert(io.open(AppTrans,'w'),'Error writing to MenuTrans.txt') 
   for _,v in ipairs(DataBase) do
     file:write(v.Command,' ',v.Translation,'\n')
   end
+--new version for xml file  
+  local CmdStructure={}
+  local GroupOrder={}
+  for _,v in ipairs(DataBase) do
+    if CmdStructure[v.Group] then
+      table.insert(CmdStructure[v.Group],{v.Command,v.Translation})
+    else
+      GroupOrder[#GroupOrder+1]=v.Group
+      CmdStructure[v.Group]={}
+      table.insert(CmdStructure[v.Group],{v.Command,v.Translation})
+    end
+  end
+  file:write([=[  
+<?xml version="1.0" encoding="utf-8"?>
+<cereal>
+<value0>
+<cereal_class_version>1</cereal_class_version>
+<language>]=],language,[=[</language>
+<all_commands size="dynamic">
+]=])
+  file:write([=[
+</all_commands>
+</value0>
+</cereal>
+]=])
   file:close()
+
 end
+
+
 
 
 return { 
