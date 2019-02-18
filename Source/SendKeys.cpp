@@ -35,6 +35,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
 #include <libproc.h> //proc_ functions in GetPid
+#include <optional>
 #endif
 #include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
 
@@ -198,7 +199,7 @@ UChar CreateStringForKey(CGKeyCode key_code)
  *
  * Returns key code for given character via the above function. Throws std::out_of_range on error.
  */
-CGKeyCode KeyCodeForChar(UChar c)
+std::optional<CGKeyCode> KeyCodeForChar(UChar c)
 {
    try {
       static std::once_flag flag;
@@ -212,7 +213,11 @@ CGKeyCode KeyCodeForChar(UChar c)
             }
          }
       });
-      return char_code_map.at(c);
+      auto result = char_code_map.find(c);
+      if (result != char_code_map.end())
+         return result->second;
+      else
+         return {};
    }
    catch (const std::exception& e) {
       rsj::LogAndAlertError(
@@ -358,7 +363,12 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
          else {
             const UChar uc{icu::UnicodeString::fromUTF8(key)[0]};
-            const auto key_code = KeyCodeForChar(uc);
+            const auto key_code_result = KeyCodeForChar(uc);
+            if (!key_code_result) {
+               rsj::LogAndAlertError("Unsupported character was used: " + key + ". " + e.what());
+               return
+            }
+            const auto key_code = key_code_result.value();
             d = CGEventCreateKeyboardEvent(NULL, key_code, true);
             u = CGEventCreateKeyboardEvent(NULL, key_code, false);
             flags = CGEventGetFlags(d); // in case KeyCode has associated flag
