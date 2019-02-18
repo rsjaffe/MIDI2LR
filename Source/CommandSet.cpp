@@ -11,8 +11,10 @@ CommandSet::CommandSet() : m_impl(make_impl())
 {
    size_t idx = 0;
    for (const auto& bycategory : m_impl.allcommands_)
-      for (const auto& cmd_pair : bycategory.second)
+      for (const auto& cmd_pair : bycategory.second) {
+         cmd_by_number_[idx] = cmd_pair.first;
          cmd_idx_[cmd_pair.first] = idx++;
+      }
 }
 
 CommandSet::~CommandSet() = default; // defined in cpp file in case go to pimpl idiom for Impl
@@ -63,9 +65,8 @@ const CommandSet::Impl& CommandSet::make_impl()
 
 size_t CommandSet::GetIndexOfCommand(const std::string& command) const
 {
-   auto found = cmd_idx_.find(command) ;
-   if (found == cmd_idx_.end())
-   {
+   auto found = cmd_idx_.find(command);
+   if (found == cmd_idx_.end()) {
       rsj::LogAndAlertError("Command not found in GetIndexOfCommand: " + command);
       return 0;
    }
