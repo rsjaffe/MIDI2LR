@@ -145,10 +145,6 @@
 			isa = PBXBuildFile;
 			fileRef = 2234B03A15325106E88CB84D;
 		};
-		24A234758A3B0A9331EC9E0D = {
-			isa = PBXBuildFile;
-			fileRef = F594F1F57CF918CECB628123;
-		};
 		C5DDB4CBA00A47F212328B41 = {
 			isa = PBXBuildFile;
 			fileRef = 10DA2D4A5556B27C1A0AB0CC;
@@ -805,13 +801,6 @@
 			path = ../../icu/source/common/ustring.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
-		C2ADE5E967FA64B83D591E5D = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = LRCommands.h;
-			path = ../../Source/LRCommands.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		C2B252278F9F41CD4ECBC136 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -931,13 +920,6 @@
 			path = ../../Source/MidiUtilities.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		F594F1F57CF918CECB628123 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = LRCommands.cpp;
-			path = ../../Source/LRCommands.cpp;
-			sourceTree = "SOURCE_ROOT";
-		};
 		883E81735D4CB00E1EBE5978 = {
 			isa = PBXGroup;
 			children = (
@@ -983,8 +965,6 @@
 				CBC8F83DB3BDB858EFBB0BD7,
 				2234B03A15325106E88CB84D,
 				488A37C1B3B96ECCE82B27FE,
-				F594F1F57CF918CECB628123,
-				C2ADE5E967FA64B83D591E5D,
 				10DA2D4A5556B27C1A0AB0CC,
 				AF0988C7F370FBF895877C15,
 				1C376A7F89CA0BC18630F667,
@@ -1354,7 +1334,6 @@
 				F7FF4E1A3694D33D4E7C93E3,
 				E5D509B03CFCB1F090D7C4F7,
 				64CE33091AB5C2705D8D2E31,
-				24A234758A3B0A9331EC9E0D,
 				C5DDB4CBA00A47F212328B41,
 				B680BA0A6DEDE4ABAFD3A5C2,
 				D69B7302D8FB7CA7D3177E8B,

@@ -49,8 +49,6 @@
       <FILE id="KuUBCX" name="LR_IPC_In.h" compile="0" resource="0" file="Source/LR_IPC_In.h"/>
       <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
       <FILE id="SAormw" name="LR_IPC_Out.h" compile="0" resource="0" file="Source/LR_IPC_Out.h"/>
-      <FILE id="h3ctHq" name="LRCommands.cpp" compile="1" resource="0" file="Source/LRCommands.cpp"/>
-      <FILE id="ydSA1z" name="LRCommands.h" compile="0" resource="0" file="Source/LRCommands.h"/>
       <FILE id="DX1wJU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="DR9WJZ" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

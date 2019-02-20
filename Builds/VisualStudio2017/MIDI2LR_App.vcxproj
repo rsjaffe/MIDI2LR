@@ -164,7 +164,6 @@
     <ClCompile Include="..\..\Source\DebugInfo.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp"/>
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp"/>
-    <ClCompile Include="..\..\Source\LRCommands.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\Source\MainWindow.cpp"/>
@@ -1431,7 +1430,6 @@
     <ClInclude Include="..\..\Source\DebugInfo.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>
-    <ClInclude Include="..\..\Source\LRCommands.h"/>
     <ClInclude Include="..\..\Source\MainComponent.h"/>
     <ClInclude Include="..\..\Source\MainWindow.h"/>
     <ClInclude Include="..\..\Source\MIDIProcessor.h"/>

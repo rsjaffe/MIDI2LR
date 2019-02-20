@@ -310,9 +310,6 @@
     <ClCompile Include="..\..\Source\LR_IPC_Out.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\LRCommands.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -1717,9 +1714,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LR_IPC_Out.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\LRCommands.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">
