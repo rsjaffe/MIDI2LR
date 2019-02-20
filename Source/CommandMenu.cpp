@@ -23,28 +23,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "CCoptions.h"
 #include "CommandMap.h"
+#include "CommandSet.h"
 #include "LRCommands.h"
 #include "Misc.h"
 #include "PWoptions.h"
 
-CommandMenu::CommandMenu(const rsj::MidiMessageId& message) try : juce
-   ::TextButton{"Unmapped"},
-       menus_({"Keyboard Shortcuts for User", "Library filter", "General", "Library", "Develop",
-           "Basic", "Tone Curve", "HSL / Color / B&W", "Reset HSL / Color / B&W", "Split Toning",
-           "Detail", "Lens Corrections", "Transform", "Effects", "Camera Calibration",
-           "Develop Presets", "Keywords", "Local Adjustments", "Crop",
-           "Go to Tool, Module, or Panel", "Secondary Display", "Profiles", "Next/Prev Profile"}),
-       menu_entries_({LrCommandList::KeyShortcuts, LrCommandList::Filters, LrCommandList::General,
-           LrCommandList::Library, LrCommandList::Develop, LrCommandList::BasicAdjustments,
-           LrCommandList::ToneCurve, LrCommandList::Mixer, LrCommandList::ResetMixer,
-           LrCommandList::SplitToning, LrCommandList::Detail, LrCommandList::LensCorrections,
-           LrCommandList::Transform, LrCommandList::Effects, LrCommandList::Calibration,
-           LrCommandList::DevelopPresets, LrCommandList::Keywords, LrCommandList::LocalAdjustments,
-           LrCommandList::Crop, LrCommandList::ToolModulePanel, LrCommandList::SecondaryDisplay,
-           LrCommandList::ProgramProfiles, LrCommandList::NextPrevProfile}),
-       message_{message}
-   {
-   }
+CommandMenu::CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set) try
+    : juce
+   ::TextButton{"Unmapped"}, message_{message}, command_set_(command_set) {}
 catch (const std::exception& e) {
    rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    throw;
@@ -64,11 +50,11 @@ void CommandMenu::SetSelectedItem(size_t index)
 {
    try {
       selected_item_ = index;
-      if (index - 1 < LrCommandList::LrStringList.size())
-         setButtonText(LrCommandList::LrStringList.at(index - 1));
+      if (index - 1 < command_set_.CommandAbbrevSize())
+         setButtonText(command_set_.CommandAbbrevAt(index - 1));
       else
          setButtonText(
-             LrCommandList::NextPrevProfile.at(index - 1 - LrCommandList::LrStringList.size()));
+             LrCommandList::NextPrevProfile.at(index - 1 - command_set_.CommandAbbrevSize()));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -83,8 +69,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          switch (message_.msg_id_type) {
          case rsj::MsgIdEnum::kCc: {
             CCoptions ccopt;
-            ccopt.BindToControl(
-                gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to 0-based
+            ccopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to
+                                                                               // 0-based
                 gsl::narrow_cast<short>(message_.data));
             juce::DialogWindow::showModalDialog(TRANS("Adjust CC dialog"), &ccopt, nullptr,
                 juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
@@ -92,8 +78,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          }
          case rsj::MsgIdEnum::kPitchBend: {
             PWoptions pwopt;
-            pwopt.BindToControl(
-                gsl::narrow_cast<short>(message_.channel - 1)); // convert 1-based to 0 based
+            pwopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1)); // convert 1-based
+                                                                                // to 0 based
             juce::DialogWindow::showModalDialog(TRANS("Adjust PW dialog"), &pwopt, nullptr,
                 juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
@@ -110,13 +96,13 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
              submenu_tick_set = index == selected_item_);
          index++;
          // add each submenu
-         for (size_t menu_index = 0; menu_index < menus_.size(); ++menu_index) {
+         for (size_t menu_index = 0; menu_index < command_set_.GetMenus().size(); ++menu_index) {
             juce::PopupMenu sub_menu;
-            for (const auto& command : menu_entries_.at(menu_index)) {
+            for (const auto& command : command_set_.GetMenuEntries().at(menu_index)) {
                auto already_mapped = false;
-               if (index - 1 < LrCommandList::LrStringList.size() && command_map_)
+               if (index - 1 < command_set_.CommandAbbrevSize() && command_map_)
                   already_mapped = command_map_->CommandHasAssociatedMessage(
-                      LrCommandList::LrStringList.at(index - 1));
+                      command_set_.CommandAbbrevAt(index - 1));
 
                // add each submenu entry, ticking the previously selected entry and
                // disabling a previously mapped entry
@@ -131,7 +117,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             }
             // set whether or not the submenu is ticked (true if one of the submenu's
             // entries is selected)
-            main_menu.addSubMenu(menus_.at(menu_index), sub_menu, true, nullptr,
+            main_menu.addSubMenu(command_set_.GetMenus().at(menu_index), sub_menu, true, nullptr,
                 selected_item_ < index && !submenu_tick_set);
             submenu_tick_set |= selected_item_ < index && !submenu_tick_set;
          }
@@ -141,11 +127,11 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             // associated to this menu
             if (selected_item_ < std::numeric_limits<size_t>::max())
                command_map_->RemoveMessage(message_);
-            if (result - 1 < LrCommandList::LrStringList.size())
-               setButtonText(LrCommandList::LrStringList.at(result - 1));
+            if (result - 1 < command_set_.CommandAbbrevSize())
+               setButtonText(command_set_.CommandAbbrevAt(result - 1));
             else
                setButtonText(LrCommandList::NextPrevProfile.at(
-                   result - 1 - LrCommandList::LrStringList.size()));
+                   result - 1 - command_set_.CommandAbbrevSize()));
             selected_item_ = result;
             // Map the selected command to the CC
             command_map_->AddCommandforMessage(result - 1, message_);

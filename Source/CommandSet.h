@@ -20,12 +20,12 @@ class CommandSet {
    size_t CommandTextIndex(const MenuStringT& command) const; // replaces
                                                               // LrCommandList::getIndexOfCommand
    const auto& CommandAbbrevAt(size_t index) const
-   { // replaces LrCommandList::LrStringList.at
+   {
       return cmd_by_number_.at(index);
    }
 
    auto CommandAbbrevSize() const noexcept
-   { // replaces LrCommandList::LrStringList.size
+   {
       return cmd_by_number_.size();
    }
 
@@ -35,12 +35,12 @@ class CommandSet {
    }
 
    const auto& GetMenus() const noexcept
-   { // replaces menus_ in CommandMenu
+   {
       return menus_;
    }
 
    const auto& GetMenuEntries() const noexcept
-   { // replaces menu_entries_ in CommandMenu
+   {
       return menu_entries_;
    }
 
@@ -76,7 +76,7 @@ class CommandSet {
    const Impl& make_impl();
 
    std::unordered_map<MenuStringT, size_t> cmd_idx_{}; // for CommandTextIndex
-   std::vector<std::string> cmd_by_number_{}; // use for LrCommandList::LrStringList.at, .size
+   std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size
    std::vector<MenuStringT> menus_{};         // use for commandmenu
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
 };
