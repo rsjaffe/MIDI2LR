@@ -26,8 +26,6 @@ local LrPathUtils  = import 'LrPathUtils'
 local menulocation = ""
 local menus_ = 'menus_({ '
 local menu_entries_ = 'menu_entries_({ '
-local lrcommandsh = ''
-
 
 local datafile = LrPathUtils.child(_PLUGIN.path, 'Commands.md')
 local file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)

@@ -30,7 +30,7 @@ local function gatherInformation()
     writeable = '\nPlugin directory is not writeable'
   end
   local longest = 40
-  local mess = '----------- \LIGHTROOM -----------'
+  local mess = '----------- LIGHTROOM -----------'
   .. '\nOperating system ' .. LrSystemInfo.summaryString()
   .. '\nVersion ' .. LrApplication.versionString()
   .. '\nLanguage ' .. LrLocalization.currentLanguage() 
@@ -55,7 +55,7 @@ end
 local function writeDebug()
   local applogpath
   if WIN_ENV then
-    applogpath=LrPathUtils.child('%APPDATA%','MIDI2LR')
+    applogpath=LrPathUtils.child(LrPathUtils.parent(LrPathUtils.parent(LrPathUtils.getStandardFilePath('appData'))),'MIDI2LR')
   else
     applogpath='~/Library/Logs/MIDI2LR'
   end
