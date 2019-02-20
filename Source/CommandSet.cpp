@@ -12,7 +12,7 @@ CommandSet::CommandSet() : m_impl(make_impl())
    size_t idx = 0;
    for (const auto& bycategory : m_impl.allcommands_)
       for (const auto& cmd_pair : bycategory.second) {
-         cmd_by_number_[idx] = cmd_pair.first;
+         cmd_by_number_.push_back(cmd_pair.first);
          cmd_idx_[cmd_pair.first] = idx++;
       }
 }
@@ -22,33 +22,25 @@ CommandSet::~CommandSet() = default; // defined in cpp file in case go to pimpl 
 CommandSet::Impl::Impl()
 {
    auto& ls{*this}; // will use for running cereal
-
-   language_ = "en";
-   allcommands_ = {{"Keyboard Shortcuts for User", {{"Key1", "Key 1"}, {"Key2", "Key 2"}}},
-       {"Library filter", {{"Filter_1", "Library filter 1"}, {"Filter_2", "Library filter 2"}}},
-       {"General", {{"ShoVwgrid", "Primary Display Grid"}, {"ShoVwloupe", "Primary Display Loupe"},
-                       {"ShoVwcompare", "Primary Display Compare"}}}};
-
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         fs::path p{rsj::AppDataFilePath("commandlisttest.xml")};
+         fs::path p{rsj::AppDataFilePath("MenuTrans.xml")};
 #else
-         const auto p = rsj::AppDataFilePath("commandlisttest.xml");
+         const auto p = rsj::AppDataFilePath("MenuTrans.xml");
 #endif
-         // change all the following to infile once we get communication going
-         std::ofstream outfile(p, std::ios::out | std::ios::trunc);
-         if (outfile.is_open()) {
-            cereal::XMLOutputArchive oarchive(outfile);
-            oarchive(ls);
+         std::ifstream infile(p);
+         if (infile.is_open()) {
+            cereal::XMLInputArchive iarchive(infile);
+            iarchive(ls);
 #ifdef _WIN32
-            rsj::Log("Cereal controls archive saved to " + juce::String(p.c_str()));
+            rsj::Log("Cereal controls archive loaded from " + juce::String(p.c_str()));
 #else
-            rsj::Log("Cereal controls archive saved to " + p);
+            rsj::Log("Cereal controls archive loaded from " + p);
 #endif
          }
          else
-            rsj::LogAndAlertError("Unable to save control settings to xml file.");
+            rsj::LogAndAlertError("Unable to load control settings from xml file. Unable to open file");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);

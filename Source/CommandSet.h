@@ -2,6 +2,7 @@
 #ifndef MIDI2LR_SCRIMPL_H_INCLUDED
 #include <cereal/access.hpp>
 #include <cereal/archives/xml.hpp>
+#include <cereal/types/string.hpp>
 #include <cereal/types/utility.hpp>
 #include <cereal/types/vector.hpp>
 #include <string>
