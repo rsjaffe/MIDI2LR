@@ -23,7 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
-#include "LRCommands.h"
 #include "Misc.h"
 
 void CommandTableModel::Init(CommandMap* map_command) noexcept

@@ -24,7 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CCoptions.h"
 #include "CommandMap.h"
 #include "CommandSet.h"
-#include "LRCommands.h"
 #include "Misc.h"
 #include "PWoptions.h"
 
@@ -52,9 +51,6 @@ void CommandMenu::SetSelectedItem(size_t index)
       selected_item_ = index;
       if (index - 1 < command_set_.CommandAbbrevSize())
          setButtonText(command_set_.CommandAbbrevAt(index - 1));
-      else
-         setButtonText(
-             LrCommandList::NextPrevProfile.at(index - 1 - command_set_.CommandAbbrevSize()));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -129,9 +125,6 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                command_map_->RemoveMessage(message_);
             if (result - 1 < command_set_.CommandAbbrevSize())
                setButtonText(command_set_.CommandAbbrevAt(result - 1));
-            else
-               setButtonText(LrCommandList::NextPrevProfile.at(
-                   result - 1 - command_set_.CommandAbbrevSize()));
             selected_item_ = result;
             // Map the selected command to the CC
             command_map_->AddCommandforMessage(result - 1, message_);

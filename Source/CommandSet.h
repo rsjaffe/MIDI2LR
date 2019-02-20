@@ -17,8 +17,7 @@ class CommandSet {
  public:
    CommandSet();
    ~CommandSet();
-   size_t CommandTextIndex(const MenuStringT& command) const; // replaces
-                                                              // LrCommandList::getIndexOfCommand
+   size_t CommandTextIndex(const MenuStringT& command) const;
    const auto& CommandAbbrevAt(size_t index) const
    {
       return cmd_by_number_.at(index);

@@ -27,7 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 #include "CommandMap.h"
 #include "ControlsModel.h"
-#include "LRCommands.h"
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 #include "MIDISender.h"
@@ -40,8 +39,8 @@ namespace {
    constexpr int kConnectTryTime{100};
    constexpr int kDelay{8}; // in between recurrent actions
    constexpr int kLrOutPort{58763};
-   constexpr int kMinRecenterTimer{
-       250}; // give controller enough of a refractory period before resetting it
+   constexpr int kMinRecenterTimer{250}; // give controller enough of a refractory period before
+                                         // resetting it
    constexpr int kRecenterTimer{std::max(kMinRecenterTimer,
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
@@ -112,14 +111,10 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
           {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
       };
-      if (!command_map_->MessageExistsInMap(message)
-          || command_map_->GetCommandforMessage(message) == "Unmapped"s
-          || find(LrCommandList::NextPrevProfile.begin(), LrCommandList::NextPrevProfile.end(),
-                 command_map_->GetCommandforMessage(message))
-                 != LrCommandList::NextPrevProfile.end()) {
-         return;
-      }
+      if (!command_map_->MessageExistsInMap(message)) return;
       const auto command_to_send = command_map_->GetCommandforMessage(message);
+      if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s)
+         return; //handled by ProfileManager
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
          static rsj::TimeType nextresponse{0};
