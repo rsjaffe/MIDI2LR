@@ -792,6 +792,8 @@ local DataBase = {
   {Command='profile8',Type='button',Translation=profile..' 8',Group=profiles,Explanation='Change to MIDI mapping profile 8. *button*'},
   {Command='profile9',Type='button',Translation=profile..' 9',Group=profiles,Explanation='Change to MIDI mapping profile 9. *button*'},
   {Command='profile10',Type='button',Translation=profile..' 10',Group=profiles,Explanation='Change to MIDI mapping profile 10. *button*'},
+  {Command='PrevPro',Type='button',Translation=LOC('$$$/MIDI2LR/Profiles/Previous=Previous Profile'),Group=profiles,Explanation='Change to previous (by alpha order) MIDI mapping profile. *button*'},
+  {Command='NextPro',Type='button',Translation=LOC('$$$/MIDI2LR/Profiles/Next=Next Profile'),Group=profiles,Explanation='Change to next (by alpha order) MIDI mapping profile. *button*'},
   {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=profiles,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up-to-date. Useful if controller out of sync with Lightroom (e.g., with layer changes). *button*'},
 }
 
