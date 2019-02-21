@@ -36,8 +36,6 @@ namespace juce
     starting/stopping it may involve launching and killing threads.
 
     @see Timer
-
-    @tags{Core}
 */
 class JUCE_API  HighResolutionTimer
 {
@@ -96,7 +94,7 @@ private:
     struct Pimpl;
     friend struct Pimpl;
     friend struct ContainerDeletePolicy<Pimpl>;
-    std::unique_ptr<Pimpl> pimpl;
+    ScopedPointer<Pimpl> pimpl;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HighResolutionTimer)
 };

@@ -44,7 +44,7 @@ class MenuWindow;
 
 static bool canBeTriggered (const PopupMenu::Item& item) noexcept        { return item.isEnabled && item.itemID != 0 && ! item.isSectionHeader; }
 static bool hasActiveSubMenu (const PopupMenu::Item& item) noexcept      { return item.isEnabled && item.subMenu != nullptr && item.subMenu->items.size() > 0; }
-static const Colour* getColour (const PopupMenu::Item& item) noexcept    { return item.colour != Colour() ? &item.colour : nullptr; }
+static const Colour* getColour (const PopupMenu::Item& item) noexcept    { return item.colour != Colour (0x00000000) ? &item.colour : nullptr; }
 static bool hasSubMenu (const PopupMenu::Item& item) noexcept            { return item.subMenu != nullptr && (item.itemID == 0 || item.subMenu->getNumItems() > 0); }
 
 //==============================================================================
@@ -120,14 +120,14 @@ struct ItemComponent  : public Component
                                                 hasSubMenu (item),
                                                 item.text,
                                                 item.shortcutKeyDescription,
-                                                item.image.get(),
+                                                item.image,
                                                 getColour (item));
     }
 
     void resized() override
     {
-        if (auto* child = getChildComponent (0))
-            child->setBounds (getLocalBounds().reduced (getLookAndFeel().getPopupMenuBorderSize(), 0));
+        if (Component* const child = getChildComponent (0))
+            child->setBounds (getLocalBounds().reduced (2, 0));
     }
 
     void setHighlighted (bool shouldBeHighlighted)
@@ -271,7 +271,7 @@ public:
     {
         getActiveWindows().removeFirstMatchingValue (this);
         Desktop::getInstance().removeGlobalMouseListener (this);
-        activeSubMenu.reset();
+        activeSubMenu = nullptr;
         items.clear();
     }
 
@@ -313,7 +313,7 @@ public:
         {
             WeakReference<Component> deletionChecker (this);
 
-            activeSubMenu.reset();
+            activeSubMenu = nullptr;
             currentChild = nullptr;
 
             if (item != nullptr
@@ -551,7 +551,7 @@ public:
 
     bool treeContains (const MenuWindow* const window) const noexcept
     {
-        auto* mw = this;
+        const MenuWindow* mw = this;
 
         while (mw->parent != nullptr)
             mw = mw->parent;
@@ -561,7 +561,7 @@ public:
             if (mw == window)
                 return true;
 
-            mw = mw->activeSubMenu.get();
+            mw = mw->activeSubMenu;
         }
 
         return false;
@@ -612,12 +612,12 @@ public:
 
     void calculateWindowPos (Rectangle<int> target, const bool alignToRectangle)
     {
-        auto parentArea = getParentArea (target.getCentre()) / scaleFactor;
+        auto parentArea = getParentArea (target.getCentre());
 
         if (parentComponent != nullptr)
             target = parentComponent->getLocalArea (nullptr, target).getIntersection (parentArea);
 
-        auto maxMenuHeight = parentArea.getHeight() - 24;
+        const int maxMenuHeight = parentArea.getHeight() - 24;
 
         int x, y, widthToUse, heightToUse;
         layoutMenuItems (parentArea.getWidth() - 24, maxMenuHeight, widthToUse, heightToUse);
@@ -626,16 +626,13 @@ public:
         {
             x = target.getX();
 
-            auto spaceUnder = parentArea.getBottom() - target.getBottom();
+            auto spaceUnder = parentArea.getHeight() - (target.getBottom() - parentArea.getY());
             auto spaceOver = target.getY() - parentArea.getY();
-            auto bufferHeight = 30;
 
-            if (options.getPreferredPopupDirection() == Options::PopupDirection::upwards)
-                y = (heightToUse < spaceOver - bufferHeight  || spaceOver >= spaceUnder) ? target.getY() - heightToUse
-                                                                                         : target.getBottom();
+            if (heightToUse < spaceUnder - 30 || spaceUnder >= spaceOver)
+                y = target.getBottom();
             else
-                y = (heightToUse < spaceUnder - bufferHeight || spaceUnder >= spaceOver) ? target.getBottom()
-                                                                                         : target.getY() - heightToUse;
+                y = target.getY() - heightToUse;
         }
         else
         {
@@ -659,8 +656,8 @@ public:
                 }
             }
 
-            auto biggestSpace = jmax (parentArea.getRight() - target.getRight(),
-                                      target.getX() - parentArea.getX()) - 32;
+            const int biggestSpace = jmax (parentArea.getRight() - target.getRight(),
+                                           target.getX() - parentArea.getX()) - 32;
 
             if (biggestSpace < widthToUse)
             {
@@ -672,17 +669,20 @@ public:
                 tendTowardsRight = (parentArea.getRight() - target.getRight()) >= (target.getX() - parentArea.getX());
             }
 
-            x = tendTowardsRight ? jmin (parentArea.getRight() - widthToUse - 4, target.getRight())
-                                 : jmax (parentArea.getX() + 4, target.getX() - widthToUse);
+            if (tendTowardsRight)
+                x = jmin (parentArea.getRight() - widthToUse - 4, target.getRight());
+            else
+                x = jmax (parentArea.getX() + 4, target.getX() - widthToUse);
 
             if (getLookAndFeel().getPopupMenuBorderSize() == 0) // workaround for dismissing the window on mouse up when border size is 0
                 x += tendTowardsRight ? 1 : -1;
 
-            y = target.getCentreY() > parentArea.getCentreY() ? jmax (parentArea.getY(), target.getBottom() - heightToUse)
-                                                              : target.getY();
+            y = target.getY();
+            if (target.getCentreY() > parentArea.getCentreY())
+                y = jmax (parentArea.getY(), target.getBottom() - heightToUse);
         }
 
-        x = jmax (parentArea.getX() + 1, jmin (parentArea.getRight()  - (widthToUse  + 6), x));
+        x = jmax (parentArea.getX() + 1, jmin (parentArea.getRight() - (widthToUse + 6), x));
         y = jmax (parentArea.getY() + 1, jmin (parentArea.getBottom() - (heightToUse + 6), y));
 
         windowPos.setBounds (x, y, widthToUse, heightToUse);
@@ -696,12 +696,13 @@ public:
     {
         numColumns = options.getMinimumNumColumns();
         contentHeight = 0;
+        int totalW;
 
         auto maximumNumColumns = options.getMaximumNumColumns() > 0 ? options.getMaximumNumColumns() : 7;
 
         for (;;)
         {
-            auto totalW = workOutBestSize (maxMenuW);
+            totalW = workOutBestSize (maxMenuW);
 
             if (totalW > maxMenuW)
             {
@@ -736,8 +737,8 @@ public:
         {
             int colW = options.getStandardItemHeight(), colH = 0;
 
-            auto numChildren = jmin (items.size() - childNum,
-                                     (items.size() + numColumns - 1) / numColumns);
+            const int numChildren = jmin (items.size() - childNum,
+                                          (items.size() + numColumns - 1) / numColumns);
 
             for (int i = numChildren; --i >= 0;)
             {
@@ -789,8 +790,9 @@ public:
                                                     windowPos.getHeight() - (PopupMenuSettings::scrollZone + m->getHeight())),
                                               currentY);
 
-                        auto parentArea = getParentArea (windowPos.getPosition()) / scaleFactor;
-                        auto deltaY = wantedY - currentY;
+                        auto parentArea = getParentArea (windowPos.getPosition());
+
+                        int deltaY = wantedY - currentY;
 
                         windowPos.setSize (jmin (windowPos.getWidth(), parentArea.getWidth()),
                                            jmin (windowPos.getHeight(), parentArea.getHeight()));
@@ -823,7 +825,7 @@ public:
         }
         else if (childYOffset > 0)
         {
-            auto spaceAtBottom = r.getHeight() - (contentHeight - childYOffset);
+            const int spaceAtBottom = r.getHeight() - (contentHeight - childYOffset);
 
             if (spaceAtBottom > 0)
                 r.setSize (r.getWidth(), r.getHeight() - spaceAtBottom);
@@ -833,7 +835,7 @@ public:
         updateYPositions();
     }
 
-    void alterChildYPos (int delta)
+    void alterChildYPos (const int delta)
     {
         if (canScroll())
         {
@@ -863,11 +865,12 @@ public:
 
         for (int col = 0; col < numColumns; ++col)
         {
-            auto numChildren = jmin (items.size() - childNum,
-                                     (items.size() + numColumns - 1) / numColumns);
+            const int numChildren = jmin (items.size() - childNum,
+                                          (items.size() + numColumns - 1) / numColumns);
 
-            auto colW = columnWidths[col];
-            auto y = getLookAndFeel().getPopupMenuBorderSize() - (childYOffset + (getY() - windowPos.getY()));
+            const int colW = columnWidths [col];
+
+            int y = getLookAndFeel().getPopupMenuBorderSize() - (childYOffset + (getY() - windowPos.getY()));
 
             for (int i = 0; i < numChildren; ++i)
             {
@@ -883,7 +886,7 @@ public:
         return x;
     }
 
-    void setCurrentlyHighlightedChild (ItemComponent* child)
+    void setCurrentlyHighlightedChild (ItemComponent* const child)
     {
         if (currentChild != nullptr)
             currentChild->setHighlighted (false);
@@ -899,18 +902,18 @@ public:
 
     bool isSubMenuVisible() const noexcept          { return activeSubMenu != nullptr && activeSubMenu->isVisible(); }
 
-    bool showSubMenuFor (ItemComponent* childComp)
+    bool showSubMenuFor (ItemComponent* const childComp)
     {
-        activeSubMenu.reset();
+        activeSubMenu = nullptr;
 
         if (childComp != nullptr
              && hasActiveSubMenu (childComp->item))
         {
-            activeSubMenu.reset (new HelperClasses::MenuWindow (*(childComp->item.subMenu), this,
-                                                                options.withTargetScreenArea (childComp->getScreenBounds())
-                                                                       .withMinimumWidth (0)
-                                                                       .withTargetComponent (nullptr),
-                                                                false, dismissOnMouseUp, managerOfChosenCommand, scaleFactor));
+            activeSubMenu = new HelperClasses::MenuWindow (*(childComp->item.subMenu), this,
+                                                           options.withTargetScreenArea (childComp->getScreenBounds())
+                                                                  .withMinimumWidth (0)
+                                                                  .withTargetComponent (nullptr),
+                                                           false, dismissOnMouseUp, managerOfChosenCommand, scaleFactor);
 
             activeSubMenu->setVisible (true); // (must be called before enterModalState on Windows to avoid DropShadower confusion)
             activeSubMenu->enterModalState (false);
@@ -932,11 +935,11 @@ public:
         }
     }
 
-    void selectNextItem (int delta)
+    void selectNextItem (const int delta)
     {
         disableTimerUntilMouseMoves();
 
-        auto start = jmax (0, items.indexOf (currentChild));
+        int start = jmax (0, items.indexOf (currentChild));
 
         for (int i = items.size(); --i >= 0;)
         {
@@ -993,7 +996,7 @@ public:
     bool dismissOnMouseUp, hideOnExit = false, disableMouseMoves = false, hasAnyJuceCompHadFocus = false;
     int numColumns = 0, contentHeight = 0, childYOffset = 0;
     Component::SafePointer<ItemComponent> currentChild;
-    std::unique_ptr<MenuWindow> activeSubMenu;
+    ScopedPointer<MenuWindow> activeSubMenu;
     Array<int> columnWidths;
     uint32 windowCreationTime, lastFocusedTime, timeEnteredCurrentChildComp;
     OwnedArray<MouseSourceState> mouseSourceStates;
@@ -1076,8 +1079,8 @@ private:
                            const bool wasDown, const bool overScrollArea, const bool isOverAny)
     {
         isDown = window.hasBeenOver
-                    && (ModifierKeys::currentModifiers.isAnyMouseButtonDown()
-                         || ComponentPeer::getCurrentModifiersRealtime().isAnyMouseButtonDown());
+                    && (ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown()
+                         || ModifierKeys::getCurrentModifiersRealtime().isAnyMouseButtonDown());
 
         if (! window.doesAnyJuceCompHaveFocus())
         {
@@ -1132,7 +1135,6 @@ private:
             if (! isMovingTowardsMenu)
             {
                 auto* c = window.getComponentAt (localMousePos);
-
                 if (c == &window)
                     c = nullptr;
 
@@ -1342,8 +1344,8 @@ PopupMenu::Item& PopupMenu::Item::operator= (const Item& other)
 {
     text = other.text;
     itemID = other.itemID;
-    subMenu.reset (createCopyIfNotNull (other.subMenu.get()));
-    image.reset (other.image != nullptr ? other.image->createCopy() : nullptr);
+    subMenu = createCopyIfNotNull (other.subMenu.get());
+    image = (other.image != nullptr ? other.image->createCopy() : nullptr);
     customComponent = other.customComponent;
     customCallback = other.customCallback;
     commandManager = other.commandManager;
@@ -1401,7 +1403,7 @@ void PopupMenu::addItem (int itemResultID, const String& itemText, bool isActive
     i.itemID = itemResultID;
     i.isEnabled = isActive;
     i.isTicked = isTicked;
-    i.image.reset (iconToUse);
+    i.image = iconToUse;
     addItem (i);
 }
 
@@ -1423,7 +1425,7 @@ void PopupMenu::addCommandItem (ApplicationCommandManager* commandManager,
         i.commandManager = commandManager;
         i.isEnabled = target != nullptr && (info.flags & ApplicationCommandInfo::isDisabled) == 0;
         i.isTicked = (info.flags & ApplicationCommandInfo::isTicked) != 0;
-        i.image.reset (iconToUse);
+        i.image = iconToUse;
         addItem (i);
     }
 }
@@ -1437,7 +1439,7 @@ void PopupMenu::addColouredItem (int itemResultID, const String& itemText, Colou
     i.colour = itemTextColour;
     i.isEnabled = isActive;
     i.isTicked = isTicked;
-    i.image.reset (iconToUse);
+    i.image = iconToUse;
     addItem (i);
 }
 
@@ -1450,7 +1452,7 @@ void PopupMenu::addColouredItem (int itemResultID, const String& itemText, Colou
     i.colour = itemTextColour;
     i.isEnabled = isActive;
     i.isTicked = isTicked;
-    i.image.reset (createDrawableFromImage (iconToUse));
+    i.image = createDrawableFromImage (iconToUse);
     addItem (i);
 }
 
@@ -1459,7 +1461,7 @@ void PopupMenu::addCustomItem (int itemResultID, CustomComponent* cc, const Popu
     Item i;
     i.itemID = itemResultID;
     i.customComponent = cc;
-    i.subMenu.reset (createCopyIfNotNull (subMenu));
+    i.subMenu = createCopyIfNotNull (subMenu);
     addItem (i);
 }
 
@@ -1489,10 +1491,10 @@ void PopupMenu::addSubMenu (const String& subMenuName, const PopupMenu& subMenu,
     Item i;
     i.text = subMenuName;
     i.itemID = itemResultID;
-    i.subMenu.reset (new PopupMenu (subMenu));
+    i.subMenu = new PopupMenu (subMenu);
     i.isEnabled = isActive && (itemResultID != 0 || subMenu.getNumItems() > 0);
     i.isTicked = isTicked;
-    i.image.reset (iconToUse);
+    i.image = iconToUse;
     addItem (i);
 }
 
@@ -1580,20 +1582,13 @@ PopupMenu::Options PopupMenu::Options::withParentComponent (Component* parent) c
     return o;
 }
 
-PopupMenu::Options PopupMenu::Options::withPreferredPopupDirection (PopupDirection direction) const noexcept
-{
-    Options o (*this);
-    o.preferredPopupDirection = direction;
-    return o;
-}
-
 Component* PopupMenu::createWindow (const Options& options,
                                     ApplicationCommandManager** managerOfChosenCommand) const
 {
     return items.isEmpty() ? nullptr
                            : new HelperClasses::MenuWindow (*this, nullptr, options,
                                                             ! options.getTargetScreenArea().isEmpty(),
-                                                            ModifierKeys::currentModifiers.isAnyMouseButtonDown(),
+                                                            ModifierKeys::getCurrentModifiers().isAnyMouseButtonDown(),
                                                             managerOfChosenCommand);
 }
 
@@ -1619,7 +1614,7 @@ struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
         }
 
         // (this would be the place to fade out the component, if that's what's required)
-        component.reset();
+        component = nullptr;
 
         if (! PopupMenuSettings::menuWasHiddenBecauseOfAppChange)
         {
@@ -1632,7 +1627,7 @@ struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
     }
 
     ApplicationCommandManager* managerOfChosenCommand = nullptr;
-    std::unique_ptr<Component> component;
+    ScopedPointer<Component> component;
     WeakReference<Component> prevFocused, prevTopLevel;
 
     JUCE_DECLARE_NON_COPYABLE (PopupMenuCompletionCallback)
@@ -1641,12 +1636,12 @@ struct PopupMenuCompletionCallback  : public ModalComponentManager::Callback
 int PopupMenu::showWithOptionalCallback (const Options& options, ModalComponentManager::Callback* const userCallback,
                                          const bool canBeModal)
 {
-    std::unique_ptr<ModalComponentManager::Callback> userCallbackDeleter (userCallback);
-    std::unique_ptr<PopupMenuCompletionCallback> callback (new PopupMenuCompletionCallback());
+    ScopedPointer<ModalComponentManager::Callback> userCallbackDeleter (userCallback);
+    ScopedPointer<PopupMenuCompletionCallback> callback (new PopupMenuCompletionCallback());
 
     if (auto* window = createWindow (options, &(callback->managerOfChosenCommand)))
     {
-        callback->component.reset (window);
+        callback->component = window;
 
         window->setVisible (true); // (must be called before enterModalState on Windows to avoid DropShadower confusion)
         window->enterModalState (false, userCallbackDeleter.release());
@@ -1682,11 +1677,6 @@ void PopupMenu::showMenuAsync (const Options& options, ModalComponentManager::Ca
    #endif
 
     showWithOptionalCallback (options, userCallback, false);
-}
-
-void PopupMenu::showMenuAsync (const Options& options, std::function<void(int)> userCallback)
-{
-    showWithOptionalCallback (options, ModalCallbackFunction::create (userCallback), false);
 }
 
 //==============================================================================
@@ -1850,7 +1840,7 @@ bool PopupMenu::MenuItemIterator::next()
     if (searchRecursively && currentItem->subMenu != nullptr)
     {
         index.add (0);
-        menus.add (currentItem->subMenu.get());
+        menus.add (currentItem->subMenu);
     }
     else
         index.setUnchecked (index.size() - 1, index.getLast() + 1);

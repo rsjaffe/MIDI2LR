@@ -67,10 +67,12 @@ StringArray::StringArray (const wchar_t* const* initialStrings, int numberOfStri
     strings.addArray (initialStrings, numberOfStrings);
 }
 
+#if JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS
 StringArray::StringArray (const std::initializer_list<const char*>& stringList)
 {
     strings.addArray (stringList);
 }
+#endif
 
 StringArray& StringArray::operator= (const StringArray& other)
 {
@@ -113,16 +115,20 @@ void StringArray::clearQuick()
     strings.clearQuick();
 }
 
-const String& StringArray::operator[] (int index) const noexcept
+const String& StringArray::operator[] (const int index) const noexcept
 {
     if (isPositiveAndBelow (index, strings.size()))
         return strings.getReference (index);
 
+   #if JUCE_ALLOW_STATIC_NULL_VARIABLES
+    return String::empty;
+   #else
     static String empty;
     return empty;
+   #endif
 }
 
-String& StringArray::getReference (int index) noexcept
+String& StringArray::getReference (const int index) noexcept
 {
     return strings.getReference (index);
 }
@@ -137,12 +143,12 @@ void StringArray::add (String&& stringToAdd)
     strings.add (static_cast<String&&> (stringToAdd));
 }
 
-void StringArray::insert (int index, const String& newString)
+void StringArray::insert (const int index, const String& newString)
 {
     strings.insert (index, newString);
 }
 
-bool StringArray::addIfNotAlreadyThere (const String& newString, bool ignoreCase)
+bool StringArray::addIfNotAlreadyThere (const String& newString, const bool ignoreCase)
 {
     if (contains (newString, ignoreCase))
         return false;
@@ -166,23 +172,23 @@ void StringArray::addArray (const StringArray& otherArray, int startIndex, int n
         strings.add (otherArray.strings.getReference (startIndex++));
 }
 
-void StringArray::mergeArray (const StringArray& otherArray, bool ignoreCase)
+void StringArray::mergeArray (const StringArray& otherArray, const bool ignoreCase)
 {
     for (auto& s : otherArray)
         addIfNotAlreadyThere (s, ignoreCase);
 }
 
-void StringArray::set (int index, const String& newString)
+void StringArray::set (const int index, const String& newString)
 {
     strings.set (index, newString);
 }
 
-bool StringArray::contains (StringRef stringToLookFor, bool ignoreCase) const
+bool StringArray::contains (StringRef stringToLookFor, const bool ignoreCase) const
 {
     return indexOf (stringToLookFor, ignoreCase) >= 0;
 }
 
-int StringArray::indexOf (StringRef stringToLookFor, bool ignoreCase, int i) const
+int StringArray::indexOf (StringRef stringToLookFor, const bool ignoreCase, int i) const
 {
     if (i < 0)
         i = 0;
@@ -205,7 +211,7 @@ int StringArray::indexOf (StringRef stringToLookFor, bool ignoreCase, int i) con
     return -1;
 }
 
-void StringArray::move (int currentIndex, int newIndex) noexcept
+void StringArray::move (const int currentIndex, const int newIndex) noexcept
 {
     strings.move (currentIndex, newIndex);
 }
@@ -216,7 +222,7 @@ void StringArray::remove (int index)
     strings.remove (index);
 }
 
-void StringArray::removeString (StringRef stringToRemove, bool ignoreCase)
+void StringArray::removeString (StringRef stringToRemove, const bool ignoreCase)
 {
     if (ignoreCase)
     {
@@ -238,7 +244,7 @@ void StringArray::removeRange (int startIndex, int numberToRemove)
 }
 
 //==============================================================================
-void StringArray::removeEmptyStrings (bool removeWhitespaceStrings)
+void StringArray::removeEmptyStrings (const bool removeWhitespaceStrings)
 {
     if (removeWhitespaceStrings)
     {
@@ -261,19 +267,39 @@ void StringArray::trim()
 }
 
 //==============================================================================
-void StringArray::sort (bool ignoreCase)
+struct InternalStringArrayComparator_CaseSensitive
+{
+    static int compareElements (String& s1, String& s2) noexcept    { return s1.compare (s2); }
+};
+
+struct InternalStringArrayComparator_CaseInsensitive
+{
+    static int compareElements (String& s1, String& s2) noexcept    { return s1.compareIgnoreCase (s2); }
+};
+
+struct InternalStringArrayComparator_Natural
+{
+    static int compareElements (String& s1, String& s2) noexcept    { return s1.compareNatural (s2); }
+};
+
+void StringArray::sort (const bool ignoreCase)
 {
     if (ignoreCase)
-        std::sort (strings.begin(), strings.end(),
-                   [] (const String& a, const String& b) { return a.compareIgnoreCase (b) < 0; });
+    {
+        InternalStringArrayComparator_CaseInsensitive comp;
+        strings.sort (comp);
+    }
     else
-        std::sort (strings.begin(), strings.end());
+    {
+        InternalStringArrayComparator_CaseSensitive comp;
+        strings.sort (comp);
+    }
 }
 
 void StringArray::sortNatural()
 {
-    std::sort (strings.begin(), strings.end(),
-               [] (const String& a, const String& b) { return a.compareNatural (b) < 0; });
+    InternalStringArrayComparator_Natural comp;
+    strings.sort (comp);
 }
 
 //==============================================================================
@@ -314,6 +340,7 @@ String StringArray::joinIntoString (StringRef separator, int start, int numberTo
     }
 
     dest.writeNull();
+
     return result;
 }
 
@@ -399,7 +426,7 @@ StringArray StringArray::fromLines (StringRef stringToBreakUp)
 }
 
 //==============================================================================
-void StringArray::removeDuplicates (bool ignoreCase)
+void StringArray::removeDuplicates (const bool ignoreCase)
 {
     for (int i = 0; i < size() - 1; ++i)
     {
@@ -417,8 +444,8 @@ void StringArray::removeDuplicates (bool ignoreCase)
     }
 }
 
-void StringArray::appendNumbersToDuplicates (bool ignoreCase,
-                                             bool appendNumberToFirstInstance,
+void StringArray::appendNumbersToDuplicates (const bool ignoreCase,
+                                             const bool appendNumberToFirstInstance,
                                              CharPointer_UTF8 preNumberString,
                                              CharPointer_UTF8 postNumberString)
 {

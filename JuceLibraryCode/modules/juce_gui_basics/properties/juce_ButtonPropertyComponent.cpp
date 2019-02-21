@@ -27,12 +27,13 @@
 namespace juce
 {
 
-ButtonPropertyComponent::ButtonPropertyComponent (const String& name, bool triggerOnMouseDown)
+ButtonPropertyComponent::ButtonPropertyComponent (const String& name,
+                                                  const bool triggerOnMouseDown)
     : PropertyComponent (name)
 {
     addAndMakeVisible (button);
     button.setTriggeredOnMouseDown (triggerOnMouseDown);
-    button.onClick = [this] { buttonClicked(); };
+    button.addListener (this);
 }
 
 ButtonPropertyComponent::~ButtonPropertyComponent()
@@ -42,6 +43,11 @@ ButtonPropertyComponent::~ButtonPropertyComponent()
 void ButtonPropertyComponent::refresh()
 {
     button.setButtonText (getButtonText());
+}
+
+void ButtonPropertyComponent::buttonClicked (Button*)
+{
+    buttonClicked();
 }
 
 } // namespace juce

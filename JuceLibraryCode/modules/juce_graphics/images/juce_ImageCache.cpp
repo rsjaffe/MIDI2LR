@@ -33,7 +33,7 @@ struct ImageCache::Pimpl     : private Timer,
     Pimpl() {}
     ~Pimpl() { clearSingletonInstance(); }
 
-    JUCE_DECLARE_SINGLETON_SINGLETHREADED_MINIMAL (ImageCache::Pimpl)
+    juce_DeclareSingleton_SingleThreaded_Minimal (ImageCache::Pimpl)
 
     Image getFromHashCode (const int64 hashCode) noexcept
     {
@@ -111,7 +111,7 @@ struct ImageCache::Pimpl     : private Timer,
     JUCE_DECLARE_NON_COPYABLE (Pimpl)
 };
 
-JUCE_IMPLEMENT_SINGLETON (ImageCache::Pimpl)
+juce_ImplementSingleton_SingleThreaded (ImageCache::Pimpl)
 
 
 //==============================================================================

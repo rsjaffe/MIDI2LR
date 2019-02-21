@@ -141,7 +141,7 @@ ToolbarItemComponent::ToolbarItemComponent (const int itemId_,
 
 ToolbarItemComponent::~ToolbarItemComponent()
 {
-    overlayComp.reset();
+    overlayComp = nullptr;
 }
 
 Toolbar* ToolbarItemComponent::getToolbar() const
@@ -173,9 +173,9 @@ void ToolbarItemComponent::paintButton (Graphics& g, const bool over, const bool
 
     if (toolbarStyle != Toolbar::iconsOnly)
     {
-        auto indent = contentArea.getX();
-        auto y = indent;
-        auto h = getHeight() - indent * 2;
+        const int indent = contentArea.getX();
+        int y = indent;
+        int h = getHeight() - indent * 2;
 
         if (toolbarStyle == Toolbar::iconsWithText)
         {
@@ -212,7 +212,7 @@ void ToolbarItemComponent::resized()
     }
     else
     {
-        contentArea = {};
+        contentArea = Rectangle<int>();
     }
 
     contentAreaChanged (contentArea);
@@ -227,12 +227,11 @@ void ToolbarItemComponent::setEditingMode (const ToolbarEditingMode newMode)
 
         if (mode == normalMode)
         {
-            overlayComp.reset();
+            overlayComp = nullptr;
         }
         else if (overlayComp == nullptr)
         {
-            overlayComp.reset (new ItemDragAndDropOverlayComponent());
-            addAndMakeVisible (overlayComp.get());
+            addAndMakeVisible (overlayComp = new ItemDragAndDropOverlayComponent());
             overlayComp->parentSizeChanged();
         }
 

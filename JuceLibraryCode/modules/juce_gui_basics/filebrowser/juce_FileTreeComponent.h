@@ -38,8 +38,6 @@ namespace juce
     class and the FileBrowserListener class.
 
     @see DirectoryContentsList, FileListComponent
-
-    @tags{GUI}
 */
 class JUCE_API  FileTreeComponent  : public TreeView,
                                      public DirectoryContentsDisplayComponent

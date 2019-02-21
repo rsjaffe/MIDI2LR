@@ -191,7 +191,10 @@ GZIPDecompressorInputStream::GZIPDecompressorInputStream (InputStream* source, b
   : sourceStream (source, deleteSourceWhenDestroyed),
     uncompressedStreamLength (uncompressedLength),
     format (f),
+    isEof (false),
+    activeBufferSize (0),
     originalSourcePos (source->getPosition()),
+    currentPos (0),
     buffer ((size_t) GZIPDecompressHelper::gzipDecompBufferSize),
     helper (new GZIPDecompressHelper (f))
 {
@@ -201,7 +204,10 @@ GZIPDecompressorInputStream::GZIPDecompressorInputStream (InputStream& source)
   : sourceStream (&source, false),
     uncompressedStreamLength (-1),
     format (zlibFormat),
+    isEof (false),
+    activeBufferSize (0),
     originalSourcePos (source.getPosition()),
+    currentPos (0),
     buffer ((size_t) GZIPDecompressHelper::gzipDecompBufferSize),
     helper (new GZIPDecompressHelper (zlibFormat))
 {
@@ -223,11 +229,11 @@ int GZIPDecompressorInputStream::read (void* destBuffer, int howMany)
     if (howMany > 0 && ! isEof)
     {
         int numRead = 0;
-        auto d = static_cast<uint8*> (destBuffer);
+        uint8* d = static_cast<uint8*> (destBuffer);
 
         while (! helper->error)
         {
-            auto n = helper->doNextBlock (d, (unsigned int) howMany);
+            const int n = helper->doNextBlock (d, (unsigned int) howMany);
             currentPos += n;
 
             if (n == 0)
@@ -286,7 +292,7 @@ bool GZIPDecompressorInputStream::setPosition (int64 newPos)
         isEof = false;
         activeBufferSize = 0;
         currentPos = 0;
-        helper.reset (new GZIPDecompressHelper (format));
+        helper = new GZIPDecompressHelper (format);
 
         sourceStream->setPosition (originalSourcePos);
     }

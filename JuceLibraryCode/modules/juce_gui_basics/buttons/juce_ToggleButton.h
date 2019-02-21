@@ -35,8 +35,6 @@ namespace juce
     standard ones which has a tick-box and a text label next to it.
 
     @see Button, DrawableButton, TextButton
-
-    @tags{GUI}
 */
 class JUCE_API  ToggleButton  : public Button
 {

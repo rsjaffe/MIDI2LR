@@ -41,8 +41,6 @@ namespace juce
     resize and position it, then make it visible.
 
     @see BubbleMessageComponent
-
-    @tags{GUI}
 */
 class JUCE_API  BubbleComponent  : public Component
 {

@@ -28,8 +28,6 @@ namespace juce
 /** This is an internal helper class which converts a juce ElementComparator style
     class (using a "compareElements" method) into a class that's compatible with
     std::sort (i.e. using an operator() to compare the elements)
-
-    @tags{Core}
 */
 template <typename ElementComparator>
 struct SortFunctionConverter
@@ -41,7 +39,7 @@ struct SortFunctionConverter
 
 private:
     ElementComparator& comparator;
-    SortFunctionConverter& operator= (const SortFunctionConverter&) = delete;
+    SortFunctionConverter& operator= (const SortFunctionConverter&) JUCE_DELETED_FUNCTION;
 };
 
 #endif
@@ -82,17 +80,12 @@ static void sortArray (ElementComparator& comparator,
                        int lastElement,
                        const bool retainOrderOfEquivalentItems)
 {
-    jassert (firstElement >= 0);
+    SortFunctionConverter<ElementComparator> converter (comparator);
 
-    if (lastElement > firstElement)
-    {
-        SortFunctionConverter<ElementComparator> converter (comparator);
-
-        if (retainOrderOfEquivalentItems)
-            std::stable_sort (array + firstElement, array + lastElement + 1, converter);
-        else
-            std::sort        (array + firstElement, array + lastElement + 1, converter);
-    }
+    if (retainOrderOfEquivalentItems)
+        std::stable_sort (array + firstElement, array + lastElement + 1, converter);
+    else
+        std::sort        (array + firstElement, array + lastElement + 1, converter);
 }
 
 
@@ -178,14 +171,12 @@ static int findInsertIndexInSortedArray (ElementComparator& comparator,
     @endcode
 
     @see ElementComparator
-
-    @tags{Core}
 */
 template <class ElementType>
 class DefaultElementComparator
 {
 private:
-    using ParameterType = typename TypeHelpers::ParameterType<ElementType>::type;
+    typedef typename TypeHelpers::ParameterType<ElementType>::type ParameterType;
 
 public:
     static int compareElements (ParameterType first, ParameterType second)

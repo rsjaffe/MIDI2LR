@@ -39,8 +39,6 @@ namespace juce
 
     @see ApplicationCommandTarget, ApplicationCommandTarget::getCommandInfo(),
          ApplicationCommandManager
-
-    @tags{GUI}
 */
 struct JUCE_API  ApplicationCommandInfo
 {

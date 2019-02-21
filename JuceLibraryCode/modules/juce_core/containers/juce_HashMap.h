@@ -28,8 +28,6 @@ namespace juce
     A simple class to generate hash functions for some primitive types, intended for
     use with the HashMap class.
     @see HashMap
-
-    @tags{Core}
 */
 struct DefaultHashFunctions
 {
@@ -46,9 +44,7 @@ struct DefaultHashFunctions
     /** Generates a simple hash from a variant. */
     static int generateHash (const var& key, int upperLimit) noexcept       { return generateHash (key.toString(), upperLimit); }
     /** Generates a simple hash from a void ptr. */
-    static int generateHash (const void* key, int upperLimit) noexcept      { return generateHash ((uint64) (pointer_sized_uint) key, upperLimit); }
-    /** Generates a simple hash from a UUID. */
-    static int generateHash (const Uuid& key, int upperLimit) noexcept      { return generateHash (key.hash(), upperLimit); }
+    static int generateHash (const void* key, int upperLimit) noexcept      { return generateHash ((pointer_sized_uint) key, upperLimit); }
 };
 
 
@@ -93,8 +89,6 @@ struct DefaultHashFunctions
 
     @tparam HashFunctionType The class of hash function, which must be copy-constructible.
     @see CriticalSection, DefaultHashFunctions, NamedValueSet, SortedSet
-
-    @tags{Core}
 */
 template <typename KeyType,
           typename ValueType,
@@ -103,8 +97,8 @@ template <typename KeyType,
 class HashMap
 {
 private:
-    using KeyTypeParameter   = typename TypeHelpers::ParameterType<KeyType>::type;
-    using ValueTypeParameter = typename TypeHelpers::ParameterType<ValueType>::type;
+    typedef typename TypeHelpers::ParameterType<KeyType>::type   KeyTypeParameter;
+    typedef typename TypeHelpers::ParameterType<ValueType>::type ValueTypeParameter;
 
 public:
     //==============================================================================
@@ -146,7 +140,7 @@ public:
 
             while (h != nullptr)
             {
-                const std::unique_ptr<HashEntry> deleter (h);
+                const ScopedPointer<HashEntry> deleter (h);
                 h = h->nextEntry;
             }
 
@@ -243,7 +237,7 @@ public:
         {
             if (entry->key == keyToRemove)
             {
-                const std::unique_ptr<HashEntry> deleter (entry);
+                const ScopedPointer<HashEntry> deleter (entry);
 
                 entry = entry->nextEntry;
 
@@ -276,7 +270,7 @@ public:
             {
                 if (entry->value == valueToRemove)
                 {
-                    const std::unique_ptr<HashEntry> deleter (entry);
+                    const ScopedPointer<HashEntry> deleter (entry);
 
                     entry = entry->nextEntry;
 
@@ -461,7 +455,7 @@ public:
         int index;
 
         // using the copy constructor is ok, but you cannot assign iterators
-        Iterator& operator= (const Iterator&) = delete;
+        Iterator& operator= (const Iterator&) JUCE_DELETED_FUNCTION;
 
         JUCE_LEAK_DETECTOR (Iterator)
     };

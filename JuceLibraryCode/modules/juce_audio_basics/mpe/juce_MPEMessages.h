@@ -26,9 +26,10 @@ namespace juce
 //==============================================================================
 /**
     This helper class contains the necessary helper functions to generate
-    MIDI messages that are exclusive to MPE, such as defining the upper and lower
+    MIDI messages that are exclusive to MPE, such as defining
     MPE zones and setting per-note and master pitchbend ranges.
-    You can then send them to your MPE device using MidiOutput::sendBlockOfMessagesNow.
+    You can then send them to your MPE device using
+    MidiOutput::sendBlockOfMessagesNow.
 
     All other MPE messages like per-note pitchbend, pressure, and third
     dimension, are ordinary MIDI messages that should be created using the MidiMessage
@@ -41,71 +42,45 @@ namespace juce
     MPEZoneLayout class itself. You should also make sure that the Expressive
     MIDI zone layout of your C++ code and of the MPE device are kept in sync.
 
-    @see MidiMessage, MPEZoneLayout
-
-    @tags{Audio}
+    @see MidiMessage, MPEZoneLayout, MPEZone
 */
 class JUCE_API  MPEMessages
 {
 public:
     /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will set the lower MPE zone.
+        MIDI device, will define a new MPE zone.
     */
-    static MidiBuffer setLowerZone (int numMemberChannels = 0,
-                                    int perNotePitchbendRange = 48,
-                                    int masterPitchbendRange = 2);
+    static MidiBuffer addZone (MPEZone zone);
 
     /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will set the upper MPE zone.
+        MIDI device, will change the per-note pitchbend range of an
+        existing MPE zone.
     */
-    static MidiBuffer setUpperZone (int numMemberChannels = 0,
-                                    int perNotePitchbendRange = 48,
-                                    int masterPitchbendRange = 2);
+    static MidiBuffer perNotePitchbendRange (MPEZone zone);
 
     /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will set the per-note pitchbend range of the lower MPE zone.
+        MIDI device, will change the master pitchbend range of an
+        existing MPE zone.
     */
-    static MidiBuffer setLowerZonePerNotePitchbendRange (int perNotePitchbendRange = 48);
+    static MidiBuffer masterPitchbendRange (MPEZone zone);
 
     /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will set the per-note pitchbend range of the upper MPE zone.
-    */
-    static MidiBuffer setUpperZonePerNotePitchbendRange (int perNotePitchbendRange = 48);
-
-    /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will set the master pitchbend range of the lower MPE zone.
-    */
-    static MidiBuffer setLowerZoneMasterPitchbendRange (int masterPitchbendRange = 2);
-
-    /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will set the master pitchbend range of the upper MPE zone.
-    */
-    static MidiBuffer setUpperZoneMasterPitchbendRange (int masterPitchbendRange = 2);
-
-    /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will clear the lower zone.
-    */
-    static MidiBuffer clearLowerZone();
-
-    /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will clear the upper zone.
-    */
-    static MidiBuffer clearUpperZone();
-
-    /** Returns the sequence of MIDI messages that, if sent to an Expressive
-        MIDI device, will clear the lower and upper zones.
+        MIDI device, will erase all currently defined MPE zones.
     */
     static MidiBuffer clearAllZones();
 
     /** Returns the sequence of MIDI messages that, if sent to an Expressive
         MIDI device, will reset the whole MPE zone layout of the
-        device to the laoyut passed in. This will first clear the current lower and upper
-        zones, then then set the zones contained in the passed-in zone layout, and set their
-        per-note and master pitchbend ranges to their current values.
+        device to the laoyut passed in. This will first clear all currently
+        defined MPE zones, then add all zones contained in the
+        passed-in zone layout, and set their per-note and master pitchbend
+        ranges to their current values.
     */
-    static MidiBuffer setZoneLayout (MPEZoneLayout layout);
+    static MidiBuffer setZoneLayout (const MPEZoneLayout& layout);
 
     /** The RPN number used for MPE zone layout messages.
+
+        Note: This number can change in later versions of MPE.
 
         Pitchbend range messages (both per-note and master) are instead sent
         on RPN 0 as in standard MIDI 1.0.

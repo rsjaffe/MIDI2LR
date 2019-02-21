@@ -26,8 +26,6 @@ namespace juce
 //==============================================================================
 /**
     Represents a MAC network card adapter address ID.
-
-    @tags{Core}
 */
 class JUCE_API  MACAddress  final
 {

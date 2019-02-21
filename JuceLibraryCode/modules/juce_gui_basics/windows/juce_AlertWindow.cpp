@@ -58,16 +58,6 @@ AlertWindow::AlertWindow (const String& title,
 
 AlertWindow::~AlertWindow()
 {
-    // Ensure that the focus does not jump to another TextEditor while we
-    // remove children.
-    for (auto* t : textBoxes)
-        t->setWantsKeyboardFocus (false);
-
-    // Giveaway focus before removing the editors, so that any TextEditor
-    // with focus has a chance to dismiss native keyboard if shown.
-    if (hasKeyboardFocus (true))
-        Component::unfocusAllComponents();
-
     removeAllChildren();
 }
 
@@ -91,7 +81,7 @@ void AlertWindow::setMessage (const String& message)
 }
 
 //==============================================================================
-void AlertWindow::exitAlert (Button* button)
+void AlertWindow::buttonClicked (Button* button)
 {
     if (auto* parent = button->getParentComponent())
         parent->exitModalState (button->getCommandID());
@@ -111,7 +101,7 @@ void AlertWindow::addButton (const String& name,
     b->setCommandToTrigger (0, returnValue, false);
     b->addShortcut (shortcutKey1);
     b->addShortcut (shortcutKey2);
-    b->onClick = [this, b] { exitAlert (b); };
+    b->addListener (this);
 
     Array<TextButton*> buttonsArray (buttons.begin(), buttons.size());
     auto& lf = getLookAndFeel();
@@ -523,7 +513,7 @@ bool AlertWindow::keyPressed (const KeyPress& key)
         }
     }
 
-    if (key.isKeyCode (KeyPress::escapeKey) && escapeKeyCancels)
+    if (key.isKeyCode (KeyPress::escapeKey) && escapeKeyCancels && buttons.size() == 0)
     {
         exitModalState (0);
         return true;
@@ -584,8 +574,8 @@ private:
         auto& lf = associatedComponent != nullptr ? associatedComponent->getLookAndFeel()
                                                   : LookAndFeel::getDefaultLookAndFeel();
 
-        std::unique_ptr<Component> alertBox (lf.createAlertWindow (title, message, button1, button2, button3,
-                                                                   iconType, numButtons, associatedComponent));
+        ScopedPointer<Component> alertBox (lf.createAlertWindow (title, message, button1, button2, button3,
+                                                                 iconType, numButtons, associatedComponent));
 
         jassert (alertBox != nullptr); // you have to return one of these!
 

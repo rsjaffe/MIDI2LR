@@ -32,8 +32,6 @@ namespace juce
     so it can easily use a midi input or keyboard component as its source.
 
     @see MidiMessage, MidiInput
-
-    @tags{Audio}
 */
 class JUCE_API  MidiMessageCollector    : public MidiKeyboardStateListener,
                                           public MidiInputCallback

@@ -55,15 +55,11 @@ namespace
     }
 }
 
-CGImageRef juce_createCoreGraphicsImage (const Image&, CGColorSpaceRef, bool mustOutliveSource);
-CGContextRef juce_getImageContext (const Image&);
+extern CGImageRef juce_createCoreGraphicsImage (const Image&, CGColorSpaceRef, bool mustOutliveSource);
+extern CGContextRef juce_getImageContext (const Image&);
 
 #if JUCE_IOS
- Image juce_createImageFromUIImage (UIImage*);
-#endif
-
-#if JUCE_MAC
- NSImage* imageToNSImage (const Image& image, float scaleFactor = 1.0f);
+ extern Image juce_createImageFromUIImage (UIImage*);
 #endif
 
 } // namespace juce

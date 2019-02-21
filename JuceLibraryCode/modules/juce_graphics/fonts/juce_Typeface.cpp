@@ -217,29 +217,29 @@ private:
         GlyphArrangement ga;
         ga.addLineOfText (font, chars, 0, 0);
 
-        Array<float> yValues;
+        Array<float> y;
+        DefaultElementComparator<float> sorter;
 
-        for (auto& glyph : ga)
+        for (int i = 0; i < ga.getNumGlyphs(); ++i)
         {
             Path p;
-            glyph.createPath (p);
-            auto bounds = p.getBounds();
+            ga.getGlyph (i).createPath (p);
+            Rectangle<float> bounds (p.getBounds());
 
             if (! p.isEmpty())
-                yValues.add (getTop ? bounds.getY() : bounds.getBottom());
+                y.addSorted (sorter, getTop ? bounds.getY() : bounds.getBottom());
         }
 
-        std::sort (yValues.begin(), yValues.end());
+        float median = y[y.size() / 2];
 
-        auto median = yValues[yValues.size() / 2];
         float total = 0;
         int num = 0;
 
-        for (auto y : yValues)
+        for (int i = 0; i < y.size(); ++i)
         {
-            if (std::abs (median - y) < 0.05f * (float) standardHeight)
+            if (std::abs (median - y.getUnchecked(i)) < 0.05f * (float) standardHeight)
             {
-                total += y;
+                total += y.getUnchecked(i);
                 ++num;
             }
         }
@@ -258,7 +258,7 @@ void Typeface::applyVerticalHintingTransform (float fontSize, Path& path)
         ScopedLock sl (hintingLock);
 
         if (hintingParams == nullptr)
-            hintingParams.reset (new HintingParams (*this));
+            hintingParams = new HintingParams (*this);
 
         return hintingParams->applyVerticalHintingTransform (fontSize, path);
     }

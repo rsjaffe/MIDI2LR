@@ -46,8 +46,6 @@ namespace juce
     button - for more info, see the DocumentWindow help.
 
     @see DocumentWindow, ResizableWindow
-
-    @tags{GUI}
 */
 class JUCE_API  DialogWindow   : public DocumentWindow
 {

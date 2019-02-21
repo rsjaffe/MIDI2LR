@@ -23,9 +23,9 @@
 namespace juce
 {
 
-SubregionStream::SubregionStream (InputStream* sourceStream,
-                                  int64 start, int64 length,
-                                  bool deleteSourceWhenDestroyed)
+SubregionStream::SubregionStream (InputStream* const sourceStream,
+                                  const int64 start, const int64 length,
+                                  const bool deleteSourceWhenDestroyed)
   : source (sourceStream, deleteSourceWhenDestroyed),
     startPositionInSourceStream (start),
     lengthOfSourceStream (length)
@@ -39,7 +39,7 @@ SubregionStream::~SubregionStream()
 
 int64 SubregionStream::getTotalLength()
 {
-    auto srcLen = source->getTotalLength() - startPositionInSourceStream;
+    const int64 srcLen = source->getTotalLength() - startPositionInSourceStream;
 
     return lengthOfSourceStream >= 0 ? jmin (lengthOfSourceStream, srcLen)
                                      : srcLen;

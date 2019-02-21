@@ -35,14 +35,7 @@ MidiMessageSequence::MidiMessageSequence()
 MidiMessageSequence::MidiMessageSequence (const MidiMessageSequence& other)
 {
     list.addCopiesOf (other.list);
-
-    for (int i = 0; i < list.size(); ++i)
-    {
-        auto noteOffIndex = other.getIndexOfMatchingKeyUp (i);
-
-        if (noteOffIndex >= 0)
-            list.getUnchecked(i)->noteOffObject = list.getUnchecked (noteOffIndex);
-    }
+    updateMatchedPairs();
 }
 
 MidiMessageSequence& MidiMessageSequence::operator= (const MidiMessageSequence& other)
@@ -87,31 +80,22 @@ MidiMessageSequence::MidiEventHolder* MidiMessageSequence::getEventPointer (int 
     return list[index];
 }
 
-MidiMessageSequence::MidiEventHolder** MidiMessageSequence::begin() const noexcept          { return list.begin(); }
-MidiMessageSequence::MidiEventHolder** MidiMessageSequence::end() const noexcept            { return list.end(); }
+MidiMessageSequence::MidiEventHolder** MidiMessageSequence::begin() const noexcept     { return list.begin(); }
+MidiMessageSequence::MidiEventHolder** MidiMessageSequence::end() const noexcept       { return list.end(); }
 
 double MidiMessageSequence::getTimeOfMatchingKeyUp (int index) const noexcept
 {
     if (auto* meh = list[index])
-        if (auto* noteOff = meh->noteOffObject)
-            return noteOff->message.getTimeStamp();
+        if (meh->noteOffObject != nullptr)
+            return meh->noteOffObject->message.getTimeStamp();
 
-    return 0;
+    return 0.0;
 }
 
 int MidiMessageSequence::getIndexOfMatchingKeyUp (int index) const noexcept
 {
-    if (auto* meh = list[index])
-    {
-        if (auto* noteOff = meh->noteOffObject)
-        {
-            for (int i = index; i < list.size(); ++i)
-                if (list.getUnchecked(i) == noteOff)
-                    return i;
-
-            jassertfalse; // we've somehow got a pointer to a note-off object that isn't in the sequence
-        }
-    }
+    if (auto* meh = list [index])
+        return list.indexOf (meh->noteOffObject);
 
     return -1;
 }
@@ -124,8 +108,8 @@ int MidiMessageSequence::getIndexOf (const MidiEventHolder* event) const noexcep
 int MidiMessageSequence::getNextIndexAtTime (double timeStamp) const noexcept
 {
     auto numEvents = list.size();
-    int i;
 
+    int i;
     for (i = 0; i < numEvents; ++i)
         if (list.getUnchecked(i)->message.getTimeStamp() >= timeStamp)
             break;
@@ -146,10 +130,10 @@ double MidiMessageSequence::getEndTime() const noexcept
 
 double MidiMessageSequence::getEventTime (const int index) const noexcept
 {
-    if (auto* meh = list[index])
+    if (auto* meh = list [index])
         return meh->message.getTimeStamp();
 
-    return 0;
+    return 0.0;
 }
 
 //==============================================================================
@@ -157,8 +141,8 @@ MidiMessageSequence::MidiEventHolder* MidiMessageSequence::addEvent (MidiEventHo
 {
     newEvent->message.addToTimeStamp (timeAdjustment);
     auto time = newEvent->message.getTimeStamp();
-    int i;
 
+    int i;
     for (i = list.size(); --i >= 0;)
         if (list.getUnchecked(i)->message.getTimeStamp() <= time)
             break;
@@ -220,10 +204,20 @@ void MidiMessageSequence::addSequence (const MidiMessageSequence& other,
     sort();
 }
 
+struct MidiMessageSequenceSorter
+{
+    static int compareElements (const MidiMessageSequence::MidiEventHolder* first,
+                                const MidiMessageSequence::MidiEventHolder* second) noexcept
+    {
+        auto diff = first->message.getTimeStamp() - second->message.getTimeStamp();
+        return (diff > 0) - (diff < 0);
+    }
+};
+
 void MidiMessageSequence::sort() noexcept
 {
-    std::stable_sort (list.begin(), list.end(),
-                      [] (const MidiEventHolder* a, const MidiEventHolder* b) { return a->message.getTimeStamp() < b->message.getTimeStamp(); });
+    MidiMessageSequenceSorter sorter;
+    list.sort (sorter, true);
 }
 
 void MidiMessageSequence::updateMatchedPairs() noexcept
@@ -331,7 +325,7 @@ void MidiMessageSequence::createControllerUpdatesForTime (int channelNumber, dou
             }
             else if (mm.isController())
             {
-                auto controllerNumber = mm.getControllerNumber();
+                const int controllerNumber = mm.getControllerNumber();
                 jassert (isPositiveAndBelow (controllerNumber, 128));
 
                 if (! doneControllers[controllerNumber])

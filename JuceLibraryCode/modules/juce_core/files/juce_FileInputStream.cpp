@@ -27,7 +27,11 @@ int64 juce_fileSetPosition (void* handle, int64 pos);
 
 
 //==============================================================================
-FileInputStream::FileInputStream (const File& f)  : file (f)
+FileInputStream::FileInputStream (const File& f)
+    : file (f),
+      fileHandle (nullptr),
+      currentPosition (0),
+      status (Result::ok())
 {
     openHandle();
 }
@@ -49,7 +53,7 @@ int FileInputStream::read (void* buffer, int bytesToRead)
     // sign that something is broken!
     jassert (buffer != nullptr && bytesToRead >= 0);
 
-    auto num = readInternal (buffer, (size_t) bytesToRead);
+    const size_t num = readInternal (buffer, (size_t) bytesToRead);
     currentPosition += (int64) num;
 
     return (int) num;

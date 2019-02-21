@@ -61,10 +61,9 @@ namespace juce
     @endcode
 
     @see FileChooser
-
-    @tags{GUI}
 */
 class JUCE_API  FileChooserDialogBox : public ResizableWindow,
+                                       private Button::Listener,
                                        private FileBrowserListener
 {
 public:
@@ -137,6 +136,7 @@ private:
     ContentComponent* content;
     const bool warnAboutOverwritingExistingFiles;
 
+    void buttonClicked (Button*) override;
     void closeButtonPressed();
     void selectionChanged() override;
     void fileClicked (const File&, const MouseEvent&) override;

@@ -1169,16 +1169,14 @@ private:
             {
                 XRandrWrapper& xrandr = XRandrWrapper::getInstance();
 
-                std::unique_ptr<XRRScreenResources> screens;
+                ScopedPointer<XRRScreenResources> screens;
 
                 const int numMonitors = ScreenCount (display);
                 RROutput mainDisplay = xrandr.getOutputPrimary (display, RootWindow (display, 0));
 
                 for (int i = 0; i < numMonitors; ++i)
                 {
-                    screens.reset (xrandr.getScreenResources (display, RootWindow (display, i)));
-
-                    if (screens != nullptr)
+                    if ((screens = xrandr.getScreenResources (display, RootWindow (display, i))).get())
                     {
                         for (int j = 0; j < screens->noutput; ++j)
                         {
@@ -1190,16 +1188,16 @@ private:
                             if (! mainDisplay)
                                 mainDisplay = screens->outputs[j];
 
-                            std::unique_ptr<XRROutputInfo> output (xrandr.getOutputInfo (display, screens.get(), screens->outputs[j]));
+                            ScopedPointer<XRROutputInfo> output;
 
-                            if (output != nullptr)
+                            if ((output = xrandr.getOutputInfo (display, screens.get(), screens->outputs[j])).get())
                             {
                                 if (! output->crtc)
                                     continue;
 
-                                std::unique_ptr<XRRCrtcInfo> crtc (xrandr.getCrtcInfo (display, screens.get(), output->crtc));
+                                ScopedPointer<XRRCrtcInfo> crtc;
 
-                                if (crtc != nullptr)
+                                if ((crtc = xrandr.getCrtcInfo (display, screens.get(), output->crtc)).get())
                                 {
                                     ExtendedInfo e;
                                     e.totalBounds = Rectangle<int> (crtc->x, crtc->y,
@@ -1305,23 +1303,45 @@ private:
     }
 
     //==============================================================================
+    struct SortByCoordinate
+    {
+        bool sortByYCoordinate;
+
+        SortByCoordinate (bool byYCoordinate)  : sortByYCoordinate (byYCoordinate)
+        {
+        }
+
+        int compareElements (const ExtendedInfo* a, const ExtendedInfo* b)
+        {
+            int coordinateA, coordinateB;
+
+            if (sortByYCoordinate)
+            {
+                coordinateA = a->totalBounds.getY();
+                coordinateB = b->totalBounds.getY();
+            }
+            else
+            {
+                coordinateA = a->totalBounds.getX();
+                coordinateB = b->totalBounds.getX();
+            }
+
+            return coordinateA - coordinateB;
+        }
+    };
+
+    //==============================================================================
     void updateScaledDisplayCoordinate (bool updateYCoordinates)
     {
         if (infos.size() < 2)
             return;
 
         Array<ExtendedInfo*> copy;
-
-        for (auto& i : infos)
-            copy.add (&i);
-
-        std::sort (copy.begin(), copy.end(), [updateYCoordinates] (const ExtendedInfo* a, const ExtendedInfo* b)
         {
-            if (updateYCoordinates)
-                return a->totalBounds.getY() < b->totalBounds.getY();
-
-            return a->totalBounds.getX() < b->totalBounds.getX();
-        });
+            SortByCoordinate sorter (updateYCoordinates);
+            for (int i = 0; i < infos.size(); ++i)
+                copy.addSorted (sorter, &infos.getReference (i));
+        }
 
         for (int i = 1; i < copy.size(); ++i)
         {
@@ -1331,14 +1351,13 @@ private:
             for (int j = i - 1; j >= 0; --j)
             {
                 auto& other = *copy[j];
-                auto prevCoordinate = updateYCoordinates ? other.totalBounds.getBottom() : other.totalBounds.getRight();
-                auto curCoordinate  = updateYCoordinates ? current.totalBounds.getY() : current.totalBounds.getX();
-
+                int prevCoordinate = updateYCoordinates ? other.totalBounds.getBottom() : other.totalBounds.getRight();
+                int curCoordinate = updateYCoordinates ? current.totalBounds.getY() : current.totalBounds.getX();
                 if (prevCoordinate == curCoordinate)
                 {
                     // both displays are aligned! As "other" comes before "current" in the array, it must already
                     // have a valid topLeftScaled which we can use
-                    auto topLeftScaled = other.topLeftScaled;
+                    Point<int> topLeftScaled = other.topLeftScaled;
                     topLeftScaled += Point<int> (other.totalBounds.getWidth(), other.totalBounds.getHeight()) / other.scale;
 
                     if (updateYCoordinates)
@@ -1449,7 +1468,7 @@ static void* createDraggingHandCursor()
       132,117,151,116,132,146,248,60,209,138,98,22,203,114,34,236,37,52,77,217, 247,154,191,119,110,240,193,128,193,95,163,56,60,234,98,135,2,0,59 };
     const int dragHandDataSize = 99;
 
-    return CustomMouseCursorInfo (ImageFileFormat::loadFrom (dragHandData, dragHandDataSize), { 8, 7 }).create();
+    return CustomMouseCursorInfo (ImageFileFormat::loadFrom (dragHandData, dragHandDataSize), 8, 7).create();
 }
 
 //==============================================================================
@@ -1473,9 +1492,9 @@ public:
 
         display = XWindowSystem::getInstance()->displayRef();
 
-        atoms.reset (new Atoms (display));
-        dragState.reset (new DragState (display));
-        repainter.reset (new LinuxRepaintManager (*this, display));
+        atoms = new Atoms (display);
+        dragState = new DragState (display);
+        repainter = new LinuxRepaintManager (*this, display);
 
         if (isAlwaysOnTop)
             ++numAlwaysOnTopPeers;
@@ -1483,33 +1502,6 @@ public:
         createWindow (parentToAddTo);
 
         setTitle (component.getName());
-
-        getNativeRealtimeModifiers = []
-        {
-            ScopedXDisplay xDisplay;
-
-            if (auto display = xDisplay.display)
-            {
-                Window root, child;
-                int x, y, winx, winy;
-                unsigned int mask;
-                int mouseMods = 0;
-
-                ScopedXLock xlock (display);
-
-                if (XQueryPointer (display, RootWindow (display, DefaultScreen (display)),
-                                   &root, &child, &x, &y, &winx, &winy, &mask) != False)
-                {
-                    if ((mask & Button1Mask) != 0)  mouseMods |= ModifierKeys::leftButtonModifier;
-                    if ((mask & Button2Mask) != 0)  mouseMods |= ModifierKeys::middleButtonModifier;
-                    if ((mask & Button3Mask) != 0)  mouseMods |= ModifierKeys::rightButtonModifier;
-                }
-
-                ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons().withFlags (mouseMods);
-            }
-
-            return ModifierKeys::currentModifiers;
-        };
     }
 
     ~LinuxComponentPeer()
@@ -2061,7 +2053,7 @@ public:
 
     void handleKeyPressEvent (XKeyEvent& keyEvent)
     {
-        auto oldMods = ModifierKeys::currentModifiers;
+        auto oldMods = currentModifiers;
 
         char utf8 [64] = { 0 };
         juce_wchar unicodeChar = 0;
@@ -2084,7 +2076,7 @@ public:
             keyCode = (int) unicodeChar;
 
             if (keyCode < 0x20)
-                keyCode = (int) XkbKeycodeToKeysym (display, (::KeyCode) keyEvent.keycode, 0, ModifierKeys::currentModifiers.isShiftDown() ? 1 : 0);
+                keyCode = (int) XkbKeycodeToKeysym (display, (::KeyCode) keyEvent.keycode, 0, currentModifiers.isShiftDown() ? 1 : 0);
 
             keyDownChange = (sym != NoSymbol) && ! updateKeyModifiersFromSym (sym, true);
         }
@@ -2168,7 +2160,7 @@ public:
         if (utf8[0] != 0 || ((sym & 0xff00) == 0 && sym >= 8))
             keyPressed = true;
 
-        if (oldMods != ModifierKeys::currentModifiers)
+        if (oldMods != currentModifiers)
             handleModifierKeysChange();
 
         if (keyDownChange)
@@ -2206,10 +2198,10 @@ public:
                 sym = XkbKeycodeToKeysym (display, (::KeyCode) keyEvent.keycode, 0, 0);
             }
 
-            auto oldMods = ModifierKeys::currentModifiers;
+            auto oldMods = currentModifiers;
             const bool keyDownChange = (sym != NoSymbol) && ! updateKeyModifiersFromSym (sym, false);
 
-            if (oldMods != ModifierKeys::currentModifiers)
+            if (oldMods != currentModifiers)
                 handleModifierKeysChange();
 
             if (keyDownChange)
@@ -2238,9 +2230,9 @@ public:
 
     void handleButtonPressEvent (const XButtonPressedEvent& buttonPressEvent, int buttonModifierFlag)
     {
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withFlags (buttonModifierFlag);
+        currentModifiers = currentModifiers.withFlags (buttonModifierFlag);
         toFront (true);
-        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (buttonPressEvent), ModifierKeys::currentModifiers,
+        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (buttonPressEvent), currentModifiers,
                           MouseInputSource::invalidPressure, MouseInputSource::invalidOrientation, getEventTime (buttonPressEvent), {});
     }
 
@@ -2279,9 +2271,9 @@ public:
         {
             switch (pointerMap[mapIndex])
             {
-                case Keys::LeftButton:      ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutFlags (ModifierKeys::leftButtonModifier); break;
-                case Keys::RightButton:     ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutFlags (ModifierKeys::rightButtonModifier); break;
-                case Keys::MiddleButton:    ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutFlags (ModifierKeys::middleButtonModifier); break;
+                case Keys::LeftButton:      currentModifiers = currentModifiers.withoutFlags (ModifierKeys::leftButtonModifier); break;
+                case Keys::RightButton:     currentModifiers = currentModifiers.withoutFlags (ModifierKeys::rightButtonModifier); break;
+                case Keys::MiddleButton:    currentModifiers = currentModifiers.withoutFlags (ModifierKeys::middleButtonModifier); break;
                 default: break;
             }
         }
@@ -2289,7 +2281,7 @@ public:
         if (dragState->dragging)
             handleExternalDragButtonReleaseEvent();
 
-        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (buttonRelEvent), ModifierKeys::currentModifiers,
+        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (buttonRelEvent), currentModifiers,
                           MouseInputSource::invalidPressure, MouseInputSource::invalidOrientation, getEventTime (buttonRelEvent));
 
         clearLastMousePos();
@@ -2304,7 +2296,7 @@ public:
         if (dragState->dragging)
             handleExternalDragMotionNotify();
 
-        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (movedEvent), ModifierKeys::currentModifiers,
+        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (movedEvent), currentModifiers,
                           MouseInputSource::invalidPressure, MouseInputSource::invalidOrientation, getEventTime (movedEvent));
     }
 
@@ -2315,10 +2307,10 @@ public:
 
         clearLastMousePos();
 
-        if (! ModifierKeys::currentModifiers.isAnyMouseButtonDown())
+        if (! currentModifiers.isAnyMouseButtonDown())
         {
             updateKeyModifiers ((int) enterEvent.state);
-            handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (enterEvent), ModifierKeys::currentModifiers,
+            handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (enterEvent), currentModifiers,
                               MouseInputSource::invalidPressure, MouseInputSource::invalidOrientation, getEventTime (enterEvent));
         }
     }
@@ -2328,11 +2320,11 @@ public:
         // Suppress the normal leave if we've got a pointer grab, or if
         // it's a bogus one caused by clicking a mouse button when running
         // in a Window manager
-        if (((! ModifierKeys::currentModifiers.isAnyMouseButtonDown()) && leaveEvent.mode == NotifyNormal)
+        if (((! currentModifiers.isAnyMouseButtonDown()) && leaveEvent.mode == NotifyNormal)
              || leaveEvent.mode == NotifyUngrab)
         {
             updateKeyModifiers ((int) leaveEvent.state);
-            handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (leaveEvent), ModifierKeys::currentModifiers,
+            handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (leaveEvent), currentModifiers,
                               MouseInputSource::invalidPressure, MouseInputSource::invalidOrientation, getEventTime (leaveEvent));
         }
     }
@@ -2476,7 +2468,7 @@ public:
                     {
                         if (atts.map_state == IsViewable)
                             XSetInputFocus (display,
-                                            (clientMsg.window == windowH ? getFocusWindow()
+                                            (clientMsg.window == windowH ? getFocusWindow ()
                                                                          : clientMsg.window),
                                             RevertToParent,
                                             (::Time) clientMsg.data.l[1]);
@@ -2621,6 +2613,8 @@ public:
 
     //==============================================================================
     bool dontRepaint;
+
+    static ModifierKeys currentModifiers;
     static bool isActiveApplication;
 
 private:
@@ -2716,8 +2710,8 @@ private:
                         image.clear (i - totalArea.getPosition());
 
                 {
-                    std::unique_ptr<LowLevelGraphicsContext> context (peer.getComponent().getLookAndFeel()
-                                                                          .createGraphicsContext (image, -totalArea.getPosition(), adjustedList));
+                    ScopedPointer<LowLevelGraphicsContext> context (peer.getComponent().getLookAndFeel()
+                                                                      .createGraphicsContext (image, -totalArea.getPosition(), adjustedList));
                     context->addTransform (AffineTransform::scale ((float) peer.currentScaleFactor));
                     peer.handlePaint (*context);
                 }
@@ -2764,8 +2758,8 @@ private:
         JUCE_DECLARE_NON_COPYABLE (LinuxRepaintManager)
     };
 
-    std::unique_ptr<Atoms> atoms;
-    std::unique_ptr<LinuxRepaintManager> repainter;
+    ScopedPointer<Atoms> atoms;
+    ScopedPointer<LinuxRepaintManager> repainter;
 
     friend class LinuxRepaintManager;
     Window windowH = {}, parentWindow = {}, keyProxy = {};
@@ -2809,7 +2803,7 @@ private:
         if ((status & ControlMask) != 0)   keyMods |= ModifierKeys::ctrlModifier;
         if ((status & Keys::AltMask) != 0) keyMods |= ModifierKeys::altModifier;
 
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withOnlyMouseButtons().withFlags (keyMods);
+        currentModifiers = currentModifiers.withOnlyMouseButtons().withFlags (keyMods);
 
         Keys::numLock  = ((status & Keys::NumLockMask) != 0);
         Keys::capsLock = ((status & LockMask) != 0);
@@ -2851,8 +2845,8 @@ private:
                 break;
         }
 
-        ModifierKeys::currentModifiers = press ? ModifierKeys::currentModifiers.withFlags (modifier)
-                                               : ModifierKeys::currentModifiers.withoutFlags (modifier);
+        currentModifiers = press ? currentModifiers.withFlags (modifier)
+                                 : currentModifiers.withoutFlags (modifier);
 
         return isModifier;
     }
@@ -3243,7 +3237,7 @@ private:
 
     void resetExternalDragState()
     {
-        dragState.reset (new DragState (display));
+        dragState = new DragState (display);
     }
 
     void sendDragAndDropMessage (XClientMessageEvent& msg)
@@ -3712,7 +3706,7 @@ private:
         resetExternalDragState();
     }
 
-    std::unique_ptr<DragState> dragState;
+    ScopedPointer<DragState> dragState;
     DragInfo dragInfo;
     Atom dragAndDropCurrentMimeType;
     Window dragAndDropSourceWindow;
@@ -3756,6 +3750,7 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LinuxComponentPeer)
 };
 
+ModifierKeys LinuxComponentPeer::currentModifiers;
 bool LinuxComponentPeer::isActiveApplication = false;
 Point<int> LinuxComponentPeer::lastMousePos;
 ::Display* LinuxComponentPeer::display = nullptr;
@@ -3802,6 +3797,40 @@ JUCE_API bool JUCE_CALLTYPE Process::isForegroundProcess()
 // N/A on Linux as far as I know.
 JUCE_API void JUCE_CALLTYPE Process::makeForegroundProcess() {}
 JUCE_API void JUCE_CALLTYPE Process::hide() {}
+
+//==============================================================================
+void ModifierKeys::updateCurrentModifiers() noexcept
+{
+    currentModifiers = LinuxComponentPeer::currentModifiers;
+}
+
+ModifierKeys ModifierKeys::getCurrentModifiersRealtime() noexcept
+{
+    ScopedXDisplay xDisplay;
+
+    if (auto display = xDisplay.display)
+    {
+        Window root, child;
+        int x, y, winx, winy;
+        unsigned int mask;
+        int mouseMods = 0;
+
+        ScopedXLock xlock (display);
+
+        if (XQueryPointer (display, RootWindow (display, DefaultScreen (display)),
+                           &root, &child, &x, &y, &winx, &winy, &mask) != False)
+        {
+            if ((mask & Button1Mask) != 0)  mouseMods |= ModifierKeys::leftButtonModifier;
+            if ((mask & Button2Mask) != 0)  mouseMods |= ModifierKeys::middleButtonModifier;
+            if ((mask & Button3Mask) != 0)  mouseMods |= ModifierKeys::rightButtonModifier;
+        }
+
+        LinuxComponentPeer::currentModifiers = LinuxComponentPeer::currentModifiers.withoutMouseButtons().withFlags (mouseMods);
+    }
+
+    return LinuxComponentPeer::currentModifiers;
+}
+
 
 //==============================================================================
 void Desktop::setKioskComponent (Component* comp, bool enableOrDisable, bool /* allowMenusAndBars */)
@@ -4240,7 +4269,7 @@ void* MouseCursor::createStandardMouseCursor (MouseCursor::StandardCursorType ty
     {
         case NormalCursor:
         case ParentCursor:                  return None; // Use parent cursor
-        case NoCursor:                      return CustomMouseCursorInfo (Image (Image::ARGB, 16, 16, true), {}).create();
+        case NoCursor:                      return CustomMouseCursorInfo (Image (Image::ARGB, 16, 16, true), 0, 0).create();
 
         case WaitCursor:                    shape = XC_watch; break;
         case IBeamCursor:                   shape = XC_xterm; break;
@@ -4267,7 +4296,7 @@ void* MouseCursor::createStandardMouseCursor (MouseCursor::StandardCursorType ty
               252,114,147,74,83,5,50,68,147,208,217,16,71,149,252,124,5,0,59,0,0 };
             const int copyCursorSize = 119;
 
-            return CustomMouseCursorInfo (ImageFileFormat::loadFrom (copyCursorData, copyCursorSize), { 1, 3 }).create();
+            return CustomMouseCursorInfo (ImageFileFormat::loadFrom (copyCursorData, copyCursorSize), 1, 3).create();
         }
 
         default:

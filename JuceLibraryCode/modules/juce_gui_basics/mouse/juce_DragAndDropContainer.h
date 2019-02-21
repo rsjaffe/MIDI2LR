@@ -45,8 +45,6 @@ namespace juce
     simply by overriding FileDragAndDropTarget::filesDropped().
 
     @see DragAndDropTarget
-
-    @tags{GUI}
 */
 class JUCE_API  DragAndDropContainer
 {
@@ -235,7 +233,6 @@ private:
     OwnedArray<DragImageComponent> dragImageComponents;
 
     const MouseInputSource* getMouseInputSourceForDrag (Component* sourceComponent, const MouseInputSource* inputSourceCausingDrag);
-    bool isAlreadyDragging (Component* sourceComponent) const noexcept;
 
    #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
     // This is just here to cause a compile error in old code that hasn't been changed to use the new

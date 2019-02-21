@@ -28,6 +28,7 @@ namespace juce
 {
 
 ApplicationProperties::ApplicationProperties()
+    : commonSettingsAreReadOnly (0)
 {
 }
 
@@ -55,16 +56,16 @@ void ApplicationProperties::openFiles()
         if (userProps == nullptr)
         {
             o.commonToAllUsers = false;
-            userProps.reset (new PropertiesFile (o));
+            userProps = new PropertiesFile (o);
         }
 
         if (commonProps == nullptr)
         {
             o.commonToAllUsers = true;
-            commonProps.reset (new PropertiesFile (o));
+            commonProps = new PropertiesFile (o);
         }
 
-        userProps->setFallbackPropertySet (commonProps.get());
+        userProps->setFallbackPropertySet (commonProps);
     }
 }
 
@@ -73,7 +74,7 @@ PropertiesFile* ApplicationProperties::getUserSettings()
     if (userProps == nullptr)
         openFiles();
 
-    return userProps.get();
+    return userProps;
 }
 
 PropertiesFile* ApplicationProperties::getCommonSettings (const bool returnUserPropsIfReadOnly)
@@ -87,10 +88,10 @@ PropertiesFile* ApplicationProperties::getCommonSettings (const bool returnUserP
             commonSettingsAreReadOnly = commonProps->save() ? -1 : 1;
 
         if (commonSettingsAreReadOnly > 0)
-            return userProps.get();
+            return userProps;
     }
 
-    return commonProps.get();
+    return commonProps;
 }
 
 bool ApplicationProperties::saveIfNeeded()
@@ -101,8 +102,8 @@ bool ApplicationProperties::saveIfNeeded()
 
 void ApplicationProperties::closeFiles()
 {
-    userProps.reset();
-    commonProps.reset();
+    userProps = nullptr;
+    commonProps = nullptr;
 }
 
 } // namespace juce

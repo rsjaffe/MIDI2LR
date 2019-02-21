@@ -39,8 +39,6 @@ namespace juce
     caused it.
 
     @see Timer
-
-    @tags{Events}
 */
 class JUCE_API  MultiTimer
 {

@@ -49,7 +49,7 @@ namespace juce
 
             void initialise (const String& commandLine) override
             {
-                myMainWindow.reset (new MyApplicationWindow());
+                myMainWindow = new MyApplicationWindow();
                 myMainWindow->setBounds (100, 100, 400, 500);
                 myMainWindow->setVisible (true);
             }
@@ -70,7 +70,7 @@ namespace juce
             }
 
         private:
-            std::unique_ptr<MyApplicationWindow> myMainWindow;
+            ScopedPointer<MyApplicationWindow> myMainWindow;
         };
 
         // this generates boilerplate code to launch our app class:
@@ -78,8 +78,6 @@ namespace juce
     @endcode
 
     @see JUCEApplication, START_JUCE_APPLICATION
-
-    @tags{Events}
 */
 class JUCE_API  JUCEApplicationBase
 {
@@ -104,7 +102,7 @@ public:
 
     /** Checks whether multiple instances of the app are allowed.
 
-        If your application class returns true for this, more than one instance is
+        If you application class returns true for this, more than one instance is
         permitted to run (except on the Mac where this isn't possible).
 
         If it's false, the second instance won't start, but it you will still get a
@@ -190,21 +188,12 @@ public:
                                      const String& sourceFilename,
                                      int lineNumber) = 0;
 
-    /** Called by the operating system to indicate that you should reduce your memory
-        footprint.
-
-        You should override this method to free up some memory gracefully, if possible,
-        otherwise the host may forcibly kill your app.
-
-        At the moment this method is only called on iOS.
-    */
-    virtual void memoryWarningReceived()     { jassertfalse; }
-
     //==============================================================================
     /** Override this method to be informed when the back button is pressed on a device.
+
         This is currently only implemented on Android devices.
      */
-    virtual void backButtonPressed() {}
+    virtual void backButtonPressed() { }
 
     //==============================================================================
     /** Signals that the main message loop should stop and the application should terminate.
@@ -286,13 +275,13 @@ public:
 private:
     //==============================================================================
     static JUCEApplicationBase* appInstance;
-    int appReturnValue = 0;
-    bool stillInitialising = true;
+    int appReturnValue;
+    bool stillInitialising;
 
     struct MultipleInstanceHandler;
     friend struct MultipleInstanceHandler;
     friend struct ContainerDeletePolicy<MultipleInstanceHandler>;
-    std::unique_ptr<MultipleInstanceHandler> multipleInstanceHandler;
+    ScopedPointer<MultipleInstanceHandler> multipleInstanceHandler;
 
     JUCE_DECLARE_NON_COPYABLE (JUCEApplicationBase)
 };

@@ -31,6 +31,8 @@ void* JUCEApplicationBase::iOSCustomDelegate = nullptr;
 #endif
 
 JUCEApplicationBase::JUCEApplicationBase()
+    : appReturnValue (0),
+      stillInitialising (true)
 {
     jassert (isStandaloneApp() && appInstance == nullptr);
     appInstance = this;
@@ -53,7 +55,7 @@ void JUCEApplicationBase::appWillTerminateByForce()
     JUCE_AUTORELEASEPOOL
     {
         {
-            const std::unique_ptr<JUCEApplicationBase> app (appInstance);
+            const ScopedPointer<JUCEApplicationBase> app (appInstance);
 
             if (app != nullptr)
                 app->shutdownApp();
@@ -73,7 +75,7 @@ void JUCEApplicationBase::sendUnhandledException (const std::exception* const e,
                                                   const char* const sourceFile,
                                                   const int lineNumber)
 {
-    if (auto* app = JUCEApplicationBase::getInstance())
+    if (JUCEApplicationBase* const app = JUCEApplicationBase::getInstance())
     {
         // If you hit this assertion then the __FILE__ macro is providing a
         // relative path instead of an absolute path. On Windows this will be
@@ -93,6 +95,7 @@ void JUCEApplicationBase::sendUnhandledException (const std::exception* const e,
 #if JUCE_HANDLE_MULTIPLE_INSTANCES
 struct JUCEApplicationBase::MultipleInstanceHandler  : public ActionListener
 {
+public:
     MultipleInstanceHandler (const String& appName)
         : appLock ("juceAppLock_" + appName)
     {
@@ -103,21 +106,19 @@ struct JUCEApplicationBase::MultipleInstanceHandler  : public ActionListener
         if (appLock.enter (0))
             return false;
 
-        if (auto* app = JUCEApplicationBase::getInstance())
-        {
-            MessageManager::broadcastMessage (app->getApplicationName() + "/" + app->getCommandLineParameters());
-            return true;
-        }
+        JUCEApplicationBase* const app = JUCEApplicationBase::getInstance();
+        jassert (app != nullptr);
 
-        jassertfalse;
-        return false;
+        MessageManager::broadcastMessage (app->getApplicationName()
+                                            + "/" + app->getCommandLineParameters());
+        return true;
     }
 
     void actionListenerCallback (const String& message) override
     {
-        if (auto* app = JUCEApplicationBase::getInstance())
+        if (JUCEApplicationBase* const app = JUCEApplicationBase::getInstance())
         {
-            auto appName = app->getApplicationName();
+            const String appName (app->getApplicationName());
 
             if (message.startsWith (appName + "/"))
                 app->anotherInstanceStarted (message.substring (appName.length() + 1));
@@ -134,7 +135,7 @@ bool JUCEApplicationBase::sendCommandLineToPreexistingInstance()
 {
     jassert (multipleInstanceHandler == nullptr); // this must only be called once!
 
-    multipleInstanceHandler.reset (new MultipleInstanceHandler (getApplicationName()));
+    multipleInstanceHandler = new MultipleInstanceHandler (getApplicationName());
     return multipleInstanceHandler->sendCommandLineToPreexistingInstance();
 }
 
@@ -162,9 +163,9 @@ String JUCE_CALLTYPE JUCEApplicationBase::getCommandLineParameters()
 StringArray JUCE_CALLTYPE JUCEApplicationBase::getCommandLineParameterArray()
 {
     StringArray s;
-    int argc = 0;
 
-    if (auto argv = CommandLineToArgvW (GetCommandLineW(), &argc))
+    int argc = 0;
+    if (LPWSTR* const argv = CommandLineToArgvW (GetCommandLineW(), &argc))
     {
         s = StringArray (argv + 1, argc - 1);
         LocalFree (argv);
@@ -250,7 +251,7 @@ int JUCEApplicationBase::main()
     ScopedJuceInitialiser_GUI libraryInitialiser;
     jassert (createInstance != nullptr);
 
-    const std::unique_ptr<JUCEApplicationBase> app (createInstance());
+    const ScopedPointer<JUCEApplicationBase> app (createInstance());
     jassert (app != nullptr);
 
     if (! app->initialiseApp())
@@ -302,8 +303,8 @@ bool JUCEApplicationBase::initialiseApp()
         return false;
 
    #if JUCE_HANDLE_MULTIPLE_INSTANCES
-    if (auto* mih = multipleInstanceHandler.get())
-        MessageManager::getInstance()->registerBroadcastListener (mih);
+    if (multipleInstanceHandler != nullptr)
+        MessageManager::getInstance()->registerBroadcastListener (multipleInstanceHandler);
    #endif
 
     return true;
@@ -314,8 +315,8 @@ int JUCEApplicationBase::shutdownApp()
     jassert (JUCEApplicationBase::getInstance() == this);
 
    #if JUCE_HANDLE_MULTIPLE_INSTANCES
-    if (auto* mih = multipleInstanceHandler.get())
-        MessageManager::getInstance()->deregisterBroadcastListener (mih);
+    if (multipleInstanceHandler != nullptr)
+        MessageManager::getInstance()->deregisterBroadcastListener (multipleInstanceHandler);
    #endif
 
     JUCE_TRY
@@ -325,7 +326,7 @@ int JUCEApplicationBase::shutdownApp()
     }
     JUCE_CATCH_EXCEPTION
 
-    multipleInstanceHandler.reset();
+    multipleInstanceHandler = nullptr;
     return getApplicationReturnValue();
 }
 

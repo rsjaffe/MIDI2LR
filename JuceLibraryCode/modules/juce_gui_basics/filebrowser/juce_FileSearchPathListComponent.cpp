@@ -31,8 +31,8 @@ FileSearchPathListComponent::FileSearchPathListComponent()
     : addButton ("+"),
       removeButton ("-"),
       changeButton (TRANS ("change...")),
-      upButton ({}, DrawableButton::ImageOnButtonBackground),
-      downButton ({}, DrawableButton::ImageOnButtonBackground)
+      upButton (String(), DrawableButton::ImageOnButtonBackground),
+      downButton (String(), DrawableButton::ImageOnButtonBackground)
 {
     listBox.setModel (this);
     addAndMakeVisible (listBox);
@@ -41,39 +41,37 @@ FileSearchPathListComponent::FileSearchPathListComponent()
     listBox.setOutlineThickness (1);
 
     addAndMakeVisible (addButton);
-    addButton.onClick = [this] { addPath(); };
+    addButton.addListener (this);
     addButton.setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight | Button::ConnectedOnBottom | Button::ConnectedOnTop);
 
     addAndMakeVisible (removeButton);
-    removeButton.onClick = [this] { deleteSelected(); };
+    removeButton.addListener (this);
     removeButton.setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight | Button::ConnectedOnBottom | Button::ConnectedOnTop);
 
     addAndMakeVisible (changeButton);
-    changeButton.onClick = [this] { editSelected(); };
+    changeButton.addListener (this);
 
     addAndMakeVisible (upButton);
-    upButton.onClick = [this] { moveSelection (-1); };
-
-    auto arrowColour = findColour (ListBox::textColourId);
+    upButton.addListener (this);
 
     {
         Path arrowPath;
-        arrowPath.addArrow ({ 50.0f, 100.0f, 50.0f, 0.0f }, 40.0f, 100.0f, 50.0f);
+        arrowPath.addArrow (Line<float> (50.0f, 100.0f, 50.0f, 0.0f), 40.0f, 100.0f, 50.0f);
         DrawablePath arrowImage;
-        arrowImage.setFill (arrowColour);
+        arrowImage.setFill (Colours::black.withAlpha (0.4f));
         arrowImage.setPath (arrowPath);
 
         upButton.setImages (&arrowImage);
     }
 
     addAndMakeVisible (downButton);
-    downButton.onClick = [this] { moveSelection (1); };
+    downButton.addListener (this);
 
     {
         Path arrowPath;
-        arrowPath.addArrow ({ 50.0f, 0.0f, 50.0f, 100.0f }, 40.0f, 100.0f, 50.0f);
+        arrowPath.addArrow (Line<float> (50.0f, 0.0f, 50.0f, 100.0f), 40.0f, 100.0f, 50.0f);
         DrawablePath arrowImage;
-        arrowImage.setFill (arrowColour);
+        arrowImage.setFill (Colours::black.withAlpha (0.4f));
         arrowImage.setPath (arrowPath);
 
         downButton.setImages (&arrowImage);
@@ -134,7 +132,7 @@ void FileSearchPathListComponent::paintListBoxItem (int rowNumber, Graphics& g, 
     f.setHorizontalScale (0.9f);
     g.setFont (f);
 
-    g.drawText (path[rowNumber].getFullPathName(),
+    g.drawText (path [rowNumber].getFullPathName(),
                 4, 0, width - 6, height,
                 Justification::centredLeft, true);
 }
@@ -151,7 +149,7 @@ void FileSearchPathListComponent::deleteKeyPressed (int row)
 void FileSearchPathListComponent::returnKeyPressed (int row)
 {
    #if JUCE_MODAL_LOOPS_PERMITTED
-    FileChooser chooser (TRANS("Change folder..."), path[row], "*");
+    FileChooser chooser (TRANS("Change folder..."), path [row], "*");
 
     if (chooser.browseForDirectory())
     {
@@ -210,66 +208,66 @@ void FileSearchPathListComponent::filesDropped (const StringArray& filenames, in
 
         if (f.isDirectory())
         {
-            auto row = listBox.getRowContainingPosition (0, mouseY - listBox.getY());
+            const int row = listBox.getRowContainingPosition (0, mouseY - listBox.getY());
             path.add (f, row);
             changed();
         }
     }
 }
 
-void FileSearchPathListComponent::addPath()
+void FileSearchPathListComponent::buttonClicked (Button* button)
 {
-    auto start = defaultBrowseTarget;
+    const int currentRow = listBox.getSelectedRow();
 
-    if (start == File())
-        start = path[0];
-
-    if (start == File())
-        start = File::getCurrentWorkingDirectory();
-
-   #if JUCE_MODAL_LOOPS_PERMITTED
-    FileChooser chooser (TRANS("Add a folder..."), start, "*");
-
-    if (chooser.browseForDirectory())
-        path.add (chooser.getResult(), listBox.getSelectedRow());
-
-    changed();
-   #else
-    jassertfalse; // needs rewriting to deal with non-modal environments
-   #endif
-}
-
-void FileSearchPathListComponent::deleteSelected()
-{
-    deleteKeyPressed (listBox.getSelectedRow());
-    changed();
-}
-
-void FileSearchPathListComponent::editSelected()
-{
-    returnKeyPressed (listBox.getSelectedRow());
-    changed();
-}
-
-void FileSearchPathListComponent::moveSelection (int delta)
-{
-    jassert (delta == -1 || delta == 1);
-    auto currentRow = listBox.getSelectedRow();
-
-    if (isPositiveAndBelow (currentRow, path.getNumPaths()))
+    if (button == &removeButton)
     {
-        auto newRow = jlimit (0, path.getNumPaths() - 1, currentRow + delta);
+        deleteKeyPressed (currentRow);
+    }
+    else if (button == &addButton)
+    {
+        File start (defaultBrowseTarget);
 
-        if (currentRow != newRow)
+        if (start == File())
+            start = path [0];
+
+        if (start == File())
+            start = File::getCurrentWorkingDirectory();
+
+       #if JUCE_MODAL_LOOPS_PERMITTED
+        FileChooser chooser (TRANS("Add a folder..."), start, "*");
+
+        if (chooser.browseForDirectory())
+            path.add (chooser.getResult(), currentRow);
+       #else
+        jassertfalse; // needs rewriting to deal with non-modal environments
+       #endif
+    }
+    else if (button == &changeButton)
+    {
+        returnKeyPressed (currentRow);
+    }
+    else if (button == &upButton)
+    {
+        if (currentRow > 0 && currentRow < path.getNumPaths())
         {
-            auto f = path[currentRow];
+            const File f (path[currentRow]);
             path.remove (currentRow);
-            path.add (f, newRow);
-            listBox.selectRow (newRow);
-            changed();
+            path.add (f, currentRow - 1);
+            listBox.selectRow (currentRow - 1);
         }
     }
-}
+    else if (button == &downButton)
+    {
+        if (currentRow >= 0 && currentRow < path.getNumPaths() - 1)
+        {
+            const File f (path[currentRow]);
+            path.remove (currentRow);
+            path.add (f, currentRow + 1);
+            listBox.selectRow (currentRow + 1);
+        }
+    }
 
+    changed();
+}
 
 } // namespace juce

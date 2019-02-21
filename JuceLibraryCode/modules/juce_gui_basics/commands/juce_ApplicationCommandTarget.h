@@ -41,8 +41,6 @@ namespace juce
     ApplicationCommandManager::getFirstCommandTarget().
 
     @see ApplicationCommandManager, ApplicationCommandInfo
-
-    @tags{GUI}
 */
 class JUCE_API  ApplicationCommandTarget
 {

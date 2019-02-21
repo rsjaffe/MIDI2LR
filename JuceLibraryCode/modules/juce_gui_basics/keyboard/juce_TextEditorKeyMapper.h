@@ -32,8 +32,6 @@ namespace juce
     an object, based upon a keypress event.
 
     It's currently used internally by the TextEditor and CodeEditorComponent.
-
-    @tags{GUI}
 */
 template <class CallbackClass>
 struct TextEditorKeyMapper
@@ -43,7 +41,7 @@ struct TextEditorKeyMapper
     */
     static bool invokeKeyFunction (CallbackClass& target, const KeyPress& key)
     {
-        auto mods = key.getModifiers();
+        const ModifierKeys& mods = key.getModifiers();
 
         const bool isShiftDown   = mods.isShiftDown();
         const bool ctrlOrAltDown = mods.isCtrlDown() || mods.isAltDown();

@@ -31,8 +31,6 @@ namespace juce
 /**
     A component that displays a text string, and can optionally become a text
     editor when clicked.
-
-    @tags{GUI}
 */
 class JUCE_API  Label  : public Component,
                          public SettableTooltipClient,
@@ -203,16 +201,6 @@ public:
     void removeListener (Listener* listener);
 
     //==============================================================================
-    /** You can assign a lambda to this callback object to have it called when the label text is changed. */
-    std::function<void()> onTextChange;
-
-    /** You can assign a lambda to this callback object to have it called when the label's editor is shown. */
-    std::function<void()> onEditorShow;
-
-    /** You can assign a lambda to this callback object to have it called when the label's editor is hidden. */
-    std::function<void()> onEditorHide;
-
-    //==============================================================================
     /** Makes the label turn into a TextEditor when clicked.
 
         By default this is turned off.
@@ -343,23 +331,25 @@ private:
     //==============================================================================
     Value textValue;
     String lastTextValue;
-    Font font { 15.0f };
-    Justification justification = Justification::centredLeft;
-    std::unique_ptr<TextEditor> editor;
+    Font font;
+    Justification justification;
+    ScopedPointer<TextEditor> editor;
     ListenerList<Listener> listeners;
     WeakReference<Component> ownerComponent;
-    BorderSize<int> border { 1, 5, 1, 5 };
-    float minimumHorizontalScale = 0;
-    TextInputTarget::VirtualKeyboardType keyboardType = TextInputTarget::textKeyboard;
-    bool editSingleClick = false;
-    bool editDoubleClick = false;
-    bool lossOfFocusDiscardsChanges = false;
-    bool leftOfOwnerComp = false;
+    BorderSize<int> border;
+    float minimumHorizontalScale;
+    TextInputTarget::VirtualKeyboardType keyboardType;
+    bool editSingleClick;
+    bool editDoubleClick;
+    bool lossOfFocusDiscardsChanges;
+    bool leftOfOwnerComp;
 
     bool updateFromTextEditorContents (TextEditor&);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Label)
 };
 
+/** This typedef is just for compatibility with old code - newer code should use the Label::Listener class directly. */
+typedef Label::Listener LabelListener;
 
 } // namespace juce

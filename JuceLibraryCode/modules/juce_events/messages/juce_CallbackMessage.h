@@ -42,8 +42,6 @@ namespace juce
     times you may prefer to use MessageManager::callAsync() with a lambda.
 
     @see MessageManager::callAsync, MessageListener, ActionListener, ChangeListener
-
-    @tags{Events}
 */
 class JUCE_API  CallbackMessage   : public MessageManager::MessageBase
 {

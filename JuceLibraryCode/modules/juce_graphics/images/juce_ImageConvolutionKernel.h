@@ -32,8 +32,6 @@ namespace juce
     Represents a filter kernel to use in convoluting an image.
 
     @see Image::applyConvolution
-
-    @tags{Graphics}
 */
 class JUCE_API  ImageConvolutionKernel
 {

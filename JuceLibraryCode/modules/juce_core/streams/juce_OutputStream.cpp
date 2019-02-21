@@ -171,27 +171,20 @@ bool OutputStream::writeDoubleBigEndian (double value)
 
 bool OutputStream::writeString (const String& text)
 {
-    auto numBytes = text.getNumBytesAsUTF8() + 1;
-
    #if (JUCE_STRING_UTF_TYPE == 8)
-    return write (text.toRawUTF8(), numBytes);
+    return write (text.toRawUTF8(), text.getNumBytesAsUTF8() + 1);
    #else
     // (This avoids using toUTF8() to prevent the memory bloat that it would leave behind
     // if lots of large, persistent strings were to be written to streams).
+    const size_t numBytes = text.getNumBytesAsUTF8() + 1;
     HeapBlock<char> temp (numBytes);
     text.copyToUTF8 (temp, numBytes);
     return write (temp, numBytes);
    #endif
 }
 
-bool OutputStream::writeText (const String& text, bool asUTF16, bool writeUTF16ByteOrderMark, const char* lf)
+bool OutputStream::writeText (const String& text, bool asUTF16, bool writeUTF16ByteOrderMark)
 {
-    bool replaceLineFeedWithUnix    = lf != nullptr && lf[0] == '\n' && lf[1] == 0;
-    bool replaceLineFeedWithWindows = lf != nullptr && lf[0] == '\r' && lf[1] == '\n' && lf[2] == 0;
-
-    // The line-feed passed in must be either nullptr, or "\n" or "\r\n"
-    jassert (lf == nullptr || replaceLineFeedWithWindows || replaceLineFeedWithUnix);
-
     if (asUTF16)
     {
         if (writeUTF16ByteOrderMark)
@@ -207,17 +200,10 @@ bool OutputStream::writeText (const String& text, bool asUTF16, bool writeUTF16B
             if (c == 0)
                 break;
 
-            if (replaceLineFeedWithWindows)
-            {
-                if (c == '\n' && ! lastCharWasReturn)
-                    writeShort ((short) '\r');
+            if (c == '\n' && ! lastCharWasReturn)
+                writeShort ((short) '\r');
 
-                lastCharWasReturn = (c == L'\r');
-            }
-            else if (replaceLineFeedWithUnix && c == '\r')
-            {
-                continue;
-            }
+            lastCharWasReturn = (c == L'\r');
 
             if (! writeShort ((short) c))
                 return false;
@@ -225,57 +211,37 @@ bool OutputStream::writeText (const String& text, bool asUTF16, bool writeUTF16B
     }
     else
     {
-        const char* src = text.toRawUTF8();
+        const char* src = text.toUTF8();
+        auto* t = src;
 
-        if (replaceLineFeedWithWindows)
+        for (;;)
         {
-            for (auto t = src;;)
+            if (*t == '\n')
             {
-                if (*t == '\n')
-                {
-                    if (t > src)
-                        if (! write (src, (size_t) (t - src)))
-                            return false;
-
-                    if (! write ("\r\n", 2))
+                if (t > src)
+                    if (! write (src, (size_t) (t - src)))
                         return false;
 
-                    src = t + 1;
-                }
-                else if (*t == '\r')
-                {
-                    if (t[1] == '\n')
-                        ++t;
-                }
-                else if (*t == 0)
-                {
-                    if (t > src)
-                        if (! write (src, (size_t) (t - src)))
-                            return false;
+                if (! write ("\r\n", 2))
+                    return false;
 
-                    break;
-                }
-
-                ++t;
+                src = t + 1;
             }
-        }
-        else if (replaceLineFeedWithUnix)
-        {
-            for (;;)
+            else if (*t == '\r')
             {
-                auto c = *src++;
-
-                if (c == 0)
-                    break;
-
-                if (c != '\r')
-                    if (! writeByte (c))
-                        return false;
+                if (t[1] == '\n')
+                    ++t;
             }
-        }
-        else
-        {
-            return write (src, text.getNumBytesAsUTF8());
+            else if (*t == 0)
+            {
+                if (t > src)
+                    if (! write (src, (size_t) (t - src)))
+                        return false;
+
+                break;
+            }
+
+            ++t;
         }
     }
 
@@ -307,9 +273,9 @@ int64 OutputStream::writeFromInputStream (InputStream& source, int64 numBytesToW
 }
 
 //==============================================================================
-void OutputStream::setNewLineString (const String& newLineStringToUse)
+void OutputStream::setNewLineString (const String& newLineString_)
 {
-    newLineString = newLineStringToUse;
+    newLineString = newLineString_;
 }
 
 //==============================================================================

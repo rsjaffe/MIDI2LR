@@ -48,8 +48,6 @@ namespace juce
     A top-level window also has an optional drop-shadow.
 
     @see ResizableWindow, DocumentWindow, DialogWindow
-
-    @tags{GUI}
 */
 class JUCE_API  TopLevelWindow  : public Component
 {
@@ -99,7 +97,7 @@ public:
     /** True if drop-shadowing is enabled. */
     bool isDropShadowEnabled() const noexcept               { return useDropShadow; }
 
-    /** Sets whether an OS-native title bar will be used, or a JUCE one.
+    /** Sets whether an OS-native title bar will be used, or a Juce one.
         @see isUsingNativeTitleBar
     */
     void setUsingNativeTitleBar (bool useNativeTitleBar);
@@ -156,7 +154,7 @@ private:
     friend class TopLevelWindowManager;
     friend class ResizableWindow;
     bool useDropShadow = true, useNativeTitleBar = false, isCurrentlyActive = false;
-    std::unique_ptr<DropShadower> shadower;
+    ScopedPointer<DropShadower> shadower;
 
     void setWindowActive (bool);
 

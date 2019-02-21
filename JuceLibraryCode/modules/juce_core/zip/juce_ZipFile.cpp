@@ -23,35 +23,26 @@
 namespace juce
 {
 
-inline uint16 readUnalignedLittleEndianShort (const void* buffer)
-{
-    auto data = readUnaligned<uint16> (buffer);
-    return ByteOrder::littleEndianShort (&data);
-}
-
-inline uint32 readUnalignedLittleEndianInt (const void* buffer)
-{
-    auto data = readUnaligned<uint32> (buffer);
-    return ByteOrder::littleEndianInt (&data);
-}
-
 struct ZipFile::ZipEntryHolder
 {
     ZipEntryHolder (const char* buffer, int fileNameLen)
     {
-        isCompressed           = readUnalignedLittleEndianShort (buffer + 10) != 0;
-        entry.fileTime         = parseFileTime (readUnalignedLittleEndianShort (buffer + 12),
-                                                readUnalignedLittleEndianShort (buffer + 14));
-        compressedSize         = (int64) readUnalignedLittleEndianInt (buffer + 20);
-        entry.uncompressedSize = (int64) readUnalignedLittleEndianInt (buffer + 24);
-        streamOffset           = (int64) readUnalignedLittleEndianInt (buffer + 42);
-
-        auto externalFileAttributes = (int32) readUnalignedLittleEndianInt (buffer + 38);
-        auto fileType   = (externalFileAttributes >> 28) & 0xf;
-
-        entry.isSymbolicLink = (fileType == 0xA);
-        entry.filename = String::fromUTF8 (buffer + 46, fileNameLen);
+        isCompressed            = ByteOrder::littleEndianShort (buffer + 10) != 0;
+        entry.fileTime          = parseFileTime (ByteOrder::littleEndianShort (buffer + 12),
+                                                 ByteOrder::littleEndianShort (buffer + 14));
+        compressedSize          = (int64) ByteOrder::littleEndianInt (buffer + 20);
+        entry.uncompressedSize  = (int64) ByteOrder::littleEndianInt (buffer + 24);
+        streamOffset            = (int64) ByteOrder::littleEndianInt (buffer + 42);
+        entry.filename          = String::fromUTF8 (buffer + 46, fileNameLen);
     }
+
+    struct FileNameComparator
+    {
+        static int compareElements (const ZipEntryHolder* e1, const ZipEntryHolder* e2) noexcept
+        {
+            return e1->entry.filename.compare (e2->entry.filename);
+        }
+    };
 
     static Time parseFileTime (uint32 time, uint32 date) noexcept
     {
@@ -91,12 +82,12 @@ static int64 findCentralDirectoryFileHeader (InputStream& input, int& numEntries
 
         for (int i = 0; i < 22; ++i)
         {
-            if (readUnalignedLittleEndianInt (buffer + i) == 0x06054b50)
+            if (ByteOrder::littleEndianInt (buffer + i) == 0x06054b50)
             {
                 in.setPosition (pos + i);
                 in.read (buffer, 22);
-                numEntries = readUnalignedLittleEndianShort (buffer + 10);
-                auto offset = (int64) readUnalignedLittleEndianInt (buffer + 16);
+                numEntries = ByteOrder::littleEndianShort (buffer + 10);
+                auto offset = (int64) ByteOrder::littleEndianInt (buffer + 16);
 
                 if (offset >= 4)
                 {
@@ -132,8 +123,7 @@ struct ZipFile::ZipInputStream  : public InputStream
     {
         if (zf.inputSource != nullptr)
         {
-            streamToDelete.reset (file.inputSource->createInputStream());
-            inputStream = streamToDelete.get();
+            inputStream = streamToDelete = file.inputSource->createInputStream();
         }
         else
         {
@@ -217,7 +207,7 @@ private:
     int64 pos = 0;
     int headerSize = 0;
     InputStream* inputStream;
-    std::unique_ptr<InputStream> streamToDelete;
+    ScopedPointer<InputStream> streamToDelete;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ZipInputStream)
 };
@@ -228,7 +218,7 @@ ZipFile::ZipFile (InputStream* stream, bool deleteStreamWhenDestroyed)
    : inputStream (stream)
 {
     if (deleteStreamWhenDestroyed)
-        streamToDelete.reset (inputStream);
+        streamToDelete = inputStream;
 
     init();
 }
@@ -331,20 +321,20 @@ InputStream* ZipFile::createStreamForEntry (const ZipEntry& entry)
 
 void ZipFile::sortEntriesByFilename()
 {
-    std::sort (entries.begin(), entries.end(),
-               [] (const ZipEntryHolder* e1, const ZipEntryHolder* e2) { return e1->entry.filename < e2->entry.filename; });
+    ZipEntryHolder::FileNameComparator sorter;
+    entries.sort (sorter);
 }
 
 //==============================================================================
 void ZipFile::init()
 {
-    std::unique_ptr<InputStream> toDelete;
+    ScopedPointer<InputStream> toDelete;
     InputStream* in = inputStream;
 
     if (inputSource != nullptr)
     {
         in = inputSource->createInputStream();
-        toDelete.reset (in);
+        toDelete = in;
     }
 
     if (in != nullptr)
@@ -369,7 +359,7 @@ void ZipFile::init()
                         break;
 
                     auto* buffer = static_cast<const char*> (headerData.getData()) + pos;
-                    auto fileNameLen = readUnalignedLittleEndianShort (buffer + 28);
+                    auto fileNameLen = ByteOrder::littleEndianShort (buffer + 28);
 
                     if (pos + 46 + fileNameLen > size)
                         break;
@@ -377,8 +367,8 @@ void ZipFile::init()
                     entries.add (new ZipEntryHolder (buffer, fileNameLen));
 
                     pos += 46 + fileNameLen
-                            + readUnalignedLittleEndianShort (buffer + 30)
-                            + readUnalignedLittleEndianShort (buffer + 32);
+                            + ByteOrder::littleEndianShort (buffer + 30)
+                            + ByteOrder::littleEndianShort (buffer + 32);
                 }
             }
         }
@@ -417,7 +407,7 @@ Result ZipFile::uncompressEntry (int index, const File& targetDirectory, bool sh
     if (entryPath.endsWithChar ('/') || entryPath.endsWithChar ('\\'))
         return targetFile.createDirectory(); // (entry is a directory, not a file)
 
-    std::unique_ptr<InputStream> in (createStreamForEntry (index));
+    ScopedPointer<InputStream> in (createStreamForEntry (index));
 
     if (in == nullptr)
         return Result::fail ("Failed to open the zip file for reading");
@@ -434,15 +424,6 @@ Result ZipFile::uncompressEntry (int index, const File& targetDirectory, bool sh
     if (! targetFile.getParentDirectory().createDirectory())
         return Result::fail ("Failed to create target folder: " + targetFile.getParentDirectory().getFullPathName());
 
-    if (zei->entry.isSymbolicLink)
-    {
-        String originalFilePath (in->readEntireStreamAsString()
-                                    .replaceCharacter (L'/', File::getSeparatorChar()));
-
-        if (! File::createSymbolicLink (targetFile, originalFilePath, true))
-            return Result::fail ("Failed to create symbolic link: " + originalFilePath);
-    }
-    else
     {
         FileOutputStream out (targetFile);
 
@@ -466,25 +447,15 @@ struct ZipFile::Builder::Item
     Item (const File& f, InputStream* s, int compression, const String& storedPath, Time time)
         : file (f), stream (s), storedPathname (storedPath), fileTime (time), compressionLevel (compression)
     {
-        symbolicLink = (file.exists() && file.isSymbolicLink());
     }
 
     bool writeData (OutputStream& target, const int64 overallStartPosition)
     {
         MemoryOutputStream compressedData ((size_t) file.getSize());
 
-        if (symbolicLink)
+        if (compressionLevel > 0)
         {
-            auto relativePath = file.getNativeLinkedTarget().replaceCharacter (File::getSeparatorChar(), L'/');
-
-            uncompressedSize = relativePath.length();
-
-            checksum = zlibNamespace::crc32 (0, (uint8_t*) relativePath.toRawUTF8(), (unsigned int) uncompressedSize);
-            compressedData << relativePath;
-        }
-        else if (compressionLevel > 0)
-        {
-            GZIPCompressorOutputStream compressor (compressedData, compressionLevel,
+            GZIPCompressorOutputStream compressor (&compressedData, compressionLevel, false,
                                                    GZIPCompressorOutputStream::windowBitsRaw);
             if (! writeSource (compressor))
                 return false;
@@ -509,12 +480,12 @@ struct ZipFile::Builder::Item
     bool writeDirectoryEntry (OutputStream& target)
     {
         target.writeInt (0x02014b50);
-        target.writeShort (symbolicLink ? 0x0314 : 0x0014);
+        target.writeShort (20); // version written
         writeFlagsAndSizes (target);
         target.writeShort (0); // comment length
         target.writeShort (0); // start disk num
         target.writeShort (0); // internal attributes
-        target.writeInt ((int) (symbolicLink ? 0xA1ED0000 : 0)); // external attributes
+        target.writeInt (0); // external attributes
         target.writeInt ((int) (uint32) headerStart);
         target << storedPathname;
 
@@ -523,13 +494,12 @@ struct ZipFile::Builder::Item
 
 private:
     const File file;
-    std::unique_ptr<InputStream> stream;
+    ScopedPointer<InputStream> stream;
     String storedPathname;
     Time fileTime;
     int64 compressedSize = 0, uncompressedSize = 0, headerStart = 0;
     int compressionLevel = 0;
     unsigned long checksum = 0;
-    bool symbolicLink = false;
 
     static void writeTimeAndDate (OutputStream& target, Time t)
     {
@@ -541,7 +511,7 @@ private:
     {
         if (stream == nullptr)
         {
-            stream.reset (file.createInputStream());
+            stream = file.createInputStream();
 
             if (stream == nullptr)
                 return false;
@@ -564,7 +534,7 @@ private:
             uncompressedSize += bytesRead;
         }
 
-        stream.reset();
+        stream = nullptr;
         return true;
     }
 
@@ -572,7 +542,7 @@ private:
     {
         target.writeShort (10); // version needed
         target.writeShort ((short) (1 << 11)); // this flag indicates UTF-8 filename encoding
-        target.writeShort ((! symbolicLink && compressionLevel > 0) ? (short) 8 : (short) 0); //symlink target path is not compressed
+        target.writeShort (compressionLevel > 0 ? (short) 8 : (short) 0);
         writeTimeAndDate (target, fileTime);
         target.writeInt ((int) checksum);
         target.writeInt ((int) (uint32) compressedSize);
@@ -637,51 +607,5 @@ bool ZipFile::Builder::writeToStream (OutputStream& target, double* const progre
 
     return true;
 }
-
-//==============================================================================
-#if JUCE_UNIT_TESTS
-
-struct ZIPTests   : public UnitTest
-{
-    ZIPTests()   : UnitTest ("ZIP") {}
-
-    void runTest() override
-    {
-        beginTest ("ZIP");
-
-        ZipFile::Builder builder;
-        StringArray entryNames { "first", "second", "third" };
-        HashMap<String, MemoryBlock> blocks;
-
-        for (auto& entryName : entryNames)
-        {
-            auto& block = blocks.getReference (entryName);
-            MemoryOutputStream mo (block, false);
-            mo << entryName;
-            mo.flush();
-            builder.addEntry (new MemoryInputStream (block, false), 9, entryName, Time::getCurrentTime());
-        }
-
-        MemoryBlock data;
-        MemoryOutputStream mo (data, false);
-        builder.writeToStream (mo, nullptr);
-        MemoryInputStream mi (data, false);
-
-        ZipFile zip (mi);
-
-        expectEquals (zip.getNumEntries(), entryNames.size());
-
-        for (auto& entryName : entryNames)
-        {
-            auto* entry = zip.getEntry (entryName);
-            std::unique_ptr<InputStream> input (zip.createStreamForEntry (*entry));
-            expectEquals (input->readEntireStreamAsString(), entryName);
-        }
-    }
-};
-
-static ZIPTests zipTests;
-
-#endif
 
 } // namespace juce

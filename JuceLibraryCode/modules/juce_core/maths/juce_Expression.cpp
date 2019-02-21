@@ -80,9 +80,9 @@ private:
 //==============================================================================
 struct Expression::Helpers
 {
-    using TermPtr = ReferenceCountedObjectPtr<Term>;
+    typedef ReferenceCountedObjectPtr<Term> TermPtr;
 
-    static void checkRecursionDepth (int depth)
+    static void checkRecursionDepth (const int depth)
     {
         if (depth > 256)
             throw EvaluationError ("Recursive symbol references");
@@ -857,7 +857,7 @@ struct Expression::Helpers
                 if (readOperator ("(")) // method call...
                 {
                     Function* const f = new Function (identifier);
-                    std::unique_ptr<Term> func (f);  // (can't use std::unique_ptr<Function> in MSVC)
+                    ScopedPointer<Term> func (f);  // (can't use ScopedPointer<Function> in MSVC)
 
                     TermPtr param (readExpression());
 
@@ -1021,24 +1021,24 @@ Expression Expression::function (const String& functionName, const Array<Express
 
 Expression Expression::adjustedToGiveNewResult (const double targetValue, const Expression::Scope& scope) const
 {
-    std::unique_ptr<Term> newTerm (term->clone());
+    ScopedPointer<Term> newTerm (term->clone());
 
-    Helpers::Constant* termToAdjust = Helpers::findTermToAdjust (newTerm.get(), true);
+    Helpers::Constant* termToAdjust = Helpers::findTermToAdjust (newTerm, true);
 
     if (termToAdjust == nullptr)
-        termToAdjust = Helpers::findTermToAdjust (newTerm.get(), false);
+        termToAdjust = Helpers::findTermToAdjust (newTerm, false);
 
     if (termToAdjust == nullptr)
     {
-        newTerm.reset (new Helpers::Add (newTerm.release(), new Helpers::Constant (0, false)));
-        termToAdjust = Helpers::findTermToAdjust (newTerm.get(), false);
+        newTerm = new Helpers::Add (newTerm.release(), new Helpers::Constant (0, false));
+        termToAdjust = Helpers::findTermToAdjust (newTerm, false);
     }
 
     jassert (termToAdjust != nullptr);
 
-    if (const Term* parent = Helpers::findDestinationFor (newTerm.get(), termToAdjust))
+    if (const Term* parent = Helpers::findDestinationFor (newTerm, termToAdjust))
     {
-        if (Helpers::TermPtr reverseTerm = parent->createTermToEvaluateInput (scope, termToAdjust, targetValue, newTerm.get()))
+        if (const Helpers::TermPtr reverseTerm = parent->createTermToEvaluateInput (scope, termToAdjust, targetValue, newTerm))
             termToAdjust->value = Expression (reverseTerm).evaluate (scope);
         else
             return Expression (targetValue);

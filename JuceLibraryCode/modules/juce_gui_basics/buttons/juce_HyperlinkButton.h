@@ -33,8 +33,6 @@ namespace juce
     when it's clicked.
 
     @see Button
-
-    @tags{GUI}
 */
 class JUCE_API  HyperlinkButton  : public Button
 {

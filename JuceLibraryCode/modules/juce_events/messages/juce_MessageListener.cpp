@@ -28,7 +28,7 @@ Message::~Message() {}
 
 void Message::messageCallback()
 {
-    if (auto* r = recipient.get())
+    if (MessageListener* const r = recipient)
         r->handleMessage (*this);
 }
 

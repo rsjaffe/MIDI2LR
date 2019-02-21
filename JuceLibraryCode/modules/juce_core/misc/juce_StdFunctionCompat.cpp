@@ -66,12 +66,12 @@ namespace FunctionTestsHelpers
 
         FunctionObject (const FunctionObject& other)
         {
-            bigData.reset (new BigData (*other.bigData));
+            bigData = new BigData (*other.bigData);
         }
 
         int operator()(int i) const { return bigData->sum() + i; }
 
-        std::unique_ptr<BigData> bigData { new BigData() };
+        ScopedPointer<BigData> bigData { new BigData() };
     };
 }
 
@@ -107,10 +107,10 @@ public:
         {
             beginTest ("Lambdas");
 
-            std::function<int()> fStack ([] { return 3; });
+            std::function<int()> fStack ([]() { return 3; });
             expectEquals (fStack(), 3);
 
-            std::function<int()> fHeap ([=] { return bigData.sum(); });
+            std::function<int()> fHeap ([=]() { return bigData.sum(); });
             expectEquals (fHeap(), FunctionTestsHelpers::BigData::bigDataSum);
         }
 
@@ -130,9 +130,9 @@ public:
 
         std::function<int()> fEmpty;
 
-        std::function<int()> fStack ([] { return 3; });
+        std::function<int()> fStack ([]() { return 3; });
 
-        std::function<int()> fHeap ([=] { return bigData.sum(); });
+        std::function<int()> fHeap ([=]() { return bigData.sum(); });
 
         {
             beginTest ("copy constructor");
@@ -173,23 +173,23 @@ public:
         {
             beginTest ("move constructor");
 
-            std::unique_ptr<std::function<int()>> fStackTmp (new std::function<int()> (fStack));
+            ScopedPointer<std::function<int()>> fStackTmp (new std::function<int()> (fStack));
             std::function<int()> f1 (static_cast<std::function<int()>&&> (*fStackTmp));
 
-            fStackTmp.reset();
+            fStackTmp = nullptr;
             expectEquals (f1(), 3);
 
-            std::unique_ptr<std::function<int()>> fHeapTmp (new std::function<int()> (fHeap));
+            ScopedPointer<std::function<int()>> fHeapTmp (new std::function<int()> (fHeap));
             std::function<int()> f2 (static_cast<std::function<int()>&&> (*fHeapTmp));
             if (*fHeapTmp)
                 expect (false);
 
-            fHeapTmp.reset();
+            fHeapTmp = nullptr;
             expectEquals (f2(), FunctionTestsHelpers::BigData::bigDataSum);
 
-            std::unique_ptr<std::function<int()>> fEmptyTmp (new std::function<int()>());
+            ScopedPointer<std::function<int()>> fEmptyTmp (new std::function<int()>());
             std::function<int()> f3 (static_cast<std::function<int()>&&> (*fEmptyTmp));
-            fEmptyTmp.reset();
+            fEmptyTmp = nullptr;
             if (f3)
                 expect (false);
         }
@@ -198,25 +198,25 @@ public:
             beginTest ("move assignment");
 
             std::function<int()> f1 (fHeap);
-            std::unique_ptr<std::function<int()>> fStackTmp (new std::function<int()> (fStack));
+            ScopedPointer<std::function<int()>> fStackTmp (new std::function<int()> (fStack));
             f1 = static_cast<std::function<int()>&&> (*fStackTmp);
 
-            fStackTmp.reset();
+            fStackTmp = nullptr;
             expectEquals (f1(), 3);
 
             std::function<int()> f2 (fStack);
-            std::unique_ptr<std::function<int()>> fHeapTmp (new std::function<int()> (fHeap));
+            ScopedPointer<std::function<int()>> fHeapTmp (new std::function<int()> (fHeap));
             f2 = static_cast<std::function<int()>&&> (*fHeapTmp);
             if (*fHeapTmp)
                 expect (false);
 
-            fHeapTmp.reset();
+            fHeapTmp = nullptr;
             expectEquals (f2(), FunctionTestsHelpers::BigData::bigDataSum);
 
             std::function<int()> f3 (fHeap);
-            std::unique_ptr<std::function<int()>> fEmptyTmp (new std::function<int()>());
+            ScopedPointer<std::function<int()>> fEmptyTmp (new std::function<int()>());
             f3 = static_cast<std::function<int()>&&> (*fEmptyTmp);
-            fEmptyTmp.reset();
+            fEmptyTmp = nullptr;
             if (f3)
                 expect (false);
         }

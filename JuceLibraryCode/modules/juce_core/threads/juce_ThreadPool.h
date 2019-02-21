@@ -24,6 +24,8 @@ namespace juce
 {
 
 class ThreadPool;
+class ThreadPoolThread;
+
 
 //==============================================================================
 /**
@@ -38,8 +40,6 @@ class ThreadPool;
     true, the runJob() method must return immediately.
 
     @see ThreadPool, Thread
-
-    @tags{Core}
 */
 class JUCE_API  ThreadPoolJob
 {
@@ -132,6 +132,7 @@ public:
     //==============================================================================
 private:
     friend class ThreadPool;
+    friend class ThreadPoolThread;
     String jobName;
     ThreadPool* pool = nullptr;
     bool shouldStop = false, isActive = false, shouldBeDeleted = false;
@@ -149,8 +150,6 @@ private:
     will be called by the next pooled thread that becomes free.
 
     @see ThreadPoolJob, Thread
-
-    @tags{Core}
 */
 class JUCE_API  ThreadPool
 {
@@ -320,9 +319,9 @@ private:
     //==============================================================================
     Array<ThreadPoolJob*> jobs;
 
-    struct ThreadPoolThread;
+    class ThreadPoolThread;
     friend class ThreadPoolJob;
-    friend struct ThreadPoolThread;
+    friend class ThreadPoolThread;
     friend struct ContainerDeletePolicy<ThreadPoolThread>;
     OwnedArray<ThreadPoolThread> threads;
 

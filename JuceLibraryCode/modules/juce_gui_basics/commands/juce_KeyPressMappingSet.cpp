@@ -257,11 +257,11 @@ bool KeyPressMappingSet::restoreFromXml (const XmlElement& xmlVersion)
 
 XmlElement* KeyPressMappingSet::createXml (const bool saveDifferencesFromDefaultSet) const
 {
-    std::unique_ptr<KeyPressMappingSet> defaultSet;
+    ScopedPointer<KeyPressMappingSet> defaultSet;
 
     if (saveDifferencesFromDefaultSet)
     {
-        defaultSet.reset (new KeyPressMappingSet (commandManager));
+        defaultSet = new KeyPressMappingSet (commandManager);
         defaultSet->resetToDefaultMappings();
     }
 

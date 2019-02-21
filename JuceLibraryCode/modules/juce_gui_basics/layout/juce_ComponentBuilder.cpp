@@ -114,7 +114,7 @@ ComponentBuilder::~ComponentBuilder()
    #if JUCE_DEBUG
     // Don't delete the managed component!! The builder owns that component, and will delete
     // it automatically when it gets deleted.
-    jassert (componentRef.get() == component.get());
+    jassert (componentRef.get() == static_cast<Component*> (component));
    #endif
 }
 
@@ -122,14 +122,14 @@ Component* ComponentBuilder::getManagedComponent()
 {
     if (component == nullptr)
     {
-        component.reset (createComponent());
+        component = createComponent();
 
        #if JUCE_DEBUG
-        componentRef = component.get();
+        componentRef = component;
        #endif
     }
 
-    return component.get();
+    return component;
 }
 
 Component* ComponentBuilder::createComponent()
@@ -182,6 +182,7 @@ ComponentBuilder::TypeHandler* ComponentBuilder::getHandler (const int index) co
 
 void ComponentBuilder::registerStandardComponentTypes()
 {
+    Drawable::registerDrawableTypeHandlers (*this);
 }
 
 void ComponentBuilder::setImageProvider (ImageProvider* newImageProvider) noexcept

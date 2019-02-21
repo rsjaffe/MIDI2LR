@@ -32,8 +32,6 @@ namespace juce
     apply the reverb to your audio data.
 
     @see ReverbAudioSource
-
-    @tags{Audio}
 */
 class Reverb
 {

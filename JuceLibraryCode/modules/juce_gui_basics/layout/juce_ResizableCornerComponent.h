@@ -36,8 +36,6 @@ namespace juce
     around.
 
     @see ResizableBorderComponent
-
-    @tags{GUI}
 */
 class JUCE_API  ResizableCornerComponent  : public Component
 {

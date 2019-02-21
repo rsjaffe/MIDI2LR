@@ -77,8 +77,6 @@ namespace juce
     @endcode
 
     @see StretchableLayoutResizerBar
-
-    @tags{GUI}
 */
 class JUCE_API  StretchableLayoutManager
 {

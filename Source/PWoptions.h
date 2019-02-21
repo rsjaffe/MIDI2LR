@@ -7,17 +7,18 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.3.2
+  Created with Projucer version: 4.3.0
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#pragma once
+#ifndef __JUCE_HEADER_803E4ECD2CBCEA5A__
+#define __JUCE_HEADER_803E4ECD2CBCEA5A__
 
 //[Headers]     -- You can add your own extra header files here --
 /*
@@ -40,6 +41,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
 // NOTE: must add juce:: qualifiers in header if regenerate file
@@ -59,14 +61,14 @@ class PWoptions : public juce::Component, private juce::TextEditor::Listener {
    PWoptions();
    ~PWoptions();
 
-   //==============================================================================
-   //[UserMethods]     -- You can add your own custom methods in this section.
-   static void LinkToControlsModel(ControlsModel* model) noexcept
-   {
-      controls_model_ = model;
-   }
-   void BindToControl(size_t channel);
-   //[/UserMethods]
+    //==============================================================================
+    //[UserMethods]     -- You can add your own custom methods in this section.
+    static void LinkToControlsModel(ControlsModel* model) noexcept
+    {
+        controls_model_ = model;
+    }
+    void BindToControl(size_t channel);
+    //[/UserMethods]
 
    void paint(juce::Graphics& g) override;
    void resized() override;
@@ -86,9 +88,11 @@ class PWoptions : public juce::Component, private juce::TextEditor::Listener {
    std::unique_ptr<juce::TextEditor> maxval;
    std::unique_ptr<juce::Label> label3;
 
-   //==============================================================================
-   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
+    //==============================================================================
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
+
+#endif   // __JUCE_HEADER_803E4ECD2CBCEA5A__

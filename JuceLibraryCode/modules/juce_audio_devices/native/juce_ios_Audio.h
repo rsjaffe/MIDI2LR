@@ -23,7 +23,7 @@
 namespace juce
 {
 
-class iOSAudioIODeviceType;
+struct iOSAudioIODeviceType;
 
 class iOSAudioIODevice : public AudioIODevice
 {
@@ -77,15 +77,15 @@ public:
 
 private:
     //==============================================================================
-    iOSAudioIODevice (iOSAudioIODeviceType&, const String&, const String&);
+    iOSAudioIODevice (const String&);
 
     //==============================================================================
-    friend class iOSAudioIODeviceType;
+    friend struct iOSAudioIODeviceType;
     friend struct AudioSessionHolder;
 
     struct Pimpl;
     friend struct Pimpl;
-    std::unique_ptr<Pimpl> pimpl;
+    ScopedPointer<Pimpl> pimpl;
 
     JUCE_DECLARE_NON_COPYABLE (iOSAudioIODevice)
 };

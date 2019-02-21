@@ -26,8 +26,6 @@ namespace juce
 //==============================================================================
 /**
     Contains functions to control the system's master volume.
-
-    @tags{Audio}
 */
 class JUCE_API  SystemAudioVolume
 {

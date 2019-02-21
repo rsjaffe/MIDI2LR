@@ -32,8 +32,6 @@ namespace juce
     that has a current read position.
 
     @see AudioSource, AudioTransportSource
-
-    @tags{Audio}
 */
 class JUCE_API  PositionableAudioSource  : public AudioSource
 {

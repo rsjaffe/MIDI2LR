@@ -32,8 +32,6 @@ namespace juce
     A parallelogram defined by three RelativePoint positions.
 
     @see RelativePoint, RelativeCoordinate
-
-    @tags{GUI}
 */
 class JUCE_API  RelativeParallelogram
 {

@@ -32,8 +32,6 @@ namespace juce
     Manages a rectangle and allows geometric operations to be performed on it.
 
     @see RectangleList, Path, Line, Point
-
-    @tags{Graphics}
 */
 template <typename ValueType>
 class Rectangle
@@ -794,7 +792,7 @@ public:
     */
     Rectangle transformedBy (const AffineTransform& transform) const noexcept
     {
-        using FloatType = typename TypeHelpers::SmallestFloatType<ValueType>::type;
+        typedef typename TypeHelpers::SmallestFloatType<ValueType>::type FloatType;
 
         auto x1 = static_cast<FloatType> (pos.x),     y1 = static_cast<FloatType> (pos.y);
         auto x2 = static_cast<FloatType> (pos.x + w), y2 = static_cast<FloatType> (pos.y);
@@ -816,7 +814,7 @@ public:
 
     /** Returns the smallest integer-aligned rectangle that completely contains this one.
         This is only relevant for floating-point rectangles, of course.
-        @see toFloat(), toNearestInt(), toNearestIntEdges()
+        @see toFloat(), toNearestInt()
     */
     Rectangle<int> getSmallestIntegerContainer() const noexcept
     {
@@ -829,23 +827,12 @@ public:
     /** Casts this rectangle to a Rectangle<int>.
         This uses roundToInt to snap x, y, width and height to the nearest integer (losing precision).
         If the rectangle already uses integers, this will simply return a copy.
-        @see getSmallestIntegerContainer(), toNearestIntEdges()
+        @see getSmallestIntegerContainer()
     */
     Rectangle<int> toNearestInt() const noexcept
     {
         return { roundToInt (pos.x), roundToInt (pos.y),
                  roundToInt (w),     roundToInt (h) };
-    }
-
-    /** Casts this rectangle to a Rectangle<int>.
-        This uses roundToInt to snap top, left, right and bottom to the nearest integer (losing precision).
-        If the rectangle already uses integers, this will simply return a copy.
-        @see getSmallestIntegerContainer(), toNearestInt()
-    */
-    Rectangle<int> toNearestIntEdges() const noexcept
-    {
-        return Rectangle<int>::leftTopRightBottom (roundToInt (pos.x),       roundToInt (pos.y),
-                                                   roundToInt (getRight()),  roundToInt (getBottom()));
     }
 
     /** Casts this rectangle to a Rectangle<float>.

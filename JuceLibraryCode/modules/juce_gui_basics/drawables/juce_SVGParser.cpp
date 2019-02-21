@@ -196,7 +196,10 @@ public:
 
         newState.parseSubElements (xml, *drawable);
 
-        drawable->setContentArea ({ viewboxXY.x, viewboxXY.y, newState.viewBoxW, newState.viewBoxH });
+        drawable->setContentArea (RelativeRectangle (RelativeCoordinate (viewboxXY.x),
+                                                     RelativeCoordinate (viewboxXY.x + newState.viewBoxW),
+                                                     RelativeCoordinate (viewboxXY.y),
+                                                     RelativeCoordinate (viewboxXY.y + newState.viewBoxH)));
         drawable->resetBoundingBoxToContentArea();
 
         return drawable;
@@ -240,7 +243,8 @@ public:
                     else
                         path.lineTo (p1);
 
-                    last2 = last = p1;
+                    last2 = last;
+                    last = p1;
                 }
                 break;
 
@@ -802,7 +806,7 @@ private:
     {
         if (xmlPath->hasTagNameIgnoringNamespace ("clipPath"))
         {
-            std::unique_ptr<DrawableComposite> drawableClipPath (new DrawableComposite());
+            ScopedPointer<DrawableComposite> drawableClipPath (new DrawableComposite());
 
             parseSubElements (xmlPath, *drawableClipPath, false);
 
@@ -1163,14 +1167,15 @@ private:
 
         auto link = xml->getStringAttribute ("xlink:href");
 
-        std::unique_ptr<InputStream> inputStream;
+        ScopedPointer<InputStream> inputStream;
         MemoryOutputStream imageStream;
 
         if (link.startsWith ("data:"))
         {
             const auto indexOfComma = link.indexOf (",");
             auto format = link.substring (5, indexOfComma).trim();
-            auto indexOfSemi = format.indexOf (";");
+
+            const auto indexOfSemi = format.indexOf (";");
 
             if (format.substring (indexOfSemi + 1).trim().equalsIgnoreCase ("base64"))
             {
@@ -1178,10 +1183,10 @@ private:
 
                 if (mime.equalsIgnoreCase ("image/png") || mime.equalsIgnoreCase ("image/jpeg"))
                 {
-                    auto base64text = link.substring (indexOfComma + 1).removeCharacters ("\t\n\r ");
+                    const String base64text = link.substring (indexOfComma + 1).removeCharacters ("\t\n\r ");
 
                     if (Base64::convertFromBase64 (imageStream, base64text))
-                        inputStream.reset (new MemoryInputStream (imageStream.getData(), imageStream.getDataSize(), false));
+                        inputStream = new MemoryInputStream (imageStream.getData(), imageStream.getDataSize(), false);
                 }
             }
         }
@@ -1190,7 +1195,7 @@ private:
             auto linkedFile = originalFile.getParentDirectory().getChildFile (link);
 
             if (linkedFile.existsAsFile())
-                inputStream.reset (linkedFile.createInputStream());
+                inputStream = linkedFile.createInputStream();
         }
 
         if (inputStream != nullptr)
@@ -1606,10 +1611,10 @@ private:
         return result;
     }
 
-    static void endpointToCentreParameters (double x1, double y1,
-                                            double x2, double y2,
-                                            double angle,
-                                            bool largeArc, bool sweep,
+    static void endpointToCentreParameters (const double x1, const double y1,
+                                            const double x2, const double y2,
+                                            const double angle,
+                                            const bool largeArc, const bool sweep,
                                             double& rx, double& ry,
                                             double& centreX, double& centreY,
                                             double& startAngle, double& deltaAngle) noexcept
@@ -1664,7 +1669,7 @@ private:
         if (uy < 0)
             startAngle = -startAngle;
 
-        startAngle += MathConstants<double>::halfPi;
+        startAngle += double_Pi * 0.5;
 
         deltaAngle = acos (jlimit (-1.0, 1.0, ((ux * vx) + (uy * vy))
                                                 / (length * juce_hypot (vx, vy))));
@@ -1675,18 +1680,18 @@ private:
         if (sweep)
         {
             if (deltaAngle < 0)
-                deltaAngle += MathConstants<double>::twoPi;
+                deltaAngle += double_Pi * 2.0;
         }
         else
         {
             if (deltaAngle > 0)
-                deltaAngle -= MathConstants<double>::twoPi;
+                deltaAngle -= double_Pi * 2.0;
         }
 
-        deltaAngle = fmod (deltaAngle, MathConstants<double>::twoPi);
+        deltaAngle = fmod (deltaAngle, double_Pi * 2.0);
     }
 
-    SVGState& operator= (const SVGState&) = delete;
+    SVGState& operator= (const SVGState&) JUCE_DELETED_FUNCTION;
 };
 
 
@@ -1703,16 +1708,16 @@ Drawable* Drawable::createFromSVG (const XmlElement& svgDocument)
 Drawable* Drawable::createFromSVGFile (const File& svgFile)
 {
     XmlDocument doc (svgFile);
-    std::unique_ptr<XmlElement> outer (doc.getDocumentElement (true));
+    ScopedPointer<XmlElement> outer (doc.getDocumentElement (true));
 
     if (outer != nullptr && outer->hasTagName ("svg"))
     {
-        std::unique_ptr<XmlElement> svgDocument (doc.getDocumentElement());
+        ScopedPointer<XmlElement> svgDocument (doc.getDocumentElement());
 
         if (svgDocument != nullptr)
         {
-            SVGState state (svgDocument.get(), svgFile);
-            return state.parseSVGElement (SVGState::XmlPath (svgDocument.get(), nullptr));
+            SVGState state (svgDocument, svgFile);
+            return state.parseSVGElement (SVGState::XmlPath (svgDocument, nullptr));
         }
     }
 

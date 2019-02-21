@@ -46,8 +46,6 @@ namespace juce
     to choose the style of resizing to use.
 
     @see TopLevelWindow
-
-    @tags{GUI}
 */
 class JUCE_API  ResizableWindow  : public TopLevelWindow
 {
@@ -379,8 +377,8 @@ protected:
     void addAndMakeVisible (Component*, int zOrder = -1);
    #endif
 
-    std::unique_ptr<ResizableCornerComponent> resizableCorner;
-    std::unique_ptr<ResizableBorderComponent> resizableBorder;
+    ScopedPointer<ResizableCornerComponent> resizableCorner;
+    ScopedPointer<ResizableBorderComponent> resizableBorder;
 
 private:
     //==============================================================================

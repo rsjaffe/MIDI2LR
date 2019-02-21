@@ -28,8 +28,6 @@ namespace juce
     A special array for holding a list of strings.
 
     @see String, StringPairArray
-
-    @tags{Core}
 */
 class JUCE_API  StringArray
 {
@@ -51,8 +49,9 @@ public:
     template <typename... OtherElements>
     StringArray (StringRef firstValue, OtherElements... otherValues) : strings (firstValue, otherValues...) {}
 
-    /** Creates an array containing a list of strings. */
+   #if JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS
     StringArray (const std::initializer_list<const char*>& strings);
+   #endif
 
     /** Creates an array from a raw array of strings.
         @param strings          an array of strings to add

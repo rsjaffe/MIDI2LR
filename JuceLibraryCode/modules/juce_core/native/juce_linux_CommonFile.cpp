@@ -55,16 +55,26 @@ bool File::isHidden() const
     return getFileName().startsWithChar ('.');
 }
 
-bool File::isSymbolicLink() const
-{
-    return getNativeLinkedTarget().isNotEmpty();
-}
-
-String File::getNativeLinkedTarget() const
+static String getLinkedFile (const String& file)
 {
     HeapBlock<char> buffer (8194);
-    const int numBytes = (int) readlink (getFullPathName().toRawUTF8(), buffer, 8192);
+    const int numBytes = (int) readlink (file.toRawUTF8(), buffer, 8192);
     return String::fromUTF8 (buffer, jmax (0, numBytes));
+}
+
+bool File::isSymbolicLink() const
+{
+    return getLinkedFile (getFullPathName()).isNotEmpty();
+}
+
+File File::getLinkedTarget() const
+{
+    String f (getLinkedFile (getFullPathName()));
+
+    if (f.isNotEmpty())
+        return getSiblingFile (f);
+
+    return *this;
 }
 
 //==============================================================================

@@ -43,8 +43,6 @@ namespace juce
     In this example, the time of each period between calling start/stop will be
     measured and averaged over 50 runs, and the results printed to a file
     every 50 times round the loop.
-
-    @tags{Core}
 */
 class JUCE_API  PerformanceCounter
 {
@@ -133,12 +131,10 @@ private:
             doSomething();
         }
 
-        Logger::writeToLog ("doSomething() took " + String (timeSec) + "seconds");
+        Logger::writeToLog (String ("doSomething() took ") + String (timeSec) + "seconds");
     }
 
     @param resultInSeconds The result of the measurement will be stored in this variable.
-
-    @tags{Core}
 */
 class JUCE_API  ScopedTimeMeasurement
 {

@@ -25,14 +25,20 @@ namespace juce
 
 BufferingAudioSource::BufferingAudioSource (PositionableAudioSource* s,
                                             TimeSliceThread& thread,
-                                            bool deleteSourceWhenDeleted,
-                                            int bufferSizeSamples,
-                                            int numChannels,
+                                            const bool deleteSourceWhenDeleted,
+                                            const int bufferSizeSamples,
+                                            const int numChannels,
                                             bool prefillBufferOnPrepareToPlay)
     : source (s, deleteSourceWhenDeleted),
       backgroundThread (thread),
       numberOfSamplesToBuffer (jmax (1024, bufferSizeSamples)),
       numberOfChannels (numChannels),
+      bufferValidStart (0),
+      bufferValidEnd (0),
+      nextPlayPos (0),
+      sampleRate (0),
+      wasSourceLooping (false),
+      isPrepared (false),
       prefillBuffer (prefillBufferOnPrepareToPlay)
 {
     jassert (source != nullptr);
@@ -49,7 +55,7 @@ BufferingAudioSource::~BufferingAudioSource()
 //==============================================================================
 void BufferingAudioSource::prepareToPlay (int samplesPerBlockExpected, double newSampleRate)
 {
-    auto bufferSizeNeeded = jmax (samplesPerBlockExpected * 2, numberOfSamplesToBuffer);
+    const int bufferSizeNeeded = jmax (samplesPerBlockExpected * 2, numberOfSamplesToBuffer);
 
     if (newSampleRate != sampleRate
          || bufferSizeNeeded != buffer.getNumSamples()
@@ -98,12 +104,8 @@ void BufferingAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& info
 {
     const ScopedLock sl (bufferStartPosLock);
 
-    auto start = bufferValidStart.load();
-    auto end   = bufferValidEnd.load();
-    auto pos   = nextPlayPos.load();
-
-    auto validStart = (int) (jlimit (start, end, pos) - pos);
-    auto validEnd   = (int) (jlimit (start, end, pos + info.numSamples) - pos);
+    const int validStart = (int) (jlimit (bufferValidStart, bufferValidEnd, nextPlayPos) - nextPlayPos);
+    const int validEnd   = (int) (jlimit (bufferValidStart, bufferValidEnd, nextPlayPos + info.numSamples) - nextPlayPos);
 
     if (validStart == validEnd)
     {
@@ -124,8 +126,8 @@ void BufferingAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& info
             for (int chan = jmin (numberOfChannels, info.buffer->getNumChannels()); --chan >= 0;)
             {
                 jassert (buffer.getNumSamples() > 0);
-                auto startBufferIndex = (int) ((validStart + nextPlayPos) % buffer.getNumSamples());
-                auto endBufferIndex   = (int) ((validEnd + nextPlayPos)   % buffer.getNumSamples());
+                const int startBufferIndex = (int) ((validStart + nextPlayPos) % buffer.getNumSamples());
+                const int endBufferIndex   = (int) ((validEnd + nextPlayPos)   % buffer.getNumSamples());
 
                 if (startBufferIndex < endBufferIndex)
                 {
@@ -136,7 +138,7 @@ void BufferingAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& info
                 }
                 else
                 {
-                    auto initialSize = buffer.getNumSamples() - startBufferIndex;
+                    const int initialSize = buffer.getNumSamples() - startBufferIndex;
 
                     info.buffer->copyFrom (chan, info.startSample + validStart,
                                            buffer,
@@ -155,7 +157,7 @@ void BufferingAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& info
     }
 }
 
-bool BufferingAudioSource::waitForNextAudioBlockReady (const AudioSourceChannelInfo& info, uint32 timeout)
+bool BufferingAudioSource::waitForNextAudioBlockReady (const AudioSourceChannelInfo& info, const uint32 timeout)
 {
     if (!source || source->getTotalLength() <= 0)
         return false;
@@ -166,27 +168,25 @@ bool BufferingAudioSource::waitForNextAudioBlockReady (const AudioSourceChannelI
     if (! isLooping() && nextPlayPos > getTotalLength())
         return true;
 
-    auto now = Time::getMillisecondCounter();
-    auto startTime = now;
+    uint32 now = Time::getMillisecondCounter();
+    const uint32 startTime = now;
 
-    auto elapsed = (now >= startTime ? now - startTime
-                                     : (std::numeric_limits<uint32>::max() - startTime) + now);
+    uint32 elapsed = (now >= startTime ? now - startTime
+                                       : (std::numeric_limits<uint32>::max() - startTime) + now);
 
     while (elapsed <= timeout)
     {
         {
             const ScopedLock sl (bufferStartPosLock);
 
-            auto start = bufferValidStart.load();
-            auto end   = bufferValidEnd.load();
-            auto pos   = nextPlayPos.load();
-
-            auto validStart = static_cast<int> (jlimit (start, end, pos) - pos);
-            auto validEnd   = static_cast<int> (jlimit (start, end, pos + info.numSamples) - pos);
+            const int validStart = static_cast<int> (jlimit (bufferValidStart, bufferValidEnd, nextPlayPos) - nextPlayPos);
+            const int validEnd   = static_cast<int> (jlimit (bufferValidStart, bufferValidEnd, nextPlayPos + info.numSamples) - nextPlayPos);
 
             if (validStart <= 0 && validStart < validEnd && validEnd >= info.numSamples)
                 return true;
         }
+
+
 
         if (elapsed < timeout  && (! bufferReadyEvent.wait (static_cast<int> (timeout - elapsed))))
             return false;
@@ -202,11 +202,9 @@ bool BufferingAudioSource::waitForNextAudioBlockReady (const AudioSourceChannelI
 int64 BufferingAudioSource::getNextReadPosition() const
 {
     jassert (source->getTotalLength() > 0);
-    auto pos = nextPlayPos.load();
-
     return (source->isLooping() && nextPlayPos > 0)
-                    ? pos % source->getTotalLength()
-                    : pos;
+                    ? nextPlayPos % source->getTotalLength()
+                    : nextPlayPos;
 }
 
 void BufferingAudioSource::setNextReadPosition (int64 newPosition)
@@ -231,7 +229,7 @@ bool BufferingAudioSource::readNextBufferChunk()
             bufferValidEnd = 0;
         }
 
-        newBVS = jmax ((int64) 0, nextPlayPos.load());
+        newBVS = jmax ((int64) 0, nextPlayPos);
         newBVE = newBVS + buffer.getNumSamples() - 4;
         sectionToReadStart = 0;
         sectionToReadEnd = 0;
@@ -257,7 +255,7 @@ bool BufferingAudioSource::readNextBufferChunk()
             sectionToReadEnd = newBVE;
 
             bufferValidStart = newBVS;
-            bufferValidEnd = jmin (bufferValidEnd.load(), newBVE);
+            bufferValidEnd = jmin (bufferValidEnd, newBVE);
         }
     }
 
@@ -265,8 +263,8 @@ bool BufferingAudioSource::readNextBufferChunk()
         return false;
 
     jassert (buffer.getNumSamples() > 0);
-    auto bufferIndexStart = (int) (sectionToReadStart % buffer.getNumSamples());
-    auto bufferIndexEnd   = (int) (sectionToReadEnd   % buffer.getNumSamples());
+    const int bufferIndexStart = (int) (sectionToReadStart % buffer.getNumSamples());
+    const int bufferIndexEnd   = (int) (sectionToReadEnd   % buffer.getNumSamples());
 
     if (bufferIndexStart < bufferIndexEnd)
     {
@@ -276,7 +274,7 @@ bool BufferingAudioSource::readNextBufferChunk()
     }
     else
     {
-        auto initialSize = buffer.getNumSamples() - bufferIndexStart;
+        const int initialSize = buffer.getNumSamples() - bufferIndexStart;
 
         readBufferSection (sectionToReadStart,
                            initialSize,
@@ -295,10 +293,11 @@ bool BufferingAudioSource::readNextBufferChunk()
     }
 
     bufferReadyEvent.signal();
+
     return true;
 }
 
-void BufferingAudioSource::readBufferSection (int64 start, int length, int bufferOffset)
+void BufferingAudioSource::readBufferSection (const int64 start, const int length, const int bufferOffset)
 {
     if (source->getNextReadPosition() != start)
         source->setNextReadPosition (start);

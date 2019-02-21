@@ -45,8 +45,6 @@ namespace juce
     @endcode
 
     @see ReadWriteLock, ScopedReadLock
-
-    @tags{Core}
 */
 class JUCE_API  ScopedWriteLock
 {

@@ -53,8 +53,6 @@ namespace juce
     @endcode
 
     The call-out will resize and position itself when the content changes size.
-
-    @tags{GUI}
 */
 class JUCE_API  CallOutBox    : public Component,
                                 private Timer

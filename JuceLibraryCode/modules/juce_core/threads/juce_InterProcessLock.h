@@ -28,8 +28,6 @@ namespace juce
     Acts as a critical section which processes can use to block each other.
 
     @see CriticalSection
-
-    @tags{Core}
 */
 class JUCE_API  InterProcessLock
 {
@@ -111,7 +109,7 @@ private:
     //==============================================================================
     class Pimpl;
     friend struct ContainerDeletePolicy<Pimpl>;
-    std::unique_ptr<Pimpl> pimpl;
+    ScopedPointer<Pimpl> pimpl;
 
     CriticalSection lock;
     String name;

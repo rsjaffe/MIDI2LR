@@ -31,8 +31,6 @@ namespace juce
     sockets, you could also try the InterprocessConnection class.
 
     @see DatagramSocket, InterprocessConnection, InterprocessConnectionServer
-
-    @tags{Core}
 */
 class JUCE_API  StreamingSocket  final
 {
@@ -122,7 +120,8 @@ public:
         If the socket is ready on return, this returns 1. If it times-out before
         the socket becomes ready, it returns 0. If an error occurs, it returns -1.
     */
-    int waitUntilReady (bool readyForReading, int timeoutMsecs);
+    int waitUntilReady (bool readyForReading,
+                        int timeoutMsecs) const;
 
     /** Reads bytes from the socket.
 
@@ -176,9 +175,8 @@ public:
 private:
     //==============================================================================
     String hostName;
-    std::atomic<int> portNumber { 0 }, handle { -1 };
-    std::atomic<bool> connected { false };
-    bool isListener = false;
+    int volatile portNumber = 0, handle = -1;
+    bool connected = false, isListener = false;
     mutable CriticalSection readLock;
 
     StreamingSocket (const String& hostname, int portNumber, int handle);
@@ -195,8 +193,6 @@ private:
     sockets, you could also try the InterprocessConnection class.
 
     @see StreamingSocket, InterprocessConnection, InterprocessConnectionServer
-
-    @tags{Core}
 */
 class JUCE_API  DatagramSocket  final
 {
@@ -263,7 +259,8 @@ public:
         If the socket is ready on return, this returns 1. If it times-out before
         the socket becomes ready, it returns 0. If an error occurs, it returns -1.
     */
-    int waitUntilReady (bool readyForReading, int timeoutMsecs);
+    int waitUntilReady (bool readyForReading,
+                        int timeoutMsecs) const;
 
     /** Reads bytes from the socket.
 
@@ -318,20 +315,17 @@ public:
     void shutdown();
 
     //==============================================================================
-    /** Join a multicast group.
+    /** Join a multicast group
+
         @returns true if it succeeds.
     */
     bool joinMulticast (const String& multicastIPAddress);
 
-    /** Leave a multicast group.
+    /** Leave a multicast group
+
         @returns true if it succeeds.
     */
     bool leaveMulticast (const String& multicastIPAddress);
-
-    /** Enables or disables multicast loopback.
-        @returns true if it succeeds.
-    */
-    bool setMulticastLoopbackEnabled (bool enableLoopback);
 
     //==============================================================================
     /** Allow other applications to re-use the port.
@@ -346,7 +340,7 @@ public:
 
 private:
     //==============================================================================
-    std::atomic<int> handle { -1 };
+    int handle = -1;
     bool isBound = false;
     String lastBindAddress, lastServerHost;
     int lastServerPort = -1;

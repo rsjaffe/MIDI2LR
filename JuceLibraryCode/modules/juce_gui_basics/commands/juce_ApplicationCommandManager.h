@@ -81,8 +81,6 @@ namespace juce
     the object yourself.
 
     @see ApplicationCommandTarget, ApplicationCommandInfo
-
-    @tags{GUI}
 */
 class JUCE_API  ApplicationCommandManager   : private AsyncUpdater,
                                               private FocusChangeListener
@@ -200,7 +198,7 @@ public:
 
         @see KeyPressMappingSet
     */
-    KeyPressMappingSet* getKeyMappings() const noexcept         { return keyMappings.get(); }
+    KeyPressMappingSet* getKeyMappings() const noexcept                         { return keyMappings; }
 
 
     //==============================================================================
@@ -305,8 +303,8 @@ private:
     //==============================================================================
     OwnedArray<ApplicationCommandInfo> commands;
     ListenerList<ApplicationCommandManagerListener> listeners;
-    std::unique_ptr<KeyPressMappingSet> keyMappings;
-    ApplicationCommandTarget* firstTarget = nullptr;
+    ScopedPointer<KeyPressMappingSet> keyMappings;
+    ApplicationCommandTarget* firstTarget;
 
     void sendListenerInvokeCallback (const ApplicationCommandTarget::InvocationInfo&);
     void handleAsyncUpdate() override;
@@ -330,8 +328,6 @@ private:
 
     @see ApplicationCommandManager::addListener, ApplicationCommandManager::removeListener
 
-
-    @tags{GUI}
 */
 class JUCE_API  ApplicationCommandManagerListener
 {

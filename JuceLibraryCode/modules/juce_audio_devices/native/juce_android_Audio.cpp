@@ -423,7 +423,7 @@ private:
     String lastError;
     BigInteger activeOutputChans, activeInputChans;
     GlobalRef outputDevice, inputDevice;
-    AudioBuffer<float> inputChannelBuffer, outputChannelBuffer;
+    AudioSampleBuffer inputChannelBuffer, outputChannelBuffer;
     jmethodID getUnderrunCount = 0;
 
     void closeDevices()
@@ -462,12 +462,12 @@ public:
     AudioIODevice* createDevice (const String& outputDeviceName,
                                  const String& inputDeviceName)
     {
-        std::unique_ptr<AndroidAudioIODevice> dev;
+        ScopedPointer<AndroidAudioIODevice> dev;
 
         if (outputDeviceName.isNotEmpty() || inputDeviceName.isNotEmpty())
         {
-            dev.reset (new AndroidAudioIODevice (outputDeviceName.isNotEmpty() ? outputDeviceName
-                                                                               : inputDeviceName));
+            dev = new AndroidAudioIODevice (outputDeviceName.isNotEmpty() ? outputDeviceName
+                                                                          : inputDeviceName);
 
             if (dev->getCurrentSampleRate() <= 0 || dev->getDefaultBufferSize() <= 0)
                 dev = nullptr;
@@ -482,16 +482,10 @@ private:
 
 
 //==============================================================================
-extern bool isOboeAvailable();
 extern bool isOpenSLAvailable();
 
 AudioIODeviceType* AudioIODeviceType::createAudioIODeviceType_Android()
 {
-   #if JUCE_USE_ANDROID_OBOE
-    if (isOboeAvailable())
-        return nullptr;
-   #endif
-
    #if JUCE_USE_ANDROID_OPENSLES
     if (isOpenSLAvailable())
         return nullptr;

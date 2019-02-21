@@ -46,7 +46,7 @@ struct FTLibWrapper     : public ReferenceCountedObject
 
     FT_Library library;
 
-    using Ptr = ReferenceCountedObjectPtr<FTLibWrapper>;
+    typedef ReferenceCountedObjectPtr<FTLibWrapper> Ptr;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FTLibWrapper)
 };
@@ -79,7 +79,7 @@ struct FTFaceWrapper     : public ReferenceCountedObject
     FTLibWrapper::Ptr library;
     MemoryBlock savedFaceData;
 
-    using Ptr = ReferenceCountedObjectPtr<FTFaceWrapper>;
+    typedef ReferenceCountedObjectPtr<FTFaceWrapper> Ptr;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FTFaceWrapper)
 };
@@ -229,7 +229,7 @@ public:
                 sansSerif.addIfNotAlreadyThere (faces.getUnchecked(i)->family);
     }
 
-    JUCE_DECLARE_SINGLETON_SINGLETHREADED_MINIMAL (FTTypefaceList)
+    juce_DeclareSingleton_SingleThreaded_Minimal (FTTypefaceList)
 
 private:
     FTLibWrapper::Ptr library;
@@ -288,7 +288,7 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FTTypefaceList)
 };
 
-JUCE_IMPLEMENT_SINGLETON (FTTypefaceList)
+juce_ImplementSingleton_SingleThreaded (FTTypefaceList)
 
 
 //==============================================================================

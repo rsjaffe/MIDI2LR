@@ -68,15 +68,15 @@ DocumentWindow::~DocumentWindow()
     // Don't delete or remove the resizer components yourself! They're managed by the
     // DocumentWindow, and you should leave them alone! You may have deleted them
     // accidentally by careless use of deleteAllChildren()..?
-    jassert (menuBar == nullptr || getIndexOfChildComponent (menuBar.get()) >= 0);
-    jassert (titleBarButtons[0] == nullptr || getIndexOfChildComponent (titleBarButtons[0].get()) >= 0);
-    jassert (titleBarButtons[1] == nullptr || getIndexOfChildComponent (titleBarButtons[1].get()) >= 0);
-    jassert (titleBarButtons[2] == nullptr || getIndexOfChildComponent (titleBarButtons[2].get()) >= 0);
+    jassert (menuBar == nullptr || getIndexOfChildComponent (menuBar) >= 0);
+    jassert (titleBarButtons[0] == nullptr || getIndexOfChildComponent (titleBarButtons[0]) >= 0);
+    jassert (titleBarButtons[1] == nullptr || getIndexOfChildComponent (titleBarButtons[1]) >= 0);
+    jassert (titleBarButtons[2] == nullptr || getIndexOfChildComponent (titleBarButtons[2]) >= 0);
 
     for (auto& b : titleBarButtons)
-        b.reset();
+        b = nullptr;
 
-    menuBar.reset();
+    menuBar = nullptr;
 }
 
 //==============================================================================
@@ -125,7 +125,7 @@ void DocumentWindow::setMenuBar (MenuBarModel* newMenuBarModel, const int newMen
 {
     if (menuBarModel != newMenuBarModel)
     {
-        menuBar.reset();
+        menuBar = nullptr;
 
         menuBarModel = newMenuBarModel;
         menuBarHeight = newMenuBarHeight > 0 ? newMenuBarHeight
@@ -140,13 +140,13 @@ void DocumentWindow::setMenuBar (MenuBarModel* newMenuBarModel, const int newMen
 
 Component* DocumentWindow::getMenuBarComponent() const noexcept
 {
-    return menuBar.get();
+    return menuBar;
 }
 
 void DocumentWindow::setMenuBarComponent (Component* newMenuBarComponent)
 {
-    menuBar.reset (newMenuBarComponent);
-    Component::addAndMakeVisible (menuBar.get()); // (call the superclass method directly to avoid the assertion in ResizableWindow)
+    // (call the Component method directly to avoid the assertion in ResizableWindow)
+    Component::addAndMakeVisible (menuBar = newMenuBarComponent);
 
     if (menuBar != nullptr)
         menuBar->setEnabled (isActiveWindow());
@@ -229,9 +229,9 @@ void DocumentWindow::resized()
         .positionDocumentWindowButtons (*this,
                                         titleBarArea.getX(), titleBarArea.getY(),
                                         titleBarArea.getWidth(), titleBarArea.getHeight(),
-                                        titleBarButtons[0].get(),
-                                        titleBarButtons[1].get(),
-                                        titleBarButtons[2].get(),
+                                        titleBarButtons[0],
+                                        titleBarButtons[1],
+                                        titleBarButtons[2],
                                         positionTitleBarButtonsOnLeft);
 
     if (menuBar != nullptr)
@@ -270,9 +270,9 @@ Rectangle<int> DocumentWindow::getTitleBarArea()
     return { border.getLeft(), border.getTop(), getWidth() - border.getLeftAndRight(), getTitleBarHeight() };
 }
 
-Button* DocumentWindow::getCloseButton()    const noexcept  { return titleBarButtons[2].get(); }
-Button* DocumentWindow::getMinimiseButton() const noexcept  { return titleBarButtons[0].get(); }
-Button* DocumentWindow::getMaximiseButton() const noexcept  { return titleBarButtons[1].get(); }
+Button* DocumentWindow::getCloseButton()    const noexcept  { return titleBarButtons[2]; }
+Button* DocumentWindow::getMinimiseButton() const noexcept  { return titleBarButtons[0]; }
+Button* DocumentWindow::getMaximiseButton() const noexcept  { return titleBarButtons[1]; }
 
 int DocumentWindow::getDesktopWindowStyleFlags() const
 {
@@ -288,28 +288,28 @@ int DocumentWindow::getDesktopWindowStyleFlags() const
 void DocumentWindow::lookAndFeelChanged()
 {
     for (auto& b : titleBarButtons)
-        b.reset();
+        b = nullptr;
 
     if (! isUsingNativeTitleBar())
     {
-        auto& lf = getLookAndFeel();
+        LookAndFeel& lf = getLookAndFeel();
 
-        if ((requiredButtons & minimiseButton) != 0)  titleBarButtons[0].reset (lf.createDocumentWindowButton (minimiseButton));
-        if ((requiredButtons & maximiseButton) != 0)  titleBarButtons[1].reset (lf.createDocumentWindowButton (maximiseButton));
-        if ((requiredButtons & closeButton)    != 0)  titleBarButtons[2].reset (lf.createDocumentWindowButton (closeButton));
+        if ((requiredButtons & minimiseButton) != 0)  titleBarButtons[0] = lf.createDocumentWindowButton (minimiseButton);
+        if ((requiredButtons & maximiseButton) != 0)  titleBarButtons[1] = lf.createDocumentWindowButton (maximiseButton);
+        if ((requiredButtons & closeButton)    != 0)  titleBarButtons[2] = lf.createDocumentWindowButton (closeButton);
 
         for (auto& b : titleBarButtons)
         {
             if (b != nullptr)
             {
                 if (buttonListener == nullptr)
-                    buttonListener.reset (new ButtonListenerProxy (*this));
+                    buttonListener = new ButtonListenerProxy (*this);
 
-                b->addListener (buttonListener.get());
+                b->addListener (buttonListener);
                 b->setWantsKeyboardFocus (false);
 
                 // (call the Component method directly to avoid the assertion in ResizableWindow)
-                Component::addAndMakeVisible (b.get());
+                Component::addAndMakeVisible (b);
             }
         }
 

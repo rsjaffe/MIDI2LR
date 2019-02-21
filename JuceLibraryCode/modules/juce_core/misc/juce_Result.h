@@ -50,8 +50,6 @@ namespace juce
                                 + result.getErrorMessage());
     }
     @endcode
-
-    @tags{Core}
 */
 class JUCE_API  Result
 {

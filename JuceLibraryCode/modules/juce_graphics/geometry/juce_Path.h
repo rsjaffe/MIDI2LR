@@ -59,8 +59,6 @@ namespace juce
     be open or closed.
 
     @see PathFlatteningIterator, PathStrokeType, Graphics
-
-    @tags{Graphics}
 */
 class JUCE_API  Path  final
 {
@@ -755,7 +753,7 @@ public:
         //==============================================================================
     private:
         const Path& path;
-        const float* index;
+        size_t index = 0;
 
         JUCE_DECLARE_NON_COPYABLE (Iterator)
     };
@@ -805,7 +803,8 @@ private:
     friend class Path::Iterator;
     friend class EdgeTable;
 
-    Array<float> data;
+    ArrayAllocationBase<float, DummyCriticalSection> data;
+    size_t numElements = 0;
 
     struct PathBounds
     {
@@ -814,13 +813,7 @@ private:
         void reset() noexcept;
         void reset (float, float) noexcept;
         void extend (float, float) noexcept;
-
-        template <typename... Coords>
-        void extend (float x, float y, Coords... coords) noexcept
-        {
-            extend (x, y);
-            extend (coords...);
-        }
+        void extend (float, float, float, float) noexcept;
 
         float pathXMin = 0, pathXMax = 0, pathYMin = 0, pathYMax = 0;
     };

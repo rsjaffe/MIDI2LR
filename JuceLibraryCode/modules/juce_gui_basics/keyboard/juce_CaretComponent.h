@@ -29,8 +29,6 @@ namespace juce
 
 //==============================================================================
 /**
-
-    @tags{GUI}
 */
 class JUCE_API  CaretComponent   : public Component,
                                    private Timer

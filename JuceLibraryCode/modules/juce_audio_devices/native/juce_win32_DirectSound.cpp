@@ -23,7 +23,7 @@
 extern "C"
 {
     // Declare just the minimum number of interfaces for the DSound objects that we need..
-    struct DSBUFFERDESC
+    typedef struct typeDSBUFFERDESC
     {
         DWORD dwSize;
         DWORD dwFlags;
@@ -31,7 +31,7 @@ extern "C"
         DWORD dwReserved;
         LPWAVEFORMATEX lpwfxFormat;
         GUID guid3DAlgorithm;
-    };
+    } DSBUFFERDESC;
 
     struct IDirectSoundBuffer;
 
@@ -80,14 +80,14 @@ extern "C"
     };
 
     //==============================================================================
-    struct DSCBUFFERDESC
+    typedef struct typeDSCBUFFERDESC
     {
         DWORD dwSize;
         DWORD dwFlags;
         DWORD dwBufferBytes;
         DWORD dwReserved;
         LPWAVEFORMATEX lpwfxFormat;
-    };
+    } DSCBUFFERDESC;
 
     struct IDirectSoundCaptureBuffer;
 
@@ -741,7 +741,7 @@ public:
                          const int outputDeviceIndex_,
                          const int inputDeviceIndex_)
         : AudioIODevice (deviceName, "DirectSound"),
-          Thread ("JUCE DSound"),
+          Thread ("Juce DSound"),
           outputDeviceIndex (outputDeviceIndex_),
           inputDeviceIndex (inputDeviceIndex_)
     {
@@ -892,7 +892,7 @@ private:
     int bufferSizeSamples = 0;
     double sampleRate = 0;
     BigInteger enabledInputs, enabledOutputs;
-    AudioBuffer<float> inputBuffers, outputBuffers;
+    AudioSampleBuffer inputBuffers, outputBuffers;
 
     AudioIODeviceCallback* callback = nullptr;
     CriticalSection startStopLock;
@@ -908,6 +908,8 @@ private:
 
         inChans.clear();
         outChans.clear();
+        inputBuffers.setSize (1, 1);
+        outputBuffers.setSize (1, 1);
     }
 
     void resync()
@@ -1109,7 +1111,7 @@ String DSoundAudioIODevice::openDevice (const BigInteger& inputChannels,
                             enabledInputs.getHighestBit() + 1 - inChannels.size(),
                             false);
 
-    inputBuffers.setSize (enabledInputs.countNumberOfSetBits(), bufferSizeSamples);
+    inputBuffers.setSize (jmax (1, enabledInputs.countNumberOfSetBits()), bufferSizeSamples);
     inputBuffers.clear();
     int numIns = 0;
 
@@ -1130,7 +1132,7 @@ String DSoundAudioIODevice::openDevice (const BigInteger& inputChannels,
                              enabledOutputs.getHighestBit() + 1 - outChannels.size(),
                              false);
 
-    outputBuffers.setSize (enabledOutputs.countNumberOfSetBits(), bufferSizeSamples);
+    outputBuffers.setSize (jmax (1, enabledOutputs.countNumberOfSetBits()), bufferSizeSamples);
     outputBuffers.clear();
     int numOuts = 0;
 
