@@ -113,6 +113,10 @@
 			isa = PBXBuildFile;
 			fileRef = C58E726D80235E018C2E6235;
 		};
+		6A3DFFA80DF0E07C64B4871F = {
+			isa = PBXBuildFile;
+			fileRef = 1CEFC806801B346F7A85EDAD;
+		};
 		65EAA878A18A9E490DC550DF = {
 			isa = PBXBuildFile;
 			fileRef = 0F1673C5F027441E02A71C9F;
@@ -140,10 +144,6 @@
 		64CE33091AB5C2705D8D2E31 = {
 			isa = PBXBuildFile;
 			fileRef = 2234B03A15325106E88CB84D;
-		};
-		24A234758A3B0A9331EC9E0D = {
-			isa = PBXBuildFile;
-			fileRef = F594F1F57CF918CECB628123;
 		};
 		C5DDB4CBA00A47F212328B41 = {
 			isa = PBXBuildFile;
@@ -344,6 +344,13 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = MainComponent.h;
 			path = ../../Source/MainComponent.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		1CEFC806801B346F7A85EDAD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = CommandSet.cpp;
+			path = ../../Source/CommandSet.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		21006303504EA15B0A68D6C7 = {
@@ -794,13 +801,6 @@
 			path = ../../icu/source/common/ustring.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
-		C2ADE5E967FA64B83D591E5D = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = LRCommands.h;
-			path = ../../Source/LRCommands.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		C2B252278F9F41CD4ECBC136 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -892,6 +892,13 @@
 			path = ../../icu/source/common/utypes.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		F26D6A0ECE3AA94228AF1547 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = CommandSet.h;
+			path = ../../Source/CommandSet.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		F3184CED9270796B369FA288 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file.nib;
@@ -911,13 +918,6 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = MidiUtilities.h;
 			path = ../../Source/MidiUtilities.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		F594F1F57CF918CECB628123 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = LRCommands.cpp;
-			path = ../../Source/LRCommands.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		883E81735D4CB00E1EBE5978 = {
@@ -950,6 +950,8 @@
 				0DE6A1845E62083EB881160E,
 				C58E726D80235E018C2E6235,
 				5D4227783C1F686DA2A11AC2,
+				1CEFC806801B346F7A85EDAD,
+				F26D6A0ECE3AA94228AF1547,
 				0F1673C5F027441E02A71C9F,
 				66B56E601E325C222061D3BF,
 				97FB8F5E08C9C1AABF120771,
@@ -963,8 +965,6 @@
 				CBC8F83DB3BDB858EFBB0BD7,
 				2234B03A15325106E88CB84D,
 				488A37C1B3B96ECCE82B27FE,
-				F594F1F57CF918CECB628123,
-				C2ADE5E967FA64B83D591E5D,
 				10DA2D4A5556B27C1A0AB0CC,
 				AF0988C7F370FBF895877C15,
 				1C376A7F89CA0BC18630F667,
@@ -1326,6 +1326,7 @@
 				BFAB1A9B97A0C128DF41C02A,
 				50AF5769741041F9CA022231,
 				FD5777A03748CDE3465E71D3,
+				6A3DFFA80DF0E07C64B4871F,
 				65EAA878A18A9E490DC550DF,
 				BAB76C37DDD1539CF0949580,
 				5C88DBE8F18CA34568D543B1,
@@ -1333,7 +1334,6 @@
 				F7FF4E1A3694D33D4E7C93E3,
 				E5D509B03CFCB1F090D7C4F7,
 				64CE33091AB5C2705D8D2E31,
-				24A234758A3B0A9331EC9E0D,
 				C5DDB4CBA00A47F212328B41,
 				B680BA0A6DEDE4ABAFD3A5C2,
 				D69B7302D8FB7CA7D3177E8B,
