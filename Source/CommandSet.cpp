@@ -6,8 +6,10 @@ namespace fs = std::filesystem;
 #include <fstream>
 
 CommandSet::CommandSet() : m_impl(make_impl())
-{
-   size_t idx = 0;
+{ // manually insert unmapped at first position
+   cmd_by_number_.push_back("unmapped");
+   cmd_idx_["unmapped"] = 0;
+   size_t idx = 1;
    for (const auto& bycategory : m_impl.allcommands_) {
       menus_.push_back(bycategory.first);
       std::vector<MenuStringT> menu_items_temp{};
