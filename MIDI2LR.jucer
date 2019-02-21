@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="2.9.5.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.3.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.4.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="U_STATIC_IMPLEMENTATION=1" headerPath="../../&#10;../../icu/source/common/">
@@ -116,8 +116,7 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2017 targetFolder="Builds/VisualStudio2017" cppLanguageStandard="stdcpplatest"
-            windowsTargetPlatformVersion="8.1" bigIcon="WdgQGt" smallIcon="WdgQGt"
-            extraDefs="" userNotes="">
+            bigIcon="WdgQGt" smallIcon="WdgQGt" extraDefs="" userNotes="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="1" optimisation="1" targetName="MIDI2LR" headerPath=""
