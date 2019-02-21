@@ -15,7 +15,7 @@ CommandSet::CommandSet() : m_impl(make_impl())
       std::vector<MenuStringT> menu_items_temp{};
       for (const auto& cmd_pair : bycategory.second) {
          cmd_by_number_.push_back(cmd_pair.first);
-         cmd_idx_[cmd_pair.second] = idx++;
+         cmd_idx_[cmd_pair.first] = idx++;
          menu_items_temp.push_back(cmd_pair.second);
       }
       menu_entries_.emplace_back(std::move(menu_items_temp));
