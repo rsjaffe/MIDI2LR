@@ -111,10 +111,12 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
           {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
       };
-      if (!command_map_->MessageExistsInMap(message)) return;
+      if (!command_map_->MessageExistsInMap(message))
+         return;
       const auto command_to_send = command_map_->GetCommandforMessage(message);
-      if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s)
-         return; //handled by ProfileManager
+      if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
+          || command_to_send == "unmapped"s)
+         return; // handled by ProfileManager
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
          static rsj::TimeType nextresponse{0};
