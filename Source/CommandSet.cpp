@@ -24,33 +24,29 @@ CommandSet::~CommandSet() = default; // defined in cpp file in case go to pimpl 
 
 CommandSet::Impl::Impl()
 {
-   auto& ls{*this}; // will use for running cereal
-   {                // scoped so archive gets flushed
-      try {
+   try {
 #ifdef _WIN32
-         fs::path p{rsj::AppDataFilePath("MenuTrans.xml")};
+      fs::path p{rsj::AppDataFilePath("MenuTrans.xml")};
 #else
-         const auto p = rsj::AppDataFilePath("MenuTrans.xml");
+      const auto p = rsj::AppDataFilePath("MenuTrans.xml");
 #endif
-         std::ifstream infile(p);
-         if (infile.is_open()) {
-            cereal::XMLInputArchive iarchive(infile);
-            iarchive(ls);
+      std::ifstream infile(p);
+      if (infile.is_open()) {
+         cereal::XMLInputArchive iarchive(infile);
+         iarchive(*this);
 #ifdef _WIN32
-            rsj::Log("Cereal controls archive loaded from " + juce::String(p.c_str()));
+         rsj::Log("Cereal controls archive loaded from " + juce::String(p.c_str()));
 #else
-            rsj::Log("Cereal controls archive loaded from " + p);
+         rsj::Log("Cereal controls archive loaded from " + p);
 #endif
-         }
-         else
-            rsj::LogAndAlertError(
-                "Unable to load control settings from xml file. Unable to open file");
       }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      }
+      else
+         rsj::LogAndAlertError(
+             "Unable to load control settings from xml file. Unable to open file");
    }
-   // once we load here, will fill up ancillary structures (e.g. command to text maps) here};
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   }
 }
 
 const CommandSet::Impl& CommandSet::make_impl()
