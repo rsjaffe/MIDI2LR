@@ -57,7 +57,7 @@ class ControlsModel;
 */
 class CCoptions : public juce::Component,
                   private juce::TextEditor::Listener,
-                  public juce::Button::Listener {
+                  public juce::ButtonListener {
  public:
    //==============================================================================
    CCoptions();
@@ -86,17 +86,17 @@ class CCoptions : public juce::Component,
    //[/UserVariables]
 
    //==============================================================================
-   std::unique_ptr<juce::GroupComponent> groupComponent;
-   std::unique_ptr<juce::ToggleButton> twosbutton;
-   std::unique_ptr<juce::ToggleButton> absbutton;
-   std::unique_ptr<juce::ToggleButton> binbutton;
-   std::unique_ptr<juce::ToggleButton> signbutton;
-   std::unique_ptr<juce::TextEditor> maxvaltext;
-   std::unique_ptr<juce::TextEditor> minvaltext;
-   std::unique_ptr<juce::Label> minvallabel;
-   std::unique_ptr<juce::Label> maxvallabel;
-   std::unique_ptr<juce::TextButton> applyAll;
-   std::unique_ptr<juce::Label> controlID;
+   juce::ScopedPointer<juce::GroupComponent> groupComponent;
+   juce::ScopedPointer<juce::ToggleButton> twosbutton;
+   juce::ScopedPointer<juce::ToggleButton> absbutton;
+   juce::ScopedPointer<juce::ToggleButton> binbutton;
+   juce::ScopedPointer<juce::ToggleButton> signbutton;
+   juce::ScopedPointer<juce::TextEditor> maxvaltext;
+   juce::ScopedPointer<juce::TextEditor> minvaltext;
+   juce::ScopedPointer<juce::Label> minvallabel;
+   juce::ScopedPointer<juce::Label> maxvallabel;
+   juce::ScopedPointer<juce::TextButton> applyAll;
+   juce::ScopedPointer<juce::Label> controlID;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
