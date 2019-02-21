@@ -24,8 +24,6 @@ local Database     = require 'Database'
 local LrPathUtils  = import 'LrPathUtils'       
 
 local menulocation = ""
-local menus_ = 'menus_({ '
-local menu_entries_ = 'menu_entries_({ '
 
 local datafile = LrPathUtils.child(_PLUGIN.path, 'Commands.md')
 local file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
@@ -54,11 +52,7 @@ file:close()
 
 datafile = LrPathUtils.child(_PLUGIN.path, 'GeneratedFromDatabase-ReadMe.txt')
 file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
-
-file:write ([=[Running Build.lua generates files for the wiki: Commands.md. This file needs to replace the
-  current files in the wiki.
- 
-  ]=],menus_,',\n\n',menu_entries_)
+file:write ("Running Build.lua generates files for the wiki: Commands.md. This file needs to replace the current file in the wiki.")
 file:close()
 
 

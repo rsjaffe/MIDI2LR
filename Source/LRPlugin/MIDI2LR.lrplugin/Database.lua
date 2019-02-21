@@ -867,11 +867,12 @@ local function WriteAppTrans(language)
 end
 
 return { 
-  CmdTrans = CmdTrans,
-  CmdPanel = CmdPanel,
-  Parameters = Parameters,
   AppTrans = AppTrans,
-  WriteAppTrans = WriteAppTrans,
+  CmdPanel = CmdPanel,
+  CmdTrans = CmdTrans,
+  DataBase = DataBase,
+  Parameters = Parameters,
   ValidActions = ValidActions,
+  WriteAppTrans = WriteAppTrans,
 }
 
