@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local ParamList           = require 'ParamList'
+local Database = require 'Database'
 local ProfileTypes        = require 'ProfileTypes'
 
 
@@ -63,8 +63,7 @@ end
 
 local function UseDefaultsLimits()
   ProgramPreferences.Limits = {}
-  ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = ParamList.LimitEligible.Temperature[1],
-    order = ParamList.LimitEligible.Temperature[2], [50000] = {3000,9000}}
+  ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature, [50000] = {3000,9000}}
 end
 
 

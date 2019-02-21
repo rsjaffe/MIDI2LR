@@ -36,8 +36,8 @@ struct UndoManager::ActionSet
 
     bool perform() const
     {
-        for (auto* a : actions)
-            if (! a->perform())
+        for (int i = 0; i < actions.size(); ++i)
+            if (! actions.getUnchecked(i)->perform())
                 return false;
 
         return true;
@@ -56,8 +56,8 @@ struct UndoManager::ActionSet
     {
         int total = 0;
 
-        for (auto* a : actions)
-            total += a->getSizeInUnits();
+        for (int i = actions.size(); --i >= 0;)
+            total += actions.getUnchecked(i)->getSizeInUnits();
 
         return total;
     }
@@ -68,9 +68,15 @@ struct UndoManager::ActionSet
 };
 
 //==============================================================================
-UndoManager::UndoManager (int maxNumberOfUnitsToKeep, int minimumTransactions)
+UndoManager::UndoManager (const int maxNumberOfUnitsToKeep,
+                          const int minimumTransactions)
+   : totalUnitsStored (0),
+     nextIndex (0),
+     newTransaction (true),
+     reentrancyCheck (false)
 {
-    setMaxNumberOfStoredUnits (maxNumberOfUnitsToKeep, minimumTransactions);
+    setMaxNumberOfStoredUnits (maxNumberOfUnitsToKeep,
+                               minimumTransactions);
 }
 
 UndoManager::~UndoManager()
@@ -91,14 +97,15 @@ int UndoManager::getNumberOfUnitsTakenUpByStoredCommands() const
     return totalUnitsStored;
 }
 
-void UndoManager::setMaxNumberOfStoredUnits (int maxUnits, int minTransactions)
+void UndoManager::setMaxNumberOfStoredUnits (const int maxNumberOfUnitsToKeep,
+                                             const int minimumTransactions)
 {
-    maxNumUnitsToKeep          = jmax (1, maxUnits);
-    minimumTransactionsToKeep  = jmax (1, minTransactions);
+    maxNumUnitsToKeep          = jmax (1, maxNumberOfUnitsToKeep);
+    minimumTransactionsToKeep  = jmax (1, minimumTransactions);
 }
 
 //==============================================================================
-bool UndoManager::perform (UndoableAction* newAction, const String& actionName)
+bool UndoManager::perform (UndoableAction* const newAction, const String& actionName)
 {
     if (perform (newAction))
     {
@@ -111,11 +118,11 @@ bool UndoManager::perform (UndoableAction* newAction, const String& actionName)
     return false;
 }
 
-bool UndoManager::perform (UndoableAction* newAction)
+bool UndoManager::perform (UndoableAction* const newAction)
 {
     if (newAction != nullptr)
     {
-        std::unique_ptr<UndoableAction> action (newAction);
+        ScopedPointer<UndoableAction> action (newAction);
 
         if (reentrancyCheck)
         {
@@ -126,15 +133,15 @@ bool UndoManager::perform (UndoableAction* newAction)
 
         if (action->perform())
         {
-            auto* actionSet = getCurrentSet();
+            ActionSet* actionSet = getCurrentSet();
 
             if (actionSet != nullptr && ! newTransaction)
             {
-                if (auto* lastAction = actionSet->actions.getLast())
+                if (UndoableAction* const lastAction = actionSet->actions.getLast())
                 {
-                    if (auto coalescedAction = lastAction->createCoalescedAction (action.get()))
+                    if (UndoableAction* const coalescedAction = lastAction->createCoalescedAction (action))
                     {
-                        action.reset (coalescedAction);
+                        action = coalescedAction;
                         totalUnitsStored -= lastAction->getSizeInUnits();
                         actionSet->actions.removeLast();
                     }
@@ -169,7 +176,7 @@ void UndoManager::moveFutureTransactionsToStash()
 
         while (nextIndex < transactions.size())
         {
-            auto* removed = transactions.removeAndReturn (nextIndex);
+            ActionSet* removed = transactions.removeAndReturn (nextIndex);
             stashedFutureTransactions.add (removed);
             totalUnitsStored -= removed->getTotalSize();
         }
@@ -184,10 +191,11 @@ void UndoManager::restoreStashedFutureTransactions()
         transactions.remove (nextIndex);
     }
 
-    for (auto* stashed : stashedFutureTransactions)
+    for (int i = 0; i < stashedFutureTransactions.size(); ++i)
     {
-        transactions.add (stashed);
-        totalUnitsStored += stashed->getTotalSize();
+        ActionSet* action = stashedFutureTransactions.removeAndReturn (i);
+        totalUnitsStored += action->getTotalSize();
+        transactions.add (action);
     }
 
     stashedFutureTransactions.clearQuick (false);
@@ -211,7 +219,7 @@ void UndoManager::dropOldTransactionsIfTooLarge()
 
 void UndoManager::beginNewTransaction() noexcept
 {
-    beginNewTransaction ({});
+    beginNewTransaction (String());
 }
 
 void UndoManager::beginNewTransaction (const String& actionName) noexcept
@@ -224,28 +232,28 @@ void UndoManager::setCurrentTransactionName (const String& newName) noexcept
 {
     if (newTransaction)
         newTransactionName = newName;
-    else if (auto* action = getCurrentSet())
+    else if (ActionSet* action = getCurrentSet())
         action->name = newName;
 }
 
 String UndoManager::getCurrentTransactionName() const noexcept
 {
-    if (auto* action = getCurrentSet())
+    if (ActionSet* action = getCurrentSet())
         return action->name;
 
     return newTransactionName;
 }
 
 //==============================================================================
-UndoManager::ActionSet* UndoManager::getCurrentSet() const noexcept     { return transactions[nextIndex - 1]; }
-UndoManager::ActionSet* UndoManager::getNextSet() const noexcept        { return transactions[nextIndex]; }
+UndoManager::ActionSet* UndoManager::getCurrentSet() const noexcept     { return transactions [nextIndex - 1]; }
+UndoManager::ActionSet* UndoManager::getNextSet() const noexcept        { return transactions [nextIndex]; }
 
 bool UndoManager::canUndo() const noexcept   { return getCurrentSet() != nullptr; }
 bool UndoManager::canRedo() const noexcept   { return getNextSet()    != nullptr; }
 
 bool UndoManager::undo()
 {
-    if (auto* s = getCurrentSet())
+    if (const ActionSet* const s = getCurrentSet())
     {
         const ScopedValueSetter<bool> setter (reentrancyCheck, true);
 
@@ -264,7 +272,7 @@ bool UndoManager::undo()
 
 bool UndoManager::redo()
 {
-    if (auto* s = getNextSet())
+    if (const ActionSet* const s = getNextSet())
     {
         const ScopedValueSetter<bool> setter (reentrancyCheck, true);
 
@@ -297,32 +305,6 @@ String UndoManager::getRedoDescription() const
     return {};
 }
 
-StringArray UndoManager::getUndoDescriptions() const
-{
-    StringArray descriptions;
-
-    for (int i = nextIndex;;)
-    {
-        if (auto* t = transactions[--i])
-            descriptions.add (t->name);
-        else
-            return descriptions;
-    }
-}
-
-StringArray UndoManager::getRedoDescriptions() const
-{
-    StringArray descriptions;
-
-    for (int i = nextIndex;;)
-    {
-        if (auto* t = transactions[i++])
-            descriptions.add (t->name);
-        else
-            return descriptions;
-    }
-}
-
 Time UndoManager::getTimeOfUndoTransaction() const
 {
     if (auto* s = getCurrentSet())
@@ -353,15 +335,15 @@ bool UndoManager::undoCurrentTransactionOnly()
 void UndoManager::getActionsInCurrentTransaction (Array<const UndoableAction*>& actionsFound) const
 {
     if (! newTransaction)
-        if (auto* s = getCurrentSet())
-            for (auto* a : s->actions)
-                actionsFound.add (a);
+        if (const ActionSet* const s = getCurrentSet())
+            for (int i = 0; i < s->actions.size(); ++i)
+                actionsFound.add (s->actions.getUnchecked(i));
 }
 
 int UndoManager::getNumActionsInCurrentTransaction() const
 {
     if (! newTransaction)
-        if (auto* s = getCurrentSet())
+        if (const ActionSet* const s = getCurrentSet())
             return s->actions.size();
 
     return 0;

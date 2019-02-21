@@ -232,7 +232,7 @@ void XWindowSystem::destroyXDisplay() noexcept
     LinuxEventLoop::removeWindowSystemFd();
 }
 
-JUCE_IMPLEMENT_SINGLETON (XWindowSystem)
+juce_ImplementSingleton (XWindowSystem)
 
 //==============================================================================
 ScopedXDisplay::ScopedXDisplay() : display (XWindowSystem::getInstance()->displayRef())

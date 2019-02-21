@@ -50,7 +50,7 @@ MarkerList& MarkerList::operator= (const MarkerList& other)
 
 MarkerList::~MarkerList()
 {
-    listeners.call ([this] (Listener& l) { l.markerListBeingDeleted (this); });
+    listeners.call (&MarkerList::Listener::markerListBeingDeleted, this);
 }
 
 bool MarkerList::operator== (const MarkerList& other) const noexcept
@@ -148,7 +148,7 @@ void MarkerList::removeMarker (const String& name)
 
 void MarkerList::markersHaveChanged()
 {
-    listeners.call ([this] (Listener& l) { l.markersChanged (this); });
+    listeners.call (&MarkerList::Listener::markersChanged, this);
 }
 
 void MarkerList::Listener::markerListBeingDeleted (MarkerList*)
@@ -236,7 +236,7 @@ void MarkerList::ValueTreeWrapper::setMarker (const MarkerList::Marker& m, UndoM
         marker = ValueTree (markerTag);
         marker.setProperty (nameProperty, m.name, nullptr);
         marker.setProperty (posProperty, m.position.toString(), nullptr);
-        state.appendChild (marker, undoManager);
+        state.addChild (marker, -1, undoManager);
     }
 }
 

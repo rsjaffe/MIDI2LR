@@ -40,8 +40,6 @@ namespace juce
     a voice stealing algorithm, and much more.
 
     @see MPESynthesiser, MPEInstrument
-
-    @tags{Audio}
 */
 struct JUCE_API  MPESynthesiserBase   : public MPEInstrument::Listener
 {
@@ -165,7 +163,7 @@ public:
     void setLegacyModePitchbendRange (int pitchbendRange);
 
     //==============================================================================
-    using TrackingMode = MPEInstrument::TrackingMode;
+    typedef MPEInstrument::TrackingMode TrackingMode;
 
     /** Set the MPE tracking mode for the pressure dimension. */
     void setPressureTrackingMode (TrackingMode modeToUse);
@@ -195,14 +193,14 @@ protected:
 protected:
     //==============================================================================
     /** @internal */
-    std::unique_ptr<MPEInstrument> instrument;
+    ScopedPointer<MPEInstrument> instrument;
 
 private:
     //==============================================================================
     CriticalSection noteStateLock;
-    double sampleRate = 0.0;
-    int minimumSubBlockSize = 32;
-    bool subBlockSubdivisionIsStrict = false;
+    double sampleRate;
+    int minimumSubBlockSize;
+    bool subBlockSubdivisionIsStrict;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MPESynthesiserBase)
 };

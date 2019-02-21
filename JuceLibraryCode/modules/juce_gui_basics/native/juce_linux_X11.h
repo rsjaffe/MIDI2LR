@@ -36,13 +36,13 @@ typedef unsigned long WindowType;
 
 
 //==============================================================================
-class XWindowSystem :  public DeletedAtShutdown
+class XWindowSystem
 {
 public:
     XDisplay displayRef() noexcept;
     XDisplay displayUnref() noexcept;
 
-    JUCE_DECLARE_SINGLETON (XWindowSystem, false)
+    juce_DeclareSingleton (XWindowSystem, false)
 
 private:
     XDisplay display = {};
@@ -56,10 +56,7 @@ private:
 };
 
 //==============================================================================
-/** Creates and holds a reference to the X display.
-
-    @tags{GUI}
-*/
+/** Creates and holds a reference to the X display. */
 struct ScopedXDisplay
 {
     ScopedXDisplay();
@@ -71,14 +68,12 @@ struct ScopedXDisplay
 //==============================================================================
 /** A handy class that uses XLockDisplay and XUnlockDisplay to lock the X server
     using RAII (Only available in Linux!).
-
-    @tags{GUI}
 */
 class ScopedXLock
 {
 public:
     /** Creating a ScopedXLock object locks the X display.
-        This uses XLockDisplay() to grab the display that JUCE is using.
+        This uses XLockDisplay() to grab the display that Juce is using.
     */
     ScopedXLock (XDisplay);
 

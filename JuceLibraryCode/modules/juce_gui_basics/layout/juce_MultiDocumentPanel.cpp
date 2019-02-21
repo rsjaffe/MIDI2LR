@@ -192,8 +192,7 @@ bool MultiDocumentPanel::addDocument (Component* const component,
     {
         if (tabComponent == nullptr && components.size() > numDocsBeforeTabsUsed)
         {
-            tabComponent.reset (new TabbedComponentInternal());
-            addAndMakeVisible (tabComponent.get());
+            addAndMakeVisible (tabComponent = new TabbedComponentInternal());
 
             auto temp = components;
 
@@ -240,7 +239,7 @@ bool MultiDocumentPanel::closeDocument (Component* component,
                 {
                     if (dw->getContentComponent() == component)
                     {
-                        std::unique_ptr<MultiDocumentPanelWindow> (dw)->clearContentComponent();
+                        ScopedPointer<MultiDocumentPanelWindow> (dw)->clearContentComponent();
                         break;
                     }
                 }
@@ -255,7 +254,7 @@ bool MultiDocumentPanel::closeDocument (Component* component,
             {
                 for (int i = getNumChildComponents(); --i >= 0;)
                 {
-                    std::unique_ptr<MultiDocumentPanelWindow> dw (dynamic_cast<MultiDocumentPanelWindow*> (getChildComponent (i)));
+                    ScopedPointer<MultiDocumentPanelWindow> dw (dynamic_cast<MultiDocumentPanelWindow*> (getChildComponent (i)));
 
                     if (dw != nullptr)
                         dw->clearContentComponent();
@@ -283,7 +282,7 @@ bool MultiDocumentPanel::closeDocument (Component* component,
                 delete component;
 
             if (tabComponent != nullptr && tabComponent->getNumTabs() <= numDocsBeforeTabsUsed)
-                tabComponent.reset();
+                tabComponent = nullptr;
 
             components.removeFirstMatchingValue (component);
 
@@ -388,13 +387,13 @@ void MultiDocumentPanel::setLayoutMode (const LayoutMode newLayoutMode)
 
         if (mode == FloatingWindows)
         {
-            tabComponent.reset();
+            tabComponent = nullptr;
         }
         else
         {
             for (int i = getNumChildComponents(); --i >= 0;)
             {
-                std::unique_ptr<MultiDocumentPanelWindow> dw (dynamic_cast<MultiDocumentPanelWindow*> (getChildComponent (i)));
+                ScopedPointer<MultiDocumentPanelWindow> dw (dynamic_cast<MultiDocumentPanelWindow*> (getChildComponent (i)));
 
                 if (dw != nullptr)
                 {

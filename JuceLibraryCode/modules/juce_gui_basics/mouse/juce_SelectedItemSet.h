@@ -39,8 +39,6 @@ namespace juce
 
     To be informed when items are selected/deselected, register a ChangeListener with
     this object.
-
-    @tags{GUI}
 */
 template <class SelectableItemType>
 class SelectedItemSet   : public ChangeBroadcaster
@@ -80,12 +78,12 @@ public:
                 if (! other.isSelected (selectedItems.getReference (i)))
                     itemDeselected (selectedItems.removeAndReturn (i));
 
-            for (auto& i : other.selectedItems)
+            for (SelectableItemType* i = other.selectedItems.begin(), *e = other.selectedItems.end(); i != e; ++i)
             {
-                if (! isSelected (i))
+                if (! isSelected (*i))
                 {
-                    selectedItems.add (i);
-                    itemSelected (i);
+                    selectedItems.add (*i);
+                    itemSelected (*i);
                 }
             }
         }

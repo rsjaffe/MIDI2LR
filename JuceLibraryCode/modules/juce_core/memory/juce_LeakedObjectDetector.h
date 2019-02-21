@@ -35,8 +35,6 @@ namespace juce
     To use it, use the JUCE_LEAK_DETECTOR macro as a simple way to put one in your
     class declaration. Have a look through the juce codebase for examples, it's used
     in most of the classes.
-
-    @tags{Core}
 */
 template <class OwnerClass>
 class LeakedObjectDetector
@@ -60,7 +58,7 @@ public:
                 at an earlier point in the program, and simply not been detected until now.
 
                 Most errors like this are caused by using old-fashioned, non-RAII techniques for
-                your object management. Tut, tut. Always, always use std::unique_ptrs, OwnedArrays,
+                your object management. Tut, tut. Always, always use ScopedPointers, OwnedArrays,
                 ReferenceCountedObjects, etc, and avoid the 'delete' operator at all costs!
             */
             jassertfalse;
@@ -84,7 +82,7 @@ private:
                     the 'OwnerClass' template parameter - the name should have been printed by the line above.
 
                     If you're leaking, it's probably because you're using old-fashioned, non-RAII techniques for
-                    your object management. Tut, tut. Always, always use std::unique_ptrs, OwnedArrays,
+                    your object management. Tut, tut. Always, always use ScopedPointers, OwnedArrays,
                     ReferenceCountedObjects, etc, and avoid the 'delete' operator at all costs!
                 */
                 jassertfalse;

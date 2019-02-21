@@ -37,7 +37,7 @@ InterprocessConnection::InterprocessConnection (bool callbacksOnMessageThread, u
     : useMessageThread (callbacksOnMessageThread),
       magicMessageHeader (magicMessageHeaderNumber)
 {
-    thread.reset (new ConnectionThread (*this));
+    thread = new ConnectionThread (*this);
 }
 
 InterprocessConnection::~InterprocessConnection()
@@ -45,17 +45,18 @@ InterprocessConnection::~InterprocessConnection()
     callbackConnectionState = false;
     disconnect();
     masterReference.clear();
-    thread.reset();
+    thread = nullptr;
 }
 
 //==============================================================================
 bool InterprocessConnection::connectToSocket (const String& hostName,
-                                              int portNumber, int timeOutMillisecs)
+                                              const int portNumber,
+                                              const int timeOutMillisecs)
 {
     disconnect();
 
     const ScopedLock sl (pipeAndSocketLock);
-    socket.reset (new StreamingSocket());
+    socket = new StreamingSocket();
 
     if (socket->connect (hostName, portNumber, timeOutMillisecs))
     {
@@ -64,15 +65,15 @@ bool InterprocessConnection::connectToSocket (const String& hostName,
         return true;
     }
 
-    socket.reset();
+    socket = nullptr;
     return false;
 }
 
-bool InterprocessConnection::connectToPipe (const String& pipeName, int timeoutMs)
+bool InterprocessConnection::connectToPipe (const String& pipeName, const int timeoutMs)
 {
     disconnect();
 
-    std::unique_ptr<NamedPipe> newPipe (new NamedPipe());
+    ScopedPointer<NamedPipe> newPipe (new NamedPipe());
 
     if (newPipe->openExisting (pipeName))
     {
@@ -85,11 +86,11 @@ bool InterprocessConnection::connectToPipe (const String& pipeName, int timeoutM
     return false;
 }
 
-bool InterprocessConnection::createPipe (const String& pipeName, int timeoutMs, bool mustNotExist)
+bool InterprocessConnection::createPipe (const String& pipeName, const int timeoutMs, bool mustNotExist)
 {
     disconnect();
 
-    std::unique_ptr<NamedPipe> newPipe (new NamedPipe());
+    ScopedPointer<NamedPipe> newPipe (new NamedPipe());
 
     if (newPipe->createNewPipe (pipeName, mustNotExist))
     {
@@ -120,8 +121,8 @@ void InterprocessConnection::disconnect()
 void InterprocessConnection::deletePipeAndSocket()
 {
     const ScopedLock sl (pipeAndSocketLock);
-    socket.reset();
-    pipe.reset();
+    socket = nullptr;
+    pipe = nullptr;
 }
 
 bool InterprocessConnection::isConnected() const
@@ -178,7 +179,7 @@ int InterprocessConnection::writeData (void* data, int dataSize)
 void InterprocessConnection::initialiseWithSocket (StreamingSocket* newSocket)
 {
     jassert (socket == nullptr && pipe == nullptr);
-    socket.reset (newSocket);
+    socket = newSocket;
     connectionMadeInt();
     thread->startThread();
 }
@@ -186,7 +187,7 @@ void InterprocessConnection::initialiseWithSocket (StreamingSocket* newSocket)
 void InterprocessConnection::initialiseWithPipe (NamedPipe* newPipe)
 {
     jassert (socket == nullptr && pipe == nullptr);
-    pipe.reset (newPipe);
+    pipe = newPipe;
     connectionMadeInt();
     thread->startThread();
 }
@@ -268,27 +269,16 @@ void InterprocessConnection::deliverDataInt (const MemoryBlock& data)
 }
 
 //==============================================================================
-int InterprocessConnection::readData (void* data, int num)
-{
-    if (socket != nullptr)
-        return socket->read (data, num, true);
-
-    if (pipe != nullptr)
-        return pipe->read (data, num, pipeReceiveMessageTimeout);
-
-    jassertfalse;
-    return -1;
-}
-
-bool InterprocessConnection::readNextMessage()
+bool InterprocessConnection::readNextMessageInt()
 {
     uint32 messageHeader[2];
-    auto bytes = readData (messageHeader, sizeof (messageHeader));
+    const int bytes = socket != nullptr ? socket->read (messageHeader, sizeof (messageHeader), true)
+                                        : pipe  ->read (messageHeader, sizeof (messageHeader), -1);
 
     if (bytes == sizeof (messageHeader)
          && ByteOrder::swapIfBigEndian (messageHeader[0]) == magicMessageHeader)
     {
-        auto bytesInMessage = (int) ByteOrder::swapIfBigEndian (messageHeader[1]);
+        int bytesInMessage = (int) ByteOrder::swapIfBigEndian (messageHeader[1]);
 
         if (bytesInMessage > 0)
         {
@@ -300,8 +290,11 @@ bool InterprocessConnection::readNextMessage()
                 if (thread->threadShouldExit())
                     return false;
 
-                auto numThisTime = jmin (bytesInMessage, 65536);
-                auto bytesIn = readData (addBytesToPointer (messageData.getData(), bytesRead), numThisTime);
+                const int numThisTime = jmin (bytesInMessage, 65536);
+                void* const data = addBytesToPointer (messageData.getData(), bytesRead);
+
+                const int bytesIn = socket != nullptr ? socket->read (data, numThisTime, true)
+                                                      : pipe  ->read (data, numThisTime, -1);
 
                 if (bytesIn <= 0)
                     break;
@@ -313,19 +306,17 @@ bool InterprocessConnection::readNextMessage()
             if (bytesRead >= 0)
                 deliverDataInt (messageData);
         }
-
-        return true;
     }
-
-    if (bytes < 0)
+    else if (bytes < 0)
     {
         if (socket != nullptr)
             deletePipeAndSocket();
 
         connectionLostInt();
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 void InterprocessConnection::runThread()
@@ -334,7 +325,7 @@ void InterprocessConnection::runThread()
     {
         if (socket != nullptr)
         {
-            auto ready = socket->waitUntilReady (true, 100);
+            auto ready = socket->waitUntilReady (true, 0);
 
             if (ready < 0)
             {
@@ -363,7 +354,7 @@ void InterprocessConnection::runThread()
             break;
         }
 
-        if (thread->threadShouldExit() || ! readNextMessage())
+        if (thread->threadShouldExit() || ! readNextMessageInt())
             break;
     }
 }

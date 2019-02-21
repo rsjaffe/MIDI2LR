@@ -49,8 +49,6 @@ namespace juce
     TypeOfCriticalSectionToUse parameter, instead of the default DummyCriticalSection.
 
     @see Array, OwnedArray, ReferenceCountedArray, StringArray, CriticalSection
-
-    @tags{Core}
 */
 template <class ElementType, class TypeOfCriticalSectionToUse = DummyCriticalSection>
 class SortedSet
@@ -473,7 +471,7 @@ public:
     inline const TypeOfCriticalSectionToUse& getLock() const noexcept      { return data.getLock(); }
 
     /** Returns the type of scoped lock to use for locking this array */
-    using ScopedLockType = typename TypeOfCriticalSectionToUse::ScopedLockType;
+    typedef typename TypeOfCriticalSectionToUse::ScopedLockType ScopedLockType;
 
 
 private:

@@ -43,14 +43,12 @@ namespace juce
     TypeOfCriticalSectionToUse parameter, instead of the default DummyCriticalSection.
 
     @see Array, OwnedArray, StringArray
-
-    @tags{Core}
 */
 template <class ObjectClass, class TypeOfCriticalSectionToUse = DummyCriticalSection>
 class ReferenceCountedArray
 {
 public:
-    using ObjectClassPtr = ReferenceCountedObjectPtr<ObjectClass>;
+    typedef ReferenceCountedObjectPtr<ObjectClass> ObjectClassPtr;
 
     //==============================================================================
     /** Creates an empty array.
@@ -880,7 +878,7 @@ public:
     inline const TypeOfCriticalSectionToUse& getLock() const noexcept      { return data; }
 
     /** Returns the type of scoped lock to use for locking this array */
-    using ScopedLockType = typename TypeOfCriticalSectionToUse::ScopedLockType;
+    typedef typename TypeOfCriticalSectionToUse::ScopedLockType ScopedLockType;
 
 
     //==============================================================================

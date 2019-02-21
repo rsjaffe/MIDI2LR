@@ -144,7 +144,7 @@ JUCE_JNI_CALLBACK (JUCE_JOIN_MACRO (JUCE_ANDROID_ACTIVITY_CLASSNAME, _00024JuceM
 {
     // Java may create a Midi thread which JUCE doesn't know about and this callback may be
     // received on this thread. Java will have already created a JNI Env for this new thread,
-    // which we need to tell JUCE about
+    // which we need to tell Juce about
     setEnv (env);
 
     reinterpret_cast<AndroidMidiInput*> (host)->receive (byteArray, offset, count, timestamp);
@@ -202,7 +202,7 @@ public:
     {
         if (jobject dm = deviceManager.get())
         {
-            std::unique_ptr<AndroidMidiInput> androidMidiInput (new AndroidMidiInput (juceMidiInput, idx, callback, dm));
+            ScopedPointer<AndroidMidiInput> androidMidiInput (new AndroidMidiInput (juceMidiInput, idx, callback, dm));
 
             if (androidMidiInput->isOpen())
                 return androidMidiInput.release();
@@ -221,6 +221,22 @@ public:
     }
 
 private:
+    static StringArray javaStringArrayToJuce (jobjectArray jStrings)
+    {
+        StringArray retval;
+
+        JNIEnv* env = getEnv();
+        const int count = env->GetArrayLength (jStrings);
+
+        for (int i = 0; i < count; ++i)
+        {
+            LocalRef<jstring> string ((jstring) env->GetObjectArrayElement (jStrings, i));
+            retval.add (juceString (string));
+        }
+
+        return retval;
+    }
+
     GlobalRef deviceManager;
 };
 
@@ -311,7 +327,7 @@ MidiInput* MidiInput::openDevice (int index, juce::MidiInputCallback* callback)
 
     AndroidMidiDeviceManager manager;
 
-    String midiInputName (manager.getInputPortNameForJuceIndex (index));
+    String midiInputName = manager.getInputPortNameForJuceIndex (index);
 
     if (midiInputName.isEmpty())
     {
@@ -320,9 +336,9 @@ MidiInput* MidiInput::openDevice (int index, juce::MidiInputCallback* callback)
         return nullptr;
     }
 
-    std::unique_ptr<MidiInput> midiInput (new MidiInput (midiInputName));
+    ScopedPointer<MidiInput> midiInput (new MidiInput (midiInputName));
 
-    midiInput->internal = manager.openMidiInputPortWithIndex (index, midiInput.get(), callback);
+    midiInput->internal = manager.openMidiInputPortWithIndex (index, midiInput, callback);
 
     return midiInput->internal != nullptr ? midiInput.release()
                                           : nullptr;

@@ -74,9 +74,7 @@ namespace juce
     };
 
     @endcode
-
-    @tags{Core}
-*/
+ */
 template <typename SharedObjectType>
 class SharedResourcePointer
 {
@@ -131,7 +129,7 @@ private:
     struct SharedObjectHolder
     {
         SpinLock lock;
-        std::unique_ptr<SharedObjectType> sharedInstance;
+        ScopedPointer<SharedObjectType> sharedInstance;
         int refCount;
     };
 
@@ -149,9 +147,9 @@ private:
         const SpinLock::ScopedLockType sl (holder.lock);
 
         if (++(holder.refCount) == 1)
-            holder.sharedInstance.reset (new SharedObjectType());
+            holder.sharedInstance = new SharedObjectType();
 
-        sharedObject = holder.sharedInstance.get();
+        sharedObject = holder.sharedInstance;
     }
 
     // There's no need to assign to a SharedResourcePointer because every

@@ -33,8 +33,6 @@ namespace juce
 
     The exact character sequence that will be used for the new-line can be set and
     retrieved with OutputStream::setNewLineString() and OutputStream::getNewLineString().
-
-    @tags{Core}
 */
 class JUCE_API  NewLine
 {

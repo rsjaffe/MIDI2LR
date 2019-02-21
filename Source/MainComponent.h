@@ -44,7 +44,7 @@ namespace rsj {
 class MainContentComponent final : public juce::Component,
                                    juce::AsyncUpdater,
                                    juce::Timer,
-                                   juce::Button::Listener,
+                                   juce::ButtonListener,
                                    public ResizableLayout { // ResizableLayout.h
  public:
    MainContentComponent();

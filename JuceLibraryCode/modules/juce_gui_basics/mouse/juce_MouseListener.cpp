@@ -35,6 +35,5 @@ void MouseListener::mouseDrag (const MouseEvent&)  {}
 void MouseListener::mouseMove (const MouseEvent&)  {}
 void MouseListener::mouseDoubleClick (const MouseEvent&) {}
 void MouseListener::mouseWheelMove (const MouseEvent&, const MouseWheelDetails&) {}
-void MouseListener::mouseMagnify (const MouseEvent&, float) {}
 
 } // namespace juce

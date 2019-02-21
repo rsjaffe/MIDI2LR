@@ -27,16 +27,21 @@
 namespace juce
 {
 
-ModifierKeys ModifierKeys::currentModifiers;
-
-ModifierKeys::ModifierKeys() noexcept                            : flags (0)           {}
-ModifierKeys::ModifierKeys (int rawFlags) noexcept               : flags (rawFlags)    {}
+ModifierKeys::ModifierKeys() noexcept  : flags (0) {}
+ModifierKeys::ModifierKeys (int rawFlags) noexcept  : flags (rawFlags) {}
 ModifierKeys::ModifierKeys (const ModifierKeys& other) noexcept  : flags (other.flags) {}
 
 ModifierKeys& ModifierKeys::operator= (const ModifierKeys other) noexcept
 {
     flags = other.flags;
     return *this;
+}
+
+ModifierKeys ModifierKeys::currentModifiers;
+
+ModifierKeys ModifierKeys::getCurrentModifiers() noexcept
+{
+    return currentModifiers;
 }
 
 int ModifierKeys::getNumMouseButtonsDown() const noexcept
@@ -48,11 +53,6 @@ int ModifierKeys::getNumMouseButtonsDown() const noexcept
     if (isMiddleButtonDown())   ++num;
 
     return num;
-}
-
-ModifierKeys ModifierKeys::getCurrentModifiersRealtime() noexcept
-{
-    return ComponentPeer::getCurrentModifiersRealtime();
 }
 
 } // namespace juce

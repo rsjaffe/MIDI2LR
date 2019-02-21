@@ -29,7 +29,11 @@ public:
     Pimpl (const String& pipePath, bool createPipe)
        : pipeInName  (pipePath + "_in"),
          pipeOutName (pipePath + "_out"),
-         createdPipe (createPipe)
+         pipeIn (-1), pipeOut (-1),
+         createdFifoIn (false),
+         createdFifoOut (false),
+         createdPipe (createPipe),
+         stopReadOperation (false)
     {
         signal (SIGPIPE, signalHandler);
         juce_siginterrupt (SIGPIPE, 1);
@@ -49,7 +53,7 @@ public:
 
     int read (char* destBuffer, int maxBytesToRead, int timeOutMilliseconds)
     {
-        auto timeoutEnd = getTimeoutEnd (timeOutMilliseconds);
+        const uint32 timeoutEnd = getTimeoutEnd (timeOutMilliseconds);
 
         if (pipeIn == -1)
         {
@@ -63,12 +67,12 @@ public:
 
         while (bytesRead < maxBytesToRead)
         {
-            auto bytesThisTime = maxBytesToRead - bytesRead;
-            auto numRead = (int) ::read (pipeIn, destBuffer, (size_t) bytesThisTime);
+            const int bytesThisTime = maxBytesToRead - bytesRead;
+            const int numRead = (int) ::read (pipeIn, destBuffer, (size_t) bytesThisTime);
 
             if (numRead <= 0)
             {
-                if (errno != EWOULDBLOCK || stopReadOperation.load() || hasExpired (timeoutEnd))
+                if (errno != EWOULDBLOCK || stopReadOperation || hasExpired (timeoutEnd))
                     return -1;
 
                 const int maxWaitingTime = 30;
@@ -87,7 +91,7 @@ public:
 
     int write (const char* sourceBuffer, int numBytesToWrite, int timeOutMilliseconds)
     {
-        auto timeoutEnd = getTimeoutEnd (timeOutMilliseconds);
+        const uint32 timeoutEnd = getTimeoutEnd (timeOutMilliseconds);
 
         if (pipeOut == -1)
         {
@@ -101,8 +105,8 @@ public:
 
         while (bytesWritten < numBytesToWrite && ! hasExpired (timeoutEnd))
         {
-            auto bytesThisTime = numBytesToWrite - bytesWritten;
-            auto numWritten = (int) ::write (pipeOut, sourceBuffer, (size_t) bytesThisTime);
+            const int bytesThisTime = numBytesToWrite - bytesWritten;
+            const int numWritten = (int) ::write (pipeOut, sourceBuffer, (size_t) bytesThisTime);
 
             if (numWritten <= 0)
                 return -1;
@@ -128,39 +132,39 @@ public:
     }
 
     const String pipeInName, pipeOutName;
-    int pipeIn = -1, pipeOut = -1;
-    bool createdFifoIn = false, createdFifoOut = false;
+    int pipeIn, pipeOut;
+    bool createdFifoIn, createdFifoOut;
 
     const bool createdPipe;
-    std::atomic<bool> stopReadOperation { false };
+    bool stopReadOperation;
 
 private:
     static void signalHandler (int) {}
 
-    static uint32 getTimeoutEnd (int timeOutMilliseconds)
+    static uint32 getTimeoutEnd (const int timeOutMilliseconds)
     {
         return timeOutMilliseconds >= 0 ? Time::getMillisecondCounter() + (uint32) timeOutMilliseconds : 0;
     }
 
-    static bool hasExpired (uint32 timeoutEnd)
+    static bool hasExpired (const uint32 timeoutEnd)
     {
         return timeoutEnd != 0 && Time::getMillisecondCounter() >= timeoutEnd;
     }
 
-    int openPipe (const String& name, int flags, uint32 timeoutEnd)
+    int openPipe (const String& name, int flags, const uint32 timeoutEnd)
     {
         for (;;)
         {
-            auto p = ::open (name.toUTF8(), flags);
+            const int p = ::open (name.toUTF8(), flags);
 
-            if (p != -1 || hasExpired (timeoutEnd) || stopReadOperation.load())
+            if (p != -1 || hasExpired (timeoutEnd) || stopReadOperation)
                 return p;
 
             Thread::sleep (2);
         }
     }
 
-    static void waitForInput (int handle, int timeoutMsecs) noexcept
+    static void waitForInput (const int handle, const int timeoutMsecs) noexcept
     {
         struct timeval timeout;
         timeout.tv_sec = timeoutMsecs / 1000;
@@ -187,27 +191,27 @@ void NamedPipe::close()
         ignoreUnused (done);
 
         ScopedWriteLock sl (lock);
-        pimpl.reset();
+        pimpl = nullptr;
     }
 }
 
-bool NamedPipe::openInternal (const String& pipeName, bool createPipe, bool mustNotExist)
+bool NamedPipe::openInternal (const String& pipeName, const bool createPipe, bool mustNotExist)
 {
    #if JUCE_IOS
-    pimpl.reset (new Pimpl (File::getSpecialLocation (File::tempDirectory)
-                             .getChildFile (File::createLegalFileName (pipeName)).getFullPathName(), createPipe));
+    pimpl = new Pimpl (File::getSpecialLocation (File::tempDirectory)
+                         .getChildFile (File::createLegalFileName (pipeName)).getFullPathName(), createPipe);
    #else
-    auto file = pipeName;
+    String file (pipeName);
 
     if (! File::isAbsolutePath (file))
         file = "/tmp/" + File::createLegalFileName (file);
 
-    pimpl.reset (new Pimpl (file, createPipe));
+    pimpl = new Pimpl (file, createPipe);
    #endif
 
     if (createPipe && ! pimpl->createFifos (mustNotExist))
     {
-        pimpl.reset();
+        pimpl = nullptr;
         return false;
     }
 

@@ -28,6 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <unordered_map>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "CommandSet.h"
 #include "Misc.h"
 #include "MidiUtilities.h"
 
@@ -67,6 +68,7 @@ class CommandMap {
 
  private:
    mutable std::shared_mutex cmdmap_mutex_;
+   CommandSet command_set_{};
    std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
    std::unordered_map<rsj::MidiMessageId, std::string> message_map_;
 };

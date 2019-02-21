@@ -38,8 +38,6 @@ namespace juce
     class and the FileBrowserListener class.
 
     @see DirectoryContentsList, FileTreeComponent
-
-    @tags{GUI}
 */
 class JUCE_API  FileListComponent  : public ListBox,
                                      public DirectoryContentsDisplayComponent,
@@ -78,7 +76,7 @@ public:
 
 private:
     //==============================================================================
-    File lastDirectory, fileWaitingToBeSelected;
+    File lastDirectory;
     class ItemComponent;
 
     void changeListenerCallback (ChangeBroadcaster*) override;

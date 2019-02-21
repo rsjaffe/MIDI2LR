@@ -35,30 +35,23 @@ namespace juce
     it out.
 
     @see MidiMessageSequence
-
-    @tags{Audio}
 */
 class JUCE_API  MidiFile
 {
 public:
     //==============================================================================
-    /** Creates an empty MidiFile object. */
+    /** Creates an empty MidiFile object.
+    */
     MidiFile();
 
     /** Destructor. */
     ~MidiFile();
 
     /** Creates a copy of another MidiFile. */
-    MidiFile (const MidiFile&);
+    MidiFile (const MidiFile& other);
 
     /** Copies from another MidiFile object */
-    MidiFile& operator= (const MidiFile&);
-
-    /** Creates a copy of another MidiFile. */
-    MidiFile (MidiFile&&);
-
-    /** Copies from another MidiFile object */
-    MidiFile& operator= (MidiFile&&);
+    MidiFile& operator= (const MidiFile& other);
 
     //==============================================================================
     /** Returns the number of tracks in the file.
@@ -181,7 +174,7 @@ private:
     short timeFormat;
 
     void readNextTrack (const uint8*, int size);
-    bool writeTrack (OutputStream&, const MidiMessageSequence&);
+    bool writeTrack (OutputStream&, int trackNum);
 
     JUCE_LEAK_DETECTOR (MidiFile)
 };

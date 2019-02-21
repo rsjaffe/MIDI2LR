@@ -35,8 +35,6 @@ namespace juce
     to control playback of an audio file.
 
     @see AudioSource, AudioSourcePlayer
-
-    @tags{Audio}
 */
 class JUCE_API  AudioTransportSource  : public PositionableAudioSource,
                                         public ChangeBroadcaster
@@ -87,9 +85,7 @@ public:
         The next time the getNextAudioBlock() method is called, this
         is the time from which it'll read data.
 
-        @param newPosition    the new playback position in seconds
-
-        @see getCurrentPosition
+        @see getPosition
     */
     void setPosition (double newPosition);
 
@@ -166,11 +162,11 @@ private:
     AudioSource* masterSource = nullptr;
 
     CriticalSection callbackLock;
-    float gain = 1.0f, lastGain = 1.0f;
-    bool playing = false, stopped = true;
+    float volatile gain = 1.0f, lastGain = 1.0f;
+    bool volatile playing = false, stopped = true;
     double sampleRate = 44100.0, sourceSampleRate = 0;
     int blockSize = 128, readAheadBufferSize = 0;
-    bool isPrepared = false, inputStreamEOF = false;
+    bool volatile isPrepared = false, inputStreamEOF = false;
 
     void releaseMasterResources();
 

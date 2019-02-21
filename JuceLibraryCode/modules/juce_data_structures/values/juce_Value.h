@@ -45,8 +45,6 @@ namespace juce
     Important note! The Value class is not thread-safe! If you're accessing one from
     multiple threads, then you'll need to use your own synchronisation around any code
     that accesses it.
-
-    @tags{DataStructures}
 */
 class JUCE_API  Value  final
 {
@@ -229,15 +227,17 @@ private:
 
     // This is disallowed to avoid confusion about whether it should
     // do a by-value or by-reference copy.
-    Value& operator= (const Value&) = delete;
+    Value& operator= (const Value&) JUCE_DELETED_FUNCTION;
 
     // This declaration prevents accidental construction from an integer of 0,
     // which is possible in some compilers via an implicit cast to a pointer.
-    explicit Value (void*) = delete;
+    explicit Value (void*) JUCE_DELETED_FUNCTION;
 };
 
 /** Writes a Value to an OutputStream as a UTF8 string. */
 OutputStream& JUCE_CALLTYPE operator<< (OutputStream&, const Value&);
 
+/** This typedef is just for compatibility with old code - newer code should use the Value::Listener class directly. */
+typedef Value::Listener ValueListener;
 
 } // namespace juce

@@ -81,8 +81,6 @@ namespace juce
     to easily edit the key mappings.
 
     @see Component::addKeyListener(), KeyMappingEditorComponent, ApplicationCommandManager
-
-    @tags{GUI}
 */
 class JUCE_API  KeyPressMappingSet  : public KeyListener,
                                       public ChangeBroadcaster,

@@ -33,12 +33,11 @@ namespace juce
     re-ordered.
 
     @see FileSearchPath
-
-    @tags{GUI}
 */
 class JUCE_API  FileSearchPathListComponent  : public Component,
                                                public SettableTooltipClient,
                                                public FileDragAndDropTarget,
+                                               private Button::Listener,
                                                private ListBoxModel
 {
 public:
@@ -96,6 +95,8 @@ public:
     bool isInterestedInFileDrag (const StringArray&) override;
     /** @internal */
     void filesDropped (const StringArray& files, int, int) override;
+    /** @internal */
+    void buttonClicked (Button*) override;
 
 private:
     //==============================================================================
@@ -108,11 +109,6 @@ private:
 
     void changed();
     void updateButtons();
-
-    void addPath();
-    void deleteSelected();
-    void editSelected();
-    void moveSelection (int);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileSearchPathListComponent)
 };

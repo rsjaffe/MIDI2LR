@@ -75,13 +75,13 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
     Time timeout;
 
-    using Args = const var::NativeFunctionArgs&;
-    using TokenType = const char*;
+    typedef const var::NativeFunctionArgs& Args;
+    typedef const char* TokenType;
 
     void execute (const String& code)
     {
         ExpressionTreeBuilder tb (code);
-        std::unique_ptr<BlockStatement> (tb.parseStatementList())->perform (Scope (nullptr, this, this), nullptr);
+        ScopedPointer<BlockStatement> (tb.parseStatementList())->perform (Scope (nullptr, this, this), nullptr);
     }
 
     var evaluate (const String& code)
@@ -263,7 +263,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
         ResultCode perform (const Scope& s, var*) const override  { getResult (s); return ok; }
     };
 
-    using ExpPtr = std::unique_ptr<Expression>;
+    typedef ScopedPointer<Expression> ExpPtr;
 
     struct BlockStatement  : public Statement
     {
@@ -291,7 +291,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
         }
 
         ExpPtr condition;
-        std::unique_ptr<Statement> trueBranch, falseBranch;
+        ScopedPointer<Statement> trueBranch, falseBranch;
     };
 
     struct VarStatement  : public Statement
@@ -333,7 +333,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
             return ok;
         }
 
-        std::unique_ptr<Statement> initialiser, iterator, body;
+        ScopedPointer<Statement> initialiser, iterator, body;
         ExpPtr condition;
         bool isDoLoop;
     };
@@ -389,7 +389,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
     struct DotOperator  : public Expression
     {
-        DotOperator (const CodeLocation& l, ExpPtr& p, const Identifier& c) noexcept : Expression (l), parent (p.release()), child (c) {}
+        DotOperator (const CodeLocation& l, ExpPtr& p, const Identifier& c) noexcept : Expression (l), parent (p), child (c) {}
 
         var getResult (const Scope& s) const override
         {
@@ -478,7 +478,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
     struct BinaryOperatorBase  : public Expression
     {
         BinaryOperatorBase (const CodeLocation& l, ExpPtr& a, ExpPtr& b, TokenType op) noexcept
-            : Expression (l), lhs (a.release()), rhs (b.release()), operation (op) {}
+            : Expression (l), lhs (a), rhs (b), operation (op) {}
 
         ExpPtr lhs, rhs;
         TokenType operation;
@@ -592,15 +592,14 @@ struct JavascriptEngine::RootObject   : public DynamicObject
     struct DivideOp  : public BinaryOperator
     {
         DivideOp (const CodeLocation& l, ExpPtr& a, ExpPtr& b) noexcept : BinaryOperator (l, a, b, TokenTypes::divide) {}
-        var getWithDoubles (double a, double b) const override  { return b != 0 ? a / b : std::numeric_limits<double>::infinity(); }
-        var getWithInts (int64 a, int64 b) const override       { return b != 0 ? var (a / (double) b) : var (std::numeric_limits<double>::infinity()); }
+        var getWithDoubles (double a, double b) const override  { return b != 0.0 ? a / b : std::numeric_limits<double>::infinity(); }
+        var getWithInts (int64 a, int64 b) const override       { return b != 0   ? var (a / (double) b) : var (std::numeric_limits<double>::infinity()); }
     };
 
     struct ModuloOp  : public BinaryOperator
     {
         ModuloOp (const CodeLocation& l, ExpPtr& a, ExpPtr& b) noexcept : BinaryOperator (l, a, b, TokenTypes::modulo) {}
-        var getWithDoubles (double a, double b) const override  { return b != 0 ? fmod (a, b) : std::numeric_limits<double>::infinity(); }
-        var getWithInts (int64 a, int64 b) const override       { return b != 0 ? var (a % b) : var (std::numeric_limits<double>::infinity()); }
+        var getWithInts (int64 a, int64 b) const override   { return b != 0 ? var (a % b) : var (std::numeric_limits<double>::infinity()); }
     };
 
     struct BitwiseOrOp  : public BinaryOperator
@@ -675,7 +674,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
     struct Assignment  : public Expression
     {
-        Assignment (const CodeLocation& l, ExpPtr& dest, ExpPtr& source) noexcept : Expression (l), target (dest.release()), newValue (source.release()) {}
+        Assignment (const CodeLocation& l, ExpPtr& dest, ExpPtr& source) noexcept : Expression (l), target (dest), newValue (source) {}
 
         var getResult (const Scope& s) const override
         {
@@ -854,7 +853,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         String functionCode;
         Array<Identifier> parameters;
-        std::unique_ptr<Statement> body;
+        ScopedPointer<Statement> body;
     };
 
     //==============================================================================
@@ -888,8 +887,8 @@ struct JavascriptEngine::RootObject   : public DynamicObject
     private:
         String::CharPointerType p;
 
-        static bool isIdentifierStart (juce_wchar c) noexcept   { return CharacterFunctions::isLetter (c)        || c == '_'; }
-        static bool isIdentifierBody  (juce_wchar c) noexcept   { return CharacterFunctions::isLetterOrDigit (c) || c == '_'; }
+        static bool isIdentifierStart (const juce_wchar c) noexcept   { return CharacterFunctions::isLetter (c)        || c == '_'; }
+        static bool isIdentifierBody  (const juce_wchar c) noexcept   { return CharacterFunctions::isLetterOrDigit (c) || c == '_'; }
 
         TokenType matchNextToken()
         {
@@ -926,7 +925,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
             return TokenTypes::eof;
         }
 
-        bool matchToken (TokenType name, size_t len) noexcept
+        bool matchToken (TokenType name, const size_t len) noexcept
         {
             if (p.compareUpTo (CharPointer_ASCII (name), (int) len) != 0) return false;
             p += (int) len;  return true;
@@ -1058,7 +1057,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         BlockStatement* parseStatementList()
         {
-            std::unique_ptr<BlockStatement> b (new BlockStatement (location));
+            ScopedPointer<BlockStatement> b (new BlockStatement (location));
 
             while (currentType != TokenTypes::closeBrace && currentType != TokenTypes::eof)
                 b->statements.add (parseStatement());
@@ -1072,16 +1071,15 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             while (currentType != TokenTypes::closeParen)
             {
-                auto paramName = currentValue.toString();
+                fo.parameters.add (currentValue.toString());
                 match (TokenTypes::identifier);
-                fo.parameters.add (paramName);
 
                 if (currentType != TokenTypes::closeParen)
                     match (TokenTypes::comma);
             }
 
             match (TokenTypes::closeParen);
-            fo.body.reset (parseBlock());
+            fo.body = parseBlock();
         }
 
         Expression* parseExpression()
@@ -1105,14 +1103,14 @@ struct JavascriptEngine::RootObject   : public DynamicObject
         Expression* parseInPlaceOpExpression (ExpPtr& lhs)
         {
             ExpPtr rhs (parseExpression());
-            Expression* bareLHS = lhs.get(); // careful - bare pointer is deliberately alised
+            Expression* bareLHS = lhs; // careful - bare pointer is deliberately alised
             return new SelfAssignment (location, bareLHS, new OpType (location, lhs, rhs));
         }
 
         BlockStatement* parseBlock()
         {
             match (TokenTypes::openBrace);
-            std::unique_ptr<BlockStatement> b (parseStatementList());
+            ScopedPointer<BlockStatement> b (parseStatementList());
             match (TokenTypes::closeBrace);
             return b.release();
         }
@@ -1148,12 +1146,12 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         Statement* parseIf()
         {
-            std::unique_ptr<IfStatement> s (new IfStatement (location));
+            ScopedPointer<IfStatement> s (new IfStatement (location));
             match (TokenTypes::openParen);
-            s->condition.reset (parseExpression());
+            s->condition = parseExpression();
             match (TokenTypes::closeParen);
-            s->trueBranch.reset (parseStatement());
-            s->falseBranch.reset (matchIf (TokenTypes::else_) ? parseStatement() : new Statement (location));
+            s->trueBranch = parseStatement();
+            s->falseBranch = matchIf (TokenTypes::else_) ? parseStatement() : new Statement (location);
             return s.release();
         }
 
@@ -1169,13 +1167,13 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         Statement* parseVar()
         {
-            std::unique_ptr<VarStatement> s (new VarStatement (location));
+            ScopedPointer<VarStatement> s (new VarStatement (location));
             s->name = parseIdentifier();
-            s->initialiser.reset (matchIf (TokenTypes::assign) ? parseExpression() : new Expression (location));
+            s->initialiser = matchIf (TokenTypes::assign) ? parseExpression() : new Expression (location);
 
             if (matchIf (TokenTypes::comma))
             {
-                std::unique_ptr<BlockStatement> block (new BlockStatement (location));
+                ScopedPointer<BlockStatement> block (new BlockStatement (location));
                 block->statements.add (s.release());
                 block->statements.add (parseVar());
                 return block.release();
@@ -1199,48 +1197,48 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         Statement* parseForLoop()
         {
-            std::unique_ptr<LoopStatement> s (new LoopStatement (location, false));
+            ScopedPointer<LoopStatement> s (new LoopStatement (location, false));
             match (TokenTypes::openParen);
-            s->initialiser.reset (parseStatement());
+            s->initialiser = parseStatement();
 
             if (matchIf (TokenTypes::semicolon))
-                s->condition.reset (new LiteralValue (location, true));
+                s->condition = new LiteralValue (location, true);
             else
             {
-                s->condition.reset (parseExpression());
+                s->condition = parseExpression();
                 match (TokenTypes::semicolon);
             }
 
             if (matchIf (TokenTypes::closeParen))
-                s->iterator.reset (new Statement (location));
+                s->iterator = new Statement (location);
             else
             {
-                s->iterator.reset (parseExpression());
+                s->iterator = parseExpression();
                 match (TokenTypes::closeParen);
             }
 
-            s->body.reset (parseStatement());
+            s->body = parseStatement();
             return s.release();
         }
 
         Statement* parseDoOrWhileLoop (bool isDoLoop)
         {
-            std::unique_ptr<LoopStatement> s (new LoopStatement (location, isDoLoop));
-            s->initialiser.reset (new Statement (location));
-            s->iterator.reset (new Statement (location));
+            ScopedPointer<LoopStatement> s (new LoopStatement (location, isDoLoop));
+            s->initialiser = new Statement (location);
+            s->iterator = new Statement (location);
 
             if (isDoLoop)
             {
-                s->body.reset (parseBlock());
+                s->body = parseBlock();
                 match (TokenTypes::while_);
             }
 
             match (TokenTypes::openParen);
-            s->condition.reset (parseExpression());
+            s->condition = parseExpression();
             match (TokenTypes::closeParen);
 
             if (! isDoLoop)
-                s->body.reset (parseStatement());
+                s->body = parseStatement();
 
             return s.release();
         }
@@ -1262,7 +1260,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
             if (currentType == TokenTypes::identifier)
                 functionName = parseIdentifier();
 
-            std::unique_ptr<FunctionObject> fo (new FunctionObject());
+            ScopedPointer<FunctionObject> fo (new FunctionObject());
             parseFunctionParamsAndBody (*fo);
             fo->functionCode = String (functionStart, location.location);
             return var (fo.release());
@@ -1270,8 +1268,8 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         Expression* parseFunctionCall (FunctionCall* call, ExpPtr& function)
         {
-            std::unique_ptr<FunctionCall> s (call);
-            s->object.reset (function.release());
+            ScopedPointer<FunctionCall> s (call);
+            s->object = function;
             match (TokenTypes::openParen);
 
             while (currentType != TokenTypes::closeParen)
@@ -1296,9 +1294,9 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             if (matchIf (TokenTypes::openBracket))
             {
-                std::unique_ptr<ArraySubscript> s (new ArraySubscript (location));
-                s->object.reset (input.release());
-                s->index.reset (parseExpression());
+                ScopedPointer<ArraySubscript> s (new ArraySubscript (location));
+                s->object = input;
+                s->index = parseExpression();
                 match (TokenTypes::closeBracket);
                 return parseSuffixes (s.release());
             }
@@ -1326,7 +1324,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             if (matchIf (TokenTypes::openBrace))
             {
-                std::unique_ptr<ObjectDeclaration> e (new ObjectDeclaration (location));
+                ScopedPointer<ObjectDeclaration> e (new ObjectDeclaration (location));
 
                 while (currentType != TokenTypes::closeBrace)
                 {
@@ -1348,7 +1346,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             if (matchIf (TokenTypes::openBracket))
             {
-                std::unique_ptr<ArrayDeclaration> e (new ArrayDeclaration (location));
+                ScopedPointer<ArrayDeclaration> e (new ArrayDeclaration (location));
 
                 while (currentType != TokenTypes::closeBracket)
                 {
@@ -1378,7 +1376,7 @@ struct JavascriptEngine::RootObject   : public DynamicObject
                 ExpPtr name (new UnqualifiedName (location, parseIdentifier()));
 
                 while (matchIf (TokenTypes::dot))
-                    name.reset (new DotOperator (location, name, parseIdentifier()));
+                    name = new DotOperator (location, name, parseIdentifier());
 
                 return parseFunctionCall (new NewOperator (location), name);
             }
@@ -1405,8 +1403,8 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         Expression* parseTypeof()
         {
-            std::unique_ptr<FunctionCall> f (new FunctionCall (location));
-            f->object.reset (new UnqualifiedName (location, "typeof"));
+            ScopedPointer<FunctionCall> f (new FunctionCall (location));
+            f->object = new UnqualifiedName (location, "typeof");
             f->arguments.add (parseUnary());
             return f.release();
         }
@@ -1428,9 +1426,9 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             for (;;)
             {
-                if (matchIf (TokenTypes::times))        { ExpPtr b (parseUnary()); a.reset (new MultiplyOp (location, a, b)); }
-                else if (matchIf (TokenTypes::divide))  { ExpPtr b (parseUnary()); a.reset (new DivideOp   (location, a, b)); }
-                else if (matchIf (TokenTypes::modulo))  { ExpPtr b (parseUnary()); a.reset (new ModuloOp   (location, a, b)); }
+                if (matchIf (TokenTypes::times))        { ExpPtr b (parseUnary()); a = new MultiplyOp (location, a, b); }
+                else if (matchIf (TokenTypes::divide))  { ExpPtr b (parseUnary()); a = new DivideOp   (location, a, b); }
+                else if (matchIf (TokenTypes::modulo))  { ExpPtr b (parseUnary()); a = new ModuloOp   (location, a, b); }
                 else break;
             }
 
@@ -1443,8 +1441,8 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             for (;;)
             {
-                if (matchIf (TokenTypes::plus))            { ExpPtr b (parseMultiplyDivide()); a.reset (new AdditionOp    (location, a, b)); }
-                else if (matchIf (TokenTypes::minus))      { ExpPtr b (parseMultiplyDivide()); a.reset (new SubtractionOp (location, a, b)); }
+                if (matchIf (TokenTypes::plus))            { ExpPtr b (parseMultiplyDivide()); a = new AdditionOp    (location, a, b); }
+                else if (matchIf (TokenTypes::minus))      { ExpPtr b (parseMultiplyDivide()); a = new SubtractionOp (location, a, b); }
                 else break;
             }
 
@@ -1457,9 +1455,9 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             for (;;)
             {
-                if (matchIf (TokenTypes::leftShift))                { ExpPtr b (parseExpression()); a.reset (new LeftShiftOp          (location, a, b)); }
-                else if (matchIf (TokenTypes::rightShift))          { ExpPtr b (parseExpression()); a.reset (new RightShiftOp         (location, a, b)); }
-                else if (matchIf (TokenTypes::rightShiftUnsigned))  { ExpPtr b (parseExpression()); a.reset (new RightShiftUnsignedOp (location, a, b)); }
+                if (matchIf (TokenTypes::leftShift))                { ExpPtr b (parseExpression()); a = new LeftShiftOp          (location, a, b); }
+                else if (matchIf (TokenTypes::rightShift))          { ExpPtr b (parseExpression()); a = new RightShiftOp         (location, a, b); }
+                else if (matchIf (TokenTypes::rightShiftUnsigned))  { ExpPtr b (parseExpression()); a = new RightShiftUnsignedOp (location, a, b); }
                 else break;
             }
 
@@ -1472,14 +1470,14 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             for (;;)
             {
-                if (matchIf (TokenTypes::equals))                  { ExpPtr b (parseShiftOperator()); a.reset (new EqualsOp             (location, a, b)); }
-                else if (matchIf (TokenTypes::notEquals))          { ExpPtr b (parseShiftOperator()); a.reset (new NotEqualsOp          (location, a, b)); }
-                else if (matchIf (TokenTypes::typeEquals))         { ExpPtr b (parseShiftOperator()); a.reset (new TypeEqualsOp         (location, a, b)); }
-                else if (matchIf (TokenTypes::typeNotEquals))      { ExpPtr b (parseShiftOperator()); a.reset (new TypeNotEqualsOp      (location, a, b)); }
-                else if (matchIf (TokenTypes::lessThan))           { ExpPtr b (parseShiftOperator()); a.reset (new LessThanOp           (location, a, b)); }
-                else if (matchIf (TokenTypes::lessThanOrEqual))    { ExpPtr b (parseShiftOperator()); a.reset (new LessThanOrEqualOp    (location, a, b)); }
-                else if (matchIf (TokenTypes::greaterThan))        { ExpPtr b (parseShiftOperator()); a.reset (new GreaterThanOp        (location, a, b)); }
-                else if (matchIf (TokenTypes::greaterThanOrEqual)) { ExpPtr b (parseShiftOperator()); a.reset (new GreaterThanOrEqualOp (location, a, b)); }
+                if (matchIf (TokenTypes::equals))                  { ExpPtr b (parseShiftOperator()); a = new EqualsOp             (location, a, b); }
+                else if (matchIf (TokenTypes::notEquals))          { ExpPtr b (parseShiftOperator()); a = new NotEqualsOp          (location, a, b); }
+                else if (matchIf (TokenTypes::typeEquals))         { ExpPtr b (parseShiftOperator()); a = new TypeEqualsOp         (location, a, b); }
+                else if (matchIf (TokenTypes::typeNotEquals))      { ExpPtr b (parseShiftOperator()); a = new TypeNotEqualsOp      (location, a, b); }
+                else if (matchIf (TokenTypes::lessThan))           { ExpPtr b (parseShiftOperator()); a = new LessThanOp           (location, a, b); }
+                else if (matchIf (TokenTypes::lessThanOrEqual))    { ExpPtr b (parseShiftOperator()); a = new LessThanOrEqualOp    (location, a, b); }
+                else if (matchIf (TokenTypes::greaterThan))        { ExpPtr b (parseShiftOperator()); a = new GreaterThanOp        (location, a, b); }
+                else if (matchIf (TokenTypes::greaterThanOrEqual)) { ExpPtr b (parseShiftOperator()); a = new GreaterThanOrEqualOp (location, a, b); }
                 else break;
             }
 
@@ -1492,11 +1490,11 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
             for (;;)
             {
-                if (matchIf (TokenTypes::logicalAnd))       { ExpPtr b (parseComparator()); a.reset (new LogicalAndOp (location, a, b)); }
-                else if (matchIf (TokenTypes::logicalOr))   { ExpPtr b (parseComparator()); a.reset (new LogicalOrOp  (location, a, b)); }
-                else if (matchIf (TokenTypes::bitwiseAnd))  { ExpPtr b (parseComparator()); a.reset (new BitwiseAndOp (location, a, b)); }
-                else if (matchIf (TokenTypes::bitwiseOr))   { ExpPtr b (parseComparator()); a.reset (new BitwiseOrOp  (location, a, b)); }
-                else if (matchIf (TokenTypes::bitwiseXor))  { ExpPtr b (parseComparator()); a.reset (new BitwiseXorOp (location, a, b)); }
+                if (matchIf (TokenTypes::logicalAnd))       { ExpPtr b (parseComparator()); a = new LogicalAndOp (location, a, b); }
+                else if (matchIf (TokenTypes::logicalOr))   { ExpPtr b (parseComparator()); a = new LogicalOrOp  (location, a, b); }
+                else if (matchIf (TokenTypes::bitwiseAnd))  { ExpPtr b (parseComparator()); a = new BitwiseAndOp (location, a, b); }
+                else if (matchIf (TokenTypes::bitwiseOr))   { ExpPtr b (parseComparator()); a = new BitwiseOrOp  (location, a, b); }
+                else if (matchIf (TokenTypes::bitwiseXor))  { ExpPtr b (parseComparator()); a = new BitwiseXorOp (location, a, b); }
                 else break;
             }
 
@@ -1505,11 +1503,11 @@ struct JavascriptEngine::RootObject   : public DynamicObject
 
         Expression* parseTernaryOperator (ExpPtr& condition)
         {
-            std::unique_ptr<ConditionalOp> e (new ConditionalOp (location));
-            e->condition.reset (condition.release());
-            e->trueBranch.reset (parseExpression());
+            ScopedPointer<ConditionalOp> e (new ConditionalOp (location));
+            e->condition = condition;
+            e->trueBranch = parseExpression();
             match (TokenTypes::colon);
-            e->falseBranch.reset (parseExpression());
+            e->falseBranch = parseExpression();
             return e.release();
         }
 
@@ -1702,14 +1700,8 @@ struct JavascriptEngine::RootObject   : public DynamicObject
             setMethod ("sqr",       Math_sqr);              setMethod ("sqrt",      Math_sqrt);
             setMethod ("ceil",      Math_ceil);             setMethod ("floor",     Math_floor);
 
-            setProperty ("PI",      MathConstants<double>::pi);
-            setProperty ("E",       MathConstants<double>::euler);
-            setProperty ("SQRT2",   MathConstants<double>::sqrt2);
-            setProperty ("SQRT1_2", std::sqrt (0.5));
-            setProperty ("LN2",     std::log (2.0));
-            setProperty ("LN10",    std::log (10.0));
-            setProperty ("LOG2E",   std::log (MathConstants<double>::euler) / std::log (2.0));
-            setProperty ("LOG10E",  std::log (MathConstants<double>::euler) / std::log (10.0));
+            setProperty ("PI", double_Pi);
+            setProperty ("E", exp (1.0));
         }
 
         static var Math_random    (Args)   { return Random::getSystemRandom().nextDouble(); }

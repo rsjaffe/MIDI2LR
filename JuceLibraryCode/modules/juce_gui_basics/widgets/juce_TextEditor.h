@@ -35,8 +35,6 @@ namespace juce
     fonts and colours.
 
     @see TextEditor::Listener, Label
-
-    @tags{GUI}
 */
 class JUCE_API  TextEditor  : public Component,
                               public TextInputTarget,
@@ -319,19 +317,6 @@ public:
         @see addListener
     */
     void removeListener (Listener* listenerToRemove);
-
-    //==============================================================================
-    /** You can assign a lambda to this callback object to have it called when the text is changed. */
-    std::function<void()> onTextChange;
-
-    /** You can assign a lambda to this callback object to have it called when the return key is pressed. */
-    std::function<void()> onReturnKey;
-
-    /** You can assign a lambda to this callback object to have it called when the escape key is pressed. */
-    std::function<void()> onEscapeKey;
-
-    /** You can assign a lambda to this callback object to have it called when the editor loses key focus. */
-    std::function<void()> onFocusLost;
 
     //==============================================================================
     /** Returns the entire contents of the editor. */
@@ -704,7 +689,7 @@ private:
     struct InsertAction;
     struct RemoveAction;
 
-    std::unique_ptr<Viewport> viewport;
+    ScopedPointer<Viewport> viewport;
     TextHolderComponent* textHolder;
     BorderSize<int> borderSize { 1, 1, 1, 3 };
     Justification justification { Justification::left };
@@ -725,7 +710,7 @@ private:
     bool consumeEscAndReturnKeys = true;
 
     UndoManager undoManager;
-    std::unique_ptr<CaretComponent> caret;
+    ScopedPointer<CaretComponent> caret;
     Range<int> selection;
     int leftIndent = 4, topIndent = 4;
     unsigned int lastTransactionTime = 0;
@@ -777,7 +762,6 @@ private:
     float getWordWrapWidth() const;
     float getJustificationWidth() const;
     void timerCallbackInt();
-    void checkFocus();
     void repaintText (Range<int>);
     void scrollByLines (int deltaLines);
     bool undoOrRedo (bool shouldUndo);
@@ -786,5 +770,7 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TextEditor)
 };
 
+/** This typedef is just for compatibility with old code - newer code should use the TextEditor::Listener class directly. */
+typedef TextEditor::Listener TextEditorListener;
 
 } // namespace juce

@@ -13,3 +13,5 @@
 "$$$/MIDI2LR/LocalPresets/Presets=Réglages prédéfinis locaux"
 "$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"
 "$$$/MIDI2LR/Options/ActionSeriesInvalid=Commandes invalides"
+"$$$/MIDI2LR/Profiles/Next=Profil suivant"
+"$$$/MIDI2LR/Profiles/Previous=Profil précédent"

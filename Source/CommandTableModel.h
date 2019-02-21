@@ -26,8 +26,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <shared_mutex>
 #include <vector>
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "CommandSet.h"
 #include "MidiUtilities.h"
-
 class CommandMap;
 
 class CommandTableModel final : public juce::TableListBoxModel {
@@ -58,6 +58,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
        juce::Component* existing_component_to_update) override;
    void Sort();
    CommandMap* command_map_{nullptr};
+   CommandSet command_set_{};
    mutable std::shared_mutex cmd_table_mod_mtx_;
    std::pair<int, bool> current_sort_{2, true};
    std::pair<int, bool> prior_sort_{2, true};

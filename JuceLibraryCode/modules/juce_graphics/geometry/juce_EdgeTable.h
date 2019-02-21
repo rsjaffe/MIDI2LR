@@ -32,8 +32,6 @@ namespace juce
     A table of horizontal scan-line segments - used for rasterising Paths.
 
     @see Path, Graphics
-
-    @tags{Graphics}
 */
 class JUCE_API  EdgeTable
 {
@@ -74,8 +72,8 @@ public:
     ~EdgeTable();
 
     //==============================================================================
-    void clipToRectangle (Rectangle<int> r);
-    void excludeRectangle (Rectangle<int> r);
+    void clipToRectangle (const Rectangle<int>& r);
+    void excludeRectangle (const Rectangle<int>& r);
     void clipToEdgeTable (const EdgeTable&);
     void clipLineToMask (int x, int y, const uint8* mask, int maskStride, int numPixels);
     bool isEmpty() noexcept;

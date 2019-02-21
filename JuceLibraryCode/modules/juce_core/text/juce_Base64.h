@@ -26,8 +26,6 @@ namespace juce
 /**
     Contains some static methods for converting between binary and the
     standard base-64 encoding format.
-
-    @tags{Core}
 */
 struct JUCE_API Base64
 {

@@ -162,11 +162,6 @@ public:
             if ([window respondsToSelector: @selector (setRestorable:)])
                 [window setRestorable: NO];
            #endif
-
-           #if defined (MAC_OS_X_VERSION_10_13) && (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_13)
-            if ([window respondsToSelector: @selector (setTabbingMode:)])
-                [window setTabbingMode:NSWindowTabbingModeDisallowed];
-           #endif
         }
 
         auto alpha = component.getAlpha();
@@ -175,16 +170,6 @@ public:
             setAlpha (alpha);
 
         setTitle (component.getName());
-
-        getNativeRealtimeModifiers = []
-        {
-           #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
-            if ([NSEvent respondsToSelector: @selector (modifierFlags)])
-                NSViewComponentPeer::updateModifiers ([NSEvent modifierFlags]);
-           #endif
-
-            return ModifierKeys::currentModifiers;
-        };
     }
 
     ~NSViewComponentPeer()
@@ -198,15 +183,14 @@ public:
             [view removeFromSuperview];
         }
 
+        [view release];
+
         if (! isSharedWindow)
         {
             setOwner (window, nullptr);
-            [window setContentView: nil];
             [window close];
             [window release];
         }
-
-        [view release];
     }
 
     //==============================================================================
@@ -255,13 +239,9 @@ public:
     void setRepresentedFile (const File& file) override
     {
         if (! isSharedWindow)
-        {
             [window setRepresentedFilename: juceStringToNS (file != File()
                                                                 ? file.getFullPathName()
                                                                 : String())];
-
-            windowRepresentsFile = (file != File());
-        }
     }
 
     void setBounds (const Rectangle<int>& newBounds, bool isNowFullScreen) override
@@ -391,7 +371,12 @@ public:
 
     bool isKioskMode() const override
     {
-        return isWindowInKioskMode || ComponentPeer::isKioskMode();
+       #if defined (MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
+        if (hasNativeTitleBar() && ([window styleMask] & NSWindowStyleMaskFullScreen) != 0)
+            return true;
+       #endif
+
+        return ComponentPeer::isKioskMode();
     }
 
     static bool isWindowAtPoint (NSWindow* w, NSPoint screenPoint)
@@ -456,17 +441,9 @@ public:
     {
         if (hasNativeTitleBar())
         {
-           #if defined (MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
-            isWindowInKioskMode = (([window styleMask] & NSWindowStyleMaskFullScreen) != 0);
-           #endif
-
             auto screen = getFrameSize().subtractedFrom (component.getParentMonitorArea());
 
             fullScreen = component.getScreenBounds().expanded (2, 2).contains (screen);
-        }
-        else
-        {
-            isWindowInKioskMode = false;
         }
     }
 
@@ -533,16 +510,9 @@ public:
         }
     }
 
-    void setIcon (const Image& newIcon) override
+    void setIcon (const Image&) override
     {
-        if (! isSharedWindow)
-        {
-            // need to set a dummy represented file here to show the file icon (which we then set to the new icon)
-            if (! windowRepresentsFile)
-                [window setRepresentedFilename:juceStringToNS (" ")]; // can't just use an empty string for some reason...
-
-            [[window standardWindowButton:NSWindowDocumentIconButton] setImage:imageToNSImage (newIcon)];
-        }
+        // to do..
     }
 
     StringArray getAvailableRenderingEngines() override
@@ -579,26 +549,26 @@ public:
         if (! Process::isForegroundProcess())
             Process::makeForegroundProcess();
 
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withFlags (getModifierForButtonNumber ([ev buttonNumber]));
+        currentModifiers = currentModifiers.withFlags (getModifierForButtonNumber ([ev buttonNumber]));
         sendMouseEvent (ev);
     }
 
     void redirectMouseUp (NSEvent* ev)
     {
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutFlags (getModifierForButtonNumber ([ev buttonNumber]));
+        currentModifiers = currentModifiers.withoutFlags (getModifierForButtonNumber ([ev buttonNumber]));
         sendMouseEvent (ev);
         showArrowCursorIfNeeded();
     }
 
     void redirectMouseDrag (NSEvent* ev)
     {
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withFlags (getModifierForButtonNumber ([ev buttonNumber]));
+        currentModifiers = currentModifiers.withFlags (getModifierForButtonNumber ([ev buttonNumber]));
         sendMouseEvent (ev);
     }
 
     void redirectMouseMove (NSEvent* ev)
     {
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons();
+        currentModifiers = currentModifiers.withoutMouseButtons();
 
         NSPoint windowPos = [ev locationInWindow];
 
@@ -612,7 +582,7 @@ public:
             sendMouseEvent (ev);
         else
             // moved into another window which overlaps this one, so trigger an exit
-            handleMouseEvent (MouseInputSource::InputSourceType::mouse, { -1.0f, -1.0f }, ModifierKeys::currentModifiers,
+            handleMouseEvent (MouseInputSource::InputSourceType::mouse, { -1.0f, -1.0f }, currentModifiers,
                               getMousePressure (ev), MouseInputSource::invalidOrientation, getMouseTime (ev));
 
         showArrowCursorIfNeeded();
@@ -621,13 +591,13 @@ public:
     void redirectMouseEnter (NSEvent* ev)
     {
         Desktop::getInstance().getMainMouseSource().forceMouseCursorUpdate();
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons();
+        currentModifiers = currentModifiers.withoutMouseButtons();
         sendMouseEvent (ev);
     }
 
     void redirectMouseExit (NSEvent* ev)
     {
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons();
+        currentModifiers = currentModifiers.withoutMouseButtons();
         sendMouseEvent (ev);
     }
 
@@ -716,7 +686,7 @@ public:
     void sendMouseEvent (NSEvent* ev)
     {
         updateModifiers (ev);
-        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (ev, view), ModifierKeys::currentModifiers,
+        handleMouseEvent (MouseInputSource::InputSourceType::mouse, getMousePos (ev, view), currentModifiers,
                           getMousePressure (ev), MouseInputSource::invalidOrientation, getMouseTime (ev));
     }
 
@@ -899,8 +869,8 @@ public:
                     if (intScale != 1)
                         clip.scaleAll (intScale);
 
-                    std::unique_ptr<LowLevelGraphicsContext> context (component.getLookAndFeel()
-                                                                        .createGraphicsContext (temp, offset * intScale, clip));
+                    ScopedPointer<LowLevelGraphicsContext> context (component.getLookAndFeel()
+                                                                      .createGraphicsContext (temp, offset * intScale, clip));
 
                     if (intScale != 1)
                         context->addTransform (AffineTransform::scale (displayScale));
@@ -1128,7 +1098,7 @@ public:
         if ((flags & NSEventModifierFlagOption) != 0)       m |= ModifierKeys::altModifier;
         if ((flags & NSEventModifierFlagCommand) != 0)      m |= ModifierKeys::commandModifier;
 
-        ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withOnlyMouseButtons().withFlags (m);
+        currentModifiers = currentModifiers.withOnlyMouseButtons().withFlags (m);
     }
 
     static void updateKeysDown (NSEvent* ev, bool isKeyDown)
@@ -1383,7 +1353,6 @@ public:
     NSWindow* window = nil;
     NSView* view = nil;
     bool isSharedWindow = false, fullScreen = false;
-    bool isWindowInKioskMode = false;
    #if USE_COREGRAPHICS_RENDERING
     bool usingCoreGraphics = true;
    #else
@@ -1391,13 +1360,13 @@ public:
    #endif
     bool isZooming = false, isFirstLiveResize = false, textWasInserted = false;
     bool isStretchingTop = false, isStretchingLeft = false, isStretchingBottom = false, isStretchingRight = false;
-    bool windowRepresentsFile = false;
     String stringBeingComposed;
     NSNotificationCenter* notificationCenter = nil;
 
     RectangleList<float> deferredRepaints;
     uint32 lastRepaintTime;
 
+    static ModifierKeys currentModifiers;
     static ComponentPeer* currentlyFocusedPeer;
     static Array<int> keysCurrentlyDown;
     static int insideToFrontCall;
@@ -1576,7 +1545,6 @@ struct JuceNSViewClass   : public ObjCClass<NSView>
         addMethod (@selector (markedRange),                   markedRange,                @encode (NSRange), "@:");
         addMethod (@selector (selectedRange),                 selectedRange,              @encode (NSRange), "@:");
         addMethod (@selector (firstRectForCharacterRange:),   firstRectForCharacterRange, @encode (NSRect), "@:", @encode (NSRange));
-        addMethod (@selector (characterIndexForPoint:),       characterIndexForPoint,     "L@:", @encode (NSPoint));
         addMethod (@selector (validAttributesForMarkedText),  validAttributesForMarkedText, "@@:");
         addMethod (@selector (flagsChanged:),                 flagsChanged,               "v@:@");
 
@@ -1892,21 +1860,17 @@ struct JuceNSWindowClass   : public ObjCClass<NSWindow>
     {
         addIvar<NSViewComponentPeer*> ("owner");
 
-        addMethod (@selector (canBecomeKeyWindow),                  canBecomeKeyWindow,        "c@:");
-        addMethod (@selector (canBecomeMainWindow),                 canBecomeMainWindow,       "c@:");
-        addMethod (@selector (becomeKeyWindow),                     becomeKeyWindow,           "v@:");
-        addMethod (@selector (windowShouldClose:),                  windowShouldClose,         "c@:@");
-        addMethod (@selector (constrainFrameRect:toScreen:),        constrainFrameRect,        @encode (NSRect), "@:",  @encode (NSRect), "@");
-        addMethod (@selector (windowWillResize:toSize:),            windowWillResize,          @encode (NSSize), "@:@", @encode (NSSize));
-        addMethod (@selector (windowDidExitFullScreen:),            windowDidExitFullScreen,   "v@:@");
-        addMethod (@selector (zoom:),                               zoom,                      "v@:@");
-        addMethod (@selector (windowWillMove:),                     windowWillMove,            "v@:@");
-        addMethod (@selector (windowWillStartLiveResize:),          windowWillStartLiveResize, "v@:@");
-        addMethod (@selector (windowDidEndLiveResize:),             windowDidEndLiveResize,    "v@:@");
-        addMethod (@selector (window:shouldPopUpDocumentPathMenu:), shouldPopUpPathMenu, "B@:@", @encode (NSMenu*));
-
-        addMethod (@selector (window:shouldDragDocumentWithEvent:from:withPasteboard:),
-                   shouldAllowIconDrag, "B@:@", @encode (NSEvent*), @encode (NSPoint), @encode (NSPasteboard*));
+        addMethod (@selector (canBecomeKeyWindow),            canBecomeKeyWindow,        "c@:");
+        addMethod (@selector (canBecomeMainWindow),           canBecomeMainWindow,       "c@:");
+        addMethod (@selector (becomeKeyWindow),               becomeKeyWindow,           "v@:");
+        addMethod (@selector (windowShouldClose:),            windowShouldClose,         "c@:@");
+        addMethod (@selector (constrainFrameRect:toScreen:),  constrainFrameRect,        @encode (NSRect), "@:",  @encode (NSRect), "@");
+        addMethod (@selector (windowWillResize:toSize:),      windowWillResize,          @encode (NSSize), "@:@", @encode (NSSize));
+        addMethod (@selector (windowDidExitFullScreen:),      windowDidExitFullScreen,   "v@:@");
+        addMethod (@selector (zoom:),                         zoom,                      "v@:@");
+        addMethod (@selector (windowWillMove:),               windowWillMove,            "v@:@");
+        addMethod (@selector (windowWillStartLiveResize:),    windowWillStartLiveResize, "v@:@");
+        addMethod (@selector (windowDidEndLiveResize:),       windowDidEndLiveResize,    "v@:@");
 
        #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
         addProtocol (@protocol (NSWindowDelegate));
@@ -2019,22 +1983,6 @@ private:
         if (auto* owner = getOwner (self))
             owner->liveResizingEnd();
     }
-
-    static bool shouldPopUpPathMenu (id self, SEL, id /*window*/, NSMenu*)
-    {
-        if (auto* owner = getOwner (self))
-            return owner->windowRepresentsFile;
-
-        return false;
-    }
-
-    static bool shouldAllowIconDrag (id self, SEL, id /*window*/, NSEvent*, NSPoint, NSPasteboard*)
-    {
-        if (auto* owner = getOwner (self))
-            return owner->windowRepresentsFile;
-
-        return false;
-    }
 };
 
 NSView* NSViewComponentPeer::createViewInstance()
@@ -2051,6 +1999,7 @@ NSWindow* NSViewComponentPeer::createWindowInstance()
 
 
 //==============================================================================
+ModifierKeys NSViewComponentPeer::currentModifiers;
 ComponentPeer* NSViewComponentPeer::currentlyFocusedPeer = nullptr;
 Array<int> NSViewComponentPeer::keysCurrentlyDown;
 
@@ -2070,6 +2019,23 @@ bool KeyPress::isKeyCurrentlyDown (int keyCode)
 
     return false;
 }
+
+
+ModifierKeys ModifierKeys::getCurrentModifiersRealtime() noexcept
+{
+   #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+    if ([NSEvent respondsToSelector: @selector (modifierFlags)])
+        NSViewComponentPeer::updateModifiers ((NSUInteger) [NSEvent modifierFlags]);
+   #endif
+
+    return NSViewComponentPeer::currentModifiers;
+}
+
+void ModifierKeys::updateCurrentModifiers() noexcept
+{
+    currentModifiers = NSViewComponentPeer::currentModifiers;
+}
+
 
 //==============================================================================
 bool MouseInputSource::SourceList::addSource()

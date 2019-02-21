@@ -47,8 +47,6 @@ namespace juce
 
     @see AnimatedPositionBehaviours::ContinuousWithMomentum,
          AnimatedPositionBehaviours::SnapToPageBoundaries
-
-    @tags{GUI}
 */
 template <typename Behaviour>
 class AnimatedPosition  : private Timer
@@ -162,14 +160,14 @@ private:
     static double getSpeed (const Time last, double lastPos,
                             const Time now, double newPos)
     {
-        auto elapsedSecs = jmax (0.005, (now - last).inSeconds());
-        auto v = (newPos - lastPos) / elapsedSecs;
+        const double elapsedSecs = jmax (0.005, (now - last).inSeconds());
+        const double v = (newPos - lastPos) / elapsedSecs;
         return std::abs (v) > 0.2 ? v : 0.0;
     }
 
     void moveTo (double newPos)
     {
-        auto now = Time::getCurrentTime();
+        const Time now (Time::getCurrentTime());
         releaseVelocity = getSpeed (lastDrag, position, now, newPos);
         behaviour.releasedWithVelocity (newPos, releaseVelocity);
         lastDrag = now;
@@ -184,16 +182,18 @@ private:
         if (position != newPosition)
         {
             position = newPosition;
-            listeners.call ([this, newPosition] (Listener& l) { l.positionChanged (*this, newPosition); });
+            listeners.call (&Listener::positionChanged, *this, newPosition);
         }
     }
 
     void timerCallback() override
     {
-        auto now = Time::getCurrentTime();
-        auto elapsed = jlimit (0.001, 0.020, (now - lastUpdate).inSeconds());
+        const Time now = Time::getCurrentTime();
+
+        const double elapsed = jlimit (0.001, 0.020, (now - lastUpdate).inSeconds());
         lastUpdate = now;
-        auto newPos = behaviour.getNextPosition (position, elapsed);
+
+        const double newPos = behaviour.getNextPosition (position, elapsed);
 
         if (behaviour.isStopped (newPos))
             stopTimer();

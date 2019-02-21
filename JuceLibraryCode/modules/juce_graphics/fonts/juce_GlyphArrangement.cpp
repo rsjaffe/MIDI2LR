@@ -148,7 +148,7 @@ void GlyphArrangement::clear()
     glyphs.clear();
 }
 
-PositionedGlyph& GlyphArrangement::getGlyph (int index) noexcept
+PositionedGlyph& GlyphArrangement::getGlyph (int index) const noexcept
 {
     return glyphs.getReference (index);
 }

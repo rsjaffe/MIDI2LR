@@ -59,10 +59,8 @@ BufferedInputStream::~BufferedInputStream()
 //==============================================================================
 char BufferedInputStream::peekByte()
 {
-    if (! ensureBuffered())
-        return 0;
-
-    return position < lastReadPos ? buffer[(int) (position - bufferStart)] : 0;
+    ensureBuffered();
+    return position < lastReadPos ? *(buffer + (int) (position - bufferStart)) : 0;
 }
 
 int64 BufferedInputStream::getTotalLength()
@@ -86,7 +84,7 @@ bool BufferedInputStream::isExhausted()
     return position >= lastReadPos && source->isExhausted();
 }
 
-bool BufferedInputStream::ensureBuffered()
+void BufferedInputStream::ensureBuffered()
 {
     auto bufferEndOverlap = lastReadPos - bufferOverlap;
 
@@ -102,11 +100,9 @@ bool BufferedInputStream::ensureBuffered()
             memmove (buffer, buffer + (int) (position - bufferStart), (size_t) bytesToKeep);
 
             bufferStart = position;
+
             bytesRead = source->read (buffer + bytesToKeep,
                                       (int) (bufferSize - bytesToKeep));
-
-            if (bytesRead < 0)
-                return false;
 
             lastReadPos += bytesRead;
             bytesRead += bytesToKeep;
@@ -114,23 +110,14 @@ bool BufferedInputStream::ensureBuffered()
         else
         {
             bufferStart = position;
-
-            if (! source->setPosition (bufferStart))
-                return false;
-
+            source->setPosition (bufferStart);
             bytesRead = source->read (buffer, bufferSize);
-
-            if (bytesRead < 0)
-                return false;
-
             lastReadPos = bufferStart + bytesRead;
         }
 
         while (bytesRead < bufferSize)
-            buffer[bytesRead++] = 0;
+            buffer [bytesRead++] = 0;
     }
-
-    return true;
 }
 
 int BufferedInputStream::read (void* destBuffer, int maxBytesToRead)
@@ -146,8 +133,7 @@ int BufferedInputStream::read (void* destBuffer, int maxBytesToRead)
     }
 
     if (position < bufferStart || position >= lastReadPos)
-        if (! ensureBuffered())
-            return 0;
+        ensureBuffered();
 
     int bytesRead = 0;
 
@@ -165,10 +151,12 @@ int BufferedInputStream::read (void* destBuffer, int maxBytesToRead)
         }
 
         auto oldLastReadPos = lastReadPos;
+        ensureBuffered();
 
-        if (! ensureBuffered()
-             || oldLastReadPos == lastReadPos
-             || isExhausted())
+        if (oldLastReadPos == lastReadPos)
+            break; // if ensureBuffered() failed to read any more data, bail out
+
+        if (isExhausted())
             break;
     }
 

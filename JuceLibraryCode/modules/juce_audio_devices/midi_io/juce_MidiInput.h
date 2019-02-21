@@ -34,8 +34,6 @@ class MidiInput;
     class for more details.
 
     @see MidiInput
-
-    @tags{Audio}
 */
 class JUCE_API  MidiInputCallback
 {
@@ -86,8 +84,6 @@ public:
     available, and then use the openDevice() method to try to open one.
 
     @see MidiOutput
-
-    @tags{Audio}
 */
 class JUCE_API  MidiInput
 {

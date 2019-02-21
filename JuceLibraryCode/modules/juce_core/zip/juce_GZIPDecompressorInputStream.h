@@ -32,8 +32,6 @@ namespace juce
          BufferedInputStream, so that it has to read larger blocks less often.
 
     @see GZIPCompressorOutputStream
-
-    @tags{Core}
 */
 class JUCE_API  GZIPDecompressorInputStream  : public InputStream
 {
@@ -84,14 +82,14 @@ private:
     OptionalScopedPointer<InputStream> sourceStream;
     const int64 uncompressedStreamLength;
     const Format format;
-    bool isEof = false;
-    int activeBufferSize = 0;
-    int64 originalSourcePos, currentPos = 0;
+    bool isEof;
+    int activeBufferSize;
+    int64 originalSourcePos, currentPos;
     HeapBlock<uint8> buffer;
 
     class GZIPDecompressHelper;
     friend struct ContainerDeletePolicy<GZIPDecompressHelper>;
-    std::unique_ptr<GZIPDecompressHelper> helper;
+    ScopedPointer<GZIPDecompressHelper> helper;
 
    #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
     // The arguments to this method have changed! Please pass a Format enum instead of the old dontWrap bool.

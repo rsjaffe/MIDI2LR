@@ -177,7 +177,7 @@ namespace TimeHelpers
                 + t.tm_sec;
     }
 
-    static Atomic<uint32> lastMSCounterValue { (uint32) 0 };
+    static uint32 lastMSCounterValue = 0;
 }
 
 //==============================================================================
@@ -247,12 +247,12 @@ uint32 Time::getMillisecondCounter() noexcept
 {
     auto now = juce_millisecondsSinceStartup();
 
-    if (now < TimeHelpers::lastMSCounterValue.get())
+    if (now < TimeHelpers::lastMSCounterValue)
     {
         // in multi-threaded apps this might be called concurrently, so
         // make sure that our last counter value only increases and doesn't
         // go backwards..
-        if (now < TimeHelpers::lastMSCounterValue.get() - (uint32) 1000)
+        if (now < TimeHelpers::lastMSCounterValue - 1000)
             TimeHelpers::lastMSCounterValue = now;
     }
     else
@@ -265,8 +265,10 @@ uint32 Time::getMillisecondCounter() noexcept
 
 uint32 Time::getApproximateMillisecondCounter() noexcept
 {
-    auto t = TimeHelpers::lastMSCounterValue.get();
-    return t == 0 ? getMillisecondCounter() : t;
+    if (TimeHelpers::lastMSCounterValue == 0)
+        getMillisecondCounter();
+
+    return TimeHelpers::lastMSCounterValue;
 }
 
 void Time::waitForMillisecondCounter (uint32 targetTime) noexcept

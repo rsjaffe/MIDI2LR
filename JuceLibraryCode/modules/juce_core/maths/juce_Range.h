@@ -32,8 +32,6 @@ namespace juce
 
     The templated parameter is expected to be a primitive integer or floating point
     type, though class types could also be used if they behave in a number-like way.
-
-    @tags{Core}
 */
 template <typename ValueType>
 class Range

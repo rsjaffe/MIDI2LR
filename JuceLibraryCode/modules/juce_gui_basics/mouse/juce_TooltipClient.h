@@ -36,8 +36,6 @@ namespace juce
     the tooltip returned by its getTooltip() method.
 
     @see TooltipWindow, SettableTooltipClient
-
-    @tags{GUI}
 */
 class JUCE_API  TooltipClient
 {
@@ -58,12 +56,10 @@ public:
     This makes it easy to add a tooltip to a custom component, by simply adding this
     as a base class and calling setTooltip().
 
-    Many of the JUCE widgets already use this as a base class to implement their
+    Many of the Juce widgets already use this as a base class to implement their
     tooltips.
 
     @see TooltipClient, TooltipWindow
-
-    @tags{GUI}
 */
 class JUCE_API  SettableTooltipClient   : public TooltipClient
 {

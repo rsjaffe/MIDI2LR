@@ -48,15 +48,26 @@ MPENote::MPENote (int midiChannel_,
       noteOnVelocity (noteOnVelocity_),
       pitchbend (pitchbend_),
       pressure (pressure_),
-      initialTimbre (timbre_),
       timbre (timbre_),
+      noteOffVelocity (MPEValue::minValue()),
       keyState (keyState_)
 {
     jassert (keyState != MPENote::off);
     jassert (isValid());
 }
 
-MPENote::MPENote() noexcept {}
+MPENote::MPENote() noexcept
+    : noteID (0),
+      midiChannel (0),
+      initialNote (0),
+      noteOnVelocity (MPEValue::minValue()),
+      pitchbend (MPEValue::centreValue()),
+      pressure (MPEValue::centreValue()),
+      timbre (MPEValue::centreValue()),
+      noteOffVelocity (MPEValue::minValue()),
+      keyState (MPENote::off)
+{
+}
 
 //==============================================================================
 bool MPENote::isValid() const noexcept
@@ -67,7 +78,7 @@ bool MPENote::isValid() const noexcept
 //==============================================================================
 double MPENote::getFrequencyInHertz (double frequencyOfA) const noexcept
 {
-    auto pitchInSemitones = double (initialNote) + totalPitchbendInSemitones;
+    double pitchInSemitones = double (initialNote) + totalPitchbendInSemitones;
     return frequencyOfA * std::pow (2.0, (pitchInSemitones - 69.0) / 12.0);
 }
 

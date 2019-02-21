@@ -41,8 +41,6 @@ namespace juce
 
     It's currently used by the TableHeaderComponent for stretching out the table
     headings to fill the table's width.
-
-    @tags{GUI}
 */
 class StretchableObjectResizer
 {
@@ -69,7 +67,7 @@ public:
 
     /** Resizes all the items to fit this amount of space.
 
-        This will attempt to fit them in without exceeding each item's minimum and
+        This will attempt to fit them in without exceeding each item's miniumum and
         maximum sizes. In cases where none of the items can be expanded or enlarged any
         further, the final size may be greater or less than the size passed in.
 

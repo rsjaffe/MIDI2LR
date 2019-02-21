@@ -32,7 +32,7 @@ local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrView              = import 'LrView'
-local ParamList           = require 'ParamList'
+local Database            = require 'Database'
 
 --hidden 
 local DisplayOrder           = {'Temperature','Tint','Exposure','straightenAngle'}
@@ -52,8 +52,7 @@ end
 
 for k in pairs(ProgramPreferences.Limits) do
   if LimitParameters[k] then
-    ProgramPreferences.Limits[k]['label'] = ParamList.LimitEligible[k][1]
-    ProgramPreferences.Limits[k]['order'] = ParamList.LimitEligible[k][2]
+    ProgramPreferences.Limits[k]['label'] = Database.CmdTrans[k]
   else
     ProgramPreferences.Limits[k] = nil --erase unused
   end
@@ -94,8 +93,8 @@ local function GetMinMax(param)
         ProgramPreferences.Limits[param][rangemax] = {low, rangemax}
       end
     else
-      ProgramPreferences.Limits[param] = {param = param, label = ParamList.LimitEligible[param][1],
-        order = ParamList.LimitEligible[param][2], rangemax = {low,rangemax}}
+      ProgramPreferences.Limits[param] = {param = param, label = Database.CmdTrans[param],
+        rangemax = {low,rangemax}}
     end
   end
   return low, rangemax

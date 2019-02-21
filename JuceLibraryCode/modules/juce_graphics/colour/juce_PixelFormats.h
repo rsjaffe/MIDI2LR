@@ -53,8 +53,6 @@ inline uint32 clampPixelComponents (uint32 x) noexcept
     This is used internally by the imaging classes.
 
     @see PixelRGB
-
-    @tags{Graphics}
 */
 class JUCE_API  PixelARGB
 {
@@ -360,8 +358,6 @@ private:
     This is used internally by the imaging classes.
 
     @see PixelARGB
-
-    @tags{Graphics}
 */
 class JUCE_API  PixelRGB
 {
@@ -611,8 +607,6 @@ forcedinline void PixelARGB::blend (const PixelRGB src) noexcept
     This is used internally by the imaging classes.
 
     @see PixelARGB, PixelRGB
-
-    @tags{Graphics}
 */
 class JUCE_API  PixelAlpha
 {

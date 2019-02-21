@@ -28,9 +28,6 @@ extern HWND juce_messageWindowHandle;
 typedef bool (*CheckEventBlockedByModalComps) (const MSG&);
 CheckEventBlockedByModalComps isEventBlockedByModalComps = nullptr;
 
-typedef void (*SettingChangeCallbackFunc) (void);
-SettingChangeCallbackFunc settingChangeCallback = nullptr;
-
 //==============================================================================
 namespace WindowsMessageHelpers
 {
@@ -38,7 +35,7 @@ namespace WindowsMessageHelpers
     const unsigned int broadcastMessageMagicNumber = 0xc403;
 
     const TCHAR messageWindowName[] = _T("JUCEWindow");
-    std::unique_ptr<HiddenMessageWindow> messageWindow;
+    ScopedPointer<HiddenMessageWindow> messageWindow;
 
     void dispatchMessageFromLParam (LPARAM lParam)
     {
@@ -104,11 +101,6 @@ namespace WindowsMessageHelpers
                 handleBroadcastMessage (reinterpret_cast<const COPYDATASTRUCT*> (lParam));
                 return 0;
             }
-            else if (message == WM_SETTINGCHANGE)
-            {
-                if (settingChangeCallback != nullptr)
-                    settingChangeCallback();
-            }
         }
 
         return DefWindowProc (h, message, wParam, lParam);
@@ -141,7 +133,7 @@ bool MessageManager::dispatchNextMessageOnSystemQueue (const bool returnIfNoPend
         }
         else if (m.message == WM_QUIT)
         {
-            if (auto* app = JUCEApplicationBase::getInstance())
+            if (JUCEApplicationBase* const app = JUCEApplicationBase::getInstance())
                 app->systemRequestedQuit();
         }
         else if (isEventBlockedByModalComps == nullptr || ! isEventBlockedByModalComps (m))
@@ -199,7 +191,7 @@ void MessageManager::doPlatformSpecificInitialisation()
     OleInitialize (0);
 
     using namespace WindowsMessageHelpers;
-    messageWindow.reset (new HiddenMessageWindow (messageWindowName, (WNDPROC) messageWndProc));
+    messageWindow = new HiddenMessageWindow (messageWindowName, (WNDPROC) messageWndProc);
     juce_messageWindowHandle = messageWindow->getHWND();
 }
 
@@ -234,7 +226,7 @@ struct MountedVolumeListChangeDetector::Pimpl   : private DeviceChangeDetector
     Array<File> lastVolumeList;
 };
 
-MountedVolumeListChangeDetector::MountedVolumeListChangeDetector()  { pimpl.reset (new Pimpl (*this)); }
+MountedVolumeListChangeDetector::MountedVolumeListChangeDetector()  { pimpl = new Pimpl (*this); }
 MountedVolumeListChangeDetector::~MountedVolumeListChangeDetector() {}
 
 } // namespace juce

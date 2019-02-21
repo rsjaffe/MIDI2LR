@@ -30,11 +30,6 @@ static const char* killMessage  = "__ipc_k_";
 static const char* pingMessage  = "__ipc_p_";
 enum { specialMessageSize = 8, defaultTimeoutMs = 8000 };
 
-static inline bool isMessageType (const MemoryBlock& mb, const char* messageType) noexcept
-{
-    return mb.matches (messageType, (size_t) specialMessageSize);
-}
-
 static String getCommandLinePrefix (const String& commandLineUniqueID)
 {
     return "--" + commandLineUniqueID + ":";
@@ -49,6 +44,11 @@ struct ChildProcessPingThread  : public Thread,
     ChildProcessPingThread (int timeout)  : Thread ("IPC ping"), timeoutMs (timeout)
     {
         pingReceived();
+    }
+
+    static bool isPingMessage (const MemoryBlock& m) noexcept
+    {
+        return memcmp (m.getData(), pingMessage, specialMessageSize) == 0;
     }
 
     void pingReceived() noexcept            { countdown = timeoutMs / 1000 + 1; }
@@ -68,7 +68,7 @@ private:
     {
         while (! threadShouldExit())
         {
-            if (--countdown <= 0 || ! sendPingMessage ({ pingMessage, specialMessageSize }))
+            if (--countdown <= 0 || ! sendPingMessage (MemoryBlock (pingMessage, specialMessageSize)))
             {
                 triggerConnectionLostMessage();
                 break;
@@ -110,7 +110,7 @@ private:
     {
         pingReceived();
 
-        if (m.getSize() != specialMessageSize || ! isMessageType (m, pingMessage))
+        if (m.getSize() != specialMessageSize || ! isPingMessage (m))
             owner.handleMessageFromSlave (m);
     }
 
@@ -124,7 +124,12 @@ ChildProcessMaster::ChildProcessMaster() {}
 
 ChildProcessMaster::~ChildProcessMaster()
 {
-    killSlaveProcess();
+    if (connection != nullptr)
+    {
+        sendMessageToSlave (MemoryBlock (killMessage, specialMessageSize));
+        connection->disconnect();
+        connection = nullptr;
+    }
 }
 
 void ChildProcessMaster::handleConnectionLost() {}
@@ -138,45 +143,31 @@ bool ChildProcessMaster::sendMessageToSlave (const MemoryBlock& mb)
     return false;
 }
 
-bool ChildProcessMaster::launchSlaveProcess (const File& executable, const String& commandLineUniqueID,
-                                             int timeoutMs, int streamFlags)
+bool ChildProcessMaster::launchSlaveProcess (const File& executable, const String& commandLineUniqueID, int timeoutMs, int streamFlags)
 {
-    killSlaveProcess();
+    connection = nullptr;
+    jassert (childProcess.kill());
 
-    auto pipeName = "p" + String::toHexString (Random().nextInt64());
+    const String pipeName ("p" + String::toHexString (Random().nextInt64()));
 
     StringArray args;
     args.add (executable.getFullPathName());
     args.add (getCommandLinePrefix (commandLineUniqueID) + pipeName);
 
-    childProcess.reset (new ChildProcess());
-
-    if (childProcess->start (args, streamFlags))
+    if (childProcess.start (args, streamFlags))
     {
-        connection.reset (new Connection (*this, pipeName, timeoutMs <= 0 ? defaultTimeoutMs : timeoutMs));
+        connection = new Connection (*this, pipeName, timeoutMs <= 0 ? defaultTimeoutMs : timeoutMs);
 
         if (connection->isConnected())
         {
-            sendMessageToSlave ({ startMessage, specialMessageSize });
+            sendMessageToSlave (MemoryBlock (startMessage, specialMessageSize));
             return true;
         }
 
-        connection.reset();
+        connection = nullptr;
     }
 
     return false;
-}
-
-void ChildProcessMaster::killSlaveProcess()
-{
-    if (connection != nullptr)
-    {
-        sendMessageToSlave ({ killMessage, specialMessageSize });
-        connection->disconnect();
-        connection.reset();
-    }
-
-    childProcess.reset();
 }
 
 //==============================================================================
@@ -210,14 +201,23 @@ private:
     {
         pingReceived();
 
-        if (isMessageType (m, pingMessage))
-            return;
+        if (m.getSize() == specialMessageSize)
+        {
+            if (isPingMessage (m))
+                return;
 
-        if (isMessageType (m, killMessage))
-            return triggerConnectionLostMessage();
+            if (memcmp (m.getData(), killMessage, specialMessageSize) == 0)
+            {
+                triggerConnectionLostMessage();
+                return;
+            }
 
-        if (isMessageType (m, startMessage))
-            return owner.handleConnectionMade();
+            if (memcmp (m.getData(), startMessage, specialMessageSize) == 0)
+            {
+                owner.handleConnectionMade();
+                return;
+            }
+        }
 
         owner.handleMessageFromMaster (m);
     }
@@ -245,19 +245,19 @@ bool ChildProcessSlave::initialiseFromCommandLine (const String& commandLine,
                                                    const String& commandLineUniqueID,
                                                    int timeoutMs)
 {
-    auto prefix = getCommandLinePrefix (commandLineUniqueID);
+    String prefix (getCommandLinePrefix (commandLineUniqueID));
 
     if (commandLine.trim().startsWith (prefix))
     {
-        auto pipeName = commandLine.fromFirstOccurrenceOf (prefix, false, false)
-                                   .upToFirstOccurrenceOf (" ", false, false).trim();
+        String pipeName (commandLine.fromFirstOccurrenceOf (prefix, false, false)
+                                    .upToFirstOccurrenceOf (" ", false, false).trim());
 
         if (pipeName.isNotEmpty())
         {
-            connection.reset (new Connection (*this, pipeName, timeoutMs <= 0 ? defaultTimeoutMs : timeoutMs));
+            connection = new Connection (*this, pipeName, timeoutMs <= 0 ? defaultTimeoutMs : timeoutMs);
 
             if (! connection->isConnected())
-                connection.reset();
+                connection = nullptr;
         }
     }
 

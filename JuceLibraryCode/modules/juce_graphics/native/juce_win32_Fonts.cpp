@@ -364,14 +364,15 @@ public:
     {
         const CharPointer_UTF16 utf16 (text.toUTF16());
         const size_t numChars = utf16.length();
-        HeapBlock<uint16> results (numChars);
+        HeapBlock<int16> results (numChars + 1);
+        results[numChars] = -1;
         float x = 0;
 
         if (GetGlyphIndices (dc, utf16, (int) numChars, reinterpret_cast<WORD*> (results.getData()),
                              GGI_MARK_NONEXISTING_GLYPHS) != GDI_ERROR)
         {
             for (size_t i = 0; i < numChars; ++i)
-                x += getKerning (dc, results[i], (i + 1) < numChars ? results[i + 1] : -1);
+                x += getKerning (dc, results[i], results[i + 1]);
         }
 
         return x;
@@ -381,7 +382,8 @@ public:
     {
         const CharPointer_UTF16 utf16 (text.toUTF16());
         const size_t numChars = utf16.length();
-        HeapBlock<uint16> results (numChars);
+        HeapBlock<int16> results (numChars + 1);
+        results[numChars] = -1;
         float x = 0;
 
         if (GetGlyphIndices (dc, utf16, (int) numChars, reinterpret_cast<WORD*> (results.getData()),
@@ -394,7 +396,7 @@ public:
             {
                 resultGlyphs.add (results[i]);
                 xOffsets.add (x);
-                x += getKerning (dc, results[i], (i + 1) < numChars ? results[i + 1] : -1);
+                x += getKerning (dc, results[i], results[i + 1]);
             }
         }
 
@@ -626,7 +628,7 @@ Typeface::Ptr Typeface::createSystemTypefaceFor (const Font& font)
 
     if (factories->systemFonts != nullptr)
     {
-        std::unique_ptr<WindowsDirectWriteTypeface> wtf (new WindowsDirectWriteTypeface (font, factories->systemFonts));
+        ScopedPointer<WindowsDirectWriteTypeface> wtf (new WindowsDirectWriteTypeface (font, factories->systemFonts));
 
         if (wtf->loadedOk())
             return wtf.release();

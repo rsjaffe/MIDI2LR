@@ -26,7 +26,7 @@ namespace juce
 class WinRTWrapper :   public DeletedAtShutdown
 {
 public:
-    JUCE_DECLARE_SINGLETON (WinRTWrapper, true)
+    juce_DeclareSingleton (WinRTWrapper, true)
 
     class ScopedHString
     {
@@ -60,8 +60,6 @@ public:
     {
         if (winRTHandle != nullptr)
             ::FreeLibrary (winRTHandle);
-
-        clearSingletonInstance();
     }
 
     String hStringToString (HSTRING hstr)

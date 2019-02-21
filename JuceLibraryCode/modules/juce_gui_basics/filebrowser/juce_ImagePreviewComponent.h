@@ -32,8 +32,6 @@ namespace juce
     A simple preview component that shows thumbnails of image files.
 
     @see FileChooserDialogBox, FilePreviewComponent
-
-    @tags{GUI}
 */
 class JUCE_API  ImagePreviewComponent  : public FilePreviewComponent,
                                          private Timer

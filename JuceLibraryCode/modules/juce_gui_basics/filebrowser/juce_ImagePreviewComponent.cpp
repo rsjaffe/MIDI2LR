@@ -66,7 +66,7 @@ void ImagePreviewComponent::timerCallback()
     currentDetails.clear();
     repaint();
 
-    std::unique_ptr<FileInputStream> in (fileToLoad.createInputStream());
+    ScopedPointer<FileInputStream> in (fileToLoad.createInputStream());
 
     if (in != nullptr && in->getFile().existsAsFile())
     {

@@ -34,6 +34,5 @@ void ComponentListener::componentChildrenChanged (Component&)               {}
 void ComponentListener::componentParentHierarchyChanged (Component&)        {}
 void ComponentListener::componentNameChanged (Component&)                   {}
 void ComponentListener::componentBeingDeleted (Component&)                  {}
-void ComponentListener::componentEnablementChanged (Component&)             {}
 
 } // namespace juce

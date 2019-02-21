@@ -90,14 +90,13 @@ struct TabbedComponent::ButtonBar  : public TabbedButtonBar
 //==============================================================================
 TabbedComponent::TabbedComponent (const TabbedButtonBar::Orientation orientation)
 {
-    tabs.reset (new ButtonBar (*this, orientation));
-    addAndMakeVisible (tabs.get());
+    addAndMakeVisible (tabs = new ButtonBar (*this, orientation));
 }
 
 TabbedComponent::~TabbedComponent()
 {
     clearTabs();
-    tabs.reset();
+    tabs = nullptr;
 }
 
 //==============================================================================

@@ -34,8 +34,6 @@ namespace juce
 
     Each section has its own header bar which can be dragged up and down
     to resize it, or double-clicked to fully expand that section.
-
-    @tags{GUI}
 */
 class JUCE_API  ConcertinaPanel   : public Component
 {
@@ -130,7 +128,7 @@ private:
     friend struct ContainerDeletePolicy<PanelSizes>;
     friend struct ContainerDeletePolicy<PanelHolder>;
 
-    std::unique_ptr<PanelSizes> currentSizes;
+    ScopedPointer<PanelSizes> currentSizes;
     OwnedArray<PanelHolder> holders;
     ComponentAnimator animator;
     int headerHeight;

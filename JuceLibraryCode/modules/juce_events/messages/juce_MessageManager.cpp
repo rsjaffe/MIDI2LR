@@ -27,12 +27,12 @@ MessageManager::MessageManager() noexcept
   : messageThreadId (Thread::getCurrentThreadId())
 {
     if (JUCEApplicationBase::isStandaloneApp())
-        Thread::setCurrentThreadName ("JUCE Message Thread");
+        Thread::setCurrentThreadName ("Juce Message Thread");
 }
 
 MessageManager::~MessageManager() noexcept
 {
-    broadcaster.reset();
+    broadcaster = nullptr;
 
     doPlatformSpecificShutdown();
 
@@ -68,7 +68,7 @@ bool MessageManager::MessageBase::post()
 {
     auto* mm = MessageManager::instance;
 
-    if (mm == nullptr || mm->quitMessagePosted.get() != 0 || ! postMessageToSystemQueue (this))
+    if (mm == nullptr || mm->quitMessagePosted || ! postMessageToSystemQueue (this))
     {
         Ptr deleter (this); // (this will delete messages that were just created with a 0 ref count)
         return false;
@@ -83,9 +83,9 @@ bool MessageManager::runDispatchLoopUntil (int millisecondsToRunFor)
 {
     jassert (isThisTheMessageThread()); // must only be called by the message thread
 
-    auto endTime = Time::currentTimeMillis() + millisecondsToRunFor;
+    const int64 endTime = Time::currentTimeMillis() + millisecondsToRunFor;
 
-    while (quitMessageReceived.get() == 0)
+    while (! quitMessageReceived)
     {
         JUCE_TRY
         {
@@ -98,7 +98,7 @@ bool MessageManager::runDispatchLoopUntil (int millisecondsToRunFor)
             break;
     }
 
-    return quitMessageReceived.get() == 0;
+    return ! quitMessageReceived;
 }
 #endif
 
@@ -121,7 +121,7 @@ void MessageManager::runDispatchLoop()
 {
     jassert (isThisTheMessageThread()); // must only be called by the message thread
 
-    while (quitMessageReceived.get() == 0)
+    while (! quitMessageReceived)
     {
         JUCE_TRY
         {
@@ -155,7 +155,7 @@ public:
     }
 
     WaitableEvent finished;
-    std::atomic<void*> result { nullptr };
+    void* volatile result = nullptr;
 
 private:
     MessageCallbackFunction* const func;
@@ -177,7 +177,7 @@ void* MessageManager::callFunctionOnMessageThread (MessageCallbackFunction* cons
     if (message->post())
     {
         message->finished.wait();
-        return message->result.load();
+        return message->result;
     }
 
     jassertfalse; // the OS message queue failed to send the message!
@@ -194,7 +194,7 @@ void MessageManager::deliverBroadcastMessage (const String& value)
 void MessageManager::registerBroadcastListener (ActionListener* const listener)
 {
     if (broadcaster == nullptr)
-        broadcaster.reset (new ActionBroadcaster());
+        broadcaster = new ActionBroadcaster();
 
     broadcaster->addActionListener (listener);
 }
@@ -213,7 +213,7 @@ bool MessageManager::isThisTheMessageThread() const noexcept
 
 void MessageManager::setCurrentThreadAsMessageThread()
 {
-    auto thisThread = Thread::getCurrentThreadId();
+    const Thread::ThreadID thisThread = Thread::getCurrentThreadId();
 
     if (messageThreadId != thisThread)
     {
@@ -227,7 +227,7 @@ void MessageManager::setCurrentThreadAsMessageThread()
 
 bool MessageManager::currentThreadHasLockedMessageManager() const noexcept
 {
-    auto thisThread = Thread::getCurrentThreadId();
+    const Thread::ThreadID thisThread = Thread::getCurrentThreadId();
     return thisThread == messageThreadId || thisThread == threadWithLock.get();
 }
 

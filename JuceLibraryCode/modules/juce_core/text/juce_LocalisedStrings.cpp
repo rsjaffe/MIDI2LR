@@ -44,7 +44,7 @@ LocalisedStrings& LocalisedStrings::operator= (const LocalisedStrings& other)
     languageName = other.languageName;
     countryCodes = other.countryCodes;
     translations = other.translations;
-    fallback.reset (createCopyIfNotNull (other.fallback.get()));
+    fallback = createCopyIfNotNull (other.fallback.get());
     return *this;
 }
 
@@ -81,7 +81,7 @@ namespace
     {
         LeakAvoidanceTrick()
         {
-            const std::unique_ptr<LocalisedStrings> dummy (new LocalisedStrings (String(), false));
+            const ScopedPointer<LocalisedStrings> dummy (new LocalisedStrings (String(), false));
         }
     };
 
@@ -89,7 +89,7 @@ namespace
    #endif
 
     SpinLock currentMappingsLock;
-    std::unique_ptr<LocalisedStrings> currentMappings;
+    ScopedPointer<LocalisedStrings> currentMappings;
 
     static int findCloseQuote (const String& text, int startPos)
     {
@@ -171,19 +171,19 @@ void LocalisedStrings::addStrings (const LocalisedStrings& other)
 
 void LocalisedStrings::setFallback (LocalisedStrings* f)
 {
-    fallback.reset (f);
+    fallback = f;
 }
 
 //==============================================================================
 void LocalisedStrings::setCurrentMappings (LocalisedStrings* newTranslations)
 {
     const SpinLock::ScopedLockType sl (currentMappingsLock);
-    currentMappings.reset (newTranslations);
+    currentMappings = newTranslations;
 }
 
 LocalisedStrings* LocalisedStrings::getCurrentMappings()
 {
-    return currentMappings.get();
+    return currentMappings;
 }
 
 String LocalisedStrings::translateWithCurrentMappings (const String& text)  { return juce::translate (text); }

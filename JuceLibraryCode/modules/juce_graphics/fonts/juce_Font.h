@@ -36,8 +36,6 @@ namespace juce
     horizontal scale factor.
 
     @see Typeface
-
-    @tags{Graphics}
 */
 class JUCE_API  Font  final
 {

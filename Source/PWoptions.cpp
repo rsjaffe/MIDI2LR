@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.3.2
+  Created with Projucer version: 4.3.0
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -39,11 +39,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <gsl/gsl>
+#include "PWoptions.h"
 #include "ControlsModel.h"
 using namespace juce;
 //[/Headers]
 
-#include "PWoptions.h"
+
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
@@ -91,16 +92,7 @@ PWoptions::PWoptions()
 
    label2->setBounds(32, 112, 150, 24); //-V112
 
-   maxval.reset(new TextEditor("maxval"));
-   addAndMakeVisible(maxval.get());
-   maxval->setExplicitFocusOrder(2);
-   maxval->setMultiLine(false);
-   maxval->setReturnKeyStartsNewLine(false);
-   maxval->setReadOnly(false);
-   maxval->setScrollbarsShown(true);
-   maxval->setCaretVisible(true);
-   maxval->setPopupMenuEnabled(true);
-   maxval->setText(TRANS("16383"));
+    setSize(280, 350);
 
    maxval->setBounds(32, 144, 150, 24); //-V112
 
@@ -129,58 +121,61 @@ PWoptions::PWoptions()
 
 PWoptions::~PWoptions()
 {
-   //[Destructor_pre]. You can add your own custom destruction code here..
-   //[/Destructor_pre]
+    //[Destructor_pre]. You can add your own custom destruction code here..
+    //[/Destructor_pre]
 
-   label = nullptr;
-   minval = nullptr;
-   label2 = nullptr;
-   maxval = nullptr;
-   label3 = nullptr;
+    label = nullptr;
+    minval = nullptr;
+    label2 = nullptr;
+    maxval = nullptr;
+    label3 = nullptr;
 
-   //[Destructor]. You can add your own custom destruction code here..
-   //[/Destructor]
+    //[Destructor]. You can add your own custom destruction code here..
+    //[/Destructor]
 }
 
 //==============================================================================
 void PWoptions::paint(Graphics& g)
 {
-   //[UserPrePaint] Add your own custom painting code here..
-   //[/UserPrePaint]
+    //[UserPrePaint] Add your own custom painting code here..
+    //[/UserPrePaint]
 
-   g.fillAll(Colours::white);
+    g.fillAll(Colours::white);
 
-   //[UserPaint] Add your own custom painting code here..
-   //[/UserPaint]
+    //[UserPaint] Add your own custom painting code here..
+    //[/UserPaint]
 }
 
 void PWoptions::resized()
 {
-   //[UserPreResize] Add your own custom resize code here..
-   //[/UserPreResize]
+    //[UserPreResize] Add your own custom resize code here..
+    //[/UserPreResize]
 
-   //[UserResized] Add your own custom resize handling here..
-   //[/UserResized]
+    label->setBounds(32, 48, 150, 24); //-V112
+    minval->setBounds(32, 80, 150, 24); //-V112
+    label2->setBounds(32, 112, 150, 24); //-V112
+    maxval->setBounds(32, 144, 150, 24); //-V112
+    label3->setBounds(32, 16, 150, 24); //-V112
+    //[UserResized] Add your own custom resize handling here..
+    //[/UserResized]
 }
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void PWoptions::textEditorFocusLost(TextEditor& t)
 {
-   const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
-   const auto& nam = t.getName();
-   if (nam == "minval")
-      controls_model_->SetPwMin(boundchannel_, val);
-   else if (nam == "maxval")
-      controls_model_->SetPwMax(boundchannel_, val);
+    const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
+    const auto nam = t.getName();
+    if (nam=="minval")
+        controls_model_->SetPwMin(boundchannel_, val);
+    else if (nam=="maxval")
+        controls_model_->SetPwMax(boundchannel_, val);
 }
 
 void PWoptions::BindToControl(size_t channel)
 {
-   boundchannel_ = channel;
-   minval->setText(
-       juce::String(controls_model_->GetPwMin(boundchannel_)), juce::dontSendNotification);
-   maxval->setText(
-       juce::String(controls_model_->GetPwMax(boundchannel_)), juce::dontSendNotification);
+    boundchannel_ = channel;
+    minval->setText(juce::String(controls_model_->GetPwMin(boundchannel_)), juce::dontSendNotification);
+    maxval->setText(juce::String(controls_model_->GetPwMax(boundchannel_)), juce::dontSendNotification);
 }
 //[/MiscUserCode]
 
@@ -203,8 +198,7 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="32 48 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Minimum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
-         bold="0" italic="0" justification="33"/>
+         fontsize="15" bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="minval" id="7a25d92146885d49" memberName="minval" virtualName=""
               explicitFocusOrder="1" pos="32 80 150 24" initialText="0" multiline="0"
               retKeyStartsLine="0" readonly="0" scrollbars="1" caret="1" popupmenu="1"/>
@@ -212,8 +206,7 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="32 112 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Maximum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
-         bold="0" italic="0" justification="33"/>
+         fontsize="15" bold="0" italic="0" justification="33"/>
   <TEXTEDITOR name="maxval" id="747392110d105b58" memberName="maxval" virtualName=""
               explicitFocusOrder="2" pos="32 144 150 24" initialText="16383"
               multiline="0" retKeyStartsLine="0" readonly="0" scrollbars="1"
@@ -222,8 +215,7 @@ BEGIN_JUCER_METADATA
          explicitFocusOrder="0" pos="32 16 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Pitch Wheel" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
-         bold="0" italic="0" justification="33"/>
+         fontsize="15" bold="0" italic="0" justification="33"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

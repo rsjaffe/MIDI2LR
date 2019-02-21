@@ -35,8 +35,6 @@ namespace juce
     more than one SynthesiserVoice to play the same sound at the same time.
 
     @see Synthesiser, SynthesiserVoice
-
-    @tags{Audio}
 */
 class JUCE_API  SynthesiserSound    : public ReferenceCountedObject
 {
@@ -64,7 +62,7 @@ public:
     virtual bool appliesToChannel (int midiChannel) = 0;
 
     /** The class is reference-counted, so this is a handy pointer class for it. */
-    using Ptr = ReferenceCountedObjectPtr<SynthesiserSound>;
+    typedef ReferenceCountedObjectPtr<SynthesiserSound> Ptr;
 
 
 private:
@@ -81,8 +79,6 @@ private:
     voices so that it can play polyphonically.
 
     @see Synthesiser, SynthesiserSound
-
-    @tags{Audio}
 */
 class JUCE_API  SynthesiserVoice
 {
@@ -306,8 +302,6 @@ private:
     Before rendering, be sure to call the setCurrentPlaybackSampleRate() to tell it
     what the target playback rate is. This value is passed on to the voices so that
     they can pitch their output correctly.
-
-    @tags{Audio}
 */
 class JUCE_API  Synthesiser
 {
@@ -529,17 +523,13 @@ public:
                                  const MidiBuffer& inputMidi,
                                  int startSample,
                                  int numSamples)
-    {
-        processNextBlock (outputAudio, inputMidi, startSample, numSamples);
-    }
+        { processNextBlock (outputAudio, inputMidi, startSample, numSamples); }
 
     inline void renderNextBlock (AudioBuffer<double>& outputAudio,
                                  const MidiBuffer& inputMidi,
                                  int startSample,
                                  int numSamples)
-    {
-        processNextBlock (outputAudio, inputMidi, startSample, numSamples);
-    }
+        { processNextBlock (outputAudio, inputMidi, startSample, numSamples); }
 
     /** Returns the current target sample rate at which rendering is being done.
         Subclasses may need to know this so that they can pitch things correctly.

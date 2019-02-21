@@ -32,8 +32,6 @@ namespace juce
     is to keep some static Identifier objects for the things you use often.
 
     @see NamedValueSet, ValueTree
-
-    @tags{Core}
 */
 class JUCE_API  Identifier  final
 {

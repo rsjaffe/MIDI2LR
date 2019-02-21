@@ -36,7 +36,6 @@ namespace juce
    under the GPL v3 license.
 
    End User License Agreement: www.juce.com/juce-5-licence
-
   ==============================================================================
 */
 
@@ -73,18 +72,15 @@ struct ReportingThread;
 struct ReportingThreadContainer  : public ChangeListener,
                                    public DeletedAtShutdown
 {
-    ReportingThreadContainer() {}
-    ~ReportingThreadContainer() { clearSingletonInstance(); }
-
     void sendReport (String, String&, StringPairArray&);
     void changeListenerCallback (ChangeBroadcaster*) override;
 
-    std::unique_ptr<ReportingThread> reportingThread;
+    ScopedPointer<ReportingThread> reportingThread;
 
-    JUCE_DECLARE_SINGLETON_SINGLETHREADED_MINIMAL (ReportingThreadContainer)
+    juce_DeclareSingleton_SingleThreaded_Minimal (ReportingThreadContainer)
 };
 
-JUCE_IMPLEMENT_SINGLETON (ReportingThreadContainer)
+juce_ImplementSingleton_SingleThreaded (ReportingThreadContainer)
 
 //==============================================================================
 struct ReportingThread  : public Thread,
@@ -121,7 +117,7 @@ struct ReportingThread  : public Thread,
 
     void run() override
     {
-        webStream.reset (new WebInputStream (url, true));
+        webStream = new WebInputStream (url, true);
         webStream->withExtraHeaders (headers);
         webStream->connect (nullptr);
 
@@ -132,19 +128,20 @@ private:
     ReportingThreadContainer& threadContainer;
     URL url;
     String headers;
-    std::unique_ptr<WebInputStream> webStream;
+    ScopedPointer<WebInputStream> webStream;
 };
 
 //==============================================================================
 void ReportingThreadContainer::sendReport (String address, String& userAgent, StringPairArray& parameters)
 {
-    reportingThread.reset (new ReportingThread (*this, address, userAgent, parameters));
+    reportingThread = new ReportingThread (*this, address, userAgent, parameters);
+
     reportingThread->startThread();
 }
 
 void ReportingThreadContainer::changeListenerCallback (ChangeBroadcaster*)
 {
-    reportingThread.reset();
+    reportingThread = nullptr;
 }
 
 //==============================================================================
@@ -257,7 +254,7 @@ JUCESplashScreen::~JUCESplashScreen()
 {
 }
 
-std::unique_ptr<Drawable> JUCESplashScreen::getSplashScreenLogo()
+Drawable* JUCESplashScreen::getSplashScreenLogo()
 {
     const char* svgData = R"JUCESPLASHSCREEN(
       <?xml version="1.0" encoding="UTF-8"?>
@@ -294,8 +291,8 @@ std::unique_ptr<Drawable> JUCESplashScreen::getSplashScreenLogo()
     </svg>
     )JUCESPLASHSCREEN";
 
-    std::unique_ptr<XmlElement> svgXml (XmlDocument::parse (svgData));
-    return std::unique_ptr<Drawable> (Drawable::createFromSVG (*svgXml));
+    ScopedPointer<XmlElement> svgXml (XmlDocument::parse (svgData));
+    return Drawable::createFromSVG (*svgXml);
 }
 
 void JUCESplashScreen::paint (Graphics& g)
@@ -350,10 +347,7 @@ void JUCESplashScreen::parentHierarchyChanged()
 
 bool JUCESplashScreen::hitTest (int x, int y)
 {
-    if (! hasStartedFading)
-        return getLogoArea (getLocalBounds().toFloat()).contains ((float) x, (float) y);
-
-    return false;
+    return getLogoArea (getLocalBounds().toFloat()).contains ((float) x, (float) y);
 }
 
 void JUCESplashScreen::mouseUp (const MouseEvent&)

@@ -36,8 +36,6 @@ namespace juce
     only for power-users!
 
     @see Component::setCachedComponentImage
-
-    @tags{GUI}
 */
 class JUCE_API  CachedComponentImage
 {

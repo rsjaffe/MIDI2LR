@@ -35,8 +35,6 @@ namespace juce
     gets key events. See the Component::addListener method for more details.
 
     @see KeyPress, Component::addKeyListener, KeyPressMappingSet
-
-    @tags{GUI}
 */
 class JUCE_API  KeyListener
 {

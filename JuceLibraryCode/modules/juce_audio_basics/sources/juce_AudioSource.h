@@ -26,8 +26,6 @@ namespace juce
 //==============================================================================
 /**
     Used by AudioSource::getNextAudioBlock().
-
-    @tags{Audio}
 */
 struct JUCE_API  AudioSourceChannelInfo
 {
@@ -37,7 +35,7 @@ struct JUCE_API  AudioSourceChannelInfo
     }
 
     /** Creates an AudioSourceChannelInfo. */
-    AudioSourceChannelInfo (AudioBuffer<float>* bufferToUse,
+    AudioSourceChannelInfo (AudioSampleBuffer* bufferToUse,
                             int startSampleOffset, int numSamplesToUse) noexcept
         : buffer (bufferToUse),
           startSample (startSampleOffset),
@@ -49,7 +47,7 @@ struct JUCE_API  AudioSourceChannelInfo
         Note that the buffer provided must not be deleted while the
         AudioSourceChannelInfo is still using it.
     */
-    explicit AudioSourceChannelInfo (AudioBuffer<float>& bufferToUse) noexcept
+    explicit AudioSourceChannelInfo (AudioSampleBuffer& bufferToUse) noexcept
         : buffer (&bufferToUse),
           startSample (0),
           numSamples (bufferToUse.getNumSamples())
@@ -72,7 +70,7 @@ struct JUCE_API  AudioSourceChannelInfo
         The number of channels in the buffer could be anything, so the AudioSource
         must cope with this in whatever way is appropriate for its function.
     */
-    AudioBuffer<float>* buffer;
+    AudioSampleBuffer* buffer;
 
     /** The first sample in the buffer from which the callback is expected
         to write data. */
@@ -105,8 +103,6 @@ struct JUCE_API  AudioSourceChannelInfo
     back into an 'unprepared' state.
 
     @see AudioFormatReaderSource, ResamplingAudioSource
-
-    @tags{Audio}
 */
 class JUCE_API  AudioSource
 {

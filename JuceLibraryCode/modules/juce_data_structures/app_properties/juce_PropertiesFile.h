@@ -40,8 +40,6 @@ namespace juce
     with it, and these will be signalled when a value changes.
 
     @see PropertySet
-
-    @tags{DataStructures}
 */
 class JUCE_API  PropertiesFile  : public PropertySet,
                                   public ChangeBroadcaster,
@@ -57,7 +55,6 @@ public:
     };
 
     //==============================================================================
-    /** Structure describing properties file options */
     struct JUCE_API  Options
     {
         /** Creates an empty Options structure.
@@ -237,9 +234,9 @@ private:
     //==============================================================================
     File file;
     Options options;
-    bool loadedOk = false, needsWriting = false;
+    bool loadedOk, needsWriting;
 
-    using ProcessScopedLock = const std::unique_ptr<InterProcessLock::ScopedLockType>;
+    typedef const ScopedPointer<InterProcessLock::ScopedLockType> ProcessScopedLock;
     InterProcessLock::ScopedLockType* createProcessLock() const;
 
     void timerCallback() override;
@@ -248,7 +245,6 @@ private:
     bool loadAsXml();
     bool loadAsBinary();
     bool loadAsBinary (InputStream&);
-    bool writeToStream (OutputStream&);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PropertiesFile)
 };

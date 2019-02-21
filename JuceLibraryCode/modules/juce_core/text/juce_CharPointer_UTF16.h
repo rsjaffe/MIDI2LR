@@ -28,16 +28,14 @@ namespace juce
     Wraps a pointer to a null-terminated UTF-16 character string, and provides
     various methods to operate on the data.
     @see CharPointer_UTF8, CharPointer_UTF32
-
-    @tags{Core}
 */
 class CharPointer_UTF16  final
 {
 public:
    #if JUCE_NATIVE_WCHAR_IS_UTF16
-    using CharType = wchar_t;
+    typedef wchar_t CharType;
    #else
-    using CharType = int16;
+    typedef int16 CharType;
    #endif
 
     inline explicit CharPointer_UTF16 (const CharType* rawPointer) noexcept

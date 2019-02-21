@@ -39,8 +39,6 @@ namespace juce
     bars).
 
     @see Toolbar, ToolbarItemComponent, ToolbarButton
-
-    @tags{GUI}
 */
 class JUCE_API  ToolbarItemFactory
 {

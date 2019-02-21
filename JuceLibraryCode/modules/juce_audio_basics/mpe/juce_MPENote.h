@@ -33,26 +33,23 @@ namespace juce
     MPEValue objects.
 
     @see MPEValue
-
-    @tags{Audio}
 */
 struct JUCE_API  MPENote
 {
     //==============================================================================
-    /** Possible values for the note key state. */
     enum KeyState
     {
-        off                  = 0, /**< The key is up (off). */
-        keyDown              = 1, /**< The note key is currently down (pressed). */
-        sustained            = 2, /**< The note is sustained (by a sustain or sostenuto pedal). */
-        keyDownAndSustained  = 3  /**< The note key is down and sustained (by a sustain or sostenuto pedal). */
+        off                  = 0,
+        keyDown              = 1,
+        sustained            = 2,
+        keyDownAndSustained  = 3
     };
 
     //==============================================================================
     /** Constructor.
 
-        @param midiChannel    The MIDI channel of the note, between 2 and 15.
-                              (Channel 1 and channel 16 can never be note channels in MPE).
+        @param midiChannel    The MIDI channel of the note, between 2 and 16.
+                              (Channel 1 can never be a note channel in MPE).
 
         @param initialNote    The MIDI note number, between 0 and 127.
 
@@ -67,7 +64,7 @@ struct JUCE_API  MPENote
         @param keyState       The key state of the note (whether the key is down
                               and/or the note is sustained). This value must not
                               be MPENote::off, since you are triggering a new note.
-                              (If not specified, the default value will be MPENote::keyDown.)
+                              (If not specified, the default value will be MPENOte::keyDown.)
     */
     MPENote (int midiChannel,
              int initialNote,
@@ -95,17 +92,17 @@ struct JUCE_API  MPENote
         sounding notes that may use the same note number or MIDI channel.
         This should never change during the lifetime of a note object.
     */
-    uint16 noteID = 0;
+    uint16 noteID;
 
     /** The MIDI channel which this note uses.
         This should never change during the lifetime of an MPENote object.
     */
-    uint8 midiChannel = 0;
+    uint8 midiChannel;
 
     /** The MIDI note number that was sent when the note was triggered.
         This should never change during the lifetime of an MPENote object.
     */
-    uint8 initialNote = 0;
+    uint8 initialNote;
 
     //==============================================================================
     // The five dimensions of continuous expressive control
@@ -113,7 +110,7 @@ struct JUCE_API  MPENote
     /** The velocity ("strike") of the note-on.
         This dimension will stay constant after the note has been turned on.
     */
-    MPEValue noteOnVelocity  { MPEValue::minValue() };
+    MPEValue noteOnVelocity;
 
     /** Current per-note pitchbend of the note  (in units of MIDI pitchwheel
         position). This dimension can be modulated while the note sounds.
@@ -125,31 +122,26 @@ struct JUCE_API  MPENote
 
         @see totalPitchbendInSemitones, getFrequencyInHertz
     */
-    MPEValue pitchbend       { MPEValue::centreValue() };
+    MPEValue pitchbend;
 
     /** Current pressure with which the note is held down.
         This dimension can be modulated while the note sounds.
     */
-    MPEValue pressure        { MPEValue::centreValue() };
+    MPEValue pressure;
 
-    /** Inital value of timbre when the note was triggered.
-        This should never change during the lifetime of an MPENote object.
-    */
-    MPEValue initialTimbre   { MPEValue::centreValue() };
-
-    /** Current value of the note's third expressive dimension, typically
-        encoding some kind of timbre parameter.
+    /** Current value of the note's third expressive dimension, tyically
+         encoding some kind of timbre parameter.
         This dimension can be modulated while the note sounds.
     */
-    MPEValue timbre          { MPEValue::centreValue() };
+    MPEValue timbre;
 
     /** The release velocity ("lift") of the note after a note-off has been
         received.
         This dimension will only have a meaningful value after a note-off has
         been received for the note (and keyState is set to MPENote::off or
-        MPENote::sustained). Initially, the value is undefined.
+        MPENOte::sustained). Initially, the value is undefined.
     */
-    MPEValue noteOffVelocity { MPEValue::minValue() };
+    MPEValue noteOffVelocity;
 
     //==============================================================================
     /** Current effective pitchbend of the note in units of semitones, relative
@@ -166,10 +158,10 @@ struct JUCE_API  MPENote
     /** Current key state. Indicates whether the note key is currently down (pressed)
         and/or the note is sustained (by a sustain or sostenuto pedal).
     */
-    KeyState keyState        { MPENote::off };
+    KeyState keyState;
 
     //==============================================================================
-    /** Returns the current frequency of the note in Hertz. This is the sum of
+    /** Returns the current frequency of the note in Hertz. This is the a sum of
         the initialNote and the totalPitchbendInSemitones, converted to Hertz.
     */
     double getFrequencyInHertz (double frequencyOfA = 440.0) const noexcept;

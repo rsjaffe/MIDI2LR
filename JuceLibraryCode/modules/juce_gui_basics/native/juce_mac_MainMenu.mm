@@ -56,10 +56,10 @@ struct JuceMainMenuBarHolder : private DeletedAtShutdown
 
     NSMenu* mainMenuBar = nil;
 
-    JUCE_DECLARE_SINGLETON_SINGLETHREADED (JuceMainMenuBarHolder, true)
+    juce_DeclareSingleton_SingleThreaded (JuceMainMenuBarHolder, true)
 };
 
-JUCE_IMPLEMENT_SINGLETON (JuceMainMenuBarHolder)
+juce_ImplementSingleton_SingleThreaded (JuceMainMenuBarHolder)
 
 //==============================================================================
 class JuceMainMenuHandler   : private MenuBarModel::Listener,
@@ -102,7 +102,7 @@ public:
             menuBarItemsChanged (nullptr);
         }
 
-        extraAppleMenuItems.reset (createCopyIfNotNull (newExtraAppleMenuItems));
+        extraAppleMenuItems = createCopyIfNotNull (newExtraAppleMenuItems);
     }
 
     void addTopLevelMenu (NSMenu* parent, const PopupMenu& child, const String& name, int menuId, int topLevelIndex)
@@ -143,17 +143,14 @@ public:
         auto menuNames = currentModel->getMenuBarNames();
         auto indexOfMenu = (int) [superMenu indexOfItemWithSubmenu: menu] - 1;
 
-        if (indexOfMenu >= 0)
-        {
-            removeItemRecursive (menu);
+        removeItemRecursive (menu);
 
-            auto updatedPopup = currentModel->getMenuForIndex (indexOfMenu, menuNames[indexOfMenu]);
+        auto updatedPopup = currentModel->getMenuForIndex (indexOfMenu, menuNames[indexOfMenu]);
 
-            for (PopupMenu::MenuItemIterator iter (updatedPopup); iter.next();)
-                addMenuItem (iter, menu, 1, indexOfMenu);
+        for (PopupMenu::MenuItemIterator iter (updatedPopup); iter.next();)
+            addMenuItem (iter, menu, 1, indexOfMenu);
 
-            [menu update];
-        }
+        [menu update];
     }
 
     void menuBarItemsChanged (MenuBarModel*) override
@@ -212,7 +209,7 @@ public:
                 item.commandManager->invoke (info, true);
             }
 
-            MessageManager::callAsync ([=]
+            MessageManager::callAsync ([=]()
             {
                 if (instance != nullptr)
                     instance->invokeDirectly (item.itemID, topLevelIndex);
@@ -252,7 +249,7 @@ public:
             if (i.text == recentItemsMenuName)
             {
                 if (recent == nullptr)
-                    recent.reset (new RecentFilesMenuItem());
+                    recent = new RecentFilesMenuItem();
 
                 if (recent->recentItem != nil)
                 {
@@ -345,7 +342,7 @@ public:
     static JuceMainMenuHandler* instance;
 
     MenuBarModel* currentModel = nullptr;
-    std::unique_ptr<PopupMenu> extraAppleMenuItems;
+    ScopedPointer<PopupMenu> extraAppleMenuItems;
     uint32 lastUpdateTime = 0;
     NSObject* callback = nil;
     String recentItemsMenuName;
@@ -403,7 +400,7 @@ private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RecentFilesMenuItem)
     };
 
-    std::unique_ptr<RecentFilesMenuItem> recent;
+    ScopedPointer<RecentFilesMenuItem> recent;
 
     //==============================================================================
     static NSMenuItem* findMenuItemWithCommandID (NSMenu* const menu, int commandID)
@@ -576,7 +573,7 @@ public:
         : oldMenu (MenuBarModel::getMacMainMenu())
     {
         if (auto* appleMenu = MenuBarModel::getMacExtraAppleItemsMenu())
-            oldAppleMenu.reset (new PopupMenu (*appleMenu));
+            oldAppleMenu = new PopupMenu (*appleMenu);
 
         if (auto* handler = JuceMainMenuHandler::instance)
             oldRecentItems = handler->recentItemsMenuName;
@@ -603,8 +600,6 @@ public:
             [menu addItem: item];
             [item release];
 
-            editMenuIndex = [mainMenu numberOfItems];
-
             item = [mainMenu addItemWithTitle: NSLocalizedString (nsStringLiteral ("Edit"), nil)
                                        action: nil  keyEquivalent: nsEmptyString()];
             [mainMenu setSubmenu: menu forItem: item];
@@ -617,17 +612,13 @@ public:
 
     ~TemporaryMainMenuWithStandardCommands()
     {
-        if (auto* mainMenu = JuceMainMenuBarHolder::getInstance()->mainMenuBar)
-            [mainMenu removeItemAtIndex:editMenuIndex];
-
-        MenuBarModel::setMacMainMenu (oldMenu, oldAppleMenu.get(), oldRecentItems);
+        MenuBarModel::setMacMainMenu (oldMenu, oldAppleMenu, oldRecentItems);
     }
 
 private:
     MenuBarModel* const oldMenu;
-    std::unique_ptr<PopupMenu> oldAppleMenu;
+    ScopedPointer<PopupMenu> oldAppleMenu;
     String oldRecentItems;
-    NSInteger editMenuIndex;
 
     // The OS view already plays an alert when clicking outside
     // the modal comp, so this override avoids adding extra

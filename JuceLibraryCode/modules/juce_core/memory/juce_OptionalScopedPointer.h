@@ -32,8 +32,6 @@ namespace juce
     not the object is deleted.
 
     @see ScopedPointer
-
-    @tags{Core}
 */
 template <class ObjectType>
 class OptionalScopedPointer
@@ -81,8 +79,8 @@ public:
     {
         if (object != objectToTransferFrom.object)
         {
-            reset();
-            object.reset (objectToTransferFrom.object.release());
+            clear();
+            object = objectToTransferFrom.object;
         }
 
         shouldDelete = objectToTransferFrom.shouldDelete;
@@ -95,21 +93,21 @@ public:
     */
     ~OptionalScopedPointer()
     {
-        reset();
+        clear();
     }
 
     //==============================================================================
     /** Returns the object that this pointer is managing. */
-    inline operator ObjectType*() const noexcept                    { return object.get(); }
+    inline operator ObjectType*() const noexcept                    { return object; }
 
     /** Returns the object that this pointer is managing. */
-    inline ObjectType* get() const noexcept                         { return object.get(); }
+    inline ObjectType* get() const noexcept                         { return object; }
 
     /** Returns the object that this pointer is managing. */
     inline ObjectType& operator*() const noexcept                   { return *object; }
 
     /** Lets you access methods and properties of the object that this pointer is holding. */
-    inline ObjectType* operator->() const noexcept                  { return object.get(); }
+    inline ObjectType* operator->() const noexcept                  { return object; }
 
     //==============================================================================
     /** Removes the current object from this OptionalScopedPointer without deleting it.
@@ -120,14 +118,11 @@ public:
     /** Resets this pointer to null, possibly deleting the object that it holds, if it has
         ownership of it.
     */
-    void reset()
+    void clear()
     {
         if (! shouldDelete)
             object.release();
     }
-
-    /** Does the same thing as reset(). */
-    void clear()                                                    { reset(); }
 
     /** Makes this OptionalScopedPointer point at a new object, specifying whether the
         OptionalScopedPointer will take ownership of the object.
@@ -138,10 +133,10 @@ public:
     */
     void set (ObjectType* newObject, bool takeOwnership)
     {
-        if (object.get() != newObject)
+        if (object != newObject)
         {
-            reset();
-            object.reset (newObject);
+            clear();
+            object = newObject;
         }
 
         shouldDelete = takeOwnership;
@@ -183,7 +178,7 @@ private:
     // a scoped pointer, which is almost certainly not what you intended to do!
     // If you hit a problem with this, you probably meant to say
     //  myPointer.setOwned (myScopedPointer.release())
-    void setOwned (const ScopedPointer<ObjectType>&) = delete;
+    void setOwned (const ScopedPointer<ObjectType>&) JUCE_DELETED_FUNCTION;
 };
 
 } // namespace juce

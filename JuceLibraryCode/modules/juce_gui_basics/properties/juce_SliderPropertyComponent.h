@@ -32,10 +32,9 @@ namespace juce
     A PropertyComponent that shows its value as a slider.
 
     @see PropertyComponent, Slider
-
-    @tags{GUI}
 */
-class JUCE_API  SliderPropertyComponent   : public PropertyComponent
+class JUCE_API  SliderPropertyComponent   : public PropertyComponent,
+                                            private Slider::Listener
 {
 protected:
     //==============================================================================
@@ -93,6 +92,8 @@ public:
     //==============================================================================
     /** @internal */
     void refresh();
+    /** @internal */
+    void sliderValueChanged (Slider*);
 
 protected:
     /** The slider component being used in this component.

@@ -47,8 +47,6 @@ namespace juce
     start or finish being animated.
 
     @see Desktop::getAnimator
-
-    @tags{GUI}
 */
 class JUCE_API  ComponentAnimator  : public ChangeBroadcaster,
                                      private Timer

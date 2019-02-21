@@ -53,8 +53,8 @@ void AudioTransportSource::setSource (PositionableAudioSource* const newSource,
     PositionableAudioSource* newPositionableSource = nullptr;
     AudioSource* newMasterSource = nullptr;
 
-    std::unique_ptr<ResamplingAudioSource> oldResamplerSource (resamplerSource);
-    std::unique_ptr<BufferingAudioSource> oldBufferingSource (bufferingSource);
+    ScopedPointer<ResamplingAudioSource> oldResamplerSource (resamplerSource);
+    ScopedPointer<BufferingAudioSource> oldBufferingSource (bufferingSource);
     AudioSource* oldMasterSource = masterSource;
 
     if (newSource != nullptr)

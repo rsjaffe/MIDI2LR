@@ -30,8 +30,6 @@ namespace juce
 //==============================================================================
 /**
     Defines a drop-shadow effect.
-
-    @tags{Graphics}
 */
 struct JUCE_API  DropShadow
 {
@@ -80,8 +78,6 @@ struct JUCE_API  DropShadow
     shadow, check out ImageConvolutionKernel::createGaussianBlur()
 
     @see Component::setComponentEffect
-
-    @tags{Graphics}
 */
 class JUCE_API  DropShadowEffect  : public ImageEffectFilter
 {

@@ -110,7 +110,7 @@ public:
         if (subContentsList != nullptr)
         {
             subContentsList->removeChangeListener (this);
-            subContentsList.reset();
+            subContentsList.clear();
         }
     }
 
@@ -177,8 +177,6 @@ public:
 
     void paintItem (Graphics& g, int width, int height) override
     {
-        ScopedLock lock (iconUpdate);
-
         if (file != File())
         {
             updateIcon (true);
@@ -231,7 +229,6 @@ private:
     OptionalScopedPointer<DirectoryContentsList> subContentsList;
     bool isDirectory;
     TimeSliceThread& thread;
-    CriticalSection iconUpdate;
     Image icon;
     String fileSize, modTime;
 
@@ -252,11 +249,7 @@ private:
 
             if (im.isValid())
             {
-                {
-                    ScopedLock lock (iconUpdate);
-                    icon = im;
-                }
-
+                icon = im;
                 triggerAsyncUpdate();
             }
         }

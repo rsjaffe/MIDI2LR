@@ -30,8 +30,6 @@ namespace juce
     small read accesses to it, it's probably sensible to wrap it in one of these,
     so that the source stream gets accessed in larger chunk sizes, meaning less
     work for the underlying stream.
-
-    @tags{Core}
 */
 class JUCE_API  BufferedInputStream  : public InputStream
 {
@@ -82,7 +80,7 @@ private:
     int bufferSize;
     int64 position, lastReadPos = 0, bufferStart, bufferOverlap = 128;
     HeapBlock<char> buffer;
-    bool ensureBuffered();
+    void ensureBuffered();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BufferedInputStream)
 };

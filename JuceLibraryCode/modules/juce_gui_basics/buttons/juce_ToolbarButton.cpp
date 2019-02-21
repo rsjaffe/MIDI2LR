@@ -101,9 +101,9 @@ Drawable* ToolbarButton::getImageToUse() const
         return nullptr;
 
     if (getToggleState() && toggledOnImage != nullptr)
-        return toggledOnImage.get();
+        return toggledOnImage;
 
-    return normalImage.get();
+    return normalImage;
 }
 
 void ToolbarButton::buttonStateChanged()

@@ -23,8 +23,8 @@ local Keywords          = require 'Keywords'
 local LrBinding         = import 'LrBinding'
 local LrDialogs         = import 'LrDialogs'
 local LrFunctionContext = import 'LrFunctionContext'
-local LrView            = import 'LrView'
 local LrTasks           = import 'LrTasks'
+local LrView            = import 'LrView'
 
 --[[-----------debug section, enable by adding - to beginning this line
 local LrMobdebug = import 'LrMobdebug'

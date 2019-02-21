@@ -31,8 +31,6 @@ namespace juce
     go into the list.
 
     @see WildcardFileFilter, DirectoryContentsList, FileListComponent, FileBrowserComponent
-
-    @tags{Core}
 */
 class JUCE_API  FileFilter
 {

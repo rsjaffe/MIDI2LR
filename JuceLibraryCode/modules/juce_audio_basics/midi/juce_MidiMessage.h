@@ -28,8 +28,6 @@ namespace juce
     Encapsulates a MIDI message.
 
     @see MidiMessageSequence, MidiOutput, MidiInput
-
-    @tags{Audio}
 */
 class JUCE_API  MidiMessage
 {
@@ -502,11 +500,6 @@ public:
         @see allSoundOff
     */
     bool isAllSoundOff() const noexcept;
-
-    /** Checks whether this message is a reset all controllers message.
-        @see allControllerOff
-    */
-    bool isResetAllControllers() const noexcept;
 
     /** Creates an all-notes-off message.
         @param channel              the midi channel, in the range 1 to 16

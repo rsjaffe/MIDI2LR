@@ -31,7 +31,9 @@ DrawableText::DrawableText()
     : colour (Colours::black),
       justification (Justification::centredLeft)
 {
-    setBoundingBox (Parallelogram<float> ({ 0.0f, 0.0f, 50.0f, 20.0f }));
+    setBoundingBox (RelativeParallelogram (RelativePoint (0.0f, 0.0f),
+                                           RelativePoint (50.0f, 0.0f),
+                                           RelativePoint (0.0f, 20.0f)));
     setFont (Font (15.0f), true);
 }
 
@@ -50,11 +52,6 @@ DrawableText::DrawableText (const DrawableText& other)
 
 DrawableText::~DrawableText()
 {
-}
-
-Drawable* DrawableText::createCopy() const
-{
-    return new DrawableText (*this);
 }
 
 //==============================================================================
@@ -98,7 +95,7 @@ void DrawableText::setJustification (Justification newJustification)
     repaint();
 }
 
-void DrawableText::setBoundingBox (Parallelogram<float> newBounds)
+void DrawableText::setBoundingBox (const RelativeParallelogram& newBounds)
 {
     if (bounds != newBounds)
     {
@@ -107,7 +104,7 @@ void DrawableText::setBoundingBox (Parallelogram<float> newBounds)
     }
 }
 
-void DrawableText::setFontHeight (float newHeight)
+void DrawableText::setFontHeight (const RelativeCoordinate& newHeight)
 {
     if (fontHeight != newHeight)
     {
@@ -116,7 +113,7 @@ void DrawableText::setFontHeight (float newHeight)
     }
 }
 
-void DrawableText::setFontHorizontalScale (float newScale)
+void DrawableText::setFontHorizontalScale (const RelativeCoordinate& newScale)
 {
     if (fontHScale != newScale)
     {
@@ -127,11 +124,37 @@ void DrawableText::setFontHorizontalScale (float newScale)
 
 void DrawableText::refreshBounds()
 {
-    auto w = bounds.getWidth();
-    auto h = bounds.getHeight();
+    if (bounds.isDynamic() || fontHeight.isDynamic() || fontHScale.isDynamic())
+    {
+        Drawable::Positioner<DrawableText>* const p = new Drawable::Positioner<DrawableText> (*this);
+        setPositioner (p);
+        p->apply();
+    }
+    else
+    {
+        setPositioner (0);
+        recalculateCoordinates (0);
+    }
+}
 
-    auto height = jlimit (0.01f, jmax (0.01f, h), fontHeight);
-    auto hscale = jlimit (0.01f, jmax (0.01f, w), fontHScale);
+bool DrawableText::registerCoordinates (RelativeCoordinatePositionerBase& pos)
+{
+    bool ok = pos.addPoint (bounds.topLeft);
+    ok = pos.addPoint (bounds.topRight) && ok;
+    ok = pos.addPoint (bounds.bottomLeft) && ok;
+    ok = pos.addCoordinate (fontHeight) && ok;
+    return pos.addCoordinate (fontHScale) && ok;
+}
+
+void DrawableText::recalculateCoordinates (Expression::Scope* scope)
+{
+    bounds.resolveThreePoints (resolvedPoints, scope);
+
+    const float w = Line<float> (resolvedPoints[0], resolvedPoints[1]).getLength();
+    const float h = Line<float> (resolvedPoints[0], resolvedPoints[2]).getLength();
+
+    const float height = jlimit (0.01f, jmax (0.01f, h), (float) fontHeight.resolve (scope));
+    const float hscale = jlimit (0.01f, jmax (0.01f, w), (float) fontHScale.resolve (scope));
 
     scaledFont = font;
     scaledFont.setHeight (height);
@@ -149,17 +172,17 @@ Rectangle<int> DrawableText::getTextArea (float w, float h) const
 
 AffineTransform DrawableText::getTextTransform (float w, float h) const
 {
-    return AffineTransform::fromTargetPoints (Point<float>(),       bounds.topLeft,
-                                              Point<float> (w, 0),  bounds.topRight,
-                                              Point<float> (0, h),  bounds.bottomLeft);
+    return AffineTransform::fromTargetPoints (0, 0, resolvedPoints[0].x, resolvedPoints[0].y,
+                                              w, 0, resolvedPoints[1].x, resolvedPoints[1].y,
+                                              0, h, resolvedPoints[2].x, resolvedPoints[2].y);
 }
 
 void DrawableText::paint (Graphics& g)
 {
     transformContextToCorrectOrigin (g);
 
-    auto w = bounds.getWidth();
-    auto h = bounds.getHeight();
+    const float w = Line<float> (resolvedPoints[0], resolvedPoints[1]).getLength();
+    const float h = Line<float> (resolvedPoints[0], resolvedPoints[2]).getLength();
 
     g.addTransform (getTextTransform (w, h));
     g.setFont (scaledFont);
@@ -170,14 +193,166 @@ void DrawableText::paint (Graphics& g)
 
 Rectangle<float> DrawableText::getDrawableBounds() const
 {
-    return bounds.getBoundingBox();
+    return RelativeParallelogram::getBoundingBox (resolvedPoints);
+}
+
+Drawable* DrawableText::createCopy() const
+{
+    return new DrawableText (*this);
+}
+
+//==============================================================================
+const Identifier DrawableText::valueTreeType ("Text");
+
+const Identifier DrawableText::ValueTreeWrapper::text ("text");
+const Identifier DrawableText::ValueTreeWrapper::colour ("colour");
+const Identifier DrawableText::ValueTreeWrapper::font ("font");
+const Identifier DrawableText::ValueTreeWrapper::justification ("justification");
+const Identifier DrawableText::ValueTreeWrapper::topLeft ("topLeft");
+const Identifier DrawableText::ValueTreeWrapper::topRight ("topRight");
+const Identifier DrawableText::ValueTreeWrapper::bottomLeft ("bottomLeft");
+const Identifier DrawableText::ValueTreeWrapper::fontHeight ("fontHeight");
+const Identifier DrawableText::ValueTreeWrapper::fontHScale ("fontHScale");
+
+//==============================================================================
+DrawableText::ValueTreeWrapper::ValueTreeWrapper (const ValueTree& state_)
+    : ValueTreeWrapperBase (state_)
+{
+    jassert (state.hasType (valueTreeType));
+}
+
+String DrawableText::ValueTreeWrapper::getText() const
+{
+    return state [text].toString();
+}
+
+void DrawableText::ValueTreeWrapper::setText (const String& newText, UndoManager* undoManager)
+{
+    state.setProperty (text, newText, undoManager);
+}
+
+Value DrawableText::ValueTreeWrapper::getTextValue (UndoManager* undoManager)
+{
+    return state.getPropertyAsValue (text, undoManager);
+}
+
+Colour DrawableText::ValueTreeWrapper::getColour() const
+{
+    return Colour::fromString (state [colour].toString());
+}
+
+void DrawableText::ValueTreeWrapper::setColour (Colour newColour, UndoManager* undoManager)
+{
+    state.setProperty (colour, newColour.toString(), undoManager);
+}
+
+Justification DrawableText::ValueTreeWrapper::getJustification() const
+{
+    return Justification ((int) state [justification]);
+}
+
+void DrawableText::ValueTreeWrapper::setJustification (Justification newJustification, UndoManager* undoManager)
+{
+    state.setProperty (justification, newJustification.getFlags(), undoManager);
+}
+
+Font DrawableText::ValueTreeWrapper::getFont() const
+{
+    return Font::fromString (state [font]);
+}
+
+void DrawableText::ValueTreeWrapper::setFont (const Font& newFont, UndoManager* undoManager)
+{
+    state.setProperty (font, newFont.toString(), undoManager);
+}
+
+Value DrawableText::ValueTreeWrapper::getFontValue (UndoManager* undoManager)
+{
+    return state.getPropertyAsValue (font, undoManager);
+}
+
+RelativeParallelogram DrawableText::ValueTreeWrapper::getBoundingBox() const
+{
+    return RelativeParallelogram (state [topLeft].toString(), state [topRight].toString(), state [bottomLeft].toString());
+}
+
+void DrawableText::ValueTreeWrapper::setBoundingBox (const RelativeParallelogram& newBounds, UndoManager* undoManager)
+{
+    state.setProperty (topLeft, newBounds.topLeft.toString(), undoManager);
+    state.setProperty (topRight, newBounds.topRight.toString(), undoManager);
+    state.setProperty (bottomLeft, newBounds.bottomLeft.toString(), undoManager);
+}
+
+RelativeCoordinate DrawableText::ValueTreeWrapper::getFontHeight() const
+{
+    return state [fontHeight].toString();
+}
+
+void DrawableText::ValueTreeWrapper::setFontHeight (const RelativeCoordinate& coord, UndoManager* undoManager)
+{
+    state.setProperty (fontHeight, coord.toString(), undoManager);
+}
+
+RelativeCoordinate DrawableText::ValueTreeWrapper::getFontHorizontalScale() const
+{
+    return state [fontHScale].toString();
+}
+
+void DrawableText::ValueTreeWrapper::setFontHorizontalScale (const RelativeCoordinate& coord, UndoManager* undoManager)
+{
+    state.setProperty (fontHScale, coord.toString(), undoManager);
+}
+
+//==============================================================================
+void DrawableText::refreshFromValueTree (const ValueTree& tree, ComponentBuilder&)
+{
+    ValueTreeWrapper v (tree);
+    setComponentID (v.getID());
+
+    const RelativeParallelogram newBounds (v.getBoundingBox());
+    const RelativeCoordinate newFontHeight (v.getFontHeight());
+    const RelativeCoordinate newFontHScale (v.getFontHorizontalScale());
+    const Colour newColour (v.getColour());
+    const Justification newJustification (v.getJustification());
+    const String newText (v.getText());
+    const Font newFont (v.getFont());
+
+    if (text != newText || font != newFont || justification != newJustification
+         || colour != newColour || bounds != newBounds
+         || newFontHeight != fontHeight || newFontHScale != fontHScale)
+    {
+        setBoundingBox (newBounds);
+        setFontHeight (newFontHeight);
+        setFontHorizontalScale (newFontHScale);
+        setColour (newColour);
+        setFont (newFont, false);
+        setJustification (newJustification);
+        setText (newText);
+    }
+}
+
+ValueTree DrawableText::createValueTree (ComponentBuilder::ImageProvider*) const
+{
+    ValueTree tree (valueTreeType);
+    ValueTreeWrapper v (tree);
+
+    v.setID (getComponentID());
+    v.setText (text, nullptr);
+    v.setFont (font, nullptr);
+    v.setJustification (justification, nullptr);
+    v.setColour (colour, nullptr);
+    v.setBoundingBox (bounds, nullptr);
+    v.setFontHeight (fontHeight, nullptr);
+    v.setFontHorizontalScale (fontHScale, nullptr);
+
+    return tree;
 }
 
 Path DrawableText::getOutlineAsPath() const
 {
-    auto w = bounds.getWidth();
-    auto h = bounds.getHeight();
-    auto area = getTextArea (w, h).toFloat();
+    auto w = Line<float> (resolvedPoints[0], resolvedPoints[1]).getLength();
+    auto h = Line<float> (resolvedPoints[0], resolvedPoints[2]).getLength();
+    const auto area = getTextArea (w, h).toFloat();
 
     GlyphArrangement arr;
     arr.addFittedText (scaledFont, text,
@@ -188,14 +363,15 @@ Path DrawableText::getOutlineAsPath() const
 
     Path pathOfAllGlyphs;
 
-    for (auto& glyph : arr)
+    for (int i = 0; i < arr.getNumGlyphs(); ++i)
     {
         Path gylphPath;
-        glyph.createPath (gylphPath);
+        arr.getGlyph (i).createPath (gylphPath);
         pathOfAllGlyphs.addPath (gylphPath);
     }
 
-    pathOfAllGlyphs.applyTransform (getTextTransform (w, h).followedBy (getTransform()));
+    pathOfAllGlyphs.applyTransform (getTextTransform (w, h)
+                                      .followedBy (getTransform()));
 
     return pathOfAllGlyphs;
 }

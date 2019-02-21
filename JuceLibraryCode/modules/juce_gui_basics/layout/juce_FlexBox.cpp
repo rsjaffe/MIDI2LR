@@ -31,10 +31,10 @@ struct FlexBoxLayoutCalculation
 {
     using Coord = double;
 
-    FlexBoxLayoutCalculation (FlexBox& fb, Coord w, Coord h)
+    FlexBoxLayoutCalculation (const FlexBox& fb, Coord w, Coord h)
        : owner (fb), parentWidth (w), parentHeight (h), numItems (owner.items.size()),
          isRowDirection (fb.flexDirection == FlexBox::Direction::row
-                      || fb.flexDirection == FlexBox::Direction::rowReverse),
+                          || fb.flexDirection == FlexBox::Direction::rowReverse),
          containerLineLength (isRowDirection ? parentWidth : parentHeight)
     {
         lineItems.calloc (numItems * numItems);
@@ -84,7 +84,7 @@ struct FlexBoxLayoutCalculation
         Coord crossSize, lineY, totalLength;
     };
 
-    FlexBox& owner;
+    const FlexBox& owner;
     const Coord parentWidth, parentHeight;
     const int numItems;
     const bool isRowDirection;
@@ -111,8 +111,7 @@ struct FlexBoxLayoutCalculation
         for (auto& item : owner.items)
             itemStates.add (item);
 
-        std::stable_sort (itemStates.begin(), itemStates.end(),
-                          [] (const ItemWithState& i1, const ItemWithState& i2)  { return i1.item->order < i2.item->order; });
+        itemStates.sort (*this, true);
 
         for (auto& item : itemStates)
         {
@@ -386,8 +385,6 @@ struct FlexBoxLayoutCalculation
 
                         if (isRowDirection)
                             item.setHeightChecked (lineSize - item.item->margin.top - item.item->margin.bottom);
-                        else
-                            item.setWidthChecked (lineSize - item.item->margin.left - item.item->margin.right);
                     }
                     else if (owner.alignItems == FlexBox::AlignItems::flexStart)
                     {
@@ -395,17 +392,11 @@ struct FlexBoxLayoutCalculation
                     }
                     else if (owner.alignItems == FlexBox::AlignItems::flexEnd)
                     {
-                        if (isRowDirection)
-                            item.lockedMarginTop = lineSize - item.lockedHeight - item.item->margin.bottom;
-                        else
-                            item.lockedMarginLeft = lineSize - item.lockedWidth - item.item->margin.right;
+                        item.lockedMarginTop = lineSize - item.lockedHeight - item.item->margin.bottom;
                     }
                     else if (owner.alignItems == FlexBox::AlignItems::center)
                     {
-                        if (isRowDirection)
-                            item.lockedMarginTop = (lineSize - item.lockedHeight - item.item->margin.top - item.item->margin.bottom) / 2;
-                        else
-                            item.lockedMarginLeft = (lineSize - item.lockedWidth - item.item->margin.left - item.item->margin.right) / 2;
+                        item.lockedMarginTop = (lineSize - item.lockedHeight - item.item->margin.top - item.item->margin.bottom) / 2;
                     }
                 }
             }
@@ -538,6 +529,11 @@ struct FlexBoxLayoutCalculation
 
         reverseLocations();
         reverseWrap();
+    }
+
+    static int compareElements (const ItemWithState& i1, const ItemWithState& i2) noexcept
+    {
+        return i1.item->order < i2.item->order ? -1 : (i2.item->order < i1.item->order ? 1 : 0);
     }
 
 private:

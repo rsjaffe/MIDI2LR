@@ -30,8 +30,6 @@ namespace juce
     Two processes can use NamedPipe objects to exchange blocks of data.
 
     @see InterprocessConnection
-
-    @tags{Core}
 */
 class JUCE_API  NamedPipe  final
 {
@@ -88,7 +86,7 @@ public:
 private:
     //==============================================================================
     JUCE_PUBLIC_IN_DLL_BUILD (class Pimpl)
-    std::unique_ptr<Pimpl> pimpl;
+    ScopedPointer<Pimpl> pimpl;
     String currentPipeName;
     ReadWriteLock lock;
 

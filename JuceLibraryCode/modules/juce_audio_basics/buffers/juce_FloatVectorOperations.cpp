@@ -37,9 +37,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps32
     {
-        using Type = float;
-        using ParallelType = __m128;
-        using IntegerType  = __m128;
+        typedef float Type;
+        typedef __m128 ParallelType;
+        typedef __m128 IntegerType;
         enum { numParallel = 4 };
 
         // Integer and parallel types are the same for SSE. On neon they have different types
@@ -69,9 +69,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps64
     {
-        using Type = double;
-        using ParallelType = __m128d;
-        using IntegerType  = __m128d;
+        typedef double Type;
+        typedef __m128d ParallelType;
+        typedef __m128d IntegerType;
         enum { numParallel = 2 };
 
         // Integer and parallel types are the same for SSE. On neon they have different types
@@ -102,7 +102,7 @@ namespace FloatVectorHelpers
 
 
     #define JUCE_BEGIN_VEC_OP \
-        using Mode = FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode; \
+        typedef FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode Mode; \
         { \
             const int numLongOps = num / Mode::numParallel;
 
@@ -202,9 +202,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps32
     {
-        using Type = float;
-        using ParallelType = float32x4_t;
-        using IntegerType = uint32x4_t;
+        typedef float Type;
+        typedef float32x4_t ParallelType;
+        typedef uint32x4_t IntegerType;
         union signMaskUnion { ParallelType f; IntegerType i; };
         enum { numParallel = 4 };
 
@@ -234,9 +234,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps64
     {
-        using Type = double;
-        using ParallelType = double;
-        using IntegerType = uint64;
+        typedef double Type;
+        typedef double ParallelType;
+        typedef uint64 IntegerType;
         union signMaskUnion { ParallelType f; IntegerType i; };
         enum { numParallel = 1 };
 
@@ -265,7 +265,7 @@ namespace FloatVectorHelpers
     };
 
     #define JUCE_BEGIN_VEC_OP \
-        using Mode = FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode; \
+        typedef FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode Mode; \
         if (Mode::numParallel > 1) \
         { \
             const int numLongOps = num / Mode::numParallel;
@@ -353,14 +353,14 @@ namespace FloatVectorHelpers
     union signMask64 { double d; uint64 i; };
 
    #if JUCE_USE_SSE_INTRINSICS || JUCE_USE_ARM_NEON
-    template<int typeSize> struct ModeType    { using Mode = BasicOps32; };
-    template<>             struct ModeType<8> { using Mode = BasicOps64; };
+    template<int typeSize> struct ModeType    { typedef BasicOps32 Mode; };
+    template<>             struct ModeType<8> { typedef BasicOps64 Mode; };
 
     template <typename Mode>
     struct MinMax
     {
-        using Type = typename Mode::Type;
-        using ParallelType = typename Mode::ParallelType;
+        typedef typename Mode::Type Type;
+        typedef typename Mode::ParallelType ParallelType;
 
         static Type findMinOrMax (const Type* src, int num, const bool isMinimum) noexcept
         {

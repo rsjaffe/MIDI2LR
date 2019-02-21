@@ -21,9 +21,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrStringUtils       = import 'LrStringUtils'
-
-local ParamList           = require 'ParamList'
 local CU                  = require 'ClientUtilities'
+local Database            = require 'Database'
 
 local SaturationAdjustments = {
   "SaturationAdjustmentRed",
@@ -44,7 +43,7 @@ return {
     end
     if ProgramPreferences.ClientShowBezelOnChange then
       local value = CU.MIDIValueToLRValue("SaturationAdjustmentRed", midi_value)
-      local bezelname = ParamList.ParamDisplay["AllSaturationAdjustment"] or "AllSaturationAdjustment"
+      local bezelname = Database.CmdTrans.AllSaturationAdjustment or "AllSaturationAdjustment"
       LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(value, 0))
     end
     return "AllSaturationAdjustment"
@@ -54,7 +53,7 @@ return {
       LrDevelopController.resetToDefault(param)
     end
     if ProgramPreferences.ClientShowBezelOnChange then
-      local bezelname = ParamList.ParamDisplay["AllSaturationAdjustment"] or "AllSaturationAdjustment"
+      local bezelname = Database.CmdTrans.AllSaturationAdjustment or "AllSaturationAdjustment"
       LrDialogs.showBezel(bezelname .. '  ' .. LrStringUtils.numberToStringWithSeparators(0, 0))
     end
     MIDI2LR.SERVER:send(string.format('%s %g\n', "AllSaturationAdjustment", CU.LRValueToMIDIValue("SaturationAdjustmentRed")))

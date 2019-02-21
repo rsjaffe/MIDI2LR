@@ -31,8 +31,6 @@ namespace juce
     some or all of the virtual functions to implement their behaviour.
 
     @see InputStream, MemoryOutputStream, FileOutputStream
-
-    @tags{Core}
 */
 class JUCE_API  OutputStream
 {
@@ -201,15 +199,12 @@ public:
         bytes (0xff, 0xfe) to indicate the endianness (these should only be used at the start
         of a file).
 
-        If lineEndings is nullptr, then line endings in the text won't be modified. If you
-        pass "\\n" or "\\r\\n" then this function will replace any existing line feeds.
-
+        The method also replaces '\\n' characters in the text with '\\r\\n'.
         @returns false if the write operation fails for some reason
     */
     virtual bool writeText (const String& text,
                             bool asUTF16,
-                            bool writeUTF16ByteOrderMark,
-                            const char* lineEndings);
+                            bool writeUTF16ByteOrderMark);
 
     /** Reads data from an input stream and writes it to this stream.
 

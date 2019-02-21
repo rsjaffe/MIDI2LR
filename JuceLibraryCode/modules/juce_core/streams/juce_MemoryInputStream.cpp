@@ -23,19 +23,24 @@
 namespace juce
 {
 
-MemoryInputStream::MemoryInputStream (const void* sourceData, size_t sourceDataSize, bool keepCopy)
+MemoryInputStream::MemoryInputStream (const void* const sourceData,
+                                      const size_t sourceDataSize,
+                                      const bool keepInternalCopy)
     : data (sourceData),
-      dataSize (sourceDataSize)
+      dataSize (sourceDataSize),
+      position (0)
 {
-    if (keepCopy)
+    if (keepInternalCopy)
         createInternalCopy();
 }
 
-MemoryInputStream::MemoryInputStream (const MemoryBlock& sourceData, bool keepCopy)
+MemoryInputStream::MemoryInputStream (const MemoryBlock& sourceData,
+                                      const bool keepInternalCopy)
     : data (sourceData.getData()),
-      dataSize (sourceData.getSize())
+      dataSize (sourceData.getSize()),
+      position (0)
 {
-    if (keepCopy)
+    if (keepInternalCopy)
         createInternalCopy();
 }
 
@@ -55,14 +60,14 @@ int64 MemoryInputStream::getTotalLength()
     return (int64) dataSize;
 }
 
-int MemoryInputStream::read (void* buffer, int howMany)
+int MemoryInputStream::read (void* const buffer, const int howMany)
 {
     jassert (buffer != nullptr && howMany >= 0);
 
     if (howMany <= 0 || position >= dataSize)
         return 0;
 
-    auto num = jmin ((size_t) howMany, dataSize - position);
+    const size_t num = jmin ((size_t) howMany, dataSize - position);
 
     if (num > 0)
     {

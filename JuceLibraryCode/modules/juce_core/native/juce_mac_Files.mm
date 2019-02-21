@@ -281,12 +281,12 @@ bool File::isSymbolicLink() const
     return getFileLink (fullPath) != nil;
 }
 
-String File::getNativeLinkedTarget() const
+File File::getLinkedTarget() const
 {
     if (NSString* dest = getFileLink (fullPath))
-        return nsStringToJuce (dest);
+        return getSiblingFile (nsStringToJuce (dest));
 
-    return {};
+    return *this;
 }
 
 //==============================================================================

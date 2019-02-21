@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.3.2
+  Created with Projucer version: 4.3.0
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -39,11 +39,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <gsl/gsl>
+#include "CCoptions.h"
 #include "ControlsModel.h"
 using namespace juce;
 //[/Headers]
-
-#include "CCoptions.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 ControlsModel* CCoptions::controls_model_{nullptr};
@@ -52,18 +51,12 @@ ControlsModel* CCoptions::controls_model_{nullptr};
 //==============================================================================
 CCoptions::CCoptions()
 {
-//[Constructor_pre] You can add your own custom stuff here..
-//[/Constructor_pre]
+   //[Constructor_pre] You can add your own custom stuff here..
+   //[/Constructor_pre]
 
-#pragma warning(suppress : 26409)
-   groupComponent.reset(new GroupComponent("CCmethod", TRANS("CC Message Type")));
-   addAndMakeVisible(groupComponent.get());
+   addAndMakeVisible(groupComponent = new GroupComponent("CCmethod", TRANS("CC Message Type")));
 
-   groupComponent->setBounds(16, 60, 240, 157);
-
-#pragma warning(suppress : 26409)
-   twosbutton.reset(new ToggleButton("twoscomp"));
-   addAndMakeVisible(twosbutton.get());
+   addAndMakeVisible(twosbutton = new ToggleButton("twoscomp"));
    twosbutton->setTooltip(TRANS("Control value is 1 or greater when turned one way, and 127 or "
                                 "smaller when turned the other."));
    twosbutton->setExplicitFocusOrder(2);
@@ -72,11 +65,7 @@ CCoptions::CCoptions()
    twosbutton->setRadioGroupId(1);
    twosbutton->addListener(this);
 
-   twosbutton->setBounds(40, 117, 150, 24);
-
-#pragma warning(suppress : 26409)
-   absbutton.reset(new ToggleButton("Absolute"));
-   addAndMakeVisible(absbutton.get());
+   addAndMakeVisible(absbutton = new ToggleButton("Absolute"));
    absbutton->setTooltip(
        TRANS("Control value increases when turned one way, decreases when turned the other."));
    absbutton->setExplicitFocusOrder(1);
@@ -85,10 +74,7 @@ CCoptions::CCoptions()
    absbutton->addListener(this);
    absbutton->setToggleState(true, dontSendNotification);
 
-   absbutton->setBounds(40, 85, 150, 24);
-#pragma warning(suppress : 26409)
-   binbutton.reset(new ToggleButton("Binaryoffset"));
-   addAndMakeVisible(binbutton.get());
+   addAndMakeVisible(binbutton = new ToggleButton("Binaryoffset"));
    binbutton->setTooltip(
        TRANS("Control value is near 63 when turned one way, and near 65 when turned the other."));
    binbutton->setExplicitFocusOrder(3);
@@ -97,10 +83,7 @@ CCoptions::CCoptions()
    binbutton->setRadioGroupId(1);
    binbutton->addListener(this);
 
-   binbutton->setBounds(40, 149, 150, 24);
-
-   signbutton.reset(new ToggleButton("Signmagnitude"));
-   addAndMakeVisible(signbutton.get());
+   addAndMakeVisible(signbutton = new ToggleButton("Signmagnitude"));
    signbutton->setTooltip(
        TRANS("Control value is near 1 when turned one way, and near 65 when turned the other."));
    signbutton->setExplicitFocusOrder(4); //-V112
@@ -109,10 +92,7 @@ CCoptions::CCoptions()
    signbutton->setRadioGroupId(1);
    signbutton->addListener(this);
 
-   signbutton->setBounds(40, 181, 150, 24);
-
-   maxvaltext.reset(new TextEditor("maxvaltext"));
-   addAndMakeVisible(maxvaltext.get());
+   addAndMakeVisible(maxvaltext = new TextEditor("maxvaltext"));
    maxvaltext->setExplicitFocusOrder(6);
    maxvaltext->setMultiLine(false);
    maxvaltext->setReturnKeyStartsNewLine(false);
@@ -122,10 +102,7 @@ CCoptions::CCoptions()
    maxvaltext->setPopupMenuEnabled(true);
    maxvaltext->setText(TRANS("127"));
 
-   maxvaltext->setBounds(200, 268, 56, 24);
-
-   minvaltext.reset(new TextEditor("minvaltext"));
-   addAndMakeVisible(minvaltext.get());
+   addAndMakeVisible(minvaltext = new TextEditor("minvaltext"));
    minvaltext->setExplicitFocusOrder(5);
    minvaltext->setMultiLine(false);
    minvaltext->setReturnKeyStartsNewLine(false);
@@ -135,38 +112,28 @@ CCoptions::CCoptions()
    minvaltext->setPopupMenuEnabled(true);
    minvaltext->setText(TRANS("0"));
 
-   minvaltext->setBounds(200, 228, 56, 24);
-
-   minvallabel.reset(new Label("new label", TRANS("Minimum value\n")));
-   addAndMakeVisible(minvallabel.get());
-   minvallabel->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   addAndMakeVisible(minvallabel = new Label("new label", TRANS("Minimum value\n")));
+   minvallabel->setFont(Font(15.00f, Font::plain));
    minvallabel->setJustificationType(Justification::centredLeft);
    minvallabel->setEditable(false, false, false);
    minvallabel->setColour(TextEditor::textColourId, Colours::black);
    minvallabel->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
-   minvallabel->setBounds(16, 228, 150, 24);
-
-   maxvallabel.reset(new Label("maxlabel", TRANS("Maximum value")));
-   addAndMakeVisible(maxvallabel.get());
-   maxvallabel->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   addAndMakeVisible(maxvallabel = new Label("maxlabel", TRANS("Maximum value")));
+   maxvallabel->setFont(Font(15.00f, Font::plain));
    maxvallabel->setJustificationType(Justification::centredLeft);
    maxvallabel->setEditable(false, false, false);
    maxvallabel->setColour(TextEditor::textColourId, Colours::black);
    maxvallabel->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
-   maxvallabel->setBounds(16, 268, 150, 24);
-
-   applyAll.reset(new TextButton("new button"));
-   addAndMakeVisible(applyAll.get());
+   addAndMakeVisible(applyAll = new TextButton("new button"));
    applyAll->setTooltip(TRANS("Apply these settings to all similar controls."));
    applyAll->setExplicitFocusOrder(7);
    applyAll->setButtonText(TRANS("Apply to all"));
    applyAll->addListener(this);
 
-   controlID.reset(new Label("channel 0 number 0", TRANS("Channel 0 Number 0")));
-   addAndMakeVisible(controlID.get());
-   controlID->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   addAndMakeVisible(controlID = new Label("channel 0 number 0", TRANS("Channel 0 Number 0")));
+   controlID->setFont(Font(15.00f, Font::plain));
    controlID->setJustificationType(Justification::centred);
    controlID->setEditable(false, false, false);
    controlID->setColour(TextEditor::textColourId, Colours::black);
@@ -223,18 +190,27 @@ void CCoptions::resized()
    //[UserPreResize] Add your own custom resize code here..
    //[/UserPreResize]
 
+   groupComponent->setBounds(16, 60, 240, 157);
+   twosbutton->setBounds(40, 117, 150, 24);
+   absbutton->setBounds(40, 85, 150, 24);
+   binbutton->setBounds(40, 149, 150, 24);
+   signbutton->setBounds(40, 181, 150, 24);
+   maxvaltext->setBounds(200, 268, 56, 24);
+   minvaltext->setBounds(200, 228, 56, 24);
+   minvallabel->setBounds(16, 228, 150, 24);
+   maxvallabel->setBounds(16, 268, 150, 24);
    applyAll->setBounds((getWidth() / 2) - (150 / 2), (getHeight() / 2) + 141, 150, 24);
    controlID->setBounds((getWidth() / 2) - (248 / 2), 16, 248, 24);
    //[UserResized] Add your own custom resize handling here..
    //[/UserResized]
 }
 
-void CCoptions::buttonClicked(Button* buttonThatWasClicked)
+void CCoptions::buttonClicked(Button* button_that_was_clicked)
 {
    //[UserbuttonClicked_Pre]
    //[/UserbuttonClicked_Pre]
 
-   if (buttonThatWasClicked == twosbutton.get()) {
+   if (button_that_was_clicked == twosbutton) {
       //[UserButtonCode_twosbutton] -- add your button handler code here..
       minvaltext->setVisible(false);
       minvallabel->setVisible(false);
@@ -243,7 +219,7 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
       controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kTwosComplement);
       //[/UserButtonCode_twosbutton]
    }
-   else if (buttonThatWasClicked == absbutton.get()) {
+   else if (button_that_was_clicked == absbutton) {
       //[UserButtonCode_absbutton] -- add your button handler code here..
       minvaltext->setVisible(true);
       minvallabel->setVisible(true);
@@ -251,7 +227,7 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
       controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kAbsolute);
       //[/UserButtonCode_absbutton]
    }
-   else if (buttonThatWasClicked == binbutton.get()) {
+   else if (button_that_was_clicked == binbutton) {
       //[UserButtonCode_binbutton] -- add your button handler code here..
       minvaltext->setVisible(false);
       minvallabel->setVisible(false);
@@ -261,7 +237,7 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
 
       //[/UserButtonCode_binbutton]
    }
-   else if (buttonThatWasClicked == signbutton.get()) {
+   else if (button_that_was_clicked == signbutton) {
       //[UserButtonCode_signbutton] -- add your button handler code here..
       minvaltext->setVisible(false);
       minvallabel->setVisible(false);
@@ -270,7 +246,7 @@ void CCoptions::buttonClicked(Button* buttonThatWasClicked)
       controls_model_->SetCcMethod(bound_channel_, bound_number_, rsj::CCmethod::kSignMagnitude);
       //[/UserButtonCode_signbutton]
    }
-   else if (buttonThatWasClicked == applyAll.get()) {
+   else if (button_that_was_clicked == applyAll) {
       //[UserButtonCode_applyAll] -- add your button handler code here..
       rsj::CCmethod ccm;
       if (twosbutton->getToggleState())
@@ -379,14 +355,12 @@ BEGIN_JUCER_METADATA
          virtualName="" explicitFocusOrder="0" pos="16 228 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Minimum value&#10;" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
-         bold="0" italic="0" justification="33"/>
+         fontsize="15" bold="0" italic="0" justification="33"/>
   <LABEL name="maxlabel" id="e9c5639016533dbc" memberName="maxvallabel"
          virtualName="" explicitFocusOrder="0" pos="16 268 150 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Maximum value" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
-         bold="0" italic="0" justification="33"/>
+         fontsize="15" bold="0" italic="0" justification="33"/>
   <TEXTBUTTON name="new button" id="836af06f251dc94d" memberName="applyAll"
               virtualName="" explicitFocusOrder="7" pos="0Cc 141C 150 24" tooltip="Apply these settings to all similar controls."
               buttonText="Apply to all" connectedEdges="0" needsCallback="1"
@@ -395,8 +369,7 @@ BEGIN_JUCER_METADATA
          virtualName="" explicitFocusOrder="0" pos="0Cc 16 248 24" edTextCol="ff000000"
          edBkgCol="0" labelText="Channel 0 Number 0" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
-         bold="0" italic="0" justification="36"/>
+         fontsize="15" bold="0" italic="0" justification="36"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

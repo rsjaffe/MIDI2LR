@@ -39,8 +39,6 @@ namespace juce
     changes, to keep it in the correct position.
 
     @see ResizbleBorderComponent, ResizableCornerComponent
-
-    @tags{GUI}
 */
 class JUCE_API  ResizableEdgeComponent  : public Component
 {

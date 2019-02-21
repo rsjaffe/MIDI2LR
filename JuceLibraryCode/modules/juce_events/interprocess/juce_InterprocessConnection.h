@@ -44,8 +44,6 @@ class MemoryBlock;
     InterprocessConnectionServer class.
 
     @see InterprocessConnectionServer, Socket, NamedPipe
-
-    @tags{Events}
 */
 class JUCE_API  InterprocessConnection
 {
@@ -124,10 +122,10 @@ public:
     bool isConnected() const;
 
     /** Returns the socket that this connection is using (or nullptr if it uses a pipe). */
-    StreamingSocket* getSocket() const noexcept                 { return socket.get(); }
+    StreamingSocket* getSocket() const noexcept                 { return socket; }
 
     /** Returns the pipe that this connection is using (or nullptr if it uses a socket). */
-    NamedPipe* getPipe() const noexcept                         { return pipe.get(); }
+    NamedPipe* getPipe() const noexcept                         { return pipe; }
 
     /** Returns the name of the machine at the other end of this connection.
         This may return an empty string if the name is unknown.
@@ -179,8 +177,8 @@ public:
 private:
     //==============================================================================
     CriticalSection pipeAndSocketLock;
-    std::unique_ptr<StreamingSocket> socket;
-    std::unique_ptr<NamedPipe> pipe;
+    ScopedPointer<StreamingSocket> socket;
+    ScopedPointer<NamedPipe> pipe;
     bool callbackConnectionState = false;
     const bool useMessageThread;
     const uint32 magicMessageHeader;
@@ -193,13 +191,12 @@ private:
     void connectionMadeInt();
     void connectionLostInt();
     void deliverDataInt (const MemoryBlock&);
-    bool readNextMessage();
-    int readData (void*, int);
+    bool readNextMessageInt();
 
     struct ConnectionThread;
     friend struct ConnectionThread;
     friend struct ContainerDeletePolicy<ConnectionThread>;
-    std::unique_ptr<ConnectionThread> thread;
+    ScopedPointer<ConnectionThread> thread;
     void runThread();
     int writeData (void*, int);
 

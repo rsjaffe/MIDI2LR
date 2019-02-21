@@ -40,25 +40,25 @@ XmlElement* XmlDocument::parse (const String& xmlData)
     return doc.getDocumentElement();
 }
 
-void XmlDocument::setInputSource (InputSource* newSource) noexcept
+void XmlDocument::setInputSource (InputSource* const newSource) noexcept
 {
-    inputSource.reset (newSource);
+    inputSource = newSource;
 }
 
-void XmlDocument::setEmptyTextElementsIgnored (bool shouldBeIgnored) noexcept
+void XmlDocument::setEmptyTextElementsIgnored (const bool shouldBeIgnored) noexcept
 {
     ignoreEmptyTextElements = shouldBeIgnored;
 }
 
 namespace XmlIdentifierChars
 {
-    static bool isIdentifierCharSlow (juce_wchar c) noexcept
+    static bool isIdentifierCharSlow (const juce_wchar c) noexcept
     {
         return CharacterFunctions::isLetterOrDigit (c)
                  || c == '_' || c == '-' || c == ':' || c == '.';
     }
 
-    static bool isIdentifierChar (juce_wchar c) noexcept
+    static bool isIdentifierChar (const juce_wchar c) noexcept
     {
         static const uint32 legalChars[] = { 0, 0x7ff6000, 0x87fffffe, 0x7fffffe, 0 };
 
@@ -93,9 +93,7 @@ XmlElement* XmlDocument::getDocumentElement (const bool onlyReadOuterDocumentEle
 {
     if (originalText.isEmpty() && inputSource != nullptr)
     {
-        std::unique_ptr<InputStream> in (inputSource->createInputStream());
-
-        if (in != nullptr)
+        if (ScopedPointer<InputStream> in = inputSource->createInputStream())
         {
             MemoryOutputStream data;
             data.writeFromInputStream (*in, onlyReadOuterDocumentElement ? 8192 : -1);
@@ -143,12 +141,8 @@ void XmlDocument::setLastError (const String& desc, const bool carryOn)
 String XmlDocument::getFileContents (const String& filename) const
 {
     if (inputSource != nullptr)
-    {
-        std::unique_ptr<InputStream> in (inputSource->createInputStreamFor (filename.trim().unquoted()));
-
-        if (in != nullptr)
+        if (ScopedPointer<InputStream> in = inputSource->createInputStreamFor (filename.trim().unquoted()))
             return in->readEntireStreamAsString();
-    }
 
     return {};
 }
@@ -189,7 +183,7 @@ XmlElement* XmlDocument::parseDocumentElement (String::CharPointerType textToPar
     else
     {
         lastError.clear();
-        std::unique_ptr<XmlElement> result (readNextElement (! onlyReadOuterDocumentElement));
+        ScopedPointer<XmlElement> result (readNextElement (! onlyReadOuterDocumentElement));
 
         if (! errorOccurred)
             return result.release();

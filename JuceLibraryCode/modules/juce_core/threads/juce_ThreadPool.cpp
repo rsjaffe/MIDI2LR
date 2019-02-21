@@ -23,8 +23,9 @@
 namespace juce
 {
 
-struct ThreadPool::ThreadPoolThread  : public Thread
+class ThreadPool::ThreadPoolThread  : public Thread
 {
+public:
     ThreadPoolThread (ThreadPool& p, size_t stackSize)
        : Thread ("Pool", stackSize), pool (p)
     {
@@ -37,7 +38,7 @@ struct ThreadPool::ThreadPoolThread  : public Thread
                 wait (500);
     }
 
-    std::atomic<ThreadPoolJob*> currentJob { nullptr };
+    ThreadPoolJob* volatile currentJob = nullptr;
     ThreadPool& pool;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ThreadPoolThread)
@@ -68,7 +69,7 @@ void ThreadPoolJob::setJobName (const String& newName)
 void ThreadPoolJob::signalJobShouldExit()
 {
     shouldStop = true;
-    listeners.call ([] (Thread::Listener& l) { l.exitSignalSent(); });
+    listeners.call (&Thread::Listener::exitSignalSent);
 }
 
 void ThreadPoolJob::addListener (Thread::Listener* listener)
@@ -84,7 +85,7 @@ void ThreadPoolJob::removeListener (Thread::Listener* listener)
 ThreadPoolJob* ThreadPoolJob::getCurrentThreadPoolJob()
 {
     if (auto* t = dynamic_cast<ThreadPool::ThreadPoolThread*> (Thread::getCurrentThread()))
-        return t->currentJob.load();
+        return t->currentJob;
 
     return nullptr;
 }
@@ -206,10 +207,13 @@ void ThreadPool::moveJobToFront (const ThreadPoolJob* job) noexcept
 {
     const ScopedLock sl (lock);
 
-    auto index = jobs.indexOf (const_cast<ThreadPoolJob*> (job));
+    if (! job->isActive)
+    {
+        auto index = jobs.indexOf (const_cast<ThreadPoolJob*> (job));
 
-    if (index > 0 && ! job->isActive)
-        jobs.move (index, 0);
+        if (index > 0)
+            jobs.move (index, 0);
+    }
 }
 
 bool ThreadPool::waitForJobToFinish (const ThreadPoolJob* const job, const int timeOutMs) const

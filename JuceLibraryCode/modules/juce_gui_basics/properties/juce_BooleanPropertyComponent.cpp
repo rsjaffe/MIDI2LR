@@ -36,7 +36,7 @@ BooleanPropertyComponent::BooleanPropertyComponent (const String& name,
 {
     addAndMakeVisible (button);
     button.setClickingTogglesState (false);
-    button.onClick = [this] { setState (! getState()); };
+    button.addListener (this);
 }
 
 BooleanPropertyComponent::BooleanPropertyComponent (const Value& valueToControl,
@@ -82,6 +82,11 @@ void BooleanPropertyComponent::refresh()
 {
     button.setToggleState (getState(), dontSendNotification);
     button.setButtonText (button.getToggleState() ? onText : offText);
+}
+
+void BooleanPropertyComponent::buttonClicked (Button*)
+{
+    setState (! getState());
 }
 
 } // namespace juce

@@ -33,8 +33,6 @@ namespace juce
     text on it.
 
     @see Button, DrawableButton
-
-    @tags{GUI}
 */
 class JUCE_API  TextButton  : public Button
 {

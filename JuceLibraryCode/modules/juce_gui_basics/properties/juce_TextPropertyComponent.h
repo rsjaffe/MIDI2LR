@@ -32,8 +32,6 @@ namespace juce
     A PropertyComponent that shows its value as editable text.
 
     @see PropertyComponent
-
-    @tags{GUI}
 */
 class JUCE_API  TextPropertyComponent  : public PropertyComponent
 {
@@ -44,15 +42,13 @@ protected:
         @param propertyName  The name of the property
         @param maxNumChars   If not zero, then this specifies the maximum allowable length of
                              the string. If zero, then the string will have no length limit.
-        @param isMultiLine   Sets whether the text editor allows carriage returns.
-        @param isEditable    Sets whether the text editor is editable. The default is true.
+        @param isMultiLine   isMultiLine sets whether the text editor allows carriage returns.
 
-        @see TextEditor, setEditable
+        @see TextEditor
     */
     TextPropertyComponent (const String& propertyName,
                            int maxNumChars,
-                           bool isMultiLine,
-                           bool isEditable = true);
+                           bool isMultiLine);
 
 public:
     /** Creates a text property component.
@@ -61,33 +57,14 @@ public:
         @param propertyName   The name of the property
         @param maxNumChars    If not zero, then this specifies the maximum allowable length of
                               the string. If zero, then the string will have no length limit.
-        @param isMultiLine    Sets whether the text editor allows carriage returns.
-        @param isEditable     Sets whether the text editor is editable. The default is true.
+        @param isMultiLine    isMultiLine sets whether the text editor allows carriage returns.
 
-        @see TextEditor, setEditable
+        @see TextEditor
     */
     TextPropertyComponent (const Value& valueToControl,
                            const String& propertyName,
                            int maxNumChars,
-                           bool isMultiLine,
-                           bool isEditable = true);
-
-    /** Creates a text property component with a default value.
-
-        @param valueToControl The ValueWithDefault that is controlled by the TextPropertyComponent
-        @param propertyName   The name of the property
-        @param maxNumChars    If not zero, then this specifies the maximum allowable length of
-                              the string. If zero, then the string will have no length limit.
-        @param isMultiLine    Sets whether the text editor allows carriage returns.
-        @param isEditable     Sets whether the text editor is editable. The default is true.
-
-        @see TextEditor, setEditable
-    */
-    TextPropertyComponent (ValueWithDefault& valueToControl,
-                           const String& propertyName,
-                           int maxNumChars,
-                           bool isMultiLine,
-                           bool isEditable = true);
+                           bool isMultiLine);
 
     /** Destructor. */
     ~TextPropertyComponent();
@@ -107,10 +84,6 @@ public:
     Value& getValue() const;
 
     //==============================================================================
-    /** Returns true if the text editor allows carriage returns. */
-    bool isTextEditorMultiLine() const noexcept    { return isMultiLine; }
-
-    //==============================================================================
     /** A set of colour IDs to use to change the colour of various aspects of the component.
 
         These constants can be used either via the Component::setColour(), or LookAndFeel::setColour()
@@ -128,7 +101,6 @@ public:
     void colourChanged() override;
 
     //==============================================================================
-    /** Used to receive callbacks for text changes */
     class JUCE_API Listener
     {
     public:
@@ -158,9 +130,6 @@ public:
     */
     void setInterestedInFileDrag (bool isInterested);
 
-    /** Sets whether the text editor is editable. The default setting for this is true. */
-    void setEditable (bool isEditable);
-
     //==============================================================================
     /** @internal */
     void refresh() override;
@@ -168,21 +137,21 @@ public:
     virtual void textWasEdited();
 
 private:
-    bool isMultiLine;
-
-    class RemapperValueSourceWithDefault;
-
     class LabelComp;
     friend class LabelComp;
 
-    std::unique_ptr<LabelComp> textEditor;
+    ScopedPointer<LabelComp> textEditor;
     ListenerList<Listener> listenerList;
 
     void callListeners();
-    void createEditor (int maxNumChars, bool isEditable);
+    void createEditor (int maxNumChars, bool isMultiLine);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TextPropertyComponent)
 };
 
+#ifndef DOXYGEN
+ /** This typedef is just for compatibility with old code and VC6 - newer code should use TextPropertyComponent::Listener instead. */
+ typedef TextPropertyComponent::Listener TextPropertyComponentListener;
+#endif
 
 } // namespace juce

@@ -7,17 +7,18 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.3.2
+  Created with Projucer version: 4.3.0
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#pragma once
+#ifndef __JUCE_HEADER_992DAFFC08D2DB3C__
+#define __JUCE_HEADER_992DAFFC08D2DB3C__
 
 //[Headers]     -- You can add your own extra header files here --
 /*
@@ -40,6 +41,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
 // NOTE: must add juce:: qualifiers in header if regenerate file
@@ -55,20 +57,20 @@ class ControlsModel;
 */
 class CCoptions : public juce::Component,
                   private juce::TextEditor::Listener,
-                  public juce::Button::Listener {
+                  public juce::ButtonListener {
  public:
    //==============================================================================
    CCoptions();
    ~CCoptions();
 
-   //==============================================================================
-   //[UserMethods]     -- You can add your own custom methods in this section.
-   static void LinkToControlsModel(ControlsModel* model) noexcept
-   {
-      controls_model_ = model;
-   }
-   void BindToControl(size_t channel, short number);
-   //[/UserMethods]
+    //==============================================================================
+    //[UserMethods]     -- You can add your own custom methods in this section.
+    static void LinkToControlsModel(ControlsModel* model) noexcept
+    {
+        controls_model_ = model;
+    }
+    void BindToControl(size_t channel, short number);
+    //[/UserMethods]
 
    void paint(juce::Graphics& g) override;
    void resized() override;
@@ -87,21 +89,23 @@ class CCoptions : public juce::Component,
 
 
    //==============================================================================
-   std::unique_ptr<juce::GroupComponent> groupComponent;
-   std::unique_ptr<juce::ToggleButton> twosbutton;
-   std::unique_ptr<juce::ToggleButton> absbutton;
-   std::unique_ptr<juce::ToggleButton> binbutton;
-   std::unique_ptr<juce::ToggleButton> signbutton;
-   std::unique_ptr<juce::TextEditor> maxvaltext;
-   std::unique_ptr<juce::TextEditor> minvaltext;
-   std::unique_ptr<juce::Label> minvallabel;
-   std::unique_ptr<juce::Label> maxvallabel;
-   std::unique_ptr<juce::TextButton> applyAll;
-   std::unique_ptr<juce::Label> controlID;
+   juce::ScopedPointer<juce::GroupComponent> groupComponent;
+   juce::ScopedPointer<juce::ToggleButton> twosbutton;
+   juce::ScopedPointer<juce::ToggleButton> absbutton;
+   juce::ScopedPointer<juce::ToggleButton> binbutton;
+   juce::ScopedPointer<juce::ToggleButton> signbutton;
+   juce::ScopedPointer<juce::TextEditor> maxvaltext;
+   juce::ScopedPointer<juce::TextEditor> minvaltext;
+   juce::ScopedPointer<juce::Label> minvallabel;
+   juce::ScopedPointer<juce::Label> maxvallabel;
+   juce::ScopedPointer<juce::TextButton> applyAll;
+   juce::ScopedPointer<juce::Label> controlID;
 
-   //==============================================================================
-   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
+    //==============================================================================
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
+
+#endif   // __JUCE_HEADER_992DAFFC08D2DB3C__

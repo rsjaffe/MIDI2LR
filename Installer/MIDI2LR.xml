@@ -2,6 +2,7 @@
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
     <version>3.0.0.0</version>
+    <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
     <htmlLicenseFile>LICENSE.html</htmlLicenseFile>
@@ -24,106 +25,97 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/About.lua</origin>
+                            <origin>${lua}/About.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/ActionSeries.lua</origin>
+                            <origin>${lua}/ActionSeries.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Build.lua</origin>
+                            <origin>${lua}/Build.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Client.lua</origin>
+                            <origin>${lua}/Client.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/ClientUtilities.lua</origin>
+                            <origin>${lua}/ClientUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Database.lua</origin>
+                            <origin>${lua}/Database.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/DebugInfo.lua</origin>
+                            <origin>${lua}/DebugInfo.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/FileLoadPref.lua</origin>
+                            <origin>${lua}/FileLoadPref.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/FileSavePref.lua</origin>
+                            <origin>${lua}/FileSavePref.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Filters.lua</origin>
+                            <origin>${lua}/Filters.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Info.lua</origin>
+                            <origin>${lua}/Info.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Init.lua</origin>
+                            <origin>${lua}/Init.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Keys.lua</origin>
+                            <origin>${lua}/Keys.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Keywords.lua</origin>
+                            <origin>${lua}/Keywords.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/KeywordsDialog.lua</origin>
+                            <origin>${lua}/KeywordsDialog.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/KeyShortcuts.lua</origin>
+                            <origin>${lua}/KeyShortcuts.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/LaunchServer.lua</origin>
+                            <origin>${lua}/LaunchServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/LICENSE.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Limits.lua</origin>
+                            <origin>${lua}/Limits.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/LocalPresets.lua</origin>
+                            <origin>${lua}/LocalPresets.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/MenuList.lua</origin>
+                            <origin>${lua}/Options.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Options.lua</origin>
+                            <origin>${lua}/OptionsUtilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/OptionsUtilities.lua</origin>
+                            <origin>${lua}/Preferences.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/ParamList.lua</origin>
+                            <origin>${lua}/Presets.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Paste.lua</origin>
+                            <origin>${lua}/PresetsDialog.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Preferences.lua</origin>
+                            <origin>${lua}/Profiles.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Presets.lua</origin>
+                            <origin>${lua}/ProfileTypes.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/PresetsDialog.lua</origin>
+                            <origin>${lua}/serpent.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Profiles.lua</origin>
+                            <origin>${lua}/ShutDownPlugin.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/ProfileTypes.lua</origin>
+                            <origin>${lua}/StopServer.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/serpent.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/ShutDownPlugin.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/StopServer.lua</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/SystemInfo.lua</origin>
+                            <origin>${lua}/SystemInfo.lua</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_de.txt</origin>
@@ -165,10 +157,10 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TRANSLATIONS.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Utilities.lua</origin>
+                            <origin>${lua}/Utilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/compiled/Virtual.lua</origin>
+                            <origin>${lua}/Virtual.lua</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -179,7 +171,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../Builds/VisualStudio2017/x64/Release/App/MIDI2LR.exe</origin>
+                            <origin>${exe}/MIDI2LR.exe</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../rtmidi/midiprobe.exe</origin>
@@ -193,7 +185,7 @@
                     <platforms>osx</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../Builds/MacOSX/build/Release/MIDI2LR.app</origin>
+                            <origin>${app}/MIDI2LR.app</origin>
                         </distributionDirectory>
                         <distributionFile>
                             <origin>../rtmidi/midiprobe</origin>
@@ -223,6 +215,52 @@
             </startMenuShortcutList>
         </component>
     </componentList>
+    <preBuildActionList>
+        <if>
+            <actionList>
+                <setInstallerVariable>
+                    <name>lua</name>
+                    <value>../Source/LRPlugin/MIDI2LR.lrplugin/compiled</value>
+                </setInstallerVariable>
+                <setInstallerVariable>
+                    <name>exe</name>
+                    <value>../Builds/VisualStudio2017/x64/Release/App</value>
+                </setInstallerVariable>
+                <setInstallerVariable>
+                    <name>app</name>
+                    <value>../Builds/MacOSX/build/Release</value>
+                </setInstallerVariable>
+                <setInstallerVariable>
+                    <name>debuglabel</name>
+                    <value></value>
+                </setInstallerVariable>
+            </actionList>
+            <conditionRuleList>
+                <isTrue>
+                    <negate>1</negate>
+                    <value>${debug}</value>
+                </isTrue>
+            </conditionRuleList>
+            <elseActionList>
+                <setInstallerVariable>
+                    <name>lua</name>
+                    <value>../Source/LRPlugin/MIDI2LR.lrplugin</value>
+                </setInstallerVariable>
+                <setInstallerVariable>
+                    <name>exe</name>
+                    <value>../Builds/VisualStudio2017/x64/Debug/App</value>
+                </setInstallerVariable>
+                <setInstallerVariable>
+                    <name>app</name>
+                    <value>../Builds/MacOSX/build/Debug</value>
+                </setInstallerVariable>
+                <setInstallerVariable>
+                    <name>debuglabel</name>
+                    <value>debug-</value>
+                </setInstallerVariable>
+            </elseActionList>
+        </if>
+    </preBuildActionList>
     <initializationActionList>
         <throwError>
             <text>This application runs on MacOS 10.12 or above only. Use MID2OR versions 2.9.3 or earlier if you must use an earlier version of MacOS.</text>
@@ -287,6 +325,28 @@
             </ruleList>
         </registryGet>
     </preInstallationActionList>
+    <postInstallationActionList>
+        <if>
+            <actionList>
+                <createDirectory>
+                    <path>%{env(APPDATA)}/MIDI2LR/</path>
+                </createDirectory>
+            </actionList>
+            <conditionRuleList>
+                <platformTest>
+                    <type>windows</type>
+                </platformTest>
+            </conditionRuleList>
+            <elseActionList>
+                <createDirectory>
+                    <path>${user_home_directory}/Library/Application Support/MIDI2LR/</path>
+                </createDirectory>
+                <createDirectory>
+                    <path>${user_home_directory}/Library/Logs/MIDI2LR/</path>
+                </createDirectory>
+            </elseActionList>
+        </if>
+    </postInstallationActionList>
     <preUninstallationActionList>
         <addFilesToUninstaller>
             <files>settings.bin</files>

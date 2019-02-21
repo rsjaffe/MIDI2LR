@@ -32,8 +32,6 @@ namespace juce
     A subclass of this is used to drive a ListBox.
 
     @see ListBox
-
-    @tags{GUI}
 */
 class JUCE_API  ListBoxModel
 {
@@ -176,8 +174,6 @@ private:
     more specialised tasks, it can supply a custom component to fill each row.
 
     @see ComboBox, TableListBox
-
-    @tags{GUI}
 */
 class JUCE_API  ListBox  : public Component,
                            public SettableTooltipClient
@@ -501,7 +497,7 @@ public:
     void setHeaderComponent (Component* newHeaderComponent);
 
     /** Returns whatever header component was set with setHeaderComponent(). */
-    Component* getHeaderComponent() const noexcept      { return headerComponent.get(); }
+    Component* getHeaderComponent() const noexcept      { return headerComponent; }
 
     /** Changes the width of the rows in the list.
 
@@ -580,9 +576,9 @@ private:
     friend class ListViewport;
     friend class TableListBox;
     ListBoxModel* model;
-    std::unique_ptr<ListViewport> viewport;
-    std::unique_ptr<Component> headerComponent;
-    std::unique_ptr<MouseListener> mouseMoveSelector;
+    ScopedPointer<ListViewport> viewport;
+    ScopedPointer<Component> headerComponent;
+    ScopedPointer<MouseListener> mouseMoveSelector;
     SparseSet<int> selected;
     int totalItems = 0, rowHeight = 22, minimumRowWidth = 0;
     int outlineThickness = 0;

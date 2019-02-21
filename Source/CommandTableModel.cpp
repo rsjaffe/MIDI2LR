@@ -23,7 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTableModel.h"
 #include "CommandMap.h"
 #include "CommandMenu.h"
-#include "LRCommands.h"
 #include "Misc.h"
 
 void CommandTableModel::Init(CommandMap* map_command) noexcept
@@ -162,7 +161,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          auto guard = std::shared_lock{cmd_table_mod_mtx_};
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
-            command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number))};
+            command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number)),command_set_};
             command_select->Init(command_map_);
          }
          else
@@ -171,7 +170,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          if (command_map_)
             // add 1 because 0 is reserved for no selection
             command_select->SetSelectedItem(
-                LrCommandList::GetIndexOfCommand(command_map_->GetCommandforMessage(
+                command_set_.CommandTextIndex(command_map_->GetCommandforMessage(
                     commands_.at(gsl::narrow_cast<size_t>(row_number))))
                 + 1);
 
@@ -279,7 +278,7 @@ void CommandTableModel::Sort()
 { // always call within unique_lock
    // use LRCommandList::getIndexOfCommand(string); to sort by command
    const auto msg_idx = [this](rsj::MidiMessageId a) {
-      return LrCommandList::GetIndexOfCommand(command_map_->GetCommandforMessage(a));
+      return command_set_.CommandTextIndex(command_map_->GetCommandforMessage(a));
    };
    const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
       return msg_idx(a) < msg_idx(b);

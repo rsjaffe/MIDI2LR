@@ -26,8 +26,6 @@ namespace juce
 //==============================================================================
 /**
     Maps a file into virtual memory for easy reading and/or writing.
-
-    @tags{Core}
 */
 class JUCE_API  MemoryMappedFile
 {

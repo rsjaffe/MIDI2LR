@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 local LrMobdebug = import 'LrMobdebug'
 LrMobdebug.start()
 --]]-----------end debug section
-
+local Database = require 'Database'
 local LrTasks = import 'LrTasks'
 -- Main task
 LrTasks.startAsyncTask(
@@ -43,8 +43,6 @@ LrTasks.startAsyncTask(
       local LrFileUtils    = import 'LrFileUtils'
       local LrLocalization = import 'LrLocalization'
       local Info           = require 'Info'
-      local appdatafile     = LrPathUtils.child(_PLUGIN.path, 'MenuList.lua')
-      local plugindatafile  = LrPathUtils.child(_PLUGIN.path, 'ParamList.lua')
       local versionmismatch = false
 
       if ProgramPreferences.DataStructure == nil then
@@ -57,11 +55,10 @@ LrTasks.startAsyncTask(
 
       if
       versionmismatch or
-      LrFileUtils.exists(appdatafile) ~= 'file' or
-      LrFileUtils.exists(plugindatafile) ~= 'file' or
+      LrFileUtils.exists(Database.AppTrans) ~= 'file' or
       ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
-        require 'Database'
+        Database.WriteAppTrans(ProgramPreferences.DataStructure.language)
         ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
         for k,v in pairs(Info.VERSION) do
           ProgramPreferences.DataStructure.version[k] = v
@@ -79,7 +76,6 @@ LrTasks.startAsyncTask(
     local Keywords        = require 'Keywords'
     local Limits          = require 'Limits'
     local LocalPresets    = require 'LocalPresets'
-    local ParamList       = require 'ParamList'
     local Profiles        = require 'Profiles'
     local Ut              = require 'Utilities'
     local Virtual         = require 'Virtual'
@@ -524,8 +520,8 @@ LrTasks.startAsyncTask(
           if ProgramPreferences.ClientShowBezelOnChange and not silent then
             CU.showBezel(param,value)
           end
-          if ParamList.ProfileMap[param] then
-            Profiles.changeProfile(ParamList.ProfileMap[param])
+          if Database.CmdPanel[param] then
+            Profiles.changeProfile(Database.CmdPanel[param])
           end
         else --failed pickup
           if ProgramPreferences.ClientShowBezelOnChange then -- failed pickup. do I display bezel?
@@ -557,8 +553,8 @@ LrTasks.startAsyncTask(
       if ProgramPreferences.ClientShowBezelOnChange and not silent then
         CU.showBezel(param,value)
       end
-      if ParamList.ProfileMap[param] then
-        Profiles.changeProfile(ParamList.ProfileMap[param])
+      if Database.CmdPanel[param] then
+        Profiles.changeProfile(Database.CmdPanel[param])
       end
     end
     UpdateParam = UpdateParamPickup --initial state
@@ -582,7 +578,7 @@ LrTasks.startAsyncTask(
           return function(observer) -- closure
             if not sendIsConnected then return end -- can't send
             if Limits.LimitsCanBeSet() and lastrefresh < os.clock() then
-              for _,param in ipairs(ParamList.SendToMidi) do
+              for param in pairs(Database.Parameters) do
                 local lrvalue = LrDevelopController.getValue(param)
                 if observer[param] ~= lrvalue and type(lrvalue) == 'number' then --testing for MIDI2LR.SERVER.send kills responsiveness
                   MIDI2LR.SERVER:send(string.format('%s %g\n', param, CU.LRValueToMIDIValue(param)))
@@ -626,7 +622,9 @@ LrTasks.startAsyncTask(
               local split = message:find(' ',1,true)
               local param = message:sub(1,split-1)
               local value = message:sub(split+1)
-              if(ACTIONS[param]) then -- perform a one time action
+              if Database.Parameters[param] then
+                guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
+              elseif(ACTIONS[param]) then -- perform a one time action
                 if(tonumber(value) > BUTTON_ON) then
                   ACTIONS[param]()
                 end
@@ -646,8 +644,6 @@ LrTasks.startAsyncTask(
                     CU.showBezel(resetparam,lrvalue)
                   end
                 end
-              else -- otherwise update a develop parameter
-                guardsetting:performWithGuard(UpdateParam,param,tonumber(value))
               end
             end
           end,

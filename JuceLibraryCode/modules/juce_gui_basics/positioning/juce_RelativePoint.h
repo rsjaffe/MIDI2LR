@@ -32,8 +32,6 @@ namespace juce
     An X-Y position stored as a pair of RelativeCoordinate values.
 
     @see RelativeCoordinate, RelativeRectangle
-
-    @tags{GUI}
 */
 class JUCE_API  RelativePoint
 {

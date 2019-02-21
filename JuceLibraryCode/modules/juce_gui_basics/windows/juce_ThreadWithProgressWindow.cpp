@@ -38,12 +38,13 @@ ThreadWithProgressWindow::ThreadWithProgressWindow (const String& title,
      timeOutMsWhenCancelling (cancellingTimeOutMs),
      wasCancelledByUser (false)
 {
-    alertWindow.reset (LookAndFeel::getDefaultLookAndFeel()
-                           .createAlertWindow (title, {},
-                                               cancelButtonText.isEmpty() ? TRANS("Cancel")
-                                                                          : cancelButtonText,
-                                               {}, {}, AlertWindow::NoIcon, hasCancelButton ? 1 : 0,
-                                               componentToCentreAround));
+    alertWindow = LookAndFeel::getDefaultLookAndFeel()
+                    .createAlertWindow (title, String(),
+                                        cancelButtonText.isEmpty() ? TRANS("Cancel")
+                                                                   : cancelButtonText,
+                                        String(), String(),
+                                        AlertWindow::NoIcon, hasCancelButton ? 1 : 0,
+                                        componentToCentreAround);
 
     // if there are no buttons, we won't allow the user to interrupt the thread.
     alertWindow->setEscapeKeyCancels (false);

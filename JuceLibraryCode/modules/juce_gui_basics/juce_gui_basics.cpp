@@ -58,8 +58,6 @@
   #import <UserNotifications/UserNotifications.h>
  #endif
 
- #import <UIKit/UIActivityViewController.h>
-
 //==============================================================================
 #elif JUCE_WINDOWS
  #include <windowsx.h>
@@ -193,7 +191,6 @@ namespace juce
 #include "filebrowser/juce_FileSearchPathListComponent.cpp"
 #include "filebrowser/juce_FileTreeComponent.cpp"
 #include "filebrowser/juce_ImagePreviewComponent.cpp"
-#include "filebrowser/juce_ContentSharer.cpp"
 #include "layout/juce_ComponentAnimator.cpp"
 #include "layout/juce_ComponentBoundsConstrainer.cpp"
 #include "layout/juce_ComponentBuilder.cpp"
@@ -205,7 +202,6 @@ namespace juce
 #include "layout/juce_ResizableCornerComponent.cpp"
 #include "layout/juce_ResizableEdgeComponent.cpp"
 #include "layout/juce_ScrollBar.cpp"
-#include "layout/juce_SidePanel.cpp"
 #include "layout/juce_StretchableLayoutManager.cpp"
 #include "layout/juce_StretchableLayoutResizerBar.cpp"
 #include "layout/juce_StretchableObjectResizer.cpp"
@@ -218,7 +214,6 @@ namespace juce
 #include "lookandfeel/juce_LookAndFeel_V3.cpp"
 #include "lookandfeel/juce_LookAndFeel_V4.cpp"
 #include "menus/juce_MenuBarComponent.cpp"
-#include "menus/juce_BurgerMenuComponent.cpp"
 #include "menus/juce_MenuBarModel.cpp"
 #include "menus/juce_PopupMenu.cpp"
 #include "positioning/juce_MarkerList.cpp"
@@ -235,7 +230,6 @@ namespace juce
 #include "properties/juce_PropertyPanel.cpp"
 #include "properties/juce_SliderPropertyComponent.cpp"
 #include "properties/juce_TextPropertyComponent.cpp"
-#include "properties/juce_MultiChoicePropertyComponent.cpp"
 #include "widgets/juce_ComboBox.cpp"
 #include "widgets/juce_ImageComponent.cpp"
 #include "widgets/juce_Label.cpp"
@@ -267,12 +261,15 @@ namespace juce
 #include "misc/juce_DropShadower.cpp"
 #include "misc/juce_JUCESplashScreen.cpp"
 
-#include "layout/juce_FlexBox.cpp"
-#if JUCE_HAS_CONSTEXPR
- #include "layout/juce_GridItem.cpp"
- #include "layout/juce_Grid.cpp"
- #if JUCE_UNIT_TESTS
-  #include "layout/juce_GridUnitTests.cpp"
+// these classes are C++11-only
+#if JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS
+ #include "layout/juce_FlexBox.cpp"
+ #if JUCE_HAS_CONSTEXPR
+  #include "layout/juce_GridItem.cpp"
+  #include "layout/juce_Grid.cpp"
+  #if JUCE_UNIT_TESTS
+   #include "layout/juce_GridUnitTests.cpp"
+  #endif
  #endif
 #endif
 
@@ -290,13 +287,10 @@ namespace juce
  #if JUCE_IOS
   #include "native/juce_ios_UIViewComponentPeer.mm"
   #include "native/juce_ios_Windowing.mm"
-  #include "native/juce_ios_FileChooser.mm"
-  #include "native/juce_ios_ContentSharer.cpp"
  #else
   #include "native/juce_mac_NSViewComponentPeer.mm"
   #include "native/juce_mac_Windowing.mm"
   #include "native/juce_mac_MainMenu.mm"
-  #include "native/juce_mac_FileChooser.mm"
  #endif
 
  #if JUCE_CLANG
@@ -304,6 +298,7 @@ namespace juce
  #endif
 
  #include "native/juce_mac_MouseCursor.mm"
+ #include "native/juce_mac_FileChooser.mm"
 
 #elif JUCE_WINDOWS
  #include "native/juce_win32_Windowing.cpp"
@@ -318,8 +313,6 @@ namespace juce
 
 #elif JUCE_ANDROID
  #include "native/juce_android_Windowing.cpp"
- #include "native/juce_common_MimeTypes.cpp"
  #include "native/juce_android_FileChooser.cpp"
- #include "native/juce_android_ContentSharer.cpp"
 
 #endif

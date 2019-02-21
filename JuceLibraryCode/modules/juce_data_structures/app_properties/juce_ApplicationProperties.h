@@ -45,8 +45,6 @@ namespace juce
     its files.
 
     @see PropertiesFile
-
-    @tags{DataStructures}
 */
 class JUCE_API  ApplicationProperties
 {
@@ -123,8 +121,8 @@ public:
 private:
     //==============================================================================
     PropertiesFile::Options options;
-    std::unique_ptr<PropertiesFile> userProps, commonProps;
-    int commonSettingsAreReadOnly = 0;
+    ScopedPointer<PropertiesFile> userProps, commonProps;
+    int commonSettingsAreReadOnly;
 
     void openFiles();
 

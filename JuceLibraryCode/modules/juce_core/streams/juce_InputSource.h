@@ -31,8 +31,6 @@ namespace juce
     caller to create an input stream that can read from it when required.
 
     @see FileInputSource
-
-    @tags{Core}
 */
 class JUCE_API  InputSource
 {

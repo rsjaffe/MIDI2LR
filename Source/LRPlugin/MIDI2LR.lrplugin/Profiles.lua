@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+local Database            = require 'Database'
 local Init                = require 'Init'
 local Limits              = require 'Limits'
-local ParamList           = require 'ParamList'
+local ProfileTypes        = require 'ProfileTypes'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFileUtils         = import 'LrFileUtils'
-local ProfileTypes        = require 'ProfileTypes'
 local LrStringUtils       = import 'LrStringUtils'
 local LrView              = import 'LrView'
 
@@ -44,7 +44,7 @@ local function doprofilechange(newprofile)
   resyncDeferred = true
   if Limits.LimitsCanBeSet() then
     -- refresh MIDI controller since mapping has changed
-    for _,param in ipairs(ParamList.SendToMidi) do
+    for param in pairs(Database.Parameters) do
       local min,max = Limits.GetMinMax(param)
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
