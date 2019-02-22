@@ -18,6 +18,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ------------------------------------------------------------------------------]]
 
 --local function LOC(str) return str end--for debugging
+-- use st:gsub('%&', '') to remove ampersands
 
 local PV2003and2010 =  'PV2003'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV2010'
 local basicTone = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone')
@@ -206,7 +207,8 @@ local DataBase = {
   {Command='NextPrev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo')..' — '..LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=general,Explanation='Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
   {Command='Next',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo'),Group=general,Explanation='*button*'},
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=general,Explanation='*button*'},
-
+  {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=general,Explanation='Rotates all selected photos left. *button*'},
+  {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=general,Explanation='Rotates all selected photos right. *button*'},
   {Command='ActionSeries1',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 1',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*'},
   {Command='ActionSeries2',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 2',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*'},
   {Command='ActionSeries3',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 3',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information. *button*'},
@@ -281,14 +283,14 @@ local DataBase = {
   --
   {Command='RevealPanelAdjust',Type='button',Translation=show..' '..basicTone,Group=basicTone,Explanation='Open Basic Adjustments Panel in Develop Module. *button*'},
   {Command='WhiteBalanceAs_Shot',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/AsShot=As Shot'),Group=basicTone,Explanation='Use Temperature and Tint as determined by camera. *button*',Panel='adjustPanel'},
-  {Command='WhiteBalanceAuto',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Auto=Auto'),Group=basicTone,Explanation='Have Lightroom determine Temperature and Tint. *button*',Panel='adjustPanel'},
+  {Command='WhiteBalanceAuto',Type='button',Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Auto=Auto'),Group=basicTone,Explanation='Have Lightroom determine Temperature and Tint. *button*',Panel='adjustPanel'},
   {Command='WhiteBalanceCloudy',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Cloudy=Cloudy'),Group=basicTone,Explanation='Use cloudy white balance. *button*',Panel='adjustPanel'},
   {Command='WhiteBalanceDaylight',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Daylight=Daylight'),Group=basicTone,Explanation='Use daylight white balance. *button*',Panel='adjustPanel'},
   {Command='WhiteBalanceFlash',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Flash=Flash'),Group=basicTone,Explanation='Use flash white balance. *button*',Panel='adjustPanel'},
   {Command='WhiteBalanceFluorescent',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Fluorescent=Fluorescent'),Group=basicTone,Explanation='Use fluorescent white balance. *button*',Panel='adjustPanel'},
   {Command='WhiteBalanceShade',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Shade=Shade'),Group=basicTone,Explanation='Use shade white balance. *button*',Panel='adjustPanel'},
   {Command='WhiteBalanceTungsten',Type='button',Experimental=true,Translation=whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Tungsten=Tungsten'),Group=basicTone,Explanation='Use tungsten white balance. *button*',Panel='adjustPanel'},
-  {Command='AutoTone',Type='button',Experimental=true,Translation=basicTone..' '..LOC('$$$/AgCameraRawNamedSettings/Ops/AutoTone=Auto Tone'),Group=basicTone,Explanation='Auto Tone. *button*',Panel='adjustPanel'},
+  {Command='AutoTone',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Auto_Tone=Auto Tone'),Group=basicTone,Explanation='Auto Tone. *button*',Panel='adjustPanel'},
   {Command='Temperature',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Temperature=Temperature'),Group=basicTone,Explanation='Fine-tunes the white balance using the Kelvin color temperature scale. Move the slider to the left to make the photo appear cooler, and right to warm the photo colors.',Panel='adjustPanel'},
   {Command='Tint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Tint=Tint'),Group=basicTone,Explanation='Fine-tunes the white balance to compensate for a green or magenta tint. Move the slider to the left (negative values) to add green to the photo; move it to the right (positive values) to add magenta.',Panel='adjustPanel'},
   {Command='Exposure',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Exposure=Exposure'),Group=basicTone,Explanation='Sets the overall image brightness. Adjust the slider until the photo looks good and the image is the desired brightness.',Panel='adjustPanel'},

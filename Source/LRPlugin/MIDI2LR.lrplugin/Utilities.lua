@@ -57,6 +57,8 @@ local needsModule = {
   [LrDevelopController.setValue]                       = {module = 'develop', photoSelected = true },
   [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setAutoTone]                    = {module = 'develop', photoSelected = true },
+  [LrDevelopController.setAutoWhiteBalance]            = {module = 'develop', photoSelected = true },
 }
 
 local _needsModule = {
@@ -234,11 +236,28 @@ local function precision(value)
   end
 end
 
+
+local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
+  local action = {
+    rotateLeft  = function(T) T:rotateLeft() end,
+    rotateRight = function(T) T:rotateRight() end,
+  }
+  local SelectedAction = action[F]
+  return function()    
+    local LrCat = LrApplication.activeCatalog()
+    local TargetPhoto  = LrCat:getTargetPhoto()
+    if TargetPhoto then
+      SelectedAction(TargetPhoto)
+    end
+  end
+end
+
 --- @export
 return { --table of exports, setting table member name and module function it points to
   wrapFOM = wrapFOM,
   wrapFCM = wrapFCM,
   wrapFIM = wrapFIM,
+  wrapForEachPhoto = wrapForEachPhoto,
   execFOM = execFOM,
   execFCM = execFCM,
   execFIM = execFIM,
