@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.0.0.1"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
-              jucerVersion="5.4.2" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
+              jucerVersion="5.4.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="U_STATIC_IMPLEMENTATION=1&#10;DONT_SET_USING_JUCE_NAMESPACE=1"
@@ -123,14 +123,11 @@
     <VS2017 targetFolder="Builds/VisualStudio2017" cppLanguageStandard="stdcpplatest"
             bigIcon="WdgQGt" smallIcon="WdgQGt" extraDefs="" userNotes="">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="MIDI2LR" headerPath=""
-                       defines="GSL_THROW_ON_CONTRACT_VIOLATION=1" debugInformationFormat="ProgramDatabase"
-                       enablePluginBinaryCopyStep="0" useRuntimeLibDLL="0"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="MIDI2LR" headerPath=""
+        <CONFIGURATION name="Debug" isDebug="1" targetName="MIDI2LR" headerPath="" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION name="Release" isDebug="0" targetName="MIDI2LR" headerPath=""
                        defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1" debugInformationFormat="ProgramDatabase"
-                       enablePluginBinaryCopyStep="0" linkTimeOptimisation="1" postbuildCommand="$(SolutionDir)luacompile.bat"/>
+                       postbuildCommand="$(SolutionDir)luacompile.bat"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
@@ -142,6 +139,23 @@
         <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode\modules"/>
       </MODULEPATHS>
     </VS2017>
+    <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
+                       useRuntimeLibDLL="0"/>
+        <CONFIGURATION isDebug="0" name="Release" defines="GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1"
+                       postbuildCommand="$(SolutionDir)luacompile.bat"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_basics"/>
+        <MODULEPATH id="juce_graphics"/>
+        <MODULEPATH id="juce_events"/>
+        <MODULEPATH id="juce_data_structures"/>
+        <MODULEPATH id="juce_core"/>
+        <MODULEPATH id="juce_audio_devices"/>
+        <MODULEPATH id="juce_audio_basics"/>
+      </MODULEPATHS>
+    </VS2019>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="1"/>
