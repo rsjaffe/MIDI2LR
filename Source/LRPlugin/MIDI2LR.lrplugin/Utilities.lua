@@ -48,17 +48,18 @@ local needsModule = {
   [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetTransforms]                = {module = 'develop', photoSelected = true },
   [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
   [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
   [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setAutoTone]                    = {module = 'develop', photoSelected = true },
+  [LrDevelopController.setAutoWhiteBalance]            = {module = 'develop', photoSelected = true },
   [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
   [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
   [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
   [LrDevelopController.setValue]                       = {module = 'develop', photoSelected = true },
   [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
-  [LrDevelopController.setAutoTone]                    = {module = 'develop', photoSelected = true },
-  [LrDevelopController.setAutoWhiteBalance]            = {module = 'develop', photoSelected = true },
 }
 
 local _needsModule = {

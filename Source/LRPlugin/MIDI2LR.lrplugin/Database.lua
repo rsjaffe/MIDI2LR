@@ -189,6 +189,8 @@ local DataBase = {
   {Command='ShoVwcompare',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Compare=Compare'),Group=general,Explanation='Displays photos side by side so that you can evaluate them. *button*'},
   --workspace: survey 
   {Command='ShoVwsurvey',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Survey=Survey'),Group=general,Explanation='Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell. *button*'},
+  {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%&', ''),Group=general,Explanation='Changes the screen mode to Full Screen and Hide Panels. *button*'},
+  {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullscreenPreview=Full screen preview'):gsub('%&', ''),Group=general,Explanation='Changes the screen mode to Full Screen Preview. *button*'},
   --workspace: zoom
   {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('&',''),Group=general,Explanation='*button*'},
   {Command='ZoomInOut',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=general,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
@@ -246,6 +248,7 @@ local DataBase = {
   {Command='ToggleRed',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelRed=Red')),Group=library,Explanation='*button*'},
   {Command='TogglePurple',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelPurple=Purple')),Group=library,Explanation='*button*'},
   {Command='ToggleYellow',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelYellow=Yellow')),Group=library,Explanation='*button*'},
+  {Command='EditPhotoshop',Type='button',Translation=LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),Group=library,Explanation='Edit the current photo in Photoshop. *button*'},  
   --library: rotation
   --library: delete
   --library: face recognition
@@ -499,6 +502,7 @@ local DataBase = {
   {Command='PerspectiveAspect',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveAspect=Perspective Aspect'),Group=transform,Explanation='Adjusts the amount the image is stretched horizontally or vertically.',Panel='transformPanel'},
   {Command='PerspectiveX',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveX=Perspective X'),Group=transform,Explanation='Moves the center of the image laterally.',Panel='transformPanel'},
   {Command='PerspectiveY',Type='parameter',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveY=Perspective Y'),Group=transform,Explanation='Moves the center of the image vertically.',Panel='transformPanel'},
+  {Command='ResetTransforms',Type='button',Translation=LOC("$$$/AgLibrary/Ops/ResetTransforms=Reset all transforms"),Group=develop,Explanation='Clears all transforms from the current photo. Must be called while the Develop module is active. *button*'},  
   {Command='ResetPerspectiveVertical',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveVertical=Perspective Vertical'),Group=transform,Explanation='Reset to default. *button*',Panel='transformPanel'},
   {Command='ResetPerspectiveHorizontal',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveHorizontal=Perspective Horizontal'),Group=transform,Explanation='Reset to default. *button*',Panel='transformPanel'},
   {Command='ResetPerspectiveRotate',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PerspectiveRotate=Perspective Rotate'),Group=transform,Explanation='Reset to default. *button*',Panel='transformPanel'},
