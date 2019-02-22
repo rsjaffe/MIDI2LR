@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "ControlsModel.h"
+#include <algorithm>
 #include <mutex>
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -211,17 +212,20 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       switch (controltype) {
       case rsj::kPwFlag: {
          // TODO(C26451): short mixed with double: can it overflow?
-         const short newv = gsl::narrow_cast<short>(
-                                juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_)))
-                            + pitch_wheel_min_;
+         const short newv = std::clamp(
+             gsl::narrow_cast<short>(juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_))
+                                     + pitch_wheel_min_),
+             pitch_wheel_min_, pitch_wheel_max_);
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::kCcFlag: {
          // TODO(C26451): short mixed with double: can it overflow?
-         const short newv = gsl::narrow_cast<short>(juce::roundToInt(
-                                value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber))))
-                            + cc_low_.at(controlnumber);
+         const short newv = std::clamp(
+             gsl::narrow_cast<short>(
+                 juce::roundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
+                 + cc_low_.at(controlnumber)),
+             cc_low_.at(controlnumber), cc_high_.at(controlnumber));
          {
             auto lock = std::lock_guard(current_v_mtx_);
             current_v_.at(controlnumber) = newv;

@@ -331,6 +331,8 @@ local function FullRefresh()
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
         local midivalue = (lrvalue-min)/(max-min)
+        if midivalue > 1.0 then midivalue = 1.0 
+        elseif midivalue < 0.0 then midivalue = 0.0 end
         MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
       end
       Profiles.resyncDeferred = false
