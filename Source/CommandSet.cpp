@@ -11,13 +11,13 @@ CommandSet::CommandSet() : m_impl(make_impl())
    cmd_idx_["unmapped"] = 0;
    size_t idx = 1;
    for (const auto& bycategory : m_impl.allcommands_) {
-      menus_.push_back(bycategory.first);
       std::vector<MenuStringT> menu_items_temp{};
       for (const auto& cmd_pair : bycategory.second) {
          cmd_by_number_.push_back(cmd_pair.first);
          cmd_idx_[cmd_pair.first] = idx++;
          menu_items_temp.push_back(cmd_pair.second);
       }
+      menus_.push_back(bycategory.first);
       menu_entries_.emplace_back(std::move(menu_items_temp));
    }
 }
@@ -58,7 +58,7 @@ const CommandSet::Impl& CommandSet::make_impl()
    return singleimpl;
 }
 
-size_t CommandSet::CommandTextIndex(const MenuStringT& command) const
+size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
    auto found = cmd_idx_.find(command);
    if (found == cmd_idx_.end()) {

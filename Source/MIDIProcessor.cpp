@@ -73,8 +73,8 @@ void MidiProcessor::handleIncomingMidiMessage(
     juce::MidiInput* /*device*/, const juce::MidiMessage& message)
 {
    try {
-   // this procedure is in near-real-time, so must return quickly.
-   // will place message in multithreaded queue and let separate process handle the messages
+      // this procedure is in near-real-time, so must return quickly.
+      // will place message in multithreaded queue and let separate process handle the messages
 #pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(messages_);
       const rsj::MidiMessage mess{message};

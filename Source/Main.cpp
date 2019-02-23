@@ -67,7 +67,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
-      juce::LookAndFeel::setDefaultLookAndFeel(look_feel_.get());
+      juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
@@ -347,8 +347,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, command_map_)};
    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-   std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
+   // destroy after window that uses it
+   juce::LookAndFeel_V3 look_feel_;
    VersionChecker version_checker_{settings_manager_};
 };
 

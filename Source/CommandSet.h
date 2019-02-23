@@ -17,7 +17,7 @@ class CommandSet {
  public:
    CommandSet();
    ~CommandSet();
-   size_t CommandTextIndex(const MenuStringT& command) const;
+   size_t CommandTextIndex(const std::string& command) const;
    const auto& CommandAbbrevAt(size_t index) const
    {
       return cmd_by_number_.at(index);
@@ -74,7 +74,7 @@ class CommandSet {
    const Impl& m_impl;
    const Impl& make_impl();
 
-   std::unordered_map<MenuStringT, size_t> cmd_idx_{}; // for CommandTextIndex
+   std::unordered_map<std::string, size_t> cmd_idx_{}; // for CommandTextIndex
    std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size
    std::vector<MenuStringT> menus_{};         // use for commandmenu
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
