@@ -157,8 +157,8 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          auto guard = std::shared_lock{cmd_table_mod_mtx_};
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
-            command_select =
-                new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number)), command_set_, command_map_};
+            command_select = new CommandMenu{
+                commands_.at(gsl::narrow_cast<size_t>(row_number)), command_set_, command_map_};
          }
          else
             command_select->SetMsg(commands_.at(gsl::narrow_cast<size_t>(row_number)));

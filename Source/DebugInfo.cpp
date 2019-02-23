@@ -119,7 +119,7 @@ namespace {
        {0x00040409, "United States-Dvorak for right hand"}, {0x00000409, "United States - English"},
        {0x00000420, "Urdu"}, {0x00010480, "Uyghur (Legacy)"}, {0x00000843, "Uzbek Cyrillic"},
        {0x0000042a, "Vietnamese"}, {0x00000488, "Wolof"}, {0x0000046a, "Yoruba"}};
-}
+} // namespace
 
 std::string rsj::GetKeyboardLayout()
 {

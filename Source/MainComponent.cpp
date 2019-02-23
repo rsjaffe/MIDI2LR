@@ -59,8 +59,8 @@ namespace {
 
 MainContentComponent::MainContentComponent(
     CommandMap& command_map, ProfileManager& profile_manager, SettingsManager& settings_manager)
-    : ResizableLayout{this}, command_map_(command_map), profile_manager_(profile_manager),
-      settings_manager_(settings_manager), command_table_model_(command_map)
+    : ResizableLayout{this}, command_map_(command_map), command_table_model_(command_map),
+      profile_manager_(profile_manager), settings_manager_(settings_manager)
 {
    // Set the component size
    setSize(kMainWidth, kMainHeight);

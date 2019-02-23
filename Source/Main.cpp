@@ -234,7 +234,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
-   void CerealLoad() noexcept
+   void CerealLoad()
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
@@ -283,9 +283,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 #pragma warning(pop)
 
-   void SetAppLanguage()
+   void SetAppLanguage() const
    {
-      const std::string lang{command_set_.GetLanguage()};
+      const auto lang{command_set_.GetLanguage()};
 
       // juce (as of July 2018) uses the following font defaults
       // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
@@ -335,6 +335,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
    // create logger first, makes sure that MIDI2LR directory is created for writing by other modules
    // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
+   // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    CommandMap command_map_{};
@@ -350,6 +351,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::unique_ptr<MainWindow> main_window_{nullptr};
    // destroy after window that uses it
    juce::LookAndFeel_V3 look_feel_;
+   // initialize this last as it needs window to exist
    VersionChecker version_checker_{settings_manager_};
 };
 

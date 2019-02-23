@@ -32,7 +32,7 @@ class CommandMap;
 
 class CommandTableModel final : public juce::TableListBoxModel {
  public:
-   CommandTableModel(CommandMap& map_command) noexcept;
+   explicit CommandTableModel(CommandMap& map_command) noexcept;
 
    // adds a row with a corresponding MIDI message to the table
    void AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type);

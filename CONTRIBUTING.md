@@ -32,12 +32,12 @@ On Github, we only accept issues that are bug reports or feature requests. Bugs 
 - If adding something that is stored in the Preferences, there are four functions needed: StartDialog, EndDialog, Loaded..., UseDefaults.... The Loaded... and UseDefaults... functions must be in *Init.lua*, exported, and used in the LoadedAll and UseDefaultsAll functions in *Init.lua*.
 
 ## Typical process for adding new types of actions
-- First, write new .lua file with specialized code.
-- Then, add *Loaded* and *Default* methods to *Init.lua* to handle preference file loading.
+- First, write new .lua file with specialized code, if any is needed.
+- Then, add *Loaded* and *Default* methods to *Init.lua* to handle preference file loading, if new .lua file has been written.
 - Add actions to *Database.lua* and regenerate the database in Lightroom, using the *Build files (development use only)* option in the MIDI2LR menu.
-- Move generated .md files to wiki, move .h and .cpp files to Source.
 - Integrate commands into Client.lua and **require** new lua file.
-- Add menu building code to the .lua file for these actions and integrate into *Options.lua*.
+- Move generated .md files to wiki.
+- Add menu building code to the .lua file for these actions (if needed) and integrate into *Options.lua*.
 
 ## License
 

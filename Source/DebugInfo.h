@@ -28,7 +28,7 @@ namespace juce {
 
 class DebugInfo {
  public:
-   DebugInfo(const juce::String& profile_directory) noexcept;
+   explicit DebugInfo(const juce::String& profile_directory) noexcept;
    ~DebugInfo() = default;
    DebugInfo(const DebugInfo& other) = default;
    DebugInfo(DebugInfo&& other) = default;

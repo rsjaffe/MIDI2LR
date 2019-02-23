@@ -76,7 +76,7 @@ class LrIpcOut final : juce::InterprocessConnection {
    std::vector<std::function<void(bool, bool)>> callbacks_{};
 
    // helper classes
-   class ConnectTimer : public juce::Timer {
+   class ConnectTimer final : public juce::Timer {
     public:
       explicit ConnectTimer(LrIpcOut& owner) noexcept : owner_(owner) {}
       void Start();
@@ -88,7 +88,7 @@ class LrIpcOut final : juce::InterprocessConnection {
       bool timer_off_{false};
       mutable std::mutex connect_mutex_; // fix race during shutdown
    };
-   class Recenter : public juce::Timer {
+   class Recenter final : public juce::Timer {
     public:
       explicit Recenter(LrIpcOut& owner) noexcept : owner_{owner} {}
       void SetMidiMessage(rsj::MidiMessage mm);

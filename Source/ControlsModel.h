@@ -132,7 +132,7 @@ class ChannelModel {
    double ControllerToPlugin(short controltype, size_t controlnumber, short value);
    short MeasureChange(short controltype, size_t controlnumber, short value);
    short SetToCenter(short controltype, size_t controlnumber);
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const
+   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const 
    {
       try {
          return cc_method_.at(controlnumber);
@@ -152,7 +152,7 @@ class ChannelModel {
          throw;
       }
    }
-   [[nodiscard]] short GetCcMin(size_t controlnumber) const
+   [[nodiscard]] short GetCcMin(size_t controlnumber) const 
    {
       try {
          return cc_low_.at(controlnumber);
@@ -163,7 +163,7 @@ class ChannelModel {
       }
    }
 
-   [[nodiscard]] short GetPwMax() const noexcept
+       [[nodiscard]] short GetPwMax() const noexcept
    {
       return pitch_wheel_max_;
    }
@@ -267,8 +267,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const
-   {
+   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const {
       try {
          return all_controls_.at(channel).GetCcMethod(controlnumber);
       }
@@ -278,7 +277,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
+       [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
    {
       try {
          return all_controls_.at(channel).GetCcMax(controlnumber);
@@ -300,8 +299,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] short GetPwMax(size_t channel) const
-   {
+   [[nodiscard]] short GetPwMax(size_t channel) const {
       try {
          return all_controls_.at(channel).GetPwMax();
       }
@@ -311,7 +309,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] short GetPwMin(size_t channel) const
+       [[nodiscard]] short GetPwMin(size_t channel) const
    {
       try {
          return all_controls_.at(channel).GetPwMin();

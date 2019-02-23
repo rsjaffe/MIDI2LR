@@ -27,9 +27,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 #include "PWoptions.h"
 
-CommandMenu::CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set, CommandMap& map_command) try
-    : juce
-   ::TextButton{"Unmapped"}, message_{message}, command_set_(command_set), command_map_(map_command) {}
+CommandMenu::CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set,
+    CommandMap& map_command) try : juce
+   ::TextButton{"Unmapped"}, command_map_(map_command), command_set_(command_set), message_{message}
+   {
+   }
 catch (const std::exception& e) {
    rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    throw;

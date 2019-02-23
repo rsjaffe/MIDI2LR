@@ -44,8 +44,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 using namespace juce;
 //[/Headers]
 
-
-
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
 ControlsModel* PWoptions::controls_model_{nullptr};
@@ -54,8 +52,8 @@ ControlsModel* PWoptions::controls_model_{nullptr};
 //==============================================================================
 PWoptions::PWoptions()
 {
-//[Constructor_pre] You can add your own custom stuff here..
-//[/Constructor_pre]
+   //[Constructor_pre] You can add your own custom stuff here..
+   //[/Constructor_pre]
 
 #pragma warning(suppress : 26409)
    label.reset(new Label("new label", TRANS("Minimum value")));
@@ -92,7 +90,7 @@ PWoptions::PWoptions()
 
    label2->setBounds(32, 112, 150, 24); //-V112
 
-    setSize(280, 350);
+   setSize(280, 350);
 
    maxval->setBounds(32, 144, 150, 24); //-V112
 
@@ -121,61 +119,63 @@ PWoptions::PWoptions()
 
 PWoptions::~PWoptions()
 {
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+   //[Destructor_pre]. You can add your own custom destruction code here..
+   //[/Destructor_pre]
 
-    label = nullptr;
-    minval = nullptr;
-    label2 = nullptr;
-    maxval = nullptr;
-    label3 = nullptr;
+   label = nullptr;
+   minval = nullptr;
+   label2 = nullptr;
+   maxval = nullptr;
+   label3 = nullptr;
 
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
+   //[Destructor]. You can add your own custom destruction code here..
+   //[/Destructor]
 }
 
 //==============================================================================
 void PWoptions::paint(Graphics& g)
 {
-    //[UserPrePaint] Add your own custom painting code here..
-    //[/UserPrePaint]
+   //[UserPrePaint] Add your own custom painting code here..
+   //[/UserPrePaint]
 
-    g.fillAll(Colours::white);
+   g.fillAll(Colours::white);
 
-    //[UserPaint] Add your own custom painting code here..
-    //[/UserPaint]
+   //[UserPaint] Add your own custom painting code here..
+   //[/UserPaint]
 }
 
 void PWoptions::resized()
 {
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
+   //[UserPreResize] Add your own custom resize code here..
+   //[/UserPreResize]
 
-    label->setBounds(32, 48, 150, 24); //-V112
-    minval->setBounds(32, 80, 150, 24); //-V112
-    label2->setBounds(32, 112, 150, 24); //-V112
-    maxval->setBounds(32, 144, 150, 24); //-V112
-    label3->setBounds(32, 16, 150, 24); //-V112
-    //[UserResized] Add your own custom resize handling here..
-    //[/UserResized]
+   label->setBounds(32, 48, 150, 24);   //-V112
+   minval->setBounds(32, 80, 150, 24);  //-V112
+   label2->setBounds(32, 112, 150, 24); //-V112
+   maxval->setBounds(32, 144, 150, 24); //-V112
+   label3->setBounds(32, 16, 150, 24);  //-V112
+                                        //[UserResized] Add your own custom resize handling here..
+                                        //[/UserResized]
 }
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void PWoptions::textEditorFocusLost(TextEditor& t)
 {
-    const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
-    const auto nam = t.getName();
-    if (nam=="minval")
-        controls_model_->SetPwMin(boundchannel_, val);
-    else if (nam=="maxval")
-        controls_model_->SetPwMax(boundchannel_, val);
+   const auto val = gsl::narrow_cast<short>(t.getText().getIntValue());
+   const auto& nam = t.getName();
+   if (nam == "minval")
+      controls_model_->SetPwMin(boundchannel_, val);
+   else if (nam == "maxval")
+      controls_model_->SetPwMax(boundchannel_, val);
 }
 
 void PWoptions::BindToControl(size_t channel)
 {
-    boundchannel_ = channel;
-    minval->setText(juce::String(controls_model_->GetPwMin(boundchannel_)), juce::dontSendNotification);
-    maxval->setText(juce::String(controls_model_->GetPwMax(boundchannel_)), juce::dontSendNotification);
+   boundchannel_ = channel;
+   minval->setText(
+       juce::String(controls_model_->GetPwMin(boundchannel_)), juce::dontSendNotification);
+   maxval->setText(
+       juce::String(controls_model_->GetPwMax(boundchannel_)), juce::dontSendNotification);
 }
 //[/MiscUserCode]
 
