@@ -48,15 +48,14 @@ void VersionChecker::run()
       const juce::URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
       const std::unique_ptr<juce::XmlElement> version_xml_element{
           version_url.readEntireXmlStream()};
-
       if (version_xml_element) {
          const auto last_checked = settings_manager_->GetLastVersionFound();
          new_version_ = version_xml_element->getIntAttribute("latest");
          rsj::Log("Version available " + juce::String(new_version_) + ", version last checked "
                   + juce::String(last_checked) + ", current version "
                   + juce::String(ProjectInfo::versionNumber));
+         settings_manager_->SetLastVersionFound(new_version_);
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
-            settings_manager_->SetLastVersionFound(new_version_);
             triggerAsyncUpdate();
          }
       }
