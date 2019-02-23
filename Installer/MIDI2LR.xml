@@ -173,9 +173,6 @@
                         <distributionFile>
                             <origin>${exe}/MIDI2LR.exe</origin>
                         </distributionFile>
-                        <distributionFile>
-                            <origin>../rtmidi/midiprobe.exe</origin>
-                        </distributionFile>
                     </distributionFileList>
                 </folder>
                 <folder>
@@ -187,9 +184,6 @@
                         <distributionDirectory>
                             <origin>${app}/MIDI2LR.app</origin>
                         </distributionDirectory>
-                        <distributionFile>
-                            <origin>../rtmidi/midiprobe</origin>
-                        </distributionFile>
                     </distributionFileList>
                 </folder>
             </folderList>
