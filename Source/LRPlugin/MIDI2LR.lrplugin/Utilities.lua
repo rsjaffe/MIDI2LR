@@ -31,7 +31,7 @@ local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 
---hidden 
+--hidden modules may be library develop map book slideshow print web
 local needsModule = {
   [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
   [LrDevelopController.decrement]                      = {module = 'develop', photoSelected = true },
@@ -237,11 +237,15 @@ local function precision(value)
   end
 end
 
-
+--currently, only openExport..., rotateLeft and rotateRight implemented
+-- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
   local action = {
-    rotateLeft  = function(T) T:rotateLeft() end,
-    rotateRight = function(T) T:rotateRight() end,
+    addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
+    openExportDialog                = function(T) T:openExportDialog() end,
+    openExportWithPreviousDialog    = function(T) T:openExportWithPreviousDialog() end,
+    rotateLeft                      = function(T) T:rotateLeft() end,
+    rotateRight                     = function(T) T:rotateRight() end,
   }
   local SelectedAction = action[F]
   return function()    

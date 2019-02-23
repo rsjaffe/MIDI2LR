@@ -223,6 +223,8 @@ LrTasks.startAsyncTask(
       LensProfileEnable               = CU.fToggle01Async('LensProfileEnable'),
       Loupe                           = CU.fToggleTool('loupe'),
       Next                            = LrSelection.nextPhoto,
+      openExportDialog                = Ut.wrapForEachPhoto('openExportDialog'), 
+      openExportWithPreviousDialog    = Ut.wrapForEachPhoto('openExportWithPreviousDialog'),
       PasteSelectedSettings           = CU.PasteSelectedSettings,
       PasteSettings                   = CU.PasteSettings,
       Pause                           = function() LrTasks.sleep( 0.02 ) end,

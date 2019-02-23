@@ -248,7 +248,10 @@ local DataBase = {
   {Command='ToggleRed',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelRed=Red')),Group=library,Explanation='*button*'},
   {Command='TogglePurple',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelPurple=Purple')),Group=library,Explanation='*button*'},
   {Command='ToggleYellow',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelYellow=Yellow')),Group=library,Explanation='*button*'},
-  {Command='EditPhotoshop',Type='button',Translation=LOC("$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop"),Group=library,Explanation='Edit the current photo in Photoshop. *button*'},  
+  {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=library,Explanation='Edit the current photo in Photoshop. *button*'},  
+  {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export=Export...'):gsub('%&',''),Group=library,Explanation='Opens export dialog for the current photos. *button*'},
+  {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%&',''),Group=library,Explanation='Opens export with previous settings for the current photos. *button*'},
+  
   --library: rotation
   --library: delete
   --library: face recognition
