@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -32,9 +30,9 @@ CommandTable::CommandTable(const juce::String& component_name, CommandTableModel
    {
 #pragma warning(suppress : 26409 24624)
       setHeader(new juce::TableHeaderComponent{});
-      getHeader().addColumn("MIDI Command", 1, 150, 30, -1,
+      getHeader().addColumn(TRANS("MIDI Command"), 1, 150, 30, -1,
           juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);
-      getHeader().addColumn("LR Command", 2, 150, 30, -1,
+      getHeader().addColumn(TRANS("LR Command"), 2, 150, 30, -1,
           juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable
               | juce::TableHeaderComponent::sortedForwards);
    }
@@ -43,14 +41,15 @@ catch (const std::exception& e) {
    throw;
 }
 
-bool CommandTable::keyPressed(const KeyPress& k)
+bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
-      static const std::unordered_map<int, int> keytoaction{{juce::KeyPress::deleteKey, 1},
+#pragma warning(suppress : 26426)
+      static const std::unordered_map<int, int> kKeyToAction{{juce::KeyPress::deleteKey, 1},
           {juce::KeyPress::downKey, 2}, {juce::KeyPress::upKey, 3}, {juce::KeyPress::pageUpKey, 4},
           {juce::KeyPress::pageDownKey, 5}, {juce::KeyPress::homeKey, 6},
           {juce::KeyPress::endKey, 7}};
-      if (const auto f = keytoaction.find(k.getKeyCode()); f != keytoaction.end()) {
+      if (const auto f = kKeyToAction.find(k.getKeyCode()); f != kKeyToAction.end()) {
          switch (f->second) {
          case 1: // deleteKey
             if (getSelectedRow() != -1) {

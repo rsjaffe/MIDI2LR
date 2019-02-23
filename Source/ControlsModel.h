@@ -46,15 +46,64 @@ namespace rsj {
       {
       }
 
-      template<class Archive> void serialize(Archive& archive, uint32_t const version)
+      template<class Archive,
+          cereal::traits::DisableIf<cereal::traits::is_text_archive<Archive>::value> =
+              cereal::traits::sfinae>
+      void serialize(Archive& archive, uint32_t const version)
       {
          switch (version) {
          case 1:
-            archive(number, high, low,
-                method); // keep this order for compatibility with earlier versions
+            archive(number, high, low, method);
             break;
          default:
-            Expects(!"Wrong archive number for SettingsStruct");
+            rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
+         }
+      }
+
+      template<class Archive,
+          cereal::traits::EnableIf<cereal::traits::is_text_archive<Archive>::value> =
+              cereal::traits::sfinae>
+      void serialize(Archive& archive, uint32_t const version)
+      {
+         switch (version) {
+         case 1: {
+            std::string methodstr{"undefined"};
+            switch (method) {
+            case CCmethod::kAbsolute:
+               methodstr = "Absolute";
+               break;
+            case CCmethod::kBinaryOffset:
+               methodstr = "BinaryOffset";
+               break;
+            case CCmethod::kSignMagnitude:
+               methodstr = "SignMagnitute";
+               break;
+            case CCmethod::kTwosComplement:
+               methodstr = "TwosComplement";
+            default:
+               break; // leave "undefined"
+            }
+            archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
+                cereal::make_nvp("method", methodstr));
+            switch (methodstr.front()) {
+            case 'B':
+               method = CCmethod::kBinaryOffset;
+               break;
+            case 'S':
+               method = CCmethod::kSignMagnitude;
+               break;
+            case 'T':
+               method = CCmethod::kTwosComplement;
+               break;
+            case 'A':
+            default:
+               method = CCmethod::kAbsolute;
+               break;
+            }
+            break;
+         }
+         default:
+            rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
          }
       }
    };
@@ -73,7 +122,7 @@ class ChannelModel {
    constexpr static rsj::TimeType kUpdateDelay = 250;
 
  public:
-   ChannelModel() noexcept;
+   ChannelModel();
    ~ChannelModel() = default;
    // Can write copy and move with special handling for atomics, but in lieu of that, delete
    ChannelModel(const ChannelModel&) = delete; // can't copy atomics
@@ -137,8 +186,8 @@ class ChannelModel {
       }
    }
    void SetCcMin(size_t controlnumber, short value);
-   void SetPwMax(short value) noexcept(kNdebug);
-   void SetPwMin(short value) noexcept(kNdebug);
+   void SetPwMax(short value) noexcept;
+   void SetPwMin(short value) noexcept;
 
  private:
    [[nodiscard]] short CenterCc(size_t controlnumber) const noexcept
@@ -163,11 +212,11 @@ class ChannelModel {
    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
    short pitch_wheel_max_{kMaxNrpn};
    short pitch_wheel_min_{0};
-   std::atomic<short> pitch_wheel_current_;
-   std::array<rsj::CCmethod, kMaxControls> cc_method_;
-   std::array<short, kMaxControls> cc_high_;
-   std::array<short, kMaxControls> cc_low_;
-   std::array<short, kMaxControls> current_v_;
+   std::atomic<short> pitch_wheel_current_{0};
+   std::array<rsj::CCmethod, kMaxControls> cc_method_{};
+   std::array<short, kMaxControls> cc_high_{};
+   std::array<short, kMaxControls> cc_low_{};
+   std::array<short, kMaxControls> current_v_{};
    template<class Archive> void load(Archive& archive, uint32_t const version);
    template<class Archive> void save(Archive& archive, uint32_t const version) const;
    void ActiveToSaved() const;
@@ -393,8 +442,13 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          archive(settings_to_save_);
          SavedToActive();
          break;
+      case 3:
+         archive(settings_to_save_, cereal::make_nvp("PWmax", pitch_wheel_max_),
+             cereal::make_nvp("PWmin", pitch_wheel_min_));
+         SavedToActive();
+         break;
       default:
-         Expects(!"Archive version not acceptable");
+         rsj::LogAndAlertError("Archive version not acceptable");
       }
    }
    catch (const std::exception& e) {
@@ -414,8 +468,13 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
          ActiveToSaved();
          archive(settings_to_save_);
          break;
+      case 3:
+         ActiveToSaved();
+         archive(settings_to_save_, cereal::make_nvp("PWmax", pitch_wheel_max_),
+             cereal::make_nvp("PWmin", pitch_wheel_min_));
+         break;
       default:
-         Expects(!"Wrong archive version specified for save");
+         rsj::LogAndAlertError("Wrong archive version specified for save");
       }
    }
    catch (const std::exception& e) {
@@ -425,7 +484,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
 }
 #pragma warning(push)
 #pragma warning(disable : 26440 26426 26444)
-CEREAL_CLASS_VERSION(ChannelModel, 2)
+CEREAL_CLASS_VERSION(ChannelModel, 3)
 CEREAL_CLASS_VERSION(ControlsModel, 1)
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)
 #pragma warning(pop)

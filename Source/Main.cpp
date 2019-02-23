@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -34,13 +32,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 #include <Windows.h>
 #endif
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <cereal/archives/binary.hpp>
+#include <cereal/archives/xml.hpp>
 #include "CCoptions.h"
 #include "CommandMap.h"
+#include "CommandSet.h"
 #include "ControlsModel.h"
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
@@ -51,26 +51,19 @@ namespace fs = std::experimental::filesystem;
 #include "PWoptions.h"
 #include "ProfileManager.h"
 #include "SettingsManager.h"
+#include "Translate.h"
 #include "VersionChecker.h"
 
-/**********************************************
- * Once we get filesystem in MacOS, the code to obtain the path from the mac
- * will be
- * std::filesystem::path ExecutablePath() {
- * const char * pathToProgram =
- *    [[[[NSBundle mainBundle] bundlePath] stringByDeletingLastPathComponent] UTF8String];
- * return std::filesystem::u8path(std::string(pathToProgram)) / "settings.bin";
- * }
- *********************************************/
-
 namespace {
-   const auto kShutDownString{"--LRSHUTDOWN"};
-   const auto kSettingsFile{"settings.bin"};
+   constexpr auto kShutDownString{"--LRSHUTDOWN"};
+   constexpr auto kSettingsFile{"settings.bin"};
+   constexpr auto kSettingsFileX("settings.xml");
+   constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
  public:
-   MIDI2LRApplication() noexcept
+   MIDI2LRApplication()
    {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
@@ -117,6 +110,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
             profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
+            SetAppLanguage(); // set language and load appropriate fonts and files
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName());
@@ -163,7 +157,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // quit() to allow the application to close.
       if (lr_ipc_in_)
          lr_ipc_in_->PleaseStopThread();
-      defaultProfileSave_();
+      DefaultProfileSave();
       CerealSave();
       quit();
    }
@@ -178,9 +172,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          systemRequestedQuit();
    }
 
-   void unhandledException(
-       const std::exception* e, const juce::String& source_filename, int lineNumber) override
-   {
+   [[noreturn]] void unhandledException(
+       const std::exception* e, const juce::String& source_filename, int lineNumber) override {
       // If any unhandled exceptions make it through to the message dispatch
       // loop, this callback will be triggered, in case you want to log them or
       // do some other type of error-handling.
@@ -202,31 +195,27 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       std::terminate(); // can't go on with the program
    }
 
- private:
-   void defaultProfileSave_()
+   private : void DefaultProfileSave() const
    {
-      const auto profilefile = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                                   .getSiblingFile("default.xml");
+      const auto filename = rsj::AppDataFilePath(kDefaultsFile);
+      const auto profilefile = juce::File(filename.data());
       command_map_.ToXmlDocument(profilefile);
       rsj::Log("Default profile saved to " + profilefile.getFullPathName());
    }
-   void CerealSave()
+
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+   void CerealSave() const noexcept
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         wchar_t path[MAX_PATH];
-         GetModuleFileNameW(nullptr, path, MAX_PATH);
-         fs::path p{path};
-         p = p.replace_filename(kSettingsFile);
+         fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
 #else
-         const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                            .getSiblingFile(kSettingsFile)
-                            .getFullPathName()
-                            .toStdString();
+         const auto p = rsj::AppDataFilePath(kSettingsFileX);
 #endif
-         std::ofstream outfile(p, std::ios::out | std::ios::binary | std::ios::trunc);
+         std::ofstream outfile(p, std::ios::out | std::ios::trunc);
          if (outfile.is_open()) {
-            cereal::BinaryOutputArchive oarchive(outfile);
+            cereal::XMLOutputArchive oarchive(outfile);
             oarchive(controls_model_);
 #ifdef _WIN32
             rsj::Log("Cereal archive saved to " + juce::String(p.c_str()));
@@ -235,45 +224,120 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          }
          else
-            rsj::LogAndAlertError("Unable to save control settings. Unable to open file "
-                                  "settings.bin.");
+            rsj::LogAndAlertError(
+                "Unable to save control settings to xml file. Unable to open file settings.bin.");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
       }
    }
-   void CerealLoad()
+#pragma warning(pop)
+
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+   void CerealLoad() noexcept
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         wchar_t path[MAX_PATH];
-         GetModuleFileNameW(nullptr, path, MAX_PATH);
-         fs::path p{path};
-         p = p.replace_filename(kSettingsFile);
+         const fs::path px{rsj::AppDataFilePath(L"settings.xml")};
 #else
-         const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                            .getSiblingFile(kSettingsFile)
-                            .getFullPathName()
-                            .toStdString();
+         const auto px = rsj::AppDataFilePath("settings.xml");
 #endif
-         std::ifstream infile(p, std::ios::in | std::ios::binary);
-         if (infile.is_open() && !infile.eof()) {
-            cereal::BinaryInputArchive iarchive(infile);
+         std::ifstream infilex(px, std::ios::in);
+         if (infilex.is_open() && !infilex.eof()) {
+            cereal::XMLInputArchive iarchive(infilex);
             iarchive(controls_model_);
 #ifdef _WIN32
-            rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
+            rsj::Log("Cereal archive loaded from " + juce::String(px.c_str()));
 #else
-            rsj::Log("Cereal archive loaded from " + p);
+            rsj::Log("Cereal archive loaded from " + px);
 #endif
+         }
+         else { // see if old-style settings file is available
+#ifdef _WIN32
+            wchar_t path[MAX_PATH];
+            GetModuleFileNameW(nullptr, static_cast<LPWSTR>(path), MAX_PATH);
+            fs::path p{path};
+            p = p.replace_filename(kSettingsFile);
+#else
+            const auto p = juce::File::getSpecialLocation(juce::File::currentExecutableFile)
+                               .getSiblingFile(kSettingsFile)
+                               .getFullPathName()
+                               .toStdString();
+#endif
+            std::ifstream infile(p, std::ios::in | std::ios::binary);
+            if (infile.is_open() && !infile.eof()) {
+               cereal::BinaryInputArchive iarchive(infile);
+               iarchive(controls_model_);
+#ifdef _WIN32
+               rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
+#else
+               rsj::Log("Cereal archive loaded from " + p);
+#endif
+            }
          }
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
       }
    }
+#pragma warning(pop)
+
+   void SetAppLanguage()
+   {
+      const std::string lang{command_set_.GetLanguage()};
+
+      // juce (as of July 2018) uses the following font defaults
+      // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
+      // sans defaults do not support Asian languages
+      //         MacOS            Windows
+      // Sans    Lucida Grande    Verdana
+      // Serif   Times New Roman  Times New Roman
+      // Fixed   Menlo            Lucida Console
+#ifdef _WIN32
+      if (lang == "ko")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Malgun Gothic");
+      else if (lang == "zn_cn" || lang == "zn_tw")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Microsoft JhengHei UI");
+      else if (lang == "ja")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Microsoft JhengHei UI");
+#else
+      if (lang == "ko")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Apple SD Gothic Neo");
+      else if (lang == "zn_cn" || lang == "zn_tw")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Hiragino Sans GB");
+      else if (lang == "ja")
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "Hiragino Maru Gothic ProN");
+#endif
+      rsj::Translate(lang);
+
+      /* Notes for future use with ICU
+       * Locales to be used:
+       * Locale("de", "DE");
+       * Locale("en", "US");
+       * Locale("es", "ES");
+       * Locale("fr", "FR");
+       * Locale("it", "IT");
+       * Locale("ja", "JP");
+       * Locale("ko", "KR");
+       * Locale("nl", "NL");
+       * Locale("pt", "BR");
+       * Locale("sv", "SE");
+       * Locale("zh", "CN");
+       * Locale("zh", "TW");
+       */
+   }
+   //create logger first, makes sure that MIDI2LR directory is created for writing by other modules
+   std::unique_ptr<juce::FileLogger> logger_{
+       juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    CommandMap command_map_{};
+   CommandSet command_set_{};
    ControlsModel controls_model_{};
    ProfileManager profile_manager_{&controls_model_, &command_map_};
    SettingsManager settings_manager_{&profile_manager_};
@@ -283,10 +347,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        std::make_shared<LrIpcOut>(&controls_model_, &command_map_)};
    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-   // log file created at C:\Users\YOURNAME\AppData\Roaming (Windows) or
-   // ~/Library/Logs (OSX)
-   std::unique_ptr<juce::FileLogger> logger_{
-       juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
+   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
+
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    VersionChecker version_checker_{&settings_manager_};

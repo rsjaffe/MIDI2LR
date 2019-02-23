@@ -51,8 +51,8 @@ class SettingsComponent final : public juce::Component,
    juce::Label pickup_label_{"PickupLabel", ""};
    juce::Label profile_location_label_{"Profile Label"};
    juce::Slider autohide_setting_;
-   juce::TextButton profile_location_button_{"Choose Profile Folder"};
-   juce::ToggleButton pickup_enabled_{"Enable Pickup Mode"};
+   juce::TextButton profile_location_button_{TRANS("Choose Profile Folder")};
+   juce::ToggleButton pickup_enabled_{TRANS("Enable Pickup Mode")};
    SettingsManager* const settings_manager_;
 };
 

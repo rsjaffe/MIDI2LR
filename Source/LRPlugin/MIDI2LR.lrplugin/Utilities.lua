@@ -31,7 +31,7 @@ local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 
---hidden 
+--hidden modules may be library develop map book slideshow print web
 local needsModule = {
   [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
   [LrDevelopController.decrement]                      = {module = 'develop', photoSelected = true },
@@ -48,9 +48,12 @@ local needsModule = {
   [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetTransforms]                = {module = 'develop', photoSelected = true },
   [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
   [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
   [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setAutoTone]                    = {module = 'develop', photoSelected = true },
+  [LrDevelopController.setAutoWhiteBalance]            = {module = 'develop', photoSelected = true },
   [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
   [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
   [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
@@ -234,11 +237,32 @@ local function precision(value)
   end
 end
 
+--currently, only openExport..., rotateLeft and rotateRight implemented
+-- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
+local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
+  local action = {
+    addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
+    openExportDialog                = function(T) T:openExportDialog() end,
+    openExportWithPreviousDialog    = function(T) T:openExportWithPreviousDialog() end,
+    rotateLeft                      = function(T) T:rotateLeft() end,
+    rotateRight                     = function(T) T:rotateRight() end,
+  }
+  local SelectedAction = action[F]
+  return function()    
+    local LrCat = LrApplication.activeCatalog()
+    local TargetPhoto  = LrCat:getTargetPhoto()
+    if TargetPhoto then
+      SelectedAction(TargetPhoto)
+    end
+  end
+end
+
 --- @export
 return { --table of exports, setting table member name and module function it points to
   wrapFOM = wrapFOM,
   wrapFCM = wrapFCM,
   wrapFIM = wrapFIM,
+  wrapForEachPhoto = wrapForEachPhoto,
   execFOM = execFOM,
   execFCM = execFCM,
   execFIM = execFIM,

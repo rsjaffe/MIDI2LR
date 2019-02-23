@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -45,16 +43,16 @@ void SettingsComponent::Init()
       // place controls in a location that is initially correct.
       setSize(kSettingsWidth, kSettingsHeight);
 
-      pickup_group_.setText("Pick up");
+      pickup_group_.setText(TRANS("Pick up"));
       pickup_group_.setBounds(0, 0, kSettingsWidth, 100);
       addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_group_);
 
       pickup_label_.setFont(juce::Font{12.f, juce::Font::bold});
-      pickup_label_.setText("Disabling the pickup mode may be better for touchscreen interfaces "
-                            "and "
-                            "may solve issues with LR not picking up fast fader/knob movements",
-          NotificationType::dontSendNotification);
+      pickup_label_.setText(
+          TRANS("Disabling the pickup mode may be better for touchscreen interfaces and may solve "
+                "issues with LR not picking up fast fader/knob movements"),
+          juce::NotificationType::dontSendNotification);
       pickup_label_.setBounds(kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&pickup_label_, anchorMidLeft, anchorMidRight);
       pickup_label_.setEditable(false);
@@ -70,7 +68,7 @@ void SettingsComponent::Init()
       addAndMakeVisible(pickup_enabled_);
 
       // ---------------------------- profile section -----------------------------------
-      profile_group_.setText("Profile");
+      profile_group_.setText(TRANS("Profile"));
       profile_group_.setBounds(0, 100, kSettingsWidth, 100);
       addToLayout(&profile_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(profile_group_);
@@ -90,14 +88,14 @@ void SettingsComponent::Init()
           settings_manager_->GetProfileDirectory(), juce::NotificationType::dontSendNotification);
 
       ////// ----------------------- auto hide section ------------------------------------
-      autohide_group_.setText("Auto hide");
+      autohide_group_.setText(TRANS("Auto hide"));
       autohide_group_.setBounds(0, 200, kSettingsWidth, 100);
       addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_group_);
 
       autohide_explain_label_.setFont(juce::Font{12.f, juce::Font::bold});
-      autohide_explain_label_.setText("Autohide the plugin window in x seconds, select 0 for "
-                                      "disabling autohide",
+      autohide_explain_label_.setText(
+          TRANS("Autohide the plugin window in x seconds, select 0 for disabling autohide"),
           juce::NotificationType::dontSendNotification);
       autohide_explain_label_.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&autohide_explain_label_, anchorMidLeft, anchorMidRight);
@@ -144,8 +142,8 @@ void SettingsComponent::buttonClicked(juce::Button* button)
                                                 | juce::FileBrowserComponent::openMode,
              juce::File::getCurrentWorkingDirectory(), nullptr, nullptr};
 
-         juce::FileChooserDialogBox dialog_box{"Select Profile Folder",
-             "Select a folder containing MIDI2LR Profiles", browser, true,
+         juce::FileChooserDialogBox dialog_box{TRANS("Select Profile Folder"),
+             TRANS("Select a folder containing MIDI2LR Profiles"), browser, true,
              juce::Colours::lightgrey};
 
          if (dialog_box.show()) {
@@ -168,8 +166,7 @@ void SettingsComponent::buttonClicked(juce::Button* button)
 void SettingsComponent::sliderValueChanged(juce::Slider* slider)
 { //-V2009 overridden method
    if (slider && &autohide_setting_ == slider) {
-      settings_manager_->SetAutoHideTime(static_cast<int>(
-          round(autohide_setting_.getValue()))); //-V2003 intentional cast double to int
+      settings_manager_->SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
       rsj::Log("Autohide time set to " + juce::String(settings_manager_->GetAutoHideTime())
                + " seconds");
    }

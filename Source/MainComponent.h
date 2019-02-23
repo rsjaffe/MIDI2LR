@@ -47,7 +47,7 @@ class MainContentComponent final : public juce::Component,
                                    juce::ButtonListener,
                                    public ResizableLayout { // ResizableLayout.h
  public:
-   MainContentComponent() noexcept;
+   MainContentComponent();
    ~MainContentComponent() = default;
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;
@@ -76,22 +76,23 @@ class MainContentComponent final : public juce::Component,
    CommandTableModel command_table_model_{};
    juce::DropShadowEffect title_shadow_;
    juce::Label command_label_{"Command", ""};
-   juce::Label connection_label_{"Connection", "Not connected to LR"};
+   juce::Label connection_label_{"Connection", TRANS("Not connected to LR")};
    juce::Label profile_name_label_{"ProfileNameLabel", ""};
    juce::Label title_label_{"Title", "MIDI2LR"};
-   juce::Label version_label_{"Version", "Version " + juce::String{ProjectInfo::versionString}};
+   juce::Label version_label_{
+       "Version", TRANS("Version ") + juce::String{ProjectInfo::versionString}};
    juce::String last_command_;
-   juce::TextButton disconnect_button_{"Halt sending to Lightroom"};
-   juce::TextButton load_button_{"Load"};
-   juce::TextButton remove_row_button_{"Clear ALL rows"};
-   juce::TextButton rescan_button_{"Rescan MIDI devices"};
-   juce::TextButton save_button_{"Save"};
-   juce::TextButton settings_button_{"Settings"};
+   juce::TextButton disconnect_button_{TRANS("Halt sending to Lightroom")};
+   juce::TextButton load_button_{TRANS("Load")};
+   juce::TextButton remove_row_button_{TRANS("Clear ALL rows")};
+   juce::TextButton rescan_button_{TRANS("Rescan MIDI devices")};
+   juce::TextButton save_button_{TRANS("Save")};
+   juce::TextButton settings_button_{TRANS("Settings")};
    SettingsManager* settings_manager_{nullptr};
    size_t row_to_select_{0};
    std::shared_ptr<MidiProcessor> midi_processor_{nullptr};
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
-   std::unique_ptr<DialogWindow> settings_dialog_;
+   std::unique_ptr<juce::DialogWindow> settings_dialog_;
    std::weak_ptr<LrIpcOut> lr_ipc_out_;
 };
 

@@ -19,8 +19,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local Limits     = require 'Limits'
-local ParamList  = require 'ParamList'
-local Paste      = require 'Paste'
+local Database   = require 'Database'
 local Profiles   = require 'Profiles'
 local Ut         = require 'Utilities'
 local LrApplication       = import 'LrApplication'
@@ -29,9 +28,9 @@ local LrBinding           = import 'LrBinding'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
 local LrFunctionContext   = import 'LrFunctionContext'
+local LrStringUtils       = import 'LrStringUtils'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
-local LrStringUtils       = import 'LrStringUtils'
 
 
 local function showBezel(param, value1, value2)
@@ -151,7 +150,7 @@ local function showBezel(param, value1, value2)
     straightenAngle=3,
   }
   local precision = precisionList[param] or 4
-  local bezelname = ParamList.ParamDisplay[param] or param
+  local bezelname = Database.CmdTrans[param] or param
   if value2 then
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision) .. '  ' ..LrStringUtils.numberToString(value2,precision) )
   else
@@ -281,53 +280,6 @@ local function fToggleTool(param)
 end
 
 
-local function PasteSelectedSettings ()
-  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end 
-  if ProgramPreferences.PastePopup then 
-    LrFunctionContext.callWithContext( "checkPaste", 
-      function( context )
-        local f = LrView.osFactory()
-        local properties = LrBinding.makePropertyTable( context )
-        local result = LrDialogs.presentModalDialog (
-          { 
-            title = LOC('$$$/MIDI2LR/Options/pastesel=Paste selections') ,
-            contents = f:view{ bind_to_object = properties, Paste.StartDialog(properties,f) }
-          }
-        )
-        if result == 'ok' then
-          Paste.EndDialog (properties,result)
-        end
-      end 
-    )
-  end
-  if LrApplicationView.getCurrentModuleName() ~= 'develop' then
-    LrApplicationView.switchToModule('develop')
-  end
-  LrTasks.startAsyncTask ( 
-    function ()
-      local TargetSettings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
-      for _,param in ipairs(ParamList.SelectivePasteIteration) do 
-        if (ProgramPreferences.PasteList[param] and MIDI2LR.Copied_Settings[param]~=nil) then
-          TargetSettings[param] = MIDI2LR.Copied_Settings[param]
-        end
-      end
-      if ((ProgramPreferences.PasteList.Tint or ProgramPreferences.PasteList.Temperature) and 
-        (TargetSettings.WhiteBalance == nil or TargetSettings.WhiteBalance == 'As Shot')) then
-        TargetSettings.WhiteBalance = 'Custom'
-      end
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'MIDI2LR: Paste selected settings', 
-        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(TargetSettings) end,
-        { timeout = 4, 
-          callback = function() 
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSelectedSettings') 
-          end, 
-          asynchronous = true 
-        }
-      )
-    end
-  ) 
-end
 
 local function PasteSettings  ()
   if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
@@ -374,12 +326,18 @@ end
 
 local function FullRefresh()
   if Limits.LimitsCanBeSet() then
-    for _,param in ipairs(ParamList.SendToMidi) do
+    for param in pairs(Database.Parameters) do
       local min,max = Limits.GetMinMax(param)
       local lrvalue = LrDevelopController.getValue(param)
       if type(min) == 'number' and type(max) == 'number' and type(lrvalue) == 'number' then
         local midivalue = (lrvalue-min)/(max-min)
-        MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+        if midivalue >= 1.0 then 
+          MIDI2LR.SERVER:send(string.format('%s 1.0\n', param))
+        elseif midivalue <= 0.0 then -- = catches -0.0 and sends it as 0.0
+          MIDI2LR.SERVER:send(string.format('%s 0.0\n', param))
+        else
+          MIDI2LR.SERVER:send(string.format('%s %g\n', param, midivalue))
+        end
       end
       Profiles.resyncDeferred = false
     end
@@ -454,7 +412,6 @@ return {
   FullRefresh = FullRefresh,
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,
-  PasteSelectedSettings = PasteSelectedSettings,
   PasteSettings = PasteSettings,
   SimulateKeys = SimulateKeys,
   UpdateCameraProfile = UpdateCameraProfile,

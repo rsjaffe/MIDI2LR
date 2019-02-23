@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*******************************************************************************
 "A Collection of Useful C++ Classes for Digital Signal Processing"
 By Vinnie Falco
@@ -95,7 +93,8 @@ ResizableLayout::ResizableLayout(juce::Component* owner) : m_owner(owner)
 
 ResizableLayout::~ResizableLayout() {}
 
-void ResizableLayout::addToLayout(Component* component, const juce::Point<int>& topLeft,
+#pragma warning(suppress : 26429)
+void ResizableLayout::addToLayout(juce::Component* component, const juce::Point<int>& topLeft,
     const juce::Point<int>& bottomRight, Style style)
 {
    jassert(topLeft != anchorNone);
@@ -108,12 +107,13 @@ void ResizableLayout::addToLayout(Component* component, const juce::Point<int>& 
    else
       anchor.bottomRight = bottomRight;
 
+#pragma warning(suppress : 26486)
    m_anchors.add(anchor);
 
    component->addComponentListener(this);
 }
 
-void ResizableLayout::removeFromLayout(Component* component) noexcept
+void ResizableLayout::removeFromLayout(juce::Component* component) noexcept
 {
    m_anchors.removeValue(component);
    m_states.removeValue(component);
@@ -135,17 +135,20 @@ void ResizableLayout::updateLayout() noexcept
 {
    m_states.clearQuick();
    for (int i = 0; i < m_anchors.size(); i++)
+#pragma warning(suppress : 26446)
       addStateFor(m_anchors[i]);
 }
 
 void ResizableLayout::updateLayoutFor(juce::Component* component) noexcept
 {
    m_states.removeValue(component);
+#pragma warning(suppress : 26446)
    addStateFor(m_anchors[m_anchors.indexOf(component)]);
 }
 
 void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
 {
+#pragma warning(suppress : 26496)
    Rect rb = anchor.component->getBounds();
 
    const auto w = m_owner->getWidth();
@@ -161,16 +164,20 @@ void ResizableLayout::addStateFor(const Anchor& anchor) noexcept
 
    state.aspect = double(rb.getWidth()) / rb.getHeight();
 
+#pragma warning(suppress : 26486)
    m_states.add(state);
 }
 
 void ResizableLayout::recalculateLayout() const
 {
    if (m_isActive) {
+#pragma warning(suppress : 26496)
       Rect rp = m_owner->getBounds();
 
       for (int i = 0; i < m_states.size(); i++) {
+#pragma warning(suppress : 26446)
          auto anchor = m_anchors[i];
+#pragma warning(suppress : 26446)
          const auto state = m_states[i];
          jassert(anchor.component == state.component);
 
@@ -236,7 +243,8 @@ void ResizableLayout::componentBeingDeleted(juce::Component& component) noexcept
    }
 }
 
-Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) noexcept
+#pragma warning(suppress : 26429 26461)
+juce::Rectangle<int> ResizableLayout::calcBoundsOfChildren(juce::Component* parent) noexcept
 {
    juce::Rectangle<int> r;
 
@@ -282,13 +290,13 @@ void ResizableLayout::resizeStart() noexcept
             auto d = anchor.bottomRight.getX() - anchor.topLeft.getX();
             if (d != 0) {
                m = (xmin1 + state.margin.left - state.margin.right) * anchorUnit / d;
-               xmin0 = jmax(xmin0, m);
+               xmin0 = juce::jmax(xmin0, m);
             }
 
             d = anchor.bottomRight.getY() - anchor.topLeft.getY();
             if (d != 0) {
                m = (ymin1 + state.margin.top - state.margin.bottom) * anchorUnit / d;
-               ymin0 = jmax(ymin0, m);
+               ymin0 = juce::jmax(ymin0, m);
             }
          }
       }
@@ -322,6 +330,7 @@ TopLevelResizableLayout::TopLevelResizableLayout(juce::Component* owner)
 {
 }
 
+#pragma warning(suppress : 26429)
 void TopLevelResizableLayout::setAsConstrainerFor(juce::ResizableWindow* window)
 {
    window->setConstrainer(&m_constrainer);

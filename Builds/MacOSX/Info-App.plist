@@ -3,6 +3,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist>
   <dict>
+    <key>NSAppleEventsUsageDescription</key>
+    <string>MIDI2LR needs to send keystrokes to Lightroom to help automate your tasks.</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
@@ -18,9 +20,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>2.9.5.0</string>
+    <string>3.0.0.1</string>
     <key>CFBundleVersion</key>
-    <string>2.9.5.0</string>
+    <string>3.0.0.1</string>
     <key>NSHumanReadableCopyright</key>
     <string></string>
     <key>NSHighResolutionCapable</key>

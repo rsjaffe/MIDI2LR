@@ -48,7 +48,9 @@ class LrIpcOut final : juce::InterprocessConnection {
 
    template<class T> void AddCallback(T* const object, void (T::*const mf)(bool, bool))
    {
-      callbacks_.emplace_back(std::bind(mf, object, std::placeholders::_1, std::placeholders::_2));
+      using namespace std::placeholders;
+      if (object && mf) // only store non-empty functions
+         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
    }
 
    // sends a command to the plugin

@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -43,6 +41,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "PWoptions.h"
 #include "ControlsModel.h"
+using namespace juce;
 //[/Headers]
 
 
@@ -55,64 +54,69 @@ ControlsModel* PWoptions::controls_model_{nullptr};
 //==============================================================================
 PWoptions::PWoptions()
 {
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
+//[Constructor_pre] You can add your own custom stuff here..
+//[/Constructor_pre]
 
-    addAndMakeVisible(label = new Label("new label",
-        TRANS("Minimum value")));
-    label->setFont(Font(15.00f, Font::plain));
-    label->setJustificationType(Justification::centredLeft);
-    label->setEditable(false, false, false);
-    label->setColour(TextEditor::textColourId, Colours::black);
-    label->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+#pragma warning(suppress : 26409)
+   label.reset(new Label("new label", TRANS("Minimum value")));
+   addAndMakeVisible(label.get());
+   label->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label->setJustificationType(Justification::centredLeft);
+   label->setEditable(false, false, false);
+   label->setColour(TextEditor::textColourId, Colours::black);
+   label->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
-    addAndMakeVisible(minval = new TextEditor("minval"));
-    minval->setExplicitFocusOrder(1);
-    minval->setMultiLine(false);
-    minval->setReturnKeyStartsNewLine(false);
-    minval->setReadOnly(false);
-    minval->setScrollbarsShown(true);
-    minval->setCaretVisible(true);
-    minval->setPopupMenuEnabled(true);
-    minval->setText(TRANS("0"));
+   label->setBounds(32, 48, 150, 24); //-V112
 
-    addAndMakeVisible(label2 = new Label("new label",
-        TRANS("Maximum value")));
-    label2->setFont(Font(15.00f, Font::plain));
-    label2->setJustificationType(Justification::centredLeft);
-    label2->setEditable(false, false, false);
-    label2->setColour(TextEditor::textColourId, Colours::black);
-    label2->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+#pragma warning(suppress : 26409)
+   minval.reset(new TextEditor("minval"));
+   addAndMakeVisible(minval.get());
+   minval->setExplicitFocusOrder(1);
+   minval->setMultiLine(false);
+   minval->setReturnKeyStartsNewLine(false);
+   minval->setReadOnly(false);
+   minval->setScrollbarsShown(true);
+   minval->setCaretVisible(true);
+   minval->setPopupMenuEnabled(true);
+   minval->setText(TRANS("0"));
 
-    addAndMakeVisible(maxval = new TextEditor("maxval"));
-    maxval->setExplicitFocusOrder(2);
-    maxval->setMultiLine(false);
-    maxval->setReturnKeyStartsNewLine(false);
-    maxval->setReadOnly(false);
-    maxval->setScrollbarsShown(true);
-    maxval->setCaretVisible(true);
-    maxval->setPopupMenuEnabled(true);
-    maxval->setText(TRANS("16383"));
+   minval->setBounds(32, 80, 150, 24); //-V112
+#pragma warning(suppress : 26409)
+   label2.reset(new Label("new label", TRANS("Maximum value")));
+   addAndMakeVisible(label2.get());
+   label2->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label2->setJustificationType(Justification::centredLeft);
+   label2->setEditable(false, false, false);
+   label2->setColour(TextEditor::textColourId, Colours::black);
+   label2->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
-    addAndMakeVisible(label3 = new Label("new label",
-        TRANS("Pitch Wheel")));
-    label3->setFont(Font(15.00f, Font::plain));
-    label3->setJustificationType(Justification::centredLeft);
-    label3->setEditable(false, false, false);
-    label3->setColour(TextEditor::textColourId, Colours::black);
-    label3->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
-
-    //[UserPreSize]
-      //[/UserPreSize]
+   label2->setBounds(32, 112, 150, 24); //-V112
 
     setSize(280, 350);
 
-    //[Constructor] You can add your own custom stuff here..
-    minval->setInputFilter(&numrestrict_, false);
-    maxval->setInputFilter(&numrestrict_, false);
-    minval->addListener(this);
-    maxval->addListener(this);
-    //[/Constructor]
+   maxval->setBounds(32, 144, 150, 24); //-V112
+
+   label3.reset(new Label("new label", TRANS("Pitch Wheel")));
+   addAndMakeVisible(label3.get());
+   label3->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label3->setJustificationType(Justification::centredLeft);
+   label3->setEditable(false, false, false);
+   label3->setColour(TextEditor::textColourId, Colours::black);
+   label3->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
+
+   label3->setBounds(32, 16, 150, 24); //-V112
+
+   //[UserPreSize]
+   //[/UserPreSize]
+
+   setSize(280, 350);
+
+   //[Constructor] You can add your own custom stuff here..
+   minval->setInputFilter(&numrestrict_, false);
+   maxval->setInputFilter(&numrestrict_, false);
+   minval->addListener(this);
+   maxval->addListener(this);
+   //[/Constructor]
 }
 
 PWoptions::~PWoptions()

@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -34,7 +32,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "SettingsComponent.h"
 #include "SettingsManager.h"
-using namespace std::literals::string_literals;
 
 namespace {
    constexpr int kMainWidth = 400;
@@ -57,9 +54,10 @@ namespace {
    constexpr int kRemoveRowY = kMainHeight - 75;
    constexpr int kRescanY = kMainHeight - 50;
    constexpr int kDisconnect = kMainHeight - 25;
+   constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
-MainContentComponent::MainContentComponent() noexcept : ResizableLayout{this}
+MainContentComponent::MainContentComponent() : ResizableLayout{this}
 {
    // Set the component size
    setSize(kMainWidth, kMainHeight);
@@ -178,12 +176,10 @@ void MainContentComponent::Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>
       if (settings_manager_) {
          // Try to load a default.xml if the user has not set a profile directory
          if (settings_manager_->GetProfileDirectory().isEmpty()) {
-            const auto default_profile =
-                juce::File::getSpecialLocation(juce::File::currentExecutableFile)
-                    .getSiblingFile("default.xml");
-            std::unique_ptr<juce::XmlElement> xml_element{
-                juce::XmlDocument::parse(default_profile)};
-            if (xml_element) {
+            const auto filename = rsj::AppDataFilePath(kDefaultsFile);
+            const auto default_profile = juce::File(filename.data());
+            if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
+               std::unique_ptr<juce::XmlElement> xml_element{parsed};
                command_table_model_.BuildFromXml(xml_element.get());
                command_table_.updateContent();
             }
@@ -250,19 +246,19 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       if (connected) {
          if (sending_blocked) {
             connection_label_.setText(
-                "Sending halted", juce::NotificationType::dontSendNotification);
+                TRANS("Sending halted"), juce::NotificationType::dontSendNotification);
             connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
          }
          else {
             connection_label_.setText(
-                "Connected to LR", juce::NotificationType::dontSendNotification);
+                TRANS("Connected to LR"), juce::NotificationType::dontSendNotification);
             connection_label_.setColour(
                 juce::Label::backgroundColourId, juce::Colours::greenyellow);
          }
       }
       else {
          connection_label_.setText(
-             "Not connected to LR", juce::NotificationType::dontSendNotification);
+             TRANS("Not connected to LR"), juce::NotificationType::dontSendNotification);
          connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
       }
    }
@@ -274,6 +270,7 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
+   using namespace std::literals::string_literals;
    try {
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
@@ -312,13 +309,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             profile_directory = settings_manager_->GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+         juce::WildcardFileFilter wildcard_filter{
+             "*.xml", juce::String(), TRANS("MIDI2LR profiles")};
          juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
                                                 | juce::FileBrowserComponent::saveMode
                                                 | juce::FileBrowserComponent::warnAboutOverwriting,
              profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{"Save profile", "Enter filename to save profile",
-             browser, true, juce::Colours::lightgrey};
+         juce::FileChooserDialogBox dialog_box{TRANS("Save profile"),
+             TRANS("Enter filename to save profile"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show() && command_map_) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
             command_map_->ToXmlDocument(selected_file);
@@ -330,16 +328,16 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             profile_directory = settings_manager_->GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{"*.xml", juce::String::empty, "MIDI2LR profiles"};
+         juce::WildcardFileFilter wildcard_filter{
+             "*.xml", juce::String(), TRANS("MIDI2LR profiles")};
          juce::FileBrowserComponent browser{
              juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
              profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{
-             "Open profile", "Select a profile to open", browser, true, juce::Colours::lightgrey};
+         juce::FileChooserDialogBox dialog_box{TRANS("Open profile"),
+             TRANS("Select a profile to open"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show()) {
-            std::unique_ptr<juce::XmlElement> xml_element{
-                juce::XmlDocument::parse(browser.getSelectedFile(0))};
-            if (xml_element) {
+            if (const auto parsed{juce::XmlDocument::parse(browser.getSelectedFile(0))}) {
+               std::unique_ptr<juce::XmlElement> xml_element{parsed};
                const auto new_profile = browser.getSelectedFile(0);
                auto command =
                    "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
@@ -358,7 +356,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &settings_button_) {
          juce::DialogWindow::LaunchOptions dialog_options;
-         dialog_options.dialogTitle = "Settings";
+         dialog_options.dialogTitle = TRANS("Settings");
          // create new object
          auto component = std::make_unique<SettingsComponent>(settings_manager_);
          component->Init();
@@ -380,8 +378,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
 void MainContentComponent::ProfileChanged(
     juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
+   using namespace std::literals::string_literals;
    {
-      const MessageManagerLock mmLock;
+      const juce::MessageManagerLock mm_lock;
       command_table_model_.BuildFromXml(xml_element);
       command_table_.updateContent();
       command_table_.repaint();

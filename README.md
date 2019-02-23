@@ -14,10 +14,6 @@
 | <img src="http://rsjaffe.github.io/MIDI2LR/images/app.png" /> | **Discussion Forum**: https://groups.google.com/d/forum/midi2lr <br /> **Donations Welcome**: [Donate to development costs](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YWHT4JMA42RXN). <br />**Supported platforms**: MacOS 10.12+, Windows 7+. <br />**Building**: [See the BUILD.txt file](https://github.com/rsjaffe/MIDI2LR/blob/master/BUILD.txt). <br />**Project Page**: [Project Page](http://rsjaffe.github.io/MIDI2LR). <br />**Wiki and Instruction Manual**: [Wiki :book:](https://github.com/rsjaffe/MIDI2LR/wiki). |
 
 
-
-
-
-
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
 

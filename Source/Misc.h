@@ -23,13 +23,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define MIDI2LR_MISC_H_INCLUDED
 #include <atomic>
 #include <chrono>
+#include <exception>
+#include <string>
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
 namespace juce {
    class String;
 }
-namespace std {
-   class exception;
-}
+
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
 #else // asserts enabled
@@ -39,15 +39,19 @@ static constexpr bool kNdebug = false;
 #ifdef _WIN32
 #include <emmintrin.h>
 #define CPU_RELAX _mm_pause()
+constexpr auto MSWindows{true};
+constexpr auto OSX{false};
 #else
 #define CPU_RELAX __builtin_ia32_pause()
+constexpr auto MSWindows{false};
+constexpr auto OSX{true};
 #endif
 
 namespace rsj {
    [[nodiscard]] inline auto NowMs() noexcept
    {
-      return std::chrono::time_point_cast<std::chrono::milliseconds>(
-          std::chrono::steady_clock::now())
+      return ::std::chrono::time_point_cast<::std::chrono::milliseconds>(
+          ::std::chrono::steady_clock::now())
           .time_since_epoch()
           .count();
    }
@@ -55,7 +59,7 @@ namespace rsj {
 
    class RelaxTTasSpinLock {
     public:
-      RelaxTTasSpinLock() = default;
+      RelaxTTasSpinLock() noexcept = default;
       ~RelaxTTasSpinLock() = default;
       RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
       RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;
@@ -64,30 +68,53 @@ namespace rsj {
       void lock() noexcept
       {
          do {
-            while (flag_.load(std::memory_order_relaxed))
+            while (flag_.load(::std::memory_order_relaxed))
                CPU_RELAX; // spin without expensive exchange
-         } while (flag_.exchange(true, std::memory_order_acquire));
+         } while (flag_.exchange(true, ::std::memory_order_acquire));
       }
 
       bool try_lock() noexcept
       {
-         if (flag_.load(std::memory_order_relaxed)) // avoid cache invalidation if lock unavailable
+         if (flag_.load(::std::memory_order_relaxed)) // avoid cache invalidation if lock
+                                                      // unavailable
             return false;
-         return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
+         return !flag_.exchange(true, ::std::memory_order_acquire); // try to acquire lock
       }
 
       void unlock() noexcept
       {
-         flag_.store(false, std::memory_order_release);
+         flag_.store(false, ::std::memory_order_release);
       }
 
     private:
-      std::atomic<bool> flag_{false};
+      ::std::atomic<bool> flag_{false};
    };
 
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& error_text);
    void Log(const juce::String& info);
+#ifdef _WIN32
+   [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::wstring& file_name);
+   [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::string& file_name);
+   [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::wstring& file_name)
+   {
+      return AppDataFilePath(file_name);
+   }
+   [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::string& file_name)
+   {
+      return AppDataFilePath(file_name);
+   }
+#else
+   [[nodiscard]] inline ::std::string AppDataFilePath(const ::std::string& file_name)
+   {
+      return "~/Library/Application Support/MIDI2LR/" + file_name;
+   }
+   [[nodiscard]] inline ::std::string AppLogFilePath(const ::std::string& file_name)
+   {
+      return "~/Library/Logs/MIDI2LR/" + file_name;
+   }
+#endif // def _WIN32
 } // namespace rsj
+
 #endif // MISC_H_INCLUDED

@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -62,7 +60,7 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       for (const auto& file : file_array)
          profiles_.emplace_back(file.getFileName());
       if (!profiles_.empty())
-         SwitchToProfile(profiles_[0]);
+         SwitchToProfile(profiles_.at(0));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -88,11 +86,10 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
    try {
       const auto profile_file = profile_location_.getChildFile(profile);
       if (profile_file.exists()) {
-         std::unique_ptr<juce::XmlElement> xml_element{juce::XmlDocument::parse(profile_file)};
-         if (xml_element) {
+         if (const auto parsed{juce::XmlDocument::parse(profile_file)}) {
+            std::unique_ptr<juce::XmlElement> xml_element{parsed};
             for (const auto& cb : callbacks_)
                cb(xml_element.get(), profile);
-
             if (const auto ptr = lr_ipc_out_.lock()) {
                auto command =
                    "ChangedToDirectory "s
@@ -129,11 +126,11 @@ void ProfileManager::SwitchToPreviousProfile()
 void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
    const auto cmd = command_map_->GetCommandforMessage(msg);
-   if (cmd == "Previous Profile"s) {
+   if (cmd == "PrevPro"s) {
       switch_state_ = SwitchState::kPrev;
       triggerAsyncUpdate();
    }
-   else if (cmd == "Next Profile"s) {
+   else if (cmd == "NextPro"s) {
       switch_state_ = SwitchState::kNext;
       triggerAsyncUpdate();
    }

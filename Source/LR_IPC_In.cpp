@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -33,7 +31,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
-using namespace std::literals::string_literals;
 
 namespace {
    constexpr auto kHost = "127.0.0.1";
@@ -54,24 +51,33 @@ LrIpcIn::LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, Comman
 {
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26447)
 LrIpcIn::~LrIpcIn()
 {
-   {
-      std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-      timer_off_ = true;
-      juce::Timer::stopTimer();
+   try {
+      {
+         auto lock = std::lock_guard(timer_mutex_);
+         timer_off_ = true;
+         juce::Timer::stopTimer();
+      }
+      if (!juce::Thread::stopThread(kStopWait))
+         rsj::Log("stopThread failed in LrIpcIn destructor");
+      if (const auto m = line_.size_approx())
+         rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
+      std::string line_copy{};
+      while (line_.try_dequeue(line_copy)) {
+         /* pump the queue empty */
+      }
+      line_.enqueue(kTerminate);
+      socket_.close();
    }
-   if (!juce::Thread::stopThread(kStopWait))
-      rsj::Log("stopThread failed in LrIpcIn destructor");
-   if (const auto m = line_.size_approx())
-      rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
-   std::string line_copy{};
-   while (line_.try_dequeue(line_copy)) {
-      /* pump the queue empty */
+   catch (...) {
+      rsj::LogAndAlertError("Exception thrown in LrIpcIn destructor.");
+      std::terminate();
    }
-   line_.enqueue(kTerminate);
-   socket_.close();
 }
+#pragma warning(pop)
 
 void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender)
 {
@@ -96,25 +102,28 @@ void LrIpcIn::PleaseStopThread()
 void LrIpcIn::run()
 {
    try {
+      auto _ = gsl::finally([this] {
+         auto lock = std::lock_guard(timer_mutex_);
+         timer_off_ = true;
+         juce::Timer::stopTimer();
+      });
       while (!juce::Thread::threadShouldExit()) {
          std::array<char, kBufferSize> line{}; // zero filled by {} initialization
-         // if not connected, executes a wait 333 then goes back to while
-         // if connected, tries to read a line, checks thread status and connection
-         // status before each read attempt
-         // doesn't terminate thread if disconnected, as currently don't have graceful
-         // way to restart thread
+         // if not connected, executes a wait 333 then goes back to while. if connected, tries to
+         // read a line, checks thread status and connection status before each read attempt.
+         // Doesn't terminate thread if disconnected, as currently don't have graceful way to
+         // restart thread.
          if (!socket_.isConnected()) {
             juce::Thread::wait(kNotConnectedWait);
          } // end if (is not connected)
          else {
             line.fill(0); // zero out buffer
             auto size_read = 0;
-            // parse input until we have a line, then process that line, quit if
-            // connection lost
-            while ((size_read == 0 || line.at(size_read - 1) != '\n') && socket_.isConnected()) {
+            // parse input until we have a line, then process that line, quit if connection lost
+            while ((size_read == 0 || line.at(gsl::narrow_cast<size_t>(size_read) - 1) != '\n')
+                   && socket_.isConnected()) {
                if (juce::Thread::threadShouldExit())
-#pragma warning(suppress : 26438)
-                  goto threadExit; // break out of nested whiles
+                  return; // after final action
                const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                switch (wait_status) {
                case -1:
@@ -132,8 +141,8 @@ void LrIpcIn::run()
                      size_read++;
                      break;
                   case 0:
-                     // waitUntilReady returns 1 but read will is 0: it's an indication of a
-                     // broken socket.
+                     // waitUntilReady returns 1 but read will is 0: it's an indication of a broken
+                     // socket.
                      juce::JUCEApplication::getInstance()->systemRequestedQuit();
                      break;
                   default:
@@ -153,12 +162,7 @@ void LrIpcIn::run()
             } // scope param
          dumpLine: /* empty statement */;
          } // end else (is connected)
-      }    // while not threadshouldexit
-   threadExit: /* empty statement */;
-      std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
-      timer_off_ = true;
-      juce::Timer::stopTimer();
-      // thread_started_ = false; //don't change flag while depending upon it
+      }    // while not threadshouldexit, finally handles exit code
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -169,7 +173,7 @@ void LrIpcIn::run()
 void LrIpcIn::timerCallback()
 {
    try {
-      std::lock_guard<decltype(timer_mutex_)> lock(timer_mutex_);
+      auto lock = std::lock_guard(timer_mutex_);
       if (!timer_off_ && !socket_.isConnected() && !juce::Thread::threadShouldExit()) {
          if (socket_.connect(kHost, kLrInPort, kConnectTryTime))
             if (!thread_started_) {
@@ -195,8 +199,10 @@ namespace {
 
 void LrIpcIn::ProcessLine()
 {
+   using namespace std::literals::string_literals;
    try {
-      const static std::unordered_map<std::string, int> cmds = {
+#pragma warning(suppress : 26426)
+      const static std::unordered_map<std::string, int> kCmds = {
           {"SwitchProfile"s, 1}, {"SendKey"s, 2}, {"TerminateApplication"s, 3}};
       do {
          // process input into [parameter] [Value]
@@ -213,7 +219,7 @@ void LrIpcIn::ProcessLine()
          const auto command{std::string(
              v.substr(0, v.find_first_of(" \t\n")))}; // use this a lot, so convert to string once
 
-         switch (cmds.count(command) ? cmds.at(command) : 0) {
+         switch (kCmds.count(command) ? kCmds.at(command) : 0) {
          case 1: // SwitchProfile
             if (profile_manager_)
                profile_manager_->SwitchToProfile(std::string(value_string));
@@ -250,17 +256,17 @@ void LrIpcIn::ProcessLine()
                   }
                   const auto value = controls_model_->PluginToController(msgtype,
                       gsl::narrow_cast<size_t>(msg->channel - 1),
-                      gsl::narrow_cast<short>(msg->controller), original_value);
+                      gsl::narrow_cast<short>(msg->data), original_value);
                   if (midi_sender_) {
                      switch (msgtype) {
                      case rsj::kNoteOnFlag:
-                        midi_sender_->SendNoteOn(msg->channel, msg->controller, value);
+                        midi_sender_->SendNoteOn(msg->channel, msg->data, value);
                         break;
                      case rsj::kCcFlag:
                         if (controls_model_->GetCcMethod(gsl::narrow_cast<size_t>(msg->channel - 1),
-                                gsl::narrow_cast<short>(msg->controller))
+                                gsl::narrow_cast<short>(msg->data))
                             == rsj::CCmethod::kAbsolute)
-                           midi_sender_->SendCc(msg->channel, msg->controller, value);
+                           midi_sender_->SendCc(msg->channel, msg->data, value);
                         break;
                      case rsj::kPwFlag:
                         midi_sender_->SendPitchWheel(msg->channel, value);

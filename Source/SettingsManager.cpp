@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -64,7 +62,7 @@ void SettingsManager::SetPickupEnabled(bool enabled)
    properties_file_->setValue("pickup_enabled", enabled);
    properties_file_->saveIfNeeded();
    if (const auto ptr = lr_ipc_out_.lock())
-      ptr->SendCommand("Pickup "s + std::to_string(unsigned{enabled}) + '\n');
+      ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
 }
 juce::String SettingsManager::GetProfileDirectory() const noexcept
 {
@@ -85,9 +83,9 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
    if (connected && !blocked)
       if (const auto ptr = lr_ipc_out_.lock()) {
          DebugInfo db{GetProfileDirectory()};
-         ptr->SendCommand("Pickup "s + std::to_string(unsigned{GetPickupEnabled()}) + '\n');
+         ptr->SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
          rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
-         //rest of info about app is logged by DebugInfo
+         // rest of info about app is logged by DebugInfo
          ptr->SendCommand("AppInfoClear 1\n"s);
          while (const auto info = db.GetInfo()) {
             ptr->SendCommand("AppInfo "s + *info + '\n');

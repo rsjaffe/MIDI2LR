@@ -44,6 +44,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
+// NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
 
 //==============================================================================
@@ -54,13 +55,13 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class CCoptions: public Component,
-    private TextEditor::Listener,
-    public ButtonListener {
-public:
-    //==============================================================================
-    CCoptions();
-    ~CCoptions();
+class CCoptions : public juce::Component,
+                  private juce::TextEditor::Listener,
+                  public juce::ButtonListener {
+ public:
+   //==============================================================================
+   CCoptions();
+   ~CCoptions();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -71,31 +72,34 @@ public:
     void BindToControl(size_t channel, short number);
     //[/UserMethods]
 
-    void paint(Graphics& g) override;
-    void resized() override;
-    void buttonClicked(Button* button_that_was_clicked) override;
+   void paint(juce::Graphics& g) override;
+   void resized() override;
+   void buttonClicked(juce::Button* buttonThatWasClicked) override;
 
-private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-    TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
-    void textEditorFocusLost(TextEditor & t) override;
-    static ControlsModel* controls_model_;
-    short bound_channel_; //note: 0-based
-    short bound_number_;
-    //[/UserVariables]
+ private:
+   //[UserVariables]   -- You can add your own custom variables in this section.
+   juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
+   void textEditorFocusLost(juce::TextEditor& t) override;
+   static ControlsModel* controls_model_;
+   short bound_channel_{0}; // note: 0-based
+   short bound_number_{0};
+   CCoptions(CCoptions&& other) noexcept = delete;
+   CCoptions& operator=(CCoptions&& other) noexcept = delete;
+   //[/UserVariables]
 
-  //==============================================================================
-    ScopedPointer<GroupComponent> groupComponent;
-    ScopedPointer<ToggleButton> twosbutton;
-    ScopedPointer<ToggleButton> absbutton;
-    ScopedPointer<ToggleButton> binbutton;
-    ScopedPointer<ToggleButton> signbutton;
-    ScopedPointer<TextEditor> maxvaltext;
-    ScopedPointer<TextEditor> minvaltext;
-    ScopedPointer<Label> minvallabel;
-    ScopedPointer<Label> maxvallabel;
-    ScopedPointer<TextButton> applyAll;
-    ScopedPointer<Label> controlID;
+
+   //==============================================================================
+   juce::ScopedPointer<juce::GroupComponent> groupComponent;
+   juce::ScopedPointer<juce::ToggleButton> twosbutton;
+   juce::ScopedPointer<juce::ToggleButton> absbutton;
+   juce::ScopedPointer<juce::ToggleButton> binbutton;
+   juce::ScopedPointer<juce::ToggleButton> signbutton;
+   juce::ScopedPointer<juce::TextEditor> maxvaltext;
+   juce::ScopedPointer<juce::TextEditor> minvaltext;
+   juce::ScopedPointer<juce::Label> minvallabel;
+   juce::ScopedPointer<juce::Label> maxvallabel;
+   juce::ScopedPointer<juce::TextButton> applyAll;
+   juce::ScopedPointer<juce::Label> controlID;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CCoptions)

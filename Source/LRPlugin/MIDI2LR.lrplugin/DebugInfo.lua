@@ -27,10 +27,10 @@ local function gatherInformation()
   local testfile = LrPathUtils.child(_PLUGIN.path,'Client.lua')
   local writeable = ''
   if not LrFileUtils.isWritable(testfile) then
-    writeable = '\nError: plugin directory is not writeable'
+    writeable = '\nPlugin directory is not writeable'
   end
   local longest = 40
-  local mess = '----------- \LIGHTROOM -----------'
+  local mess = '----------- LIGHTROOM -----------'
   .. '\nOperating system ' .. LrSystemInfo.summaryString()
   .. '\nVersion ' .. LrApplication.versionString()
   .. '\nLanguage ' .. LrLocalization.currentLanguage() 
@@ -53,8 +53,17 @@ local function gatherInformation()
 end
 
 local function writeDebug()
-
-  local datafile = LrPathUtils.child(LrPathUtils.parent(_PLUGIN.path), 'MIDI2LRinfo.txt')
+  local applogpath
+  if WIN_ENV then
+    applogpath=LrPathUtils.child(LrPathUtils.parent(LrPathUtils.parent(LrPathUtils.getStandardFilePath('appData'))),'MIDI2LR')
+  else
+    applogpath='~/Library/Logs/MIDI2LR'
+  end
+  applogpath = LrPathUtils.standardizePath(applogpath)
+  if LrFileUtils.exists(applogpath) == false then
+    LrFileUtils.createDirectory(applogpath)
+  end
+  local datafile = LrPathUtils.child(applogpath, 'MIDI2LRinfo.txt')
   local file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
   file:write(gatherInformation())
   file:close()

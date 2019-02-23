@@ -35,7 +35,7 @@ class CommandTable final : public juce::TableListBox {
    CommandTable& operator=(CommandTable&& other) = delete;
 
  private:
-   bool keyPressed(const KeyPress& k) override;
+   bool keyPressed(const juce::KeyPress& k) override;
 };
 
 #endif

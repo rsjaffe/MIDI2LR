@@ -1,6 +1,13 @@
 version: 1.0.{build}
 image: Visual Studio 2017
-configuration: Release
+configuration: 
+  - Debug
+  - Release
+before_build:
+  - ps: Start-FileDownload 'https://sourceforge.net/projects/luabinaries/files/5.1.5/Tools%20Executables/lua-5.1.5_Win64_bin.zip/download'
+  - rename download lua515.zip
+  - 7z e lua515.zip luac5.1.exe
+  - rename luac5.1.exe luac.exe
 build:
   project: Builds\VisualStudio2017\MIDI2LR.sln
   verbosity: minimal

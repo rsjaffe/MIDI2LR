@@ -65,14 +65,14 @@ end
 local function ApplyKeyword(Keyword)
   LrTasks.startAsyncTask( function(context)
       local LrCat = LrApplication.activeCatalog()
-      local TargetPhoto = LrCat:getTargetPhoto()
-      if TargetPhoto then
-        local LrKeyword = LrCat:getKeywordsByLocalId({Keyword})[1]
-        if LrKeyword then
-          local LrKeywordName = LrKeyword:getName()
-          LrCat:withWriteAccessDo( 'addKeyword',function( context ) TargetPhoto:addKeyword(LrKeyword) end, { timeout = 2 } )
-          LrDialogs.showBezel(LOC("$$$/AgLibrary/AddKeyword=Add Keyword")..': '..LrKeywordName)
-        end 
+      local LrKeyword = LrCat:getKeywordsByLocalId({Keyword})[1]
+      local TargetPhoto  = LrCat:getTargetPhoto()
+      if TargetPhoto and LrKeyword then
+        local TargetPhotos = LrCat:getTargetPhotos()
+        LrDialogs.showBezel(LOC("$$$/AgLibrary/AddKeyword=Add Keyword")..': '..LrKeyword:getName())
+        for _,v in ipairs(TargetPhotos) do
+          LrCat:withWriteAccessDo( 'addKeyword',function( context ) v:addKeyword(LrKeyword) end, { timeout = 2 } )
+        end
       end
     end
   )

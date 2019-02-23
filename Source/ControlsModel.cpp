@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
 ==============================================================================
 
@@ -21,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "ControlsModel.h"
+#include <algorithm>
 #include <mutex>
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -31,7 +30,7 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber)
       Expects(cc_high_.at(controlnumber) > 0); // CCLow will always be 0 for offset controls
       Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
       Expects(controlnumber <= kMaxNrpn);
-      std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+      auto lock = std::lock_guard(current_v_mtx_);
       current_v_.at(controlnumber) += diff;
       if (current_v_.at(controlnumber) < 0) { // fix currentV
          current_v_.at(controlnumber) = 0;
@@ -50,6 +49,8 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber)
    }
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26451) // see TODO below
 double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber, short value)
 {
    try {
@@ -65,14 +66,16 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
       switch (controltype) {
       case rsj::kPwFlag:
          pitch_wheel_current_.store(value, std::memory_order_release);
+         // TODO(C26451): short mixed with double: can it overflow?
          return static_cast<double>(value - pitch_wheel_min_)
                 / static_cast<double>(pitch_wheel_max_ - pitch_wheel_min_);
       case rsj::kCcFlag:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute: {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             current_v_.at(controlnumber) = value;
          }
+            // TODO(C26451): short mixed with double: can it overflow?
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
@@ -110,6 +113,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
       throw;
    }
 }
+#pragma warning(pop)
 
 // Note: rounding up on set to center (adding remainder of %2) to center the control's LED when
 // centered
@@ -124,7 +128,7 @@ short ChannelModel::SetToCenter(short controltype, size_t controlnumber)
          break;
       case rsj::kCcFlag:
          if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             retval = CenterCc(controlnumber);
             current_v_.at(controlnumber) = retval;
          }
@@ -159,7 +163,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
       case rsj::kCcFlag:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute: {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             const short diff = value - current_v_.at(controlnumber);
             current_v_.at(controlnumber) = value;
             return diff;
@@ -198,6 +202,8 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
    }
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26451) // see TODO below
 short ChannelModel::PluginToController(short controltype, size_t controlnumber, double value)
 {
    try {
@@ -205,17 +211,23 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       Expects(value >= 0.0 && value <= 1.0);
       switch (controltype) {
       case rsj::kPwFlag: {
-         const short newv = static_cast<short>(round(value * (pitch_wheel_max_ - pitch_wheel_min_)))
-                            + pitch_wheel_min_;
+         // TODO(C26451): short mixed with double: can it overflow?
+         const short newv = std::clamp(
+             gsl::narrow_cast<short>(juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_))
+                                     + pitch_wheel_min_),
+             pitch_wheel_min_, pitch_wheel_max_);
          pitch_wheel_current_.store(newv, std::memory_order_release);
          return newv;
       }
       case rsj::kCcFlag: {
-         const short newv = static_cast<short>(round(
-                                value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber))))
-                            + cc_low_.at(controlnumber);
+         // TODO(C26451): short mixed with double: can it overflow?
+         const short newv = std::clamp(
+             gsl::narrow_cast<short>(
+                 juce::roundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
+                 + cc_low_.at(controlnumber)),
+             cc_low_.at(controlnumber), cc_high_.at(controlnumber));
          {
-            std::lock_guard<decltype(current_v_mtx_)> lock(current_v_mtx_);
+            auto lock = std::lock_guard(current_v_mtx_);
             current_v_.at(controlnumber) = newv;
          }
          return newv;
@@ -232,6 +244,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       throw;
    }
 }
+#pragma warning(pop)
 
 void ChannelModel::SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype)
 {
@@ -277,8 +290,6 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value)
 {
    try {
       Expects(controlnumber <= kMaxNrpn);
-      Expects(value <= kMaxNrpn);
-      Expects(value >= 0);
       if (cc_method_.at(controlnumber) != rsj::CCmethod::kAbsolute)
          cc_low_.at(controlnumber) = 0;
       else
@@ -292,25 +303,15 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value)
    }
 }
 
-void ChannelModel::SetPwMax(short value) noexcept(kNdebug)
+void ChannelModel::SetPwMax(short value) noexcept
 {
-   Expects(value <= kMaxNrpn);
-   Expects(value >= 0);
-   if (value > kMaxNrpn || value <= pitch_wheel_min_)
-      pitch_wheel_max_ = kMaxNrpn;
-   else
-      pitch_wheel_max_ = value;
+   pitch_wheel_max_ = (value > kMaxNrpn || value <= pitch_wheel_min_) ? kMaxNrpn : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 
-void ChannelModel::SetPwMin(short value) noexcept(kNdebug)
+void ChannelModel::SetPwMin(short value) noexcept
 {
-   Expects(value <= kMaxNrpn);
-   Expects(value >= 0);
-   if (value < 0 || value >= pitch_wheel_max_)
-      pitch_wheel_min_ = 0;
-   else
-      pitch_wheel_min_ = value;
+   pitch_wheel_min_ = (value < 0 || value >= pitch_wheel_max_) ? 0 : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 
@@ -354,7 +355,7 @@ void ChannelModel::SavedToActive()
       SetCc(set.number, set.low, set.high, set.method);
 }
 
-ChannelModel::ChannelModel() noexcept
+ChannelModel::ChannelModel()
 {
    CcDefaults();
    // load settings

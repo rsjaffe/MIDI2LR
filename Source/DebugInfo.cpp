@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
 ==============================================================================
 
@@ -32,7 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
 #pragma warning(suppress : 26426)
-   const std::unordered_map<unsigned long int, std::string> keyboard_names{{0x0000041c, "Albanian"},
+   const std::unordered_map<unsigned long int, std::string> kKeyboardNames{{0x0000041c, "Albanian"},
        {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},
        {0x0002042b, "Armenian Phonetic"}, {0x0003042b, "Armenian Typewriter"},
@@ -132,22 +130,24 @@ std::string rsj::GetKeyboardLayout()
       try {
          size_t pos{0};
          const auto klid{std::stoul(std::string(klid_ascii.data()), &pos, 16)};
-         if (const auto f = keyboard_names.find(klid); f != keyboard_names.end())
+         if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
             return f->second;
          return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
       }
       catch (...) {
-         const std::string msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
+         const auto msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
          rsj::Log(msg);
          return msg;
       }
    }
-   const std::string msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
+   const auto msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
    rsj::Log(msg);
    return msg;
 }
 #endif
 
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
 DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
@@ -171,10 +171,11 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
          info_.emplace_back(kErr);
          rsj::Log(kErr);
       }
-      catch (...) {
+      catch (...) { //-V565
       }
    }
 }
+#pragma warning(pop)
 
 void DebugInfo::Send(std::string&& msg)
 {
@@ -183,11 +184,14 @@ void DebugInfo::Send(std::string&& msg)
 }
 
 namespace {
-   // placing kErrorNotice here instead of in exception handler so that handler doesn't have any
-   // chance of throwing another exception
-   static const std::string kErrorNotice{"Exception in GetInfo."};
+// placing kErrorNotice here instead of in exception handler so that handler doesn't have any
+// chance of throwing another exception
+#pragma warning(suppress : 26426)
+   const std::string kErrorNotice{"Exception in GetInfo."};
 } // namespace
 
+#pragma warning(push)
+#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
 const std::string* DebugInfo::GetInfo() noexcept
 {
    try {
@@ -204,3 +208,4 @@ const std::string* DebugInfo::GetInfo() noexcept
       return &kErrorNotice;
    }
 }
+#pragma warning(pop)

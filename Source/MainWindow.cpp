@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -26,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-MainWindow::MainWindow(juce::String name)
+MainWindow::MainWindow(const juce::String& name)
     : juce::DocumentWindow{name, juce::Colours::lightgrey,
           juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
 {

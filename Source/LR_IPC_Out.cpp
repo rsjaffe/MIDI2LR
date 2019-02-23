@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -29,12 +27,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 #include "CommandMap.h"
 #include "ControlsModel.h"
-#include "LRCommands.h"
 #include "MIDIProcessor.h"
 #include "MidiUtilities.h"
 #include "MIDISender.h"
 #include "Misc.h"
-using namespace std::string_literals;
 
 namespace {
    constexpr auto kHost{"127.0.0.1"};
@@ -43,8 +39,8 @@ namespace {
    constexpr int kConnectTryTime{100};
    constexpr int kDelay{8}; // in between recurrent actions
    constexpr int kLrOutPort{58763};
-   constexpr int kMinRecenterTimer{
-       250}; // give controller enough of a refractory period before resetting it
+   constexpr int kMinRecenterTimer{250}; // give controller enough of a refractory period before
+                                         // resetting it
    constexpr int kRecenterTimer{std::max(kMinRecenterTimer,
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
@@ -54,19 +50,28 @@ LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexce
 {
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26447)
 LrIpcOut::~LrIpcOut()
 {
-   if (const auto m = command_.size_approx())
-      rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
-   moodycamel::ConsumerToken ctok(command_);
-   std::string command_copy;
-   while (command_.try_dequeue(ctok, command_copy)) {
-      /* pump the queue empty */
+   try {
+      if (const auto m = command_.size_approx())
+         rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
+      moodycamel::ConsumerToken ctok(command_);
+      std::string command_copy;
+      while (command_.try_dequeue(ctok, command_copy)) {
+         /* pump the queue empty */
+      }
+      command_.enqueue(kTerminate);
+      connect_timer_.Stop();
+      juce::InterprocessConnection::disconnect();
    }
-   command_.enqueue(kTerminate);
-   connect_timer_.Stop();
-   juce::InterprocessConnection::disconnect();
+   catch (...) {
+      rsj::LogAndAlertError("Exception in LrIpcOut destructor.");
+      std::terminate();
+   }
 }
+#pragma warning(pop)
 
 void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
 {
@@ -85,6 +90,7 @@ void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi
 
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
+   using namespace std::string_literals;
    try {
       const rsj::MidiMessageId message{mm};
 #pragma warning(suppress : 26426)
@@ -105,14 +111,12 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
           {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
       };
-      if (!command_map_->MessageExistsInMap(message)
-          || command_map_->GetCommandforMessage(message) == "Unmapped"s
-          || find(LrCommandList::NextPrevProfile.begin(), LrCommandList::NextPrevProfile.end(),
-                 command_map_->GetCommandforMessage(message))
-                 != LrCommandList::NextPrevProfile.end()) {
+      if (!command_map_->MessageExistsInMap(message))
          return;
-      }
       const auto command_to_send = command_map_->GetCommandforMessage(message);
+      if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
+          || command_to_send == "unmapped"s)
+         return; // handled by ProfileManager
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
          static rsj::TimeType nextresponse{0};
@@ -132,7 +136,6 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             else // turned counterclockwise
                SendCommand(a->second.second);
          }
-         return; // if repeated command
       }
       else { // not repeated command
          const auto computed_value = controls_model_->ControllerToPlugin(mm);
@@ -150,6 +153,7 @@ void LrIpcOut::SendCommand(std::string&& command)
    try {
       if (sending_stopped_)
          return;
+#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, std::move(command));
    }
@@ -164,6 +168,7 @@ void LrIpcOut::SendCommand(const std::string& command)
    try {
       if (sending_stopped_)
          return;
+#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, command);
    }
@@ -183,6 +188,7 @@ void LrIpcOut::Stop()
 
 void LrIpcOut::Restart()
 {
+   using namespace std::string_literals;
    sending_stopped_ = false;
    const auto connected = isConnected();
    for (const auto& cb : callbacks_)
@@ -234,28 +240,28 @@ void LrIpcOut::SendOut()
 
 void LrIpcOut::ConnectTimer::Start()
 {
-   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   auto lock = std::lock_guard(connect_mutex_);
    juce::Timer::startTimer(kConnectTimer);
    timer_off_ = false;
 }
 
 void LrIpcOut::ConnectTimer::Stop()
 {
-   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   auto lock = std::lock_guard(connect_mutex_);
    juce::Timer::stopTimer();
    timer_off_ = true;
 }
 
 void LrIpcOut::ConnectTimer::timerCallback()
 {
-   std::lock_guard<decltype(connect_mutex_)> lock(connect_mutex_);
+   auto lock = std::lock_guard(connect_mutex_);
    if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
       owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
-   std::lock_guard<decltype(mtx_)> lock(mtx_);
+   auto lock = std::lock_guard(mtx_);
    mm_ = mm;
    juce::Timer::startTimer(kRecenterTimer);
 }
@@ -264,7 +270,7 @@ void LrIpcOut::Recenter::timerCallback()
 {
    rsj::MidiMessage local_mm{};
    {
-      std::lock_guard<decltype(mtx_)> lock(mtx_);
+      auto lock = std::lock_guard(mtx_);
       juce::Timer::stopTimer();
       local_mm = mm_;
    }

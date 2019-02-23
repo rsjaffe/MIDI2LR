@@ -13,3 +13,5 @@
 "$$$/MIDI2LR/LocalPresets/Presets=로컬 조정 사전 설정"
 "$$$/MIDI2LR/Client/Pause=Briefly pause in series of commands"
 "$$$/MIDI2LR/Options/ActionSeriesInvalid=잘못된 명령"
+"$$$/MIDI2LR/Profiles/Next=다음 프로필"
+"$$$/MIDI2LR/Profiles/Previous=이전 프로필"

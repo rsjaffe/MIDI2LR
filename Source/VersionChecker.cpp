@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /*
   ==============================================================================
 
@@ -25,16 +23,24 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 #include "SettingsManager.h"
 
-VersionChecker::VersionChecker(SettingsManager* settings_manager) noexcept
+VersionChecker::VersionChecker(SettingsManager* settings_manager)
     : juce::Thread{"VersionChecker"}, settings_manager_{settings_manager}
 {
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26447)
 VersionChecker::~VersionChecker()
 {
-   if (!juce::Thread::stopThread(100))
-      rsj::Log("stopThread failed in VersionChecker destructor");
+   try {
+      if (!juce::Thread::stopThread(100))
+         rsj::Log("stopThread failed in VersionChecker destructor");
+   }
+   catch (...) {
+      std::terminate();
+   }
 }
+#pragma warning(pop)
 
 void VersionChecker::run()
 {
@@ -66,15 +72,15 @@ void VersionChecker::handleAsyncUpdate()
    try {
       // show a dialog box indicating there is a newer version available
       juce::DialogWindow::LaunchOptions dialog_options;
-      dialog_options.dialogTitle = "New Version Available!";
+      dialog_options.dialogTitle = TRANS("New Version Available!");
       const auto major{(new_version_ & 0xFF000000) >> 24};
       const auto minor{(new_version_ & 0xFF0000) >> 16};
       const auto rev{(new_version_ & 0xFF00) >> 8};
       const auto build{(new_version_ & 0xFF)};
-      const auto version_string{
-          juce::String::formatted("New version %d.%d.%d.%d available", major, minor, rev, build)};
+      const auto version_string{juce::String::formatted(
+          TRANS("New version %d.%d.%d.%d available"), major, minor, rev, build)};
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
-#pragma warning(suppress : 26409 24624)
+#pragma warning(suppress : 26409 24624 26489)
       dialog_options.content.setOwned(new juce::HyperlinkButton{version_string, download_url});
       dialog_options.content->setSize(300, 100);
       if (auto ptr = dynamic_cast<juce::HyperlinkButton*>(dialog_options.content.get()))

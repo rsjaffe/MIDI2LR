@@ -44,6 +44,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
+// NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
 
 //==============================================================================
@@ -54,12 +55,11 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class PWoptions: public Component,
-    private TextEditor::Listener {
-public:
-    //==============================================================================
-    PWoptions();
-    ~PWoptions();
+class PWoptions : public juce::Component, private juce::TextEditor::Listener {
+ public:
+   //==============================================================================
+   PWoptions();
+   ~PWoptions();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -70,23 +70,25 @@ public:
     void BindToControl(size_t channel);
     //[/UserMethods]
 
-    void paint(Graphics& g) override;
-    void resized() override;
+   void paint(juce::Graphics& g) override;
+   void resized() override;
 
-private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-    TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
-    void textEditorFocusLost(TextEditor& t) override;
-    static ControlsModel* controls_model_;
-    size_t boundchannel_;  //note: 0-based
-      //[/UserVariables]
+ private:
+   //[UserVariables]   -- You can add your own custom variables in this section.
+   juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
+   void textEditorFocusLost(juce::TextEditor& t) override;
+   static ControlsModel* controls_model_;
+   size_t boundchannel_{0}; // note: 0-based
+   PWoptions(PWoptions&& other) noexcept = delete;
+   PWoptions& operator=(PWoptions&& other) noexcept = delete;
+   //[/UserVariables]
 
-      //==============================================================================
-    ScopedPointer<Label> label;
-    ScopedPointer<TextEditor> minval;
-    ScopedPointer<Label> label2;
-    ScopedPointer<TextEditor> maxval;
-    ScopedPointer<Label> label3;
+   //==============================================================================
+   std::unique_ptr<juce::Label> label;
+   std::unique_ptr<juce::TextEditor> minval;
+   std::unique_ptr<juce::Label> label2;
+   std::unique_ptr<juce::TextEditor> maxval;
+   std::unique_ptr<juce::Label> label3;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
