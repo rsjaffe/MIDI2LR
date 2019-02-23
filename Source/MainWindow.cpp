@@ -25,7 +25,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "SettingsManager.h"
 
 MainWindow::MainWindow(const juce::String& name, CommandMap& command_map,
-    ProfileManager& profile_manager, SettingsManager& settings_manager)
+    ProfileManager& profile_manager, SettingsManager& settings_manager,
+    std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiProcessor> midi_processor,
+    std::shared_ptr<MidiSender> midi_sender)
     : juce::DocumentWindow{name, juce::Colours::lightgrey,
           juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
 {
@@ -35,12 +37,5 @@ MainWindow::MainWindow(const juce::String& name, CommandMap& command_map,
    juce::ResizableWindow::setContentOwned(window_content_, true);
    juce::Component::centreWithSize(getWidth(), getHeight());
    juce::Component::setVisible(true);
-}
-
-void MainWindow::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiProcessor> midi_processor, std::shared_ptr<MidiSender> midi_sender)
-{
-   if (window_content_)
-      window_content_->Init(
-          std::move(lr_ipc_out), std::move(midi_processor), std::move(midi_sender));
+   window_content_->Init(std::move(lr_ipc_out), std::move(midi_processor), std::move(midi_sender));
 }

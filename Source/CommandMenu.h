@@ -31,7 +31,7 @@ class CommandSet;
 
 class CommandMenu final : public juce::TextButton {
  public:
-   explicit CommandMenu(
+   CommandMenu(
        const rsj::MidiMessageId& message, const CommandSet& command_set, CommandMap& map_command);
    // sets the MIDI message associated to this menu component
    void SetMsg(const rsj::MidiMessageId& message) noexcept;

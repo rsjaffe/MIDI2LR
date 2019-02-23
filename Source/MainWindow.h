@@ -36,14 +36,13 @@ class SettingsManager;
 class MainWindow final : juce::DocumentWindow {
  public:
    MainWindow(const juce::String& name, CommandMap& command_map, ProfileManager& profile_manager,
-       SettingsManager& settings_manager);
+       SettingsManager& settings_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+       std::shared_ptr<MidiProcessor> midi_processor, std::shared_ptr<MidiSender> midi_sender);
    ~MainWindow() = default;
    MainWindow(const MainWindow& other) = delete;
    MainWindow(MainWindow&& other) = delete;
    MainWindow& operator=(const MainWindow& other) = delete;
    MainWindow& operator=(MainWindow&& other) = delete;
-   void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiProcessor> midi_processor,
-       std::shared_ptr<MidiSender> midi_sender);
 
    /* Note: Be careful if you override any DocumentWindow methods - the base
       class uses a lot of them, so by overriding you might break its functionality.
