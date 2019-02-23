@@ -365,10 +365,10 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
             const UChar uc{icu::UnicodeString::fromUTF8(key)[0]};
             const auto key_code_result = KeyCodeForChar(uc);
             if (!key_code_result) {
-               rsj::LogAndAlertError("Unsupported character was used: " + key + ". " + e.what());
-               return
+               rsj::LogAndAlertError("Unsupported character was used: " + key);
+               return;
             }
-            const auto key_code = key_code_result.value();
+            const auto key_code = *key_code_result;
             d = CGEventCreateKeyboardEvent(NULL, key_code, true);
             u = CGEventCreateKeyboardEvent(NULL, key_code, false);
             flags = CGEventGetFlags(d); // in case KeyCode has associated flag
