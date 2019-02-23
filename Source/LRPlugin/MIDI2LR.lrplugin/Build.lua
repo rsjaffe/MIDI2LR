@@ -37,15 +37,19 @@ The tables below list all commands currently available in MIDI2LR for all submen
 ]=])
 for _,v in ipairs(Database.DataBase) do
 
-    if v.Group ~= menulocation then
-      menulocation = v.Group
-      file:write("\n| "..menulocation.." |  |\n| ---- | ---- |\n")
-    end
-    local experimental = ""
-    if v.Experimental  then 
-      experimental = "\226\128\187"
-    end
-    file:write("| "..v.Translation..experimental.." | "..v.Explanation.." Abbreviation: "..v.Command..". |\n" )
+  if v.Group ~= menulocation then
+    menulocation = v.Group
+    file:write("\n| "..menulocation.." |  |\n| ---- | ---- |\n")
+  end
+  local experimental = ""
+  if v.Experimental  then 
+    experimental = "\226\128\187"
+  end
+  file:write("| "..v.Translation..experimental.." | "..v.Explanation)
+  if v.Type == 'button' then
+    file:write(" *button*")
+  end
+  file:write(" Abbreviation: "..v.Command..". |\n" )
 
 end
 file:close()
