@@ -333,25 +333,23 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * Locale("zh", "TW");
        */
    }
-   //create logger first, makes sure that MIDI2LR directory is created for writing by other modules
+   // create logger first, makes sure that MIDI2LR directory is created for writing by other modules
+   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    CommandMap command_map_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};
-   ProfileManager profile_manager_{&controls_model_, &command_map_};
-   SettingsManager settings_manager_{&profile_manager_};
+   ProfileManager profile_manager_{controls_model_, command_map_};
+   SettingsManager settings_manager_{profile_manager_};
    std::shared_ptr<LrIpcIn> lr_ipc_in_{
-       std::make_shared<LrIpcIn>(&controls_model_, &profile_manager_, &command_map_)};
-   std::shared_ptr<LrIpcOut> lr_ipc_out_{
-       std::make_shared<LrIpcOut>(&controls_model_, &command_map_)};
+       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, command_map_)};
+   std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, command_map_)};
    std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
-
    std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
-   VersionChecker version_checker_{&settings_manager_};
+   VersionChecker version_checker_{settings_manager_};
 };
 
 //==============================================================================

@@ -45,7 +45,7 @@ namespace {
    constexpr int kConnectTimer = 1000;
 } // namespace
 
-LrIpcIn::LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, CommandMap* command_map)
+LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, CommandMap& command_map)
     : juce::Thread{"LR_IPC_IN"}, command_map_{command_map}, controls_model_{c_model},
       profile_manager_{profile_manager}
 {
@@ -221,8 +221,7 @@ void LrIpcIn::ProcessLine()
 
          switch (kCmds.count(command) ? kCmds.at(command) : 0) {
          case 1: // SwitchProfile
-            if (profile_manager_)
-               profile_manager_->SwitchToProfile(std::string(value_string));
+            profile_manager_.SwitchToProfile(std::string(value_string));
             break;
          case 2: // SendKey
          {
@@ -240,9 +239,9 @@ void LrIpcIn::ProcessLine()
             return;
          case 0:
             // send associated messages to MIDI OUT devices
-            if (command_map_ && midi_sender_) {
+            if (midi_sender_) {
                const auto original_value = std::stod(std::string(value_string));
-               for (const auto msg : command_map_->GetMessagesForCommand(command)) {
+               for (const auto msg : command_map_.GetMessagesForCommand(command)) {
                   short msgtype{0};
                   switch (msg->msg_id_type) {
                   case rsj::MsgIdEnum::kNote:
@@ -254,7 +253,7 @@ void LrIpcIn::ProcessLine()
                   case rsj::MsgIdEnum::kPitchBend:
                      msgtype = rsj::kPwFlag;
                   }
-                  const auto value = controls_model_->PluginToController(msgtype,
+                  const auto value = controls_model_.PluginToController(msgtype,
                       gsl::narrow_cast<size_t>(msg->channel - 1),
                       gsl::narrow_cast<short>(msg->data), original_value);
                   if (midi_sender_) {
@@ -263,7 +262,7 @@ void LrIpcIn::ProcessLine()
                         midi_sender_->SendNoteOn(msg->channel, msg->data, value);
                         break;
                      case rsj::kCcFlag:
-                        if (controls_model_->GetCcMethod(gsl::narrow_cast<size_t>(msg->channel - 1),
+                        if (controls_model_.GetCcMethod(gsl::narrow_cast<size_t>(msg->channel - 1),
                                 gsl::narrow_cast<short>(msg->data))
                             == rsj::CCmethod::kAbsolute)
                            midi_sender_->SendCc(msg->channel, msg->data, value);
