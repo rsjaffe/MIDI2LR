@@ -48,6 +48,7 @@ CommandSet::Impl::Impl()
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 

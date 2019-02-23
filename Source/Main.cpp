@@ -278,6 +278,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
       }
    }
 #pragma warning(pop)
