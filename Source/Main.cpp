@@ -113,9 +113,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             SetAppLanguage(); // set language and load appropriate fonts and files
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
-            main_window_ = std::make_unique<MainWindow>(getApplicationName());
-            main_window_->Init(&command_map_, lr_ipc_out_, midi_processor_, &profile_manager_,
-                &settings_manager_, midi_sender_);
+            main_window_ = std::make_unique<MainWindow>(
+                getApplicationName(), command_map_, profile_manager_, settings_manager_);
+            main_window_->Init(lr_ipc_out_, midi_processor_, midi_sender_);
             // Check for latest version
             version_checker_.startThread();
          }

@@ -32,7 +32,7 @@ class CommandMap;
 
 class CommandTableModel final : public juce::TableListBoxModel {
  public:
-   void Init(CommandMap* map_command) noexcept;
+   CommandTableModel(CommandMap& map_command) noexcept;
 
    // adds a row with a corresponding MIDI message to the table
    void AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type);
@@ -57,7 +57,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
    juce::Component* refreshComponentForCell(int row_number, int column_id, bool is_row_selected,
        juce::Component* existing_component_to_update) override;
    void Sort();
-   CommandMap* command_map_{nullptr};
+   CommandMap& command_map_;
    CommandSet command_set_{};
    mutable std::shared_mutex cmd_table_mod_mtx_;
    std::pair<int, bool> current_sort_{2, true};

@@ -27,17 +27,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 #include "PWoptions.h"
 
-CommandMenu::CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set) try
+CommandMenu::CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set, CommandMap& map_command) try
     : juce
-   ::TextButton{"Unmapped"}, message_{message}, command_set_(command_set) {}
+   ::TextButton{"Unmapped"}, message_{message}, command_set_(command_set), command_map_(map_command) {}
 catch (const std::exception& e) {
    rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    throw;
-}
-
-void CommandMenu::Init(CommandMap* map_command) noexcept
-{
-   command_map_ = map_command;
 }
 
 void CommandMenu::SetMsg(const rsj::MidiMessageId& message) noexcept
@@ -96,8 +91,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             juce::PopupMenu sub_menu;
             for (const auto& command : command_set_.GetMenuEntries().at(menu_index)) {
                auto already_mapped = false;
-               if (index - 1 < command_set_.CommandAbbrevSize() && command_map_)
-                  already_mapped = command_map_->CommandHasAssociatedMessage(
+               if (index - 1 < command_set_.CommandAbbrevSize())
+                  already_mapped = command_map_.CommandHasAssociatedMessage(
                       command_set_.CommandAbbrevAt(index - 1));
 
                // add each submenu entry, ticking the previously selected entry and
@@ -118,16 +113,16 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             submenu_tick_set |= selected_item_ < index && !submenu_tick_set;
          }
          const auto result = gsl::narrow_cast<size_t>(main_menu.show());
-         if (result && command_map_) {
+         if (result) {
             // user chose a different command, remove previous command mapping
             // associated to this menu
             if (selected_item_ < std::numeric_limits<size_t>::max())
-               command_map_->RemoveMessage(message_);
+               command_map_.RemoveMessage(message_);
             if (result - 1 < command_set_.CommandAbbrevSize())
                setButtonText(command_set_.CommandAbbrevAt(result - 1));
             selected_item_ = result;
             // Map the selected command to the CC
-            command_map_->AddCommandforMessage(result - 1, message_);
+            command_map_.AddCommandforMessage(result - 1, message_);
          }
       }
    }

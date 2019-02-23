@@ -47,15 +47,15 @@ class MainContentComponent final : public juce::Component,
                                    juce::ButtonListener,
                                    public ResizableLayout { // ResizableLayout.h
  public:
-   MainContentComponent();
+   MainContentComponent(
+       CommandMap& command_map, ProfileManager& profile_manager, SettingsManager& settings_manager);
    ~MainContentComponent() = default;
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;
    MainContentComponent& operator=(const MainContentComponent& other) = delete;
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
-   void Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-       std::shared_ptr<MidiProcessor> midi_processor, ProfileManager* profile_manager,
-       SettingsManager* settings_manager, std::shared_ptr<MidiSender> midi_sender);
+   void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiProcessor> midi_processor,
+       std::shared_ptr<MidiSender> midi_sender);
 
  private:
    void SetLabelSettings(juce::Label& label_to_set);
@@ -71,9 +71,10 @@ class MainContentComponent final : public juce::Component,
    void MidiCmdCallback(rsj::MidiMessage);
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
 
-   CommandMap* command_map_{nullptr};
+   CommandMap& command_map_;
    CommandTable command_table_{"Table", nullptr};
-   CommandTableModel command_table_model_{};
+   CommandTableModel command_table_model_;
+   ProfileManager& profile_manager_;
    juce::DropShadowEffect title_shadow_;
    juce::Label command_label_{"Command", ""};
    juce::Label connection_label_{"Connection", TRANS("Not connected to LR")};
@@ -88,7 +89,7 @@ class MainContentComponent final : public juce::Component,
    juce::TextButton rescan_button_{TRANS("Rescan MIDI devices")};
    juce::TextButton save_button_{TRANS("Save")};
    juce::TextButton settings_button_{TRANS("Settings")};
-   SettingsManager* settings_manager_{nullptr};
+   SettingsManager& settings_manager_;
    size_t row_to_select_{0};
    std::shared_ptr<MidiProcessor> midi_processor_{nullptr};
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
