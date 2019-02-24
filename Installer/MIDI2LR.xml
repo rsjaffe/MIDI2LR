@@ -184,7 +184,44 @@
                         <distributionDirectory>
                             <origin>${app}/MIDI2LR.app</origin>
                         </distributionDirectory>
+                        <distributionFile>
+                            <origin>../Source/LRPlugin/ReadMe.txt</origin>
+                        </distributionFile>
                     </distributionFileList>
+                </folder>
+                <folder>
+                    <description>Program Settings</description>
+                    <destination>%{env(APPDATA)}/MIDI2LR/</destination>
+                    <name>Settings</name>
+                    <platforms>windows</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <origin>../Source/UserSettings/MenuTrans.xml</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                    <ruleList>
+                        <fileExists>
+                            <negate>1</negate>
+                            <path>%{env(APPDATA)}/MIDI2LR/MenuTrans.xml</path>
+                        </fileExists>
+                    </ruleList>
+                </folder>
+                <folder>
+                    <description>Program Settings</description>
+                    <destination>${user_home_directory}/Library/Application Support/MIDI2LR/</destination>
+                    <name>settingsOSX</name>
+                    <platforms>osx</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <origin>../Source/UserSettings/MenuTrans.xml</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                    <ruleList>
+                        <fileExists>
+                            <negate>1</negate>
+                            <path>${user_home_directory}/Library/Application Support/MIDI2LR/MenuTrans.xml</path>
+                        </fileExists>
+                    </ruleList>
                 </folder>
             </folderList>
             <startMenuShortcutList>
