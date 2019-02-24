@@ -67,17 +67,17 @@ MainContentComponent::MainContentComponent(
 }
 
 void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiProcessor> midi_processor, std::shared_ptr<MidiSender> midi_sender)
+    std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender)
 {
    try {
       // copy the pointers
       lr_ipc_out_ = std::move(lr_ipc_out);
-      midi_processor_ = std::move(midi_processor);
+      midi_receiver_ = std::move(midi_receiver);
       midi_sender_ = std::move(midi_sender);
 
-      if (midi_processor_)
+      if (midi_receiver_)
          // Add ourselves as a listener for MIDI commands
-         midi_processor_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
+         midi_receiver_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
       if (const auto ptr = lr_ipc_out_.lock())
          // Add ourselves as a listener for LR_IPC_OUT events
@@ -270,8 +270,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
 
-         if (midi_processor_)
-            midi_processor_->RescanDevices();
+         if (midi_receiver_)
+            midi_receiver_->RescanDevices();
 
          if (midi_sender_)
             midi_sender_->RescanDevices();

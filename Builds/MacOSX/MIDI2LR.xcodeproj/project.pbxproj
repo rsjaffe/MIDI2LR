@@ -157,9 +157,9 @@
 			isa = PBXBuildFile;
 			fileRef = 3E4802F0F4805A7E7EB2B145;
 		};
-		BE7E7EF06FF4053F4417663C = {
+		D6CF5A2DD49DF120BEE6E5FB = {
 			isa = PBXBuildFile;
-			fileRef = 788447911A56FA34C9F8468E;
+			fileRef = 6FF2F5568F2B0DF500C51D80;
 		};
 		92A115CF461BA5CFDF750CA7 = {
 			isa = PBXBuildFile;
@@ -507,6 +507,13 @@
 			path = ../../Source/CommandMenu.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		61A1D7A560488A71D3B4BFEC = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MIDIReceiver.h;
+			path = ../../Source/MIDIReceiver.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		61C9E693B9F69BC46AD12BE8 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -563,6 +570,13 @@
 			path = ../../JuceLibraryCode/BinaryData.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		6FF2F5568F2B0DF500C51D80 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = MIDIReceiver.cpp;
+			path = ../../Source/MIDIReceiver.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		7326018AF2C1103629C71285 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -582,13 +596,6 @@
 			lastKnownFileType = file;
 			name = "juce_data_structures";
 			path = "../../JuceLibraryCode/modules/juce_data_structures";
-			sourceTree = "SOURCE_ROOT";
-		};
-		788447911A56FA34C9F8468E = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = MIDIProcessor.cpp;
-			path = ../../Source/MIDIProcessor.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		78C490E72B571C45E9BF65BE = {
@@ -652,13 +659,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = NrpnMessage.cpp;
 			path = ../../Source/NrpnMessage.cpp;
-			sourceTree = "SOURCE_ROOT";
-		};
-		8B48AA4158D30D069C86D2CD = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = MIDIProcessor.h;
-			path = ../../Source/MIDIProcessor.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		8F2D5EAE12FD6A627FF1B87A = {
@@ -971,8 +971,8 @@
 				3E4802F0F4805A7E7EB2B145,
 				21006303504EA15B0A68D6C7,
 				41E9EC1BCC4BC4AB420A4FAC,
-				788447911A56FA34C9F8468E,
-				8B48AA4158D30D069C86D2CD,
+				6FF2F5568F2B0DF500C51D80,
+				61A1D7A560488A71D3B4BFEC,
 				CFE017FDA090DB4518F95826,
 				E03CBAF954A7A416CC4C5EFB,
 				596A515E74C727B658C08FBE,
@@ -1338,7 +1338,7 @@
 				C5DDB4CBA00A47F212328B41,
 				B680BA0A6DEDE4ABAFD3A5C2,
 				D69B7302D8FB7CA7D3177E8B,
-				BE7E7EF06FF4053F4417663C,
+				D6CF5A2DD49DF120BEE6E5FB,
 				92A115CF461BA5CFDF750CA7,
 				02A7CE68913E06429425B72C,
 				BDE4152EF99D34942A18B128,

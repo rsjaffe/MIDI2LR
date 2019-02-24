@@ -167,7 +167,7 @@
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\Source\MainWindow.cpp"/>
-    <ClCompile Include="..\..\Source\MIDIProcessor.cpp"/>
+    <ClCompile Include="..\..\Source\MIDIReceiver.cpp"/>
     <ClCompile Include="..\..\Source\MIDISender.cpp"/>
     <ClCompile Include="..\..\Source\MidiUtilities.cpp"/>
     <ClCompile Include="..\..\Source\Misc.cpp"/>
@@ -1402,7 +1402,7 @@
     <ClInclude Include="..\..\Source\LR_IPC_Out.h"/>
     <ClInclude Include="..\..\Source\MainComponent.h"/>
     <ClInclude Include="..\..\Source\MainWindow.h"/>
-    <ClInclude Include="..\..\Source\MIDIProcessor.h"/>
+    <ClInclude Include="..\..\Source\MIDIReceiver.h"/>
     <ClInclude Include="..\..\Source\MIDISender.h"/>
     <ClInclude Include="..\..\Source\MidiUtilities.h"/>
     <ClInclude Include="..\..\Source\Misc.h"/>

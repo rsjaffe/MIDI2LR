@@ -36,7 +36,7 @@ ProfileManager::ProfileManager(ControlsModel& c_model, CommandMap& cmap) noexcep
 {
 }
 
-void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_processor)
+void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver)
 {
    // copy the pointers
    lr_ipc_out_ = std::move(out);
@@ -45,8 +45,8 @@ void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_pro
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
       // settings on connection
       ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
-   if (midi_processor)
-      midi_processor->AddCallback(this, &ProfileManager::MidiCmdCallback);
+   if (midi_receiver)
+      midi_receiver->AddCallback(this, &ProfileManager::MidiCmdCallback);
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)

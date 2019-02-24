@@ -33,7 +33,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "ResizableLayout.h"   //base class
 class CommandMap;
 class LrIpcOut;
-class MidiProcessor;
+class MidiReceiver;
 class MidiSender;
 class ProfileManager;
 class SettingsManager;
@@ -54,7 +54,7 @@ class MainContentComponent final : public juce::Component,
    MainContentComponent(MainContentComponent&& other) = delete;
    MainContentComponent& operator=(const MainContentComponent& other) = delete;
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
-   void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiProcessor> midi_processor,
+   void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
        std::shared_ptr<MidiSender> midi_sender);
 
  private:
@@ -91,7 +91,7 @@ class MainContentComponent final : public juce::Component,
    juce::TextButton settings_button_{TRANS("Settings")};
    SettingsManager& settings_manager_;
    size_t row_to_select_{0};
-   std::shared_ptr<MidiProcessor> midi_processor_{nullptr};
+   std::shared_ptr<MidiReceiver> midi_receiver_{nullptr};
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
    std::unique_ptr<juce::DialogWindow> settings_dialog_;
    std::weak_ptr<LrIpcOut> lr_ipc_out_;

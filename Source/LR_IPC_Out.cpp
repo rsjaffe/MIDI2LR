@@ -73,14 +73,14 @@ LrIpcOut::~LrIpcOut()
 }
 #pragma warning(pop)
 
-void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
+void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver)
 {
    try {
       midi_sender_ = std::move(midi_sender);
       connect_timer_.Start();
       send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
-      if (midi_processor)
-         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
+      if (midi_receiver)
+         midi_receiver->AddCallback(this, &LrIpcOut::MidiCmdCallback);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

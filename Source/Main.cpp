@@ -106,15 +106,15 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          juce::Logger::setCurrentLogger(logger_.get());
          if (command_line != kShutDownString) {
             CerealLoad();
-            midi_processor_->Init();
+            midi_receiver_->Init();
             midi_sender_->Init();
-            lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
-            profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
+            lr_ipc_out_->Init(midi_sender_, midi_receiver_.get());
+            profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
             SetAppLanguage(); // set language and load appropriate fonts and files
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_map_,
-                profile_manager_, settings_manager_, lr_ipc_out_, midi_processor_, midi_sender_);
+                profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
             // Check for latest version
             version_checker_.startThread();
          }
@@ -142,7 +142,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // message loop is no longer running at this point.
       lr_ipc_out_.reset();
       lr_ipc_in_.reset();
-      midi_processor_.reset();
+      midi_receiver_.reset();
       midi_sender_.reset();
       main_window_.reset(); // (deletes our window)
       juce::Logger::setCurrentLogger(nullptr);
@@ -346,7 +346,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::shared_ptr<LrIpcIn> lr_ipc_in_{
        std::make_shared<LrIpcIn>(controls_model_, profile_manager_, command_map_)};
    std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, command_map_)};
-   std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
+   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    // destroy after window that uses it

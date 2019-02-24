@@ -29,7 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class CommandMap;
 class ControlsModel;
 class LrIpcOut;
-class MidiProcessor;
+class MidiReceiver;
 namespace rsj {
    struct MidiMessage;
    struct MidiMessageId;
@@ -44,7 +44,7 @@ class ProfileManager final : juce::AsyncUpdater {
    ProfileManager& operator=(const ProfileManager& other) = delete;
    ProfileManager& operator=(ProfileManager&& other) = delete;
 
-   void Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_processor);
+   void Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver);
 
    template<class T>
    void AddCallback(T* const object, void (T::*const mf)(juce::XmlElement*, const juce::String&))

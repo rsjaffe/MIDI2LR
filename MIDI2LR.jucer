@@ -56,9 +56,9 @@
       <FILE id="hbC1l2" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="hctg9F" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
       <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="Source/MIDI2LR.png"/>
-      <FILE id="UhLjfh" name="MIDIProcessor.cpp" compile="1" resource="0"
-            file="Source/MIDIProcessor.cpp"/>
-      <FILE id="L4doqk" name="MIDIProcessor.h" compile="0" resource="0" file="Source/MIDIProcessor.h"/>
+      <FILE id="fZR0db" name="MIDIReceiver.cpp" compile="1" resource="0"
+            file="Source/MIDIReceiver.cpp"/>
+      <FILE id="Kudv1C" name="MIDIReceiver.h" compile="0" resource="0" file="Source/MIDIReceiver.h"/>
       <FILE id="byYQ7u" name="MIDISender.cpp" compile="1" resource="0" file="Source/MIDISender.cpp"/>
       <FILE id="kFbCBA" name="MIDISender.h" compile="0" resource="0" file="Source/MIDISender.h"/>
       <FILE id="Z5nYLY" name="MidiUtilities.cpp" compile="1" resource="0"

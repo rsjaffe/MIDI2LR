@@ -33,7 +33,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 class CommandMap;
 class ControlsModel;
-class MidiProcessor;
+class MidiReceiver;
 class MidiSender;
 
 class LrIpcOut final : juce::InterprocessConnection {
@@ -44,7 +44,7 @@ class LrIpcOut final : juce::InterprocessConnection {
    LrIpcOut(LrIpcOut&& other) = delete;
    LrIpcOut& operator=(const LrIpcOut& other) = delete;
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
-   void Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor);
+   void Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver);
 
    template<class T> void AddCallback(T* const object, void (T::*const mf)(bool, bool))
    {
