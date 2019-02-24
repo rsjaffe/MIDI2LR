@@ -237,9 +237,17 @@ local function precision(value)
   end
 end
 
+local function LrVersion74orMore()
+  local vers = LrApplication.versionTable()
+  if vers.major < 7 then return false end
+  if vers.major == 7 and vers.minor < 4 then return false end
+  return true
+end
+
 --currently, only openExport..., rotateLeft and rotateRight implemented
 -- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
+  if not LrVersion74orMore then return function() end end -- not supported
   local action = {
     addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
     openExportDialog                = function(T) T:openExportDialog() end,
@@ -257,6 +265,8 @@ local function wrapForEachPhoto(F) --note lightroom applies this to all selected
   end
 end
 
+
+
 --- @export
 return { --table of exports, setting table member name and module function it points to
   wrapFOM = wrapFOM,
@@ -267,4 +277,5 @@ return { --table of exports, setting table member name and module function it po
   execFCM = execFCM,
   execFIM = execFIM,
   precision = precision,
+  LrVersion74orMore = LrVersion74orMore,
 }

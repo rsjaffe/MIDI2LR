@@ -82,6 +82,7 @@ LrTasks.startAsyncTask(
     local LrApplication       = import 'LrApplication'
     local LrApplicationView   = import 'LrApplicationView'
     local LrDevelopController = import 'LrDevelopController'
+    local LrDialogs           = import 'LrDialogs'
     local LrSelection         = import 'LrSelection'
     local LrUndo              = import 'LrUndo'
     --global variables
@@ -447,6 +448,21 @@ LrTasks.startAsyncTask(
       ZoomOutLargeStep                = LrApplicationView.zoomOut,
       ZoomOutSmallStep                = LrApplicationView.zoomOutSome,
     }
+
+    --some functions not available before 7.4
+    if not Ut.LrVersion74orMore then
+      ACTIONS.AutoTone  = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
+      ACTIONS.EditPhotoshop = function() LrDialogs.message('Edit in Photoshop action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.ResetTransforms = function() LrDialogs.message('Reset transforms action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.RotateLeft = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
+      ACTIONS.RotateRight = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
+      ACTIONS.ShoFullHidePanels = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.ShoFullPreview = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.WhiteBalanceAuto = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
+      ACTIONS.openExportDialog = function() LrDialogs.message('Open export dialog action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action available in Lightroom version 7.4 and later only.') end
+    end
+
 
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
