@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include <exception>
 #include <future>
 #include "Misc.h"

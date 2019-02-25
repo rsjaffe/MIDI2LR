@@ -45,7 +45,7 @@ namespace fs = std::filesystem;
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
 #include "MainWindow.h"
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "Misc.h"
 #include "PWoptions.h"

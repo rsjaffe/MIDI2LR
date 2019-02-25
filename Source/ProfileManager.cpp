@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LR_IPC_Out.h"
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
 using namespace std::literals::string_literals;

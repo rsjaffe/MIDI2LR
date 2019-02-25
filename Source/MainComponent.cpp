@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "CommandMap.h"
 #include "LR_IPC_Out.h" //base class
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
