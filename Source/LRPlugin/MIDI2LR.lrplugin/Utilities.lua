@@ -31,6 +31,13 @@ local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
 local LrDevelopController = import 'LrDevelopController'
 
+local function LrVersion74orMore()
+  local vers = LrApplication.versionTable()
+  if vers.major < 7 then return false end
+  if vers.major == 7 and vers.minor < 4 then return false end
+  return true
+end
+
 --hidden modules may be library develop map book slideshow print web
 local needsModule = {
   [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
@@ -52,8 +59,6 @@ local needsModule = {
   [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
   [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
   [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
-  [LrDevelopController.setAutoTone]                    = {module = 'develop', photoSelected = true },
-  [LrDevelopController.setAutoWhiteBalance]            = {module = 'develop', photoSelected = true },
   [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
   [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
   [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
@@ -61,6 +66,12 @@ local needsModule = {
   [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
 }
+
+if LrVersion74orMore()
+then
+  needsModule[LrDevelopController.setAutoTone]         = {module = 'develop', photoSelected = true }
+  needsModule[LrDevelopController.setAutoWhiteBalance] = {module = 'develop', photoSelected = true }
+end
 
 local _needsModule = {
   __index = function (t,k)
@@ -237,12 +248,7 @@ local function precision(value)
   end
 end
 
-local function LrVersion74orMore()
-  local vers = LrApplication.versionTable()
-  if vers.major < 7 then return false end
-  if vers.major == 7 and vers.minor < 4 then return false end
-  return true
-end
+
 
 --currently, only openExport..., rotateLeft and rotateRight implemented
 -- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking

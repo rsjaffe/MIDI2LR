@@ -104,7 +104,6 @@ LrTasks.startAsyncTask(
       AppInfoClear                           = function() Info.AppInfo = {}; end,
       AppInfoDone                            = DebugInfo.write,
       AutoLateralCA                          = CU.fToggle01('AutoLateralCA'),
-      AutoTone                               = Ut.wrapFOM(LrDevelopController.setAutoTone),
       BrushFeatherLarger                     = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKeyShifted,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
       BrushFeatherSmaller                    = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKeyShifted,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
       BrushSizeLarger                        = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
@@ -116,7 +115,6 @@ LrTasks.startAsyncTask(
       CycleMaskOverlayColor                  = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlay,true),
       DecreaseRating                         = LrSelection.decreaseRating,
       DecrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
-      EditPhotoshop                          = Ut.wrapFOM(LrDevelopController.editInPhotoshop),
       EnableCalibration                      = CU.fToggleTFasync('EnableCalibration'),
       EnableCircularGradientBasedCorrections = CU.fToggleTFasync('EnableCircularGradientBasedCorrections'),
       EnableColorAdjustments                 = CU.fToggleTFasync('EnableColorAdjustments'),
@@ -129,7 +127,6 @@ LrTasks.startAsyncTask(
       EnableRedEye                           = CU.fToggleTFasync('EnableRedEye'),
       EnableRetouch                          = CU.fToggleTFasync('EnableRetouch'),
       EnableSplitToning                      = CU.fToggleTFasync('EnableSplitToning'),
-      EnableToneCurve                        = CU.fToggleTFasync('EnableToneCurve'),
       EnableTransform                        = CU.fToggleTFasync('EnableTransform'),
       Filter_1                               = CU.fApplyFilter(1),
       Filter_2                               = CU.fApplyFilter(2),
@@ -224,8 +221,6 @@ LrTasks.startAsyncTask(
       LRCopy                          = CU.fSimulateKeys(KS.KeyCode.CopyKey,true),
       LRPaste                         = CU.fSimulateKeys(KS.KeyCode.PasteKey,true),
       Next                            = LrSelection.nextPhoto,
-      openExportDialog                = Ut.wrapForEachPhoto('openExportDialog'), 
-      openExportWithPreviousDialog    = Ut.wrapForEachPhoto('openExportWithPreviousDialog'),
       PasteSelectedSettings           = CU.PasteSelectedSettings,
       PasteSettings                   = CU.PasteSettings,
       Pause                           = function() LrTasks.sleep( 0.02 ) end,
@@ -369,7 +364,6 @@ LrTasks.startAsyncTask(
       ResetLast                       = function() Ut.execFOM(LrDevelopController.resetToDefault,LastParam) end,
       ResetRedeye                     = Ut.wrapFOM(LrDevelopController.resetRedeye),
       ResetSpotRem                    = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
-      ResetTransforms                 = Ut.wrapFOM(LrDevelopController.resetTransforms),
       RevealPanelAdjust               = CU.fChangePanel('adjustPanel'),
       RevealPanelCalibrate            = CU.fChangePanel('calibratePanel'),
       RevealPanelDetail               = CU.fChangePanel('detailPanel'),
@@ -379,8 +373,6 @@ LrTasks.startAsyncTask(
       RevealPanelSplit                = CU.fChangePanel('splitToningPanel'),
       RevealPanelTone                 = CU.fChangePanel('tonePanel'),
       RevealPanelTransform            = CU.fChangePanel('transformPanel'),
-      RotateLeft                      = Ut.wrapForEachPhoto('rotateLeft'),
-      RotateRight                     = Ut.wrapForEachPhoto('rotateRight'),
       Select1Left                     = function() LrSelection.extendSelection('left',1) end,
       Select1Right                    = function() LrSelection.extendSelection('right',1) end,
       SetRating0                      = function() LrSelection.setRating(0) end,
@@ -389,8 +381,6 @@ LrTasks.startAsyncTask(
       SetRating3                      = function() LrSelection.setRating(3) end,
       SetRating4                      = function() LrSelection.setRating(4) end,
       SetRating5                      = function() LrSelection.setRating(5) end,
-      ShoFullHidePanels               = function() LrApplicationView.fullscreenHidePanels() end,
-      ShoFullPreview                  = function() LrApplicationView.fullscreenPreview() end,
       ShoScndVwcompare                = function() LrApplicationView.showSecondaryView('compare') end,
       ShoScndVwgrid                   = function() LrApplicationView.showSecondaryView('grid') end,
       ShoScndVwlive_loupe             = function() LrApplicationView.showSecondaryView('live_loupe') end,
@@ -436,7 +426,6 @@ LrTasks.startAsyncTask(
       UprightVertical                 = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
       VirtualCopy                     = function() LrApplication.activeCatalog():createVirtualCopies() end,
       WhiteBalanceAs_Shot             = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
-      WhiteBalanceAuto                = Ut.wrapFOM(LrDevelopController.setAutoWhiteBalance),
       WhiteBalanceCloudy              = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
       WhiteBalanceDaylight            = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
       WhiteBalanceFlash               = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),
@@ -450,20 +439,31 @@ LrTasks.startAsyncTask(
     }
 
     --some functions not available before 7.4
-    if not Ut.LrVersion74orMore then
-      ACTIONS.AutoTone  = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
-      ACTIONS.EditPhotoshop = function() LrDialogs.message('Edit in Photoshop action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.EnableToneCurve = function() LrDialogs.message('Enable Tone Curve action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.ResetTransforms = function() LrDialogs.message('Reset transforms action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.RotateLeft = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
-      ACTIONS.RotateRight = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
-      ACTIONS.ShoFullHidePanels = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.ShoFullPreview = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.WhiteBalanceAuto = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
-      ACTIONS.openExportDialog = function() LrDialogs.message('Open export dialog action available in Lightroom version 7.4 and later only.') end
+    if not Ut.LrVersion74orMore() then
+      ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
+      ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action available in Lightroom version 7.4 and later only.') end
       ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
+      ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
+      ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.WhiteBalanceAuto             = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
+    else
+      ACTIONS.AutoTone                     = Ut.wrapFOM(LrDevelopController.setAutoTone)
+      ACTIONS.EditPhotoshop                = Ut.wrapFOM(LrDevelopController.editInPhotoshop)
+      ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
+      ACTIONS.openExportDialog             = Ut.wrapForEachPhoto('openExportDialog')
+      ACTIONS.openExportWithPreviousDialog = Ut.wrapForEachPhoto('openExportWithPreviousDialog')      
+      ACTIONS.ResetTransforms              = Ut.wrapFOM(LrDevelopController.resetTransforms)
+      ACTIONS.RotateLeft                   = Ut.wrapForEachPhoto('rotateLeft')
+      ACTIONS.RotateRight                  = Ut.wrapForEachPhoto('rotateRight')
+      ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels()
+      ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview()
+      ACTIONS.WhiteBalanceAuto             = Ut.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
-
 
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
