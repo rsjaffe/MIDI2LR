@@ -453,6 +453,7 @@ LrTasks.startAsyncTask(
     if not Ut.LrVersion74orMore then
       ACTIONS.AutoTone  = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
       ACTIONS.EditPhotoshop = function() LrDialogs.message('Edit in Photoshop action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.EnableToneCurve = function() LrDialogs.message('Enable Tone Curve action available in Lightroom version 7.4 and later only.') end
       ACTIONS.ResetTransforms = function() LrDialogs.message('Reset transforms action available in Lightroom version 7.4 and later only.') end
       ACTIONS.RotateLeft = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
       ACTIONS.RotateRight = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 

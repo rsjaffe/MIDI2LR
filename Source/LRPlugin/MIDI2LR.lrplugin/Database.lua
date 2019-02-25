@@ -325,7 +325,7 @@ local DataBase = {
 --develop: tone curve panel
 --
   {Command='RevealPanelTone',Type='button',Translation=show..' '..toneCurve,Group=toneCurve,Explanation='Open Tone Curve Panel in Develop Module.'},
-  {Command='EnableToneCurve',Type='button',Experimental=true,LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Enable Tone Curve'),Group=toneCurve,Explanation='Enable or disable tone curve',Panel='tonePanel'},
+  {Command='EnableToneCurve',Type='button',Experimental=true,LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Enable Tone Curve'),Group=toneCurve,Explanation='Enable or disable tone curve.  Supported in LR versions 7.4 and later.',Panel='tonePanel'},
   {Command='ParametricDarks',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneDarks=Dark Tones'),Group=toneCurve,Explanation='Adjust darks.',Panel='tonePanel'},
   {Command='ParametricLights',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneLights=Light Tones'),Group=toneCurve,Explanation='Adjust lights.',Panel='tonePanel'},
   {Command='ParametricShadows',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/ToneShadows=Shadow Tones'),Group=toneCurve,Explanation='Adjust shadows.',Panel='tonePanel'},
