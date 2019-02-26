@@ -41,11 +41,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace {
    // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-   std::string ToLower(const std::string& in)
+   std::string ToLower(std::string_view in)
    {
-      auto s = in;
-      std::transform(
-          s.begin(), s.end(), s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
+      std::string s;
+      std::transform(in.begin(), in.end(),
+          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
       return s;
    }
 } // namespace
@@ -121,8 +121,8 @@ HKL GetLanguage(const std::string& program_name) noexcept
 
 #else
 
-bool EndsWith(const std::string& main_str,
-    const std::string& to_match) // note: C++20 will have ends_with
+bool EndsWith(std::string_view main_str,
+    std::string_view to_match) // note: C++20 will have ends_with
 {
    return main_str.size() >= to_match.size()
           && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
