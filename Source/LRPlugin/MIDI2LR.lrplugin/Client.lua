@@ -112,7 +112,7 @@ LrTasks.startAsyncTask(
       CopySettings                           = CU.CopySettings,
       CropConstrainToWarp                    = CU.fToggle01('CropConstrainToWarp'),
       CropOverlay                            = CU.fToggleTool('crop'),
-      CycleMaskOverlayColor                  = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlay,true),
+      CycleMaskOverlayColor                  = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlayKey,true),
       DecreaseRating                         = LrSelection.decreaseRating,
       DecrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTFasync('EnableCalibration'),
