@@ -24,13 +24,10 @@ local Profiles   = require 'Profiles'
 local Ut         = require 'Utilities'
 local LrApplication       = import 'LrApplication'
 local LrApplicationView   = import 'LrApplicationView'
-local LrBinding           = import 'LrBinding'
 local LrDevelopController = import 'LrDevelopController'
 local LrDialogs           = import 'LrDialogs'
-local LrFunctionContext   = import 'LrFunctionContext'
 local LrStringUtils       = import 'LrStringUtils'
 local LrTasks             = import 'LrTasks'
-local LrView              = import 'LrView'
 
 
 local function showBezel(param, value1, value2)

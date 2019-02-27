@@ -17,8 +17,32 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
+--[[----------------------------------------------------------------------------
+unicode to UTF8 decimal mapping at http://www.utf8-chartable.de/unicode-utf8-table.pl
+local interrobang = '\226\128\189'
+local referencemark = '\226\128\187'
+local ldquo = '\226\128\156'
+local rdquo = '\226\128\157'
+local lsquo = '\226\128\152'
+local rsquo = '\226\128\153'
+local mdash = '\226\128\148'
+
+use st:gsub('%&', '') to remove ampersands
+
+Command ( string for command )
+Type
+  button just on/off
+  parameter LR parameter
+  variable needs slider value
+  repeat sends repeated LR commands when twisting knob (see LR_IPC_Out.cpp)
+
+Fields (experimental and panel are optional)
+Command Type Experimental Translation Group (in app) Explanation Panel (in LR Devel)
+  -----------------------------------------------------------------------------]]
+
 --local function LOC(str) return str end--for debugging
--- use st:gsub('%&', '') to remove ampersands
+
+--Common terms used in database translated once here
 
 local PV2003and2010 =  'PV2003'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV2010'
 local basicTone = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone')
@@ -63,61 +87,6 @@ local size = LOC('$$$/AgDevelop/Toolbar/Localized/BrushSize=Size')
 local smaller = LOC('$$$/AgEmail/FontSize/smaller=smaller')
 
 --[[----------------------------------------------------------------------------
-
-DataBase structure
-1. command
-2. include in selective paste menu [exclude localized adj]. if in button group on 
- menu, this will be a string identifying group. Otherwise this is true/false.
-3. include in selective paste iteration
-4. include in application command list
-5. send back values to MIDI controller
-6. button or table or text=true, variable number=false
-7. experimental (for documentation)
-8. user-friendly name or, for 2=false and 3=true, command it maps to
-9. menu group for app
-10. documentation right column
-11. panel for changing profile
-12. is keypress boolean
-13. keypress pc
-14. keypress mac
-
-make sure to add section to cppvectors if new
-
-errors if:
-2=not false, 3=false
-4=false, 5=true
-4=false, 11 not nil
-8 nil and ((2 not false and 3 true) or (4 true))
-9 nil or '' and 4 true
-
-unicode to UTF8 decimal mapping at http://www.utf8-chartable.de/unicode-utf8-table.pl
-local interrobang = '\226\128\189'
-local referencemark = '\226\128\187'
-local ldquo = '\226\128\156'
-local rdquo = '\226\128\157'
-local lsquo = '\226\128\152'
-local rsquo = '\226\128\153'
-local mdash = '\226\128\148'
-
-To do: integrate 'straightenAngle', translate RetouchInfo orientation
-  TrimEnd TrimStart and translate the local variables above not yet translated.
-  ------------------------------------------------------------------------------]]
-
---[[--------------------------------------------------------------------------
-Command ( string for command )
-Type
-  button just on/off
-  parameter LR parameter
-  variable needs slider value
-  repeat sends repeated LR commands when twisting knob (see LR_IPC_Out.cpp)
-
-Translation
-Group ( in app )
-Explanation
-Experimental=true
-Panel ( in LR )
-
-Command Type Experimental Translation Group Explanation Panel 
   -----------------------------------------------------------------------------]]
 
 local DataBase = {

@@ -68,6 +68,7 @@ LrTasks.startAsyncTask(
     end --save localized file for app
 
     --delay loading most modules until after data structure refreshed
+    local ActionSeries    = require 'ActionSeries'
     local CU              = require 'ClientUtilities'
     local DebugInfo       = require 'DebugInfo'
     local Info            = require 'Info'
@@ -97,9 +98,16 @@ LrTasks.startAsyncTask(
     local RECEIVE_PORT     = 58763
     local SEND_PORT        = 58764
 
-
-
     local ACTIONS = {
+      ActionSeries1 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[1],ACTIONS) end,
+      ActionSeries2 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[2],ACTIONS) end,
+      ActionSeries3 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[3],ACTIONS) end,
+      ActionSeries4 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[4],ACTIONS) end,
+      ActionSeries5 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[5],ACTIONS) end,
+      ActionSeries6 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[6],ACTIONS) end,
+      ActionSeries7 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[7],ACTIONS) end,
+      ActionSeries8 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[8],ACTIONS) end,
+      ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end,     
       AdjustmentBrush                        = CU.fToggleTool('localized'),
       AppInfoClear                           = function() Info.AppInfo = {}; end,
       AppInfoDone                            = DebugInfo.write,
@@ -479,50 +487,6 @@ LrTasks.startAsyncTask(
       end,
     }
 
-    local function RunActionSeries(strarg1)
-      local strarg = strarg1 -- make argument available to async task
-      LrTasks.startAsyncTask(
-        function()
-          --[[-----------debug section, enable by adding - to beginning this line
-          LrMobdebug.on()
-          --]]-----------end debug section
-          local value -- will need to assign when enable settings functions
-          for i in strarg:gmatch("[%w_]+") do
-            if(ACTIONS[i]) then -- perform a one time action
-              ACTIONS[i]()
-            elseif(SETTINGS[i]) then -- do something requiring the transmitted value to be known
-              SETTINGS[i](value)
-            elseif(Virtual[i]) then -- handle a virtual command
-              local lp = Virtual[i](value, UpdateParam)
-              if lp then
-                LastParam = lp
-              end
-            elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
-              local resetparam = i:sub(6)
-              Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
-              if ProgramPreferences.ClientShowBezelOnChange then
-                local lrvalue = LrDevelopController.getValue(resetparam)
-                CU.showBezel(resetparam,lrvalue)
-              end
-            else -- otherwise update a develop parameter -- removed recursion guard as it is not in scope here
-              UpdateParam(i,tonumber(value))
-            end
-            LrTasks.sleep(0.01) --pause between actions to allow synchronization with slow LR responses and keystrokes from app
-          end
-        end 
-      )
-    end
-
-    --assign after defining RunActionSeries function
-    ACTIONS.ActionSeries1 = function() RunActionSeries(ProgramPreferences.ActionSeries[1]) end
-    ACTIONS.ActionSeries2 = function() RunActionSeries(ProgramPreferences.ActionSeries[2]) end
-    ACTIONS.ActionSeries3 = function() RunActionSeries(ProgramPreferences.ActionSeries[3]) end
-    ACTIONS.ActionSeries4 = function() RunActionSeries(ProgramPreferences.ActionSeries[4]) end
-    ACTIONS.ActionSeries5 = function() RunActionSeries(ProgramPreferences.ActionSeries[5]) end
-    ACTIONS.ActionSeries6 = function() RunActionSeries(ProgramPreferences.ActionSeries[6]) end
-    ACTIONS.ActionSeries7 = function() RunActionSeries(ProgramPreferences.ActionSeries[7]) end
-    ACTIONS.ActionSeries8 = function() RunActionSeries(ProgramPreferences.ActionSeries[8]) end
-    ACTIONS.ActionSeries9 = function() RunActionSeries(ProgramPreferences.ActionSeries[9]) end
     --called within LrRecursionGuard for setting
     function UpdateParamPickup() --closure
       local paramlastmoved = {}
