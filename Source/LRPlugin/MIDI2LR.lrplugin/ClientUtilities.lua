@@ -29,6 +29,119 @@ local LrDialogs           = import 'LrDialogs'
 local LrStringUtils       = import 'LrStringUtils'
 local LrTasks             = import 'LrTasks'
 
+--modules may be library develop map book slideshow print web
+local needsModule = {
+  [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
+  [LrDevelopController.decrement]                      = {module = 'develop', photoSelected = true },
+  [LrDevelopController.getProcessVersion]              = {module = 'develop', photoSelected = true },
+  [LrDevelopController.getRange]                       = {module = 'develop', photoSelected = true },
+  [LrDevelopController.getSelectedTool]                = {module = 'develop', photoSelected = false },
+  [LrDevelopController.getValue]                       = {module = 'develop', photoSelected = true },
+  [LrDevelopController.increment]                      = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetAllDevelopAdjustments]     = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetBrushing]                  = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetCircularGradient]          = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetCrop]                      = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetGradient]                  = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
+  [LrDevelopController.resetTransforms]                = {module = 'develop', photoSelected = true },
+  [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
+  [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
+  [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
+  [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
+  [LrDevelopController.setValue]                       = {module = 'develop', photoSelected = true },
+  [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
+  [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
+}
+
+if Ut.LrVersion74orMore()
+then
+  needsModule[LrDevelopController.setAutoTone]         = {module = 'develop', photoSelected = true }
+  needsModule[LrDevelopController.setAutoWhiteBalance] = {module = 'develop', photoSelected = true }
+end
+
+local _needsModule = {
+  __index = function (t,k)
+    t[k] = {module = nil, photoSelected = false}
+    return t[k]
+  end
+}
+setmetatable ( needsModule, _needsModule)
+
+--public
+
+--------------------------------------------------------------------------------
+-- Returns function passed to it, with appropriate switch to Lightroom module if
+-- needed.
+-- This should wrap a module-specific Lightroom SDK function call unless you 
+-- already know that Lightroom is set to the correct module. Stays in module that was 
+-- opened after function ends.
+-- @tparam function F The function to use.
+-- @param ... Any arguments to the function.
+-- @treturn function Function closure.
+--------------------------------------------------------------------------------
+local function wrapFOM(F,...)
+  local openModule = needsModule[F]['module']
+  if openModule == nil then
+    return function() 
+      return F(unpack(arg))  --proper tail call
+    end
+  end
+  return function()
+    if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+    if LrApplicationView.getCurrentModuleName() ~= openModule then
+      LrApplicationView.switchToModule(openModule)
+    end
+    return F(unpack(arg)) --proper tail call
+  end
+end
+
+--------------------------------------------------------------------------------
+-- Executes function passed to it, with appropriate switch to Lightroom module if
+-- needed.
+-- This should wrap a module-specific Lightroom SDK function call unless you 
+-- already know that Lightroom is set to the correct module. Stays in module that was 
+-- opened after function ends.
+-- @tparam function F The function to use.
+-- @param ... Any arguments to the function.
+-- @return Results of passed function.
+--------------------------------------------------------------------------------
+local function execFOM(F,...)
+  local openModule = needsModule[F]['module']
+  if openModule == nil then
+    return F(...) --proper tail call
+  end
+  if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
+  if LrApplicationView.getCurrentModuleName() ~= openModule then
+    LrApplicationView.switchToModule(openModule)
+  end
+  return F(...) --proper tail call
+end
+
+--currently, only openExport..., rotateLeft and rotateRight implemented
+-- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
+local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
+  if not Ut.LrVersion74orMore then return function() end end -- not supported
+  local action = {
+    addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
+    openExportDialog                = function(T) T:openExportDialog() end,
+    openExportWithPreviousDialog    = function(T) T:openExportWithPreviousDialog() end,
+    rotateLeft                      = function(T) T:rotateLeft() end,
+    rotateRight                     = function(T) T:rotateRight() end,
+  }
+  local SelectedAction = action[F]
+  return function()    
+    local LrCat = LrApplication.activeCatalog()
+    local TargetPhoto  = LrCat:getTargetPhoto()
+    if TargetPhoto then
+      SelectedAction(TargetPhoto)
+    end
+  end
+end
 
 local function showBezel(param, value1, value2)
   local precisionList = { 
@@ -188,7 +301,7 @@ end
 
 local function fChangePanel(panelname)
   return function()
-    Ut.execFOM(LrDevelopController.revealPanel,panelname)
+    execFOM(LrDevelopController.revealPanel,panelname)
     Profiles.changeProfile(panelname) 
   end
 end
@@ -202,7 +315,7 @@ end
 
 local function fToggle01(param)
   return function()
-    if Ut.execFOM(LrDevelopController.getValue, param) == 0 then
+    if execFOM(LrDevelopController.getValue, param) == 0 then
       LrDevelopController.setValue(param,1)
     else
       LrDevelopController.setValue(param,0)
@@ -213,7 +326,7 @@ end
 local function fToggle01Async(param)
   return function()
     LrTasks.startAsyncTask ( function ()
-        if Ut.execFOM(LrDevelopController.getValue, param) == 0 then
+        if execFOM(LrDevelopController.getValue, param) == 0 then
           LrDevelopController.setValue(param,1)
         else
           LrDevelopController.setValue(param,0)
@@ -224,17 +337,9 @@ end
 
 local function fToggle1ModN(param, N)
   return function()
-    local v = Ut.execFOM(LrDevelopController.getValue, param)
+    local v = execFOM(LrDevelopController.getValue, param)
     v = (v % N) + 1
     LrDevelopController.setValue(param,v)
-  end
-end
-
-local function fToggleTF(param)
-  return function()
-    local v = Ut.execFOM(LrDevelopController.getValue, param)
-    v = not v
-    LrDevelopController.setValue(param,v)    
   end
 end
 
@@ -276,25 +381,6 @@ local function fToggleTool(param)
   end
 end
 
-
-
-local function PasteSettings  ()
-  if MIDI2LR.Copied_Settings == nil or LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  LrTasks.startAsyncTask ( function () 
-      LrApplication.activeCatalog():withWriteAccessDo(
-        'MIDI2LR: Paste settings', 
-        function() LrApplication.activeCatalog():getTargetPhoto():applyDevelopSettings(MIDI2LR.Copied_Settings) end,
-        { timeout = 4, 
-          callback = function() 
-            LrDialogs.showError(LOC("$$$/AgCustomMetadataRegistry/UpdateCatalog/Error=The catalog could not be updated with additional module metadata.")..' PasteSettings') 
-          end, 
-          asynchronous = true 
-        }
-      ) 
-    end 
-  )
-end
-
 local function ApplySettings(settings)
   if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
   LrTasks.startAsyncTask ( function ()
@@ -310,15 +396,6 @@ local function ApplySettings(settings)
       )
     end
   )
-end
-
-local function CopySettings ()
-  if LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  LrTasks.startAsyncTask ( 
-    function () 
-      MIDI2LR.Copied_Settings = LrApplication.activeCatalog():getTargetPhoto():getDevelopSettings() 
-    end
-  ) 
 end
 
 local function FullRefresh()
@@ -384,17 +461,6 @@ local function fSimulateKeys(keys, developonly, tool)
   end
 end
 
-local function SimulateKeys(keys, developonly, tool)
-  if developonly then
-    if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
-      if tool == nil or tool == LrDevelopController.getSelectedTool() then
-        MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
-      end
-    end
-  else
-    MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
-  end 
-end
 
 local function UpdatePointCurve(settings)
   return function()
@@ -405,14 +471,12 @@ end
 
 return {
   ApplySettings = ApplySettings,
-  CopySettings = CopySettings,
   FullRefresh = FullRefresh,
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,
-  PasteSettings = PasteSettings,
-  SimulateKeys = SimulateKeys,
   UpdateCameraProfile = UpdateCameraProfile,
   UpdatePointCurve = UpdatePointCurve,
+  execFOM = execFOM,
   fApplyFilter = fApplyFilter,
   fApplyPreset = fApplyPreset,
   fChangeModule = fChangeModule,
@@ -421,8 +485,9 @@ return {
   fToggle01 = fToggle01,
   fToggle01Async = fToggle01Async,
   fToggle1ModN = fToggle1ModN,
-  fToggleTF = fToggleTF,
   fToggleTFasync = fToggleTFasync,
   fToggleTool = fToggleTool,
-  showBezel = showBezel
+  showBezel = showBezel,
+  wrapFOM = wrapFOM,
+  wrapForEachPhoto = wrapForEachPhoto,
 }

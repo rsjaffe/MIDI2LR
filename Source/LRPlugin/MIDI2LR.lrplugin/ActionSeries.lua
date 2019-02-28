@@ -20,7 +20,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 local CU              = require 'ClientUtilities'
 local Database        = require 'Database'
-local Ut              = require 'Utilities'
 local LrDevelopController = import 'LrDevelopController'
 local LrTasks             = import 'LrTasks'
 local LrView              = import 'LrView'
@@ -93,7 +92,7 @@ local function RunActionSeries(strarg1,actarray)
           actarray[i]()
         elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
           local resetparam = i:sub(6)
-          Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
+          CU.execFOM(LrDevelopController.resetToDefault,resetparam)
           if ProgramPreferences.ClientShowBezelOnChange then
             local lrvalue = LrDevelopController.getValue(resetparam)
             CU.showBezel(resetparam,lrvalue)

@@ -99,15 +99,6 @@ LrTasks.startAsyncTask(
     local SEND_PORT        = 58764
 
     local ACTIONS = {
-      ActionSeries1 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[1],ACTIONS) end,
-      ActionSeries2 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[2],ACTIONS) end,
-      ActionSeries3 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[3],ACTIONS) end,
-      ActionSeries4 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[4],ACTIONS) end,
-      ActionSeries5 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[5],ACTIONS) end,
-      ActionSeries6 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[6],ACTIONS) end,
-      ActionSeries7 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[7],ACTIONS) end,
-      ActionSeries8 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[8],ACTIONS) end,
-      ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end,     
       AdjustmentBrush                        = CU.fToggleTool('localized'),
       AppInfoClear                           = function() Info.AppInfo = {}; end,
       AppInfoDone                            = DebugInfo.write,
@@ -117,12 +108,11 @@ LrTasks.startAsyncTask(
       BrushSizeLarger                        = CU.fSimulateKeys(KS.KeyCode.BrushIncreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
       BrushSizeSmaller                       = CU.fSimulateKeys(KS.KeyCode.BrushDecreaseKey,true,{dust=true, localized=true, gradient=true, circularGradient=true}),
       ConvertToGrayscale                     = CU.fToggleTFasync('ConvertToGrayscale'),
-      CopySettings                           = CU.CopySettings,
       CropConstrainToWarp                    = CU.fToggle01('CropConstrainToWarp'),
       CropOverlay                            = CU.fToggleTool('crop'),
       CycleMaskOverlayColor                  = CU.fSimulateKeys(KS.KeyCode.CycleAdjustmentBrushOverlayKey,true),
       DecreaseRating                         = LrSelection.decreaseRating,
-      DecrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.decrement,LastParam) end,
+      DecrementLastDevelopParameter          = function() CU.execFOM(LrDevelopController.decrement,LastParam) end,
       EnableCalibration                      = CU.fToggleTFasync('EnableCalibration'),
       EnableCircularGradientBasedCorrections = CU.fToggleTFasync('EnableCircularGradientBasedCorrections'),
       EnableColorAdjustments                 = CU.fToggleTFasync('EnableColorAdjustments'),
@@ -151,7 +141,7 @@ LrTasks.startAsyncTask(
       FullRefresh                            = CU.FullRefresh,
       GraduatedFilter                        = CU.fToggleTool('gradient'),
       IncreaseRating                         = LrSelection.increaseRating,
-      IncrementLastDevelopParameter          = function() Ut.execFOM(LrDevelopController.increment,LastParam) end,
+      IncrementLastDevelopParameter          = function() CU.execFOM(LrDevelopController.increment,LastParam) end,
       Key1  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(1))) end,
       Key2  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(2))) end,
       Key3  = function() MIDI2LR.SERVER:send(string.format('SendKey %s\n', Keys.GetKey(3))) end,
@@ -229,8 +219,6 @@ LrTasks.startAsyncTask(
       LRCopy                          = CU.fSimulateKeys(KS.KeyCode.CopyKey,true),
       LRPaste                         = CU.fSimulateKeys(KS.KeyCode.PasteKey,true),
       Next                            = LrSelection.nextPhoto,
-      PasteSelectedSettings           = CU.PasteSelectedSettings,
-      PasteSettings                   = CU.PasteSettings,
       Pause                           = function() LrTasks.sleep( 0.02 ) end,
       Pick                            = LrSelection.flagAsPick,
       PointCurveLinear                = CU.UpdatePointCurve({ToneCurveName="Linear",ToneCurveName2012="Linear",ToneCurvePV2012={0,0,255,255,}}),
@@ -239,9 +227,9 @@ LrTasks.startAsyncTask(
       PointCurveStrongContrast        = CU.UpdatePointCurve({ToneCurveName="Strong Contrast",ToneCurveName2012="Strong Contrast",
           ToneCurvePV2012={0,0,32,16,64,50,128,128,192,202,255,255,}}),
       PostCropVignetteStyle           = CU.fToggle1ModN('PostCropVignetteStyle', 3),
-      PostCropVignetteStyleColorPriority     = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
-      PostCropVignetteStyleHighlightPriority = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
-      PostCropVignetteStylePaintOverlay      = Ut.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
+      PostCropVignetteStyleColorPriority     = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',2),
+      PostCropVignetteStyleHighlightPriority = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',1),
+      PostCropVignetteStylePaintOverlay      = CU.wrapFOM(LrDevelopController.setValue,'PostCropVignetteStyle',3),
       Preset_1                        = CU.fApplyPreset(1),
       Preset_2                        = CU.fApplyPreset(2),
       Preset_3                        = CU.fApplyPreset(3),
@@ -364,14 +352,14 @@ LrTasks.startAsyncTask(
       Redo                            = LrUndo.redo,
       Reject                          = LrSelection.flagAsReject,
       RemoveFlag                      = LrSelection.removeFlag,
-      ResetAll                        = Ut.wrapFOM(LrDevelopController.resetAllDevelopAdjustments),
-      ResetBrushing                   = Ut.wrapFOM(LrDevelopController.resetBrushing),
-      ResetCircGrad                   = Ut.wrapFOM(LrDevelopController.resetCircularGradient),
-      ResetCrop                       = Ut.wrapFOM(LrDevelopController.resetCrop),
-      ResetGradient                   = Ut.wrapFOM(LrDevelopController.resetGradient),
-      ResetLast                       = function() Ut.execFOM(LrDevelopController.resetToDefault,LastParam) end,
-      ResetRedeye                     = Ut.wrapFOM(LrDevelopController.resetRedeye),
-      ResetSpotRem                    = Ut.wrapFOM(LrDevelopController.resetSpotRemoval),
+      ResetAll                        = CU.wrapFOM(LrDevelopController.resetAllDevelopAdjustments),
+      ResetBrushing                   = CU.wrapFOM(LrDevelopController.resetBrushing),
+      ResetCircGrad                   = CU.wrapFOM(LrDevelopController.resetCircularGradient),
+      ResetCrop                       = CU.wrapFOM(LrDevelopController.resetCrop),
+      ResetGradient                   = CU.wrapFOM(LrDevelopController.resetGradient),
+      ResetLast                       = function() CU.execFOM(LrDevelopController.resetToDefault,LastParam) end,
+      ResetRedeye                     = CU.wrapFOM(LrDevelopController.resetRedeye),
+      ResetSpotRem                    = CU.wrapFOM(LrDevelopController.resetSpotRemoval),
       RevealPanelAdjust               = CU.fChangePanel('adjustPanel'),
       RevealPanelCalibrate            = CU.fChangePanel('calibratePanel'),
       RevealPanelDetail               = CU.fChangePanel('detailPanel'),
@@ -426,25 +414,35 @@ LrTasks.startAsyncTask(
       ToggleYellow                    = LrSelection.toggleYellowLabel,
       ToggleZoomOffOn                 = LrApplicationView.toggleZoom,
       Undo                            = LrUndo.undo,
-      UprightAuto                     = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',1),
-      UprightFull                     = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',2),
-      UprightGuided                   = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',5),
-      UprightLevel                    = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',3),
-      UprightOff                      = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
-      UprightVertical                 = Ut.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
+      UprightAuto                     = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',1),
+      UprightFull                     = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',2),
+      UprightGuided                   = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',5),
+      UprightLevel                    = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',3),
+      UprightOff                      = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',0),
+      UprightVertical                 = CU.wrapFOM(LrDevelopController.setValue,'PerspectiveUpright',4),
       VirtualCopy                     = function() LrApplication.activeCatalog():createVirtualCopies() end,
-      WhiteBalanceAs_Shot             = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
-      WhiteBalanceCloudy              = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
-      WhiteBalanceDaylight            = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
-      WhiteBalanceFlash               = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),
-      WhiteBalanceFluorescent         = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
-      WhiteBalanceShade               = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
-      WhiteBalanceTungsten            = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
+      WhiteBalanceAs_Shot             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','As Shot'),
+      WhiteBalanceCloudy              = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Cloudy'),
+      WhiteBalanceDaylight            = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Daylight'),
+      WhiteBalanceFlash               = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Flash'),
+      WhiteBalanceFluorescent         = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Fluorescent'),
+      WhiteBalanceShade               = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Shade'),
+      WhiteBalanceTungsten            = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Tungsten'),
       ZoomInLargeStep                 = LrApplicationView.zoomIn,
       ZoomInSmallStep                 = LrApplicationView.zoomInSome,
       ZoomOutLargeStep                = LrApplicationView.zoomOut,
       ZoomOutSmallStep                = LrApplicationView.zoomOutSome,
     }
+--need to refer to table after it is initially constructed, so can't put in initial construction statement
+    ACTIONS.ActionSeries1 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[1],ACTIONS) end
+    ACTIONS.ActionSeries2 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[2],ACTIONS) end
+    ACTIONS.ActionSeries3 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[3],ACTIONS) end
+    ACTIONS.ActionSeries4 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[4],ACTIONS) end
+    ACTIONS.ActionSeries5 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[5],ACTIONS) end
+    ACTIONS.ActionSeries6 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[6],ACTIONS) end
+    ACTIONS.ActionSeries7 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[7],ACTIONS) end
+    ACTIONS.ActionSeries8 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[8],ACTIONS) end
+    ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end  
 
     --some functions not available before 7.4
     if not Ut.LrVersion74orMore() then
@@ -458,19 +456,19 @@ LrTasks.startAsyncTask(
       ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
       ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.WhiteBalanceAuto             = Ut.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
+      ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
-      ACTIONS.AutoTone                     = Ut.wrapFOM(LrDevelopController.setAutoTone)
-      ACTIONS.EditPhotoshop                = Ut.wrapFOM(LrDevelopController.editInPhotoshop)
+      ACTIONS.AutoTone                     = CU.wrapFOM(LrDevelopController.setAutoTone)
+      ACTIONS.EditPhotoshop                = CU.wrapFOM(LrDevelopController.editInPhotoshop)
       ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
-      ACTIONS.openExportDialog             = Ut.wrapForEachPhoto('openExportDialog')
-      ACTIONS.openExportWithPreviousDialog = Ut.wrapForEachPhoto('openExportWithPreviousDialog')      
-      ACTIONS.ResetTransforms              = Ut.wrapFOM(LrDevelopController.resetTransforms)
-      ACTIONS.RotateLeft                   = Ut.wrapForEachPhoto('rotateLeft')
-      ACTIONS.RotateRight                  = Ut.wrapForEachPhoto('rotateRight')
+      ACTIONS.openExportDialog             = CU.wrapForEachPhoto('openExportDialog')
+      ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')      
+      ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
+      ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
+      ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels()
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview()
-      ACTIONS.WhiteBalanceAuto             = Ut.wrapFOM(LrDevelopController.setAutoWhiteBalance)
+      ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
 
     local SETTINGS = {
@@ -627,7 +625,7 @@ LrTasks.startAsyncTask(
               elseif(param:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
                 if(tonumber(value) > BUTTON_ON) then
                   local resetparam = param:sub(6)
-                  Ut.execFOM(LrDevelopController.resetToDefault,resetparam)
+                  CU.execFOM(LrDevelopController.resetToDefault,resetparam)
                   if ProgramPreferences.ClientShowBezelOnChange then
                     local lrvalue = LrDevelopController.getValue(resetparam)
                     CU.showBezel(resetparam,lrvalue)

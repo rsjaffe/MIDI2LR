@@ -794,17 +794,9 @@ for _,v in ipairs(DataBase) do
 end
 
 local LrPathUtils = import 'LrPathUtils'
-local LrFileUtils = import 'LrFileUtils'
-local appdatapath
-if WIN_ENV then
-  appdatapath=LrPathUtils.child(LrPathUtils.parent(LrPathUtils.parent(LrPathUtils.getStandardFilePath('appData'))),'MIDI2LR')
-else
-  appdatapath='~/Library/Application Support/MIDI2LR'
-end
-appdatapath = LrPathUtils.standardizePath(appdatapath)
-LrFileUtils.createDirectory( appdatapath )
---local transpath = LrPathUtils.child(LrPathUtils.parent(LrPathUtils.parent(LrPathUtils.getStandardFilePath('appData'))),'MIDI2LR')
-local AppTrans = LrPathUtils.child(appdatapath , 'MenuTrans.xml') 
+local Ut = require 'Utilities'
+
+local AppTrans = LrPathUtils.child(Ut.appdatapath() , 'MenuTrans.xml') 
 local function WriteAppTrans(language) 
   local file = assert(io.open(AppTrans,'w'),'Error writing to MenuTrans.txt') 
 --new version for xml file  
