@@ -140,6 +140,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Be careful that nothing happens in this method that might rely on
       // messages being sent, or any kind of window activity, because the
       // message loop is no longer running at this point.
+      if (lr_ipc_in_)
+         lr_ipc_in_->PleaseStopThread();
+      DefaultProfileSave();
+      CerealSave();
       lr_ipc_out_.reset();
       lr_ipc_in_.reset();
       midi_receiver_.reset();
@@ -154,10 +158,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // This is called when the application is being asked to quit: you can
       // ignore this request and let the application carry on running, or call
       // quit() to allow the application to close.
-      if (lr_ipc_in_)
-         lr_ipc_in_->PleaseStopThread();
-      DefaultProfileSave();
-      CerealSave();
       quit();
    }
 
