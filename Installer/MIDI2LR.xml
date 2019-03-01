@@ -194,7 +194,7 @@
                 </folder>
                 <folder>
                     <description>Program Settings</description>
-                    <destination>%{env(APPDATA)}/MIDI2LR/</destination>
+                    <destination>${env(APPDATA)}/MIDI2LR/</destination>
                     <name>Settings</name>
                     <platforms>windows</platforms>
                     <distributionFileList>
@@ -205,7 +205,7 @@
                     <ruleList>
                         <fileExists>
                             <negate>1</negate>
-                            <path>%{env(APPDATA)}/MIDI2LR/MenuTrans.xml</path>
+                            <path>${env(APPDATA)}/MIDI2LR/MenuTrans.xml</path>
                         </fileExists>
                     </ruleList>
                 </folder>
@@ -363,7 +363,7 @@
         <if>
             <actionList>
                 <createDirectory>
-                    <path>%{env(APPDATA)}/MIDI2LR/</path>
+                    <path>${env(APPDATA)}/MIDI2LR/</path>
                 </createDirectory>
             </actionList>
             <conditionRuleList>
@@ -416,7 +416,7 @@
             <url>https://github.com/rsjaffe/MIDI2LR/wiki</url>
         </launchBrowser>
         <launchBrowser>
-            <explanation>Opens a web browser with a PayPal form where can make a donation to support further ${project.fullName} development.</explanation>
+            <explanation>Opens a web browser with a PayPal form where you can make a donation to support further ${project.fullName} development.</explanation>
             <progressText>Donate to ${project.fullName} development.</progressText>
             <url>https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=YWHT4JMA42RXN</url>
         </launchBrowser>
