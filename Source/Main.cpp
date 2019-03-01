@@ -33,6 +33,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
 namespace fs = std::filesystem;
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <Windows.h>
 #endif
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -202,8 +208,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       rsj::Log("Default profile saved to " + profilefile.getFullPathName());
    }
 
-#pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+#pragma warning(suppress : 26447) // all exceptions suppressed by catch blocks
    void CerealSave() const noexcept
    { // scoped so archive gets flushed
       try {
@@ -230,10 +235,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       }
    }
-#pragma warning(pop)
 
-#pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
+#pragma warning(suppress : 26447) // all exceptions suppressed by catch blocks
    void CerealLoad()
    { // scoped so archive gets flushed
       try {
@@ -278,10 +281,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
       }
    }
-#pragma warning(pop)
 
    void SetAppLanguage() const
    {

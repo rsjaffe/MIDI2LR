@@ -22,6 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "UtfUtilities.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <gsl/gsl_util>
 #include <ShlObj.h>
 #include <Windows.h>

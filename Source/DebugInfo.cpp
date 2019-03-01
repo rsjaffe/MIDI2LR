@@ -23,6 +23,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef _WIN32
 #include <array>
 #include <unordered_map>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "Windows.h"
 // from
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values

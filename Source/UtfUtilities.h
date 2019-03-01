@@ -34,7 +34,7 @@ namespace rsj {
       constexpr auto sizeR{sizeof(R)};
       constexpr auto sizeT{sizeof(T)};
       static_assert(
-          ((sizeR == 1 || sizeR == 2 || sizeR == 4) && (sizeT == 1 || sizeT == 2 || sizeT == 4))
+          ((sizeR == 1 || sizeR == 2 || sizeR == 4) && (sizeT == 1 || sizeT == 2 || sizeT == 4)) //-V112
           || ::std::is_convertible_v<Tstring, Rstring> || sizeT == sizeR);
 
       if constexpr (::std::is_convertible_v<Tstring, Rstring>)
