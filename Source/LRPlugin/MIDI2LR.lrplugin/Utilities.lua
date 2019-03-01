@@ -27,244 +27,46 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 --viewing this file.
 
 --imports
-local LrApplication       = import 'LrApplication'
-local LrApplicationView   = import 'LrApplicationView'
-local LrDevelopController = import 'LrDevelopController'
+local LrApplication = import 'LrApplication'
+local LrPathUtils = import 'LrPathUtils'
+local LrFileUtils = import 'LrFileUtils'
 
---hidden modules may be library develop map book slideshow print web
-local needsModule = {
-  [LrDevelopController.addAdjustmentChangeObserver]    = {module = 'develop', photoSelected = false },
-  [LrDevelopController.decrement]                      = {module = 'develop', photoSelected = true },
-  [LrDevelopController.getProcessVersion]              = {module = 'develop', photoSelected = true },
-  [LrDevelopController.getRange]                       = {module = 'develop', photoSelected = true },
-  [LrDevelopController.getSelectedTool]                = {module = 'develop', photoSelected = false },
-  [LrDevelopController.getValue]                       = {module = 'develop', photoSelected = true },
-  [LrDevelopController.increment]                      = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetAllDevelopAdjustments]     = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetBrushing]                  = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetCircularGradient]          = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetCrop]                      = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetGradient]                  = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetTransforms]                = {module = 'develop', photoSelected = true },
-  [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
-  [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
-  [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
-  [LrDevelopController.setAutoTone]                    = {module = 'develop', photoSelected = true },
-  [LrDevelopController.setAutoWhiteBalance]            = {module = 'develop', photoSelected = true },
-  [LrDevelopController.setMultipleAdjustmentThreshold] = {module = 'develop', photoSelected = false },
-  [LrDevelopController.setProcessVersion]              = {module = 'develop', photoSelected = true },
-  [LrDevelopController.setTrackingDelay]               = {module = 'develop', photoSelected = false },
-  [LrDevelopController.setValue]                       = {module = 'develop', photoSelected = true },
-  [LrDevelopController.startTracking]                  = {module = 'develop', photoSelected = false },
-  [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
-}
-
-local _needsModule = {
-  __index = function (t,k)
-    t[k] = {module = nil, photoSelected = false}
-    return t[k]
-  end
-}
-setmetatable ( needsModule, _needsModule)
-
---public
-
---------------------------------------------------------------------------------
--- Returns function passed to it, with appropriate switch to Lightroom module if
--- needed.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. Stays in module that was 
--- opened after function ends.
--- @tparam function F The function to use.
--- @param ... Any arguments to the function.
--- @treturn function Function closure.
---------------------------------------------------------------------------------
-local function wrapFOM(F,...)
-  local openModule = needsModule[F]['module']
-  if openModule == nil then
-    return function() 
-      return F(unpack(arg))  --proper tail call
-    end
-  end
-  return function()
-    if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-    if LrApplicationView.getCurrentModuleName() ~= openModule then
-      LrApplicationView.switchToModule(openModule)
-    end
-    return F(unpack(arg)) --proper tail call
-  end
+local function LrVersion74orMore()
+  local vers = LrApplication.versionTable()
+  if vers.major < 7 then return false end
+  if vers.major == 7 and vers.minor < 4 then return false end
+  return true
 end
 
---------------------------------------------------------------------------------
--- Returns function passed to it, with appropriate temporary switch to Lightroom 
--- module if needed.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. Returns to previous 
--- module after function ends.
--- @tparam function F The function to use.
--- @param ... Any arguments to the function.
--- @treturn function Function closure.
---------------------------------------------------------------------------------
-local function wrapFCM(F,...)
-  local openModule = needsModule[F]['module']
-  if openModule == nil then
-    return function() 
-      return F(unpack(arg))  --proper tail call
-    end
-  end
-  return function()
-    if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-    local currentMod = LrApplicationView.getCurrentModuleName()
-    if currentMod ~= openModule then
-      LrApplicationView.switchToModule(openModule)
-    end
-    F(unpack(arg))
-    if currentMod ~= openModule then
-      LrApplicationView.switchToModule(currentMod)
-    end
-  end
-end
-
---------------------------------------------------------------------------------
--- Returns function passed to it, that will return without doing anything
--- if the needed module is not active.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. 
--- @tparam function F The function to use.
--- @param Rnil The return value to use if the correct module is not active.
--- @param ... Any arguments to the function.
--- @treturn function Function closure.
---------------------------------------------------------------------------------
-local function wrapFIM(F,Rnil,...)
-  local openModule = needsModule[F]['module']
-  if openModule == nil then
-    return function() 
-      return F(unpack(arg))  --proper tail call
-    end
-  end
-  return function ()
-    if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return Rnil end
-    if LrApplicationView.getCurrentModuleName() ~= openModule then
-      return Rnil
-    end
-    return F(unpack(arg)) -- proper tail call
-  end
-end
-
---------------------------------------------------------------------------------
--- Executes function passed to it, with appropriate switch to Lightroom module if
--- needed.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. Stays in module that was 
--- opened after function ends.
--- @tparam function F The function to use.
--- @param ... Any arguments to the function.
--- @return Results of passed function.
---------------------------------------------------------------------------------
-local function execFOM(F,...)
-  local openModule = needsModule[F]['module']
-  if openModule == nil then
-    return F(...) --proper tail call
-  end
-  if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  if LrApplicationView.getCurrentModuleName() ~= openModule then
-    LrApplicationView.switchToModule(openModule)
-  end
-  return F(...) --proper tail call
-end
-
---------------------------------------------------------------------------------
--- Executes function passed to it, with appropriate temporary switch to Lightroom 
--- module if needed.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. Returns to previous 
--- module after function ends.
--- @tparam function F The function to use.
--- @param ... Any arguments to the function.
--- @return Results of passed function.
---------------------------------------------------------------------------------
-local function execFCM(F,...)
-  local openModule = needsModule[F]['module']
-  if openModule == nil then
-    return F(...) --proper tail call
-  end
-  if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return end
-  local retval 
-  local currentMod = LrApplicationView.getCurrentModuleName()
-  if currentMod ~= openModule then
-    LrApplicationView.switchToModule(openModule)
-  end
-  retval = F(...)
-  if currentMod ~= openModule then
-    LrApplicationView.switchToModule(currentMod)
-  end
-  return retval
-end
-
---------------------------------------------------------------------------------
--- Executes function passed to it if the needed module is active.
--- This should wrap a module-specific Lightroom SDK function call unless you 
--- already know that Lightroom is set to the correct module. Returns Rnil
--- if it cannot execute the function.
--- @tparam function F The function to use.
--- @param Rnil The return value to use if the correct module is not active.
--- @param ... Any arguments to the function.
--- @treturn function Function closure.
---------------------------------------------------------------------------------
-local function execFIM(F,Rnil,...)
-  if needsModule[F]['photoSelected'] and LrApplication.activeCatalog():getTargetPhoto() == nil then return Rnil end
-  local openModule = needsModule[F]['module']
-  if openModule == nil or openModule == LrApplicationView.getCurrentModuleName() then
-    return  F(...)  --proper tail call
-  end
-  return Rnil
-end
-
---------------------------------------------------------------------------------
--- Calculates number of digits to display to right of decimal point.
--- Tries to maintain 4 digits of precision
--- @tparam number value The value that will be displayed
--- @treturn number Number of digits to display to right of decimal point
---------------------------------------------------------------------------------
-local function precision(value)
-  if value == 0 then
-    return 0 
+local function applogpath()
+  local ret
+  if WIN_ENV then
+    ret=LrPathUtils.child(LrPathUtils.parent(LrPathUtils.parent(LrPathUtils.getStandardFilePath('appData'))),'MIDI2LR')
   else
-    return math.max(0,3-math.floor(math.log10(math.abs(value))))
+    ret='~/Library/Logs/MIDI2LR'
   end
+  ret = LrPathUtils.standardizePath(ret)
+
+  LrFileUtils.createAllDirectories(ret) 
+  return ret
 end
 
---currently, only openExport..., rotateLeft and rotateRight implemented
--- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
-local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
-  local action = {
-    addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
-    openExportDialog                = function(T) T:openExportDialog() end,
-    openExportWithPreviousDialog    = function(T) T:openExportWithPreviousDialog() end,
-    rotateLeft                      = function(T) T:rotateLeft() end,
-    rotateRight                     = function(T) T:rotateRight() end,
-  }
-  local SelectedAction = action[F]
-  return function()    
-    local LrCat = LrApplication.activeCatalog()
-    local TargetPhoto  = LrCat:getTargetPhoto()
-    if TargetPhoto then
-      SelectedAction(TargetPhoto)
-    end
+local function appdatapath()
+  local ret
+  if WIN_ENV then
+    ret=LrPathUtils.child(LrPathUtils.parent(LrPathUtils.parent(LrPathUtils.getStandardFilePath('appData'))),'MIDI2LR')
+  else
+    ret='~/Library/Application Support/MIDI2LR'
   end
+  ret = LrPathUtils.standardizePath(ret)
+  LrFileUtils.createDirectory( ret )
+  return ret
 end
+
 
 --- @export
 return { --table of exports, setting table member name and module function it points to
-  wrapFOM = wrapFOM,
-  wrapFCM = wrapFCM,
-  wrapFIM = wrapFIM,
-  wrapForEachPhoto = wrapForEachPhoto,
-  execFOM = execFOM,
-  execFCM = execFCM,
-  execFIM = execFIM,
-  precision = precision,
+  appdatapath = appdatapath,
+  applogpath = applogpath,
+  LrVersion74orMore = LrVersion74orMore,
 }

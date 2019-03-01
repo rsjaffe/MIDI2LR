@@ -18,8 +18,12 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 
-local LrView        = import 'LrView'
-local Database      = require 'Database'
+local CU              = require 'ClientUtilities'
+local Database        = require 'Database'
+local LrDevelopController = import 'LrDevelopController'
+local LrTasks             = import 'LrTasks'
+local LrView              = import 'LrView'
+
 
 Database.ValidActions.Pause = true --this is additional to the menu list
 
@@ -74,9 +78,34 @@ local function EndDialog(obstable, status)
   end
 end
 
-
+local function RunActionSeries(strarg1,actarray)
+  local strarg = strarg1 -- make argument available to async task
+  LrTasks.startAsyncTask(
+    function()
+      --[[-----------debug section, enable by adding - to beginning this line
+          LrMobdebug.on()
+          --]]-----------end debug section
+      --currently only accepts items in Database assigned 'button' and saved in Database.ValidActions
+      --will have to parse into command and value if want to go to parameterized commands (e.g., slider change)
+      for i in strarg:gmatch("[%w_]+") do
+        if(actarray[i]) then -- perform a one time action
+          actarray[i]()
+        elseif(i:find('Reset') == 1) then -- perform a reset other than those explicitly coded in ACTIONS array
+          local resetparam = i:sub(6)
+          CU.execFOM(LrDevelopController.resetToDefault,resetparam)
+          if ProgramPreferences.ClientShowBezelOnChange then
+            local lrvalue = LrDevelopController.getValue(resetparam)
+            CU.showBezel(resetparam,lrvalue)
+          end
+        end
+        LrTasks.sleep(0.01) --pause between actions to allow synchronization with slow LR responses and keystrokes from app
+      end
+    end 
+  )
+end
 
 return {
+  Run = RunActionSeries,
   StartDialog = StartDialog,
   EndDialog = EndDialog,
 }

@@ -29,7 +29,7 @@ namespace {
    constexpr auto kAutoHideSection{"autohide"};
 }
 
-SettingsManager::SettingsManager(ProfileManager* profile_manager)
+SettingsManager::SettingsManager(ProfileManager& profile_manager)
     : profile_manager_{profile_manager}
 {
    juce::PropertiesFile::Options file_options;
@@ -49,7 +49,7 @@ void SettingsManager::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out)
       // settings on connection
       ptr->AddCallback(this, &SettingsManager::ConnectionCallback);
    // set the profile directory
-   profile_manager_->SetProfileDirectory(GetProfileDirectory());
+   profile_manager_.SetProfileDirectory(GetProfileDirectory());
 }
 
 bool SettingsManager::GetPickupEnabled() const noexcept
@@ -75,7 +75,7 @@ void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
    if (!properties_file_->saveIfNeeded())
       rsj::Log("SettingsManager::SetProfileDirectory saveIfNeeded failed. Directory "
                + profile_directory);
-   profile_manager_->SetProfileDirectory(profile_directory);
+   profile_manager_.SetProfileDirectory(profile_directory);
 }
 
 void SettingsManager::ConnectionCallback(bool connected, bool blocked)
@@ -87,8 +87,8 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
          rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
          // rest of info about app is logged by DebugInfo
          ptr->SendCommand("AppInfoClear 1\n"s);
-         while (const auto info = db.GetInfo()) {
-            ptr->SendCommand("AppInfo "s + *info + '\n');
+         for (const auto& info : db.GetInfo()) {
+            ptr->SendCommand("AppInfo "s + info + '\n');
          }
          ptr->SendCommand("AppInfoDone 1\n"s);
       }

@@ -1,5 +1,26 @@
 #pragma once
-#ifndef MIDI2LR_SCRIMPL_H_INCLUDED
+/*
+  ==============================================================================
+
+    CommandSet.h
+
+This file is part of MIDI2LR. Copyright 2019 by Rory Jaffe.
+
+MIDI2LR is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+MIDI2LR is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
+  ==============================================================================
+*/
+#ifndef MIDI2LR_COMMANDSET_H_INCLUDED
+#define MIDI2LR_COMMANDSET_H_INCLUDED
 #include <cereal/access.hpp>
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/string.hpp>
@@ -16,8 +37,7 @@ class CommandSet {
 
  public:
    CommandSet();
-   ~CommandSet();
-   size_t CommandTextIndex(const MenuStringT& command) const;
+   size_t CommandTextIndex(const std::string& command) const;
    const auto& CommandAbbrevAt(size_t index) const
    {
       return cmd_by_number_.at(index);
@@ -30,7 +50,7 @@ class CommandSet {
 
    auto GetLanguage() const noexcept
    {
-      return m_impl.language_;
+      return m_impl_.language_;
    }
 
    const auto& GetMenus() const noexcept
@@ -59,7 +79,8 @@ class CommandSet {
                 cereal::make_nvp("all_commands", allcommands_));
          else
             rsj::LogAndAlertError(
-                "Unsupported archive version for CommandSet. Version is " + version);
+                juce::String("Unsupported archive version for CommandSet. Version is ")
+                + std::to_string(version));
       }
       std::string language_;
       std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
@@ -71,10 +92,10 @@ class CommandSet {
    friend class cereal::access;
    // see https://github.com/USCiLab/cereal/issues/270
    friend struct cereal::detail::Version<CommandSet::Impl>;
-   const Impl& m_impl;
-   const Impl& make_impl();
+   const Impl& m_impl_;
+   const Impl& MakeImpl();
 
-   std::unordered_map<MenuStringT, size_t> cmd_idx_{}; // for CommandTextIndex
+   std::unordered_map<std::string, size_t> cmd_idx_{}; // for CommandTextIndex
    std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size
    std::vector<MenuStringT> menus_{};         // use for commandmenu
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
@@ -83,4 +104,4 @@ class CommandSet {
 #pragma warning(disable : 26440 26426 26444)
 CEREAL_CLASS_VERSION(CommandSet::Impl, 1)
 #pragma warning(pop)
-#endif // MIDI2LR_SCRIMPL_H_INCLUDED
+#endif // MIDI2LR_COMMANDSET_H_INCLUDED

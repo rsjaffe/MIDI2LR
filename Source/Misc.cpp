@@ -34,8 +34,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cxxabi.h>
 #include <memory>
 #include <type_traits>
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
-{
+template<typename T>
+[[nodiscard]] T Demangle(const char* mangled_name) {
    static_assert(std::is_pointer<T>() == false, "Result must be copied as __cxa_demagle returns "
                                                 "pointer to temporary. Cannot use pointer type for "
                                                 "this template.");
@@ -48,10 +48,8 @@ template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
    return ptr.get();
 }
 #else  // ndef _GNUG_
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
-{
-   return mangled_name;
-}
+template<typename T>
+[[nodiscard]] T Demangle(const char* mangled_name) { return mangled_name; }
 #endif // _GNUG_
 void rsj::Log(const juce::String& info)
 {

@@ -55,20 +55,22 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class PWoptions : public juce::Component, private juce::TextEditor::Listener {
+class PWoptions final : public juce::Component, private juce::TextEditor::Listener {
  public:
    //==============================================================================
    PWoptions();
    ~PWoptions();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
-    static void LinkToControlsModel(ControlsModel* model) noexcept
-    {
-        controls_model_ = model;
-    }
-    void BindToControl(size_t channel);
-    //[/UserMethods]
+   //==============================================================================
+   //[UserMethods]     -- You can add your own custom methods in this section.
+   static void LinkToControlsModel(ControlsModel* model) noexcept
+   {
+      controls_model_ = model;
+   }
+   void BindToControl(size_t channel);
+   PWoptions(PWoptions&& other) noexcept = delete;
+   PWoptions& operator=(PWoptions&& other) noexcept = delete;
+   //[/UserMethods]
 
    void paint(juce::Graphics& g) override;
    void resized() override;
@@ -79,8 +81,7 @@ class PWoptions : public juce::Component, private juce::TextEditor::Listener {
    void textEditorFocusLost(juce::TextEditor& t) override;
    static ControlsModel* controls_model_;
    size_t boundchannel_{0}; // note: 0-based
-   PWoptions(PWoptions&& other) noexcept = delete;
-   PWoptions& operator=(PWoptions&& other) noexcept = delete;
+
    //[/UserVariables]
 
    //==============================================================================
@@ -90,11 +91,11 @@ class PWoptions : public juce::Component, private juce::TextEditor::Listener {
    std::unique_ptr<juce::TextEditor> maxval;
    std::unique_ptr<juce::Label> label3;
 
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
+   //==============================================================================
+   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PWoptions)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_803E4ECD2CBCEA5A__
+#endif // __JUCE_HEADER_803E4ECD2CBCEA5A__

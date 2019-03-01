@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include <exception>
 #include <future>
 #include "Misc.h"
@@ -29,7 +29,7 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447)
-MidiProcessor::~MidiProcessor()
+MidiReceiver::~MidiReceiver()
 {
    try {
       for (const auto& dev : devices_) {
@@ -37,7 +37,7 @@ MidiProcessor::~MidiProcessor()
          rsj::Log("Stopped input device " + dev->getName());
       }
       if (const auto m = messages_.size_approx())
-         rsj::Log(juce::String(m) + " left in queue in MidiProcessor destructor");
+         rsj::Log(juce::String(m) + " left in queue in MidiReceiver destructor");
       moodycamel::ConsumerToken ctok(messages_);
       rsj::MidiMessage message_copy{};
       while (messages_.try_dequeue(ctok, message_copy)) {
@@ -46,22 +46,22 @@ MidiProcessor::~MidiProcessor()
       messages_.enqueue(kTerminate);
    }
    catch (const std::exception& e) {
-      rsj::LogAndAlertError(juce::String("Exception in MidiProcessor Destructor. ") + e.what());
+      rsj::LogAndAlertError(juce::String("Exception in MidiReceiver Destructor. ") + e.what());
       std::terminate();
    }
    catch (...) {
-      rsj::LogAndAlertError("Exception in MidiProcessor Destructor. Non-standard exception.");
+      rsj::LogAndAlertError("Exception in MidiReceiver Destructor. Non-standard exception.");
       std::terminate();
    }
 }
 #pragma warning(pop)
 
-void MidiProcessor::Init()
+void MidiReceiver::Init()
 {
    try {
       InitDevices();
       dispatch_messages_future_ =
-          std::async(std::launch::async, &MidiProcessor::DispatchMessages, this);
+          std::async(std::launch::async, &MidiReceiver::DispatchMessages, this);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -69,12 +69,12 @@ void MidiProcessor::Init()
    }
 }
 
-void MidiProcessor::handleIncomingMidiMessage(
+void MidiReceiver::handleIncomingMidiMessage(
     juce::MidiInput* /*device*/, const juce::MidiMessage& message)
 {
    try {
-   // this procedure is in near-real-time, so must return quickly.
-   // will place message in multithreaded queue and let separate process handle the messages
+      // this procedure is in near-real-time, so must return quickly.
+      // will place message in multithreaded queue and let separate process handle the messages
 #pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(messages_);
       const rsj::MidiMessage mess{message};
@@ -104,7 +104,7 @@ void MidiProcessor::handleIncomingMidiMessage(
    }
 }
 
-void MidiProcessor::RescanDevices()
+void MidiReceiver::RescanDevices()
 {
    try {
       for (const auto& dev : devices_) {
@@ -121,7 +121,7 @@ void MidiProcessor::RescanDevices()
    InitDevices(); // initdevices has own try catch block
 }
 
-void MidiProcessor::InitDevices()
+void MidiReceiver::InitDevices()
 {
    try {
       for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
@@ -139,7 +139,7 @@ void MidiProcessor::InitDevices()
    }
 }
 
-void MidiProcessor::DispatchMessages()
+void MidiReceiver::DispatchMessages()
 {
    try {
       static thread_local moodycamel::ConsumerToken ctok(messages_);

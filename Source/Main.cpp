@@ -45,7 +45,7 @@ namespace fs = std::filesystem;
 #include "LR_IPC_In.h"
 #include "LR_IPC_Out.h"
 #include "MainWindow.h"
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "Misc.h"
 #include "PWoptions.h"
@@ -67,7 +67,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
-      juce::LookAndFeel::setDefaultLookAndFeel(look_feel_.get());
+      juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
@@ -106,16 +106,15 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          juce::Logger::setCurrentLogger(logger_.get());
          if (command_line != kShutDownString) {
             CerealLoad();
-            midi_processor_->Init();
+            midi_receiver_->Init();
             midi_sender_->Init();
-            lr_ipc_out_->Init(midi_sender_, midi_processor_.get());
-            profile_manager_.Init(lr_ipc_out_, midi_processor_.get());
+            lr_ipc_out_->Init(midi_sender_, midi_receiver_.get());
+            profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
             SetAppLanguage(); // set language and load appropriate fonts and files
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
-            main_window_ = std::make_unique<MainWindow>(getApplicationName());
-            main_window_->Init(&command_map_, lr_ipc_out_, midi_processor_, &profile_manager_,
-                &settings_manager_, midi_sender_);
+            main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_map_,
+                profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
             // Check for latest version
             version_checker_.startThread();
          }
@@ -141,9 +140,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Be careful that nothing happens in this method that might rely on
       // messages being sent, or any kind of window activity, because the
       // message loop is no longer running at this point.
+      if (lr_ipc_in_)
+         lr_ipc_in_->PleaseStopThread();
+      DefaultProfileSave();
+      CerealSave();
       lr_ipc_out_.reset();
       lr_ipc_in_.reset();
-      midi_processor_.reset();
+      midi_receiver_.reset();
       midi_sender_.reset();
       main_window_.reset(); // (deletes our window)
       juce::Logger::setCurrentLogger(nullptr);
@@ -155,10 +158,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // This is called when the application is being asked to quit: you can
       // ignore this request and let the application carry on running, or call
       // quit() to allow the application to close.
-      if (lr_ipc_in_)
-         lr_ipc_in_->PleaseStopThread();
-      DefaultProfileSave();
-      CerealSave();
       quit();
    }
 
@@ -235,7 +234,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
-   void CerealLoad() noexcept
+   void CerealLoad()
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
@@ -279,13 +278,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
       }
    }
 #pragma warning(pop)
 
-   void SetAppLanguage()
+   void SetAppLanguage() const
    {
-      const std::string lang{command_set_.GetLanguage()};
+      const auto lang{command_set_.GetLanguage()};
 
       // juce (as of July 2018) uses the following font defaults
       // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
@@ -333,25 +333,26 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        * Locale("zh", "TW");
        */
    }
-   //create logger first, makes sure that MIDI2LR directory is created for writing by other modules
+   // create logger first, makes sure that MIDI2LR directory is created for writing by other modules
+   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
+   // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    CommandMap command_map_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};
-   ProfileManager profile_manager_{&controls_model_, &command_map_};
-   SettingsManager settings_manager_{&profile_manager_};
+   ProfileManager profile_manager_{controls_model_, command_map_};
+   SettingsManager settings_manager_{profile_manager_};
    std::shared_ptr<LrIpcIn> lr_ipc_in_{
-       std::make_shared<LrIpcIn>(&controls_model_, &profile_manager_, &command_map_)};
-   std::shared_ptr<LrIpcOut> lr_ipc_out_{
-       std::make_shared<LrIpcOut>(&controls_model_, &command_map_)};
-   std::shared_ptr<MidiProcessor> midi_processor_{std::make_shared<MidiProcessor>()};
+       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, command_map_)};
+   std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, command_map_)};
+   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
-   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
-
-   std::unique_ptr<juce::LookAndFeel> look_feel_{std::make_unique<juce::LookAndFeel_V3>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};
-   VersionChecker version_checker_{&settings_manager_};
+   // destroy after window that uses it
+   juce::LookAndFeel_V3 look_feel_;
+   // initialize this last as it needs window to exist
+   VersionChecker version_checker_{settings_manager_};
 };
 
 //==============================================================================

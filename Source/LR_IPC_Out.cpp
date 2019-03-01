@@ -27,7 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 #include "CommandMap.h"
 #include "ControlsModel.h"
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include "MidiUtilities.h"
 #include "MIDISender.h"
 #include "Misc.h"
@@ -45,7 +45,7 @@ namespace {
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
 
-LrIpcOut::LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexcept
+LrIpcOut::LrIpcOut(ControlsModel& c_model, const CommandMap& map_command) noexcept
     : command_map_{map_command}, controls_model_{c_model}
 {
 }
@@ -73,14 +73,14 @@ LrIpcOut::~LrIpcOut()
 }
 #pragma warning(pop)
 
-void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor)
+void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver)
 {
    try {
       midi_sender_ = std::move(midi_sender);
       connect_timer_.Start();
       send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
-      if (midi_processor)
-         midi_processor->AddCallback(this, &LrIpcOut::MidiCmdCallback);
+      if (midi_receiver)
+         midi_receiver->AddCallback(this, &LrIpcOut::MidiCmdCallback);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -111,9 +111,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
           {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
       };
-      if (!command_map_->MessageExistsInMap(message))
+      if (!command_map_.MessageExistsInMap(message))
          return;
-      const auto command_to_send = command_map_->GetCommandforMessage(message);
+      const auto command_to_send = command_map_.GetCommandforMessage(message);
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "unmapped"s)
          return; // handled by ProfileManager
@@ -124,11 +124,11 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             nextresponse = now + kDelay;
             if (mm.message_type_byte == rsj::kPwFlag
                 || (mm.message_type_byte == rsj::kCcFlag
-                       && controls_model_->GetCcMethod(mm.channel, mm.number)
+                       && controls_model_.GetCcMethod(mm.channel, mm.number)
                               == rsj::CCmethod::kAbsolute)) {
                recenter_.SetMidiMessage(mm);
             }
-            const auto change = controls_model_->MeasureChange(mm);
+            const auto change = controls_model_.MeasureChange(mm);
             if (change == 0)
                return;      // don't send any signal
             if (change > 0) // turned clockwise
@@ -138,7 +138,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          }
       }
       else { // not repeated command
-         const auto computed_value = controls_model_->ControllerToPlugin(mm);
+         const auto computed_value = controls_model_.ControllerToPlugin(mm);
          SendCommand(command_to_send + ' ' + std::to_string(computed_value) + '\n');
       }
    }
@@ -255,8 +255,8 @@ void LrIpcOut::ConnectTimer::Stop()
 void LrIpcOut::ConnectTimer::timerCallback()
 {
    auto lock = std::lock_guard(connect_mutex_);
-   if (!timer_off_ && !owner_->juce::InterprocessConnection::isConnected())
-      owner_->juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+   if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
+      owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
 }
 
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
@@ -274,15 +274,15 @@ void LrIpcOut::Recenter::timerCallback()
       juce::Timer::stopTimer();
       local_mm = mm_;
    }
-   const auto center = owner_->controls_model_->SetToCenter(local_mm);
+   const auto center = owner_.controls_model_.SetToCenter(local_mm);
    // send center to control//
    switch (local_mm.message_type_byte) {
    case rsj::kPwFlag: {
-      owner_->midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
+      owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
       break;
    }
    case rsj::kCcFlag: {
-      owner_->midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
+      owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
       break;
    }
    default:

@@ -52,7 +52,7 @@ namespace {
 
 #ifdef _WIN32
 
-class WindowsFunctionError : public std::exception {
+class WindowsFunctionError final : public std::exception {
    static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(),
        "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
 
@@ -288,10 +288,10 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          vk = mapped_key->second;
       else { // Translate key code to keyboard-dependent scan code, may be UTF-8
          const auto uc{icu::UnicodeString::fromUTF8(key)[0]};
-         static const auto language_id = GetLanguage("Lightroom");
+         static const auto kLanguageId = GetLanguage("Lightroom");
          static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff,
              "Assuming VkKeyScanEx returns 0xffff on error");
-         const auto vk_code_and_shift = VkKeyScanExW(uc, language_id);
+         const auto vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
          if (vk_code_and_shift == 0xffff) //-V547
             throw WindowsFunctionError();
          vk = LOBYTE(vk_code_and_shift);
@@ -319,7 +319,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 
       // construct input event.
       INPUT ip{};
-      constexpr auto kSizeIp = sizeof(ip);
+      constexpr auto size_ip = sizeof(ip);
       ip.type = INPUT_KEYBOARD;
       // ki: wVk, wScan, dwFlags, time, dwExtraInfo
       ip.ki = {0, 0, 0, 0, 0};
@@ -328,7 +328,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       auto lock = std::lock_guard(mutex_sending);
       for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
          ip.ki.wVk = *it;
-         const auto result = SendInput(1, &ip, kSizeIp);
+         const auto result = SendInput(1, &ip, size_ip);
          if (result == 0)
             throw WindowsFunctionError();
       }
@@ -336,7 +336,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
       for (const auto it : strokes) {
          ip.ki.wVk = it;
-         const auto result = SendInput(1, &ip, kSizeIp);
+         const auto result = SendInput(1, &ip, size_ip);
          if (result == 0)
             throw WindowsFunctionError();
       }

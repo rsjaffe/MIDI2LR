@@ -35,7 +35,7 @@ class ProfileManager;
 
 class LrIpcIn final : juce::Timer, juce::Thread {
  public:
-   LrIpcIn(ControlsModel* c_model, ProfileManager* profile_manager, CommandMap* command_map);
+   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, CommandMap& command_map);
    ~LrIpcIn();
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;
@@ -58,10 +58,10 @@ class LrIpcIn final : juce::Timer, juce::Thread {
 
    bool thread_started_{false};
    bool timer_off_{false};
-   CommandMap* const command_map_;
-   ControlsModel* const controls_model_; //
+   CommandMap& command_map_;
+   ControlsModel& controls_model_; //
    mutable std::mutex timer_mutex_;
-   ProfileManager* const profile_manager_;
+   ProfileManager& profile_manager_;
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
 };
 

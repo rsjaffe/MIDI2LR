@@ -2,7 +2,7 @@
 /*
   ==============================================================================
 
-    MIDIProcessor.h
+    MIDIReceiver.h
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -19,8 +19,8 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef MIDI2LR_MIDIPROCESSOR_H_INCLUDED
-#define MIDI2LR_MIDIPROCESSOR_H_INCLUDED
+#ifndef MIDI2LR_MIDIRECEIVER_H_INCLUDED
+#define MIDI2LR_MIDIRECEIVER_H_INCLUDED
 #include <functional>
 #include <future>
 #include <vector>
@@ -29,14 +29,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"
 
-class MidiProcessor final : juce::MidiInputCallback {
+class MidiReceiver final : juce::MidiInputCallback {
  public:
-   MidiProcessor() = default;
-   ~MidiProcessor();
-   MidiProcessor(const MidiProcessor& other) = delete;
-   MidiProcessor(MidiProcessor&& other) = delete;
-   MidiProcessor& operator=(const MidiProcessor& other) = delete;
-   MidiProcessor& operator=(MidiProcessor&& other) = delete;
+   MidiReceiver() = default;
+   ~MidiReceiver();
+   MidiReceiver(const MidiReceiver& other) = delete;
+   MidiReceiver(MidiReceiver&& other) = delete;
+   MidiReceiver& operator=(const MidiReceiver& other) = delete;
+   MidiReceiver& operator=(MidiReceiver&& other) = delete;
    void Init();
    // re-enumerates MIDI IN devices
    void RescanDevices();
@@ -60,4 +60,4 @@ class MidiProcessor final : juce::MidiInputCallback {
    std::vector<std::unique_ptr<juce::MidiInput>> devices_;
 };
 
-#endif // MIDIPROCESSOR_H_INCLUDED
+#endif // MIDI2LR_MIDIRECEIVER_H_INCLUDED

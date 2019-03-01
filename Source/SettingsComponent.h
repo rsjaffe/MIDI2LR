@@ -31,7 +31,7 @@ class SettingsComponent final : public juce::Component,
                                 ResizableLayout,
                                 juce::Slider::Listener {
  public:
-   explicit SettingsComponent(SettingsManager* settings_manager);
+   explicit SettingsComponent(SettingsManager& settings_manager);
    ~SettingsComponent() = default;
    SettingsComponent(const SettingsComponent& other) = delete;
    SettingsComponent(SettingsComponent&& other) = delete;
@@ -53,7 +53,7 @@ class SettingsComponent final : public juce::Component,
    juce::Slider autohide_setting_;
    juce::TextButton profile_location_button_{TRANS("Choose Profile Folder")};
    juce::ToggleButton pickup_enabled_{TRANS("Enable Pickup Mode")};
-   SettingsManager* const settings_manager_;
+   SettingsManager& settings_manager_;
 };
 
 #endif // SETTINGSCOMPONENT_H_INCLUDED

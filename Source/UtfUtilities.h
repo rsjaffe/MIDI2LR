@@ -27,8 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace rsj {
    template<typename R, typename Tstring>
-   [[nodiscard]] std::basic_string<R> UtfConvert(const Tstring& input)
-   {
+   [[nodiscard]] std::basic_string<R> UtfConvert(const Tstring& input) {
       using Rstring = ::std::basic_string<R>;
       using T = typename Tstring::value_type;
       using Ustring = ::icu::UnicodeString;

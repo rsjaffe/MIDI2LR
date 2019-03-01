@@ -319,7 +319,7 @@
     <ClCompile Include="..\..\Source\MainWindow.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MIDIProcessor.cpp">
+    <ClCompile Include="..\..\Source\MIDIReceiver.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MIDISender.cpp">
@@ -1689,7 +1689,7 @@
     <ClInclude Include="..\..\Source\MainWindow.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MIDIProcessor.h">
+    <ClInclude Include="..\..\Source\MIDIReceiver.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MIDISender.h">

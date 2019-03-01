@@ -29,7 +29,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 class CommandMap;
 class ControlsModel;
 class LrIpcOut;
-class MidiProcessor;
+class MidiReceiver;
 namespace rsj {
    struct MidiMessage;
    struct MidiMessageId;
@@ -37,14 +37,14 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(ControlsModel* c_model, CommandMap* cmap) noexcept;
+   ProfileManager(ControlsModel& c_model, CommandMap& cmap) noexcept;
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
    ProfileManager& operator=(const ProfileManager& other) = delete;
    ProfileManager& operator=(ProfileManager&& other) = delete;
 
-   void Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_processor);
+   void Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver);
 
    template<class T>
    void AddCallback(T* const object, void (T::*const mf)(juce::XmlElement*, const juce::String&))
@@ -83,8 +83,8 @@ class ProfileManager final : juce::AsyncUpdater {
       kNext,
    };
 
-   CommandMap* const command_map_;
-   ControlsModel* const controls_model_;
+   CommandMap& command_map_;
+   ControlsModel& controls_model_;
    int current_profile_index_{0};
    juce::File profile_location_;
    std::vector<juce::String> profiles_;

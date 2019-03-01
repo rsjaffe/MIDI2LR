@@ -26,17 +26,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LR_IPC_Out.h"
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel* c_model, CommandMap* cmap) noexcept
+ProfileManager::ProfileManager(ControlsModel& c_model, CommandMap& cmap) noexcept
     : command_map_{cmap}, controls_model_{c_model}
 {
 }
 
-void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_processor)
+void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver)
 {
    // copy the pointers
    lr_ipc_out_ = std::move(out);
@@ -45,8 +45,8 @@ void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiProcessor* midi_pro
       // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
       // settings on connection
       ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
-   if (midi_processor)
-      midi_processor->AddCallback(this, &ProfileManager::MidiCmdCallback);
+   if (midi_receiver)
+      midi_receiver->AddCallback(this, &ProfileManager::MidiCmdCallback);
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)
@@ -125,7 +125,7 @@ void ProfileManager::SwitchToPreviousProfile()
 
 void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
-   const auto cmd = command_map_->GetCommandforMessage(msg);
+   const auto cmd = command_map_.GetCommandforMessage(msg);
    if (cmd == "PrevPro"s) {
       switch_state_ = SwitchState::kPrev;
       triggerAsyncUpdate();
@@ -139,14 +139,12 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
-      if (command_map_) {
-         const rsj::MidiMessageId cc = mm;
-         // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
-         // profile-related command
-         if (controls_model_->ControllerToPlugin(mm) < 0.4 || !command_map_->MessageExistsInMap(cc))
-            return;
-         MapCommand(cc);
-      }
+      const rsj::MidiMessageId cc = mm;
+      // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
+      // profile-related command
+      if (controls_model_.ControllerToPlugin(mm) < 0.4 || !command_map_.MessageExistsInMap(cc))
+         return;
+      MapCommand(cc);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

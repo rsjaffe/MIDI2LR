@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "CommandMap.h"
 #include "LR_IPC_Out.h" //base class
-#include "MIDIProcessor.h"
+#include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
@@ -57,38 +57,34 @@ namespace {
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
-MainContentComponent::MainContentComponent() : ResizableLayout{this}
+MainContentComponent::MainContentComponent(
+    CommandMap& command_map, ProfileManager& profile_manager, SettingsManager& settings_manager)
+    : ResizableLayout{this}, command_map_(command_map), command_table_model_(command_map),
+      profile_manager_(profile_manager), settings_manager_(settings_manager)
 {
    // Set the component size
    setSize(kMainWidth, kMainHeight);
 }
 
-void MainContentComponent::Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-    std::shared_ptr<MidiProcessor> midi_processor, ProfileManager* profile_manager,
-    SettingsManager* settings_manager, std::shared_ptr<MidiSender> midi_sender)
+void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+    std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender)
 {
    try {
       // copy the pointers
-      command_map_ = command_map;
       lr_ipc_out_ = std::move(lr_ipc_out);
-      settings_manager_ = settings_manager;
-      midi_processor_ = std::move(midi_processor);
+      midi_receiver_ = std::move(midi_receiver);
       midi_sender_ = std::move(midi_sender);
 
-      // call the function of the sub component.
-      command_table_model_.Init(command_map);
-
-      if (midi_processor_)
+      if (midi_receiver_)
          // Add ourselves as a listener for MIDI commands
-         midi_processor_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
+         midi_receiver_->AddCallback(this, &MainContentComponent::MidiCmdCallback);
 
       if (const auto ptr = lr_ipc_out_.lock())
          // Add ourselves as a listener for LR_IPC_OUT events
          ptr->AddCallback(this, &MainContentComponent::LrIpcOutCallback);
 
-      if (profile_manager)
-         // Add ourselves as a listener for profile changes
-         profile_manager->AddCallback(this, &MainContentComponent::ProfileChanged);
+      // Add ourselves as a listener for profile changes
+      profile_manager_.AddCallback(this, &MainContentComponent::ProfileChanged);
 
       // Main title
       title_label_.setFont(juce::Font{36.f, juce::Font::bold});
@@ -173,21 +169,20 @@ void MainContentComponent::Init(CommandMap* command_map, std::weak_ptr<LrIpcOut>
       addToLayout(&disconnect_button_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(disconnect_button_);
 
-      if (settings_manager_) {
-         // Try to load a default.xml if the user has not set a profile directory
-         if (settings_manager_->GetProfileDirectory().isEmpty()) {
-            const auto filename = rsj::AppDataFilePath(kDefaultsFile);
-            const auto default_profile = juce::File(filename.data());
-            if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
-               std::unique_ptr<juce::XmlElement> xml_element{parsed};
-               command_table_model_.BuildFromXml(xml_element.get());
-               command_table_.updateContent();
-            }
+      // Try to load a default.xml if the user has not set a profile directory
+      if (settings_manager_.GetProfileDirectory().isEmpty()) {
+         const auto filename = rsj::AppDataFilePath(kDefaultsFile);
+         const auto default_profile = juce::File(filename.data());
+         if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
+            std::unique_ptr<juce::XmlElement> xml_element{parsed};
+            command_table_model_.BuildFromXml(xml_element.get());
+            command_table_.updateContent();
          }
-         else if (profile_manager)
-            // otherwise use the last profile from the profile directory
-            profile_manager->SwitchToProfile(0);
       }
+      else
+         // otherwise use the last profile from the profile directory
+         profile_manager_.SwitchToProfile(0);
+
       // turn it on
       activateLayout();
    }
@@ -275,8 +270,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
 
-         if (midi_processor_)
-            midi_processor_->RescanDevices();
+         if (midi_receiver_)
+            midi_receiver_->RescanDevices();
 
          if (midi_sender_)
             midi_sender_->RescanDevices();
@@ -305,8 +300,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &save_button_) {
          juce::File profile_directory;
-         if (settings_manager_)
-            profile_directory = settings_manager_->GetProfileDirectory();
+         profile_directory = settings_manager_.GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
          juce::WildcardFileFilter wildcard_filter{
@@ -317,15 +311,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
              profile_directory, &wildcard_filter, nullptr};
          juce::FileChooserDialogBox dialog_box{TRANS("Save profile"),
              TRANS("Enter filename to save profile"), browser, true, juce::Colours::lightgrey};
-         if (dialog_box.show() && command_map_) {
+         if (dialog_box.show()) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-            command_map_->ToXmlDocument(selected_file);
+            command_map_.ToXmlDocument(selected_file);
          }
       }
       else if (button == &load_button_) {
          juce::File profile_directory;
-         if (settings_manager_)
-            profile_directory = settings_manager_->GetProfileDirectory();
+         profile_directory = settings_manager_.GetProfileDirectory();
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
          juce::WildcardFileFilter wildcard_filter{

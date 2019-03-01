@@ -33,18 +33,18 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 class CommandMap;
 class ControlsModel;
-class MidiProcessor;
+class MidiReceiver;
 class MidiSender;
 
 class LrIpcOut final : juce::InterprocessConnection {
  public:
-   LrIpcOut(ControlsModel* c_model, const CommandMap* map_command) noexcept;
+   LrIpcOut(ControlsModel& c_model, const CommandMap& map_command) noexcept;
    ~LrIpcOut();
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;
    LrIpcOut& operator=(const LrIpcOut& other) = delete;
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
-   void Init(std::shared_ptr<MidiSender> midi_sender, MidiProcessor* midi_processor);
+   void Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver);
 
    template<class T> void AddCallback(T* const object, void (T::*const mf)(bool, bool))
    {
@@ -68,39 +68,39 @@ class LrIpcOut final : juce::InterprocessConnection {
    void SendOut();
 
    bool sending_stopped_{false};
-   const CommandMap* const command_map_{};
-   ControlsModel* const controls_model_{};
+   const CommandMap& command_map_;
+   ControlsModel& controls_model_;
    moodycamel::BlockingConcurrentQueue<std::string> command_;
    std::future<void> send_out_future_;
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
    std::vector<std::function<void(bool, bool)>> callbacks_{};
 
    // helper classes
-   class ConnectTimer : public juce::Timer {
+   class ConnectTimer final : public juce::Timer {
     public:
-      explicit ConnectTimer(LrIpcOut* owner) noexcept : owner_(owner) {}
+      explicit ConnectTimer(LrIpcOut& owner) noexcept : owner_(owner) {}
       void Start();
       void Stop();
 
     private:
       void timerCallback() override;
-      LrIpcOut* owner_;
+      LrIpcOut& owner_;
       bool timer_off_{false};
       mutable std::mutex connect_mutex_; // fix race during shutdown
    };
-   class Recenter : public juce::Timer {
+   class Recenter final : public juce::Timer {
     public:
-      explicit Recenter(LrIpcOut* owner) noexcept : owner_{owner} {}
+      explicit Recenter(LrIpcOut& owner) noexcept : owner_{owner} {}
       void SetMidiMessage(rsj::MidiMessage mm);
 
     private:
       void timerCallback() override;
-      LrIpcOut* owner_;
+      LrIpcOut& owner_;
       rsj::RelaxTTasSpinLock mtx_;
       rsj::MidiMessage mm_{};
    };
-   ConnectTimer connect_timer_{this};
-   Recenter recenter_{this};
+   ConnectTimer connect_timer_{*this};
+   Recenter recenter_{*this};
 };
 
 #endif // LR_IPC_OUT_H_INCLUDED

@@ -29,7 +29,7 @@ class ProfileManager;
 
 class SettingsManager final {
  public:
-   explicit SettingsManager(ProfileManager* profile_manager);
+   explicit SettingsManager(ProfileManager& profile_manager);
    ~SettingsManager() = default;
    SettingsManager(const SettingsManager& other) = delete;
    SettingsManager(SettingsManager&& other) = delete;
@@ -46,7 +46,7 @@ class SettingsManager final {
    void SetLastVersionFound(int version_number);
 
  private:
-   ProfileManager* const profile_manager_;
+   ProfileManager& profile_manager_;
    std::unique_ptr<juce::PropertiesFile> properties_file_;
    std::weak_ptr<LrIpcOut> lr_ipc_out_;
    void ConnectionCallback(bool, bool);

@@ -17,6 +17,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
 local Info           = require 'Info'
+local Ut             = require 'Utilities'
 local LrApplication  = import 'LrApplication'
 local LrFileUtils    = import 'LrFileUtils'
 local LrLocalization = import 'LrLocalization'
@@ -53,17 +54,7 @@ local function gatherInformation()
 end
 
 local function writeDebug()
-  local applogpath
-  if WIN_ENV then
-    applogpath=LrPathUtils.child(LrPathUtils.parent(LrPathUtils.parent(LrPathUtils.getStandardFilePath('appData'))),'MIDI2LR')
-  else
-    applogpath='~/Library/Logs/MIDI2LR'
-  end
-  applogpath = LrPathUtils.standardizePath(applogpath)
-  if LrFileUtils.exists(applogpath) == false then
-    LrFileUtils.createDirectory(applogpath)
-  end
-  local datafile = LrPathUtils.child(applogpath, 'MIDI2LRinfo.txt')
+  local datafile = LrPathUtils.child(Ut.applogpath(), 'MIDI2LRinfo.txt')
   local file = assert(io.open(datafile,'w'),'Error writing to ' .. datafile)
   file:write(gatherInformation())
   file:close()

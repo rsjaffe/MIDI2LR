@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>3.0.0.1</version>
+    <version>3.0.0.2</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
@@ -184,7 +184,44 @@
                         <distributionDirectory>
                             <origin>${app}/MIDI2LR.app</origin>
                         </distributionDirectory>
+                        <distributionFile>
+                            <origin>../Source/LRPlugin/ReadMe.txt</origin>
+                        </distributionFile>
                     </distributionFileList>
+                </folder>
+                <folder>
+                    <description>Program Settings</description>
+                    <destination>%{env(APPDATA)}/MIDI2LR/</destination>
+                    <name>Settings</name>
+                    <platforms>windows</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <origin>../Source/UserSettings/MenuTrans.xml</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                    <ruleList>
+                        <fileExists>
+                            <negate>1</negate>
+                            <path>%{env(APPDATA)}/MIDI2LR/MenuTrans.xml</path>
+                        </fileExists>
+                    </ruleList>
+                </folder>
+                <folder>
+                    <description>Program Settings</description>
+                    <destination>${user_home_directory}/Library/Application Support/MIDI2LR/</destination>
+                    <name>settingsOSX</name>
+                    <platforms>osx</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <origin>../Source/UserSettings/MenuTrans.xml</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                    <ruleList>
+                        <fileExists>
+                            <negate>1</negate>
+                            <path>${user_home_directory}/Library/Application Support/MIDI2LR/MenuTrans.xml</path>
+                        </fileExists>
+                    </ruleList>
                 </folder>
             </folderList>
             <startMenuShortcutList>

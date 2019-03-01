@@ -25,14 +25,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMenu.h"
 #include "Misc.h"
 
-void CommandTableModel::Init(CommandMap* map_command) noexcept
+CommandTableModel::CommandTableModel(CommandMap& map_command) noexcept : command_map_(map_command)
 {
-   // copy the pointer
-   command_map_ = map_command;
 }
 
-/**
- */
 void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forwards)
 {
    // This callback is made when the table's sort order is changed.
@@ -161,18 +157,17 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          auto guard = std::shared_lock{cmd_table_mod_mtx_};
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
-            command_select = new CommandMenu{commands_.at(gsl::narrow_cast<size_t>(row_number)),command_set_};
-            command_select->Init(command_map_);
+            command_select = new CommandMenu{
+                commands_.at(gsl::narrow_cast<size_t>(row_number)), command_set_, command_map_};
          }
          else
             command_select->SetMsg(commands_.at(gsl::narrow_cast<size_t>(row_number)));
 
-         if (command_map_)
-            // add 1 because 0 is reserved for no selection
-            command_select->SetSelectedItem(
-                command_set_.CommandTextIndex(command_map_->GetCommandforMessage(
-                    commands_.at(gsl::narrow_cast<size_t>(row_number))))
-                + 1);
+         // add 1 because 0 is reserved for no selection
+         command_select->SetSelectedItem(
+             command_set_.CommandTextIndex(command_map_.GetCommandforMessage(
+                 commands_.at(gsl::narrow_cast<size_t>(row_number))))
+             + 1);
 
          return command_select;
       }
@@ -189,10 +184,10 @@ void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum m
    try {
       const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
       auto guard = std::unique_lock{cmd_table_mod_mtx_};
-      if (command_map_ && !command_map_->MessageExistsInMap(msg)) {
+      if (!command_map_.MessageExistsInMap(msg)) {
          commands_.push_back(msg);
-         command_map_->AddCommandforMessage(0, msg); // add an entry for 'no command'
-         Sort();                                     // re-sort list
+         command_map_.AddCommandforMessage(0, msg); // add an entry for 'no command'
+         Sort();                                    // re-sort list
       }
    }
    catch (const std::exception& e) {
@@ -205,8 +200,7 @@ void CommandTableModel::RemoveRow(size_t row)
 {
    try {
       auto guard = std::unique_lock{cmd_table_mod_mtx_};
-      if (command_map_)
-         command_map_->RemoveMessage(commands_.at(row));
+      command_map_.RemoveMessage(commands_.at(row));
       commands_.erase(commands_.cbegin() + row);
    }
    catch (const std::exception& e) {
@@ -219,8 +213,7 @@ void CommandTableModel::RemoveAllRows()
 {
    auto guard = std::unique_lock{cmd_table_mod_mtx_};
    commands_.clear();
-   if (command_map_)
-      command_map_->ClearMap();
+   command_map_.ClearMap();
 }
 
 void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
@@ -232,26 +225,26 @@ void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
          return;
       RemoveAllRows();
       const auto* setting = root->getFirstChildElement();
-      while (setting && command_map_) {
+      while (setting) {
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
             AddRow(message.channel, message.data, rsj::MsgIdEnum::kCc);
-            command_map_->AddCommandforMessage(
+            command_map_.AddCommandforMessage(
                 setting->getStringAttribute("command_string").toStdString(), message);
          }
          else if (setting->hasAttribute("note")) {
             const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
                 setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
             AddRow(note.channel, note.data, rsj::MsgIdEnum::kNote);
-            command_map_->AddCommandforMessage(
+            command_map_.AddCommandforMessage(
                 setting->getStringAttribute("command_string").toStdString(), note);
          }
          else if (setting->hasAttribute("pitchbend")) {
             const rsj::MidiMessageId pb{
                 setting->getIntAttribute("channel"), 0, rsj::MsgIdEnum::kPitchBend};
             AddRow(pb.channel, 0, rsj::MsgIdEnum::kPitchBend);
-            command_map_->AddCommandforMessage(
+            command_map_.AddCommandforMessage(
                 setting->getStringAttribute("command_string").toStdString(), pb);
          }
          setting = setting->getNextElement();
@@ -278,7 +271,7 @@ void CommandTableModel::Sort()
 { // always call within unique_lock
    // use LRCommandList::getIndexOfCommand(string); to sort by command
    const auto msg_idx = [this](rsj::MidiMessageId a) {
-      return command_set_.CommandTextIndex(command_map_->GetCommandforMessage(a));
+      return command_set_.CommandTextIndex(command_map_.GetCommandforMessage(a));
    };
    const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
       return msg_idx(a) < msg_idx(b);

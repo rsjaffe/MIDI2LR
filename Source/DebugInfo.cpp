@@ -19,9 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "DebugInfo.h"
-#include "Misc.h"
-#include "../JuceLibraryCode/JuceHeader.h"
-
+#include "UtfUtilities.h"
 #ifdef _WIN32
 #include <array>
 #include <unordered_map>
@@ -119,7 +117,7 @@ namespace {
        {0x00040409, "United States-Dvorak for right hand"}, {0x00000409, "United States - English"},
        {0x00000420, "Urdu"}, {0x00010480, "Uyghur (Legacy)"}, {0x00000843, "Uzbek Cyrillic"},
        {0x0000042a, "Vietnamese"}, {0x00000488, "Wolof"}, {0x0000046a, "Yoruba"}};
-}
+} // namespace
 
 std::string rsj::GetKeyboardLayout()
 {
@@ -152,18 +150,20 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
       using namespace std::string_literals;
-      Send("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
+      LogAndSave("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
+      LogAndSave("Keyboard type "s + rsj::GetKeyboardLayout());
 #ifdef NDEBUG
-      Send("Version "s + ProjectInfo::versionString);
+      LogAndSave("Version "s + ProjectInfo::versionString);
 #else
-      Send("Version "s + ProjectInfo::versionString + "-debug"s);
+      LogAndSave("Version "s + ProjectInfo::versionString + "-debug"s);
 #endif
-      Send("App path "s
-           + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
-                 .getFullPathName()
-                 .toStdString());
-      Send("Profile directory "s + profile_directory.toStdString());
-      Send("Keyboard type "s + rsj::GetKeyboardLayout());
+      LogAndSave("App path "s
+                 + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
+                       .getFullPathName()
+                       .toStdString());
+      LogAndSave("Profile directory "s + profile_directory.toStdString());
+      LogAndSave("Log file directory "s + rsj::UtfConvert<char>(rsj::AppLogFilePath("")));
+      LogAndSave("Settings file directory "s + rsj::UtfConvert<char>(rsj::AppDataFilePath("")));
    }
    catch (...) {
       try {
@@ -173,39 +173,6 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
       }
       catch (...) { //-V565
       }
-   }
-}
-#pragma warning(pop)
-
-void DebugInfo::Send(std::string&& msg)
-{
-   rsj::Log(msg);
-   info_.emplace_back(std::move(msg));
-}
-
-namespace {
-// placing kErrorNotice here instead of in exception handler so that handler doesn't have any
-// chance of throwing another exception
-#pragma warning(suppress : 26426)
-   const std::string kErrorNotice{"Exception in GetInfo."};
-} // namespace
-
-#pragma warning(push)
-#pragma warning(disable : 26447) // all exceptions suppressed by catch blocks
-const std::string* DebugInfo::GetInfo() noexcept
-{
-   try {
-      if (iterate_ >= info_.size())
-         return nullptr;
-      return &info_.at(iterate_++);
-   }
-   catch (...) {
-      static auto second_time{false};
-      if (second_time)
-         return nullptr;
-      rsj::Log(kErrorNotice);
-      second_time = true;
-      return &kErrorNotice;
    }
 }
 #pragma warning(pop)

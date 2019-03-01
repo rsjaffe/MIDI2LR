@@ -5,24 +5,22 @@ namespace fs = std::filesystem;
 #endif
 #include <fstream>
 
-CommandSet::CommandSet() : m_impl(make_impl())
+CommandSet::CommandSet() : m_impl_(MakeImpl())
 { // manually insert unmapped at first position
-   cmd_by_number_.push_back("unmapped");
+   cmd_by_number_.emplace_back("unmapped");
    cmd_idx_["unmapped"] = 0;
    size_t idx = 1;
-   for (const auto& bycategory : m_impl.allcommands_) {
-      menus_.push_back(bycategory.first);
+   for (const auto& bycategory : m_impl_.allcommands_) {
       std::vector<MenuStringT> menu_items_temp{};
       for (const auto& cmd_pair : bycategory.second) {
          cmd_by_number_.push_back(cmd_pair.first);
          cmd_idx_[cmd_pair.first] = idx++;
-         menu_items_temp.push_back(cmd_pair.second);
+         menu_items_temp.emplace_back(cmd_pair.second);
       }
+      menus_.emplace_back(bycategory.first);
       menu_entries_.emplace_back(std::move(menu_items_temp));
    }
 }
-
-CommandSet::~CommandSet() = default; // defined in cpp file in case go to pimpl idiom for Impl
 
 CommandSet::Impl::Impl()
 {
@@ -48,18 +46,19 @@ CommandSet::Impl::Impl()
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 
-const CommandSet::Impl& CommandSet::make_impl()
+const CommandSet::Impl& CommandSet::MakeImpl()
 {
    static const Impl singleimpl;
    return singleimpl;
 }
 
-size_t CommandSet::CommandTextIndex(const MenuStringT& command) const
+size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
-   auto found = cmd_idx_.find(command);
+   const auto found = cmd_idx_.find(command);
    if (found == cmd_idx_.end()) {
       rsj::LogAndAlertError("Command not found in CommandTextIndex: " + command);
       return 0;
