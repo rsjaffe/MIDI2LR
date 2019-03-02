@@ -466,8 +466,8 @@ LrTasks.startAsyncTask(
       ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
-      ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels()
-      ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview()
+      ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
+      ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
 
