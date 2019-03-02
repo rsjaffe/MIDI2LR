@@ -24,7 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <gsl/gsl>
 #include <mutex>
-#include <unicode/unistr.h>
 #include <unordered_map>
 #include <vector>
 #include "Misc.h"
@@ -51,6 +50,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define NOMETAFILE -typedef METAFILEPICT
 #define NOMINMAX -Macros min(a, b) and max(a, b)
 #define NOMSG -typedef MSG and associated routines
+#define NONLS             - All NLS defines and routines
 #define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
 #define NOPROFILER -Profiler interface.
 #define NORASTEROPS -Binary and Tertiary raster ops
@@ -67,11 +67,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
 #define OEMRESOURCE -OEM Resource values
 #define WIN32_LEAN_AND_MEAN
-//#define NONLS             - All NLS defines and routines
 //#define NOUSER            - All USER defines and routines
 //#define NOVIRTUALKEYCODES - VK_*
 #endif
-#undef NONLS
 #undef NOUSER
 #undef NOVIRTUALKEYCODES
 #include <Windows.h>
@@ -86,71 +84,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace {
    // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-   std::string ToLower(const std::string& in)
+   std::string ToLower(std::string_view in)
    {
-      auto s = in;
-      std::transform(
-          s.begin(), s.end(), s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
+      std::string s;
+      std::transform(in.begin(), in.end(),
+          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
       return s;
    }
 } // namespace
 
 #ifdef _WIN32
-
-class WindowsFunctionError final : public std::exception {
-   static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(),
-       "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
-
- public:
-#pragma warning(push)
-#pragma warning(disable : 26447) // we're toast if shared_ptr throws (only possible exception)
-   WindowsFunctionError(DWORD n = GetLastError()) noexcept : number_(n)
-   {
-      LPSTR new_what;
-#pragma warning(suppress : 26490)
-      FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM
-                         | FORMAT_MESSAGE_IGNORE_INSERTS,
-          nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-          reinterpret_cast<LPSTR>(&new_what), 0, nullptr);
-      if (new_what)
-         what_ = {new_what, [](LPSTR w) noexcept {if (w) HeapFree(GetProcessHeap(), 0, w);
-   }
-};
-}
-#pragma warning(pop)
-
-~WindowsFunctionError() noexcept = default;
-WindowsFunctionError(const WindowsFunctionError& other) noexcept = default;
-WindowsFunctionError(WindowsFunctionError&& other) noexcept = default;
-WindowsFunctionError& operator=(const WindowsFunctionError& other) noexcept = default;
-WindowsFunctionError& operator=(WindowsFunctionError&& other) noexcept = default;
-
-const char* what() const noexcept override
-{
-   return what_.get();
-}
-DWORD
-number() const noexcept
-{
-   return number_;
-}
-
-private:
-std::shared_ptr<std::remove_pointer<LPSTR>::type> what_;
-DWORD number_;
-}
-;
-
-wchar_t MBtoWChar(const std::string& key)
-{
-   wchar_t full_character;
-   const auto return_value = MultiByteToWideChar(
-       CP_UTF8, 0, key.data(), gsl::narrow_cast<int>(key.size()), &full_character, 1);
-   if (return_value == 0) {
-      throw WindowsFunctionError();
-   }
-   return full_character;
-}
 
 HKL GetLanguage(const std::string& program_name) noexcept
 {
@@ -166,8 +109,8 @@ HKL GetLanguage(const std::string& program_name) noexcept
 
 #else
 
-bool EndsWith(const std::string& main_str,
-    const std::string& to_match) // note: C++20 will have ends_with
+bool EndsWith(std::string_view main_str,
+    std::string_view to_match) // note: C++20 will have ends_with
 {
    return main_str.size() >= to_match.size()
           && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
@@ -325,20 +268,21 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       const auto in_keymap = mapped_key != kKeyMap.end();
 
 #ifdef _WIN32
-      static_assert(sizeof(WCHAR) == sizeof(UChar),
-          "For Unicode handling, assuming windows wide char is same as ICU 16-bit Unicode char.");
       BYTE vk = 0;
       BYTE vk_modifiers = 0;
       if (in_keymap)
          vk = mapped_key->second;
       else { // Translate key code to keyboard-dependent scan code, may be UTF-8
-         const auto uc{icu::UnicodeString::fromUTF8(key)[0]};
+         const auto uc{rsj::Utf8ToWide(key)[0]};
          static const auto kLanguageId = GetLanguage("Lightroom");
          static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff,
              "Assuming VkKeyScanEx returns 0xffff on error");
          const auto vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
          if (vk_code_and_shift == 0xffff) //-V547
-            throw WindowsFunctionError();
+         {
+            const std::string errorMsg = "VkKeyScanExW failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
          vk = LOBYTE(vk_code_and_shift);
          vk_modifiers = HIBYTE(vk_code_and_shift);
       }
@@ -374,16 +318,20 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
          ip.ki.wVk = *it;
          const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0)
-            throw WindowsFunctionError();
+         if (result == 0) {
+            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
       }
       // send key up strokes
       ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
       for (const auto it : strokes) {
          ip.ki.wVk = it;
          const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0)
-            throw WindowsFunctionError();
+         if (result == 0) {
+            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
       }
 #else
       static_assert(sizeof(UniChar) == sizeof(UChar),

@@ -9,21 +9,6 @@
               headerPath="../../&#10;../../icu/source/common/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
-      <GROUP id="{E3105D44-45AE-CAD8-B1B5-48D167BBA6FB}" name="ICU">
-        <FILE id="oCPh7j" name="appendable.cpp" compile="1" resource="0" file="icu/source/common/appendable.cpp"/>
-        <FILE id="P3ODDi" name="bytestream.cpp" compile="1" resource="0" file="icu/source/common/bytestream.cpp"/>
-        <FILE id="qUTyhN" name="cmemory.cpp" compile="1" resource="0" file="icu/source/common/cmemory.cpp"/>
-        <FILE id="HtGu5R" name="cstring.cpp" compile="1" resource="0" file="icu/source/common/cstring.cpp"/>
-        <FILE id="CMTcKk" name="stringpiece.cpp" compile="1" resource="0" file="icu/source/common/stringpiece.cpp"/>
-        <FILE id="Cj6e49" name="udataswp.cpp" compile="1" resource="0" file="icu/source/common/udataswp.cpp"/>
-        <FILE id="Vixl4T" name="uinvchar.cpp" compile="1" resource="0" file="icu/source/common/uinvchar.cpp"/>
-        <FILE id="uJ5dfZ" name="unistr.cpp" compile="1" resource="0" file="icu/source/common/unistr.cpp"/>
-        <FILE id="mu0enP" name="uobject.cpp" compile="1" resource="0" file="icu/source/common/uobject.cpp"/>
-        <FILE id="wjgpxx" name="ustring.cpp" compile="1" resource="0" file="icu/source/common/ustring.cpp"/>
-        <FILE id="HiL4uj" name="ustrtrns.cpp" compile="1" resource="0" file="icu/source/common/ustrtrns.cpp"/>
-        <FILE id="iBnWqs" name="utf_impl.cpp" compile="1" resource="0" file="icu/source/common/utf_impl.cpp"/>
-        <FILE id="ipO4BO" name="utypes.cpp" compile="1" resource="0" file="icu/source/common/utypes.cpp"/>
-      </GROUP>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
       <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
@@ -90,7 +75,6 @@
             file="Source/SettingsManager.h"/>
       <FILE id="ltTGX1" name="Translate.cpp" compile="1" resource="0" file="Source/Translate.cpp"/>
       <FILE id="tBhQEV" name="Translate.h" compile="0" resource="0" file="Source/Translate.h"/>
-      <FILE id="ACrFaG" name="UtfUtilities.h" compile="0" resource="0" file="Source/UtfUtilities.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"

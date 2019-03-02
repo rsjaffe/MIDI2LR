@@ -95,8 +95,9 @@ namespace rsj {
    void LogAndAlertError(const juce::String& error_text);
    void Log(const juce::String& info);
 #ifdef _WIN32
-   [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::wstring& file_name);
-   [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::string& file_name);
+   ::std::wstring Utf8ToWide(::std::string_view input);
+   [[nodiscard]] ::std::wstring AppDataFilePath(::std::wstring_view file_name);
+   [[nodiscard]] ::std::wstring AppDataFilePath(::std::string_view file_name);
    [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::wstring& file_name)
    {
       return AppDataFilePath(file_name);
