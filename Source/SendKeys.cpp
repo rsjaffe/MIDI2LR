@@ -50,6 +50,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define NOMETAFILE -typedef METAFILEPICT
 #define NOMINMAX -Macros min(a, b) and max(a, b)
 #define NOMSG -typedef MSG and associated routines
+#define NONLS             - All NLS defines and routines
 #define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
 #define NOPROFILER -Profiler interface.
 #define NORASTEROPS -Binary and Tertiary raster ops
@@ -66,11 +67,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
 #define OEMRESOURCE -OEM Resource values
 #define WIN32_LEAN_AND_MEAN
-//#define NONLS             - All NLS defines and routines
 //#define NOUSER            - All USER defines and routines
 //#define NOVIRTUALKEYCODES - VK_*
 #endif
-#undef NONLS
 #undef NOUSER
 #undef NOVIRTUALKEYCODES
 #include <Windows.h>

@@ -41,7 +41,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define NOMENUS -MF_*
 #define NOMETAFILE -typedef METAFILEPICT
 #define NOMINMAX -Macros min(a, b) and max(a, b)
-#define NONLS -All NLS defines and routines
 #define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
 #define NOPROFILER -Profiler interface.
 #define NORASTEROPS -Binary and Tertiary raster ops
@@ -60,11 +59,13 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define WIN32_LEAN_AND_MEAN
 //#define NOCTLMGR -Control and Dialog routines
 //#define NOMSG -typedef MSG and associated routines
+//#define NONLS -All NLS defines and routines
 //#define NOUSER            - All USER defines and routines
 //#define NOWINMESSAGES     - WM_*, EM_*, LB_*, CB_*
 #endif
 #undef NOCTLMGR
 #undef NOMSG
+#undef NONLS
 #undef NOUSER
 #undef NOWINMESSAGES
 #include <gsl/gsl_util>
