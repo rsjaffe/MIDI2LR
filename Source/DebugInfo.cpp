@@ -19,7 +19,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "DebugInfo.h"
-#include "UtfUtilities.h"
 #ifdef _WIN32
 #include <array>
 #include <unordered_map>
@@ -67,6 +66,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #undef NOUSER
 #include "Windows.h"
+#include "Misc.h"
 // from
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
@@ -205,8 +205,8 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
                        .getFullPathName()
                        .toStdString());
       LogAndSave("Profile directory "s + profile_directory.toStdString());
-      LogAndSave("Log file directory "s + rsj::UtfConvert<char>(rsj::AppLogFilePath("")));
-      LogAndSave("Settings file directory "s + rsj::UtfConvert<char>(rsj::AppDataFilePath("")));
+      LogAndSave("Log file directory "s + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
+      LogAndSave("Settings file directory "s + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
    }
    catch (...) {
       try {

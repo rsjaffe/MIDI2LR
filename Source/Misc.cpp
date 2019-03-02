@@ -146,13 +146,40 @@ std::wstring rsj::AppDataFilePath(std::string_view file_name)
 
 std::wstring rsj::Utf8ToWide(std::string_view input)
 {
-   auto buffersize = MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), nullptr, 0)
-                     + 1;                      // add terminating null
+   const auto buffersize = MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), nullptr, 0)
+                           + 1; // add terminating null
+   if (buffersize == 1) {
+      // WideCharToMultiByte return 0 for errors.
+      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
+      throw std::runtime_error(errorMsg.c_str());
+   }
    std::vector<wchar_t> buffer(buffersize, 0); // all zero
-   auto retval =
+   const auto retval =
        MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), buffer.data(), buffer.size());
    if (retval == 0) {
       const std::string errorMsg = "UTF8 to UTF16 failed with error code: " + GetLastError();
+      throw std::runtime_error(errorMsg.c_str());
+   }
+   return buffer.data();
+}
+
+std::string rsj::WideToUtf8(std::wstring_view wstr)
+{
+   // If the 6th parameter is 0 then WideCharToMultiByte returns the number of bytes needed to store
+   // the result.
+   const auto buffersize =
+       WideCharToMultiByte(CP_UTF8, 0, wstr.data(), wstr.size(), nullptr, 0, nullptr, nullptr) + 1;
+   if (buffersize == 1) {
+      // WideCharToMultiByte return 0 for errors.
+      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
+      throw std::runtime_error(errorMsg.c_str());
+   }
+   std::vector<char> buffer(buffersize, 0);
+   const auto retval = WideCharToMultiByte(
+       CP_UTF8, 0, wstr.data(), wstr.size(), buffer.data(), buffer.size(), nullptr, nullptr);
+   if (retval == 0) {
+      // WideCharToMultiByte return 0 for errors.
+      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
       throw std::runtime_error(errorMsg.c_str());
    }
    return buffer.data();

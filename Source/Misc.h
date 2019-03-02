@@ -96,6 +96,7 @@ namespace rsj {
    void Log(const juce::String& info);
 #ifdef _WIN32
    ::std::wstring Utf8ToWide(::std::string_view input);
+   ::std::string WideToUtf8(::std::wstring_view wstr);
    [[nodiscard]] ::std::wstring AppDataFilePath(::std::wstring_view file_name);
    [[nodiscard]] ::std::wstring AppDataFilePath(::std::string_view file_name);
    [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::wstring& file_name)
