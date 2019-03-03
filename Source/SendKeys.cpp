@@ -109,9 +109,8 @@ HKL GetLanguage(const std::string& program_name) noexcept
 }
 
 #else
-
-bool EndsWith(std::string_view main_str,
-    std::string_view to_match) // note: C++20 will have ends_with
+// note: C++20 will have ends_with
+bool EndsWith(std::string_view main_str, std::string_view to_match)
 {
    return main_str.size() >= to_match.size()
           && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
@@ -157,13 +156,12 @@ pid_t GetPid()
    return 0;
 }
 
-/* From:
+/* Altered significantly, originally from:
  * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
  *
- * Returns string representation of key, if it is printable.
- * Ownership follows the Create Rule; that is, it is the caller's
- * responsibility to release the returned object. */
-UniChar CreateStringForKey(CGKeyCode key_code)
+ * Returns unshifted and shifted UniChar (UTF-16) for each key code
+ * Zero return for character indicates error */
+std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
 {
    cf_unique_ptr<TISInputSourceRef> current_keyboard{TISCopyCurrentKeyboardInputSource()};
    CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(
@@ -171,35 +169,53 @@ UniChar CreateStringForKey(CGKeyCode key_code)
    const UCKeyboardLayout* keyboard_layout = (const UCKeyboardLayout*)CFDataGetBytePtr(layout_data);
    UInt32 keys_down = 0;
    UniChar chars[4];
+   // unshifted
    UniCharCount real_length;
    UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
        kUCKeyTranslateNoDeadKeysBit, &keys_down, sizeof(chars) / sizeof(chars[0]), &real_length,
        chars);
-   if (real_length > 1)
+   if (real_length > 1) {
       rsj::LogAndAlertError(juce::String("For key code ") + juce::String(key_code)
                             + juce::String(", Unicode character is ") + juce::String(real_length)
                             + juce::String(" long. It is ")
                             + juce::String((wchar_t*)chars, real_length) + juce::String("."));
-   return chars[0];
+      chars[0] = 0;
+   }
+   // shifted
+   UniChar s_chars[4];
+   UniCharCount s_real_length;
+   UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, kCGEventFlagMaskShift,
+       LMGetKbdType(), kUCKeyTranslateNoDeadKeysBit, &keys_down,
+       sizeof(s_chars) / sizeof(s_chars[0]), &s_real_length, s_chars);
+   if (s_real_length > 1) {
+      rsj::LogAndAlertError(juce::String("For shifted key code ") + juce::String(key_code)
+                            + juce::String(", Unicode character is ") + juce::String(s_real_length)
+                            + juce::String(" long. It is ")
+                            + juce::String((wchar_t*)s_chars, s_real_length) + juce::String("."));
+      s_chars[0] = 0;
+   }
+   return {chars[0], s_chars[0]};
 }
 
 /* From:
  * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
  *
- * Returns key code for given character via the above function. Throws std::out_of_range on error.
+ * Returns key code for given character via the above function.
+ * Bool in pair represents shift key
  */
-std::optional<CGKeyCode> KeyCodeForChar(UniChar c)
+std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
 {
    try {
       static std::once_flag flag;
-      static std::unordered_map<UniChar, size_t> char_code_map;
+      static std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map;
       std::call_once(flag, []() { /* Generate table of keycodes and characters. */
          /* Loop through every key-code (0 - 127) to find its current mapping. */
          for (size_t i = 0; i < 128; ++i) {
             auto uc = CreateStringForKey((CGKeyCode)i);
-            if (uc) {
-               char_code_map[uc] = i;
-            }
+            if (uc.first)
+               char_code_map[uc.first] = {i, false};
+            if (uc.second)
+               char_code_map[uc.second] = {i, true};
          }
       });
       auto result = char_code_map.find(c);
@@ -335,7 +351,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
       }
 #else
-      try { // In MacOS, KeyCodeForChar will throw if key not in map
+      try {
          CGEventRef d;
          CGEventRef u;
          uint64_t flags = 0;
@@ -360,10 +376,12 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
                rsj::LogAndAlertError("Unsupported character was used: " + key);
                return;
             }
-            const auto key_code = *key_code_result;
+            const auto key_code = key_code_result->first;
             d = CGEventCreateKeyboardEvent(NULL, key_code, true);
             u = CGEventCreateKeyboardEvent(NULL, key_code, false);
             flags = CGEventGetFlags(d); // in case KeyCode has associated flag
+            if (key_code_result->second)
+               flags |= kCGEventFlagMaskShift;
          }
 
          if (alt_opt)
