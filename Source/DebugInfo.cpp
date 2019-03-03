@@ -205,8 +205,13 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
                        .getFullPathName()
                        .toStdString());
       LogAndSave("Profile directory "s + profile_directory.toStdString());
+#ifdef _WIN32
       LogAndSave("Log file directory "s + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
       LogAndSave("Settings file directory "s + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
+#else
+      LogAndSave("Log file directory "s + rsj::AppLogFilePath(""));
+      LogAndSave("Settings file directory "s + rsj::AppDataFilePath(""));
+#endif
    }
    catch (...) {
       try {
