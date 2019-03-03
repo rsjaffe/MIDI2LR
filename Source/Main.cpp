@@ -265,8 +265,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          }
          else
-            rsj::LogAndAlertError(
-                "Unable to save control settings to xml file. Unable to open file settings.bin.");
+            rsj::LogAndAlertError("Unable to save control settings to xml file.");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);

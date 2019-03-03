@@ -58,8 +58,8 @@ LrTasks.startAsyncTask(
       LrFileUtils.exists(Database.AppTrans) ~= 'file' or
       ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
-        Database.WriteAppTrans(ProgramPreferences.DataStructure.language)
         ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
+        Database.WriteAppTrans(ProgramPreferences.DataStructure.language)
         for k,v in pairs(Info.VERSION) do
           ProgramPreferences.DataStructure.version[k] = v
         end

@@ -41,7 +41,7 @@ VersionChecker::~VersionChecker()
 void VersionChecker::run()
 {
    try {
-      const juce::URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
+      const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
       const std::unique_ptr<juce::XmlElement> version_xml_element{
           version_url.readEntireXmlStream()};
       if (version_xml_element) {
