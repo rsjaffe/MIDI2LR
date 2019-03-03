@@ -24,7 +24,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Misc.h"
 
-
 class DebugInfo {
  public:
    explicit DebugInfo(const juce::String& profile_directory) noexcept;

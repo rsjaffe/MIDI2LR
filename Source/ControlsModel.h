@@ -132,8 +132,7 @@ class ChannelModel {
    double ControllerToPlugin(short controltype, size_t controlnumber, short value);
    short MeasureChange(short controltype, size_t controlnumber, short value);
    short SetToCenter(short controltype, size_t controlnumber);
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const 
-   {
+   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const {
       try {
          return cc_method_.at(controlnumber);
       }
@@ -142,8 +141,7 @@ class ChannelModel {
          throw;
       }
    }
-   [[nodiscard]] short GetCcMax(size_t controlnumber) const
-   {
+   [[nodiscard]] short GetCcMax(size_t controlnumber) const {
       try {
          return cc_high_.at(controlnumber);
       }
@@ -152,8 +150,7 @@ class ChannelModel {
          throw;
       }
    }
-   [[nodiscard]] short GetCcMin(size_t controlnumber) const 
-   {
+   [[nodiscard]] short GetCcMin(size_t controlnumber) const {
       try {
          return cc_low_.at(controlnumber);
       }
@@ -162,8 +159,7 @@ class ChannelModel {
          throw;
       }
    }
-
-       [[nodiscard]] short GetPwMax() const noexcept
+   [[nodiscard]] short GetPwMax() const noexcept
    {
       return pitch_wheel_max_;
    }

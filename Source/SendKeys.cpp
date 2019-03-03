@@ -50,7 +50,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #define NOMETAFILE -typedef METAFILEPICT
 #define NOMINMAX -Macros min(a, b) and max(a, b)
 #define NOMSG -typedef MSG and associated routines
-#define NONLS             - All NLS defines and routines
+#define NONLS -All NLS defines and routines
 #define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
 #define NOPROFILER -Profiler interface.
 #define NORASTEROPS -Binary and Tertiary raster ops
@@ -210,7 +210,7 @@ std::optional<CGKeyCode> KeyCodeForChar(UChar c)
    catch (const std::exception& e) {
       rsj::LogAndAlertError(
           "Exception in KeyCodeForChar function for key: " + juce::String(c) + ". " + e.what());
-      return 0;
+      return {};
    }
 }
 
@@ -387,6 +387,9 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
                CGEventPostToPid(lr_pid, d);
                CGEventPostToPid(lr_pid, u);
             }
+            else {
+               rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
+            }
          }
          else { // use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
             static ProcessSerialNumber psn{[]() {
@@ -403,6 +406,9 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
                auto lock = std::lock_guard(mutex_sending);
                CGEventPostToPSN(&psn, d);
                CGEventPostToPSN(&psn, u);
+            }
+            else {
+               rsj::LogAndAlertError("Unable to obtain PSN for Lightroom in SendKeys.cpp");
             }
          }
       }

@@ -145,12 +145,12 @@ std::wstring rsj::AppDataFilePath(std::string_view file_name)
 }
 
 std::wstring rsj::Utf8ToWide(std::string_view input)
-{
-   const auto buffersize = MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), nullptr, 0)
-                           + 1; // add terminating null
+{ // add terminating null
+   const auto buffersize =
+       MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), nullptr, 0) + 1;
    if (buffersize == 1) {
       // WideCharToMultiByte return 0 for errors.
-      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
+      const std::string errorMsg = "UTF8 to UTF16 failed with error code: " + GetLastError();
       throw std::runtime_error(errorMsg.c_str());
    }
    std::vector<wchar_t> buffer(buffersize, 0); // all zero
@@ -164,9 +164,7 @@ std::wstring rsj::Utf8ToWide(std::string_view input)
 }
 
 std::string rsj::WideToUtf8(std::wstring_view wstr)
-{
-   // If the 6th parameter is 0 then WideCharToMultiByte returns the number of bytes needed to store
-   // the result.
+{ // add terminating null
    const auto buffersize =
        WideCharToMultiByte(CP_UTF8, 0, wstr.data(), wstr.size(), nullptr, 0, nullptr, nullptr) + 1;
    if (buffersize == 1) {
@@ -178,7 +176,6 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
    const auto retval = WideCharToMultiByte(
        CP_UTF8, 0, wstr.data(), wstr.size(), buffer.data(), buffer.size(), nullptr, nullptr);
    if (retval == 0) {
-      // WideCharToMultiByte return 0 for errors.
       const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
       throw std::runtime_error(errorMsg.c_str());
    }
