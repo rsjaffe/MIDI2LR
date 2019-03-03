@@ -6,8 +6,24 @@
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="U_STATIC_IMPLEMENTATION=1&#10;DONT_SET_USING_JUCE_NAMESPACE=1"
-              headerPath="../../&#10;../../icu/source/common/">
+              headerPath="../../&#10;../../icu/source/common/" compilerFlagSchemes="">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
+    <GROUP id="{7E2614A6-8DDA-32DF-759E-672A949CDAB5}" name="ICU">
+      <FILE id="jMvpck" name="appendable.cpp" compile="1" resource="0" file="icu/source/common/appendable.cpp"
+            compilerFlagScheme=""/>
+      <FILE id="Bl9kHs" name="bytestream.cpp" compile="1" resource="0" file="icu/source/common/bytestream.cpp"/>
+      <FILE id="aXKxsD" name="cmemory.cpp" compile="1" resource="0" file="icu/source/common/cmemory.cpp"/>
+      <FILE id="vjfvBe" name="cstring.cpp" compile="1" resource="0" file="icu/source/common/cstring.cpp"/>
+      <FILE id="fa2KvY" name="stringpiece.cpp" compile="1" resource="0" file="icu/source/common/stringpiece.cpp"/>
+      <FILE id="Gd7xhS" name="udataswp.cpp" compile="1" resource="0" file="icu/source/common/udataswp.cpp"/>
+      <FILE id="xco1cW" name="uinvchar.cpp" compile="1" resource="0" file="icu/source/common/uinvchar.cpp"/>
+      <FILE id="IqlpRB" name="unistr.cpp" compile="1" resource="0" file="icu/source/common/unistr.cpp"/>
+      <FILE id="P1QIcq" name="uobject.cpp" compile="1" resource="0" file="icu/source/common/uobject.cpp"/>
+      <FILE id="sBoMAp" name="ustring.cpp" compile="1" resource="0" file="icu/source/common/ustring.cpp"/>
+      <FILE id="GkvI5O" name="ustrtrns.cpp" compile="1" resource="0" file="icu/source/common/ustrtrns.cpp"/>
+      <FILE id="exXWor" name="utf_impl.cpp" compile="1" resource="0" file="icu/source/common/utf_impl.cpp"/>
+      <FILE id="zU9YNq" name="utypes.cpp" compile="1" resource="0" file="icu/source/common/utypes.cpp"/>
+    </GROUP>
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>

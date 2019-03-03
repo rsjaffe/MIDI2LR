@@ -49,6 +49,58 @@
 			isa = PBXBuildFile;
 			fileRef = 78C490E72B571C45E9BF65BE;
 		};
+		C0C86F5FF3B6AB14F1C906D8 = {
+			isa = PBXBuildFile;
+			fileRef = D64745008A83831C99FA8727;
+		};
+		62E94195B2776B053A2E9D89 = {
+			isa = PBXBuildFile;
+			fileRef = 24553985217E4B226037C6F3;
+		};
+		36FA01BA7641D506553B7B8E = {
+			isa = PBXBuildFile;
+			fileRef = 59CD927695FB58E83462A595;
+		};
+		20CB1B060B92C246FD7C289C = {
+			isa = PBXBuildFile;
+			fileRef = 12A5F5628D5F8A75606C954E;
+		};
+		B4098ABABA27CCE98D5241AD = {
+			isa = PBXBuildFile;
+			fileRef = C2B252278F9F41CD4ECBC136;
+		};
+		24A2605ECB4B5CF5B2860925 = {
+			isa = PBXBuildFile;
+			fileRef = 3D128D668CE5E04EB23EFD7F;
+		};
+		08426575E13DB439C4529BB4 = {
+			isa = PBXBuildFile;
+			fileRef = 9382779AB8718EDE24CC7F8B;
+		};
+		93AEBA197560B4B909B28237 = {
+			isa = PBXBuildFile;
+			fileRef = 53A4007D19F3B95C335C15D2;
+		};
+		325454C9A20ABECFD9C63BEE = {
+			isa = PBXBuildFile;
+			fileRef = 7BC4DF17B745CD145C0CA513;
+		};
+		59AC6EFA3C1F9FB9CDE32B43 = {
+			isa = PBXBuildFile;
+			fileRef = C1A4312173453BECFEF3C667;
+		};
+		52FC8C52DDEE0E1620A26B97 = {
+			isa = PBXBuildFile;
+			fileRef = 1057E7E38D9DB91EFBC2D932;
+		};
+		78863CB0D6D521A76B3BE1A5 = {
+			isa = PBXBuildFile;
+			fileRef = 11A085E103F4DB635F250B4F;
+		};
+		08E1D9130BD9CDE61903C2F8 = {
+			isa = PBXBuildFile;
+			fileRef = F23A50E73FE3C8B924013EDB;
+		};
 		BFAB1A9B97A0C128DF41C02A = {
 			isa = PBXBuildFile;
 			fileRef = 0ED56980FCA5D40E4BCC5C8A;
@@ -231,6 +283,13 @@
 			path = ../../Source/CommandTable.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		1057E7E38D9DB91EFBC2D932 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ustrtrns.cpp;
+			path = ../../icu/source/common/ustrtrns.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		106F4837446F2B1548FE756E = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -243,6 +302,20 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = Main.cpp;
 			path = ../../Source/Main.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		11A085E103F4DB635F250B4F = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "utf_impl.cpp";
+			path = "../../icu/source/common/utf_impl.cpp";
+			sourceTree = "SOURCE_ROOT";
+		};
+		12A5F5628D5F8A75606C954E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = cstring.cpp;
+			path = ../../icu/source/common/cstring.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		143DA00B5265FB49526E86AB = {
@@ -294,6 +367,13 @@
 			path = "../../Source/LR_IPC_Out.cpp";
 			sourceTree = "SOURCE_ROOT";
 		};
+		24553985217E4B226037C6F3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = bytestream.cpp;
+			path = ../../icu/source/common/bytestream.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		334B209B53531AD494AD8132 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -321,6 +401,13 @@
 			name = CoreMIDI.framework;
 			path = System/Library/Frameworks/CoreMIDI.framework;
 			sourceTree = SDKROOT;
+		};
+		3D128D668CE5E04EB23EFD7F = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = udataswp.cpp;
+			path = ../../icu/source/common/udataswp.cpp;
+			sourceTree = "SOURCE_ROOT";
 		};
 		3E4802F0F4805A7E7EB2B145 = {
 			isa = PBXFileReference;
@@ -378,11 +465,25 @@
 			path = ../../Source/ProfileManager.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		53A4007D19F3B95C335C15D2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = unistr.cpp;
+			path = ../../icu/source/common/unistr.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		596A515E74C727B658C08FBE = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = MidiUtilities.cpp;
 			path = ../../Source/MidiUtilities.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		59CD927695FB58E83462A595 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = cmemory.cpp;
+			path = ../../icu/source/common/cmemory.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		5AEDB565FDD9BB688A863317 = {
@@ -497,6 +598,13 @@
 			path = Icon.icns;
 			sourceTree = "SOURCE_ROOT";
 		};
+		7BC4DF17B745CD145C0CA513 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = uobject.cpp;
+			path = ../../icu/source/common/uobject.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		80AD4E80805D14FC930C2AE8 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -565,6 +673,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_events.mm";
 			path = "../../JuceLibraryCode/include_juce_events.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		9382779AB8718EDE24CC7F8B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = uinvchar.cpp;
+			path = ../../icu/source/common/uinvchar.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		9611FA7443ABCAB541EB5252 = {
@@ -672,6 +787,20 @@
 			path = "../../JuceLibraryCode/modules/juce_core";
 			sourceTree = "SOURCE_ROOT";
 		};
+		C1A4312173453BECFEF3C667 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ustring.cpp;
+			path = ../../icu/source/common/ustring.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		C2B252278F9F41CD4ECBC136 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = stringpiece.cpp;
+			path = ../../icu/source/common/stringpiece.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		C58E726D80235E018C2E6235 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -721,6 +850,13 @@
 			path = ../../Source/SendKeys.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		D64745008A83831C99FA8727 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = appendable.cpp;
+			path = ../../icu/source/common/appendable.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		DEBD9FE98B3F63E8D660310D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -740,6 +876,13 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = ControlsModel.cpp;
 			path = ../../Source/ControlsModel.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		F23A50E73FE3C8B924013EDB = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = utypes.cpp;
+			path = ../../icu/source/common/utypes.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		F26D6A0ECE3AA94228AF1547 = {
@@ -769,6 +912,26 @@
 			name = MidiUtilities.h;
 			path = ../../Source/MidiUtilities.h;
 			sourceTree = "SOURCE_ROOT";
+		};
+		6541726706750B22CB8D1A74 = {
+			isa = PBXGroup;
+			children = (
+				D64745008A83831C99FA8727,
+				24553985217E4B226037C6F3,
+				59CD927695FB58E83462A595,
+				12A5F5628D5F8A75606C954E,
+				C2B252278F9F41CD4ECBC136,
+				3D128D668CE5E04EB23EFD7F,
+				9382779AB8718EDE24CC7F8B,
+				53A4007D19F3B95C335C15D2,
+				7BC4DF17B745CD145C0CA513,
+				C1A4312173453BECFEF3C667,
+				1057E7E38D9DB91EFBC2D932,
+				11A085E103F4DB635F250B4F,
+				F23A50E73FE3C8B924013EDB,
+			);
+			name = ICU;
+			sourceTree = "<group>";
 		};
 		55BA6062DF892191C9E9B3BE = {
 			isa = PBXGroup;
@@ -833,6 +996,7 @@
 		20B6AA664C4D34D8A4811550 = {
 			isa = PBXGroup;
 			children = (
+				6541726706750B22CB8D1A74,
 				55BA6062DF892191C9E9B3BE,
 			);
 			name = MIDI2LR;
@@ -1139,6 +1303,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0C86F5FF3B6AB14F1C906D8,
+				62E94195B2776B053A2E9D89,
+				36FA01BA7641D506553B7B8E,
+				20CB1B060B92C246FD7C289C,
+				B4098ABABA27CCE98D5241AD,
+				24A2605ECB4B5CF5B2860925,
+				08426575E13DB439C4529BB4,
+				93AEBA197560B4B909B28237,
+				325454C9A20ABECFD9C63BEE,
+				59AC6EFA3C1F9FB9CDE32B43,
+				52FC8C52DDEE0E1620A26B97,
+				78863CB0D6D521A76B3BE1A5,
+				08E1D9130BD9CDE61903C2F8,
 				BFAB1A9B97A0C128DF41C02A,
 				50AF5769741041F9CA022231,
 				FD5777A03748CDE3465E71D3,

@@ -141,6 +141,19 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\icu\source\common\appendable.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\bytestream.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\cmemory.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\cstring.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\stringpiece.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\udataswp.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\uinvchar.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\unistr.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\uobject.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\ustring.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\ustrtrns.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\utf_impl.cpp"/>
+    <ClCompile Include="..\..\icu\source\common\utypes.cpp"/>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
     <ClCompile Include="..\..\Source\CommandMap.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
