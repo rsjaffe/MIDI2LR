@@ -79,7 +79,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <Carbon/Carbon.h>
 #include <libproc.h> //proc_ functions in GetPid
 #include <optional>
-#include <unicode/unistr.h>
+#include "SendKeysM.h"
 #endif
 #include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
 
@@ -163,7 +163,7 @@ pid_t GetPid()
  * Returns string representation of key, if it is printable.
  * Ownership follows the Create Rule; that is, it is the caller's
  * responsibility to release the returned object. */
-UChar CreateStringForKey(CGKeyCode key_code)
+UniChar CreateStringForKey(CGKeyCode key_code)
 {
    cf_unique_ptr<TISInputSourceRef> current_keyboard{TISCopyCurrentKeyboardInputSource()};
    CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(
@@ -188,11 +188,11 @@ UChar CreateStringForKey(CGKeyCode key_code)
  *
  * Returns key code for given character via the above function. Throws std::out_of_range on error.
  */
-std::optional<CGKeyCode> KeyCodeForChar(UChar c)
+std::optional<CGKeyCode> KeyCodeForChar(UniChar c)
 {
    try {
       static std::once_flag flag;
-      static std::unordered_map<UChar, size_t> char_code_map;
+      static std::unordered_map<UniChar, size_t> char_code_map;
       std::call_once(flag, []() { /* Generate table of keycodes and characters. */
          /* Loop through every key-code (0 - 127) to find its current mapping. */
          for (size_t i = 0; i < 128; ++i) {
@@ -335,8 +335,6 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
       }
 #else
-      static_assert(sizeof(UniChar) == sizeof(UChar),
-          "For Unicode handling, assuming Mac wide char is same as ICU 16-bit Unicode char.");
       try { // In MacOS, KeyCodeForChar will throw if key not in map
          CGEventRef d;
          CGEventRef u;
@@ -356,7 +354,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
             u = CGEventCreateKeyboardEvent(NULL, vk, false);
          }
          else {
-            const UChar uc{icu::UnicodeString::fromUTF8(key)[0]};
+            const UniChar uc{Utf8ToUtf16(key)};
             const auto key_code_result = KeyCodeForChar(uc);
             if (!key_code_result) {
                rsj::LogAndAlertError("Unsupported character was used: " + key);

@@ -2,9 +2,6 @@
 
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="MIDI2LR\ICU">
-      <UniqueIdentifier>{4F975D48-5E0E-1F31-F3CC-61BC29BBF872}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MIDI2LR\Source">
       <UniqueIdentifier>{9CED966C-7B4E-F384-6407-7CEF1B0DF423}</UniqueIdentifier>
     </Filter>
@@ -238,45 +235,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\icu\source\common\appendable.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\bytestream.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\cmemory.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\cstring.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\stringpiece.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\udataswp.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\uinvchar.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\unistr.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\uobject.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\ustring.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\ustrtrns.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\utf_impl.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\icu\source\common\utypes.cpp">
-      <Filter>MIDI2LR\ICU</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\CCoptions.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -344,6 +302,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SendKeys.cpp">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SendKeysM.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp">
@@ -1714,6 +1675,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SendKeys.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SendKeysM.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SettingsComponent.h">
