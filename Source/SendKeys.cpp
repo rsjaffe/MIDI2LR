@@ -197,27 +197,30 @@ std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
    return {chars[0], s_chars[0]};
 }
 
+// initializes unordered map for KeyCodeForChar
+std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
+{
+   std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
+   for (size_t i = 0; i < 128; ++i) {
+      auto uc = CreateStringForKey((CGKeyCode)i);
+      if (uc.first)
+         temp_map[uc.first] = {i, false};
+      if (uc.second)
+         temp_map[uc.second] = {i, true};
+   }
+   return temp_map;
+}
+
 /* From:
  * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
  *
  * Returns key code for given character via the above function.
  * Bool in pair represents shift key
  */
-std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
+std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c) noexcept
 {
    try {
-      static std::once_flag flag;
-      static std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map;
-      std::call_once(flag, []() { /* Generate table of keycodes and characters. */
-         /* Loop through every key-code (0 - 127) to find its current mapping. */
-         for (size_t i = 0; i < 128; ++i) {
-            auto uc = CreateStringForKey((CGKeyCode)i);
-            if (uc.first)
-               char_code_map[uc.first] = {i, false};
-            if (uc.second)
-               char_code_map[uc.second] = {i, true};
-         }
-      });
+      static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{MakeMap()};
       auto result = char_code_map.find(c);
       if (result != char_code_map.end())
          return result->second;
@@ -351,100 +354,89 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
       }
 #else
-      try {
-         CGEventRef d;
-         CGEventRef u;
-         uint64_t flags = 0;
-         auto dr = gsl::finally([&d] {
-            if (d)
-               CFRelease(d);
-         }); // release at end of scope
-         auto ur = gsl::finally([&u] {
-            if (u)
-               CFRelease(u);
-         });
+      CGEventRef d;
+      CGEventRef u;
+      uint64_t flags = 0;
+      auto dr = gsl::finally([&d] {
+         if (d)
+            CFRelease(d);
+      }); // release at end of scope
+      auto ur = gsl::finally([&u] {
+         if (u)
+            CFRelease(u);
+      });
 
-         if (in_keymap) {
-            const auto vk = mapped_key->second;
-            d = CGEventCreateKeyboardEvent(NULL, vk, true);
-            u = CGEventCreateKeyboardEvent(NULL, vk, false);
+      if (in_keymap) {
+         const auto vk = mapped_key->second;
+         d = CGEventCreateKeyboardEvent(NULL, vk, true);
+         u = CGEventCreateKeyboardEvent(NULL, vk, false);
+      }
+      else {
+         const UniChar uc{Utf8ToUtf16(key)};
+         const auto key_code_result = KeyCodeForChar(uc);
+         if (!key_code_result) {
+            rsj::LogAndAlertError("Unsupported character was used: " + key);
+            return;
+         }
+         const auto key_code = key_code_result->first;
+         d = CGEventCreateKeyboardEvent(NULL, key_code, true);
+         u = CGEventCreateKeyboardEvent(NULL, key_code, false);
+         flags = CGEventGetFlags(d); // in case KeyCode has associated flag
+         if (key_code_result->second)
+            flags |= kCGEventFlagMaskShift;
+      }
+
+      if (alt_opt)
+         flags |= kCGEventFlagMaskAlternate;
+      if (command)
+         flags |= kCGEventFlagMaskCommand;
+      if (control)
+         flags |= kCGEventFlagMaskControl;
+      if (shift)
+         flags |= kCGEventFlagMaskShift;
+      if (flags) {
+         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+      }
+
+      if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
+         static const pid_t lr_pid{GetPid()};
+         if (lr_pid) {
+            auto lock = std::lock_guard(mutex_sending);
+            CGEventPostToPid(lr_pid, d);
+            CGEventPostToPid(lr_pid, u);
          }
          else {
-            const UniChar uc{Utf8ToUtf16(key)};
-            const auto key_code_result = KeyCodeForChar(uc);
-            if (!key_code_result) {
-               rsj::LogAndAlertError("Unsupported character was used: " + key);
-               return;
-            }
-            const auto key_code = key_code_result->first;
-            d = CGEventCreateKeyboardEvent(NULL, key_code, true);
-            u = CGEventCreateKeyboardEvent(NULL, key_code, false);
-            flags = CGEventGetFlags(d); // in case KeyCode has associated flag
-            if (key_code_result->second)
-               flags |= kCGEventFlagMaskShift;
-         }
-
-         if (alt_opt)
-            flags |= kCGEventFlagMaskAlternate;
-         if (command)
-            flags |= kCGEventFlagMaskCommand;
-         if (control)
-            flags |= kCGEventFlagMaskControl;
-         if (shift)
-            flags |= kCGEventFlagMaskShift;
-         if (flags) {
-            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-         }
-
-         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
-            static const pid_t lr_pid{GetPid()};
-            if (lr_pid) {
-               auto lock = std::lock_guard(mutex_sending);
-               CGEventPostToPid(lr_pid, d);
-               CGEventPostToPid(lr_pid, u);
-            }
-            else {
-               rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
-            }
-         }
-         else { // use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
-            static ProcessSerialNumber psn{[]() {
-               ProcessSerialNumber temp_psn{0};
-               pid_t lr_pid{GetPid()};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-               if (lr_pid)
-                  GetProcessForPID(lr_pid, &temp_psn); // first deprecated in macOS 10.9
-#pragma GCC diagnostic pop
-               return temp_psn;
-            }()};
-            if (psn.highLongOfPSN || psn.lowLongOfPSN) {
-               auto lock = std::lock_guard(mutex_sending);
-               CGEventPostToPSN(&psn, d);
-               CGEventPostToPSN(&psn, u);
-            }
-            else {
-               rsj::LogAndAlertError("Unable to obtain PSN for Lightroom in SendKeys.cpp");
-            }
+            rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
          }
       }
-      catch (const std::out_of_range& e) {
-         rsj::LogAndAlertError("Unsupported character was used: " + key + ". " + e.what());
+      else { // use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
+         static ProcessSerialNumber psn{[]() {
+            ProcessSerialNumber temp_psn{0};
+            pid_t lr_pid{GetPid()};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+            if (lr_pid)
+               GetProcessForPID(lr_pid, &temp_psn); // first deprecated in macOS 10.9
+#pragma GCC diagnostic pop
+            return temp_psn;
+         }()};
+         if (psn.highLongOfPSN || psn.lowLongOfPSN) {
+            auto lock = std::lock_guard(mutex_sending);
+            CGEventPostToPSN(&psn, d);
+            CGEventPostToPSN(&psn, u);
+         }
+         else {
+            rsj::LogAndAlertError("Unable to obtain PSN for Lightroom in SendKeys.cpp");
+         }
       }
 #endif
    }
    catch (const std::exception& e) {
-      if (e.what())
-         rsj::LogAndAlertError(
-             "Exception in key sending function for key: " + key + ". " + e.what());
-      else
-         rsj::LogAndAlertError("Exception in key sending function for key: " + key
-                               + ". Standard exception, unknown 'what'.");
+      rsj::LogAndAlertError("Exception in key sending function for key: " + key + ". " + e.what());
    }
    catch (...) {
-      rsj::LogAndAlertError(
-          "Exception in key sending function for key: " + key + ". Non-standard exception.");
+      rsj::LogAndAlertError("Non-standard exception in key sending function for key: " + key + ".");
    }
 }
 #pragma warning(pop)
