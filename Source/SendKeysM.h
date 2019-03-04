@@ -2,7 +2,7 @@
 /*
 ==============================================================================
 
-DebugInfo.h
+SendKeysM.h
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -19,33 +19,12 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#ifndef MIDI2LR_SENDKEYSM_H_INCLUDED
+#define MIDI2LR_SENDKEYSM_H_INCLUDED
+#ifndef _WIN32
 #include <string>
-#include <vector>
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "Misc.h"
+#include <Carbon/Carbon.h>
 
-class DebugInfo {
- public:
-   explicit DebugInfo(const juce::String& profile_directory) noexcept;
-   ~DebugInfo() = default;
-   DebugInfo(const DebugInfo& other) = default;
-   DebugInfo(DebugInfo&& other) = default;
-   DebugInfo& operator=(const DebugInfo& other) = default;
-   DebugInfo& operator=(DebugInfo&& other) = default;
-   const std::vector<std::string>& GetInfo() const noexcept
-   {
-      return info_;
-   }
-
- private:
-   void LogAndSave(std::string&& msg)
-   {
-      rsj::Log(msg);
-      info_.emplace_back(std::move(msg));
-   }
-   std::vector<std::string> info_;
-};
-
-namespace rsj {
-   std::string GetKeyboardLayout();
-}
+UniChar Utf8ToUtf16(const std::string& param);
+#endif
+#endif

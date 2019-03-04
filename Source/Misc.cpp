@@ -19,9 +19,55 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "Misc.h"
-#include "UtfUtilities.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define NOATOM -Atom Manager routines
+#define NOCLIPBOARD -Clipboard routines
+#define NOCOLOR -Screen colors
+#define NOCOMM -COMM driver routines
+#define NODEFERWINDOWPOS -DeferWindowPos routines
+#define NODRAWTEXT -DrawText() and DT_*
+#define NOGDI -All GDI defines and routines
+#define NOGDICAPMASKS -CC_*, LC_*, PC_*, CP_*, TC_*, RC_
+#define NOHELP -Help engine interface.
+#define NOICONS -IDI_*
+#define NOKANJI -Kanji support stuff.
+#define NOKERNEL -All KERNEL defines and routines
+#define NOKEYSTATES -MK_*
+#define NOMB -MB_*and MessageBox()
+#define NOMCX -Modem Configuration Extensions
+#define NOMEMMGR -GMEM_*, LMEM_*, GHND, LHND, associated routines
+#define NOMENUS -MF_*
+#define NOMETAFILE -typedef METAFILEPICT
+#define NOMINMAX -Macros min(a, b) and max(a, b)
+#define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
+#define NOPROFILER -Profiler interface.
+#define NORASTEROPS -Binary and Tertiary raster ops
+#define NOSCROLL -SB_*and scrolling routines
+#define NOSERVICE -All Service Controller routines, SERVICE_ equates, etc.
+#define NOSHOWWINDOW -SW_*
+#define NOSOUND -Sound driver routines
+#define NOSYSCOMMANDS -SC_*
+#define NOSYSMETRICS -SM_*
+#define NOTEXTMETRIC -typedef TEXTMETRIC and associated routines
+#define NOVIRTUALKEYCODES -VK_*
+#define NOWH -SetWindowsHook and WH_*
+#define NOWINOFFSETS -GWL_*, GCL_*, associated routines
+#define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
+#define OEMRESOURCE -OEM Resource values
+#define WIN32_LEAN_AND_MEAN
+//#define NOCTLMGR -Control and Dialog routines
+//#define NOMSG -typedef MSG and associated routines
+//#define NONLS -All NLS defines and routines
+//#define NOUSER            - All USER defines and routines
+//#define NOWINMESSAGES     - WM_*, EM_*, LB_*, CB_*
+#endif
+#undef NOCTLMGR
+#undef NOMSG
+#undef NONLS
+#undef NOUSER
+#undef NOWINMESSAGES
 #include <gsl/gsl_util>
 #include <ShlObj.h>
 #include <Windows.h>
@@ -80,7 +126,7 @@ void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception
 #pragma warning(pop)
 
 #ifdef _WIN32
-std::wstring rsj::AppDataFilePath(const std::wstring& file_name)
+std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
    wchar_t* pathptr{nullptr};
    auto dp = gsl::finally([&pathptr] {
@@ -89,12 +135,60 @@ std::wstring rsj::AppDataFilePath(const std::wstring& file_name)
    });
    const auto hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr);
    if (SUCCEEDED(hr))
-      return std::wstring(pathptr) + L"\\MIDI2LR\\" + file_name;
+      return std::wstring(pathptr) + L"\\MIDI2LR\\" + std::wstring(file_name);
    return std::wstring(file_name);
 }
 
-std::wstring rsj::AppDataFilePath(const std::string& file_name)
+std::wstring rsj::AppDataFilePath(std::string_view file_name)
 {
-   return rsj::AppDataFilePath(rsj::UtfConvert<wchar_t>(file_name));
+   return rsj::AppDataFilePath(rsj::Utf8ToWide(file_name));
+}
+
+std::wstring rsj::Utf8ToWide(std::string_view input)
+{ // add terminating null
+   const auto buffersize =
+       MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), nullptr, 0) + 1;
+   if (buffersize == 1) {
+      // WideCharToMultiByte return 0 for errors.
+      const std::string errorMsg = "UTF8 to UTF16 failed with error code: " + GetLastError();
+      throw std::runtime_error(errorMsg.c_str());
+   }
+   std::vector<wchar_t> buffer(buffersize, 0); // all zero
+   const auto retval =
+       MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), buffer.data(), buffer.size());
+   if (retval == 0) {
+      const std::string errorMsg = "UTF8 to UTF16 failed with error code: " + GetLastError();
+      throw std::runtime_error(errorMsg.c_str());
+   }
+   return buffer.data();
+}
+
+std::string rsj::WideToUtf8(std::wstring_view wstr)
+{ // add terminating null
+   const auto buffersize =
+       WideCharToMultiByte(CP_UTF8, 0, wstr.data(), wstr.size(), nullptr, 0, nullptr, nullptr) + 1;
+   if (buffersize == 1) {
+      // WideCharToMultiByte return 0 for errors.
+      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
+      throw std::runtime_error(errorMsg.c_str());
+   }
+   std::vector<char> buffer(buffersize, 0);
+   const auto retval = WideCharToMultiByte(
+       CP_UTF8, 0, wstr.data(), wstr.size(), buffer.data(), buffer.size(), nullptr, nullptr);
+   if (retval == 0) {
+      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
+      throw std::runtime_error(errorMsg.c_str());
+   }
+   return buffer.data();
+}
+#else
+#include "MiscM.h"
+std::string rsj::AppDataFilePath(const std::string& file_name)
+{
+   return AppDataMac() + file_name;
+}
+std::string rsj::AppLogFilePath(const std::string& file_name)
+{
+   return AppLogMac() + file_name;
 }
 #endif

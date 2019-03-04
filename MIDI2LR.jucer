@@ -1,29 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.0.0.2"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.0.0.4"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="5.4.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
               defines="U_STATIC_IMPLEMENTATION=1&#10;DONT_SET_USING_JUCE_NAMESPACE=1"
-              headerPath="../../&#10;../../icu/source/common/">
+              headerPath="../../&#10;../../icu/source/common/" compilerFlagSchemes="">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
-      <GROUP id="{E3105D44-45AE-CAD8-B1B5-48D167BBA6FB}" name="ICU">
-        <FILE id="oCPh7j" name="appendable.cpp" compile="1" resource="0" file="icu/source/common/appendable.cpp"/>
-        <FILE id="P3ODDi" name="bytestream.cpp" compile="1" resource="0" file="icu/source/common/bytestream.cpp"/>
-        <FILE id="qUTyhN" name="cmemory.cpp" compile="1" resource="0" file="icu/source/common/cmemory.cpp"/>
-        <FILE id="HtGu5R" name="cstring.cpp" compile="1" resource="0" file="icu/source/common/cstring.cpp"/>
-        <FILE id="CMTcKk" name="stringpiece.cpp" compile="1" resource="0" file="icu/source/common/stringpiece.cpp"/>
-        <FILE id="Cj6e49" name="udataswp.cpp" compile="1" resource="0" file="icu/source/common/udataswp.cpp"/>
-        <FILE id="Vixl4T" name="uinvchar.cpp" compile="1" resource="0" file="icu/source/common/uinvchar.cpp"/>
-        <FILE id="uJ5dfZ" name="unistr.cpp" compile="1" resource="0" file="icu/source/common/unistr.cpp"/>
-        <FILE id="mu0enP" name="uobject.cpp" compile="1" resource="0" file="icu/source/common/uobject.cpp"/>
-        <FILE id="wjgpxx" name="ustring.cpp" compile="1" resource="0" file="icu/source/common/ustring.cpp"/>
-        <FILE id="HiL4uj" name="ustrtrns.cpp" compile="1" resource="0" file="icu/source/common/ustrtrns.cpp"/>
-        <FILE id="iBnWqs" name="utf_impl.cpp" compile="1" resource="0" file="icu/source/common/utf_impl.cpp"/>
-        <FILE id="ipO4BO" name="utypes.cpp" compile="1" resource="0" file="icu/source/common/utypes.cpp"/>
-      </GROUP>
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
       <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
@@ -66,6 +51,8 @@
       <FILE id="rID3Fo" name="MidiUtilities.h" compile="0" resource="0" file="Source/MidiUtilities.h"/>
       <FILE id="gxafEg" name="Misc.cpp" compile="1" resource="0" file="Source/Misc.cpp"/>
       <FILE id="cl1k7L" name="Misc.h" compile="0" resource="0" file="Source/Misc.h"/>
+      <FILE id="sXg3B8" name="Misc.mm" compile="1" resource="0" file="Source/Misc.mm"/>
+      <FILE id="bd6OgH" name="MiscM.h" compile="0" resource="0" file="Source/MiscM.h"/>
       <FILE id="b8rH7o" name="NrpnMessage.cpp" compile="1" resource="0" file="Source/NrpnMessage.cpp"/>
       <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="Source/NrpnMessage.h"/>
       <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
@@ -80,6 +67,8 @@
             file="Source/ResizableLayout.h"/>
       <FILE id="kES39X" name="SendKeys.cpp" compile="1" resource="0" file="Source/SendKeys.cpp"/>
       <FILE id="Sgq8EC" name="SendKeys.h" compile="0" resource="0" file="Source/SendKeys.h"/>
+      <FILE id="ALi0WY" name="SendKeysM.mm" compile="1" resource="0" file="Source/SendKeysM.mm"/>
+      <FILE id="wu0mXs" name="SendKeysM.h" compile="0" resource="0" file="Source/SendKeysM.h"/>
       <FILE id="mUzFUq" name="SettingsComponent.cpp" compile="1" resource="0"
             file="Source/SettingsComponent.cpp"/>
       <FILE id="aX6rBU" name="SettingsComponent.h" compile="0" resource="0"
@@ -90,7 +79,6 @@
             file="Source/SettingsManager.h"/>
       <FILE id="ltTGX1" name="Translate.cpp" compile="1" resource="0" file="Source/Translate.cpp"/>
       <FILE id="tBhQEV" name="Translate.h" compile="0" resource="0" file="Source/Translate.h"/>
-      <FILE id="ACrFaG" name="UtfUtilities.h" compile="0" resource="0" file="Source/UtfUtilities.h"/>
       <FILE id="g6LPFD" name="VersionChecker.cpp" compile="1" resource="0"
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"

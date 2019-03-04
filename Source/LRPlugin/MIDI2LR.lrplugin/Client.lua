@@ -58,8 +58,8 @@ LrTasks.startAsyncTask(
       LrFileUtils.exists(Database.AppTrans) ~= 'file' or
       ProgramPreferences.DataStructure.language ~= LrLocalization.currentLanguage()
       then
-        Database.WriteAppTrans(ProgramPreferences.DataStructure.language)
         ProgramPreferences.DataStructure = {version={},language = LrLocalization.currentLanguage()}
+        Database.WriteAppTrans(ProgramPreferences.DataStructure.language)
         for k,v in pairs(Info.VERSION) do
           ProgramPreferences.DataStructure.version[k] = v
         end
@@ -466,8 +466,8 @@ LrTasks.startAsyncTask(
       ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
-      ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels()
-      ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview()
+      ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
+      ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
 

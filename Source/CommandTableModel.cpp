@@ -18,9 +18,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include "CommandTableModel.h"
 #include <algorithm>
 #include <gsl/gsl>
-#include "CommandTableModel.h"
+#include <sstream>
 #include "CommandMap.h"
 #include "CommandMenu.h"
 #include "Misc.h"
@@ -72,7 +73,6 @@ void CommandTableModel::paintCell(
     juce::Graphics& g, int row_number, int column_id, int width, int height, bool /*rowIsSelected*/)
 {
    try {
-      juce::String format_str;
       // This must draw one of the cells.
 
       // The graphics context's origin will already be set to the top-left of the
@@ -84,8 +84,6 @@ void CommandTableModel::paintCell(
       g.setFont(12.0f);
       if (column_id == 1) // write the MIDI message in the MIDI command column
       {
-         auto value = 0;
-         auto channel = 0;
          auto guard = std::shared_lock{cmd_table_mod_mtx_};
          // cmdmap_mutex_ should fix the following problem
          if (commands_.size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell not
@@ -93,25 +91,20 @@ void CommandTableModel::paintCell(
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
          }
          else {
+            std::ostringstream format_str;
             switch (const auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number));
                     cmd.msg_id_type) {
             case rsj::MsgIdEnum::kNote:
-               format_str = "%d | Note: %d";
-               channel = cmd.channel;
-               value = cmd.data;
+               format_str << cmd.channel << " | Note : " << cmd.data;
                break;
             case rsj::MsgIdEnum::kCc:
-               format_str = "%d | CC: %d";
-               channel = cmd.channel;
-               value = cmd.data;
+               format_str << cmd.channel << " | CC: " << cmd.data;
                break;
             case rsj::MsgIdEnum::kPitchBend:
-               format_str = "%d | Pitch: %d";
-               channel = cmd.channel;
+               format_str << cmd.channel << " | Pitch Bend";
                break;
             }
-            g.drawText(juce::String::formatted(format_str, channel, value), 0, 0, width, height,
-                juce::Justification::centred);
+            g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centred);
          }
       }
    }

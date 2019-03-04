@@ -284,9 +284,9 @@ void CCoptions::textEditorFocusLost(TextEditor& t)
 
 void CCoptions::BindToControl(size_t channel, short number)
 {
-   bound_channel_ = gsl::narrow_cast<short>(channel);
+   bound_channel_ = gsl::narrow_cast<short>(channel); // 0-based but displays as 1-based
    bound_number_ = number;
-   controlID->setText("channel " + juce::String(gsl::narrow_cast<unsigned>(channel)) + " number "
+   controlID->setText("channel " + juce::String(gsl::narrow_cast<unsigned>(channel+1)) + " number "
                           + juce::String(number),
        juce::dontSendNotification);
    minvaltext->setText(juce::String(controls_model_->GetCcMin(bound_channel_, bound_number_)),

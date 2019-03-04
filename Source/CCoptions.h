@@ -79,7 +79,7 @@ class CCoptions : public juce::Component, juce::TextEditor::Listener, public juc
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
    static ControlsModel* controls_model_;
-   short bound_channel_{0}; // note: 0-based
+   short bound_channel_{0}; // note: 0-based in program, add one to compensate
    short bound_number_{0};
    CCoptions(CCoptions&& other) noexcept = delete;
    CCoptions& operator=(CCoptions&& other) noexcept = delete;

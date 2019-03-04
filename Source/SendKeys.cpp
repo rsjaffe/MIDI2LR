@@ -24,11 +24,54 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <gsl/gsl>
 #include <mutex>
-#include <unicode/unistr.h>
 #include <unordered_map>
 #include <vector>
 #include "Misc.h"
 #ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define NOATOM -Atom Manager routines
+#define NOCLIPBOARD -Clipboard routines
+#define NOCOLOR -Screen colors
+#define NOCOMM -COMM driver routines
+#define NOCTLMGR -Control and Dialog routines
+#define NODEFERWINDOWPOS -DeferWindowPos routines
+#define NODRAWTEXT -DrawText() and DT_*
+#define NOGDI -All GDI defines and routines
+#define NOGDICAPMASKS -CC_*, LC_*, PC_*, CP_*, TC_*, RC_
+#define NOHELP -Help engine interface.
+#define NOICONS -IDI_*
+#define NOKANJI -Kanji support stuff.
+#define NOKERNEL -All KERNEL defines and routines
+#define NOKEYSTATES -MK_*
+#define NOMB -MB_*and MessageBox()
+#define NOMCX -Modem Configuration Extensions
+#define NOMEMMGR -GMEM_*, LMEM_*, GHND, LHND, associated routines
+#define NOMENUS -MF_*
+#define NOMETAFILE -typedef METAFILEPICT
+#define NOMINMAX -Macros min(a, b) and max(a, b)
+#define NOMSG -typedef MSG and associated routines
+#define NONLS -All NLS defines and routines
+#define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
+#define NOPROFILER -Profiler interface.
+#define NORASTEROPS -Binary and Tertiary raster ops
+#define NOSCROLL -SB_*and scrolling routines
+#define NOSERVICE -All Service Controller routines, SERVICE_ equates, etc.
+#define NOSHOWWINDOW -SW_*
+#define NOSOUND -Sound driver routines
+#define NOSYSCOMMANDS -SC_*
+#define NOSYSMETRICS -SM_*
+#define NOTEXTMETRIC -typedef TEXTMETRIC and associated routines
+#define NOWH -SetWindowsHook and WH_*
+#define NOWINMESSAGES -WM_*, EM_*, LB_*, CB_*
+#define NOWINOFFSETS -GWL_*, GCL_*, associated routines
+#define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
+#define OEMRESOURCE -OEM Resource values
+#define WIN32_LEAN_AND_MEAN
+//#define NOUSER            - All USER defines and routines
+//#define NOVIRTUALKEYCODES - VK_*
+#endif
+#undef NOUSER
+#undef NOVIRTUALKEYCODES
 #include <Windows.h>
 #else
 #import <CoreFoundation/CoreFoundation.h>
@@ -36,76 +79,22 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <Carbon/Carbon.h>
 #include <libproc.h> //proc_ functions in GetPid
 #include <optional>
+#include "SendKeysM.h"
 #endif
 #include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
 
 namespace {
    // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-   std::string ToLower(const std::string& in)
+   std::string ToLower(std::string_view in)
    {
-      auto s = in;
-      std::transform(
-          s.begin(), s.end(), s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
+      std::string s;
+      std::transform(in.begin(), in.end(),
+          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
       return s;
    }
 } // namespace
 
 #ifdef _WIN32
-
-class WindowsFunctionError final : public std::exception {
-   static_assert(std::is_same<std::remove_pointer<LPSTR>::type, char>(),
-       "LPSTR doesn't point to 8-bit char. Problem for windows_function_error.");
-
- public:
-#pragma warning(push)
-#pragma warning(disable : 26447) // we're toast if shared_ptr throws (only possible exception)
-   WindowsFunctionError(DWORD n = GetLastError()) noexcept : number_(n)
-   {
-      LPSTR new_what;
-#pragma warning(suppress : 26490)
-      FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM
-                         | FORMAT_MESSAGE_IGNORE_INSERTS,
-          nullptr, number_, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-          reinterpret_cast<LPSTR>(&new_what), 0, nullptr);
-      if (new_what)
-         what_ = {new_what, [](LPSTR w) noexcept {if (w) HeapFree(GetProcessHeap(), 0, w);
-   }
-};
-}
-#pragma warning(pop)
-
-~WindowsFunctionError() noexcept = default;
-WindowsFunctionError(const WindowsFunctionError& other) noexcept = default;
-WindowsFunctionError(WindowsFunctionError&& other) noexcept = default;
-WindowsFunctionError& operator=(const WindowsFunctionError& other) noexcept = default;
-WindowsFunctionError& operator=(WindowsFunctionError&& other) noexcept = default;
-
-const char* what() const noexcept override
-{
-   return what_.get();
-}
-DWORD
-number() const noexcept
-{
-   return number_;
-}
-
-private:
-std::shared_ptr<std::remove_pointer<LPSTR>::type> what_;
-DWORD number_;
-}
-;
-
-wchar_t MBtoWChar(const std::string& key)
-{
-   wchar_t full_character;
-   const auto return_value = MultiByteToWideChar(
-       CP_UTF8, 0, key.data(), gsl::narrow_cast<int>(key.size()), &full_character, 1);
-   if (return_value == 0) {
-      throw WindowsFunctionError();
-   }
-   return full_character;
-}
 
 HKL GetLanguage(const std::string& program_name) noexcept
 {
@@ -120,9 +109,8 @@ HKL GetLanguage(const std::string& program_name) noexcept
 }
 
 #else
-
-bool EndsWith(const std::string& main_str,
-    const std::string& to_match) // note: C++20 will have ends_with
+// note: C++20 will have ends_with
+bool EndsWith(std::string_view main_str, std::string_view to_match)
 {
    return main_str.size() >= to_match.size()
           && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
@@ -168,13 +156,12 @@ pid_t GetPid()
    return 0;
 }
 
-/* From:
+/* Altered significantly, originally from:
  * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
  *
- * Returns string representation of key, if it is printable.
- * Ownership follows the Create Rule; that is, it is the caller's
- * responsibility to release the returned object. */
-UChar CreateStringForKey(CGKeyCode key_code)
+ * Returns unshifted and shifted UniChar (UTF-16) for each key code
+ * Zero return for character indicates error */
+std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
 {
    cf_unique_ptr<TISInputSourceRef> current_keyboard{TISCopyCurrentKeyboardInputSource()};
    CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(
@@ -182,37 +169,58 @@ UChar CreateStringForKey(CGKeyCode key_code)
    const UCKeyboardLayout* keyboard_layout = (const UCKeyboardLayout*)CFDataGetBytePtr(layout_data);
    UInt32 keys_down = 0;
    UniChar chars[4];
+   // unshifted
    UniCharCount real_length;
    UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
        kUCKeyTranslateNoDeadKeysBit, &keys_down, sizeof(chars) / sizeof(chars[0]), &real_length,
        chars);
-   if (real_length > 1)
+   if (real_length > 1) {
       rsj::LogAndAlertError(juce::String("For key code ") + juce::String(key_code)
                             + juce::String(", Unicode character is ") + juce::String(real_length)
                             + juce::String(" long. It is ")
                             + juce::String((wchar_t*)chars, real_length) + juce::String("."));
-   return chars[0];
+      chars[0] = 0;
+   }
+   // shifted
+   UniChar s_chars[4];
+   UniCharCount s_real_length;
+   UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, kCGEventFlagMaskShift,
+       LMGetKbdType(), kUCKeyTranslateNoDeadKeysBit, &keys_down,
+       sizeof(s_chars) / sizeof(s_chars[0]), &s_real_length, s_chars);
+   if (s_real_length > 1) {
+      rsj::LogAndAlertError(juce::String("For shifted key code ") + juce::String(key_code)
+                            + juce::String(", Unicode character is ") + juce::String(s_real_length)
+                            + juce::String(" long. It is ")
+                            + juce::String((wchar_t*)s_chars, s_real_length) + juce::String("."));
+      s_chars[0] = 0;
+   }
+   return {chars[0], s_chars[0]};
+}
+
+// initializes unordered map for KeyCodeForChar
+std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
+{
+   std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
+   for (size_t i = 0; i < 128; ++i) {
+      auto uc = CreateStringForKey((CGKeyCode)i);
+      if (uc.first)
+         temp_map[uc.first] = {i, false};
+      if (uc.second)
+         temp_map[uc.second] = {i, true};
+   }
+   return temp_map;
 }
 
 /* From:
  * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
  *
- * Returns key code for given character via the above function. Throws std::out_of_range on error.
+ * Returns key code for given character via the above function.
+ * Bool in pair represents shift key
  */
-std::optional<CGKeyCode> KeyCodeForChar(UChar c)
+std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c) noexcept
 {
    try {
-      static std::once_flag flag;
-      static std::unordered_map<UChar, size_t> char_code_map;
-      std::call_once(flag, []() { /* Generate table of keycodes and characters. */
-         /* Loop through every key-code (0 - 127) to find its current mapping. */
-         for (size_t i = 0; i < 128; ++i) {
-            auto uc = CreateStringForKey((CGKeyCode)i);
-            if (uc) {
-               char_code_map[uc] = i;
-            }
-         }
-      });
+      static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{MakeMap()};
       auto result = char_code_map.find(c);
       if (result != char_code_map.end())
          return result->second;
@@ -222,7 +230,7 @@ std::optional<CGKeyCode> KeyCodeForChar(UChar c)
    catch (const std::exception& e) {
       rsj::LogAndAlertError(
           "Exception in KeyCodeForChar function for key: " + juce::String(c) + ". " + e.what());
-      return 0;
+      return {};
    }
 }
 
@@ -280,20 +288,21 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       const auto in_keymap = mapped_key != kKeyMap.end();
 
 #ifdef _WIN32
-      static_assert(sizeof(WCHAR) == sizeof(UChar),
-          "For Unicode handling, assuming windows wide char is same as ICU 16-bit Unicode char.");
       BYTE vk = 0;
       BYTE vk_modifiers = 0;
       if (in_keymap)
          vk = mapped_key->second;
       else { // Translate key code to keyboard-dependent scan code, may be UTF-8
-         const auto uc{icu::UnicodeString::fromUTF8(key)[0]};
+         const auto uc{rsj::Utf8ToWide(key)[0]};
          static const auto kLanguageId = GetLanguage("Lightroom");
          static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff,
              "Assuming VkKeyScanEx returns 0xffff on error");
          const auto vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
          if (vk_code_and_shift == 0xffff) //-V547
-            throw WindowsFunctionError();
+         {
+            const std::string errorMsg = "VkKeyScanExW failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
          vk = LOBYTE(vk_code_and_shift);
          vk_modifiers = HIBYTE(vk_code_and_shift);
       }
@@ -329,106 +338,105 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
          ip.ki.wVk = *it;
          const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0)
-            throw WindowsFunctionError();
+         if (result == 0) {
+            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
       }
       // send key up strokes
       ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
       for (const auto it : strokes) {
          ip.ki.wVk = it;
          const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0)
-            throw WindowsFunctionError();
+         if (result == 0) {
+            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
       }
 #else
-      static_assert(sizeof(UniChar) == sizeof(UChar),
-          "For Unicode handling, assuming Mac wide char is same as ICU 16-bit Unicode char.");
-      try { // In MacOS, KeyCodeForChar will throw if key not in map
-         CGEventRef d;
-         CGEventRef u;
-         uint64_t flags = 0;
-         auto dr = gsl::finally([&d] {
-            if (d)
-               CFRelease(d);
-         }); // release at end of scope
-         auto ur = gsl::finally([&u] {
-            if (u)
-               CFRelease(u);
-         });
+      CGEventRef d;
+      CGEventRef u;
+      uint64_t flags = 0;
+      auto dr = gsl::finally([&d] {
+         if (d)
+            CFRelease(d);
+      }); // release at end of scope
+      auto ur = gsl::finally([&u] {
+         if (u)
+            CFRelease(u);
+      });
 
-         if (in_keymap) {
-            const auto vk = mapped_key->second;
-            d = CGEventCreateKeyboardEvent(NULL, vk, true);
-            u = CGEventCreateKeyboardEvent(NULL, vk, false);
+      if (in_keymap) {
+         const auto vk = mapped_key->second;
+         d = CGEventCreateKeyboardEvent(NULL, vk, true);
+         u = CGEventCreateKeyboardEvent(NULL, vk, false);
+      }
+      else {
+         const UniChar uc{Utf8ToUtf16(key)};
+         const auto key_code_result = KeyCodeForChar(uc);
+         if (!key_code_result) {
+            rsj::LogAndAlertError("Unsupported character was used: " + key);
+            return;
+         }
+         const auto key_code = key_code_result->first;
+         d = CGEventCreateKeyboardEvent(NULL, key_code, true);
+         u = CGEventCreateKeyboardEvent(NULL, key_code, false);
+         flags = CGEventGetFlags(d); // in case KeyCode has associated flag
+         if (key_code_result->second)
+            flags |= kCGEventFlagMaskShift;
+      }
+
+      if (alt_opt)
+         flags |= kCGEventFlagMaskAlternate;
+      if (command)
+         flags |= kCGEventFlagMaskCommand;
+      if (control)
+         flags |= kCGEventFlagMaskControl;
+      if (shift)
+         flags |= kCGEventFlagMaskShift;
+      if (flags) {
+         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+      }
+
+      if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
+         static const pid_t lr_pid{GetPid()};
+         if (lr_pid) {
+            auto lock = std::lock_guard(mutex_sending);
+            CGEventPostToPid(lr_pid, d);
+            CGEventPostToPid(lr_pid, u);
          }
          else {
-            const UChar uc{icu::UnicodeString::fromUTF8(key)[0]};
-            const auto key_code_result = KeyCodeForChar(uc);
-            if (!key_code_result) {
-               rsj::LogAndAlertError("Unsupported character was used: " + key);
-               return;
-            }
-            const auto key_code = *key_code_result;
-            d = CGEventCreateKeyboardEvent(NULL, key_code, true);
-            u = CGEventCreateKeyboardEvent(NULL, key_code, false);
-            flags = CGEventGetFlags(d); // in case KeyCode has associated flag
-         }
-
-         if (alt_opt)
-            flags |= kCGEventFlagMaskAlternate;
-         if (command)
-            flags |= kCGEventFlagMaskCommand;
-         if (control)
-            flags |= kCGEventFlagMaskControl;
-         if (shift)
-            flags |= kCGEventFlagMaskShift;
-         if (flags) {
-            CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-            CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-         }
-
-         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
-            static const pid_t lr_pid{GetPid()};
-            if (lr_pid) {
-               auto lock = std::lock_guard(mutex_sending);
-               CGEventPostToPid(lr_pid, d);
-               CGEventPostToPid(lr_pid, u);
-            }
-         }
-         else { // use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
-            static ProcessSerialNumber psn{[]() {
-               ProcessSerialNumber temp_psn{0};
-               pid_t lr_pid{GetPid()};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-               if (lr_pid)
-                  GetProcessForPID(lr_pid, &temp_psn); // first deprecated in macOS 10.9
-#pragma GCC diagnostic pop
-               return temp_psn;
-            }()};
-            if (psn.highLongOfPSN || psn.lowLongOfPSN) {
-               auto lock = std::lock_guard(mutex_sending);
-               CGEventPostToPSN(&psn, d);
-               CGEventPostToPSN(&psn, u);
-            }
+            rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
          }
       }
-      catch (const std::out_of_range& e) {
-         rsj::LogAndAlertError("Unsupported character was used: " + key + ". " + e.what());
+      else { // use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
+         static ProcessSerialNumber psn{[]() {
+            ProcessSerialNumber temp_psn{0};
+            pid_t lr_pid{GetPid()};
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+            if (lr_pid)
+               GetProcessForPID(lr_pid, &temp_psn); // first deprecated in macOS 10.9
+#pragma GCC diagnostic pop
+            return temp_psn;
+         }()};
+         if (psn.highLongOfPSN || psn.lowLongOfPSN) {
+            auto lock = std::lock_guard(mutex_sending);
+            CGEventPostToPSN(&psn, d);
+            CGEventPostToPSN(&psn, u);
+         }
+         else {
+            rsj::LogAndAlertError("Unable to obtain PSN for Lightroom in SendKeys.cpp");
+         }
       }
 #endif
    }
    catch (const std::exception& e) {
-      if (e.what())
-         rsj::LogAndAlertError(
-             "Exception in key sending function for key: " + key + ". " + e.what());
-      else
-         rsj::LogAndAlertError("Exception in key sending function for key: " + key
-                               + ". Standard exception, unknown 'what'.");
+      rsj::LogAndAlertError("Exception in key sending function for key: " + key + ". " + e.what());
    }
    catch (...) {
-      rsj::LogAndAlertError(
-          "Exception in key sending function for key: " + key + ". Non-standard exception.");
+      rsj::LogAndAlertError("Non-standard exception in key sending function for key: " + key + ".");
    }
 }
 #pragma warning(pop)

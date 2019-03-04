@@ -30,6 +30,7 @@ namespace juce {
    class String;
 }
 
+
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
 #else // asserts enabled
@@ -95,8 +96,10 @@ namespace rsj {
    void LogAndAlertError(const juce::String& error_text);
    void Log(const juce::String& info);
 #ifdef _WIN32
-   [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::wstring& file_name);
-   [[nodiscard]] ::std::wstring AppDataFilePath(const ::std::string& file_name);
+   ::std::wstring Utf8ToWide(::std::string_view input);
+   ::std::string WideToUtf8(::std::wstring_view wstr);
+   [[nodiscard]] ::std::wstring AppDataFilePath(::std::wstring_view file_name);
+   [[nodiscard]] ::std::wstring AppDataFilePath(::std::string_view file_name);
    [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::wstring& file_name)
    {
       return AppDataFilePath(file_name);
@@ -106,14 +109,8 @@ namespace rsj {
       return AppDataFilePath(file_name);
    }
 #else
-   [[nodiscard]] inline ::std::string AppDataFilePath(const ::std::string& file_name)
-   {
-      return "~/Library/Application Support/MIDI2LR/" + file_name;
-   }
-   [[nodiscard]] inline ::std::string AppLogFilePath(const ::std::string& file_name)
-   {
-      return "~/Library/Logs/MIDI2LR/" + file_name;
-   }
+   [[nodiscard]] ::std::string AppDataFilePath(const ::std::string& file_name);
+   [[nodiscard]] ::std::string AppLogFilePath(const ::std::string& file_name);
 #endif // def _WIN32
 } // namespace rsj
 

@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "VersionChecker.h"
 #include <exception>
+#include <sstream>
 #include "Misc.h"
 #include "SettingsManager.h"
 
@@ -40,7 +41,7 @@ VersionChecker::~VersionChecker()
 void VersionChecker::run()
 {
    try {
-      const juce::URL version_url{"http://rsjaffe.github.io/MIDI2LR/version.xml"};
+      const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
       const std::unique_ptr<juce::XmlElement> version_xml_element{
           version_url.readEntireXmlStream()};
       if (version_xml_element) {
@@ -71,12 +72,14 @@ void VersionChecker::handleAsyncUpdate()
       const auto minor{(new_version_ & 0xFF0000) >> 16};
       const auto rev{(new_version_ & 0xFF00) >> 8};
       const auto build{(new_version_ & 0xFF)};
-      const auto version_string{juce::String::formatted(
-          TRANS("New version %d.%d.%d.%d available"), major, minor, rev, build)};
+      std::ostringstream version_string;
+      version_string << TRANS("New version is available for MIDI2LR!") << ' ' << major << '.'
+                     << minor << '.' << rev << '.' << build;
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
 #pragma warning(suppress : 26409 24624 26489)
-      dialog_options.content.setOwned(new juce::HyperlinkButton{version_string, download_url});
-      dialog_options.content->setSize(300, 100);
+      dialog_options.content.setOwned(
+          new juce::HyperlinkButton{version_string.str(), download_url});
+      dialog_options.content->setSize(600, 100);
       if (auto ptr = dynamic_cast<juce::HyperlinkButton*>(dialog_options.content.get()))
          ptr->setFont(juce::Font{18.f}, false);
       dialog_options.escapeKeyTriggersCloseButton = true;

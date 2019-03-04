@@ -52,6 +52,7 @@ countries: de
 "Choose Profile Folder" = "Profilordner auswählen"
 "Enable Pickup Mode" = "Pickup Modus auswählen"
 "New Version Available!" = "Neue Version verfügbar!"
+"New version is available for MIDI2LR!" = "Für MIDI2LR steht neue Software zur Verfügung!"
 "New version %d.%d.%d.%d available" = "Neue Version %d.%d.%d.%d verfügbar")===";
    const auto es = u8R"===(language: Spanish
 countries: es
@@ -104,6 +105,7 @@ countries: es
 "Choose Profile Folder" = "Seleccione la carpeta de perfil"
 "Enable Pickup Mode" = "Habilitar el modo de captura"
 "New Version Available!" = "¡Nueva versión disponible!"
+"New version is available for MIDI2LR!" = "¡Hay software nuevo para MIDI2LR disponible!"
 "New version %d.%d.%d.%d available" = "Nueva versión %d.%d.%d.%d disponible")===";
    const auto fr = u8R"===(language: French
 countries: fr
@@ -156,6 +158,7 @@ countries: fr
 "Choose Profile Folder" = "Choisir un dossier de profil"
 "Enable Pickup Mode" = "Activer le mode de saisie auto" 
 "New Version Available!" = "Nouvelle version disponible !"
+"New version is available for MIDI2LR!" = "Une nouvelle mise à jour de MIDI2LR est disponible."
 "New version %d.%d.%d.%d available" = "Nouvelle version %d.%d.%d.%d disponible")===";
    const auto it = u8R"===(language: Italian
 countries: it
@@ -208,6 +211,7 @@ countries: it
 "Choose Profile Folder" = "Scegli la cartella dei profili"
 "Enable Pickup Mode" = "Abilita modalità di aggancio"
 "New Version Available!" = "Nuova versione disponibile!"
+"New version is available for MIDI2LR!" = "È disponibile nuovo software per MIDI2LR."
 "New version %d.%d.%d.%d available" = "Nuova versione %d.%d.%d.%d disponibile")===";
    const auto ja = u8R"===(language: Japanese
 countries: ja
@@ -260,6 +264,7 @@ countries: ja
 "Choose Profile Folder" = "プロファイルフォルダを選択"
 "Enable Pickup Mode" = "ピックアップモードを有効にする"
 "New Version Available!" = "新しいバージョンがあります！"
+"New version is available for MIDI2LR!" = "MIDI2LR の新バージョンが入手可能です。"
 "New version %d.%d.%d.%d available" = "新しいバージョン %d.%d.%d.%d があります")===";
    const auto ko = u8R"===(language: Korean
 countries: ko
@@ -312,6 +317,7 @@ countries: ko
 "Choose Profile Folder" = "프로필 폴더 선택"
 "Enable Pickup Mode" = "픽업 모드 사용"
 "New Version Available!" = "새 버전을 사용할 수 있습니다!"
+"New version is available for MIDI2LR!" = "소프트웨어 MIDI2LR의 새 버전을 사용할 수 있습니다!"
 "New version %d.%d.%d.%d available" = "새 버전 %d.%d.%d.%d 사용 가능")===";
    const auto nl = u8R"===(language: Dutch
 countries: nl
@@ -364,6 +370,7 @@ countries: nl
 "Choose Profile Folder" = "Kies Profielmap"
 "Enable Pickup Mode" = "Activeer de pickup-modus"
 "New Version Available!" = "Nieuwe versie beschikbaar!"
+"New version is available for MIDI2LR!" = "Er is nieuwe software voor MIDI2LR beschikbaar!"
 "New version %d.%d.%d.%d available" = "Nieuwe versie %d.%d.%d.%d beschikbaar")===";
    const auto pt = u8R"===(language: Portuguese
 countries: pt
@@ -416,6 +423,7 @@ countries: pt
 "Choose Profile Folder" = "Escolha a pasta do perfil"
 "Enable Pickup Mode" = "Ativar o modo de PickUp"
 "New Version Available!" = "Nova versão disponível!"
+"New version is available for MIDI2LR!" = "Novo software para o MIDI2LR disponível!"
 "New version %d.%d.%d.%d available" = "Nova versão %d.%d.%d.%d disponível")===";
    const auto sv = u8R"===(language: Swedish
 countries: sv
@@ -468,6 +476,7 @@ countries: sv
 "Choose Profile Folder" = "Välj profilmapp"
 "Enable Pickup Mode" = "Aktivera uppfångstläge (Pick up mode)"
 "New Version Available!" = "Ny version tillgänglig!"
+"New version is available for MIDI2LR!" = "Nytt program för MIDI2LR är nu tillgängligt!"
 "New version %d.%d.%d.%d available" = "Ny version %d.%d.%d.%d tillgänglig")===";
    const auto zn_cn = u8R"===(language: Chinese simplified
 countries: zh-cn
@@ -520,6 +529,7 @@ countries: zh-cn
 "Choose Profile Folder" = "选择配置文件夹"
 "Enable Pickup Mode" = "启用pickup模式"
 "New Version Available!" = "新版本可用！"
+"New version is available for MIDI2LR!" = "软件 MIDI2LR 有新版本！"
 "New version %d.%d.%d.%d available"  = "新版％d。％d。％d。％d可用")===";
    const auto zn_tw = u8R"===(language: Chinese traditional
 countries: zh-tw
@@ -572,5 +582,6 @@ countries: zh-tw
 "Choose Profile Folder" = "選擇配置文件夾"
 "Enable Pickup Mode" = "啟用pickup模式"
 "New Version Available!" = "新版本可用！"
+"New version is available for MIDI2LR!" = "已有 MIDI2LR 的新軟體可供使用。"
 "New version %d.%d.%d.%d available"  = "新版％d。％d。％d。％d可用")===";
 } // namespace rsj

@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>3.0.0.2</version>
+    <version>3.0.0.4</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
@@ -173,6 +173,9 @@
                         <distributionFile>
                             <origin>${exe}/MIDI2LR.exe</origin>
                         </distributionFile>
+                        <distributionFile>
+                            <origin>../rtmidi/midiprobe.exe</origin>
+                        </distributionFile>
                     </distributionFileList>
                 </folder>
                 <folder>
@@ -185,13 +188,13 @@
                             <origin>${app}/MIDI2LR.app</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/ReadMe.txt</origin>
+                            <origin>../rtmidi/midiprobe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
                 <folder>
                     <description>Program Settings</description>
-                    <destination>%{env(APPDATA)}/MIDI2LR/</destination>
+                    <destination>${env(APPDATA)}/MIDI2LR/</destination>
                     <name>Settings</name>
                     <platforms>windows</platforms>
                     <distributionFileList>
@@ -202,7 +205,7 @@
                     <ruleList>
                         <fileExists>
                             <negate>1</negate>
-                            <path>%{env(APPDATA)}/MIDI2LR/MenuTrans.xml</path>
+                            <path>${env(APPDATA)}/MIDI2LR/MenuTrans.xml</path>
                         </fileExists>
                     </ruleList>
                 </folder>
@@ -360,7 +363,7 @@
         <if>
             <actionList>
                 <createDirectory>
-                    <path>%{env(APPDATA)}/MIDI2LR/</path>
+                    <path>${env(APPDATA)}/MIDI2LR/</path>
                 </createDirectory>
             </actionList>
             <conditionRuleList>
@@ -413,7 +416,7 @@
             <url>https://github.com/rsjaffe/MIDI2LR/wiki</url>
         </launchBrowser>
         <launchBrowser>
-            <explanation>Opens a web browser with a PayPal form where can make a donation to support further ${project.fullName} development.</explanation>
+            <explanation>Opens a web browser with a PayPal form where you can make a donation to support further ${project.fullName} development.</explanation>
             <progressText>Donate to ${project.fullName} development.</progressText>
             <url>https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=YWHT4JMA42RXN</url>
         </launchBrowser>
