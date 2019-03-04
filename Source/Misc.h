@@ -30,6 +30,7 @@ namespace juce {
    class String;
 }
 
+
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
 #else // asserts enabled
@@ -108,14 +109,8 @@ namespace rsj {
       return AppDataFilePath(file_name);
    }
 #else
-   [[nodiscard]] inline ::std::string AppDataFilePath(const ::std::string& file_name)
-   {
-      return "~/Library/Application Support/MIDI2LR/" + file_name;
-   }
-   [[nodiscard]] inline ::std::string AppLogFilePath(const ::std::string& file_name)
-   {
-      return "~/Library/Logs/MIDI2LR/" + file_name;
-   }
+   [[nodiscard]] ::std::string AppDataFilePath(const ::std::string& file_name);
+   [[nodiscard]] ::std::string AppLogFilePath(const ::std::string& file_name);
 #endif // def _WIN32
 } // namespace rsj
 

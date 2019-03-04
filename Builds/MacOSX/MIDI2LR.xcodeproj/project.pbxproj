@@ -121,6 +121,10 @@
 			isa = PBXBuildFile;
 			fileRef = 17EC4CDCF4664D03C47FC1AE;
 		};
+		2B765B58D965953C22A8F936 = {
+			isa = PBXBuildFile;
+			fileRef = 6AC35654097EE038D65501BC;
+		};
 		5B1E88868F714EDC30BD06A1 = {
 			isa = PBXBuildFile;
 			fileRef = 8B172E18F0E34AE94D47AC12;
@@ -466,6 +470,13 @@
 			path = System/Library/Frameworks/AudioToolbox.framework;
 			sourceTree = SDKROOT;
 		};
+		6AC35654097EE038D65501BC = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = Misc.mm;
+			path = ../../Source/Misc.mm;
+			sourceTree = "SOURCE_ROOT";
+		};
 		6C172730F53564B934CB040F = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -632,6 +643,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_core.mm";
 			path = "../../JuceLibraryCode/include_juce_core.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		A68F7042060A83167DC52851 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MiscM.h;
+			path = ../../Source/MiscM.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		AAD7763B1A01636F834617D5 = {
@@ -826,6 +844,8 @@
 				F4C90FF76D76F4C7A08E98AD,
 				17EC4CDCF4664D03C47FC1AE,
 				04B184211B8A075FD6F0CCA8,
+				6AC35654097EE038D65501BC,
+				A68F7042060A83167DC52851,
 				8B172E18F0E34AE94D47AC12,
 				872F7D5733C0B0577CA8C02B,
 				5205E1551934B25B9956903B,
@@ -1177,6 +1197,7 @@
 				92A115CF461BA5CFDF750CA7,
 				02A7CE68913E06429425B72C,
 				BDE4152EF99D34942A18B128,
+				2B765B58D965953C22A8F936,
 				5B1E88868F714EDC30BD06A1,
 				1CBFBED27592AE60502C81C3,
 				71E4A94C6C0AA69DC27972DF,

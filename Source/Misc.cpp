@@ -181,4 +181,14 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
    }
    return buffer.data();
 }
+#else
+#include "MiscM.h"
+std::string rsj::AppDataFilePath(const std::string& file_name)
+{
+   return AppDataMac() + file_name;
+}
+std::string rsj::AppLogFilePath(const std::string& file_name)
+{
+   return AppLogMac() + file_name;
+}
 #endif

@@ -1393,6 +1393,7 @@
     <ClInclude Include="..\..\Source\MIDISender.h"/>
     <ClInclude Include="..\..\Source\MidiUtilities.h"/>
     <ClInclude Include="..\..\Source\Misc.h"/>
+    <ClInclude Include="..\..\Source\MiscM.h"/>
     <ClInclude Include="..\..\Source\NrpnMessage.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\PWoptions.h"/>
