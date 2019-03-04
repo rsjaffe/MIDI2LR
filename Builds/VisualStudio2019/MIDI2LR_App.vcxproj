@@ -1393,13 +1393,12 @@
     <ClInclude Include="..\..\Source\MIDISender.h"/>
     <ClInclude Include="..\..\Source\MidiUtilities.h"/>
     <ClInclude Include="..\..\Source\Misc.h"/>
-    <ClInclude Include="..\..\Source\MiscM.h"/>
     <ClInclude Include="..\..\Source\NrpnMessage.h"/>
+    <ClInclude Include="..\..\Source\Ocpp.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\PWoptions.h"/>
     <ClInclude Include="..\..\Source\ResizableLayout.h"/>
     <ClInclude Include="..\..\Source\SendKeys.h"/>
-    <ClInclude Include="..\..\Source\SendKeysM.h"/>
     <ClInclude Include="..\..\Source\SettingsComponent.h"/>
     <ClInclude Include="..\..\Source\SettingsManager.h"/>
     <ClInclude Include="..\..\Source\Translate.h"/>
