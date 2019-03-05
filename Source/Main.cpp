@@ -340,9 +340,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Serif   Times New Roman  Times New Roman
       // Fixed   Menlo            Lucida Console
 
-	  // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
-	  // avoiding fonts added in windows 10 for those using earlier Windows versions
-	  // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
+      // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
+      // avoiding fonts added in windows 10 for those using earlier Windows versions
+      // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
 #ifdef _WIN32
       if (lang == "ko") {
          juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
@@ -357,8 +357,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
              "Microsoft YaHei UI");
       }
       else if (lang == "ja") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "MS UI Gothic");
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName("MS UI Gothic");
       }
 #else
       if (lang == "ko") {

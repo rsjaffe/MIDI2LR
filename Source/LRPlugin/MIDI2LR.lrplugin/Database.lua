@@ -64,7 +64,7 @@ local library = LOC('$$$/AgLibraryModule/ModuleTitle=Library')
 local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
 local primaryDisplay = LOC('$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Display')
 local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
-local profiles = LOC('$$$/CRaw/Style/Profiles=Profiles')
+local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profile")
 local reset = LOC('$$$/AgDevelop/Panel/ResetButton=Reset')
 local resetColorAdjustments = reset..' '..colorAdjustments
 local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
@@ -517,7 +517,7 @@ local DataBase = {
 --
   {Command='RevealPanelCalibrate',Type='button',Translation=show..' '..calibration,Group=calibration,Explanation='Open Camera Calibration Panel in Develop Module.'},
   {Command='EnableCalibration',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableCalibration=Enable Calibration'),Group=calibration,Explanation='Enable or disable custom camera calibration.',Panel='calibratePanel'},
-  {Command='Profile_Adobe_Standard',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/AdobeStandard=Adobe Standard'),Group=calibration,Explanation='Applies the Adobe Standard profile.',Panel='calibratePanel'},
+  {Command='Profile_Adobe_Standard',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Standard=Standard'),Group=calibration,Explanation='Applies the Adobe Standard profile.',Panel='calibratePanel'},
   {Command='Profile_Camera_Bold',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Bold=Camera Bold'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens.',Panel='calibratePanel'},
   {Command='Profile_Camera_Clear',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Clear=Camera Clear'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results.',Panel='calibratePanel'},
   {Command='Profile_Camera_Color',Type='button',Experimental=true,Translation=LOC('$$$/CRaw/Style/Profile/Postfix/Color=Camera Color'),Group=calibration,Explanation='These profiles attempt to match the camera manufacturer\226\128\153s color appearance under specific settings. If Adobe doesn\226\128\153t have this profile set up for your camera, using it may have unexpected results. Additionally, the code for this particular setting has not been fully tested, so even if Adobe has this profile set for your camera, it may not work. Please [post an issue](https://groups.google.com/forum/#!forum/midi2lr) if this happens.',Panel='calibratePanel'},
