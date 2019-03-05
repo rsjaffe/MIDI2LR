@@ -30,14 +30,14 @@ UniChar rsj::Utf8ToUtf16(const std::string& param)
 
 std::string rsj::AppDataMac()
 {
-   NSString* result = [@"~/Library/Application Support/MIDI2LR/" stringByExpandingTildeInPath];
-   return std::string([result UTF8String]);
+   NSString* result = [@"~/Library/Application Support/MIDI2LR" stringByExpandingTildeInPath];
+   return std::string([result UTF8String]) + '/';
 } 
 
 std::string rsj::AppLogMac()
 {
-   NSString* result = [@"~/Library/Logs/MIDI2LR/" stringByExpandingTildeInPath];
-   return std::string([result UTF8String]);
+   NSString* result = [@"~/Library/Logs/MIDI2LR" stringByExpandingTildeInPath];
+   return std::string([result UTF8String]) + '/';
 }
 
 std::string rsj::GetKeyboardLayout()
