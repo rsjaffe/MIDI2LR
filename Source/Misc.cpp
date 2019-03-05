@@ -187,10 +187,10 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
 #else
 std::string rsj::AppDataFilePath(const std::string& file_name)
 {
-   return rsj::AppDataMac() + file_name;
+   return rsj::AppDataMac() + '/' + file_name;
 }
 std::string rsj::AppLogFilePath(const std::string& file_name)
 {
-   return rsj::AppLogMac() + file_name;
+   return rsj::AppLogMac() + '/' + file_name;
 }
 #endif
