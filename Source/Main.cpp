@@ -341,62 +341,54 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Fixed   Menlo            Lucida Console
 
       // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
-      // avoiding fonts added in windows 10 for those using earlier Windows versions
+      // avoiding fonts added in windows 10 to support people using earlier Windows versions
       // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
-#ifdef _WIN32
-      if (lang == "ko") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Malgun Gothic");
+      if constexpr (MSWindows) {
+         if (lang == "ko") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Malgun Gothic");
+         }
+         else if (lang == "zh_tw") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Microsoft JhengHei UI");
+         }
+         else if (lang == "zh_cn") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Microsoft YaHei UI");
+         }
+         else if (lang == "ja") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "MS UI Gothic");
+         }
       }
-      else if (lang == "zh_tw") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Microsoft JhengHei UI");
+      else {//PingFang added in 10.11 El Capitan as new Chinese UI fonts
+         if (lang == "ko") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Apple SD Gothic Neo");
+         }
+         else if (lang == "zh_cn") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "PingFang SC");
+         }
+         else if (lang == "zh_tw") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "PingFang TC");
+         }
+         else if (lang == "ja") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Hiragino Kaku Gothic Pro");
+         }
       }
-      else if (lang == "zh_cn") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Microsoft YaHei UI");
-      }
-      else if (lang == "ja") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName("MS UI Gothic");
-      }
-#else
-      if (lang == "ko") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Apple SD Gothic Neo");
-      }
-      else if (lang == "zh_cn" || lang == "zh_tw") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Hiragino Sans GB");
-      }
-      else if (lang == "ja") {
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Hiragino Maru Gothic ProN");
-      }
-#endif
       rsj::Translate(lang);
-
-      /* Notes for future use with ICU
-       * Locales to be used:
-       * Locale("de", "DE");
-       * Locale("en", "US");
-       * Locale("es", "ES");
-       * Locale("fr", "FR");
-       * Locale("it", "IT");
-       * Locale("ja", "JP");
-       * Locale("ko", "KR");
-       * Locale("nl", "NL");
-       * Locale("pt", "BR");
-       * Locale("sv", "SE");
-       * Locale("zh", "CN");
-       * Locale("zh", "TW");
-       */
    }
-   // create logger first, makes sure that MIDI2LR directory is created for writing by other modules
-   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
+
+   // create logger first, makes sure that MIDI2LR directory is created for writing by other
+   // modules log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
    // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
-   UpdateCurrentLogger dummy_{logger_.get()}; // forcing assignment to static early in construction
+   UpdateCurrentLogger dummy_{logger_.get()}; // forcing assignment to static early in
+                                              // construction
    CommandMap command_map_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};
