@@ -102,6 +102,15 @@ namespace {
    constexpr auto kSettingsFile{"settings.bin"};
    constexpr auto kSettingsFileX("settings.xml");
    constexpr auto kDefaultsFile{"default.xml"};
+
+   class UpdateCurrentLogger {
+    public:
+      UpdateCurrentLogger(juce::Logger* newLogger)
+      {
+         juce::Logger::setCurrentLogger(newLogger);
+      }
+   };
+
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
@@ -146,7 +155,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // If during the initialise() method, the application decides not to
          // start - up after all, it can just call the quit() method and the event
          // loop won't be run.
-         juce::Logger::setCurrentLogger(logger_.get());
          if (command_line != kShutDownString) {
             CerealLoad();
             midi_receiver_->Init();
@@ -375,6 +383,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
+   UpdateCurrentLogger dummy{logger_.get()}; // forcing assignment to static early in construction
    CommandMap command_map_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};
