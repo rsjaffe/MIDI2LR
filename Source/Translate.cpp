@@ -29,7 +29,7 @@ void rsj::Translate(const std::string& lg)
 #pragma warning(suppress : 26426)
    static const std::map<std::string, const char*> kTranslationTable{{"de", de}, {"es", es},
        {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"sv", sv},
-       {"zn_cn", zn_cn}, {"zn_tw", zn_tw}};
+       {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};
    if (const auto found = kTranslationTable.find(lg); found != kTranslationTable.end()) {
       const juce::String str(juce::CharPointer_UTF8(found->second));
       auto ls = std::make_unique<juce::LocalisedStrings>(str, false);

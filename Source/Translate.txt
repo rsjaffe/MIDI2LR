@@ -478,7 +478,7 @@ countries: sv
 "New Version Available!" = "Ny version tillgänglig!"
 "New version is available for MIDI2LR!" = "Nytt program för MIDI2LR är nu tillgängligt!"
 "New version %d.%d.%d.%d available" = "Ny version %d.%d.%d.%d tillgänglig")===";
-   const auto zn_cn = u8R"===(language: Chinese simplified
+   const auto zh_cn = u8R"===(language: Chinese simplified
 countries: zh-cn
 
 "CC Message Type" = "CC信息类型"
@@ -531,7 +531,7 @@ countries: zh-cn
 "New Version Available!" = "新版本可用！"
 "New version is available for MIDI2LR!" = "软件 MIDI2LR 有新版本！"
 "New version %d.%d.%d.%d available"  = "新版％d。％d。％d。％d可用")===";
-   const auto zn_tw = u8R"===(language: Chinese traditional
+   const auto zh_tw = u8R"===(language: Chinese traditional
 countries: zh-tw
 
 "CC Message Type" = "CC信息類型"

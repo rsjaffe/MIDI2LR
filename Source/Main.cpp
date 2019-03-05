@@ -120,6 +120,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
       juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
+      SetAppLanguage(); // set language and load appropriate fonts and files
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
@@ -161,7 +162,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_receiver_.get());
             profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
-            SetAppLanguage(); // set language and load appropriate fonts and files
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_map_,
@@ -339,26 +339,40 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Sans    Lucida Grande    Verdana
       // Serif   Times New Roman  Times New Roman
       // Fixed   Menlo            Lucida Console
+
+	  // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
+	  // avoiding fonts added in windows 10 for those using earlier Windows versions
+	  // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
 #ifdef _WIN32
-      if (lang == "ko")
+      if (lang == "ko") {
          juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
              "Malgun Gothic");
-      else if (lang == "zn_cn" || lang == "zn_tw")
+      }
+      else if (lang == "zh_tw") {
          juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
              "Microsoft JhengHei UI");
-      else if (lang == "ja")
+      }
+      else if (lang == "zh_cn") {
          juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Microsoft JhengHei UI");
+             "Microsoft YaHei UI");
+      }
+      else if (lang == "ja") {
+         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+             "MS UI Gothic");
+      }
 #else
-      if (lang == "ko")
+      if (lang == "ko") {
          juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
              "Apple SD Gothic Neo");
-      else if (lang == "zn_cn" || lang == "zn_tw")
+      }
+      else if (lang == "zh_cn" || lang == "zh_tw") {
          juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
              "Hiragino Sans GB");
-      else if (lang == "ja")
+      }
+      else if (lang == "ja") {
          juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
              "Hiragino Maru Gothic ProN");
+      }
 #endif
       rsj::Translate(lang);
 
@@ -383,7 +397,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
-   UpdateCurrentLogger dummy{logger_.get()}; // forcing assignment to static early in construction
+   UpdateCurrentLogger dummy_{logger_.get()}; // forcing assignment to static early in construction
    CommandMap command_map_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};

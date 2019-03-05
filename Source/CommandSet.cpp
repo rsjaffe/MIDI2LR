@@ -35,14 +35,14 @@ CommandSet::Impl::Impl()
          cereal::XMLInputArchive iarchive(infile);
          iarchive(*this);
 #ifdef _WIN32
-         rsj::Log("Cereal controls archive loaded from " + juce::String(p.c_str()));
+         rsj::Log("MenuTrans.xml archive loaded from " + juce::String(p.c_str()));
 #else
-         rsj::Log("Cereal controls archive loaded from " + p);
+         rsj::Log("MenuTrans.xml archive loaded from " + p);
 #endif
       }
       else
          rsj::LogAndAlertError(
-             "Unable to load control settings from xml file. Unable to open file");
+             "Unable to load MenuTrans.xml. Unable to open file.");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
