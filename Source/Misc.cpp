@@ -71,6 +71,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl_util>
 #include <ShlObj.h>
 #include <Windows.h>
+#else
+#include "Ocpp.h"
 #endif
 
 // from http://www.cplusplus.com/forum/beginner/175177 and
@@ -97,6 +99,7 @@ template<typename T>
 template<typename T>
 [[nodiscard]] T Demangle(const char* mangled_name) { return mangled_name; }
 #endif // _GNUG_
+
 void rsj::Log(const juce::String& info)
 {
    if (juce::Logger::getCurrentLogger())
@@ -182,13 +185,12 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
    return buffer.data();
 }
 #else
-#include "MiscM.h"
 std::string rsj::AppDataFilePath(const std::string& file_name)
 {
-   return AppDataMac() + file_name;
+   return rsj::AppDataMac() + file_name;
 }
 std::string rsj::AppLogFilePath(const std::string& file_name)
 {
-   return AppLogMac() + file_name;
+   return rsj::AppLogMac() + file_name;
 }
 #endif

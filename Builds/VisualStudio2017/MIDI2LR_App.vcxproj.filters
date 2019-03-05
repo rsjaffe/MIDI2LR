@@ -259,9 +259,6 @@
     <ClCompile Include="..\..\Source\DebugInfo.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DebugInfo.mm">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\LR_IPC_In.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -289,10 +286,10 @@
     <ClCompile Include="..\..\Source\Misc.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Misc.mm">
+    <ClCompile Include="..\..\Source\NrpnMessage.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\NrpnMessage.cpp">
+    <ClCompile Include="..\..\Source\Ocpp.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ProfileManager.cpp">
@@ -305,9 +302,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SendKeys.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\SendKeysM.mm">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SettingsComponent.cpp">
@@ -1665,10 +1659,10 @@
     <ClInclude Include="..\..\Source\Misc.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\MiscM.h">
+    <ClInclude Include="..\..\Source\NrpnMessage.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\NrpnMessage.h">
+    <ClInclude Include="..\..\Source\Ocpp.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ProfileManager.h">
@@ -1681,9 +1675,6 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SendKeys.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\SendKeysM.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SettingsComponent.h">

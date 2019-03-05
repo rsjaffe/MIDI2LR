@@ -1,7 +1,7 @@
 /*
 ==============================================================================
 
-DebugInfo.mm
+Ocpp.mm
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -18,8 +18,27 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#include "DebugInfo.h"
-#include <Carbon/Carbon.h>
+#include "Ocpp.h"
+#include "DebugInfo.h"         //for GetKeyboardLayout
+
+UniChar rsj::Utf8ToUtf16(const std::string& param)
+{
+   NSString* result = [NSString stringWithUTF8String:param.c_str()];
+   UniChar ch = [result characterAtIndex:0];
+   return ch;
+}
+
+std::string rsj::AppDataMac()
+{
+   NSString* result = [@"~/Library/Application Support/MIDI2LR" stringByExpandingTildeInPath];
+   return std::string([result UTF8String]) + '/';
+} 
+
+std::string rsj::AppLogMac()
+{
+   NSString* result = [@"~/Library/Logs/MIDI2LR" stringByExpandingTildeInPath];
+   return std::string([result UTF8String]) + '/';
+}
 
 std::string rsj::GetKeyboardLayout()
 {

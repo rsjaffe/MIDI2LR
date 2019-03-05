@@ -2,7 +2,7 @@
 /*
 ==============================================================================
 
-SendKeysM.h
+Ocpp.h
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -19,12 +19,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#ifndef MIDI2LR_SENDKEYSM_H_INCLUDED
-#define MIDI2LR_SENDKEYSM_H_INCLUDED
+#ifndef MIDI2LR_COMMANDSET_H_INCLUDED
+#define MIDI2LR_COMMANDSET_H_INCLUDED
 #ifndef _WIN32
 #include <string>
 #include <Carbon/Carbon.h>
-
-UniChar Utf8ToUtf16(const std::string& param);
+namespace rsj {
+   UniChar Utf8ToUtf16(const std::string& param);
+   std::string AppDataMac();
+   std::string AppLogMac();
+}
 #endif
 #endif

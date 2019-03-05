@@ -79,7 +79,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <Carbon/Carbon.h>
 #include <libproc.h> //proc_ functions in GetPid
 #include <optional>
-#include "SendKeysM.h"
+#include "Ocpp.h"
 #endif
 #include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
 
@@ -202,7 +202,7 @@ std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
 {
    std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
    for (size_t i = 0; i < 128; ++i) {
-      auto uc = CreateStringForKey((CGKeyCode)i);
+      const auto uc = CreateStringForKey((CGKeyCode)i);
       if (uc.first)
          temp_map[uc.first] = {i, false};
       if (uc.second)
@@ -221,7 +221,7 @@ std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c) noexcept
 {
    try {
       static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{MakeMap()};
-      auto result = char_code_map.find(c);
+      const auto result = char_code_map.find(c);
       if (result != char_code_map.end())
          return result->second;
       else
@@ -372,7 +372,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          u = CGEventCreateKeyboardEvent(NULL, vk, false);
       }
       else {
-         const UniChar uc{Utf8ToUtf16(key)};
+         const UniChar uc{rsj::Utf8ToUtf16(key)};
          const auto key_code_result = KeyCodeForChar(uc);
          if (!key_code_result) {
             rsj::LogAndAlertError("Unsupported character was used: " + key);
