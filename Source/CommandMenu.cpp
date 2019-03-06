@@ -85,7 +85,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
          size_t index = 1;
          auto submenu_tick_set = false;
          juce::PopupMenu main_menu;
-         main_menu.addItem(gsl::narrow_cast<int>(index), "Unmapped", true,
+         main_menu.addItem(gsl::narrow_cast<int>(index), "unmapped", true,
              submenu_tick_set = index == selected_item_);
          index++;
          // add each submenu
