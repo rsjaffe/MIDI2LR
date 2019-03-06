@@ -1,7 +1,8 @@
-<map id="Q:/Documents/GitHub/MIDI2LR/Source/ProfileManager.h" name="Q:/Documents/GitHub/MIDI2LR/Source/ProfileManager.h">
-<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC\l_In.cpp" alt="" coords="5,95,173,151"/>
-<area shape="rect" id="node3" href="$_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="198,102,375,143"/>
-<area shape="rect" id="node4" href="$_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="400,102,643,143"/>
-<area shape="rect" id="node5" href="$_profile_manager_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/ProfileManager.cpp" alt="" coords="667,102,901,143"/>
-<area shape="rect" id="node6" href="$_settings_manager_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/SettingsManager.cpp" alt="" coords="926,102,1173,143"/>
+<map id="D:/Users/Rory/source/repos/MIDI2LR/Source/ProfileManager.h" name="D:/Users/Rory/source/repos/MIDI2LR/Source/ProfileManager.h">
+<area shape="rect" id="node1" title=" " alt="" coords="365,5,521,61"/>
+<area shape="rect" id="node2" href="$_l_r___i_p_c___in_8cpp.html" title=" " alt="" coords="5,109,161,165"/>
+<area shape="rect" id="node3" href="$_main_8cpp.html" title=" " alt="" coords="185,109,341,165"/>
+<area shape="rect" id="node4" href="$_main_component_8cpp.html" title=" " alt="" coords="365,109,521,165"/>
+<area shape="rect" id="node5" href="$_profile_manager_8cpp.html" title=" " alt="" coords="545,109,701,165"/>
+<area shape="rect" id="node6" href="$_settings_manager_8cpp.html" title=" " alt="" coords="725,109,881,165"/>
 </map>

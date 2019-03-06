@@ -1,3 +1,7 @@
 <map id="ResizableLayout::State" name="ResizableLayout::State">
-<area shape="rect" id="node4" href="$struct_resizable_layout_1_1_rect.html" title="{ResizableLayout::Rect\n||+ Rect()\l+ Rect()\l+ Rect()\l+ getHeight()\l+ getWidth()\l+ operator juce::Rectangle\l\&lt; int \&gt;()\l+ reduce()\l}" alt="" coords="211,189,385,369"/>
+<area shape="rect" id="node1" title=" " alt="" coords="59,432,217,583"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,241,65,318"/>
+<area shape="rect" id="node3" title=" " alt="" coords="89,241,187,318"/>
+<area shape="rect" id="node4" href="$struct_resizable_layout_1_1_rect.html" title=" " alt="" coords="211,189,385,369"/>
+<area shape="rect" id="node5" title=" " alt="" coords="279,5,317,83"/>
 </map>

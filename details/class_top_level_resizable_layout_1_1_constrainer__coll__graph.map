@@ -1,5 +1,13 @@
 <map id="TopLevelResizableLayout::Constrainer" name="TopLevelResizableLayout::Constrainer">
-<area shape="rect" id="node3" href="$class_top_level_resizable_layout.html" title="{TopLevelResizableLayout\n||+ TopLevelResizableLayout()\l+ setAsConstrainerFor()\l}" alt="" coords="711,851,899,943"/>
-<area shape="rect" id="node4" href="$class_resizable_layout.html" title="{ResizableLayout\n||+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="440,535,640,788"/>
-<area shape="rect" id="node5" href="$class_resizable_child.html" title="{ResizableChild\n||+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="5,189,160,457"/>
+<area shape="rect" id="node1" title=" " alt="" coords="843,608,1011,715"/>
+<area shape="rect" id="node3" href="$class_top_level_resizable_layout.html" title=" " alt="" coords="711,851,899,943"/>
+<area shape="rect" id="node2" title=" " alt="" coords="991,285,1222,362"/>
+<area shape="rect" id="node4" href="$class_resizable_layout.html" title=" " alt="" coords="440,535,640,788"/>
+<area shape="rect" id="node5" href="$class_resizable_child.html" title=" " alt="" coords="5,189,160,457"/>
+<area shape="rect" id="node6" title=" " alt="" coords="63,5,102,83"/>
+<area shape="rect" id="node7" title=" " alt="" coords="185,285,351,362"/>
+<area shape="rect" id="node8" title=" " alt="" coords="375,285,422,362"/>
+<area shape="rect" id="node9" title=" " alt="" coords="446,277,634,369"/>
+<area shape="rect" id="node10" title=" " alt="" coords="658,277,846,369"/>
+<area shape="rect" id="node11" title=" " alt="" coords="870,285,967,362"/>
 </map>

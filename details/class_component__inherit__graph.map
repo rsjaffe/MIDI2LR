@@ -1,4 +1,0 @@
-<map id="Component" name="Component">
-<area shape="rect" id="node2" href="$class_c_coptions.html" title="{CCoptions\n|&#45; absbutton\l&#45; applyAll\l&#45; binbutton\l&#45; bound_channel_\l&#45; bound_number_\l&#45; controlID\l&#45; groupComponent\l&#45; maxvallabel\l&#45; maxvaltext\l&#45; minvallabel\l&#45; minvaltext\l&#45; numrestrict_\l&#45; signbutton\l&#45; twosbutton\l&#45; controls_model_\l|+ CCoptions()\l+ ~CCoptions()\l+ BindToControl()\l+ buttonClicked()\l+ paint()\l+ resized()\l+ LinkToControlsModel()\l&#45; textEditorFocusLost()\l}" alt="" coords="5,131,168,516"/>
-<area shape="rect" id="node3" href="$class_p_woptions.html" title="{PWoptions\n|&#45; boundchannel_\l&#45; label\l&#45; label2\l&#45; label3\l&#45; maxval\l&#45; minval\l&#45; numrestrict_\l&#45; controls_model_\l|+ PWoptions()\l+ ~PWoptions()\l+ BindToControl()\l+ paint()\l+ resized()\l+ LinkToControlsModel()\l&#45; textEditorFocusLost()\l}" alt="" coords="192,189,355,457"/>
-</map>

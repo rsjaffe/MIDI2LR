@@ -1,6 +1,4 @@
 <map id="CommandTableModel::sortOrderChanged" name="CommandTableModel::sortOrderChanged">
-<area shape="rect" id="node2" href="$class_command_table_model.html#ae09e29497cc0a7d3c666d41661c9a542" title="CommandTableModel::Sort" alt="" coords="208,46,387,73"/>
-<area shape="rect" id="node3" href="$class_command_map.html#aaf6fddbe9327afae476f4da9909027ad" title="CommandMap::GetCommandfor\lMessage" alt="" coords="435,5,643,47"/>
-<area shape="rect" id="node5" href="$class_lr_command_list.html#a2077f1e22e2682f0165f54318292da3c" title="LrCommandList::GetIndexOf\lCommand" alt="" coords="445,71,632,112"/>
-<area shape="rect" id="node4" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="691,46,851,73"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,160,47"/>
+<area shape="rect" id="node2" href="$class_command_table_model.html#ae09e29497cc0a7d3c666d41661c9a542" title=" " alt="" coords="208,13,387,39"/>
 </map>

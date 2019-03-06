@@ -1,4 +1,4 @@
 <map id="ControlsModel::ControllerToPlugin" name="ControlsModel::ControllerToPlugin">
-<area shape="rect" id="node2" href="$class_lr_ipc_out.html#a27ee32e8a38df4706daba31ff7e20cab" title="LrIpcOut::MidiCmdCallback" alt="" coords="240,5,420,32"/>
-<area shape="rect" id="node3" href="$class_profile_manager.html#a1d84fc917489f92e3c024adc7ae2b7b6" title="ProfileManager::MidiCmdCallback" alt="" coords="221,56,439,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="233,5,401,47"/>
+<area shape="rect" id="node2" href="$class_lr_ipc_out.html#a27ee32e8a38df4706daba31ff7e20cab" title=" " alt="" coords="5,13,185,39"/>
 </map>

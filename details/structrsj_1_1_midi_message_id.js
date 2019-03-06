@@ -6,8 +6,6 @@ var structrsj_1_1_midi_message_id =
     [ "operator<", "structrsj_1_1_midi_message_id.html#a873ea5b1d6cd037802599b6fa15d9193", null ],
     [ "operator==", "structrsj_1_1_midi_message_id.html#ad03ab33db5bd4809d807670fbcf5ecb6", null ],
     [ "channel", "structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214", null ],
-    [ "controller", "structrsj_1_1_midi_message_id.html#a285b5e3a09a547d04947927f2e693900", null ],
     [ "data", "structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f", null ],
-    [ "msg_id_type", "structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41", null ],
-    [ "pitch", "structrsj_1_1_midi_message_id.html#ae7fed39bf234bdb4bfa505bf208be0f0", null ]
+    [ "msg_id_type", "structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41", null ]
 ];

@@ -1,6 +1,6 @@
 var class_settings_component =
 [
-    [ "SettingsComponent", "class_settings_component.html#ad009b00bebb9ba8b9ab6bfdd4b6922a0", null ],
+    [ "SettingsComponent", "class_settings_component.html#a99d9cc142ad64122c1cb3768f006543d", null ],
     [ "~SettingsComponent", "class_settings_component.html#a7a4688bc9cfe9c8868124bd62f5d8a4d", null ],
     [ "SettingsComponent", "class_settings_component.html#a4c04e063982bb0a3e62cf92c55370b10", null ],
     [ "SettingsComponent", "class_settings_component.html#a8cd20aeff90426909a5be7f92da008f8", null ],
@@ -19,5 +19,5 @@ var class_settings_component =
     [ "profile_group_", "class_settings_component.html#a222ff0fd93e54e7bc52ec0d7250f38c5", null ],
     [ "profile_location_button_", "class_settings_component.html#ac8a3ae31bce6bd1452258b185e39add6", null ],
     [ "profile_location_label_", "class_settings_component.html#a365024c4fa8fb199f558fc2e98d238b5", null ],
-    [ "settings_manager_", "class_settings_component.html#ade30272a6ed451be7fb8b9351d5e662f", null ]
+    [ "settings_manager_", "class_settings_component.html#a71e699cb860b9982aeb53352614f12ba", null ]
 ];

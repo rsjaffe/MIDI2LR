@@ -1,9 +1,10 @@
-<map id="Q:/Documents/GitHub/MIDI2LR/Source/NrpnMessage.h" name="Q:/Documents/GitHub/MIDI2LR/Source/NrpnMessage.h">
-<area shape="rect" id="node2" href="$_m_i_d_i_processor_8h.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MIDIProcessor.h" alt="" coords="411,95,631,136"/>
-<area shape="rect" id="node8" href="$_nrpn_message_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/NrpnMessage.cpp" alt="" coords="656,95,885,136"/>
-<area shape="rect" id="node3" href="$_l_r___i_p_c___out_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/LR_IPC\l_Out.cpp" alt="" coords="5,184,173,240"/>
-<area shape="rect" id="node4" href="$_main_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/Main.cpp" alt="" coords="198,191,375,233"/>
-<area shape="rect" id="node5" href="$_main_component_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MainComponent.cpp" alt="" coords="400,191,643,233"/>
-<area shape="rect" id="node6" href="$_m_i_d_i_processor_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/MIDIProcessor.cpp" alt="" coords="667,191,901,233"/>
-<area shape="rect" id="node7" href="$_profile_manager_8cpp.html" title="Q:/Documents/GitHub\l/MIDI2LR/Source/ProfileManager.cpp" alt="" coords="925,191,1160,233"/>
+<map id="D:/Users/Rory/source/repos/MIDI2LR/Source/NrpnMessage.h" name="D:/Users/Rory/source/repos/MIDI2LR/Source/NrpnMessage.h">
+<area shape="rect" id="node1" title=" " alt="" coords="455,5,611,61"/>
+<area shape="rect" id="node2" href="$_m_i_d_i_receiver_8h.html" title=" " alt="" coords="365,109,521,165"/>
+<area shape="rect" id="node8" href="$_nrpn_message_8cpp.html" title=" " alt="" coords="545,109,701,165"/>
+<area shape="rect" id="node3" href="$_l_r___i_p_c___out_8cpp.html" title=" " alt="" coords="5,213,161,269"/>
+<area shape="rect" id="node4" href="$_main_8cpp.html" title=" " alt="" coords="185,213,341,269"/>
+<area shape="rect" id="node5" href="$_main_component_8cpp.html" title=" " alt="" coords="365,213,521,269"/>
+<area shape="rect" id="node6" href="$_m_i_d_i_receiver_8cpp.html" title=" " alt="" coords="545,213,701,269"/>
+<area shape="rect" id="node7" href="$_profile_manager_8cpp.html" title=" " alt="" coords="725,213,881,269"/>
 </map>

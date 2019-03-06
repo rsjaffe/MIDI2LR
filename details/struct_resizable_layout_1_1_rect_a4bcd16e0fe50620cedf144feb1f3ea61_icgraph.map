@@ -1,8 +1,9 @@
 <map id="ResizableLayout::Rect::reduce" name="ResizableLayout::Rect::reduce">
-<area shape="rect" id="node2" href="$class_resizable_layout.html#a6d6f6015a51dbe7c950de80ed8b0ab49" title="ResizableLayout::addStateFor" alt="" coords="207,5,404,32"/>
-<area shape="rect" id="node3" href="$struct_resizable_layout_1_1_rect.html#a7844e2ed42488574d012fdc0f6ce21dd" title="ResizableLayout::Rect\l::getHeight" alt="" coords="229,57,382,98"/>
-<area shape="rect" id="node4" href="$struct_resizable_layout_1_1_rect.html#ac88f37be52d2462c15bc21f8bad0cf75" title="ResizableLayout::Rect\l::getWidth" alt="" coords="229,122,382,163"/>
-<area shape="rect" id="node5" href="$struct_resizable_layout_1_1_rect.html#aa8bd46b3639815da60e3d1757643a80d" title="ResizableLayout::Rect\l::Rectangle\&lt; int \&gt;" alt="" coords="229,187,382,229"/>
-<area shape="rect" id="node6" href="$class_resizable_layout.html#af1ae3c1fd2275c3963eea6f098373970" title="ResizableLayout::recalculate\lLayout" alt="" coords="211,253,400,294"/>
-<area shape="rect" id="node7" href="$class_resizable_layout.html#ad106c8c769784ef1b7722f10cb83d07f" title="ResizableLayout::component\lMovedOrResized" alt="" coords="452,253,643,294"/>
+<area shape="rect" id="node1" title=" " alt="" coords="489,122,643,163"/>
+<area shape="rect" id="node2" href="$class_resizable_layout.html#a6d6f6015a51dbe7c950de80ed8b0ab49" title=" " alt="" coords="244,5,441,32"/>
+<area shape="rect" id="node3" href="$struct_resizable_layout_1_1_rect.html#a7844e2ed42488574d012fdc0f6ce21dd" title=" " alt="" coords="266,57,419,98"/>
+<area shape="rect" id="node4" href="$struct_resizable_layout_1_1_rect.html#ac88f37be52d2462c15bc21f8bad0cf75" title=" " alt="" coords="266,122,419,163"/>
+<area shape="rect" id="node5" href="$struct_resizable_layout_1_1_rect.html#aa8bd46b3639815da60e3d1757643a80d" title=" " alt="" coords="266,187,419,229"/>
+<area shape="rect" id="node6" href="$class_resizable_layout.html#af1ae3c1fd2275c3963eea6f098373970" title=" " alt="" coords="248,253,437,294"/>
+<area shape="rect" id="node7" href="$class_resizable_layout.html#ad106c8c769784ef1b7722f10cb83d07f" title=" " alt="" coords="5,253,196,294"/>
 </map>

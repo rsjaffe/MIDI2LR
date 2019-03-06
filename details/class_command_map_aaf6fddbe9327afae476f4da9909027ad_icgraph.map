@@ -1,8 +1,0 @@
-<map id="CommandMap::GetCommandforMessage" name="CommandMap::GetCommandforMessage">
-<area shape="rect" id="node2" href="$class_profile_manager.html#a498ff5dcfc0fadef110e0241ea82b6fd" title="ProfileManager::MapCommand" alt="" coords="261,24,461,51"/>
-<area shape="rect" id="node4" href="$class_command_table_model.html#ae09e29497cc0a7d3c666d41661c9a542" title="CommandTableModel::Sort" alt="" coords="272,111,451,137"/>
-<area shape="rect" id="node3" href="$class_profile_manager.html#a1d84fc917489f92e3c024adc7ae2b7b6" title="ProfileManager::MidiCmdCallback" alt="" coords="509,5,727,32"/>
-<area shape="rect" id="node5" href="$class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00" title="CommandTableModel::\lsortOrderChanged" alt="" coords="541,57,695,98"/>
-<area shape="rect" id="node6" href="$class_command_table_model.html#a093a71b6fbc81dddd367ebdfc4d78b0d" title="CommandTableModel::\lAddRow" alt="" coords="541,122,695,163"/>
-<area shape="rect" id="node7" href="$class_command_table_model.html#a583b61d0d9e2d8e1ac5aefbb8654b34a" title="CommandTableModel::\lBuildFromXml" alt="" coords="541,187,695,229"/>
-</map>

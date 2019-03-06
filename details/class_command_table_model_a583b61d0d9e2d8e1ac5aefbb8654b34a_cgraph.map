@@ -1,8 +1,7 @@
 <map id="CommandTableModel::BuildFromXml" name="CommandTableModel::BuildFromXml">
-<area shape="rect" id="node2" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="691,82,851,109"/>
-<area shape="rect" id="node3" href="$class_command_table_model.html#af7077ada7623e629e03f6caf99db42bd" title="CommandTableModel::\lRemoveAllRows" alt="" coords="220,20,375,61"/>
-<area shape="rect" id="node5" href="$class_command_table_model.html#ae09e29497cc0a7d3c666d41661c9a542" title="CommandTableModel::Sort" alt="" coords="208,86,387,113"/>
-<area shape="rect" id="node4" href="$class_command_map.html#a2d5aae6f96166b3c1c1677f23bcf42b4" title="CommandMap::ClearMap" alt="" coords="454,23,623,50"/>
-<area shape="rect" id="node6" href="$class_lr_command_list.html#a2077f1e22e2682f0165f54318292da3c" title="LrCommandList::GetIndexOf\lCommand" alt="" coords="445,75,632,116"/>
-<area shape="rect" id="node7" href="$class_command_map.html#aaf6fddbe9327afae476f4da9909027ad" title="CommandMap::GetCommandfor\lMessage" alt="" coords="435,140,643,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,78,160,119"/>
+<area shape="rect" id="node2" href="$namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70" title=" " alt="" coords="229,5,365,32"/>
+<area shape="rect" id="node3" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="217,56,377,83"/>
+<area shape="rect" id="node4" href="$class_command_table_model.html#a10867ea626130bcee75dfbc71ded461c" title=" " alt="" coords="220,107,375,149"/>
+<area shape="rect" id="node5" href="$class_command_table_model.html#ae09e29497cc0a7d3c666d41661c9a542" title=" " alt="" coords="208,173,387,200"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="VersionChecker::run" name="VersionChecker::run">
-<area shape="rect" id="node2" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="201,5,361,32"/>
-<area shape="rect" id="node3" href="$class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c" title="SettingsManager::GetLast\lVersionFound" alt="" coords="193,57,368,98"/>
-<area shape="rect" id="node4" href="$class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088" title="SettingsManager::SetLast\lVersionFound" alt="" coords="194,122,367,163"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,85,145,112"/>
+<area shape="rect" id="node2" href="$namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70" title=" " alt="" coords="213,5,349,32"/>
+<area shape="rect" id="node3" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="201,56,361,83"/>
+<area shape="rect" id="node4" href="$class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c" title=" " alt="" coords="193,107,368,149"/>
+<area shape="rect" id="node5" href="$class_settings_manager.html#af7e05f1e26aac16f6f0b402a85bc5088" title=" " alt="" coords="194,173,367,214"/>
 </map>

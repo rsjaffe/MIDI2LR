@@ -1,5 +1,6 @@
 <map id="ProfileManager::handleAsyncUpdate" name="ProfileManager::handleAsyncUpdate">
-<area shape="rect" id="node2" href="$class_profile_manager.html#a1131eaee6fd426d056ce3d22721ce182" title="ProfileManager::SwitchTo\lNextProfile" alt="" coords="244,5,413,47"/>
-<area shape="rect" id="node4" href="$class_profile_manager.html#aef2511c27587834a675de11f0512b0ea" title="ProfileManager::SwitchTo\lPreviousProfile" alt="" coords="244,71,413,112"/>
-<area shape="rect" id="node3" href="$class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f" title="ProfileManager::SwitchTo\lProfile" alt="" coords="461,39,631,80"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,39,196,80"/>
+<area shape="rect" id="node2" href="$class_profile_manager.html#a1131eaee6fd426d056ce3d22721ce182" title=" " alt="" coords="244,5,413,47"/>
+<area shape="rect" id="node4" href="$class_profile_manager.html#aef2511c27587834a675de11f0512b0ea" title=" " alt="" coords="244,71,413,112"/>
+<area shape="rect" id="node3" href="$class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f" title=" " alt="" coords="461,39,631,80"/>
 </map>

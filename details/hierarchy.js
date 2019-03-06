@@ -6,22 +6,19 @@ var hierarchy =
       [ "ProfileManager", "class_profile_manager.html", null ],
       [ "VersionChecker", "class_version_checker.html", null ]
     ] ],
-    [ "ButtonListener", "class_button_listener.html", [
-      [ "CCoptions", "class_c_coptions.html", null ]
-    ] ],
     [ "ButtonListener", null, [
+      [ "CCoptions", "class_c_coptions.html", null ],
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
     [ "cfreleaser< CoreFoundationType >", "structcfreleaser.html", null ],
     [ "ChannelModel", "class_channel_model.html", null ],
     [ "CommandMap", "class_command_map.html", null ],
-    [ "Component", "class_component.html", [
-      [ "CCoptions", "class_c_coptions.html", null ],
-      [ "PWoptions", "class_p_woptions.html", null ]
-    ] ],
+    [ "CommandSet", "class_command_set.html", null ],
     [ "Component", null, [
+      [ "CCoptions", "class_c_coptions.html", null ],
       [ "MainContentComponent", "class_main_content_component.html", null ],
+      [ "PWoptions", "class_p_woptions.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
     [ "ComponentBoundsConstrainer", null, [
@@ -40,22 +37,22 @@ var hierarchy =
       [ "MainWindow", "class_main_window.html", null ]
     ] ],
     [ "std::hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", null ],
+    [ "CommandSet::Impl", "class_command_set_1_1_impl.html", null ],
     [ "InterprocessConnection", null, [
       [ "LrIpcOut", "class_lr_ipc_out.html", null ]
     ] ],
     [ "JUCEApplication", null, [
       [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", null ]
     ] ],
-    [ "Listener", null, [
+    [ "Listener", "classjuce_1_1_text_editor_1_1_listener.html", [
       [ "CCoptions", "class_c_coptions.html", null ],
       [ "PWoptions", "class_p_woptions.html", null ]
     ] ],
     [ "Listener", "classjuce_1_1_slider_1_1_listener.html", [
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
-    [ "LrCommandList", "class_lr_command_list.html", null ],
     [ "MidiInputCallback", null, [
-      [ "MidiProcessor", "class_midi_processor.html", null ]
+      [ "MidiReceiver", "class_midi_receiver.html", null ]
     ] ],
     [ "rsj::MidiMessage", "structrsj_1_1_midi_message.html", null ],
     [ "rsj::MidiMessageId", "structrsj_1_1_midi_message_id.html", null ],

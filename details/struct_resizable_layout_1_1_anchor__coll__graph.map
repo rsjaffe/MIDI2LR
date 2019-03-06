@@ -1,3 +1,8 @@
 <map id="ResizableLayout::Anchor" name="ResizableLayout::Anchor">
-<area shape="rect" id="node2" href="$class_resizable_child.html" title="{ResizableChild\n||+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="5,189,160,457"/>
+<area shape="rect" id="node1" title=" " alt="" coords="202,535,369,656"/>
+<area shape="rect" id="node2" href="$class_resizable_child.html" title=" " alt="" coords="5,189,160,457"/>
+<area shape="rect" id="node3" title=" " alt="" coords="63,5,102,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="184,285,275,362"/>
+<area shape="rect" id="node5" title=" " alt="" coords="317,285,369,362"/>
+<area shape="rect" id="node6" title=" " alt="" coords="393,285,490,362"/>
 </map>

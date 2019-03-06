@@ -1,4 +1,10 @@
 <map id="MainContentComponent" name="MainContentComponent">
-<area shape="rect" id="node6" href="$class_resizable_layout.html" title="{ResizableLayout\n|&#45; m_anchors\l&#45; m_bFirstTime\l&#45; m_isActive\l&#45; m_owner\l&#45; m_states\l|+ ResizableLayout()\l+ ~ResizableLayout()\l+ activateLayout()\l+ addToLayout()\l+ recalculateLayout()\l+ removeFromLayout()\l+ updateLayoutFor()\l+ calcBoundsOfChildren()\l&#45; addStateFor()\l&#45; componentBeingDeleted()\l&#45; componentMovedOrResized()\l&#45; resizeStart()\l&#45; updateLayout()\l}" alt="" coords="488,365,688,677"/>
-<area shape="rect" id="node7" href="$class_resizable_child.html" title="{ResizableChild\n|&#45; m_maxH\l&#45; m_maxW\l&#45; m_minH\l&#45; m_minW\l|+ ResizableChild()\l+ ~ResizableChild()\l+ getMaximumHeight()\l+ getMaximumWidth()\l+ getMinimumHeight()\l+ getMinimumWidth()\l+ resizeStart()\l+ setMaximumHeight()\l+ setMaximumSize()\l+ setMaximumWidth()\l+ setMinimumHeight()\l+ setMinimumSize()\l+ setMinimumWidth()\l+ setSizeLimits()\l}" alt="" coords="417,5,572,317"/>
+<area shape="rect" id="node1" title=" " alt="" coords="211,725,400,1155"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,483,93,560"/>
+<area shape="rect" id="node3" title=" " alt="" coords="117,483,253,560"/>
+<area shape="rect" id="node4" title=" " alt="" coords="278,483,333,560"/>
+<area shape="rect" id="node5" title=" " alt="" coords="357,483,464,560"/>
+<area shape="rect" id="node6" href="$class_resizable_layout.html" title=" " alt="" coords="488,365,688,677"/>
+<area shape="rect" id="node7" href="$class_resizable_child.html" title=" " alt="" coords="417,5,572,317"/>
+<area shape="rect" id="node8" title=" " alt="" coords="597,123,763,200"/>
 </map>

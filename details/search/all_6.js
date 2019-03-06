@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['general',['General',['../class_lr_command_list.html#a99bcb9f7a6b00e3bc714d9f95e027475',1,'LrCommandList']]],
   ['getapplicationname',['getApplicationName',['../class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40',1,'MIDI2LRApplication']]],
   ['getapplicationversion',['getApplicationVersion',['../class_m_i_d_i2_l_r_application.html#ac7c4482812427f5f86fef87fe91b4c99',1,'MIDI2LRApplication']]],
   ['getautohidetime',['GetAutoHideTime',['../class_settings_manager.html#a3f72426f5881bed364d70b41f52844cd',1,'SettingsManager']]],
@@ -10,18 +9,20 @@ var searchData=
   ['getcommandformessage',['GetCommandforMessage',['../class_command_map.html#aaf6fddbe9327afae476f4da9909027ad',1,'CommandMap']]],
   ['getcontrol',['GetControl',['../class_nrpn_message.html#ad51ca4198c5806466a9eb193a19e13bf',1,'NrpnMessage']]],
   ['getheight',['getHeight',['../struct_resizable_layout_1_1_rect.html#a7844e2ed42488574d012fdc0f6ce21dd',1,'ResizableLayout::Rect']]],
-  ['getindexofcommand',['GetIndexOfCommand',['../class_lr_command_list.html#a2077f1e22e2682f0165f54318292da3c',1,'LrCommandList']]],
-  ['getinfo',['GetInfo',['../class_debug_info.html#a8243679467ba847690b89c57708d8165',1,'DebugInfo']]],
+  ['getinfo',['GetInfo',['../class_debug_info.html#aa2105a2023808495bdc6a8a29530f8ec',1,'DebugInfo']]],
   ['getkeyboardlayout',['GetKeyboardLayout',['../namespacersj.html#a778472503c5212546ea3b720b96f0661',1,'rsj']]],
+  ['getlanguage',['GetLanguage',['../class_command_set.html#a72be69b58e8cb98b98b84c05bbec2510',1,'CommandSet']]],
   ['getlastversionfound',['GetLastVersionFound',['../class_settings_manager.html#a3cbbe97003f6e6acc01e1f09bbd7c47c',1,'SettingsManager']]],
   ['getmaximumheight',['getMaximumHeight',['../class_resizable_child.html#a91c544f2152d9df8e0509ddf8374be3c',1,'ResizableChild']]],
   ['getmaximumwidth',['getMaximumWidth',['../class_resizable_child.html#a4a8eb736e0d2433f969b7e4fc3c4f395',1,'ResizableChild']]],
+  ['getmenuentries',['GetMenuEntries',['../class_command_set.html#a396f351db20309ef15d49e64ab8960ad',1,'CommandSet']]],
   ['getmenuitems',['GetMenuItems',['../class_profile_manager.html#ac0889d5b0aaae8f6ccad24d745280fdf',1,'ProfileManager']]],
+  ['getmenus',['GetMenus',['../class_command_set.html#ae2e91f3799f9820892ab5cb42c58c866',1,'CommandSet']]],
   ['getmessagesforcommand',['GetMessagesForCommand',['../class_command_map.html#ab6deb2692ab52708ce8a25f4e8862a62',1,'CommandMap']]],
   ['getminimumheight',['getMinimumHeight',['../class_resizable_child.html#a05afa247fb97494b54cb4832f7ce33dd',1,'ResizableChild']]],
   ['getminimumwidth',['getMinimumWidth',['../class_resizable_child.html#a41fd1e4fd50d371618c61a46ae78a648',1,'ResizableChild']]],
   ['getnrpnifready',['GetNrpnIfReady',['../class_nrpn_message.html#a438dfaf99e4dc116dd1da9ea3aa793a6',1,'NrpnMessage::GetNrpnIfReady()'],['../class_nrpn_filter.html#ab20ef82a1f4c0adba1765a911de73ece',1,'NrpnFilter::GetNrpnIfReady()']]],
-  ['getnumrows',['getNumRows',['../class_command_table_model.html#a3ffac13da0bca94b0ce4c9d1e18a1e1a',1,'CommandTableModel']]],
+  ['getnumrows',['getNumRows',['../class_command_table_model.html#ae89ca7ee2106ffe3a8d326da313e3bf2',1,'CommandTableModel']]],
   ['getpickupenabled',['GetPickupEnabled',['../class_settings_manager.html#ad3c2351b353983433605b1c936b2f77b',1,'SettingsManager']]],
   ['getpid',['GetPid',['../_send_keys_8cpp.html#a841b8c938e6a880ed750e8877b7ac25a',1,'SendKeys.cpp']]],
   ['getprofiledirectory',['GetProfileDirectory',['../class_profile_manager.html#a6de418c8dafd9f6881aae664a792a1a5',1,'ProfileManager::GetProfileDirectory()'],['../class_settings_manager.html#adc8d58846516e741e4c3940945100c83',1,'SettingsManager::GetProfileDirectory()']]],
@@ -30,5 +31,5 @@ var searchData=
   ['getrowformessage',['GetRowForMessage',['../class_command_table_model.html#a9874055f2a7e607bfde28e6714ddc090',1,'CommandTableModel']]],
   ['getvalue',['GetValue',['../class_nrpn_message.html#a1f884ca50a492512c7921b3022bebaad',1,'NrpnMessage']]],
   ['getwidth',['getWidth',['../struct_resizable_layout_1_1_rect.html#ac88f37be52d2462c15bc21f8bad0cf75',1,'ResizableLayout::Rect']]],
-  ['groupcomponent',['groupComponent',['../class_c_coptions.html#a547d82f9e737ff0f07230444473b520f',1,'CCoptions']]]
+  ['groupcomponent',['groupComponent',['../class_c_coptions.html#a62321afa89e4f721ae8a2fe86c1bbe39',1,'CCoptions']]]
 ];

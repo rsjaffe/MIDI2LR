@@ -3,7 +3,7 @@ var class_resizable_layout =
     [ "Anchor", "struct_resizable_layout_1_1_anchor.html", "struct_resizable_layout_1_1_anchor" ],
     [ "Rect", "struct_resizable_layout_1_1_rect.html", "struct_resizable_layout_1_1_rect" ],
     [ "State", "struct_resizable_layout_1_1_state.html", "struct_resizable_layout_1_1_state" ],
-    [ "anchorUnit", "class_resizable_layout.html#ab060b861a48a7de097545c90518e57d9a56f7262c53d2605e4af4f12c02b323d4", null ],
+    [ "anchorUnit", "class_resizable_layout.html#a8f3733a57256176c4bc85aae059d42bba56f7262c53d2605e4af4f12c02b323d4", null ],
     [ "Style", "class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8", [
       [ "styleStretch", "class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70", null ],
       [ "styleFixedAspect", "class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8af8fff0fce0d91bee082bb2d92a77e73b", null ]
@@ -13,7 +13,7 @@ var class_resizable_layout =
     [ "activateLayout", "class_resizable_layout.html#afd4d193db907fc27c85e2045170b6710", null ],
     [ "addStateFor", "class_resizable_layout.html#a6d6f6015a51dbe7c950de80ed8b0ab49", null ],
     [ "addToLayout", "class_resizable_layout.html#a03404473dc0f19ec3552cd8bf471a5cf", null ],
-    [ "calcBoundsOfChildren", "class_resizable_layout.html#a94ecea095ab66c30121aa71cf187eb38", null ],
+    [ "calcBoundsOfChildren", "class_resizable_layout.html#ad481b1d420302e53a47f974e772ef063", null ],
     [ "componentBeingDeleted", "class_resizable_layout.html#a87fb5e236eb558a902c7977ba41fffb2", null ],
     [ "componentMovedOrResized", "class_resizable_layout.html#ad106c8c769784ef1b7722f10cb83d07f", null ],
     [ "recalculateLayout", "class_resizable_layout.html#af1ae3c1fd2275c3963eea6f098373970", null ],

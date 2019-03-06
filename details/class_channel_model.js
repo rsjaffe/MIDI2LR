@@ -1,6 +1,6 @@
 var class_channel_model =
 [
-    [ "ChannelModel", "class_channel_model.html#adb396137b3fd31f3c094c94dd702f56c", null ],
+    [ "ChannelModel", "class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170", null ],
     [ "~ChannelModel", "class_channel_model.html#afcdeee3d748343a45485c2c63e618964", null ],
     [ "ChannelModel", "class_channel_model.html#ae58634778121ef70d9463efae626ac46", null ],
     [ "ChannelModel", "class_channel_model.html#a94970f20ecec2eb2ed52200a45fbb203", null ],
@@ -28,8 +28,8 @@ var class_channel_model =
     [ "SetCcMax", "class_channel_model.html#a9b630a266a5a8c6e0ca0cfb1fe710475", null ],
     [ "SetCcMethod", "class_channel_model.html#a77a5ba3c3279972f6ef25038272cf0e1", null ],
     [ "SetCcMin", "class_channel_model.html#ac102fc77aff85f3bcc77ef25854013e5", null ],
-    [ "SetPwMax", "class_channel_model.html#a2ba31acacf5322805c2c218953671c2e", null ],
-    [ "SetPwMin", "class_channel_model.html#aed7d4da927abc1cad68722927f76df05", null ],
+    [ "SetPwMax", "class_channel_model.html#aa8776ca1488cce49c8738c389590316c", null ],
+    [ "SetPwMin", "class_channel_model.html#a175965fbf91d51d82418f93d9c7f084a", null ],
     [ "SetToCenter", "class_channel_model.html#a3d2bb05ecfd4bf3ec9657669c4f8c4df", null ],
     [ "cereal::access", "class_channel_model.html#ab2f44cbb59a08132f4c843e5225bba0e", null ],
     [ "cc_high_", "class_channel_model.html#a6bda6b4e78f9b79f2d690991fe88029b", null ],

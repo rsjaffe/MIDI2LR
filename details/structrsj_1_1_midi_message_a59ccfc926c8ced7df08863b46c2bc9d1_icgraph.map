@@ -1,4 +1,5 @@
 <map id="rsj::MidiMessage::MidiMessage" name="rsj::MidiMessage::MidiMessage">
-<area shape="rect" id="node2" href="$class_lr_ipc_out_1_1_recenter.html#a150d9e6b1d100b086ea0e3575419f060" title="LrIpcOut::Recenter\l::timerCallback" alt="" coords="297,5,427,47"/>
-<area shape="rect" id="node3" href="$class_midi_processor.html#a22c2a1ed5ce0a32419bc08aa3fc1fe06" title="MidiProcessor::~MidiProcessor" alt="" coords="260,71,464,98"/>
+<area shape="rect" id="node1" title=" " alt="" coords="237,42,444,69"/>
+<area shape="rect" id="node2" href="$class_lr_ipc_out_1_1_recenter.html#a150d9e6b1d100b086ea0e3575419f060" title=" " alt="" coords="32,5,163,47"/>
+<area shape="rect" id="node3" href="$class_midi_receiver.html#a65b5e02fc7d7c8c76cae733b4fdf045c" title=" " alt="" coords="5,71,189,98"/>
 </map>

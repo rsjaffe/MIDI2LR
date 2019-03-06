@@ -1,6 +1,15 @@
-<map id="Q:/Documents/GitHub/MIDI2LR/Source/SettingsComponent.cpp" name="Q:/Documents/GitHub/MIDI2LR/Source/SettingsComponent.cpp">
-<area shape="rect" id="node2" href="$_settings_component_8h.html" title="SettingsComponent.h" alt="" coords="5,95,152,121"/>
-<area shape="rect" id="node7" href="$_misc_8h.html" title="Misc.h" alt="" coords="493,95,555,121"/>
-<area shape="rect" id="node11" href="$_settings_manager_8h.html" title="SettingsManager.h" alt="" coords="331,95,461,121"/>
-<area shape="rect" id="node4" href="$_resizable_layout_8h.html" title="ResizableLayout.h" alt="" coords="10,177,139,203"/>
+<map id="D:/Users/Rory/source/repos/MIDI2LR/Source/SettingsComponent.cpp" name="D:/Users/Rory/source/repos/MIDI2LR/Source/SettingsComponent.cpp">
+<area shape="rect" id="node1" title=" " alt="" coords="262,5,427,61"/>
+<area shape="rect" id="node2" href="$_settings_component_8h.html" title=" " alt="" coords="58,109,205,136"/>
+<area shape="rect" id="node3" title=" " alt="" coords="159,184,290,225"/>
+<area shape="rect" id="node6" title=" " alt="" coords="408,191,487,218"/>
+<area shape="rect" id="node7" href="$_misc_8h.html" title=" " alt="" coords="554,109,615,136"/>
+<area shape="rect" id="node12" href="$_settings_manager_8h.html" title=" " alt="" coords="279,109,410,136"/>
+<area shape="rect" id="node4" href="$_resizable_layout_8h.html" title=" " alt="" coords="5,191,135,218"/>
+<area shape="rect" id="node5" title=" " alt="" coords="19,273,121,300"/>
+<area shape="rect" id="node8" title=" " alt="" coords="511,191,573,218"/>
+<area shape="rect" id="node9" title=" " alt="" coords="597,191,658,218"/>
+<area shape="rect" id="node10" title=" " alt="" coords="683,191,737,218"/>
+<area shape="rect" id="node11" title=" " alt="" coords="762,191,829,218"/>
+<area shape="rect" id="node13" title=" " alt="" coords="314,191,383,218"/>
 </map>

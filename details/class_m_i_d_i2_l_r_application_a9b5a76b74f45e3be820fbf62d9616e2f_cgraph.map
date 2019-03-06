@@ -1,6 +1,4 @@
 <map id="MIDI2LRApplication::anotherInstanceStarted" name="MIDI2LRApplication::anotherInstanceStarted">
-<area shape="rect" id="node2" href="$class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f" title="MIDI2LRApplication\l::systemRequestedQuit" alt="" coords="217,39,376,80"/>
-<area shape="rect" id="node3" href="$class_m_i_d_i2_l_r_application.html#a94c12f910a609df8d354a852b3b0ede4" title="MIDI2LRApplication\l::defaultProfileSave_" alt="" coords="424,5,563,47"/>
-<area shape="rect" id="node4" href="$class_m_i_d_i2_l_r_application.html#a5fb189d2ada453e581d91bca94a470d8" title="MIDI2LRApplication\l::CerealSave" alt="" coords="426,71,561,112"/>
-<area shape="rect" id="node5" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title="rsj::ExceptionResponse" alt="" coords="611,78,771,105"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,169,47"/>
+<area shape="rect" id="node2" href="$class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f" title=" " alt="" coords="217,5,376,47"/>
 </map>

@@ -1,4 +1,6 @@
 <map id="CCoptions" name="CCoptions">
-<area shape="rect" id="node2" href="$class_component.html" title="{Component\n||}" alt="" coords="5,5,93,83"/>
-<area shape="rect" id="node4" href="$class_button_listener.html" title="{ButtonListener\n||}" alt="" coords="277,5,384,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="152,131,315,545"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,125,83"/>
+<area shape="rect" id="node3" href="$classjuce_1_1_text_editor_1_1_listener.html" title=" " alt="" coords="150,5,317,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="341,5,480,83"/>
 </map>
