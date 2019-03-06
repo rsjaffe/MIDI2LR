@@ -19,7 +19,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "Misc.h"
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <JuceLibraryCode/JuceHeader.h>
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define NOATOM -Atom Manager routines

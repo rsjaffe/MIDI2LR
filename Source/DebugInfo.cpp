@@ -19,6 +19,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "DebugInfo.h"
+
 #ifdef _WIN32
 #include <array>
 #include <unordered_map>

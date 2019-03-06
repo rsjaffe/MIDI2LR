@@ -18,11 +18,12 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-
 #include "Translate.h"
-#include "Translate.txt"
-#include <JuceLibraryCode/JuceHeader.h>
+
 #include <map>
+
+#include <JuceLibraryCode/JuceHeader.h>
+#include "Translate.txt"
 
 void rsj::Translate(const std::string& lg)
 {

@@ -22,7 +22,7 @@ On Github, we only accept issues that are bug reports or feature requests. Bugs 
 
 ## Coding standards
 - For C++ and Objective-C++ files, use the formatting rules in `.clang-format`.
-- Names and order of includes in C++ files follows the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html#Names_and_Order_of_Includes). Blank lines are optional.
+- Names and order of includes in C++ files follows the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html#Names_and_Order_of_Includes).
 - Naming rules in C++:
   - UpperCamelCase: Classes, Structs, Enums, Unions, Template parameters, Global functions, Class and struct methods, Typedefs, Properties
   - all_lower: Parameters, Local variables, Global variables, Class and struct public fields, Union members, Namespaces

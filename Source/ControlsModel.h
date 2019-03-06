@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_CONTROLSMODEL_H_INCLUDED
+#define MIDI2LR_CONTROLSMODEL_H_INCLUDED
 /*
 ==============================================================================
 
@@ -19,12 +20,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#ifndef MIDI2LR_CONTROLSMODEL_H_INCLUDED
-#define MIDI2LR_CONTROLSMODEL_H_INCLUDED
-
 #include <array>
 #include <atomic>
 #include <vector>
+
 #include <cereal/access.hpp>
 #include <cereal/types/array.hpp> //required, ReSharper falsely marks as not needed
 #include <cereal/types/vector.hpp>
@@ -140,8 +139,8 @@ class ChannelModel {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
          throw;
       }
-   }
-   [[nodiscard]] short GetCcMax(size_t controlnumber) const {
+   }[[nodiscard]] short GetCcMax(size_t controlnumber) const
+   {
       try {
          return cc_high_.at(controlnumber);
       }
@@ -158,8 +157,7 @@ class ChannelModel {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
          throw;
       }
-   }
-   [[nodiscard]] short GetPwMax() const noexcept
+   }[[nodiscard]] short GetPwMax() const noexcept
    {
       return pitch_wheel_max_;
    }

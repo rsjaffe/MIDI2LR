@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_LR_IPC_OUT_H_INCLUDED
+#define MIDI2LR_LR_IPC_OUT_H_INCLUDED
 /*
   ==============================================================================
 
@@ -19,16 +20,14 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef MIDI2LR_LR_IPC_OUT_H_INCLUDED
-#define MIDI2LR_LR_IPC_OUT_H_INCLUDED
-
 #include <functional>
 #include <future>
 #include <mutex>
 #include <string>
 #include <vector>
-#include "MoodyCamel/blockingconcurrentqueue.h"
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <MoodyCamel/blockingconcurrentqueue.h>
+#include <JuceLibraryCode/JuceHeader.h>
 #include "MidiUtilities.h"
 #include "Misc.h"
 class CommandMap;

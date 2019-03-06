@@ -19,13 +19,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "SendKeys.h"
+
 #include <algorithm>
 #include <cctype>
 #include <exception>
-#include <gsl/gsl>
 #include <mutex>
 #include <unordered_map>
 #include <vector>
+
+#include <gsl/gsl>
 #include "Misc.h"
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
@@ -81,7 +83,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <optional>
 #include "Ocpp.h"
 #endif
-#include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
+#include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
 
 namespace {
    // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower

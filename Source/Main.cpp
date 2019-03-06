@@ -78,7 +78,8 @@ namespace fs = std::filesystem;
 #undef NOUSER
 #include <Windows.h>
 #endif
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <JuceLibraryCode/JuceHeader.h>
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/xml.hpp>
 #include "CCoptions.h"
@@ -110,7 +111,6 @@ namespace {
          juce::Logger::setCurrentLogger(newLogger);
       }
    };
-
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
@@ -361,7 +361,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                 "MS UI Gothic");
          }
       }
-      else {//PingFang added in 10.11 El Capitan as new Chinese UI fonts
+      else { // PingFang added in 10.11 El Capitan as new Chinese UI fonts
          if (lang == "ko") {
             juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
                 "Apple SD Gothic Neo");

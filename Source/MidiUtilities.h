@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_MIDIUTILITIES_H_INCLUDED
+#define MIDI2LR_MIDIUTILITIES_H_INCLUDED
 /*
 ==============================================================================
 
@@ -20,9 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 
-#ifndef MIDI2LR_MIDIUTILITIES_H_INCLUDED
-#define MIDI2LR_MIDIUTILITIES_H_INCLUDED
-
 /* NOTE: Channel and Number are zero-based */
 // Get the declaration of the primary std::hash template.
 // We are not permitted to declare it ourselves.
@@ -30,6 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // and is much cheaper to include than <functional>.
 // See https://en.cppreference.com/w/cpp/language/extending_std.
 #include <typeindex>
+
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 

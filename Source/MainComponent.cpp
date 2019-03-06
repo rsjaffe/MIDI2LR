@@ -19,9 +19,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MainComponent.h"
+
 #include <exception>
 #include <string>
 #include <utility>
+
 #include <gsl/gsl>
 #include "CommandMap.h"
 #include "LR_IPC_Out.h" //base class

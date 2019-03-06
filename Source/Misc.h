@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_MISC_H_INCLUDED
+#define MIDI2LR_MISC_H_INCLUDED
 /*
 ==============================================================================
 
@@ -19,17 +20,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#ifndef MIDI2LR_MISC_H_INCLUDED
-#define MIDI2LR_MISC_H_INCLUDED
 #include <atomic>
 #include <chrono>
 #include <exception>
 #include <string>
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
+
 namespace juce {
    class String;
 }
-
 
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;

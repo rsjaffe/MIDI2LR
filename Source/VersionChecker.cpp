@@ -19,8 +19,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "VersionChecker.h"
+
 #include <exception>
 #include <sstream>
+
 #include "Misc.h"
 #include "SettingsManager.h"
 

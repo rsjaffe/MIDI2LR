@@ -19,8 +19,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "SettingsManager.h"
+
 #include <string>
 #include <utility>
+
 #include "DebugInfo.h"
 #include "LR_IPC_Out.h"
 #include "ProfileManager.h"
