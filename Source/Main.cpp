@@ -368,5 +368,5 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
 //==============================================================================
 // This macro generates the main() routine that launches the application.
-#pragma warning(suppress : 26409 26425)
+#pragma warning(suppress : 26409 26425 28251)
 START_JUCE_APPLICATION(MIDI2LRApplication)
