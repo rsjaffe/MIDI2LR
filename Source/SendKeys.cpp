@@ -19,69 +19,31 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "SendKeys.h"
+
 #include <algorithm>
 #include <cctype>
 #include <exception>
-#include <gsl/gsl>
 #include <mutex>
 #include <unordered_map>
 #include <vector>
+
+#include <gsl/gsl>
 #include "Misc.h"
 #ifdef _WIN32
-#ifndef WIN32_LEAN_AND_MEAN
-#define NOATOM -Atom Manager routines
-#define NOCLIPBOARD -Clipboard routines
-#define NOCOLOR -Screen colors
-#define NOCOMM -COMM driver routines
-#define NOCTLMGR -Control and Dialog routines
-#define NODEFERWINDOWPOS -DeferWindowPos routines
-#define NODRAWTEXT -DrawText() and DT_*
-#define NOGDI -All GDI defines and routines
-#define NOGDICAPMASKS -CC_*, LC_*, PC_*, CP_*, TC_*, RC_
-#define NOHELP -Help engine interface.
-#define NOICONS -IDI_*
-#define NOKANJI -Kanji support stuff.
-#define NOKERNEL -All KERNEL defines and routines
-#define NOKEYSTATES -MK_*
-#define NOMB -MB_*and MessageBox()
-#define NOMCX -Modem Configuration Extensions
-#define NOMEMMGR -GMEM_*, LMEM_*, GHND, LHND, associated routines
-#define NOMENUS -MF_*
-#define NOMETAFILE -typedef METAFILEPICT
-#define NOMINMAX -Macros min(a, b) and max(a, b)
-#define NOMSG -typedef MSG and associated routines
-#define NONLS -All NLS defines and routines
-#define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
-#define NOPROFILER -Profiler interface.
-#define NORASTEROPS -Binary and Tertiary raster ops
-#define NOSCROLL -SB_*and scrolling routines
-#define NOSERVICE -All Service Controller routines, SERVICE_ equates, etc.
-#define NOSHOWWINDOW -SW_*
-#define NOSOUND -Sound driver routines
-#define NOSYSCOMMANDS -SC_*
-#define NOSYSMETRICS -SM_*
-#define NOTEXTMETRIC -typedef TEXTMETRIC and associated routines
-#define NOWH -SetWindowsHook and WH_*
-#define NOWINMESSAGES -WM_*, EM_*, LB_*, CB_*
-#define NOWINOFFSETS -GWL_*, GCL_*, associated routines
-#define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
-#define OEMRESOURCE -OEM Resource values
-#define WIN32_LEAN_AND_MEAN
-//#define NOUSER            - All USER defines and routines
-//#define NOVIRTUALKEYCODES - VK_*
-#endif
+#include "WinDef.h"
 #undef NOUSER
 #undef NOVIRTUALKEYCODES
 #include <Windows.h>
 #else
+#include <optional>
+
 #import <CoreFoundation/CoreFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <Carbon/Carbon.h>
 #include <libproc.h> //proc_ functions in GetPid
-#include <optional>
 #include "Ocpp.h"
 #endif
-#include "../JuceLibraryCode/JuceHeader.h" //creates ambiguous reference to Point if included before Mac headers
+#include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
 
 namespace {
    // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower

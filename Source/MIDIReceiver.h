@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_MIDIRECEIVER_H_INCLUDED
+#define MIDI2LR_MIDIRECEIVER_H_INCLUDED
 /*
   ==============================================================================
 
@@ -19,13 +20,12 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef MIDI2LR_MIDIRECEIVER_H_INCLUDED
-#define MIDI2LR_MIDIRECEIVER_H_INCLUDED
 #include <functional>
 #include <future>
 #include <vector>
-#include "MoodyCamel/blockingconcurrentqueue.h"
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <MoodyCamel/blockingconcurrentqueue.h>
+#include <JuceLibraryCode/JuceHeader.h>
 #include "MidiUtilities.h"
 #include "NrpnMessage.h"
 

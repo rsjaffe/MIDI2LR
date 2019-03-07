@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_DEBUGINFO_H
+#define MIDI2LR_DEBUGINFO_H
 /*
 ==============================================================================
 
@@ -21,7 +22,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <string>
 #include <vector>
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 
 class DebugInfo {
@@ -49,3 +51,5 @@ class DebugInfo {
 namespace rsj {
    std::string GetKeyboardLayout();
 }
+
+#endif

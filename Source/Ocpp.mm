@@ -23,21 +23,24 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 UniChar rsj::Utf8ToUtf16(const std::string& param)
 {
-   NSString* result = [NSString stringWithUTF8String:param.c_str()];
-   UniChar ch = [result characterAtIndex:0];
-   return ch;
+   if (!param.empty()) {
+      NSString* result = [NSString stringWithUTF8String:param.c_str()];
+      UniChar ch = [result characterAtIndex:0];
+      return ch;
+   }
+   return 0;
 }
 
 std::string rsj::AppDataMac()
 {
    NSString* result = [@"~/Library/Application Support/MIDI2LR" stringByExpandingTildeInPath];
-   return std::string([result UTF8String]) + '/';
+   return std::string([result UTF8String]);
 } 
 
 std::string rsj::AppLogMac()
 {
    NSString* result = [@"~/Library/Logs/MIDI2LR" stringByExpandingTildeInPath];
-   return std::string([result UTF8String]) + '/';
+   return std::string([result UTF8String]);
 }
 
 std::string rsj::GetKeyboardLayout()

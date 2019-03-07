@@ -19,8 +19,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "ControlsModel.h"
+
 #include <algorithm>
 #include <mutex>
+
 #include "MidiUtilities.h"
 #include "Misc.h"
 

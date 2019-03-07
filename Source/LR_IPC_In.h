@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_LR_IPC_IN_H_INCLUDED
+#define MIDI2LR_LR_IPC_IN_H_INCLUDED
 /*
   ==============================================================================
 
@@ -19,15 +20,13 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef MIDI2LR_LR_IPC_IN_H_INCLUDED
-#define MIDI2LR_LR_IPC_IN_H_INCLUDED
-
 #include <future>
 #include <memory>
 #include <mutex>
 #include <string>
-#include "MoodyCamel/readerwriterqueue.h"
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <MoodyCamel/readerwriterqueue.h>
+#include <JuceLibraryCode/JuceHeader.h>
 class CommandMap;
 class ControlsModel;
 class MidiSender;

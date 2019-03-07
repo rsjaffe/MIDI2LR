@@ -19,9 +19,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "CommandTableModel.h"
+
 #include <algorithm>
-#include <gsl/gsl>
 #include <sstream>
+
+#include <gsl/gsl>
 #include "CommandMap.h"
 #include "CommandMenu.h"
 #include "Misc.h"

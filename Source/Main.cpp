@@ -32,55 +32,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
+
 namespace fs = std::filesystem;
-#ifndef WIN32_LEAN_AND_MEAN
-#define NOATOM -Atom Manager routines
-#define NOCLIPBOARD -Clipboard routines
-#define NOCOLOR -Screen colors
-#define NOCOMM -COMM driver routines
-#define NOCTLMGR -Control and Dialog routines
-#define NODEFERWINDOWPOS -DeferWindowPos routines
-#define NODRAWTEXT -DrawText() and DT_*
-#define NOGDI -All GDI defines and routines
-#define NOGDICAPMASKS -CC_*, LC_*, PC_*, CP_*, TC_*, RC_
-#define NOHELP -Help engine interface.
-#define NOICONS -IDI_*
-#define NOKANJI -Kanji support stuff.
-#define NOKERNEL -All KERNEL defines and routines
-#define NOKEYSTATES -MK_*
-#define NOMB -MB_*and MessageBox()
-#define NOMCX -Modem Configuration Extensions
-#define NOMEMMGR -GMEM_*, LMEM_*, GHND, LHND, associated routines
-#define NOMENUS -MF_*
-#define NOMETAFILE -typedef METAFILEPICT
-#define NOMINMAX -Macros min(a, b) and max(a, b)
-#define NOMSG -typedef MSG and associated routines
-#define NONLS -All NLS defines and routines
-#define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
-#define NOPROFILER -Profiler interface.
-#define NORASTEROPS -Binary and Tertiary raster ops
-#define NOSCROLL -SB_*and scrolling routines
-#define NOSERVICE -All Service Controller routines, SERVICE_ equates, etc.
-#define NOSHOWWINDOW -SW_*
-#define NOSOUND -Sound driver routines
-#define NOSYSCOMMANDS -SC_*
-#define NOSYSMETRICS -SM_*
-#define NOTEXTMETRIC -typedef TEXTMETRIC and associated routines
-#define NOVIRTUALKEYCODES -VK_*
-#define NOWH -SetWindowsHook and WH_*
-#define NOWINMESSAGES -WM_*, EM_*, LB_*, CB_*
-#define NOWINOFFSETS -GWL_*, GCL_*, associated routines
-#define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
-#define OEMRESOURCE -OEM Resource values
-#define WIN32_LEAN_AND_MEAN
-//#define NOUSER            - All USER defines and routines
-#endif
+#include "WinDef.h"
 #undef NOUSER
 #include <Windows.h>
 #endif
-#include "../JuceLibraryCode/JuceHeader.h"
+
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/xml.hpp>
+#include <JuceLibraryCode/JuceHeader.h>
 #include "CCoptions.h"
 #include "CommandMap.h"
 #include "CommandSet.h"
@@ -102,6 +63,14 @@ namespace {
    constexpr auto kSettingsFile{"settings.bin"};
    constexpr auto kSettingsFileX("settings.xml");
    constexpr auto kDefaultsFile{"default.xml"};
+
+   class UpdateCurrentLogger {
+    public:
+      UpdateCurrentLogger(juce::Logger* newLogger)
+      {
+         juce::Logger::setCurrentLogger(newLogger);
+      }
+   };
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
@@ -111,6 +80,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       CCoptions::LinkToControlsModel(&controls_model_);
       PWoptions::LinkToControlsModel(&controls_model_);
       juce::LookAndFeel::setDefaultLookAndFeel(&look_feel_);
+      SetAppLanguage(); // set language and load appropriate fonts and files
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
@@ -146,14 +116,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // If during the initialise() method, the application decides not to
          // start - up after all, it can just call the quit() method and the event
          // loop won't be run.
-         juce::Logger::setCurrentLogger(logger_.get());
          if (command_line != kShutDownString) {
             CerealLoad();
             midi_receiver_->Init();
             midi_sender_->Init();
             lr_ipc_out_->Init(midi_sender_, midi_receiver_.get());
             profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
-            SetAppLanguage(); // set language and load appropriate fonts and files
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
             main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_map_,
@@ -254,7 +222,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #else
          const auto p = rsj::AppDataFilePath(kSettingsFileX);
 #endif
-         std::ofstream outfile(p, std::ios::out | std::ios::trunc);
+         std::ofstream outfile(p, std::ios::trunc);
          if (outfile.is_open()) {
             cereal::XMLOutputArchive oarchive(outfile);
             oarchive(controls_model_);
@@ -281,7 +249,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #else
          const auto px = rsj::AppDataFilePath("settings.xml");
 #endif
-         std::ifstream infilex(px, std::ios::in);
+         std::ifstream infilex(px);
          if (infilex.is_open() && !infilex.eof()) {
             cereal::XMLInputArchive iarchive(infilex);
             iarchive(controls_model_);
@@ -303,7 +271,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                                .getFullPathName()
                                .toStdString();
 #endif
-            std::ifstream infile(p, std::ios::in | std::ios::binary);
+            std::ifstream infile(p, std::ios::binary);
             if (infile.is_open() && !infile.eof()) {
                cereal::BinaryInputArchive iarchive(infile);
                iarchive(controls_model_);
@@ -331,50 +299,56 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Sans    Lucida Grande    Verdana
       // Serif   Times New Roman  Times New Roman
       // Fixed   Menlo            Lucida Console
-#ifdef _WIN32
-      if (lang == "ko")
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Malgun Gothic");
-      else if (lang == "zn_cn" || lang == "zn_tw")
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Microsoft JhengHei UI");
-      else if (lang == "ja")
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Microsoft JhengHei UI");
-#else
-      if (lang == "ko")
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Apple SD Gothic Neo");
-      else if (lang == "zn_cn" || lang == "zn_tw")
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Hiragino Sans GB");
-      else if (lang == "ja")
-         juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-             "Hiragino Maru Gothic ProN");
-#endif
-      rsj::Translate(lang);
 
-      /* Notes for future use with ICU
-       * Locales to be used:
-       * Locale("de", "DE");
-       * Locale("en", "US");
-       * Locale("es", "ES");
-       * Locale("fr", "FR");
-       * Locale("it", "IT");
-       * Locale("ja", "JP");
-       * Locale("ko", "KR");
-       * Locale("nl", "NL");
-       * Locale("pt", "BR");
-       * Locale("sv", "SE");
-       * Locale("zh", "CN");
-       * Locale("zh", "TW");
-       */
+      // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
+      // avoiding fonts added in windows 10 to support people using earlier Windows versions
+      // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
+      if constexpr (MSWindows) {
+         if (lang == "ko") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Malgun Gothic");
+         }
+         else if (lang == "zh_tw") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Microsoft JhengHei UI");
+         }
+         else if (lang == "zh_cn") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Microsoft YaHei UI");
+         }
+         else if (lang == "ja") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "MS UI Gothic");
+         }
+      }
+      else { // PingFang added in 10.11 El Capitan as new Chinese UI fonts
+         if (lang == "ko") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Apple SD Gothic Neo");
+         }
+         else if (lang == "zh_cn") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "PingFang SC");
+         }
+         else if (lang == "zh_tw") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "PingFang TC");
+         }
+         else if (lang == "ja") {
+            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                "Hiragino Kaku Gothic Pro");
+         }
+      }
+      rsj::Translate(lang);
    }
-   // create logger first, makes sure that MIDI2LR directory is created for writing by other modules
-   // log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
+
+   // create logger first, makes sure that MIDI2LR directory is created for writing by other
+   // modules log file created at %AppData%\MIDI2LR (Windows) or ~/Library/Logs/MIDI2LR (OSX)
    // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
+   UpdateCurrentLogger dummy_{logger_.get()}; // forcing assignment to static early in
+                                              // construction
    CommandMap command_map_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};
@@ -394,5 +368,5 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
 //==============================================================================
 // This macro generates the main() routine that launches the application.
-#pragma warning(suppress : 26409 26425)
+#pragma warning(suppress : 26409 26425 28251)
 START_JUCE_APPLICATION(MIDI2LRApplication)

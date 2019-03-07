@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_MISC_H_INCLUDED
+#define MIDI2LR_MISC_H_INCLUDED
 /*
 ==============================================================================
 
@@ -19,17 +20,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#ifndef MIDI2LR_MISC_H_INCLUDED
-#define MIDI2LR_MISC_H_INCLUDED
 #include <atomic>
 #include <chrono>
 #include <exception>
 #include <string>
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
+
 namespace juce {
    class String;
 }
-
 
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
@@ -96,8 +95,8 @@ namespace rsj {
    void LogAndAlertError(const juce::String& error_text);
    void Log(const juce::String& info);
 #ifdef _WIN32
-   ::std::wstring Utf8ToWide(::std::string_view input);
-   ::std::string WideToUtf8(::std::wstring_view wstr);
+   [[nodiscard]] ::std::wstring Utf8ToWide(::std::string_view input);
+   [[nodiscard]] ::std::string WideToUtf8(::std::wstring_view wstr);
    [[nodiscard]] ::std::wstring AppDataFilePath(::std::wstring_view file_name);
    [[nodiscard]] ::std::wstring AppDataFilePath(::std::string_view file_name);
    [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::wstring& file_name)

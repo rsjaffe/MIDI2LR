@@ -303,7 +303,7 @@ countries: ko
 "Load" = "짐을 싣다"
 "Clear ALL rows" = "모든 행 지우기"
 "Rescan MIDI devices" = "MIDI 장치 다시 검사"
-"Save" = "구하다"
+"Save" = "저장"
 "Minimum value" = "최소값"
 "16383" = "16383"
 "Pitch Wheel" = "피치 휠"
@@ -478,7 +478,7 @@ countries: sv
 "New Version Available!" = "Ny version tillgänglig!"
 "New version is available for MIDI2LR!" = "Nytt program för MIDI2LR är nu tillgängligt!"
 "New version %d.%d.%d.%d available" = "Ny version %d.%d.%d.%d tillgänglig")===";
-   const auto zn_cn = u8R"===(language: Chinese simplified
+   const auto zh_cn = u8R"===(language: Chinese simplified
 countries: zh-cn
 
 "CC Message Type" = "CC信息类型"
@@ -489,8 +489,8 @@ countries: zh-cn
 "Binary offset" = "二进制偏移量"
 "Control value is near 1 when turned one way, and near 65 when turned the other." = "顺时针旋转值接近1，而逆时针旋转值接近65。"
 "Sign and magnitude" = "原码幅值"
-“127”=“127”
-“0”=“0”
+"127" = "127"
+"0" = "0"
 "Minimum value\r\n" = "最低数值"
 "Maximum value" = "最大数值"
 "Apply these settings to all similar controls." = "将这些设置应用于所有同类控件。"
@@ -500,7 +500,7 @@ countries: zh-cn
 "Adjust CC dialog" = "调整CC对话框"
 "Adjust PW dialog" = "调整PW对话框"
 "MIDI Command" = "MIDI命令"
-“LR Command”=“LR命令”
+"LR Command" = "LR命令"
 "Sending halted" = "提交暂停"
 "Connected to LR" = "连接到LR"
 "Not connected to LR" = "没有连接到LR"
@@ -510,16 +510,16 @@ countries: zh-cn
 "Open profile" = "打开配置"
 "Select a profile to open" = "选择要打开的配置文件"
 "Settings" = "设置"
-“版本”=“版版本”
+"Version " = "版版本 "
 "Halt sending to Lightroom" = "暂停联结Lightroom"
 "Load" = "读取"
 "Clear ALL rows" = "清除所有行"
 "Rescan MIDI devices" = "刷新MIDI设备"
-“Save”=“保存”
+"Save" = "存储"
 "Minimum value" = "最低数值"
-“16383”=“16383”
+"16383" = "16383"
 "Pitch Wheel" = "音调调节轮"
-“拿起”=“拾取”
+"Pick up" = "拾取"
 "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements" = "禁用拾取模式对于触摸屏界面可能更好，并且可以解决LR没有拾取快速推子/旋钮移动的问题"
 "Profile" = "配置"
 "Auto hide" = "自动隐藏"
@@ -531,7 +531,7 @@ countries: zh-cn
 "New Version Available!" = "新版本可用！"
 "New version is available for MIDI2LR!" = "软件 MIDI2LR 有新版本！"
 "New version %d.%d.%d.%d available"  = "新版％d。％d。％d。％d可用")===";
-   const auto zn_tw = u8R"===(language: Chinese traditional
+   const auto zh_tw = u8R"===(language: Chinese traditional
 countries: zh-tw
 
 "CC Message Type" = "CC信息類型"
@@ -542,8 +542,8 @@ countries: zh-tw
 "Binary offset" = "二進制偏移量"
 "Control value is near 1 when turned one way, and near 65 when turned the other." = "順時針旋轉值接近1，而逆時針旋轉值接近65。"
 "Sign and magnitude" = "原碼幅值"
-“127”=“127”
-“0”=“0”
+"127" = "127"
+"0" = "0"
 "Minimum value\r\n" = "最低數值"
 "Maximum value" = "最大數值"
 "Apply these settings to all similar controls." = "將這些設置應用於所有同類控件。"
@@ -553,7 +553,7 @@ countries: zh-tw
 "Adjust CC dialog" = "調整CC對話框"
 "Adjust PW dialog" = "調整PW對話框"
 "MIDI Command" = "MIDI命令"
-“LR Command”=“LR命令”
+"LR Command" = "LR命令"
 "Sending halted" = "提交暫停"
 "Connected to LR" = "連接到LR"
 "Not connected to LR" = "沒有連接到LR"
@@ -563,16 +563,16 @@ countries: zh-tw
 "Open profile" = "打開配置"
 "Select a profile to open" = "選擇要打開的配置文件"
 "Settings" = "設置"
-“版本”=“版版本”
+"Version " = "版版本 "
 "Halt sending to Lightroom" = "暫停聯結Lightroom"
 "Load" = "讀取"
 "Clear ALL rows" = "清除所有行"
 "Rescan MIDI devices" = "刷新MIDI設備"
-“Save”=“保存”
+"Save" = "儲存"
 "Minimum value" = "最低數值"
-“16383”=“16383”
+"16383" = "16383"
 "Pitch Wheel" = "音調調節輪"
-“拿起”=“拾取”
+"Pick up" = "拾取"
 "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements" = "禁用拾取模式對於觸摸屏界面可能更好，並且可以解決LR沒有拾取快速推子/旋鈕移動的問題"
 "Profile" = "配置"
 "Auto hide" = "自動隱藏"

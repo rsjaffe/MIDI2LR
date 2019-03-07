@@ -18,13 +18,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include <gsl/gsl>
+#include "LR_IPC_Out.h"
+
 #include <algorithm>
 #include <exception>
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include "LR_IPC_Out.h"
+
+#include <gsl/gsl>
 #include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDIReceiver.h"

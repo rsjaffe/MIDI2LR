@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_COMMANDMAP_H_INCLUDED
+#define MIDI2LR_COMMANDMAP_H_INCLUDED
 /*
   ==============================================================================
 
@@ -19,15 +20,12 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-
-#ifndef MIDI2LR_COMMANDMAP_H_INCLUDED
-#define MIDI2LR_COMMANDMAP_H_INCLUDED
-
 #include <map>
 #include <shared_mutex>
 #include <string>
 #include <unordered_map>
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <JuceLibraryCode/JuceHeader.h>
 #include "CommandSet.h"
 #include "Misc.h"
 #include "MidiUtilities.h"

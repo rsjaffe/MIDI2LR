@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_COMMANDSET_H_INCLUDED
+#define MIDI2LR_COMMANDSET_H_INCLUDED
 /*
   ==============================================================================
 
@@ -19,16 +20,15 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef MIDI2LR_COMMANDSET_H_INCLUDED
-#define MIDI2LR_COMMANDSET_H_INCLUDED
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include <cereal/access.hpp>
 #include <cereal/archives/xml.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/utility.hpp>
 #include <cereal/types/vector.hpp>
-#include <string>
-#include <unordered_map>
-#include <vector>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 

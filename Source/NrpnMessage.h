@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_NRPNMESSAGE_H_INCLUDED
+#define MIDI2LR_NRPNMESSAGE_H_INCLUDED
 /*
 ==============================================================================
 
@@ -19,13 +20,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-
-#ifndef MIDI2LR_NRPNMESSAGE_H_INCLUDED
-#define MIDI2LR_NRPNMESSAGE_H_INCLUDED
-
 #include <array>
-#include <gsl/gsl>
 #include <mutex>
+
+#include <gsl/gsl>
 #include <MoodyCamel/concurrentqueue.h>
 #include "Misc.h"
 
@@ -86,7 +84,7 @@ class NrpnFilter {
       }
    }
 
-   bool IsInProcess(short channel) const
+   [[nodiscard]] bool IsInProcess(short channel) const
    {
       try {
          Expects(channel <= 15 && channel >= 0);
@@ -98,7 +96,7 @@ class NrpnFilter {
       }
    }
 
-   rsj::Nrpn GetNrpnIfReady(short channel)
+   [[nodiscard]] rsj::Nrpn GetNrpnIfReady(short channel)
    {
       try {
          Expects(channel <= 15 && channel >= 0);

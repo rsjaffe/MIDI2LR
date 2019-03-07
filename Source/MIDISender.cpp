@@ -19,9 +19,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include "MIDISender.h"
+
 #include <exception>
+
 #include <gsl/gsl>
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 
 void MidiSender::Init()

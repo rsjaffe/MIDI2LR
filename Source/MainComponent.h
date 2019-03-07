@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MIDI2LR_MAINCOMPONENT_H_INCLUDED
+#define MIDI2LR_MAINCOMPONENT_H_INCLUDED
 /*
   ==============================================================================
 
@@ -23,11 +24,9 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#ifndef MIDI2LR_MAINCOMPONENT_H_INCLUDED
-#define MIDI2LR_MAINCOMPONENT_H_INCLUDED
-
 #include <memory>
-#include "../JuceLibraryCode/JuceHeader.h"
+
+#include <JuceLibraryCode/JuceHeader.h>
 #include "CommandTable.h"      //class member
 #include "CommandTableModel.h" //class member
 #include "ResizableLayout.h"   //base class
