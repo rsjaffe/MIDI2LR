@@ -25,9 +25,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <Carbon/Carbon.h>
 namespace rsj {
-   UniChar Utf8ToUtf16(const std::string& param);
-   std::string AppDataMac();
-   std::string AppLogMac();
+   [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
+   [[nodiscard]] std::string AppDataMac();
+   [[nodiscard]] std::string AppLogMac();
 } // namespace rsj
 #endif
 #endif

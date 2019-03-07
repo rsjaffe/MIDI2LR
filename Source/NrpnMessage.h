@@ -84,7 +84,7 @@ class NrpnFilter {
       }
    }
 
-   bool IsInProcess(short channel) const
+   [[nodiscard]] bool IsInProcess(short channel) const
    {
       try {
          Expects(channel <= 15 && channel >= 0);
@@ -96,7 +96,7 @@ class NrpnFilter {
       }
    }
 
-   rsj::Nrpn GetNrpnIfReady(short channel)
+   [[nodiscard]] rsj::Nrpn GetNrpnIfReady(short channel)
    {
       try {
          Expects(channel <= 15 && channel >= 0);
