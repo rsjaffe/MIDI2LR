@@ -80,6 +80,7 @@
             file="Source/VersionChecker.cpp"/>
       <FILE id="EAjkRB" name="VersionChecker.h" compile="0" resource="0"
             file="Source/VersionChecker.h"/>
+      <FILE id="x4x0Pz" name="WinDef.h" compile="0" resource="0" file="Source/WinDef.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

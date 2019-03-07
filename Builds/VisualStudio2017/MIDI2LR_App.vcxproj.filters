@@ -1689,6 +1689,9 @@
     <ClInclude Include="..\..\Source\VersionChecker.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\WinDef.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>JUCE Modules\juce_audio_basics\audio_play_head</Filter>
     </ClInclude>

@@ -371,6 +371,13 @@
 			path = ../../Source/ProfileManager.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
+		572BB38D8C86F3A94C17B02E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = WinDef.h;
+			path = ../../Source/WinDef.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		596A515E74C727B658C08FBE = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -834,6 +841,7 @@
 				ABA161B8A1F7D8BA4F89AF89,
 				8A8EAF03FF5DECFB9DFA6B3A,
 				C767DD9CCF0D2A54A87C281A,
+				572BB38D8C86F3A94C17B02E,
 			);
 			name = Source;
 			sourceTree = "<group>";

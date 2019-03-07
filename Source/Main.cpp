@@ -32,56 +32,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
+
 namespace fs = std::filesystem;
-#ifndef WIN32_LEAN_AND_MEAN
-#define NOATOM -Atom Manager routines
-#define NOCLIPBOARD -Clipboard routines
-#define NOCOLOR -Screen colors
-#define NOCOMM -COMM driver routines
-#define NOCTLMGR -Control and Dialog routines
-#define NODEFERWINDOWPOS -DeferWindowPos routines
-#define NODRAWTEXT -DrawText() and DT_*
-#define NOGDI -All GDI defines and routines
-#define NOGDICAPMASKS -CC_*, LC_*, PC_*, CP_*, TC_*, RC_
-#define NOHELP -Help engine interface.
-#define NOICONS -IDI_*
-#define NOKANJI -Kanji support stuff.
-#define NOKERNEL -All KERNEL defines and routines
-#define NOKEYSTATES -MK_*
-#define NOMB -MB_*and MessageBox()
-#define NOMCX -Modem Configuration Extensions
-#define NOMEMMGR -GMEM_*, LMEM_*, GHND, LHND, associated routines
-#define NOMENUS -MF_*
-#define NOMETAFILE -typedef METAFILEPICT
-#define NOMINMAX -Macros min(a, b) and max(a, b)
-#define NOMSG -typedef MSG and associated routines
-#define NONLS -All NLS defines and routines
-#define NOOPENFILE -OpenFile(), OemToAnsi, AnsiToOem, and OF_*
-#define NOPROFILER -Profiler interface.
-#define NORASTEROPS -Binary and Tertiary raster ops
-#define NOSCROLL -SB_*and scrolling routines
-#define NOSERVICE -All Service Controller routines, SERVICE_ equates, etc.
-#define NOSHOWWINDOW -SW_*
-#define NOSOUND -Sound driver routines
-#define NOSYSCOMMANDS -SC_*
-#define NOSYSMETRICS -SM_*
-#define NOTEXTMETRIC -typedef TEXTMETRIC and associated routines
-#define NOVIRTUALKEYCODES -VK_*
-#define NOWH -SetWindowsHook and WH_*
-#define NOWINMESSAGES -WM_*, EM_*, LB_*, CB_*
-#define NOWINOFFSETS -GWL_*, GCL_*, associated routines
-#define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
-#define OEMRESOURCE -OEM Resource values
-#define WIN32_LEAN_AND_MEAN
-//#define NOUSER            - All USER defines and routines
-#endif
+#include "WinDef.h"
 #undef NOUSER
 #include <Windows.h>
 #endif
 
-#include <JuceLibraryCode/JuceHeader.h>
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/xml.hpp>
+#include <JuceLibraryCode/JuceHeader.h>
 #include "CCoptions.h"
 #include "CommandMap.h"
 #include "CommandSet.h"
@@ -262,7 +222,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #else
          const auto p = rsj::AppDataFilePath(kSettingsFileX);
 #endif
-         std::ofstream outfile(p, std::ios::out | std::ios::trunc);
+         std::ofstream outfile(p, std::ios::trunc);
          if (outfile.is_open()) {
             cereal::XMLOutputArchive oarchive(outfile);
             oarchive(controls_model_);
@@ -289,7 +249,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #else
          const auto px = rsj::AppDataFilePath("settings.xml");
 #endif
-         std::ifstream infilex(px, std::ios::in);
+         std::ifstream infilex(px);
          if (infilex.is_open() && !infilex.eof()) {
             cereal::XMLInputArchive iarchive(infilex);
             iarchive(controls_model_);
@@ -311,7 +271,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                                .getFullPathName()
                                .toStdString();
 #endif
-            std::ifstream infile(p, std::ios::in | std::ios::binary);
+            std::ifstream infile(p, std::ios::binary);
             if (infile.is_open() && !infile.eof()) {
                cereal::BinaryInputArchive iarchive(infile);
                iarchive(controls_model_);
