@@ -106,7 +106,7 @@ pid_t GetPid()
  * Zero return for character indicates it should be ignored (duplicate code or error) */
 std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
 {
-   TISInputSourceRef current_keyboard;
+   TISInputSourceRef current_keyboard{};
    auto cr = gsl::finally([&current_keyboard] {
       if (current_keyboard)
          CFRelease(current_keyboard);
@@ -307,8 +307,8 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
       }
 #else
-      CGEventRef d;
-      CGEventRef u;
+      CGEventRef d{};
+      CGEventRef u{};
       uint64_t flags = 0;
       auto dr = gsl::finally([&d] {
          if (d)
@@ -336,7 +336,6 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          if (key_code_result->second)
             flags |= kCGEventFlagMaskShift;
       }
-
       if (alt_opt)
          flags |= kCGEventFlagMaskAlternate;
       if (command)
@@ -345,10 +344,8 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          flags |= kCGEventFlagMaskControl;
       if (shift)
          flags |= kCGEventFlagMaskShift;
-      if (flags) {
-         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-      }
+      CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+      CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
       static const pid_t lr_pid{GetPid()};
       if (lr_pid) {
          auto lock = std::lock_guard(mutex_sending);
