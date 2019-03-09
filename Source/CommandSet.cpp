@@ -28,8 +28,8 @@ namespace fs = std::filesystem;
 
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 { // manually insert unmapped at first position
-   cmd_by_number_.emplace_back("unmapped");
-   cmd_idx_["unmapped"] = 0;
+   cmd_by_number_.emplace_back("Unmapped");
+   cmd_idx_["Unmapped"] = 0;
    size_t idx = 1;
    for (const auto& bycategory : m_impl_.allcommands_) {
       std::vector<MenuStringT> menu_items_temp{};

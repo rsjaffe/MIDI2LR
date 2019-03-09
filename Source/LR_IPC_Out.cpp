@@ -117,7 +117,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          return;
       const auto command_to_send = command_map_.GetCommandforMessage(message);
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
-          || command_to_send == "unmapped"s)
+          || command_to_send == "Unmapped"s)
          return; // handled by ProfileManager
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
