@@ -78,25 +78,6 @@ bool EndsWith(std::string_view main_str, std::string_view to_match)
           && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
 }
 
-// from
-// https://stackoverflow.com/questions/44296468/using-stdunique-ptr-to-manage-corefoundation-cftype-resources
-template<typename CoreFoundationType> struct cfreleaser {
-   constexpr cfreleaser() noexcept = default;
-   template<typename U> cfreleaser(cfreleaser<U> const&) noexcept {};
-   void operator()(CoreFoundationType __attribute__((cf_consumed)) cfp)
-   {
-      if (cfp) {
-         CFRelease(cfp);
-         cfp = nullptr;
-      }
-   }
-};
-
-template<typename CoreFoundationType>
-using cf_unique_ptr =
-    std::unique_ptr<typename std::decay_t<std::remove_pointer_t<CoreFoundationType>>,
-        cfreleaser<CoreFoundationType>>;
-
 pid_t GetPid()
 {
    static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
@@ -122,12 +103,17 @@ pid_t GetPid()
  * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
  *
  * Returns unshifted and shifted UniChar (UTF-16) for each key code
- * Zero return for character indicates error */
+ * Zero return for character indicates it should be ignored (duplicate code or error) */
 std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
 {
-   cf_unique_ptr<TISInputSourceRef> current_keyboard{TISCopyCurrentKeyboardInputSource()};
-   CFDataRef layout_data = (CFDataRef)TISGetInputSourceProperty(
-       current_keyboard.get(), kTISPropertyUnicodeKeyLayoutData);
+   TISInputSourceRef current_keyboard{};
+   auto cr = gsl::finally([&current_keyboard] {
+      if (current_keyboard)
+         CFRelease(current_keyboard);
+   }); // release at end of scope
+   current_keyboard = TISCopyCurrentKeyboardInputSource();
+   CFDataRef layout_data =
+       (CFDataRef)TISGetInputSourceProperty(current_keyboard, kTISPropertyUnicodeKeyLayoutData);
    const UCKeyboardLayout* keyboard_layout = (const UCKeyboardLayout*)CFDataGetBytePtr(layout_data);
    UInt32 keys_down = 0;
    UniChar chars[4];
@@ -146,9 +132,10 @@ std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
    // shifted
    UniChar s_chars[4];
    UniCharCount s_real_length;
-   UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, kCGEventFlagMaskShift,
-       LMGetKbdType(), kUCKeyTranslateNoDeadKeysBit, &keys_down,
-       sizeof(s_chars) / sizeof(s_chars[0]), &s_real_length, s_chars);
+   // 2 == left shift key, 4 == right shift key
+   UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 2, LMGetKbdType(),
+       kUCKeyTranslateNoDeadKeysBit, &keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
+       &s_real_length, s_chars);
    if (s_real_length > 1) {
       rsj::LogAndAlertError(juce::String("For shifted key code ") + juce::String(key_code)
                             + juce::String(", Unicode character is ") + juce::String(s_real_length)
@@ -156,18 +143,22 @@ std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
                             + juce::String((wchar_t*)s_chars, s_real_length) + juce::String("."));
       s_chars[0] = 0;
    }
+   if (chars[0] == s_chars[0])
+      s_chars[0] = 0; // if unshifted and shifted same, only return unshifted
    return {chars[0], s_chars[0]};
 }
 
 // initializes unordered map for KeyCodeForChar
+// UCKeyTranslate returns the same UniChar for several different (typically unused) key codes, so
+// will only add first one
 std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
 {
    std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
    for (size_t i = 0; i < 128; ++i) {
       const auto uc = CreateStringForKey((CGKeyCode)i);
-      if (uc.first)
+      if (uc.first && !temp_map.count(uc.first))
          temp_map[uc.first] = {i, false};
-      if (uc.second)
+      if (uc.second && !temp_map.count(uc.second))
          temp_map[uc.second] = {i, true};
    }
    return temp_map;
@@ -316,8 +307,8 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
       }
 #else
-      CGEventRef d;
-      CGEventRef u;
+      CGEventRef d{};
+      CGEventRef u{};
       uint64_t flags = 0;
       auto dr = gsl::finally([&d] {
          if (d)
@@ -327,7 +318,6 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          if (u)
             CFRelease(u);
       });
-
       if (in_keymap) {
          const auto vk = mapped_key->second;
          d = CGEventCreateKeyboardEvent(NULL, vk, true);
@@ -343,11 +333,9 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          const auto key_code = key_code_result->first;
          d = CGEventCreateKeyboardEvent(NULL, key_code, true);
          u = CGEventCreateKeyboardEvent(NULL, key_code, false);
-         flags = CGEventGetFlags(d); // in case KeyCode has associated flag
          if (key_code_result->second)
             flags |= kCGEventFlagMaskShift;
       }
-
       if (alt_opt)
          flags |= kCGEventFlagMaskAlternate;
       if (command)
@@ -356,42 +344,18 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          flags |= kCGEventFlagMaskControl;
       if (shift)
          flags |= kCGEventFlagMaskShift;
-      if (flags) {
-         CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-         CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+      CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
+      CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
+      static const pid_t lr_pid{GetPid()};
+      if (lr_pid) {
+         auto lock = std::lock_guard(mutex_sending);
+         CGEventPostToPid(lr_pid, d);
+         CGEventPostToPid(lr_pid, u);
+      }
+      else {
+         rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
       }
 
-      if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber10_11) {
-         static const pid_t lr_pid{GetPid()};
-         if (lr_pid) {
-            auto lock = std::lock_guard(mutex_sending);
-            CGEventPostToPid(lr_pid, d);
-            CGEventPostToPid(lr_pid, u);
-         }
-         else {
-            rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
-         }
-      }
-      else { // use if OS version < 10.11 as CGEventPostToPid first supported in 10.11
-         static ProcessSerialNumber psn{[]() {
-            ProcessSerialNumber temp_psn{0};
-            pid_t lr_pid{GetPid()};
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-            if (lr_pid)
-               GetProcessForPID(lr_pid, &temp_psn); // first deprecated in macOS 10.9
-#pragma GCC diagnostic pop
-            return temp_psn;
-         }()};
-         if (psn.highLongOfPSN || psn.lowLongOfPSN) {
-            auto lock = std::lock_guard(mutex_sending);
-            CGEventPostToPSN(&psn, d);
-            CGEventPostToPSN(&psn, u);
-         }
-         else {
-            rsj::LogAndAlertError("Unable to obtain PSN for Lightroom in SendKeys.cpp");
-         }
-      }
 #endif
    }
    catch (const std::exception& e) {
