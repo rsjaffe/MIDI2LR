@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.0.6</span>
+   &#160;<span id="projectnumber">3.0.0.7</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -94,8 +94,8 @@ $(document).ready(function(){initNavTree('_command_table_model_8cpp.html','');})
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_command_table_model_8h_source.html">CommandTableModel.h</a>&quot;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;gsl/gsl&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;gsl/gsl&gt;</code><br />
 <code>#include &quot;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_command_menu_8h_source.html">CommandMenu.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_misc_8h_source.html">Misc.h</a>&quot;</code><br />
@@ -106,35 +106,34 @@ $(document).ready(function(){initNavTree('_command_table_model_8cpp.html','');})
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_command_table_model_8cpp__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_table_model_8cpp" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_table_model_8cpp" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_table_model_8cpp">
-<area shape="rect"  title=" " alt="" coords="1484,5,1660,61"/>
-<area shape="rect"  href="_command_table_model_8h.html" title=" " alt="" coords="938,109,1097,136"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="1525,273,1587,300"/>
-<area shape="rect"  title=" " alt="" coords="1609,109,1684,136"/>
-<area shape="rect"  title=" " alt="" coords="1709,109,1769,136"/>
-<area shape="rect"  title=" " alt="" coords="1793,109,1863,136"/>
-<area shape="rect"  href="_command_map_8h.html" title=" " alt="" coords="1289,109,1407,136"/>
-<area shape="rect"  href="_command_menu_8h.html" title=" " alt="" coords="697,109,821,136"/>
-<area shape="rect"  title=" " alt="" coords="988,191,1047,218"/>
-<area shape="rect"  title=" " alt="" coords="1207,191,1311,218"/>
-<area shape="rect"  title=" " alt="" coords="5,273,61,300"/>
-<area shape="rect"  title=" " alt="" coords="833,184,964,225"/>
-<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="1071,191,1183,218"/>
-<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="709,191,809,218"/>
-<area shape="rect"  title=" " alt="" coords="415,273,543,300"/>
-<area shape="rect"  title=" " alt="" coords="567,273,726,300"/>
-<area shape="rect"  title=" " alt="" coords="751,273,905,300"/>
-<area shape="rect"  title=" " alt="" coords="930,273,1083,300"/>
-<area shape="rect"  title=" " alt="" coords="1107,273,1263,300"/>
-<area shape="rect"  title=" " alt="" coords="1351,348,1406,375"/>
-<area shape="rect"  title=" " alt="" coords="1339,273,1450,300"/>
-<area shape="rect"  title=" " alt="" coords="189,273,390,300"/>
-<area shape="rect"  title=" " alt="" coords="1711,348,1772,375"/>
-<area shape="rect"  title=" " alt="" coords="1431,348,1492,375"/>
-<area shape="rect"  title=" " alt="" coords="1517,348,1595,375"/>
-<area shape="rect"  title=" " alt="" coords="1620,348,1687,375"/>
-<area shape="rect"  title=" " alt="" coords="86,273,165,300"/>
-<area shape="rect"  title=" " alt="" coords="1386,191,1433,218"/>
-<area shape="rect"  title=" " alt="" coords="529,191,583,218"/>
+<area shape="rect"  title=" " alt="" coords="1236,5,1412,61"/>
+<area shape="rect"  href="_command_table_model_8h.html" title=" " alt="" coords="847,109,1006,136"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="1524,259,1585,285"/>
+<area shape="rect"  title=" " alt="" coords="1191,109,1265,136"/>
+<area shape="rect"  title=" " alt="" coords="1289,109,1359,136"/>
+<area shape="rect"  title=" " alt="" coords="1383,109,1443,136"/>
+<area shape="rect"  href="_command_map_8h.html" title=" " alt="" coords="1049,109,1167,136"/>
+<area shape="rect"  href="_command_menu_8h.html" title=" " alt="" coords="1467,109,1591,136"/>
+<area shape="rect"  title=" " alt="" coords="609,184,668,211"/>
+<area shape="rect"  title=" " alt="" coords="692,184,796,211"/>
+<area shape="rect"  title=" " alt="" coords="5,259,61,285"/>
+<area shape="rect"  title=" " alt="" coords="1145,259,1346,285"/>
+<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="871,184,983,211"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="1345,184,1445,211"/>
+<area shape="rect"  title=" " alt="" coords="1359,333,1414,360"/>
+<area shape="rect"  title=" " alt="" coords="1010,259,1121,285"/>
+<area shape="rect"  title=" " alt="" coords="317,259,445,285"/>
+<area shape="rect"  title=" " alt="" coords="470,259,629,285"/>
+<area shape="rect"  title=" " alt="" coords="653,259,808,285"/>
+<area shape="rect"  title=" " alt="" coords="833,259,986,285"/>
+<area shape="rect"  title=" " alt="" coords="86,259,242,285"/>
+<area shape="rect"  title=" " alt="" coords="1439,333,1500,360"/>
+<area shape="rect"  title=" " alt="" coords="1524,333,1585,360"/>
+<area shape="rect"  title=" " alt="" coords="1610,333,1689,360"/>
+<area shape="rect"  title=" " alt="" coords="1713,333,1780,360"/>
+<area shape="rect"  title=" " alt="" coords="1370,259,1449,285"/>
+<area shape="rect"  title=" " alt="" coords="1154,184,1201,211"/>
+<area shape="rect"  title=" " alt="" coords="1573,184,1627,211"/>
 </map>
 </div>
 </div></div><!-- contents -->

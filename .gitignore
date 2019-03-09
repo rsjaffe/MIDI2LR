@@ -3,3 +3,5 @@ Source/
 Doxygen/
 rtmidi/
 installer/
+
+*.exe

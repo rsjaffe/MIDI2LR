@@ -1,15 +1,14 @@
 <map id="D:/Users/Rory/source/repos/MIDI2LR/Source/CommandMenu.h" name="D:/Users/Rory/source/repos/MIDI2LR/Source/CommandMenu.h">
-<area shape="rect" id="node1" title=" " alt="" coords="91,5,247,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,117,59,143"/>
-<area shape="rect" id="node3" title=" " alt="" coords="83,117,139,143"/>
-<area shape="rect" id="node4" title=" " alt="" coords="163,109,293,151"/>
-<area shape="rect" id="node5" href="$_midi_utilities_8h.html" title=" " alt="" coords="318,117,418,143"/>
-<area shape="rect" id="node6" title=" " alt="" coords="165,199,243,225"/>
-<area shape="rect" id="node7" title=" " alt="" coords="267,199,469,225"/>
-<area shape="rect" id="node8" href="$_misc_8h.html" title=" " alt="" coords="493,199,555,225"/>
-<area shape="rect" id="node9" title=" " alt="" coords="313,273,375,300"/>
-<area shape="rect" id="node10" title=" " alt="" coords="399,273,460,300"/>
-<area shape="rect" id="node11" title=" " alt="" coords="485,273,563,300"/>
-<area shape="rect" id="node12" title=" " alt="" coords="587,273,642,300"/>
-<area shape="rect" id="node13" title=" " alt="" coords="667,273,733,300"/>
+<area shape="rect" id="node1" title=" " alt="" coords="65,5,221,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,109,59,136"/>
+<area shape="rect" id="node3" title=" " alt="" coords="83,109,139,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="38,184,239,211"/>
+<area shape="rect" id="node5" href="$_midi_utilities_8h.html" title=" " alt="" coords="233,109,333,136"/>
+<area shape="rect" id="node6" title=" " alt="" coords="263,184,342,211"/>
+<area shape="rect" id="node7" href="$_misc_8h.html" title=" " alt="" coords="367,184,428,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="187,259,248,285"/>
+<area shape="rect" id="node9" title=" " alt="" coords="272,259,333,285"/>
+<area shape="rect" id="node10" title=" " alt="" coords="358,259,437,285"/>
+<area shape="rect" id="node11" title=" " alt="" coords="461,259,515,285"/>
+<area shape="rect" id="node12" title=" " alt="" coords="540,259,607,285"/>
 </map>

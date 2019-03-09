@@ -3,7 +3,6 @@ var _controls_model_8h =
     [ "ChannelModel", "class_channel_model.html", "class_channel_model" ],
     [ "ControlsModel", "class_controls_model.html", "class_controls_model" ],
     [ "SettingsStruct", "structrsj_1_1_settings_struct.html", "structrsj_1_1_settings_struct" ],
-    [ "MIDI2LR_CONTROLSMODEL_H_INCLUDED", "_controls_model_8h.html#a262a74b49013f94da27b1c3269b4f31b", null ],
     [ "CCmethod", "_controls_model_8h.html#a1b0f7334f0d860bf0d3aebeaca930efd", [
       [ "kAbsolute", "_controls_model_8h.html#a1b0f7334f0d860bf0d3aebeaca930efdabab0767e88027de9944aa55c24c8387a", null ],
       [ "kTwosComplement", "_controls_model_8h.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d", null ],

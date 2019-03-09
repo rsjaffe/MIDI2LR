@@ -11,7 +11,6 @@ var hierarchy =
       [ "MainContentComponent", "class_main_content_component.html", null ],
       [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
-    [ "cfreleaser< CoreFoundationType >", "structcfreleaser.html", null ],
     [ "ChannelModel", "class_channel_model.html", null ],
     [ "CommandMap", "class_command_map.html", null ],
     [ "CommandSet", "class_command_set.html", null ],

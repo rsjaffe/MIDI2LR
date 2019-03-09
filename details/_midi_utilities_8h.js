@@ -3,7 +3,6 @@ var _midi_utilities_8h =
     [ "hash< rsj::MidiMessageId >", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4.html", "structstd_1_1hash_3_01rsj_1_1_midi_message_id_01_4" ],
     [ "MidiMessage", "structrsj_1_1_midi_message.html", "structrsj_1_1_midi_message" ],
     [ "MidiMessageId", "structrsj_1_1_midi_message_id.html", "structrsj_1_1_midi_message_id" ],
-    [ "MIDI2LR_MIDIUTILITIES_H_INCLUDED", "_midi_utilities_8h.html#a0a8c807782dea084a3b759c2ee000351", null ],
     [ "MsgIdEnum", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3", [
       [ "kNote", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc", null ],
       [ "kCc", "_midi_utilities_8h.html#a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447", null ],

@@ -1,7 +1,6 @@
 var searchData=
 [
   ['ccoptions',['CCoptions',['../class_c_coptions.html',1,'']]],
-  ['cfreleaser',['cfreleaser',['../structcfreleaser.html',1,'']]],
   ['channelmodel',['ChannelModel',['../class_channel_model.html',1,'']]],
   ['commandmap',['CommandMap',['../class_command_map.html',1,'']]],
   ['commandmenu',['CommandMenu',['../class_command_menu.html',1,'']]],

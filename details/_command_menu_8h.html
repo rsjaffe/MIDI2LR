@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.0.6</span>
+   &#160;<span id="projectnumber">3.0.0.7</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -89,15 +89,14 @@ $(document).ready(function(){initNavTree('_command_menu_8h.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">CommandMenu.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;../JuceLibraryCode/JuceHeader.h&quot;</code><br />
+<code>#include &lt;JuceLibraryCode/JuceHeader.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for CommandMenu.h:</div>
@@ -106,19 +105,18 @@ $(document).ready(function(){initNavTree('_command_menu_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_command_menu_8h__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_menu_8h" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_menu_8h" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_menu_8h">
-<area shape="rect"  title=" " alt="" coords="91,5,247,61"/>
-<area shape="rect"  title=" " alt="" coords="5,117,59,143"/>
-<area shape="rect"  title=" " alt="" coords="83,117,139,143"/>
-<area shape="rect"  title=" " alt="" coords="163,109,293,151"/>
-<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="318,117,418,143"/>
-<area shape="rect"  title=" " alt="" coords="165,199,243,225"/>
-<area shape="rect"  title=" " alt="" coords="267,199,469,225"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="493,199,555,225"/>
-<area shape="rect"  title=" " alt="" coords="313,273,375,300"/>
-<area shape="rect"  title=" " alt="" coords="399,273,460,300"/>
-<area shape="rect"  title=" " alt="" coords="485,273,563,300"/>
-<area shape="rect"  title=" " alt="" coords="587,273,642,300"/>
-<area shape="rect"  title=" " alt="" coords="667,273,733,300"/>
+<area shape="rect"  title=" " alt="" coords="65,5,221,61"/>
+<area shape="rect"  title=" " alt="" coords="5,109,59,136"/>
+<area shape="rect"  title=" " alt="" coords="83,109,139,136"/>
+<area shape="rect"  title=" " alt="" coords="38,184,239,211"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="233,109,333,136"/>
+<area shape="rect"  title=" " alt="" coords="263,184,342,211"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="367,184,428,211"/>
+<area shape="rect"  title=" " alt="" coords="187,259,248,285"/>
+<area shape="rect"  title=" " alt="" coords="272,259,333,285"/>
+<area shape="rect"  title=" " alt="" coords="358,259,437,285"/>
+<area shape="rect"  title=" " alt="" coords="461,259,515,285"/>
+<area shape="rect"  title=" " alt="" coords="540,259,607,285"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -140,27 +138,7 @@ $(document).ready(function(){initNavTree('_command_menu_8h.html','');});
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_menu.html">CommandMenu</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a3f5e6a290d0a5f06855669114cc3b330"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_command_menu_8h.html#a3f5e6a290d0a5f06855669114cc3b330">MIDI2LR_COMMANDMENU_H_INCLUDED</a></td></tr>
-<tr class="separator:a3f5e6a290d0a5f06855669114cc3b330"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a3f5e6a290d0a5f06855669114cc3b330"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f5e6a290d0a5f06855669114cc3b330">&#9670;&nbsp;</a></span>MIDI2LR_COMMANDMENU_H_INCLUDED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MIDI2LR_COMMANDMENU_H_INCLUDED</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

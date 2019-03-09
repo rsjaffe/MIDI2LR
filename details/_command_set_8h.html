@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.0.6</span>
+   &#160;<span id="projectnumber">3.0.0.7</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -89,20 +89,19 @@ $(document).ready(function(){initNavTree('_command_set_8h.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">CommandSet.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cereal/access.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;cereal/access.hpp&gt;</code><br />
 <code>#include &lt;cereal/archives/xml.hpp&gt;</code><br />
 <code>#include &lt;cereal/types/string.hpp&gt;</code><br />
 <code>#include &lt;cereal/types/utility.hpp&gt;</code><br />
 <code>#include &lt;cereal/types/vector.hpp&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;unordered_map&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;JuceLibraryCode/JuceHeader.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_misc_8h_source.html">Misc.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -112,21 +111,21 @@ $(document).ready(function(){initNavTree('_command_set_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_command_set_8h__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_set_8h" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_set_8h" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_set_8h">
-<area shape="rect"  title=" " alt="" coords="755,5,911,61"/>
-<area shape="rect"  title=" " alt="" coords="5,109,133,136"/>
-<area shape="rect"  title=" " alt="" coords="158,109,317,136"/>
-<area shape="rect"  title=" " alt="" coords="341,109,496,136"/>
-<area shape="rect"  title=" " alt="" coords="521,109,674,136"/>
-<area shape="rect"  title=" " alt="" coords="698,109,854,136"/>
-<area shape="rect"  title=" " alt="" coords="989,184,1043,211"/>
-<area shape="rect"  title=" " alt="" coords="930,109,1041,136"/>
-<area shape="rect"  title=" " alt="" coords="1065,109,1121,136"/>
-<area shape="rect"  title=" " alt="" coords="1146,109,1347,136"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="1372,109,1433,136"/>
-<area shape="rect"  title=" " alt="" coords="1239,184,1300,211"/>
-<area shape="rect"  title=" " alt="" coords="1324,184,1385,211"/>
-<area shape="rect"  title=" " alt="" coords="1410,184,1489,211"/>
-<area shape="rect"  title=" " alt="" coords="1513,184,1580,211"/>
+<area shape="rect"  title=" " alt="" coords="485,5,641,61"/>
+<area shape="rect"  title=" " alt="" coords="520,184,575,211"/>
+<area shape="rect"  title=" " alt="" coords="25,109,136,136"/>
+<area shape="rect"  title=" " alt="" coords="161,109,217,136"/>
+<area shape="rect"  title=" " alt="" coords="241,109,369,136"/>
+<area shape="rect"  title=" " alt="" coords="393,109,552,136"/>
+<area shape="rect"  title=" " alt="" coords="577,109,731,136"/>
+<area shape="rect"  title=" " alt="" coords="756,109,909,136"/>
+<area shape="rect"  title=" " alt="" coords="933,109,1089,136"/>
+<area shape="rect"  title=" " alt="" coords="1113,109,1315,136"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="1339,109,1401,136"/>
+<area shape="rect"  title=" " alt="" coords="1206,184,1267,211"/>
+<area shape="rect"  title=" " alt="" coords="1291,184,1353,211"/>
+<area shape="rect"  title=" " alt="" coords="1377,184,1456,211"/>
+<area shape="rect"  title=" " alt="" coords="1481,184,1547,211"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -162,27 +161,7 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_command_set_1_1_impl.html">CommandSet::Impl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a80cda04ac574b70a7c1e85b67fbd0d6e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_command_set_8h.html#a80cda04ac574b70a7c1e85b67fbd0d6e">MIDI2LR_COMMANDSET_H_INCLUDED</a></td></tr>
-<tr class="separator:a80cda04ac574b70a7c1e85b67fbd0d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a80cda04ac574b70a7c1e85b67fbd0d6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80cda04ac574b70a7c1e85b67fbd0d6e">&#9670;&nbsp;</a></span>MIDI2LR_COMMANDSET_H_INCLUDED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MIDI2LR_COMMANDSET_H_INCLUDED</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

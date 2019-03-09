@@ -15,8 +15,6 @@ var searchData=
   ['centerpw',['CenterPw',['../class_channel_model.html#a8f7061971fc2e13c925e8ba6756c1af7',1,'ChannelModel']]],
   ['cerealload',['CerealLoad',['../class_m_i_d_i2_l_r_application.html#a1e52f4c3aae1ef33e77574284b15af32',1,'MIDI2LRApplication']]],
   ['cerealsave',['CerealSave',['../class_m_i_d_i2_l_r_application.html#a3f2dbf09f9ba5f582534b4765e434d26',1,'MIDI2LRApplication']]],
-  ['cf_5funique_5fptr',['cf_unique_ptr',['../_send_keys_8cpp.html#a0ddee664a142be879f8c8c7f80dd856d',1,'SendKeys.cpp']]],
-  ['cfreleaser',['cfreleaser',['../structcfreleaser.html',1,'cfreleaser&lt; CoreFoundationType &gt;'],['../structcfreleaser.html#af6bebeffa93ef636f86a3d425e585be7',1,'cfreleaser::cfreleaser() noexcept=default'],['../structcfreleaser.html#aeb0bca16258da6816909403253c01d9b',1,'cfreleaser::cfreleaser(cfreleaser&lt; U &gt; const &amp;) noexcept']]],
   ['channel',['channel',['../structrsj_1_1_midi_message.html#aad2f386f5ae0d1666983903e3ac25f97',1,'rsj::MidiMessage::channel()'],['../structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214',1,'rsj::MidiMessageId::channel()']]],
   ['channelmodel',['ChannelModel',['../class_channel_model.html',1,'ChannelModel'],['../class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170',1,'ChannelModel::ChannelModel()'],['../class_channel_model.html#ae58634778121ef70d9463efae626ac46',1,'ChannelModel::ChannelModel(const ChannelModel &amp;)=delete'],['../class_channel_model.html#a94970f20ecec2eb2ed52200a45fbb203',1,'ChannelModel::ChannelModel(ChannelModel &amp;&amp;)=delete']]],
   ['child',['child',['../struct_resizable_layout_1_1_anchor.html#a89db71378ff46dc2daa65c6e5313fcbe',1,'ResizableLayout::Anchor']]],

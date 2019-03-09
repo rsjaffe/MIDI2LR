@@ -7,7 +7,6 @@ var searchData=
   ['centerpw',['CenterPw',['../class_channel_model.html#a8f7061971fc2e13c925e8ba6756c1af7',1,'ChannelModel']]],
   ['cerealload',['CerealLoad',['../class_m_i_d_i2_l_r_application.html#a1e52f4c3aae1ef33e77574284b15af32',1,'MIDI2LRApplication']]],
   ['cerealsave',['CerealSave',['../class_m_i_d_i2_l_r_application.html#a3f2dbf09f9ba5f582534b4765e434d26',1,'MIDI2LRApplication']]],
-  ['cfreleaser',['cfreleaser',['../structcfreleaser.html#af6bebeffa93ef636f86a3d425e585be7',1,'cfreleaser::cfreleaser() noexcept=default'],['../structcfreleaser.html#aeb0bca16258da6816909403253c01d9b',1,'cfreleaser::cfreleaser(cfreleaser&lt; U &gt; const &amp;) noexcept']]],
   ['channelmodel',['ChannelModel',['../class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170',1,'ChannelModel::ChannelModel()'],['../class_channel_model.html#ae58634778121ef70d9463efae626ac46',1,'ChannelModel::ChannelModel(const ChannelModel &amp;)=delete'],['../class_channel_model.html#a94970f20ecec2eb2ed52200a45fbb203',1,'ChannelModel::ChannelModel(ChannelModel &amp;&amp;)=delete']]],
   ['clear',['Clear',['../class_nrpn_message.html#aac9971284d016abef47ce81062af2630',1,'NrpnMessage']]],
   ['clearmap',['ClearMap',['../class_command_map.html#a5881f08a3274e7b0c2706d28e4f765d8',1,'CommandMap']]],
