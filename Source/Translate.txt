@@ -256,7 +256,7 @@ countries: ja
 "Pitch Wheel" = "ピッチホイール"
 "Pick up" = "ピックアップ"
 "Disabling the pickup mode may be better for touchscreen interfaces and may solve issues with LR not picking up fast fader/knob movements" = "タッチスクリーンインタフェースではピックアップモードを無効にした方が良いでしょう。LRがフェーダー/ノブの速い動きを拾わない問題を解決できることがあります。"
-"Profile" = "プロフィール"
+"Profile" = "プロファイル"
 "Auto hide" = "自動的に隠す"
 "Autohide the plugin window in x seconds, select 0 for disabling autohide" = "プラグインウィンドウをx秒後に自動的に隠します。無効にするには0を選択します"
 "Select Profile Folder" = "プロファイルフォルダを選択"
