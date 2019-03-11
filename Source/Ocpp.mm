@@ -24,7 +24,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 UniChar rsj::Utf8ToUtf16(const std::string& param)
 {
    if (!param.empty()) {
-      NSString* result = [NSString stringWithUTF8String:param.c_str()];
+      NSString* result = @(param.c_str());
       UniChar ch = [result characterAtIndex:0];
       return ch;
    }
@@ -33,26 +33,43 @@ UniChar rsj::Utf8ToUtf16(const std::string& param)
 
 std::string rsj::AppDataMac()
 {
-   NSString* result = [@"~/Library/Application Support/MIDI2LR" stringByExpandingTildeInPath];
-   return std::string([result UTF8String]);
+   NSString* result = (@"~/Library/Application Support/MIDI2LR").stringByExpandingTildeInPath;
+   return std::string(result.UTF8String);
 } 
 
 std::string rsj::AppLogMac()
 {
-   NSString* result = [@"~/Library/Logs/MIDI2LR" stringByExpandingTildeInPath];
-   return std::string([result UTF8String]);
+   NSString* result = (@"~/Library/Logs/MIDI2LR").stringByExpandingTildeInPath;
+   return std::string(result.UTF8String);
 }
 
 std::string rsj::GetKeyboardLayout()
 {
    // get current keyboard layout by name
    TISInputSourceRef current_source = TISCopyCurrentKeyboardInputSource();
+   if (!current_source) // returns null with Japanese keyboard layout
+      current_source = TISCopyCurrentKeyboardLayoutInputSource();
    NSString* s =
        (__bridge NSString*)(TISGetInputSourceProperty(current_source, kTISPropertyInputSourceID));
    NSString* t =
        (__bridge NSString*)(TISGetInputSourceProperty(current_source, kTISPropertyLocalizedName));
    if (s and t) {
-      return std::string([s UTF8String]) + ' ' + std::string([t UTF8String]);
+      return std::string(s.UTF8String) + ' ' + std::string(t.UTF8String);
    }
-   return std::string("could not get input source ID");
+   return std::string("Could not get keyboard input source ID");
+}
+
+// See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm
+// for issue with Japanese keyboards
+const UCKeyboardLayout* rsj::GetKeyboardData() {
+   TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
+   CFDataRef data =
+          (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+   if (!data) {  // returns null with Japanese keyboard layout
+      source = TISCopyCurrentKeyboardLayoutInputSource();
+      data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+      if (!data)
+         return nullptr;
+   }
+   return (const UCKeyboardLayout*)CFDataGetBytePtr(data);
 }
