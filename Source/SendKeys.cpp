@@ -55,18 +55,84 @@ namespace {
       return s;
    }
 
+   struct ActiveModifiers {
+      bool alt_opt{false};
+      bool command{false};
+      bool control{false};
+      bool shift{false};
+      bool hankaku{false};
+   };
+
 #ifdef _WIN32
 
    HKL GetLanguage(const std::string& program_name) noexcept
    {
       const auto h_lr_wnd = FindWindow(nullptr, program_name.c_str());
-      if (h_lr_wnd) {
-         // get language that LR is using (if hLrWnd is found)
+      if (h_lr_wnd) { // get language that LR is using (if hLrWnd is found)
          const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
          return GetKeyboardLayout(thread_id);
       }
       // use keyboard of MIDI2LR application
       return GetKeyboardLayout(0);
+   }
+
+   // shift coded as follows:
+   // 1: shift, 2: ctrl, 4: alt, 8: hankaku
+   std::pair<BYTE, ActiveModifiers> KeyToVk(std::string_view key)
+   {
+      static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff,
+          "Assuming VkKeyScanEx returns 0xffff on error");
+      const auto uc{rsj::Utf8ToWide(key)[0]};
+      static const auto kLanguageId = GetLanguage("Lightroom");
+      const auto vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
+      if (vk_code_and_shift == 0xffff) { //-V547
+         const std::string errorMsg = "VkKeyScanExW failed with error code: " + GetLastError();
+         throw std::runtime_error(errorMsg.c_str());
+      }
+      const auto mods = HIBYTE(vk_code_and_shift);
+      ActiveModifiers am{};
+      if (mods & 1)
+         am.shift = true;
+      if (mods & 2)
+         am.control = true;
+      if (mods & 4)
+         am.alt_opt = true;
+      if (mods & 8)
+         am.hankaku = true;
+      return {LOBYTE(vk_code_and_shift), am};
+   }
+
+   void WinSendKeyStrokes(const std::vector<WORD>& strokes)
+   {
+      // expects key first, followed by modifiers
+      // construct input event.
+      INPUT ip{};
+      constexpr auto size_ip = sizeof(ip);
+      ip.type = INPUT_KEYBOARD;
+      // ki: wVk, wScan, dwFlags, time, dwExtraInfo
+      ip.ki = {0, 0, 0, 0, 0};
+
+      // send key down strokes
+      static std::mutex mutex_sending{};
+      auto lock = std::lock_guard(mutex_sending);
+      for (const auto it : rsj::reverse(strokes)) {
+         ip.ki.wVk = it;
+         const auto result = SendInput(1, &ip, size_ip);
+         if (result == 0) {
+            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
+      }
+      // send key up strokes
+      ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+      for (const auto it : strokes) {
+         ip.ki.wVk = it;
+         const auto result = SendInput(1, &ip, size_ip);
+         if (result == 0) {
+            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
+            throw std::runtime_error(errorMsg.c_str());
+         }
+      }
    }
 
 #else
@@ -102,14 +168,15 @@ namespace {
     * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
     *
     * Returns unshifted and shifted UniChar (UTF-16) for each key code
-    * Zero return for character indicates it should be ignored (duplicate code or error) */
+    * Zero return for character indicates it should be ignored (duplicate code or error)
+    * Ignores characters requiring dead key */
    std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
    {
       static const UCKeyboardLayout* keyboard_layout{rsj::GetKeyboardData()};
       if (!keyboard_layout) {
-         static auto alreadywarned{false};
-         if (!alreadywarned) {
-            alreadywarned = true;
+         static auto notwarned{true};
+         if (notwarned) {
+            notwarned = false;
             rsj::LogAndAlertError("Keyboard layout is null. Cannot send keystrokes.");
          }
          return {0, 0};
@@ -181,7 +248,15 @@ namespace {
    void MacKeyDownUp(pid_t lr_pid, CGKeyCode vk, CGEventFlags flags)
    {
       CGEventRef d = CGEventCreateKeyboardEvent(NULL, vk, true);
+      auto dd = gsl::finally([&d] {
+         if (d)
+            CFRelease(d);
+      });
       CGEventRef u = CGEventCreateKeyboardEvent(NULL, vk, false);
+      auto du = gsl::finally([&u] {
+         if (u)
+            CFRelease(u);
+      });
       CGEventSetFlags(d, flags);
       CGEventSetFlags(u, flags);
       { // scope for the mutex
@@ -190,8 +265,6 @@ namespace {
          CGEventPostToPid(lr_pid, d);
          CGEventPostToPid(lr_pid, u);
       }
-      CFRelease(d);
-      CFRelease(u);
    }
 
 #endif
@@ -238,83 +311,44 @@ namespace {
 #pragma warning(disable : 26447) // all exceptions caught and suppressed
 void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
 {
-   const bool alt_opt{gsl::narrow_cast<bool>(modifiers & 0x1)};
-#ifndef _WIN32
-   const bool command{gsl::narrow_cast<bool>(modifiers & 0x8)};
-#endif
-   const bool control{gsl::narrow_cast<bool>(modifiers & 0x2)};
-   const bool shift{gsl::narrow_cast<bool>(modifiers & 0x4)};
    try {
+      ActiveModifiers mods{};
+      if (modifiers & 0x1)
+         mods.alt_opt = true;
+      if (modifiers & 0x2)
+         mods.control = true;
+      if (modifiers & 0x4)
+         mods.shift = true;
       const auto mapped_key = kKeyMap.find(ToLower(key));
       const auto in_keymap = mapped_key != kKeyMap.end();
 #ifdef _WIN32
       BYTE vk = 0;
-      BYTE vk_modifiers = 0;
+      ActiveModifiers vk_mod{};
       if (in_keymap)
          vk = mapped_key->second;
-      else { // Translate key code to keyboard-dependent scan code, may be UTF-8
-         const auto uc{rsj::Utf8ToWide(key)[0]};
-         static const auto kLanguageId = GetLanguage("Lightroom");
-         static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff,
-             "Assuming VkKeyScanEx returns 0xffff on error");
-         const auto vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
-         if (vk_code_and_shift == 0xffff) //-V547
-         {
-            const std::string errorMsg = "VkKeyScanExW failed with error code: " + GetLastError();
-            throw std::runtime_error(errorMsg.c_str());
-         }
-         vk = LOBYTE(vk_code_and_shift);
-         vk_modifiers = HIBYTE(vk_code_and_shift);
-      }
-
+      else // Translate key code to keyboard-dependent scan code, may be UTF-8
+         std::tie(vk, vk_mod) = KeyToVk(key);
       // construct virtual keystroke sequence
       std::vector<WORD> strokes{vk}; // start with actual key, then mods
-      if (shift || vk_modifiers & 0x1) {
+      if (mods.shift || vk_mod.shift)
          strokes.push_back(VK_SHIFT);
-      }
-      if ((vk_modifiers & 0x06) == 0x06) {
+      if (vk_mod.control && vk_mod.alt_opt) {
          strokes.push_back(VK_RMENU); // AltGr
-         if (alt_opt)
+         if (mods.alt_opt)
             strokes.push_back(VK_MENU);
-         if (control)
+         if (mods.control)
             strokes.push_back(VK_CONTROL);
       }
       else {
-         if (alt_opt || vk_modifiers & 0x4)
+         if (mods.alt_opt || vk_mod.alt_opt)
             strokes.push_back(VK_MENU);
-         if (control || vk_modifiers & 0x2)
+         if (mods.control || vk_mod.control)
             strokes.push_back(VK_CONTROL);
       }
-
-      // construct input event.
-      INPUT ip{};
-      constexpr auto size_ip = sizeof(ip);
-      ip.type = INPUT_KEYBOARD;
-      // ki: wVk, wScan, dwFlags, time, dwExtraInfo
-      ip.ki = {0, 0, 0, 0, 0};
-
-      // send key down strokes
-      static std::mutex mutex_sending{};
-      auto lock = std::lock_guard(mutex_sending);
-      for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
-         ip.ki.wVk = *it;
-         const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0) {
-            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
-            throw std::runtime_error(errorMsg.c_str());
-         }
-      }
-      // send key up strokes
-      ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-      for (const auto it : strokes) {
-         ip.ki.wVk = it;
-         const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0) {
-            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
-            throw std::runtime_error(errorMsg.c_str());
-         }
-      }
+      WinSendKeyStrokes(strokes);
 #else
+      if (modifiers & 0x8)
+         mods.command = true;
       static const pid_t lr_pid{GetPid()};
       if (!lr_pid) {
          rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
@@ -336,13 +370,13 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          if (key_code_result->second)
             flags |= kCGEventFlagMaskShift;
       }
-      if (alt_opt)
+      if (mods.alt_opt)
          flags |= kCGEventFlagMaskAlternate;
-      if (command)
+      if (mods.command)
          flags |= kCGEventFlagMaskCommand;
-      if (control)
+      if (mods.control)
          flags |= kCGEventFlagMaskControl;
-      if (shift)
+      if (mods.shift)
          flags |= kCGEventFlagMaskShift;
       MacKeyDownUp(lr_pid, vk, flags);
 #endif
