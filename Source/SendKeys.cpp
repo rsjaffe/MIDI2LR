@@ -54,125 +54,122 @@ namespace {
           s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
       return s;
    }
-} // namespace
 
 #ifdef _WIN32
 
-HKL GetLanguage(const std::string& program_name) noexcept
-{
-   const auto h_lr_wnd = FindWindow(nullptr, program_name.c_str());
-   if (h_lr_wnd) {
-      // get language that LR is using (if hLrWnd is found)
-      const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
-      return GetKeyboardLayout(thread_id);
+   HKL GetLanguage(const std::string& program_name) noexcept
+   {
+      const auto h_lr_wnd = FindWindow(nullptr, program_name.c_str());
+      if (h_lr_wnd) {
+         // get language that LR is using (if hLrWnd is found)
+         const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
+         return GetKeyboardLayout(thread_id);
+      }
+      // use keyboard of MIDI2LR application
+      return GetKeyboardLayout(0);
    }
-   // use keyboard of MIDI2LR application
-   return GetKeyboardLayout(0);
-}
 
 #else
-// note: C++20 will have ends_with
-bool EndsWith(std::string_view main_str, std::string_view to_match)
-{
-   return main_str.size() >= to_match.size()
-          && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
-}
-
-pid_t GetPid()
-{
-   static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
-   static const std::string kLrc{
-       "Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
-   const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
-   std::vector<pid_t> pids(number_processes); // add a few in case more processes show up
-   proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
-   char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
-   for (const auto pid : pids) {
-      if (pid == 0)
-         continue;
-      memset(path_buffer, 0, sizeof(path_buffer));
-      proc_pidpath(pid, path_buffer, sizeof(path_buffer));
-      if (strlen(path_buffer) > 0 && (EndsWith(path_buffer, kLr) || EndsWith(path_buffer, kLrc)))
-         return pid;
+   // note: C++20 will have ends_with
+   bool EndsWith(std::string_view main_str, std::string_view to_match)
+   {
+      return main_str.size() >= to_match.size()
+             && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
    }
-   rsj::LogAndAlertError("Lightroom PID not found.");
-   return 0;
-}
 
-/* Altered significantly, originally from:
- * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
- *
- * Returns unshifted and shifted UniChar (UTF-16) for each key code
- * Zero return for character indicates it should be ignored (duplicate code or error) */
-std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
-{
-   TISInputSourceRef current_keyboard{};
-   auto cr = gsl::finally([&current_keyboard] {
-      if (current_keyboard)
-         CFRelease(current_keyboard);
-   }); // release at end of scope
-   current_keyboard = TISCopyCurrentKeyboardInputSource();
-   CFDataRef layout_data =
-       (CFDataRef)TISGetInputSourceProperty(current_keyboard, kTISPropertyUnicodeKeyLayoutData);
-   const UCKeyboardLayout* keyboard_layout = (const UCKeyboardLayout*)CFDataGetBytePtr(layout_data);
-   UInt32 keys_down = 0;
-   UniChar chars[4];
-   // unshifted
-   UniCharCount real_length;
-   UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
-       kUCKeyTranslateNoDeadKeysBit, &keys_down, sizeof(chars) / sizeof(chars[0]), &real_length,
-       chars);
-   if (real_length > 1) {
-      rsj::LogAndAlertError(juce::String("For key code ") + juce::String(key_code)
-                            + juce::String(", Unicode character is ") + juce::String(real_length)
-                            + juce::String(" long. It is ")
-                            + juce::String((wchar_t*)chars, real_length) + juce::String("."));
-      chars[0] = 0;
+   pid_t GetPid()
+   {
+      static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
+      static const std::string kLrc{
+          "Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
+      const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
+      std::vector<pid_t> pids(number_processes); // add a few in case more processes show up
+      proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
+      char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
+      for (const auto pid : pids) {
+         if (pid == 0)
+            continue;
+         memset(path_buffer, 0, sizeof(path_buffer));
+         proc_pidpath(pid, path_buffer, sizeof(path_buffer));
+         if (strlen(path_buffer) > 0 && (EndsWith(path_buffer, kLr) || EndsWith(path_buffer, kLrc)))
+            return pid;
+      }
+      rsj::LogAndAlertError("Lightroom PID not found.");
+      return 0;
    }
-   // shifted
-   UniChar s_chars[4];
-   UniCharCount s_real_length;
-   // 2 == left shift key, 4 == right shift key
-   UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 2, LMGetKbdType(),
-       kUCKeyTranslateNoDeadKeysBit, &keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
-       &s_real_length, s_chars);
-   if (s_real_length > 1) {
-      rsj::LogAndAlertError(juce::String("For shifted key code ") + juce::String(key_code)
-                            + juce::String(", Unicode character is ") + juce::String(s_real_length)
-                            + juce::String(" long. It is ")
-                            + juce::String((wchar_t*)s_chars, s_real_length) + juce::String("."));
-      s_chars[0] = 0;
-   }
-   if (chars[0] == s_chars[0])
-      s_chars[0] = 0; // if unshifted and shifted same, only return unshifted
-   return {chars[0], s_chars[0]};
-}
 
-// initializes unordered map for KeyCodeForChar
-// UCKeyTranslate returns the same UniChar for several different (typically unused) key codes, so
-// will only add first one
-std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
-{
-   std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
-   for (size_t i = 0; i < 128; ++i) {
-      const auto uc = CreateStringForKey((CGKeyCode)i);
-      if (uc.first && !temp_map.count(uc.first))
-         temp_map[uc.first] = {i, false};
-      if (uc.second && !temp_map.count(uc.second))
-         temp_map[uc.second] = {i, true};
+   /* Altered significantly, originally from:
+    * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
+    *
+    * Returns unshifted and shifted UniChar (UTF-16) for each key code
+    * Zero return for character indicates it should be ignored (duplicate code or error) */
+   std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
+   {
+      static const UCKeyboardLayout* keyboard_layout{rsj::GetKeyboardData()};
+      if (!keyboard_layout) {
+         static auto alreadywarned{false};
+         if (!alreadywarned) {
+            alreadywarned = true;
+            rsj::LogAndAlertError("Keyboard layout is null. Cannot send keystrokes.");
+         }
+         return {0, 0};
+      }
+      UInt32 keys_down = 0;
+      UniChar chars[4];
+      // unshifted
+      UniCharCount real_length;
+      UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
+          kUCKeyTranslateNoDeadKeysMask, &keys_down, sizeof(chars) / sizeof(chars[0]), &real_length,
+          chars);
+      if (real_length != 1) {
+         rsj::Log(juce::String("For key code ") + juce::String(key_code)
+                  + juce::String(", Unicode character is ") + juce::String(real_length)
+                  + juce::String(" long. It starts with ") + juce::String(chars[0])
+                  + juce::String("."));
+         chars[0] = 0;
+      }
+      // shifted
+      UInt32 s_keys_down = 0;
+      UniChar s_chars[4];
+      UniCharCount s_real_length;
+      // 2 == left shift key, 4 == right shift key
+      UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 2, LMGetKbdType(),
+          kUCKeyTranslateNoDeadKeysMask, &s_keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
+          &s_real_length, s_chars);
+      if (s_real_length != 1) {
+         rsj::Log(juce::String("For shifted key code ") + juce::String(key_code)
+                  + juce::String(", Unicode character is ") + juce::String(s_real_length)
+                  + juce::String(" long. It starts with ") + juce::String(s_chars[0])
+                  + juce::String("."));
+         s_chars[0] = 0;
+      }
+      if (chars[0] == s_chars[0])
+         s_chars[0] = 0; // if unshifted and shifted same, only return unshifted
+      return {chars[0], s_chars[0]};
    }
-   return temp_map;
-}
 
-/* From:
- * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
- *
- * Returns key code for given character via the above function.
- * Bool in pair represents shift key
- */
-std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c) noexcept
-{
-   try {
+   // initializes unordered map for KeyCodeForChar
+   // UCKeyTranslate returns the same UniChar for several different (typically unused) key codes, so
+   // will only add first one
+   std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
+   {
+      std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
+      for (size_t i = 0; i < 128; ++i) {
+         const auto uc = CreateStringForKey((CGKeyCode)i);
+         if (uc.first && !temp_map.count(uc.first))
+            temp_map[uc.first] = {i, false};
+         if (uc.second && !temp_map.count(uc.second))
+            temp_map[uc.second] = {i, true};
+      }
+      return temp_map;
+   }
+
+   /*
+    * Returns key code for given character via the above function.
+    * Bool in pair represents shift key
+    */
+   std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
+   {
       static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{MakeMap()};
       const auto result = char_code_map.find(c);
       if (result != char_code_map.end())
@@ -180,49 +177,62 @@ std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c) noexcept
       else
          return {};
    }
-   catch (const std::exception& e) {
-      rsj::LogAndAlertError(
-          "Exception in KeyCodeForChar function for key: " + juce::String(c) + ". " + e.what());
-      return {};
+
+   void MacKeyDownUp(pid_t lr_pid, CGKeyCode vk, CGEventFlags flags)
+   {
+      CGEventRef d = CGEventCreateKeyboardEvent(NULL, vk, true);
+      CGEventRef u = CGEventCreateKeyboardEvent(NULL, vk, false);
+      CGEventSetFlags(d, flags);
+      CGEventSetFlags(u, flags);
+      { // scope for the mutex
+         static std::mutex mtx{};
+         auto lock = std::lock_guard(mtx);
+         CGEventPostToPid(lr_pid, d);
+         CGEventPostToPid(lr_pid, u);
+      }
+      CFRelease(d);
+      CFRelease(u);
    }
-}
 
 #endif
 
 #pragma warning(suppress : 26426)
-const std::unordered_map<std::string, unsigned char> kKeyMap = {
+   const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
-    {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
-    {"cursor right", VK_RIGHT}, {"cursor up", VK_UP}, {"delete", VK_DELETE}, {"end", VK_END},
-    {"escape", VK_ESCAPE}, {"home", VK_HOME}, {"page down", VK_NEXT}, {"page up", VK_PRIOR},
-    {"return", VK_RETURN}, {"space", VK_SPACE}, {"tab", VK_TAB}, {"f1", VK_F1}, {"f2", VK_F2},
-    {"f3", VK_F3}, {"f4", VK_F4}, {"f5", VK_F5}, {"f6", VK_F6}, {"f7", VK_F7}, {"f8", VK_F8},
-    {"f9", VK_F9}, {"f10", VK_F10}, {"f11", VK_F11}, {"f12", VK_F12}, {"f13", VK_F13},
-    {"f14", VK_F14}, {"f15", VK_F15}, {"f16", VK_F16}, {"f17", VK_F17}, {"f18", VK_F18},
-    {"f19", VK_F19}, {"f20", VK_F20}, {"numpad 0", VK_NUMPAD0}, {"numpad 1", VK_NUMPAD1},
-    {"numpad 2", VK_NUMPAD2}, {"numpad 3", VK_NUMPAD3}, {"numpad 4", VK_NUMPAD4},
-    {"numpad 5", VK_NUMPAD5}, {"numpad 6", VK_NUMPAD6}, {"numpad 7", VK_NUMPAD7},
-    {"numpad 8", VK_NUMPAD8}, {"numpad 9", VK_NUMPAD9}, {"numpad add", VK_ADD},
-    {"numpad subtract", VK_SUBTRACT}, {"numpad multiply", VK_MULTIPLY},
-    {"numpad divide", VK_DIVIDE}, {"numpad decimal", VK_DECIMAL}
+       {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
+       {"cursor right", VK_RIGHT}, {"cursor up", VK_UP}, {"delete", VK_DELETE}, {"end", VK_END},
+       {"escape", VK_ESCAPE}, {"home", VK_HOME}, {"page down", VK_NEXT}, {"page up", VK_PRIOR},
+       {"return", VK_RETURN}, {"space", VK_SPACE}, {"tab", VK_TAB}, {"f1", VK_F1}, {"f2", VK_F2},
+       {"f3", VK_F3}, {"f4", VK_F4}, {"f5", VK_F5}, {"f6", VK_F6}, {"f7", VK_F7}, {"f8", VK_F8},
+       {"f9", VK_F9}, {"f10", VK_F10}, {"f11", VK_F11}, {"f12", VK_F12}, {"f13", VK_F13},
+       {"f14", VK_F14}, {"f15", VK_F15}, {"f16", VK_F16}, {"f17", VK_F17}, {"f18", VK_F18},
+       {"f19", VK_F19}, {"f20", VK_F20}, {"numpad 0", VK_NUMPAD0}, {"numpad 1", VK_NUMPAD1},
+       {"numpad 2", VK_NUMPAD2}, {"numpad 3", VK_NUMPAD3}, {"numpad 4", VK_NUMPAD4},
+       {"numpad 5", VK_NUMPAD5}, {"numpad 6", VK_NUMPAD6}, {"numpad 7", VK_NUMPAD7},
+       {"numpad 8", VK_NUMPAD8}, {"numpad 9", VK_NUMPAD9}, {"numpad add", VK_ADD},
+       {"numpad subtract", VK_SUBTRACT}, {"numpad multiply", VK_MULTIPLY},
+       {"numpad divide", VK_DIVIDE}, {"numpad decimal", VK_DECIMAL}
 #else
-    {"backspace", kVK_Delete}, {"cursor down", kVK_DownArrow}, {"cursor left", kVK_LeftArrow},
-    {"cursor right", kVK_RightArrow}, {"cursor up", kVK_UpArrow}, {"delete", kVK_ForwardDelete},
-    {"end", kVK_End}, {"escape", kVK_Escape}, {"home", kVK_Home}, {"page down", kVK_PageDown},
-    {"page up", kVK_PageUp}, {"return", kVK_Return}, {"space", kVK_Space}, {"tab", kVK_Tab},
-    {"f1", kVK_F1}, {"f2", kVK_F2}, {"f3", kVK_F3}, {"f4", kVK_F4}, {"f5", kVK_F5}, {"f6", kVK_F6},
-    {"f7", kVK_F7}, {"f8", kVK_F8}, {"f9", kVK_F9}, {"f10", kVK_F10}, {"f11", kVK_F11},
-    {"f12", kVK_F12}, {"f13", kVK_F13}, {"f14", kVK_F14}, {"f15", kVK_F15}, {"f16", kVK_F16},
-    {"f17", kVK_F17}, {"f18", kVK_F18}, {"f19", kVK_F19}, {"f20", kVK_F20},
-    // using ANSI layout codes for keypad, may cause problems in some languages
-    {"numpad 0", kVK_ANSI_Keypad0}, {"numpad 1", kVK_ANSI_Keypad1}, {"numpad 2", kVK_ANSI_Keypad2},
-    {"numpad 3", kVK_ANSI_Keypad3}, {"numpad 4", kVK_ANSI_Keypad4}, {"numpad 5", kVK_ANSI_Keypad5},
-    {"numpad 6", kVK_ANSI_Keypad6}, {"numpad 7", kVK_ANSI_Keypad7}, {"numpad 8", kVK_ANSI_Keypad8},
-    {"numpad 9", kVK_ANSI_Keypad9}, {"numpad add", kVK_ANSI_KeypadPlus},
-    {"numpad subtract", kVK_ANSI_KeypadMinus}, {"numpad multiply", kVK_ANSI_KeypadMultiply},
-    {"numpad divide", kVK_ANSI_KeypadDivide}, {"numpad decimal", kVK_ANSI_KeypadDecimal}
+       {"backspace", kVK_Delete}, {"cursor down", kVK_DownArrow}, {"cursor left", kVK_LeftArrow},
+       {"cursor right", kVK_RightArrow}, {"cursor up", kVK_UpArrow}, {"delete", kVK_ForwardDelete},
+       {"end", kVK_End}, {"escape", kVK_Escape}, {"home", kVK_Home}, {"page down", kVK_PageDown},
+       {"page up", kVK_PageUp}, {"return", kVK_Return}, {"space", kVK_Space}, {"tab", kVK_Tab},
+       {"f1", kVK_F1}, {"f2", kVK_F2}, {"f3", kVK_F3}, {"f4", kVK_F4}, {"f5", kVK_F5},
+       {"f6", kVK_F6}, {"f7", kVK_F7}, {"f8", kVK_F8}, {"f9", kVK_F9}, {"f10", kVK_F10},
+       {"f11", kVK_F11}, {"f12", kVK_F12}, {"f13", kVK_F13}, {"f14", kVK_F14}, {"f15", kVK_F15},
+       {"f16", kVK_F16}, {"f17", kVK_F17}, {"f18", kVK_F18}, {"f19", kVK_F19}, {"f20", kVK_F20},
+       // using ANSI layout codes for keypad, may cause problems in some languages
+       {"numpad 0", kVK_ANSI_Keypad0}, {"numpad 1", kVK_ANSI_Keypad1},
+       {"numpad 2", kVK_ANSI_Keypad2}, {"numpad 3", kVK_ANSI_Keypad3},
+       {"numpad 4", kVK_ANSI_Keypad4}, {"numpad 5", kVK_ANSI_Keypad5},
+       {"numpad 6", kVK_ANSI_Keypad6}, {"numpad 7", kVK_ANSI_Keypad7},
+       {"numpad 8", kVK_ANSI_Keypad8}, {"numpad 9", kVK_ANSI_Keypad9},
+       {"numpad add", kVK_ANSI_KeypadPlus}, {"numpad subtract", kVK_ANSI_KeypadMinus},
+       {"numpad multiply", kVK_ANSI_KeypadMultiply}, {"numpad divide", kVK_ANSI_KeypadDivide},
+       {"numpad decimal", kVK_ANSI_KeypadDecimal}
 #endif
-};
+   };
+} // namespace
 
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions caught and suppressed
@@ -235,11 +245,8 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
    const bool control{gsl::narrow_cast<bool>(modifiers & 0x2)};
    const bool shift{gsl::narrow_cast<bool>(modifiers & 0x4)};
    try {
-#pragma warning(suppress : 26426)
-      static std::mutex mutex_sending{};
       const auto mapped_key = kKeyMap.find(ToLower(key));
       const auto in_keymap = mapped_key != kKeyMap.end();
-
 #ifdef _WIN32
       BYTE vk = 0;
       BYTE vk_modifiers = 0;
@@ -287,6 +294,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
       ip.ki = {0, 0, 0, 0, 0};
 
       // send key down strokes
+      static std::mutex mutex_sending{};
       auto lock = std::lock_guard(mutex_sending);
       for (auto it = strokes.crbegin(); it != strokes.crend(); ++it) {
          ip.ki.wVk = *it;
@@ -307,21 +315,15 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          }
       }
 #else
-      CGEventRef d{};
-      CGEventRef u{};
-      uint64_t flags = 0;
-      auto dr = gsl::finally([&d] {
-         if (d)
-            CFRelease(d);
-      }); // release at end of scope
-      auto ur = gsl::finally([&u] {
-         if (u)
-            CFRelease(u);
-      });
+      static const pid_t lr_pid{GetPid()};
+      if (!lr_pid) {
+         rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
+         return;
+      }
+      CGKeyCode vk{0};
+      CGEventFlags flags{0};
       if (in_keymap) {
-         const auto vk = mapped_key->second;
-         d = CGEventCreateKeyboardEvent(NULL, vk, true);
-         u = CGEventCreateKeyboardEvent(NULL, vk, false);
+         vk = mapped_key->second;
       }
       else {
          const UniChar uc{rsj::Utf8ToUtf16(key)};
@@ -330,9 +332,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
             rsj::LogAndAlertError("Unsupported character was used: " + key);
             return;
          }
-         const auto key_code = key_code_result->first;
-         d = CGEventCreateKeyboardEvent(NULL, key_code, true);
-         u = CGEventCreateKeyboardEvent(NULL, key_code, false);
+         vk = key_code_result->first;
          if (key_code_result->second)
             flags |= kCGEventFlagMaskShift;
       }
@@ -344,18 +344,7 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          flags |= kCGEventFlagMaskControl;
       if (shift)
          flags |= kCGEventFlagMaskShift;
-      CGEventSetFlags(d, static_cast<CGEventFlags>(flags));
-      CGEventSetFlags(u, static_cast<CGEventFlags>(flags));
-      static const pid_t lr_pid{GetPid()};
-      if (lr_pid) {
-         auto lock = std::lock_guard(mutex_sending);
-         CGEventPostToPid(lr_pid, d);
-         CGEventPostToPid(lr_pid, u);
-      }
-      else {
-         rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");
-      }
-
+      MacKeyDownUp(lr_pid, vk, flags);
 #endif
    }
    catch (const std::exception& e) {
