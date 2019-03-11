@@ -5,7 +5,6 @@ var searchData=
   ['kccflag',['kCcFlag',['../namespacersj.html#acfed8fcd3b55962e621fe38cc51b5fe6',1,'rsj']]],
   ['kchanpressureflag',['kChanPressureFlag',['../namespacersj.html#a3eef0c8742c77199734e77031216dd18',1,'rsj']]],
   ['kinvalidnrpn',['kInvalidNrpn',['../namespacersj.html#a1154e66eca3d296817f27ce478205b5b',1,'rsj']]],
-  ['kkeymap',['kKeyMap',['../_send_keys_8cpp.html#a43966ed166936ba61c615b70b098a588',1,'SendKeys.cpp']]],
   ['kkeypressureflag',['kKeyPressureFlag',['../namespacersj.html#a93c6b6eb3c616627e32d70dd236845a3',1,'rsj']]],
   ['klow13bits',['kLow13Bits',['../class_channel_model.html#a6190a8f24df92e5841dae683e5666ca5',1,'ChannelModel']]],
   ['klow6bits',['kLow6Bits',['../class_channel_model.html#a8471ddb372dc8aff7373529e662d4b3e',1,'ChannelModel']]],

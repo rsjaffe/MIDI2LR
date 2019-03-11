@@ -74,7 +74,6 @@ var searchData=
   ['controlsmodel_2ecpp',['ControlsModel.cpp',['../_controls_model_8cpp.html',1,'']]],
   ['controlsmodel_2eh',['ControlsModel.h',['../_controls_model_8h.html',1,'']]],
   ['cpu_5frelax',['CPU_RELAX',['../_misc_8h.html#a13145a5381714b1208044380235ffbf9',1,'Misc.h']]],
-  ['createstringforkey',['CreateStringForKey',['../_send_keys_8cpp.html#a538e624f710a36f9e57d83bc6385ea73',1,'SendKeys.cpp']]],
   ['current_5fprofile_5findex_5f',['current_profile_index_',['../class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39',1,'ProfileManager']]],
   ['current_5fsort_5f',['current_sort_',['../class_command_table_model.html#aa34a37908cfdc4eaaff00248e43798ac',1,'CommandTableModel']]],
   ['current_5fv_5f',['current_v_',['../class_channel_model.html#ac08a877289473714da539fc516fddb42',1,'ChannelModel']]],

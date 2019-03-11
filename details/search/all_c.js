@@ -20,7 +20,6 @@ var searchData=
   ['mainwindow_2ecpp',['MainWindow.cpp',['../_main_window_8cpp.html',1,'']]],
   ['mainwindow_2eh',['MainWindow.h',['../_main_window_8h.html',1,'']]],
   ['makeimpl',['MakeImpl',['../class_command_set.html#a2eb96bcf46a23761d35e59a9108a244e',1,'CommandSet']]],
-  ['makemap',['MakeMap',['../_send_keys_8cpp.html#a050adb19c1aa4bd09b3b28d4a1184fd0',1,'SendKeys.cpp']]],
   ['mapcommand',['MapCommand',['../class_profile_manager.html#a498ff5dcfc0fadef110e0241ea82b6fd',1,'ProfileManager']]],
   ['margin',['margin',['../struct_resizable_layout_1_1_state.html#ae86cfbd6141c7da07a491eedc17e1247',1,'ResizableLayout::State']]],
   ['maxval',['maxval',['../class_p_woptions.html#a1f21a0ccde3acc7261c3113945ed4be4',1,'PWoptions']]],

@@ -28,6 +28,5 @@ var searchData=
   ['connecttimer',['ConnectTimer',['../class_lr_ipc_out_1_1_connect_timer.html#aedf6a1c3a94f2560d7078ccb8d849e66',1,'LrIpcOut::ConnectTimer']]],
   ['constrainer',['Constrainer',['../class_top_level_resizable_layout_1_1_constrainer.html#ac1138a9c4319d8413f04f3bfb749e969',1,'TopLevelResizableLayout::Constrainer']]],
   ['controllertoplugin',['ControllerToPlugin',['../class_channel_model.html#aaf55f67e8b306f47e9f0aac2fce8ac3c',1,'ChannelModel::ControllerToPlugin()'],['../class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0',1,'ControlsModel::ControllerToPlugin()']]],
-  ['controlsmodel',['ControlsModel',['../class_controls_model.html#a0781b48b5267bca6c0fc32e1e997d0dc',1,'ControlsModel::ControlsModel()=default'],['../class_controls_model.html#a23c6411981fe10b19ab2ffb6a3459ab8',1,'ControlsModel::ControlsModel(const ControlsModel &amp;)=delete'],['../class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8',1,'ControlsModel::ControlsModel(ControlsModel &amp;&amp;)=delete']]],
-  ['createstringforkey',['CreateStringForKey',['../_send_keys_8cpp.html#a538e624f710a36f9e57d83bc6385ea73',1,'SendKeys.cpp']]]
+  ['controlsmodel',['ControlsModel',['../class_controls_model.html#a0781b48b5267bca6c0fc32e1e997d0dc',1,'ControlsModel::ControlsModel()=default'],['../class_controls_model.html#a23c6411981fe10b19ab2ffb6a3459ab8',1,'ControlsModel::ControlsModel(const ControlsModel &amp;)=delete'],['../class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8',1,'ControlsModel::ControlsModel(ControlsModel &amp;&amp;)=delete']]]
 ];
