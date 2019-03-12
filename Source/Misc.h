@@ -111,6 +111,31 @@ namespace rsj {
    [[nodiscard]] ::std::string AppDataFilePath(const ::std::string& file_name);
    [[nodiscard]] ::std::string AppLogFilePath(const ::std::string& file_name);
 #endif // def _WIN32
+
+   // -------------------------------------------------------------------
+   // --- Reversed iterable
+   // https://stackoverflow.com/a/28139075/5699329
+   // Note that this won't properly capture an rvalue container (temporary)
+   // see https://stackoverflow.com/a/42221253/5699329 for that solution
+
+   template<typename T> struct reversion_wrapper {
+      T& iterable;
+   };
+
+   template<typename T> auto begin(reversion_wrapper<T> w)
+   {
+      return std::rbegin(w.iterable);
+   }
+
+   template<typename T> auto end(reversion_wrapper<T> w)
+   {
+      return std::rend(w.iterable);
+   }
+
+   template<typename T> reversion_wrapper<T> reverse(T&& iterable)
+   {
+      return {iterable};
+   }
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED
