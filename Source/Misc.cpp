@@ -142,7 +142,7 @@ std::wstring rsj::Utf8ToWide(std::string_view input)
        MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), input.size(), nullptr, 0) + 1;
    std::vector<wchar_t> buffer(buffersize, 0); // all zero
    MultiByteToWideCharErrorChecked(
-       CP_UTF8, 0, input.data(), input.size(), buffer.data(), buffer.size());
+       CP_UTF8, 0, input.data(), input.size(), buffer.data(), gsl::narrow_cast<int>(buffer.size()));
    return buffer.data();
 }
 
@@ -152,8 +152,8 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
                                CP_UTF8, 0, wstr.data(), wstr.size(), nullptr, 0, nullptr, nullptr)
                            + 1;
    std::vector<char> buffer(buffersize, 0);
-   WideCharToMultiByteErrorChecked(
-       CP_UTF8, 0, wstr.data(), wstr.size(), buffer.data(), buffer.size(), nullptr, nullptr);
+   WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(), wstr.size(), buffer.data(),
+       gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);
    return buffer.data();
 }
 #else
