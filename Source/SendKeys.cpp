@@ -50,6 +50,7 @@ namespace {
    std::string ToLower(std::string_view in)
    {
       std::string s;
+      s.resize(in.size());
       std::transform(in.begin(), in.end(),
           s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
       return s;
