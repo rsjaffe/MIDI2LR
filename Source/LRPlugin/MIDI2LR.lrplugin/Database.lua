@@ -221,7 +221,7 @@ local DataBase = {
   {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=library,Explanation='Edit the current photo in Photoshop. Supported in LR versions 7.4 and later.'},  
   {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export=Export...'):gsub('%&',''),Group=library,Explanation='Opens export dialog for the current photos. Supported in LR versions 7.4 and later.'},
   {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%&',''),Group=library,Explanation='Opens export with previous settings for the current photos. Supported in LR versions 7.4 and later.'},
-  
+
   --library: rotation
   --library: delete
   --library: face recognition
@@ -277,6 +277,7 @@ local DataBase = {
   {Command='Whites',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Whites=Whites')..' (no effect in '..PV2003and2010..')',Group=basicTone,Explanation='Adjusts white clipping. Drag to the left to reduce clipping in highlights. Drag to the right to increase highlight clipping.',Panel='adjustPanel'},
   {Command='Blacks',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Blacks=Blacks'),Group=basicTone,Explanation='Specifies which image values map to black. Moving the slider to the right increases the areas that become black, sometimes creating the impression of increased image contrast. The greatest effect is in the shadows, with much less change in the midtones and highlights.',Panel='adjustPanel'},
   {Command='Clarity',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Clarity=Clarity'),Group=basicTone,Explanation='Adds depth to an image by increasing local contrast. When using this setting, it is best to zoom in to 100% or greater.',Panel='adjustPanel'},
+  {Command='Dehaze',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount'),Group=basicTone,Explanation='Controls the amount of haze in a photograph. Drag to the right to remove haze; drag to the left to add haze.',Panel='adjustPanel'},
   {Command='Vibrance',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Vibrance=Vibrance'),Group=basicTone,Explanation='Adjusts the saturation so that clipping is minimized as colors approach full saturation, changing the saturation of all lower-saturated colors with less effect on the higher-saturated colors. Vibrance also prevents skin tones from becoming over saturated.',Panel='adjustPanel'},
   {Command='Saturation',Type='parameter',Translation=LOC('$$$/AgCameraRawUI/Saturation=Saturation'),Group=basicTone,Explanation='Adjusts the saturation of all image colors equally from -100 (monochrome) to +100 (double the saturation).',Panel='adjustPanel'},
   {Command='ResetTemperature',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Temperature=Temperature'),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
@@ -489,7 +490,6 @@ local DataBase = {
 --
   {Command='RevealPanelEffects',Type='button',Translation=show..' '..effects,Group=effects,Explanation='Open Effects Panel in Develop Module.'},
   {Command='EnableEffects',Type='button',Experimental=true,Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/EnableEffects=Enable Effects'),Group=effects,Explanation='Enable or disable effects.',Panel='effectsPanel'},
-  {Command='Dehaze',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount'),Group=effects,Explanation='Controls the amount of haze in a photograph. Drag to the right to remove haze; drag to the left to add haze.',Panel='effectsPanel'},
   {Command='PostCropVignetteAmount',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteAmount=Post Crop Vignette Amount'),Group=effects,Explanation='Negative values darken the corners of the photo. Positive values lighten the corners.',Panel='effectsPanel'},
   {Command='PostCropVignetteMidpoint',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteMidpoint=Post Crop Vignette Midpoint'),Group=effects,Explanation='Lower values apply the Amount adjustment to a larger area away from the corners. Higher values restrict the adjustment to an area closer to the corners.',Panel='effectsPanel'},
   {Command='PostCropVignetteFeather',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteFeather=Post Crop Vignette Feather'),Group=effects,Explanation='Lower values reduce softening between the vignette and the vignetteâ€™s surrounding pixels. Higher values increase the softening.',Panel='effectsPanel'},
