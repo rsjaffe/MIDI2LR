@@ -107,41 +107,53 @@ std::wstring rsj::AppDataFilePath(std::string_view file_name)
    return rsj::AppDataFilePath(rsj::Utf8ToWide(file_name));
 }
 
+namespace {
+   int MultiByteToWideCharErrorChecked(UINT CodePage, DWORD dwFlags, LPCCH lpMultiByteStr,
+       int cbMultiByte, LPWSTR lpWideCharStr, int cchWideChar)
+   {
+      const auto ret = MultiByteToWideChar(
+          CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
+      if (!ret) {
+         const std::string errorMsg =
+             "MultiByteToWideChar failed with error code: " + GetLastError();
+         throw std::runtime_error(errorMsg.c_str());
+      }
+      return ret;
+   }
+
+   int WideCharToMultiByteErrorChecked(UINT CodePage, DWORD dwFlags, LPCWCH lpWideCharStr,
+       int cchWideChar, LPSTR lpMultiByteStr, int cbMultiByte, LPCCH lpDefaultChar,
+       LPBOOL lpUsedDefaultChar)
+   {
+      const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
+          lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
+      if (!ret) {
+         const std::string errorMsg =
+             "WideCharToMultiByte failed with error code: " + GetLastError();
+         throw std::runtime_error(errorMsg.c_str());
+      }
+      return ret;
+   }
+} // namespace
+
 std::wstring rsj::Utf8ToWide(std::string_view input)
 { // add terminating null
    const auto buffersize =
-       MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), nullptr, 0) + 1;
-   if (buffersize == 1) {
-      // WideCharToMultiByte return 0 for errors.
-      const std::string errorMsg = "UTF8 to UTF16 failed with error code: " + GetLastError();
-      throw std::runtime_error(errorMsg.c_str());
-   }
+       MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), input.size(), nullptr, 0) + 1;
    std::vector<wchar_t> buffer(buffersize, 0); // all zero
-   const auto retval =
-       MultiByteToWideChar(CP_UTF8, 0, input.data(), input.size(), buffer.data(), buffer.size());
-   if (retval == 0) {
-      const std::string errorMsg = "UTF8 to UTF16 failed with error code: " + GetLastError();
-      throw std::runtime_error(errorMsg.c_str());
-   }
+   MultiByteToWideCharErrorChecked(
+       CP_UTF8, 0, input.data(), input.size(), buffer.data(), buffer.size());
    return buffer.data();
 }
 
 std::string rsj::WideToUtf8(std::wstring_view wstr)
 { // add terminating null
-   const auto buffersize =
-       WideCharToMultiByte(CP_UTF8, 0, wstr.data(), wstr.size(), nullptr, 0, nullptr, nullptr) + 1;
-   if (buffersize == 1) {
-      // WideCharToMultiByte return 0 for errors.
-      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
-      throw std::runtime_error(errorMsg.c_str());
-   }
+   const auto buffersize = WideCharToMultiByteErrorChecked(
+                               CP_UTF8, 0, wstr.data(), wstr.size(), nullptr, 0, nullptr, nullptr)
+                           + 1;
    std::vector<char> buffer(buffersize, 0);
-   const auto retval = WideCharToMultiByte(
+   WideCharToMultiByteErrorChecked(
        CP_UTF8, 0, wstr.data(), wstr.size(), buffer.data(), buffer.size(), nullptr, nullptr);
-   if (retval == 0) {
-      const std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
-      throw std::runtime_error(errorMsg.c_str());
-   }
    return buffer.data();
 }
 #else

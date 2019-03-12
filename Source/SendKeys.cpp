@@ -68,7 +68,7 @@ namespace {
 
    HKL GetLanguage(const std::string& program_name) noexcept
    {
-      const auto h_lr_wnd = FindWindow(nullptr, program_name.c_str());
+      const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
       if (h_lr_wnd) { // get language that LR is using (if hLrWnd is found)
          const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
          return GetKeyboardLayout(thread_id);
@@ -77,20 +77,24 @@ namespace {
       return GetKeyboardLayout(0);
    }
 
-   // shift coded as follows:
-   // 1: shift, 2: ctrl, 4: alt, 8: hankaku
-   std::pair<BYTE, ActiveModifiers> KeyToVk(std::string_view key)
+   SHORT VkKeyScanExWErrorChecked(WCHAR ch, HKL dwhkl)
    {
-      static_assert(LOBYTE(0xffff) == 0xff && HIBYTE(0xffff) == 0xff,
-          "Assuming VkKeyScanEx returns 0xffff on error");
-      const auto uc{rsj::Utf8ToWide(key)[0]};
-      static const auto kLanguageId = GetLanguage("Lightroom");
-      const auto vk_code_and_shift = VkKeyScanExW(uc, kLanguageId);
+      const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
       if (vk_code_and_shift == 0xffff) { //-V547
          const std::string errorMsg = "VkKeyScanExW failed with error code: " + GetLastError();
          throw std::runtime_error(errorMsg.c_str());
       }
+      return vk_code_and_shift;
+   }
+
+   std::pair<BYTE, ActiveModifiers> KeyToVk(std::string_view key)
+   {
+      const auto uc{rsj::Utf8ToWide(key)[0]};
+      static const auto kLanguageId = GetLanguage("Lightroom");
+      const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
       const auto mods = HIBYTE(vk_code_and_shift);
+      // shift coded as follows:
+      // 1: shift, 2: ctrl, 4: alt, 8: hankaku
       ActiveModifiers am{};
       if (mods & 1)
          am.shift = true;
@@ -103,12 +107,22 @@ namespace {
       return {LOBYTE(vk_code_and_shift), am};
    }
 
+   UINT SendInputErrorChecked(UINT cinputs, LPINPUT pinputs, int cbSize)
+   {
+      const auto result = SendInput(cinputs, pinputs, cbSize);
+      if (result == 0) {
+         const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
+         throw std::runtime_error(errorMsg.c_str());
+      }
+      return result;
+   }
+
+   // expects key first, followed by modifiers
    void WinSendKeyStrokes(const std::vector<WORD>& strokes)
    {
-      // expects key first, followed by modifiers
       // construct input event.
       INPUT ip{};
-      constexpr auto size_ip = sizeof(ip);
+      constexpr int size_ip = sizeof(ip);
       ip.type = INPUT_KEYBOARD;
       // ki: wVk, wScan, dwFlags, time, dwExtraInfo
       ip.ki = {0, 0, 0, 0, 0};
@@ -118,21 +132,13 @@ namespace {
       auto lock = std::lock_guard(mutex_sending);
       for (const auto it : rsj::reverse(strokes)) {
          ip.ki.wVk = it;
-         const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0) {
-            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
-            throw std::runtime_error(errorMsg.c_str());
-         }
+         SendInputErrorChecked(1, &ip, size_ip);
       }
       // send key up strokes
       ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
       for (const auto it : strokes) {
          ip.ki.wVk = it;
-         const auto result = SendInput(1, &ip, size_ip);
-         if (result == 0) {
-            const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
-            throw std::runtime_error(errorMsg.c_str());
-         }
+         SendInputErrorChecked(1, &ip, size_ip);
       }
    }
 
