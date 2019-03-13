@@ -22,6 +22,8 @@ var searchData=
   ['resized',['resized',['../class_c_coptions.html#a5d08843370dbba861d25fec42f47862f',1,'CCoptions::resized()'],['../class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2',1,'PWoptions::resized()']]],
   ['resizestart',['resizeStart',['../class_resizable_child.html#a51917604a38f4acd0b4628663028ca74',1,'ResizableChild::resizeStart()'],['../class_resizable_layout.html#a969baa1a3b966ad3f7a7d4d7c02b1f08',1,'ResizableLayout::resizeStart()'],['../class_top_level_resizable_layout_1_1_constrainer.html#a3ed23b7cee89ca16e28c4b423c24967a',1,'TopLevelResizableLayout::Constrainer::resizeStart()']]],
   ['restart',['Restart',['../class_lr_ipc_out.html#afa50991a548c673a64a558cfc0a00cea',1,'LrIpcOut']]],
+  ['reverse',['reverse',['../namespacersj.html#a838a70a9f6ff71acd4a391f21852b201',1,'rsj']]],
+  ['reversion_5fwrapper',['reversion_wrapper',['../structrsj_1_1reversion__wrapper.html',1,'rsj']]],
   ['right',['right',['../struct_resizable_layout_1_1_rect.html#a1174ba433d778aec717c0f03ab946e17',1,'ResizableLayout::Rect']]],
   ['row_5fto_5fselect_5f',['row_to_select_',['../class_main_content_component.html#add0faf0231a66206246ce44503fa93a8',1,'MainContentComponent']]],
   ['rsj',['rsj',['../namespacersj.html',1,'']]],

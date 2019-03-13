@@ -12,6 +12,7 @@ var class_midi_receiver =
     [ "operator=", "class_midi_receiver.html#a6f22aaf308531ff37ded81a4aab5d807", null ],
     [ "operator=", "class_midi_receiver.html#ab7d9ab5d773b90e767a56435ec68f039", null ],
     [ "RescanDevices", "class_midi_receiver.html#a9a477458f298106f55c97ae9c7043fbc", null ],
+    [ "TryToOpen", "class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595", null ],
     [ "callbacks_", "class_midi_receiver.html#a326d78bf9372875e07595d412d18735a", null ],
     [ "devices_", "class_midi_receiver.html#aa96d746ae3aa3f5a423dca53eb605674", null ],
     [ "dispatch_messages_future_", "class_midi_receiver.html#a90cf4a5de8a026c91513b38332702d0a", null ],

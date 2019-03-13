@@ -64,6 +64,7 @@ var hierarchy =
     [ "ResizableChild", "class_resizable_child.html", [
       [ "ResizableLayout", "class_resizable_layout.html", null ]
     ] ],
+    [ "rsj::reversion_wrapper< T >", "structrsj_1_1reversion__wrapper.html", null ],
     [ "SettingsManager", "class_settings_manager.html", null ],
     [ "rsj::SettingsStruct", "structrsj_1_1_settings_struct.html", null ],
     [ "ResizableLayout::State", "struct_resizable_layout_1_1_state.html", null ],
@@ -84,6 +85,7 @@ var hierarchy =
       [ "LrIpcIn", "class_lr_ipc_in.html", null ],
       [ "LrIpcOut::ConnectTimer", "class_lr_ipc_out_1_1_connect_timer.html", null ],
       [ "LrIpcOut::Recenter", "class_lr_ipc_out_1_1_recenter.html", null ],
-      [ "MainContentComponent", "class_main_content_component.html", null ]
+      [ "MainContentComponent", "class_main_content_component.html", null ],
+      [ "MainWindow", "class_main_window.html", null ]
     ] ]
 ];

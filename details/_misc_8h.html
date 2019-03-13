@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.0.8</span>
+   &#160;<span id="projectnumber">3.0.0.11</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -172,6 +172,8 @@ $(document).ready(function(){initNavTree('_misc_8h.html','');});
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrsj_1_1_relax_t_tas_spin_lock.html">rsj::RelaxTTasSpinLock</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1reversion__wrapper.html">rsj::reversion_wrapper&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -196,6 +198,12 @@ Functions</h2></td></tr>
 <tr class="separator:aa6f12fd71a03cd84ad048d82223b26c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c930e57e66c99f9d4eccfb30327da70"><td class="memItemLeft" align="right" valign="top">::std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70">rsj::AppLogFilePath</a> (const ::std::string &amp;file_name)</td></tr>
 <tr class="separator:a4c930e57e66c99f9d4eccfb30327da70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab325299d4bb3d3c0cb841d04b1bc04d7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab325299d4bb3d3c0cb841d04b1bc04d7"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#ab325299d4bb3d3c0cb841d04b1bc04d7">rsj::begin</a> (reversion_wrapper&lt; T &gt; w)</td></tr>
+<tr class="separator:ab325299d4bb3d3c0cb841d04b1bc04d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09fd50037a14876d9faf5b5509a23e25"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a09fd50037a14876d9faf5b5509a23e25"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a09fd50037a14876d9faf5b5509a23e25">rsj::end</a> (reversion_wrapper&lt; T &gt; w)</td></tr>
+<tr class="separator:a09fd50037a14876d9faf5b5509a23e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad16098ca2cbf4fce3549b58445ed8cbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a> (const char *id, const char *fu, const ::std::exception &amp;e) noexcept</td></tr>
 <tr class="separator:ad16098ca2cbf4fce3549b58445ed8cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e3aa12d0586da0bb64db2eecc7868c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a> (const juce::String &amp;info)</td></tr>
@@ -204,6 +212,9 @@ Functions</h2></td></tr>
 <tr class="separator:a13589127c96c3faf1378eb29f93022b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5fa06909fea3c03b4102140fb19f8f2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#af5fa06909fea3c03b4102140fb19f8f2">rsj::NowMs</a> () noexcept</td></tr>
 <tr class="separator:af5fa06909fea3c03b4102140fb19f8f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a838a70a9f6ff71acd4a391f21852b201"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a838a70a9f6ff71acd4a391f21852b201"><td class="memTemplItemLeft" align="right" valign="top">reversion_wrapper&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacersj.html#a838a70a9f6ff71acd4a391f21852b201">rsj::reverse</a> (T &amp;&amp;iterable)</td></tr>
+<tr class="separator:a838a70a9f6ff71acd4a391f21852b201"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
