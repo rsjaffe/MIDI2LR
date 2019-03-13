@@ -289,6 +289,7 @@ local DataBase = {
   {Command='ResetWhites',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawUI/Whites=Whites'),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetBlacks',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawUI/Blacks=Blacks'),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetClarity',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/Clarity=Clarity'),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
+  {Command='ResetDehaze',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount'),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},  
   {Command='ResetVibrance',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawUI/Vibrance=Vibrance'),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
   {Command='ResetSaturation',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawUI/Saturation=Saturation'),Group=basicTone,Explanation='Reset to default.',Panel='adjustPanel'},
 --
@@ -502,7 +503,6 @@ local DataBase = {
   {Command='GrainAmount',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainAmount=Grain Amount'),Group=effects,Explanation='Controls the amount of grain applied to the image. Drag to the right to increase the amount. Set to zero to disable grain.',Panel='effectsPanel'},
   {Command='GrainSize',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainSize=Grain Size'),Group=effects,Explanation='Controls grain particle size. At sizes of 25 or greater, blue is added to make the effect look better with noise reduction.',Panel='effectsPanel'},
   {Command='GrainFrequency',Type='parameter',Translation=LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/GrainRoughness=Grain Roughness'),Group=effects,Explanation=' Controls the regularity of the grain. Drag to the left to make the grain more uniform; drag to the right to make the grain more uneven.',Panel='effectsPanel'},
-  {Command='ResetDehaze',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/DehazeAmount=Dehaze Amount'),Group=effects,Explanation='Reset to default.',Panel='effectsPanel'},
   {Command='ResetPostCropVignetteAmount',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteAmount=Post Crop Vignette Amount'),Group=effects,Explanation='Reset to default.',Panel='effectsPanel'},
   {Command='ResetPostCropVignetteMidpoint',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteMidpoint=Post Crop Vignette Midpoint'),Group=effects,Explanation='Reset to default.',Panel='effectsPanel'},
   {Command='ResetPostCropVignetteFeather',Type='button',Translation=reset..' '..LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/PostCropVignetteFeather=Post Crop Vignette Feather'),Group=effects,Explanation='Reset to default.',Panel='effectsPanel'},
