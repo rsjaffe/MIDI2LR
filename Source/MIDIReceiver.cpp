@@ -20,8 +20,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDIReceiver.h"
 
+#include <chrono> //sleep_for timing
 #include <exception>
 #include <future>
+#include <thread> //sleep_for
 
 #include "Misc.h"
 
@@ -123,16 +125,43 @@ void MidiReceiver::RescanDevices()
    InitDevices(); // initdevices has own try catch block
 }
 
+void MidiReceiver::TryToOpen()
+{
+   for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
+      const auto dev = juce::MidiInput::openDevice(idx, this);
+      if (dev) {
+         devices_.emplace_back(dev);
+         dev->start();
+         rsj::Log("Opened input device " + dev->getName());
+      }
+   }
+}
+
+namespace {
+   template<class Rep, class Period>
+   auto SleepTimed(const std::chrono::duration<Rep, Period>& sleep_duration)
+   {
+      const auto start = std::chrono::high_resolution_clock::now();
+      std::this_thread::sleep_for(sleep_duration);
+      const auto end = std::chrono::high_resolution_clock::now();
+      const std::chrono::duration<double, Period> elapsed = end - start;
+      return elapsed;
+   }
+} // namespace
+
 void MidiReceiver::InitDevices()
 {
+   using namespace std::chrono_literals;
    try {
-      for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
-         const auto dev = juce::MidiInput::openDevice(idx, this);
-         if (dev) {
-            devices_.emplace_back(dev);
-            dev->start();
-            rsj::Log("Opened input device " + dev->getName());
-         }
+      rsj::Log("Trying to open input devices");
+      TryToOpen();
+      if (devices_.empty()) // encountering errors first try on MacOS
+      {
+         rsj::Log("Retrying to open input devices");
+         const auto elapsed = SleepTimed(20ms);
+         rsj::Log("Open input devices thread slept for " + juce::String(elapsed.count())
+                  + " milliseconds.");
+         TryToOpen();
       }
    }
    catch (const std::exception& e) {
