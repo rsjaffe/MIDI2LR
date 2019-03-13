@@ -31,7 +31,7 @@ class MainContentComponent;
 class ProfileManager;
 class SettingsManager;
 
-class MainWindow final : juce::DocumentWindow {
+class MainWindow final : juce::DocumentWindow, juce::Timer {
  public:
    MainWindow(const juce::String& name, CommandMap& command_map, ProfileManager& profile_manager,
        SettingsManager& settings_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
@@ -58,6 +58,8 @@ class MainWindow final : juce::DocumentWindow {
       juce::JUCEApplication::getInstance()->systemRequestedQuit();
    }
    MainContentComponent* window_content_;
+   // the timer callback function
+   void timerCallback() override;
 };
 
 #endif // MAINWINDOW_H_INCLUDED

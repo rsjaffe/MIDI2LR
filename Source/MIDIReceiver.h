@@ -52,6 +52,7 @@ class MidiReceiver final : juce::MidiInputCallback {
    void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
    void DispatchMessages();
    void InitDevices();
+   void TryToOpen(); //inner code for InitDevices
 
    moodycamel::BlockingConcurrentQueue<rsj::MidiMessage> messages_;
    NrpnFilter nrpn_filter_;

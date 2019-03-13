@@ -196,10 +196,11 @@ namespace {
           kUCKeyTranslateNoDeadKeysMask, &keys_down, sizeof(chars) / sizeof(chars[0]), &real_length,
           chars);
       if (real_length != 1) {
-         rsj::Log(juce::String("For key code ") + juce::String(key_code)
-                  + juce::String(", Unicode character is ") + juce::String(real_length)
-                  + juce::String(" long. It starts with ") + juce::String(chars[0])
-                  + juce::String("."));
+         if (real_length > 1)
+            rsj::Log(juce::String("For key code ") + juce::String(key_code)
+                     + juce::String(", Unicode character is ") + juce::String(real_length)
+                     + juce::String(" long. It starts with ") + juce::String(chars[0])
+                     + juce::String("."));
          chars[0] = 0;
       }
       // shifted
@@ -211,10 +212,11 @@ namespace {
           kUCKeyTranslateNoDeadKeysMask, &s_keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
           &s_real_length, s_chars);
       if (s_real_length != 1) {
-         rsj::Log(juce::String("For shifted key code ") + juce::String(key_code)
-                  + juce::String(", Unicode character is ") + juce::String(s_real_length)
-                  + juce::String(" long. It starts with ") + juce::String(s_chars[0])
-                  + juce::String("."));
+         if (s_real_length > 1)
+            rsj::Log(juce::String("For shifted key code ") + juce::String(key_code)
+                     + juce::String(", Unicode character is ") + juce::String(s_real_length)
+                     + juce::String(" long. It starts with ") + juce::String(s_chars[0])
+                     + juce::String("."));
          s_chars[0] = 0;
       }
       if (chars[0] == s_chars[0])

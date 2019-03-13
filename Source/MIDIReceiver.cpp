@@ -20,8 +20,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MIDIReceiver.h"
 
+#include <chrono> //sleep_for timing
 #include <exception>
 #include <future>
+#include <thread> //sleep_for
 
 #include "Misc.h"
 
@@ -123,16 +125,99 @@ void MidiReceiver::RescanDevices()
    InitDevices(); // initdevices has own try catch block
 }
 
+void MidiReceiver::TryToOpen()
+{
+   for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
+      const auto dev = juce::MidiInput::openDevice(idx, this);
+      if (dev) {
+         devices_.emplace_back(dev);
+         dev->start();
+         rsj::Log("Opened input device " + dev->getName());
+      }
+   }
+}
+
+namespace {
+   // zepto yocto zetta and yotta too large/small to be represented by intmax_t
+   // TODO: change to consteval, find way to convert digit to string for unexpected
+   // values, so return could be, e.g., "23425/125557 ", instead of error message
+   template<class R> constexpr auto RatioToPrefix()
+   {
+      if (R::num == 1) {
+         switch (R::den) {
+         case 1:
+            return "";
+         case 10:
+            return "deci";
+         case 100:
+            return "centi";
+         case 1000:
+            return "milli";
+         case 1000000:
+            return "micro";
+         case 1000000000:
+            return "nano";
+         case 1000000000000:
+            return "pico";
+         case 1000000000000000:
+            return "femto";
+         case 1000000000000000000:
+            return "atto";
+         }
+      }
+      switch (R::num) {
+      case 10:
+         return "deca";
+      case 100:
+         return "hecto";
+      case 1000:
+         return "kilo";
+      case 1000000:
+         return "mega";
+      case 1000000000:
+         return "giga";
+      case 1000000000000:
+         return "tera";
+      case 1000000000000000:
+         return "peta";
+      case 1000000000000000000:
+         return "exa";
+      }
+      return "unexpected ratio encountered ";
+   }
+
+   template<class Rep, class Period>
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration)
+   {
+      const auto start = std::chrono::high_resolution_clock::now();
+      std::this_thread::sleep_for(sleep_duration);
+      const auto end = std::chrono::high_resolution_clock::now();
+      const std::chrono::duration<double, Period> elapsed = end - start;
+      return elapsed;
+   }
+
+   template<class Rep, class Period>
+   void SleepTimedLogged(
+       std::string_view msg_prefix, std::chrono::duration<Rep, Period> sleep_duration)
+   {
+      const auto elapsed = SleepTimed(sleep_duration);
+      rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
+               + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
+   }
+
+} // namespace
+
 void MidiReceiver::InitDevices()
 {
+   using namespace std::chrono_literals;
    try {
-      for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
-         const auto dev = juce::MidiInput::openDevice(idx, this);
-         if (dev) {
-            devices_.emplace_back(dev);
-            dev->start();
-            rsj::Log("Opened input device " + dev->getName());
-         }
+      rsj::Log("Trying to open input devices");
+      TryToOpen();
+      if (devices_.empty()) // encountering errors first try on MacOS
+      {
+         rsj::Log("Retrying to open input devices");
+         SleepTimedLogged("Open input devices", 20ms);
+         TryToOpen();
       }
    }
    catch (const std::exception& e) {
