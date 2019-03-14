@@ -389,6 +389,7 @@
     <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzma-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
+    <createUninstaller>0</createUninstaller>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
     <height>400</height>
