@@ -143,7 +143,7 @@ std::string rsj::GetKeyboardLayout()
          return msg;
       }
    }
-   const auto msg{"Unable to get KLID. Error "s + std::to_string(GetLastError()) + "."s};
+   const auto msg{"Unable to get KLID. Error "s + rsj::NumToChars(GetLastError()) + "."s};
    rsj::Log(msg);
    return msg;
 }

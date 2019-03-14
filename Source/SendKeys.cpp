@@ -81,8 +81,9 @@ namespace {
    {
       const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
       if (vk_code_and_shift == 0xffff) { //-V547
-         const std::string errorMsg = "VkKeyScanExW failed with error code: " + GetLastError();
-         throw std::runtime_error(errorMsg.c_str());
+         const auto error_msg =
+             "VkKeyScanExW failed with error code: " + rsj::NumToChars(GetLastError());
+         throw std::runtime_error(error_msg.c_str());
       }
       return vk_code_and_shift;
    }
@@ -111,8 +112,9 @@ namespace {
    {
       const auto result = SendInput(cinputs, pinputs, cbSize);
       if (result == 0) {
-         const std::string errorMsg = "SendInput failed with error code: " + GetLastError();
-         throw std::runtime_error(errorMsg.c_str());
+         const auto error_msg =
+             "SendInput failed with error code: " + rsj::NumToChars(GetLastError());
+         throw std::runtime_error(error_msg.c_str());
       }
       return result;
    }
@@ -130,7 +132,7 @@ namespace {
       // send key down strokes
       static std::mutex mutex_sending{};
       auto lock = std::lock_guard(mutex_sending);
-      for (const auto it : rsj::reverse(strokes)) {
+      for (const auto it : rsj::Reverse(strokes)) {
          ip.ki.wVk = it;
          SendInputErrorChecked(1, &ip, size_ip);
       }

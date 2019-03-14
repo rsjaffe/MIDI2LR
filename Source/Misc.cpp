@@ -113,9 +113,9 @@ namespace {
       const auto ret = MultiByteToWideChar(
           CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
       if (!ret) {
-         const std::string errorMsg =
-             "MultiByteToWideChar failed with error code: " + GetLastError();
-         throw std::runtime_error(errorMsg.c_str());
+         const auto error_msg =
+             "MultiByteToWideChar failed with error code: " + rsj::NumToChars(GetLastError());
+         throw std::runtime_error(error_msg.c_str());
       }
       return ret;
    }
@@ -127,9 +127,9 @@ namespace {
       const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
           lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
       if (!ret) {
-         const std::string errorMsg =
-             "WideCharToMultiByte failed with error code: " + GetLastError();
-         throw std::runtime_error(errorMsg.c_str());
+         const auto error_msg =
+             "WideCharToMultiByte failed with error code: " + rsj::NumToChars(GetLastError());
+         throw std::runtime_error(error_msg.c_str());
       }
       return ret;
    }

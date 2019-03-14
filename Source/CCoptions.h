@@ -68,6 +68,8 @@ class CCoptions : public juce::Component, juce::TextEditor::Listener, public juc
       controls_model_ = model;
    }
    void BindToControl(size_t channel, short number);
+   CCoptions(CCoptions&& other) noexcept = delete;
+   CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserMethods]
 
    void paint(juce::Graphics& g) override;
@@ -81,8 +83,6 @@ class CCoptions : public juce::Component, juce::TextEditor::Listener, public juc
    static ControlsModel* controls_model_;
    short bound_channel_{0}; // note: 0-based in program, add one to compensate
    short bound_number_{0};
-   CCoptions(CCoptions&& other) noexcept = delete;
-   CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserVariables]
 
    //==============================================================================

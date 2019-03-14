@@ -20,10 +20,13 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#include <array>
 #include <atomic>
+#include <charconv>
 #include <chrono>
 #include <exception>
 #include <string>
+#include <system_error>
 #include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
 
@@ -108,21 +111,21 @@ namespace rsj {
    // Note that this won't properly capture an rvalue container (temporary)
    // see https://stackoverflow.com/a/42221253/5699329 for that solution
 
-   template<typename T> struct reversion_wrapper {
+   template<typename T> struct ReversionWrapper {
       T& iterable;
    };
 
-   template<typename T> auto begin(reversion_wrapper<T> w)
+   template<typename T> auto begin(ReversionWrapper<T> w)
    {
       return ::std::rbegin(w.iterable);
    }
 
-   template<typename T> auto end(reversion_wrapper<T> w)
+   template<typename T> auto end(ReversionWrapper<T> w)
    {
       return ::std::rend(w.iterable);
    }
 
-   template<typename T> reversion_wrapper<T> reverse(T&& iterable)
+   template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
    {
       return {iterable};
    }
@@ -198,6 +201,16 @@ namespace rsj {
       const auto elapsed = SleepTimed(sleep_duration);
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
+   }
+
+   template<class T> std::string NumToChars(T number)
+   {
+      ::std::array<char, 10> str{};
+      auto [p, ec] = ::std::to_chars(str.data(), str.data() + str.size(), number);
+      if (ec == std::errc())
+         return ::std::string(str.data(), p - str.data());
+      else
+         return "Number conversion error " + ::std::make_error_condition(ec).message();
    }
 } // namespace rsj
 
