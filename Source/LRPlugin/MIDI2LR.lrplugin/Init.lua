@@ -66,16 +66,20 @@ local function UseDefaultsLimits()
   ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature, [50000] = {3000,9000}}
 end
 
-
 local function LoadedLimits()
   if ProgramPreferences.Limits == nil or type(ProgramPreferences.Limits)~='table' then
     UseDefaultsLimits()
   else --following is just in cases we loaded historic limits, which may have a missing value--no harm in checking carefully
-    for _,v in pairs(ProgramPreferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
+    for t,v in pairs(ProgramPreferences.Limits) do--for each Limit type _ (e.g., Temperature) look at v(table) (highlimits)
+      local corrupt = false
       for kk,vv in pairs(v) do -- for each highlimittable kk, look at vv(limit values table) 
         if type(kk)=='number' and (vv[1]==nil or vv[2]==nil) then -- table for each parameter has limits and other data (param,label.order)--ignore other data
-          vv[1],vv[2]=nil,nil --guard against corrupted data when only one bound gets initialized
+          corrupt = true
         end
+      end
+      if corrupt == true then
+        ProgramPreferences.Limits[t] = nil
+        ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature, [50000] = {3000,9000}}
       end
     end
   end
