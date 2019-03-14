@@ -27,9 +27,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
 
-namespace juce {
-   class String;
-}
+#include <JuceLibraryCode/JuceHeader.h>
 
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;

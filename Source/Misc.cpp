@@ -20,7 +20,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Misc.h"
 
-#include <JuceLibraryCode/JuceHeader.h>
 #ifdef _WIN32
 #include "WinDef.h"
 #undef NOCTLMGR
