@@ -163,25 +163,31 @@ namespace {
             return "femto";
          case 1000000000000000000:
             return "atto";
+         default:
+             /* empty */;
          }
       }
-      switch (R::num) {
-      case 10:
-         return "deca";
-      case 100:
-         return "hecto";
-      case 1000:
-         return "kilo";
-      case 1000000:
-         return "mega";
-      case 1000000000:
-         return "giga";
-      case 1000000000000:
-         return "tera";
-      case 1000000000000000:
-         return "peta";
-      case 1000000000000000000:
-         return "exa";
+      if (R::den == 1) {
+         switch (R::num) {
+         case 10:
+            return "deca";
+         case 100:
+            return "hecto";
+         case 1000:
+            return "kilo";
+         case 1000000:
+            return "mega";
+         case 1000000000:
+            return "giga";
+         case 1000000000000:
+            return "tera";
+         case 1000000000000000:
+            return "peta";
+         case 1000000000000000000:
+            return "exa";
+         default:
+             /* empty */;
+         }
       }
       return "unexpected ratio encountered ";
    }
