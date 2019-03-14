@@ -46,7 +46,6 @@ using namespace juce;
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
-ControlsModel* PWoptions::controls_model_{nullptr};
 //[/MiscUserDefs]
 
 //==============================================================================

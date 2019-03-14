@@ -79,7 +79,7 @@ class PWoptions final : public juce::Component, private juce::TextEditor::Listen
    //[UserVariables]   -- You can add your own custom variables in this section.
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
-   static ControlsModel* controls_model_;
+   inline static ControlsModel* controls_model_{nullptr};
    size_t boundchannel_{0}; // note: 0-based
 
    //[/UserVariables]

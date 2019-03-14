@@ -80,7 +80,7 @@ class CCoptions : public juce::Component, juce::TextEditor::Listener, public juc
    //[UserVariables]   -- You can add your own custom variables in this section.
    juce::TextEditor::LengthAndCharacterRestriction numrestrict_{5, "0123456789"};
    void textEditorFocusLost(juce::TextEditor& t) override;
-   static ControlsModel* controls_model_;
+   inline static ControlsModel* controls_model_{nullptr};
    short bound_channel_{0}; // note: 0-based in program, add one to compensate
    short bound_number_{0};
    //[/UserVariables]
