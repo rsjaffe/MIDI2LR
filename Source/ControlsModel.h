@@ -118,7 +118,6 @@ class ChannelModel {
    constexpr static short kMaxNrpn = 0x3FFF;
    constexpr static short kMaxNrpnHalf = kMaxNrpn / 2;
    constexpr static size_t kMaxControls = 0x4000;
-   constexpr static rsj::TimeType kUpdateDelay = 250;
 
  public:
    ChannelModel();

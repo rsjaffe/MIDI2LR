@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_Out.h"
 
 #include <algorithm>
+#include <chrono>
 #include <exception>
 #include <string>
 #include <unordered_map>
@@ -33,6 +34,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MidiUtilities.h"
 #include "MIDISender.h"
 #include "Misc.h"
+
+using Clock = std::chrono::high_resolution_clock;
+using TimePoint = Clock::time_point;
 
 namespace {
    constexpr auto kHost{"127.0.0.1"};
@@ -121,9 +125,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          return; // handled by ProfileManager
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-         static rsj::TimeType nextresponse{0};
-         if (const auto now = rsj::NowMs(); nextresponse < now) {
-            nextresponse = now + kDelay;
+         static TimePoint nextresponse{};
+         if (const auto now = Clock::now(); nextresponse < now) {
+            nextresponse = now + std::chrono::milliseconds(kDelay);
             if (mm.message_type_byte == rsj::kPwFlag
                 || (mm.message_type_byte == rsj::kCcFlag
                        && controls_model_.GetCcMethod(mm.channel, mm.number)
