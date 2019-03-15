@@ -53,6 +53,8 @@ std::string rsj::GetKeyboardLayout()
        (__bridge NSString*)(TISGetInputSourceProperty(current_source, kTISPropertyInputSourceID));
    NSString* t =
        (__bridge NSString*)(TISGetInputSourceProperty(current_source, kTISPropertyLocalizedName));
+   if (current_source)
+      CFRelease(current_source);
    if (s and t) {
       return std::string(s.UTF8String) + ' ' + std::string(t.UTF8String);
    }
@@ -65,9 +67,13 @@ const UCKeyboardLayout* rsj::GetKeyboardData() {
    TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
    CFDataRef data =
           (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+   if (source)
+      CFRelease(source);
    if (!data) {  // returns null with Japanese keyboard layout
       source = TISCopyCurrentKeyboardLayoutInputSource();
       data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+      if (source)
+         CFRelease(source);
       if (!data)
          return nullptr;
    }
