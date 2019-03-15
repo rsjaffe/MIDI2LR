@@ -23,7 +23,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 namespace rsj {
-   void SendKeyDownUp(const std::string& key, int modifiers) noexcept;
-}
+   struct ActiveModifiers {
+      bool alt_opt{false};
+      bool command{false};
+      bool control{false};
+      bool shift{false};
+      bool hankaku{false};
+   };
+
+   void SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept;
+} // namespace rsj
 
 #endif

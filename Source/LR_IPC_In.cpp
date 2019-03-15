@@ -233,7 +233,16 @@ void LrIpcIn::ProcessLine()
                 std::min(value_string.find_first_not_of("0123456789"), value_string.size()));
             value_string.remove_prefix(
                 std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
-            rsj::SendKeyDownUp(std::string(value_string), modifiers);
+            rsj::ActiveModifiers am;
+            if (modifiers & 0x1)
+               am.alt_opt = true;
+            if (modifiers & 0x2)
+               am.control = true;
+            if (modifiers & 0x4)
+               am.shift = true;
+            if (modifiers & 0x8)
+               am.command = true;
+            rsj::SendKeyDownUp(std::string(value_string), am);
             break;
          }
          case 3: // TerminateApplication

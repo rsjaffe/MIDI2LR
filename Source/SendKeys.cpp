@@ -56,13 +56,7 @@ namespace {
       return s;
    }
 
-   struct ActiveModifiers {
-      bool alt_opt{false};
-      bool command{false};
-      bool control{false};
-      bool shift{false};
-      bool hankaku{false};
-   };
+
 
 #ifdef _WIN32
 
@@ -88,7 +82,7 @@ namespace {
       return vk_code_and_shift;
    }
 
-   std::pair<BYTE, ActiveModifiers> KeyToVk(std::string_view key)
+   std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       const auto uc{rsj::Utf8ToWide(key)[0]};
       static const auto kLanguageId = GetLanguage("Lightroom");
@@ -96,7 +90,7 @@ namespace {
       const auto mods = HIBYTE(vk_code_and_shift);
       // shift coded as follows:
       // 1: shift, 2: ctrl, 4: alt, 8: hankaku
-      ActiveModifiers am{};
+      rsj::ActiveModifiers am{};
       if (mods & 1)
          am.shift = true;
       if (mods & 2)
@@ -320,21 +314,14 @@ namespace {
 
 #pragma warning(push)
 #pragma warning(disable : 26447) // all exceptions caught and suppressed
-void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
+void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
 {
    try {
-      ActiveModifiers mods{};
-      if (modifiers & 0x1)
-         mods.alt_opt = true;
-      if (modifiers & 0x2)
-         mods.control = true;
-      if (modifiers & 0x4)
-         mods.shift = true;
       const auto mapped_key = kKeyMap.find(ToLower(key));
       const auto in_keymap = mapped_key != kKeyMap.end();
 #ifdef _WIN32
       BYTE vk = 0;
-      ActiveModifiers vk_mod{};
+      rsj::ActiveModifiers vk_mod{};
       if (in_keymap)
          vk = mapped_key->second;
       else // Translate key code to keyboard-dependent scan code, may be UTF-8
@@ -356,10 +343,12 @@ void rsj::SendKeyDownUp(const std::string& key, int modifiers) noexcept
          if (mods.control || vk_mod.control)
             strokes.push_back(VK_CONTROL);
       }
+      /* ignored for now
+      // see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+      if (vk_mod.hankaku)
+         strokes.push_back(VK_OEM_AUTO);*/
       WinSendKeyStrokes(strokes);
 #else
-      if (modifiers & 0x8)
-         mods.command = true;
       static const pid_t lr_pid{GetPid()};
       if (!lr_pid) {
          rsj::LogAndAlertError("Unable to obtain PID for Lightroom in SendKeys.cpp");

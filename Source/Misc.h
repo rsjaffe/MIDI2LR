@@ -204,7 +204,7 @@ namespace rsj {
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
-#ifdef _WIN32 //charcvt not yet in XCode
+#ifdef _WIN32 // charcvt not yet in XCode
    template<class T> std::string NumToChars(T number)
    {
       ::std::array<char, 10> str{};
