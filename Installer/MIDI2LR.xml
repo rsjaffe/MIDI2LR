@@ -154,9 +154,6 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zh_tw.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TRANSLATIONS.txt</origin>
-                        </distributionFile>
-                        <distributionFile>
                             <origin>${lua}/Utilities.lua</origin>
                         </distributionFile>
                         <distributionFile>
