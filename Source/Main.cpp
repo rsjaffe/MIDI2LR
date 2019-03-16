@@ -209,7 +209,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       const auto filename = rsj::AppDataFilePath(kDefaultsFile);
       const auto profilefile = juce::File(filename.data());
-      command_map_.ToXmlDocument(profilefile);
+      command_map_.ToXmlFile(profilefile);
       rsj::Log("Default profile saved to " + profilefile.getFullPathName());
    }
 

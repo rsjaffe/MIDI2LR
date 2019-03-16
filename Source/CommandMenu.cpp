@@ -126,7 +126,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                setButtonText(command_set_.CommandAbbrevAt(result - 1));
             selected_item_ = result;
             // Map the selected command to the CC
-            command_map_.AddCommandforMessage(result - 1, message_);
+            command_map_.AddCommandForMessage(result - 1, message_);
          }
       }
    }

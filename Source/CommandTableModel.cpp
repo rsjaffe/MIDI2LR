@@ -141,7 +141,7 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
 
          // add 1 because 0 is reserved for no selection
          command_select->SetSelectedItem(
-             command_set_.CommandTextIndex(command_map_.GetCommandforMessage(
+             command_set_.CommandTextIndex(command_map_.GetCommandForMessage(
                  command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
              + 1);
 
@@ -164,6 +164,6 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
 
    // If you implement this, your method should re - sort the table using the
    // given column as the key.
-   std::pair<int, bool> current_sort = std::make_pair(new_sort_column_id, is_forwards);
+   const auto current_sort = std::make_pair(new_sort_column_id, is_forwards);
    command_map_.Resort(current_sort);
 }

@@ -119,7 +119,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       };
       if (!command_map_.MessageExistsInMap(message))
          return;
-      const auto command_to_send = command_map_.GetCommandforMessage(message);
+      const auto command_to_send = command_map_.GetCommandForMessage(message);
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "Unmapped"s)
          return; // handled by ProfileManager
