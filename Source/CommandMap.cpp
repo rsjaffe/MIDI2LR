@@ -45,8 +45,14 @@ void CommandMap::AddRowMapped(const std::string& command, const rsj::MidiMessage
 {
    auto guard = std::unique_lock{cmdmap_mtx_};
    if (!MessageExistsInMap_(message)) {
-      message_map_[message] = command;
-      command_string_map_.emplace(command, message);
+      if (!command_set_.CommandTextIndex(command)) {
+         message_map_[message] = "Unmapped";
+         command_string_map_.emplace("Unmapped", message);
+      }
+      else {
+         message_map_[message] = command;
+         command_string_map_.emplace(command, message);
+      }
       command_table_.push_back(message);
       Sort_();
    }
@@ -101,10 +107,8 @@ void CommandMap::ToXmlDocument(const juce::File& file) const
    }
 }
 
-
-
 void CommandMap::AddRowUnmapped(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type)
-{ 
+{
    auto guard = std::unique_lock{cmdmap_mtx_};
    const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
    if (!MessageExistsInMap_(msg)) {

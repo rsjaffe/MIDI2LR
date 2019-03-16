@@ -80,7 +80,7 @@ size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
    const auto found = cmd_idx_.find(command);
    if (found == cmd_idx_.end()) {
-      rsj::LogAndAlertError("Command not found in CommandTextIndex: " + command);
+      rsj::Log("Command not found in CommandTextIndex: " + command);
       return 0;
    }
    return found->second;
