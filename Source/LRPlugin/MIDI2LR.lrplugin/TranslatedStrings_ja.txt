@@ -15,3 +15,4 @@
 "$$$/MIDI2LR/Options/ActionSeriesInvalid=無効なコマンド"
 "$$$/MIDI2LR/Profiles/Next=次のプロファイル"
 "$$$/MIDI2LR/Profiles/Previous=前のプロファイル"
+"$$$/MIDI2LR/Versions/notfor=と動作しません"

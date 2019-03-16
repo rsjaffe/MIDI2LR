@@ -15,3 +15,4 @@
 "$$$/MIDI2LR/Options/ActionSeriesInvalid=无效的命令"
 "$$$/MIDI2LR/Profiles/Next=下一个档案"
 "$$$/MIDI2LR/Profiles/Previous=上一个档案"
+"$$$/MIDI2LR/Versions/notfor=不起作用"
