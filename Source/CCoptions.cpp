@@ -45,7 +45,7 @@ using namespace juce;
 //[/Headers]
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-ControlsModel* CCoptions::controls_model_{nullptr};
+
 //[/MiscUserDefs]
 
 //==============================================================================

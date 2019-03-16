@@ -214,7 +214,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       switch (controltype) {
       case rsj::kPwFlag: {
          // TODO(C26451): short mixed with double: can it overflow?
-         const short newv = std::clamp(
+         const auto newv = std::clamp(
              gsl::narrow_cast<short>(juce::roundToInt(value * (pitch_wheel_max_ - pitch_wheel_min_))
                                      + pitch_wheel_min_),
              pitch_wheel_min_, pitch_wheel_max_);
@@ -223,7 +223,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       }
       case rsj::kCcFlag: {
          // TODO(C26451): short mixed with double: can it overflow?
-         const short newv = std::clamp(
+         const auto newv = std::clamp(
              gsl::narrow_cast<short>(
                  juce::roundToInt(value * (cc_high_.at(controlnumber) - cc_low_.at(controlnumber)))
                  + cc_low_.at(controlnumber)),

@@ -66,9 +66,9 @@ namespace {
 
    class UpdateCurrentLogger {
     public:
-      UpdateCurrentLogger(juce::Logger* newLogger)
+      UpdateCurrentLogger(juce::Logger* new_logger)
       {
-         juce::Logger::setCurrentLogger(newLogger);
+         juce::Logger::setCurrentLogger(new_logger);
       }
    };
 } // namespace

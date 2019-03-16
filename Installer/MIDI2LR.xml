@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>3.0.0.11</version>
+    <version>3.0.1.0</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
@@ -148,13 +148,10 @@
                             <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_sv.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zn_cn.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zh_cn.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zn_tw.txt</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TRANSLATIONS.txt</origin>
+                            <origin>../Source/LRPlugin/MIDI2LR.lrplugin/TranslatedStrings_zh_tw.txt</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>${lua}/Utilities.lua</origin>
@@ -389,6 +386,7 @@
     <compressPackedFiles>1</compressPackedFiles>
     <compressionAlgorithm>lzma-ultra</compressionAlgorithm>
     <createOsxBundleDmg>1</createOsxBundleDmg>
+    <createUninstaller>0</createUninstaller>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
     <height>400</height>

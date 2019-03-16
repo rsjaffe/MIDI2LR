@@ -109,16 +109,15 @@ namespace rsj {
 } // namespace rsj
 
 class ChannelModel {
-   constexpr static short kBit14 = 0x2000;
-   constexpr static short kBit7 = 0x40;
-   constexpr static short kLow13Bits = 0x1FFF;
-   constexpr static short kLow6Bits = 0x3F;
-   constexpr static short kMaxMidi = 0x7F;
-   constexpr static short kMaxMidiHalf = kMaxMidi / 2;
-   constexpr static short kMaxNrpn = 0x3FFF;
-   constexpr static short kMaxNrpnHalf = kMaxNrpn / 2;
-   constexpr static size_t kMaxControls = 0x4000;
-   constexpr static rsj::TimeType kUpdateDelay = 250;
+   static constexpr short kBit14 = 0x2000;
+   static constexpr short kBit7 = 0x40;
+   static constexpr short kLow13Bits = 0x1FFF;
+   static constexpr short kLow6Bits = 0x3F;
+   static constexpr short kMaxMidi = 0x7F;
+   static constexpr short kMaxMidiHalf = kMaxMidi / 2;
+   static constexpr short kMaxNrpn = 0x3FFF;
+   static constexpr short kMaxNrpnHalf = kMaxNrpn / 2;
+   static constexpr size_t kMaxControls = 0x4000;
 
  public:
    ChannelModel();

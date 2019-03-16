@@ -40,9 +40,9 @@ MainWindow::MainWindow(const juce::String& name, CommandMap& command_map,
    juce::Component::setVisible(true);
    window_content_->Init(std::move(lr_ipc_out), std::move(midi_receiver), std::move(midi_sender));
    // get the auto time setting
-   auto hide_sec = settings_manager.GetAutoHideTime();
+   const auto hide_sec = settings_manager.GetAutoHideTime();
    // start timing
-   if (hide_sec) //don't start timer if time is zero!
+   if (hide_sec) // don't start timer if time is zero!
       juce::Timer::startTimer(1000 * hide_sec);
 }
 

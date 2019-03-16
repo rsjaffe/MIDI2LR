@@ -177,7 +177,7 @@ void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
          const auto default_profile = juce::File(filename.data());
          if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
             std::unique_ptr<juce::XmlElement> xml_element{parsed};
-            command_table_model_.BuildFromXml(xml_element.get());
+            command_map_.BuildFromXml(xml_element.get());
             command_table_.updateContent();
          }
       }
@@ -226,9 +226,9 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       mm.channel++; // used to 1-based channel numbers
       last_command_ = juce::String(mm.channel) + ": " + commandtype + juce::String(mm.number) + " ["
                       + juce::String(mm.value) + "]";
-      command_table_model_.AddRow(mm.channel, mm.number, mt);
+      command_map_.AddRowUnmapped(mm.channel, mm.number, mt);
       row_to_select_ = gsl::narrow_cast<size_t>(
-          command_table_model_.GetRowForMessage(mm.channel, mm.number, mt));
+          command_map_.GetRowForMessage(mm.channel, mm.number, mt));
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
@@ -283,7 +283,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &remove_row_button_) {
          if (command_table_.getNumRows() > 0) {
-            command_table_model_.RemoveAllRows();
+            command_map_.RemoveAllRows();
             // command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
          }
@@ -340,7 +340,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                   ptr->SendCommand(std::move(command));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
-               command_table_model_.BuildFromXml(xml_element.get());
+               command_map_.BuildFromXml(xml_element.get());
                command_table_.updateContent();
                command_table_.repaint();
             }
@@ -376,7 +376,7 @@ void MainContentComponent::ProfileChanged(
    using namespace std::literals::string_literals;
    {
       const juce::MessageManagerLock mm_lock;
-      command_table_model_.BuildFromXml(xml_element);
+      command_map_.BuildFromXml(xml_element);
       command_table_.updateContent();
       command_table_.repaint();
       profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);

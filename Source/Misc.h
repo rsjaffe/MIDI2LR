@@ -20,15 +20,19 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#include <array>
 #include <atomic>
+#ifdef _WIN32 // not yet available in XCode
+#include <charconv>
+#endif
 #include <chrono>
 #include <exception>
 #include <string>
+#include <system_error>
+#include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
 
-namespace juce {
-   class String;
-}
+#include <JuceLibraryCode/JuceHeader.h>
 
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
@@ -48,15 +52,6 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
-   [[nodiscard]] inline auto NowMs() noexcept
-   {
-      return ::std::chrono::time_point_cast<::std::chrono::milliseconds>(
-          ::std::chrono::steady_clock::now())
-          .time_since_epoch()
-          .count();
-   }
-   using TimeType = decltype(NowMs());
-
    class RelaxTTasSpinLock {
     public:
       RelaxTTasSpinLock() noexcept = default;
@@ -118,24 +113,114 @@ namespace rsj {
    // Note that this won't properly capture an rvalue container (temporary)
    // see https://stackoverflow.com/a/42221253/5699329 for that solution
 
-   template<typename T> struct reversion_wrapper {
+   template<typename T> struct ReversionWrapper {
       T& iterable;
    };
 
-   template<typename T> auto begin(reversion_wrapper<T> w)
+   template<typename T> auto begin(ReversionWrapper<T> w)
    {
-      return std::rbegin(w.iterable);
+      return ::std::rbegin(w.iterable);
    }
 
-   template<typename T> auto end(reversion_wrapper<T> w)
+   template<typename T> auto end(ReversionWrapper<T> w)
    {
-      return std::rend(w.iterable);
+      return ::std::rend(w.iterable);
    }
 
-   template<typename T> reversion_wrapper<T> reverse(T&& iterable)
+   template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
    {
       return {iterable};
    }
+
+   // zepto yocto zetta and yotta too large/small to be represented by intmax_t
+   // TODO: change to consteval, find way to convert digit to string for unexpected
+   // values, so return could be, e.g., "23425/125557 ", instead of error message
+   template<class R> constexpr auto RatioToPrefix()
+   {
+      if (R::num == 1) {
+         switch (R::den) {
+         case 1:
+            return "";
+         case 10:
+            return "deci";
+         case 100:
+            return "centi";
+         case 1000:
+            return "milli";
+         case 1000000:
+            return "micro";
+         case 1000000000:
+            return "nano";
+         case 1000000000000:
+            return "pico";
+         case 1000000000000000:
+            return "femto";
+         case 1000000000000000000:
+            return "atto";
+         default:
+             /* empty */;
+         }
+      }
+      if (R::den == 1) {
+         switch (R::num) {
+         case 10:
+            return "deca";
+         case 100:
+            return "hecto";
+         case 1000:
+            return "kilo";
+         case 1000000:
+            return "mega";
+         case 1000000000:
+            return "giga";
+         case 1000000000000:
+            return "tera";
+         case 1000000000000000:
+            return "peta";
+         case 1000000000000000000:
+            return "exa";
+         default:
+             /* empty */;
+         }
+      }
+      return "unexpected ratio encountered ";
+   }
+
+   template<class Rep, class Period>
+   auto SleepTimed(const ::std::chrono::duration<Rep, Period> sleep_duration)
+   {
+      const auto start = ::std::chrono::high_resolution_clock::now();
+      ::std::this_thread::sleep_for(sleep_duration);
+      const auto end = ::std::chrono::high_resolution_clock::now();
+      const ::std::chrono::duration<double, Period> elapsed = end - start;
+      return elapsed;
+   }
+
+   template<class Rep, class Period>
+   void SleepTimedLogged(
+       ::std::string_view msg_prefix, const ::std::chrono::duration<Rep, Period> sleep_duration)
+   {
+      const auto elapsed = SleepTimed(sleep_duration);
+      rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
+               + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
+   }
+#ifdef _WIN32 // charcvt not yet in XCode
+   template<class T> std::string NumToChars(T number)
+   {
+      ::std::array<char, 10> str{};
+      auto [p, ec] = ::std::to_chars(str.data(), str.data() + str.size(), number);
+      if (ec == std::errc())
+         return ::std::string(str.data(), p - str.data());
+      else
+         return "Number conversion error " + ::std::make_error_condition(ec).message();
+   }
+#else
+   template<class T> std::string NumToChars(T number)
+   {
+      return ::std::to_string(number);
+   }
+#endif
+
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED
