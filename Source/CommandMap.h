@@ -45,12 +45,16 @@ class CommandMap {
        const std::string& command) const;
    [[nodiscard]] int GetRowForMessage(rsj::MidiMessageId message) const;
    [[nodiscard]] bool MessageExistsInMap(rsj::MidiMessageId message) const;
+   bool ProfileUnsaved() const
+   {
+      return profile_unsaved_;
+   }
    void RemoveAllRows();
    void RemoveMessage(rsj::MidiMessageId message);
    void RemoveRow(size_t row);
    void Resort(std::pair<int, bool> new_order);
    [[nodiscard]] size_t Size() const;
-   void ToXmlFile(const juce::File& file) const;
+   void ToXmlFile(const juce::File& file);
 
  private:
    void AddCommandForMessage_(size_t command, rsj::MidiMessageId message);
@@ -68,6 +72,7 @@ class CommandMap {
    }
    void Sort_();
 
+   bool profile_unsaved_{false};
    CommandSet command_set_{};
    mutable std::shared_mutex cmdmap_mtx_;
    std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
@@ -125,6 +130,7 @@ inline void CommandMap::RemoveAllRows()
    command_string_map_.clear();
    command_table_.clear();
    message_map_.clear();
+   // no reason for profile_unsaved_ here. nothing to save
 }
 
 inline void CommandMap::RemoveMessage(rsj::MidiMessageId message)
@@ -132,6 +138,7 @@ inline void CommandMap::RemoveMessage(rsj::MidiMessageId message)
    auto guard = std::unique_lock{cmdmap_mtx_};
    command_string_map_.erase(message_map_.at(message));
    message_map_.erase(message);
+   profile_unsaved_ = true;
 }
 
 #endif // COMMANDMAP_H_INCLUDED

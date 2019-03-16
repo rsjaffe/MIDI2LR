@@ -169,6 +169,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // This is called when the application is being asked to quit: you can
       // ignore this request and let the application carry on running, or call
       // quit() to allow the application to close.
+      if (command_map_.ProfileUnsaved() && main_window_) {
+         const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+             juce::translate("MIDI2LR profiles"),
+             juce::translate(
+                 "Profile changed. Do you want to save it before exiting the program?"));
+         if (result)
+            main_window_->SaveProfile();
+      }
       quit();
    }
 
@@ -205,7 +213,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       std::terminate(); // can't go on with the program
    }
 
-   private : void DefaultProfileSave() const
+   private : void DefaultProfileSave()
    {
       const auto filename = rsj::AppDataFilePath(kDefaultsFile);
       const auto profilefile = juce::File(filename.data());

@@ -55,6 +55,7 @@ class MainContentComponent final : public juce::Component,
    MainContentComponent& operator=(MainContentComponent&& other) = delete;
    void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
        std::shared_ptr<MidiSender> midi_sender);
+   void SaveProfile();
 
  private:
    void SetLabelSettings(juce::Label& label_to_set);

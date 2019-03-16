@@ -52,3 +52,9 @@ void MainWindow::timerCallback()
    if (!juce::ResizableWindow::isMinimised())
       juce::DocumentWindow::minimiseButtonPressed();
 }
+
+void MainWindow::SaveProfile()
+{
+   if (window_content_)
+      window_content_->SaveProfile();
+}

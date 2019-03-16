@@ -31,6 +31,7 @@ void CommandMap::AddCommandForMessage_(size_t command, rsj::MidiMessageId messag
       auto cmd_abbreviation = command_set_.CommandAbbrevAt(command);
       message_map_[message] = cmd_abbreviation;
       command_string_map_.emplace(cmd_abbreviation, message);
+      profile_unsaved_ = true;
    }
 }
 
@@ -48,6 +49,7 @@ void CommandMap::AddRowMapped(const std::string& command, rsj::MidiMessageId mes
       }
       command_table_.push_back(message);
       Sort_();
+      profile_unsaved_ = true;
    }
 }
 
@@ -58,6 +60,7 @@ void CommandMap::AddRowUnmapped(rsj::MidiMessageId message)
       AddCommandForMessage_(0, message); // add an entry for 'no command'
       command_table_.push_back(message);
       Sort_();
+      profile_unsaved_ = true;
    }
 }
 
@@ -89,6 +92,7 @@ void CommandMap::FromXml(const juce::XmlElement* root)
       }
       auto guard = std::unique_lock{cmdmap_mtx_};
       Sort_();
+      profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -113,6 +117,7 @@ void CommandMap::RemoveRow(size_t row)
    command_string_map_.erase(message_map_.at(msg));
    command_table_.erase(command_table_.cbegin() + row);
    message_map_.erase(msg);
+   profile_unsaved_ = true;
 }
 
 void CommandMap::Resort(std::pair<int, bool> new_order)
@@ -141,7 +146,7 @@ void CommandMap::Sort_()
       std::sort(command_table_.rbegin(), command_table_.rend(), msg_sort);
 }
 
-void CommandMap::ToXmlFile(const juce::File& file) const
+void CommandMap::ToXmlFile(const juce::File& file)
 {
    try {
       auto guard = std::shared_lock{cmdmap_mtx_};
@@ -171,6 +176,7 @@ void CommandMap::ToXmlFile(const juce::File& file) const
                                   "consider saving to a different location. "
                                   + file.getFullPathName());
          }
+         profile_unsaved_ = false;
       }
    }
    catch (const std::exception& e) {

@@ -223,8 +223,8 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
          Ensures(0);
       }
       mm.channel++; // used to 1-based channel numbers
-      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.number) + " ["
-                      + juce::String(mm.value) + "]";
+      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.number)
+                      + " [" + juce::String(mm.value) + "]";
       const rsj::MidiMessageId msg{mm.channel, mm.number, mt};
       command_map_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(command_map_.GetRowForMessage(msg));
@@ -262,6 +262,11 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
+}
+
+void MainContentComponent::SaveProfile()
+{ // TODO: may have to call through AsyncUpdate
+   buttonClicked(&save_button_);
 }
 
 void MainContentComponent::buttonClicked(juce::Button* button)
@@ -318,6 +323,12 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          }
       }
       else if (button == &load_button_) {
+         if (command_map_.ProfileUnsaved()) {
+            const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+                juce::translate("MIDI2LR profiles"), juce::translate("Profile changed. Do you want to save it before loading a new Profile?"));
+            if (result)
+               SaveProfile();
+         }
          juce::File profile_directory;
          profile_directory = settings_manager_.GetProfileDirectory();
          if (!profile_directory.exists())
