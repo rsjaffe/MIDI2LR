@@ -20,30 +20,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTableModel.h"
 
-#include <algorithm>
-#include <sstream>
-
-#include <gsl/gsl>
-#include "CommandMap.h"
 #include "CommandMenu.h"
-#include "Misc.h"
 
 CommandTableModel::CommandTableModel(CommandMap& map_command) noexcept : command_map_(map_command)
 {
-}
-
-void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forwards)
-{
-   // This callback is made when the table's sort order is changed.
-
-   // This could be because the user has clicked a column header, or because the
-   // TableHeaderComponent::setSortColumnId() method was called.
-
-   // If you implement this, your method should re - sort the table using the
-   // given column as the key.
-   auto guard = std::unique_lock{cmd_table_mod_mtx_};
-   current_sort_ = std::make_pair(new_sort_column_id, is_forwards);
-   Sort();
 }
 
 int CommandTableModel::getNumRows()
@@ -52,23 +32,7 @@ int CommandTableModel::getNumRows()
 
    // If the number of rows changes, you must call TableListBox::updateContent()
    // to cause it to refresh the list.
-   auto guard = std::shared_lock{cmd_table_mod_mtx_};
-   return gsl::narrow_cast<int>(commands_.size());
-}
-
-void CommandTableModel::paintRowBackground(juce::Graphics& g,
-    int /*rowNumber*/, //-V2009 overridden method
-    int /*width*/, int /*height*/, bool row_is_selected)
-{
-   // This must draw the background behind one of the rows in the table.
-
-   // The graphics context has its origin at the row's top-left, and your method
-   // should fill the area specified by the width and height parameters.
-
-   // Note that the rowNumber value may be greater than the number of rows in your
-   // list, so be careful that you don't assume it's less than getNumRows().
-   if (row_is_selected)
-      g.fillAll(juce::Colours::lightblue);
+   return gsl::narrow_cast<int>(command_map_.Size());
 }
 
 void CommandTableModel::paintCell(
@@ -86,15 +50,16 @@ void CommandTableModel::paintCell(
       g.setFont(12.0f);
       if (column_id == 1) // write the MIDI message in the MIDI command column
       {
-         auto guard = std::shared_lock{cmd_table_mod_mtx_};
          // cmdmap_mutex_ should fix the following problem
-         if (commands_.size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell not
-                                                                         // filled yet
+         if (command_map_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell
+                                                                            // not
+                                                                            // filled yet
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
          }
          else {
             std::ostringstream format_str;
-            switch (const auto cmd = commands_.at(gsl::narrow_cast<size_t>(row_number));
+            switch (const auto cmd =
+                        command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
                     cmd.msg_id_type) {
             case rsj::MsgIdEnum::kNote:
                format_str << cmd.channel << " | Note : " << cmd.data;
@@ -114,6 +79,21 @@ void CommandTableModel::paintCell(
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
+}
+
+void CommandTableModel::paintRowBackground(juce::Graphics& g,
+    int /*rowNumber*/, //-V2009 overridden method
+    int /*width*/, int /*height*/, bool row_is_selected)
+{
+   // This must draw the background behind one of the rows in the table.
+
+   // The graphics context has its origin at the row's top-left, and your method
+   // should fill the area specified by the width and height parameters.
+
+   // Note that the rowNumber value may be greater than the number of rows in your
+   // list, so be careful that you don't assume it's less than getNumRows().
+   if (row_is_selected)
+      g.fillAll(juce::Colours::lightblue);
 }
 
 juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int column_id,
@@ -149,19 +129,20 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          auto command_select = dynamic_cast<CommandMenu*>(existing_component_to_update);
 
          // create a new command menu
-         auto guard = std::shared_lock{cmd_table_mod_mtx_};
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
             command_select = new CommandMenu{
-                commands_.at(gsl::narrow_cast<size_t>(row_number)), command_set_, command_map_};
+                command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
+                command_set_, command_map_};
          }
          else
-            command_select->SetMsg(commands_.at(gsl::narrow_cast<size_t>(row_number)));
+            command_select->SetMsg(
+                command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
 
          // add 1 because 0 is reserved for no selection
          command_select->SetSelectedItem(
              command_set_.CommandTextIndex(command_map_.GetCommandforMessage(
-                 commands_.at(gsl::narrow_cast<size_t>(row_number))))
+                 command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
              + 1);
 
          return command_select;
@@ -174,111 +155,15 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
    }
 }
 
-void CommandTableModel::AddRow(int midi_channel, int midi_data, rsj::MsgIdEnum msg_type)
+void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forwards)
 {
-   try {
-      const rsj::MidiMessageId msg{midi_channel, midi_data, msg_type};
-      auto guard = std::unique_lock{cmd_table_mod_mtx_};
-      if (!command_map_.MessageExistsInMap(msg)) {
-         commands_.push_back(msg);
-         command_map_.AddCommandforMessage(0, msg); // add an entry for 'no command'
-         Sort();                                    // re-sort list
-      }
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
+   // This callback is made when the table's sort order is changed.
 
-void CommandTableModel::RemoveRow(size_t row)
-{
-   try {
-      auto guard = std::unique_lock{cmd_table_mod_mtx_};
-      command_map_.RemoveMessage(commands_.at(row));
-      commands_.erase(commands_.cbegin() + row);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
+   // This could be because the user has clicked a column header, or because the
+   // TableHeaderComponent::setSortColumnId() method was called.
 
-void CommandTableModel::RemoveAllRows()
-{
-   auto guard = std::unique_lock{cmd_table_mod_mtx_};
-   commands_.clear();
-   command_map_.ClearMap();
-}
-
-void CommandTableModel::BuildFromXml(const juce::XmlElement* root)
-{
-   try {
-      // mutex here causes deadlock this method calls CommandTableModel methods
-      // that lock the mutext, so don't lock it here just use mutex for Sort
-      if (!root || root->getTagName().compare("settings") != 0)
-         return;
-      RemoveAllRows();
-      const auto* setting = root->getFirstChildElement();
-      while (setting) {
-         if (setting->hasAttribute("controller")) {
-            const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
-            AddRow(message.channel, message.data, rsj::MsgIdEnum::kCc);
-            command_map_.AddCommandforMessage(
-                setting->getStringAttribute("command_string").toStdString(), message);
-         }
-         else if (setting->hasAttribute("note")) {
-            const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
-            AddRow(note.channel, note.data, rsj::MsgIdEnum::kNote);
-            command_map_.AddCommandforMessage(
-                setting->getStringAttribute("command_string").toStdString(), note);
-         }
-         else if (setting->hasAttribute("pitchbend")) {
-            const rsj::MidiMessageId pb{
-                setting->getIntAttribute("channel"), 0, rsj::MsgIdEnum::kPitchBend};
-            AddRow(pb.channel, 0, rsj::MsgIdEnum::kPitchBend);
-            command_map_.AddCommandforMessage(
-                setting->getStringAttribute("command_string").toStdString(), pb);
-         }
-         setting = setting->getNextElement();
-      }
-      auto guard = std::unique_lock{cmd_table_mod_mtx_};
-      Sort();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-int CommandTableModel::GetRowForMessage(
-    int midi_channel, int midi_data, rsj::MsgIdEnum msg_type) const
-{
-   auto guard = std::shared_lock{cmd_table_mod_mtx_};
-   const rsj::MidiMessageId msg_id{midi_channel, midi_data, msg_type};
-   return gsl::narrow_cast<int>(
-       std::find(commands_.begin(), commands_.end(), msg_id) - commands_.begin());
-}
-
-void CommandTableModel::Sort()
-{ // always call within unique_lock
-   // use LRCommandList::getIndexOfCommand(string); to sort by command
-   const auto msg_idx = [this](rsj::MidiMessageId a) {
-      return command_set_.CommandTextIndex(command_map_.GetCommandforMessage(a));
-   };
-   const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
-      return msg_idx(a) < msg_idx(b);
-   };
-
-   if (current_sort_.first == 1)
-      if (current_sort_.second)
-         std::sort(commands_.begin(), commands_.end());
-      else
-         std::sort(commands_.rbegin(), commands_.rend());
-   else if (current_sort_.second)
-      std::sort(commands_.begin(), commands_.end(), msg_sort);
-   else
-      std::sort(commands_.rbegin(), commands_.rend(), msg_sort);
+   // If you implement this, your method should re - sort the table using the
+   // given column as the key.
+   std::pair<int, bool> current_sort = std::make_pair(new_sort_column_id, is_forwards);
+   command_map_.Resort(current_sort);
 }
