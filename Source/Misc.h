@@ -63,48 +63,48 @@ namespace rsj {
       void lock() noexcept
       {
          do {
-            while (flag_.load(::std::memory_order_relaxed))
+            while (flag_.load(std::memory_order_relaxed))
                CPU_RELAX; // spin without expensive exchange
-         } while (flag_.exchange(true, ::std::memory_order_acquire));
+         } while (flag_.exchange(true, std::memory_order_acquire));
       }
 
       bool try_lock() noexcept
       {
-         if (flag_.load(::std::memory_order_relaxed)) // avoid cache invalidation if lock
+         if (flag_.load(std::memory_order_relaxed)) // avoid cache invalidation if lock
                                                       // unavailable
             return false;
-         return !flag_.exchange(true, ::std::memory_order_acquire); // try to acquire lock
+         return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
       }
 
       void unlock() noexcept
       {
-         flag_.store(false, ::std::memory_order_release);
+         flag_.store(false, std::memory_order_release);
       }
 
     private:
-      ::std::atomic<bool> flag_{false};
+      std::atomic<bool> flag_{false};
    };
 
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-   void ExceptionResponse(const char* id, const char* fu, const ::std::exception& e) noexcept;
+   void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& error_text);
    void Log(const juce::String& info);
 #ifdef _WIN32
-   [[nodiscard]] ::std::wstring Utf8ToWide(::std::string_view input);
-   [[nodiscard]] ::std::string WideToUtf8(::std::wstring_view wstr);
-   [[nodiscard]] ::std::wstring AppDataFilePath(::std::wstring_view file_name);
-   [[nodiscard]] ::std::wstring AppDataFilePath(::std::string_view file_name);
-   [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::wstring& file_name)
+   [[nodiscard]] std::wstring Utf8ToWide(std::string_view input);
+   [[nodiscard]] std::string WideToUtf8(std::wstring_view wstr);
+   [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
+   [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
+   [[nodiscard]] inline std::wstring AppLogFilePath(const std::wstring& file_name)
    {
       return AppDataFilePath(file_name);
    }
-   [[nodiscard]] inline ::std::wstring AppLogFilePath(const ::std::string& file_name)
+   [[nodiscard]] inline std::wstring AppLogFilePath(const std::string& file_name)
    {
       return AppDataFilePath(file_name);
    }
 #else
-   [[nodiscard]] ::std::string AppDataFilePath(const ::std::string& file_name);
-   [[nodiscard]] ::std::string AppLogFilePath(const ::std::string& file_name);
+   [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
+   [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif // def _WIN32
 
    // -------------------------------------------------------------------
@@ -119,12 +119,12 @@ namespace rsj {
 
    template<typename T> auto begin(ReversionWrapper<T> w)
    {
-      return ::std::rbegin(w.iterable);
+      return std::rbegin(w.iterable);
    }
 
    template<typename T> auto end(ReversionWrapper<T> w)
    {
-      return ::std::rend(w.iterable);
+      return std::rend(w.iterable);
    }
 
    template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
@@ -187,37 +187,37 @@ namespace rsj {
    }
 
    template<class Rep, class Period>
-   auto SleepTimed(const ::std::chrono::duration<Rep, Period> sleep_duration)
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration)
    {
-      const auto start = ::std::chrono::high_resolution_clock::now();
-      ::std::this_thread::sleep_for(sleep_duration);
-      const auto end = ::std::chrono::high_resolution_clock::now();
-      const ::std::chrono::duration<double, Period> elapsed = end - start;
+      const auto start = std::chrono::high_resolution_clock::now();
+      std::this_thread::sleep_for(sleep_duration);
+      const auto end = std::chrono::high_resolution_clock::now();
+      const std::chrono::duration<double, Period> elapsed = end - start;
       return elapsed;
    }
 
    template<class Rep, class Period>
    void SleepTimedLogged(
-       ::std::string_view msg_prefix, const ::std::chrono::duration<Rep, Period> sleep_duration)
+       std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration)
    {
       const auto elapsed = SleepTimed(sleep_duration);
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
 #ifdef _WIN32 // charcvt not yet in XCode
-   template<class T> ::std::string NumToChars(T number)
+   template<class T> std::string NumToChars(T number)
    {
-      ::std::array<char, 10> str{};
-      auto [p, ec] = ::std::to_chars(str.data(), str.data() + str.size(), number);
-      if (ec == ::std::errc())
-         return ::std::string(str.data(), p - str.data());
+      std::array<char, 10> str{};
+      auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
+      if (ec == std::errc())
+         return std::string(str.data(), p - str.data());
       else
-         return "Number conversion error " + ::std::make_error_condition(ec).message();
+         return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
-   template<class T> ::std::string NumToChars(T number)
+   template<class T> std::string NumToChars(T number)
    {
-      return ::std::to_string(number);
+      return std::to_string(number);
    }
 #endif
 
