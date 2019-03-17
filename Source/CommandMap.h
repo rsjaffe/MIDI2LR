@@ -45,10 +45,7 @@ class CommandMap {
        const std::string& command) const;
    [[nodiscard]] int GetRowForMessage(rsj::MidiMessageId message) const;
    [[nodiscard]] bool MessageExistsInMap(rsj::MidiMessageId message) const;
-   [[nodiscard]] bool ProfileUnsaved() const noexcept
-   {
-      return profile_unsaved_ && Size();
-   }
+   [[nodiscard]] bool ProfileUnsaved() const;
    void RemoveAllRows();
    void RemoveMessage(rsj::MidiMessageId message);
    void RemoveRow(size_t row);
@@ -122,6 +119,12 @@ inline bool CommandMap::MessageExistsInMap(rsj::MidiMessageId message) const
 {
    auto guard = std::shared_lock{mutex_};
    return MessageExistsInMap_(message);
+}
+
+inline bool CommandMap::ProfileUnsaved() const
+{
+   auto guard = std::shared_lock{mutex_};
+   return profile_unsaved_ && !command_table_.empty();
 }
 
 #endif // COMMANDMAP_H_INCLUDED
