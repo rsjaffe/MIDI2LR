@@ -203,7 +203,6 @@ void LrIpcIn::ProcessLine()
 {
    using namespace std::literals::string_literals;
    try {
-#pragma warning(suppress : 26426)
       const static std::unordered_map<std::string, int> kCmds = {
           {"SwitchProfile"s, 1}, {"SendKey"s, 2}, {"TerminateApplication"s, 3}};
       do {
@@ -265,8 +264,8 @@ void LrIpcIn::ProcessLine()
                      msgtype = rsj::kPwFlag;
                   }
                   const auto value = controls_model_.PluginToController(msgtype,
-                      gsl::narrow_cast<size_t>(msg.channel - 1),
-                      gsl::narrow_cast<short>(msg.data), original_value);
+                      gsl::narrow_cast<size_t>(msg.channel - 1), gsl::narrow_cast<short>(msg.data),
+                      original_value);
                   if (midi_sender_) {
                      switch (msgtype) {
                      case rsj::kNoteOnFlag:

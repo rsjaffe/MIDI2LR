@@ -325,7 +325,9 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       else if (button == &load_button_) {
          if (command_map_.ProfileUnsaved()) {
             const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
-                juce::translate("MIDI2LR profiles"), juce::translate("Profile changed. Do you want to save it before loading a new Profile?"));
+                juce::translate("MIDI2LR profiles"),
+                juce::translate(
+                    "Profile changed. Do you want to save it before loading a new Profile?"));
             if (result)
                SaveProfile();
          }

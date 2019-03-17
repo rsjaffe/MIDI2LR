@@ -78,7 +78,6 @@ void MidiReceiver::handleIncomingMidiMessage(
    try {
       // this procedure is in near-real-time, so must return quickly.
       // will place message in multithreaded queue and let separate process handle the messages
-#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(messages_);
       const rsj::MidiMessage mess{message};
       switch (mess.message_type_byte) {

@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "VersionChecker.h"
 
 #include <exception>
+#include <memory>
 #include <sstream>
 
 #include "Misc.h"
@@ -78,9 +79,8 @@ void VersionChecker::handleAsyncUpdate()
       version_string << TRANS("New version is available for MIDI2LR!") << ' ' << major << '.'
                      << minor << '.' << rev << '.' << build;
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
-#pragma warning(suppress : 26409 24624 26489)
-      dialog_options.content.setOwned(
-          new juce::HyperlinkButton{version_string.str(), download_url});
+      auto button = std::make_unique<juce::HyperlinkButton>(version_string.str(), download_url);
+      dialog_options.content.setOwned(button.release());
       dialog_options.content->setSize(600, 100);
       if (auto ptr = dynamic_cast<juce::HyperlinkButton*>(dialog_options.content.get()))
          ptr->setFont(juce::Font{18.f}, false);

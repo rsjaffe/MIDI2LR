@@ -99,7 +99,6 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
    using namespace std::string_literals;
    try {
       const rsj::MidiMessageId message{mm};
-#pragma warning(suppress : 26426)
       static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
           {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
           {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
@@ -159,7 +158,6 @@ void LrIpcOut::SendCommand(std::string&& command)
    try {
       if (sending_stopped_)
          return;
-#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, std::move(command));
    }
@@ -174,7 +172,6 @@ void LrIpcOut::SendCommand(const std::string& command)
    try {
       if (sending_stopped_)
          return;
-#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, command);
    }

@@ -27,7 +27,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 void rsj::Translate(const std::string& lg)
 {
-#pragma warning(suppress : 26426)
    static const std::map<std::string, const char*> kTranslationTable{{"de", de}, {"es", es},
        {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"sv", sv},
        {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};

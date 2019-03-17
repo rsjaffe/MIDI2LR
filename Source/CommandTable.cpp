@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h"
 
 #include <exception>
+#include <memory>
 #include <unordered_map>
 
 #include <gsl/gsl_util>
@@ -30,8 +31,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 CommandTable::CommandTable(const juce::String& component_name, CommandTableModel* model) try : juce
    ::TableListBox{component_name, model}
    {
-#pragma warning(suppress : 26409 24624)
-      setHeader(new juce::TableHeaderComponent{});
+      auto head = std::make_unique<juce::TableHeaderComponent>();
+      setHeader(head.release());
       getHeader().addColumn(TRANS("MIDI Command"), 1, 150, 30, -1,
           juce::TableHeaderComponent::notResizable | juce::TableHeaderComponent::sortable);
       getHeader().addColumn(TRANS("LR Command"), 2, 150, 30, -1,
@@ -46,7 +47,6 @@ catch (const std::exception& e) {
 bool CommandTable::keyPressed(const juce::KeyPress& k)
 {
    try {
-#pragma warning(suppress : 26426)
       static const std::unordered_map<int, int> kKeyToAction{{juce::KeyPress::deleteKey, 1},
           {juce::KeyPress::downKey, 2}, {juce::KeyPress::upKey, 3}, {juce::KeyPress::pageUpKey, 4},
           {juce::KeyPress::pageDownKey, 5}, {juce::KeyPress::homeKey, 6},

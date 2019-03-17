@@ -274,7 +274,6 @@ namespace {
 
 #endif
 
-#pragma warning(suppress : 26426)
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
