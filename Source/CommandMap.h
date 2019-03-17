@@ -45,9 +45,9 @@ class CommandMap {
        const std::string& command) const;
    [[nodiscard]] int GetRowForMessage(rsj::MidiMessageId message) const;
    [[nodiscard]] bool MessageExistsInMap(rsj::MidiMessageId message) const;
-   bool ProfileUnsaved() const
+   [[nodiscard]] bool ProfileUnsaved() const noexcept
    {
-      return profile_unsaved_;
+      return profile_unsaved_ && Size();
    }
    void RemoveAllRows();
    void RemoveMessage(rsj::MidiMessageId message);
@@ -74,7 +74,7 @@ class CommandMap {
 
    bool profile_unsaved_{false};
    CommandSet command_set_{};
-   mutable std::shared_mutex cmdmap_mtx_;
+   mutable std::shared_mutex mutex_;
    std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
    std::pair<int, bool> current_sort_{2, true};
    std::unordered_map<rsj::MidiMessageId, std::string> message_map_;
@@ -83,62 +83,45 @@ class CommandMap {
 
 inline void CommandMap::AddCommandForMessage(size_t command, rsj::MidiMessageId message)
 {
-   auto guard = std::unique_lock{cmdmap_mtx_};
+   auto guard = std::unique_lock{mutex_};
    AddCommandForMessage_(command, message);
 }
 
 inline bool CommandMap::CommandHasAssociatedMessage(const std::string& command) const
 {
-   auto guard = std::shared_lock{cmdmap_mtx_};
+   auto guard = std::shared_lock{mutex_};
    return command_string_map_.find(command) != command_string_map_.end();
 }
 
 inline const std::string& CommandMap::GetCommandForMessage(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{cmdmap_mtx_};
+   auto guard = std::shared_lock{mutex_};
    return GetCommandForMessage_(message);
 }
 
 inline rsj::MidiMessageId CommandMap::GetMessageForNumber(size_t num) const
 {
-   auto guard = std::shared_lock{cmdmap_mtx_};
+   auto guard = std::shared_lock{mutex_};
    return command_table_.at(num);
 }
 
 inline int CommandMap::GetRowForMessage(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{cmdmap_mtx_};
+   auto guard = std::shared_lock{mutex_};
    return gsl::narrow_cast<int>(
        std::find(command_table_.begin(), command_table_.end(), message) - command_table_.begin());
 }
 
 inline size_t CommandMap::Size() const
 {
-   auto guard = std::shared_lock{cmdmap_mtx_};
+   auto guard = std::shared_lock{mutex_};
    return command_table_.size();
 }
 
 inline bool CommandMap::MessageExistsInMap(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{cmdmap_mtx_};
+   auto guard = std::shared_lock{mutex_};
    return MessageExistsInMap_(message);
-}
-
-inline void CommandMap::RemoveAllRows()
-{
-   auto guard = std::unique_lock{cmdmap_mtx_};
-   command_string_map_.clear();
-   command_table_.clear();
-   message_map_.clear();
-   // no reason for profile_unsaved_ here. nothing to save
-}
-
-inline void CommandMap::RemoveMessage(rsj::MidiMessageId message)
-{
-   auto guard = std::unique_lock{cmdmap_mtx_};
-   command_string_map_.erase(message_map_.at(message));
-   message_map_.erase(message);
-   profile_unsaved_ = true;
 }
 
 #endif // COMMANDMAP_H_INCLUDED

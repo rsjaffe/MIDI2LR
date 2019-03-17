@@ -37,7 +37,7 @@ void CommandMap::AddCommandForMessage_(size_t command, rsj::MidiMessageId messag
 
 void CommandMap::AddRowMapped(const std::string& command, rsj::MidiMessageId message)
 {
-   auto guard = std::unique_lock{cmdmap_mtx_};
+   auto guard = std::unique_lock{mutex_};
    if (!MessageExistsInMap_(message)) {
       if (!command_set_.CommandTextIndex(command)) {
          message_map_[message] = "Unmapped";
@@ -55,7 +55,7 @@ void CommandMap::AddRowMapped(const std::string& command, rsj::MidiMessageId mes
 
 void CommandMap::AddRowUnmapped(rsj::MidiMessageId message)
 {
-   auto guard = std::unique_lock{cmdmap_mtx_};
+   auto guard = std::unique_lock{mutex_};
    if (!MessageExistsInMap_(message)) {
       AddCommandForMessage_(0, message); // add an entry for 'no command'
       command_table_.push_back(message);
@@ -90,7 +90,7 @@ void CommandMap::FromXml(const juce::XmlElement* root)
          }
          setting = setting->getNextElement();
       }
-      auto guard = std::unique_lock{cmdmap_mtx_};
+      auto guard = std::unique_lock{mutex_};
       Sort_();
       profile_unsaved_ = false;
    }
@@ -102,7 +102,7 @@ void CommandMap::FromXml(const juce::XmlElement* root)
 
 std::vector<rsj::MidiMessageId> CommandMap::GetMessagesForCommand(const std::string& command) const
 {
-   auto guard = std::shared_lock{cmdmap_mtx_};
+   auto guard = std::shared_lock{mutex_};
    std::vector<rsj::MidiMessageId> mm;
    const auto range = command_string_map_.equal_range(command);
    for (auto it = range.first; it != range.second; ++it)
@@ -110,9 +110,27 @@ std::vector<rsj::MidiMessageId> CommandMap::GetMessagesForCommand(const std::str
    return mm;
 }
 
+void CommandMap::RemoveAllRows()
+{
+   auto guard = std::unique_lock{mutex_};
+   command_string_map_.clear();
+   command_table_.clear();
+   message_map_.clear();
+   profile_unsaved_ = false;
+   // no reason for profile_unsaved_ here. nothing to save
+}
+
+void CommandMap::RemoveMessage(rsj::MidiMessageId message)
+{
+   auto guard = std::unique_lock{mutex_};
+   command_string_map_.erase(message_map_.at(message));
+   message_map_.erase(message);
+   profile_unsaved_ = true;
+}
+
 void CommandMap::RemoveRow(size_t row)
 {
-   auto guard = std::unique_lock{cmdmap_mtx_};
+   auto guard = std::unique_lock{mutex_};
    const auto msg = GetMessageForNumber_(row);
    command_string_map_.erase(message_map_.at(msg));
    command_table_.erase(command_table_.cbegin() + row);
@@ -122,7 +140,7 @@ void CommandMap::RemoveRow(size_t row)
 
 void CommandMap::Resort(std::pair<int, bool> new_order)
 {
-   auto guard = std::unique_lock{cmdmap_mtx_};
+   auto guard = std::unique_lock{mutex_};
    current_sort_ = new_order;
    Sort_();
 }
@@ -149,7 +167,7 @@ void CommandMap::Sort_()
 void CommandMap::ToXmlFile(const juce::File& file)
 {
    try {
-      auto guard = std::shared_lock{cmdmap_mtx_};
+      auto guard = std::shared_lock{mutex_};
       if (!message_map_.empty()) { // don't bother if map is empty
          // save the contents of the command map to an xml file
          juce::XmlElement root{"settings"};

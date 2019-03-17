@@ -265,7 +265,7 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
 }
 
 void MainContentComponent::SaveProfile()
-{ // TODO: may have to call through AsyncUpdate
+{
    buttonClicked(&save_button_);
 }
 
@@ -405,7 +405,7 @@ void MainContentComponent::SetLabelSettings(juce::Label& label_to_set)
 
 void MainContentComponent::handleAsyncUpdate()
 {
-   // Update the last command label and set its colour to green
+   // Update the last command label and set its color to green
    command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
    command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
    startTimer(1000);

@@ -205,17 +205,17 @@ namespace rsj {
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
 #ifdef _WIN32 // charcvt not yet in XCode
-   template<class T> std::string NumToChars(T number)
+   template<class T> ::std::string NumToChars(T number)
    {
       ::std::array<char, 10> str{};
       auto [p, ec] = ::std::to_chars(str.data(), str.data() + str.size(), number);
-      if (ec == std::errc())
+      if (ec == ::std::errc())
          return ::std::string(str.data(), p - str.data());
       else
          return "Number conversion error " + ::std::make_error_condition(ec).message();
    }
 #else
-   template<class T> std::string NumToChars(T number)
+   template<class T> ::std::string NumToChars(T number)
    {
       return ::std::to_string(number);
    }

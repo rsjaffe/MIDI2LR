@@ -215,10 +215,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    private : void DefaultProfileSave()
    {
-      const auto filename = rsj::AppDataFilePath(kDefaultsFile);
-      const auto profilefile = juce::File(filename.data());
-      command_map_.ToXmlFile(profilefile);
-      rsj::Log("Default profile saved to " + profilefile.getFullPathName());
+      const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
+      const auto profile_file = juce::File(file_name.data());
+      command_map_.ToXmlFile(profile_file);
+      rsj::Log("Default profile saved to " + profile_file.getFullPathName());
    }
 
 #pragma warning(suppress : 26447) // all exceptions suppressed by catch blocks
@@ -257,9 +257,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #else
          const auto px = rsj::AppDataFilePath("settings.xml");
 #endif
-         std::ifstream infilex(px);
-         if (infilex.is_open() && !infilex.eof()) {
-            cereal::XMLInputArchive iarchive(infilex);
+         std::ifstream in_file(px);
+         if (in_file.is_open() && !in_file.eof()) {
+            cereal::XMLInputArchive iarchive(in_file);
             iarchive(controls_model_);
 #ifdef _WIN32
             rsj::Log("Cereal archive loaded from " + juce::String(px.c_str()));
