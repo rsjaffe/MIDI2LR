@@ -15,3 +15,4 @@
 "$$$/MIDI2LR/Options/ActionSeriesInvalid=Ongeldige opdrachten"
 "$$$/MIDI2LR/Profiles/Next=Volgend profiel"
 "$$$/MIDI2LR/Profiles/Previous=Vorig profiel"
+"$$$/MIDI2LR/Versions/notfor=werkt niet met"

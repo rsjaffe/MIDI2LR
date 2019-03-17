@@ -14,3 +14,4 @@
 "$$$/MIDI2LR/Options/ActionSeriesInvalid=Invalid commands"
 "$$$/MIDI2LR/Profiles/Next=Next Profile"
 "$$$/MIDI2LR/Profiles/Previous=Previous Profile"
+"$$$/MIDI2LR/Versions/notfor=doesn't work with"

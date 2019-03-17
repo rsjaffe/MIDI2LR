@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <gsl/gsl>
 #include "CommandMap.h"
-#include "LR_IPC_Out.h" //base class
+#include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
@@ -72,7 +72,6 @@ void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
     std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender)
 {
    try {
-      // copy the pointers
       lr_ipc_out_ = std::move(lr_ipc_out);
       midi_receiver_ = std::move(midi_receiver);
       midi_sender_ = std::move(midi_sender);
@@ -177,7 +176,7 @@ void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
          const auto default_profile = juce::File(filename.data());
          if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
             std::unique_ptr<juce::XmlElement> xml_element{parsed};
-            command_map_.BuildFromXml(xml_element.get());
+            command_map_.FromXml(xml_element.get());
             command_table_.updateContent();
          }
       }
@@ -204,31 +203,31 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
    try {
       // Display the CC parameters and add/highlight row in table corresponding to the CC
       auto mt{rsj::MsgIdEnum::kCc};
-      juce::String commandtype{"CC"};
+      juce::String command_type{"CC"};
       switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
       case rsj::kCcFlag:              // this is default for mt and commandtype
          break;
       case rsj::kNoteOnFlag:
          mt = rsj::MsgIdEnum::kNote;
-         commandtype = "NOTE ON";
+         command_type = "NOTE ON";
          break;
       case rsj::kNoteOffFlag:
          mt = rsj::MsgIdEnum::kNote;
-         commandtype = "NOTE OFF";
+         command_type = "NOTE OFF";
          break;
       case rsj::kPwFlag:
          mt = rsj::MsgIdEnum::kPitchBend;
-         commandtype = "PITCHBEND";
+         command_type = "PITCHBEND";
          break;
       default: // shouldn't receive any messages note categorized above
          Ensures(0);
       }
       mm.channel++; // used to 1-based channel numbers
-      last_command_ = juce::String(mm.channel) + ": " + commandtype + juce::String(mm.number) + " ["
-                      + juce::String(mm.value) + "]";
-      command_map_.AddRowUnmapped(mm.channel, mm.number, mt);
-      row_to_select_ = gsl::narrow_cast<size_t>(
-          command_map_.GetRowForMessage(mm.channel, mm.number, mt));
+      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.number)
+                      + " [" + juce::String(mm.value) + "]";
+      const rsj::MidiMessageId msg{mm.channel, mm.number, mt};
+      command_map_.AddRowUnmapped(msg);
+      row_to_select_ = gsl::narrow_cast<size_t>(command_map_.GetRowForMessage(msg));
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
@@ -263,6 +262,11 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
+}
+
+void MainContentComponent::SaveProfile()
+{ // TODO: may have to call through AsyncUpdate
+   buttonClicked(&save_button_);
 }
 
 void MainContentComponent::buttonClicked(juce::Button* button)
@@ -315,10 +319,16 @@ void MainContentComponent::buttonClicked(juce::Button* button)
              TRANS("Enter filename to save profile"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show()) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-            command_map_.ToXmlDocument(selected_file);
+            command_map_.ToXmlFile(selected_file);
          }
       }
       else if (button == &load_button_) {
+         if (command_map_.ProfileUnsaved()) {
+            const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+                juce::translate("MIDI2LR profiles"), juce::translate("Profile changed. Do you want to save it before loading a new Profile?"));
+            if (result)
+               SaveProfile();
+         }
          juce::File profile_directory;
          profile_directory = settings_manager_.GetProfileDirectory();
          if (!profile_directory.exists())
@@ -340,7 +350,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                   ptr->SendCommand(std::move(command));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
-               command_map_.BuildFromXml(xml_element.get());
+               command_map_.FromXml(xml_element.get());
                command_table_.updateContent();
                command_table_.repaint();
             }
@@ -376,7 +386,7 @@ void MainContentComponent::ProfileChanged(
    using namespace std::literals::string_literals;
    {
       const juce::MessageManagerLock mm_lock;
-      command_map_.BuildFromXml(xml_element);
+      command_map_.FromXml(xml_element);
       command_table_.updateContent();
       command_table_.repaint();
       profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);

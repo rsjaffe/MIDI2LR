@@ -254,7 +254,7 @@ void LrIpcIn::ProcessLine()
                const auto original_value = std::stod(std::string(value_string));
                for (const auto msg : command_map_.GetMessagesForCommand(command)) {
                   short msgtype{0};
-                  switch (msg->msg_id_type) {
+                  switch (msg.msg_id_type) {
                   case rsj::MsgIdEnum::kNote:
                      msgtype = rsj::kNoteOnFlag;
                      break;
@@ -265,21 +265,21 @@ void LrIpcIn::ProcessLine()
                      msgtype = rsj::kPwFlag;
                   }
                   const auto value = controls_model_.PluginToController(msgtype,
-                      gsl::narrow_cast<size_t>(msg->channel - 1),
-                      gsl::narrow_cast<short>(msg->data), original_value);
+                      gsl::narrow_cast<size_t>(msg.channel - 1),
+                      gsl::narrow_cast<short>(msg.data), original_value);
                   if (midi_sender_) {
                      switch (msgtype) {
                      case rsj::kNoteOnFlag:
-                        midi_sender_->SendNoteOn(msg->channel, msg->data, value);
+                        midi_sender_->SendNoteOn(msg.channel, msg.data, value);
                         break;
                      case rsj::kCcFlag:
-                        if (controls_model_.GetCcMethod(gsl::narrow_cast<size_t>(msg->channel - 1),
-                                gsl::narrow_cast<short>(msg->data))
+                        if (controls_model_.GetCcMethod(gsl::narrow_cast<size_t>(msg.channel - 1),
+                                gsl::narrow_cast<short>(msg.data))
                             == rsj::CCmethod::kAbsolute)
-                           midi_sender_->SendCc(msg->channel, msg->data, value);
+                           midi_sender_->SendCc(msg.channel, msg.data, value);
                         break;
                      case rsj::kPwFlag:
-                        midi_sender_->SendPitchWheel(msg->channel, value);
+                        midi_sender_->SendPitchWheel(msg.channel, value);
                         break;
                      default:
                         Ensures(!"Unexpected result for msgtype");

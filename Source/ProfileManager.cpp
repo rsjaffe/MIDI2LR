@@ -127,7 +127,7 @@ void ProfileManager::SwitchToPreviousProfile()
 
 void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
-   const auto cmd = command_map_.GetCommandforMessage(msg);
+   const auto cmd = command_map_.GetCommandForMessage(msg);
    if (cmd == "PrevPro"s) {
       switch_state_ = SwitchState::kPrev;
       triggerAsyncUpdate();

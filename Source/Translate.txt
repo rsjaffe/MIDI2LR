@@ -4,6 +4,8 @@ namespace rsj
    const auto de = u8R"===(language: German
 countries: de
 
+"Profile changed. Do you want to save it before exiting the program?" = "Profil geändert Möchten Sie es speichern, bevor Sie das Programm beenden?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "Profil geändert Möchten Sie es speichern, bevor Sie ein neues Profil laden?"
 "CC Message Type" = "CC-Nachrichtentyp"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "Der Steuerwert ist 1 oder größer, wenn er in die eine Richtung gedreht wird und 127 oder kleiner, wenn er in die andere gedreht wird."
 "Two\'s complement" = "Zweierkomplement"
@@ -57,6 +59,8 @@ countries: de
    const auto es = u8R"===(language: Spanish
 countries: es
 
+"Profile changed. Do you want to save it before exiting the program?" = "Perfil cambiado. ¿Quieres guardarlo antes de salir del programa?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "Perfil cambiado. ¿Quieres guardarlo antes de cargar un nuevo perfil?"
 "CC Message Type" = "Tipo de mensaje CC"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "El valor del control es 1 o mayor cuando se gira en una dirección y 127 o menor cuando se gira en la otra."
 "Two\'s complement" = "Complemento de dos"
@@ -110,6 +114,8 @@ countries: es
    const auto fr = u8R"===(language: French
 countries: fr
 
+"Profile changed. Do you want to save it before exiting the program?" = "Le profil a changé. Voulez-vous le sauvegarder avant de quitter le programme?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "Le profil a changé. Voulez-vous l'enregistrer avant de charger un nouveau profil?"
 "CC Message Type" = "Message Type CC"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "La valeur de contrôle est supérieure ou égale à 1 en tournant dans un sens et inférieure ou égale à 127 dans l'\autre sens."
 "Two\'s complement" = "Complément à deux"
@@ -163,6 +169,8 @@ countries: fr
    const auto it = u8R"===(language: Italian
 countries: it
 
+"Profile changed. Do you want to save it before exiting the program?" = "Profilo cambiato. Vuoi salvarlo prima di uscire dal programma?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "Profilo cambiato. Vuoi salvarlo prima di caricare un nuovo profilo?"
 "CC Message Type" = "Messaggio di tipo CC"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = ""Il valore di controllo è 1 o maggiore ruotando in un senso, 127 o più piccolo ruotando nell\'altro."
 "Two\'s complement" = "Complemento di due"
@@ -216,6 +224,8 @@ countries: it
    const auto ja = u8R"===(language: Japanese
 countries: ja
 
+"Profile changed. Do you want to save it before exiting the program?" = "プロファイルが変更されました。 プログラムを終了する前に保存しますか？"
+"Profile changed. Do you want to save it before loading a new Profile?" = "プロファイルが変更されました。 新しいプロファイルをロードする前に保存しますか？"
 "CC Message Type" = "CCメッセージタイプ"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "値はある方向に回すと1から大きくなり、反対に回すと127から小さくなります。"
 "Two\'s complement" = "2の補数"
@@ -269,6 +279,8 @@ countries: ja
    const auto ko = u8R"===(language: Korean
 countries: ko
 
+"Profile changed. Do you want to save it before exiting the program?" = "프로필이 변경되었습니다. 프로그램을 종료하기 전에 저장 하시겠습니까?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "프로필이 변경되었습니다. 새 프로필을로드하기 전에 저장 하시겠습니까?"
 "CC Message Type" = "CC 메시지 유형"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "한 방향으로 돌리면 제어 값이 1 이상, 다른 방향으로 돌리면 127보다 작아집니다."
 "Two\'s complement" = "2의 보수"
@@ -322,6 +334,8 @@ countries: ko
    const auto nl = u8R"===(language: Dutch
 countries: nl
 
+"Profile changed. Do you want to save it before exiting the program?" = "Profiel gewijzigd. Wilt u het opslaan voordat u het programma afsluit?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "Profiel gewijzigd. Wilt u het opslaan voordat u een nieuw profiel laadt?"
 "CC Message Type" = "CC berichttype"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "De regelwaarde is 1 of groter als hij in de ene richting wordt gedraaid, en 127 of kleiner wanneer de andere kant wordt opgedraaid."
 "Two\'s complement" = "Twee\'s aanvulling"
@@ -375,6 +389,8 @@ countries: nl
    const auto pt = u8R"===(language: Portuguese
 countries: pt
 
+"Profile changed. Do you want to save it before exiting the program?" = "Perfil alterado. Você quer salvá-lo antes de sair do programa?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "Perfil alterado. Você quer salvá-lo antes de carregar um novo perfil?"
 "CC Message Type" = "Tipo de mensagem CC"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "O valor do controle é 1 ou mais quando for girado para um lado, e 127 ou menos quando for girado para o outro lado."
 "Two\'s complement" = "Complemento de dois"
@@ -428,6 +444,8 @@ countries: pt
    const auto sv = u8R"===(language: Swedish
 countries: sv
 
+"Profile changed. Do you want to save it before exiting the program?" = "Profilen ändrats. Vill du spara det innan du avslutar programmet?"
+"Profile changed. Do you want to save it before loading a new Profile?" = "Profilen ändrats. Vill du spara det innan du laddar upp en ny profil?"
 "CC Message Type" = "CC-meddelandetyp"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "Kontrollervärdet är 1 eller högre när reglaget vrids åt ena hållet och 127 eller lägre när det vrids åt andra hållet."
 "Two\'s complement" = "Tvåkomplement"
@@ -481,6 +499,8 @@ countries: sv
    const auto zh_cn = u8R"===(language: Chinese simplified
 countries: zh-cn
 
+"Profile changed. Do you want to save it before exiting the program?" = "资料已更改。 要退出程序之前是否要保存？"
+"Profile changed. Do you want to save it before loading a new Profile?" = "资料已更改。 要加载新配置文件之前是否要保存？"
 "CC Message Type" = "CC信息类型"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "旋转旋钮从数值1到127，可以正逆旋转大小。"
 "Two\'s complement" = "双补码"
@@ -534,6 +554,8 @@ countries: zh-cn
    const auto zh_tw = u8R"===(language: Chinese traditional
 countries: zh-tw
 
+"Profile changed. Do you want to save it before exiting the program?" = "資料已更改。 要退出程序之前是否要保存？"
+"Profile changed. Do you want to save it before loading a new Profile?" = "資料已更改。 要加載新配置文件之前是否要保存？"
 "CC Message Type" = "CC信息類型"
 "Control value is 1 or greater when turned one way, and 127 or smaller when turned the other." = "旋轉旋鈕從數值1到127，可以正逆旋轉大小。"
 "Two\'s complement" = "雙補碼"

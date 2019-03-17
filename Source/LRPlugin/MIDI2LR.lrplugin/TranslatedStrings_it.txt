@@ -15,3 +15,4 @@
 "$$$/MIDI2LR/Options/ActionSeriesInvalid=Comandi non validi"
 "$$$/MIDI2LR/Profiles/Next=Profilo successivo"
 "$$$/MIDI2LR/Profiles/Previous=Profilo precedente"
+"$$$/MIDI2LR/Versions/notfor=non funziona con"
