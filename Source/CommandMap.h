@@ -55,18 +55,9 @@ class CommandMap {
 
  private:
    void AddCommandForMessage_(size_t command, rsj::MidiMessageId message);
-   const std::string& GetCommandForMessage_(rsj::MidiMessageId message) const
-   {
-      return message_map_.at(message);
-   }
-   bool MessageExistsInMap_(rsj::MidiMessageId message) const
-   {
-      return message_map_.find(message) != message_map_.end();
-   }
-   rsj::MidiMessageId GetMessageForNumber_(size_t num) const
-   {
-      return command_table_.at(num);
-   }
+   const std::string& GetCommandForMessage_(rsj::MidiMessageId message) const;
+   bool MessageExistsInMap_(rsj::MidiMessageId message) const;
+   rsj::MidiMessageId GetMessageForNumber_(size_t num) const;
    void Sort_();
 
    bool profile_unsaved_{false};
@@ -80,51 +71,132 @@ class CommandMap {
 
 inline void CommandMap::AddCommandForMessage(size_t command, rsj::MidiMessageId message)
 {
-   auto guard = std::unique_lock{mutex_};
-   AddCommandForMessage_(command, message);
+   try {
+      auto guard = std::unique_lock{mutex_};
+      AddCommandForMessage_(command, message);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 inline bool CommandMap::CommandHasAssociatedMessage(const std::string& command) const
 {
-   auto guard = std::shared_lock{mutex_};
-   return command_string_map_.find(command) != command_string_map_.end();
+   try {
+      auto guard = std::shared_lock{mutex_};
+      return command_string_map_.find(command) != command_string_map_.end();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 inline const std::string& CommandMap::GetCommandForMessage(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{mutex_};
-   return GetCommandForMessage_(message);
+   try {
+      auto guard = std::shared_lock{mutex_};
+      return GetCommandForMessage_(message);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+inline const std::string& CommandMap::GetCommandForMessage_(rsj::MidiMessageId message) const
+{
+   try {
+      return message_map_.at(message);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 inline rsj::MidiMessageId CommandMap::GetMessageForNumber(size_t num) const
 {
-   auto guard = std::shared_lock{mutex_};
-   return command_table_.at(num);
+   try {
+      auto guard = std::shared_lock{mutex_};
+      return command_table_.at(num);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+inline rsj::MidiMessageId CommandMap::GetMessageForNumber_(size_t num) const
+{
+   try {
+      return command_table_.at(num);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 inline int CommandMap::GetRowForMessage(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{mutex_};
-   return gsl::narrow_cast<int>(
-       std::find(command_table_.begin(), command_table_.end(), message) - command_table_.begin());
-}
-
-inline size_t CommandMap::Size() const
-{
-   auto guard = std::shared_lock{mutex_};
-   return command_table_.size();
+   try {
+      auto guard = std::shared_lock{mutex_};
+      return gsl::narrow_cast<int>(std::find(command_table_.begin(), command_table_.end(), message)
+                                   - command_table_.begin());
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 inline bool CommandMap::MessageExistsInMap(rsj::MidiMessageId message) const
 {
-   auto guard = std::shared_lock{mutex_};
-   return MessageExistsInMap_(message);
+   try {
+      auto guard = std::shared_lock{mutex_};
+      return MessageExistsInMap_(message);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+inline bool CommandMap::MessageExistsInMap_(rsj::MidiMessageId message) const
+{
+   try {
+      return message_map_.find(message) != message_map_.end();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 inline bool CommandMap::ProfileUnsaved() const
 {
-   auto guard = std::shared_lock{mutex_};
-   return profile_unsaved_ && !command_table_.empty();
+   try {
+      auto guard = std::shared_lock{mutex_};
+      return profile_unsaved_ && !command_table_.empty();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+inline size_t CommandMap::Size() const
+{
+   try {
+      auto guard = std::shared_lock{mutex_};
+      return command_table_.size();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 #endif // COMMANDMAP_H_INCLUDED
