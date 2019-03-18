@@ -66,7 +66,7 @@ namespace {
 
    class UpdateCurrentLogger {
     public:
-      UpdateCurrentLogger(juce::Logger* new_logger)
+      UpdateCurrentLogger(juce::Logger* new_logger) noexcept
       {
          juce::Logger::setCurrentLogger(new_logger);
       }
@@ -166,18 +166,24 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    //==========================================================================
    void systemRequestedQuit() override
    {
-      // This is called when the application is being asked to quit: you can
-      // ignore this request and let the application carry on running, or call
-      // quit() to allow the application to close.
-      if (profile_.ProfileUnsaved() && main_window_) {
-         const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
-             juce::translate("MIDI2LR profiles"),
-             juce::translate(
-                 "Profile changed. Do you want to save it before exiting the program?"));
-         if (result)
-            main_window_->SaveProfile();
+      try {
+         // This is called when the application is being asked to quit: you can
+         // ignore this request and let the application carry on running, or call
+         // quit() to allow the application to close.
+         if (profile_.ProfileUnsaved() && main_window_) {
+            const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
+                juce::translate("MIDI2LR profiles"),
+                juce::translate(
+                    "Profile changed. Do you want to save it before exiting the program?"));
+            if (result)
+               main_window_->SaveProfile();
+         }
+         quit();
       }
-      quit();
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
    void anotherInstanceStarted(const juce::String& command_line) override
@@ -215,10 +221,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    private : void DefaultProfileSave()
    {
-      const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
-      const auto profile_file = juce::File(file_name.data());
-      profile_.ToXmlFile(profile_file);
-      rsj::Log("Default profile saved to " + profile_file.getFullPathName());
+      try {
+         const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
+         const auto profile_file = juce::File(file_name.data());
+         profile_.ToXmlFile(profile_file);
+         rsj::Log("Default profile saved to " + profile_file.getFullPathName());
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
 #pragma warning(suppress : 26447) // all exceptions suppressed by catch blocks
@@ -298,56 +310,62 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void SetAppLanguage() const
    {
-      const auto lang{command_set_.GetLanguage()};
+      try {
+         const auto lang{command_set_.GetLanguage()};
 
-      // juce (as of July 2018) uses the following font defaults
-      // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
-      // sans defaults do not support Asian languages
-      //         MacOS            Windows
-      // Sans    Lucida Grande    Verdana
-      // Serif   Times New Roman  Times New Roman
-      // Fixed   Menlo            Lucida Console
+         // juce (as of July 2018) uses the following font defaults
+         // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
+         // sans defaults do not support Asian languages
+         //         MacOS            Windows
+         // Sans    Lucida Grande    Verdana
+         // Serif   Times New Roman  Times New Roman
+         // Fixed   Menlo            Lucida Console
 
-      // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
-      // avoiding fonts added in windows 10 to support people using earlier Windows versions
-      // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
-      if constexpr (MSWindows) {
-         if (lang == "ko") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Malgun Gothic");
+         // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
+         // avoiding fonts added in windows 10 to support people using earlier Windows versions
+         // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
+         if constexpr (MSWindows) {
+            if (lang == "ko") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Malgun Gothic");
+            }
+            else if (lang == "zh_tw") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Microsoft JhengHei UI");
+            }
+            else if (lang == "zh_cn") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Microsoft YaHei UI");
+            }
+            else if (lang == "ja") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "MS UI Gothic");
+            }
          }
-         else if (lang == "zh_tw") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Microsoft JhengHei UI");
+         else { // PingFang added in 10.11 El Capitan as new Chinese UI fonts
+            if (lang == "ko") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Apple SD Gothic Neo");
+            }
+            else if (lang == "zh_cn") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "PingFang SC");
+            }
+            else if (lang == "zh_tw") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "PingFang TC");
+            }
+            else if (lang == "ja") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Hiragino Kaku Gothic Pro");
+            }
          }
-         else if (lang == "zh_cn") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Microsoft YaHei UI");
-         }
-         else if (lang == "ja") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "MS UI Gothic");
-         }
+         rsj::Translate(lang);
       }
-      else { // PingFang added in 10.11 El Capitan as new Chinese UI fonts
-         if (lang == "ko") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Apple SD Gothic Neo");
-         }
-         else if (lang == "zh_cn") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "PingFang SC");
-         }
-         else if (lang == "zh_tw") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "PingFang TC");
-         }
-         else if (lang == "ja") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Hiragino Kaku Gothic Pro");
-         }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
       }
-      rsj::Translate(lang);
    }
 
    // create logger first, makes sure that MIDI2LR directory is created for writing by other

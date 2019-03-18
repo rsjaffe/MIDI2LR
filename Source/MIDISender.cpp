@@ -28,47 +28,80 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 void MidiSender::Init()
 {
-   InitDevices();
+   try {
+      InitDevices();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MidiSender::SendCc(int midi_channel, int controller, int value) const
 {
-   if (controller < 128) { // regular message
-      for (const auto& dev : output_devices_)
-         dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, controller, value));
-   }
-   else { // NRPN
-      const auto parameter_lsb = controller & 0x7f;
-      const auto parameter_msb = (controller >> 7) & 0x7F;
-      const auto value_lsb = value & 0x7f;
-      const auto value_msb = (value >> 7) & 0x7F;
-      for (const auto& dev : output_devices_) {
-         dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 99, parameter_msb));
-         dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 98, parameter_lsb));
-         dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 6, value_msb));
-         dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 38, value_lsb));
+   try {
+      if (controller < 128) { // regular message
+         for (const auto& dev : output_devices_)
+            dev->sendMessageNow(
+                juce::MidiMessage::controllerEvent(midi_channel, controller, value));
       }
+      else { // NRPN
+         const auto parameter_lsb = controller & 0x7f;
+         const auto parameter_msb = (controller >> 7) & 0x7F;
+         const auto value_lsb = value & 0x7f;
+         const auto value_msb = (value >> 7) & 0x7F;
+         for (const auto& dev : output_devices_) {
+            dev->sendMessageNow(
+                juce::MidiMessage::controllerEvent(midi_channel, 99, parameter_msb));
+            dev->sendMessageNow(
+                juce::MidiMessage::controllerEvent(midi_channel, 98, parameter_lsb));
+            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 6, value_msb));
+            dev->sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 38, value_lsb));
+         }
+      }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 
 void MidiSender::SendNoteOn(int midi_channel, int controller, int value) const
 {
-   for (const auto& dev : output_devices_)
-      dev->sendMessageNow(juce::MidiMessage::noteOn(
-          midi_channel, controller, gsl::narrow_cast<juce::uint8>(value)));
+   try {
+      for (const auto& dev : output_devices_)
+         dev->sendMessageNow(juce::MidiMessage::noteOn(
+             midi_channel, controller, gsl::narrow_cast<juce::uint8>(value)));
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MidiSender::SendPitchWheel(int midi_channel, int value) const
 {
-   for (const auto& dev : output_devices_)
-      dev->sendMessageNow(juce::MidiMessage::pitchWheel(midi_channel, value));
+   try {
+      for (const auto& dev : output_devices_)
+         dev->sendMessageNow(juce::MidiMessage::pitchWheel(midi_channel, value));
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MidiSender::RescanDevices()
 {
-   output_devices_.clear();
-   rsj::Log("Cleared output devices");
-   InitDevices();
+   try {
+      output_devices_.clear();
+      rsj::Log("Cleared output devices");
+      InitDevices();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MidiSender::InitDevices()

@@ -124,8 +124,14 @@ void SettingsComponent::Init()
 }
 
 void SettingsComponent::paint(juce::Graphics& g)
-{                                   //-V2009 overridden method
-   g.fillAll(juce::Colours::white); // clear the background
+{ //-V2009 overridden method
+   try {
+      g.fillAll(juce::Colours::white); // clear the background
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 void SettingsComponent::buttonClicked(juce::Button* button)
@@ -162,9 +168,15 @@ void SettingsComponent::buttonClicked(juce::Button* button)
 
 void SettingsComponent::sliderValueChanged(juce::Slider* slider)
 { //-V2009 overridden method
-   if (slider && &autohide_setting_ == slider) {
-      settings_manager_.SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
-      rsj::Log(
-          "Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime()) + " seconds");
+   try {
+      if (slider && &autohide_setting_ == slider) {
+         settings_manager_.SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
+         rsj::Log("Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime())
+                  + " seconds");
+      }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
    }
 }

@@ -64,45 +64,51 @@ namespace rsj {
               cereal::traits::sfinae>
       void serialize(Archive& archive, uint32_t const version)
       {
-         switch (version) {
-         case 1: {
-            std::string methodstr{"undefined"};
-            switch (method) {
-            case CCmethod::kAbsolute:
-               methodstr = "Absolute";
+         try {
+            switch (version) {
+            case 1: {
+               std::string methodstr{"undefined"};
+               switch (method) {
+               case CCmethod::kAbsolute:
+                  methodstr = "Absolute";
+                  break;
+               case CCmethod::kBinaryOffset:
+                  methodstr = "BinaryOffset";
+                  break;
+               case CCmethod::kSignMagnitude:
+                  methodstr = "SignMagnitute";
+                  break;
+               case CCmethod::kTwosComplement:
+                  methodstr = "TwosComplement";
+               default:
+                  break; // leave "undefined"
+               }
+               archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
+                   cereal::make_nvp("method", methodstr));
+               switch (methodstr.front()) {
+               case 'B':
+                  method = CCmethod::kBinaryOffset;
+                  break;
+               case 'S':
+                  method = CCmethod::kSignMagnitude;
+                  break;
+               case 'T':
+                  method = CCmethod::kTwosComplement;
+                  break;
+               case 'A':
+               default:
+                  method = CCmethod::kAbsolute;
+                  break;
+               }
                break;
-            case CCmethod::kBinaryOffset:
-               methodstr = "BinaryOffset";
-               break;
-            case CCmethod::kSignMagnitude:
-               methodstr = "SignMagnitute";
-               break;
-            case CCmethod::kTwosComplement:
-               methodstr = "TwosComplement";
-            default:
-               break; // leave "undefined"
             }
-            archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
-                cereal::make_nvp("method", methodstr));
-            switch (methodstr.front()) {
-            case 'B':
-               method = CCmethod::kBinaryOffset;
-               break;
-            case 'S':
-               method = CCmethod::kSignMagnitude;
-               break;
-            case 'T':
-               method = CCmethod::kTwosComplement;
-               break;
-            case 'A':
             default:
-               method = CCmethod::kAbsolute;
-               break;
+               rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
             }
-            break;
          }
-         default:
-            rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
+         catch (const std::exception& e) {
+            rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+            throw;
          }
       }
    };
@@ -270,7 +276,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
+       [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
    {
       try {
          return all_controls_.at(channel).GetCcMax(controlnumber);

@@ -97,8 +97,14 @@ void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender)
 
 void LrIpcIn::PleaseStopThread()
 {
-   juce::Thread::signalThreadShouldExit();
-   juce::Thread::notify();
+   try {
+      juce::Thread::signalThreadShouldExit();
+      juce::Thread::notify();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcIn::run()

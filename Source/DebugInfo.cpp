@@ -125,26 +125,32 @@ namespace {
 
 std::string rsj::GetKeyboardLayout()
 {
-   using namespace std::string_literals;
-   static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
-   std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
-   if (GetKeyboardLayoutNameA(klid_ascii.data())) {
-      try {
-         size_t pos{0};
-         const auto klid{std::stoul(std::string(klid_ascii.data()), &pos, 16)};
-         if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
-            return f->second;
-         return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
+   try {
+      using namespace std::string_literals;
+      static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
+      std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
+      if (GetKeyboardLayoutNameA(klid_ascii.data())) {
+         try {
+            size_t pos{0};
+            const auto klid{std::stoul(std::string(klid_ascii.data()), &pos, 16)};
+            if (const auto f = kKeyboardNames.find(klid); f != kKeyboardNames.end())
+               return f->second;
+            return "KLID not in keyboard_names: 0x"s + klid_ascii.data();
+         }
+         catch (...) {
+            const auto msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
+            rsj::Log(msg);
+            return msg;
+         }
       }
-      catch (...) {
-         const auto msg{"Exception when finding KLID name. KLID: 0x"s + klid_ascii.data()};
-         rsj::Log(msg);
-         return msg;
-      }
+      const auto msg{"Unable to get KLID. Error "s + rsj::NumToChars(GetLastError()) + "."s};
+      rsj::Log(msg);
+      return msg;
    }
-   const auto msg{"Unable to get KLID. Error "s + rsj::NumToChars(GetLastError()) + "."s};
-   rsj::Log(msg);
-   return msg;
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 #endif
 

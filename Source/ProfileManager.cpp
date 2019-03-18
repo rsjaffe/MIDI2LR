@@ -40,15 +40,21 @@ ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile) noexcep
 
 void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver)
 {
-   // copy the pointers
-   lr_ipc_out_ = std::move(out);
+   try {
+      // copy the pointers
+      lr_ipc_out_ = std::move(out);
 
-   if (const auto ptr = lr_ipc_out_.lock())
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-      // settings on connection
-      ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
-   if (midi_receiver)
-      midi_receiver->AddCallback(this, &ProfileManager::MidiCmdCallback);
+      if (const auto ptr = lr_ipc_out_.lock())
+         // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+         // settings on connection
+         ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
+      if (midi_receiver)
+         midi_receiver->AddCallback(this, &ProfileManager::MidiCmdCallback);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)
@@ -77,9 +83,15 @@ const std::vector<juce::String>& ProfileManager::GetMenuItems() const noexcept
 
 void ProfileManager::SwitchToProfile(int profile_index)
 {
-   if (profile_index >= 0 && profile_index < gsl::narrow_cast<int>(profiles_.size())) {
-      SwitchToProfile(profiles_.at(gsl::narrow_cast<size_t>(profile_index)));
-      current_profile_index_ = profile_index;
+   try {
+      if (profile_index >= 0 && profile_index < gsl::narrow_cast<int>(profiles_.size())) {
+         SwitchToProfile(profiles_.at(gsl::narrow_cast<size_t>(profile_index)));
+         current_profile_index_ = profile_index;
+      }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 
@@ -113,28 +125,46 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
 
 void ProfileManager::SwitchToNextProfile()
 {
-   if (++current_profile_index_ == gsl::narrow_cast<int>(profiles_.size()))
-      current_profile_index_ = 0;
-   SwitchToProfile(current_profile_index_);
+   try {
+      if (++current_profile_index_ == gsl::narrow_cast<int>(profiles_.size()))
+         current_profile_index_ = 0;
+      SwitchToProfile(current_profile_index_);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void ProfileManager::SwitchToPreviousProfile()
 {
-   if (--current_profile_index_ < 0)
-      current_profile_index_ = gsl::narrow_cast<int>(profiles_.size()) - 1;
-   SwitchToProfile(current_profile_index_);
+   try {
+      if (--current_profile_index_ < 0)
+         current_profile_index_ = gsl::narrow_cast<int>(profiles_.size()) - 1;
+      SwitchToProfile(current_profile_index_);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
-   const auto cmd = current_profile_.GetCommandForMessage(msg);
-   if (cmd == "PrevPro"s) {
-      switch_state_ = SwitchState::kPrev;
-      triggerAsyncUpdate();
+   try {
+      const auto cmd = current_profile_.GetCommandForMessage(msg);
+      if (cmd == "PrevPro"s) {
+         switch_state_ = SwitchState::kPrev;
+         triggerAsyncUpdate();
+      }
+      else if (cmd == "NextPro"s) {
+         switch_state_ = SwitchState::kNext;
+         triggerAsyncUpdate();
+      }
    }
-   else if (cmd == "NextPro"s) {
-      switch_state_ = SwitchState::kNext;
-      triggerAsyncUpdate();
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 
@@ -156,28 +186,40 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 
 void ProfileManager::ConnectionCallback(bool connected, bool blocked)
 {
-   if (connected && !blocked) {
-      if (const auto ptr = lr_ipc_out_.lock()) {
-         ptr->SendCommand(
-             "ChangedToDirectory "s
-             + juce::File::addTrailingSeparator(profile_location_.getFullPathName()).toStdString()
-             + '\n');
+   try {
+      if (connected && !blocked) {
+         if (const auto ptr = lr_ipc_out_.lock()) {
+            ptr->SendCommand("ChangedToDirectory "s
+                             + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
+                                   .toStdString()
+                             + '\n');
+         }
       }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 
 void ProfileManager::handleAsyncUpdate()
 {
-   switch (switch_state_) {
-   case SwitchState::kPrev:
-      SwitchToPreviousProfile();
-      switch_state_ = SwitchState::kNone;
-      break;
-   case SwitchState::kNext:
-      SwitchToNextProfile();
-      switch_state_ = SwitchState::kNone;
-      break;
-   default:
-      break;
+   try {
+      switch (switch_state_) {
+      case SwitchState::kPrev:
+         SwitchToPreviousProfile();
+         switch_state_ = SwitchState::kNone;
+         break;
+      case SwitchState::kNext:
+         SwitchToNextProfile();
+         switch_state_ = SwitchState::kNone;
+         break;
+      default:
+         break;
+      }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }

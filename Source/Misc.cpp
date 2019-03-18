@@ -110,51 +110,75 @@ namespace {
    int MultiByteToWideCharErrorChecked(UINT CodePage, DWORD dwFlags, LPCCH lpMultiByteStr,
        int cbMultiByte, LPWSTR lpWideCharStr, int cchWideChar)
    {
-      const auto ret = MultiByteToWideChar(
-          CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
-      if (!ret) {
-         const auto error_msg =
-             "MultiByteToWideChar failed with error code: " + rsj::NumToChars(GetLastError());
-         throw std::runtime_error(error_msg.c_str());
+      try {
+         const auto ret = MultiByteToWideChar(
+             CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
+         if (!ret) {
+            const auto error_msg =
+                "MultiByteToWideChar failed with error code: " + rsj::NumToChars(GetLastError());
+            throw std::runtime_error(error_msg.c_str());
+         }
+         return ret;
       }
-      return ret;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 
    int WideCharToMultiByteErrorChecked(UINT CodePage, DWORD dwFlags, LPCWCH lpWideCharStr,
        int cchWideChar, LPSTR lpMultiByteStr, int cbMultiByte, LPCCH lpDefaultChar,
        LPBOOL lpUsedDefaultChar)
    {
-      const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
-          lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
-      if (!ret) {
-         const auto error_msg =
-             "WideCharToMultiByte failed with error code: " + rsj::NumToChars(GetLastError());
-         throw std::runtime_error(error_msg.c_str());
+      try {
+         const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
+             lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
+         if (!ret) {
+            const auto error_msg =
+                "WideCharToMultiByte failed with error code: " + rsj::NumToChars(GetLastError());
+            throw std::runtime_error(error_msg.c_str());
+         }
+         return ret;
       }
-      return ret;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 } // namespace
 
 std::wstring rsj::Utf8ToWide(std::string_view input)
 { // add terminating null
-   const auto buffersize = MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(),
-                               gsl::narrow_cast<int>(input.size()), nullptr, 0)
-                           + 1;
-   std::vector<wchar_t> buffer(buffersize, 0); // all zero
-   MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), gsl::narrow_cast<int>(input.size()),
-       buffer.data(), gsl::narrow_cast<int>(buffer.size()));
-   return buffer.data();
+   try {
+      const auto buffersize = MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(),
+                                  gsl::narrow_cast<int>(input.size()), nullptr, 0)
+                              + 1;
+      std::vector<wchar_t> buffer(buffersize, 0); // all zero
+      MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), gsl::narrow_cast<int>(input.size()),
+          buffer.data(), gsl::narrow_cast<int>(buffer.size()));
+      return buffer.data();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 std::string rsj::WideToUtf8(std::wstring_view wstr)
 { // add terminating null
-   const auto buffersize = WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(),
-                               gsl::narrow_cast<int>(wstr.size()), nullptr, 0, nullptr, nullptr)
-                           + 1;
-   std::vector<char> buffer(buffersize, 0);
-   WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(), gsl::narrow_cast<int>(wstr.size()),
-       buffer.data(), gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);
-   return buffer.data();
+   try {
+      const auto buffersize = WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(),
+                                  gsl::narrow_cast<int>(wstr.size()), nullptr, 0, nullptr, nullptr)
+                              + 1;
+      std::vector<char> buffer(buffersize, 0);
+      WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(), gsl::narrow_cast<int>(wstr.size()),
+          buffer.data(), gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);
+      return buffer.data();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 #else
 std::string rsj::AppDataFilePath(const std::string& file_name)

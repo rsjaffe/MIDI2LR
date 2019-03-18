@@ -42,8 +42,14 @@ class DebugInfo {
  private:
    void LogAndSave(std::string&& msg)
    {
-      rsj::Log(msg);
-      info_.emplace_back(std::move(msg));
+      try {
+         rsj::Log(msg);
+         info_.emplace_back(std::move(msg));
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
    std::vector<std::string> info_;
 };

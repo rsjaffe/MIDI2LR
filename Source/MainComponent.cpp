@@ -59,13 +59,20 @@ namespace {
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
-MainContentComponent::MainContentComponent(
-    Profile& profile, ProfileManager& profile_manager, SettingsManager& settings_manager)
-    : ResizableLayout{this}, profile_(profile), command_table_model_(profile),
-      profile_manager_(profile_manager), settings_manager_(settings_manager)
+MainContentComponent::MainContentComponent(Profile& profile, ProfileManager& profile_manager,
+    SettingsManager& settings_manager) try : ResizableLayout {
+   this
+}
+, profile_(profile), command_table_model_(profile), profile_manager_(profile_manager),
+    settings_manager_(settings_manager)
 {
    // Set the component size
    setSize(kMainWidth, kMainHeight);
+}
+catch (const std::exception& e)
+{
+   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   throw;
 }
 
 void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
@@ -195,7 +202,13 @@ void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
 
 void MainContentComponent::paint(juce::Graphics& g)
 { //-V2009 overridden method
-   g.fillAll(juce::Colours::white);
+   try {
+      g.fillAll(juce::Colours::white);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
@@ -266,7 +279,13 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
 
 void MainContentComponent::SaveProfile()
 {
-   buttonClicked(&save_button_);
+   try {
+      buttonClicked(&save_button_);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MainContentComponent::buttonClicked(juce::Button* button)
@@ -386,40 +405,64 @@ void MainContentComponent::ProfileChanged(
     juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
    using namespace std::literals::string_literals;
-   {
-      const juce::MessageManagerLock mm_lock;
-      profile_.FromXml(xml_element);
-      command_table_.updateContent();
-      command_table_.repaint();
-      profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
+   try {
+      {
+         const juce::MessageManagerLock mm_lock;
+         profile_.FromXml(xml_element);
+         command_table_.updateContent();
+         command_table_.repaint();
+         profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
+      }
+      // Send new CC parameters to MIDI Out devices
+      if (const auto ptr = lr_ipc_out_.lock())
+         ptr->SendCommand("FullRefresh 1\n"s);
    }
-   // Send new CC parameters to MIDI Out devices
-   if (const auto ptr = lr_ipc_out_.lock())
-      ptr->SendCommand("FullRefresh 1\n"s);
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MainContentComponent::SetLabelSettings(juce::Label& label_to_set)
 {
-   label_to_set.setFont(juce::Font{12.f, juce::Font::bold});
-   label_to_set.setEditable(false);
-   label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+   try {
+      label_to_set.setFont(juce::Font{12.f, juce::Font::bold});
+      label_to_set.setEditable(false);
+      label_to_set.setColour(juce::Label::textColourId, juce::Colours::darkgrey);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MainContentComponent::handleAsyncUpdate()
 {
-   // Update the last command label and set its color to green
-   command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
-   command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
-   startTimer(1000);
+   try {
+      // Update the last command label and set its color to green
+      command_label_.setText(last_command_, juce::NotificationType::dontSendNotification);
+      command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::greenyellow);
+      startTimer(1000);
 
-   // Update the command table to add and/or select row corresponding to midi command
-   command_table_.updateContent();
-   command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
+      // Update the command table to add and/or select row corresponding to midi command
+      command_table_.updateContent();
+      command_table_.selectRow(gsl::narrow_cast<int>(row_to_select_));
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void MainContentComponent::timerCallback()
 {
-   // reset the command label's background to white
-   command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::white);
-   juce::Timer::stopTimer();
+   try {
+      // reset the command label's background to white
+      command_label_.setColour(juce::Label::backgroundColourId, juce::Colours::white);
+      juce::Timer::stopTimer();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }

@@ -250,20 +250,32 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
 
 void ChannelModel::SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype)
 {
-   SetCcMethod(controlnumber, controltype); // has to be set before others or ranges won't be
-                                            // correct
-   SetCcMin(controlnumber, min);
-   SetCcMax(controlnumber, max);
+   try {
+      SetCcMethod(controlnumber, controltype); // has to be set before others or ranges won't be
+                                               // correct
+      SetCcMin(controlnumber, min);
+      SetCcMax(controlnumber, max);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void ChannelModel::SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype)
 {
-   if (IsNRPN_(controlnumber))
-      for (short a = kMaxMidi + 1; a <= kMaxNrpn; ++a)
-         SetCc(a, min, max, controltype);
-   else
-      for (short a = 0; a <= kMaxMidi; ++a)
-         SetCc(a, min, max, controltype);
+   try {
+      if (IsNRPN_(controlnumber))
+         for (short a = kMaxMidi + 1; a <= kMaxNrpn; ++a)
+            SetCc(a, min, max, controltype);
+      else
+         for (short a = 0; a <= kMaxMidi; ++a)
+            SetCc(a, min, max, controltype);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void ChannelModel::SetCcMax(size_t controlnumber, short value)
@@ -319,15 +331,21 @@ void ChannelModel::SetPwMin(short value) noexcept
 
 void ChannelModel::ActiveToSaved() const
 {
-   settings_to_save_.clear();
-   for (short i = 0; i <= kMaxMidi; ++i)
-      if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxMidi
-          || cc_low_.at(i) != 0)
-         settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
-   for (short i = kMaxMidi + 1; i <= kMaxNrpn; ++i)
-      if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxNrpn
-          || cc_low_.at(i) != 0)
-         settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
+   try {
+      settings_to_save_.clear();
+      for (short i = 0; i <= kMaxMidi; ++i)
+         if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxMidi
+             || cc_low_.at(i) != 0)
+            settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
+      for (short i = kMaxMidi + 1; i <= kMaxNrpn; ++i)
+         if (cc_method_.at(i) != rsj::CCmethod::kAbsolute || cc_high_.at(i) != kMaxNrpn
+             || cc_low_.at(i) != 0)
+            settings_to_save_.emplace_back(i, cc_low_.at(i), cc_high_.at(i), cc_method_.at(i));
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void ChannelModel::CcDefaults()
@@ -352,13 +370,25 @@ void ChannelModel::CcDefaults()
 
 void ChannelModel::SavedToActive()
 {
-   CcDefaults();
-   for (const auto& set : settings_to_save_)
-      SetCc(set.number, set.low, set.high, set.method);
+   try {
+      CcDefaults();
+      for (const auto& set : settings_to_save_)
+         SetCc(set.number, set.low, set.high, set.method);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 ChannelModel::ChannelModel()
 {
-   CcDefaults();
-   // load settings
+   try {
+      CcDefaults();
+      // load settings
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }

@@ -26,11 +26,17 @@ CommandTableModel::CommandTableModel(Profile& profile) noexcept : profile_(profi
 
 int CommandTableModel::getNumRows()
 {
-   // This must return the number of rows currently in the table.
+   try {
+      // This must return the number of rows currently in the table.
 
-   // If the number of rows changes, you must call TableListBox::updateContent()
-   // to cause it to refresh the list.
-   return gsl::narrow_cast<int>(profile_.Size());
+      // If the number of rows changes, you must call TableListBox::updateContent()
+      // to cause it to refresh the list.
+      return gsl::narrow_cast<int>(profile_.Size());
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void CommandTableModel::paintCell(
@@ -83,15 +89,21 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g,
     int /*rowNumber*/, //-V2009 overridden method
     int /*width*/, int /*height*/, bool row_is_selected)
 {
-   // This must draw the background behind one of the rows in the table.
+   try {
+      // This must draw the background behind one of the rows in the table.
 
-   // The graphics context has its origin at the row's top-left, and your method
-   // should fill the area specified by the width and height parameters.
+      // The graphics context has its origin at the row's top-left, and your method
+      // should fill the area specified by the width and height parameters.
 
-   // Note that the rowNumber value may be greater than the number of rows in your
-   // list, so be careful that you don't assume it's less than getNumRows().
-   if (row_is_selected)
-      g.fillAll(juce::Colours::lightblue);
+      // Note that the rowNumber value may be greater than the number of rows in your
+      // list, so be careful that you don't assume it's less than getNumRows().
+      if (row_is_selected)
+         g.fillAll(juce::Colours::lightblue);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int column_id,
@@ -155,13 +167,19 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
 
 void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forwards)
 {
-   // This callback is made when the table's sort order is changed.
+   try {
+      // This callback is made when the table's sort order is changed.
 
-   // This could be because the user has clicked a column header, or because the
-   // TableHeaderComponent::setSortColumnId() method was called.
+      // This could be because the user has clicked a column header, or because the
+      // TableHeaderComponent::setSortColumnId() method was called.
 
-   // If you implement this, your method should re - sort the table using the
-   // given column as the key.
-   const auto current_sort = std::make_pair(new_sort_column_id, is_forwards);
-   profile_.Resort(current_sort);
+      // If you implement this, your method should re - sort the table using the
+      // given column as the key.
+      const auto current_sort = std::make_pair(new_sort_column_id, is_forwards);
+      profile_.Resort(current_sort);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }

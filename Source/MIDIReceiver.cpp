@@ -125,13 +125,19 @@ void MidiReceiver::RescanDevices()
 
 void MidiReceiver::TryToOpen()
 {
-   for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
-      const auto dev = juce::MidiInput::openDevice(idx, this);
-      if (dev) {
-         devices_.emplace_back(dev);
-         dev->start();
-         rsj::Log("Opened input device " + dev->getName());
+   try {
+      for (auto idx = 0; idx < juce::MidiInput::getDevices().size(); ++idx) {
+         const auto dev = juce::MidiInput::openDevice(idx, this);
+         if (dev) {
+            devices_.emplace_back(dev);
+            dev->start();
+            rsj::Log("Opened input device " + dev->getName());
+         }
       }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 

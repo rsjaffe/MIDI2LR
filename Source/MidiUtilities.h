@@ -57,7 +57,7 @@ namespace rsj {
       MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
    };
 
-   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs)
+   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
    {
       return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
              && lhs.number == rhs.number && lhs.value == rhs.value;

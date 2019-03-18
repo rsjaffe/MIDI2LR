@@ -183,35 +183,59 @@ void LrIpcOut::SendCommand(const std::string& command)
 
 void LrIpcOut::Stop()
 {
-   sending_stopped_ = true;
-   const auto connected = isConnected();
-   for (const auto& cb : callbacks_)
-      cb(connected, true);
+   try {
+      sending_stopped_ = true;
+      const auto connected = isConnected();
+      for (const auto& cb : callbacks_)
+         cb(connected, true);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::Restart()
 {
-   using namespace std::string_literals;
-   sending_stopped_ = false;
-   const auto connected = isConnected();
-   for (const auto& cb : callbacks_)
-      cb(connected, false);
-   // resync controls
-   SendCommand("FullRefresh 1\n"s);
+   try {
+      using namespace std::string_literals;
+      sending_stopped_ = false;
+      const auto connected = isConnected();
+      for (const auto& cb : callbacks_)
+         cb(connected, false);
+      // resync controls
+      SendCommand("FullRefresh 1\n"s);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::connectionMade()
 {
-   for (const auto& cb : callbacks_)
-      cb(true, sending_stopped_);
-   rsj::Log("Connected to Lightroom plugin");
+   try {
+      for (const auto& cb : callbacks_)
+         cb(true, sending_stopped_);
+      rsj::Log("Connected to Lightroom plugin");
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::connectionLost()
 {
-   for (const auto& cb : callbacks_)
-      cb(false, sending_stopped_);
-   rsj::Log("Disconnected from Lightroom plugin");
+   try {
+      for (const auto& cb : callbacks_)
+         cb(false, sending_stopped_);
+      rsj::Log("Disconnected from Lightroom plugin");
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept {}
@@ -243,52 +267,82 @@ void LrIpcOut::SendOut()
 
 void LrIpcOut::ConnectTimer::Start()
 {
-   auto lock = std::lock_guard(connect_mutex_);
-   juce::Timer::startTimer(kConnectTimer);
-   timer_off_ = false;
+   try {
+      auto lock = std::lock_guard(connect_mutex_);
+      juce::Timer::startTimer(kConnectTimer);
+      timer_off_ = false;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::ConnectTimer::Stop()
 {
-   auto lock = std::lock_guard(connect_mutex_);
-   juce::Timer::stopTimer();
-   timer_off_ = true;
+   try {
+      auto lock = std::lock_guard(connect_mutex_);
+      juce::Timer::stopTimer();
+      timer_off_ = true;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::ConnectTimer::timerCallback()
 {
-   auto lock = std::lock_guard(connect_mutex_);
-   if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
-      owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+   try {
+      auto lock = std::lock_guard(connect_mutex_);
+      if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
+         owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
-   auto lock = std::lock_guard(mtx_);
-   mm_ = mm;
-   juce::Timer::startTimer(kRecenterTimer);
+   try {
+      auto lock = std::lock_guard(mtx_);
+      mm_ = mm;
+      juce::Timer::startTimer(kRecenterTimer);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::Recenter::timerCallback()
 {
-   rsj::MidiMessage local_mm{};
-   {
-      auto lock = std::lock_guard(mtx_);
-      juce::Timer::stopTimer();
-      local_mm = mm_;
+   try {
+      rsj::MidiMessage local_mm{};
+      {
+         auto lock = std::lock_guard(mtx_);
+         juce::Timer::stopTimer();
+         local_mm = mm_;
+      }
+      const auto center = owner_.controls_model_.SetToCenter(local_mm);
+      // send center to control//
+      switch (local_mm.message_type_byte) {
+      case rsj::kPwFlag: {
+         owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
+         break;
+      }
+      case rsj::kCcFlag: {
+         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
+         break;
+      }
+      default:
+          /* no action */;
+      }
    }
-   const auto center = owner_.controls_model_.SetToCenter(local_mm);
-   // send center to control//
-   switch (local_mm.message_type_byte) {
-   case rsj::kPwFlag: {
-      owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
-      break;
-   }
-   case rsj::kCcFlag: {
-      owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
-      break;
-   }
-   default:
-       /* no action */;
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }

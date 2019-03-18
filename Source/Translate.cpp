@@ -23,18 +23,25 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 
 #include <JuceLibraryCode/JuceHeader.h>
+#include "Misc.h"
 #include "Translate.txt"
 
 void rsj::Translate(const std::string& lg)
 {
-   static const std::map<std::string, const char*> kTranslationTable{{"de", de}, {"es", es},
-       {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"sv", sv},
-       {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};
-   if (const auto found = kTranslationTable.find(lg); found != kTranslationTable.end()) {
-      const juce::String str(juce::CharPointer_UTF8(found->second));
-      auto ls = std::make_unique<juce::LocalisedStrings>(str, false);
-      juce::LocalisedStrings::setCurrentMappings(ls.release()); // takes ownership of ls
+   try {
+      static const std::map<std::string, const char*> kTranslationTable{{"de", de}, {"es", es},
+          {"fr", fr}, {"it", it}, {"ja", ja}, {"ko", ko}, {"nl", nl}, {"pt", pt}, {"sv", sv},
+          {"zh_cn", zh_cn}, {"zh_tw", zh_tw}};
+      if (const auto found = kTranslationTable.find(lg); found != kTranslationTable.end()) {
+         const juce::String str(juce::CharPointer_UTF8(found->second));
+         auto ls = std::make_unique<juce::LocalisedStrings>(str, false);
+         juce::LocalisedStrings::setCurrentMappings(ls.release()); // takes ownership of ls
+      }
+      else
+         juce::LocalisedStrings::setCurrentMappings(nullptr);
    }
-   else
-      juce::LocalisedStrings::setCurrentMappings(nullptr);
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
