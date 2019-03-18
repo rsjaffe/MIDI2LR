@@ -38,6 +38,13 @@ local function LrVersion74orMore()
   return true
 end
 
+local function LrVersion66orMore()
+    local vers = LrApplication.versionTable()
+  if vers.major < 6 then return false end
+  if vers.major == 6 and vers.minor < 6 then return false end
+  return true
+end
+
 local function applogpath()
   local ret
   if WIN_ENV then
@@ -69,4 +76,5 @@ return { --table of exports, setting table member name and module function it po
   appdatapath = appdatapath,
   applogpath = applogpath,
   LrVersion74orMore = LrVersion74orMore,
+  LrVersion66orMore = LrVersion66orMore,
 }

@@ -46,7 +46,6 @@ local needsModule = {
   [LrDevelopController.resetRedeye]                    = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetSpotRemoval]               = {module = 'develop', photoSelected = true },
   [LrDevelopController.resetToDefault]                 = {module = 'develop', photoSelected = true },
-  [LrDevelopController.resetTransforms]                = {module = 'develop', photoSelected = true },
   [LrDevelopController.revealAdjustedControls]         = {module = 'develop', photoSelected = false },
   [LrDevelopController.revealPanel]                    = {module = 'develop', photoSelected = false },
   [LrDevelopController.selectTool]                     = {module = 'develop', photoSelected = false },
@@ -63,6 +62,12 @@ then
   needsModule[LrDevelopController.setAutoTone]         = {module = 'develop', photoSelected = true }
   needsModule[LrDevelopController.setAutoWhiteBalance] = {module = 'develop', photoSelected = true }
 end
+
+if Ut.LrVersion66orMore()
+then
+  needsModule[LrDevelopController.resetTransforms]     = {module = 'develop', photoSelected = true }
+end
+
 
 local _needsModule = {
   __index = function (t,k)

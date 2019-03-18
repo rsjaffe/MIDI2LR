@@ -451,7 +451,6 @@ LrTasks.startAsyncTask(
       ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action available in Lightroom version 7.4 and later only.') end
       ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action available in Lightroom version 7.4 and later only.') end
       ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action available in Lightroom version 7.4 and later only.') end
       ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
       ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
       ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
@@ -463,13 +462,19 @@ LrTasks.startAsyncTask(
       ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
       ACTIONS.openExportDialog             = CU.wrapForEachPhoto('openExportDialog')
       ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')      
-      ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
+
+    if not Ut.LrVersion66orMore() then
+      ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action available in Lightroom version 6.6 and later only.') end
+    else
+      ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
+    end
+
 
     local SETTINGS = {
       AppInfo            = function(value) Info.AppInfo[#Info.AppInfo+1] = value end,
