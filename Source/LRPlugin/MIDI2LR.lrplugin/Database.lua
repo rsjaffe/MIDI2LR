@@ -646,22 +646,22 @@ local DataBase = {
 --keywords
 --
 
-  {Command='Keyword1',Type='button',Translation=keyword..' 1',Group=keywords,Explanation='Apply keyword 1 to active photo only.'},
-  {Command='Keyword2',Type='button',Translation=keyword..' 2',Group=keywords,Explanation='Apply keyword 2 to active photo only.'},
-  {Command='Keyword3',Type='button',Translation=keyword..' 3',Group=keywords,Explanation='Apply keyword 3 to active photo only.'},
-  {Command='Keyword4',Type='button',Translation=keyword..' 4',Group=keywords,Explanation='Apply keyword 4 to active photo only.'},
-  {Command='Keyword5',Type='button',Translation=keyword..' 5',Group=keywords,Explanation='Apply keyword 5 to active photo only.'},
-  {Command='Keyword6',Type='button',Translation=keyword..' 6',Group=keywords,Explanation='Apply keyword 6 to active photo only.'},
-  {Command='Keyword7',Type='button',Translation=keyword..' 7',Group=keywords,Explanation='Apply keyword 7 to active photo only.'},
-  {Command='Keyword8',Type='button',Translation=keyword..' 8',Group=keywords,Explanation='Apply keyword 8 to active photo only.'},
-  {Command='Keyword9',Type='button',Translation=keyword..' 9',Group=keywords,Explanation='Apply keyword 9 to active photo only.'},
-  {Command='Keyword10',Type='button',Translation=keyword..' 10',Group=keywords,Explanation='Apply keyword 10 to active photo only.'},
-  {Command='Keyword11',Type='button',Translation=keyword..' 11',Group=keywords,Explanation='Apply keyword 11 to active photo only.'},
-  {Command='Keyword12',Type='button',Translation=keyword..' 12',Group=keywords,Explanation='Apply keyword 12 to active photo only.'},
-  {Command='Keyword13',Type='button',Translation=keyword..' 13',Group=keywords,Explanation='Apply keyword 13 to active photo only.'},
-  {Command='Keyword14',Type='button',Translation=keyword..' 14',Group=keywords,Explanation='Apply keyword 14 to active photo only.'},
-  {Command='Keyword15',Type='button',Translation=keyword..' 15',Group=keywords,Explanation='Apply keyword 15 to active photo only.'},
-  {Command='Keyword16',Type='button',Translation=keyword..' 16',Group=keywords,Explanation='Apply keyword 16 to active photo only.'},
+  {Command='Keyword1',Type='button',Translation=keyword..' 1',Group=keywords,Explanation='Apply keyword 1 to all selected photos.'},
+  {Command='Keyword2',Type='button',Translation=keyword..' 2',Group=keywords,Explanation='Apply keyword 2 to all selected photos.'},
+  {Command='Keyword3',Type='button',Translation=keyword..' 3',Group=keywords,Explanation='Apply keyword 3 to all selected photos.'},
+  {Command='Keyword4',Type='button',Translation=keyword..' 4',Group=keywords,Explanation='Apply keyword 4 to all selected photos.'},
+  {Command='Keyword5',Type='button',Translation=keyword..' 5',Group=keywords,Explanation='Apply keyword 5 to all selected photos.'},
+  {Command='Keyword6',Type='button',Translation=keyword..' 6',Group=keywords,Explanation='Apply keyword 6 to all selected photos.'},
+  {Command='Keyword7',Type='button',Translation=keyword..' 7',Group=keywords,Explanation='Apply keyword 7 to all selected photos.'},
+  {Command='Keyword8',Type='button',Translation=keyword..' 8',Group=keywords,Explanation='Apply keyword 8 to all selected photos.'},
+  {Command='Keyword9',Type='button',Translation=keyword..' 9',Group=keywords,Explanation='Apply keyword 9 to all selected photos.'},
+  {Command='Keyword10',Type='button',Translation=keyword..' 10',Group=keywords,Explanation='Apply keyword 10 to all selected photos.'},
+  {Command='Keyword11',Type='button',Translation=keyword..' 11',Group=keywords,Explanation='Apply keyword 11 to all selected photos.'},
+  {Command='Keyword12',Type='button',Translation=keyword..' 12',Group=keywords,Explanation='Apply keyword 12 to all selected photos.'},
+  {Command='Keyword13',Type='button',Translation=keyword..' 13',Group=keywords,Explanation='Apply keyword 13 to all selected photos.'},
+  {Command='Keyword14',Type='button',Translation=keyword..' 14',Group=keywords,Explanation='Apply keyword 14 to all selected photos.'},
+  {Command='Keyword15',Type='button',Translation=keyword..' 15',Group=keywords,Explanation='Apply keyword 15 to all selected photos.'},
+  {Command='Keyword16',Type='button',Translation=keyword..' 16',Group=keywords,Explanation='Apply keyword 16 to all selected photos.'},
 
 --
 --develop: localized adjustments
