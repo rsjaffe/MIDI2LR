@@ -33,8 +33,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Profile.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel& c_model, Profile& cmap) noexcept
-    : profile_{cmap}, controls_model_{c_model}
+ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile) noexcept
+    : current_profile_{profile}, controls_model_{c_model}
 {
 }
 
@@ -127,7 +127,7 @@ void ProfileManager::SwitchToPreviousProfile()
 
 void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
-   const auto cmd = profile_.GetCommandForMessage(msg);
+   const auto cmd = current_profile_.GetCommandForMessage(msg);
    if (cmd == "PrevPro"s) {
       switch_state_ = SwitchState::kPrev;
       triggerAsyncUpdate();
@@ -144,7 +144,7 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
       const rsj::MidiMessageId cc = mm;
       // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
       // profile-related command
-      if (controls_model_.ControllerToPlugin(mm) < 0.4 || !profile_.MessageExistsInMap(cc))
+      if (controls_model_.ControllerToPlugin(mm) < 0.4 || !current_profile_.MessageExistsInMap(cc))
          return;
       MapCommand(cc);
    }

@@ -36,7 +36,7 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(ControlsModel& c_model, Profile& cmap) noexcept;
+   ProfileManager(ControlsModel& c_model, Profile& profile) noexcept;
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
@@ -82,7 +82,7 @@ class ProfileManager final : juce::AsyncUpdater {
       kNext,
    };
 
-   Profile& profile_;
+   Profile& current_profile_;
    ControlsModel& controls_model_;
    int current_profile_index_{0};
    juce::File profile_location_;

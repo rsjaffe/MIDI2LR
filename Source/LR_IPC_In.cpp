@@ -48,8 +48,8 @@ namespace {
 } // namespace
 
 LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile)
-    : juce::Thread{"LR_IPC_IN"}, profile_{profile}, controls_model_{c_model},
-      profile_manager_{profile_manager}
+    : juce::Thread{"LR_IPC_IN"}, profile_{profile}, controls_model_{c_model}, profile_manager_{
+                                                                                  profile_manager}
 {
 }
 

@@ -56,8 +56,6 @@ namespace {
       return s;
    }
 
-
-
 #ifdef _WIN32
 
    HKL GetLanguage(const std::string& program_name) noexcept

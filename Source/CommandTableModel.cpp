@@ -22,9 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "CommandMenu.h"
 
-CommandTableModel::CommandTableModel(Profile& profile) noexcept : profile_(profile)
-{
-}
+CommandTableModel::CommandTableModel(Profile& profile) noexcept : profile_(profile) {}
 
 int CommandTableModel::getNumRows()
 {
@@ -52,15 +50,15 @@ void CommandTableModel::paintCell(
       {
          // cmdmap_mutex_ should fix the following problem
          if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell
-                                                                            // not
-                                                                            // filled yet
+                                                                        // not
+                                                                        // filled yet
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
          }
          else {
             std::ostringstream format_str;
-            switch (const auto cmd =
-                        profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
-                    cmd.msg_id_type) {
+            switch (
+                const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+                cmd.msg_id_type) {
             case rsj::MsgIdEnum::kNote:
                format_str << cmd.channel << " | Note : " << cmd.data;
                break;
@@ -131,9 +129,9 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          // create a new command menu
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
-            command_select = new CommandMenu{
-                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
-                command_set_, profile_};
+            command_select =
+                new CommandMenu{profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
+                    command_set_, profile_};
          }
          else
             command_select->SetMsg(

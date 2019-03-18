@@ -29,11 +29,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Profile.h"
 #include "PWoptions.h"
 
-CommandMenu::CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set,
-    Profile& profile) try : juce
-   ::TextButton{"Unmapped"}, profile_(profile), command_set_(command_set), message_{message}
-   {
-   }
+CommandMenu::CommandMenu(
+    const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile) try : juce
+   ::TextButton{"Unmapped"}, profile_(profile), command_set_(command_set), message_{message} {}
 catch (const std::exception& e) {
    rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    throw;
@@ -96,8 +94,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             for (const auto& command : command_set_.GetMenuEntries().at(menu_index)) {
                auto already_mapped = false;
                if (index - 1 < command_set_.CommandAbbrevSize())
-                  already_mapped = profile_.CommandHasAssociatedMessage(
-                      command_set_.CommandAbbrevAt(index - 1));
+                  already_mapped =
+                      profile_.CommandHasAssociatedMessage(command_set_.CommandAbbrevAt(index - 1));
 
                // add each submenu entry, ticking the previously selected entry and
                // disabling a previously mapped entry

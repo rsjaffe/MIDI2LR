@@ -71,7 +71,7 @@ namespace rsj {
       bool try_lock() noexcept
       {
          if (flag_.load(std::memory_order_relaxed)) // avoid cache invalidation if lock
-                                                      // unavailable
+                                                    // unavailable
             return false;
          return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
       }
@@ -220,7 +220,6 @@ namespace rsj {
       return std::to_string(number);
    }
 #endif
-
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED

@@ -30,8 +30,7 @@ class Profile;
 
 class CommandMenu final : public juce::TextButton {
  public:
-   CommandMenu(
-       const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile);
+   CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile);
    // sets the MIDI message associated to this menu component
    void SetMsg(const rsj::MidiMessageId& message) noexcept;
 

@@ -25,10 +25,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-MainWindow::MainWindow(const juce::String& name, Profile& profile,
-    ProfileManager& profile_manager, SettingsManager& settings_manager,
-    std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
-    std::shared_ptr<MidiSender> midi_sender)
+MainWindow::MainWindow(const juce::String& name, Profile& profile, ProfileManager& profile_manager,
+    SettingsManager& settings_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
+    std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender)
     : juce::DocumentWindow{name, juce::Colours::lightgrey,
           juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
 {
