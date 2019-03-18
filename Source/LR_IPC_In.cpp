@@ -26,11 +26,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string_view>
 
 #include <gsl/gsl>
-#include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDISender.h"
-#include "Misc.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
+#include "Profile.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
 
@@ -47,8 +47,8 @@ namespace {
    constexpr int kConnectTimer = 1000;
 } // namespace
 
-LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, CommandMap& command_map)
-    : juce::Thread{"LR_IPC_IN"}, command_map_{command_map}, controls_model_{c_model},
+LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile)
+    : juce::Thread{"LR_IPC_IN"}, profile_{profile}, controls_model_{c_model},
       profile_manager_{profile_manager}
 {
 }
@@ -251,7 +251,7 @@ void LrIpcIn::ProcessLine()
             // send associated messages to MIDI OUT devices
             if (midi_sender_) {
                const auto original_value = std::stod(std::string(value_string));
-               for (const auto msg : command_map_.GetMessagesForCommand(command)) {
+               for (const auto msg : profile_.GetMessagesForCommand(command)) {
                   short msgtype{0};
                   switch (msg.msg_id_type) {
                   case rsj::MsgIdEnum::kNote:

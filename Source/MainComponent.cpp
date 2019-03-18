@@ -25,12 +25,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 
 #include <gsl/gsl>
-#include "CommandMap.h"
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
+#include "Profile.h"
 #include "ProfileManager.h"
 #include "SettingsComponent.h"
 #include "SettingsManager.h"
@@ -60,8 +60,8 @@ namespace {
 } // namespace
 
 MainContentComponent::MainContentComponent(
-    CommandMap& command_map, ProfileManager& profile_manager, SettingsManager& settings_manager)
-    : ResizableLayout{this}, command_map_(command_map), command_table_model_(command_map),
+    Profile& profile, ProfileManager& profile_manager, SettingsManager& settings_manager)
+    : ResizableLayout{this}, profile_(profile), command_table_model_(profile),
       profile_manager_(profile_manager), settings_manager_(settings_manager)
 {
    // Set the component size
@@ -176,7 +176,7 @@ void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
          const auto default_profile = juce::File(filename.data());
          if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
             std::unique_ptr<juce::XmlElement> xml_element{parsed};
-            command_map_.FromXml(xml_element.get());
+            profile_.FromXml(xml_element.get());
             command_table_.updateContent();
          }
       }
@@ -226,8 +226,8 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.number)
                       + " [" + juce::String(mm.value) + "]";
       const rsj::MidiMessageId msg{mm.channel, mm.number, mt};
-      command_map_.AddRowUnmapped(msg);
-      row_to_select_ = gsl::narrow_cast<size_t>(command_map_.GetRowForMessage(msg));
+      profile_.AddRowUnmapped(msg);
+      row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();
    }
    catch (const std::exception& e) {
@@ -287,7 +287,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &remove_row_button_) {
          if (command_table_.getNumRows() > 0) {
-            command_map_.RemoveAllRows();
+            profile_.RemoveAllRows();
             // command_table_model_.removeRow(static_cast<size_t>(command_table_.getSelectedRow()));
             command_table_.updateContent();
          }
@@ -319,11 +319,11 @@ void MainContentComponent::buttonClicked(juce::Button* button)
              TRANS("Enter filename to save profile"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show()) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
-            command_map_.ToXmlFile(selected_file);
+            profile_.ToXmlFile(selected_file);
          }
       }
       else if (button == &load_button_) {
-         if (command_map_.ProfileUnsaved()) {
+         if (profile_.ProfileUnsaved()) {
             const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
                 juce::translate("MIDI2LR profiles"),
                 juce::translate(
@@ -352,7 +352,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                   ptr->SendCommand(std::move(command));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
-               command_map_.FromXml(xml_element.get());
+               profile_.FromXml(xml_element.get());
                command_table_.updateContent();
                command_table_.repaint();
             }
@@ -388,7 +388,7 @@ void MainContentComponent::ProfileChanged(
    using namespace std::literals::string_literals;
    {
       const juce::MessageManagerLock mm_lock;
-      command_map_.FromXml(xml_element);
+      profile_.FromXml(xml_element);
       command_table_.updateContent();
       command_table_.repaint();
       profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);

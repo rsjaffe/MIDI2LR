@@ -30,10 +30,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h"      //class member
 #include "CommandTableModel.h" //class member
 #include "ResizableLayout.h"   //base class
-class CommandMap;
 class LrIpcOut;
 class MidiReceiver;
 class MidiSender;
+class Profile;
 class ProfileManager;
 class SettingsManager;
 namespace rsj {
@@ -47,7 +47,7 @@ class MainContentComponent final : public juce::Component,
                                    public ResizableLayout { // ResizableLayout.h
  public:
    MainContentComponent(
-       CommandMap& command_map, ProfileManager& profile_manager, SettingsManager& settings_manager);
+       Profile& profile, ProfileManager& profile_manager, SettingsManager& settings_manager);
    ~MainContentComponent() = default;
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;
@@ -71,7 +71,7 @@ class MainContentComponent final : public juce::Component,
    void MidiCmdCallback(rsj::MidiMessage);
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
 
-   CommandMap& command_map_;
+   Profile& profile_;
    CommandTable command_table_{"Table", nullptr};
    CommandTableModel command_table_model_;
    ProfileManager& profile_manager_;

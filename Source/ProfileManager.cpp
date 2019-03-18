@@ -25,16 +25,16 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 
 #include <gsl/gsl>
-#include "CommandMap.h"
 #include "ControlsModel.h"
 #include "LR_IPC_Out.h"
 #include "MIDIReceiver.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
+#include "Profile.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel& c_model, CommandMap& cmap) noexcept
-    : command_map_{cmap}, controls_model_{c_model}
+ProfileManager::ProfileManager(ControlsModel& c_model, Profile& cmap) noexcept
+    : profile_{cmap}, controls_model_{c_model}
 {
 }
 
@@ -127,7 +127,7 @@ void ProfileManager::SwitchToPreviousProfile()
 
 void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
-   const auto cmd = command_map_.GetCommandForMessage(msg);
+   const auto cmd = profile_.GetCommandForMessage(msg);
    if (cmd == "PrevPro"s) {
       switch_state_ = SwitchState::kPrev;
       triggerAsyncUpdate();
@@ -144,7 +144,7 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
       const rsj::MidiMessageId cc = mm;
       // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
       // profile-related command
-      if (controls_model_.ControllerToPlugin(mm) < 0.4 || !command_map_.MessageExistsInMap(cc))
+      if (controls_model_.ControllerToPlugin(mm) < 0.4 || !profile_.MessageExistsInMap(cc))
          return;
       MapCommand(cc);
    }

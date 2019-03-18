@@ -21,15 +21,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include <JuceLibraryCode/JuceHeader.h>
-#include "CommandMap.h"
 #include "CommandSet.h"
+#include "Profile.h"
 
 class CommandTableModel final : public juce::TableListBoxModel {
  public:
-   explicit CommandTableModel(CommandMap& map_command) noexcept;
+   explicit CommandTableModel(Profile& profile) noexcept;
    void RemoveRow(size_t row)
-   { // called from CommandTable, forward to CommandMap
-      command_map_.RemoveRow(row);
+   { // called from CommandTable, forward to Profile
+      profile_.RemoveRow(row);
    }
 
  private:
@@ -42,7 +42,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
        juce::Component* existing_component_to_update) override;
    void sortOrderChanged(int new_sort_column_id, bool is_forwards) override;
 
-   CommandMap& command_map_;
+   Profile& profile_;
    CommandSet command_set_{};
 };
 #endif

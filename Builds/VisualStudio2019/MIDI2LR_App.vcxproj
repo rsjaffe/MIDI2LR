@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
-    <ClCompile Include="..\..\Source\CommandMap.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandSet.cpp"/>
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>
@@ -159,6 +158,7 @@
     <ClCompile Include="..\..\Source\MidiUtilities.cpp"/>
     <ClCompile Include="..\..\Source\Misc.cpp"/>
     <ClCompile Include="..\..\Source\NrpnMessage.cpp"/>
+    <ClCompile Include="..\..\Source\Profile.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
     <ClCompile Include="..\..\Source\PWoptions.cpp"/>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
@@ -1378,7 +1378,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
-    <ClInclude Include="..\..\Source\CommandMap.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandSet.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
@@ -1395,6 +1394,7 @@
     <ClInclude Include="..\..\Source\Misc.h"/>
     <ClInclude Include="..\..\Source\NrpnMessage.h"/>
     <ClInclude Include="..\..\Source\Ocpp.h"/>
+    <ClInclude Include="..\..\Source\Profile.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\PWoptions.h"/>
     <ClInclude Include="..\..\Source\ResizableLayout.h"/>

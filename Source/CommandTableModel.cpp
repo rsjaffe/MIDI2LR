@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "CommandMenu.h"
 
-CommandTableModel::CommandTableModel(CommandMap& map_command) noexcept : command_map_(map_command)
+CommandTableModel::CommandTableModel(Profile& profile) noexcept : profile_(profile)
 {
 }
 
@@ -32,7 +32,7 @@ int CommandTableModel::getNumRows()
 
    // If the number of rows changes, you must call TableListBox::updateContent()
    // to cause it to refresh the list.
-   return gsl::narrow_cast<int>(command_map_.Size());
+   return gsl::narrow_cast<int>(profile_.Size());
 }
 
 void CommandTableModel::paintCell(
@@ -51,7 +51,7 @@ void CommandTableModel::paintCell(
       if (column_id == 1) // write the MIDI message in the MIDI command column
       {
          // cmdmap_mutex_ should fix the following problem
-         if (command_map_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell
+         if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell
                                                                             // not
                                                                             // filled yet
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
@@ -59,7 +59,7 @@ void CommandTableModel::paintCell(
          else {
             std::ostringstream format_str;
             switch (const auto cmd =
-                        command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+                        profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
                     cmd.msg_id_type) {
             case rsj::MsgIdEnum::kNote:
                format_str << cmd.channel << " | Note : " << cmd.data;
@@ -132,17 +132,17 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
             command_select = new CommandMenu{
-                command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
-                command_set_, command_map_};
+                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
+                command_set_, profile_};
          }
          else
             command_select->SetMsg(
-                command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
+                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
 
          // add 1 because 0 is reserved for no selection
          command_select->SetSelectedItem(
-             command_set_.CommandTextIndex(command_map_.GetCommandForMessage(
-                 command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+             command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
              + 1);
 
          return command_select;
@@ -165,5 +165,5 @@ void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forward
    // If you implement this, your method should re - sort the table using the
    // given column as the key.
    const auto current_sort = std::make_pair(new_sort_column_id, is_forwards);
-   command_map_.Resort(current_sort);
+   profile_.Resort(current_sort);
 }

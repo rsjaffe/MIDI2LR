@@ -43,7 +43,6 @@ namespace fs = std::filesystem;
 #include <cereal/archives/xml.hpp>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "CCoptions.h"
-#include "CommandMap.h"
 #include "CommandSet.h"
 #include "ControlsModel.h"
 #include "LR_IPC_In.h"
@@ -52,8 +51,9 @@ namespace fs = std::filesystem;
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "Misc.h"
-#include "PWoptions.h"
+#include "Profile.h"
 #include "ProfileManager.h"
+#include "PWoptions.h"
 #include "SettingsManager.h"
 #include "Translate.h"
 #include "VersionChecker.h"
@@ -124,7 +124,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
-            main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_map_,
+            main_window_ = std::make_unique<MainWindow>(getApplicationName(), profile_,
                 profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
             // Check for latest version
             version_checker_.startThread();
@@ -169,7 +169,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // This is called when the application is being asked to quit: you can
       // ignore this request and let the application carry on running, or call
       // quit() to allow the application to close.
-      if (command_map_.ProfileUnsaved() && main_window_) {
+      if (profile_.ProfileUnsaved() && main_window_) {
          const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
              juce::translate("MIDI2LR profiles"),
              juce::translate(
@@ -217,7 +217,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    {
       const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
       const auto profile_file = juce::File(file_name.data());
-      command_map_.ToXmlFile(profile_file);
+      profile_.ToXmlFile(profile_file);
       rsj::Log("Default profile saved to " + profile_file.getFullPathName());
    }
 
@@ -357,14 +357,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    UpdateCurrentLogger dummy_{logger_.get()}; // forcing assignment to static early in
                                               // construction
-   CommandMap command_map_{};
+   Profile profile_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};
-   ProfileManager profile_manager_{controls_model_, command_map_};
+   ProfileManager profile_manager_{controls_model_, profile_};
    SettingsManager settings_manager_{profile_manager_};
    std::shared_ptr<LrIpcIn> lr_ipc_in_{
-       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, command_map_)};
-   std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, command_map_)};
+       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, profile_)};
+   std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, profile_)};
    std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
    std::unique_ptr<MainWindow> main_window_{nullptr};

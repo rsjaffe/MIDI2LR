@@ -23,17 +23,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
-class CommandMap;
 class LrIpcOut;
+class MainContentComponent;
 class MidiReceiver;
 class MidiSender;
-class MainContentComponent;
+class Profile;
 class ProfileManager;
 class SettingsManager;
 
 class MainWindow final : juce::DocumentWindow, juce::Timer {
  public:
-   MainWindow(const juce::String& name, CommandMap& command_map, ProfileManager& profile_manager,
+   MainWindow(const juce::String& name, Profile& profile, ProfileManager& profile_manager,
        SettingsManager& settings_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
        std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender);
    ~MainWindow() = default;

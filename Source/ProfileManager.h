@@ -25,10 +25,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
-class CommandMap;
 class ControlsModel;
 class LrIpcOut;
 class MidiReceiver;
+class Profile;
 namespace rsj {
    struct MidiMessage;
    struct MidiMessageId;
@@ -36,7 +36,7 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(ControlsModel& c_model, CommandMap& cmap) noexcept;
+   ProfileManager(ControlsModel& c_model, Profile& cmap) noexcept;
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
@@ -82,7 +82,7 @@ class ProfileManager final : juce::AsyncUpdater {
       kNext,
    };
 
-   CommandMap& command_map_;
+   Profile& profile_;
    ControlsModel& controls_model_;
    int current_profile_index_{0};
    juce::File profile_location_;

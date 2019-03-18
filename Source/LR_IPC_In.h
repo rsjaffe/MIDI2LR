@@ -27,14 +27,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <MoodyCamel/readerwriterqueue.h>
 #include <JuceLibraryCode/JuceHeader.h>
-class CommandMap;
 class ControlsModel;
 class MidiSender;
+class Profile;
 class ProfileManager;
 
 class LrIpcIn final : juce::Timer, juce::Thread {
  public:
-   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, CommandMap& command_map);
+   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile);
    ~LrIpcIn();
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;
@@ -57,7 +57,7 @@ class LrIpcIn final : juce::Timer, juce::Thread {
 
    bool thread_started_{false};
    bool timer_off_{false};
-   CommandMap& command_map_;
+   Profile& profile_;
    ControlsModel& controls_model_; //
    mutable std::mutex timer_mutex_;
    ProfileManager& profile_manager_;

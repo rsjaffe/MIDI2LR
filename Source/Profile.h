@@ -3,7 +3,7 @@
 /*
   ==============================================================================
 
-    CommandMap.h
+    Profile.h
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 // All methods with underscore at end don't include a mutex and are for internal use only. Methods
 // without underscore do have mutex and could be called by another class
-class CommandMap {
+class Profile {
  public:
    void AddCommandForMessage(size_t command, rsj::MidiMessageId message);
    void AddRowMapped(const std::string& command, rsj::MidiMessageId message);
@@ -69,7 +69,7 @@ class CommandMap {
    std::vector<rsj::MidiMessageId> command_table_;
 };
 
-inline void CommandMap::AddCommandForMessage(size_t command, rsj::MidiMessageId message)
+inline void Profile::AddCommandForMessage(size_t command, rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -81,7 +81,7 @@ inline void CommandMap::AddCommandForMessage(size_t command, rsj::MidiMessageId 
    }
 }
 
-inline bool CommandMap::CommandHasAssociatedMessage(const std::string& command) const
+inline bool Profile::CommandHasAssociatedMessage(const std::string& command) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
@@ -93,7 +93,7 @@ inline bool CommandMap::CommandHasAssociatedMessage(const std::string& command) 
    }
 }
 
-inline const std::string& CommandMap::GetCommandForMessage(rsj::MidiMessageId message) const
+inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId message) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
@@ -105,7 +105,7 @@ inline const std::string& CommandMap::GetCommandForMessage(rsj::MidiMessageId me
    }
 }
 
-inline const std::string& CommandMap::GetCommandForMessage_(rsj::MidiMessageId message) const
+inline const std::string& Profile::GetCommandForMessage_(rsj::MidiMessageId message) const
 {
    try {
       return message_map_.at(message);
@@ -116,7 +116,7 @@ inline const std::string& CommandMap::GetCommandForMessage_(rsj::MidiMessageId m
    }
 }
 
-inline rsj::MidiMessageId CommandMap::GetMessageForNumber(size_t num) const
+inline rsj::MidiMessageId Profile::GetMessageForNumber(size_t num) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
@@ -128,7 +128,7 @@ inline rsj::MidiMessageId CommandMap::GetMessageForNumber(size_t num) const
    }
 }
 
-inline rsj::MidiMessageId CommandMap::GetMessageForNumber_(size_t num) const
+inline rsj::MidiMessageId Profile::GetMessageForNumber_(size_t num) const
 {
    try {
       return command_table_.at(num);
@@ -139,7 +139,7 @@ inline rsj::MidiMessageId CommandMap::GetMessageForNumber_(size_t num) const
    }
 }
 
-inline int CommandMap::GetRowForMessage(rsj::MidiMessageId message) const
+inline int Profile::GetRowForMessage(rsj::MidiMessageId message) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
@@ -152,7 +152,7 @@ inline int CommandMap::GetRowForMessage(rsj::MidiMessageId message) const
    }
 }
 
-inline bool CommandMap::MessageExistsInMap(rsj::MidiMessageId message) const
+inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
@@ -164,7 +164,7 @@ inline bool CommandMap::MessageExistsInMap(rsj::MidiMessageId message) const
    }
 }
 
-inline bool CommandMap::MessageExistsInMap_(rsj::MidiMessageId message) const
+inline bool Profile::MessageExistsInMap_(rsj::MidiMessageId message) const
 {
    try {
       return message_map_.find(message) != message_map_.end();
@@ -175,7 +175,7 @@ inline bool CommandMap::MessageExistsInMap_(rsj::MidiMessageId message) const
    }
 }
 
-inline bool CommandMap::ProfileUnsaved() const
+inline bool Profile::ProfileUnsaved() const
 {
    try {
       auto guard = std::shared_lock{mutex_};
@@ -187,7 +187,7 @@ inline bool CommandMap::ProfileUnsaved() const
    }
 }
 
-inline size_t CommandMap::Size() const
+inline size_t Profile::Size() const
 {
    try {
       auto guard = std::shared_lock{mutex_};

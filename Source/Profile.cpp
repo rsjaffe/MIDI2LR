@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    CommandMap.cpp
+    Profile.cpp
 
 This file is part of MIDI2LR. Copyright 2015 by Rory Jaffe.
 
@@ -18,14 +18,14 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
-#include "CommandMap.h"
+#include "Profile.h"
 
 #include <exception>
 
 #include <gsl/gsl>
 #include "Misc.h"
 
-void CommandMap::AddCommandForMessage_(size_t command, rsj::MidiMessageId message)
+void Profile::AddCommandForMessage_(size_t command, rsj::MidiMessageId message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
@@ -41,7 +41,7 @@ void CommandMap::AddCommandForMessage_(size_t command, rsj::MidiMessageId messag
    }
 }
 
-void CommandMap::AddRowMapped(const std::string& command, rsj::MidiMessageId message)
+void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -65,7 +65,7 @@ void CommandMap::AddRowMapped(const std::string& command, rsj::MidiMessageId mes
    }
 }
 
-void CommandMap::AddRowUnmapped(rsj::MidiMessageId message)
+void Profile::AddRowUnmapped(rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -82,8 +82,8 @@ void CommandMap::AddRowUnmapped(rsj::MidiMessageId message)
    }
 }
 
-void CommandMap::FromXml(const juce::XmlElement* root)
-{ // external use only, but will either use external versions of CommandMap calls to lock individual
+void Profile::FromXml(const juce::XmlElement* root)
+{ // external use only, but will either use external versions of Profile calls to lock individual
   // accesses or manually lock any internal calls instead of using mutex for entire method
    try {
       if (!root || root->getTagName().compare("settings") != 0)
@@ -118,7 +118,7 @@ void CommandMap::FromXml(const juce::XmlElement* root)
    }
 }
 
-std::vector<rsj::MidiMessageId> CommandMap::GetMessagesForCommand(const std::string& command) const
+std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string& command) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
@@ -134,7 +134,7 @@ std::vector<rsj::MidiMessageId> CommandMap::GetMessagesForCommand(const std::str
    }
 }
 
-void CommandMap::RemoveAllRows()
+void Profile::RemoveAllRows()
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -150,7 +150,7 @@ void CommandMap::RemoveAllRows()
    }
 }
 
-void CommandMap::RemoveMessage(rsj::MidiMessageId message)
+void Profile::RemoveMessage(rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -164,7 +164,7 @@ void CommandMap::RemoveMessage(rsj::MidiMessageId message)
    }
 }
 
-void CommandMap::RemoveRow(size_t row)
+void Profile::RemoveRow(size_t row)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -180,7 +180,7 @@ void CommandMap::RemoveRow(size_t row)
    }
 }
 
-void CommandMap::Resort(std::pair<int, bool> new_order)
+void Profile::Resort(std::pair<int, bool> new_order)
 {
    try {
       auto guard = std::unique_lock{mutex_};
@@ -193,7 +193,7 @@ void CommandMap::Resort(std::pair<int, bool> new_order)
    }
 }
 
-void CommandMap::Sort_()
+void Profile::Sort_()
 {
    try {
       const auto msg_idx = [this](rsj::MidiMessageId a) {
@@ -218,7 +218,7 @@ void CommandMap::Sort_()
    }
 }
 
-void CommandMap::ToXmlFile(const juce::File& file)
+void Profile::ToXmlFile(const juce::File& file)
 {
    try {
       auto guard = std::shared_lock{mutex_};

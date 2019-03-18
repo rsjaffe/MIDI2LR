@@ -28,12 +28,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 
 #include <gsl/gsl>
-#include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDIReceiver.h"
-#include "MidiUtilities.h"
 #include "MIDISender.h"
+#include "MidiUtilities.h"
 #include "Misc.h"
+#include "Profile.h"
 
 using Clock = std::chrono::high_resolution_clock;
 using TimePoint = Clock::time_point;
@@ -51,8 +51,8 @@ namespace {
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
 
-LrIpcOut::LrIpcOut(ControlsModel& c_model, const CommandMap& map_command) noexcept
-    : command_map_{map_command}, controls_model_{c_model}
+LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile) noexcept
+    : profile_{profile}, controls_model_{c_model}
 {
 }
 
@@ -116,9 +116,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
           {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
       };
-      if (!command_map_.MessageExistsInMap(message))
+      if (!profile_.MessageExistsInMap(message))
          return;
-      const auto command_to_send = command_map_.GetCommandForMessage(message);
+      const auto command_to_send = profile_.GetCommandForMessage(message);
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "Unmapped"s)
          return; // handled by ProfileManager

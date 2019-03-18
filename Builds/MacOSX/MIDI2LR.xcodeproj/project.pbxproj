@@ -53,10 +53,6 @@
 			isa = PBXBuildFile;
 			fileRef = 0ED56980FCA5D40E4BCC5C8A;
 		};
-		50AF5769741041F9CA022231 = {
-			isa = PBXBuildFile;
-			fileRef = 80AD4E80805D14FC930C2AE8;
-		};
 		FD5777A03748CDE3465E71D3 = {
 			isa = PBXBuildFile;
 			fileRef = C58E726D80235E018C2E6235;
@@ -124,6 +120,10 @@
 		EBBF6EED3ADC511A9E099956 = {
 			isa = PBXBuildFile;
 			fileRef = BE31D3D8A955551154220107;
+		};
+		A2EF966DF30C50872AECA124 = {
+			isa = PBXBuildFile;
+			fileRef = 0777AC216150FEE4E05D2B57;
 		};
 		1CBFBED27592AE60502C81C3 = {
 			isa = PBXBuildFile;
@@ -210,11 +210,11 @@
 			path = ../../JuceLibraryCode/JuceHeader.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		0DE6A1845E62083EB881160E = {
+		0777AC216150FEE4E05D2B57 = {
 			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = CommandMap.h;
-			path = ../../Source/CommandMap.h;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Profile.cpp;
+			path = ../../Source/Profile.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		0ED56980FCA5D40E4BCC5C8A = {
@@ -497,13 +497,6 @@
 			path = Icon.icns;
 			sourceTree = "SOURCE_ROOT";
 		};
-		80AD4E80805D14FC930C2AE8 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = CommandMap.cpp;
-			path = ../../Source/CommandMap.cpp;
-			sourceTree = "SOURCE_ROOT";
-		};
 		818EDED92D24EB7D4F600D34 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -614,6 +607,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_core.mm";
 			path = "../../JuceLibraryCode/include_juce_core.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		A62C0C053DC2D29E780F0788 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Profile.h;
+			path = ../../Source/Profile.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		AAD7763B1A01636F834617D5 = {
@@ -789,8 +789,6 @@
 			children = (
 				0ED56980FCA5D40E4BCC5C8A,
 				63E78BF979E4A935FEA74E26,
-				80AD4E80805D14FC930C2AE8,
-				0DE6A1845E62083EB881160E,
 				C58E726D80235E018C2E6235,
 				5D4227783C1F686DA2A11AC2,
 				1CEFC806801B346F7A85EDAD,
@@ -825,6 +823,8 @@
 				872F7D5733C0B0577CA8C02B,
 				BE31D3D8A955551154220107,
 				C584526C6AF79650270B99C1,
+				0777AC216150FEE4E05D2B57,
+				A62C0C053DC2D29E780F0788,
 				5205E1551934B25B9956903B,
 				8F2F3EF8BC150F74514D10FE,
 				DEBD9FE98B3F63E8D660310D,
@@ -1156,7 +1156,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFAB1A9B97A0C128DF41C02A,
-				50AF5769741041F9CA022231,
 				FD5777A03748CDE3465E71D3,
 				6A3DFFA80DF0E07C64B4871F,
 				65EAA878A18A9E490DC550DF,
@@ -1174,6 +1173,7 @@
 				BDE4152EF99D34942A18B128,
 				5B1E88868F714EDC30BD06A1,
 				EBBF6EED3ADC511A9E099956,
+				A2EF966DF30C50872AECA124,
 				1CBFBED27592AE60502C81C3,
 				71E4A94C6C0AA69DC27972DF,
 				9E93D02BAAABEC609B0C971E,
