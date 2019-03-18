@@ -270,7 +270,7 @@ class ControlsModel {
       }
    }
 
-       [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
+   [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
    {
       try {
          return all_controls_.at(channel).GetCcMax(controlnumber);

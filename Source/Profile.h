@@ -56,8 +56,8 @@ class Profile {
  private:
    void AddCommandForMessage_(size_t command, rsj::MidiMessageId message);
    const std::string& GetCommandForMessage_(rsj::MidiMessageId message) const;
-   bool MessageExistsInMap_(rsj::MidiMessageId message) const;
    rsj::MidiMessageId GetMessageForNumber_(size_t num) const;
+   bool MessageExistsInMap_(rsj::MidiMessageId message) const;
    void Sort_();
 
    bool profile_unsaved_{false};
@@ -120,7 +120,7 @@ inline rsj::MidiMessageId Profile::GetMessageForNumber(size_t num) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return command_table_.at(num);
+      return GetMessageForNumber_(num);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
