@@ -18,6 +18,5 @@ var searchData=
   ['knoteonflag',['kNoteOnFlag',['../namespacersj.html#a00ff6073cf6383716fe22b247f5f3293',1,'rsj']]],
   ['kpgmchangeflag',['kPgmChangeFlag',['../namespacersj.html#af303da09e1d2f2719d8f6b4e5794a274',1,'rsj']]],
   ['kpwflag',['kPwFlag',['../namespacersj.html#ab9695f0cf779654d5b7f110ba08d54c7',1,'rsj']]],
-  ['ksystemflag',['kSystemFlag',['../namespacersj.html#a2ac9d1f37d4a7f66e5327f28f0004250',1,'rsj']]],
-  ['kupdatedelay',['kUpdateDelay',['../class_channel_model.html#ab7394655972e94ae493cb1effc0e050b',1,'ChannelModel']]]
+  ['ksystemflag',['kSystemFlag',['../namespacersj.html#a2ac9d1f37d4a7f66e5327f28f0004250',1,'rsj']]]
 ];

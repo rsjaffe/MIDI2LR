@@ -46,7 +46,6 @@ var class_channel_model =
     [ "kMaxMidiHalf", "class_channel_model.html#af91f3e399d5743ddef507e81ed6ffd8f", null ],
     [ "kMaxNrpn", "class_channel_model.html#a01065898693f79b6b51eb0f62f197293", null ],
     [ "kMaxNrpnHalf", "class_channel_model.html#a2edc08a45ff302252c644b65736ccaad", null ],
-    [ "kUpdateDelay", "class_channel_model.html#ab7394655972e94ae493cb1effc0e050b", null ],
     [ "pitch_wheel_current_", "class_channel_model.html#a29124ff99cd56b873d9b54c14da74c6a", null ],
     [ "pitch_wheel_max_", "class_channel_model.html#abd950b38a9229e5ea4ce6dd8f6a593ea", null ],
     [ "pitch_wheel_min_", "class_channel_model.html#ad4f1dff6fef975888a50a61df568dc67", null ],

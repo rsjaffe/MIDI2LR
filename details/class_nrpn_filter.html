@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.0.11</span>
+   &#160;<span id="projectnumber">3.0.2.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -157,7 +157,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;   {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;         Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).GetNrpnIfReady();</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      }</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;         <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;         <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      }</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;   }</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div></div>
 <div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:111</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70">rsj::AppLogFilePath()</a>, and <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -165,9 +165,9 @@ Private Attributes</h2></td></tr>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph.png" border="0" usemap="#class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph" alt=""/></div>
 <map name="class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph" id="class_nrpn_filter_ab20ef82a1f4c0adba1765a911de73ece_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,31,183,57"/>
-<area shape="rect"  href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70" title=" " alt="" coords="243,5,379,32"/>
-<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="231,56,391,83"/>
+<area shape="rect"  title=" " alt="" coords="5,43,183,69"/>
+<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="231,5,391,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="251,80,370,107"/>
 </map>
 </div>
 
@@ -199,7 +199,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                                       {</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;         Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).IsInProcess();</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      }</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;         <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;         <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      }</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;   }</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div></div>
 <div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:111</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70">rsj::AppLogFilePath()</a>, and <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
@@ -207,9 +207,9 @@ Private Attributes</h2></td></tr>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph.png" border="0" usemap="#class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph" alt=""/></div>
 <map name="class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph" id="class_nrpn_filter_ab605d4902ae926601f7e34d7b17fb87a_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,31,160,57"/>
-<area shape="rect"  href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70" title=" " alt="" coords="220,5,356,32"/>
-<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="208,56,368,83"/>
+<area shape="rect"  title=" " alt="" coords="5,43,160,69"/>
+<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="208,5,368,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="229,80,347,107"/>
 </map>
 </div>
 
@@ -257,7 +257,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordflow">try</span> {</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         Expects(channel &lt;= 15 &amp;&amp; channel &gt;= 0);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">nrpn_messages_</a>.at(channel &amp; 0xF).ProcessMidi(control, value);</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      }</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;         <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;         <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      }</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;   }</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div></div>
 <div class="ttc" id="class_nrpn_filter_html_aa4d9c066079ffb9089bc7b1f69f317db"><div class="ttname"><a href="class_nrpn_filter.html#aa4d9c066079ffb9089bc7b1f69f317db">NrpnFilter::nrpn_messages_</a></div><div class="ttdeci">std::array&lt; NrpnMessage, 16 &gt; nrpn_messages_</div><div class="ttdef"><b>Definition:</b> NrpnMessage.h:111</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70">rsj::AppLogFilePath()</a>, and <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -265,9 +265,9 @@ Private Attributes</h2></td></tr>
 <div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph.png" border="0" usemap="#class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph" alt=""/></div>
 <map name="class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph" id="class_nrpn_filter_a0744bdf95f590470b1aa80f178f1c68a_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,31,164,57"/>
-<area shape="rect"  href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70" title=" " alt="" coords="224,5,360,32"/>
-<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="212,56,372,83"/>
+<area shape="rect"  title=" " alt="" coords="5,43,164,69"/>
+<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="212,5,372,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="233,80,351,107"/>
 </map>
 </div>
 

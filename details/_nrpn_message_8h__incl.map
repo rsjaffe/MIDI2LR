@@ -1,13 +1,16 @@
 <map id="D:/Users/Rory/source/repos/MIDI2LR/Source/NrpnMessage.h" name="D:/Users/Rory/source/repos/MIDI2LR/Source/NrpnMessage.h">
-<area shape="rect" id="node1" title=" " alt="" coords="115,5,271,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,109,56,136"/>
-<area shape="rect" id="node3" title=" " alt="" coords="80,109,139,136"/>
-<area shape="rect" id="node4" title=" " alt="" coords="163,109,223,136"/>
-<area shape="rect" id="node5" title=" " alt="" coords="247,109,457,136"/>
-<area shape="rect" id="node6" href="$_misc_8h.html" title=" " alt="" coords="481,109,543,136"/>
-<area shape="rect" id="node7" title=" " alt="" coords="301,184,363,211"/>
-<area shape="rect" id="node8" title=" " alt="" coords="387,184,448,211"/>
-<area shape="rect" id="node9" title=" " alt="" coords="473,184,551,211"/>
-<area shape="rect" id="node10" title=" " alt="" coords="575,184,630,211"/>
-<area shape="rect" id="node11" title=" " alt="" coords="655,184,721,211"/>
+<area shape="rect" id="node1" title=" " alt="" coords="57,5,213,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="19,184,70,211"/>
+<area shape="rect" id="node3" title=" " alt="" coords="22,109,81,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="105,109,165,136"/>
+<area shape="rect" id="node5" title=" " alt="" coords="189,109,399,136"/>
+<area shape="rect" id="node6" href="$_misc_8h.html" title=" " alt="" coords="423,109,485,136"/>
+<area shape="rect" id="node7" title=" " alt="" coords="102,184,163,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="187,184,249,211"/>
+<area shape="rect" id="node9" title=" " alt="" coords="273,184,352,211"/>
+<area shape="rect" id="node10" title=" " alt="" coords="376,184,431,211"/>
+<area shape="rect" id="node11" title=" " alt="" coords="455,184,554,211"/>
+<area shape="rect" id="node12" title=" " alt="" coords="578,184,637,211"/>
+<area shape="rect" id="node13" title=" " alt="" coords="661,184,727,211"/>
+<area shape="rect" id="node14" title=" " alt="" coords="752,184,953,211"/>
 </map>

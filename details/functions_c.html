@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.0.11</span>
+   &#160;<span id="projectnumber">3.0.2.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -147,9 +147,6 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>Clear()
 : <a class="el" href="class_nrpn_message.html#aac9971284d016abef47ce81062af2630">NrpnMessage</a>
 </li>
-<li>ClearMap()
-: <a class="el" href="class_command_map.html#a5881f08a3274e7b0c2706d28e4f765d8">CommandMap</a>
-</li>
 <li>clicked()
 : <a class="el" href="class_command_menu.html#a9504e6ef61f5791518bcdf016baea099">CommandMenu</a>
 </li>
@@ -162,11 +159,11 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>cmd_idx_
 : <a class="el" href="class_command_set.html#abc89c3b319a7b00b1e32177a4bd09386">CommandSet</a>
 </li>
-<li>cmd_table_mod_mtx_
-: <a class="el" href="class_command_table_model.html#a53df58ec3e3c39656cd3a38f2c95dad1">CommandTableModel</a>
+<li>cmdmap_mtx_
+: <a class="el" href="class_command_map.html#a1614c41ecfb602a178d3b5d88534eec0">CommandMap</a>
 </li>
-<li>cmdmap_mutex_
-: <a class="el" href="class_command_map.html#a8a02ee442023a32234c4b3ca75cdc71b">CommandMap</a>
+<li>command
+: <a class="el" href="structrsj_1_1_active_modifiers.html#ad46a01f2fe20405d3ac4bca6a9934b8e">rsj::ActiveModifiers</a>
 </li>
 <li>command_
 : <a class="el" href="class_lr_ipc_out.html#a42c0633691c3b2765c9e3fa6be414ecd">LrIpcOut</a>
@@ -193,7 +190,8 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_command_map.html#a59244b7b9c1e221fcc418019c7a0c954">CommandMap</a>
 </li>
 <li>command_table_
-: <a class="el" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">MainContentComponent</a>
+: <a class="el" href="class_command_map.html#a3ff9dc0bc0a1c4ad7865357a015b6086">CommandMap</a>
+, <a class="el" href="class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53">MainContentComponent</a>
 </li>
 <li>command_table_model_
 : <a class="el" href="class_main_content_component.html#a67d255a327565be0485550fe234e5f46">MainContentComponent</a>
@@ -210,14 +208,11 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>CommandMenu()
 : <a class="el" href="class_command_menu.html#a803cbc2a353a35bfae9b712d1310a194">CommandMenu</a>
 </li>
-<li>commands_
-: <a class="el" href="class_command_table_model.html#aeb48a52c6b092a8063a668d387908221">CommandTableModel</a>
-</li>
 <li>CommandSet()
 : <a class="el" href="class_command_set.html#a45e2a525e197b9379ee35bcdd22de1fc">CommandSet</a>
 </li>
 <li>CommandTable()
-: <a class="el" href="class_command_table.html#ac3b6a10db22daaf27dcfeb486438c583">CommandTable</a>
+: <a class="el" href="class_command_table.html#a4406188275d88e04cd083a6f6606c222">CommandTable</a>
 </li>
 <li>CommandTableModel()
 : <a class="el" href="class_command_table_model.html#a8e8aeb2bacecf374593761407375c46b">CommandTableModel</a>
@@ -261,7 +256,8 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_top_level_resizable_layout_1_1_constrainer.html#ac1138a9c4319d8413f04f3bfb749e969">TopLevelResizableLayout::Constrainer</a>
 </li>
 <li>control
-: <a class="el" href="structrsj_1_1_nrpn.html#a43592147e66f898cff25eb30ffe99b4b">rsj::Nrpn</a>
+: <a class="el" href="structrsj_1_1_active_modifiers.html#a78b0a997c4ccabbf2a2e22017a9a6d8f">rsj::ActiveModifiers</a>
+, <a class="el" href="structrsj_1_1_nrpn.html#a43592147e66f898cff25eb30ffe99b4b">rsj::Nrpn</a>
 </li>
 <li>control_lsb_
 : <a class="el" href="class_nrpn_message.html#ac66f332aaf4f91061b03e30cc771c1a3">NrpnMessage</a>
@@ -277,12 +273,12 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0">ControlsModel</a>
 </li>
 <li>controls_model_
-: <a class="el" href="class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e">CCoptions</a>
+: <a class="el" href="class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8">CCoptions</a>
 , <a class="el" href="class_lr_ipc_in.html#a59ace245fb362643d6ce712a952ae238">LrIpcIn</a>
 , <a class="el" href="class_lr_ipc_out.html#a70ca7c622a8e55bdb8de678e1d89ddf1">LrIpcOut</a>
 , <a class="el" href="class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3">MIDI2LRApplication</a>
 , <a class="el" href="class_profile_manager.html#a83c2146e269d1483571f7bc85687decc">ProfileManager</a>
-, <a class="el" href="class_p_woptions.html#a5a17d4a0e03749beec712a452427e0ac">PWoptions</a>
+, <a class="el" href="class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b">PWoptions</a>
 </li>
 <li>ControlsModel()
 : <a class="el" href="class_controls_model.html#a361ee198c1dca17bb175bf76e928e8c8">ControlsModel</a>
@@ -291,7 +287,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="class_profile_manager.html#aec76a166c82c7c224d9db6f0ac543f39">ProfileManager</a>
 </li>
 <li>current_sort_
-: <a class="el" href="class_command_table_model.html#aa34a37908cfdc4eaaff00248e43798ac">CommandTableModel</a>
+: <a class="el" href="class_command_map.html#a7ecac8f5aac6bd3a178e42ebccccea97">CommandMap</a>
 </li>
 <li>current_v_
 : <a class="el" href="class_channel_model.html#ac08a877289473714da539fc516fddb42">ChannelModel</a>

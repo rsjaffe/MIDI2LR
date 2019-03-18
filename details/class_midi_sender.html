@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.0.11</span>
+   &#160;<span id="projectnumber">3.0.2.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -178,10 +178,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> idx = 0; idx &lt; juce::MidiOutput::getDevices().size(); ++idx) {</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         <span class="keyword">auto</span> dev = juce::MidiOutput::openDevice(idx);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         <span class="keywordflow">if</span> (dev) {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.emplace_back(dev);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(<span class="stringliteral">&quot;Opened output device &quot;</span> + dev-&gt;getName());</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;         }</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      }</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;   }</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;   }</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div></div>
-<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:63</div></div>
+<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:62</div></div>
 <div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70">rsj::AppLogFilePath()</a>, and <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -189,9 +189,9 @@ Private Attributes</h2></td></tr>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph.png" border="0" usemap="#class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph" alt=""/></div>
 <map name="class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph" id="class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,31,163,57"/>
-<area shape="rect"  href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70" title=" " alt="" coords="223,5,359,32"/>
-<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="211,56,371,83"/>
+<area shape="rect"  title=" " alt="" coords="5,43,163,69"/>
+<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="211,5,371,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="231,80,350,107"/>
 </map>
 </div>
 
@@ -212,7 +212,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;   <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.clear();</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;   <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(<span class="stringliteral">&quot;Cleared output devices&quot;</span>);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   <a class="code" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:74</div></div>
-<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:63</div></div>
+<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:62</div></div>
 <div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
 </div><!-- fragment -->
 </div>

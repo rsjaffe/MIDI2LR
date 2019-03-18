@@ -2,13 +2,16 @@
 <area shape="rect" id="node1" title=" " alt="" coords="65,5,221,61"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,109,59,136"/>
 <area shape="rect" id="node3" title=" " alt="" coords="83,109,139,136"/>
-<area shape="rect" id="node4" title=" " alt="" coords="38,184,239,211"/>
-<area shape="rect" id="node5" href="$_midi_utilities_8h.html" title=" " alt="" coords="233,109,333,136"/>
-<area shape="rect" id="node6" title=" " alt="" coords="263,184,342,211"/>
-<area shape="rect" id="node7" href="$_misc_8h.html" title=" " alt="" coords="367,184,428,211"/>
-<area shape="rect" id="node8" title=" " alt="" coords="187,259,248,285"/>
-<area shape="rect" id="node9" title=" " alt="" coords="272,259,333,285"/>
-<area shape="rect" id="node10" title=" " alt="" coords="358,259,437,285"/>
-<area shape="rect" id="node11" title=" " alt="" coords="461,259,515,285"/>
-<area shape="rect" id="node12" title=" " alt="" coords="540,259,607,285"/>
+<area shape="rect" id="node4" title=" " alt="" coords="75,259,277,285"/>
+<area shape="rect" id="node5" href="$_midi_utilities_8h.html" title=" " alt="" coords="234,109,334,136"/>
+<area shape="rect" id="node6" title=" " alt="" coords="265,184,343,211"/>
+<area shape="rect" id="node7" href="$_misc_8h.html" title=" " alt="" coords="508,184,569,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="301,259,352,285"/>
+<area shape="rect" id="node9" title=" " alt="" coords="376,259,437,285"/>
+<area shape="rect" id="node10" title=" " alt="" coords="461,259,523,285"/>
+<area shape="rect" id="node11" title=" " alt="" coords="547,259,626,285"/>
+<area shape="rect" id="node12" title=" " alt="" coords="650,259,705,285"/>
+<area shape="rect" id="node13" title=" " alt="" coords="729,259,828,285"/>
+<area shape="rect" id="node14" title=" " alt="" coords="852,259,911,285"/>
+<area shape="rect" id="node15" title=" " alt="" coords="935,259,1001,285"/>
 </map>

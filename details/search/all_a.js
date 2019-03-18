@@ -29,6 +29,5 @@ var searchData=
   ['kpwflag',['kPwFlag',['../namespacersj.html#ab9695f0cf779654d5b7f110ba08d54c7',1,'rsj']]],
   ['ksignmagnitude',['kSignMagnitude',['../namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efdae9ce2420e8dde33acbb2a8a8c4fc8fbf',1,'rsj']]],
   ['ksystemflag',['kSystemFlag',['../namespacersj.html#a2ac9d1f37d4a7f66e5327f28f0004250',1,'rsj']]],
-  ['ktwoscomplement',['kTwosComplement',['../namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d',1,'rsj']]],
-  ['kupdatedelay',['kUpdateDelay',['../class_channel_model.html#ab7394655972e94ae493cb1effc0e050b',1,'ChannelModel']]]
+  ['ktwoscomplement',['kTwosComplement',['../namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efda61e1fc863010e9754a141982b9ec2f8d',1,'rsj']]]
 ];

@@ -4,7 +4,7 @@ var class_m_i_d_i2_l_r_application =
     [ "anotherInstanceStarted", "class_m_i_d_i2_l_r_application.html#a9b5a76b74f45e3be820fbf62d9616e2f", null ],
     [ "CerealLoad", "class_m_i_d_i2_l_r_application.html#a1e52f4c3aae1ef33e77574284b15af32", null ],
     [ "CerealSave", "class_m_i_d_i2_l_r_application.html#a3f2dbf09f9ba5f582534b4765e434d26", null ],
-    [ "DefaultProfileSave", "class_m_i_d_i2_l_r_application.html#abfbb60448a2676c5b456cdcc0be1d207", null ],
+    [ "DefaultProfileSave", "class_m_i_d_i2_l_r_application.html#a8138fd30c26fe9b14cc69c3eb3def3c5", null ],
     [ "getApplicationName", "class_m_i_d_i2_l_r_application.html#a9cdd475a9c0cad7f863c5ea017577d40", null ],
     [ "getApplicationVersion", "class_m_i_d_i2_l_r_application.html#ac7c4482812427f5f86fef87fe91b4c99", null ],
     [ "initialise", "class_m_i_d_i2_l_r_application.html#a6c958c20964bb737b5c9c51cf13bf0e4", null ],

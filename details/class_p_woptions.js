@@ -10,7 +10,7 @@ var class_p_woptions =
     [ "resized", "class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2", null ],
     [ "textEditorFocusLost", "class_p_woptions.html#a6db5013ca2b338842aad610d9a058331", null ],
     [ "boundchannel_", "class_p_woptions.html#a9049ba4c68596d91ad4f1168ddc1f2be", null ],
-    [ "controls_model_", "class_p_woptions.html#a5a17d4a0e03749beec712a452427e0ac", null ],
+    [ "controls_model_", "class_p_woptions.html#a9c43d66079f184a02b7fe1dc4c62ee8b", null ],
     [ "label", "class_p_woptions.html#a8b6d1e018b8b6940528bf3c240aa04a1", null ],
     [ "label2", "class_p_woptions.html#a4652deea48c8bc5c21d87b7eca29625f", null ],
     [ "label3", "class_p_woptions.html#a85a3fc6201840de2c1bf593a0f3eb87e", null ],

@@ -13,6 +13,7 @@ var class_main_content_component =
     [ "operator=", "class_main_content_component.html#ab5a2f587e185afc257c5450db43c3662", null ],
     [ "paint", "class_main_content_component.html#ad29d20b699ea1c995c17170083ad3aa7", null ],
     [ "ProfileChanged", "class_main_content_component.html#a337ef400359712b24a924d6a8056be93", null ],
+    [ "SaveProfile", "class_main_content_component.html#ae12f20eb6b44fe8426171fbd0955090e", null ],
     [ "SetLabelSettings", "class_main_content_component.html#ae219ea18fd91bf04c1676f577ddf21b4", null ],
     [ "timerCallback", "class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d", null ],
     [ "command_label_", "class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f", null ],

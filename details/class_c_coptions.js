@@ -16,7 +16,7 @@ var class_c_coptions =
     [ "bound_channel_", "class_c_coptions.html#a4f3410fbfd0122c84b8c94f2e7562bb5", null ],
     [ "bound_number_", "class_c_coptions.html#a6e32c7d44f6f73c6f9103320898dbb7f", null ],
     [ "controlID", "class_c_coptions.html#a6d06bbe28013f2b47294fdd61ab79fdf", null ],
-    [ "controls_model_", "class_c_coptions.html#a1f6d0bcd7fb9713f32d4b05ca697334e", null ],
+    [ "controls_model_", "class_c_coptions.html#a00c380cd81f41e155d069238f9818fb8", null ],
     [ "groupComponent", "class_c_coptions.html#a62321afa89e4f721ae8a2fe86c1bbe39", null ],
     [ "maxvallabel", "class_c_coptions.html#a6999947afe63520ad1ea3972712fccdd", null ],
     [ "maxvaltext", "class_c_coptions.html#a48c979ea7c6987fe25ae5a24bea68500", null ],

@@ -5,5 +5,5 @@ var searchData=
   ['relaxttasspinlock',['RelaxTTasSpinLock',['../classrsj_1_1_relax_t_tas_spin_lock.html',1,'rsj']]],
   ['resizablechild',['ResizableChild',['../class_resizable_child.html',1,'']]],
   ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html',1,'']]],
-  ['reversion_5fwrapper',['reversion_wrapper',['../structrsj_1_1reversion__wrapper.html',1,'rsj']]]
+  ['reversionwrapper',['ReversionWrapper',['../structrsj_1_1_reversion_wrapper.html',1,'rsj']]]
 ];

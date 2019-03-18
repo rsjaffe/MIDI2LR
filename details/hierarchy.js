@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "rsj::ActiveModifiers", "structrsj_1_1_active_modifiers.html", null ],
     [ "ResizableLayout::Anchor", "struct_resizable_layout_1_1_anchor.html", null ],
     [ "AsyncUpdater", null, [
       [ "MainContentComponent", "class_main_content_component.html", null ],
@@ -64,7 +65,7 @@ var hierarchy =
     [ "ResizableChild", "class_resizable_child.html", [
       [ "ResizableLayout", "class_resizable_layout.html", null ]
     ] ],
-    [ "rsj::reversion_wrapper< T >", "structrsj_1_1reversion__wrapper.html", null ],
+    [ "rsj::ReversionWrapper< T >", "structrsj_1_1_reversion_wrapper.html", null ],
     [ "SettingsManager", "class_settings_manager.html", null ],
     [ "rsj::SettingsStruct", "structrsj_1_1_settings_struct.html", null ],
     [ "ResizableLayout::State", "struct_resizable_layout_1_1_state.html", null ],

@@ -1,4 +1,5 @@
 var _send_keys_8h =
 [
-    [ "SendKeyDownUp", "_send_keys_8h.html#afcefdb772d6703355689a0b68accc86c", null ]
+    [ "ActiveModifiers", "structrsj_1_1_active_modifiers.html", "structrsj_1_1_active_modifiers" ],
+    [ "SendKeyDownUp", "_send_keys_8h.html#a7ef1999b70f9edef40831d04404d3761", null ]
 ];

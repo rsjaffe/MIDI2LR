@@ -1,21 +1,14 @@
 var searchData=
 [
-  ['recalculatelayout',['recalculateLayout',['../class_resizable_layout.html#af1ae3c1fd2275c3963eea6f098373970',1,'ResizableLayout']]],
-  ['recenter',['Recenter',['../class_lr_ipc_out_1_1_recenter.html#a70c672ad595848a565a74fd44781512a',1,'LrIpcOut::Recenter']]],
-  ['rect',['Rect',['../struct_resizable_layout_1_1_rect.html#ab00152b02b87c3eac43761bfee9ed589',1,'ResizableLayout::Rect::Rect() noexcept'],['../struct_resizable_layout_1_1_rect.html#af2d5456a84cec0670fcaa038710d942c',1,'ResizableLayout::Rect::Rect(int top0, int left0, int bottom0, int right0) noexcept'],['../struct_resizable_layout_1_1_rect.html#a0fa2f3268128f0b0f108654bfa413f48',1,'ResizableLayout::Rect::Rect(const juce::Rectangle&lt; int &gt; &amp;r) noexcept']]],
-  ['reduce',['reduce',['../struct_resizable_layout_1_1_rect.html#a4bcd16e0fe50620cedf144feb1f3ea61',1,'ResizableLayout::Rect']]],
-  ['refreshcomponentforcell',['refreshComponentForCell',['../class_command_table_model.html#aa2f50228ccfd4a0aab86365c273703a7',1,'CommandTableModel']]],
-  ['relaxttasspinlock',['RelaxTTasSpinLock',['../classrsj_1_1_relax_t_tas_spin_lock.html#a9da4349ebbbdad6af32fc46369aec42c',1,'rsj::RelaxTTasSpinLock::RelaxTTasSpinLock() noexcept=default'],['../classrsj_1_1_relax_t_tas_spin_lock.html#a291d68e0fbb87152aa76bfeac866009c',1,'rsj::RelaxTTasSpinLock::RelaxTTasSpinLock(const RelaxTTasSpinLock &amp;other)=delete'],['../classrsj_1_1_relax_t_tas_spin_lock.html#a35dc487629a2f55511d1a1b9e20b1a29',1,'rsj::RelaxTTasSpinLock::RelaxTTasSpinLock(RelaxTTasSpinLock &amp;&amp;other)=delete']]],
-  ['removeallrows',['RemoveAllRows',['../class_command_table_model.html#a10867ea626130bcee75dfbc71ded461c',1,'CommandTableModel']]],
-  ['removefromlayout',['removeFromLayout',['../class_resizable_layout.html#ad4441decbaeb450d2c393a85d67c3178',1,'ResizableLayout']]],
-  ['removemessage',['RemoveMessage',['../class_command_map.html#a652e7def69ae9a1b0ad4eca3a5f7ef88',1,'CommandMap']]],
-  ['removerow',['RemoveRow',['../class_command_table_model.html#a56bd37021d8ff9e11f642223b1afa8e6',1,'CommandTableModel']]],
-  ['rescandevices',['RescanDevices',['../class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9',1,'MidiSender::RescanDevices()'],['../class_midi_receiver.html#a9a477458f298106f55c97ae9c7043fbc',1,'MidiReceiver::RescanDevices()']]],
-  ['resizablechild',['ResizableChild',['../class_resizable_child.html#a3cd221aa2e11119f2bee6cc29375b383',1,'ResizableChild']]],
-  ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html#a463232fab8660fd7663adf18381012d2',1,'ResizableLayout']]],
-  ['resized',['resized',['../class_c_coptions.html#a5d08843370dbba861d25fec42f47862f',1,'CCoptions::resized()'],['../class_p_woptions.html#a47baed2454c13570aa7f567a53beafb2',1,'PWoptions::resized()']]],
-  ['resizestart',['resizeStart',['../class_resizable_child.html#a51917604a38f4acd0b4628663028ca74',1,'ResizableChild::resizeStart()'],['../class_resizable_layout.html#a969baa1a3b966ad3f7a7d4d7c02b1f08',1,'ResizableLayout::resizeStart()'],['../class_top_level_resizable_layout_1_1_constrainer.html#a3ed23b7cee89ca16e28c4b423c24967a',1,'TopLevelResizableLayout::Constrainer::resizeStart()']]],
-  ['restart',['Restart',['../class_lr_ipc_out.html#afa50991a548c673a64a558cfc0a00cea',1,'LrIpcOut']]],
-  ['reverse',['reverse',['../namespacersj.html#a838a70a9f6ff71acd4a391f21852b201',1,'rsj']]],
-  ['run',['run',['../class_lr_ipc_in.html#abae5abe85758ac667ebfd4862c9ae65c',1,'LrIpcIn::run()'],['../class_version_checker.html#a04beca4aadd6a6df974c1c07f5113f7b',1,'VersionChecker::run()']]]
+  ['paint',['paint',['../class_c_coptions.html#a8d68ddf926aeb364ecdd204a25e01d81',1,'CCoptions::paint()'],['../class_p_woptions.html#a6680ed6877e8f26a3954f98c2d134783',1,'PWoptions::paint()'],['../class_main_content_component.html#ad29d20b699ea1c995c17170083ad3aa7',1,'MainContentComponent::paint()'],['../class_settings_component.html#aa8e6b6d8622109acfecf070ffc56f62e',1,'SettingsComponent::paint()']]],
+  ['paintcell',['paintCell',['../class_command_table_model.html#ab9d3adb581848e33679d31dd2f8df60b',1,'CommandTableModel']]],
+  ['paintrowbackground',['paintRowBackground',['../class_command_table_model.html#ac8a674bdc1c19da4d97c1276db02ac63',1,'CommandTableModel']]],
+  ['pleasestopthread',['PleaseStopThread',['../class_lr_ipc_in.html#a8d1398654e822a1b2a411fe3c3a163ff',1,'LrIpcIn']]],
+  ['plugintocontroller',['PluginToController',['../class_channel_model.html#ae448886fd87c60b1be036b256df253e9',1,'ChannelModel::PluginToController()'],['../class_controls_model.html#a326448f1fee495486332fd22c1ce3b3a',1,'ControlsModel::PluginToController()']]],
+  ['processline',['ProcessLine',['../class_lr_ipc_in.html#a833e0157f89d7f78447d7d6fccac69e4',1,'LrIpcIn']]],
+  ['processmidi',['ProcessMidi',['../class_nrpn_message.html#aa49450ff5a3ad5be3c74c1c5d9bbab29',1,'NrpnMessage::ProcessMidi()'],['../class_nrpn_filter.html#a0744bdf95f590470b1aa80f178f1c68a',1,'NrpnFilter::ProcessMidi()']]],
+  ['profilechanged',['ProfileChanged',['../class_main_content_component.html#a337ef400359712b24a924d6a8056be93',1,'MainContentComponent']]],
+  ['profilemanager',['ProfileManager',['../class_profile_manager.html#a3691fa7757dd38354e6bed7c4770bace',1,'ProfileManager::ProfileManager(ControlsModel &amp;c_model, CommandMap &amp;cmap) noexcept'],['../class_profile_manager.html#aaffb92ccc235cddab69d58828ae416ad',1,'ProfileManager::ProfileManager(const ProfileManager &amp;other)=delete'],['../class_profile_manager.html#a86deeeecd4bbead0afd50bdc636d1983',1,'ProfileManager::ProfileManager(ProfileManager &amp;&amp;other)=delete']]],
+  ['profileunsaved',['ProfileUnsaved',['../class_command_map.html#aeb828d2f2a32d699a99c0eb5490c9b8c',1,'CommandMap']]],
+  ['pwoptions',['PWoptions',['../class_p_woptions.html#a726d802d17638e889809dfd801d50a12',1,'PWoptions::PWoptions()'],['../class_p_woptions.html#ac6af265375239ae777ac899125c43b35',1,'PWoptions::PWoptions(PWoptions &amp;&amp;other) noexcept=delete']]]
 ];
