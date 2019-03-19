@@ -62,12 +62,13 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       profile_location_ = directory;
       juce::Array<juce::File> file_array;
       directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
-      current_profile_index_ = 0;
+      file_array.sort();
       profiles_.clear();
       for (const auto& file : file_array)
          profiles_.emplace_back(file.getFileName());
       if (!profiles_.empty())
          SwitchToProfile(profiles_.at(0));
+      current_profile_index_ = 0;
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
