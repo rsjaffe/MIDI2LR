@@ -25,6 +25,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
+#include "Misc.h"
+
 class ControlsModel;
 class LrIpcOut;
 class MidiReceiver;
