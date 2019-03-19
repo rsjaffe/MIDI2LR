@@ -247,13 +247,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             cereal::XMLOutputArchive oarchive(outfile);
             oarchive(controls_model_);
 #ifdef _WIN32
-            rsj::Log("Cereal archive saved to " + juce::String(p.c_str()));
+            rsj::Log("ControlsModel archive in Main saved to " + juce::String(p.c_str()));
 #else
-            rsj::Log("Cereal archive saved to " + p);
+            rsj::Log("ControlsModel archive in Main saved to " + p);
 #endif
          }
          else
-            rsj::LogAndAlertError("Unable to save control settings to xml file.");
+            rsj::LogAndAlertError("Unable to save ControlsModel archive in Main.");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -274,9 +274,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             cereal::XMLInputArchive iarchive(in_file);
             iarchive(controls_model_);
 #ifdef _WIN32
-            rsj::Log("Cereal archive loaded from " + juce::String(px.c_str()));
+            rsj::Log("ControlsModel archive in Main loaded from " + juce::String(px.c_str()));
 #else
-            rsj::Log("Cereal archive loaded from " + px);
+            rsj::Log("ControlsModel archive in Main loaded from " + px);
 #endif
          }
          else { // see if old-style settings file is available
@@ -296,9 +296,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                cereal::BinaryInputArchive iarchive(infile);
                iarchive(controls_model_);
 #ifdef _WIN32
-               rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
+               rsj::Log("Legacy ControlsModel archive loaded in Main from " + juce::String(p.c_str()));
 #else
-               rsj::Log("Cereal archive loaded from " + p);
+               rsj::Log("Legacy ControlsModel archive loaded in Main from " + p);
 #endif
             }
          }

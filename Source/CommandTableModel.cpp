@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 
 #include "CommandMenu.h"
+#include "Misc.h"
 
 CommandTableModel::CommandTableModel(Profile& profile) noexcept : profile_(profile) {}
 
@@ -54,13 +55,13 @@ void CommandTableModel::paintCell(
       // list, so be careful that you don't assume it's less than getNumRows().
       g.setColour(juce::Colours::black);
       g.setFont(12.0f);
-      if (column_id == 1) // write the MIDI message in the MIDI command column
-      {
-         // cmdmap_mutex_ should fix the following problem
-         if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell
-                                                                        // not
-                                                                        // filled yet
+      if (column_id == 1) { // write the MIDI message in the MIDI command column
+         if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // error condition
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
+            rsj::Log("Unknown control CommandTableModel::paintCell. "
+                     + juce::String(profile_.Size())
+                     + " rows in profile, row number to be painted is " + juce::String(row_number)
+                     + '.');
          }
          else {
             std::ostringstream format_str;
