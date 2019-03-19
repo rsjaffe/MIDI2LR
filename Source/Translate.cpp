@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Translate.h"
 
+#include <exception>
 #include <map>
 
 #include <JuceLibraryCode/JuceHeader.h>

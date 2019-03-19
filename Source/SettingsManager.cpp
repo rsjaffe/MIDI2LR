@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SettingsManager.h"
 
+#include <exception>
 #include <string>
 #include <utility>
 

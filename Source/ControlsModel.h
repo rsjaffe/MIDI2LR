@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <array>
 #include <atomic>
+#include <exception>
 #include <vector>
 
 #include <cereal/access.hpp>

@@ -66,19 +66,13 @@ namespace {
 
    HKL GetLanguage(const std::string& program_name) noexcept
    {
-      try {
-         const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
-         if (h_lr_wnd) { // get language that LR is using (if hLrWnd is found)
-            const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
-            return GetKeyboardLayout(thread_id);
-         }
-         // use keyboard of MIDI2LR application
-         return GetKeyboardLayout(0);
+      const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
+      if (h_lr_wnd) { // get language that LR is using (if hLrWnd is found)
+         const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
+         return GetKeyboardLayout(thread_id);
       }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
-         throw;
-      }
+      // use keyboard of MIDI2LR application
+      return GetKeyboardLayout(0);
    }
 
    SHORT VkKeyScanExWErrorChecked(WCHAR ch, HKL dwhkl)

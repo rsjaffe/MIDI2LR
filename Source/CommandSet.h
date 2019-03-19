@@ -93,7 +93,7 @@ class CommandSet {
    // see https://github.com/USCiLab/cereal/issues/270
    friend struct cereal::detail::Version<CommandSet::Impl>;
    const Impl& m_impl_;
-   const Impl& MakeImpl();
+   const Impl& MakeImpl() const;
 
    std::unordered_map<std::string, size_t> cmd_idx_{}; // for CommandTextIndex
    std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size

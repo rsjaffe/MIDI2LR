@@ -211,8 +211,7 @@ namespace rsj {
       auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
       if (ec == std::errc())
          return std::string(str.data(), p - str.data());
-      else
-         return "Number conversion error " + std::make_error_condition(ec).message();
+      return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
    template<class T> std::string NumToChars(T number)

@@ -20,6 +20,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTableModel.h"
 
+#include <exception>
+
 #include "CommandMenu.h"
 
 CommandTableModel::CommandTableModel(Profile& profile) noexcept : profile_(profile) {}

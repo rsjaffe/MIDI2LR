@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "Misc.h"
 
-void Profile::AddCommandForMessage_(size_t command, rsj::MidiMessageId message)
+void Profile::AddCommandForMessage_i(size_t command, rsj::MidiMessageId message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
@@ -45,7 +45,7 @@ void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId messag
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      if (!MessageExistsInMap_(message)) {
+      if (!MessageExistsInMap_i(message)) {
          if (!command_set_.CommandTextIndex(command)) {
             message_map_[message] = "Unmapped";
             command_string_map_.emplace("Unmapped", message);
@@ -55,7 +55,7 @@ void Profile::AddRowMapped(const std::string& command, rsj::MidiMessageId messag
             command_string_map_.emplace(command, message);
          }
          command_table_.push_back(message);
-         Sort_();
+         Sort_i();
          profile_unsaved_ = true;
       }
    }
@@ -69,10 +69,10 @@ void Profile::AddRowUnmapped(rsj::MidiMessageId message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      if (!MessageExistsInMap_(message)) {
-         AddCommandForMessage_(0, message); // add an entry for 'no command'
+      if (!MessageExistsInMap_i(message)) {
+         AddCommandForMessage_i(0, message); // add an entry for 'no command'
          command_table_.push_back(message);
-         Sort_();
+         Sort_i();
          profile_unsaved_ = true;
       }
    }
@@ -109,7 +109,7 @@ void Profile::FromXml(const juce::XmlElement* root)
          setting = setting->getNextElement();
       }
       auto guard = std::unique_lock{mutex_};
-      Sort_();
+      Sort_i();
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
@@ -168,7 +168,7 @@ void Profile::RemoveRow(size_t row)
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      const auto msg = GetMessageForNumber_(row);
+      const auto msg = GetMessageForNumber_i(row);
       command_string_map_.erase(message_map_.at(msg));
       command_table_.erase(command_table_.cbegin() + row);
       message_map_.erase(msg);
@@ -185,7 +185,7 @@ void Profile::Resort(std::pair<int, bool> new_order)
    try {
       auto guard = std::unique_lock{mutex_};
       current_sort_ = new_order;
-      Sort_();
+      Sort_i();
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -193,11 +193,11 @@ void Profile::Resort(std::pair<int, bool> new_order)
    }
 }
 
-void Profile::Sort_()
+void Profile::Sort_i()
 {
    try {
       const auto msg_idx = [this](rsj::MidiMessageId a) {
-         return command_set_.CommandTextIndex(GetCommandForMessage_(a));
+         return command_set_.CommandTextIndex(GetCommandForMessage_i(a));
       };
       const auto msg_sort = [&msg_idx](rsj::MidiMessageId a, rsj::MidiMessageId b) {
          return msg_idx(a) < msg_idx(b);

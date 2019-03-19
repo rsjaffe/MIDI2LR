@@ -1,5 +1,5 @@
-#ifndef MIDI2LR_COMMANDMAP_H_INCLUDED
-#define MIDI2LR_COMMANDMAP_H_INCLUDED
+#ifndef MIDI2LR_PROFILE_H_INCLUDED
+#define MIDI2LR_PROFILE_H_INCLUDED
 /*
   ==============================================================================
 
@@ -30,8 +30,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandSet.h"
 #include "MidiUtilities.h"
 
-// All methods with underscore at end don't include a mutex and are for internal use only. Methods
-// without underscore do have mutex and could be called by another class
+// All methods with _i at end don't include a mutex and are for internal use only. Methods
+// without _i do have mutex and could be called by another class
 class Profile {
  public:
    void AddCommandForMessage(size_t command, rsj::MidiMessageId message);
@@ -54,11 +54,11 @@ class Profile {
    void ToXmlFile(const juce::File& file);
 
  private:
-   void AddCommandForMessage_(size_t command, rsj::MidiMessageId message);
-   const std::string& GetCommandForMessage_(rsj::MidiMessageId message) const;
-   rsj::MidiMessageId GetMessageForNumber_(size_t num) const;
-   bool MessageExistsInMap_(rsj::MidiMessageId message) const;
-   void Sort_();
+   void AddCommandForMessage_i(size_t command, rsj::MidiMessageId message);
+   const std::string& GetCommandForMessage_i(rsj::MidiMessageId message) const;
+   rsj::MidiMessageId GetMessageForNumber_i(size_t num) const;
+   bool MessageExistsInMap_i(rsj::MidiMessageId message) const;
+   void Sort_i();
 
    bool profile_unsaved_{false};
    CommandSet command_set_{};
@@ -73,7 +73,7 @@ inline void Profile::AddCommandForMessage(size_t command, rsj::MidiMessageId mes
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      AddCommandForMessage_(command, message);
+      AddCommandForMessage_i(command, message);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -97,7 +97,7 @@ inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId messa
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return GetCommandForMessage_(message);
+      return GetCommandForMessage_i(message);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -105,7 +105,7 @@ inline const std::string& Profile::GetCommandForMessage(rsj::MidiMessageId messa
    }
 }
 
-inline const std::string& Profile::GetCommandForMessage_(rsj::MidiMessageId message) const
+inline const std::string& Profile::GetCommandForMessage_i(rsj::MidiMessageId message) const
 {
    try {
       return message_map_.at(message);
@@ -120,7 +120,7 @@ inline rsj::MidiMessageId Profile::GetMessageForNumber(size_t num) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return GetMessageForNumber_(num);
+      return GetMessageForNumber_i(num);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -128,7 +128,7 @@ inline rsj::MidiMessageId Profile::GetMessageForNumber(size_t num) const
    }
 }
 
-inline rsj::MidiMessageId Profile::GetMessageForNumber_(size_t num) const
+inline rsj::MidiMessageId Profile::GetMessageForNumber_i(size_t num) const
 {
    try {
       return command_table_.at(num);
@@ -156,7 +156,7 @@ inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return MessageExistsInMap_(message);
+      return MessageExistsInMap_i(message);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -164,7 +164,7 @@ inline bool Profile::MessageExistsInMap(rsj::MidiMessageId message) const
    }
 }
 
-inline bool Profile::MessageExistsInMap_(rsj::MidiMessageId message) const
+inline bool Profile::MessageExistsInMap_i(rsj::MidiMessageId message) const
 {
    try {
       return message_map_.find(message) != message_map_.end();
@@ -199,4 +199,4 @@ inline size_t Profile::Size() const
    }
 }
 
-#endif // COMMANDMAP_H_INCLUDED
+#endif // MIDI2LR_PROFILE_H_INCLUDED

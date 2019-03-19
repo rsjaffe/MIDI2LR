@@ -74,7 +74,7 @@ class CCoptions : public juce::Component, juce::TextEditor::Listener, public juc
 
    void paint(juce::Graphics& g) override;
    void resized() override;
-   void buttonClicked(juce::Button* buttonThatWasClicked) override;
+   void buttonClicked(juce::Button* button_that_was_clicked) override;
 
  private:
    //[UserVariables]   -- You can add your own custom variables in this section.

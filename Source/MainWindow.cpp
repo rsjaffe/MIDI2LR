@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MainWindow.h"
 
+#include <exception>
 #include <utility>
 
 #include "MainComponent.h"
@@ -63,7 +64,7 @@ void MainWindow::timerCallback()
    }
 }
 
-void MainWindow::SaveProfile()
+void MainWindow::SaveProfile() const
 {
    try {
       if (window_content_)

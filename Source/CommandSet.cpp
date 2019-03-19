@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandSet.h"
 
+#include <exception>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
 namespace fs = std::filesystem;
@@ -76,11 +77,11 @@ CommandSet::Impl::Impl()
    }
 }
 
-const CommandSet::Impl& CommandSet::MakeImpl()
+const CommandSet::Impl& CommandSet::MakeImpl() const
 {
    try {
-      static const Impl singleimpl;
-      return singleimpl;
+      static const Impl kImpl;
+      return kImpl;
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
