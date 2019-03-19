@@ -20,10 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SendKeys.h"
 
-#include <algorithm>
-#include <cctype>
 #include <exception>
 #include <mutex>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -46,22 +45,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
 
 namespace {
-   // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-   std::string ToLower(std::string_view in)
-   {
-      try {
-         std::string s;
-         s.resize(in.size());
-         std::transform(in.begin(), in.end(),
-             s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
-         return s;
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
-         throw;
-      }
-   }
-
 #ifdef _WIN32
 
    HKL GetLanguage(const std::string& program_name) noexcept
@@ -167,19 +150,6 @@ namespace {
    }
 
 #else
-   // note: C++20 will have ends_with
-   bool EndsWith(std::string_view main_str, std::string_view to_match)
-   {
-      try {
-         return main_str.size() >= to_match.size()
-                && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match)
-                       == 0;
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(__func__, __func__, e);
-         throw;
-      }
-   }
 
    pid_t GetPid()
    {
@@ -197,7 +167,7 @@ namespace {
             memset(path_buffer, 0, sizeof(path_buffer));
             proc_pidpath(pid, path_buffer, sizeof(path_buffer));
             if (strlen(path_buffer) > 0
-                && (EndsWith(path_buffer, kLr) || EndsWith(path_buffer, kLrc)))
+                && (rsj::EndsWith(path_buffer, kLr) || rsj::EndsWith(path_buffer, kLrc)))
                return pid;
          }
          rsj::LogAndAlertError("Lightroom PID not found.");
@@ -382,7 +352,7 @@ namespace {
 void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
 {
    try {
-      const auto mapped_key = kKeyMap.find(ToLower(key));
+      const auto mapped_key = kKeyMap.find(rsj::ToLower(key));
       const auto in_keymap = mapped_key != kKeyMap.end();
 #ifdef _WIN32
       BYTE vk = 0;

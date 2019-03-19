@@ -20,6 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Misc.h"
 
+#include <algorithm>
+#include <cctype>
+
 #ifdef _WIN32
 #include "WinDef.h"
 #undef NOCTLMGR
@@ -33,6 +36,35 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #include "Ocpp.h"
 #endif
+
+// using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
+std::string rsj::ToLower(std::string_view in)
+{
+   try {
+      std::string s;
+      s.resize(in.size());
+      std::transform(in.begin(), in.end(),
+          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
+      return s;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
+
+// note: C++20 will have ends_with
+bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
+{
+   try {
+      return main_str.size() >= to_match.size()
+             && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
 
 // from http://www.cplusplus.com/forum/beginner/175177 and
 // https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156
@@ -189,4 +221,5 @@ std::string rsj::AppLogFilePath(const std::string& file_name)
 {
    return rsj::AppLogMac() + '/' + file_name;
 }
+
 #endif

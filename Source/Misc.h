@@ -28,6 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <chrono>
 #include <exception>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
@@ -52,6 +53,39 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
+   bool EndsWith(std::string_view main_str, std::string_view to_match);
+   // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
+   void LogAndAlertError(const juce::String& error_text);
+   void Log(const juce::String& info);
+   std::string ToLower(std::string_view in);
+#ifdef _WIN32
+   [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
+   [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
+   [[nodiscard]] inline std::wstring AppLogFilePath(const std::wstring& file_name)
+   {
+      return AppDataFilePath(file_name);
+   }
+   [[nodiscard]] inline std::wstring AppLogFilePath(const std::string& file_name)
+   {
+      return AppDataFilePath(file_name);
+   }
+   [[nodiscard]] std::wstring Utf8ToWide(std::string_view input);
+   [[nodiscard]] std::string WideToUtf8(std::wstring_view wstr);
+#else
+   [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
+   [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
+#endif // def _WIN32
+
+   /* additional classes/templates in Misc.h
+    * RelaxTTasSpinLock
+    * Reverse
+    * RatioToPrefix
+    * SleepTimed
+    * SleepTimedLogged
+    * NumToChars
+    * */
+
    class RelaxTTasSpinLock {
     public:
       RelaxTTasSpinLock() noexcept = default;
@@ -84,28 +118,6 @@ namespace rsj {
     private:
       std::atomic<bool> flag_{false};
    };
-
-   // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-   void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
-   void LogAndAlertError(const juce::String& error_text);
-   void Log(const juce::String& info);
-#ifdef _WIN32
-   [[nodiscard]] std::wstring Utf8ToWide(std::string_view input);
-   [[nodiscard]] std::string WideToUtf8(std::wstring_view wstr);
-   [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
-   [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
-   [[nodiscard]] inline std::wstring AppLogFilePath(const std::wstring& file_name)
-   {
-      return AppDataFilePath(file_name);
-   }
-   [[nodiscard]] inline std::wstring AppLogFilePath(const std::string& file_name)
-   {
-      return AppDataFilePath(file_name);
-   }
-#else
-   [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
-   [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
-#endif // def _WIN32
 
    // -------------------------------------------------------------------
    // --- Reversed iterable
