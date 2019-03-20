@@ -445,7 +445,7 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end  
 
     --some functions not available before 7.4
-    if not Ut.LrVersion74orMore() then
+    if not Ut.LrVersion74orMore then
       ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
       ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action available in Lightroom version 7.4 and later only.') end
       ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action available in Lightroom version 7.4 and later only.') end
@@ -469,7 +469,7 @@ LrTasks.startAsyncTask(
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
 
-    if not Ut.LrVersion66orMore() then
+    if not Ut.LrVersion66orMore then
       ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action available in Lightroom version 6.6 and later only.') end
     else
       ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)

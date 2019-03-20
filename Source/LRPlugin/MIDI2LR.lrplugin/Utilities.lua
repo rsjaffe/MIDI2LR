@@ -28,8 +28,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 --imports
 local LrApplication = import 'LrApplication'
-local LrPathUtils = import 'LrPathUtils'
-local LrFileUtils = import 'LrFileUtils'
+local LrPathUtils   = import 'LrPathUtils'
+local LrFileUtils   = import 'LrFileUtils'
 
 local function LrVersion74orMore()
   local vers = LrApplication.versionTable()
@@ -38,12 +38,16 @@ local function LrVersion74orMore()
   return true
 end
 
+LrVersion74orMore = LrVersion74orMore()
+
 local function LrVersion66orMore()
     local vers = LrApplication.versionTable()
   if vers.major < 6 then return false end
   if vers.major == 6 and vers.minor < 6 then return false end
   return true
 end
+
+LrVersion66orMore = LrVersion66orMore()
 
 local function applogpath()
   local ret

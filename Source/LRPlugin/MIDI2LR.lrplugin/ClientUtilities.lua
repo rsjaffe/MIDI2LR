@@ -57,13 +57,13 @@ local needsModule = {
   [LrDevelopController.stopTracking]                   = {module = 'develop', photoSelected = false },
 }
 
-if Ut.LrVersion74orMore()
+if Ut.LrVersion74orMore
 then
   needsModule[LrDevelopController.setAutoTone]         = {module = 'develop', photoSelected = true }
   needsModule[LrDevelopController.setAutoWhiteBalance] = {module = 'develop', photoSelected = true }
 end
 
-if Ut.LrVersion66orMore()
+if Ut.LrVersion66orMore
 then
   needsModule[LrDevelopController.resetTransforms]     = {module = 'develop', photoSelected = true }
 end
