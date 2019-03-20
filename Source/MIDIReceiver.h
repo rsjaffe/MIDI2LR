@@ -23,6 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <functional>
 #include <future>
+#include <memory>
 #include <vector>
 
 #include <MoodyCamel/blockingconcurrentqueue.h>

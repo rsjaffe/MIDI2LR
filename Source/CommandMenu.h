@@ -21,7 +21,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include <limits>
-#include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include "MidiUtilities.h"
@@ -46,4 +45,5 @@ class CommandMenu final : public juce::TextButton {
    size_t selected_item_{std::numeric_limits<size_t>::max()};
 };
 
-#endif // COMMANDMENU_H_INCLUDED
+#endif // MIDI2LR_COMMANDMENU_H_INCLUDED
+

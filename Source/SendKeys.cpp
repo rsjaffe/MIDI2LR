@@ -29,6 +29,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "Misc.h"
 #ifdef _WIN32
+#include <utility>
+
 #include "WinDef.h"
 #undef NOUSER
 #undef NOVIRTUALKEYCODES

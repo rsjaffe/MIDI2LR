@@ -20,7 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Profile.h"
 
-#include <exception>
+#include <algorithm>
 
 #include <gsl/gsl>
 #include "Misc.h"

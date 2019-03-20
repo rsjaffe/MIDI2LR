@@ -20,9 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 
+#include <algorithm>
 #include <array>
 #include <exception>
-#include <string>
 #include <string_view>
 
 #include <gsl/gsl>

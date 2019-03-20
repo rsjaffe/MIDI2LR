@@ -20,10 +20,13 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <exception>
 #include <map>
 #include <shared_mutex>
 #include <string>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include <gsl/gsl>
 #include <JuceLibraryCode/JuceHeader.h>
