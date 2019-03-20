@@ -57,7 +57,6 @@ local function applogpath()
     ret='~/Library/Logs/MIDI2LR'
   end
   ret = LrPathUtils.standardizePath(ret)
-
   LrFileUtils.createAllDirectories(ret) 
   return ret
 end
