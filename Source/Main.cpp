@@ -66,7 +66,7 @@ namespace {
 
    class UpdateCurrentLogger {
     public:
-      UpdateCurrentLogger(juce::Logger* new_logger) noexcept
+      explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
       {
          juce::Logger::setCurrentLogger(new_logger);
       }

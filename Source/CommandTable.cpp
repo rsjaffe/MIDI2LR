@@ -52,6 +52,7 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
           {juce::KeyPress::pageDownKey, 5}, {juce::KeyPress::homeKey, 6},
           {juce::KeyPress::endKey, 7}};
       if (const auto f = kKeyToAction.find(k.getKeyCode()); f != kKeyToAction.end()) {
+         // ReSharper disable once CppDefaultCaseNotHandledInSwitchStatement
          switch (f->second) {
          case 1: // deleteKey
             if (getSelectedRow() != -1) {

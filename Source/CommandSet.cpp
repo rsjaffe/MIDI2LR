@@ -27,6 +27,12 @@ namespace fs = std::filesystem;
 #endif
 #include <fstream>
 
+#include <cereal/archives/xml.hpp>
+// ReSharper disable CppUnusedIncludeDirective
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+// ReSharper restore CppUnusedIncludeDirective
+
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 { // manually insert unmapped at first position
    try {

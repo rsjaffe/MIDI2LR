@@ -144,6 +144,8 @@ namespace rsj {
       return {iterable};
    }
 
+#pragma warning(push)
+#pragma warning(disable : 4127) // constant conditional expression
    // zepto yocto zetta and yotta too large/small to be represented by intmax_t
    // TODO: change to consteval, find way to convert digit to string for unexpected
    // values, so return could be, e.g., "23425/125557 ", instead of error message
@@ -197,6 +199,7 @@ namespace rsj {
       }
       return "unexpected ratio encountered ";
    }
+#pragma warning(pop)
 
    template<class Rep, class Period>
    auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration)

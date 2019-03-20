@@ -1,4 +1,5 @@
 #ifndef WIN32_LEAN_AND_MEAN
+// ReSharper disable IdentifierTypo
 #define NOATOM -Atom Manager routines
 #define NOCLIPBOARD -Clipboard routines
 #define NOCOLOR -Screen colors
@@ -39,4 +40,5 @@
 #define NOWINSTYLES -WS_*, CS_*, ES_*, LBS_*, SBS_*, CBS_*
 #define OEMRESOURCE -OEM Resource values
 #define WIN32_LEAN_AND_MEAN
+// ReSharper restore IdentifierTypo
 #endif

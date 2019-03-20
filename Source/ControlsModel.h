@@ -26,7 +26,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include <cereal/access.hpp>
-#include <cereal/types/array.hpp> //required, ReSharper falsely marks as not needed
+// ReSharper disable once CppUnusedIncludeDirective
+#include <cereal/types/array.hpp>
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
 #include "MidiUtilities.h"
@@ -56,7 +57,8 @@ namespace rsj {
             archive(number, high, low, method);
             break;
          default:
-            rsj::LogAndAlertError("Wrong archive version for SettingsStruct. Version is " + juce::String(version) + '.');
+            rsj::LogAndAlertError("Wrong archive version for SettingsStruct. Version is "
+                                  + juce::String(version) + '.');
          }
       }
 
@@ -104,8 +106,8 @@ namespace rsj {
                break;
             }
             default:
-               rsj::LogAndAlertError(
-                   "Wrong archive version for SettingsStruct. Version is " + juce::String(version) + '.');
+               rsj::LogAndAlertError("Wrong archive version for SettingsStruct. Version is "
+                                     + juce::String(version) + '.');
             }
          }
          catch (const std::exception& e) {
@@ -447,7 +449,8 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          SavedToActive();
          break;
       default:
-         rsj::LogAndAlertError("Wrong archive version for ChannelModel. Version is " + juce::String(version) + '.');
+         rsj::LogAndAlertError(
+             "Wrong archive version for ChannelModel. Version is " + juce::String(version) + '.');
       }
    }
    catch (const std::exception& e) {
@@ -473,7 +476,9 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
              cereal::make_nvp("PWmin", pitch_wheel_min_));
          break;
       default:
-         rsj::LogAndAlertError("Wrong archive version specified for saving ChannelModel. Version is " + juce::String(version)+'.');
+         rsj::LogAndAlertError(
+             "Wrong archive version specified for saving ChannelModel. Version is "
+             + juce::String(version) + '.');
       }
    }
    catch (const std::exception& e) {

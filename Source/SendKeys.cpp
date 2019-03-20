@@ -43,12 +43,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <Carbon/Carbon.h>
 #include <libproc.h> //proc_ functions in GetPid
 #include "Ocpp.h"
-#endif
 #include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
+#endif
 
 namespace {
 #ifdef _WIN32
-
    HKL GetLanguage(const std::string& program_name) noexcept
    {
       const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
@@ -150,9 +149,7 @@ namespace {
          throw;
       }
    }
-
 #else
-
    pid_t GetPid()
    {
       try {
@@ -329,9 +326,9 @@ namespace {
          throw;
       }
    }
-
 #endif
 
+#pragma warning(suppress : 4244) // assigned to char intentionally
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},

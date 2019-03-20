@@ -257,7 +257,7 @@ void LrIpcIn::ProcessLine()
             // send associated messages to MIDI OUT devices
             if (midi_sender_) {
                const auto original_value = std::stod(std::string(value_string));
-               for (const auto msg : profile_.GetMessagesForCommand(command)) {
+               for (const auto& msg : profile_.GetMessagesForCommand(command)) {
                   short msgtype{0};
                   switch (msg.msg_id_type) {
                   case rsj::MsgIdEnum::kNote:

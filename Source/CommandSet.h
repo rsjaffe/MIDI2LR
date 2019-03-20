@@ -25,10 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include <cereal/access.hpp>
-#include <cereal/archives/xml.hpp>
-#include <cereal/types/string.hpp>
 #include <cereal/types/utility.hpp>
-#include <cereal/types/vector.hpp>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 
@@ -85,8 +82,6 @@ class CommandSet {
       std::string language_;
       std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
           allcommands_;
-
-    private:
    };
 
    friend class cereal::access;
