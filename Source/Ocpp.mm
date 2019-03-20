@@ -61,21 +61,3 @@ std::string rsj::GetKeyboardLayout()
    return std::string("Could not get keyboard input source ID");
 }
 
-// See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm
-// for issue with Japanese keyboards
-const UCKeyboardLayout* rsj::GetKeyboardData() {
-   TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
-   CFDataRef data =
-          (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-   if (source)
-      CFRelease(source);
-   if (!data) {  // returns null with Japanese keyboard layout
-      source = TISCopyCurrentKeyboardLayoutInputSource();
-      data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-      if (source)
-         CFRelease(source);
-      if (!data)
-         return nullptr;
-   }
-   return (const UCKeyboardLayout*)CFDataGetBytePtr(data);
-}

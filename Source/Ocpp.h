@@ -28,7 +28,6 @@ namespace rsj {
    [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
    [[nodiscard]] std::string AppDataMac();
    [[nodiscard]] std::string AppLogMac();
-   const UCKeyboardLayout* GetKeyboardData();
 } // namespace rsj
 #endif
 #endif

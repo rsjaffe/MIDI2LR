@@ -181,6 +181,26 @@ namespace {
       }
    }
 
+   // See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm
+   // for issue with Japanese keyboards
+   const UCKeyboardLayout* GetKeyboardData()
+   {
+      TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
+      CFDataRef data =
+          (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+      if (source)
+         CFRelease(source);
+      if (!data) { // returns null with Japanese keyboard layout
+         source = TISCopyCurrentKeyboardLayoutInputSource();
+         data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+         if (source)
+            CFRelease(source);
+         if (!data)
+            return nullptr;
+      }
+      return (const UCKeyboardLayout*)CFDataGetBytePtr(data);
+   }
+
    /* Altered significantly, originally from:
     * https://stackoverflow.com/questions/1918841/how-to-convert-ascii-character-to-cgkeycode/1971027#1971027
     *
@@ -190,7 +210,7 @@ namespace {
    std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
    {
       try {
-         static const UCKeyboardLayout* keyboard_layout{rsj::GetKeyboardData()};
+         static const UCKeyboardLayout* keyboard_layout{GetKeyboardData()};
          if (!keyboard_layout) {
             static auto notwarned{true};
             if (notwarned) {
