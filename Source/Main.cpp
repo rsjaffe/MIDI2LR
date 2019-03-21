@@ -153,8 +153,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Be careful that nothing happens in this method that might rely on
       // messages being sent, or any kind of window activity, because the
       // message loop is no longer running at this point.
-      if (lr_ipc_in_)
-         lr_ipc_in_->PleaseStopThread();
+      lr_ipc_in_->PleaseStopThread();
       DefaultProfileSave();
       CerealSave();
       lr_ipc_out_.reset();
