@@ -453,6 +453,8 @@ LrTasks.startAsyncTask(
       ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action available in Lightroom version 7.4 and later only.') end
       ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
       ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
+      ACTIONS.SetTreatmentBW               = function() LrDialogs.message('Set treatment B&W available in Lightroom version 7.4 and later only.') end
+      ACTIONS.SetTreatmentColor               = function() LrDialogs.message('Set treatment Color available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
@@ -464,6 +466,8 @@ LrTasks.startAsyncTask(
       ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')      
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
+      ACTIONS.SetTreatmentBW               = CU.wrapForEachPhoto('SetTreatmentBW')
+      ACTIONS.SetTreatmentColor            = CU.wrapForEachPhoto('SetTreatmentColor')
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)

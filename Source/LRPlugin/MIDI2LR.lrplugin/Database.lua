@@ -212,6 +212,8 @@ local DataBase = {
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
   {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left. Supported in LR versions 7.4 and later.'},
   {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=photos,Explanation='Rotates all selected photos right. Supported in LR versions 7.4 and later.'},
+  {Command='SetTreatmentBW',Type='button',Translation=LOC('$$$/AgLibrary/CameraRawView/Ops/SetGrayscale=Set treatment B&W'),Group=photos,Explanation='Sets the treatment to B&W for all selected photos. Supported in LR versions 7.4 and later.'},
+  {Command='SetTreatmentColor',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/TreatmentColor=Set treatment Color'),Group=photos,Explanation='Sets the treatment to Color for all selected photos. Supported in LR versions 7.4 and later.'},
 
 
   --Develop
@@ -237,10 +239,6 @@ local DataBase = {
   {Command='ShoVwdevelop_before',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/Before=Before'),Group=develop,Explanation=''},
   {Command='ShoVwRefHoriz',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgDevelop/Menu/View/ReferenceActiveLeftRight=Reference View — Left/Right'),Group=develop,Explanation=''},
   {Command='ShoVwRefVert',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgDevelop/Menu/View/ReferenceActiveTopBottom=Reference View — Top/Bottom'),Group=develop,Explanation=''},
-
-  --develop: auto
-  --develop: clipping indicators
-  --develop: views
   {Command='ShoVwdevelop_loupe',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/Loupe=Loupe'),Group=develop,Explanation=''},
   --
   --develop: basic tone panel

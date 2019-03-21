@@ -135,6 +135,8 @@ local function wrapForEachPhoto(F) --note lightroom applies this to all selected
     addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
     openExportDialog                = function(T) T:openExportDialog() end,
     openExportWithPreviousDialog    = function(T) T:openExportWithPreviousDialog() end,
+    SetTreatmentBW                  = function(T) T:quickDevelopSetTreatment("grayscale") end,
+    SetTreatmentColor               = function(T) T:quickDevelopSetTreatment("color") end,
     rotateLeft                      = function(T) T:rotateLeft() end,
     rotateRight                     = function(T) T:rotateRight() end,
   }
