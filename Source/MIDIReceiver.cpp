@@ -57,7 +57,7 @@ MidiReceiver::~MidiReceiver()
 }
 #pragma warning(pop)
 
-void MidiReceiver::Init()
+void MidiReceiver::Start()
 {
    try {
       InitDevices();

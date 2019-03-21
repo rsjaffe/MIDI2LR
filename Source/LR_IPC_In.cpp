@@ -47,9 +47,10 @@ namespace {
    constexpr int kConnectTimer = 1000;
 } // namespace
 
-LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile)
-    : juce::Thread{"LR_IPC_IN"}, profile_{profile}, controls_model_{c_model}, profile_manager_{
-                                                                                  profile_manager}
+LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
+    std::shared_ptr<MidiSender> midi_sender)
+    : juce::Thread{"LR_IPC_IN"}, profile_{profile}, controls_model_{c_model},
+      profile_manager_{profile_manager}, midi_sender_{std::move(midi_sender)}
 {
 }
 
@@ -81,10 +82,9 @@ LrIpcIn::~LrIpcIn()
 }
 #pragma warning(pop)
 
-void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender)
+void LrIpcIn::Start()
 {
    try {
-      midi_sender_ = std::move(midi_sender);
       // start the timer
       juce::Timer::startTimer(kConnectTimer);
       process_line_future_ = std::async(std::launch::async, &LrIpcIn::ProcessLine, this);

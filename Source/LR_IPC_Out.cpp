@@ -51,8 +51,9 @@ namespace {
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
 
-LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile) noexcept
-    : profile_{profile}, controls_model_{c_model}
+LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
+    std::shared_ptr<MidiSender> midi_sender) noexcept
+    : profile_{profile}, controls_model_{c_model}, midi_sender_{std::move(midi_sender)}
 {
 }
 
@@ -79,14 +80,12 @@ LrIpcOut::~LrIpcOut()
 }
 #pragma warning(pop)
 
-void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver)
+void LrIpcOut::Start(MidiReceiver& midi_receiver)
 {
    try {
-      midi_sender_ = std::move(midi_sender);
       connect_timer_.Start();
       send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
-      if (midi_receiver)
-         midi_receiver->AddCallback(this, &LrIpcOut::MidiCmdCallback);
+      midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

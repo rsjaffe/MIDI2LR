@@ -37,13 +37,14 @@ class Profile;
 
 class LrIpcOut final : juce::InterprocessConnection {
  public:
-   LrIpcOut(ControlsModel& c_model, const Profile& profile) noexcept;
+   LrIpcOut(ControlsModel& c_model, const Profile& profile,
+       std::shared_ptr<MidiSender> midi_sender) noexcept;
    ~LrIpcOut();
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;
    LrIpcOut& operator=(const LrIpcOut& other) = delete;
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
-   void Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver);
+   void Start(MidiReceiver& midi_receiver);
 
    template<class T> void AddCallback(T* const object, void (T::*const mf)(bool, bool))
    {

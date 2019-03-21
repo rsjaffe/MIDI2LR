@@ -31,23 +31,20 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Profile.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile) noexcept
-    : current_profile_{profile}, controls_model_{c_model}
+ProfileManager::ProfileManager(
+    ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out) noexcept
+    : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{std::move(out)}
 {
 }
 
-void ProfileManager::Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver)
+void ProfileManager::Start(MidiReceiver& midi_receiver)
 {
    try {
-      // copy the pointers
-      lr_ipc_out_ = std::move(out);
-
       if (const auto ptr = lr_ipc_out_.lock())
          // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
          // settings on connection
          ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
-      if (midi_receiver)
-         midi_receiver->AddCallback(this, &ProfileManager::MidiCmdCallback);
+      midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

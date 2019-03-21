@@ -34,13 +34,14 @@ class ProfileManager;
 
 class LrIpcIn final : juce::Timer, juce::Thread {
  public:
-   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile);
+   LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
+       std::shared_ptr<MidiSender> midi_sender);
    ~LrIpcIn();
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;
    LrIpcIn& operator=(const LrIpcIn& other) = delete;
    LrIpcIn& operator=(LrIpcIn&& other) = delete;
-   void Init(std::shared_ptr<MidiSender> midi_sender);
+   void Start();
    // signal exit to thread
    void PleaseStopThread();
 

@@ -39,15 +39,13 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(ControlsModel& c_model, Profile& profile) noexcept;
+   ProfileManager(ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out) noexcept;
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
    ProfileManager& operator=(const ProfileManager& other) = delete;
    ProfileManager& operator=(ProfileManager&& other) = delete;
-
-   void Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver);
-
+   void Start(MidiReceiver& midi_receiver);
    template<class T>
    void AddCallback(T* const object, void (T::*const mf)(juce::XmlElement*, const juce::String&))
    {

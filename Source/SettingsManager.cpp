@@ -32,28 +32,28 @@ namespace {
    constexpr auto kAutoHideSection{"autohide"};
 }
 
-SettingsManager::SettingsManager(ProfileManager& profile_manager) try : profile_manager_ {
-   profile_manager
-}
-{
-   juce::PropertiesFile::Options file_options;
-   file_options.applicationName = "MIDI2LR";
-   file_options.commonToAllUsers = false;
-   file_options.filenameSuffix = "xml";
-   file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
-   file_options.storageFormat = juce::PropertiesFile::storeAsXML;
-   properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
-}
-catch (const std::exception& e)
-{
-   rsj::ExceptionResponse(__func__, __func__, e);
-   throw;
-}
-
-void SettingsManager::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out)
+SettingsManager::SettingsManager(
+    ProfileManager& profile_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out)
+    : profile_manager_{profile_manager}, lr_ipc_out_{std::move(lr_ipc_out)}
 {
    try {
-      lr_ipc_out_ = std::move(lr_ipc_out);
+      juce::PropertiesFile::Options file_options;
+      file_options.applicationName = "MIDI2LR";
+      file_options.commonToAllUsers = false;
+      file_options.filenameSuffix = "xml";
+      file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
+      file_options.storageFormat = juce::PropertiesFile::storeAsXML;
+      properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
+
+void SettingsManager::Start()
+{
+   try {
       if (const auto ptr = lr_ipc_out_.lock())
          // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
          // settings on connection

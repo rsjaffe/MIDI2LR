@@ -119,12 +119,12 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // loop won't be run.
          if (command_line != kShutDownString) {
             CerealLoad();
-            midi_receiver_->Init();
-            midi_sender_->Init();
-            lr_ipc_out_->Init(midi_sender_, midi_receiver_.get());
-            profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
-            lr_ipc_in_->Init(midi_sender_);
-            settings_manager_.Init(lr_ipc_out_);
+            midi_receiver_->Start();
+            midi_sender_->Start();
+            lr_ipc_out_->Start(*midi_receiver_);
+            profile_manager_.Start(*midi_receiver_);
+            lr_ipc_in_->Start();
+            settings_manager_.Start();
             main_window_ =
                 std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
                     profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
@@ -384,13 +384,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    const CommandSet command_set_{};
    ControlsModel controls_model_{};
    Profile profile_{command_set_};
-   ProfileManager profile_manager_{controls_model_, profile_};
-   SettingsManager settings_manager_{profile_manager_};
-   std::shared_ptr<LrIpcIn> lr_ipc_in_{
-       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, profile_)};
-   std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, profile_)};
-   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
+   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
+   std::shared_ptr<LrIpcOut> lr_ipc_out_{
+       std::make_shared<LrIpcOut>(controls_model_, profile_, midi_sender_)};
+   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_};
+   std::shared_ptr<LrIpcIn> lr_ipc_in_{
+       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, profile_, midi_sender_)};
+   SettingsManager settings_manager_{profile_manager_, lr_ipc_out_};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    // destroy after window that uses it
    juce::LookAndFeel_V3 look_feel_;

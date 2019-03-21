@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 
-void MidiSender::Init()
+void MidiSender::Start()
 {
    try {
       InitDevices();
