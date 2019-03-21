@@ -59,11 +59,11 @@ namespace {
    constexpr auto kDefaultsFile{"default.xml"};
 } // namespace
 
-MainContentComponent::MainContentComponent(Profile& profile, ProfileManager& profile_manager,
-    SettingsManager& settings_manager) try : ResizableLayout {
+MainContentComponent::MainContentComponent(const CommandSet& command_set, Profile& profile,
+    ProfileManager& profile_manager, SettingsManager& settings_manager) try : ResizableLayout {
    this
 }
-, profile_(profile), command_table_model_(profile), profile_manager_(profile_manager),
+, profile_(profile), command_table_model_(command_set, profile), profile_manager_(profile_manager),
     settings_manager_(settings_manager)
 {
    // Set the component size

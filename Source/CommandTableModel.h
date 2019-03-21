@@ -26,7 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 class CommandTableModel final : public juce::TableListBoxModel {
  public:
-   explicit CommandTableModel(Profile& profile) noexcept;
+   CommandTableModel(const CommandSet& command_set, Profile& profile) noexcept;
    void RemoveRow(size_t row)
    { // called from CommandTable, forward to Profile
       profile_.RemoveRow(row);
@@ -42,7 +42,7 @@ class CommandTableModel final : public juce::TableListBoxModel {
        juce::Component* existing_component_to_update) override;
    void sortOrderChanged(int new_sort_column_id, bool is_forwards) override;
 
+   const CommandSet& command_set_;
    Profile& profile_;
-   CommandSet command_set_{};
 };
 #endif

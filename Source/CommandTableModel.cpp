@@ -27,7 +27,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandMenu.h"
 #include "Misc.h"
 
-CommandTableModel::CommandTableModel(Profile& profile) noexcept : profile_(profile) {}
+CommandTableModel::CommandTableModel(const CommandSet& command_set, Profile& profile) noexcept
+    : command_set_{command_set}, profile_{profile}
+{
+}
 
 int CommandTableModel::getNumRows()
 {

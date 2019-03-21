@@ -125,8 +125,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
             lr_ipc_in_->Init(midi_sender_);
             settings_manager_.Init(lr_ipc_out_);
-            main_window_ = std::make_unique<MainWindow>(getApplicationName(), profile_,
-                profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
+            main_window_ =
+                std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
+                    profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
             // Check for latest version
             version_checker_.startThread();
          }
@@ -379,10 +380,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    // forcing assignment to static early in construction
-   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ {logger_.get()};
-   Profile profile_{};
-   CommandSet command_set_{};
+   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ { logger_.get() };
+   const CommandSet command_set_{};
    ControlsModel controls_model_{};
+   Profile profile_{command_set_};
    ProfileManager profile_manager_{controls_model_, profile_};
    SettingsManager settings_manager_{profile_manager_};
    std::shared_ptr<LrIpcIn> lr_ipc_in_{

@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h"      //class member
 #include "CommandTableModel.h" //class member
 #include "ResizableLayout.h"   //base class
+class CommandSet;
 class LrIpcOut;
 class MidiReceiver;
 class MidiSender;
@@ -46,8 +47,8 @@ class MainContentComponent final : public juce::Component,
                                    juce::ButtonListener,
                                    public ResizableLayout { // ResizableLayout.h
  public:
-   MainContentComponent(
-       Profile& profile, ProfileManager& profile_manager, SettingsManager& settings_manager);
+   MainContentComponent(const CommandSet& command_set, Profile& profile,
+       ProfileManager& profile_manager, SettingsManager& settings_manager);
    ~MainContentComponent() = default;
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;

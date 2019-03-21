@@ -37,6 +37,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // without _i do have mutex and could be called by another class
 class Profile {
  public:
+   Profile(const CommandSet& command_set) : command_set_{command_set} {}
    void AddCommandForMessage(size_t command, const rsj::MidiMessageId& message);
    void AddRowMapped(const std::string& command, const rsj::MidiMessageId& message);
    void AddRowUnmapped(const rsj::MidiMessageId& message);
@@ -64,7 +65,7 @@ class Profile {
    void Sort_i();
 
    bool profile_unsaved_{false};
-   CommandSet command_set_{};
+   const CommandSet& command_set_;
    mutable std::shared_mutex mutex_;
    std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
    std::pair<int, bool> current_sort_{2, true};
