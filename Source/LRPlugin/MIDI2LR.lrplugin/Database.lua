@@ -43,49 +43,55 @@ Command Type Experimental Translation Group (in app) Explanation Panel (in LR De
 --local function LOC(str) return str end--for debugging
 
 --Common terms used in database translated once here
-
-local PV2003and2010 = 'PV2003'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV2010'
-local PV2010and2012 = 'PV2010'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV2012'
-local basicTone = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone')
-local calibration = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Calibration=Calibration')
-local colorAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments')
-local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
-local detail = LOC('$$$/AgDevelop/Panel/Detail=Detail')
-local develop = LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop')
-local developPreset = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset')
-local developPresets = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets')
-local effects = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects')
-local general = LOC('$$$/WFCatSearch/TermCategories/General=General')
-local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select').. ' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
-local keyshortcuts = LOC('$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User')
-local keyword = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword')
-local keywords = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords')
-local lensCorrections = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections')
-local library = LOC('$$$/AgLibraryModule/ModuleTitle=Library')
-local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
-local primaryDisplay = LOC('$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Display')
-local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
-local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profile")
-local reset = LOC('$$$/AgDevelop/Panel/ResetButton=Reset')
-local resetColorAdjustments = reset..' '..colorAdjustments
-local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
-local show = LOC('$$$/AgLibrary/LibraryInfo/Show=Show')
-local splitToning = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SplitToning=Split Toning')
-local toneCurve = LOC('$$$/AgDevelop/CameraRawPanel/TargetName/ToneCurve=Tone Curve')
-local transform = LOC('$$$/AgDevelop/CameraRawPanel/Transform=Transform')
---local viewModes = LOC('$$$/AgDevelop/Toolbar/ViewModesTool=View Modes')
-local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/WhiteBalance=White Balance')
-
 --local coarse = LOC('$$$/AgPrint/CalibrationDialog/Coarse=Coarse')
 --local fine = LOC('$$$/AgPrint/CalibrationDialog/Fine=Fine')
-local key = LOC('$$$/MIDI2LR/Shortcuts/Key=Key')
-local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter')
-
+--local viewModes = LOC('$$$/AgDevelop/Toolbar/ViewModesTool=View Modes')
+local PV2003and2010 = 'PV2003'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV2010'
+local PV2010and2012 = 'PV2010'..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..'PV2012'
 local brush = LOC('$$$/TouchWorkspace/Adjustments/Local/Brush=Brush')
+local developPreset = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Single=Develop Preset')
 local feather = LOC('$$$/AgDevelop/Toolbar/Localized/BrushFeather=Feather')
+local key = LOC('$$$/MIDI2LR/Shortcuts/Key=Key')
+local keyword = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keyword=Keyword')
 local larger = LOC('$$$/AgEmail/FontSize/larger=larger')
+local primaryDisplay = LOC('$$$/AgPhotoBin/Tooltip/PrimaryViewMode=Primary Display')
+local profile = LOC('$$$/AgDevelop/CameraRawPanel/Profile=Profile:')
+local reset = LOC('$$$/AgDevelop/Panel/ResetButton=Reset')
+local show = LOC('$$$/AgLibrary/LibraryInfo/Show=Show')
 local size = LOC('$$$/AgDevelop/Toolbar/Localized/BrushSize=Size')
 local smaller = LOC('$$$/AgEmail/FontSize/smaller=smaller')
+local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/WhiteBalance=White Balance')
+
+--Groups (but translation may be used for specific actions as well
+--Listing the groups here makes it easier to understand layout, but doesn't change how the program works
+--If the group was listed above this comment, it'd still work ok, but it would be more confusing to the reader
+local keyshortcuts = LOC('$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User')
+local commandseries = LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands')
+local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter')
+local libraryview = LOC('$$$/AgLibraryModule/ModuleTitle=Library').. '\226\128\148' .. LOC('$$$/AgLibrary/Help/Shortcuts/Header/ViewShortcuts=View')
+local rating = LOC('$$$/AgLibrary/Help/Shortcuts/Header/RatingsShortcuts=Rating')
+local flagging = LOC('$$$/AgLibrary/Help/Shortcuts/Header/FlaggingShortcuts=Flagging')
+local photos = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ImageShortcuts=Photos')
+--local general = LOC('$$$/WFCatSearch/TermCategories/General=General')
+--local library = LOC('$$$/AgLibraryModule/ModuleTitle=Library')
+local develop = LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop')
+local basicTone = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/BasicTone=Basic Tone')
+local toneCurve = LOC('$$$/AgDevelop/CameraRawPanel/TargetName/ToneCurve=Tone Curve')
+local colorAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/ColorAdjustments=Color Adjustments')
+local resetColorAdjustments = reset..' '..colorAdjustments
+local splitToning = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/SplitToning=Split Toning')
+local detail = LOC('$$$/AgDevelop/Panel/Detail=Detail')
+local lensCorrections = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LensCorrections=Lens Corrections')
+local transform = LOC('$$$/AgDevelop/CameraRawPanel/Transform=Transform')
+local effects = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Effects=Effects')
+local calibration = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Calibration=Calibration')
+local developPresets = LOC('$$$/AgLibrary/Filter/BrowserCriteria/DevelopPreset/Plural=Develop Presets')
+local keywords = LOC('$$$/AgLibrary/Filter/BrowserCriteria/Keywords=Keywords')
+local localizedAdjustments = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/LocalAdjustments=Local Adjustments')
+local crop = LOC('$$$/AgCameraRawNamedSettings/SaveNamedDialog/Crop=Crop')
+local gotoToolModulePanel = LOC('$$$/AgDialogs/Select=Select').. ' '..LOC('$$$/AgDevelop/Menu/Tools=Tools'):gsub('&','')..LOC('$$$/AgStringUtils/localizedList/separatorString=, ')..LOC('$$$/Application/Menu/Window/Modules=Modules:'):gsub(':','')..LOC('$$$/AgStringUtils/localizedList/finalSeparatorString= and ')..LOC('$$$/AgPreferences/Interface/GroupTitle/Panels=Panels')
+local secondaryDisplay = LOC('$$$/AgApplication/Menu/Window/SecondaryDisplay=Secondary Display')
+local profiles = LOC("$$$/CRaw/Style/ProfileGroup/Profiles=Profiles")
 
 --[[----------------------------------------------------------------------------
   -----------------------------------------------------------------------------]]
@@ -137,6 +143,16 @@ local DataBase = {
   {Command='Key36Key35',Type='repeat',Translation=key..' 36 – '..key..' 35',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key36 signals to Lightroom, counterclockwise Key35. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
   {Command='Key38Key37',Type='repeat',Translation=key..' 38 – '..key..' 37',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key38 signals to Lightroom, counterclockwise Key37. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
   {Command='Key40Key39',Type='repeat',Translation=key..' 40 – '..key..' 39',Group=keyshortcuts,Explanation='Turning knob clockwise sends Key40 signals to Lightroom, counterclockwise Key39. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
+  --command series
+  {Command='ActionSeries1',Type='button',Translation=commandseries .. ' 1',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries2',Type='button',Translation=commandseries .. ' 2',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries3',Type='button',Translation=commandseries .. ' 3',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries4',Type='button',Translation=commandseries .. ' 4',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries5',Type='button',Translation=commandseries .. ' 5',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries6',Type='button',Translation=commandseries .. ' 6',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries7',Type='button',Translation=commandseries .. ' 7',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries8',Type='button',Translation=commandseries .. ' 8',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
+  {Command='ActionSeries9',Type='button',Translation=commandseries .. ' 9',Group=commandseries,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'}, 
   --library filters
   {Command='Filter_1',Type='button',Translation=filter..' 1',Group=filter,Explanation='Library filter 1. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},
   {Command='Filter_2',Type='button',Translation=filter..' 2',Group=filter,Explanation='Library filter 2. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},
@@ -150,83 +166,54 @@ local DataBase = {
   {Command='Filter_10',Type='button',Translation=filter..' 10',Group=filter,Explanation='Library filter 10. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},  
   {Command='Filter_11',Type='button',Translation=filter..' 11',Group=filter,Explanation='Library filter 11. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},  
   {Command='Filter_12',Type='button',Translation=filter..' 12',Group=filter,Explanation='Library filter 12. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},  
+  --library view
+  {Command='SwToMlibrary',Type='button',Translation=show..' '..LOC('$$$/AgLibraryModule/ModuleTitle=Library'),Group=libraryview,Explanation='Switch to Library module.'},
+  {Command='ShoVwpeople',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/People=People'),Group=libraryview,Explanation='In the People view, the different faces are organized by people stacks.'},  
+  {Command='ShoVwgrid',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Grid=Grid'),Group=libraryview,Explanation='Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes.'},
+  {Command='ShoVwloupe',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe'),Group=libraryview,Explanation='Displays a single photo. Zoom levels up to 11:1 are available.'},
+  {Command='ShoVwcompare',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Compare=Compare'),Group=libraryview,Explanation='Displays photos side by side so that you can evaluate them.'},
+  {Command='ShoVwsurvey',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Survey=Survey'),Group=libraryview,Explanation='Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell.'},
+  {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%&', ''),Group=libraryview,Explanation='Changes the screen mode to Full Screen and Hide Panels. Supported in LR versions 7.4 and later.'},
+  {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullscreenPreview=Full screen preview'):gsub('%&', ''),Group=libraryview,Explanation='Changes the screen mode to Full Screen Preview. Supported in LR versions 7.4 and later.'},
+  {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('&',''),Group=libraryview,Explanation=''},
+  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=libraryview,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
+  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=libraryview,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
+  {Command='ZoomInLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In'),Group=libraryview,Explanation=''},
+  {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=libraryview,Explanation=''},
+  {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=libraryview,Explanation=''},
+  {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=libraryview,libraryview=''},
+--rating
+  {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=rating,Explanation=''},
+  {Command='SetRating1',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating1=1 Star'):gsub('&',''),Group=rating,Explanation=''},
+  {Command='SetRating2',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating2=&2 Stars'):gsub('&',''),Group=rating,Explanation=''},
+  {Command='SetRating3',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating3=&3 Stars'):gsub('&',''),Group=rating,Explanation=''},
+  {Command='SetRating4',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating4=&4 Stars'):gsub('&',''),Group=rating,Explanation=''},
+  {Command='SetRating5',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating5=&5 Stars'):gsub('&',''),Group=rating,Explanation=''},
+  {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=rating,Explanation=''},
+  {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=rating,Explanation=''},
+  --flagging
+  {Command='Pick',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag'),Group=flagging,Explanation=''},
+  {Command='Reject',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag'),Group=flagging,Explanation=''},
+  {Command='RemoveFlag',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetPick/Unflagged=Unflagged'):gsub('&',''),Group=flagging,Explanation=''},
+  {Command='ToggleBlue',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelBlue=Blue')),Group=flagging,Explanation=''},
+  {Command='ToggleGreen',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelGreen=Green')),Group=flagging,Explanation=''},
+  {Command='ToggleRed',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelRed=Red')),Group=flagging,Explanation=''},
+  {Command='TogglePurple',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelPurple=Purple')),Group=flagging,Explanation=''},
+  {Command='ToggleYellow',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelYellow=Yellow')),Group=flagging,Explanation=''},
+  --photos
+  {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=photos,Explanation='Edit the current photo in Photoshop. Supported in LR versions 7.4 and later.'},  
+  {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export=Export...'):gsub('%&',''),Group=photos,Explanation='Opens export dialog for the current photos. Supported in LR versions 7.4 and later.'},
+  {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%&',''),Group=photos,Explanation='Opens export with previous settings for the current photos. Supported in LR versions 7.4 and later.'},
+  {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},   
+  {Command='Select1Left',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=photos,Explanation='Extend selection one picture to the left.'},
+  {Command='Select1Right',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=photos,Explanation='Extend selection one picture to the right.'},
+  {Command='NextPrev',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo')..' — '..LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation='Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
+  {Command='Next',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo'),Group=photos,Explanation=''},
+  {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
+  {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left. Supported in LR versions 7.4 and later.'},
+  {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=photos,Explanation='Rotates all selected photos right. Supported in LR versions 7.4 and later.'},
 
-  --General Workspace
-  --workspace: grid view options
-  {Command='ShoVwgrid',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Grid=Grid'),Group=general,Explanation='Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes.'},
-  --workspace: loupe view
-  {Command='ShoVwloupe',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe'),Group=general,Explanation='Displays a single photo. Zoom levels up to 11:1 are available.'},  --workspace: compare view
-  --workspace: compare view
-  {Command='ShoVwcompare',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Compare=Compare'),Group=general,Explanation='Displays photos side by side so that you can evaluate them.'},
-  --workspace: survey 
-  {Command='ShoVwsurvey',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Survey=Survey'),Group=general,Explanation='Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell.'},
-  {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%&', ''),Group=general,Explanation='Changes the screen mode to Full Screen and Hide Panels. Supported in LR versions 7.4 and later.'},
-  {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullscreenPreview=Full screen preview'):gsub('%&', ''),Group=general,Explanation='Changes the screen mode to Full Screen Preview. Supported in LR versions 7.4 and later.'},
-  --workspace: zoom
-  {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('&',''),Group=general,Explanation=''},
-  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=general,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
-  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=general,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
-  {Command='ZoomInLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In'),Group=general,Explanation=''},
-  {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=general,Explanation=''},
-  {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=general,Explanation=''},
-  {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=general,Explanation=''},
 
-  --workspace: view options
-  --workspace: panels
-  --workspace: Selections
-  {Command='SelectRightLeft',Type='repeat',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=general,Explanation='Extend selection to right or left. Turning knob clockwise sends select Right signals to Lightroom, counterclockwise select Left. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},   
-  {Command='Select1Left',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Left=Left'),Group=general,Explanation='Extend selection one picture to the left.'},
-  {Command='Select1Right',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Edit/AddToSelection=Add to Selection')..' '..LOC('$$$/AgWatermarking/Alignment/Right=Right'),Group=general,Explanation='Extend selection one picture to the right.'},
-  {Command='NextPrev',Type='repeat',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo')..' — '..LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=general,Explanation='Move to next or previous photo. Turning knob clockwise sends Next signals to Lightroom, counterclockwise Previous. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
-  {Command='Next',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Next_Photo=Next Photo'),Group=general,Explanation=''},
-  {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=general,Explanation=''},
-  {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=general,Explanation='Rotates all selected photos left. Supported in LR versions 7.4 and later.'},
-  {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=general,Explanation='Rotates all selected photos right. Supported in LR versions 7.4 and later.'},
-  {Command='ActionSeries1',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 1',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries2',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 2',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries3',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 3',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries4',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 4',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries5',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 5',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries6',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 6',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries7',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 7',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries8',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 8',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-  {Command='ActionSeries9',Type='button',Translation=LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands') .. ' 9',Group=general,Explanation= 'Sends a series of button commands. See [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands) for more information.'},
-
-  --workspace: screen mode
-  --workspace: Lights Out
-  --photomerge
-  --edit in
-  --Library
-  {Command='SwToMlibrary',Type='button',Translation=show..' '..LOC('$$$/AgLibraryModule/ModuleTitle=Library'),Group=library,Explanation='Switch to Library module.'},
-  --library: quick collection
-  --library: stacking
-  --library: flags
-  {Command='Pick',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetPick=Set Pick Flag'),Group=library,Explanation=''},
-  {Command='Reject',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/SetReject=Set Rejected Flag'),Group=library,Explanation=''},
-  {Command='RemoveFlag',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetPick/Unflagged=Unflagged'):gsub('&',''),Group=library,Explanation=''},
-  --library: ratings
-  {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=library,Explanation=''},
-  {Command='SetRating1',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating1=1 Star'):gsub('&',''),Group=library,Explanation=''},
-  {Command='SetRating2',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating2=&2 Stars'):gsub('&',''),Group=library,Explanation=''},
-  {Command='SetRating3',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating3=&3 Stars'):gsub('&',''),Group=library,Explanation=''},
-  {Command='SetRating4',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating4=&4 Stars'):gsub('&',''),Group=library,Explanation=''},
-  {Command='SetRating5',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating5=&5 Stars'):gsub('&',''),Group=library,Explanation=''},
-  {Command='IncreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/IncreaseRating=Increase Rating'),Group=library,Explanation=''},
-  {Command='DecreaseRating',Type='button',Translation=LOC('$$$/AgLibrary/Ops/DecreaseRating=Decrease Rating'),Group=library,Explanation=''},
-  --library: color flags
-  {Command='ToggleBlue',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelBlue=Blue')),Group=library,Explanation=''},
-  {Command='ToggleGreen',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelGreen=Green')),Group=library,Explanation=''},
-  {Command='ToggleRed',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelRed=Red')),Group=library,Explanation=''},
-  {Command='TogglePurple',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelPurple=Purple')),Group=library,Explanation=''},
-  {Command='ToggleYellow',Type='button',Translation=LOC('$$$/AgLibrary/Undo/ToggleColorLabel=Label ^1 Enable/Disable',LOC('$$$/LibraryImporter/ColorLabelYellow=Yellow')),Group=library,Explanation=''},
-  {Command='EditPhotoshop',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Edit_in_Photoshop=Edit in Photoshop'),Group=library,Explanation='Edit the current photo in Photoshop. Supported in LR versions 7.4 and later.'},  
-  {Command='openExportDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export=Export...'):gsub('%&',''),Group=library,Explanation='Opens export dialog for the current photos. Supported in LR versions 7.4 and later.'},
-  {Command='openExportWithPreviousDialog',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Export/ExportAgain=Export again'):gsub('%&',''),Group=library,Explanation='Opens export with previous settings for the current photos. Supported in LR versions 7.4 and later.'},
-
-  --library: rotation
-  --library: delete
-  --library: face recognition
-  {Command='ShoVwpeople',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/People=People'),Group=library,Explanation='In the People view, the different faces are organized by people stacks.'},
   --Develop
   {Command='SwToMdevelop',Type='button',Translation=show..' '..LOC('$$$/SmartCollection/Criteria/Heading/Develop=Develop'),Group=develop,Explanation='Switch to Develop module.'},
   --develop: copy paste sync
