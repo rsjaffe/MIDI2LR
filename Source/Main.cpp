@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <fstream>
 #include <memory>
+#include <mutex>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
 
@@ -170,15 +171,18 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // This is called when the application is being asked to quit: you can
          // ignore this request and let the application carry on running, or call
          // quit() to allow the application to close.
-         if (profile_.ProfileUnsaved() && main_window_) {
-            const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
-                juce::translate("MIDI2LR profiles"),
-                juce::translate(
-                    "Profile changed. Do you want to save it before exiting the program?"));
-            if (result)
-               main_window_->SaveProfile();
-         }
-         quit();
+         static std::once_flag of; // function might be called twice during LR shutdown
+         std::call_once(of, [this]() {
+            if (profile_.ProfileUnsaved() && main_window_) {
+               const auto result = juce::NativeMessageBox::showYesNoBox(
+                   juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
+                   juce::translate(
+                       "Profile changed. Do you want to save it before exiting the program?"));
+               if (result)
+                  main_window_->SaveProfile();
+            }
+            quit();
+         });
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -296,7 +300,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                cereal::BinaryInputArchive iarchive(infile);
                iarchive(controls_model_);
 #ifdef _WIN32
-               rsj::Log("Legacy ControlsModel archive loaded in Main from " + juce::String(p.c_str()));
+               rsj::Log(
+                   "Legacy ControlsModel archive loaded in Main from " + juce::String(p.c_str()));
 #else
                rsj::Log("Legacy ControlsModel archive loaded in Main from " + p);
 #endif
@@ -373,8 +378,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
-   UpdateCurrentLogger dummy_{logger_.get()}; // forcing assignment to static early in
-                                              // construction
+   // forcing assignment to static early in construction
+   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ {logger_.get()};
    Profile profile_{};
    CommandSet command_set_{};
    ControlsModel controls_model_{};
