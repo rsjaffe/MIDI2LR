@@ -65,16 +65,16 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             ccopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to
                                                                                // 0-based
                 gsl::narrow_cast<short>(message_.data));
-            juce::DialogWindow::showModalDialog(TRANS("Adjust CC dialog"), &ccopt, nullptr,
-                juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+            juce::DialogWindow::showModalDialog(juce::translate("Adjust CC dialog"), &ccopt,
+                nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
          }
          case rsj::MsgIdEnum::kPitchBend: {
             PWoptions pwopt;
             pwopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1)); // convert 1-based
                                                                                 // to 0 based
-            juce::DialogWindow::showModalDialog(TRANS("Adjust PW dialog"), &pwopt, nullptr,
-                juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+            juce::DialogWindow::showModalDialog(juce::translate("Adjust PW dialog"), &pwopt,
+                nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
          }
          default:

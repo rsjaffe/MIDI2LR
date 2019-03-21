@@ -255,19 +255,19 @@ void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked
       if (connected) {
          if (sending_blocked) {
             connection_label_.setText(
-                TRANS("Sending halted"), juce::NotificationType::dontSendNotification);
+                juce::translate("Sending halted"), juce::NotificationType::dontSendNotification);
             connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::yellow);
          }
          else {
             connection_label_.setText(
-                TRANS("Connected to LR"), juce::NotificationType::dontSendNotification);
+                juce::translate("Connected to LR"), juce::NotificationType::dontSendNotification);
             connection_label_.setColour(
                 juce::Label::backgroundColourId, juce::Colours::greenyellow);
          }
       }
       else {
          connection_label_.setText(
-             TRANS("Not connected to LR"), juce::NotificationType::dontSendNotification);
+             juce::translate("Not connected to LR"), juce::NotificationType::dontSendNotification);
          connection_label_.setColour(juce::Label::backgroundColourId, juce::Colours::red);
       }
    }
@@ -329,13 +329,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
          juce::WildcardFileFilter wildcard_filter{
-             "*.xml", juce::String(), TRANS("MIDI2LR profiles")};
+             "*.xml", juce::String(), juce::translate("MIDI2LR profiles")};
          juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
                                                 | juce::FileBrowserComponent::saveMode
                                                 | juce::FileBrowserComponent::warnAboutOverwriting,
              profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{TRANS("Save profile"),
-             TRANS("Enter filename to save profile"), browser, true, juce::Colours::lightgrey};
+         juce::FileChooserDialogBox dialog_box{juce::translate("Save profile"),
+             juce::translate("Enter filename to save profile"), browser, true,
+             juce::Colours::lightgrey};
          if (dialog_box.show()) {
             const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
             profile_.ToXmlFile(selected_file);
@@ -355,12 +356,12 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          if (!profile_directory.exists())
             profile_directory = juce::File::getCurrentWorkingDirectory();
          juce::WildcardFileFilter wildcard_filter{
-             "*.xml", juce::String(), TRANS("MIDI2LR profiles")};
+             "*.xml", juce::String(), juce::translate("MIDI2LR profiles")};
          juce::FileBrowserComponent browser{
              juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
              profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{TRANS("Open profile"),
-             TRANS("Select a profile to open"), browser, true, juce::Colours::lightgrey};
+         juce::FileChooserDialogBox dialog_box{juce::translate("Open profile"),
+             juce::translate("Select a profile to open"), browser, true, juce::Colours::lightgrey};
          if (dialog_box.show()) {
             if (const auto parsed{juce::XmlDocument::parse(browser.getSelectedFile(0))}) {
                std::unique_ptr<juce::XmlElement> xml_element{parsed};
@@ -382,7 +383,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       }
       else if (button == &settings_button_) {
          juce::DialogWindow::LaunchOptions dialog_options;
-         dialog_options.dialogTitle = TRANS("Settings");
+         dialog_options.dialogTitle = juce::translate("Settings");
          // create new object
          auto component = std::make_unique<SettingsComponent>(settings_manager_);
          component->Init();

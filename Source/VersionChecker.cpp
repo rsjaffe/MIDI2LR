@@ -69,14 +69,14 @@ void VersionChecker::handleAsyncUpdate()
    try {
       // show a dialog box indicating there is a newer version available
       juce::DialogWindow::LaunchOptions dialog_options;
-      dialog_options.dialogTitle = TRANS("New Version Available!");
+      dialog_options.dialogTitle = juce::translate("New Version Available!");
       const auto major{(new_version_ & 0xFF000000) >> 24};
       const auto minor{(new_version_ & 0xFF0000) >> 16};
       const auto rev{(new_version_ & 0xFF00) >> 8};
       const auto build{(new_version_ & 0xFF)};
       std::ostringstream version_string;
-      version_string << TRANS("New version is available for MIDI2LR!") << ' ' << major << '.'
-                     << minor << '.' << rev << '.' << build;
+      version_string << juce::translate("New version is available for MIDI2LR!") << ' ' << major
+                     << '.' << minor << '.' << rev << '.' << build;
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
       auto button = std::make_unique<juce::HyperlinkButton>(version_string.str(), download_url);
       dialog_options.content.setOwned(button.release());

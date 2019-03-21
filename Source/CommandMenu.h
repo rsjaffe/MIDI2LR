@@ -46,4 +46,3 @@ class CommandMenu final : public juce::TextButton {
 };
 
 #endif // MIDI2LR_COMMANDMENU_H_INCLUDED
-
