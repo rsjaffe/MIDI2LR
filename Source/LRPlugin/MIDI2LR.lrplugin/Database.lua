@@ -68,7 +68,7 @@ local whiteBalance = LOC('$$$/AgCameraRawNamedSettings/CameraRawSettingMapping/W
 local keyshortcuts = LOC('$$$/AgLayoutShortcuts/Header/UISortcuts=Keyboard Shortcuts for User')
 local commandseries = LOC('$$$/MIDI2LR/Shortcuts/SeriesofCommands=Series of commands')
 local filter= LOC('$$$/Library/Filter/FilterLabel=Library filter')
-local libraryview = LOC('$$$/AgLibraryModule/ModuleTitle=Library').. '\226\128\148' .. LOC('$$$/AgLibrary/Help/Shortcuts/Header/ViewShortcuts=View')
+local view = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ViewShortcuts=View')
 local rating = LOC('$$$/AgLibrary/Help/Shortcuts/Header/RatingsShortcuts=Rating')
 local flagging = LOC('$$$/AgLibrary/Help/Shortcuts/Header/FlaggingShortcuts=Flagging')
 local photos = LOC('$$$/AgLibrary/Help/Shortcuts/Header/ImageShortcuts=Photos')
@@ -166,22 +166,25 @@ local DataBase = {
   {Command='Filter_10',Type='button',Translation=filter..' 10',Group=filter,Explanation='Library filter 10. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},  
   {Command='Filter_11',Type='button',Translation=filter..' 11',Group=filter,Explanation='Library filter 11. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},  
   {Command='Filter_12',Type='button',Translation=filter..' 12',Group=filter,Explanation='Library filter 12. See [Library Filters](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#library-filter) for more information.'},  
-  --library view
-  {Command='SwToMlibrary',Type='button',Translation=show..' '..LOC('$$$/AgLibraryModule/ModuleTitle=Library'),Group=libraryview,Explanation='Switch to Library module.'},
-  {Command='ShoVwpeople',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/People=People'),Group=libraryview,Explanation='In the People view, the different faces are organized by people stacks.'},  
-  {Command='ShoVwgrid',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Grid=Grid'),Group=libraryview,Explanation='Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes.'},
-  {Command='ShoVwloupe',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe'),Group=libraryview,Explanation='Displays a single photo. Zoom levels up to 11:1 are available.'},
-  {Command='ShoVwcompare',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Compare=Compare'),Group=libraryview,Explanation='Displays photos side by side so that you can evaluate them.'},
-  {Command='ShoVwsurvey',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Survey=Survey'),Group=libraryview,Explanation='Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell.'},
-  {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%&', ''),Group=libraryview,Explanation='Changes the screen mode to Full Screen and Hide Panels. Supported in LR versions 7.4 and later.'},
-  {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullscreenPreview=Full screen preview'):gsub('%&', ''),Group=libraryview,Explanation='Changes the screen mode to Full Screen Preview. Supported in LR versions 7.4 and later.'},
-  {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('&',''),Group=libraryview,Explanation=''},
-  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=libraryview,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
-  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=libraryview,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
-  {Command='ZoomInLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In'),Group=libraryview,Explanation=''},
-  {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=libraryview,Explanation=''},
-  {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=libraryview,Explanation=''},
-  {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=libraryview,libraryview=''},
+  --view
+  {Command='SwToMlibrary',Type='button',Translation=show..' '..LOC('$$$/AgLibraryModule/ModuleTitle=Library'),Group=view,Explanation='Switch to Library module.'},
+  {Command='ShoVwpeople',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/People=People'),Group=view,Explanation='In the People view, the different faces are organized by people stacks.'},  
+  {Command='ShoVwgrid',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Grid=Grid'),Group=view,Explanation='Displays photos as thumbnails in cells, which can be viewed in compact and expanded sizes.'},
+  {Command='GridViewStyle',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleGridViews=Cycle grid views'),Group=view,Explanation='Changes the grid view style. Supported in LR versions 7.4 and later.'},
+  {Command='ShoVwloupe',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Loupe=Loupe'),Group=view,Explanation='Displays a single photo. Zoom levels up to 11:1 are available.'},
+  {Command='CycleLoupeViewInfo',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/LoupeOverlay=Loupe')..' '..LOC('$$$/AgLibrary/Menu/View/LoupeViewInfo/CycleViewStyle=Cycle view style'):gsub('%&', ''),Group=view,Explanation='Changes the Loupe View Info style. Only works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
+  {Command='ShoVwcompare',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Compare=Compare'),Group=view,Explanation='Displays photos side by side so that you can evaluate them.'},
+  {Command='ShoVwsurvey',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Library/Survey=Survey'),Group=view,Explanation='Displays the active photo with selected photos so that you can evaluate them. The active photo has the lightest colored cell.'},
+  {Command='ShoFullHidePanels',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullScreenHidePanels=Full screen, hide panels'):gsub('%&', ''),Group=view,Explanation='Changes the screen mode to Full Screen and Hide Panels. Supported in LR versions 7.4 and later.'},
+  {Command='ShoFullPreview',Type='button',Translation=LOC('$$$/Application/Menu/Window/FullscreenPreview=Full screen preview'):gsub('%&', ''),Group=view,Explanation='Changes the screen mode to Full Screen Preview. Supported in LR versions 7.4 and later.'},
+  {Command='NextScreenMode',Type='button',Translation=LOC('$$$/AgLibrary/Help/Shortcuts/CycleToNextScreenMode=Cycle to next screen mode'),Group=view,Explanation='Changes to the next screen mode. Supported in LR versions 7.4 and later.'},
+  {Command='ToggleZoomOffOn',Type='button',Translation=LOC('$$$/AgLibrary/Menu/View/ToggleZoomView=Enable/Disable Zoom'):gsub('&',''),Group=view,Explanation=''},
+  {Command='ZoomInOut',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=view,Explanation='Turning knob clockwise zooms in, counterclockwise zooms out. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
+  {Command='ZoomOutIn',Type='repeat',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some')..' '..LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=view,Explanation='Turning knob clockwise zooms out, counterclockwise zooms in. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},    
+  {Command='ZoomInLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomIn=Zoom In'),Group=view,Explanation=''},
+  {Command='ZoomInSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomInSome=Zoom In Some'),Group=view,Explanation=''},
+  {Command='ZoomOutSmallStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOutSome=Zoom Out Some'),Group=view,Explanation=''},
+  {Command='ZoomOutLargeStep',Type='button',Translation=LOC('$$$/AgApplication/Menu/Window/SecondMonitor/ZoomOut=Zoom Out'),Group=view,Explanation=''},
 --rating
   {Command='SetRating0',Type='button',Translation=LOC('$$$/AgLibrary/Filter/Stars=^1 Stars','0'),Group=rating,Explanation=''},
   {Command='SetRating1',Type='button',Translation=LOC('$$$/AgLibrary/Menu/Photo/SetRating/Win/Rating1=1 Star'):gsub('&',''),Group=rating,Explanation=''},
@@ -233,6 +236,7 @@ local DataBase = {
   {Command='RedoUndo',Type='repeat',Translation=LOC('$$$/Bezel/RedoTitle=Redo')..' – '..LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Turning knob clockwise sends Redo signals to Lightroom, counterclockwise Undo. Not suitable for controls with hard stops like faders. This command not usable in [Series of Commands](https://github.com/rsjaffe/MIDI2LR/wiki/Plugin-Options-Dialog#series-of-commands).'},
   {Command='Undo',Type='button',Translation=LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation=''},
   {Command='Redo',Type='button',Translation=LOC('$$$/Bezel/RedoTitle=Redo'),Group=develop,Explanation=''},
+  {Command='ShowClipping',Type='button',Translation=LOC('$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show clipping'),Group=develop,Explanation='Toggles clipping indicators on/off. Must be called while the Develop module is active. Supported in LR versions 7.4 and later.'},
   --develop: before/after previews
   {Command='ShoVwdevelop_before_after_horiz',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right'),Group=develop,Explanation=''},
   {Command='ShoVwdevelop_before_after_vert',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterTB=Before/After Top/Bottom'),Group=develop,Explanation=''},

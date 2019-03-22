@@ -61,6 +61,7 @@ if Ut.LrVersion74orMore
 then
   needsModule[LrDevelopController.setAutoTone]         = {module = 'develop', photoSelected = true }
   needsModule[LrDevelopController.setAutoWhiteBalance] = {module = 'develop', photoSelected = true }
+  needsModule[LrDevelopController.showClipping]        = {module = 'develop', photoSelected = false}
 end
 
 if Ut.LrVersion66orMore
