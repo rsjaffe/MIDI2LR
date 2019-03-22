@@ -16,3 +16,4 @@
 "$$$/MIDI2LR/Profiles/Next=다음 프로필"
 "$$$/MIDI2LR/Profiles/Previous=이전 프로필"
 "$$$/MIDI2LR/Versions/notfor=작동하지 않는다"
+"$$$/MIDI2LR/ShortCuts/ShowHide=보이거나 숨기기"

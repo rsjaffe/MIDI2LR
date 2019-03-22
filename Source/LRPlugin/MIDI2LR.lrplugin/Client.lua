@@ -468,6 +468,7 @@ LrTasks.startAsyncTask(
       ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping available in Lightroom verison 7.4 and later only.') end
+      ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay available in Lightroom version 7.4 and later only.') end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
       ACTIONS.QuickDevCropAspectOriginal   = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
       ACTIONS.QuickDevCropAspectAsShot     = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
@@ -498,6 +499,7 @@ LrTasks.startAsyncTask(
       ACTIONS.SetTreatmentColor            = CU.wrapForEachPhoto('SetTreatmentColor')
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
+      ACTIONS.ToggleOverlay                = LrDevelopController.toggleOverlay
       ACTIONS.ShowClipping                 = CU.wrapFOM(LrDevelopController.showClipping)
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
       ACTIONS.QuickDevCropAspectOriginal   = function() CU.QuickCropAspect('original') end
