@@ -44,16 +44,6 @@ SettingsManager::SettingsManager(
       file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
       file_options.storageFormat = juce::PropertiesFile::storeAsXML;
       properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
-      throw;
-   }
-}
-
-void SettingsManager::Start()
-{
-   try {
       if (const auto ptr = lr_ipc_out_.lock())
          // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
          // settings on connection

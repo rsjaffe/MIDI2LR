@@ -34,7 +34,6 @@ class SettingsManager final {
    SettingsManager(SettingsManager&& other) = delete;
    SettingsManager& operator=(const SettingsManager& other) = delete;
    SettingsManager& operator=(SettingsManager&& other) = delete;
-   void Start();
    [[nodiscard]] bool GetPickupEnabled() const noexcept;
    void SetPickupEnabled(bool enabled);
    [[nodiscard]] juce::String GetProfileDirectory() const noexcept;

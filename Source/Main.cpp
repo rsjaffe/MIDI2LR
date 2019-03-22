@@ -121,10 +121,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             CerealLoad();
             midi_receiver_->Start();
             midi_sender_->Start();
-            lr_ipc_out_->Start(*midi_receiver_);
-            profile_manager_.Start(*midi_receiver_);
+            lr_ipc_out_->Start();
             lr_ipc_in_->Start();
-            settings_manager_.Start();
             main_window_ =
                 std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
                     profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
@@ -386,8 +384,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
    std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
    std::shared_ptr<LrIpcOut> lr_ipc_out_{
-       std::make_shared<LrIpcOut>(controls_model_, profile_, midi_sender_)};
-   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_};
+       std::make_shared<LrIpcOut>(controls_model_, profile_, midi_sender_, *midi_receiver_)};
+   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, *midi_receiver_};
    std::shared_ptr<LrIpcIn> lr_ipc_in_{
        std::make_shared<LrIpcIn>(controls_model_, profile_manager_, profile_, midi_sender_)};
    SettingsManager settings_manager_{profile_manager_, lr_ipc_out_};

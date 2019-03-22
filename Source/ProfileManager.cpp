@@ -31,25 +31,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Profile.h"
 using namespace std::literals::string_literals;
 
-ProfileManager::ProfileManager(
-    ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out) noexcept
+ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile,
+    std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver) noexcept
     : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{std::move(out)}
 {
-}
-
-void ProfileManager::Start(MidiReceiver& midi_receiver)
-{
-   try {
-      if (const auto ptr = lr_ipc_out_.lock())
-         // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-         // settings on connection
-         ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
-      midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
+   midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
+   if (const auto ptr = lr_ipc_out_.lock())
+      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+      // settings on connection
+      ptr->AddCallback(this, &ProfileManager::ConnectionCallback);
 }
 
 void ProfileManager::SetProfileDirectory(const juce::File& directory)

@@ -52,9 +52,10 @@ namespace {
 } // namespace
 
 LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
-    std::shared_ptr<MidiSender> midi_sender) noexcept
+    std::shared_ptr<MidiSender> midi_sender, MidiReceiver& midi_receiver) noexcept
     : profile_{profile}, controls_model_{c_model}, midi_sender_{std::move(midi_sender)}
 {
+   midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
 }
 
 #pragma warning(push)
@@ -80,12 +81,11 @@ LrIpcOut::~LrIpcOut()
 }
 #pragma warning(pop)
 
-void LrIpcOut::Start(MidiReceiver& midi_receiver)
+void LrIpcOut::Start()
 {
    try {
       connect_timer_.Start();
       send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
-      midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
