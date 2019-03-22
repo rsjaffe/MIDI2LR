@@ -133,11 +133,18 @@ end
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
   if not Ut.LrVersion74orMore then return function() end end -- not supported
   local action = {
+    QuickDevWBAuto                  = function(T) T:quickDevelopSetWhiteBalacne("Auto") end,--balance misspelled in api
+    QuickDevWBCloudy                = function(T) T:quickDevelopSetWhiteBalacne("Cloudy") end,
+    QuickDevWBDaylight              = function(T) T:quickDevelopSetWhiteBalacne("Daylight") end,
+    QuickDevWBFlash                 = function(T) T:quickDevelopSetWhiteBalacne("Flash") end,
+    QuickDevWBFluorescent           = function(T) T:quickDevelopSetWhiteBalacne("Fluorescent") end,
+    QuickDevWBShade                 = function(T) T:quickDevelopSetWhiteBalacne("Shade") end,
+    QuickDevWBTungsten              = function(T) T:quickDevelopSetWhiteBalacne("Tungsten") end,
+    SetTreatmentBW                  = function(T) T:quickDevelopSetTreatment("grayscale") end,
+    SetTreatmentColor               = function(T) T:quickDevelopSetTreatment("color") end,
     addOrRemoveFromTargetCollection = function(T) T:addOrRemoveFromTargetCollection() end,
     openExportDialog                = function(T) T:openExportDialog() end,
     openExportWithPreviousDialog    = function(T) T:openExportWithPreviousDialog() end,
-    SetTreatmentBW                  = function(T) T:quickDevelopSetTreatment("grayscale") end,
-    SetTreatmentColor               = function(T) T:quickDevelopSetTreatment("color") end,
     rotateLeft                      = function(T) T:rotateLeft() end,
     rotateRight                     = function(T) T:rotateRight() end,
   }
@@ -147,6 +154,16 @@ local function wrapForEachPhoto(F) --note lightroom applies this to all selected
     local TargetPhoto  = LrCat:getTargetPhoto()
     if TargetPhoto then
       SelectedAction(TargetPhoto)
+    end
+  end
+end
+
+local function QuickCropAspect(aspect)
+  local TargetPhoto = LrApplication.activeCatalog():getTargetPhoto()
+  if TargetPhoto then
+    TargetPhoto:quickDevelopCropAspect(aspect)
+    if LrApplicationView.getCurrentModuleName() ~= 'develop' then
+      LrDevelopController.revealPanel('crop')
     end
   end
 end
@@ -482,6 +499,7 @@ return {
   FullRefresh = FullRefresh,
   LRValueToMIDIValue = LRValueToMIDIValue,
   MIDIValueToLRValue = MIDIValueToLRValue,
+  QuickCropAspect = QuickCropAspect,
   UpdateCameraProfile = UpdateCameraProfile,
   UpdatePointCurve = UpdatePointCurve,
   execFOM = execFOM,

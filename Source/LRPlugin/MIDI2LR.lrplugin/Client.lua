@@ -454,14 +454,28 @@ LrTasks.startAsyncTask(
       ACTIONS.NextScreenMode               = function() LrDialogs.message('Cycle screen mode availabe in Lightroom version 7.4 and later only.') end
       ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action available in Lightroom version 7.4 and later only.') end
       ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevWBAuto               = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevWBCloudy             = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevWBDaylight           = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevWBFlash              = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevWBFluorescent        = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevWBShade              = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevWBTungsten           = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
       ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
       ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
       ACTIONS.SetTreatmentBW               = function() LrDialogs.message('Set treatment B&W available in Lightroom version 7.4 and later only.') end
-      ACTIONS.SetTreatmentColor               = function() LrDialogs.message('Set treatment Color available in Lightroom version 7.4 and later only.') end
+      ACTIONS.SetTreatmentColor            = function() LrDialogs.message('Set treatment Color available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
       ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping available in Lightroom verison 7.4 and later only.') end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
+      ACTIONS.QuickDevCropAspectOriginal   = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevCropAspectAsShot     = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevCropAspect1x1        = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevCropAspect4x5        = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevCropAspect85x11      = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevCropAspect5x7        = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
+      ACTIONS.QuickDevCropAspect2x3        = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end   
     else
       ACTIONS.AutoTone                     = CU.wrapFOM(LrDevelopController.setAutoTone)
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
@@ -470,7 +484,14 @@ LrTasks.startAsyncTask(
       ACTIONS.GridViewStyle                = LrApplicationView.gridViewStyle
       ACTIONS.NextScreenMode               = LrApplicationView.nextScreenMode
       ACTIONS.openExportDialog             = CU.wrapForEachPhoto('openExportDialog')
-      ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')      
+      ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')  
+      ACTIONS.QuickDevWBAuto               = CU.wrapForEachPhoto('QuickDevWBAuto')
+      ACTIONS.QuickDevWBCloudy             = CU.wrapForEachPhoto('QuickDevWBCloudy')
+      ACTIONS.QuickDevWBDaylight           = CU.wrapForEachPhoto('QuickDevWBDaylight')
+      ACTIONS.QuickDevWBFlash              = CU.wrapForEachPhoto('QuickDevWBFlash')
+      ACTIONS.QuickDevWBFluorescent        = CU.wrapForEachPhoto('QuickDevWBFluorescent')
+      ACTIONS.QuickDevWBShade              = CU.wrapForEachPhoto('QuickDevWBShade')
+      ACTIONS.QuickDevWBTungsten           = CU.wrapForEachPhoto('QuickDevWBTungsten')
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
       ACTIONS.SetTreatmentBW               = CU.wrapForEachPhoto('SetTreatmentBW')
@@ -479,6 +500,13 @@ LrTasks.startAsyncTask(
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.ShowClipping                 = CU.wrapFOM(LrDevelopController.showClipping)
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
+      ACTIONS.QuickDevCropAspectOriginal   = function() CU.QuickCropAspect('original') end
+      ACTIONS.QuickDevCropAspectAsShot     = function() CU.QuickCropAspect('asshot') end
+      ACTIONS.QuickDevCropAspect1x1        = function() CU.QuickCropAspect({w=1,h=1}) end
+      ACTIONS.QuickDevCropAspect4x5        = function() CU.QuickCropAspect({w=4,h=5}) end
+      ACTIONS.QuickDevCropAspect85x11      = function() CU.QuickCropAspect({w=8.5,h=11}) end
+      ACTIONS.QuickDevCropAspect5x7        = function() CU.QuickCropAspect({w=5,h=7}) end
+      ACTIONS.QuickDevCropAspect2x3        = function() CU.QuickCropAspect({w=2,h=3}) end
     end
 
     if not Ut.LrVersion66orMore then
