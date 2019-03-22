@@ -67,10 +67,11 @@ class Profile {
    bool profile_unsaved_{false};
    const CommandSet& command_set_;
    mutable std::shared_mutex mutex_;
-   std::multimap<std::string, rsj::MidiMessageId> command_string_map_;
+   std::multimap<std::string, rsj::MidiMessageId> command_string_map_{};
    std::pair<int, bool> current_sort_{2, true};
-   std::unordered_map<rsj::MidiMessageId, std::string> message_map_;
-   std::vector<rsj::MidiMessageId> command_table_;
+   std::unordered_map<rsj::MidiMessageId, std::string> message_map_{};
+   std::unordered_map<rsj::MidiMessageId, std::string> saved_map_{};
+   std::vector<rsj::MidiMessageId> command_table_{};
 };
 
 inline void Profile::AddCommandForMessage(size_t command, const rsj::MidiMessageId& message)
@@ -183,7 +184,7 @@ inline bool Profile::ProfileUnsaved() const
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return profile_unsaved_ && !command_table_.empty();
+      return profile_unsaved_ && !command_table_.empty() && saved_map_ != message_map_;
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

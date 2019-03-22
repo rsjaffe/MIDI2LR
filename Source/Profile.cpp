@@ -110,6 +110,7 @@ void Profile::FromXml(const juce::XmlElement* root)
       }
       auto guard = std::unique_lock{mutex_};
       Sort_i();
+      saved_map_ = message_map_;
       profile_unsaved_ = false;
    }
    catch (const std::exception& e) {
@@ -248,6 +249,7 @@ void Profile::ToXmlFile(const juce::File& file)
                                   "consider saving to a different location. "
                                   + file.getFullPathName());
          }
+         saved_map_ = message_map_;
          profile_unsaved_ = false;
       }
    }
