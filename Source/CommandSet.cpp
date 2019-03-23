@@ -22,7 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <exception>
 #ifdef _WIN32
-#include <filesystem> //not available in XCode yet
+#   include <filesystem> //not available in XCode yet
 namespace fs = std::filesystem;
 #endif
 #include <fstream>

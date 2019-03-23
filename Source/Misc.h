@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <array>
 #include <atomic>
 #ifdef _WIN32 // not yet available in XCode
-#include <charconv>
+#   include <charconv>
 #endif
 #include <chrono>
 #include <exception>
@@ -42,12 +42,12 @@ static constexpr bool kNdebug = false;
 #endif
 
 #ifdef _WIN32
-#include <emmintrin.h>
-#define CPU_RELAX _mm_pause()
+#   include <emmintrin.h>
+#   define CPU_RELAX _mm_pause()
 constexpr auto MSWindows{true};
 constexpr auto OSX{false};
 #else
-#define CPU_RELAX __builtin_ia32_pause()
+#   define CPU_RELAX __builtin_ia32_pause()
 constexpr auto MSWindows{false};
 constexpr auto OSX{true};
 #endif
@@ -110,10 +110,7 @@ namespace rsj {
          return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
       }
 
-      void unlock() noexcept
-      {
-         flag_.store(false, std::memory_order_release);
-      }
+      void unlock() noexcept { flag_.store(false, std::memory_order_release); }
 
     private:
       std::atomic<bool> flag_{false};
@@ -129,20 +126,11 @@ namespace rsj {
       T& iterable;
    };
 
-   template<typename T> auto begin(ReversionWrapper<T> w)
-   {
-      return std::rbegin(w.iterable);
-   }
+   template<typename T> auto begin(ReversionWrapper<T> w) { return std::rbegin(w.iterable); }
 
-   template<typename T> auto end(ReversionWrapper<T> w)
-   {
-      return std::rend(w.iterable);
-   }
+   template<typename T> auto end(ReversionWrapper<T> w) { return std::rend(w.iterable); }
 
-   template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
-   {
-      return {iterable};
-   }
+   template<typename T> ReversionWrapper<T> Reverse(T&& iterable) { return {iterable}; }
 
 #pragma warning(push)
 #pragma warning(disable : 4127) // constant conditional expression
@@ -224,15 +212,11 @@ namespace rsj {
    {
       std::array<char, 10> str{};
       auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
-      if (ec == std::errc())
-         return std::string(str.data(), p - str.data());
+      if (ec == std::errc()) return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
-   template<class T> std::string NumToChars(T number)
-   {
-      return std::to_string(number);
-   }
+   template<class T> std::string NumToChars(T number) { return std::to_string(number); }
 #endif
 } // namespace rsj
 

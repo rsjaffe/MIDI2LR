@@ -29,21 +29,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "Misc.h"
 #ifdef _WIN32
-#include <utility>
+#   include <utility>
 
-#include "WinDef.h"
-#undef NOUSER
-#undef NOVIRTUALKEYCODES
-#include <Windows.h>
+#   include "WinDef.h"
+#   undef NOUSER
+#   undef NOVIRTUALKEYCODES
+#   include <Windows.h>
 #else
-#include <optional>
+#   include <optional>
 
-#import <CoreFoundation/CoreFoundation.h>
-#import <CoreGraphics/CoreGraphics.h>
-#import <Carbon/Carbon.h>
-#include <libproc.h> //proc_ functions in GetPid
-#include "Ocpp.h"
-#include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
+#   import <CoreFoundation/CoreFoundation.h>
+#   import <CoreGraphics/CoreGraphics.h>
+#   import <Carbon/Carbon.h>
+#   include <libproc.h> //proc_ functions in GetPid
+#   include "Ocpp.h"
+#   include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
 #endif
 
 namespace {
@@ -86,14 +86,10 @@ namespace {
          // shift coded as follows:
          // 1: shift, 2: ctrl, 4: alt, 8: hankaku
          rsj::ActiveModifiers am{};
-         if (mods & 1)
-            am.shift = true;
-         if (mods & 2)
-            am.control = true;
-         if (mods & 4)
-            am.alt_opt = true;
-         if (mods & 8)
-            am.hankaku = true;
+         if (mods & 1) am.shift = true;
+         if (mods & 2) am.control = true;
+         if (mods & 4) am.alt_opt = true;
+         if (mods & 8) am.hankaku = true;
          return {LOBYTE(vk_code_and_shift), am};
       }
       catch (const std::exception& e) {
@@ -161,8 +157,7 @@ namespace {
          proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
          char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
          for (const auto pid : pids) {
-            if (pid == 0)
-               continue;
+            if (pid == 0) continue;
             memset(path_buffer, 0, sizeof(path_buffer));
             proc_pidpath(pid, path_buffer, sizeof(path_buffer));
             if (strlen(path_buffer) > 0
@@ -185,15 +180,12 @@ namespace {
       TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
       CFDataRef data =
           (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-      if (source)
-         CFRelease(source);
+      if (source) CFRelease(source);
       if (!data) { // returns null with Japanese keyboard layout
          source = TISCopyCurrentKeyboardLayoutInputSource();
          data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-         if (source)
-            CFRelease(source);
-         if (!data)
-            return nullptr;
+         if (source) CFRelease(source);
+         if (!data) return nullptr;
       }
       return (const UCKeyboardLayout*)CFDataGetBytePtr(data);
    }
@@ -266,10 +258,8 @@ namespace {
          std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
          for (size_t i = 0; i < 128; ++i) {
             const auto uc = CreateStringForKey((CGKeyCode)i);
-            if (uc.first && !temp_map.count(uc.first))
-               temp_map[uc.first] = {i, false};
-            if (uc.second && !temp_map.count(uc.second))
-               temp_map[uc.second] = {i, true};
+            if (uc.first && !temp_map.count(uc.first)) temp_map[uc.first] = {i, false};
+            if (uc.second && !temp_map.count(uc.second)) temp_map[uc.second] = {i, true};
          }
          return temp_map;
       }
@@ -304,13 +294,11 @@ namespace {
       try {
          CGEventRef d = CGEventCreateKeyboardEvent(NULL, vk, true);
          auto dd = gsl::finally([&d] {
-            if (d)
-               CFRelease(d);
+            if (d) CFRelease(d);
          });
          CGEventRef u = CGEventCreateKeyboardEvent(NULL, vk, false);
          auto du = gsl::finally([&u] {
-            if (u)
-               CFRelease(u);
+            if (u) CFRelease(u);
          });
          CGEventSetFlags(d, flags);
          CGEventSetFlags(u, flags);
@@ -382,20 +370,15 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
          std::tie(vk, vk_mod) = KeyToVk(key);
       // construct virtual keystroke sequence
       std::vector<WORD> strokes{vk}; // start with actual key, then mods
-      if (mods.shift || vk_mod.shift)
-         strokes.push_back(VK_SHIFT);
+      if (mods.shift || vk_mod.shift) strokes.push_back(VK_SHIFT);
       if (vk_mod.control && vk_mod.alt_opt) {
          strokes.push_back(VK_RMENU); // AltGr
-         if (mods.alt_opt)
-            strokes.push_back(VK_MENU);
-         if (mods.control)
-            strokes.push_back(VK_CONTROL);
+         if (mods.alt_opt) strokes.push_back(VK_MENU);
+         if (mods.control) strokes.push_back(VK_CONTROL);
       }
       else {
-         if (mods.alt_opt || vk_mod.alt_opt)
-            strokes.push_back(VK_MENU);
-         if (mods.control || vk_mod.control)
-            strokes.push_back(VK_CONTROL);
+         if (mods.alt_opt || vk_mod.alt_opt) strokes.push_back(VK_MENU);
+         if (mods.control || vk_mod.control) strokes.push_back(VK_CONTROL);
       }
       /* ignored for now
       // see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
@@ -410,9 +393,7 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
       }
       CGKeyCode vk{0};
       CGEventFlags flags{0};
-      if (in_keymap) {
-         vk = mapped_key->second;
-      }
+      if (in_keymap) { vk = mapped_key->second; }
       else {
          const UniChar uc{rsj::Utf8ToUtf16(key)};
          const auto key_code_result = KeyCodeForChar(uc);
@@ -421,17 +402,12 @@ void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexc
             return;
          }
          vk = key_code_result->first;
-         if (key_code_result->second)
-            flags |= kCGEventFlagMaskShift;
+         if (key_code_result->second) flags |= kCGEventFlagMaskShift;
       }
-      if (mods.alt_opt)
-         flags |= kCGEventFlagMaskAlternate;
-      if (mods.command)
-         flags |= kCGEventFlagMaskCommand;
-      if (mods.control)
-         flags |= kCGEventFlagMaskControl;
-      if (mods.shift)
-         flags |= kCGEventFlagMaskShift;
+      if (mods.alt_opt) flags |= kCGEventFlagMaskAlternate;
+      if (mods.command) flags |= kCGEventFlagMaskCommand;
+      if (mods.control) flags |= kCGEventFlagMaskControl;
+      if (mods.shift) flags |= kCGEventFlagMaskShift;
       MacKeyDownUp(lr_pid, vk, flags);
 #endif
    }

@@ -24,17 +24,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cctype>
 
 #ifdef _WIN32
-#include "WinDef.h"
-#undef NOCTLMGR
-#undef NOMSG
-#undef NONLS
-#undef NOUSER
-#undef NOWINMESSAGES
-#include <gsl/gsl_util>
-#include <ShlObj.h>
-#include <Windows.h>
+#   include "WinDef.h"
+#   undef NOCTLMGR
+#   undef NOMSG
+#   undef NONLS
+#   undef NOUSER
+#   undef NOWINMESSAGES
+#   include <gsl/gsl_util>
+#   include <ShlObj.h>
+#   include <Windows.h>
 #else
-#include "Ocpp.h"
+#   include "Ocpp.h"
 #endif
 
 // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
@@ -70,9 +70,9 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 // https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156
 
 #ifdef __GNUG__ // gnu C++ compiler
-#include <cxxabi.h>
-#include <memory>
-#include <type_traits>
+#   include <cxxabi.h>
+#   include <memory>
+#   include <type_traits>
 template<typename T>
 [[nodiscard]] T Demangle(const char* mangled_name) {
    static_assert(std::is_pointer<T>() == false, "Result must be copied as __cxa_demagle returns "
@@ -82,8 +82,7 @@ template<typename T>
    int status = 0;
    std::unique_ptr<char, decltype(&std::free)> ptr(
        abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &std::free);
-   if (status)
-      return mangled_name;
+   if (status) return mangled_name;
    return ptr.get();
 }
 #else  // ndef _GNUG_
@@ -124,12 +123,10 @@ std::wstring rsj::AppDataFilePath(std::wstring_view file_name)
 {
    wchar_t* pathptr{nullptr};
    auto dp = gsl::finally([&pathptr] {
-      if (pathptr)
-         CoTaskMemFree(pathptr);
+      if (pathptr) CoTaskMemFree(pathptr);
    });
    const auto hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathptr);
-   if (SUCCEEDED(hr))
-      return std::wstring(pathptr) + L"\\MIDI2LR\\" + std::wstring(file_name);
+   if (SUCCEEDED(hr)) return std::wstring(pathptr) + L"\\MIDI2LR\\" + std::wstring(file_name);
    return std::wstring(file_name);
 }
 

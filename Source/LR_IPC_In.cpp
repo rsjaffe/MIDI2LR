@@ -64,13 +64,11 @@ LrIpcIn::~LrIpcIn()
          timer_off_ = true;
          juce::Timer::stopTimer();
       }
-      if (!juce::Thread::stopThread(kStopWait))
-         rsj::Log("stopThread failed in LrIpcIn destructor");
+      if (!juce::Thread::stopThread(kStopWait)) rsj::Log("stopThread failed in LrIpcIn destructor");
       if (const auto m = line_.size_approx())
          rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
       std::string line_copy{};
-      while (line_.try_dequeue(line_copy)) {
-         /* pump the queue empty */
+      while (line_.try_dequeue(line_copy)) { /* pump the queue empty */
       }
       line_.enqueue(kTerminate);
       socket_.close();
@@ -130,8 +128,7 @@ void LrIpcIn::run()
             // parse input until we have a line, then process that line, quit if connection lost
             while ((size_read == 0 || line.at(gsl::narrow_cast<size_t>(size_read) - 1) != '\n')
                    && socket_.isConnected()) {
-               if (juce::Thread::threadShouldExit())
-                  return; // after final action
+               if (juce::Thread::threadShouldExit()) return; // after final action
                const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
                switch (wait_status) {
                case -1:
@@ -164,9 +161,7 @@ void LrIpcIn::run()
             // if lose connection, line may not be terminated
             {
                std::string param{line.data()};
-               if (param.back() == '\n') {
-                  line_.enqueue(std::move(param));
-               }
+               if (param.back() == '\n') { line_.enqueue(std::move(param)); }
             } // scope param
          dumpLine: /* empty statement */;
          } // end else (is connected)
@@ -214,10 +209,8 @@ void LrIpcIn::ProcessLine()
       do {
          // process input into [parameter] [Value]
          std::string line_copy{};
-         if (!line_.try_dequeue(line_copy))
-            line_.wait_dequeue(line_copy);
-         if (line_copy == kTerminate)
-            return;
+         if (!line_.try_dequeue(line_copy)) line_.wait_dequeue(line_copy);
+         if (line_copy == kTerminate) return;
          std::string_view v{line_copy};
          Trim(v);
          auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
@@ -239,14 +232,10 @@ void LrIpcIn::ProcessLine()
             value_string.remove_prefix(
                 std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
             rsj::ActiveModifiers am;
-            if (modifiers & 0x1)
-               am.alt_opt = true;
-            if (modifiers & 0x2)
-               am.control = true;
-            if (modifiers & 0x4)
-               am.shift = true;
-            if (modifiers & 0x8)
-               am.command = true;
+            if (modifiers & 0x1) am.alt_opt = true;
+            if (modifiers & 0x2) am.control = true;
+            if (modifiers & 0x4) am.shift = true;
+            if (modifiers & 0x8) am.command = true;
             rsj::SendKeyDownUp(std::string(value_string), am);
             break;
          }

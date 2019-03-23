@@ -81,8 +81,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
             return static_cast<double>(value - cc_low_.at(controlnumber))
                    / static_cast<double>(cc_high_.at(controlnumber) - cc_low_.at(controlnumber));
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNRPN_(controlnumber))
-               return OffsetResult(value - kBit14, controlnumber);
+            if (IsNRPN_(controlnumber)) return OffsetResult(value - kBit14, controlnumber);
             return OffsetResult(value - kBit7, controlnumber);
          case rsj::CCmethod::kSignMagnitude:
             if (IsNRPN_(controlnumber))
@@ -171,12 +170,10 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
             return diff;
          }
          case rsj::CCmethod::kBinaryOffset:
-            if (IsNRPN_(controlnumber))
-               return value - kBit14;
+            if (IsNRPN_(controlnumber)) return value - kBit14;
             return value - kBit7;
          case rsj::CCmethod::kSignMagnitude:
-            if (IsNRPN_(controlnumber))
-               return value & kBit14 ? -(value & kLow13Bits) : value;
+            if (IsNRPN_(controlnumber)) return value & kBit14 ? -(value & kLow13Bits) : value;
             return value & kBit7 ? -(value & kLow6Bits) : value;
          case rsj::CCmethod::
              kTwosComplement: // see
@@ -266,11 +263,9 @@ void ChannelModel::SetCcAll(size_t controlnumber, short min, short max, rsj::CCm
 {
    try {
       if (IsNRPN_(controlnumber))
-         for (short a = kMaxMidi + 1; a <= kMaxNrpn; ++a)
-            SetCc(a, min, max, controltype);
+         for (short a = kMaxMidi + 1; a <= kMaxNrpn; ++a) SetCc(a, min, max, controltype);
       else
-         for (short a = 0; a <= kMaxMidi; ++a)
-            SetCc(a, min, max, controltype);
+         for (short a = 0; a <= kMaxMidi; ++a) SetCc(a, min, max, controltype);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -372,8 +367,7 @@ void ChannelModel::SavedToActive()
 {
    try {
       CcDefaults();
-      for (const auto& set : settings_to_save_)
-         SetCc(set.number, set.low, set.high, set.method);
+      for (const auto& set : settings_to_save_) SetCc(set.number, set.low, set.high, set.method);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

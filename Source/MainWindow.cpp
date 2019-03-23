@@ -57,8 +57,7 @@ void MainWindow::timerCallback()
 {
    try {
       juce::Timer::stopTimer();
-      if (!juce::ResizableWindow::isMinimised())
-         juce::DocumentWindow::minimiseButtonPressed();
+      if (!juce::ResizableWindow::isMinimised()) juce::DocumentWindow::minimiseButtonPressed();
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -69,8 +68,7 @@ void MainWindow::timerCallback()
 void MainWindow::SaveProfile() const
 {
    try {
-      if (window_content_)
-         window_content_->SaveProfile();
+      if (window_content_) window_content_->SaveProfile();
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

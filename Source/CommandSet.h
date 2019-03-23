@@ -35,30 +35,11 @@ class CommandSet {
  public:
    CommandSet();
    size_t CommandTextIndex(const std::string& command) const;
-   const auto& CommandAbbrevAt(size_t index) const
-   {
-      return cmd_by_number_.at(index);
-   }
-
-   auto CommandAbbrevSize() const noexcept
-   {
-      return cmd_by_number_.size();
-   }
-
-   auto GetLanguage() const noexcept
-   {
-      return m_impl_.language_;
-   }
-
-   const auto& GetMenus() const noexcept
-   {
-      return menus_;
-   }
-
-   const auto& GetMenuEntries() const noexcept
-   {
-      return menu_entries_;
-   }
+   const auto& CommandAbbrevAt(size_t index) const { return cmd_by_number_.at(index); }
+   auto CommandAbbrevSize() const noexcept { return cmd_by_number_.size(); }
+   auto GetLanguage() const noexcept { return m_impl_.language_; }
+   const auto& GetMenus() const noexcept { return menus_; }
+   const auto& GetMenuEntries() const noexcept { return menu_entries_; }
 
  private:
    class Impl {

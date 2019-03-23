@@ -21,9 +21,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #ifndef _WIN32
-#include <string>
+#   include <string>
 
-#include <Carbon/Carbon.h>
+#   include <Carbon/Carbon.h>
 namespace rsj {
    [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
    [[nodiscard]] std::string AppDataMac();

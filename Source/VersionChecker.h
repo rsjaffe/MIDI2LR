@@ -37,10 +37,8 @@ class VersionChecker final : public juce::Thread, juce::AsyncUpdater {
  private:
    // Thread interface
    void run() override;
-
    // AsyncUpdater interface
    void handleAsyncUpdate() override;
-
    int new_version_{0};
    SettingsManager& settings_manager_;
    std::unique_ptr<juce::DialogWindow> dialog_;

@@ -50,10 +50,8 @@ void ProfileManager::SetProfileDirectory(const juce::File& directory)
       directory.findChildFiles(file_array, juce::File::findFiles, false, "*.xml");
       file_array.sort();
       profiles_.clear();
-      for (const auto& file : file_array)
-         profiles_.emplace_back(file.getFileName());
-      if (!profiles_.empty())
-         SwitchToProfile(profiles_.at(0));
+      for (const auto& file : file_array) profiles_.emplace_back(file.getFileName());
+      if (!profiles_.empty()) SwitchToProfile(profiles_.at(0));
       current_profile_index_ = 0;
    }
    catch (const std::exception& e) {
@@ -88,8 +86,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       if (profile_file.exists()) {
          if (const auto parsed{juce::XmlDocument::parse(profile_file)}) {
             std::unique_ptr<juce::XmlElement> xml_element{parsed};
-            for (const auto& cb : callbacks_)
-               cb(xml_element.get(), profile);
+            for (const auto& cb : callbacks_) cb(xml_element.get(), profile);
             if (const auto ptr = lr_ipc_out_.lock()) {
                auto command =
                    "ChangedToDirectory "s
