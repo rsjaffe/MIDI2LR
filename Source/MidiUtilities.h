@@ -88,10 +88,13 @@ namespace rsj {
 
       constexpr bool operator<(const MidiMessageId& other) const noexcept
       {
-         if (channel < other.channel) return true;
+         if (channel < other.channel)
+            return true;
          if (channel == other.channel) {
-            if (data < other.data) return true;
-            if (data == other.data && msg_id_type < other.msg_id_type) return true;
+            if (data < other.data)
+               return true;
+            if (data == other.data && msg_id_type < other.msg_id_type)
+               return true;
          }
          return false;
       }

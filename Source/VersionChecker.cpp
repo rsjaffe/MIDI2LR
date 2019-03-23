@@ -35,7 +35,8 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager)
 #pragma warning(disable : 26447)
 VersionChecker::~VersionChecker()
 {
-   if (!juce::Thread::stopThread(100)) rsj::Log("stopThread failed in VersionChecker destructor");
+   if (!juce::Thread::stopThread(100))
+      rsj::Log("stopThread failed in VersionChecker destructor");
 }
 #pragma warning(pop)
 

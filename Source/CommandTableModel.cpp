@@ -105,7 +105,8 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g,
 
       // Note that the rowNumber value may be greater than the number of rows in your
       // list, so be careful that you don't assume it's less than getNumRows().
-      if (row_is_selected) g.fillAll(juce::Colours::lightblue);
+      if (row_is_selected)
+         g.fillAll(juce::Colours::lightblue);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

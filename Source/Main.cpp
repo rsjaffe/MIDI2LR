@@ -32,12 +32,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 #include <mutex>
 #ifdef _WIN32
-#   include <filesystem> //not available in XCode yet
+#include <filesystem> //not available in XCode yet
 
 namespace fs = std::filesystem;
-#   include "WinDef.h"
-#   undef NOUSER
-#   include <Windows.h>
+#include "WinDef.h"
+#undef NOUSER
+#include <Windows.h>
 #endif
 
 #include <cereal/archives/binary.hpp>
@@ -85,10 +85,19 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
    // ReSharper disable once CppConstValueFunctionReturnType
-   const juce::String getApplicationName() override { return ProjectInfo::projectName; }
+   const juce::String getApplicationName() override
+   {
+      return ProjectInfo::projectName;
+   }
    // ReSharper disable once CppConstValueFunctionReturnType
-   const juce::String getApplicationVersion() override { return ProjectInfo::versionString; }
-   bool moreThanOneInstanceAllowed() noexcept override { return false; }
+   const juce::String getApplicationVersion() override
+   {
+      return ProjectInfo::versionString;
+   }
+   bool moreThanOneInstanceAllowed() noexcept override
+   {
+      return false;
+   }
 
    //==============================================================================
 
@@ -167,7 +176,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                    juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
                    juce::translate(
                        "Profile changed. Do you want to save it before exiting the program?"));
-               if (result) main_window_->SaveProfile();
+               if (result)
+                  main_window_->SaveProfile();
             }
             quit();
          });

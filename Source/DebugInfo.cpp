@@ -21,14 +21,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "DebugInfo.h"
 
 #ifdef _WIN32
-#   include <array>
-#   include <string>
-#   include <unordered_map>
+#include <array>
+#include <string>
+#include <unordered_map>
 
-#   include "WinDef.h"
-#   undef NOUSER
-#   include <Windows.h>
-#   include "Misc.h"
+#include "WinDef.h"
+#undef NOUSER
+#include <Windows.h>
+#include "Misc.h"
 
 // from
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
@@ -163,7 +163,9 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
       using namespace std::string_literals;
       LogAndSave("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
       LogAndSave("Keyboard type "s + rsj::GetKeyboardLayout());
-      if constexpr (kNdebug) { LogAndSave("Version "s + ProjectInfo::versionString); }
+      if constexpr (kNdebug) {
+         LogAndSave("Version "s + ProjectInfo::versionString);
+      }
       else {
          LogAndSave("Version "s + ProjectInfo::versionString + "-debug"s);
       }

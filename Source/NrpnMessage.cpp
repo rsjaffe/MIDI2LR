@@ -78,7 +78,9 @@ rsj::Nrpn NrpnMessage::GetNrpnIfReady()
    try {
       static thread_local moodycamel::ConsumerToken ctok(nrpn_queued_);
       rsj::Nrpn retval;
-      if (nrpn_queued_.try_dequeue(ctok, retval)) { return retval; }
+      if (nrpn_queued_.try_dequeue(ctok, retval)) {
+         return retval;
+      }
       return rsj::kInvalidNrpn;
    }
    catch (const std::exception& e) {

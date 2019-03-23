@@ -41,7 +41,8 @@ MidiReceiver::~MidiReceiver()
          rsj::Log(juce::String(m) + " left in queue in MidiReceiver destructor");
       moodycamel::ConsumerToken ctok(messages_);
       rsj::MidiMessage message_copy{};
-      while (messages_.try_dequeue(ctok, message_copy)) { /* pump the queue empty */
+      while (messages_.try_dequeue(ctok, message_copy)) {
+         /* pump the queue empty */
       }
       messages_.enqueue(kTerminate);
    }
@@ -163,8 +164,10 @@ void MidiReceiver::DispatchMessages()
       static thread_local moodycamel::ConsumerToken ctok(messages_);
       do {
          rsj::MidiMessage message_copy;
-         if (!messages_.try_dequeue(ctok, message_copy)) messages_.wait_dequeue(message_copy);
-         if (message_copy == kTerminate) return;
+         if (!messages_.try_dequeue(ctok, message_copy))
+            messages_.wait_dequeue(message_copy);
+         if (message_copy == kTerminate)
+            return;
          for (const auto& cb : callbacks_)
 #pragma warning(suppress : 26489) // false alarm, checked for existence before adding to callbacks_
             cb(message_copy);

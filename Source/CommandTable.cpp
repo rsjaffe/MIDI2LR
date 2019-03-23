@@ -80,7 +80,8 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          case 4: // pageUpKey
             if (getNumRows() > 0) {
                auto row = getSelectedRow() - 20;
-               if (row < 0) row = 0;
+               if (row < 0)
+                  row = 0;
                selectRow(row);
                return true;
             }
@@ -88,7 +89,8 @@ bool CommandTable::keyPressed(const juce::KeyPress& k)
          case 5: // pageDownKey
             if (getNumRows() > 0) {
                auto row = getSelectedRow() + 20;
-               if (row >= getNumRows()) row = getNumRows() - 1;
+               if (row >= getNumRows())
+                  row = getNumRows() - 1;
                selectRow(row);
                return true;
             }

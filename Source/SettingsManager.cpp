@@ -105,7 +105,9 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
             rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
             // rest of info about app is logged by DebugInfo
             ptr->SendCommand("AppInfoClear 1\n"s);
-            for (const auto& info : db.GetInfo()) { ptr->SendCommand("AppInfo "s + info + '\n'); }
+            for (const auto& info : db.GetInfo()) {
+               ptr->SendCommand("AppInfo "s + info + '\n');
+            }
             ptr->SendCommand("AppInfoDone 1\n"s);
          }
    }

@@ -86,7 +86,8 @@ void Profile::FromXml(const juce::XmlElement* root)
 { // external use only, but will either use external versions of Profile calls to lock individual
   // accesses or manually lock any internal calls instead of using mutex for entire method
    try {
-      if (!root || root->getTagName().compare("settings") != 0) return;
+      if (!root || root->getTagName().compare("settings") != 0)
+         return;
       RemoveAllRows();
       const auto* setting = root->getFirstChildElement();
       while (setting) {
@@ -124,7 +125,8 @@ std::vector<rsj::MidiMessageId> Profile::GetMessagesForCommand(const std::string
       auto guard = std::shared_lock{mutex_};
       std::vector<rsj::MidiMessageId> mm;
       const auto range = command_string_map_.equal_range(command);
-      for (auto it = range.first; it != range.second; ++it) mm.push_back(it->second);
+      for (auto it = range.first; it != range.second; ++it)
+         mm.push_back(it->second);
       return mm;
    }
    catch (const std::exception& e) {

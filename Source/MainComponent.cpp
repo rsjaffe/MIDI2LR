@@ -295,11 +295,14 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
 
-         if (midi_receiver_) midi_receiver_->RescanDevices();
+         if (midi_receiver_)
+            midi_receiver_->RescanDevices();
 
-         if (midi_sender_) midi_sender_->RescanDevices();
+         if (midi_sender_)
+            midi_sender_->RescanDevices();
          // Send new CC parameters to MIDI Out devices
-         if (const auto ptr = lr_ipc_out_.lock()) ptr->SendCommand("FullRefresh 1\n"s);
+         if (const auto ptr = lr_ipc_out_.lock())
+            ptr->SendCommand("FullRefresh 1\n"s);
       }
       else if (button == &remove_row_button_) {
          if (command_table_.getNumRows() > 0) {
@@ -345,7 +348,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                 juce::translate("MIDI2LR profiles"),
                 juce::translate(
                     "Profile changed. Do you want to save it before loading a new Profile?"));
-            if (result) SaveProfile();
+            if (result)
+               SaveProfile();
          }
          juce::File profile_directory;
          profile_directory = settings_manager_.GetProfileDirectory();
@@ -364,7 +368,8 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                const auto new_profile = browser.getSelectedFile(0);
                auto command =
                    "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
-               if (const auto ptr = lr_ipc_out_.lock()) ptr->SendCommand(std::move(command));
+               if (const auto ptr = lr_ipc_out_.lock())
+                  ptr->SendCommand(std::move(command));
                profile_name_label_.setText(
                    new_profile.getFileName(), juce::NotificationType::dontSendNotification);
                profile_.FromXml(xml_element.get());
@@ -410,7 +415,8 @@ void MainContentComponent::ProfileChanged(
          profile_name_label_.setText(file_name, juce::NotificationType::dontSendNotification);
       }
       // Send new CC parameters to MIDI Out devices
-      if (const auto ptr = lr_ipc_out_.lock()) ptr->SendCommand("FullRefresh 1\n"s);
+      if (const auto ptr = lr_ipc_out_.lock())
+         ptr->SendCommand("FullRefresh 1\n"s);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

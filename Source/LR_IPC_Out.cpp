@@ -67,7 +67,8 @@ LrIpcOut::~LrIpcOut()
          rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
       moodycamel::ConsumerToken ctok(command_);
       std::string command_copy;
-      while (command_.try_dequeue(ctok, command_copy)) { /* pump the queue empty */
+      while (command_.try_dequeue(ctok, command_copy)) {
+         /* pump the queue empty */
       }
       command_.enqueue(kTerminate);
       connect_timer_.Stop();
@@ -114,7 +115,8 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
           {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
       };
-      if (!profile_.MessageExistsInMap(message)) return;
+      if (!profile_.MessageExistsInMap(message))
+         return;
       const auto command_to_send = profile_.GetCommandForMessage(message);
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "Unmapped"s)
@@ -131,8 +133,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
                recenter_.SetMidiMessage(mm);
             }
             const auto change = controls_model_.MeasureChange(mm);
-            if (change == 0) return; // don't send any signal
-            if (change > 0)          // turned clockwise
+            if (change == 0)
+               return;      // don't send any signal
+            if (change > 0) // turned clockwise
                SendCommand(a->second.first);
             else // turned counterclockwise
                SendCommand(a->second.second);
@@ -152,7 +155,8 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 void LrIpcOut::SendCommand(std::string&& command)
 {
    try {
-      if (sending_stopped_) return;
+      if (sending_stopped_)
+         return;
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, std::move(command));
    }
@@ -165,7 +169,8 @@ void LrIpcOut::SendCommand(std::string&& command)
 void LrIpcOut::SendCommand(const std::string& command)
 {
    try {
-      if (sending_stopped_) return;
+      if (sending_stopped_)
+         return;
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, command);
    }
@@ -180,7 +185,8 @@ void LrIpcOut::Stop()
    try {
       sending_stopped_ = true;
       const auto connected = isConnected();
-      for (const auto& cb : callbacks_) cb(connected, true);
+      for (const auto& cb : callbacks_)
+         cb(connected, true);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -194,7 +200,8 @@ void LrIpcOut::Restart()
       using namespace std::string_literals;
       sending_stopped_ = false;
       const auto connected = isConnected();
-      for (const auto& cb : callbacks_) cb(connected, false);
+      for (const auto& cb : callbacks_)
+         cb(connected, false);
       // resync controls
       SendCommand("FullRefresh 1\n"s);
    }
@@ -207,7 +214,8 @@ void LrIpcOut::Restart()
 void LrIpcOut::connectionMade()
 {
    try {
-      for (const auto& cb : callbacks_) cb(true, sending_stopped_);
+      for (const auto& cb : callbacks_)
+         cb(true, sending_stopped_);
       rsj::Log("Connected to Lightroom plugin");
    }
    catch (const std::exception& e) {
@@ -219,7 +227,8 @@ void LrIpcOut::connectionMade()
 void LrIpcOut::connectionLost()
 {
    try {
-      for (const auto& cb : callbacks_) cb(false, sending_stopped_);
+      for (const auto& cb : callbacks_)
+         cb(false, sending_stopped_);
       rsj::Log("Disconnected from Lightroom plugin");
    }
    catch (const std::exception& e) {
@@ -236,8 +245,10 @@ void LrIpcOut::SendOut()
       do {
          std::string command_copy;
          static thread_local moodycamel::ConsumerToken ctok(command_);
-         if (!command_.try_dequeue(ctok, command_copy)) command_.wait_dequeue(command_copy);
-         if (command_copy == kTerminate) return;
+         if (!command_.try_dequeue(ctok, command_copy))
+            command_.wait_dequeue(command_copy);
+         if (command_copy == kTerminate)
+            return;
          // check if there is a connection
          if (juce::InterprocessConnection::isConnected()) {
             if (command_copy.back() != '\n') // should be terminated with \n

@@ -170,7 +170,10 @@ class ChannelModel {
    {
       return pitch_wheel_max_;
    }
-   [[nodiscard]] short GetPwMin() const noexcept { return pitch_wheel_min_; }
+   [[nodiscard]] short GetPwMin() const noexcept
+   {
+      return pitch_wheel_min_;
+   }
    short PluginToController(short controltype, size_t controlnumber, double value);
    void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
    void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
