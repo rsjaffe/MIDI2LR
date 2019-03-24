@@ -446,16 +446,17 @@ LrTasks.startAsyncTask(
 
     --some functions not available before 7.4
     if not Ut.LrVersion74orMore then
-      local nocar = function() LrDialogs.message('Quick develop crop aspect ratio available in Lightroom version 7.4 and later only.') end
-      local nowb = function() LrDialogs.message('Quick develop white balance available in Lightroom version 7.4 and later only.') end
+      local endmsg = ' only available in Lightroom version 7.4 and later.'
+      local nocar = function() LrDialogs.message('Quick develop crop aspect ratio'..endmsg) end
+      local nowb = function() LrDialogs.message('Quick develop white balance'..endmsg) end
       ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
-      ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style available in Lightroom version 7.4 and later only.') end
-      ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.GridViewStyle                = function() LrDialogs.message('Cycle grid view style available in Lightroom version 7.4 and later only.') end
-      ACTIONS.NextScreenMode               = function() LrDialogs.message('Cycle screen mode availabe in Lightroom version 7.4 and later only.') end
-      ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
+      ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
+      ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action'..endmsg) end
+      ACTIONS.GridViewStyle                = function() LrDialogs.message('Cycle grid view style'..endmsg) end
+      ACTIONS.NextScreenMode               = function() LrDialogs.message('Cycle screen mode'..endmsg) end
+      ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action'..endmsg) end
+      ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action'..endmsg) end
       ACTIONS.QuickDevCropAspect1x1        = nocar
       ACTIONS.QuickDevCropAspect2x3        = nocar
       ACTIONS.QuickDevCropAspect4x5        = nocar
@@ -470,14 +471,14 @@ LrTasks.startAsyncTask(
       ACTIONS.QuickDevWBFluorescent        = nowb
       ACTIONS.QuickDevWBShade              = nowb
       ACTIONS.QuickDevWBTungsten           = nowb
-      ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
-      ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
-      ACTIONS.SetTreatmentBW               = function() LrDialogs.message('Set treatment B&W available in Lightroom version 7.4 and later only.') end
-      ACTIONS.SetTreatmentColor            = function() LrDialogs.message('Set treatment Color available in Lightroom version 7.4 and later only.') end
-      ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping available in Lightroom verison 7.4 and later only.') end
-      ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay available in Lightroom version 7.4 and later only.') end
+      ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action'..endmsg)  end
+      ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action'..endmsg)  end 
+      ACTIONS.SetTreatmentBW               = function() LrDialogs.message('Set treatment B&W'..endmsg) end
+      ACTIONS.SetTreatmentColor            = function() LrDialogs.message('Set treatment Color'..endmsg) end
+      ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action'..endmsg) end
+      ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action'..endmsg) end
+      ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping'..endmsg) end
+      ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay'..endmsg) end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
       ACTIONS.AutoTone                     = CU.wrapFOM(LrDevelopController.setAutoTone)
