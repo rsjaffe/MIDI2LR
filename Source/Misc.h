@@ -53,12 +53,12 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
-   bool EndsWith(std::string_view main_str, std::string_view to_match);
+   [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& error_text);
    void Log(const juce::String& info);
-   std::string ToLower(std::string_view in);
+   [[nodiscard]] std::string ToLower(std::string_view in);
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
    [[nodiscard]] std::wstring AppDataFilePath(std::string_view file_name);
@@ -149,7 +149,7 @@ namespace rsj {
    // zepto yocto zetta and yotta too large/small to be represented by intmax_t
    // TODO: change to consteval, find way to convert digit to string for unexpected
    // values, so return could be, e.g., "23425/125557 ", instead of error message
-   template<class R> constexpr auto RatioToPrefix()
+   template<class R>[[nodiscard]] constexpr auto RatioToPrefix()
    {
       if (R::num == 1) {
          switch (R::den) {
@@ -220,8 +220,8 @@ namespace rsj {
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
 #ifdef _WIN32 // charcvt not yet in XCode
-   template<class T> std::string NumToChars(T number)
-   {
+   template<class T>
+   [[nodiscard]] std::string NumToChars(T number) {
       std::array<char, 10> str{};
       auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
       if (ec == std::errc())
@@ -229,10 +229,8 @@ namespace rsj {
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
-   template<class T> std::string NumToChars(T number)
-   {
-      return std::to_string(number);
-   }
+   template<class T>
+   [[nodiscard]] std::string NumToChars(T number) { return std::to_string(number); }
 #endif
 } // namespace rsj
 
