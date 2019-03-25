@@ -327,18 +327,11 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          juce::File profile_directory;
          profile_directory = settings_manager_.GetProfileDirectory();
          if (!profile_directory.exists())
-            profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{
-             "*.xml", juce::String(), juce::translate("MIDI2LR profiles")};
-         juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectFiles
-                                                | juce::FileBrowserComponent::saveMode
-                                                | juce::FileBrowserComponent::warnAboutOverwriting,
-             profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{juce::translate("Save profile"),
-             juce::translate("Enter filename to save profile"), browser, true,
-             juce::Colours::lightgrey};
-         if (dialog_box.show()) {
-            const auto selected_file = browser.getSelectedFile(0).withFileExtension("xml");
+            profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+         juce::FileChooser chooser{
+             juce::translate("Save profile"), profile_directory, "*.xml", true};
+         if (chooser.browseForFileToSave(true)) {
+            const auto selected_file = chooser.getResult().withFileExtension("xml");
             profile_.ToXmlFile(selected_file);
          }
       }
@@ -354,18 +347,13 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          juce::File profile_directory;
          profile_directory = settings_manager_.GetProfileDirectory();
          if (!profile_directory.exists())
-            profile_directory = juce::File::getCurrentWorkingDirectory();
-         juce::WildcardFileFilter wildcard_filter{
-             "*.xml", juce::String(), juce::translate("MIDI2LR profiles")};
-         juce::FileBrowserComponent browser{
-             juce::FileBrowserComponent::canSelectFiles | juce::FileBrowserComponent::openMode,
-             profile_directory, &wildcard_filter, nullptr};
-         juce::FileChooserDialogBox dialog_box{juce::translate("Open profile"),
-             juce::translate("Select a profile to open"), browser, true, juce::Colours::lightgrey};
-         if (dialog_box.show()) {
-            if (const auto parsed{juce::XmlDocument::parse(browser.getSelectedFile(0))}) {
+            profile_directory = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+         juce::FileChooser chooser{
+             juce::translate("Open profile"), profile_directory, "*.xml", true};
+         if (chooser.browseForFileToOpen()) {
+            if (const auto parsed{juce::XmlDocument::parse(chooser.getResult())}) {
                std::unique_ptr<juce::XmlElement> xml_element{parsed};
-               const auto new_profile = browser.getSelectedFile(0);
+               const auto new_profile = chooser.getResult();
                auto command =
                    "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
                if (const auto ptr = lr_ipc_out_.lock())
@@ -377,7 +365,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                command_table_.repaint();
             }
             else {
-               rsj::Log("Unable to load profile " + browser.getSelectedFile(0).getFullPathName());
+               rsj::Log("Unable to load profile " + chooser.getResult().getFullPathName());
             }
          }
       }

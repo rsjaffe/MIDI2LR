@@ -144,16 +144,10 @@ void SettingsComponent::buttonClicked(juce::Button* button)
          rsj::Log(pickup_state ? "Pickup set to enabled" : "Pickup set to disabled");
       }
       else if (button == &profile_location_button_) {
-         juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectDirectories
-                                                | juce::FileBrowserComponent::openMode,
-             juce::File::getCurrentWorkingDirectory(), nullptr, nullptr};
-
-         juce::FileChooserDialogBox dialog_box{juce::translate("Select Profile Folder"),
-             juce::translate("Select a folder containing MIDI2LR Profiles"), browser, true,
-             juce::Colours::lightgrey};
-
-         if (dialog_box.show()) {
-            const auto profile_location = browser.getSelectedFile(0).getFullPathName();
+         juce::FileChooser chooser{juce::translate("Select Profile Folder"),
+             juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
+         if (chooser.browseForDirectory()) {
+            const auto profile_location = chooser.getResult().getFullPathName();
             settings_manager_.SetProfileDirectory(profile_location);
             rsj::Log("Profile location set to " + profile_location);
             profile_location_label_.setText(
