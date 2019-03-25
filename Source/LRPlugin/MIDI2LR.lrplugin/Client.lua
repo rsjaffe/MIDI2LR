@@ -478,6 +478,7 @@ LrTasks.startAsyncTask(
       ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action'..endmsg) end
       ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action'..endmsg) end
       ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping'..endmsg) end
+      ACTIONS.ToggleLoupe                  = function() LrDialogs.message('Toggle loupe'..endmsg) end
       ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay'..endmsg) end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
@@ -510,6 +511,7 @@ LrTasks.startAsyncTask(
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
       ACTIONS.ShowClipping                 = CU.wrapFOM(LrDevelopController.showClipping)
+      ACTIONS.ToggleLoupe                  = LrApplicationView.toggleLoupe
       ACTIONS.ToggleOverlay                = LrDevelopController.toggleOverlay
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
