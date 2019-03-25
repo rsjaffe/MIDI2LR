@@ -22,6 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <exception>
 #include <map>
+#include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"

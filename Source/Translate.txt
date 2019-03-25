@@ -56,6 +56,8 @@ countries: de
 "Sign and magnitude" = "Vorzeichen und Betrag"
 "Two\'s complement" = "Zweierkomplement"
 "Version " = "Version"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR benötigt Ihre Berechtigung, um Tastatureingaben an Lightroom zu senden"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Führen Sie die folgenden Schritte aus, um MIDI2LR zum Senden von Tastatureingaben an Lightroom zu autorisieren:\r\n1) Öffnen Sie die Systemeinstellungen\r\n2) Klicken Sie auf Sicherheit und Datenschutz\r\n3) Wählen Sie die Registerkarte Datenschutz\r\n4) Suchen Sie auf der linken Seite die Option Eingabehilfen\r\n5) Suchen Sie rechts das Kontrollkästchen für MIDI2LR\r\n6) Aktivieren Sie das Kontrollkästchen"
 )===";
    const auto es = u8R"===(language: Spanish
 countries: es
@@ -112,6 +114,8 @@ countries: es
 "Sign and magnitude" = "Signo y magnitud"
 "Two\'s complement" = "Complemento de dos"
 "Version " = "Versión "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR necesita su autorización para enviar pulsaciones de teclas a Lightroom"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Para autorizar a MIDI2LR a enviar pulsaciones de teclas a Lightroom, siga estos pasos:\r\n1) Abrir las preferencias del sistema\r\n2) Haga clic en Seguridad y Privacidad.\r\n3) Seleccione la pestaña de Privacidad\r\n4) Encuentra y selecciona Accesibilidad a la izquierda.\r\n5) Encuentra la casilla de verificación para MIDI2LR a la derecha\r\n6) Marque esa casilla de verificación"
 )===";
    const auto fr = u8R"===(language: French
 countries: fr
@@ -168,6 +172,8 @@ countries: fr
 "Sign and magnitude" = "Signe et magnitude"
 "Two\'s complement" = "Complément à deux"
 "Version " = "Version "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR a besoin de votre autorisation pour envoyer des frappes à Lightroom"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Pour autoriser MIDI2LR à envoyer des frappes à Lightroom, procédez comme suit:\r\n1) Ouvrez les Préférences Système\r\n2) Cliquez sur Sécurité et confidentialité\r\n3) Sélectionnez l'onglet Confidentialité\r\n4) Recherchez et sélectionnez Accessibilité à gauche.\r\n5) Trouvez la case à cocher pour MIDI2LR à droite\r\n6) Cochez cette case"
 )===";
    const auto it = u8R"===(language: Italian
 countries: it
@@ -224,6 +230,8 @@ countries: it
 "Sign and magnitude" = "Segno e ordine di grandezza"
 "Two\'s complement" = "Complemento di due"
 "Version " = "Versione "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR richiede la tua autorizzazione per inviare sequenze di tasti a Lightroom"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Per autorizzare MIDI2LR a inviare sequenze di tasti a Lightroom, attenersi alla seguente procedura:\r\n1) Apri le Preferenze di Sistema\r\n2) Fare clic su Sicurezza e privacy\r\n3) Seleziona la scheda Privacy\r\n4) Trova e seleziona Accessibilità a sinistra\r\n5) Trova la casella di controllo per MIDI2LR sulla destra\r\n6) Seleziona questa casella"
 )===";
    const auto ja = u8R"===(language: Japanese
 countries: ja
@@ -280,6 +288,8 @@ countries: ja
 "Sign and magnitude" = "サインとマグニチュード"
 "Two\'s complement" = "2の補数"
 "Version " = "バージョン "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LRはLightroomにキーストロークを送信するためにあなたの承認を必要とします"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "MIDI2LRがLightroomにキーストロークを送信することを許可するには、次の手順に従ってください。\r\n1）システム環境設定を開く\r\n2）セキュリティとプライバシーをクリック\r\n3）プライバシータブを選択します\r\n4）左側にある[ユーザー補助]を見つけて選択します。\r\n5）右側のMIDI2LRのチェックボックスを見つけます\r\n6）チェックボックスをチェック"
 )===";
    const auto ko = u8R"===(language: Korean
 countries: ko
@@ -336,6 +346,8 @@ countries: ko
 "Sign and magnitude" = "부호와 크기"
 "Two\'s complement" = "2의 보수"
 "Version " = "버전"
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR은 키 입력을 Lightroom에 보낼 권한이 필요합니다."
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "MIDI2LR에 키 입력을 허용하도록 Lightroom에 권한을 부여하려면 다음 단계를 따르십시오.\r\n1) 시스템 환경 설정 열기\r\n2) 보안 및 개인 정보를 클릭하십시오.\r\n3) 개인 정보 탭을 선택하십시오\r\n4) 왼쪽의 접근성을 찾아 선택합니다.\r\n5) 오른쪽에있는 MIDI2LR의 체크 박스를 찾으십시오\r\n6) 확인란을 선택하십시오."
 )===";
    const auto nl = u8R"===(language: Dutch
 countries: nl
@@ -392,6 +404,8 @@ countries: nl
 "Sign and magnitude" = "Teken en versterking"
 "Two\'s complement" = "Twee\'s aanvulling"
 "Version " = "Versie "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR heeft jouw toestemming nodig om toetsaanslagen naar Lightroom te sturen"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Ga als volgt te werk om MIDI2LR te autoriseren om toetsaanslagen naar Lightroom te verzenden:\r\n1) Open Systeemvoorkeuren\r\n2) Klik op Beveiliging en privacy\r\n3) Selecteer het tabblad Privacy\r\n4) Zoek en selecteer Toegankelijkheid aan de linkerkant\r\n5) Zoek het selectievakje voor MIDI2LR aan de rechterkant\r\n6) Vink dit selectievakje aan"
 )===";
    const auto pt = u8R"===(language: Portuguese
 countries: pt
@@ -448,6 +462,8 @@ countries: pt
 "Sign and magnitude" = "Sinal e magnitude"
 "Two\'s complement" = "Complemento de dois"
 "Version " = "Versão "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "O MIDI2LR precisa da sua autorização para enviar as teclas digitadas para o Lightroom"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "Para autorizar o MIDI2LR a enviar pressionamentos de teclas ao Lightroom, siga estas etapas:\r\n1) Abra as Preferências do Sistema\r\n2) Clique em Segurança e Privacidade\r\n3) Selecione a guia Privacidade\r\n4) Encontre e selecione Acessibilidade à esquerda\r\n5) Encontre a caixa de seleção para MIDI2LR à direita\r\n6) Marque essa caixa de seleção"
 )===";
    const auto sv = u8R"===(language: Swedish
 countries: sv
@@ -504,6 +520,8 @@ countries: sv
 "Sign and magnitude" = "Tecken och storlek"
 "Two\'s complement" = "Tvåkomplement"
 "Version " = "Version "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR behöver ditt tillstånd att skicka tangenttryckningar till Lightroom"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "För att tillåta MIDI2LR att skicka tangenttryckningar till Lightroom, följ så här:\r\n1) Öppna systeminställningar\r\n2) Klicka på Säkerhet och sekretess\r\n3) Välj fliken Sekretess\r\n4) Hitta och välj Tillgång till vänster\r\n5) Markera kryssrutan för MIDI2LR till höger\r\n6) Markera kryssrutan"
 )===";
    const auto zh_cn = u8R"===(language: Chinese simplified
 countries: zh-cn
@@ -560,6 +578,8 @@ countries: zh-cn
 "Sign and magnitude" = "原码幅值"
 "Two\'s complement" = "双补码"
 "Version " = "版版本 "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR需要您的授权才能向Lightroom发送击键"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "要授权MIDI2LR向Lightroom发送击键，请按照以下步骤操作：\r\n1）打开系统首选项\r\n2）单击安全和隐私\r\n3）选择“隐私”选项卡\r\n4）在左侧查找并选择辅助功能\r\n5）在右侧找到MIDI2LR的复选框\r\n6）选中该复选框"
 )===";
    const auto zh_tw = u8R"===(language: Chinese traditional
 countries: zh-tw
@@ -616,5 +636,7 @@ countries: zh-tw
 "Sign and magnitude" = "原碼幅值"
 "Two\'s complement" = "雙補碼"
 "Version " = "版版本 "
+"MIDI2LR needs your authorization to send keystrokes to Lightroom" = "MIDI2LR需要您的授權才能向Lightroom發送擊鍵"
+"To authorize MIDI2LR to send keystrokes to Lightroom, please follow these steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find the checkbox for MIDI2LR on the right\r\n6) Check that checkbox" = "要授權MIDI2LR向Lightroom發送擊鍵，請按照以下步驟操作：\r\n1）打開系統首選項\r\n2）單擊安全和隱私\r\n3）選擇“隱私”選項卡\r\n4）在左側查找並選擇輔助功能\r\n5）在右側找到MIDI2LR的複選框\r\n6）選中該複選框"
 )===";
 } // namespace rsj

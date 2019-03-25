@@ -20,7 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Ocpp.h"
 
-#include <Cocoa/Cocoa.h> //for CheckPermission
+#import <Carbon/Carbon.h>
+#import <Cocoa/Cocoa.h> //for CheckPermission
+
 #include "DebugInfo.h"   //for GetKeyboardLayout
 #include "Misc.h"
 
@@ -93,10 +95,19 @@ void rsj::CheckPermission(pid_t pid)
             rsj::Log(
                 juce::String("Automation permission granted for ") + bundleIdentifier.UTF8String);
             break;
-         case errAEEventNotPermitted:
-            rsj::LogAndAlertError(
+         case errAEEventNotPermitted: {
+            rsj::Log(
                 juce::String("Automation permission denied for ") + bundleIdentifier.UTF8String);
+            auto title =
+                juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom");
+            auto message = juce::translate(
+                "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
+                "steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) "
+                "Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find "
+                "the checkbox for MIDI2LR on the right\r\n6) Check that checkbox");
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
             break;
+         }
          case procNotFound:
             rsj::Log(
                 juce::String("Automation permission unknown for ") + bundleIdentifier.UTF8String);
