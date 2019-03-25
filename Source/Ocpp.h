@@ -28,6 +28,7 @@ namespace rsj {
    [[nodiscard]] UniChar Utf8ToUtf16(const std::string& param);
    [[nodiscard]] std::string AppDataMac();
    [[nodiscard]] std::string AppLogMac();
+   void CheckPermission(pid_t pid);
 } // namespace rsj
 #endif
 #endif

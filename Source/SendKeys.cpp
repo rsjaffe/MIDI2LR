@@ -320,6 +320,8 @@ namespace {
             CGEventPostToPid(lr_pid, d);
             CGEventPostToPid(lr_pid, u);
          }
+         static std::once_flag of;
+         std::call_once(of, [lr_pid]() { rsj::CheckPermission(lr_pid); });
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(__func__, __func__, e);

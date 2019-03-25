@@ -19,7 +19,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "Ocpp.h"
-#include "DebugInfo.h"         //for GetKeyboardLayout
+
+#include <Cocoa/Cocoa.h> //for CheckPermission
+#include "DebugInfo.h"   //for GetKeyboardLayout
+#include "Misc.h"
 
 UniChar rsj::Utf8ToUtf16(const std::string& param)
 {
@@ -59,5 +62,51 @@ std::string rsj::GetKeyboardLayout()
       return std::string(s.UTF8String) + ' ' + std::string(t.UTF8String);
    }
    return std::string("Could not get keyboard input source ID");
+}
+
+#if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
+enum {
+    errAEEventWouldRequireUserConsent = -1744,
+};
+#endif
+
+void rsj::CheckPermission(pid_t pid)
+{
+   if (@available(macOS 10.14, *)) {
+      AEAddressDesc addressDesc;
+      NSString* bundleIdentifier =
+          [NSRunningApplication runningApplicationWithProcessIdentifier:pid].bundleIdentifier;
+      const char* bundleIdentifierCString =
+          [bundleIdentifier cStringUsingEncoding:NSUTF8StringEncoding];
+      auto aeresult = AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
+          strlen(bundleIdentifierCString), &addressDesc);
+      if (aeresult == noErr) {
+         auto status =
+             AEDeterminePermissionToAutomateTarget(&addressDesc, typeWildCard, typeWildCard, true);
+         AEDisposeDesc(&addressDesc);
+         switch (status) {
+         case errAEEventWouldRequireUserConsent:
+            rsj::Log(
+                juce::String("Automation permission pending for ") + bundleIdentifier.UTF8String);
+            break;
+         case noErr:
+            rsj::Log(
+                juce::String("Automation permission granted for ") + bundleIdentifier.UTF8String);
+            break;
+         case errAEEventNotPermitted:
+            rsj::LogAndAlertError(
+                juce::String("Automation permission denied for ") + bundleIdentifier.UTF8String);
+            break;
+         case procNotFound:
+            rsj::Log(
+                juce::String("Automation permission unknown for ") + bundleIdentifier.UTF8String);
+            break;
+         default:
+            break;
+         }
+      }
+      else
+         rsj::Log("AECreateDesc returned error " + juce::String(aeresult));
+   }
 }
 
