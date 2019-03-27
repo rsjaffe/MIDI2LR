@@ -73,3 +73,50 @@ rsj::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug)
       Ensures(0);
    }
 }
+
+std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
+    const juce::MidiMessage& juce_mm)
+{
+   rsj::MidiMessage m;
+   const auto raw = juce_mm.getRawData();
+   m.message_type_byte = raw[0] >> 4;
+   m.channel = raw[0] & 0xF;
+   switch (m.message_type_byte) {
+   case kPwFlag:
+      m.value = (raw[2] << 7) | raw[1];
+      return m;
+   case kCcFlag:
+      m.value = raw[2];
+      m.number = raw[1];
+      // run through nrpn return rsj::MidiMessage CC number value OR {} if nRPN not ready
+      if (nrpn_filter_.ProcessMidi(m.channel, m.number, m.value)) { // true if nrpn
+                                                                    // piece
+         const auto nrpn = nrpn_filter_.GetNrpnIfReady(m.channel);
+         if (nrpn.is_valid) {
+            m.number = nrpn.control;
+            m.value = nrpn.value;
+            return m;
+         }
+         return {}; // finished with nrpn piece
+      }
+      else
+         return m;
+   case kNoteOnFlag:
+      m.value = raw[2];
+      m.number = raw[1];
+      return m;
+   case kKeyPressureFlag:
+   case kNoteOffFlag:
+   case kPgmChangeFlag:
+      m.number = raw[1];
+      break;
+   case kChanPressureFlag:
+      m.value = raw[1];
+      break;
+   case kSystemFlag:
+      break; // no action
+   default:
+      Ensures(!"Default should be unreachable in ParseMidi");
+   }
+   return {};
+}

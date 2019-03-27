@@ -27,10 +27,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // <typeindex> is guaranteed to provide such a declaration,
 // and is much cheaper to include than <functional>.
 // See https://en.cppreference.com/w/cpp/language/extending_std.
+#include <optional>
 #include <typeindex>
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
+#include "NrpnMessage.h"
 
 namespace rsj {
    constexpr short kNoteOffFlag = 0x8;
@@ -98,6 +100,13 @@ namespace rsj {
          }
          return false;
       }
+   };
+
+   class MidiMessageFactory { //use this in midireceiver
+    public:
+      std::optional<rsj::MidiMessage> ProcessMidi(const juce::MidiMessage& juce_mm);
+   private:
+      NrpnFilter nrpn_filter_{};
    };
 } // namespace rsj
 // hash functions
