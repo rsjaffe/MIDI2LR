@@ -28,26 +28,26 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 #pragma warning(disable : 26481) // doing raw pointer arithmetic, parsing low-level structure
    const auto raw = mm.getRawData();
    Ensures(raw);
-   message_type_byte = raw[0] >> 4;
+   message_type_byte = rsj::ToMessageType(raw[0] >> 4);
    channel = raw[0] & 0xF;
    switch (message_type_byte) {
-   case kPwFlag:
+   case Pw:
       value = (raw[2] << 7) | raw[1];
       break;
-   case kCcFlag:
-   case kKeyPressureFlag:
-   case kNoteOffFlag:
-   case kNoteOnFlag:
+   case Cc:
+   case KeyPressure:
+   case NoteOff:
+   case NoteOn:
       value = raw[2];
       number = raw[1];
       break;
-   case kPgmChangeFlag:
+   case PgmChange:
       number = raw[1];
       break;
-   case kChanPressureFlag:
+   case ChanPressure:
       value = raw[1];
       break;
-   case kSystemFlag:
+   case System:
       break; // no action
    default:
       Ensures(!"Default should be unreachable in ParseMidi");
@@ -56,22 +56,9 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 }
 
 rsj::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug)
-    : msg_id_type{rsj::MsgIdEnum::kCc}, channel(rhs.channel + 1),
+    : msg_id_type{rhs.message_type_byte}, channel(rhs.channel + 1),
       data(rhs.number) // channel 1-based
 {
-   switch (rhs.message_type_byte) { // this is needed because mapping uses custom structure
-   case kCcFlag:
-      msg_id_type = rsj::MsgIdEnum::kCc;
-      break;
-   case kNoteOnFlag:
-      msg_id_type = rsj::MsgIdEnum::kNote;
-      break;
-   case kPwFlag:
-      msg_id_type = rsj::MsgIdEnum::kPitchBend;
-      break;
-   default: // should be unreachable--MidiMessageId only handles a few message types
-      Ensures(0);
-   }
 }
 
 std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
@@ -79,13 +66,13 @@ std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
 {
    rsj::MidiMessage m;
    const auto raw = juce_mm.getRawData();
-   m.message_type_byte = raw[0] >> 4;
+   m.message_type_byte = rsj::ToMessageType(raw[0] >> 4);
    m.channel = raw[0] & 0xF;
    switch (m.message_type_byte) {
-   case kPwFlag:
+   case Pw:
       m.value = (raw[2] << 7) | raw[1];
       return m;
-   case kCcFlag:
+   case Cc:
       m.value = raw[2];
       m.number = raw[1];
       // run through nrpn return rsj::MidiMessage CC number value OR {} if nRPN not ready
@@ -101,19 +88,19 @@ std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
       }
       else
          return m;
-   case kNoteOnFlag:
+   case NoteOn:
       m.value = raw[2];
       m.number = raw[1];
       return m;
-   case kKeyPressureFlag:
-   case kNoteOffFlag:
-   case kPgmChangeFlag:
+   case KeyPressure:
+   case NoteOff:
+   case PgmChange:
       m.number = raw[1];
       break;
-   case kChanPressureFlag:
+   case ChanPressure:
       m.value = raw[1];
       break;
-   case kSystemFlag:
+   case System:
       break; // no action
    default:
       Ensures(!"Default should be unreachable in ParseMidi");

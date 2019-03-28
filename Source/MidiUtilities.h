@@ -35,23 +35,32 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "NrpnMessage.h"
 
 namespace rsj {
-   constexpr short kNoteOffFlag = 0x8;
-   constexpr short kNoteOnFlag = 0x9;
-   constexpr short kKeyPressureFlag = 0xA; // Individual Key Pressure
-   constexpr short kCcFlag = 0xB;
-   constexpr short kPgmChangeFlag = 0xC;
-   constexpr short kChanPressureFlag = 0xD; // Max Key Pressure
-   constexpr short kPwFlag = 0xE;           // Pitch Wheel
-   constexpr short kSystemFlag = 0xF;
+   enum MessageType : short {
+      NoteOff = 0x8,
+      NoteOn = 0x9,
+      KeyPressure = 0xA, // Individual Key Pressure
+      Cc = 0xB,
+      PgmChange = 0xC,
+      ChanPressure = 0xD, // Max Key Pressure
+      Pw = 0xE,           // Pitch Wheel
+      System = 0xF
+   };
+
+   constexpr MessageType ToMessageType(short from)
+   {
+      if (from < 0x9 || from > 0xf)
+         throw std::range_error("MessageType range error, must be 0x9 to 0xf");
+      return static_cast<MessageType>(from);
+   }
 
    struct MidiMessage {
-      short message_type_byte{0};
+      MessageType message_type_byte{NoteOn};
       short channel{0};
       short number{0};
       short value{0};
       constexpr MidiMessage() noexcept = default;
 
-      constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept
+      constexpr MidiMessage(MessageType mt, short ch, short nu, short va) noexcept
           : message_type_byte(mt), channel(ch), number(nu), value(va)
       {
       }
@@ -65,18 +74,14 @@ namespace rsj {
              && lhs.number == rhs.number && lhs.value == rhs.value;
    }
 
-   enum class MsgIdEnum : short { kNote, kCc, kPitchBend };
-
    struct MidiMessageId {
-      MsgIdEnum msg_id_type;
+      MessageType msg_id_type;
       int channel;
       int data;
 
-      constexpr MidiMessageId() noexcept : msg_id_type(rsj::MsgIdEnum::kNote), channel(0), data(0)
-      {
-      }
+      constexpr MidiMessageId() noexcept : msg_id_type(MessageType::NoteOn), channel(0), data(0) {}
 
-      constexpr MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept
+      constexpr MidiMessageId(int ch, int dat, MessageType msgType) noexcept
           : msg_id_type(msgType), channel(ch), data(dat)
       {
       }
@@ -102,10 +107,11 @@ namespace rsj {
       }
    };
 
-   class MidiMessageFactory { //use this in midireceiver
+   class MidiMessageFactory { // use this in midireceiver
     public:
       std::optional<rsj::MidiMessage> ProcessMidi(const juce::MidiMessage& juce_mm);
-   private:
+
+    private:
       NrpnFilter nrpn_filter_{};
    };
 } // namespace rsj

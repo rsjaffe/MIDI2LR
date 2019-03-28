@@ -73,13 +73,13 @@ void CommandTableModel::paintCell(
             switch (
                 const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
                 cmd.msg_id_type) {
-            case rsj::MsgIdEnum::kNote:
+            case rsj::MessageType::NoteOn:
                format_str << cmd.channel << " | Note : " << cmd.data;
                break;
-            case rsj::MsgIdEnum::kCc:
+            case rsj::MessageType::Cc:
                format_str << cmd.channel << " | CC: " << cmd.data;
                break;
-            case rsj::MsgIdEnum::kPitchBend:
+            case rsj::MessageType::Pw:
                format_str << cmd.channel << " | Pitch Bend";
                break;
             }

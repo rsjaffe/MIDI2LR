@@ -137,9 +137,9 @@ class ChannelModel {
    ChannelModel& operator=(const ChannelModel&) = delete;
    ChannelModel(ChannelModel&&) = delete; // can't move atomics
    ChannelModel& operator=(ChannelModel&&) = delete;
-   double ControllerToPlugin(short controltype, size_t controlnumber, short value);
-   short MeasureChange(short controltype, size_t controlnumber, short value);
-   short SetToCenter(short controltype, size_t controlnumber);
+   double ControllerToPlugin(rsj::MessageType controltype, size_t controlnumber, short value);
+   short MeasureChange(rsj::MessageType controltype, size_t controlnumber, short value);
+   short SetToCenter(rsj::MessageType controltype, size_t controlnumber);
    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const {
       try {
          return cc_method_.at(controlnumber);
@@ -174,7 +174,7 @@ class ChannelModel {
    {
       return pitch_wheel_min_;
    }
-   short PluginToController(short controltype, size_t controlnumber, double value);
+   short PluginToController(rsj::MessageType controltype, size_t controlnumber, double value);
    void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
    void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
    void SetCcMax(size_t controlnumber, short value);
@@ -323,7 +323,7 @@ class ControlsModel {
       }
    }
 
-   short PluginToController(short controltype, size_t channel, short controlnumber, double value)
+   short PluginToController(rsj::MessageType controltype, size_t channel, short controlnumber, double value)
    {
       try {
          return all_controls_.at(channel).PluginToController(controltype, controlnumber, value);
@@ -334,7 +334,7 @@ class ControlsModel {
       }
    }
 
-   short MeasureChange(short controltype, size_t channel, short controlnumber, short value)
+   short MeasureChange(rsj::MessageType controltype, size_t channel, short controlnumber, short value)
    {
       try {
          return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
