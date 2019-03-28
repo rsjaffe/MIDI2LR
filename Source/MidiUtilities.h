@@ -59,13 +59,10 @@ namespace rsj {
       short number{0};
       short value{0};
       constexpr MidiMessage() noexcept = default;
-
       constexpr MidiMessage(MessageType mt, short ch, short nu, short va) noexcept
           : message_type_byte(mt), channel(ch), number(nu), value(va)
       {
       }
-
-      MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
    };
 
    constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
@@ -80,30 +77,27 @@ namespace rsj {
       int data;
 
       constexpr MidiMessageId() noexcept : msg_id_type(MessageType::NoteOn), channel(0), data(0) {}
-
       constexpr MidiMessageId(int ch, int dat, MessageType msgType) noexcept
           : msg_id_type(msgType), channel(ch), data(dat)
       {
       }
-
-      MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug);
-
+      constexpr MidiMessageId(const MidiMessage& other)
+          : msg_id_type{other.message_type_byte}, channel{other.channel}, data{other.number}
+      {
+      }
+      constexpr MidiMessageId(const MidiMessageId& other) = default;
+      constexpr MidiMessageId(MidiMessageId&& other) noexcept = default;
+      constexpr MidiMessageId& operator=(const MidiMessageId& other) = default;
+      constexpr MidiMessageId& operator=(MidiMessageId&& other) noexcept = default;
       constexpr bool operator==(const MidiMessageId& other) const noexcept
       {
          return msg_id_type == other.msg_id_type && channel == other.channel && data == other.data;
       }
-
       constexpr bool operator<(const MidiMessageId& other) const noexcept
       {
-         if (channel < other.channel)
-            return true;
-         if (channel == other.channel) {
-            if (data < other.data)
-               return true;
-            if (data == other.data && msg_id_type < other.msg_id_type)
-               return true;
-         }
-         return false;
+         return (channel < other.channel) || (channel == other.channel && data < other.data)
+                || (channel == other.channel && data == other.data
+                       && msg_id_type < other.msg_id_type);
       }
    };
 
@@ -115,6 +109,7 @@ namespace rsj {
       NrpnFilter nrpn_filter_{};
    };
 } // namespace rsj
+
 // hash functions
 // It is allowed to add template specializations for any standard library class template to the
 // namespace std only if the declaration depends on at least one program-defined type and the
