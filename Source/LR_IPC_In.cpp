@@ -196,15 +196,6 @@ void LrIpcIn::timerCallback()
    }
 }
 
-namespace {
-   void Trim(std::string_view& value) noexcept
-   {
-      value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
-      if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
-         value.remove_suffix(value.size() - tr - 1);
-   }
-} // namespace
-
 void LrIpcIn::ProcessLine()
 {
    using namespace std::literals::string_literals;
@@ -219,7 +210,7 @@ void LrIpcIn::ProcessLine()
          if (line_copy == kTerminate)
             return;
          std::string_view v{line_copy};
-         Trim(v);
+         rsj::Trim(v);
          auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
          value_string.remove_prefix(
              std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));

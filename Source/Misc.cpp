@@ -53,6 +53,13 @@ std::string rsj::ToLower(std::string_view in)
    }
 }
 
+void rsj::Trim(std::string_view& value) noexcept
+{
+   value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
+   if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
+      value.remove_suffix(value.size() - tr - 1);
+}
+
 // note: C++20 will have ends_with
 bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 {

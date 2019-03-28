@@ -54,6 +54,7 @@ constexpr auto OSX{true};
 
 namespace rsj {
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
+   void Trim(std::string_view& value) noexcept;
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& error_text);
