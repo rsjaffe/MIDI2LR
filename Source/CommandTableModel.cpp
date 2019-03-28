@@ -75,7 +75,7 @@ void CommandTableModel::paintCell(
                 cmd.msg_id_type) {
             case rsj::MessageType::NoteOff:
             case rsj::MessageType::NoteOn:
-               format_str << cmd.channel << " | Note : " << cmd.data;
+               format_str << cmd.channel << " | Note: " << cmd.data;
                break;
             case rsj::MessageType::Cc:
                format_str << cmd.channel << " | CC: " << cmd.data;
@@ -84,7 +84,7 @@ void CommandTableModel::paintCell(
                format_str << cmd.channel << " | Pitch Bend";
                break;
             }
-            g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centred);
+            g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centredLeft);
          }
       }
    }
