@@ -295,7 +295,8 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value)
          cc_high_.at(controlnumber) =
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
-      // no lock as this function called in non-multithreaded manner
+      // lock may not be needed. this function called in non-multithreaded manner
+      auto lock = std::lock_guard(current_v_mtx_);
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
    catch (const std::exception& e) {
@@ -312,7 +313,8 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value)
          cc_low_.at(controlnumber) = 0;
       else
          cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
-      // no lock as this function called in non-multithreaded manner
+      // lock may not be needed. this function called in non-multithreaded manner
+      auto lock = std::lock_guard(current_v_mtx_);
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
    catch (const std::exception& e) {
@@ -359,7 +361,8 @@ void ChannelModel::CcDefaults()
       cc_low_.fill(0);
       cc_high_.fill(0x3FFF); // XCode throws linker error when use ChannelModel::kMaxNRPN here
       cc_method_.fill(rsj::CCmethod::kAbsolute);
-      // no lock as this function called in non-multithreaded manner
+      // lock may not be needed. this function called in non-multithreaded manner
+      auto lock = std::lock_guard(current_v_mtx_);
       current_v_.fill(short{8191});
       for (size_t a = 0; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;
