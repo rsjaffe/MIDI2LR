@@ -56,11 +56,11 @@ namespace rsj {
    struct MidiMessage {
       MessageType message_type_byte{NoteOn};
       short channel{0};
-      short number{0};
+      short control_number{0};
       short value{0};
       constexpr MidiMessage() noexcept = default;
       constexpr MidiMessage(MessageType mt, short ch, short nu, short va) noexcept
-          : message_type_byte(mt), channel(ch), number(nu), value(va)
+          : message_type_byte(mt), channel(ch), control_number(nu), value(va)
       {
       }
    };
@@ -68,21 +68,25 @@ namespace rsj {
    constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
    {
       return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
-             && lhs.number == rhs.number && lhs.value == rhs.value;
+             && lhs.control_number == rhs.control_number && lhs.value == rhs.value;
    }
 
    struct MidiMessageId {
       MessageType msg_id_type;
       int channel;
-      int data;
+      int control_number;
 
-      constexpr MidiMessageId() noexcept : msg_id_type(MessageType::NoteOn), channel(0), data(0) {}
+      constexpr MidiMessageId() noexcept
+          : msg_id_type(MessageType::NoteOn), channel(0), control_number(0)
+      {
+      }
       constexpr MidiMessageId(int ch, int dat, MessageType msgType) noexcept
-          : msg_id_type(msgType), channel(ch), data(dat)
+          : msg_id_type(msgType), channel(ch), control_number(dat)
       {
       }
       constexpr MidiMessageId(const MidiMessage& other)
-          : msg_id_type{other.message_type_byte}, channel{other.channel}, data{other.number}
+          : msg_id_type{other.message_type_byte}, channel{other.channel}, control_number{
+                                                                              other.control_number}
       {
       }
       constexpr MidiMessageId(const MidiMessageId& other) = default;
@@ -91,12 +95,14 @@ namespace rsj {
       constexpr MidiMessageId& operator=(MidiMessageId&& other) noexcept = default;
       constexpr bool operator==(const MidiMessageId& other) const noexcept
       {
-         return msg_id_type == other.msg_id_type && channel == other.channel && data == other.data;
+         return msg_id_type == other.msg_id_type && channel == other.channel
+                && control_number == other.control_number;
       }
       constexpr bool operator<(const MidiMessageId& other) const noexcept
       {
-         return (channel < other.channel) || (channel == other.channel && data < other.data)
-                || (channel == other.channel && data == other.data
+         return (channel < other.channel)
+                || (channel == other.channel && control_number < other.control_number)
+                || (channel == other.channel && control_number == other.control_number
                        && msg_id_type < other.msg_id_type);
       }
    };
@@ -120,7 +126,7 @@ namespace std {
       size_t operator()(const rsj::MidiMessageId& k) const noexcept
       {
          return hash<int_fast32_t>()(int_fast32_t(k.channel) | int_fast32_t(k.msg_id_type) << 8
-                                     | int_fast32_t(k.data) << 16);
+                                     | int_fast32_t(k.control_number) << 16);
       } // channel is one byte, messagetype is one byte, controller (data) is two bytes
    };
 } // namespace std

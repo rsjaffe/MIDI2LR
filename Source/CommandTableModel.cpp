@@ -75,10 +75,10 @@ void CommandTableModel::paintCell(
                 cmd.msg_id_type) {
             case rsj::MessageType::NoteOff:
             case rsj::MessageType::NoteOn:
-               format_str << cmd.channel << " | Note: " << cmd.data;
+               format_str << cmd.channel << " | Note: " << cmd.control_number;
                break;
             case rsj::MessageType::Cc:
-               format_str << cmd.channel << " | CC: " << cmd.data;
+               format_str << cmd.channel << " | CC: " << cmd.control_number;
                break;
             case rsj::MessageType::Pw:
                format_str << cmd.channel << " | Pitch Bend";

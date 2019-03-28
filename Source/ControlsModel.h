@@ -37,13 +37,13 @@ namespace rsj {
    enum struct CCmethod : char { kAbsolute, kTwosComplement, kBinaryOffset, kSignMagnitude };
 
    struct SettingsStruct {
-      short number; // not using size_t so serialized data won't vary if size_t varies
+      short control_number; // not using size_t so serialized data won't vary if size_t varies
       short low;
       short high;
       rsj::CCmethod method;
       SettingsStruct(short n = 0, short l = 0, short h = 0x7F,
           rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
-          : number{n}, low{l}, high{h}, method{m}
+          : control_number{n}, low{l}, high{h}, method{m}
       {
       }
 
@@ -54,7 +54,7 @@ namespace rsj {
       {
          switch (version) {
          case 1:
-            archive(number, high, low, method);
+            archive(control_number, high, low, method);
             break;
          default:
             rsj::LogAndAlertError("Wrong archive version for SettingsStruct. Version is "
@@ -86,7 +86,7 @@ namespace rsj {
                default:
                   break; // leave "undefined"
                }
-               archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
+               archive(cereal::make_nvp("CC", control_number), CEREAL_NVP(high), CEREAL_NVP(low),
                    cereal::make_nvp("method", methodstr));
                switch (methodstr.front()) {
                case 'B':
@@ -240,7 +240,7 @@ class ControlsModel {
    {
       try {
          return all_controls_.at(mm.channel)
-             .ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
+             .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -252,7 +252,7 @@ class ControlsModel {
    {
       try {
          return all_controls_.at(mm.channel)
-             .MeasureChange(mm.message_type_byte, mm.number, mm.value);
+             .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -262,7 +262,7 @@ class ControlsModel {
    short SetToCenter(const rsj::MidiMessage& mm)
    {
       try {
-         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.number);
+         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.control_number);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -323,7 +323,8 @@ class ControlsModel {
       }
    }
 
-   short PluginToController(rsj::MessageType controltype, size_t channel, short controlnumber, double value)
+   short PluginToController(
+       rsj::MessageType controltype, size_t channel, short controlnumber, double value)
    {
       try {
          return all_controls_.at(channel).PluginToController(controltype, controlnumber, value);
@@ -334,7 +335,8 @@ class ControlsModel {
       }
    }
 
-   short MeasureChange(rsj::MessageType controltype, size_t channel, short controlnumber, short value)
+   short MeasureChange(
+       rsj::MessageType controltype, size_t channel, short controlnumber, short value)
    {
       try {
          return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);

@@ -250,18 +250,18 @@ void LrIpcIn::ProcessLine()
                const auto original_value = std::stod(std::string(value_string));
                for (const auto& msg : profile_.GetMessagesForCommand(command)) {
                   const auto value = controls_model_.PluginToController(msg.msg_id_type,
-                      gsl::narrow_cast<size_t>(msg.channel - 1), gsl::narrow_cast<short>(msg.data),
-                      original_value);
+                      gsl::narrow_cast<size_t>(msg.channel - 1),
+                      gsl::narrow_cast<short>(msg.control_number), original_value);
                   if (midi_sender_) {
                      switch (msg.msg_id_type) {
                      case rsj::MessageType::NoteOn:
-                        midi_sender_->SendNoteOn(msg.channel, msg.data, value);
+                        midi_sender_->SendNoteOn(msg.channel, msg.control_number, value);
                         break;
                      case rsj::MessageType::Cc:
                         if (controls_model_.GetCcMethod(gsl::narrow_cast<size_t>(msg.channel - 1),
-                                gsl::narrow_cast<short>(msg.data))
+                                gsl::narrow_cast<short>(msg.control_number))
                             == rsj::CCmethod::kAbsolute)
-                           midi_sender_->SendCc(msg.channel, msg.data, value);
+                           midi_sender_->SendCc(msg.channel, msg.control_number, value);
                         break;
                      case rsj::MessageType::Pw:
                         midi_sender_->SendPitchWheel(msg.channel, value);

@@ -231,10 +231,10 @@ void Profile::ToXmlFile(const juce::File& file)
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
             case rsj::MessageType::NoteOn:
-               setting->setAttribute("note", map_entry.first.data);
+               setting->setAttribute("note", map_entry.first.control_number);
                break;
             case rsj::MessageType::Cc:
-               setting->setAttribute("controller", map_entry.first.data);
+               setting->setAttribute("controller", map_entry.first.control_number);
                break;
             case rsj::MessageType::Pw:
                setting->setAttribute("pitchbend", 0);

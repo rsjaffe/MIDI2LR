@@ -64,7 +64,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             CCoptions ccopt;
             ccopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to
                                                                                // 0-based
-                gsl::narrow_cast<short>(message_.data));
+                gsl::narrow_cast<short>(message_.control_number));
             juce::DialogWindow::showModalDialog(juce::translate("Adjust CC dialog"), &ccopt,
                 nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;

@@ -128,7 +128,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
             nextresponse = now + std::chrono::milliseconds(kDelay);
             if (mm.message_type_byte == rsj::MessageType::Pw
                 || (mm.message_type_byte == rsj::MessageType::Cc
-                       && controls_model_.GetCcMethod(mm.channel, mm.number)
+                       && controls_model_.GetCcMethod(mm.channel, mm.control_number)
                               == rsj::CCmethod::kAbsolute)) {
                recenter_.SetMidiMessage(mm);
             }
@@ -333,7 +333,7 @@ void LrIpcOut::Recenter::timerCallback()
          break;
       }
       case rsj::MessageType::Cc: {
-         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
+         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.control_number, center);
          break;
       }
       default:
