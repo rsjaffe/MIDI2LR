@@ -20,26 +20,39 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandSet.h"
 
+#include <exception>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
 namespace fs = std::filesystem;
 #endif
 #include <fstream>
 
+#include <cereal/archives/xml.hpp>
+// ReSharper disable CppUnusedIncludeDirective
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+// ReSharper restore CppUnusedIncludeDirective
+
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 { // manually insert unmapped at first position
-   cmd_by_number_.emplace_back("Unmapped");
-   cmd_idx_["Unmapped"] = 0;
-   size_t idx = 1;
-   for (const auto& bycategory : m_impl_.allcommands_) {
-      std::vector<MenuStringT> menu_items_temp{};
-      for (const auto& cmd_pair : bycategory.second) {
-         cmd_by_number_.push_back(cmd_pair.first);
-         cmd_idx_[cmd_pair.first] = idx++;
-         menu_items_temp.emplace_back(cmd_pair.second);
+   try {
+      cmd_by_number_.emplace_back("Unmapped");
+      cmd_idx_["Unmapped"] = 0;
+      size_t idx = 1;
+      for (const auto& bycategory : m_impl_.allcommands_) {
+         std::vector<MenuStringT> menu_items_temp{};
+         for (const auto& cmd_pair : bycategory.second) {
+            cmd_by_number_.push_back(cmd_pair.first);
+            cmd_idx_[cmd_pair.first] = idx++;
+            menu_items_temp.emplace_back(cmd_pair.second);
+         }
+         menus_.emplace_back(bycategory.first);
+         menu_entries_.emplace_back(std::move(menu_items_temp));
       }
-      menus_.emplace_back(bycategory.first);
-      menu_entries_.emplace_back(std::move(menu_items_temp));
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }
 
@@ -70,18 +83,30 @@ CommandSet::Impl::Impl()
    }
 }
 
-const CommandSet::Impl& CommandSet::MakeImpl()
+const CommandSet::Impl& CommandSet::MakeImpl() const
 {
-   static const Impl singleimpl;
-   return singleimpl;
+   try {
+      static const Impl kImpl;
+      return kImpl;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 size_t CommandSet::CommandTextIndex(const std::string& command) const
 {
-   const auto found = cmd_idx_.find(command);
-   if (found == cmd_idx_.end()) {
-      rsj::Log("Command not found in CommandTextIndex: " + command);
-      return 0;
+   try {
+      const auto found = cmd_idx_.find(command);
+      if (found == cmd_idx_.end()) {
+         rsj::Log("Command not found in CommandTextIndex: " + command);
+         return 0;
+      }
+      return found->second;
    }
-   return found->second;
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }

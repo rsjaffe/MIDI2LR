@@ -30,10 +30,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandTable.h"      //class member
 #include "CommandTableModel.h" //class member
 #include "ResizableLayout.h"   //base class
-class CommandMap;
+class CommandSet;
 class LrIpcOut;
 class MidiReceiver;
 class MidiSender;
+class Profile;
 class ProfileManager;
 class SettingsManager;
 namespace rsj {
@@ -46,8 +47,8 @@ class MainContentComponent final : public juce::Component,
                                    juce::ButtonListener,
                                    public ResizableLayout { // ResizableLayout.h
  public:
-   MainContentComponent(
-       CommandMap& command_map, ProfileManager& profile_manager, SettingsManager& settings_manager);
+   MainContentComponent(const CommandSet& command_set, Profile& profile,
+       ProfileManager& profile_manager, SettingsManager& settings_manager);
    ~MainContentComponent() = default;
    MainContentComponent(const MainContentComponent& other) = delete;
    MainContentComponent(MainContentComponent&& other) = delete;
@@ -71,24 +72,24 @@ class MainContentComponent final : public juce::Component,
    void MidiCmdCallback(rsj::MidiMessage);
    void ProfileChanged(juce::XmlElement* xml_element, const juce::String& file_name);
 
-   CommandMap& command_map_;
+   Profile& profile_;
    CommandTable command_table_{"Table", nullptr};
    CommandTableModel command_table_model_;
    ProfileManager& profile_manager_;
    juce::DropShadowEffect title_shadow_;
    juce::Label command_label_{"Command", ""};
-   juce::Label connection_label_{"Connection", TRANS("Not connected to LR")};
+   juce::Label connection_label_{"Connection", juce::translate("Not connected to LR")};
    juce::Label profile_name_label_{"ProfileNameLabel", ""};
    juce::Label title_label_{"Title", "MIDI2LR"};
    juce::Label version_label_{
-       "Version", TRANS("Version ") + juce::String{ProjectInfo::versionString}};
+       "Version", juce::translate("Version ") + juce::String{ProjectInfo::versionString}};
    juce::String last_command_;
-   juce::TextButton disconnect_button_{TRANS("Halt sending to Lightroom")};
-   juce::TextButton load_button_{TRANS("Load")};
-   juce::TextButton remove_row_button_{TRANS("Clear ALL rows")};
-   juce::TextButton rescan_button_{TRANS("Rescan MIDI devices")};
-   juce::TextButton save_button_{TRANS("Save")};
-   juce::TextButton settings_button_{TRANS("Settings")};
+   juce::TextButton disconnect_button_{juce::translate("Halt sending to Lightroom")};
+   juce::TextButton load_button_{juce::translate("Load")};
+   juce::TextButton remove_row_button_{juce::translate("Clear ALL rows")};
+   juce::TextButton rescan_button_{juce::translate("Rescan MIDI devices")};
+   juce::TextButton save_button_{juce::translate("Save")};
+   juce::TextButton settings_button_{juce::translate("Settings")};
    SettingsManager& settings_manager_;
    size_t row_to_select_{0};
    std::shared_ptr<MidiReceiver> midi_receiver_{nullptr};

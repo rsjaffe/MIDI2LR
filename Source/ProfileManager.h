@@ -20,15 +20,18 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <exception>
 #include <functional>
 #include <memory>
 #include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
-class CommandMap;
+#include "Misc.h"
+
 class ControlsModel;
 class LrIpcOut;
 class MidiReceiver;
+class Profile;
 namespace rsj {
    struct MidiMessage;
    struct MidiMessageId;
@@ -36,21 +39,25 @@ namespace rsj {
 
 class ProfileManager final : juce::AsyncUpdater {
  public:
-   ProfileManager(ControlsModel& c_model, CommandMap& cmap) noexcept;
+   ProfileManager(ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out,
+       MidiReceiver& midi_receiver) noexcept;
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
    ProfileManager& operator=(const ProfileManager& other) = delete;
    ProfileManager& operator=(ProfileManager&& other) = delete;
-
-   void Init(std::weak_ptr<LrIpcOut>&& out, MidiReceiver* midi_receiver);
-
    template<class T>
    void AddCallback(T* const object, void (T::*const mf)(juce::XmlElement*, const juce::String&))
    {
-      using namespace std::placeholders;
-      if (object && mf) // only store non-empty functions
-         callbacks_.emplace_back(std::bind(mf, object, _1, _2));
+      try {
+         using namespace std::placeholders;
+         if (object && mf) // only store non-empty functions
+            callbacks_.emplace_back(std::bind(mf, object, _1, _2));
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
    const juce::String& GetProfileDirectory() const noexcept
    {
@@ -82,7 +89,7 @@ class ProfileManager final : juce::AsyncUpdater {
       kNext,
    };
 
-   CommandMap& command_map_;
+   Profile& current_profile_;
    ControlsModel& controls_model_;
    int current_profile_index_{0};
    juce::File profile_location_;

@@ -28,12 +28,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <utility>
 
 #include <gsl/gsl>
-#include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDIReceiver.h"
-#include "MidiUtilities.h"
 #include "MIDISender.h"
+#include "MidiUtilities.h"
 #include "Misc.h"
+#include "Profile.h"
 
 using Clock = std::chrono::high_resolution_clock;
 using TimePoint = Clock::time_point;
@@ -51,9 +51,11 @@ namespace {
        kDelay + kDelay / 2)}; // don't change, change kDelay and kMinRecenterTimer
 } // namespace
 
-LrIpcOut::LrIpcOut(ControlsModel& c_model, const CommandMap& map_command) noexcept
-    : command_map_{map_command}, controls_model_{c_model}
+LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
+    std::shared_ptr<MidiSender> midi_sender, MidiReceiver& midi_receiver) noexcept
+    : profile_{profile}, controls_model_{c_model}, midi_sender_{std::move(midi_sender)}
 {
+   midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
 }
 
 #pragma warning(push)
@@ -79,14 +81,11 @@ LrIpcOut::~LrIpcOut()
 }
 #pragma warning(pop)
 
-void LrIpcOut::Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver)
+void LrIpcOut::Start()
 {
    try {
-      midi_sender_ = std::move(midi_sender);
       connect_timer_.Start();
       send_out_future_ = std::async(std::launch::async, &LrIpcOut::SendOut, this);
-      if (midi_receiver)
-         midi_receiver->AddCallback(this, &LrIpcOut::MidiCmdCallback);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -99,7 +98,6 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
    using namespace std::string_literals;
    try {
       const rsj::MidiMessageId message{mm};
-#pragma warning(suppress : 26426)
       static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
           {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
           {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
@@ -117,9 +115,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ZoomInOut"s, {"ZoomInSmallStep 1\n"s, "ZoomOutSmallStep 1\n"s}},
           {"ZoomOutIn"s, {"ZoomOutSmallStep 1\n"s, "ZoomInSmallStep 1\n"s}},
       };
-      if (!command_map_.MessageExistsInMap(message))
+      if (!profile_.MessageExistsInMap(message))
          return;
-      const auto command_to_send = command_map_.GetCommandForMessage(message);
+      const auto command_to_send = profile_.GetCommandForMessage(message);
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "Unmapped"s)
          return; // handled by ProfileManager
@@ -128,9 +126,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          static TimePoint nextresponse{};
          if (const auto now = Clock::now(); nextresponse < now) {
             nextresponse = now + std::chrono::milliseconds(kDelay);
-            if (mm.message_type_byte == rsj::kPwFlag
-                || (mm.message_type_byte == rsj::kCcFlag
-                       && controls_model_.GetCcMethod(mm.channel, mm.number)
+            if (mm.message_type_byte == rsj::MessageType::Pw
+                || (mm.message_type_byte == rsj::MessageType::Cc
+                       && controls_model_.GetCcMethod(mm.channel, mm.control_number)
                               == rsj::CCmethod::kAbsolute)) {
                recenter_.SetMidiMessage(mm);
             }
@@ -159,7 +157,6 @@ void LrIpcOut::SendCommand(std::string&& command)
    try {
       if (sending_stopped_)
          return;
-#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, std::move(command));
    }
@@ -174,7 +171,6 @@ void LrIpcOut::SendCommand(const std::string& command)
    try {
       if (sending_stopped_)
          return;
-#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(command_);
       command_.enqueue(ptok, command);
    }
@@ -186,35 +182,59 @@ void LrIpcOut::SendCommand(const std::string& command)
 
 void LrIpcOut::Stop()
 {
-   sending_stopped_ = true;
-   const auto connected = isConnected();
-   for (const auto& cb : callbacks_)
-      cb(connected, true);
+   try {
+      sending_stopped_ = true;
+      const auto connected = isConnected();
+      for (const auto& cb : callbacks_)
+         cb(connected, true);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::Restart()
 {
-   using namespace std::string_literals;
-   sending_stopped_ = false;
-   const auto connected = isConnected();
-   for (const auto& cb : callbacks_)
-      cb(connected, false);
-   // resync controls
-   SendCommand("FullRefresh 1\n"s);
+   try {
+      using namespace std::string_literals;
+      sending_stopped_ = false;
+      const auto connected = isConnected();
+      for (const auto& cb : callbacks_)
+         cb(connected, false);
+      // resync controls
+      SendCommand("FullRefresh 1\n"s);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::connectionMade()
 {
-   for (const auto& cb : callbacks_)
-      cb(true, sending_stopped_);
-   rsj::Log("Connected to Lightroom plugin");
+   try {
+      for (const auto& cb : callbacks_)
+         cb(true, sending_stopped_);
+      rsj::Log("Connected to Lightroom plugin");
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::connectionLost()
 {
-   for (const auto& cb : callbacks_)
-      cb(false, sending_stopped_);
-   rsj::Log("Disconnected from Lightroom plugin");
+   try {
+      for (const auto& cb : callbacks_)
+         cb(false, sending_stopped_);
+      rsj::Log("Disconnected from Lightroom plugin");
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::messageReceived(const juce::MemoryBlock& /*msg*/) noexcept {}
@@ -246,52 +266,82 @@ void LrIpcOut::SendOut()
 
 void LrIpcOut::ConnectTimer::Start()
 {
-   auto lock = std::lock_guard(connect_mutex_);
-   juce::Timer::startTimer(kConnectTimer);
-   timer_off_ = false;
+   try {
+      auto lock = std::lock_guard(connect_mutex_);
+      juce::Timer::startTimer(kConnectTimer);
+      timer_off_ = false;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::ConnectTimer::Stop()
 {
-   auto lock = std::lock_guard(connect_mutex_);
-   juce::Timer::stopTimer();
-   timer_off_ = true;
+   try {
+      auto lock = std::lock_guard(connect_mutex_);
+      juce::Timer::stopTimer();
+      timer_off_ = true;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::ConnectTimer::timerCallback()
 {
-   auto lock = std::lock_guard(connect_mutex_);
-   if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
-      owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+   try {
+      auto lock = std::lock_guard(connect_mutex_);
+      if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
+         owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
-   auto lock = std::lock_guard(mtx_);
-   mm_ = mm;
-   juce::Timer::startTimer(kRecenterTimer);
+   try {
+      auto lock = std::lock_guard(mtx_);
+      mm_ = mm;
+      juce::Timer::startTimer(kRecenterTimer);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcOut::Recenter::timerCallback()
 {
-   rsj::MidiMessage local_mm{};
-   {
-      auto lock = std::lock_guard(mtx_);
-      juce::Timer::stopTimer();
-      local_mm = mm_;
+   try {
+      rsj::MidiMessage local_mm{};
+      {
+         auto lock = std::lock_guard(mtx_);
+         juce::Timer::stopTimer();
+         local_mm = mm_;
+      }
+      const auto center = owner_.controls_model_.SetToCenter(local_mm);
+      // send center to control//
+      switch (local_mm.message_type_byte) {
+      case rsj::MessageType::Pw: {
+         owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
+         break;
+      }
+      case rsj::MessageType::Cc: {
+         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.control_number, center);
+         break;
+      }
+      default:
+          /* no action */;
+      }
    }
-   const auto center = owner_.controls_model_.SetToCenter(local_mm);
-   // send center to control//
-   switch (local_mm.message_type_byte) {
-   case rsj::kPwFlag: {
-      owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
-      break;
-   }
-   case rsj::kCcFlag: {
-      owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
-      break;
-   }
-   default:
-       /* no action */;
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
    }
 }

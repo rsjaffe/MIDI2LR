@@ -55,7 +55,9 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class CCoptions : public juce::Component, juce::TextEditor::Listener, public juce::ButtonListener {
+class CCoptions final : public juce::Component,
+                        juce::TextEditor::Listener,
+                        public juce::ButtonListener {
  public:
    //==============================================================================
    CCoptions();
@@ -67,14 +69,14 @@ class CCoptions : public juce::Component, juce::TextEditor::Listener, public juc
    {
       controls_model_ = model;
    }
-   void BindToControl(size_t channel, short number);
+   void BindToControl(size_t channel, short control_number);
    CCoptions(CCoptions&& other) noexcept = delete;
    CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserMethods]
 
    void paint(juce::Graphics& g) override;
    void resized() override;
-   void buttonClicked(juce::Button* buttonThatWasClicked) override;
+   void buttonClicked(juce::Button* button_that_was_clicked) override;
 
  private:
    //[UserVariables]   -- You can add your own custom variables in this section.

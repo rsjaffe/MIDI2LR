@@ -44,15 +44,16 @@ void SettingsComponent::Init()
       // place controls in a location that is initially correct.
       setSize(kSettingsWidth, kSettingsHeight);
 
-      pickup_group_.setText(TRANS("Pick up"));
+      pickup_group_.setText(juce::translate("Pick up"));
       pickup_group_.setBounds(0, 0, kSettingsWidth, 100);
       addToLayout(&pickup_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(pickup_group_);
 
       pickup_label_.setFont(juce::Font{12.f, juce::Font::bold});
       pickup_label_.setText(
-          TRANS("Disabling the pickup mode may be better for touchscreen interfaces and may solve "
-                "issues with LR not picking up fast fader/knob movements"),
+          juce::translate(
+              "Disabling the pickup mode may be better for touchscreen interfaces and may solve "
+              "issues with LR not picking up fast fader/knob movements"),
           juce::NotificationType::dontSendNotification);
       pickup_label_.setBounds(kSettingsLeft, 15, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&pickup_label_, anchorMidLeft, anchorMidRight);
@@ -69,7 +70,7 @@ void SettingsComponent::Init()
       addAndMakeVisible(pickup_enabled_);
 
       // ---------------------------- profile section -----------------------------------
-      profile_group_.setText(TRANS("Profile"));
+      profile_group_.setText(juce::translate("Profile"));
       profile_group_.setBounds(0, 100, kSettingsWidth, 100);
       addToLayout(&profile_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(profile_group_);
@@ -89,14 +90,14 @@ void SettingsComponent::Init()
           settings_manager_.GetProfileDirectory(), juce::NotificationType::dontSendNotification);
 
       ////// ----------------------- auto hide section ------------------------------------
-      autohide_group_.setText(TRANS("Auto hide"));
+      autohide_group_.setText(juce::translate("Auto hide"));
       autohide_group_.setBounds(0, 200, kSettingsWidth, 100);
       addToLayout(&autohide_group_, anchorMidLeft, anchorMidRight);
       addAndMakeVisible(autohide_group_);
 
       autohide_explain_label_.setFont(juce::Font{12.f, juce::Font::bold});
-      autohide_explain_label_.setText(
-          TRANS("Autohide the plugin window in x seconds, select 0 for disabling autohide"),
+      autohide_explain_label_.setText(juce::translate("Autohide the plugin window in x seconds, "
+                                                      "select 0 for disabling autohide"),
           juce::NotificationType::dontSendNotification);
       autohide_explain_label_.setBounds(kSettingsLeft, 215, kSettingsWidth - 2 * kSettingsLeft, 50);
       addToLayout(&autohide_explain_label_, anchorMidLeft, anchorMidRight);
@@ -124,8 +125,14 @@ void SettingsComponent::Init()
 }
 
 void SettingsComponent::paint(juce::Graphics& g)
-{                                   //-V2009 overridden method
-   g.fillAll(juce::Colours::white); // clear the background
+{ //-V2009 overridden method
+   try {
+      g.fillAll(juce::Colours::white); // clear the background
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 void SettingsComponent::buttonClicked(juce::Button* button)
@@ -137,16 +144,10 @@ void SettingsComponent::buttonClicked(juce::Button* button)
          rsj::Log(pickup_state ? "Pickup set to enabled" : "Pickup set to disabled");
       }
       else if (button == &profile_location_button_) {
-         juce::FileBrowserComponent browser{juce::FileBrowserComponent::canSelectDirectories
-                                                | juce::FileBrowserComponent::openMode,
-             juce::File::getCurrentWorkingDirectory(), nullptr, nullptr};
-
-         juce::FileChooserDialogBox dialog_box{TRANS("Select Profile Folder"),
-             TRANS("Select a folder containing MIDI2LR Profiles"), browser, true,
-             juce::Colours::lightgrey};
-
-         if (dialog_box.show()) {
-            const auto profile_location = browser.getSelectedFile(0).getFullPathName();
+         juce::FileChooser chooser{juce::translate("Select Profile Folder"),
+             juce::File::getSpecialLocation(juce::File::userDocumentsDirectory), "", true};
+         if (chooser.browseForDirectory()) {
+            const auto profile_location = chooser.getResult().getFullPathName();
             settings_manager_.SetProfileDirectory(profile_location);
             rsj::Log("Profile location set to " + profile_location);
             profile_location_label_.setText(
@@ -162,9 +163,15 @@ void SettingsComponent::buttonClicked(juce::Button* button)
 
 void SettingsComponent::sliderValueChanged(juce::Slider* slider)
 { //-V2009 overridden method
-   if (slider && &autohide_setting_ == slider) {
-      settings_manager_.SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
-      rsj::Log(
-          "Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime()) + " seconds");
+   try {
+      if (slider && &autohide_setting_ == slider) {
+         settings_manager_.SetAutoHideTime(juce::roundToInt(autohide_setting_.getValue()));
+         rsj::Log("Autohide time set to " + juce::String(settings_manager_.GetAutoHideTime())
+                  + " seconds");
+      }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
    }
 }

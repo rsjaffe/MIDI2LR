@@ -23,6 +23,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 
 namespace rsj {
-   void Translate(const ::std::string& lg);
+   void Translate(const std::string& lg);
 }
 #endif

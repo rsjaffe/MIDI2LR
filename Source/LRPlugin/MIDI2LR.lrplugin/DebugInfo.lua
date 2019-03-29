@@ -36,11 +36,13 @@ local function gatherInformation()
   .. '\nVersion ' .. LrApplication.versionString()
   .. '\nLanguage ' .. LrLocalization.currentLanguage() 
   .. '\nPreferences path ' .. LrPathUtils.getStandardFilePath ('appPrefs') 
-  .. '\nLApplication data path ' .. LrPathUtils.getStandardFilePath ('appData')
+  .. '\nApplication data path ' .. LrPathUtils.getStandardFilePath ('appData')
   .. '\n----------- PLUGIN -----------' 
   .. '\nVersion ' .. Info.VERSION.major  .. '.' .. Info.VERSION.minor .. '.' .. Info.VERSION.revision .. '.' .. Info.VERSION.build 
   .. '\nPath ' .._PLUGIN.path .. writeable
-  local lines = 9 -- update if change above message
+  .. '\nMIDI2LR log path ' .. Ut.applogpath()
+  .. '\nMIDI2LR data path ' .. Ut.appdatapath()
+  local lines = 11 -- update if change above message
   if (type(Info.AppInfo) == 'table') then
     mess = mess .. '\n----------- APP -----------'
     lines = lines + 1

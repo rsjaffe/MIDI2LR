@@ -20,17 +20,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "LR_IPC_In.h"
 
+#include <algorithm>
 #include <array>
 #include <exception>
-#include <string>
 #include <string_view>
 
 #include <gsl/gsl>
-#include "CommandMap.h"
 #include "ControlsModel.h"
 #include "MIDISender.h"
-#include "Misc.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
+#include "Profile.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
 
@@ -47,9 +47,10 @@ namespace {
    constexpr int kConnectTimer = 1000;
 } // namespace
 
-LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, CommandMap& command_map)
-    : juce::Thread{"LR_IPC_IN"}, command_map_{command_map}, controls_model_{c_model},
-      profile_manager_{profile_manager}
+LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
+    std::shared_ptr<MidiSender> midi_sender)
+    : juce::Thread{"LR_IPC_IN"}, profile_{profile}, controls_model_{c_model},
+      profile_manager_{profile_manager}, midi_sender_{std::move(midi_sender)}
 {
 }
 
@@ -81,10 +82,9 @@ LrIpcIn::~LrIpcIn()
 }
 #pragma warning(pop)
 
-void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender)
+void LrIpcIn::Start()
 {
    try {
-      midi_sender_ = std::move(midi_sender);
       // start the timer
       juce::Timer::startTimer(kConnectTimer);
       process_line_future_ = std::async(std::launch::async, &LrIpcIn::ProcessLine, this);
@@ -97,8 +97,14 @@ void LrIpcIn::Init(std::shared_ptr<MidiSender> midi_sender)
 
 void LrIpcIn::PleaseStopThread()
 {
-   juce::Thread::signalThreadShouldExit();
-   juce::Thread::notify();
+   try {
+      juce::Thread::signalThreadShouldExit();
+      juce::Thread::notify();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void LrIpcIn::run()
@@ -190,20 +196,10 @@ void LrIpcIn::timerCallback()
    }
 }
 
-namespace {
-   void Trim(std::string_view& value) noexcept
-   {
-      value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
-      if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
-         value.remove_suffix(value.size() - tr - 1);
-   }
-} // namespace
-
 void LrIpcIn::ProcessLine()
 {
    using namespace std::literals::string_literals;
    try {
-#pragma warning(suppress : 26426)
       const static std::unordered_map<std::string, int> kCmds = {
           {"SwitchProfile"s, 1}, {"SendKey"s, 2}, {"TerminateApplication"s, 3}};
       do {
@@ -214,7 +210,7 @@ void LrIpcIn::ProcessLine()
          if (line_copy == kTerminate)
             return;
          std::string_view v{line_copy};
-         Trim(v);
+         rsj::Trim(v);
          auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
          value_string.remove_prefix(
              std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
@@ -252,33 +248,22 @@ void LrIpcIn::ProcessLine()
             // send associated messages to MIDI OUT devices
             if (midi_sender_) {
                const auto original_value = std::stod(std::string(value_string));
-               for (const auto msg : command_map_.GetMessagesForCommand(command)) {
-                  short msgtype{0};
-                  switch (msg.msg_id_type) {
-                  case rsj::MsgIdEnum::kNote:
-                     msgtype = rsj::kNoteOnFlag;
-                     break;
-                  case rsj::MsgIdEnum::kCc:
-                     msgtype = rsj::kCcFlag;
-                     break;
-                  case rsj::MsgIdEnum::kPitchBend:
-                     msgtype = rsj::kPwFlag;
-                  }
-                  const auto value = controls_model_.PluginToController(msgtype,
+               for (const auto& msg : profile_.GetMessagesForCommand(command)) {
+                  const auto value = controls_model_.PluginToController(msg.msg_id_type,
                       gsl::narrow_cast<size_t>(msg.channel - 1),
-                      gsl::narrow_cast<short>(msg.data), original_value);
+                      gsl::narrow_cast<short>(msg.control_number), original_value);
                   if (midi_sender_) {
-                     switch (msgtype) {
-                     case rsj::kNoteOnFlag:
-                        midi_sender_->SendNoteOn(msg.channel, msg.data, value);
+                     switch (msg.msg_id_type) {
+                     case rsj::MessageType::NoteOn:
+                        midi_sender_->SendNoteOn(msg.channel, msg.control_number, value);
                         break;
-                     case rsj::kCcFlag:
+                     case rsj::MessageType::Cc:
                         if (controls_model_.GetCcMethod(gsl::narrow_cast<size_t>(msg.channel - 1),
-                                gsl::narrow_cast<short>(msg.data))
+                                gsl::narrow_cast<short>(msg.control_number))
                             == rsj::CCmethod::kAbsolute)
-                           midi_sender_->SendCc(msg.channel, msg.data, value);
+                           midi_sender_->SendCc(msg.channel, msg.control_number, value);
                         break;
-                     case rsj::kPwFlag:
+                     case rsj::MessageType::Pw:
                         midi_sender_->SendPitchWheel(msg.channel, value);
                         break;
                      default:

@@ -20,6 +20,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Misc.h"
 
+#include <algorithm>
+#include <cctype>
+
 #ifdef _WIN32
 #include "WinDef.h"
 #undef NOCTLMGR
@@ -33,6 +36,42 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #include "Ocpp.h"
 #endif
+
+// using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
+std::string rsj::ToLower(std::string_view in)
+{
+   try {
+      std::string s;
+      s.resize(in.size());
+      std::transform(in.begin(), in.end(),
+          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
+      return s;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
+
+void rsj::Trim(std::string_view& value) noexcept
+{
+   value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
+   if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
+      value.remove_suffix(value.size() - tr - 1);
+}
+
+// note: C++20 will have ends_with
+bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
+{
+   try {
+      return main_str.size() >= to_match.size()
+             && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
 
 // from http://www.cplusplus.com/forum/beginner/175177 and
 // https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156
@@ -110,50 +149,75 @@ namespace {
    int MultiByteToWideCharErrorChecked(UINT CodePage, DWORD dwFlags, LPCCH lpMultiByteStr,
        int cbMultiByte, LPWSTR lpWideCharStr, int cchWideChar)
    {
-      const auto ret = MultiByteToWideChar(
-          CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
-      if (!ret) {
-         const auto error_msg =
-             "MultiByteToWideChar failed with error code: " + rsj::NumToChars(GetLastError());
-         throw std::runtime_error(error_msg.c_str());
+      try {
+         const auto ret = MultiByteToWideChar(
+             CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
+         if (!ret) {
+            const auto error_msg =
+                "MultiByteToWideChar failed with error code: " + rsj::NumToChars(GetLastError());
+            throw std::runtime_error(error_msg.c_str());
+         }
+         return ret;
       }
-      return ret;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 
    int WideCharToMultiByteErrorChecked(UINT CodePage, DWORD dwFlags, LPCWCH lpWideCharStr,
        int cchWideChar, LPSTR lpMultiByteStr, int cbMultiByte, LPCCH lpDefaultChar,
        LPBOOL lpUsedDefaultChar)
    {
-      const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
-          lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
-      if (!ret) {
-         const auto error_msg =
-             "WideCharToMultiByte failed with error code: " + rsj::NumToChars(GetLastError());
-         throw std::runtime_error(error_msg.c_str());
+      try {
+         const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
+             lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
+         if (!ret) {
+            const auto error_msg =
+                "WideCharToMultiByte failed with error code: " + rsj::NumToChars(GetLastError());
+            throw std::runtime_error(error_msg.c_str());
+         }
+         return ret;
       }
-      return ret;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 } // namespace
 
 std::wstring rsj::Utf8ToWide(std::string_view input)
 { // add terminating null
-   const auto buffersize =
-       MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), input.size(), nullptr, 0) + 1;
-   std::vector<wchar_t> buffer(buffersize, 0); // all zero
-   MultiByteToWideCharErrorChecked(
-       CP_UTF8, 0, input.data(), input.size(), buffer.data(), gsl::narrow_cast<int>(buffer.size()));
-   return buffer.data();
+   try {
+      const auto buffersize = MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(),
+                                  gsl::narrow_cast<int>(input.size()), nullptr, 0)
+                              + 1;
+      std::vector<wchar_t> buffer(buffersize, 0); // all zero
+      MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), gsl::narrow_cast<int>(input.size()),
+          buffer.data(), gsl::narrow_cast<int>(buffer.size()));
+      return buffer.data();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 std::string rsj::WideToUtf8(std::wstring_view wstr)
 { // add terminating null
-   const auto buffersize = WideCharToMultiByteErrorChecked(
-                               CP_UTF8, 0, wstr.data(), wstr.size(), nullptr, 0, nullptr, nullptr)
-                           + 1;
-   std::vector<char> buffer(buffersize, 0);
-   WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(), wstr.size(), buffer.data(),
-       gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);
-   return buffer.data();
+   try {
+      const auto buffersize = WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(),
+                                  gsl::narrow_cast<int>(wstr.size()), nullptr, 0, nullptr, nullptr)
+                              + 1;
+      std::vector<char> buffer(buffersize, 0);
+      WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(), gsl::narrow_cast<int>(wstr.size()),
+          buffer.data(), gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);
+      return buffer.data();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 #else
 std::string rsj::AppDataFilePath(const std::string& file_name)
@@ -164,4 +228,5 @@ std::string rsj::AppLogFilePath(const std::string& file_name)
 {
    return rsj::AppLogMac() + '/' + file_name;
 }
+
 #endif

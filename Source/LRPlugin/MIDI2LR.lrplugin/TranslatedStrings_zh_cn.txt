@@ -16,3 +16,4 @@
 "$$$/MIDI2LR/Profiles/Next=下一个档案"
 "$$$/MIDI2LR/Profiles/Previous=上一个档案"
 "$$$/MIDI2LR/Versions/notfor=不起作用"
+"$$$/MIDI2LR/ShortCuts/ShowHide=显示或隐藏"

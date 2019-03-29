@@ -20,19 +20,31 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "CommandTableModel.h"
 
-#include "CommandMenu.h"
+#include <exception>
+#include <sstream>
+#include <utility>
 
-CommandTableModel::CommandTableModel(CommandMap& map_command) noexcept : command_map_(map_command)
+#include "CommandMenu.h"
+#include "Misc.h"
+
+CommandTableModel::CommandTableModel(const CommandSet& command_set, Profile& profile) noexcept
+    : command_set_{command_set}, profile_{profile}
 {
 }
 
 int CommandTableModel::getNumRows()
 {
-   // This must return the number of rows currently in the table.
+   try {
+      // This must return the number of rows currently in the table.
 
-   // If the number of rows changes, you must call TableListBox::updateContent()
-   // to cause it to refresh the list.
-   return gsl::narrow_cast<int>(command_map_.Size());
+      // If the number of rows changes, you must call TableListBox::updateContent()
+      // to cause it to refresh the list.
+      return gsl::narrow_cast<int>(profile_.Size());
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void CommandTableModel::paintCell(
@@ -48,30 +60,31 @@ void CommandTableModel::paintCell(
       // list, so be careful that you don't assume it's less than getNumRows().
       g.setColour(juce::Colours::black);
       g.setFont(12.0f);
-      if (column_id == 1) // write the MIDI message in the MIDI command column
-      {
-         // cmdmap_mutex_ should fix the following problem
-         if (command_map_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // guess--command cell
-                                                                            // not
-                                                                            // filled yet
+      if (column_id == 1) { // write the MIDI message in the MIDI command column
+         if (profile_.Size() <= gsl::narrow_cast<size_t>(row_number)) { // error condition
             g.drawText("Unknown control", 0, 0, width, height, juce::Justification::centred);
+            rsj::Log("Unknown control CommandTableModel::paintCell. "
+                     + juce::String(profile_.Size())
+                     + " rows in profile, row number to be painted is " + juce::String(row_number)
+                     + '.');
          }
          else {
             std::ostringstream format_str;
-            switch (const auto cmd =
-                        command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
-                    cmd.msg_id_type) {
-            case rsj::MsgIdEnum::kNote:
-               format_str << cmd.channel << " | Note : " << cmd.data;
+            switch (
+                const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
+                cmd.msg_id_type) {
+            case rsj::MessageType::NoteOff:
+            case rsj::MessageType::NoteOn:
+               format_str << cmd.channel << " | Note: " << cmd.control_number;
                break;
-            case rsj::MsgIdEnum::kCc:
-               format_str << cmd.channel << " | CC: " << cmd.data;
+            case rsj::MessageType::Cc:
+               format_str << cmd.channel << " | CC: " << cmd.control_number;
                break;
-            case rsj::MsgIdEnum::kPitchBend:
+            case rsj::MessageType::Pw:
                format_str << cmd.channel << " | Pitch Bend";
                break;
             }
-            g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centred);
+            g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centredLeft);
          }
       }
    }
@@ -85,15 +98,21 @@ void CommandTableModel::paintRowBackground(juce::Graphics& g,
     int /*rowNumber*/, //-V2009 overridden method
     int /*width*/, int /*height*/, bool row_is_selected)
 {
-   // This must draw the background behind one of the rows in the table.
+   try {
+      // This must draw the background behind one of the rows in the table.
 
-   // The graphics context has its origin at the row's top-left, and your method
-   // should fill the area specified by the width and height parameters.
+      // The graphics context has its origin at the row's top-left, and your method
+      // should fill the area specified by the width and height parameters.
 
-   // Note that the rowNumber value may be greater than the number of rows in your
-   // list, so be careful that you don't assume it's less than getNumRows().
-   if (row_is_selected)
-      g.fillAll(juce::Colours::lightblue);
+      // Note that the rowNumber value may be greater than the number of rows in your
+      // list, so be careful that you don't assume it's less than getNumRows().
+      if (row_is_selected)
+         g.fillAll(juce::Colours::lightblue);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int column_id,
@@ -131,18 +150,18 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
          // create a new command menu
          if (command_select == nullptr) {
 #pragma warning(suppress : 26400 26409 24623 24624)
-            command_select = new CommandMenu{
-                command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
-                command_set_, command_map_};
+            command_select =
+                new CommandMenu{profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)),
+                    command_set_, profile_};
          }
          else
             command_select->SetMsg(
-                command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
+                profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number)));
 
          // add 1 because 0 is reserved for no selection
          command_select->SetSelectedItem(
-             command_set_.CommandTextIndex(command_map_.GetCommandForMessage(
-                 command_map_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
+             command_set_.CommandTextIndex(profile_.GetCommandForMessage(
+                 profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number))))
              + 1);
 
          return command_select;
@@ -157,13 +176,19 @@ juce::Component* CommandTableModel::refreshComponentForCell(int row_number, int 
 
 void CommandTableModel::sortOrderChanged(int new_sort_column_id, bool is_forwards)
 {
-   // This callback is made when the table's sort order is changed.
+   try {
+      // This callback is made when the table's sort order is changed.
 
-   // This could be because the user has clicked a column header, or because the
-   // TableHeaderComponent::setSortColumnId() method was called.
+      // This could be because the user has clicked a column header, or because the
+      // TableHeaderComponent::setSortColumnId() method was called.
 
-   // If you implement this, your method should re - sort the table using the
-   // given column as the key.
-   const auto current_sort = std::make_pair(new_sort_column_id, is_forwards);
-   command_map_.Resort(current_sort);
+      // If you implement this, your method should re - sort the table using the
+      // given column as the key.
+      const auto current_sort = std::make_pair(new_sort_column_id, is_forwards);
+      profile_.Resort(current_sort);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }

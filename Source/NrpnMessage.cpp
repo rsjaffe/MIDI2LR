@@ -25,7 +25,6 @@ bool NrpnMessage::ProcessMidi(short control, short value)
    try {
       Expects(value <= 0x7F);
       Expects(control <= 0x7F);
-#pragma warning(suppress : 26426)
       static const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
       auto ret_val = true;
       switch (control) {

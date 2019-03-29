@@ -19,7 +19,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include "Ocpp.h"
-#include "DebugInfo.h"         //for GetKeyboardLayout
+
+#import <Carbon/Carbon.h>
+#import <Cocoa/Cocoa.h> //for CheckPermission
+
+#include "DebugInfo.h"   //for GetKeyboardLayout
+#include "Misc.h"
 
 UniChar rsj::Utf8ToUtf16(const std::string& param)
 {
@@ -61,21 +66,58 @@ std::string rsj::GetKeyboardLayout()
    return std::string("Could not get keyboard input source ID");
 }
 
-// See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm
-// for issue with Japanese keyboards
-const UCKeyboardLayout* rsj::GetKeyboardData() {
-   TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
-   CFDataRef data =
-          (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-   if (source)
-      CFRelease(source);
-   if (!data) {  // returns null with Japanese keyboard layout
-      source = TISCopyCurrentKeyboardLayoutInputSource();
-      data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
-      if (source)
-         CFRelease(source);
-      if (!data)
-         return nullptr;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
+enum {
+    errAEEventWouldRequireUserConsent = -1744,
+};
+#endif
+
+void rsj::CheckPermission(pid_t pid)
+{
+   if (@available(macOS 10.14, *)) {
+      AEAddressDesc addressDesc;
+      NSString* bundleIdentifier =
+          [NSRunningApplication runningApplicationWithProcessIdentifier:pid].bundleIdentifier;
+      const char* bundleIdentifierCString =
+          [bundleIdentifier cStringUsingEncoding:NSUTF8StringEncoding];
+      auto aeresult = AECreateDesc(typeApplicationBundleID, bundleIdentifierCString,
+          strlen(bundleIdentifierCString), &addressDesc);
+      if (aeresult == noErr) {
+         auto status =
+             AEDeterminePermissionToAutomateTarget(&addressDesc, typeWildCard, typeWildCard, true);
+         AEDisposeDesc(&addressDesc);
+         switch (status) {
+         case errAEEventWouldRequireUserConsent:
+            rsj::Log(
+                juce::String("Automation permission pending for ") + bundleIdentifier.UTF8String);
+            break;
+         case noErr:
+            rsj::Log(
+                juce::String("Automation permission granted for ") + bundleIdentifier.UTF8String);
+            break;
+         case errAEEventNotPermitted: {
+            rsj::Log(
+                juce::String("Automation permission denied for ") + bundleIdentifier.UTF8String);
+            auto title =
+                juce::translate("MIDI2LR needs your authorization to send keystrokes to Lightroom");
+            auto message = juce::translate(
+                "To authorize MIDI2LR to send keystrokes to Lightroom, please follow these "
+                "steps:\r\n1) Open System Preferences\r\n2) Click on Security & Privacy\r\n3) "
+                "Select the Privacy tab\r\n4) Find and select Accessibility on the left\r\n5) Find "
+                "the checkbox for MIDI2LR on the right\r\n6) Check that checkbox");
+            juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, title, message);
+            break;
+         }
+         case procNotFound:
+            rsj::Log(
+                juce::String("Automation permission unknown for ") + bundleIdentifier.UTF8String);
+            break;
+         default:
+            break;
+         }
+      }
+      else
+         rsj::Log("AECreateDesc returned error " + juce::String(aeresult));
    }
-   return (const UCKeyboardLayout*)CFDataGetBytePtr(data);
 }
+

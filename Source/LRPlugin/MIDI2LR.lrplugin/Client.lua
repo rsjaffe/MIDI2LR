@@ -445,31 +445,78 @@ LrTasks.startAsyncTask(
     ACTIONS.ActionSeries9 = function() ActionSeries.Run(ProgramPreferences.ActionSeries[9],ACTIONS) end  
 
     --some functions not available before 7.4
-    if not Ut.LrVersion74orMore() then
+    if not Ut.LrVersion74orMore then
+      local endmsg = ' only available in Lightroom version 7.4 and later.'
+      local nocar = function() LrDialogs.message('Quick develop crop aspect ratio'..endmsg) end
+      local nowb = function() LrDialogs.message('Quick develop white balance'..endmsg) end
       ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
-      ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action available in Lightroom version 7.4 and later only.')  end
-      ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action available in Lightroom version 7.4 and later only.')  end 
-      ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action available in Lightroom version 7.4 and later only.') end
-      ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action available in Lightroom version 7.4 and later only.') end
+      ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
+      ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
+      ACTIONS.EnableToneCurve              = function() LrDialogs.message('Enable Tone Curve action'..endmsg) end
+      ACTIONS.GridViewStyle                = function() LrDialogs.message('Cycle grid view style'..endmsg) end
+      ACTIONS.NextScreenMode               = function() LrDialogs.message('Cycle screen mode'..endmsg) end
+      ACTIONS.openExportDialog             = function() LrDialogs.message('Open export dialog action'..endmsg) end
+      ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action'..endmsg) end
+      ACTIONS.QuickDevCropAspect1x1        = nocar
+      ACTIONS.QuickDevCropAspect2x3        = nocar
+      ACTIONS.QuickDevCropAspect4x5        = nocar
+      ACTIONS.QuickDevCropAspect5x7        = nocar
+      ACTIONS.QuickDevCropAspect85x11      = nocar
+      ACTIONS.QuickDevCropAspectAsShot     = nocar
+      ACTIONS.QuickDevCropAspectOriginal   = nocar
+      ACTIONS.QuickDevWBAuto               = nowb
+      ACTIONS.QuickDevWBCloudy             = nowb
+      ACTIONS.QuickDevWBDaylight           = nowb
+      ACTIONS.QuickDevWBFlash              = nowb
+      ACTIONS.QuickDevWBFluorescent        = nowb
+      ACTIONS.QuickDevWBShade              = nowb
+      ACTIONS.QuickDevWBTungsten           = nowb
+      ACTIONS.RotateLeft                   = function() LrDialogs.message('Rotate left action'..endmsg)  end
+      ACTIONS.RotateRight                  = function() LrDialogs.message('Rotate right action'..endmsg)  end 
+      ACTIONS.SetTreatmentBW               = function() LrDialogs.message('Set treatment B&W'..endmsg) end
+      ACTIONS.SetTreatmentColor            = function() LrDialogs.message('Set treatment Color'..endmsg) end
+      ACTIONS.ShoFullHidePanels            = function() LrDialogs.message('Show full screen and hide panels action'..endmsg) end
+      ACTIONS.ShoFullPreview               = function() LrDialogs.message('Show full screen preview action'..endmsg) end
+      ACTIONS.ShowClipping                 = function() LrDialogs.message('Show clipping'..endmsg) end
+      ACTIONS.ToggleLoupe                  = function() LrDialogs.message('Toggle loupe'..endmsg) end
+      ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay'..endmsg) end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
       ACTIONS.AutoTone                     = CU.wrapFOM(LrDevelopController.setAutoTone)
+      ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
       ACTIONS.EditPhotoshop                = CU.wrapFOM(LrDevelopController.editInPhotoshop)
       ACTIONS.EnableToneCurve              = CU.fToggleTFasync('EnableToneCurve')
+      ACTIONS.GridViewStyle                = LrApplicationView.gridViewStyle
+      ACTIONS.NextScreenMode               = LrApplicationView.nextScreenMode
       ACTIONS.openExportDialog             = CU.wrapForEachPhoto('openExportDialog')
-      ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')      
+      ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')  
+      ACTIONS.QuickDevCropAspect1x1        = function() CU.QuickCropAspect({w=1,h=1}) end
+      ACTIONS.QuickDevCropAspect2x3        = function() CU.QuickCropAspect({w=2,h=3}) end
+      ACTIONS.QuickDevCropAspect4x5        = function() CU.QuickCropAspect({w=4,h=5}) end
+      ACTIONS.QuickDevCropAspect5x7        = function() CU.QuickCropAspect({w=5,h=7}) end
+      ACTIONS.QuickDevCropAspect85x11      = function() CU.QuickCropAspect({w=8.5,h=11}) end
+      ACTIONS.QuickDevCropAspectAsShot     = function() CU.QuickCropAspect('asshot') end
+      ACTIONS.QuickDevCropAspectOriginal   = function() CU.QuickCropAspect('original') end
+      ACTIONS.QuickDevWBAuto               = CU.wrapForEachPhoto('QuickDevWBAuto')
+      ACTIONS.QuickDevWBCloudy             = CU.wrapForEachPhoto('QuickDevWBCloudy')
+      ACTIONS.QuickDevWBDaylight           = CU.wrapForEachPhoto('QuickDevWBDaylight')
+      ACTIONS.QuickDevWBFlash              = CU.wrapForEachPhoto('QuickDevWBFlash')
+      ACTIONS.QuickDevWBFluorescent        = CU.wrapForEachPhoto('QuickDevWBFluorescent')
+      ACTIONS.QuickDevWBShade              = CU.wrapForEachPhoto('QuickDevWBShade')
+      ACTIONS.QuickDevWBTungsten           = CU.wrapForEachPhoto('QuickDevWBTungsten')
       ACTIONS.RotateLeft                   = CU.wrapForEachPhoto('rotateLeft')
       ACTIONS.RotateRight                  = CU.wrapForEachPhoto('rotateRight')
+      ACTIONS.SetTreatmentBW               = CU.wrapForEachPhoto('SetTreatmentBW')
+      ACTIONS.SetTreatmentColor            = CU.wrapForEachPhoto('SetTreatmentColor')
       ACTIONS.ShoFullHidePanels            = LrApplicationView.fullscreenHidePanels
       ACTIONS.ShoFullPreview               = LrApplicationView.fullscreenPreview
+      ACTIONS.ShowClipping                 = CU.wrapFOM(LrDevelopController.showClipping)
+      ACTIONS.ToggleLoupe                  = LrApplicationView.toggleLoupe
+      ACTIONS.ToggleOverlay                = LrDevelopController.toggleOverlay
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setAutoWhiteBalance)
     end
 
-    if not Ut.LrVersion66orMore() then
+    if not Ut.LrVersion66orMore then
       ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action available in Lightroom version 6.6 and later only.') end
     else
       ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)

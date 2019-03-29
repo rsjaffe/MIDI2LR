@@ -25,10 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 #include <cereal/access.hpp>
-#include <cereal/archives/xml.hpp>
-#include <cereal/types/string.hpp>
 #include <cereal/types/utility.hpp>
-#include <cereal/types/vector.hpp>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
 
@@ -85,15 +82,13 @@ class CommandSet {
       std::string language_;
       std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>
           allcommands_;
-
-    private:
    };
 
    friend class cereal::access;
    // see https://github.com/USCiLab/cereal/issues/270
    friend struct cereal::detail::Version<CommandSet::Impl>;
    const Impl& m_impl_;
-   const Impl& MakeImpl();
+   const Impl& MakeImpl() const;
 
    std::unordered_map<std::string, size_t> cmd_idx_{}; // for CommandTextIndex
    std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size
@@ -101,7 +96,7 @@ class CommandSet {
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
 };
 #pragma warning(push)
-#pragma warning(disable : 26440 26426 26444)
+#pragma warning(disable : 26440 26444)
 CEREAL_CLASS_VERSION(CommandSet::Impl, 1)
 #pragma warning(pop)
 #endif // MIDI2LR_COMMANDSET_H_INCLUDED

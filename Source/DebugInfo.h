@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+#include <exception>
 #include <string>
 #include <vector>
 
@@ -42,8 +43,14 @@ class DebugInfo {
  private:
    void LogAndSave(std::string&& msg)
    {
-      rsj::Log(msg);
-      info_.emplace_back(std::move(msg));
+      try {
+         rsj::Log(msg);
+         info_.emplace_back(std::move(msg));
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
    std::vector<std::string> info_;
 };

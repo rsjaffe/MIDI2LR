@@ -27,79 +27,95 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // <typeindex> is guaranteed to provide such a declaration,
 // and is much cheaper to include than <functional>.
 // See https://en.cppreference.com/w/cpp/language/extending_std.
+#include <optional>
 #include <typeindex>
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
+#include "NrpnMessage.h"
 
 namespace rsj {
-   constexpr short kNoteOffFlag = 0x8;
-   constexpr short kNoteOnFlag = 0x9;
-   constexpr short kKeyPressureFlag = 0xA; // Individual Key Pressure
-   constexpr short kCcFlag = 0xB;
-   constexpr short kPgmChangeFlag = 0xC;
-   constexpr short kChanPressureFlag = 0xD; // Max Key Pressure
-   constexpr short kPwFlag = 0xE;           // Pitch Wheel
-   constexpr short kSystemFlag = 0xF;
-
-   struct MidiMessage {
-      short message_type_byte{0};
-      short channel{0};
-      short number{0};
-      short value{0};
-      constexpr MidiMessage() noexcept = default;
-
-      constexpr MidiMessage(short mt, short ch, short nu, short va) noexcept
-          : message_type_byte(mt), channel(ch), number(nu), value(va)
-      {
-      }
-
-      MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
+   enum MessageType : short {
+      NoteOff = 0x8,
+      NoteOn = 0x9,
+      KeyPressure = 0xA, // Individual Key Pressure
+      Cc = 0xB,
+      PgmChange = 0xC,
+      ChanPressure = 0xD, // Max Key Pressure
+      Pw = 0xE,           // Pitch Wheel
+      System = 0xF
    };
 
-   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs)
+   constexpr MessageType ToMessageType(short from)
    {
-      return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
-             && lhs.number == rhs.number && lhs.value == rhs.value;
+      if (from < 0x9 || from > 0xf)
+         throw std::range_error("MessageType range error, must be 0x9 to 0xf");
+      return static_cast<MessageType>(from);
    }
 
-   enum class MsgIdEnum : short { kNote, kCc, kPitchBend };
-
-   struct MidiMessageId {
-      MsgIdEnum msg_id_type;
-      int channel;
-      int data;
-
-      constexpr MidiMessageId() noexcept : msg_id_type(rsj::MsgIdEnum::kNote), channel(0), data(0)
+   struct MidiMessage {
+      MessageType message_type_byte{NoteOn};
+      short channel{0};
+      short control_number{0};
+      short value{0};
+      constexpr MidiMessage() noexcept = default;
+      constexpr MidiMessage(MessageType mt, short ch, short nu, short va) noexcept
+          : message_type_byte(mt), channel(ch), control_number(nu), value(va)
       {
-      }
-
-      constexpr MidiMessageId(int ch, int dat, MsgIdEnum msgType) noexcept
-          : msg_id_type(msgType), channel(ch), data(dat)
-      {
-      }
-
-      MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug);
-
-      constexpr bool operator==(const MidiMessageId& other) const noexcept
-      {
-         return msg_id_type == other.msg_id_type && channel == other.channel && data == other.data;
-      }
-
-      constexpr bool operator<(const MidiMessageId& other) const noexcept
-      {
-         if (channel < other.channel)
-            return true;
-         if (channel == other.channel) {
-            if (data < other.data)
-               return true;
-            if (data == other.data && msg_id_type < other.msg_id_type)
-               return true;
-         }
-         return false;
       }
    };
+
+   constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
+   {
+      return lhs.message_type_byte == rhs.message_type_byte && lhs.channel == rhs.channel
+             && lhs.control_number == rhs.control_number && lhs.value == rhs.value;
+   }
+
+   struct MidiMessageId {
+      MessageType msg_id_type;
+      int channel;
+      int control_number;
+
+      constexpr MidiMessageId() noexcept
+          : msg_id_type(MessageType::NoteOn), channel(0), control_number(0)
+      {
+      }
+      constexpr MidiMessageId(int ch, int dat, MessageType msgType) noexcept
+          : msg_id_type(msgType), channel(ch), control_number(dat)
+      {
+      }
+      constexpr MidiMessageId(const MidiMessage& other)
+          : msg_id_type{other.message_type_byte}, channel{other.channel}, control_number{
+                                                                              other.control_number}
+      {
+      }
+      constexpr MidiMessageId(const MidiMessageId& other) = default;
+      constexpr MidiMessageId(MidiMessageId&& other) noexcept = default;
+      constexpr MidiMessageId& operator=(const MidiMessageId& other) = default;
+      constexpr MidiMessageId& operator=(MidiMessageId&& other) noexcept = default;
+      constexpr bool operator==(const MidiMessageId& other) const noexcept
+      {
+         return msg_id_type == other.msg_id_type && channel == other.channel
+                && control_number == other.control_number;
+      }
+      constexpr bool operator<(const MidiMessageId& other) const noexcept
+      {
+         return (channel < other.channel)
+                || (channel == other.channel && control_number < other.control_number)
+                || (channel == other.channel && control_number == other.control_number
+                       && msg_id_type < other.msg_id_type);
+      }
+   };
+
+   class MidiMessageFactory { // use this in midireceiver
+    public:
+      std::optional<rsj::MidiMessage> ProcessMidi(const juce::MidiMessage& juce_mm);
+
+    private:
+      NrpnFilter nrpn_filter_{};
+   };
 } // namespace rsj
+
 // hash functions
 // It is allowed to add template specializations for any standard library class template to the
 // namespace std only if the declaration depends on at least one program-defined type and the
@@ -110,7 +126,7 @@ namespace std {
       size_t operator()(const rsj::MidiMessageId& k) const noexcept
       {
          return hash<int_fast32_t>()(int_fast32_t(k.channel) | int_fast32_t(k.msg_id_type) << 8
-                                     | int_fast32_t(k.data) << 16);
+                                     | int_fast32_t(k.control_number) << 16);
       } // channel is one byte, messagetype is one byte, controller (data) is two bytes
    };
 } // namespace std

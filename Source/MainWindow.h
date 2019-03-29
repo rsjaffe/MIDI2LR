@@ -23,25 +23,27 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <memory>
 
 #include <JuceLibraryCode/JuceHeader.h>
-class CommandMap;
+class CommandSet;
 class LrIpcOut;
+class MainContentComponent;
 class MidiReceiver;
 class MidiSender;
-class MainContentComponent;
+class Profile;
 class ProfileManager;
 class SettingsManager;
 
 class MainWindow final : juce::DocumentWindow, juce::Timer {
  public:
-   MainWindow(const juce::String& name, CommandMap& command_map, ProfileManager& profile_manager,
-       SettingsManager& settings_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out,
-       std::shared_ptr<MidiReceiver> midi_receiver, std::shared_ptr<MidiSender> midi_sender);
+   MainWindow(const juce::String& name, const CommandSet& command_set, Profile& profile,
+       ProfileManager& profile_manager, SettingsManager& settings_manager,
+       std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
+       std::shared_ptr<MidiSender> midi_sender);
    ~MainWindow() = default;
    MainWindow(const MainWindow& other) = delete;
    MainWindow(MainWindow&& other) = delete;
    MainWindow& operator=(const MainWindow& other) = delete;
    MainWindow& operator=(MainWindow&& other) = delete;
-   void SaveProfile();
+   void SaveProfile() const;
    /* Note: Be careful if you override any DocumentWindow methods - the base
       class uses a lot of them, so by overriding you might break its functionality.
       It's best to do all your work in your content component instead, but if

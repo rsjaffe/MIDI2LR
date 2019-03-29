@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <fstream>
 #include <memory>
+#include <mutex>
 #ifdef _WIN32
 #include <filesystem> //not available in XCode yet
 
@@ -43,7 +44,6 @@ namespace fs = std::filesystem;
 #include <cereal/archives/xml.hpp>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "CCoptions.h"
-#include "CommandMap.h"
 #include "CommandSet.h"
 #include "ControlsModel.h"
 #include "LR_IPC_In.h"
@@ -52,8 +52,9 @@ namespace fs = std::filesystem;
 #include "MIDIReceiver.h"
 #include "MIDISender.h"
 #include "Misc.h"
-#include "PWoptions.h"
+#include "Profile.h"
 #include "ProfileManager.h"
+#include "PWoptions.h"
 #include "SettingsManager.h"
 #include "Translate.h"
 #include "VersionChecker.h"
@@ -66,7 +67,7 @@ namespace {
 
    class UpdateCurrentLogger {
     public:
-      UpdateCurrentLogger(juce::Logger* new_logger)
+      explicit UpdateCurrentLogger(juce::Logger* new_logger) noexcept
       {
          juce::Logger::setCurrentLogger(new_logger);
       }
@@ -118,14 +119,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // loop won't be run.
          if (command_line != kShutDownString) {
             CerealLoad();
-            midi_receiver_->Init();
-            midi_sender_->Init();
-            lr_ipc_out_->Init(midi_sender_, midi_receiver_.get());
-            profile_manager_.Init(lr_ipc_out_, midi_receiver_.get());
-            lr_ipc_in_->Init(midi_sender_);
-            settings_manager_.Init(lr_ipc_out_);
-            main_window_ = std::make_unique<MainWindow>(getApplicationName(), command_map_,
-                profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
+            midi_receiver_->Start();
+            midi_sender_->Start();
+            lr_ipc_out_->Start();
+            lr_ipc_in_->Start();
+            main_window_ =
+                std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
+                    profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
             // Check for latest version
             version_checker_.startThread();
          }
@@ -151,8 +151,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Be careful that nothing happens in this method that might rely on
       // messages being sent, or any kind of window activity, because the
       // message loop is no longer running at this point.
-      if (lr_ipc_in_)
-         lr_ipc_in_->PleaseStopThread();
+      lr_ipc_in_->PleaseStopThread();
       DefaultProfileSave();
       CerealSave();
       lr_ipc_out_.reset();
@@ -166,18 +165,27 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    //==========================================================================
    void systemRequestedQuit() override
    {
-      // This is called when the application is being asked to quit: you can
-      // ignore this request and let the application carry on running, or call
-      // quit() to allow the application to close.
-      if (command_map_.ProfileUnsaved() && main_window_) {
-         const auto result = juce::NativeMessageBox::showYesNoBox(juce::AlertWindow::WarningIcon,
-             juce::translate("MIDI2LR profiles"),
-             juce::translate(
-                 "Profile changed. Do you want to save it before exiting the program?"));
-         if (result)
-            main_window_->SaveProfile();
+      try {
+         // This is called when the application is being asked to quit: you can
+         // ignore this request and let the application carry on running, or call
+         // quit() to allow the application to close.
+         static std::once_flag of; // function might be called twice during LR shutdown
+         std::call_once(of, [this]() {
+            if (profile_.ProfileUnsaved() && main_window_) {
+               const auto result = juce::NativeMessageBox::showYesNoBox(
+                   juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
+                   juce::translate(
+                       "Profile changed. Do you want to save it before exiting the program?"));
+               if (result)
+                  main_window_->SaveProfile();
+            }
+            quit();
+         });
       }
-      quit();
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
    void anotherInstanceStarted(const juce::String& command_line) override
@@ -215,10 +223,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    private : void DefaultProfileSave()
    {
-      const auto filename = rsj::AppDataFilePath(kDefaultsFile);
-      const auto profilefile = juce::File(filename.data());
-      command_map_.ToXmlFile(profilefile);
-      rsj::Log("Default profile saved to " + profilefile.getFullPathName());
+      try {
+         const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
+         const auto profile_file = juce::File(file_name.data());
+         profile_.ToXmlFile(profile_file);
+         rsj::Log("Default profile saved to " + profile_file.getFullPathName());
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
 #pragma warning(suppress : 26447) // all exceptions suppressed by catch blocks
@@ -235,13 +249,13 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
             cereal::XMLOutputArchive oarchive(outfile);
             oarchive(controls_model_);
 #ifdef _WIN32
-            rsj::Log("Cereal archive saved to " + juce::String(p.c_str()));
+            rsj::Log("ControlsModel archive in Main saved to " + juce::String(p.c_str()));
 #else
-            rsj::Log("Cereal archive saved to " + p);
+            rsj::Log("ControlsModel archive in Main saved to " + p);
 #endif
          }
          else
-            rsj::LogAndAlertError("Unable to save control settings to xml file.");
+            rsj::LogAndAlertError("Unable to save ControlsModel archive in Main.");
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -257,14 +271,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #else
          const auto px = rsj::AppDataFilePath("settings.xml");
 #endif
-         std::ifstream infilex(px);
-         if (infilex.is_open() && !infilex.eof()) {
-            cereal::XMLInputArchive iarchive(infilex);
+         std::ifstream in_file(px);
+         if (in_file.is_open() && !in_file.eof()) {
+            cereal::XMLInputArchive iarchive(in_file);
             iarchive(controls_model_);
 #ifdef _WIN32
-            rsj::Log("Cereal archive loaded from " + juce::String(px.c_str()));
+            rsj::Log("ControlsModel archive in Main loaded from " + juce::String(px.c_str()));
 #else
-            rsj::Log("Cereal archive loaded from " + px);
+            rsj::Log("ControlsModel archive in Main loaded from " + px);
 #endif
          }
          else { // see if old-style settings file is available
@@ -284,9 +298,10 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                cereal::BinaryInputArchive iarchive(infile);
                iarchive(controls_model_);
 #ifdef _WIN32
-               rsj::Log("Cereal archive loaded from " + juce::String(p.c_str()));
+               rsj::Log(
+                   "Legacy ControlsModel archive loaded in Main from " + juce::String(p.c_str()));
 #else
-               rsj::Log("Cereal archive loaded from " + p);
+               rsj::Log("Legacy ControlsModel archive loaded in Main from " + p);
 #endif
             }
          }
@@ -298,56 +313,62 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 
    void SetAppLanguage() const
    {
-      const auto lang{command_set_.GetLanguage()};
+      try {
+         const auto lang{command_set_.GetLanguage()};
 
-      // juce (as of July 2018) uses the following font defaults
-      // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
-      // sans defaults do not support Asian languages
-      //         MacOS            Windows
-      // Sans    Lucida Grande    Verdana
-      // Serif   Times New Roman  Times New Roman
-      // Fixed   Menlo            Lucida Console
+         // juce (as of July 2018) uses the following font defaults
+         // taken from juce_mac_Fonts.mm and juce_wind32_Fonts.cpp
+         // sans defaults do not support Asian languages
+         //         MacOS            Windows
+         // Sans    Lucida Grande    Verdana
+         // Serif   Times New Roman  Times New Roman
+         // Fixed   Menlo            Lucida Console
 
-      // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
-      // avoiding fonts added in windows 10 to support people using earlier Windows versions
-      // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
-      if constexpr (MSWindows) {
-         if (lang == "ko") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Malgun Gothic");
+         // see https://docs.microsoft.com/en-us/typography/fonts/windows_10_font_list
+         // avoiding fonts added in windows 10 to support people using earlier Windows versions
+         // see https://docs.microsoft.com/en-us/windows/desktop/uxguide/vis-fonts
+         if constexpr (MSWindows) {
+            if (lang == "ko") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Malgun Gothic");
+            }
+            else if (lang == "zh_tw") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Microsoft JhengHei UI");
+            }
+            else if (lang == "zh_cn") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Microsoft YaHei UI");
+            }
+            else if (lang == "ja") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "MS UI Gothic");
+            }
          }
-         else if (lang == "zh_tw") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Microsoft JhengHei UI");
+         else { // PingFang added in 10.11 El Capitan as new Chinese UI fonts
+            if (lang == "ko") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Apple SD Gothic Neo");
+            }
+            else if (lang == "zh_cn") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "PingFang SC");
+            }
+            else if (lang == "zh_tw") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "PingFang TC");
+            }
+            else if (lang == "ja") {
+               juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
+                   "Hiragino Kaku Gothic Pro");
+            }
          }
-         else if (lang == "zh_cn") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Microsoft YaHei UI");
-         }
-         else if (lang == "ja") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "MS UI Gothic");
-         }
+         rsj::Translate(lang);
       }
-      else { // PingFang added in 10.11 El Capitan as new Chinese UI fonts
-         if (lang == "ko") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Apple SD Gothic Neo");
-         }
-         else if (lang == "zh_cn") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "PingFang SC");
-         }
-         else if (lang == "zh_tw") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "PingFang TC");
-         }
-         else if (lang == "ja") {
-            juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(
-                "Hiragino Kaku Gothic Pro");
-         }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
       }
-      rsj::Translate(lang);
    }
 
    // create logger first, makes sure that MIDI2LR directory is created for writing by other
@@ -355,18 +376,19 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    // need to own pointer created by createDefaultAppLogger
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
-   UpdateCurrentLogger dummy_{logger_.get()}; // forcing assignment to static early in
-                                              // construction
-   CommandMap command_map_{};
-   CommandSet command_set_{};
+   // forcing assignment to static early in construction
+   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ { logger_.get() };
+   const CommandSet command_set_{};
    ControlsModel controls_model_{};
-   ProfileManager profile_manager_{controls_model_, command_map_};
-   SettingsManager settings_manager_{profile_manager_};
-   std::shared_ptr<LrIpcIn> lr_ipc_in_{
-       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, command_map_)};
-   std::shared_ptr<LrIpcOut> lr_ipc_out_{std::make_shared<LrIpcOut>(controls_model_, command_map_)};
-   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
+   Profile profile_{command_set_};
    std::shared_ptr<MidiSender> midi_sender_{std::make_shared<MidiSender>()};
+   std::shared_ptr<MidiReceiver> midi_receiver_{std::make_shared<MidiReceiver>()};
+   std::shared_ptr<LrIpcOut> lr_ipc_out_{
+       std::make_shared<LrIpcOut>(controls_model_, profile_, midi_sender_, *midi_receiver_)};
+   ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, *midi_receiver_};
+   std::shared_ptr<LrIpcIn> lr_ipc_in_{
+       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, profile_, midi_sender_)};
+   SettingsManager settings_manager_{profile_manager_, lr_ipc_out_};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    // destroy after window that uses it
    juce::LookAndFeel_V3 look_feel_;

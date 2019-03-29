@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.0.2.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.1.0.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="5.4.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
@@ -11,8 +11,6 @@
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
       <FILE id="gmEPgP" name="CCoptions.h" compile="0" resource="0" file="Source/CCoptions.h"/>
-      <FILE id="p7cPnq" name="CommandMap.cpp" compile="1" resource="0" file="Source/CommandMap.cpp"/>
-      <FILE id="xs42Pd" name="CommandMap.h" compile="0" resource="0" file="Source/CommandMap.h"/>
       <FILE id="oXdqCC" name="CommandMenu.cpp" compile="1" resource="0" file="Source/CommandMenu.cpp"/>
       <FILE id="x6sgxb" name="CommandMenu.h" compile="0" resource="0" file="Source/CommandMenu.h"/>
       <FILE id="zfXWOg" name="CommandSet.cpp" compile="1" resource="0" file="Source/CommandSet.cpp"/>
@@ -54,6 +52,8 @@
       <FILE id="Vg4s1B" name="NrpnMessage.h" compile="0" resource="0" file="Source/NrpnMessage.h"/>
       <FILE id="NLGqmV" name="Ocpp.mm" compile="1" resource="0" file="Source/Ocpp.mm"/>
       <FILE id="GAROt6" name="Ocpp.h" compile="0" resource="0" file="Source/Ocpp.h"/>
+      <FILE id="XmHz5G" name="Profile.cpp" compile="1" resource="0" file="Source/Profile.cpp"/>
+      <FILE id="Z6tVEH" name="Profile.h" compile="0" resource="0" file="Source/Profile.h"/>
       <FILE id="OF5z5S" name="ProfileManager.cpp" compile="1" resource="0"
             file="Source/ProfileManager.cpp"/>
       <FILE id="o8SiAm" name="ProfileManager.h" compile="0" resource="0"

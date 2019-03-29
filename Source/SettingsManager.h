@@ -28,13 +28,12 @@ class ProfileManager;
 
 class SettingsManager final {
  public:
-   explicit SettingsManager(ProfileManager& profile_manager);
+   SettingsManager(ProfileManager& profile_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out);
    ~SettingsManager() = default;
    SettingsManager(const SettingsManager& other) = delete;
    SettingsManager(SettingsManager&& other) = delete;
    SettingsManager& operator=(const SettingsManager& other) = delete;
    SettingsManager& operator=(SettingsManager&& other) = delete;
-   void Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out);
    [[nodiscard]] bool GetPickupEnabled() const noexcept;
    void SetPickupEnabled(bool enabled);
    [[nodiscard]] juce::String GetProfileDirectory() const noexcept;

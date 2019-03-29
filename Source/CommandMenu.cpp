@@ -24,16 +24,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <gsl/gsl>
 #include "CCoptions.h"
-#include "CommandMap.h"
 #include "CommandSet.h"
 #include "Misc.h"
+#include "Profile.h"
 #include "PWoptions.h"
 
-CommandMenu::CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set,
-    CommandMap& map_command) try : juce
-   ::TextButton{"Unmapped"}, command_map_(map_command), command_set_(command_set), message_{message}
-   {
-   }
+CommandMenu::CommandMenu(
+    const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile) try : juce
+   ::TextButton{"Unmapped"}, profile_(profile), command_set_(command_set), message_{message} {}
 catch (const std::exception& e) {
    rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    throw;
@@ -62,21 +60,21 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
    try {
       if (modifiers.isPopupMenu()) {
          switch (message_.msg_id_type) {
-         case rsj::MsgIdEnum::kCc: {
+         case rsj::MessageType::Cc: {
             CCoptions ccopt;
             ccopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to
                                                                                // 0-based
-                gsl::narrow_cast<short>(message_.data));
-            juce::DialogWindow::showModalDialog(TRANS("Adjust CC dialog"), &ccopt, nullptr,
-                juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+                gsl::narrow_cast<short>(message_.control_number));
+            juce::DialogWindow::showModalDialog(juce::translate("Adjust CC dialog"), &ccopt,
+                nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
          }
-         case rsj::MsgIdEnum::kPitchBend: {
+         case rsj::MessageType::Pw: {
             PWoptions pwopt;
             pwopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1)); // convert 1-based
                                                                                 // to 0 based
-            juce::DialogWindow::showModalDialog(TRANS("Adjust PW dialog"), &pwopt, nullptr,
-                juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
+            juce::DialogWindow::showModalDialog(juce::translate("Adjust PW dialog"), &pwopt,
+                nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
          }
          default:
@@ -96,8 +94,8 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             for (const auto& command : command_set_.GetMenuEntries().at(menu_index)) {
                auto already_mapped = false;
                if (index - 1 < command_set_.CommandAbbrevSize())
-                  already_mapped = command_map_.CommandHasAssociatedMessage(
-                      command_set_.CommandAbbrevAt(index - 1));
+                  already_mapped =
+                      profile_.CommandHasAssociatedMessage(command_set_.CommandAbbrevAt(index - 1));
 
                // add each submenu entry, ticking the previously selected entry and
                // disabling a previously mapped entry
@@ -121,12 +119,12 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
             // user chose a different command, remove previous command mapping
             // associated to this menu
             if (selected_item_ < std::numeric_limits<size_t>::max())
-               command_map_.RemoveMessage(message_);
+               profile_.RemoveMessage(message_);
             if (result - 1 < command_set_.CommandAbbrevSize())
                setButtonText(command_set_.CommandAbbrevAt(result - 1));
             selected_item_ = result;
             // Map the selected command to the CC
-            command_map_.AddCommandForMessage(result - 1, message_);
+            profile_.AddCommandForMessage(result - 1, message_);
          }
       }
    }

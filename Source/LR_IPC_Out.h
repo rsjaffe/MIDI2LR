@@ -30,20 +30,21 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 #include "MidiUtilities.h"
 #include "Misc.h"
-class CommandMap;
 class ControlsModel;
 class MidiReceiver;
 class MidiSender;
+class Profile;
 
 class LrIpcOut final : juce::InterprocessConnection {
  public:
-   LrIpcOut(ControlsModel& c_model, const CommandMap& map_command) noexcept;
+   LrIpcOut(ControlsModel& c_model, const Profile& profile, std::shared_ptr<MidiSender> midi_sender,
+       MidiReceiver& midi_receiver) noexcept;
    ~LrIpcOut();
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;
    LrIpcOut& operator=(const LrIpcOut& other) = delete;
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
-   void Init(std::shared_ptr<MidiSender> midi_sender, MidiReceiver* midi_receiver);
+   void Start();
 
    template<class T> void AddCallback(T* const object, void (T::*const mf)(bool, bool))
    {
@@ -67,7 +68,7 @@ class LrIpcOut final : juce::InterprocessConnection {
    void SendOut();
 
    bool sending_stopped_{false};
-   const CommandMap& command_map_;
+   const Profile& profile_;
    ControlsModel& controls_model_;
    moodycamel::BlockingConcurrentQueue<std::string> command_;
    std::future<void> send_out_future_;

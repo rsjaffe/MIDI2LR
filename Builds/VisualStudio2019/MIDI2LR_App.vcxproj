@@ -64,7 +64,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../icu/source/common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;U_STATIC_IMPLEMENTATION=1;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_THROW_ON_CONTRACT_VIOLATION=1;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=3.0.2.0;JUCE_APP_VERSION_HEX=0x3000200;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;U_STATIC_IMPLEMENTATION=1;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_THROW_ON_CONTRACT_VIOLATION=1;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=3.1.0.0;JUCE_APP_VERSION_HEX=0x3010000;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -105,7 +105,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JuceLibraryCode\modules;../../;../../icu/source/common/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;U_STATIC_IMPLEMENTATION=1;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=3.0.2.0;JUCE_APP_VERSION_HEX=0x3000200;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;U_STATIC_IMPLEMENTATION=1;DONT_SET_USING_JUCE_NAMESPACE=1;GSL_UNENFORCED_ON_CONTRACT_VIOLATION=1;JUCER_VS2019_78A5026=1;JUCE_APP_VERSION=3.1.0.0;JUCE_APP_VERSION_HEX=0x3010000;JucePlugin_Build_VST=0;JucePlugin_Build_VST3=0;JucePlugin_Build_AU=0;JucePlugin_Build_AUv3=0;JucePlugin_Build_RTAS=0;JucePlugin_Build_AAX=0;JucePlugin_Build_Standalone=0;JucePlugin_Build_Unity=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CCoptions.cpp"/>
-    <ClCompile Include="..\..\Source\CommandMap.cpp"/>
     <ClCompile Include="..\..\Source\CommandMenu.cpp"/>
     <ClCompile Include="..\..\Source\CommandSet.cpp"/>
     <ClCompile Include="..\..\Source\CommandTable.cpp"/>
@@ -159,6 +158,7 @@
     <ClCompile Include="..\..\Source\MidiUtilities.cpp"/>
     <ClCompile Include="..\..\Source\Misc.cpp"/>
     <ClCompile Include="..\..\Source\NrpnMessage.cpp"/>
+    <ClCompile Include="..\..\Source\Profile.cpp"/>
     <ClCompile Include="..\..\Source\ProfileManager.cpp"/>
     <ClCompile Include="..\..\Source\PWoptions.cpp"/>
     <ClCompile Include="..\..\Source\ResizableLayout.cpp"/>
@@ -1378,7 +1378,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CCoptions.h"/>
-    <ClInclude Include="..\..\Source\CommandMap.h"/>
     <ClInclude Include="..\..\Source\CommandMenu.h"/>
     <ClInclude Include="..\..\Source\CommandSet.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
@@ -1395,6 +1394,7 @@
     <ClInclude Include="..\..\Source\Misc.h"/>
     <ClInclude Include="..\..\Source\NrpnMessage.h"/>
     <ClInclude Include="..\..\Source\Ocpp.h"/>
+    <ClInclude Include="..\..\Source\Profile.h"/>
     <ClInclude Include="..\..\Source\ProfileManager.h"/>
     <ClInclude Include="..\..\Source\PWoptions.h"/>
     <ClInclude Include="..\..\Source\ResizableLayout.h"/>

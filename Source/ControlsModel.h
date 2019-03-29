@@ -22,10 +22,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <array>
 #include <atomic>
+#include <exception>
 #include <vector>
 
 #include <cereal/access.hpp>
-#include <cereal/types/array.hpp> //required, ReSharper falsely marks as not needed
+// ReSharper disable once CppUnusedIncludeDirective
+#include <cereal/types/array.hpp>
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
 #include "MidiUtilities.h"
@@ -35,13 +37,13 @@ namespace rsj {
    enum struct CCmethod : char { kAbsolute, kTwosComplement, kBinaryOffset, kSignMagnitude };
 
    struct SettingsStruct {
-      short number; // not using size_t so serialized data won't vary if size_t varies
+      short control_number; // not using size_t so serialized data won't vary if size_t varies
       short low;
       short high;
       rsj::CCmethod method;
       SettingsStruct(short n = 0, short l = 0, short h = 0x7F,
           rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
-          : number{n}, low{l}, high{h}, method{m}
+          : control_number{n}, low{l}, high{h}, method{m}
       {
       }
 
@@ -52,10 +54,11 @@ namespace rsj {
       {
          switch (version) {
          case 1:
-            archive(number, high, low, method);
+            archive(control_number, high, low, method);
             break;
          default:
-            rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
+            rsj::LogAndAlertError("Wrong archive version for SettingsStruct. Version is "
+                                  + juce::String(version) + '.');
          }
       }
 
@@ -64,45 +67,52 @@ namespace rsj {
               cereal::traits::sfinae>
       void serialize(Archive& archive, uint32_t const version)
       {
-         switch (version) {
-         case 1: {
-            std::string methodstr{"undefined"};
-            switch (method) {
-            case CCmethod::kAbsolute:
-               methodstr = "Absolute";
+         try {
+            switch (version) {
+            case 1: {
+               std::string methodstr{"undefined"};
+               switch (method) {
+               case CCmethod::kAbsolute:
+                  methodstr = "Absolute";
+                  break;
+               case CCmethod::kBinaryOffset:
+                  methodstr = "BinaryOffset";
+                  break;
+               case CCmethod::kSignMagnitude:
+                  methodstr = "SignMagnitute";
+                  break;
+               case CCmethod::kTwosComplement:
+                  methodstr = "TwosComplement";
+               default:
+                  break; // leave "undefined"
+               }
+               archive(cereal::make_nvp("CC", control_number), CEREAL_NVP(high), CEREAL_NVP(low),
+                   cereal::make_nvp("method", methodstr));
+               switch (methodstr.front()) {
+               case 'B':
+                  method = CCmethod::kBinaryOffset;
+                  break;
+               case 'S':
+                  method = CCmethod::kSignMagnitude;
+                  break;
+               case 'T':
+                  method = CCmethod::kTwosComplement;
+                  break;
+               case 'A':
+               default:
+                  method = CCmethod::kAbsolute;
+                  break;
+               }
                break;
-            case CCmethod::kBinaryOffset:
-               methodstr = "BinaryOffset";
-               break;
-            case CCmethod::kSignMagnitude:
-               methodstr = "SignMagnitute";
-               break;
-            case CCmethod::kTwosComplement:
-               methodstr = "TwosComplement";
-            default:
-               break; // leave "undefined"
             }
-            archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
-                cereal::make_nvp("method", methodstr));
-            switch (methodstr.front()) {
-            case 'B':
-               method = CCmethod::kBinaryOffset;
-               break;
-            case 'S':
-               method = CCmethod::kSignMagnitude;
-               break;
-            case 'T':
-               method = CCmethod::kTwosComplement;
-               break;
-            case 'A':
             default:
-               method = CCmethod::kAbsolute;
-               break;
+               rsj::LogAndAlertError("Wrong archive version for SettingsStruct. Version is "
+                                     + juce::String(version) + '.');
             }
-            break;
          }
-         default:
-            rsj::LogAndAlertError("Wrong archive number for SettingsStruct");
+         catch (const std::exception& e) {
+            rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+            throw;
          }
       }
    };
@@ -127,9 +137,9 @@ class ChannelModel {
    ChannelModel& operator=(const ChannelModel&) = delete;
    ChannelModel(ChannelModel&&) = delete; // can't move atomics
    ChannelModel& operator=(ChannelModel&&) = delete;
-   double ControllerToPlugin(short controltype, size_t controlnumber, short value);
-   short MeasureChange(short controltype, size_t controlnumber, short value);
-   short SetToCenter(short controltype, size_t controlnumber);
+   double ControllerToPlugin(rsj::MessageType controltype, size_t controlnumber, short value);
+   short MeasureChange(rsj::MessageType controltype, size_t controlnumber, short value);
+   short SetToCenter(rsj::MessageType controltype, size_t controlnumber);
    [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const {
       try {
          return cc_method_.at(controlnumber);
@@ -164,7 +174,7 @@ class ChannelModel {
    {
       return pitch_wheel_min_;
    }
-   short PluginToController(short controltype, size_t controlnumber, double value);
+   short PluginToController(rsj::MessageType controltype, size_t controlnumber, double value);
    void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
    void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
    void SetCcMax(size_t controlnumber, short value);
@@ -230,7 +240,7 @@ class ControlsModel {
    {
       try {
          return all_controls_.at(mm.channel)
-             .ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
+             .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -242,7 +252,7 @@ class ControlsModel {
    {
       try {
          return all_controls_.at(mm.channel)
-             .MeasureChange(mm.message_type_byte, mm.number, mm.value);
+             .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -252,7 +262,7 @@ class ControlsModel {
    short SetToCenter(const rsj::MidiMessage& mm)
    {
       try {
-         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.number);
+         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.control_number);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -313,7 +323,8 @@ class ControlsModel {
       }
    }
 
-   short PluginToController(short controltype, size_t channel, short controlnumber, double value)
+   short PluginToController(
+       rsj::MessageType controltype, size_t channel, short controlnumber, double value)
    {
       try {
          return all_controls_.at(channel).PluginToController(controltype, controlnumber, value);
@@ -324,7 +335,8 @@ class ControlsModel {
       }
    }
 
-   short MeasureChange(short controltype, size_t channel, short controlnumber, short value)
+   short MeasureChange(
+       rsj::MessageType controltype, size_t channel, short controlnumber, short value)
    {
       try {
          return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
@@ -439,7 +451,8 @@ template<class Archive> void ChannelModel::load(Archive& archive, uint32_t const
          SavedToActive();
          break;
       default:
-         rsj::LogAndAlertError("Archive version not acceptable");
+         rsj::LogAndAlertError(
+             "Wrong archive version for ChannelModel. Version is " + juce::String(version) + '.');
       }
    }
    catch (const std::exception& e) {
@@ -465,7 +478,9 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
              cereal::make_nvp("PWmin", pitch_wheel_min_));
          break;
       default:
-         rsj::LogAndAlertError("Wrong archive version specified for save");
+         rsj::LogAndAlertError(
+             "Wrong archive version specified for saving ChannelModel. Version is "
+             + juce::String(version) + '.');
       }
    }
    catch (const std::exception& e) {
@@ -474,7 +489,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
    }
 }
 #pragma warning(push)
-#pragma warning(disable : 26440 26426 26444)
+#pragma warning(disable : 26440 26444)
 CEREAL_CLASS_VERSION(ChannelModel, 3)
 CEREAL_CLASS_VERSION(ControlsModel, 1)
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)

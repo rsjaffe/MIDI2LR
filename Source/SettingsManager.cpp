@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SettingsManager.h"
 
+#include <exception>
 #include <string>
 #include <utility>
 
@@ -31,27 +32,29 @@ namespace {
    constexpr auto kAutoHideSection{"autohide"};
 }
 
-SettingsManager::SettingsManager(ProfileManager& profile_manager)
-    : profile_manager_{profile_manager}
+SettingsManager::SettingsManager(
+    ProfileManager& profile_manager, std::weak_ptr<LrIpcOut>&& lr_ipc_out)
+    : profile_manager_{profile_manager}, lr_ipc_out_{std::move(lr_ipc_out)}
 {
-   juce::PropertiesFile::Options file_options;
-   file_options.applicationName = "MIDI2LR";
-   file_options.commonToAllUsers = false;
-   file_options.filenameSuffix = "xml";
-   file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
-   file_options.storageFormat = juce::PropertiesFile::storeAsXML;
-   properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
-}
-
-void SettingsManager::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out)
-{
-   lr_ipc_out_ = std::move(lr_ipc_out);
-   if (const auto ptr = lr_ipc_out_.lock())
-      // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
-      // settings on connection
-      ptr->AddCallback(this, &SettingsManager::ConnectionCallback);
-   // set the profile directory
-   profile_manager_.SetProfileDirectory(GetProfileDirectory());
+   try {
+      juce::PropertiesFile::Options file_options;
+      file_options.applicationName = "MIDI2LR";
+      file_options.commonToAllUsers = false;
+      file_options.filenameSuffix = "xml";
+      file_options.osxLibrarySubFolder = "Application Support/MIDI2LR";
+      file_options.storageFormat = juce::PropertiesFile::storeAsXML;
+      properties_file_ = std::make_unique<juce::PropertiesFile>(file_options);
+      if (const auto ptr = lr_ipc_out_.lock())
+         // add ourselves as a listener to LR_IPC_OUT so that we can send plugin
+         // settings on connection
+         ptr->AddCallback(this, &SettingsManager::ConnectionCallback);
+      // set the profile directory
+      profile_manager_.SetProfileDirectory(GetProfileDirectory());
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 bool SettingsManager::GetPickupEnabled() const noexcept
@@ -61,10 +64,16 @@ bool SettingsManager::GetPickupEnabled() const noexcept
 
 void SettingsManager::SetPickupEnabled(bool enabled)
 {
-   properties_file_->setValue("pickup_enabled", enabled);
-   properties_file_->saveIfNeeded();
-   if (const auto ptr = lr_ipc_out_.lock())
-      ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
+   try {
+      properties_file_->setValue("pickup_enabled", enabled);
+      properties_file_->saveIfNeeded();
+      if (const auto ptr = lr_ipc_out_.lock())
+         ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 juce::String SettingsManager::GetProfileDirectory() const noexcept
 {
@@ -73,27 +82,39 @@ juce::String SettingsManager::GetProfileDirectory() const noexcept
 
 void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
 {
-   properties_file_->setValue("profile_directory", profile_directory);
-   if (!properties_file_->saveIfNeeded())
-      rsj::Log("SettingsManager::SetProfileDirectory saveIfNeeded failed. Directory "
-               + profile_directory);
-   profile_manager_.SetProfileDirectory(profile_directory);
+   try {
+      properties_file_->setValue("profile_directory", profile_directory);
+      if (!properties_file_->saveIfNeeded())
+         rsj::Log("SettingsManager::SetProfileDirectory saveIfNeeded failed. Directory "
+                  + profile_directory);
+      profile_manager_.SetProfileDirectory(profile_directory);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 void SettingsManager::ConnectionCallback(bool connected, bool blocked)
 {
-   if (connected && !blocked)
-      if (const auto ptr = lr_ipc_out_.lock()) {
-         DebugInfo db{GetProfileDirectory()};
-         ptr->SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
-         rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
-         // rest of info about app is logged by DebugInfo
-         ptr->SendCommand("AppInfoClear 1\n"s);
-         for (const auto& info : db.GetInfo()) {
-            ptr->SendCommand("AppInfo "s + info + '\n');
+   try {
+      if (connected && !blocked)
+         if (const auto ptr = lr_ipc_out_.lock()) {
+            DebugInfo db{GetProfileDirectory()};
+            ptr->SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
+            rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
+            // rest of info about app is logged by DebugInfo
+            ptr->SendCommand("AppInfoClear 1\n"s);
+            for (const auto& info : db.GetInfo()) {
+               ptr->SendCommand("AppInfo "s + info + '\n');
+            }
+            ptr->SendCommand("AppInfoDone 1\n"s);
          }
-         ptr->SendCommand("AppInfoDone 1\n"s);
-      }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 int SettingsManager::GetAutoHideTime() const noexcept
@@ -103,8 +124,14 @@ int SettingsManager::GetAutoHideTime() const noexcept
 
 void SettingsManager::SetAutoHideTime(int new_time)
 {
-   properties_file_->setValue(kAutoHideSection, new_time);
-   properties_file_->saveIfNeeded();
+   try {
+      properties_file_->setValue(kAutoHideSection, new_time);
+      properties_file_->saveIfNeeded();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }
 
 int SettingsManager::GetLastVersionFound() const noexcept
@@ -114,8 +141,14 @@ int SettingsManager::GetLastVersionFound() const noexcept
 
 void SettingsManager::SetLastVersionFound(int version_number)
 {
-   properties_file_->setValue("LastVersionFound", version_number);
-   if (!properties_file_->saveIfNeeded())
-      rsj::Log("SettingsManager::SetLastVersionFound saveIfNeeded failed. Directory "
-               + GetProfileDirectory());
+   try {
+      properties_file_->setValue("LastVersionFound", version_number);
+      if (!properties_file_->saveIfNeeded())
+         rsj::Log("SettingsManager::SetLastVersionFound saveIfNeeded failed. Directory "
+                  + GetProfileDirectory());
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
 }

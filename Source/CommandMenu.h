@@ -21,17 +21,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
 #include <limits>
-#include <vector>
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include "MidiUtilities.h"
-class CommandMap;
 class CommandSet;
+class Profile;
 
 class CommandMenu final : public juce::TextButton {
  public:
-   CommandMenu(
-       const rsj::MidiMessageId& message, const CommandSet& command_set, CommandMap& map_command);
+   CommandMenu(const rsj::MidiMessageId& message, const CommandSet& command_set, Profile& profile);
    // sets the MIDI message associated to this menu component
    void SetMsg(const rsj::MidiMessageId& message) noexcept;
 
@@ -41,10 +39,10 @@ class CommandMenu final : public juce::TextButton {
  private:
    void clicked(const juce::ModifierKeys& modifiers) override;
 
-   CommandMap& command_map_;
+   Profile& profile_;
    const CommandSet& command_set_;
    rsj::MidiMessageId message_;
    size_t selected_item_{std::numeric_limits<size_t>::max()};
 };
 
-#endif // COMMANDMENU_H_INCLUDED
+#endif // MIDI2LR_COMMANDMENU_H_INCLUDED

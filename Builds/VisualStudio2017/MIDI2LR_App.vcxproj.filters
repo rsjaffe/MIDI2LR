@@ -238,9 +238,6 @@
     <ClCompile Include="..\..\Source\CCoptions.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CommandMap.cpp">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\CommandMenu.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
@@ -290,6 +287,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Ocpp.mm">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Profile.cpp">
       <Filter>MIDI2LR\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ProfileManager.cpp">
@@ -1614,9 +1614,6 @@
     <ClInclude Include="..\..\Source\CCoptions.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CommandMap.h">
-      <Filter>MIDI2LR\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\CommandMenu.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
@@ -1663,6 +1660,9 @@
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Ocpp.h">
+      <Filter>MIDI2LR\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Profile.h">
       <Filter>MIDI2LR\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ProfileManager.h">

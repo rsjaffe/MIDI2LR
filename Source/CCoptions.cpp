@@ -282,12 +282,12 @@ void CCoptions::textEditorFocusLost(TextEditor& t)
       controls_model_->SetCcMax(bound_channel_, bound_number_, val);
 }
 
-void CCoptions::BindToControl(size_t channel, short number)
+void CCoptions::BindToControl(size_t channel, short control_number)
 {
    bound_channel_ = gsl::narrow_cast<short>(channel); // 0-based but displays as 1-based
-   bound_number_ = number;
-   controlID->setText("channel " + juce::String(gsl::narrow_cast<unsigned>(channel+1)) + " number "
-                          + juce::String(number),
+   bound_number_ = control_number;
+   controlID->setText("channel " + juce::String(gsl::narrow_cast<unsigned>(channel + 1))
+                          + " number " + juce::String(control_number),
        juce::dontSendNotification);
    minvaltext->setText(juce::String(controls_model_->GetCcMin(bound_channel_, bound_number_)),
        juce::dontSendNotification);

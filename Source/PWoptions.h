@@ -55,7 +55,7 @@ class ControlsModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class PWoptions final : public juce::Component, private juce::TextEditor::Listener {
+class PWoptions final : public juce::Component, juce::TextEditor::Listener {
  public:
    //==============================================================================
    PWoptions();

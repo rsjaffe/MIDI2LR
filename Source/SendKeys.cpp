@@ -20,16 +20,17 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "SendKeys.h"
 
-#include <algorithm>
-#include <cctype>
 #include <exception>
 #include <mutex>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
 #include <gsl/gsl>
 #include "Misc.h"
 #ifdef _WIN32
+#include <utility>
+
 #include "WinDef.h"
 #undef NOUSER
 #undef NOVIRTUALKEYCODES
@@ -42,24 +43,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #import <Carbon/Carbon.h>
 #include <libproc.h> //proc_ functions in GetPid
 #include "Ocpp.h"
-#endif
 #include <JuceLibraryCode/JuceHeader.h> //creates ambiguous reference to Point if included before Mac headers
+#endif
 
 namespace {
-   // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-   std::string ToLower(std::string_view in)
-   {
-      std::string s;
-      s.resize(in.size());
-      std::transform(in.begin(), in.end(),
-          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
-      return s;
-   }
-
-
-
 #ifdef _WIN32
-
    HKL GetLanguage(const std::string& program_name) noexcept
    {
       const auto h_lr_wnd = FindWindowA(nullptr, program_name.c_str());
@@ -73,98 +61,141 @@ namespace {
 
    SHORT VkKeyScanExWErrorChecked(WCHAR ch, HKL dwhkl)
    {
-      const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
-      if (vk_code_and_shift == 0xffff) { //-V547
-         const auto error_msg =
-             "VkKeyScanExW failed with error code: " + rsj::NumToChars(GetLastError());
-         throw std::runtime_error(error_msg.c_str());
+      try {
+         const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
+         if (vk_code_and_shift == 0xffff) { //-V547
+            const auto error_msg =
+                "VkKeyScanExW failed with error code: " + rsj::NumToChars(GetLastError());
+            throw std::runtime_error(error_msg.c_str());
+         }
+         return vk_code_and_shift;
       }
-      return vk_code_and_shift;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
-      const auto uc{rsj::Utf8ToWide(key)[0]};
-      static const auto kLanguageId = GetLanguage("Lightroom");
-      const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
-      const auto mods = HIBYTE(vk_code_and_shift);
-      // shift coded as follows:
-      // 1: shift, 2: ctrl, 4: alt, 8: hankaku
-      rsj::ActiveModifiers am{};
-      if (mods & 1)
-         am.shift = true;
-      if (mods & 2)
-         am.control = true;
-      if (mods & 4)
-         am.alt_opt = true;
-      if (mods & 8)
-         am.hankaku = true;
-      return {LOBYTE(vk_code_and_shift), am};
+      try {
+         const auto uc{rsj::Utf8ToWide(key)[0]};
+         static const auto kLanguageId = GetLanguage("Lightroom");
+         const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
+         const auto mods = HIBYTE(vk_code_and_shift);
+         // shift coded as follows:
+         // 1: shift, 2: ctrl, 4: alt, 8: hankaku
+         rsj::ActiveModifiers am{};
+         if (mods & 1)
+            am.shift = true;
+         if (mods & 2)
+            am.control = true;
+         if (mods & 4)
+            am.alt_opt = true;
+         if (mods & 8)
+            am.hankaku = true;
+         return {LOBYTE(vk_code_and_shift), am};
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 
    UINT SendInputErrorChecked(UINT cinputs, LPINPUT pinputs, int cbSize)
    {
-      const auto result = SendInput(cinputs, pinputs, cbSize);
-      if (result == 0) {
-         const auto error_msg =
-             "SendInput failed with error code: " + rsj::NumToChars(GetLastError());
-         throw std::runtime_error(error_msg.c_str());
+      try {
+         const auto result = SendInput(cinputs, pinputs, cbSize);
+         if (result == 0) {
+            const auto error_msg =
+                "SendInput failed with error code: " + rsj::NumToChars(GetLastError());
+            throw std::runtime_error(error_msg.c_str());
+         }
+         return result;
       }
-      return result;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 
    // expects key first, followed by modifiers
    void WinSendKeyStrokes(const std::vector<WORD>& strokes)
    {
-      // construct input event.
-      INPUT ip{};
-      constexpr int size_ip = sizeof(ip);
-      ip.type = INPUT_KEYBOARD;
-      // ki: wVk, wScan, dwFlags, time, dwExtraInfo
-      ip.ki = {0, 0, 0, 0, 0};
+      try {
+         // construct input event.
+         INPUT ip{};
+         constexpr int size_ip = sizeof(ip);
+         ip.type = INPUT_KEYBOARD;
+         // ki: wVk, wScan, dwFlags, time, dwExtraInfo
+         ip.ki = {0, 0, 0, 0, 0};
 
-      // send key down strokes
-      static std::mutex mutex_sending{};
-      auto lock = std::lock_guard(mutex_sending);
-      for (const auto it : rsj::Reverse(strokes)) {
-         ip.ki.wVk = it;
-         SendInputErrorChecked(1, &ip, size_ip);
+         // send key down strokes
+         static std::mutex mutex_sending{};
+         auto lock = std::lock_guard(mutex_sending);
+         for (const auto it : rsj::Reverse(strokes)) {
+            ip.ki.wVk = it;
+            SendInputErrorChecked(1, &ip, size_ip);
+         }
+         // send key up strokes
+         ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+         for (const auto it : strokes) {
+            ip.ki.wVk = it;
+            SendInputErrorChecked(1, &ip, size_ip);
+         }
       }
-      // send key up strokes
-      ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-      for (const auto it : strokes) {
-         ip.ki.wVk = it;
-         SendInputErrorChecked(1, &ip, size_ip);
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
       }
    }
-
 #else
-   // note: C++20 will have ends_with
-   bool EndsWith(std::string_view main_str, std::string_view to_match)
-   {
-      return main_str.size() >= to_match.size()
-             && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
-   }
-
    pid_t GetPid()
    {
-      static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
-      static const std::string kLrc{
-          "Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
-      const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
-      std::vector<pid_t> pids(number_processes); // add a few in case more processes show up
-      proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
-      char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
-      for (const auto pid : pids) {
-         if (pid == 0)
-            continue;
-         memset(path_buffer, 0, sizeof(path_buffer));
-         proc_pidpath(pid, path_buffer, sizeof(path_buffer));
-         if (strlen(path_buffer) > 0 && (EndsWith(path_buffer, kLr) || EndsWith(path_buffer, kLrc)))
-            return pid;
+      try {
+         static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
+         static const std::string kLrc{
+             "Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
+         const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
+         std::vector<pid_t> pids(number_processes); // add a few in case more processes show up
+         proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
+         char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
+         for (const auto pid : pids) {
+            if (pid == 0)
+               continue;
+            memset(path_buffer, 0, sizeof(path_buffer));
+            proc_pidpath(pid, path_buffer, sizeof(path_buffer));
+            if (strlen(path_buffer) > 0
+                && (rsj::EndsWith(path_buffer, kLr) || rsj::EndsWith(path_buffer, kLrc)))
+               return pid;
+         }
+         rsj::LogAndAlertError("Lightroom PID not found.");
+         return 0;
       }
-      rsj::LogAndAlertError("Lightroom PID not found.");
-      return 0;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
+   }
+
+   // See https://github.com/Microsoft/node-native-keymap src/keyboard_mac.mm
+   // for issue with Japanese keyboards
+   const UCKeyboardLayout* GetKeyboardData()
+   {
+      TISInputSourceRef source = TISCopyCurrentKeyboardInputSource();
+      CFDataRef data =
+          (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+      if (source)
+         CFRelease(source);
+      if (!data) { // returns null with Japanese keyboard layout
+         source = TISCopyCurrentKeyboardLayoutInputSource();
+         data = (CFDataRef)TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData);
+         if (source)
+            CFRelease(source);
+         if (!data)
+            return nullptr;
+      }
+      return (const UCKeyboardLayout*)CFDataGetBytePtr(data);
    }
 
    /* Altered significantly, originally from:
@@ -175,49 +206,55 @@ namespace {
     * Ignores characters requiring dead key */
    std::pair<UniChar, UniChar> CreateStringForKey(CGKeyCode key_code)
    {
-      static const UCKeyboardLayout* keyboard_layout{rsj::GetKeyboardData()};
-      if (!keyboard_layout) {
-         static auto notwarned{true};
-         if (notwarned) {
-            notwarned = false;
-            rsj::LogAndAlertError("Keyboard layout is null. Cannot send keystrokes.");
+      try {
+         static const UCKeyboardLayout* keyboard_layout{GetKeyboardData()};
+         if (!keyboard_layout) {
+            static auto notwarned{true};
+            if (notwarned) {
+               notwarned = false;
+               rsj::LogAndAlertError("Keyboard layout is null. Cannot send keystrokes.");
+            }
+            return {0, 0};
          }
-         return {0, 0};
+         UInt32 keys_down = 0;
+         UniChar chars[4];
+         // unshifted
+         UniCharCount real_length;
+         UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
+             kUCKeyTranslateNoDeadKeysMask, &keys_down, sizeof(chars) / sizeof(chars[0]),
+             &real_length, chars);
+         if (real_length != 1) {
+            if (real_length > 1)
+               rsj::Log(juce::String("For key code ") + juce::String(key_code)
+                        + juce::String(", Unicode character is ") + juce::String(real_length)
+                        + juce::String(" long. It starts with ") + juce::String(chars[0])
+                        + juce::String("."));
+            chars[0] = 0;
+         }
+         // shifted
+         UInt32 s_keys_down = 0;
+         UniChar s_chars[4];
+         UniCharCount s_real_length;
+         // 2 == left shift key, 4 == right shift key
+         UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 2, LMGetKbdType(),
+             kUCKeyTranslateNoDeadKeysMask, &s_keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
+             &s_real_length, s_chars);
+         if (s_real_length != 1) {
+            if (s_real_length > 1)
+               rsj::Log(juce::String("For shifted key code ") + juce::String(key_code)
+                        + juce::String(", Unicode character is ") + juce::String(s_real_length)
+                        + juce::String(" long. It starts with ") + juce::String(s_chars[0])
+                        + juce::String("."));
+            s_chars[0] = 0;
+         }
+         if (chars[0] == s_chars[0])
+            s_chars[0] = 0; // if unshifted and shifted same, only return unshifted
+         return {chars[0], s_chars[0]};
       }
-      UInt32 keys_down = 0;
-      UniChar chars[4];
-      // unshifted
-      UniCharCount real_length;
-      UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 0, LMGetKbdType(),
-          kUCKeyTranslateNoDeadKeysMask, &keys_down, sizeof(chars) / sizeof(chars[0]), &real_length,
-          chars);
-      if (real_length != 1) {
-         if (real_length > 1)
-            rsj::Log(juce::String("For key code ") + juce::String(key_code)
-                     + juce::String(", Unicode character is ") + juce::String(real_length)
-                     + juce::String(" long. It starts with ") + juce::String(chars[0])
-                     + juce::String("."));
-         chars[0] = 0;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
       }
-      // shifted
-      UInt32 s_keys_down = 0;
-      UniChar s_chars[4];
-      UniCharCount s_real_length;
-      // 2 == left shift key, 4 == right shift key
-      UCKeyTranslate(keyboard_layout, key_code, kUCKeyActionDown, 2, LMGetKbdType(),
-          kUCKeyTranslateNoDeadKeysMask, &s_keys_down, sizeof(s_chars) / sizeof(s_chars[0]),
-          &s_real_length, s_chars);
-      if (s_real_length != 1) {
-         if (s_real_length > 1)
-            rsj::Log(juce::String("For shifted key code ") + juce::String(key_code)
-                     + juce::String(", Unicode character is ") + juce::String(s_real_length)
-                     + juce::String(" long. It starts with ") + juce::String(s_chars[0])
-                     + juce::String("."));
-         s_chars[0] = 0;
-      }
-      if (chars[0] == s_chars[0])
-         s_chars[0] = 0; // if unshifted and shifted same, only return unshifted
-      return {chars[0], s_chars[0]};
    }
 
    // initializes unordered map for KeyCodeForChar
@@ -225,15 +262,21 @@ namespace {
    // will only add first one
    std::unordered_map<UniChar, std::pair<size_t, bool>> MakeMap()
    {
-      std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
-      for (size_t i = 0; i < 128; ++i) {
-         const auto uc = CreateStringForKey((CGKeyCode)i);
-         if (uc.first && !temp_map.count(uc.first))
-            temp_map[uc.first] = {i, false};
-         if (uc.second && !temp_map.count(uc.second))
-            temp_map[uc.second] = {i, true};
+      try {
+         std::unordered_map<UniChar, std::pair<size_t, bool>> temp_map{};
+         for (size_t i = 0; i < 128; ++i) {
+            const auto uc = CreateStringForKey((CGKeyCode)i);
+            if (uc.first && !temp_map.count(uc.first))
+               temp_map[uc.first] = {i, false};
+            if (uc.second && !temp_map.count(uc.second))
+               temp_map[uc.second] = {i, true};
+         }
+         return temp_map;
       }
-      return temp_map;
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 
    /*
@@ -242,39 +285,52 @@ namespace {
     */
    std::optional<std::pair<CGKeyCode, bool>> KeyCodeForChar(UniChar c)
    {
-      static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{MakeMap()};
-      const auto result = char_code_map.find(c);
-      if (result != char_code_map.end())
-         return result->second;
-      else
-         return {};
+      try {
+         static const std::unordered_map<UniChar, std::pair<size_t, bool>> char_code_map{MakeMap()};
+         const auto result = char_code_map.find(c);
+         if (result != char_code_map.end())
+            return result->second;
+         else
+            return {};
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
+      }
    }
 
    void MacKeyDownUp(pid_t lr_pid, CGKeyCode vk, CGEventFlags flags)
    {
-      CGEventRef d = CGEventCreateKeyboardEvent(NULL, vk, true);
-      auto dd = gsl::finally([&d] {
-         if (d)
-            CFRelease(d);
-      });
-      CGEventRef u = CGEventCreateKeyboardEvent(NULL, vk, false);
-      auto du = gsl::finally([&u] {
-         if (u)
-            CFRelease(u);
-      });
-      CGEventSetFlags(d, flags);
-      CGEventSetFlags(u, flags);
-      { // scope for the mutex
-         static std::mutex mtx{};
-         auto lock = std::lock_guard(mtx);
-         CGEventPostToPid(lr_pid, d);
-         CGEventPostToPid(lr_pid, u);
+      try {
+         CGEventRef d = CGEventCreateKeyboardEvent(NULL, vk, true);
+         auto dd = gsl::finally([&d] {
+            if (d)
+               CFRelease(d);
+         });
+         CGEventRef u = CGEventCreateKeyboardEvent(NULL, vk, false);
+         auto du = gsl::finally([&u] {
+            if (u)
+               CFRelease(u);
+         });
+         CGEventSetFlags(d, flags);
+         CGEventSetFlags(u, flags);
+         { // scope for the mutex
+            static std::mutex mtx{};
+            auto lock = std::lock_guard(mtx);
+            CGEventPostToPid(lr_pid, d);
+            CGEventPostToPid(lr_pid, u);
+         }
+         static std::once_flag of;
+         std::call_once(of, [lr_pid]() { rsj::CheckPermission(lr_pid); });
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(__func__, __func__, e);
+         throw;
       }
    }
-
 #endif
 
-#pragma warning(suppress : 26426)
+#pragma warning(suppress : 4244) // assigned to char intentionally
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
@@ -317,7 +373,7 @@ namespace {
 void rsj::SendKeyDownUp(const std::string& key, rsj::ActiveModifiers mods) noexcept
 {
    try {
-      const auto mapped_key = kKeyMap.find(ToLower(key));
+      const auto mapped_key = kKeyMap.find(rsj::ToLower(key));
       const auto in_keymap = mapped_key != kKeyMap.end();
 #ifdef _WIN32
       BYTE vk = 0;

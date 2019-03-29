@@ -16,3 +16,4 @@
 "$$$/MIDI2LR/Profiles/Next=Nächstes Profil"
 "$$$/MIDI2LR/Profiles/Previous=Vorheriges Profil"
 "$$$/MIDI2LR/Versions/notfor=funktioniert nicht mit"
+"$$$/MIDI2LR/ShortCuts/ShowHide=ein- oder ausblenden"

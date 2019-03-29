@@ -20,8 +20,10 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <exception>
 #include <functional>
 #include <future>
+#include <memory>
 #include <vector>
 
 #include <MoodyCamel/blockingconcurrentqueue.h>
@@ -37,15 +39,21 @@ class MidiReceiver final : juce::MidiInputCallback {
    MidiReceiver(MidiReceiver&& other) = delete;
    MidiReceiver& operator=(const MidiReceiver& other) = delete;
    MidiReceiver& operator=(MidiReceiver&& other) = delete;
-   void Init();
+   void Start();
    // re-enumerates MIDI IN devices
    void RescanDevices();
 
    template<class T> void AddCallback(T* const object, void (T::*const mf)(rsj::MidiMessage))
    {
-      using namespace std::placeholders;
-      if (object && mf) // only store non-empty functions
-         callbacks_.emplace_back(std::bind(mf, object, _1));
+      try {
+         using namespace std::placeholders;
+         if (object && mf) // only store non-empty functions
+            callbacks_.emplace_back(std::bind(mf, object, _1));
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
    }
 
  private:

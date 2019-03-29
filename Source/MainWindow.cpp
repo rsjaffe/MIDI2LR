@@ -20,41 +20,60 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MainWindow.h"
 
+#include <exception>
 #include <utility>
 
 #include "MainComponent.h"
 #include "SettingsManager.h"
 
-MainWindow::MainWindow(const juce::String& name, CommandMap& command_map,
+MainWindow::MainWindow(const juce::String& name, const CommandSet& command_set, Profile& profile,
     ProfileManager& profile_manager, SettingsManager& settings_manager,
     std::weak_ptr<LrIpcOut>&& lr_ipc_out, std::shared_ptr<MidiReceiver> midi_receiver,
-    std::shared_ptr<MidiSender> midi_sender)
-    : juce::DocumentWindow{name, juce::Colours::lightgrey,
-          juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
-{
-   juce::TopLevelWindow::setUsingNativeTitleBar(true);
+    std::shared_ptr<MidiSender> midi_sender) try : juce
+   ::DocumentWindow{name, juce::Colours::lightgrey,
+       juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
+   {
+      juce::TopLevelWindow::setUsingNativeTitleBar(true);
 #pragma warning(suppress : 26409 24623)
-   window_content_ = new MainContentComponent(command_map, profile_manager, settings_manager);
-   juce::ResizableWindow::setContentOwned(window_content_, true);
-   juce::Component::centreWithSize(getWidth(), getHeight());
-   juce::Component::setVisible(true);
-   window_content_->Init(std::move(lr_ipc_out), std::move(midi_receiver), std::move(midi_sender));
-   // get the auto time setting
-   const auto hide_sec = settings_manager.GetAutoHideTime();
-   // start timing
-   if (hide_sec) // don't start timer if time is zero!
-      juce::Timer::startTimer(1000 * hide_sec);
+      window_content_ =
+          new MainContentComponent(command_set, profile, profile_manager, settings_manager);
+      juce::ResizableWindow::setContentOwned(window_content_, true);
+      juce::Component::centreWithSize(getWidth(), getHeight());
+      juce::Component::setVisible(true);
+      window_content_->Init(
+          std::move(lr_ipc_out), std::move(midi_receiver), std::move(midi_sender));
+      // get the auto time setting
+      const auto hide_sec = settings_manager.GetAutoHideTime();
+      // start timing
+      if (hide_sec) // don't start timer if time is zero!
+         juce::Timer::startTimer(1000 * hide_sec);
+   }
+catch (const std::exception& e) {
+   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   throw;
 }
 
 void MainWindow::timerCallback()
 {
-   juce::Timer::stopTimer();
-   if (!juce::ResizableWindow::isMinimised())
-      juce::DocumentWindow::minimiseButtonPressed();
+   try {
+      juce::Timer::stopTimer();
+      if (!juce::ResizableWindow::isMinimised())
+         juce::DocumentWindow::minimiseButtonPressed();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
-void MainWindow::SaveProfile()
+void MainWindow::SaveProfile() const
 {
-   if (window_content_)
-      window_content_->SaveProfile();
+   try {
+      if (window_content_)
+         window_content_->SaveProfile();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
