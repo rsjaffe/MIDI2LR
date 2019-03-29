@@ -9,7 +9,7 @@ var class_command_set =
     [ "GetLanguage", "class_command_set.html#a72be69b58e8cb98b98b84c05bbec2510", null ],
     [ "GetMenuEntries", "class_command_set.html#a396f351db20309ef15d49e64ab8960ad", null ],
     [ "GetMenus", "class_command_set.html#ae2e91f3799f9820892ab5cb42c58c866", null ],
-    [ "MakeImpl", "class_command_set.html#a2eb96bcf46a23761d35e59a9108a244e", null ],
+    [ "MakeImpl", "class_command_set.html#aec94deb6175081074094fd15e3640928", null ],
     [ "cereal::access", "class_command_set.html#ab2f44cbb59a08132f4c843e5225bba0e", null ],
     [ "cereal::detail::Version< CommandSet::Impl >", "class_command_set.html#aeb7f4ce7250ee08c08c1116866cabd50", null ],
     [ "cmd_by_number_", "class_command_set.html#a8612e7e0a7ac8dd5599800d4b2b96848", null ],

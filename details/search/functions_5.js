@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fromxml',['FromXml',['../class_command_map.html#a544cc827ca252dbd253956ef4a4b2b47',1,'CommandMap']]]
+  ['fromxml',['FromXml',['../class_profile.html#ab5c72db4fbde77afeabb5b8ccd3b0720',1,'Profile']]]
 ];

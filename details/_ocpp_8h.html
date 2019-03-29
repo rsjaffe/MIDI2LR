@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.2.0</span>
+   &#160;<span id="projectnumber">3.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -90,13 +90,13 @@ $(document).ready(function(){initNavTree('_ocpp_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Ocpp.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
-<code>#include &lt;Carbon/Carbon.h&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Ocpp.h:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -104,9 +104,8 @@ $(document).ready(function(){initNavTree('_ocpp_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_ocpp_8h__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_ocpp_8h" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_ocpp_8h" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_ocpp_8h">
-<area shape="rect"  title=" " alt="" coords="9,5,165,61"/>
-<area shape="rect"  title=" " alt="" coords="5,109,60,136"/>
-<area shape="rect"  title=" " alt="" coords="84,109,203,136"/>
+<area shape="rect"  title=" " alt="" coords="5,5,161,61"/>
+<area shape="rect"  title=" " alt="" coords="56,109,111,136"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -130,17 +129,53 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacersj"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html">rsj</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a288e13e815d43b06e75819f8939524df"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ocpp_8h.html#a288e13e815d43b06e75819f8939524df">pid_t</a></td></tr>
+<tr class="separator:a288e13e815d43b06e75819f8939524df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7f68369a64bc3f6e679bc1dc0090473"><td class="memItemLeft" align="right" valign="top">typedef uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ocpp_8h.html#ac7f68369a64bc3f6e679bc1dc0090473">UniChar</a></td></tr>
+<tr class="separator:ac7f68369a64bc3f6e679bc1dc0090473"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a6cce374a94894ec5d336820475682904"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a6cce374a94894ec5d336820475682904">rsj::AppDataMac</a> ()</td></tr>
 <tr class="separator:a6cce374a94894ec5d336820475682904"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe9f9fa4bbe5da1e8b9a047a6666ddc6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#abe9f9fa4bbe5da1e8b9a047a6666ddc6">rsj::AppLogMac</a> ()</td></tr>
 <tr class="separator:abe9f9fa4bbe5da1e8b9a047a6666ddc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0180852f8663f33311a3cf586020805d"><td class="memItemLeft" align="right" valign="top">const UCKeyboardLayout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a0180852f8663f33311a3cf586020805d">rsj::GetKeyboardData</a> ()</td></tr>
-<tr class="separator:a0180852f8663f33311a3cf586020805d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9112efefb80742be7f2c9df22fa6d8ad"><td class="memItemLeft" align="right" valign="top">UniChar&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a9112efefb80742be7f2c9df22fa6d8ad">rsj::Utf8ToUtf16</a> (const std::string &amp;param)</td></tr>
+<tr class="memitem:af3d2a01c3b8513a4937128c2236ad032"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#af3d2a01c3b8513a4937128c2236ad032">rsj::CheckPermission</a> (<a class="el" href="_ocpp_8h.html#a288e13e815d43b06e75819f8939524df">pid_t</a> pid)</td></tr>
+<tr class="separator:af3d2a01c3b8513a4937128c2236ad032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9112efefb80742be7f2c9df22fa6d8ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_ocpp_8h.html#ac7f68369a64bc3f6e679bc1dc0090473">UniChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacersj.html#a9112efefb80742be7f2c9df22fa6d8ad">rsj::Utf8ToUtf16</a> (const std::string &amp;param)</td></tr>
 <tr class="separator:a9112efefb80742be7f2c9df22fa6d8ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a288e13e815d43b06e75819f8939524df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a288e13e815d43b06e75819f8939524df">&#9670;&nbsp;</a></span>pid_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int <a class="el" href="_ocpp_8h.html#a288e13e815d43b06e75819f8939524df">pid_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7f68369a64bc3f6e679bc1dc0090473"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7f68369a64bc3f6e679bc1dc0090473">&#9670;&nbsp;</a></span>UniChar</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint16_t <a class="el" href="_ocpp_8h.html#ac7f68369a64bc3f6e679bc1dc0090473">UniChar</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

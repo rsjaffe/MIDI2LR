@@ -1,9 +1,9 @@
 <map id="LrIpcOut::MidiCmdCallback" name="LrIpcOut::MidiCmdCallback">
-<area shape="rect" id="node1" title=" " alt="" coords="5,129,185,155"/>
-<area shape="rect" id="node2" href="$class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0" title=" " alt="" coords="253,37,421,79"/>
-<area shape="rect" id="node3" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="488,62,648,89"/>
-<area shape="rect" id="node4" href="$namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="509,154,627,181"/>
-<area shape="rect" id="node5" href="$class_controls_model.html#af365c9f63b78da7b742f472bd3ff2dfc" title=" " alt="" coords="240,103,433,130"/>
-<area shape="rect" id="node6" href="$class_controls_model.html#a4c650884166a2b3d44869e3d60f96f4c" title=" " alt="" coords="233,154,440,181"/>
-<area shape="rect" id="node7" href="$structrsj_1_1_midi_message_id.html#a3b021d6fcb5df9cd5814df7c685ff7c1" title=" " alt="" coords="271,256,402,297"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,130,185,157"/>
+<area shape="rect" id="node2" href="$class_controls_model.html#a65cd81b61070ad2b2c33c2f1e741cfb0" title=" " alt="" coords="253,39,421,80"/>
+<area shape="rect" id="node3" href="$namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="488,80,648,106"/>
+<area shape="rect" id="node4" href="$namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="509,130,627,157"/>
+<area shape="rect" id="node5" href="$class_controls_model.html#af365c9f63b78da7b742f472bd3ff2dfc" title=" " alt="" coords="240,105,433,132"/>
+<area shape="rect" id="node6" href="$class_controls_model.html#a4c650884166a2b3d44869e3d60f96f4c" title=" " alt="" coords="233,156,440,182"/>
+<area shape="rect" id="node7" href="$structrsj_1_1_midi_message_id.html#af3214030b152f500ed994a9bedf67dd3" title=" " alt="" coords="271,258,402,299"/>
 </map>

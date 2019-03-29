@@ -4,10 +4,6 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "CCoptions.h", "_c_coptions_8h.html", [
       [ "CCoptions", "class_c_coptions.html", "class_c_coptions" ]
     ] ],
-    [ "CommandMap.cpp", "_command_map_8cpp.html", null ],
-    [ "CommandMap.h", "_command_map_8h.html", [
-      [ "CommandMap", "class_command_map.html", "class_command_map" ]
-    ] ],
     [ "CommandMenu.cpp", "_command_menu_8cpp.html", null ],
     [ "CommandMenu.h", "_command_menu_8h.html", [
       [ "CommandMenu", "class_command_menu.html", "class_command_menu" ]
@@ -65,7 +61,11 @@ var dir_74389ed8173ad57b461b9d623a1f3867 =
     [ "NrpnMessage.cpp", "_nrpn_message_8cpp.html", null ],
     [ "NrpnMessage.h", "_nrpn_message_8h.html", "_nrpn_message_8h" ],
     [ "Ocpp.h", "_ocpp_8h.html", "_ocpp_8h" ],
-    [ "Ocpp.mm", "_ocpp_8mm.html", null ],
+    [ "Ocpp.mm", "_ocpp_8mm.html", "_ocpp_8mm" ],
+    [ "Profile.cpp", "_profile_8cpp.html", null ],
+    [ "Profile.h", "_profile_8h.html", [
+      [ "Profile", "class_profile.html", "class_profile" ]
+    ] ],
     [ "ProfileManager.cpp", "_profile_manager_8cpp.html", null ],
     [ "ProfileManager.h", "_profile_manager_8h.html", [
       [ "ProfileManager", "class_profile_manager.html", "class_profile_manager" ]

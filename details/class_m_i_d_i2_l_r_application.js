@@ -13,8 +13,7 @@ var class_m_i_d_i2_l_r_application =
     [ "shutdown", "class_m_i_d_i2_l_r_application.html#ad921c8cecc7e38d2a67d04cc1052f0d3", null ],
     [ "systemRequestedQuit", "class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f", null ],
     [ "unhandledException", "class_m_i_d_i2_l_r_application.html#ad34fde5f16225239b8ae7e0e753cf9cc", null ],
-    [ "command_map_", "class_m_i_d_i2_l_r_application.html#a01dc7aaabd6e448cd984429e0a06f2ce", null ],
-    [ "command_set_", "class_m_i_d_i2_l_r_application.html#ab2bc6dd47c3b387fa12add799bec6cf2", null ],
+    [ "command_set_", "class_m_i_d_i2_l_r_application.html#ab7665efd9d1cfa839c38b3693b17e027", null ],
     [ "controls_model_", "class_m_i_d_i2_l_r_application.html#ab4eb5907c5db5f9708a41c168143b9f3", null ],
     [ "dummy_", "class_m_i_d_i2_l_r_application.html#a7a2dfab3572e76f9d3c7cd39f81ef5bf", null ],
     [ "logger_", "class_m_i_d_i2_l_r_application.html#a793173a9549f50724d983c9c4501fdee", null ],
@@ -24,6 +23,7 @@ var class_m_i_d_i2_l_r_application =
     [ "main_window_", "class_m_i_d_i2_l_r_application.html#a12e84f2db387dc8a61a92549473c7e18", null ],
     [ "midi_receiver_", "class_m_i_d_i2_l_r_application.html#ace5b910200fc6638c9537f3d4b4cf647", null ],
     [ "midi_sender_", "class_m_i_d_i2_l_r_application.html#a4799ee32bd10340eb562c53a49f6387a", null ],
+    [ "profile_", "class_m_i_d_i2_l_r_application.html#a83f188df08e1cf92ff0953c7af04d41c", null ],
     [ "profile_manager_", "class_m_i_d_i2_l_r_application.html#aa7b54bb994b9b49e2013acae7b024ae9", null ],
     [ "settings_manager_", "class_m_i_d_i2_l_r_application.html#a6e3422a18346a2daee93e39b6776dfa1", null ],
     [ "version_checker_", "class_m_i_d_i2_l_r_application.html#a2031ab2a6f29064e847a238f7034ca14", null ]

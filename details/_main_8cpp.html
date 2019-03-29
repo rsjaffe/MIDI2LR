@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.2.0</span>
+   &#160;<span id="projectnumber">3.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -97,11 +97,11 @@ $(document).ready(function(){initNavTree('_main_8cpp.html','');});
 <div class="textblock"><code>#include &lt;exception&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;cereal/archives/binary.hpp&gt;</code><br />
 <code>#include &lt;cereal/archives/xml.hpp&gt;</code><br />
 <code>#include &lt;JuceLibraryCode/JuceHeader.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_c_coptions_8h_source.html">CCoptions.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_command_map_8h_source.html">CommandMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_command_set_8h_source.html">CommandSet.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_controls_model_8h_source.html">ControlsModel.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_l_r___i_p_c___in_8h_source.html">LR_IPC_In.h</a>&quot;</code><br />
@@ -110,8 +110,9 @@ $(document).ready(function(){initNavTree('_main_8cpp.html','');});
 <code>#include &quot;<a class="el" href="_m_i_d_i_receiver_8h_source.html">MIDIReceiver.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_m_i_d_i_sender_8h_source.html">MIDISender.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_misc_8h_source.html">Misc.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_p_woptions_8h_source.html">PWoptions.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_profile_8h_source.html">Profile.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_profile_manager_8h_source.html">ProfileManager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_p_woptions_8h_source.html">PWoptions.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_settings_manager_8h_source.html">SettingsManager.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_translate_8h_source.html">Translate.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_version_checker_8h_source.html">VersionChecker.h</a>&quot;</code><br />
@@ -122,55 +123,56 @@ $(document).ready(function(){initNavTree('_main_8cpp.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_main_8cpp__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_main_8cpp" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_main_8cpp" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_main_8cpp">
-<area shape="rect"  title=" " alt="" coords="1521,5,1677,61"/>
-<area shape="rect"  title=" " alt="" coords="190,348,269,375"/>
-<area shape="rect"  title=" " alt="" coords="41,109,106,136"/>
-<area shape="rect"  title=" " alt="" coords="3392,191,3462,218"/>
-<area shape="rect"  title=" " alt="" coords="249,109,421,136"/>
-<area shape="rect"  title=" " alt="" coords="169,273,328,300"/>
-<area shape="rect"  title=" " alt="" coords="2906,348,3108,375"/>
-<area shape="rect"  href="_c_coptions_8h.html" title=" " alt="" coords="131,109,224,136"/>
-<area shape="rect"  href="_command_map_8h.html" title=" " alt="" coords="1370,109,1487,136"/>
-<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="864,191,976,218"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="1228,273,1290,300"/>
-<area shape="rect"  href="_controls_model_8h.html" title=" " alt="" coords="857,109,973,136"/>
-<area shape="rect"  href="_l_r___i_p_c___in_8h.html" title=" " alt="" coords="2814,109,2909,136"/>
-<area shape="rect"  href="_l_r___i_p_c___out_8h.html" title=" " alt="" coords="2068,109,2173,136"/>
-<area shape="rect"  href="_main_window_8h.html" title=" " alt="" coords="3658,109,3764,136"/>
-<area shape="rect"  href="_m_i_d_i_receiver_8h.html" title=" " alt="" coords="2400,109,2508,136"/>
-<area shape="rect"  href="_m_i_d_i_sender_8h.html" title=" " alt="" coords="3128,109,3228,136"/>
-<area shape="rect"  href="_p_woptions_8h.html" title=" " alt="" coords="445,109,542,136"/>
-<area shape="rect"  href="_profile_manager_8h.html" title=" " alt="" coords="2985,109,3104,136"/>
-<area shape="rect"  href="_settings_manager_8h.html" title=" " alt="" coords="3354,109,3484,136"/>
-<area shape="rect"  href="_translate_8h.html" title=" " alt="" coords="1556,191,1642,218"/>
-<area shape="rect"  href="_version_checker_8h.html" title=" " alt="" coords="3508,109,3634,136"/>
-<area shape="rect"  title=" " alt="" coords="40,184,171,225"/>
-<area shape="rect"  title=" " alt="" coords="1305,191,1352,218"/>
-<area shape="rect"  title=" " alt="" coords="1376,191,1480,218"/>
-<area shape="rect"  title=" " alt="" coords="1525,348,1580,375"/>
-<area shape="rect"  title=" " alt="" coords="1093,273,1204,300"/>
-<area shape="rect"  title=" " alt="" coords="1466,273,1526,300"/>
-<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="1718,191,1818,218"/>
-<area shape="rect"  title=" " alt="" coords="2523,273,2579,300"/>
-<area shape="rect"  title=" " alt="" coords="584,273,712,300"/>
-<area shape="rect"  title=" " alt="" coords="736,273,891,300"/>
-<area shape="rect"  title=" " alt="" coords="916,273,1069,300"/>
-<area shape="rect"  title=" " alt="" coords="404,273,560,300"/>
-<area shape="rect"  title=" " alt="" coords="1436,348,1487,375"/>
-<area shape="rect"  title=" " alt="" coords="744,348,806,375"/>
-<area shape="rect"  title=" " alt="" coords="1228,348,1290,375"/>
-<area shape="rect"  title=" " alt="" coords="1314,348,1412,375"/>
-<area shape="rect"  title=" " alt="" coords="1055,348,1114,375"/>
-<area shape="rect"  title=" " alt="" coords="1138,348,1204,375"/>
-<area shape="rect"  title=" " alt="" coords="1602,273,1681,300"/>
-<area shape="rect"  title=" " alt="" coords="689,191,840,218"/>
-<area shape="rect"  title=" " alt="" coords="2516,191,2570,218"/>
-<area shape="rect"  title=" " alt="" coords="2143,273,2202,300"/>
-<area shape="rect"  title=" " alt="" coords="2900,191,3114,218"/>
-<area shape="rect"  title=" " alt="" coords="2595,191,2672,218"/>
-<area shape="rect"  title=" " alt="" coords="2234,191,2492,218"/>
-<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="1842,191,1956,218"/>
-<area shape="rect"  title=" " alt="" coords="1808,273,2017,300"/>
+<area shape="rect"  title=" " alt="" coords="1753,5,1909,61"/>
+<area shape="rect"  title=" " alt="" coords="1127,423,1206,449"/>
+<area shape="rect"  title=" " alt="" coords="3509,109,3574,136"/>
+<area shape="rect"  title=" " alt="" coords="245,191,315,218"/>
+<area shape="rect"  title=" " alt="" coords="2457,348,2516,375"/>
+<area shape="rect"  title=" " alt="" coords="3598,109,3770,136"/>
+<area shape="rect"  title=" " alt="" coords="3794,109,3953,136"/>
+<area shape="rect"  title=" " alt="" coords="633,423,834,449"/>
+<area shape="rect"  href="_c_coptions_8h.html" title=" " alt="" coords="3977,109,4071,136"/>
+<area shape="rect"  href="_command_set_8h.html" title=" " alt="" coords="1072,191,1184,218"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="2173,348,2235,375"/>
+<area shape="rect"  href="_controls_model_8h.html" title=" " alt="" coords="2854,109,2970,136"/>
+<area shape="rect"  href="_l_r___i_p_c___in_8h.html" title=" " alt="" coords="2270,109,2365,136"/>
+<area shape="rect"  href="_l_r___i_p_c___out_8h.html" title=" " alt="" coords="1989,109,2094,136"/>
+<area shape="rect"  href="_main_window_8h.html" title=" " alt="" coords="243,109,349,136"/>
+<area shape="rect"  href="_m_i_d_i_receiver_8h.html" title=" " alt="" coords="1497,109,1605,136"/>
+<area shape="rect"  href="_m_i_d_i_sender_8h.html" title=" " alt="" coords="579,109,679,136"/>
+<area shape="rect"  href="_profile_8h.html" title=" " alt="" coords="744,109,813,136"/>
+<area shape="rect"  href="_profile_manager_8h.html" title=" " alt="" coords="975,109,1094,136"/>
+<area shape="rect"  href="_p_woptions_8h.html" title=" " alt="" coords="4095,109,4193,136"/>
+<area shape="rect"  href="_settings_manager_8h.html" title=" " alt="" coords="373,109,504,136"/>
+<area shape="rect"  href="_translate_8h.html" title=" " alt="" coords="3149,348,3235,375"/>
+<area shape="rect"  href="_version_checker_8h.html" title=" " alt="" coords="93,109,219,136"/>
+<area shape="rect"  title=" " alt="" coords="4019,184,4149,225"/>
+<area shape="rect"  title=" " alt="" coords="2319,423,2374,449"/>
+<area shape="rect"  title=" " alt="" coords="585,273,695,300"/>
+<area shape="rect"  title=" " alt="" coords="1304,273,1360,300"/>
+<area shape="rect"  title=" " alt="" coords="1536,273,1664,300"/>
+<area shape="rect"  title=" " alt="" coords="1025,273,1178,300"/>
+<area shape="rect"  title=" " alt="" coords="2399,423,2449,449"/>
+<area shape="rect"  title=" " alt="" coords="3011,423,3072,449"/>
+<area shape="rect"  title=" " alt="" coords="1828,423,1889,449"/>
+<area shape="rect"  title=" " alt="" coords="1913,423,1999,449"/>
+<area shape="rect"  title=" " alt="" coords="2023,423,2121,449"/>
+<area shape="rect"  title=" " alt="" coords="2145,423,2204,449"/>
+<area shape="rect"  title=" " alt="" coords="2228,423,2295,449"/>
+<area shape="rect"  title=" " alt="" coords="3001,191,3151,218"/>
+<area shape="rect"  title=" " alt="" coords="3175,191,3331,218"/>
+<area shape="rect"  title=" " alt="" coords="1766,348,1826,375"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="1947,191,2047,218"/>
+<area shape="rect"  title=" " alt="" coords="1877,273,1944,300"/>
+<area shape="rect"  title=" " alt="" coords="1969,273,2047,300"/>
+<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="1739,273,1853,300"/>
+<area shape="rect"  title=" " alt="" coords="2123,191,2178,218"/>
+<area shape="rect"  title=" " alt="" coords="2507,191,2722,218"/>
+<area shape="rect"  title=" " alt="" coords="1411,191,1488,218"/>
+<area shape="rect"  title=" " alt="" coords="1614,191,1871,218"/>
+<area shape="rect"  title=" " alt="" coords="593,191,639,218"/>
+<area shape="rect"  title=" " alt="" coords="664,191,768,218"/>
+<area shape="rect"  title=" " alt="" coords="792,191,845,218"/>
 </map>
 </div>
 </div><table class="memberdecls">

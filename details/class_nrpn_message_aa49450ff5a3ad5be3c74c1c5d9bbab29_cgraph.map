@@ -1,5 +1,11 @@
 <map id="NrpnMessage::ProcessMidi" name="NrpnMessage::ProcessMidi">
-<area shape="rect" id="node1" title=" " alt="" coords="5,43,188,69"/>
-<area shape="rect" id="node2" href="$namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="236,5,396,32"/>
-<area shape="rect" id="node3" href="$namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="257,80,375,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,183,188,209"/>
+<area shape="rect" id="node2" href="$class_nrpn_message.html#aac9971284d016abef47ce81062af2630" title=" " alt="" coords="264,5,404,32"/>
+<area shape="rect" id="node3" href="$namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="254,56,414,83"/>
+<area shape="rect" id="node4" href="$class_nrpn_message.html#a88038f5dd4c1b38f83e47fc25ad2a49b" title=" " alt="" coords="255,107,413,133"/>
+<area shape="rect" id="node5" href="$namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="275,157,393,184"/>
+<area shape="rect" id="node6" href="$class_nrpn_message.html#a073ea5f36072b30556c2fcca13b1c8b9" title=" " alt="" coords="238,208,430,235"/>
+<area shape="rect" id="node7" href="$class_nrpn_message.html#adf0e62caa7eb7b88062beda9154cd298" title=" " alt="" coords="236,259,432,285"/>
+<area shape="rect" id="node8" href="$class_nrpn_message.html#ac45863ad3f89c9898d49266e9a07d4c2" title=" " alt="" coords="242,309,426,336"/>
+<area shape="rect" id="node9" href="$class_nrpn_message.html#a82a315dbe694d73575c13f6f89cc7800" title=" " alt="" coords="240,360,428,387"/>
 </map>

@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.2.0</span>
+   &#160;<span id="projectnumber">3.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -92,13 +92,13 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 <h3><a id="index_a"></a>- a -</h3><ul>
 <li>AppDataFilePath()
-: <a class="el" href="namespacersj.html#aa6f12fd71a03cd84ad048d82223b26c8">rsj</a>
+: <a class="el" href="namespacersj.html#ad9fd7ddfd6792dd72b9f217e9d7967c3">rsj</a>
 </li>
 <li>AppDataMac()
 : <a class="el" href="namespacersj.html#a6cce374a94894ec5d336820475682904">rsj</a>
 </li>
 <li>AppLogFilePath()
-: <a class="el" href="namespacersj.html#a4c930e57e66c99f9d4eccfb30327da70">rsj</a>
+: <a class="el" href="namespacersj.html#a2f66b6c4ce47634151f3e40675ae62d8">rsj</a>
 </li>
 <li>AppLogMac()
 : <a class="el" href="namespacersj.html#abe9f9fa4bbe5da1e8b9a047a6666ddc6">rsj</a>
@@ -114,8 +114,17 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 
 <h3><a id="index_c"></a>- c -</h3><ul>
+<li>Cc
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a8ae209536342eb446bafcb5cef0905e3">rsj</a>
+</li>
 <li>CCmethod
 : <a class="el" href="namespacersj.html#a1b0f7334f0d860bf0d3aebeaca930efd">rsj</a>
+</li>
+<li>ChanPressure
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a7071ceaadca0a4d70bd9dc4fd8f04841">rsj</a>
+</li>
+<li>CheckPermission()
+: <a class="el" href="namespacersj.html#af3d2a01c3b8513a4937128c2236ad032">rsj</a>
 </li>
 </ul>
 
@@ -124,16 +133,16 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 <li>end()
 : <a class="el" href="namespacersj.html#a8a2c3904fada0c4962b7aa9323c96266">rsj</a>
 </li>
+<li>EndsWith()
+: <a class="el" href="namespacersj.html#a8794554dc8c7718a33bd567ca09c4792">rsj</a>
+</li>
 <li>ExceptionResponse()
-: <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj</a>
+: <a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj</a>
 </li>
 </ul>
 
 
 <h3><a id="index_g"></a>- g -</h3><ul>
-<li>GetKeyboardData()
-: <a class="el" href="namespacersj.html#a0180852f8663f33311a3cf586020805d">rsj</a>
-</li>
 <li>GetKeyboardLayout()
 : <a class="el" href="namespacersj.html#a778472503c5212546ea3b720b96f0661">rsj</a>
 </li>
@@ -141,32 +150,11 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 
 <h3><a id="index_k"></a>- k -</h3><ul>
-<li>kCcFlag
-: <a class="el" href="namespacersj.html#acfed8fcd3b55962e621fe38cc51b5fe6">rsj</a>
-</li>
-<li>kChanPressureFlag
-: <a class="el" href="namespacersj.html#a3eef0c8742c77199734e77031216dd18">rsj</a>
+<li>KeyPressure
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7ae3d25ec729334f2598eb9f1ada7bee7f">rsj</a>
 </li>
 <li>kInvalidNrpn
 : <a class="el" href="namespacersj.html#a1154e66eca3d296817f27ce478205b5b">rsj</a>
-</li>
-<li>kKeyPressureFlag
-: <a class="el" href="namespacersj.html#a93c6b6eb3c616627e32d70dd236845a3">rsj</a>
-</li>
-<li>kNoteOffFlag
-: <a class="el" href="namespacersj.html#a97cd7add2b87a200bbae84ed975c10b2">rsj</a>
-</li>
-<li>kNoteOnFlag
-: <a class="el" href="namespacersj.html#a00ff6073cf6383716fe22b247f5f3293">rsj</a>
-</li>
-<li>kPgmChangeFlag
-: <a class="el" href="namespacersj.html#af303da09e1d2f2719d8f6b4e5794a274">rsj</a>
-</li>
-<li>kPwFlag
-: <a class="el" href="namespacersj.html#ab9695f0cf779654d5b7f110ba08d54c7">rsj</a>
-</li>
-<li>kSystemFlag
-: <a class="el" href="namespacersj.html#a2ac9d1f37d4a7f66e5327f28f0004250">rsj</a>
 </li>
 </ul>
 
@@ -182,13 +170,19 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 
 <h3><a id="index_m"></a>- m -</h3><ul>
-<li>MsgIdEnum
-: <a class="el" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3">rsj</a>
+<li>MessageType
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7">rsj</a>
 </li>
 </ul>
 
 
 <h3><a id="index_n"></a>- n -</h3><ul>
+<li>NoteOff
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7aaff9fb30c50735fdb8411d4ce39b5f59">rsj</a>
+</li>
+<li>NoteOn
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a55416f6efac37abab3003f73505ef360">rsj</a>
+</li>
 <li>NumToChars()
 : <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj</a>
 </li>
@@ -197,7 +191,17 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 <h3><a id="index_o"></a>- o -</h3><ul>
 <li>operator==()
-: <a class="el" href="namespacersj.html#ac953a84e0017225a1c5b7cfb067ba50b">rsj</a>
+: <a class="el" href="namespacersj.html#aca45a5e35c860d513fb0b69a75a84aed">rsj</a>
+</li>
+</ul>
+
+
+<h3><a id="index_p"></a>- p -</h3><ul>
+<li>PgmChange
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7add8a56993aa7c44e836bd172d4d4eb68">rsj</a>
+</li>
+<li>Pw
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7aa5dfaf1976d0f34f17de77a96e8a0999">rsj</a>
 </li>
 </ul>
 
@@ -217,17 +221,29 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 : <a class="el" href="namespacersj.html#a7ef1999b70f9edef40831d04404d3761">rsj</a>
 </li>
 <li>SleepTimed()
-: <a class="el" href="namespacersj.html#a0bfa81e629324ace3dc94e56b9fb280b">rsj</a>
+: <a class="el" href="namespacersj.html#a01ba4e95db815027d2e6ef78ee4353f5">rsj</a>
 </li>
 <li>SleepTimedLogged()
-: <a class="el" href="namespacersj.html#a862894805d4961516c3e10e1dba99936">rsj</a>
+: <a class="el" href="namespacersj.html#a3ff3cae4cb893f0e81cd429efdd189de">rsj</a>
+</li>
+<li>System
+: <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a55afe840ac7eacd5be10f44d65167ea3">rsj</a>
 </li>
 </ul>
 
 
 <h3><a id="index_t"></a>- t -</h3><ul>
+<li>ToLower()
+: <a class="el" href="namespacersj.html#af53f4096f4a5b6f9705a209de4682f56">rsj</a>
+</li>
+<li>ToMessageType()
+: <a class="el" href="namespacersj.html#a8b6ef5adf1aaf7438f40e059fa58ab1f">rsj</a>
+</li>
 <li>Translate()
-: <a class="el" href="namespacersj.html#a92fd52fbca857bcf54acebec62c6b2f7">rsj</a>
+: <a class="el" href="namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7">rsj</a>
+</li>
+<li>Trim()
+: <a class="el" href="namespacersj.html#a94afac1b60db0d64f32e127ab5627833">rsj</a>
 </li>
 </ul>
 

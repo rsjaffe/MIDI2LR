@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.2.0</span>
+   &#160;<span id="projectnumber">3.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -95,7 +95,6 @@ $(document).ready(function(){initNavTree('_command_menu_8h.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;JuceLibraryCode/JuceHeader.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -105,21 +104,26 @@ $(document).ready(function(){initNavTree('_command_menu_8h.html','');});
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_command_menu_8h__incl.png" border="0" usemap="#_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_menu_8h" alt=""/></div>
 <map name="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_menu_8h" id="_d_1_2_users_2_rory_2source_2repos_2_m_i_d_i2_l_r_2_source_2_command_menu_8h">
-<area shape="rect"  title=" " alt="" coords="65,5,221,61"/>
-<area shape="rect"  title=" " alt="" coords="5,109,59,136"/>
-<area shape="rect"  title=" " alt="" coords="83,109,139,136"/>
-<area shape="rect"  title=" " alt="" coords="75,259,277,285"/>
-<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="234,109,334,136"/>
-<area shape="rect"  title=" " alt="" coords="265,184,343,211"/>
-<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="508,184,569,211"/>
-<area shape="rect"  title=" " alt="" coords="301,259,352,285"/>
-<area shape="rect"  title=" " alt="" coords="376,259,437,285"/>
-<area shape="rect"  title=" " alt="" coords="461,259,523,285"/>
-<area shape="rect"  title=" " alt="" coords="547,259,626,285"/>
-<area shape="rect"  title=" " alt="" coords="650,259,705,285"/>
-<area shape="rect"  title=" " alt="" coords="729,259,828,285"/>
-<area shape="rect"  title=" " alt="" coords="852,259,911,285"/>
-<area shape="rect"  title=" " alt="" coords="935,259,1001,285"/>
+<area shape="rect"  title=" " alt="" coords="43,5,199,61"/>
+<area shape="rect"  title=" " alt="" coords="30,109,83,136"/>
+<area shape="rect"  title=" " alt="" coords="5,333,207,360"/>
+<area shape="rect"  href="_midi_utilities_8h.html" title=" " alt="" coords="364,109,464,136"/>
+<area shape="rect"  title=" " alt="" coords="415,184,482,211"/>
+<area shape="rect"  title=" " alt="" coords="507,184,585,211"/>
+<area shape="rect"  href="_misc_8h.html" title=" " alt="" coords="502,259,563,285"/>
+<area shape="rect"  href="_nrpn_message_8h.html" title=" " alt="" coords="640,184,753,211"/>
+<area shape="rect"  title=" " alt="" coords="990,333,1041,360"/>
+<area shape="rect"  title=" " alt="" coords="231,333,293,360"/>
+<area shape="rect"  title=" " alt="" coords="317,333,378,360"/>
+<area shape="rect"  title=" " alt="" coords="403,333,481,360"/>
+<area shape="rect"  title=" " alt="" coords="505,333,560,360"/>
+<area shape="rect"  title=" " alt="" coords="585,333,670,360"/>
+<area shape="rect"  title=" " alt="" coords="694,333,793,360"/>
+<area shape="rect"  title=" " alt="" coords="817,333,875,360"/>
+<area shape="rect"  title=" " alt="" coords="899,333,966,360"/>
+<area shape="rect"  title=" " alt="" coords="906,259,965,285"/>
+<area shape="rect"  title=" " alt="" coords="588,259,648,285"/>
+<area shape="rect"  title=" " alt="" coords="672,259,881,285"/>
 </map>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">

@@ -1,6 +1,6 @@
 var class_main_content_component =
 [
-    [ "MainContentComponent", "class_main_content_component.html#ae31835d16b286cb6278c5981d8134cea", null ],
+    [ "MainContentComponent", "class_main_content_component.html#a7e65f5f69a481fd745c7cef1eb7b7003", null ],
     [ "~MainContentComponent", "class_main_content_component.html#a0ad6ee663c2e5f135946a23bed278320", null ],
     [ "MainContentComponent", "class_main_content_component.html#a51f9db3497adb66ea0c1c4878ceff9b7", null ],
     [ "MainContentComponent", "class_main_content_component.html#ad04bdda172036cdeadc62d3a58a2bbf8", null ],
@@ -17,7 +17,6 @@ var class_main_content_component =
     [ "SetLabelSettings", "class_main_content_component.html#ae219ea18fd91bf04c1676f577ddf21b4", null ],
     [ "timerCallback", "class_main_content_component.html#a5b7e48a7423f17bc799fc2990f48e38d", null ],
     [ "command_label_", "class_main_content_component.html#a86df7eb70dc781062ad524b469376c2f", null ],
-    [ "command_map_", "class_main_content_component.html#a321fcfb09a0dc076989ffe154330d644", null ],
     [ "command_table_", "class_main_content_component.html#a5311a6449d51b93a6a1115c25c845f53", null ],
     [ "command_table_model_", "class_main_content_component.html#a67d255a327565be0485550fe234e5f46", null ],
     [ "connection_label_", "class_main_content_component.html#a5565899fbeb870365742e50dd249a55d", null ],
@@ -27,6 +26,7 @@ var class_main_content_component =
     [ "lr_ipc_out_", "class_main_content_component.html#ab7ee430b1fa126d73c05b2fa06073ae9", null ],
     [ "midi_receiver_", "class_main_content_component.html#ae62ded45bea9ea41202b35839d4c4cfb", null ],
     [ "midi_sender_", "class_main_content_component.html#af6bde9753f4d5c187bdb6313dd1812b7", null ],
+    [ "profile_", "class_main_content_component.html#a8c3e897d9ef0bc2b58986f3cc3d8bcde", null ],
     [ "profile_manager_", "class_main_content_component.html#a74604455046f47741c07707c1813ef76", null ],
     [ "profile_name_label_", "class_main_content_component.html#afcebb3390e8820f1626685202c17632f", null ],
     [ "remove_row_button_", "class_main_content_component.html#a4d058805788da013c54312607fac3544", null ],

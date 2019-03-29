@@ -19,8 +19,8 @@ var searchData=
   ['menu_5fentries_5f',['menu_entries_',['../class_command_set.html#aed716952b7f36580c2eef3ac4befc27d',1,'CommandSet']]],
   ['menus_5f',['menus_',['../class_command_set.html#ad812d4f0c25e9b26f3c2917a665d6e14',1,'CommandSet']]],
   ['message_5f',['message_',['../class_command_menu.html#a4ecfce93e2902c3a0c9419c12ab4f92e',1,'CommandMenu']]],
-  ['message_5fmap_5f',['message_map_',['../class_command_map.html#ab4d9861bed207cab3bf9e4baf3f76605',1,'CommandMap']]],
-  ['message_5ftype_5fbyte',['message_type_byte',['../structrsj_1_1_midi_message.html#a6367688a1d8eb9308633e059220cfbe6',1,'rsj::MidiMessage']]],
+  ['message_5fmap_5f',['message_map_',['../class_profile.html#a4a2390bca21eda906de4d95a2ff94f8c',1,'Profile']]],
+  ['message_5ftype_5fbyte',['message_type_byte',['../structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448',1,'rsj::MidiMessage']]],
   ['messages_5f',['messages_',['../class_midi_receiver.html#a5214b9f7cd228ce37b791f49e0396a96',1,'MidiReceiver']]],
   ['method',['method',['../structrsj_1_1_settings_struct.html#afb5f6774d2bffd592d871b95d6e4921d',1,'rsj::SettingsStruct']]],
   ['midi_5freceiver_5f',['midi_receiver_',['../class_m_i_d_i2_l_r_application.html#ace5b910200fc6638c9537f3d4b4cf647',1,'MIDI2LRApplication::midi_receiver_()'],['../class_main_content_component.html#ae62ded45bea9ea41202b35839d4c4cfb',1,'MainContentComponent::midi_receiver_()']]],
@@ -29,7 +29,8 @@ var searchData=
   ['minvallabel',['minvallabel',['../class_c_coptions.html#a7ecf62957a73e8b40cbb6331fc638d0c',1,'CCoptions']]],
   ['minvaltext',['minvaltext',['../class_c_coptions.html#a19a91f7fdcf70947ac9acd24cdacada7',1,'CCoptions']]],
   ['mm_5f',['mm_',['../class_lr_ipc_out_1_1_recenter.html#a4320be3d1b141c99256746ba78135ed4',1,'LrIpcOut::Recenter']]],
-  ['msg_5fid_5ftype',['msg_id_type',['../structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41',1,'rsj::MidiMessageId']]],
+  ['msg_5fid_5ftype',['msg_id_type',['../structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728',1,'rsj::MidiMessageId']]],
   ['mswindows',['MSWindows',['../_misc_8h.html#a104214aa8e5e947e0af9f48ced380378',1,'Misc.h']]],
-  ['mtx_5f',['mtx_',['../class_lr_ipc_out_1_1_recenter.html#ae8d75f1ecea84eef96ce52ea41d1fc07',1,'LrIpcOut::Recenter']]]
+  ['mtx_5f',['mtx_',['../class_lr_ipc_out_1_1_recenter.html#ae8d75f1ecea84eef96ce52ea41d1fc07',1,'LrIpcOut::Recenter']]],
+  ['mutex_5f',['mutex_',['../class_profile.html#a769a8fab7e5f7b516ad9dabff0af7073',1,'Profile']]]
 ];

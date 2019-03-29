@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.2.0</span>
+   &#160;<span id="projectnumber">3.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -115,8 +115,6 @@ $(document).ready(function(){initNavTree('class_midi_sender.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4796ce8aad7d5d9678224213389f5bd7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_sender.html#a4796ce8aad7d5d9678224213389f5bd7">Init</a> ()</td></tr>
-<tr class="separator:a4796ce8aad7d5d9678224213389f5bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac40f8961fcc5ab57f6c59c6220c9c2c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9">RescanDevices</a> ()</td></tr>
 <tr class="separator:ac40f8961fcc5ab57f6c59c6220c9c2c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d06167810c23140236fca47665add0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_sender.html#a9d06167810c23140236fca47665add0a">SendCc</a> (int midi_channel, int controller, int value) const</td></tr>
@@ -125,6 +123,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a050f75ae7bddedb3cd395316c0e28f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a585c35f0b46534b8f2dc616aa51f66a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_sender.html#a585c35f0b46534b8f2dc616aa51f66a8">SendPitchWheel</a> (int midi_channel, int value) const</td></tr>
 <tr class="separator:a585c35f0b46534b8f2dc616aa51f66a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f6b5c209963c8ba2e59a40e556d688f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">Start</a> ()</td></tr>
+<tr class="separator:a7f6b5c209963c8ba2e59a40e556d688f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -137,24 +137,6 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a518fbc9c25993a77b0e81397da07e598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4796ce8aad7d5d9678224213389f5bd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4796ce8aad7d5d9678224213389f5bd7">&#9670;&nbsp;</a></span>Init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MidiSender::Init </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;   <a class="code" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:74</div></div>
-</div><!-- fragment -->
-</div>
-</div>
 <a id="a24b39644b419baab87b1d3337ab15fe8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a24b39644b419baab87b1d3337ab15fe8">&#9670;&nbsp;</a></span>InitDevices()</h2>
 
@@ -177,11 +159,11 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> idx = 0; idx &lt; juce::MidiOutput::getDevices().size(); ++idx) {</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;         <span class="keyword">auto</span> dev = juce::MidiOutput::openDevice(idx);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;         <span class="keywordflow">if</span> (dev) {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.emplace_back(dev);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(<span class="stringliteral">&quot;Opened output device &quot;</span> + dev-&gt;getName());</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;         }</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      }</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;   }</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <a class="code" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;   }</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div><div class="ttc" id="namespacersj_html_ad16098ca2cbf4fce3549b58445ed8cbb"><div class="ttname"><a href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const ::std::exception &amp;e) noexcept</div></div>
-<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:62</div></div>
+<div class="fragment"><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;{</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> idx = 0; idx &lt; juce::MidiOutput::getDevices().size(); ++idx) {</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;         <span class="keyword">auto</span> dev = juce::MidiOutput::openDevice(idx);</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;         <span class="keywordflow">if</span> (dev) {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.emplace_back(dev);</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(<span class="stringliteral">&quot;Opened output device &quot;</span> + dev-&gt;getName());</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;         }</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      }</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;   }</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <a class="code" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;   }</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div><div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:101</div></div>
+<div class="ttc" id="namespacersj_html_a89157f33d7ebfdeac974317c32ab4e39"><div class="ttname"><a href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:117</div></div>
 <div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
+<p class="reference">References <a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -189,9 +171,9 @@ Private Attributes</h2></td></tr>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph.png" border="0" usemap="#class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph" alt=""/></div>
 <map name="class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph" id="class_midi_sender_a24b39644b419baab87b1d3337ab15fe8_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,43,163,69"/>
-<area shape="rect"  href="namespacersj.html#ad16098ca2cbf4fce3549b58445ed8cbb" title=" " alt="" coords="211,5,371,32"/>
-<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="231,80,350,107"/>
+<area shape="rect"  title=" " alt="" coords="5,31,163,57"/>
+<area shape="rect"  href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="211,5,371,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="231,56,350,83"/>
 </map>
 </div>
 
@@ -211,10 +193,25 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;   <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.clear();</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;   <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(<span class="stringliteral">&quot;Cleared output devices&quot;</span>);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   <a class="code" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:74</div></div>
-<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:62</div></div>
+<div class="fragment"><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;{</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>.clear();</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <a class="code" href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a>(<span class="stringliteral">&quot;Cleared output devices&quot;</span>);</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <a class="code" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;   }</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <a class="code" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;   }</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:107</div></div>
+<div class="ttc" id="namespacersj_html_a9e3aa12d0586da0bb64db2eecc7868c9"><div class="ttname"><a href="namespacersj.html#a9e3aa12d0586da0bb64db2eecc7868c9">rsj::Log</a></div><div class="ttdeci">void Log(const juce::String &amp;info)</div><div class="ttdef"><b>Definition:</b> Misc.cpp:101</div></div>
+<div class="ttc" id="namespacersj_html_a89157f33d7ebfdeac974317c32ab4e39"><div class="ttname"><a href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:117</div></div>
 <div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_midi_sender_ac40f8961fcc5ab57f6c59c6220c9c2c9_cgraph.png" border="0" usemap="#class_midi_sender_ac40f8961fcc5ab57f6c59c6220c9c2c9_cgraph" alt=""/></div>
+<map name="class_midi_sender_ac40f8961fcc5ab57f6c59c6220c9c2c9_cgraph" id="class_midi_sender_ac40f8961fcc5ab57f6c59c6220c9c2c9_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,31,189,57"/>
+<area shape="rect"  href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="237,5,397,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="258,56,377,83"/>
+</map>
+</div>
+
 </div>
 </div>
 <a id="a9d06167810c23140236fca47665add0a"></a>
@@ -248,8 +245,23 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;   <span class="keywordflow">if</span> (controller &lt; 128) { <span class="comment">// regular message</span></div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>)</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;         dev-&gt;sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, controller, value));</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;   }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;   <span class="keywordflow">else</span> { <span class="comment">// NRPN</span></div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> parameter_lsb = controller &amp; 0x7f;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> parameter_msb = (controller &gt;&gt; 7) &amp; 0x7F;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> value_lsb = value &amp; 0x7f;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> value_msb = (value &gt;&gt; 7) &amp; 0x7F;</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;         dev-&gt;sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 99, parameter_msb));</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;         dev-&gt;sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 98, parameter_lsb));</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;         dev-&gt;sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 6, value_msb));</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;         dev-&gt;sendMessageNow(juce::MidiMessage::controllerEvent(midi_channel, 38, value_lsb));</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      }</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;   }</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">if</span> (controller &lt; 128) { <span class="comment">// regular message</span></div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;         <span class="keyword">auto</span> m{juce::MidiMessage::controllerEvent(midi_channel, controller, value)};</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>)</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            dev-&gt;sendMessageNow(m);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      }</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">else</span> { <span class="comment">// NRPN</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;         <span class="keyword">auto</span> m1{juce::MidiMessage::controllerEvent(midi_channel, 99, (controller &gt;&gt; 7) &amp; 0x7F)};</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;         <span class="keyword">auto</span> m2{juce::MidiMessage::controllerEvent(midi_channel, 98, controller &amp; 0x7f)};</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;         <span class="keyword">auto</span> m3{juce::MidiMessage::controllerEvent(midi_channel, 6, (value &gt;&gt; 7) &amp; 0x7F)};</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;         <span class="keyword">auto</span> m4{juce::MidiMessage::controllerEvent(midi_channel, 38, value &amp; 0x7f)};</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;         <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>) {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            dev-&gt;sendMessageNow(m1);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            dev-&gt;sendMessageNow(m2);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            dev-&gt;sendMessageNow(m3);</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            dev-&gt;sendMessageNow(m4);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;         }</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      }</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;   }</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;   }</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div><div class="ttc" id="namespacersj_html_a89157f33d7ebfdeac974317c32ab4e39"><div class="ttname"><a href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:117</div></div>
+<div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_midi_sender_a9d06167810c23140236fca47665add0a_cgraph.png" border="0" usemap="#class_midi_sender_a9d06167810c23140236fca47665add0a_cgraph" alt=""/></div>
+<map name="class_midi_sender_a9d06167810c23140236fca47665add0a_cgraph" id="class_midi_sender_a9d06167810c23140236fca47665add0a_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,31,147,57"/>
+<area shape="rect"  href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="195,5,355,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="215,56,334,83"/>
+</map>
+</div>
+
 </div>
 </div>
 <a id="a050f75ae7bddedb3cd395316c0e28f41"></a>
@@ -283,8 +295,23 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>)</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      dev-&gt;sendMessageNow(juce::MidiMessage::noteOn(</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;          midi_channel, controller, gsl::narrow_cast&lt;juce::uint8&gt;(value)));</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
+<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keyword">auto</span> m{juce::MidiMessage::noteOn(</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;          midi_channel, controller, gsl::narrow_cast&lt;juce::uint8&gt;(value))};</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>)</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;         dev-&gt;sendMessageNow(m);</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;   }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <a class="code" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;   }</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div><div class="ttc" id="namespacersj_html_a89157f33d7ebfdeac974317c32ab4e39"><div class="ttname"><a href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:117</div></div>
+<div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
+<div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-4-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_midi_sender_a050f75ae7bddedb3cd395316c0e28f41_cgraph.png" border="0" usemap="#class_midi_sender_a050f75ae7bddedb3cd395316c0e28f41_cgraph" alt=""/></div>
+<map name="class_midi_sender_a050f75ae7bddedb3cd395316c0e28f41_cgraph" id="class_midi_sender_a050f75ae7bddedb3cd395316c0e28f41_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,31,175,57"/>
+<area shape="rect"  href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="223,5,383,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="243,56,362,83"/>
+</map>
+</div>
+
 </div>
 </div>
 <a id="a585c35f0b46534b8f2dc616aa51f66a8"></a>
@@ -312,8 +339,56 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>)</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      dev-&gt;sendMessageNow(juce::MidiMessage::pitchWheel(midi_channel, value));</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
+<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;{</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keyword">auto</span> m{juce::MidiMessage::pitchWheel(midi_channel, value)};</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dev : <a class="code" href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">output_devices_</a>)</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;         dev-&gt;sendMessageNow(m);</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;   }</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <a class="code" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;   }</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div><div class="ttc" id="namespacersj_html_a89157f33d7ebfdeac974317c32ab4e39"><div class="ttname"><a href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:117</div></div>
+<div class="ttc" id="class_midi_sender_html_a518fbc9c25993a77b0e81397da07e598"><div class="ttname"><a href="class_midi_sender.html#a518fbc9c25993a77b0e81397da07e598">MidiSender::output_devices_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; juce::MidiOutput &gt; &gt; output_devices_</div><div class="ttdef"><b>Definition:</b> MIDISender.h:46</div></div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_midi_sender_a585c35f0b46534b8f2dc616aa51f66a8_cgraph.png" border="0" usemap="#class_midi_sender_a585c35f0b46534b8f2dc616aa51f66a8_cgraph" alt=""/></div>
+<map name="class_midi_sender_a585c35f0b46534b8f2dc616aa51f66a8_cgraph" id="class_midi_sender_a585c35f0b46534b8f2dc616aa51f66a8_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,31,197,57"/>
+<area shape="rect"  href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="245,5,405,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="266,56,385,83"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7f6b5c209963c8ba2e59a40e556d688f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f6b5c209963c8ba2e59a40e556d688f">&#9670;&nbsp;</a></span>Start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MidiSender::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;   <span class="keywordflow">try</span> {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      <a class="code" href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">InitDevices</a>();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;   }</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;   <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      <a class="code" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a>(<span class="keyword">typeid</span>(<span class="keyword">this</span>).name(), __func__, e);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;   }</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div><div class="ttc" id="class_midi_sender_html_a24b39644b419baab87b1d3337ab15fe8"><div class="ttname"><a href="class_midi_sender.html#a24b39644b419baab87b1d3337ab15fe8">MidiSender::InitDevices</a></div><div class="ttdeci">void InitDevices()</div><div class="ttdef"><b>Definition:</b> MIDISender.cpp:107</div></div>
+<div class="ttc" id="namespacersj_html_a89157f33d7ebfdeac974317c32ab4e39"><div class="ttname"><a href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse</a></div><div class="ttdeci">void ExceptionResponse(const char *id, const char *fu, const std::exception &amp;e) noexcept</div><div class="ttdef"><b>Definition:</b> Misc.cpp:117</div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39">rsj::ExceptionResponse()</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_midi_sender_a7f6b5c209963c8ba2e59a40e556d688f_cgraph.png" border="0" usemap="#class_midi_sender_a7f6b5c209963c8ba2e59a40e556d688f_cgraph" alt=""/></div>
+<map name="class_midi_sender_a7f6b5c209963c8ba2e59a40e556d688f_cgraph" id="class_midi_sender_a7f6b5c209963c8ba2e59a40e556d688f_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,31,128,57"/>
+<area shape="rect"  href="namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="176,5,336,32"/>
+<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="197,56,315,83"/>
+</map>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>

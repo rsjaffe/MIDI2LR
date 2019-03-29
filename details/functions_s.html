@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.2.0</span>
+   &#160;<span id="projectnumber">3.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -97,12 +97,15 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>save_button_
 : <a class="el" href="class_main_content_component.html#a7097aa1cbe601b799d6b1ec245c93884">MainContentComponent</a>
 </li>
+<li>saved_map_
+: <a class="el" href="class_profile.html#a58d4e2b65f0a7d66104433993f3b867f">Profile</a>
+</li>
 <li>SavedToActive()
 : <a class="el" href="class_channel_model.html#a71495c165527c071c1793b8634b23bb5">ChannelModel</a>
 </li>
 <li>SaveProfile()
 : <a class="el" href="class_main_content_component.html#ae12f20eb6b44fe8426171fbd0955090e">MainContentComponent</a>
-, <a class="el" href="class_main_window.html#a686bdcf675a31d2fae1f49b0f2eb2af1">MainWindow</a>
+, <a class="el" href="class_main_window.html#ae9240e620958e54dd19073a49ffaddc4">MainWindow</a>
 </li>
 <li>selected_item_
 : <a class="el" href="class_command_menu.html#a2f031de592778295c9c404b7f421530d">CommandMenu</a>
@@ -235,16 +238,16 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_channel_model.html#a54cc9ac5e62ad589010c7a64e22aa53a">ChannelModel</a>
 </li>
 <li>SettingsComponent()
-: <a class="el" href="class_settings_component.html#a99d9cc142ad64122c1cb3768f006543d">SettingsComponent</a>
+: <a class="el" href="class_settings_component.html#a8cd20aeff90426909a5be7f92da008f8">SettingsComponent</a>
 </li>
 <li>SettingsManager()
-: <a class="el" href="class_settings_manager.html#a43d99f120976282e3f264cd4252909c0">SettingsManager</a>
+: <a class="el" href="class_settings_manager.html#a33f2734b716f761f430301fe6856e50d">SettingsManager</a>
 </li>
 <li>SettingsStruct()
 : <a class="el" href="structrsj_1_1_settings_struct.html#a88895a58292cb0763eba9bb6a21e35b0">rsj::SettingsStruct</a>
 </li>
 <li>SetToCenter()
-: <a class="el" href="class_channel_model.html#a3d2bb05ecfd4bf3ec9657669c4f8c4df">ChannelModel</a>
+: <a class="el" href="class_channel_model.html#a45088c81e81b74272ce2a69e3f932bc4">ChannelModel</a>
 , <a class="el" href="class_controls_model.html#a119fe5338aba006ff1e72440faed53ab">ControlsModel</a>
 </li>
 <li>SetValueLsb()
@@ -263,7 +266,7 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 : <a class="el" href="class_c_coptions.html#a73c4fff1bc74f56ce626b5385c14267a">CCoptions</a>
 </li>
 <li>Size()
-: <a class="el" href="class_command_map.html#a87b945106a2d0ef7746e182b8557f8ff">CommandMap</a>
+: <a class="el" href="class_profile.html#a6f55aadcd33c6023b1e544b436d57de2">Profile</a>
 </li>
 <li>sliderValueChanged()
 : <a class="el" href="class_settings_component.html#a4073f683db73af083c8ac19272f1c4ad">SettingsComponent</a>
@@ -271,14 +274,18 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>socket_
 : <a class="el" href="class_lr_ipc_in.html#a0e7eee4dead5ab5c16f72efceca368ef">LrIpcIn</a>
 </li>
-<li>Sort_()
-: <a class="el" href="class_command_map.html#ab34b9c098d65559ba13b31b80ba5c88f">CommandMap</a>
+<li>Sort_i()
+: <a class="el" href="class_profile.html#a1927c1942632535ce7208a987de4b267">Profile</a>
 </li>
 <li>sortOrderChanged()
 : <a class="el" href="class_command_table_model.html#a7bf944adbb8e47f698fdce34e68aab00">CommandTableModel</a>
 </li>
 <li>Start()
-: <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#a8732dc9845b697e2a12b6ef0ffbd2b10">LrIpcOut::ConnectTimer</a>
+: <a class="el" href="class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e">LrIpcIn</a>
+, <a class="el" href="class_lr_ipc_out_1_1_connect_timer.html#a8732dc9845b697e2a12b6ef0ffbd2b10">LrIpcOut::ConnectTimer</a>
+, <a class="el" href="class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641">LrIpcOut</a>
+, <a class="el" href="class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d">MidiReceiver</a>
+, <a class="el" href="class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f">MidiSender</a>
 </li>
 <li>State()
 : <a class="el" href="struct_resizable_layout_1_1_state.html#a2819d36795450657c3e9a0fb21e6833e">ResizableLayout::State</a>

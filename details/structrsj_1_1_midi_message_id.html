@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="MIDI2LR.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MIDI2LR
-   &#160;<span id="projectnumber">3.0.2.0</span>
+   &#160;<span id="projectnumber">3.1.0.0</span>
    </div>
    <div id="projectbrief">MIDI2LR is an application that interfaces MIDI controllers with Lightroom 6+/CC Classic. It processes MIDI input into develop parameter updates and photo actions, and sends MIDI output when parameters are changed for motorized feedback (on controllers that have motorized faders). A listing of available LightRoom commands is in the Wiki. Assistance on the code and design is welcome.</div>
   </td>
@@ -105,9 +105,9 @@ $(document).ready(function(){initNavTree('structrsj_1_1_midi_message_id.html',''
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="structrsj_1_1_midi_message_id__coll__graph.png" border="0" usemap="#rsj_1_1_midi_message_id_coll__map" alt="Collaboration graph"/></div>
 <map name="rsj_1_1_midi_message_id_coll__map" id="rsj_1_1_midi_message_id_coll__map">
-<area shape="rect"  title=" " alt="" coords="44,160,175,296"/>
-<area shape="rect"  title=" " alt="" coords="5,5,96,83"/>
-<area shape="rect"  title=" " alt="" coords="149,5,187,83"/>
+<area shape="rect"  title=" " alt="" coords="50,160,181,355"/>
+<area shape="rect"  title=" " alt="" coords="5,5,108,83"/>
+<area shape="rect"  title=" " alt="" coords="155,5,193,83"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -115,12 +115,20 @@ $(document).ready(function(){initNavTree('structrsj_1_1_midi_message_id.html',''
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a50b7f521d2255615a1eb8e0205f80351"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a50b7f521d2255615a1eb8e0205f80351">MidiMessageId</a> () noexcept</td></tr>
 <tr class="separator:a50b7f521d2255615a1eb8e0205f80351"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e59537497691eeba2d0422e748c0a13"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a7e59537497691eeba2d0422e748c0a13">MidiMessageId</a> (int ch, int dat, <a class="el" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3">MsgIdEnum</a> msgType) noexcept</td></tr>
-<tr class="separator:a7e59537497691eeba2d0422e748c0a13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b021d6fcb5df9cd5814df7c685ff7c1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a3b021d6fcb5df9cd5814df7c685ff7c1">MidiMessageId</a> (const <a class="el" href="structrsj_1_1_midi_message.html">MidiMessage</a> &amp;rhs) noexcept(<a class="el" href="_misc_8h.html#a9232373c39758da7673237c81fd0edc7">kNdebug</a>)</td></tr>
-<tr class="separator:a3b021d6fcb5df9cd5814df7c685ff7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd757ca6a566139bea73e4b77049a20"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a5dd757ca6a566139bea73e4b77049a20">MidiMessageId</a> (int ch, int dat, <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7">MessageType</a> msgType) noexcept</td></tr>
+<tr class="separator:a5dd757ca6a566139bea73e4b77049a20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3214030b152f500ed994a9bedf67dd3"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#af3214030b152f500ed994a9bedf67dd3">MidiMessageId</a> (const <a class="el" href="structrsj_1_1_midi_message.html">MidiMessage</a> &amp;other)</td></tr>
+<tr class="separator:af3214030b152f500ed994a9bedf67dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4e81acefd896a57d93cfd94d4c44035"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#af4e81acefd896a57d93cfd94d4c44035">MidiMessageId</a> (const <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;other)=default</td></tr>
+<tr class="separator:af4e81acefd896a57d93cfd94d4c44035"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9620cb50ecc06d2839872e9c7361baa"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#af9620cb50ecc06d2839872e9c7361baa">MidiMessageId</a> (<a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="separator:af9620cb50ecc06d2839872e9c7361baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a873ea5b1d6cd037802599b6fa15d9193"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a873ea5b1d6cd037802599b6fa15d9193">operator&lt;</a> (const <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;other) const noexcept</td></tr>
 <tr class="separator:a873ea5b1d6cd037802599b6fa15d9193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96a9800999e0630cf7eeae00d53f1e2e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a96a9800999e0630cf7eeae00d53f1e2e">operator=</a> (const <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;other)=default</td></tr>
+<tr class="separator:a96a9800999e0630cf7eeae00d53f1e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11edf4923ae23fe30ce2d70a53264def"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a11edf4923ae23fe30ce2d70a53264def">operator=</a> (<a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="separator:a11edf4923ae23fe30ce2d70a53264def"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad03ab33db5bd4809d807670fbcf5ecb6"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#ad03ab33db5bd4809d807670fbcf5ecb6">operator==</a> (const <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;other) const noexcept</td></tr>
 <tr class="separator:ad03ab33db5bd4809d807670fbcf5ecb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -128,14 +136,14 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aa0bbf6fc1bc605b65d06969a53612214"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a></td></tr>
 <tr class="separator:aa0bbf6fc1bc605b65d06969a53612214"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfbbcfcc64094a456ad26e70bcfa3b8f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a></td></tr>
-<tr class="separator:adfbbcfcc64094a456ad26e70bcfa3b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39f6d9dc1dbfdc4ebfd709fad57d9e41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3">MsgIdEnum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a></td></tr>
-<tr class="separator:a39f6d9dc1dbfdc4ebfd709fad57d9e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc40acde2069206b38805eb871c64df8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a></td></tr>
+<tr class="separator:acc40acde2069206b38805eb871c64df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c2f18d9ed374e36974af0349749f728"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7">MessageType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a></td></tr>
+<tr class="separator:a3c2f18d9ed374e36974af0349749f728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a50b7f521d2255615a1eb8e0205f80351"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50b7f521d2255615a1eb8e0205f80351">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b7f521d2255615a1eb8e0205f80351">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,28 +164,17 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                                         : <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>(<a class="code" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc">rsj::MsgIdEnum::kNote</a>), <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>(0), <a class="code" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a>(0)</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a39f6d9dc1dbfdc4ebfd709fad57d9e41"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MsgIdEnum msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:69</div></div>
-<div class="ttc" id="namespacersj_html_a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc"><div class="ttname"><a href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc">rsj::MsgIdEnum::kNote</a></div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:70</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_adfbbcfcc64094a456ad26e70bcfa3b8f"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">rsj::MidiMessageId::data</a></div><div class="ttdeci">int data</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:71</div></div>
+<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;          : <a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>(<a class="code" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a55416f6efac37abab3003f73505ef360">MessageType::NoteOn</a>), <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>(0), <a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>(0)</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      {</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:75</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:77</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:76</div></div>
+<div class="ttc" id="namespacersj_html_a44643b6bbf0bd2316756d7f4fbfe31b7a55416f6efac37abab3003f73505ef360"><div class="ttname"><a href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a55416f6efac37abab3003f73505ef360">rsj::NoteOn</a></div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:40</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a>, <a class="el" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc">rsj::kNote</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="structrsj_1_1_midi_message_id_a50b7f521d2255615a1eb8e0205f80351_cgraph.png" border="0" usemap="#structrsj_1_1_midi_message_id_a50b7f521d2255615a1eb8e0205f80351_cgraph" alt=""/></div>
-<map name="structrsj_1_1_midi_message_id_a50b7f521d2255615a1eb8e0205f80351_cgraph" id="structrsj_1_1_midi_message_id_a50b7f521d2255615a1eb8e0205f80351_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,22,136,63"/>
-<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="184,29,303,56"/>
-</map>
-</div>
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>, and <a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a55416f6efac37abab3003f73505ef360">rsj::NoteOn</a>.</p>
 
 </div>
 </div>
-<a id="a7e59537497691eeba2d0422e748c0a13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e59537497691eeba2d0422e748c0a13">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[2/3]</span></h2>
+<a id="a5dd757ca6a566139bea73e4b77049a20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dd757ca6a566139bea73e4b77049a20">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,7 +197,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3">MsgIdEnum</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7">MessageType</a>&#160;</td>
           <td class="paramname"><em>msgType</em>&#160;</td>
         </tr>
         <tr>
@@ -215,16 +212,29 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;          : <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>(msgType), <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>(ch), <a class="code" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a>(dat)</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a39f6d9dc1dbfdc4ebfd709fad57d9e41"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MsgIdEnum msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:69</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:70</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_adfbbcfcc64094a456ad26e70bcfa3b8f"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">rsj::MidiMessageId::data</a></div><div class="ttdeci">int data</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:71</div></div>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;          : <a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>(msgType), <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>(ch), <a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>(dat)</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:75</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:77</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:76</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>.</p>
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_main_content_component.html#a20affb5b561c098afe948341c8cbc7f2">MainContentComponent::MidiCmdCallback()</a>.</p>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="structrsj_1_1_midi_message_id_a5dd757ca6a566139bea73e4b77049a20_icgraph.png" border="0" usemap="#structrsj_1_1_midi_message_id_a5dd757ca6a566139bea73e4b77049a20_icgraph" alt=""/></div>
+<map name="structrsj_1_1_midi_message_id_a5dd757ca6a566139bea73e4b77049a20_icgraph" id="structrsj_1_1_midi_message_id_a5dd757ca6a566139bea73e4b77049a20_icgraph">
+<area shape="rect"  title=" " alt="" coords="215,5,345,47"/>
+<area shape="rect"  href="class_main_content_component.html#a20affb5b561c098afe948341c8cbc7f2" title=" " alt="" coords="5,5,167,47"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="a3b021d6fcb5df9cd5814df7c685ff7c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b021d6fcb5df9cd5814df7c685ff7c1">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[3/3]</span></h2>
+<a id="af3214030b152f500ed994a9bedf67dd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3214030b152f500ed994a9bedf67dd3">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,54 +243,89 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">rsj::MidiMessageId::MidiMessageId </td>
+          <td class="memname">constexpr rsj::MidiMessageId::MidiMessageId </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message.html">MidiMessage</a> &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    : <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>{<a class="code" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447">rsj::MsgIdEnum::kCc</a>}, <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>(rhs.channel + 1),</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <a class="code" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a>(rhs.number) <span class="comment">// channel 1-based</span></div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;   <span class="keywordflow">switch</span> (rhs.message_type_byte) { <span class="comment">// this is needed because mapping uses custom structure</span></div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;   <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#acfed8fcd3b55962e621fe38cc51b5fe6">kCcFlag</a>:</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a> = <a class="code" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447">rsj::MsgIdEnum::kCc</a>;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keywordflow">break</span>;</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#a00ff6073cf6383716fe22b247f5f3293">kNoteOnFlag</a>:</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a> = <a class="code" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc">rsj::MsgIdEnum::kNote</a>;</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">break</span>;</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;   <span class="keywordflow">case</span> <a class="code" href="namespacersj.html#ab9695f0cf779654d5b7f110ba08d54c7">kPwFlag</a>:</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a> = <a class="code" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3a4fce6f297fc06f82a964472e8a8921b5">rsj::MsgIdEnum::kPitchBend</a>;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">break</span>;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;   <span class="keywordflow">default</span>: <span class="comment">// should be unreachable--MidiMessageId only handles a few message types</span></div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      Ensures(0);</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;   }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div><div class="ttc" id="namespacersj_html_acfed8fcd3b55962e621fe38cc51b5fe6"><div class="ttname"><a href="namespacersj.html#acfed8fcd3b55962e621fe38cc51b5fe6">rsj::kCcFlag</a></div><div class="ttdeci">constexpr short kCcFlag</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:39</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_a39f6d9dc1dbfdc4ebfd709fad57d9e41"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MsgIdEnum msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:69</div></div>
-<div class="ttc" id="namespacersj_html_a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc"><div class="ttname"><a href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3afea4f62c88b0689240f8b7ba4b7fc5fc">rsj::MsgIdEnum::kNote</a></div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:70</div></div>
-<div class="ttc" id="namespacersj_html_ab9695f0cf779654d5b7f110ba08d54c7"><div class="ttname"><a href="namespacersj.html#ab9695f0cf779654d5b7f110ba08d54c7">rsj::kPwFlag</a></div><div class="ttdeci">constexpr short kPwFlag</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:42</div></div>
-<div class="ttc" id="namespacersj_html_a587068babd30f08c2a9cf58e2d2502b3a4fce6f297fc06f82a964472e8a8921b5"><div class="ttname"><a href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3a4fce6f297fc06f82a964472e8a8921b5">rsj::MsgIdEnum::kPitchBend</a></div></div>
-<div class="ttc" id="namespacersj_html_a00ff6073cf6383716fe22b247f5f3293"><div class="ttname"><a href="namespacersj.html#a00ff6073cf6383716fe22b247f5f3293">rsj::kNoteOnFlag</a></div><div class="ttdeci">constexpr short kNoteOnFlag</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:37</div></div>
-<div class="ttc" id="namespacersj_html_a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447"><div class="ttname"><a href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447">rsj::MsgIdEnum::kCc</a></div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_adfbbcfcc64094a456ad26e70bcfa3b8f"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">rsj::MidiMessageId::data</a></div><div class="ttdeci">int data</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:71</div></div>
+<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;          : <a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>{other.message_type_byte}, <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>{other.channel}, <a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>{</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                                                              other.control_number}</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:75</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:77</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:76</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3a72a9422a5688ebbc9b8853245f274447">rsj::kCc</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>, and <a class="el" href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6">rsj::NumToChars()</a>.</p>
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message.html#ad1b6e1d738eafd7f0ef54b56914e1448">rsj::MidiMessage::message_type_byte</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_lr_ipc_out.html#a27ee32e8a38df4706daba31ff7e20cab">LrIpcOut::MidiCmdCallback()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the call graph for this function:</div>
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_cgraph.png" border="0" usemap="#structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_cgraph" alt=""/></div>
-<map name="structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_cgraph" id="structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,22,136,63"/>
-<area shape="rect"  href="namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="184,29,303,56"/>
-</map>
-</div>
-<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_icgraph.png" border="0" usemap="#structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_icgraph" alt=""/></div>
-<map name="structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_icgraph" id="structrsj_1_1_midi_message_id_a3b021d6fcb5df9cd5814df7c685ff7c1_icgraph">
+<div class="center"><img src="structrsj_1_1_midi_message_id_af3214030b152f500ed994a9bedf67dd3_icgraph.png" border="0" usemap="#structrsj_1_1_midi_message_id_af3214030b152f500ed994a9bedf67dd3_icgraph" alt=""/></div>
+<map name="structrsj_1_1_midi_message_id_af3214030b152f500ed994a9bedf67dd3_icgraph" id="structrsj_1_1_midi_message_id_af3214030b152f500ed994a9bedf67dd3_icgraph">
 <area shape="rect"  title=" " alt="" coords="233,5,364,47"/>
 <area shape="rect"  href="class_lr_ipc_out.html#a27ee32e8a38df4706daba31ff7e20cab" title=" " alt="" coords="5,13,185,39"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="af4e81acefd896a57d93cfd94d4c44035"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4e81acefd896a57d93cfd94d4c44035">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr rsj::MidiMessageId::MidiMessageId </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9620cb50ecc06d2839872e9c7361baa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9620cb50ecc06d2839872e9c7361baa">&#9670;&nbsp;</a></span>MidiMessageId() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr rsj::MidiMessageId::MidiMessageId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -308,11 +353,76 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> &lt; other.channel)</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;         <span class="keywordflow">if</span> (<a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel) {</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a> &lt; other.data)</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;               <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a> == other.data &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a> &lt; other.msg_id_type)</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;               <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;         }</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;         <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a39f6d9dc1dbfdc4ebfd709fad57d9e41"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MsgIdEnum msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:69</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:70</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_adfbbcfcc64094a456ad26e70bcfa3b8f"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">rsj::MidiMessageId::data</a></div><div class="ttdeci">int data</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:71</div></div>
+<div class="fragment"><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      {</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;         <span class="keywordflow">return</span> (<a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> &lt; other.channel)</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                || (<a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> &lt; other.control_number)</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                || (<a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> == other.control_number</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                       &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> &lt; other.msg_id_type);</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:75</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:77</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:76</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>.</p>
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>.</p>
+
+</div>
+</div>
+<a id="a96a9800999e0630cf7eeae00d53f1e2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96a9800999e0630cf7eeae00d53f1e2e">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a>&amp; rsj::MidiMessageId::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_command_menu.html#afaf54a703251862d04a04c98e7e1866c">CommandMenu::SetMsg()</a>.</p>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Here is the caller graph for this function:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="structrsj_1_1_midi_message_id_a96a9800999e0630cf7eeae00d53f1e2e_icgraph.png" border="0" usemap="#structrsj_1_1_midi_message_id_a96a9800999e0630cf7eeae00d53f1e2e_icgraph" alt=""/></div>
+<map name="structrsj_1_1_midi_message_id_a96a9800999e0630cf7eeae00d53f1e2e_icgraph" id="structrsj_1_1_midi_message_id_a96a9800999e0630cf7eeae00d53f1e2e_icgraph">
+<area shape="rect"  title=" " alt="" coords="220,5,351,47"/>
+<area shape="rect"  href="class_command_menu.html#afaf54a703251862d04a04c98e7e1866c" title=" " alt="" coords="5,13,172,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a11edf4923ae23fe30ce2d70a53264def"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11edf4923ae23fe30ce2d70a53264def">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a>&amp; rsj::MidiMessageId::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structrsj_1_1_midi_message_id.html">MidiMessageId</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -339,11 +449,11 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a> == other.msg_id_type &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a> == other.data;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a39f6d9dc1dbfdc4ebfd709fad57d9e41"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MsgIdEnum msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:69</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:70</div></div>
-<div class="ttc" id="structrsj_1_1_midi_message_id_html_adfbbcfcc64094a456ad26e70bcfa3b8f"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">rsj::MidiMessageId::data</a></div><div class="ttdeci">int data</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:71</div></div>
+<div class="fragment"><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      {</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;         <span class="keywordflow">return</span> <a class="code" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a> == other.msg_id_type &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a> == other.channel</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                &amp;&amp; <a class="code" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a> == other.control_number;</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      }</div><div class="ttc" id="structrsj_1_1_midi_message_id_html_a3c2f18d9ed374e36974af0349749f728"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">rsj::MidiMessageId::msg_id_type</a></div><div class="ttdeci">MessageType msg_id_type</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:75</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_acc40acde2069206b38805eb871c64df8"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">rsj::MidiMessageId::control_number</a></div><div class="ttdeci">int control_number</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:77</div></div>
+<div class="ttc" id="structrsj_1_1_midi_message_id_html_aa0bbf6fc1bc605b65d06969a53612214"><div class="ttname"><a href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">rsj::MidiMessageId::channel</a></div><div class="ttdeci">int channel</div><div class="ttdef"><b>Definition:</b> MidiUtilities.h:76</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f">data</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a39f6d9dc1dbfdc4ebfd709fad57d9e41">msg_id_type</a>.</p>
+<p class="reference">References <a class="el" href="structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214">channel</a>, <a class="el" href="structrsj_1_1_midi_message_id.html#acc40acde2069206b38805eb871c64df8">control_number</a>, and <a class="el" href="structrsj_1_1_midi_message_id.html#a3c2f18d9ed374e36974af0349749f728">msg_id_type</a>.</p>
 
 </div>
 </div>
@@ -364,14 +474,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adfbbcfcc64094a456ad26e70bcfa3b8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfbbcfcc64094a456ad26e70bcfa3b8f">&#9670;&nbsp;</a></span>data</h2>
+<a id="acc40acde2069206b38805eb871c64df8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc40acde2069206b38805eb871c64df8">&#9670;&nbsp;</a></span>control_number</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int rsj::MidiMessageId::data</td>
+          <td class="memname">int rsj::MidiMessageId::control_number</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -380,14 +490,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a39f6d9dc1dbfdc4ebfd709fad57d9e41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39f6d9dc1dbfdc4ebfd709fad57d9e41">&#9670;&nbsp;</a></span>msg_id_type</h2>
+<a id="a3c2f18d9ed374e36974af0349749f728"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c2f18d9ed374e36974af0349749f728">&#9670;&nbsp;</a></span>msg_id_type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacersj.html#a587068babd30f08c2a9cf58e2d2502b3">MsgIdEnum</a> rsj::MidiMessageId::msg_id_type</td>
+          <td class="memname"><a class="el" href="namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7">MessageType</a> rsj::MidiMessageId::msg_id_type</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -396,9 +506,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>D:/Users/Rory/source/repos/MIDI2LR/Source/<a class="el" href="_midi_utilities_8h_source.html">MidiUtilities.h</a></li>
-<li>D:/Users/Rory/source/repos/MIDI2LR/Source/<a class="el" href="_midi_utilities_8cpp.html">MidiUtilities.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
