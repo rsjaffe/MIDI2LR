@@ -241,7 +241,7 @@ void Profile::ToXmlFile(const juce::File& file)
                break;
             default:
                rsj::Log("Unexpected message type in ToXmlFile, type is "
-                        + juce::String(map_entry.first.msg_id_type));
+                        + juce::String(static_cast<short>(map_entry.first.msg_id_type)));
                continue; // skip rest of for iteration this time
             }
             setting->setAttribute("command_string", map_entry.second);
