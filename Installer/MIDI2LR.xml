@@ -287,14 +287,14 @@
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>debuglabel</name>
-                    <value>debug-</value>
+                    <value>for-testing-only-other-download-is-for-regular-use-</value>
                 </setInstallerVariable>
             </elseActionList>
         </if>
     </preBuildActionList>
     <initializationActionList>
         <throwError>
-            <text>This application runs on MacOS 10.12 or above only. Use MID2OR versions 2.9.3 or earlier if you must use an earlier version of MacOS.</text>
+            <text>This version of ${project.fullName} runs on MacOS 10.12 or above only. Use ${project.fullName} version 2.9.3 or earlier if you must use an earlier version of MacOS.</text>
             <ruleList>
                 <platformTest>
                     <type>osx</type>
@@ -308,7 +308,7 @@
         </throwError>
         <throwError>
             <ruleEvaluationLogic>or</ruleEvaluationLogic>
-            <text>This application runs on Windows 7 or above only.</text>
+            <text>${project.fullName} runs on Windows 7 or above only.</text>
             <ruleList>
                 <platformTest>
                     <type>windows-vista</type>
@@ -409,7 +409,7 @@
     <windowsUninstallerExecutableIcon>../Builds/VisualStudio2017/icon.ico</windowsUninstallerExecutableIcon>
     <finalPageActionList>
         <launchBrowser>
-            <explanation>Opens a web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in this program.</explanation>
+            <explanation>Opens a web browser showing the manual. Please bookmark the manual as there are many options and settings you can use in ${project.fullName}.</explanation>
             <progressText>View instructions.</progressText>
             <url>https://github.com/rsjaffe/MIDI2LR/wiki</url>
         </launchBrowser>
