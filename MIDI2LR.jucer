@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.1.0.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.1.0.1"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="5.4.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
@@ -32,9 +32,9 @@
       <FILE id="IDzpMr" name="LR_IPC_Out.cpp" compile="1" resource="0" file="Source/LR_IPC_Out.cpp"/>
       <FILE id="SAormw" name="LR_IPC_Out.h" compile="0" resource="0" file="Source/LR_IPC_Out.h"/>
       <FILE id="DX1wJU" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="teVB2z" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="DR9WJZ" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
-      <FILE id="teVB2z" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="hbC1l2" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="hctg9F" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
       <FILE id="WdgQGt" name="MIDI2LR.png" compile="0" resource="1" file="Source/MIDI2LR.png"/>

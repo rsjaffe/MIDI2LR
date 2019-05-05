@@ -55,7 +55,7 @@ namespace rsj {
 
    struct MidiMessage {
       MessageType message_type_byte{NoteOn};
-      short channel{0};
+      short channel{0}; // 0-based
       short control_number{0};
       short value{0};
       constexpr MidiMessage() noexcept = default;
@@ -73,7 +73,7 @@ namespace rsj {
 
    struct MidiMessageId {
       MessageType msg_id_type;
-      int channel;
+      int channel; // 1-based
       int control_number;
 
       constexpr MidiMessageId() noexcept
@@ -85,8 +85,8 @@ namespace rsj {
       {
       }
       constexpr MidiMessageId(const MidiMessage& other)
-          : msg_id_type{other.message_type_byte}, channel{other.channel}, control_number{
-                                                                              other.control_number}
+          : msg_id_type{other.message_type_byte}, channel{other.channel + 1},
+            control_number{other.control_number}
       {
       }
       constexpr MidiMessageId(const MidiMessageId& other) = default;
