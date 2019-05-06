@@ -60,7 +60,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
    try {
       if (modifiers.isPopupMenu()) {
          switch (message_.msg_id_type) {
-         case rsj::MessageType::Cc: {
+         case rsj::MessageType::kCc: {
             CCoptions ccopt;
             ccopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1), // convert 1-based to
                                                                                // 0-based
@@ -69,7 +69,7 @@ void CommandMenu::clicked(const juce::ModifierKeys& modifiers)
                 nullptr, juce::Colour::fromRGB(0xFF, 0xFF, 0xFF), true);
             break;
          }
-         case rsj::MessageType::Pw: {
+         case rsj::MessageType::kPw: {
             PWoptions pwopt;
             pwopt.BindToControl(gsl::narrow_cast<short>(message_.channel - 1)); // convert 1-based
                                                                                 // to 0 based

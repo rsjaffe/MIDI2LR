@@ -28,7 +28,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace {
    constexpr rsj::MidiMessage kTerminate{
-       rsj::MessageType::Cc, std::numeric_limits<short>::max(), 0, 0}; // impossible channel
+       rsj::MessageType::kCc, std::numeric_limits<short>::max(), 0, 0}; // impossible channel
 }
 
 #pragma warning(push)

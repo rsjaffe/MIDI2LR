@@ -41,15 +41,16 @@ void MidiSender::SendCc(int midi_channel, int controller, int value) const
 {
    try {
       if (controller < 128) { // regular message
-         auto m{juce::MidiMessage::controllerEvent(midi_channel, controller, value)};
+         const auto m{juce::MidiMessage::controllerEvent(midi_channel, controller, value)};
          for (const auto& dev : output_devices_)
             dev->sendMessageNow(m);
       }
       else { // NRPN
-         auto m1{juce::MidiMessage::controllerEvent(midi_channel, 99, (controller >> 7) & 0x7F)};
-         auto m2{juce::MidiMessage::controllerEvent(midi_channel, 98, controller & 0x7f)};
-         auto m3{juce::MidiMessage::controllerEvent(midi_channel, 6, (value >> 7) & 0x7F)};
-         auto m4{juce::MidiMessage::controllerEvent(midi_channel, 38, value & 0x7f)};
+         const auto m1{
+             juce::MidiMessage::controllerEvent(midi_channel, 99, (controller >> 7) & 0x7F)};
+         const auto m2{juce::MidiMessage::controllerEvent(midi_channel, 98, controller & 0x7f)};
+         const auto m3{juce::MidiMessage::controllerEvent(midi_channel, 6, (value >> 7) & 0x7F)};
+         const auto m4{juce::MidiMessage::controllerEvent(midi_channel, 38, value & 0x7f)};
          for (const auto& dev : output_devices_) {
             dev->sendMessageNow(m1);
             dev->sendMessageNow(m2);
@@ -67,7 +68,7 @@ void MidiSender::SendCc(int midi_channel, int controller, int value) const
 void MidiSender::SendNoteOn(int midi_channel, int controller, int value) const
 {
    try {
-      auto m{juce::MidiMessage::noteOn(
+      const auto m{juce::MidiMessage::noteOn(
           midi_channel, controller, gsl::narrow_cast<juce::uint8>(value))};
       for (const auto& dev : output_devices_)
          dev->sendMessageNow(m);
@@ -81,7 +82,7 @@ void MidiSender::SendNoteOn(int midi_channel, int controller, int value) const
 void MidiSender::SendPitchWheel(int midi_channel, int value) const
 {
    try {
-      auto m{juce::MidiMessage::pitchWheel(midi_channel, value)};
+      const auto m{juce::MidiMessage::pitchWheel(midi_channel, value)};
       for (const auto& dev : output_devices_)
          dev->sendMessageNow(m);
    }

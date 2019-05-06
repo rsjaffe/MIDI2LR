@@ -32,10 +32,10 @@ std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
    m.message_type_byte = rsj::ToMessageType(raw[0] >> 4);
    m.channel = raw[0] & 0xF;
    switch (m.message_type_byte) {
-   case Pw:
+   case kPw:
       m.value = (raw[2] << 7) | raw[1];
       return m;
-   case Cc:
+   case kCc:
       m.value = raw[2];
       m.control_number = raw[1];
       // run through nrpn return rsj::MidiMessage CC number value OR {} if nRPN not ready
@@ -50,19 +50,19 @@ std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
       }
       else
          return m;
-   case KeyPressure:
-   case NoteOff:
-   case NoteOn:
+   case kKeyPressure:
+   case kNoteOff:
+   case kNoteOn:
       m.value = raw[2];
       m.control_number = raw[1];
       return m;
-   case PgmChange:
-      //    m.number = raw[1];
-      break;
-   case ChanPressure:
-      //    m.value = raw[1];
-      break;
-   case System:
+   case kPgmChange:
+      m.control_number = raw[1];
+      return m;
+   case kChanPressure:
+      m.value = raw[1];
+      return m;
+   case kSystem:
       break; // no action
    default:
       Ensures(!"Default should be unreachable in MidiMessageFactory::ProcessMidi");

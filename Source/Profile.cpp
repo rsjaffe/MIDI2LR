@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "Misc.h"
 
-void Profile::AddCommandForMessage_i(size_t command, const rsj::MidiMessageId& message)
+void Profile::AddCommandForMessageI(size_t command, const rsj::MidiMessageId& message)
 {
    try {
       if (command < command_set_.CommandAbbrevSize()) {
@@ -45,7 +45,7 @@ void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId&
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      if (!MessageExistsInMap_i(message)) {
+      if (!MessageExistsInMapI(message)) {
          if (!command_set_.CommandTextIndex(command)) {
             message_map_[message] = "Unmapped";
             command_string_map_.emplace("Unmapped", message);
@@ -55,7 +55,7 @@ void Profile::AddRowMapped(const std::string& command, const rsj::MidiMessageId&
             command_string_map_.emplace(command, message);
          }
          command_table_.push_back(message);
-         Sort_i();
+         SortI();
          profile_unsaved_ = true;
       }
    }
@@ -69,10 +69,10 @@ void Profile::AddRowUnmapped(const rsj::MidiMessageId& message)
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      if (!MessageExistsInMap_i(message)) {
-         AddCommandForMessage_i(0, message); // add an entry for 'no command'
+      if (!MessageExistsInMapI(message)) {
+         AddCommandForMessageI(0, message); // add an entry for 'no command'
          command_table_.push_back(message);
-         Sort_i();
+         SortI();
          profile_unsaved_ = true;
       }
    }
@@ -93,23 +93,23 @@ void Profile::FromXml(const juce::XmlElement* root)
       while (setting) {
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("controller"), rsj::MessageType::Cc};
+                setting->getIntAttribute("controller"), rsj::MessageType::kCc};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), message);
          }
          else if (setting->hasAttribute("note")) {
             const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("note"), rsj::MessageType::NoteOn};
+                setting->getIntAttribute("note"), rsj::MessageType::kNoteOn};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), note);
          }
          else if (setting->hasAttribute("pitchbend")) {
             const rsj::MidiMessageId pb{
-                setting->getIntAttribute("channel"), 0, rsj::MessageType::Pw};
+                setting->getIntAttribute("channel"), 0, rsj::MessageType::kPw};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), pb);
          }
          setting = setting->getNextElement();
       }
       auto guard = std::unique_lock{mutex_};
-      Sort_i();
+      SortI();
       saved_map_ = message_map_;
       profile_unsaved_ = false;
    }
@@ -169,7 +169,7 @@ void Profile::RemoveRow(size_t row)
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      const auto msg = GetMessageForNumber_i(row);
+      const auto msg = GetMessageForNumberI(row);
       command_string_map_.erase(message_map_.at(msg));
       command_table_.erase(command_table_.cbegin() + row);
       message_map_.erase(msg);
@@ -186,7 +186,7 @@ void Profile::Resort(std::pair<int, bool> new_order)
    try {
       auto guard = std::unique_lock{mutex_};
       current_sort_ = new_order;
-      Sort_i();
+      SortI();
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -194,11 +194,11 @@ void Profile::Resort(std::pair<int, bool> new_order)
    }
 }
 
-void Profile::Sort_i()
+void Profile::SortI()
 {
    try {
       const auto msg_idx = [this](const rsj::MidiMessageId& a) {
-         return command_set_.CommandTextIndex(GetCommandForMessage_i(a));
+         return command_set_.CommandTextIndex(GetCommandForMessageI(a));
       };
       const auto msg_sort = [&msg_idx](const rsj::MidiMessageId& a, const rsj::MidiMessageId& b) {
          return msg_idx(a) < msg_idx(b);
@@ -230,13 +230,13 @@ void Profile::ToXmlFile(const juce::File& file)
             auto setting = std::make_unique<juce::XmlElement>("setting");
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
-            case rsj::MessageType::NoteOn:
+            case rsj::MessageType::kNoteOn:
                setting->setAttribute("note", map_entry.first.control_number);
                break;
-            case rsj::MessageType::Cc:
+            case rsj::MessageType::kCc:
                setting->setAttribute("controller", map_entry.first.control_number);
                break;
-            case rsj::MessageType::Pw:
+            case rsj::MessageType::kPw:
                setting->setAttribute("pitchbend", 0);
                break;
             default:

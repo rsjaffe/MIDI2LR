@@ -36,14 +36,14 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace rsj {
    enum MessageType : short {
-      NoteOff = 0x8,
-      NoteOn = 0x9,
-      KeyPressure = 0xA, // Individual Key Pressure
-      Cc = 0xB,
-      PgmChange = 0xC,
-      ChanPressure = 0xD, // Max Key Pressure
-      Pw = 0xE,           // Pitch Wheel
-      System = 0xF
+      kNoteOff = 0x8,
+      kNoteOn = 0x9,
+      kKeyPressure = 0xA, // Individual Key Pressure
+      kCc = 0xB,
+      kPgmChange = 0xC,
+      kChanPressure = 0xD, // Max Key Pressure
+      kPw = 0xE,           // Pitch Wheel
+      kSystem = 0xF
    };
 
    constexpr MessageType ToMessageType(short from)
@@ -54,7 +54,7 @@ namespace rsj {
    }
 
    struct MidiMessage {
-      MessageType message_type_byte{NoteOn};
+      MessageType message_type_byte{kNoteOn};
       short channel{0}; // 0-based
       short control_number{0};
       short value{0};
@@ -75,9 +75,9 @@ namespace rsj {
       MessageType msg_id_type;
       int channel; // 1-based
       int control_number;
-
+      ~MidiMessageId() = default;
       constexpr MidiMessageId() noexcept
-          : msg_id_type(MessageType::NoteOn), channel(0), control_number(0)
+          : msg_id_type(MessageType::kNoteOn), channel(0), control_number(0)
       {
       }
       constexpr MidiMessageId(int ch, int dat, MessageType msgType) noexcept

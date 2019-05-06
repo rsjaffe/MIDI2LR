@@ -254,16 +254,16 @@ void LrIpcIn::ProcessLine()
                       gsl::narrow_cast<short>(msg.control_number), original_value);
                   if (midi_sender_) {
                      switch (msg.msg_id_type) {
-                     case rsj::MessageType::NoteOn:
+                     case rsj::MessageType::kNoteOn:
                         midi_sender_->SendNoteOn(msg.channel, msg.control_number, value);
                         break;
-                     case rsj::MessageType::Cc:
+                     case rsj::MessageType::kCc:
                         if (controls_model_.GetCcMethod(gsl::narrow_cast<size_t>(msg.channel - 1),
                                 gsl::narrow_cast<short>(msg.control_number))
                             == rsj::CCmethod::kAbsolute)
                            midi_sender_->SendCc(msg.channel, msg.control_number, value);
                         break;
-                     case rsj::MessageType::Pw:
+                     case rsj::MessageType::kPw:
                         midi_sender_->SendPitchWheel(msg.channel, value);
                         break;
                      default:

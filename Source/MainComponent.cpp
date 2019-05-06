@@ -215,21 +215,21 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       // Display the CC parameters and add/highlight row in table corresponding to the CC
-      auto mt{rsj::MessageType::Cc};
+      auto mt{rsj::MessageType::kCc};
       juce::String command_type{"CC"};
       switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
-      case rsj::MessageType::Cc:      // this is default for mt and commandtype
+      case rsj::MessageType::kCc:     // this is default for mt and commandtype
          break;
-      case rsj::MessageType::NoteOn:
-         mt = rsj::MessageType::NoteOn;
+      case rsj::MessageType::kNoteOn:
+         mt = rsj::MessageType::kNoteOn;
          command_type = "NOTE ON";
          break;
-      case rsj::MessageType::NoteOff:
-         mt = rsj::MessageType::NoteOff;
+      case rsj::MessageType::kNoteOff:
+         mt = rsj::MessageType::kNoteOff;
          command_type = "NOTE OFF";
          break;
-      case rsj::MessageType::Pw:
-         mt = rsj::MessageType::Pw;
+      case rsj::MessageType::kPw:
+         mt = rsj::MessageType::kPw;
          command_type = "PITCHBEND";
          break;
       default: // shouldn't receive any messages note categorized above
