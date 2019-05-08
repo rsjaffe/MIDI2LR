@@ -132,7 +132,7 @@ namespace {
 
          // send key down strokes
          static std::mutex mutex_sending{};
-         auto lock = std::lock_guard(mutex_sending);
+         auto lock = std::scoped_lock(mutex_sending);
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
             SendInputErrorChecked(1, &ip, size_ip);
@@ -316,7 +316,7 @@ namespace {
          CGEventSetFlags(u, flags);
          { // scope for the mutex
             static std::mutex mtx{};
-            auto lock = std::lock_guard(mtx);
+            auto lock = std::scoped_lock(mtx);
             CGEventPostToPid(lr_pid, d);
             CGEventPostToPid(lr_pid, u);
          }

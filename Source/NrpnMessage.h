@@ -113,7 +113,7 @@ class NrpnFilter {
 
 inline bool NrpnMessage::IsInProcess() const noexcept
 {
-   auto dlock = std::lock_guard(data_guard_);
+   auto dlock = std::scoped_lock(data_guard_);
    return ready_ != 0;
 }
 
