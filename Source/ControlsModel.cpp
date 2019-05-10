@@ -57,12 +57,12 @@ double ChannelModel::ControllerToPlugin(
     rsj::MessageType controltype, size_t controlnumber, short value)
 {
    try {
-      Expects((controltype == rsj::MessageType::kCc
-                  && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute)
-                  ? (cc_low_.at(controlnumber) < cc_high_.at(controlnumber))
+      Expects(controltype == rsj::MessageType::kCc
+                      && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
+                  ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
                   : 1);
-      Expects((controltype == rsj::MessageType::kPw) ? (pitch_wheel_max_ > pitch_wheel_min_) : 1);
-      Expects((controltype == rsj::MessageType::kPw)
+      Expects(controltype == rsj::MessageType::kPw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
+      Expects(controltype == rsj::MessageType::kPw
                   ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
                   : 1);
       // note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
@@ -151,12 +151,12 @@ short ChannelModel::SetToCenter(rsj::MessageType controltype, size_t controlnumb
 short ChannelModel::MeasureChange(rsj::MessageType controltype, size_t controlnumber, short value)
 {
    try {
-      Expects((controltype == rsj::MessageType::kCc
-                  && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute)
-                  ? (cc_low_.at(controlnumber) < cc_high_.at(controlnumber))
+      Expects(controltype == rsj::MessageType::kCc
+                      && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
+                  ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
                   : 1);
-      Expects((controltype == rsj::MessageType::kPw) ? (pitch_wheel_max_ > pitch_wheel_min_) : 1);
-      Expects((controltype == rsj::MessageType::kPw)
+      Expects(controltype == rsj::MessageType::kPw ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
+      Expects(controltype == rsj::MessageType::kPw
                   ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
                   : 1);
       // note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7

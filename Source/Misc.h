@@ -36,9 +36,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 
 #ifdef NDEBUG // asserts disabled
-static constexpr bool kNdebug = true;
+constexpr bool kNdebug{true};
 #else // asserts enabled
-static constexpr bool kNdebug = false;
+constexpr bool kNdebug{false};
 #endif
 
 #ifdef _WIN32
@@ -53,6 +53,8 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
+   [[nodiscard]] std::string CharToHex(std::string_view data);
+   [[nodiscard]] std::string CharToHex(unsigned char data);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    void Trim(std::string_view& value) noexcept;
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -130,17 +132,17 @@ namespace rsj {
       T& iterable;
    };
 
-   template<typename T> auto begin(ReversionWrapper<T> w)
+   template<typename T>[[nodiscard]] auto begin(ReversionWrapper<T> w)
    {
       return std::rbegin(w.iterable);
    }
 
-   template<typename T> auto end(ReversionWrapper<T> w)
+   template<typename T>[[nodiscard]] auto end(ReversionWrapper<T> w)
    {
       return std::rend(w.iterable);
    }
 
-   template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
+   template<typename T>[[nodiscard]] auto Reverse(T&& iterable)
    {
       return {iterable};
    }

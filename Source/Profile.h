@@ -37,7 +37,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // without ending I do have mutex and could be called by another class
 class Profile {
  public:
-   Profile(const CommandSet& command_set) : command_set_{command_set} {}
+   explicit Profile(const CommandSet& command_set) : command_set_{command_set} {}
    void AddCommandForMessage(size_t command, const rsj::MidiMessageId& message);
    void AddRowMapped(const std::string& command, const rsj::MidiMessageId& message);
    void AddRowUnmapped(const rsj::MidiMessageId& message);
@@ -59,9 +59,9 @@ class Profile {
 
  private:
    void AddCommandForMessageI(size_t command, const rsj::MidiMessageId& message);
-   const std::string& GetCommandForMessageI(const rsj::MidiMessageId& message) const;
-   const rsj::MidiMessageId& GetMessageForNumberI(size_t num) const;
-   bool MessageExistsInMapI(const rsj::MidiMessageId& message) const;
+   [[nodiscard]] const std::string& GetCommandForMessageI(const rsj::MidiMessageId& message) const;
+   [[nodiscard]] const rsj::MidiMessageId& GetMessageForNumberI(size_t num) const;
+   [[nodiscard]] bool MessageExistsInMapI(const rsj::MidiMessageId& message) const;
    void SortI();
 
    bool profile_unsaved_{false};

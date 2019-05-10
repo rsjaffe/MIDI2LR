@@ -38,7 +38,7 @@ namespace rsj {
       {
       }
    };
-   static constexpr Nrpn kInvalidNrpn{false, 0, 0};
+   constexpr Nrpn kInvalidNrpn{false, 0, 0};
 } // namespace rsj
 
 class NrpnMessage {
@@ -84,7 +84,8 @@ class NrpnFilter {
       }
    }
 
-   [[nodiscard]] bool IsInProcess(short channel) const {
+   [[nodiscard]] bool IsInProcess(short channel) const
+   {
       try {
          Expects(channel <= 15 && channel >= 0);
          return nrpn_messages_.at(channel & 0xF).IsInProcess();

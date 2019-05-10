@@ -86,6 +86,7 @@ namespace rsj {
           : msg_id_type(msgType), channel(ch), control_number(dat)
       {
       }
+      // ReSharper disable once CppNonExplicitConvertingConstructor
       constexpr MidiMessageId(const MidiMessage& other)
           : msg_id_type{other.message_type_byte}, channel{other.channel + 1},
             control_number{other.control_number}
@@ -102,7 +103,7 @@ namespace rsj {
       }
       constexpr bool operator<(const MidiMessageId& other) const noexcept
       {
-         return (channel < other.channel)
+         return channel < other.channel
                 || (channel == other.channel && control_number < other.control_number)
                 || (channel == other.channel && control_number == other.control_number
                        && msg_id_type < other.msg_id_type);

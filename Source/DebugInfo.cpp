@@ -184,7 +184,7 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
    }
    catch (...) {
       try {
-         static constexpr auto kErr{"Failed to obtain app info. Exception."};
+         constexpr auto kErr{"Failed to obtain app info. Exception."};
          info_.emplace_back(kErr);
          rsj::Log(kErr);
       }
