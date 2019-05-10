@@ -142,7 +142,7 @@ namespace rsj {
       return std::rend(w.iterable);
    }
 
-   template<typename T>[[nodiscard]] auto Reverse(T&& iterable)
+   template<typename T>[[nodiscard]] ReversionWrapper<T> Reverse(T&& iterable)
    {
       return {iterable};
    }
