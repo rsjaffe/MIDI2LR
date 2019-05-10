@@ -49,7 +49,9 @@ namespace rsj {
    constexpr MessageType ToMessageType(short from)
    {
       if (from < 0x9 || from > 0xf)
-         throw std::range_error("MessageType range error, must be 0x9 to 0xf");
+         throw std::range_error(
+             "MessageType range error in ToMessageType. Must be 0x09 to 0x0F. Actual value "
+             + rsj::CharToHex(gsl::narrow_cast<unsigned char>(from)) + '.');
       return static_cast<MessageType>(from);
    }
 

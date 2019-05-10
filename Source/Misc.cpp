@@ -230,3 +230,27 @@ std::string rsj::AppLogFilePath(const std::string& file_name)
 }
 
 #endif
+
+namespace {
+   constexpr std::array<char, 16> hex_map{
+       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+}
+
+std::string rsj::CharToHex(unsigned char data)
+{
+   std::string s("0x");
+   s.push_back(hex_map[(data & 0xF0) >> 4]);
+   s.push_back(hex_map[data & 0x0F]);
+   return s;
+}
+
+std::string rsj::CharToHex(std::string_view data)
+{
+   std::string s("0x");
+   s.reserve(data.length() * 2 + 2);
+   for (auto a : data) {
+      s.push_back(hex_map[(a & 0xF0) >> 4]);
+      s.push_back(hex_map[a & 0x0F]);
+   }
+   return s;
+}
