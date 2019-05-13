@@ -124,27 +124,38 @@ namespace rsj {
 
    // -------------------------------------------------------------------
    // --- Reversed iterable
-   // https://stackoverflow.com/a/28139075/5699329
-   // Note that this won't properly capture an rvalue container (temporary)
-   // see https://stackoverflow.com/a/42221253/5699329 for that solution
-
-   template<typename T> struct ReversionWrapper {
-      T& iterable;
+   template<class T> struct ReverseWrapper {
+      T o;
+      ReverseWrapper(T&& i) noexcept : o(std::forward<T>(i)) {}
    };
 
-   template<typename T>[[nodiscard]] auto begin(ReversionWrapper<T> w) noexcept
+   template<class T> auto begin(ReverseWrapper<T>& r) noexcept
    {
-      return std::rbegin(w.iterable);
+      using std::end;
+      return std::make_reverse_iterator(end(r.o));
    }
 
-   template<typename T>[[nodiscard]] auto end(ReversionWrapper<T> w) noexcept
+   template<class T> auto end(ReverseWrapper<T>& r) noexcept
    {
-      return std::rend(w.iterable);
+      using std::begin;
+      return std::make_reverse_iterator(begin(r.o));
    }
 
-   template<typename T>[[nodiscard]] ReversionWrapper<T> Reverse(T&& iterable) noexcept
+   template<class T> auto begin(ReverseWrapper<T> const& r) noexcept
    {
-      return {iterable};
+      using std::end;
+      return std::make_reverse_iterator(end(r.o));
+   }
+
+   template<class T> auto end(ReverseWrapper<T> const& r) noexcept
+   {
+      using std::begin;
+      return std::make_reverse_iterator(begin(r.o));
+   }
+
+   template<class T> auto Reverse(T&& ob) noexcept
+   {
+      return ReverseWrapper<T>{std::forward<T>(ob)};
    }
 
 #pragma warning(push)
@@ -232,46 +243,8 @@ namespace rsj {
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
-   template<class T>[[nodiscard]] std::string NumToChars(T value) { return std::to_string(value); }
+   template<class T>
+   [[nodiscard]] std::string NumToChars(T value) { return std::to_string(value); }
 #endif
 } // namespace rsj
-
 #endif // MISC_H_INCLUDED
-
-/* replacement for ReverseWrapper
-
-template<class T> struct ReverseWrapper {
-   T o;
-   ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
-};
-
-template<class T> auto begin(ReverseWrapper<T>& r)
-{
-   using std::end;
-   return std::make_reverse_iterator(end(r.o));
-}
-
-template<class T> auto end(ReverseWrapper<T>& r)
-{
-   using std::begin;
-   return std::make_reverse_iterator(begin(r.o));
-}
-
-template<class T> auto begin(ReverseWrapper<T> const& r)
-{
-   using std::end;
-   return std::make_reverse_iterator(end(r.o));
-}
-
-template<class T> auto end(ReverseWrapper<T> const& r)
-{
-   using std::begin;
-   return std::make_reverse_iterator(begin(r.o));
-}
-
-template<class T> auto Reverse(T&& ob)
-{
-   return ReverseWrapper<T>{std::forward<T>(ob)};
-}
-
-*/
