@@ -132,23 +132,23 @@ namespace rsj {
       T& iterable;
    };
 
-   template<typename T>[[nodiscard]] auto begin(ReversionWrapper<T> w)
+   template<typename T>[[nodiscard]] auto begin(ReversionWrapper<T> w) noexcept
    {
       return std::rbegin(w.iterable);
    }
 
-   template<typename T>[[nodiscard]] auto end(ReversionWrapper<T> w)
+   template<typename T>[[nodiscard]] auto end(ReversionWrapper<T> w) noexcept
    {
       return std::rend(w.iterable);
    }
 
-   template<typename T>[[nodiscard]] ReversionWrapper<T> Reverse(T&& iterable)
+   template<typename T>[[nodiscard]] ReversionWrapper<T> Reverse(T&& iterable) noexcept
    {
       return {iterable};
    }
 
 #pragma warning(push)
-#pragma warning(disable : 4127) // constant conditional expression
+#pragma warning(disable : 4127 6326) // constant conditional expression
    // zepto yocto zetta and yotta too large/small to be represented by intmax_t
    // TODO: change to consteval, find way to convert digit to string for unexpected
    // values, so return could be, e.g., "23425/125557 ", instead of error message
@@ -224,17 +224,54 @@ namespace rsj {
    }
 #ifdef _WIN32 // charcvt not yet in XCode
    template<class T>
-   [[nodiscard]] std::string NumToChars(T number) {
+   [[nodiscard]] std::string NumToChars(T value) {
       std::array<char, 10> str{};
-      auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
+      auto [p, ec] = std::to_chars(str.data(), &str.back(), value);
       if (ec == std::errc())
          return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
-   template<class T>
-   [[nodiscard]] std::string NumToChars(T number) { return std::to_string(number); }
+   template<class T>[[nodiscard]] std::string NumToChars(T value) { return std::to_string(value); }
 #endif
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED
+
+/* replacement for ReverseWrapper
+
+template<class T> struct ReverseWrapper {
+   T o;
+   ReverseWrapper(T&& i) : o(std::forward<T>(i)) {}
+};
+
+template<class T> auto begin(ReverseWrapper<T>& r)
+{
+   using std::end;
+   return std::make_reverse_iterator(end(r.o));
+}
+
+template<class T> auto end(ReverseWrapper<T>& r)
+{
+   using std::begin;
+   return std::make_reverse_iterator(begin(r.o));
+}
+
+template<class T> auto begin(ReverseWrapper<T> const& r)
+{
+   using std::end;
+   return std::make_reverse_iterator(end(r.o));
+}
+
+template<class T> auto end(ReverseWrapper<T> const& r)
+{
+   using std::begin;
+   return std::make_reverse_iterator(begin(r.o));
+}
+
+template<class T> auto Reverse(T&& ob)
+{
+   return ReverseWrapper<T>{std::forward<T>(ob)};
+}
+
+*/

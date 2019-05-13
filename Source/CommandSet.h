@@ -45,7 +45,7 @@ class CommandSet {
       return cmd_by_number_.size();
    }
 
-   [[nodiscard]] auto GetLanguage() const noexcept
+   [[nodiscard]] auto GetLanguage() const
    {
       return m_impl_.language_;
    }
@@ -96,7 +96,7 @@ class CommandSet {
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
 };
 #pragma warning(push)
-#pragma warning(disable : 26440 26444)
+#pragma warning(disable : 26426 26440 26444)
 CEREAL_CLASS_VERSION(CommandSet::Impl, 1)
 #pragma warning(pop)
 #endif // MIDI2LR_COMMANDSET_H_INCLUDED

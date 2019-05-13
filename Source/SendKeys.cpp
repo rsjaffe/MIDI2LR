@@ -79,7 +79,7 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc{rsj::Utf8ToWide(key)[0]};
+         const auto uc{rsj::Utf8ToWide(key).at(0)};
          static const auto kLanguageId = GetLanguage("Lightroom");
          const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
          const auto mods = HIBYTE(vk_code_and_shift);
@@ -291,7 +291,7 @@ namespace {
          if (result != char_code_map.end())
             return result->second;
          else
-            return {};
+            return std::nullopt;
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(__func__, __func__, e);
@@ -330,7 +330,8 @@ namespace {
    }
 #endif
 
-#pragma warning(suppress : 4244) // assigned to char intentionally
+#pragma warning(suppress : 4244 26426) // assigned to char intentionally, global initializer calls
+                                       // non-constexpr function
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},

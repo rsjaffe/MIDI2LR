@@ -47,7 +47,7 @@ class NrpnMessage {
    // message. If the 4th message is dropped, this class silently consumes the
    // message without emitting anything.
  public:
-   [[nodiscard]] bool IsInProcess() const noexcept;
+   [[nodiscard]] bool IsInProcess() const;
    bool ProcessMidi(short control, short value);
    rsj::Nrpn GetNrpnIfReady();
 
@@ -112,7 +112,7 @@ class NrpnFilter {
    std::array<NrpnMessage, 16> nrpn_messages_{};
 };
 
-inline bool NrpnMessage::IsInProcess() const noexcept
+inline bool NrpnMessage::IsInProcess() const
 {
    auto dlock = std::scoped_lock(data_guard_);
    return ready_ != 0;

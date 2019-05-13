@@ -388,6 +388,8 @@ void ChannelModel::SavedToActive()
    }
 }
 
+#pragma warning(push)
+#pragma warning(disable : 26455) // yes, it may throw
 ChannelModel::ChannelModel()
 {
    try {
@@ -399,3 +401,4 @@ ChannelModel::ChannelModel()
       throw;
    }
 }
+#pragma warning(pop)

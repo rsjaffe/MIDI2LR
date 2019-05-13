@@ -29,6 +29,8 @@ std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
 #pragma warning(disable : 26481) // doing raw pointer arithmetic, parsing low-level structure
    rsj::MidiMessage m;
    const auto raw = juce_mm.getRawData();
+   if (!raw)
+      return std::nullopt;
    m.message_type_byte = rsj::ToMessageType(raw[0] >> 4);
    m.channel = raw[0] & 0xF;
    switch (m.message_type_byte) {
@@ -46,7 +48,7 @@ std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
             m.value = nrpn.value;
             return m;
          }
-         return {}; // finished with an nrpn piece
+         return std::nullopt; // finished with an nrpn piece
       }
       else
          return m;
@@ -67,6 +69,6 @@ std::optional<rsj::MidiMessage> rsj::MidiMessageFactory::ProcessMidi(
    default:
       Ensures(!"Default should be unreachable in MidiMessageFactory::ProcessMidi");
    }
-   return {};
+   return std::nullopt;
 #pragma warning(pop)
 }

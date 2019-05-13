@@ -34,6 +34,8 @@ namespace fs = std::filesystem;
 #include <cereal/types/vector.hpp>
 // ReSharper restore CppUnusedIncludeDirective
 
+#pragma warning(push)
+#pragma warning(disable : 26455) // yes, it may throw
 CommandSet::CommandSet() : m_impl_(MakeImpl())
 { // manually insert unmapped at first position
    try {
@@ -56,7 +58,10 @@ CommandSet::CommandSet() : m_impl_(MakeImpl())
       throw;
    }
 }
+#pragma warning(pop)
 
+#pragma warning(push)
+#pragma warning(disable : 26455) // yes, it may throw
 CommandSet::Impl::Impl()
 {
    try {
@@ -67,7 +72,7 @@ CommandSet::Impl::Impl()
 #endif
       std::ifstream infile(p);
       if (infile.is_open()) {
-         // too large to construct on stack
+#pragma warning(suppress : 26414) // using smart pointer, too large to construct on stack
          const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
          (*iarchive)(*this);
 #ifdef _WIN32
@@ -84,6 +89,7 @@ CommandSet::Impl::Impl()
       throw;
    }
 }
+#pragma warning(pop)
 
 const CommandSet::Impl& CommandSet::MakeImpl() const
 {

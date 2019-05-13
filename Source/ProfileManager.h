@@ -40,7 +40,7 @@ namespace rsj {
 class ProfileManager final : juce::AsyncUpdater {
  public:
    ProfileManager(ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out,
-       MidiReceiver& midi_receiver) noexcept;
+       MidiReceiver& midi_receiver);
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;

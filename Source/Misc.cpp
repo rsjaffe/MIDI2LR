@@ -43,8 +43,8 @@ std::string rsj::ToLower(std::string_view in)
    try {
       std::string s;
       s.resize(in.size());
-      std::transform(in.begin(), in.end(), s.begin(),
-          [](unsigned char c) noexcept { return std::tolower(c); });
+      std::transform(in.begin(), in.end(),
+          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
       return s;
    }
    catch (const std::exception& e) {
@@ -94,10 +94,8 @@ template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
    return ptr.get();
 }
 #else  // ndef _GNUG_
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
-{
-   return mangled_name;
-}
+template<typename T>
+[[nodiscard]] T Demangle(const char* mangled_name) { return mangled_name; }
 #endif // _GNUG_
 
 void rsj::Log(const juce::String& info)
@@ -238,6 +236,8 @@ namespace {
        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 }
 
+#pragma warning(push)
+#pragma warning(disable: 26446 26482) //subscript math guaranteed to be 0-15
 std::string rsj::CharToHex(unsigned char data)
 {
    std::string s("0x");
@@ -256,3 +256,4 @@ std::string rsj::CharToHex(std::string_view data)
    }
    return s;
 }
+#pragma warning(pop)
