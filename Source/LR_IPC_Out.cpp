@@ -246,7 +246,7 @@ void LrIpcOut::SendOut()
          std::string command_copy;
          static thread_local moodycamel::ConsumerToken ctok(command_);
          if (!command_.try_dequeue(ctok, command_copy))
-            command_.wait_dequeue(command_copy);
+            command_.wait_dequeue(ctok, command_copy);
          if (command_copy == kTerminate)
             return;
          // check if there is a connection

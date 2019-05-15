@@ -154,7 +154,7 @@ void MidiReceiver::DispatchMessages()
       do {
          rsj::MidiMessage message_copy;
          if (!messages_.try_dequeue(ctok, message_copy))
-            messages_.wait_dequeue(message_copy);
+            messages_.wait_dequeue(ctok, message_copy);
          if (message_copy == kTerminate)
             return;
          for (const auto& cb : callbacks_)
