@@ -153,9 +153,9 @@ namespace {
    pid_t GetPid()
    {
       try {
-         static const std::string kLr{"Adobe Lightroom.app/Contents/MacOS/Adobe Lightroom"};
+         static const std::string kLr{".app/Contents/MacOS/Adobe Lightroom"};
          static const std::string kLrc{
-             "Adobe Lightroom Classic CC.app/Contents/MacOS/Adobe Lightroom Classic"};
+             ".app/Contents/MacOS/Adobe Lightroom Classic"};
          const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
          std::vector<pid_t> pids(number_processes); // add a few in case more processes show up
          proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
