@@ -43,8 +43,8 @@ std::string rsj::ToLower(std::string_view in)
    try {
       std::string s;
       s.resize(in.size());
-      std::transform(in.begin(), in.end(),
-          s.begin(), [](unsigned char c) noexcept { return std::tolower(c); });
+      std::transform(in.begin(), in.end(), s.begin(),
+          [](unsigned char c) noexcept { return std::tolower(c); });
       return s;
    }
    catch (const std::exception& e) {
@@ -73,8 +73,8 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 #include <cxxabi.h>
 #include <memory>
 #include <type_traits>
-template<typename T>
-[[nodiscard]] T Demangle(const char* mangled_name) {
+template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
+{
    static_assert(std::is_pointer<T>() == false, "Result must be copied as __cxa_demagle returns "
                                                 "pointer to temporary. Cannot use pointer type for "
                                                 "this template.");
@@ -87,8 +87,10 @@ template<typename T>
    return ptr.get();
 }
 #else  // ndef _GNUG_
-template<typename T>
-[[nodiscard]] T Demangle(const char* mangled_name) { return mangled_name; }
+template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
+{
+   return mangled_name;
+}
 #endif // _GNUG_
 
 void rsj::Log(const juce::String& info)

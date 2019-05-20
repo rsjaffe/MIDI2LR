@@ -199,7 +199,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
    [[noreturn]] void unhandledException(
-       const std::exception* e, const juce::String& source_filename, int lineNumber) override {
+       const std::exception* e, const juce::String& source_filename, int lineNumber) override
+   {
       // If any unhandled exceptions make it through to the message dispatch
       // loop, this callback will be triggered, in case you want to log them or
       // do some other type of error-handling.
@@ -221,7 +222,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       std::terminate(); // can't go on with the program
    }
 
-   private : void DefaultProfileSave()
+ private:
+   void DefaultProfileSave()
    {
       try {
          const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
@@ -380,7 +382,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    // forcing assignment to static early in construction
-   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ { logger_.get() };
+   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_{logger_.get()};
    const CommandSet command_set_{};
    ControlsModel controls_model_{};
    Profile profile_{command_set_};
