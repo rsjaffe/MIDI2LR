@@ -1,5 +1,7 @@
 <map id="MidiReceiver::Start" name="MidiReceiver::Start">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,136,57"/>
-<area shape="rect" id="node2" href="$namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="184,5,344,32"/>
-<area shape="rect" id="node3" href="$namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="205,56,323,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,56,136,83"/>
+<area shape="rect" id="node2" href="$namespacersj.html#a89157f33d7ebfdeac974317c32ab4e39" title=" " alt="" coords="612,5,772,32"/>
+<area shape="rect" id="node3" href="$class_midi_receiver.html#a0cb87d018906962c78506b6caee0aa69" title=" " alt="" coords="184,56,349,83"/>
+<area shape="rect" id="node4" href="$namespacersj.html#a4895a4c1be1002b9feb8a0c4935efbc6" title=" " alt="" coords="633,107,751,133"/>
+<area shape="rect" id="node5" href="$class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595" title=" " alt="" coords="397,56,564,83"/>
 </map>

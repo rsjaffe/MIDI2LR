@@ -17,7 +17,6 @@ var _misc_8h =
     [ "SleepTimed", "_misc_8h.html#a01ba4e95db815027d2e6ef78ee4353f5", null ],
     [ "SleepTimedLogged", "_misc_8h.html#a3ff3cae4cb893f0e81cd429efdd189de", null ],
     [ "ToLower", "_misc_8h.html#af53f4096f4a5b6f9705a209de4682f56", null ],
-    [ "Trim", "_misc_8h.html#a94afac1b60db0d64f32e127ab5627833", null ],
     [ "kNdebug", "_misc_8h.html#a9232373c39758da7673237c81fd0edc7", null ],
     [ "MSWindows", "_misc_8h.html#a104214aa8e5e947e0af9f48ced380378", null ],
     [ "OSX", "_misc_8h.html#a4fa956da95d10741e02ae994a00b10f4", null ]

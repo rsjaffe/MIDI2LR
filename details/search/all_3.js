@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['data',['data',['../structrsj_1_1_midi_message_id.html#adfbbcfcc64094a456ad26e70bcfa3b8f',1,'rsj::MidiMessageId']]],
   ['data_5fguard_5f',['data_guard_',['../class_nrpn_message.html#ab5d5ffbfa778cfa611931e4e2b611029',1,'NrpnMessage']]],
   ['debuginfo',['DebugInfo',['../class_debug_info.html',1,'DebugInfo'],['../class_debug_info.html#a071053365a3097369dc3255505f51e07',1,'DebugInfo::DebugInfo(const juce::String &amp;profile_directory) noexcept'],['../class_debug_info.html#ae7439815cd8ede3777764e42711acf0a',1,'DebugInfo::DebugInfo(const DebugInfo &amp;other)=default'],['../class_debug_info.html#a6e849a8e7f872232727c64f010ee34e2',1,'DebugInfo::DebugInfo(DebugInfo &amp;&amp;other)=default']]],
   ['debuginfo_2ecpp',['DebugInfo.cpp',['../_debug_info_8cpp.html',1,'']]],

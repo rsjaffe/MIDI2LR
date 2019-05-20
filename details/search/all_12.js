@@ -9,7 +9,6 @@ var searchData=
   ['title_5flabel_5f',['title_label_',['../class_main_content_component.html#aa0db440f2ea6f5c261d2706286cd2110',1,'MainContentComponent']]],
   ['title_5fshadow_5f',['title_shadow_',['../class_main_content_component.html#a8074d32c4e01a43d317cc1af183ce344',1,'MainContentComponent']]],
   ['tolower',['ToLower',['../namespacersj.html#af53f4096f4a5b6f9705a209de4682f56',1,'rsj']]],
-  ['tomessagetype',['ToMessageType',['../namespacersj.html#a8b6ef5adf1aaf7438f40e059fa58ab1f',1,'rsj']]],
   ['top',['top',['../struct_resizable_layout_1_1_rect.html#a716da87456311e9e66b7c9d1daf255a9',1,'ResizableLayout::Rect']]],
   ['topleft',['topLeft',['../struct_resizable_layout_1_1_anchor.html#aedb860daace9c7c030f43997f58abbc7',1,'ResizableLayout::Anchor']]],
   ['toplevelresizablelayout',['TopLevelResizableLayout',['../class_top_level_resizable_layout.html',1,'TopLevelResizableLayout'],['../class_resizable_layout.html#af7f3636f234d1cdf71500ab6a6963b6f',1,'ResizableLayout::TopLevelResizableLayout()'],['../class_top_level_resizable_layout.html#af29b22c3f9484cd604e08cead5692589',1,'TopLevelResizableLayout::TopLevelResizableLayout()']]],
@@ -17,7 +16,6 @@ var searchData=
   ['translate',['Translate',['../namespacersj.html#a1f28ca0bb51c870e4960af1ae31316b7',1,'rsj']]],
   ['translate_2ecpp',['Translate.cpp',['../_translate_8cpp.html',1,'']]],
   ['translate_2eh',['Translate.h',['../_translate_8h.html',1,'']]],
-  ['trim',['Trim',['../namespacersj.html#a94afac1b60db0d64f32e127ab5627833',1,'rsj']]],
   ['try_5flock',['try_lock',['../classrsj_1_1_relax_t_tas_spin_lock.html#a25f4f46fba7b9bf161a209f34e82916d',1,'rsj::RelaxTTasSpinLock']]],
   ['trytoopen',['TryToOpen',['../class_midi_receiver.html#a703b6a6d9e9c43e5dd5eef20692ae595',1,'MidiReceiver']]],
   ['twosbutton',['twosbutton',['../class_c_coptions.html#ab12772ee639b9a07e80c35918be12151',1,'CCoptions']]]

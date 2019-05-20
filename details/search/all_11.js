@@ -54,7 +54,7 @@ var searchData=
   ['settingsmanager_2ecpp',['SettingsManager.cpp',['../_settings_manager_8cpp.html',1,'']]],
   ['settingsmanager_2eh',['SettingsManager.h',['../_settings_manager_8h.html',1,'']]],
   ['settingsstruct',['SettingsStruct',['../structrsj_1_1_settings_struct.html',1,'rsj::SettingsStruct'],['../structrsj_1_1_settings_struct.html#a88895a58292cb0763eba9bb6a21e35b0',1,'rsj::SettingsStruct::SettingsStruct()']]],
-  ['settocenter',['SetToCenter',['../class_channel_model.html#a45088c81e81b74272ce2a69e3f932bc4',1,'ChannelModel::SetToCenter()'],['../class_controls_model.html#a119fe5338aba006ff1e72440faed53ab',1,'ControlsModel::SetToCenter()']]],
+  ['settocenter',['SetToCenter',['../class_channel_model.html#a3d2bb05ecfd4bf3ec9657669c4f8c4df',1,'ChannelModel::SetToCenter()'],['../class_controls_model.html#a119fe5338aba006ff1e72440faed53ab',1,'ControlsModel::SetToCenter()']]],
   ['setvaluelsb',['SetValueLsb',['../class_nrpn_message.html#ac45863ad3f89c9898d49266e9a07d4c2',1,'NrpnMessage']]],
   ['setvaluemsb',['SetValueMsb',['../class_nrpn_message.html#a82a315dbe694d73575c13f6f89cc7800',1,'NrpnMessage']]],
   ['shift',['shift',['../structrsj_1_1_active_modifiers.html#a672648dd23bcb5b479057549137ccc13',1,'rsj::ActiveModifiers']]],
@@ -70,7 +70,7 @@ var searchData=
   ['start',['Start',['../class_lr_ipc_in.html#a5210ba8aacb2a42f2cae043f99315b0e',1,'LrIpcIn::Start()'],['../class_midi_sender.html#a7f6b5c209963c8ba2e59a40e556d688f',1,'MidiSender::Start()'],['../class_lr_ipc_out.html#aa5336d91bcd716000f5c2e55a5c4d641',1,'LrIpcOut::Start()'],['../class_lr_ipc_out_1_1_connect_timer.html#a8732dc9845b697e2a12b6ef0ffbd2b10',1,'LrIpcOut::ConnectTimer::Start()'],['../class_midi_receiver.html#ab5aff92f9c0bfbca3f3f4862b6f0091d',1,'MidiReceiver::Start()']]],
   ['state',['State',['../struct_resizable_layout_1_1_state.html',1,'ResizableLayout::State'],['../struct_resizable_layout_1_1_state.html#a2819d36795450657c3e9a0fb21e6833e',1,'ResizableLayout::State::State(juce::Component *component=nullptr) noexcept'],['../struct_resizable_layout_1_1_state.html#a4443b5ff552634ea53fae43153375646',1,'ResizableLayout::State::State(const State &amp;other) noexcept']]],
   ['stop',['Stop',['../class_lr_ipc_out.html#adf0bc1da59e8d2d619c5fbf99b4a5d21',1,'LrIpcOut::Stop()'],['../class_lr_ipc_out_1_1_connect_timer.html#aa16b1e7c88d2826c88e31e75d18b72b9',1,'LrIpcOut::ConnectTimer::Stop()']]],
-  ['style',['style',['../struct_resizable_layout_1_1_anchor.html#aa8ac3ce7d9c551d0c5b70b9ec2e87f0a',1,'ResizableLayout::Anchor::style()'],['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8',1,'ResizableLayout::Style()']]],
+  ['style',['Style',['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8',1,'ResizableLayout::Style()'],['../struct_resizable_layout_1_1_anchor.html#aa8ac3ce7d9c551d0c5b70b9ec2e87f0a',1,'ResizableLayout::Anchor::style()']]],
   ['stylefixedaspect',['styleFixedAspect',['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8af8fff0fce0d91bee082bb2d92a77e73b',1,'ResizableLayout']]],
   ['stylestretch',['styleStretch',['../class_resizable_layout.html#aff762c8fee36d1ee99283fac47eaf9a8ad35e38ccc74459872aed05f81185ef70',1,'ResizableLayout']]],
   ['switch_5fstate_5f',['switch_state_',['../class_profile_manager.html#a8902ba60a404fe8b7fe0947ae9f22cd6',1,'ProfileManager']]],
@@ -78,6 +78,5 @@ var searchData=
   ['switchtonextprofile',['SwitchToNextProfile',['../class_profile_manager.html#a1131eaee6fd426d056ce3d22721ce182',1,'ProfileManager']]],
   ['switchtopreviousprofile',['SwitchToPreviousProfile',['../class_profile_manager.html#aef2511c27587834a675de11f0512b0ea',1,'ProfileManager']]],
   ['switchtoprofile',['SwitchToProfile',['../class_profile_manager.html#a3f94344f1d2222f3209e7af6e0f2b88f',1,'ProfileManager::SwitchToProfile(int profile_index)'],['../class_profile_manager.html#a4794fe76670a56dd71a570304c9b1c8a',1,'ProfileManager::SwitchToProfile(const juce::String &amp;profile)']]],
-  ['system',['System',['../namespacersj.html#a44643b6bbf0bd2316756d7f4fbfe31b7a55afe840ac7eacd5be10f44d65167ea3',1,'rsj']]],
   ['systemrequestedquit',['systemRequestedQuit',['../class_m_i_d_i2_l_r_application.html#a09e3d213ac5693825d76199c20260f3f',1,'MIDI2LRApplication']]]
 ];

@@ -3,7 +3,7 @@ var class_c_coptions =
     [ "CCoptions", "class_c_coptions.html#a1d8d9d83f1823c1f016de242ecfe44d3", null ],
     [ "~CCoptions", "class_c_coptions.html#a7d12f2662d4da84b42808a4bcfee8057", null ],
     [ "CCoptions", "class_c_coptions.html#a0b0260ade7aedd006517dde03dab6c4e", null ],
-    [ "BindToControl", "class_c_coptions.html#ad80083fe6a5c76a00a8acb2f3d32696c", null ],
+    [ "BindToControl", "class_c_coptions.html#ac0ee4f364944cdf3b41f47e5ecde5264", null ],
     [ "buttonClicked", "class_c_coptions.html#a0fbb5a43da29af8015cc4cc3ce21b69b", null ],
     [ "LinkToControlsModel", "class_c_coptions.html#ab52f4239cfc0f073d5f1df6620371842", null ],
     [ "operator=", "class_c_coptions.html#a6c8a9fe66aca064e0ea57a7f0a275229", null ],

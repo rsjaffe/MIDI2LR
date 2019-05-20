@@ -43,18 +43,17 @@ var hierarchy =
     [ "JUCEApplication", null, [
       [ "MIDI2LRApplication", "class_m_i_d_i2_l_r_application.html", null ]
     ] ],
-    [ "Listener", "classjuce_1_1_slider_1_1_listener.html", [
-      [ "SettingsComponent", "class_settings_component.html", null ]
-    ] ],
     [ "Listener", "classjuce_1_1_text_editor_1_1_listener.html", [
       [ "CCoptions", "class_c_coptions.html", null ],
       [ "PWoptions", "class_p_woptions.html", null ]
+    ] ],
+    [ "Listener", "classjuce_1_1_slider_1_1_listener.html", [
+      [ "SettingsComponent", "class_settings_component.html", null ]
     ] ],
     [ "MidiInputCallback", null, [
       [ "MidiReceiver", "class_midi_receiver.html", null ]
     ] ],
     [ "rsj::MidiMessage", "structrsj_1_1_midi_message.html", null ],
-    [ "rsj::MidiMessageFactory", "classrsj_1_1_midi_message_factory.html", null ],
     [ "rsj::MidiMessageId", "structrsj_1_1_midi_message_id.html", null ],
     [ "MidiSender", "class_midi_sender.html", null ],
     [ "rsj::Nrpn", "structrsj_1_1_nrpn.html", null ],
