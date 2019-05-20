@@ -38,7 +38,7 @@ namespace rsj {
       {
       }
    };
-   constexpr Nrpn kInvalidNrpn{false, 0, 0};
+   static constexpr Nrpn kInvalidNrpn{false, 0, 0};
 } // namespace rsj
 
 class NrpnMessage {
@@ -47,7 +47,7 @@ class NrpnMessage {
    // message. If the 4th message is dropped, this class silently consumes the
    // message without emitting anything.
  public:
-   [[nodiscard]] bool IsInProcess() const;
+   [[nodiscard]] bool IsInProcess() const noexcept;
    bool ProcessMidi(short control, short value);
    rsj::Nrpn GetNrpnIfReady();
 
@@ -84,8 +84,7 @@ class NrpnFilter {
       }
    }
 
-   [[nodiscard]] bool IsInProcess(short channel) const
-   {
+   [[nodiscard]] bool IsInProcess(short channel) const {
       try {
          Expects(channel <= 15 && channel >= 0);
          return nrpn_messages_.at(channel & 0xF).IsInProcess();
@@ -112,9 +111,9 @@ class NrpnFilter {
    std::array<NrpnMessage, 16> nrpn_messages_{};
 };
 
-inline bool NrpnMessage::IsInProcess() const
+inline bool NrpnMessage::IsInProcess() const noexcept
 {
-   auto dlock = std::scoped_lock(data_guard_);
+   auto dlock = std::lock_guard(data_guard_);
    return ready_ != 0;
 }
 

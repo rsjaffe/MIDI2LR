@@ -36,9 +36,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <JuceLibraryCode/JuceHeader.h>
 
 #ifdef NDEBUG // asserts disabled
-constexpr bool kNdebug{true};
+static constexpr bool kNdebug = true;
 #else // asserts enabled
-constexpr bool kNdebug{false};
+static constexpr bool kNdebug = false;
 #endif
 
 #ifdef _WIN32
@@ -53,10 +53,7 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
-   [[nodiscard]] std::string CharToHex(std::string_view data);
-   [[nodiscard]] std::string CharToHex(unsigned char data);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
-   void Trim(std::string_view& value) noexcept;
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& error_text);
@@ -124,42 +121,31 @@ namespace rsj {
 
    // -------------------------------------------------------------------
    // --- Reversed iterable
-   template<class T> struct ReverseWrapper {
-      T o;
-      ReverseWrapper(T&& i) noexcept : o(std::forward<T>(i)) {}
+   // https://stackoverflow.com/a/28139075/5699329
+   // Note that this won't properly capture an rvalue container (temporary)
+   // see https://stackoverflow.com/a/42221253/5699329 for that solution
+
+   template<typename T> struct ReversionWrapper {
+      T& iterable;
    };
 
-   template<class T> auto begin(ReverseWrapper<T>& r) noexcept
+   template<typename T> auto begin(ReversionWrapper<T> w)
    {
-      using std::end;
-      return std::make_reverse_iterator(end(r.o));
+      return std::rbegin(w.iterable);
    }
 
-   template<class T> auto end(ReverseWrapper<T>& r) noexcept
+   template<typename T> auto end(ReversionWrapper<T> w)
    {
-      using std::begin;
-      return std::make_reverse_iterator(begin(r.o));
+      return std::rend(w.iterable);
    }
 
-   template<class T> auto begin(ReverseWrapper<T> const& r) noexcept
+   template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
    {
-      using std::end;
-      return std::make_reverse_iterator(end(r.o));
-   }
-
-   template<class T> auto end(ReverseWrapper<T> const& r) noexcept
-   {
-      using std::begin;
-      return std::make_reverse_iterator(begin(r.o));
-   }
-
-   template<class T> auto Reverse(T&& ob) noexcept
-   {
-      return ReverseWrapper<T>{std::forward<T>(ob)};
+      return {iterable};
    }
 
 #pragma warning(push)
-#pragma warning(disable : 4127 6326) // constant conditional expression
+#pragma warning(disable : 4127) // constant conditional expression
    // zepto yocto zetta and yotta too large/small to be represented by intmax_t
    // TODO: change to consteval, find way to convert digit to string for unexpected
    // values, so return could be, e.g., "23425/125557 ", instead of error message
@@ -235,16 +221,17 @@ namespace rsj {
    }
 #ifdef _WIN32 // charcvt not yet in XCode
    template<class T>
-   [[nodiscard]] std::string NumToChars(T value) {
+   [[nodiscard]] std::string NumToChars(T number) {
       std::array<char, 10> str{};
-      auto [p, ec] = std::to_chars(str.data(), &str.back(), value);
+      auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
       if (ec == std::errc())
          return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
    template<class T>
-   [[nodiscard]] std::string NumToChars(T value) { return std::to_string(value); }
+   [[nodiscard]] std::string NumToChars(T number) { return std::to_string(number); }
 #endif
 } // namespace rsj
+
 #endif // MISC_H_INCLUDED

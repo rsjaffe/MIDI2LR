@@ -73,30 +73,14 @@ void CommandTableModel::paintCell(
             switch (
                 const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
                 cmd.msg_id_type) {
-            case rsj::MessageType::kNoteOff:
-            case rsj::MessageType::kNoteOn:
-               format_str << cmd.channel << " | Note: " << cmd.control_number;
+            case rsj::MsgIdEnum::kNote:
+               format_str << cmd.channel << " | Note : " << cmd.data;
                break;
-            case rsj::MessageType::kCc:
-               format_str << cmd.channel << " | CC: " << cmd.control_number;
+            case rsj::MsgIdEnum::kCc:
+               format_str << cmd.channel << " | CC: " << cmd.data;
                break;
-            case rsj::MessageType::kPw:
+            case rsj::MsgIdEnum::kPitchBend:
                format_str << cmd.channel << " | Pitch Bend";
-               break;
-            case rsj::MessageType::kKeyPressure:
-               format_str << cmd.channel << " | Key Pressure " << cmd.control_number;
-               break;
-            case rsj::MessageType::kPgmChange:
-               format_str << cmd.channel << " | Program Change" << cmd.control_number;
-               break;
-            case rsj::MessageType::kChanPressure:
-               format_str << cmd.channel << " | Channel Pressure";
-               break;
-            case rsj::MessageType::kSystem:
-               format_str << "System";
-               break;
-            default:
-               format_str << "Unknown";
                break;
             }
             g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centredLeft);

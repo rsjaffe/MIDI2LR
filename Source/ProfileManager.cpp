@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std::literals::string_literals;
 
 ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile,
-    std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver)
+    std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver) noexcept
     : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{std::move(out)}
 {
    midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);

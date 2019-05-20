@@ -34,28 +34,28 @@ class CommandSet {
 
  public:
    CommandSet();
-   [[nodiscard]] size_t CommandTextIndex(const std::string& command) const;
-   [[nodiscard]] const auto& CommandAbbrevAt(size_t index) const
+   size_t CommandTextIndex(const std::string& command) const;
+   const auto& CommandAbbrevAt(size_t index) const
    {
       return cmd_by_number_.at(index);
    }
 
-   [[nodiscard]] auto CommandAbbrevSize() const noexcept
+   auto CommandAbbrevSize() const noexcept
    {
       return cmd_by_number_.size();
    }
 
-   [[nodiscard]] auto GetLanguage() const
+   auto GetLanguage() const noexcept
    {
       return m_impl_.language_;
    }
 
-   [[nodiscard]] const auto& GetMenus() const noexcept
+   const auto& GetMenus() const noexcept
    {
       return menus_;
    }
 
-   [[nodiscard]] const auto& GetMenuEntries() const noexcept
+   const auto& GetMenuEntries() const noexcept
    {
       return menu_entries_;
    }
@@ -88,7 +88,7 @@ class CommandSet {
    // see https://github.com/USCiLab/cereal/issues/270
    friend struct cereal::detail::Version<CommandSet::Impl>;
    const Impl& m_impl_;
-   [[nodiscard]] const Impl& MakeImpl() const;
+   const Impl& MakeImpl() const;
 
    std::unordered_map<std::string, size_t> cmd_idx_{}; // for CommandTextIndex
    std::vector<std::string> cmd_by_number_{}; // use for command_set_.CommandAbbrevAt, .size
@@ -96,7 +96,7 @@ class CommandSet {
    std::vector<std::vector<MenuStringT>> menu_entries_{}; // use for commandmenu
 };
 #pragma warning(push)
-#pragma warning(disable : 26426 26440 26444)
+#pragma warning(disable : 26440 26444)
 CEREAL_CLASS_VERSION(CommandSet::Impl, 1)
 #pragma warning(pop)
 #endif // MIDI2LR_COMMANDSET_H_INCLUDED

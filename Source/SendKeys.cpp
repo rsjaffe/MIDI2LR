@@ -79,7 +79,7 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc{rsj::Utf8ToWide(key).at(0)};
+         const auto uc{rsj::Utf8ToWide(key)[0]};
          static const auto kLanguageId = GetLanguage("Lightroom");
          const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
          const auto mods = HIBYTE(vk_code_and_shift);
@@ -132,7 +132,7 @@ namespace {
 
          // send key down strokes
          static std::mutex mutex_sending{};
-         auto lock = std::scoped_lock(mutex_sending);
+         auto lock = std::lock_guard(mutex_sending);
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
             SendInputErrorChecked(1, &ip, size_ip);
@@ -291,7 +291,7 @@ namespace {
          if (result != char_code_map.end())
             return result->second;
          else
-            return std::nullopt;
+            return {};
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(__func__, __func__, e);
@@ -316,7 +316,7 @@ namespace {
          CGEventSetFlags(u, flags);
          { // scope for the mutex
             static std::mutex mtx{};
-            auto lock = std::scoped_lock(mtx);
+            auto lock = std::lock_guard(mtx);
             CGEventPostToPid(lr_pid, d);
             CGEventPostToPid(lr_pid, u);
          }
@@ -330,8 +330,7 @@ namespace {
    }
 #endif
 
-#pragma warning(suppress : 4244 26426) // assigned to char intentionally, global initializer calls
-                                       // non-constexpr function
+#pragma warning(suppress : 4244) // assigned to char intentionally
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},
