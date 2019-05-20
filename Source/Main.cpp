@@ -199,7 +199,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    }
 
    [[noreturn]] void unhandledException(
-       const std::exception* e, const juce::String& source_filename, int lineNumber) override {
+       const std::exception* e, const juce::String& source_filename, int lineNumber) override
+   {
       // If any unhandled exceptions make it through to the message dispatch
       // loop, this callback will be triggered, in case you want to log them or
       // do some other type of error-handling.
@@ -221,7 +222,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       std::terminate(); // can't go on with the program
    }
 
-   private : void DefaultProfileSave()
+ private:
+   void DefaultProfileSave()
    {
       try {
          const auto file_name = rsj::AppDataFilePath(kDefaultsFile);
@@ -246,8 +248,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          std::ofstream outfile(p, std::ios::trunc);
          if (outfile.is_open()) {
-            cereal::XMLOutputArchive oarchive(outfile);
-            oarchive(controls_model_);
+            // too large to construct on stack
+            const auto oarchive = std::make_unique<cereal::XMLOutputArchive>(outfile);
+            (*oarchive)(controls_model_);
 #ifdef _WIN32
             rsj::Log("ControlsModel archive in Main saved to " + juce::String(p.c_str()));
 #else
@@ -273,8 +276,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          std::ifstream in_file(px);
          if (in_file.is_open() && !in_file.eof()) {
-            cereal::XMLInputArchive iarchive(in_file);
-            iarchive(controls_model_);
+            // too large to construct on stack
+            const auto iarchive = std::make_unique<cereal::XMLInputArchive>(in_file);
+            (*iarchive)(controls_model_);
 #ifdef _WIN32
             rsj::Log("ControlsModel archive in Main loaded from " + juce::String(px.c_str()));
 #else
@@ -295,8 +299,9 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
             std::ifstream infile(p, std::ios::binary);
             if (infile.is_open() && !infile.eof()) {
-               cereal::BinaryInputArchive iarchive(infile);
-               iarchive(controls_model_);
+               // too large to construct on stack
+               const auto iarchive = std::make_unique<cereal::BinaryInputArchive>(infile);
+               (*iarchive)(controls_model_);
 #ifdef _WIN32
                rsj::Log(
                    "Legacy ControlsModel archive loaded in Main from " + juce::String(p.c_str()));
@@ -377,7 +382,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::unique_ptr<juce::FileLogger> logger_{
        juce::FileLogger::createDefaultAppLogger("MIDI2LR", "MIDI2LR.log", "", 32 * 1024)}; //-V112
    // forcing assignment to static early in construction
-   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_ { logger_.get() };
+   [[maybe_unused, no_unique_address]] UpdateCurrentLogger dummy_{logger_.get()};
    const CommandSet command_set_{};
    ControlsModel controls_model_{};
    Profile profile_{command_set_};

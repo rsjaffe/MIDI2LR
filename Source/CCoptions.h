@@ -69,7 +69,7 @@ class CCoptions final : public juce::Component,
    {
       controls_model_ = model;
    }
-   void BindToControl(size_t channel, short control_number);
+   void BindToControl(size_t channel, short number);
    CCoptions(CCoptions&& other) noexcept = delete;
    CCoptions& operator=(CCoptions&& other) noexcept = delete;
    //[/UserMethods]

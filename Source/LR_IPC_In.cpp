@@ -196,6 +196,15 @@ void LrIpcIn::timerCallback()
    }
 }
 
+namespace {
+   void Trim(std::string_view& value) noexcept
+   {
+      value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
+      if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
+         value.remove_suffix(value.size() - tr - 1);
+   }
+} // namespace
+
 void LrIpcIn::ProcessLine()
 {
    using namespace std::literals::string_literals;
@@ -210,7 +219,7 @@ void LrIpcIn::ProcessLine()
          if (line_copy == kTerminate)
             return;
          std::string_view v{line_copy};
-         rsj::Trim(v);
+         Trim(v);
          auto value_string{v.substr(v.find_first_of(" \t\n") + 1)};
          value_string.remove_prefix(
              std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
@@ -249,21 +258,32 @@ void LrIpcIn::ProcessLine()
             if (midi_sender_) {
                const auto original_value = std::stod(std::string(value_string));
                for (const auto& msg : profile_.GetMessagesForCommand(command)) {
-                  const auto value = controls_model_.PluginToController(msg.msg_id_type,
-                      gsl::narrow_cast<size_t>(msg.channel - 1),
-                      gsl::narrow_cast<short>(msg.control_number), original_value);
+                  short msgtype{0};
+                  switch (msg.msg_id_type) {
+                  case rsj::MsgIdEnum::kNote:
+                     msgtype = rsj::kNoteOnFlag;
+                     break;
+                  case rsj::MsgIdEnum::kCc:
+                     msgtype = rsj::kCcFlag;
+                     break;
+                  case rsj::MsgIdEnum::kPitchBend:
+                     msgtype = rsj::kPwFlag;
+                  }
+                  const auto value = controls_model_.PluginToController(msgtype,
+                      gsl::narrow_cast<size_t>(msg.channel - 1), gsl::narrow_cast<short>(msg.data),
+                      original_value);
                   if (midi_sender_) {
-                     switch (msg.msg_id_type) {
-                     case rsj::MessageType::NoteOn:
-                        midi_sender_->SendNoteOn(msg.channel, msg.control_number, value);
+                     switch (msgtype) {
+                     case rsj::kNoteOnFlag:
+                        midi_sender_->SendNoteOn(msg.channel, msg.data, value);
                         break;
-                     case rsj::MessageType::Cc:
+                     case rsj::kCcFlag:
                         if (controls_model_.GetCcMethod(gsl::narrow_cast<size_t>(msg.channel - 1),
-                                gsl::narrow_cast<short>(msg.control_number))
+                                gsl::narrow_cast<short>(msg.data))
                             == rsj::CCmethod::kAbsolute)
-                           midi_sender_->SendCc(msg.channel, msg.control_number, value);
+                           midi_sender_->SendCc(msg.channel, msg.data, value);
                         break;
-                     case rsj::MessageType::Pw:
+                     case rsj::kPwFlag:
                         midi_sender_->SendPitchWheel(msg.channel, value);
                         break;
                      default:

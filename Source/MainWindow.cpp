@@ -34,7 +34,7 @@ MainWindow::MainWindow(const juce::String& name, const CommandSet& command_set, 
        juce::DocumentWindow::minimiseButton | juce::DocumentWindow::closeButton}
    {
       juce::TopLevelWindow::setUsingNativeTitleBar(true);
-#pragma warning(suppress : 26409 24623)
+#pragma warning(suppress : 26409 24623) // ResizableWindow will manage window_content_ lifetime
       window_content_ =
           new MainContentComponent(command_set, profile, profile_manager, settings_manager);
       juce::ResizableWindow::setContentOwned(window_content_, true);
@@ -42,10 +42,8 @@ MainWindow::MainWindow(const juce::String& name, const CommandSet& command_set, 
       juce::Component::setVisible(true);
       window_content_->Init(
           std::move(lr_ipc_out), std::move(midi_receiver), std::move(midi_sender));
-      // get the auto time setting
       const auto hide_sec = settings_manager.GetAutoHideTime();
-      // start timing
-      if (hide_sec) // don't start timer if time is zero!
+      if (hide_sec) // don't start timer if time is zero
          juce::Timer::startTimer(1000 * hide_sec);
    }
 catch (const std::exception& e) {

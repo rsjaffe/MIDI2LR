@@ -93,17 +93,17 @@ void Profile::FromXml(const juce::XmlElement* root)
       while (setting) {
          if (setting->hasAttribute("controller")) {
             const rsj::MidiMessageId message{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("controller"), rsj::MessageType::Cc};
+                setting->getIntAttribute("controller"), rsj::MsgIdEnum::kCc};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), message);
          }
          else if (setting->hasAttribute("note")) {
             const rsj::MidiMessageId note{setting->getIntAttribute("channel"),
-                setting->getIntAttribute("note"), rsj::MessageType::NoteOn};
+                setting->getIntAttribute("note"), rsj::MsgIdEnum::kNote};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), note);
          }
          else if (setting->hasAttribute("pitchbend")) {
             const rsj::MidiMessageId pb{
-                setting->getIntAttribute("channel"), 0, rsj::MessageType::Pw};
+                setting->getIntAttribute("channel"), 0, rsj::MsgIdEnum::kPitchBend};
             AddRowMapped(setting->getStringAttribute("command_string").toStdString(), pb);
          }
          setting = setting->getNextElement();
@@ -230,19 +230,15 @@ void Profile::ToXmlFile(const juce::File& file)
             auto setting = std::make_unique<juce::XmlElement>("setting");
             setting->setAttribute("channel", map_entry.first.channel);
             switch (map_entry.first.msg_id_type) {
-            case rsj::MessageType::NoteOn:
-               setting->setAttribute("note", map_entry.first.control_number);
+            case rsj::MsgIdEnum::kNote:
+               setting->setAttribute("note", map_entry.first.data);
                break;
-            case rsj::MessageType::Cc:
-               setting->setAttribute("controller", map_entry.first.control_number);
+            case rsj::MsgIdEnum::kCc:
+               setting->setAttribute("controller", map_entry.first.data);
                break;
-            case rsj::MessageType::Pw:
+            case rsj::MsgIdEnum::kPitchBend:
                setting->setAttribute("pitchbend", 0);
                break;
-            default:
-               rsj::Log("Unexpected message type in ToXmlFile, type is "
-                        + juce::String(static_cast<short>(map_entry.first.msg_id_type)));
-               continue; // skip rest of for iteration this time
             }
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting.release());

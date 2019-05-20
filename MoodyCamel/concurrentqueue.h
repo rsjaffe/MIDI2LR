@@ -3703,6 +3703,7 @@ namespace moodycamel {
         : itemsConsumedFromCurrent(0), currentProducer(nullptr), desiredProducer(nullptr)
     {
         initialOffset = queue.nextExplicitConsumerId.fetch_add(1, std::memory_order_release);
+#pragma warning(suppress: 4245)
         lastKnownGlobalOffset = -1;
     }
 
@@ -3711,6 +3712,7 @@ namespace moodycamel {
         : itemsConsumedFromCurrent(0), currentProducer(nullptr), desiredProducer(nullptr)
     {
         initialOffset = reinterpret_cast<ConcurrentQueue<T, Traits>*>(&queue)->nextExplicitConsumerId.fetch_add(1, std::memory_order_release);
+#pragma warning(suppress: 4245)
         lastKnownGlobalOffset = -1;
     }
 

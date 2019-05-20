@@ -26,6 +26,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 namespace fs = std::filesystem;
 #endif
 #include <fstream>
+#include <memory>
 
 #include <cereal/archives/xml.hpp>
 // ReSharper disable CppUnusedIncludeDirective
@@ -66,8 +67,9 @@ CommandSet::Impl::Impl()
 #endif
       std::ifstream infile(p);
       if (infile.is_open()) {
-         cereal::XMLInputArchive iarchive(infile);
-         iarchive(*this);
+         // too large to construct on stack
+         const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
+         (*iarchive)(*this);
 #ifdef _WIN32
          rsj::Log("MenuTrans.xml archive loaded from " + juce::String(p.c_str()));
 #else

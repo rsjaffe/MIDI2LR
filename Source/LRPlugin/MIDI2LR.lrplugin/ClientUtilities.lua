@@ -262,6 +262,7 @@ local function showBezel(param, value1, value2)
     SplitToningShadowHue=0,
     SplitToningShadowSaturation=0,
     Temperature=0,
+    Texture=0,
     Tint=0,
     Vibrance=0,
     VignetteAmount=0,

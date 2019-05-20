@@ -21,14 +21,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIReceiver.h"
 
 #include <chrono>
-#include <limits>
-#include <map>
 
 #include "Misc.h"
 
 namespace {
-   constexpr rsj::MidiMessage kTerminate{
-       rsj::MessageType::Cc, std::numeric_limits<short>::max(), 0, 0}; // impossible channel
+   constexpr rsj::MidiMessage kTerminate{0, 129, 0, 0}; // impossible channel
 }
 
 #pragma warning(push)
@@ -73,19 +70,33 @@ void MidiReceiver::Start()
    }
 }
 
-// This procedure is in near-real-time, so must return quickly.
 void MidiReceiver::handleIncomingMidiMessage(
-    juce::MidiInput* device, const juce::MidiMessage& message)
+    juce::MidiInput* /*device*/, const juce::MidiMessage& message)
 {
    try {
-      // Map faster than unordered_map for small number of keys.
-      // SEE: https://playfulprogramming.blogspot.com/2017/08/performance-of-flat-maps.html
-      static std::map<juce::MidiInput*, rsj::MidiMessageFactory> factories;
+      // this procedure is in near-real-time, so must return quickly.
+      // will place message in multithreaded queue and let separate process handle the messages
       static const thread_local moodycamel::ProducerToken ptok(messages_);
-      auto& current_factory = factories[device]; // creates new factory if new device
-      auto mm = current_factory.ProcessMidi(message);
-      if (mm)
-         messages_.enqueue(ptok, *mm);
+      const rsj::MidiMessage mess{message};
+      switch (mess.message_type_byte) {
+      case rsj::kCcFlag:
+         if (nrpn_filter_.ProcessMidi(mess.channel, mess.number, mess.value)) { // true if nrpn
+                                                                                // piece
+            const auto nrpn = nrpn_filter_.GetNrpnIfReady(mess.channel);
+            if (nrpn.is_valid) { // send when finished
+               const auto n_message{
+                   rsj::MidiMessage{rsj::kCcFlag, mess.channel, nrpn.control, nrpn.value}};
+               messages_.enqueue(ptok, n_message);
+            }
+            break; // finished with nrpn piece
+         }
+         [[fallthrough]]; // if not nrpn, handle like other messages
+      case rsj::kNoteOnFlag:
+      case rsj::kPwFlag:
+         messages_.enqueue(ptok, mess);
+         break;
+      default:; // no action if other type of MIDI message
+      }
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -154,7 +165,7 @@ void MidiReceiver::DispatchMessages()
       do {
          rsj::MidiMessage message_copy;
          if (!messages_.try_dequeue(ctok, message_copy))
-            messages_.wait_dequeue(message_copy);
+            messages_.wait_dequeue(ctok, message_copy);
          if (message_copy == kTerminate)
             return;
          for (const auto& cb : callbacks_)

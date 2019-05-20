@@ -126,9 +126,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          static TimePoint nextresponse{};
          if (const auto now = Clock::now(); nextresponse < now) {
             nextresponse = now + std::chrono::milliseconds(kDelay);
-            if (mm.message_type_byte == rsj::MessageType::Pw
-                || (mm.message_type_byte == rsj::MessageType::Cc
-                       && controls_model_.GetCcMethod(mm.channel, mm.control_number)
+            if (mm.message_type_byte == rsj::kPwFlag
+                || (mm.message_type_byte == rsj::kCcFlag
+                       && controls_model_.GetCcMethod(mm.channel, mm.number)
                               == rsj::CCmethod::kAbsolute)) {
                recenter_.SetMidiMessage(mm);
             }
@@ -246,7 +246,7 @@ void LrIpcOut::SendOut()
          std::string command_copy;
          static thread_local moodycamel::ConsumerToken ctok(command_);
          if (!command_.try_dequeue(ctok, command_copy))
-            command_.wait_dequeue(command_copy);
+            command_.wait_dequeue(ctok, command_copy);
          if (command_copy == kTerminate)
             return;
          // check if there is a connection
@@ -328,12 +328,12 @@ void LrIpcOut::Recenter::timerCallback()
       const auto center = owner_.controls_model_.SetToCenter(local_mm);
       // send center to control//
       switch (local_mm.message_type_byte) {
-      case rsj::MessageType::Pw: {
+      case rsj::kPwFlag: {
          owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
          break;
       }
-      case rsj::MessageType::Cc: {
-         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.control_number, center);
+      case rsj::kCcFlag: {
+         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
          break;
       }
       default:

@@ -54,7 +54,6 @@ constexpr auto OSX{true};
 
 namespace rsj {
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
-   void Trim(std::string_view& value) noexcept;
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& error_text);
@@ -221,8 +220,8 @@ namespace rsj {
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
 #ifdef _WIN32 // charcvt not yet in XCode
-   template<class T>
-   [[nodiscard]] std::string NumToChars(T number) {
+   template<class T>[[nodiscard]] std::string NumToChars(T number)
+   {
       std::array<char, 10> str{};
       auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
       if (ec == std::errc())
@@ -230,8 +229,10 @@ namespace rsj {
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
 #else
-   template<class T>
-   [[nodiscard]] std::string NumToChars(T number) { return std::to_string(number); }
+   template<class T>[[nodiscard]] std::string NumToChars(T number)
+   {
+      return std::to_string(number);
+   }
 #endif
 } // namespace rsj
 

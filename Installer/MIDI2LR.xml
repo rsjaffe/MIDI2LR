@@ -1,7 +1,7 @@
 <project>
     <shortName>MIDI2LR</shortName>
     <fullName>MIDI2LR</fullName>
-    <version>3.1.0.1</version>
+    <version>3.1.0.4</version>
     <installerFilename>${product_shortname}-${product_version}-${debuglabel}${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../Source/LRPlugin/ReadMe.txt</readmeFile>
     <licenseFile>../LICENSE.txt</licenseFile>
@@ -19,7 +19,7 @@
             <show>1</show>
             <folderList>
                 <folder>
-                    <description>Program Files</description>
+                    <description>Program Files All</description>
                     <destination>${installdir}/MIDI2LR.lrplugin</destination>
                     <name>programfiles</name>
                     <platforms>all</platforms>
@@ -162,7 +162,7 @@
                     </distributionFileList>
                 </folder>
                 <folder>
-                    <description>Program Files</description>
+                    <description>Program Files Windows</description>
                     <destination>${installdir}/MIDI2LR.lrplugin</destination>
                     <name>programfileswindows</name>
                     <platforms>windows</platforms>
@@ -176,9 +176,28 @@
                     </distributionFileList>
                 </folder>
                 <folder>
-                    <description>Program Files</description>
+                    <description>Windows Debug Accessories</description>
                     <destination>${installdir}/MIDI2LR.lrplugin</destination>
-                    <name>programfilesosx</name>
+                    <name>windebug</name>
+                    <platforms>windows</platforms>
+                    <distributionFileList>
+                        <distributionFile>
+                            <origin>../Builds/VisualStudio2017/EnableUserDumps.reg</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../Builds/VisualStudio2017/EnableUserDumps.txt</origin>
+                        </distributionFile>
+                    </distributionFileList>
+                    <ruleList>
+                        <isTrue>
+                            <value>${debug}</value>
+                        </isTrue>
+                    </ruleList>
+                </folder>
+                <folder>
+                    <description>Program Files MacOS</description>
+                    <destination>${installdir}/MIDI2LR.lrplugin</destination>
+                    <name>programfilesMacOS</name>
                     <platforms>osx</platforms>
                     <distributionFileList>
                         <distributionDirectory>
@@ -190,7 +209,7 @@
                     </distributionFileList>
                 </folder>
                 <folder>
-                    <description>Program Settings</description>
+                    <description>Program Settings Windows</description>
                     <destination>${env(APPDATA)}/MIDI2LR/</destination>
                     <name>Settings</name>
                     <platforms>windows</platforms>
@@ -207,9 +226,9 @@
                     </ruleList>
                 </folder>
                 <folder>
-                    <description>Program Settings</description>
+                    <description>Program Settings MacOS</description>
                     <destination>${user_home_directory}/Library/Application Support/MIDI2LR/</destination>
-                    <name>settingsOSX</name>
+                    <name>settingsMacOS</name>
                     <platforms>osx</platforms>
                     <distributionFileList>
                         <distributionFile>
