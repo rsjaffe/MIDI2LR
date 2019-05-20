@@ -270,19 +270,19 @@ class TopLevelResizableLayout : public ResizableLayout {
    Constrainer m_constrainer;
 };
 
-constexpr juce::Point<int> anchorNone{-1, -1};
-constexpr juce::Point<int> anchorTopLeft{0, 0};
-constexpr juce::Point<int> anchorTopCenter{ResizableLayout::anchorUnit / 2, 0};
-constexpr juce::Point<int> anchorTopRight{ResizableLayout::anchorUnit, 0};
-constexpr juce::Point<int> anchorMidLeft{0, ResizableLayout::anchorUnit / 2};
-constexpr juce::Point<int> anchorMidCenter{
+static constexpr juce::Point<int> anchorNone{-1, -1};
+static constexpr juce::Point<int> anchorTopLeft{0, 0};
+static constexpr juce::Point<int> anchorTopCenter{ResizableLayout::anchorUnit / 2, 0};
+static constexpr juce::Point<int> anchorTopRight{ResizableLayout::anchorUnit, 0};
+static constexpr juce::Point<int> anchorMidLeft{0, ResizableLayout::anchorUnit / 2};
+static constexpr juce::Point<int> anchorMidCenter{
     ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit / 2};
-constexpr juce::Point<int> anchorMidRight{
+static constexpr juce::Point<int> anchorMidRight{
     ResizableLayout::anchorUnit, ResizableLayout::anchorUnit / 2};
-constexpr juce::Point<int> anchorBottomLeft{0, ResizableLayout::anchorUnit};
-constexpr juce::Point<int> anchorBottomCenter{
+static constexpr juce::Point<int> anchorBottomLeft{0, ResizableLayout::anchorUnit};
+static constexpr juce::Point<int> anchorBottomCenter{
     ResizableLayout::anchorUnit / 2, ResizableLayout::anchorUnit};
-constexpr juce::Point<int> anchorBottomRight{
+static constexpr juce::Point<int> anchorBottomRight{
     ResizableLayout::anchorUnit, ResizableLayout::anchorUnit};
 
 #endif

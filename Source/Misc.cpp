@@ -53,13 +53,6 @@ std::string rsj::ToLower(std::string_view in)
    }
 }
 
-void rsj::Trim(std::string_view& value) noexcept
-{
-   value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
-   if (const auto tr = value.find_last_not_of(" \t\n"); tr != std::string_view::npos)
-      value.remove_suffix(value.size() - tr - 1);
-}
-
 // note: C++20 will have ends_with
 bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 {
@@ -80,8 +73,8 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 #include <cxxabi.h>
 #include <memory>
 #include <type_traits>
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
-{
+template<typename T>
+[[nodiscard]] T Demangle(const char* mangled_name) {
    static_assert(std::is_pointer<T>() == false, "Result must be copied as __cxa_demagle returns "
                                                 "pointer to temporary. Cannot use pointer type for "
                                                 "this template.");
@@ -230,30 +223,3 @@ std::string rsj::AppLogFilePath(const std::string& file_name)
 }
 
 #endif
-
-namespace {
-   constexpr std::array<char, 16> hex_map{
-       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-}
-
-#pragma warning(push)
-#pragma warning(disable: 26446 26482) //subscript math guaranteed to be 0-15
-std::string rsj::CharToHex(unsigned char data)
-{
-   std::string s("0x");
-   s.push_back(hex_map[(data & 0xF0) >> 4]);
-   s.push_back(hex_map[data & 0x0F]);
-   return s;
-}
-
-std::string rsj::CharToHex(std::string_view data)
-{
-   std::string s("0x");
-   s.reserve(data.length() * 2 + 2);
-   for (auto a : data) {
-      s.push_back(hex_map[(a & 0xF0) >> 4]);
-      s.push_back(hex_map[a & 0x0F]);
-   }
-   return s;
-}
-#pragma warning(pop)

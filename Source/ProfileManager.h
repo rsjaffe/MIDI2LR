@@ -40,7 +40,7 @@ namespace rsj {
 class ProfileManager final : juce::AsyncUpdater {
  public:
    ProfileManager(ControlsModel& c_model, Profile& profile, std::weak_ptr<LrIpcOut>&& out,
-       MidiReceiver& midi_receiver);
+       MidiReceiver& midi_receiver) noexcept;
    ~ProfileManager() = default;
    ProfileManager(const ProfileManager& other) = delete;
    ProfileManager(ProfileManager&& other) = delete;
@@ -59,7 +59,7 @@ class ProfileManager final : juce::AsyncUpdater {
          throw;
       }
    }
-   [[nodiscard]] const juce::String& GetProfileDirectory() const noexcept
+   const juce::String& GetProfileDirectory() const noexcept
    {
       return profile_location_.getFullPathName();
    }

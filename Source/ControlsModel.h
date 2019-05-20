@@ -37,13 +37,13 @@ namespace rsj {
    enum struct CCmethod : char { kAbsolute, kTwosComplement, kBinaryOffset, kSignMagnitude };
 
    struct SettingsStruct {
-      short control_number; // not using size_t so serialized data won't vary if size_t varies
+      short number; // not using size_t so serialized data won't vary if size_t varies
       short low;
       short high;
       rsj::CCmethod method;
       SettingsStruct(short n = 0, short l = 0, short h = 0x7F,
           rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
-          : control_number{n}, low{l}, high{h}, method{m}
+          : number{n}, low{l}, high{h}, method{m}
       {
       }
 
@@ -54,7 +54,7 @@ namespace rsj {
       {
          switch (version) {
          case 1:
-            archive(control_number, high, low, method);
+            archive(number, high, low, method);
             break;
          default:
             rsj::LogAndAlertError("Wrong archive version for SettingsStruct. Version is "
@@ -86,7 +86,7 @@ namespace rsj {
                default:
                   break; // leave "undefined"
                }
-               archive(cereal::make_nvp("CC", control_number), CEREAL_NVP(high), CEREAL_NVP(low),
+               archive(cereal::make_nvp("CC", number), CEREAL_NVP(high), CEREAL_NVP(low),
                    cereal::make_nvp("method", methodstr));
                switch (methodstr.front()) {
                case 'B':
@@ -137,11 +137,10 @@ class ChannelModel {
    ChannelModel& operator=(const ChannelModel&) = delete;
    ChannelModel(ChannelModel&&) = delete; // can't move atomics
    ChannelModel& operator=(ChannelModel&&) = delete;
-   double ControllerToPlugin(rsj::MessageType controltype, size_t controlnumber, short value);
-   short MeasureChange(rsj::MessageType controltype, size_t controlnumber, short value);
-   short SetToCenter(rsj::MessageType controltype, size_t controlnumber);
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const
-   {
+   double ControllerToPlugin(short controltype, size_t controlnumber, short value);
+   short MeasureChange(short controltype, size_t controlnumber, short value);
+   short SetToCenter(short controltype, size_t controlnumber);
+   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t controlnumber) const {
       try {
          return cc_method_.at(controlnumber);
       }
@@ -149,8 +148,7 @@ class ChannelModel {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
          throw;
       }
-   }
-   [[nodiscard]] short GetCcMax(size_t controlnumber) const
+   }[[nodiscard]] short GetCcMax(size_t controlnumber) const
    {
       try {
          return cc_high_.at(controlnumber);
@@ -160,8 +158,7 @@ class ChannelModel {
          throw;
       }
    }
-   [[nodiscard]] short GetCcMin(size_t controlnumber) const
-   {
+   [[nodiscard]] short GetCcMin(size_t controlnumber) const {
       try {
          return cc_low_.at(controlnumber);
       }
@@ -169,8 +166,7 @@ class ChannelModel {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
          throw;
       }
-   }
-   [[nodiscard]] short GetPwMax() const noexcept
+   }[[nodiscard]] short GetPwMax() const noexcept
    {
       return pitch_wheel_max_;
    }
@@ -178,7 +174,7 @@ class ChannelModel {
    {
       return pitch_wheel_min_;
    }
-   short PluginToController(rsj::MessageType controltype, size_t controlnumber, double value);
+   short PluginToController(short controltype, size_t controlnumber, double value);
    void SetCc(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
    void SetCcAll(size_t controlnumber, short min, short max, rsj::CCmethod controltype);
    void SetCcMax(size_t controlnumber, short value);
@@ -244,7 +240,7 @@ class ControlsModel {
    {
       try {
          return all_controls_.at(mm.channel)
-             .ControllerToPlugin(mm.message_type_byte, mm.control_number, mm.value);
+             .ControllerToPlugin(mm.message_type_byte, mm.number, mm.value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -256,7 +252,7 @@ class ControlsModel {
    {
       try {
          return all_controls_.at(mm.channel)
-             .MeasureChange(mm.message_type_byte, mm.control_number, mm.value);
+             .MeasureChange(mm.message_type_byte, mm.number, mm.value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -266,7 +262,7 @@ class ControlsModel {
    short SetToCenter(const rsj::MidiMessage& mm)
    {
       try {
-         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.control_number);
+         return all_controls_.at(mm.channel).SetToCenter(mm.message_type_byte, mm.number);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -274,8 +270,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const
-   {
+   [[nodiscard]] rsj::CCmethod GetCcMethod(size_t channel, short controlnumber) const {
       try {
          return all_controls_.at(channel).GetCcMethod(controlnumber);
       }
@@ -285,7 +280,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
+       [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
    {
       try {
          return all_controls_.at(channel).GetCcMax(controlnumber);
@@ -307,8 +302,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] short GetPwMax(size_t channel) const
-   {
+   [[nodiscard]] short GetPwMax(size_t channel) const {
       try {
          return all_controls_.at(channel).GetPwMax();
       }
@@ -318,7 +312,7 @@ class ControlsModel {
       }
    }
 
-   [[nodiscard]] short GetPwMin(size_t channel) const
+       [[nodiscard]] short GetPwMin(size_t channel) const
    {
       try {
          return all_controls_.at(channel).GetPwMin();
@@ -329,8 +323,7 @@ class ControlsModel {
       }
    }
 
-   short PluginToController(
-       rsj::MessageType controltype, size_t channel, short controlnumber, double value)
+   short PluginToController(short controltype, size_t channel, short controlnumber, double value)
    {
       try {
          return all_controls_.at(channel).PluginToController(controltype, controlnumber, value);
@@ -341,8 +334,7 @@ class ControlsModel {
       }
    }
 
-   short MeasureChange(
-       rsj::MessageType controltype, size_t channel, short controlnumber, short value)
+   short MeasureChange(short controltype, size_t channel, short controlnumber, short value)
    {
       try {
          return all_controls_.at(channel).MeasureChange(controltype, controlnumber, value);
@@ -495,7 +487,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
    }
 }
 #pragma warning(push)
-#pragma warning(disable : 26426 26440 26444)
+#pragma warning(disable : 26440 26444)
 CEREAL_CLASS_VERSION(ChannelModel, 3)
 CEREAL_CLASS_VERSION(ControlsModel, 1)
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)

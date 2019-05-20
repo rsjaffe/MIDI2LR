@@ -52,7 +52,7 @@ namespace {
 } // namespace
 
 LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
-    std::shared_ptr<MidiSender> midi_sender, MidiReceiver& midi_receiver)
+    std::shared_ptr<MidiSender> midi_sender, MidiReceiver& midi_receiver) noexcept
     : profile_{profile}, controls_model_{c_model}, midi_sender_{std::move(midi_sender)}
 {
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
@@ -126,9 +126,9 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          static TimePoint nextresponse{};
          if (const auto now = Clock::now(); nextresponse < now) {
             nextresponse = now + std::chrono::milliseconds(kDelay);
-            if (mm.message_type_byte == rsj::MessageType::kPw
-                || (mm.message_type_byte == rsj::MessageType::kCc
-                       && controls_model_.GetCcMethod(mm.channel, mm.control_number)
+            if (mm.message_type_byte == rsj::kPwFlag
+                || (mm.message_type_byte == rsj::kCcFlag
+                       && controls_model_.GetCcMethod(mm.channel, mm.number)
                               == rsj::CCmethod::kAbsolute)) {
                recenter_.SetMidiMessage(mm);
             }
@@ -267,7 +267,7 @@ void LrIpcOut::SendOut()
 void LrIpcOut::ConnectTimer::Start()
 {
    try {
-      auto lock = std::scoped_lock(connect_mutex_);
+      auto lock = std::lock_guard(connect_mutex_);
       juce::Timer::startTimer(kConnectTimer);
       timer_off_ = false;
    }
@@ -280,7 +280,7 @@ void LrIpcOut::ConnectTimer::Start()
 void LrIpcOut::ConnectTimer::Stop()
 {
    try {
-      auto lock = std::scoped_lock(connect_mutex_);
+      auto lock = std::lock_guard(connect_mutex_);
       juce::Timer::stopTimer();
       timer_off_ = true;
    }
@@ -293,7 +293,7 @@ void LrIpcOut::ConnectTimer::Stop()
 void LrIpcOut::ConnectTimer::timerCallback()
 {
    try {
-      auto lock = std::scoped_lock(connect_mutex_);
+      auto lock = std::lock_guard(connect_mutex_);
       if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
          owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
    }
@@ -306,7 +306,7 @@ void LrIpcOut::ConnectTimer::timerCallback()
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
    try {
-      auto lock = std::scoped_lock(mtx_);
+      auto lock = std::lock_guard(mtx_);
       mm_ = mm;
       juce::Timer::startTimer(kRecenterTimer);
    }
@@ -321,19 +321,19 @@ void LrIpcOut::Recenter::timerCallback()
    try {
       rsj::MidiMessage local_mm{};
       {
-         auto lock = std::scoped_lock(mtx_);
+         auto lock = std::lock_guard(mtx_);
          juce::Timer::stopTimer();
          local_mm = mm_;
       }
       const auto center = owner_.controls_model_.SetToCenter(local_mm);
       // send center to control//
       switch (local_mm.message_type_byte) {
-      case rsj::MessageType::kPw: {
+      case rsj::kPwFlag: {
          owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
          break;
       }
-      case rsj::MessageType::kCc: {
-         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.control_number, center);
+      case rsj::kCcFlag: {
+         owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
          break;
       }
       default:

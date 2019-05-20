@@ -215,30 +215,30 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       // Display the CC parameters and add/highlight row in table corresponding to the CC
-      auto mt{rsj::MessageType::kCc};
+      auto mt{rsj::MsgIdEnum::kCc};
       juce::String command_type{"CC"};
       switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
-      case rsj::MessageType::kCc:     // this is default for mt and commandtype
+      case rsj::kCcFlag:              // this is default for mt and commandtype
          break;
-      case rsj::MessageType::kNoteOn:
-         mt = rsj::MessageType::kNoteOn;
+      case rsj::kNoteOnFlag:
+         mt = rsj::MsgIdEnum::kNote;
          command_type = "NOTE ON";
          break;
-      case rsj::MessageType::kNoteOff:
-         mt = rsj::MessageType::kNoteOff;
+      case rsj::kNoteOffFlag:
+         mt = rsj::MsgIdEnum::kNote;
          command_type = "NOTE OFF";
          break;
-      case rsj::MessageType::kPw:
-         mt = rsj::MessageType::kPw;
+      case rsj::kPwFlag:
+         mt = rsj::MsgIdEnum::kPitchBend;
          command_type = "PITCHBEND";
          break;
       default: // shouldn't receive any messages note categorized above
          Ensures(0);
       }
       mm.channel++; // used to 1-based channel numbers
-      last_command_ = juce::String(mm.channel) + ": " + command_type
-                      + juce::String(mm.control_number) + " [" + juce::String(mm.value) + "]";
-      const rsj::MidiMessageId msg{mm.channel, mm.control_number, mt};
+      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.number)
+                      + " [" + juce::String(mm.value) + "]";
+      const rsj::MidiMessageId msg{mm.channel, mm.number, mt};
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();

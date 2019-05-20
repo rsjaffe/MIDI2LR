@@ -35,7 +35,7 @@ class DebugInfo {
    DebugInfo(DebugInfo&& other) = default;
    DebugInfo& operator=(const DebugInfo& other) = default;
    DebugInfo& operator=(DebugInfo&& other) = default;
-   [[nodiscard]] const std::vector<std::string>& GetInfo() const noexcept
+   const std::vector<std::string>& GetInfo() const noexcept
    {
       return info_;
    }
@@ -56,7 +56,7 @@ class DebugInfo {
 };
 
 namespace rsj {
-   [[nodiscard]] std::string GetKeyboardLayout();
+   std::string GetKeyboardLayout();
 }
 
 #endif

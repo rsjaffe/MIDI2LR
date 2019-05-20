@@ -29,7 +29,7 @@ bool NrpnMessage::ProcessMidi(short control, short value)
       auto ret_val = true;
       switch (control) {
       case 6: {
-         auto dlock = std::scoped_lock(data_guard_);
+         auto dlock = std::lock_guard(data_guard_);
          if (ready_ >= 0b11) {
             SetValueMsb(value);
             if (IsReady()) {
@@ -42,7 +42,7 @@ bool NrpnMessage::ProcessMidi(short control, short value)
          break;
       }
       case 38u: {
-         auto dlock = std::scoped_lock(data_guard_);
+         auto dlock = std::lock_guard(data_guard_);
          if (ready_ >= 0b11) {
             SetValueLsb(value);
             if (IsReady()) {
@@ -55,11 +55,11 @@ bool NrpnMessage::ProcessMidi(short control, short value)
          break;
       }
       case 98u: {
-         auto dlock = std::scoped_lock(data_guard_);
+         auto dlock = std::lock_guard(data_guard_);
          SetControlLsb(value);
       } break;
       case 99u: {
-         auto dlock = std::scoped_lock(data_guard_);
+         auto dlock = std::lock_guard(data_guard_);
          SetControlMsb(value);
       } break;
       default: // not an expected nrpn control #, handle as typical midi message
