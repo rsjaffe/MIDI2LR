@@ -377,8 +377,6 @@ void MainContentComponent::buttonClicked(juce::Button* button)
          component->Init();
          dialog_options.content.setOwned(component.release());
          dialog_options.content->setSize(400, 300);
-         dialog_options.escapeKeyTriggersCloseButton = true;
-         dialog_options.useNativeTitleBar = false;
          settings_dialog_.reset(dialog_options.create());
          settings_dialog_->setVisible(true);
       }

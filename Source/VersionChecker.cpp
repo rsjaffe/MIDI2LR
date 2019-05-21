@@ -79,11 +79,9 @@ void VersionChecker::handleAsyncUpdate()
                      << '.' << minor << '.' << rev << '.' << build;
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
       auto button = std::make_unique<juce::HyperlinkButton>(version_string.str(), download_url);
+      button->setFont(juce::Font{18.f}, false);
       dialog_options.content.setOwned(button.release());
       dialog_options.content->setSize(600, 100);
-      if (auto ptr = dynamic_cast<juce::HyperlinkButton*>(dialog_options.content.get()))
-         ptr->setFont(juce::Font{18.f}, false);
-      dialog_options.escapeKeyTriggersCloseButton = true;
       dialog_.reset(dialog_options.create());
       dialog_->setVisible(true);
    }
