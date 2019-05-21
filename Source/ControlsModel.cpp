@@ -32,7 +32,7 @@ double ChannelModel::OffsetResult(short diff, size_t controlnumber)
       Expects(cc_high_.at(controlnumber) > 0); // CCLow will always be 0 for offset controls
       Expects(diff <= kMaxNrpn && diff >= -kMaxNrpn);
       Expects(controlnumber <= kMaxNrpn);
-      auto lock = std::lock_guard(current_v_mtx_);
+      auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.at(controlnumber) += diff;
       if (current_v_.at(controlnumber) < 0) { // fix currentV
          current_v_.at(controlnumber) = 0;
@@ -74,7 +74,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
       case rsj::kCcFlag:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute: {
-            auto lock = std::lock_guard(current_v_mtx_);
+            auto lock = std::scoped_lock(current_v_mtx_);
             current_v_.at(controlnumber) = value;
          }
             // TODO(C26451): short mixed with double: can it overflow?
@@ -130,7 +130,7 @@ short ChannelModel::SetToCenter(short controltype, size_t controlnumber)
          break;
       case rsj::kCcFlag:
          if (cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute) {
-            auto lock = std::lock_guard(current_v_mtx_);
+            auto lock = std::scoped_lock(current_v_mtx_);
             retval = CenterCc(controlnumber);
             current_v_.at(controlnumber) = retval;
          }
@@ -165,7 +165,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
       case rsj::kCcFlag:
          switch (cc_method_.at(controlnumber)) {
          case rsj::CCmethod::kAbsolute: {
-            auto lock = std::lock_guard(current_v_mtx_);
+            auto lock = std::scoped_lock(current_v_mtx_);
             const short diff = value - current_v_.at(controlnumber);
             current_v_.at(controlnumber) = value;
             return diff;
@@ -229,7 +229,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
                  + cc_low_.at(controlnumber)),
              cc_low_.at(controlnumber), cc_high_.at(controlnumber));
          {
-            auto lock = std::lock_guard(current_v_mtx_);
+            auto lock = std::scoped_lock(current_v_mtx_);
             current_v_.at(controlnumber) = newv;
          }
          return newv;
@@ -292,7 +292,7 @@ void ChannelModel::SetCcMax(size_t controlnumber, short value)
              value <= cc_low_.at(controlnumber) || value > max ? max : value;
       }
       // lock may not be needed. this function called in non-multithreaded manner
-      auto lock = std::lock_guard(current_v_mtx_);
+      auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
    catch (const std::exception& e) {
@@ -310,7 +310,7 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value)
       else
          cc_low_.at(controlnumber) = value < 0 || value >= cc_high_.at(controlnumber) ? 0 : value;
       // lock may not be needed. this function called in non-multithreaded manner
-      auto lock = std::lock_guard(current_v_mtx_);
+      auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.at(controlnumber) = CenterCc(controlnumber);
    }
    catch (const std::exception& e) {
@@ -358,7 +358,7 @@ void ChannelModel::CcDefaults()
       cc_high_.fill(0x3FFF); // XCode throws linker error when use ChannelModel::kMaxNRPN here
       cc_method_.fill(rsj::CCmethod::kAbsolute);
       // lock may not be needed. this function called in non-multithreaded manner
-      auto lock = std::lock_guard(current_v_mtx_);
+      auto lock = std::scoped_lock(current_v_mtx_);
       current_v_.fill(short{8191});
       for (size_t a = 0; a <= kMaxMidi; ++a) {
          cc_high_.at(a) = kMaxMidi;

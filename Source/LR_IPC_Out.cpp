@@ -267,7 +267,7 @@ void LrIpcOut::SendOut()
 void LrIpcOut::ConnectTimer::Start()
 {
    try {
-      auto lock = std::lock_guard(connect_mutex_);
+      auto lock = std::scoped_lock(connect_mutex_);
       juce::Timer::startTimer(kConnectTimer);
       timer_off_ = false;
    }
@@ -280,7 +280,7 @@ void LrIpcOut::ConnectTimer::Start()
 void LrIpcOut::ConnectTimer::Stop()
 {
    try {
-      auto lock = std::lock_guard(connect_mutex_);
+      auto lock = std::scoped_lock(connect_mutex_);
       juce::Timer::stopTimer();
       timer_off_ = true;
    }
@@ -293,7 +293,7 @@ void LrIpcOut::ConnectTimer::Stop()
 void LrIpcOut::ConnectTimer::timerCallback()
 {
    try {
-      auto lock = std::lock_guard(connect_mutex_);
+      auto lock = std::scoped_lock(connect_mutex_);
       if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
          owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
    }
@@ -306,7 +306,7 @@ void LrIpcOut::ConnectTimer::timerCallback()
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
    try {
-      auto lock = std::lock_guard(mtx_);
+      auto lock = std::scoped_lock(mtx_);
       mm_ = mm;
       juce::Timer::startTimer(kRecenterTimer);
    }
@@ -321,7 +321,7 @@ void LrIpcOut::Recenter::timerCallback()
    try {
       rsj::MidiMessage local_mm{};
       {
-         auto lock = std::lock_guard(mtx_);
+         auto lock = std::scoped_lock(mtx_);
          juce::Timer::stopTimer();
          local_mm = mm_;
       }

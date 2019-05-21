@@ -60,7 +60,7 @@ LrIpcIn::~LrIpcIn()
 {
    try {
       {
-         auto lock = std::lock_guard(timer_mutex_);
+         auto lock = std::scoped_lock(timer_mutex_);
          timer_off_ = true;
          juce::Timer::stopTimer();
       }
@@ -111,7 +111,7 @@ void LrIpcIn::run()
 {
    try {
       auto _ = gsl::finally([this] {
-         auto lock = std::lock_guard(timer_mutex_);
+         auto lock = std::scoped_lock(timer_mutex_);
          timer_off_ = true;
          juce::Timer::stopTimer();
       });
@@ -181,7 +181,7 @@ void LrIpcIn::run()
 void LrIpcIn::timerCallback()
 {
    try {
-      auto lock = std::lock_guard(timer_mutex_);
+      auto lock = std::scoped_lock(timer_mutex_);
       if (!timer_off_ && !socket_.isConnected() && !juce::Thread::threadShouldExit()) {
          if (socket_.connect(kHost, kLrInPort, kConnectTryTime))
             if (!thread_started_) {
