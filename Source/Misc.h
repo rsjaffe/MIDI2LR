@@ -22,9 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <array>
 #include <atomic>
-#ifdef _WIN32 // not yet available in XCode
 #include <charconv>
-#endif
 #include <chrono>
 #include <exception>
 #include <string>
@@ -219,7 +217,7 @@ namespace rsj {
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
-#ifdef _WIN32 // charcvt not yet in XCode
+
    template<class T>[[nodiscard]] std::string NumToChars(T number)
    {
       std::array<char, 10> str{};
@@ -228,12 +226,6 @@ namespace rsj {
          return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
-#else
-   template<class T>[[nodiscard]] std::string NumToChars(T number)
-   {
-      return std::to_string(number);
-   }
-#endif
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED
