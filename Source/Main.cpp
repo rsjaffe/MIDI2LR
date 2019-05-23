@@ -242,7 +242,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
+         const fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto p = rsj::AppDataFilePath(kSettingsFileX);
 #endif

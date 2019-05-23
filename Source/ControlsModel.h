@@ -41,6 +41,7 @@ namespace rsj {
       short low;
       short high;
       rsj::CCmethod method;
+      // ReSharper disable once CppNonExplicitConvertingConstructor
       SettingsStruct(short n = 0, short l = 0, short h = 0x7F,
           rsj::CCmethod m = rsj::CCmethod::kAbsolute) noexcept
           : number{n}, low{l}, high{h}, method{m}
@@ -209,6 +210,7 @@ class ChannelModel {
              + (pitch_wheel_max_ - pitch_wheel_min_) % 2;
    }
    friend class cereal::access;
+   // ReSharper disable once CppMemberFunctionMayBeStatic
    [[nodiscard]] bool IsNRPN_(size_t controlnumber) const noexcept(kNdebug)
    {
       Expects(controlnumber <= kMaxNrpn);
@@ -224,8 +226,10 @@ class ChannelModel {
    std::array<short, kMaxControls> cc_high_{};
    std::array<short, kMaxControls> cc_low_{};
    std::array<short, kMaxControls> current_v_{};
+   // ReSharper disable CppConstParameterInDeclaration
    template<class Archive> void load(Archive& archive, uint32_t const version);
    template<class Archive> void save(Archive& archive, uint32_t const version) const;
+   // ReSharper restore CppConstParameterInDeclaration
    void ActiveToSaved() const;
    void CcDefaults();
    void SavedToActive();

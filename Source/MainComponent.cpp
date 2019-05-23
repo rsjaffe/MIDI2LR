@@ -182,7 +182,7 @@ void MainContentComponent::Init(std::weak_ptr<LrIpcOut>&& lr_ipc_out,
          const auto filename = rsj::AppDataFilePath(kDefaultsFile);
          const auto default_profile = juce::File(filename.data());
          if (const auto parsed{juce::XmlDocument::parse(default_profile)}) {
-            std::unique_ptr<juce::XmlElement> xml_element{parsed};
+            const std::unique_ptr<juce::XmlElement> xml_element{parsed};
             profile_.FromXml(xml_element.get());
             command_table_.updateContent();
          }

@@ -34,14 +34,14 @@ class SettingsManager final {
    SettingsManager(SettingsManager&& other) = delete;
    SettingsManager& operator=(const SettingsManager& other) = delete;
    SettingsManager& operator=(SettingsManager&& other) = delete;
-   [[nodiscard]] bool GetPickupEnabled() const noexcept;
-   void SetPickupEnabled(bool enabled);
-   [[nodiscard]] juce::String GetProfileDirectory() const noexcept;
-   void SetProfileDirectory(const juce::String& profile_directory);
    [[nodiscard]] int GetAutoHideTime() const noexcept;
-   void SetAutoHideTime(int new_time);
    [[nodiscard]] int GetLastVersionFound() const noexcept;
+   [[nodiscard]] bool GetPickupEnabled() const noexcept;
+   [[nodiscard]] juce::String GetProfileDirectory() const noexcept;
+   void SetAutoHideTime(int new_time);
    void SetLastVersionFound(int version_number);
+   void SetPickupEnabled(bool enabled);
+   void SetProfileDirectory(const juce::String& profile_directory);
 
  private:
    ProfileManager& profile_manager_;

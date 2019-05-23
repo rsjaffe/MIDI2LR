@@ -47,9 +47,9 @@ void MidiSender::SendCc(int midi_channel, int controller, int value) const
       }
       else { // NRPN
          const auto parameter_lsb = controller & 0x7f;
-         const auto parameter_msb = (controller >> 7) & 0x7F;
+         const auto parameter_msb = controller >> 7 & 0x7F;
          const auto value_lsb = value & 0x7f;
-         const auto value_msb = (value >> 7) & 0x7F;
+         const auto value_msb = value >> 7 & 0x7F;
          for (const auto& dev : output_devices_) {
             dev->sendMessageNow(
                 juce::MidiMessage::controllerEvent(midi_channel, 99, parameter_msb));

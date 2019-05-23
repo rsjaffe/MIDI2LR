@@ -61,7 +61,7 @@ CommandSet::Impl::Impl()
 {
    try {
 #ifdef _WIN32
-      fs::path p{rsj::AppDataFilePath(L"MenuTrans.xml")};
+      const fs::path p{rsj::AppDataFilePath(L"MenuTrans.xml")};
 #else
       const auto p = rsj::AppDataFilePath("MenuTrans.xml");
 #endif

@@ -57,12 +57,12 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
 {
    try {
       Expects(
-          (controltype == rsj::kCcFlag && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute)
-              ? (cc_low_.at(controlnumber) < cc_high_.at(controlnumber))
+          controltype == rsj::kCcFlag && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
+              ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
               : 1);
-      Expects((controltype == rsj::kPwFlag) ? (pitch_wheel_max_ > pitch_wheel_min_) : 1);
-      Expects((controltype == rsj::kPwFlag) ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
-                                            : 1);
+      Expects(controltype == rsj::kPwFlag ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
+      Expects(
+          controltype == rsj::kPwFlag ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_ : 1);
       // note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
       // bits, high bits are shifted one right when placed into short.
       switch (controltype) {
@@ -150,12 +150,12 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
 {
    try {
       Expects(
-          (controltype == rsj::kCcFlag && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute)
-              ? (cc_low_.at(controlnumber) < cc_high_.at(controlnumber))
+          controltype == rsj::kCcFlag && cc_method_.at(controlnumber) == rsj::CCmethod::kAbsolute
+              ? cc_low_.at(controlnumber) < cc_high_.at(controlnumber)
               : 1);
-      Expects((controltype == rsj::kPwFlag) ? (pitch_wheel_max_ > pitch_wheel_min_) : 1);
-      Expects((controltype == rsj::kPwFlag) ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_
-                                            : 1);
+      Expects(controltype == rsj::kPwFlag ? pitch_wheel_max_ > pitch_wheel_min_ : 1);
+      Expects(
+          controltype == rsj::kPwFlag ? value >= pitch_wheel_min_ && value <= pitch_wheel_max_ : 1);
       // note that the value is not msb,lsb, but rather the calculated value. Since lsb is only 7
       // bits, high bits are shifted one right when placed into short.
       switch (controltype) {
@@ -321,13 +321,13 @@ void ChannelModel::SetCcMin(size_t controlnumber, short value)
 
 void ChannelModel::SetPwMax(short value) noexcept
 {
-   pitch_wheel_max_ = (value > kMaxNrpn || value <= pitch_wheel_min_) ? kMaxNrpn : value;
+   pitch_wheel_max_ = value > kMaxNrpn || value <= pitch_wheel_min_ ? kMaxNrpn : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 
 void ChannelModel::SetPwMin(short value) noexcept
 {
-   pitch_wheel_min_ = (value < 0 || value >= pitch_wheel_max_) ? 0 : value;
+   pitch_wheel_min_ = value < 0 || value >= pitch_wheel_max_ ? 0 : value;
    pitch_wheel_current_.store(CenterPw(), std::memory_order_relaxed);
 }
 

@@ -57,50 +57,37 @@ SettingsManager::SettingsManager(
    }
 }
 
+int SettingsManager::GetAutoHideTime() const noexcept
+{
+   return properties_file_->getIntValue(kAutoHideSection, 0);
+}
+
+int SettingsManager::GetLastVersionFound() const noexcept
+{
+   return properties_file_->getIntValue("LastVersionFound", 0);
+}
+
 bool SettingsManager::GetPickupEnabled() const noexcept
 {
    return properties_file_->getBoolValue("pickup_enabled", true);
 }
 
-void SettingsManager::SetPickupEnabled(bool enabled)
-{
-   try {
-      properties_file_->setValue("pickup_enabled", enabled);
-      properties_file_->saveIfNeeded();
-      if (const auto ptr = lr_ipc_out_.lock())
-         ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
-      throw;
-   }
-}
 juce::String SettingsManager::GetProfileDirectory() const noexcept
 {
    return properties_file_->getValue("profile_directory");
 }
 
-void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
-{
-   try {
-      properties_file_->setValue("profile_directory", profile_directory);
-      if (!properties_file_->saveIfNeeded())
-         rsj::Log("SettingsManager::SetProfileDirectory saveIfNeeded failed. Directory "
-                  + profile_directory);
-      profile_manager_.SetProfileDirectory(profile_directory);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
-      throw;
-   }
-}
+// ReSharper disable CppMemberFunctionMayBeConst
 
+/*Const means method won't change object's client-visible state. These methods do, by changing the
+ * underlying file. ConnectionCallback is not const as it needs to be compatible with the callback
+ * type.*/
 void SettingsManager::ConnectionCallback(bool connected, bool blocked)
 {
    try {
       if (connected && !blocked)
          if (const auto ptr = lr_ipc_out_.lock()) {
-            DebugInfo db{GetProfileDirectory()};
+            const DebugInfo db{GetProfileDirectory()};
             ptr->SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
             rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
             // rest of info about app is logged by DebugInfo
@@ -117,11 +104,6 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
    }
 }
 
-int SettingsManager::GetAutoHideTime() const noexcept
-{
-   return properties_file_->getIntValue(kAutoHideSection, 0);
-}
-
 void SettingsManager::SetAutoHideTime(int new_time)
 {
    try {
@@ -132,11 +114,6 @@ void SettingsManager::SetAutoHideTime(int new_time)
       rsj::ExceptionResponse(__func__, __func__, e);
       throw;
    }
-}
-
-int SettingsManager::GetLastVersionFound() const noexcept
-{
-   return properties_file_->getIntValue("LastVersionFound", 0);
 }
 
 void SettingsManager::SetLastVersionFound(int version_number)
@@ -152,3 +129,33 @@ void SettingsManager::SetLastVersionFound(int version_number)
       throw;
    }
 }
+
+void SettingsManager::SetPickupEnabled(bool enabled)
+{
+   try {
+      properties_file_->setValue("pickup_enabled", enabled);
+      properties_file_->saveIfNeeded();
+      if (const auto ptr = lr_ipc_out_.lock())
+         ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
+
+void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
+{
+   try {
+      properties_file_->setValue("profile_directory", profile_directory);
+      if (!properties_file_->saveIfNeeded())
+         rsj::Log("SettingsManager::SetProfileDirectory saveIfNeeded failed. Directory "
+                  + profile_directory);
+      profile_manager_.SetProfileDirectory(profile_directory);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
+// ReSharper restore CppMemberFunctionMayBeConst
