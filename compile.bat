@@ -14,8 +14,8 @@ ECHO
 )
 
 IF DEFINED VSINSTALLDIR (
-msbuild Builds\VisualStudio2017\MIDI2LR_App.vcxproj /p:configuration=Release /p:platform=x64
-msbuild Builds\VisualStudio2017\MIDI2LR_App.vcxproj /p:configuration=Debug /p:platform=x64
+msbuild Builds\VisualStudio2019\MIDI2LR_App.vcxproj /p:configuration=Release /p:platform=x64
+msbuild Builds\VisualStudio2019\MIDI2LR_App.vcxproj /p:configuration=Debug /p:platform=x64
 ) ELSE (
 echo Not in Visual Studio developer command prompt, build project will not be called.
 )
