@@ -48,7 +48,7 @@ std::string rsj::ToLower(std::string_view in)
       return s;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
@@ -61,7 +61,7 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
              && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
@@ -193,7 +193,7 @@ std::wstring rsj::Utf8ToWide(std::string_view input)
       return buffer.data();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
@@ -210,7 +210,7 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
       return buffer.data();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }

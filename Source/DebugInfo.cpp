@@ -149,7 +149,7 @@ std::string rsj::GetKeyboardLayout()
       return msg;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }

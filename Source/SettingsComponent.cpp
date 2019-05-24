@@ -130,7 +130,7 @@ void SettingsComponent::paint(juce::Graphics& g)
       g.fillAll(juce::Colours::white); // clear the background
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -171,7 +171,7 @@ void SettingsComponent::sliderValueChanged(juce::Slider* slider)
       }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }

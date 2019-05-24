@@ -52,7 +52,7 @@ SettingsManager::SettingsManager(
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -99,7 +99,7 @@ void SettingsManager::ConnectionCallback(bool connected, bool blocked)
          }
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -111,7 +111,7 @@ void SettingsManager::SetAutoHideTime(int new_time)
       properties_file_->saveIfNeeded();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -125,7 +125,7 @@ void SettingsManager::SetLastVersionFound(int version_number)
                   + GetProfileDirectory());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -139,7 +139,7 @@ void SettingsManager::SetPickupEnabled(bool enabled)
          ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
@@ -154,7 +154,7 @@ void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
       profile_manager_.SetProfileDirectory(profile_directory);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
