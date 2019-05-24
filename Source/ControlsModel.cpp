@@ -190,7 +190,6 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
             return short{0};
          }
       case rsj::kNoteOnFlag:
-         return short{0};
       case rsj::kNoteOffFlag:
          return short{0};
       default:
