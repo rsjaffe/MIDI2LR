@@ -51,6 +51,7 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
+   [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view input);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;

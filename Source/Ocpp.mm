@@ -109,10 +109,12 @@ void rsj::CheckPermission(pid_t pid)
             break;
          }
          case procNotFound:
-            rsj::Log(
-                juce::String("Automation permission unknown for ") + bundleIdentifier.UTF8String);
+            rsj::Log(juce::String("Application not found. Automation permission unknown for ")
+                     + bundleIdentifier.UTF8String);
             break;
          default:
+            rsj::Log(juce::String("Unexpected return value when checking automation permission for ")
+                     + bundleIdentifier.UTF8String); 
             break;
          }
       }

@@ -233,11 +233,15 @@ void LrIpcIn::ProcessLine()
          case 2: // SendKey
          {
             const auto modifiers = std::stoi(std::string(value_string));
-            // trim twice on purpose: first digit, then spaces, as key may be digit
+            // trim twice on purpose: first digit, then space, as key may be digit
             value_string.remove_prefix(
                 std::min(value_string.find_first_not_of("0123456789"), value_string.size()));
-            value_string.remove_prefix(
-                std::min(value_string.find_first_not_of(" \t\n"), value_string.size()));
+            value_string.remove_prefix(1); // one space between number and character
+            if (value_string.empty()) {
+               rsj::LogAndAlertError("SendKey couldn't identify keystroke. Message from plugin was \""
+                   + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
+               break;
+            }
             rsj::ActiveModifiers am;
             if (modifiers & 0x1)
                am.alt_opt = true;
