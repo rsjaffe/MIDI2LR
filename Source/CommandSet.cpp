@@ -67,7 +67,7 @@ CommandSet::Impl::Impl()
 #endif
       std::ifstream infile(p);
       if (infile.is_open()) {
-         // too large to construct on stack
+#pragma warning(suppress : 26414) // too large to construct on stack
          const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
          (*iarchive)(*this);
 #ifdef _WIN32
