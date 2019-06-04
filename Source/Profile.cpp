@@ -31,6 +31,7 @@ void Profile::AddCommandForMessageI(size_t command, const rsj::MidiMessageId& me
          auto cmd_abbreviation = command_set_.CommandAbbrevAt(command);
          message_map_[message] = cmd_abbreviation;
          command_string_map_.emplace(cmd_abbreviation, message);
+         SortI();
          profile_unsaved_ = true;
       }
    }
