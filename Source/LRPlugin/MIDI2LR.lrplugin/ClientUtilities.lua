@@ -128,7 +128,6 @@ local function execFOM(F,...)
   return F(...) --proper tail call
 end
 
---currently, only openExport..., rotateLeft and rotateRight implemented
 -- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
   if not Ut.LrVersion74orMore then return function() end end -- not supported

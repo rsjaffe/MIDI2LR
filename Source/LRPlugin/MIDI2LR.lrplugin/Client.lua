@@ -449,6 +449,7 @@ LrTasks.startAsyncTask(
       local endmsg = ' only available in Lightroom version 7.4 and later.'
       local nocar = function() LrDialogs.message('Quick develop crop aspect ratio'..endmsg) end
       local nowb = function() LrDialogs.message('Quick develop white balance'..endmsg) end
+      ACTIONS.AddOrRemoveFromTargetColl    =  function() LrDialogs.message('Add or remove from target collection'..endmsg)  end     
       ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
       ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
       ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
@@ -483,6 +484,7 @@ LrTasks.startAsyncTask(
       ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay'..endmsg) end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
+      ACTIONS.AddOrRemoveFromTargetColl    = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection')
       ACTIONS.AutoTone                     = CU.wrapFOM(LrDevelopController.setAutoTone)
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
       ACTIONS.EditPhotoshop                = CU.wrapFOM(LrDevelopController.editInPhotoshop)
