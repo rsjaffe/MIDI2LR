@@ -38,8 +38,8 @@ local KeyCode = {
 }
 
 if(WIN_ENV) then -- shortcuts that differ between Mac and PC
-  KeyCode.CopyKey  = "2 c"
-  KeyCode.PasteKey = "2 v"
+  KeyCode.CopyKey  = "6 c"
+  KeyCode.PasteKey = "6 v"
   KeyCode.RedoKey  = "2 y"
   KeyCode.UndoKey  = "2 z"
 else
