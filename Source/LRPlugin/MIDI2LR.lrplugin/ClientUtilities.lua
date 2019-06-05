@@ -288,7 +288,9 @@ local function showBezel(param, value1, value2)
   -- uses processVersion to index bezelname
   local processVersion = tonumber(LrDevelopController.getProcessVersion():match('%-?%d+'))
   -- ternary operator idiom. Note: not quite ternary operator. If [processVersion] doesn't match an entry, will use param instead.
-  local bezelname = Database.CmdTrans[param] and Database.CmdTrans[param][processVersion] or param
+  -- if CmdTrans[param] exists, will try first [processVersion] then, if that doesn't exist, [LatestPVSupported], then fallback to param
+  -- this is in case someone doesn't update MIDI2LR but Adobe goes to a higher process version not supported by MIDI2LR CmdTrans table
+  local bezelname = Database.CmdTrans[param] and (Database.CmdTrans[param][processVersion] or Database.CmdTrans[param][Database.LatestPVSupported]) or param
   if value2 then
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision) .. '  ' ..LrStringUtils.numberToString(value2,precision) )
   else
