@@ -285,9 +285,9 @@ local function showBezel(param, value1, value2)
     straightenAngle=3,
   }
   local precision = precisionList[param] or 4
-  -- use MIDI2LR.ProcessVersion to index bezelname
-  -- ternary operator idiom. Note: not quite ternary operator. If [MIDI2LR.ProcessVersion] doesn't match an entry, will use param instead.
+  -- uses processVersion to index bezelname
   local processVersion = tonumber(LrDevelopController.getProcessVersion():match('%-?%d+'))
+  -- ternary operator idiom. Note: not quite ternary operator. If [processVersion] doesn't match an entry, will use param instead.
   local bezelname = Database.CmdTrans[param] and Database.CmdTrans[param][processVersion] or param
   if value2 then
     LrDialogs.showBezel(bezelname..'  '..LrStringUtils.numberToString(value1,precision) .. '  ' ..LrStringUtils.numberToString(value2,precision) )
