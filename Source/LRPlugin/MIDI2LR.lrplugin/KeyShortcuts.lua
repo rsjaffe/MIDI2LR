@@ -43,8 +43,8 @@ if(WIN_ENV) then -- shortcuts that differ between Mac and PC
   KeyCode.RedoKey  = "2 y"
   KeyCode.UndoKey  = "2 z"
 else
-  KeyCode.CopyKey  = "8 c"
-  KeyCode.PasteKey = "8 v"
+  KeyCode.CopyKey  = "12 c"
+  KeyCode.PasteKey = "12 v"
   KeyCode.RedoKey  = "12 z"
   KeyCode.UndoKey  = "8 z"
 end
