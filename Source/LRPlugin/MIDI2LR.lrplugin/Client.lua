@@ -449,6 +449,7 @@ LrTasks.startAsyncTask(
       local endmsg = ' only available in Lightroom version 7.4 and later.'
       local nocar = function() LrDialogs.message('Quick develop crop aspect ratio'..endmsg) end
       local nowb = function() LrDialogs.message('Quick develop white balance'..endmsg) end
+      ACTIONS.AddOrRemoveFromTargetColl    =  function() LrDialogs.message('Add or remove from target collection'..endmsg)  end     
       ACTIONS.AutoTone                     = function() CU.fChangePanel('tonePanel'); CU.ApplySettings({AutoTone = true}); CU.FullRefresh(); end
       ACTIONS.CycleLoupeViewInfo           = function() LrDialogs.message('Cycle loupe view style'..endmsg) end
       ACTIONS.EditPhotoshop                = function() LrDialogs.message('Edit in Photoshop action'..endmsg) end
@@ -459,6 +460,7 @@ LrTasks.startAsyncTask(
       ACTIONS.openExportWithPreviousDialog = function() LrDialogs.message('Open export with previous settings action'..endmsg) end
       ACTIONS.QuickDevCropAspect1x1        = nocar
       ACTIONS.QuickDevCropAspect2x3        = nocar
+      ACTIONS.QuickDevCropAspect3x4        = nocar
       ACTIONS.QuickDevCropAspect4x5        = nocar
       ACTIONS.QuickDevCropAspect5x7        = nocar
       ACTIONS.QuickDevCropAspect85x11      = nocar
@@ -482,6 +484,7 @@ LrTasks.startAsyncTask(
       ACTIONS.ToggleOverlay                = function() LrDialogs.message('Toggle local adjustments mask overlay'..endmsg) end
       ACTIONS.WhiteBalanceAuto             = CU.wrapFOM(LrDevelopController.setValue,'WhiteBalance','Auto')
     else
+      ACTIONS.AddOrRemoveFromTargetColl    = CU.wrapForEachPhoto('addOrRemoveFromTargetCollection')
       ACTIONS.AutoTone                     = CU.wrapFOM(LrDevelopController.setAutoTone)
       ACTIONS.CycleLoupeViewInfo           = LrApplicationView.cycleLoupeViewInfo
       ACTIONS.EditPhotoshop                = CU.wrapFOM(LrDevelopController.editInPhotoshop)
@@ -492,6 +495,7 @@ LrTasks.startAsyncTask(
       ACTIONS.openExportWithPreviousDialog = CU.wrapForEachPhoto('openExportWithPreviousDialog')  
       ACTIONS.QuickDevCropAspect1x1        = function() CU.QuickCropAspect({w=1,h=1}) end
       ACTIONS.QuickDevCropAspect2x3        = function() CU.QuickCropAspect({w=2,h=3}) end
+      ACTIONS.QuickDevCropAspect3x4        = function() CU.QuickCropAspect({w=3,h=4}) end
       ACTIONS.QuickDevCropAspect4x5        = function() CU.QuickCropAspect({w=4,h=5}) end
       ACTIONS.QuickDevCropAspect5x7        = function() CU.QuickCropAspect({w=5,h=7}) end
       ACTIONS.QuickDevCropAspect85x11      = function() CU.QuickCropAspect({w=8.5,h=11}) end
@@ -517,7 +521,7 @@ LrTasks.startAsyncTask(
     end
 
     if not Ut.LrVersion66orMore then
-      ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action available in Lightroom version 6.6 and later only.') end
+      ACTIONS.ResetTransforms              = function() LrDialogs.message('Reset transforms action only available in Lightroom version 6.6 and later.') end
     else
       ACTIONS.ResetTransforms              = CU.wrapFOM(LrDevelopController.resetTransforms)
     end

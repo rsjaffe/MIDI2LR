@@ -59,7 +59,7 @@ class ProfileManager final : juce::AsyncUpdater {
          throw;
       }
    }
-   const juce::String& GetProfileDirectory() const noexcept
+   [[nodiscard]] const juce::String& GetProfileDirectory() const noexcept
    {
       return profile_location_.getFullPathName();
    }

@@ -18,7 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>. 
 ------------------------------------------------------------------------------]]
-
+local LrLocalization = import 'LrLocalization'
 --constants for translation work
 local Modifiers = {
   Alt     = 0x1,
@@ -27,79 +27,54 @@ local Modifiers = {
   Option  = 0x1,
   Shift   = 0x4,
 }
+--keycodes using Cmd in LR use 0x8 in OSX and 0x2 in Windows for modifier
 
-Modifiers[LOC("$$$/AgBezels/KeyRemapping/MacCommand=Cmd")]                = 0x8
-Modifiers[LOC("$$$/AgBezels/KeyRemapping/MacOption=Option")]              = 0x1
-Modifiers[LOC("$$$/AgBezels/KeyRemapping/WinAlt=Alt")]                    = 0x1
-Modifiers[LOC("$$$/AgBezels/KeyRemapping/WinControl=Control")]            = 0x2
-Modifiers[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Shift=Shift")] = 0x4
-
-if(WIN_ENV) then --LR uses Cmd and Ctrl interchangeably at times
-  Modifiers[LOC("$$$/AgBezels/KeyRemapping/MacCommand=Cmd")] = 0x2
-  Modifiers.Cmd                                              = 0x2
-end
-
-local MIDI2LRkeyNames = {
-  Backspace = 'backspace',
-  Down      = 'cursor down',
-  Left      = 'cursor left',
-  Right     = 'cursor right',
-  Space     = 'space',
-  Tab       = 'tab',
-  Up        = 'cursor up',
-}
-
-MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Backspace=Backspace")] = 'backspace'
-MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Down=Down")]           = 'cursor down'
-MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Left=Left")]           = 'cursor left'
-MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Right=Right")]         = 'cursor right'
-MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Space=Space")]         = 'space'
-MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Tab=Tab")]             = 'tab'
-MIDI2LRkeyNames[LOC("$$$/Win/MenuDisplay/KeyboardShortcutElement/Up=Up")]               = 'cursor up'
-
-local function LRkeytoCode(arg1,addmodifier)
-  local mystring = LOC(arg1)
-  local KeyValue --default nil
-  local ModifierValue = 0
-  if addmodifier then
-    ModifierValue = addmodifier
-  end
-  for i in mystring:gmatch("[^+ ]+") do
-    if Modifiers[i] then
-      ModifierValue = ModifierValue + Modifiers[i]
-    else
-      KeyValue = i
-    end
-  end
-  if KeyValue == nil then
-    KeyValue = '+' -- ignored in gmatch
-  end
-  if MIDI2LRkeyNames[KeyValue] then --KeyValue now guaranteed non-nil
-    KeyValue = MIDI2LRkeyNames[KeyValue]
-  end
-  return ModifierValue..KeyValue
-end
-
---use shift key instead of shifted key value as have trouble on Mac getting keycode for shifted key
 --note that functions using KeyCode must get it right--errors in spelling can cause crashes (e.g., BrushIncrease instead of BrushIncreaseKey)
-local KeyCode = { -- format from translation list is Cmd+Shift+Option+r , where 'r' is the key
-  BrushDecreaseKey        = LRkeytoCode("$$$/AgDevelop/Localized/BrushDecreaseKey=["),
-  BrushDecreaseKeyShifted = LRkeytoCode("$$$/AgDevelop/Localized/BrushDecreaseKey=[",0x4),
-  BrushIncreaseKey        = LRkeytoCode("$$$/AgDevelop/Localized/BrushIncreaseKey=]"),
-  BrushIncreaseKeyShifted = LRkeytoCode("$$$/AgDevelop/Localized/BrushIncreaseKey=]",0x4),
-  CopyKey                 = LRkeytoCode("$$$/AgLayout/Menu/Edit/Copy/Key=Cmd+c"),
-  CycleAdjustmentBrushOverlayKey = LRkeytoCode("$$$/AgDevelop/Menu/View/CycleAdjustmentBrushOverlay/Key=Shift+o"),
-  PasteKey                = LRkeytoCode("$$$/AgLayout/Menu/Edit/Paste/Key=Cmd+v"),
-  SliderDecreaseKey       = "0cursor left",
-  SliderIncreaseKey       = "0cursor right",
-  ShowAdjustmentBrushOverlayKey = LRkeytoCode("$$$/AgDevelop/Menu/View/ShowHideAdjustmentBrushOverlay/Key=o"),
-  UndoKey                 = LRkeytoCode("$$$/Application/Menu/Edit/Undo/Key=Cmd+z"),
+local KeyCode = { 
+  CycleAdjustmentBrushOverlayKey = "4 o",
+  SliderDecreaseKey       = "0 cursor left",
+  SliderIncreaseKey       = "0 cursor right",
+  ShowAdjustmentBrushOverlayKey = "0 o",
 }
 
 if(WIN_ENV) then -- shortcuts that differ between Mac and PC
-  KeyCode.RedoKey = LRkeytoCode("$$$/Application/Menu/Edit/RedoWin/Key=Cmd+y")
+  KeyCode.CopyKey  = "6 c"
+  KeyCode.PasteKey = "6 v"
+  KeyCode.RedoKey  = "2 y"
+  KeyCode.UndoKey  = "2 z"
 else
-  KeyCode.RedoKey = LRkeytoCode("$$$/Application/Menu/Edit/Redo/Key=Cmd+Shift+z")
+  KeyCode.CopyKey  = "8 c"
+  KeyCode.PasteKey = "8 v"
+  KeyCode.RedoKey  = "12 z"
+  KeyCode.UndoKey  = "8 z"
+end
+
+local langcode = LrLocalization.currentLanguage() 
+if langcode == 'de' then
+  KeyCode.BrushDecreaseKey        = '0 ,'
+  KeyCode.BrushDecreaseKeyShifted = '0 ;'
+  KeyCode.BrushIncreaseKey        = '0 .'
+  KeyCode.BrushIncreaseKeyShifted = '0 :'
+elseif langcode == 'es' or langcode == 'it' then
+  KeyCode.BrushDecreaseKey        = '0 <'
+  KeyCode.BrushDecreaseKeyShifted = '0 >'
+  KeyCode.BrushIncreaseKey        = '0 +'
+  KeyCode.BrushIncreaseKeyShifted = '0 *'
+elseif langcode == 'fr' then
+  KeyCode.BrushDecreaseKey        = '0 ,'
+  KeyCode.BrushDecreaseKeyShifted = '0 ?'
+  KeyCode.BrushIncreaseKey        = '0 ;'
+  KeyCode.BrushIncreaseKeyShifted = '0 .'
+elseif langcode == 'sv' then 
+  KeyCode.BrushDecreaseKey        = '0 <'
+  KeyCode.BrushDecreaseKeyShifted = '0 >'
+  KeyCode.BrushIncreaseKey        = '0 -'
+  KeyCode.BrushIncreaseKeyShifted = '0 _'
+else
+  KeyCode.BrushDecreaseKey        = '0 ['
+  KeyCode.BrushDecreaseKeyShifted = '0 {'
+  KeyCode.BrushIncreaseKey        = '0 ]'
+  KeyCode.BrushIncreaseKeyShifted = '0 }'
 end
 
 return {

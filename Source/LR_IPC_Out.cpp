@@ -43,7 +43,7 @@ namespace {
    constexpr auto kTerminate{"!!!@#$%^"};
    constexpr int kConnectTimer{1000};
    constexpr int kConnectTryTime{100};
-   constexpr int kDelay{8}; // in between recurrent actions
+   constexpr int kDelay{100}; // in between recurrent actions
    constexpr int kLrOutPort{58763};
    constexpr int kMinRecenterTimer{250}; // give controller enough of a refractory period before
                                          // resetting it
@@ -95,10 +95,14 @@ void LrIpcOut::Start()
 
 void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
 {
+   struct RepeatMessage {
+      std::string cw;
+      std::string ccw;
+   };
    using namespace std::string_literals;
    try {
       const rsj::MidiMessageId message{mm};
-      static const std::unordered_map<std::string, std::pair<std::string, std::string>> kCmdUpDown{
+      static const std::unordered_map<std::string, RepeatMessage> kCmdUpDown{
           {"ChangeBrushSize"s, {"BrushSizeLarger 1\n"s, "BrushSizeSmaller 1\n"s}},
           {"ChangeCurrentSlider"s, {"SliderIncrease 1\n"s, "SliderDecrease 1\n"s}},
           {"ChangeFeatherSize"s, {"BrushFeatherLarger 1\n"s, "BrushFeatherSmaller 1\n"s}},
@@ -121,25 +125,29 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "Unmapped"s)
          return; // handled by ProfileManager
+      {
+         // rate limit messages--at least kDelay apart
+         static std::map<std::string, TimePoint> nextresponse{};
+         const auto now = Clock::now();
+         if (nextresponse[command_to_send] >= now)
+            return;
+         nextresponse[command_to_send] = now + std::chrono::milliseconds(kDelay);
+      }
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-         static TimePoint nextresponse{};
-         if (const auto now = Clock::now(); nextresponse < now) {
-            nextresponse = now + std::chrono::milliseconds(kDelay);
-            if (mm.message_type_byte == rsj::kPwFlag
-                || (mm.message_type_byte == rsj::kCcFlag
-                       && controls_model_.GetCcMethod(mm.channel, mm.number)
-                              == rsj::CCmethod::kAbsolute)) {
-               recenter_.SetMidiMessage(mm);
-            }
-            const auto change = controls_model_.MeasureChange(mm);
-            if (change == 0)
-               return;      // don't send any signal
-            if (change > 0) // turned clockwise
-               SendCommand(a->second.first);
-            else // turned counterclockwise
-               SendCommand(a->second.second);
+         if (mm.message_type_byte == rsj::kPwFlag
+             || (mm.message_type_byte == rsj::kCcFlag
+                    && controls_model_.GetCcMethod(mm.channel, mm.number)
+                           == rsj::CCmethod::kAbsolute)) {
+            recenter_.SetMidiMessage(mm);
          }
+         const auto change = controls_model_.MeasureChange(mm);
+         if (change == 0)
+            return;      // don't send any signal
+         if (change > 0) // turned clockwise
+            SendCommand(a->second.cw);
+         else // turned counterclockwise
+            SendCommand(a->second.ccw);
       }
       else { // not repeated command
          const auto computed_value = controls_model_.ControllerToPlugin(mm);
@@ -267,7 +275,7 @@ void LrIpcOut::SendOut()
 void LrIpcOut::ConnectTimer::Start()
 {
    try {
-      auto lock = std::lock_guard(connect_mutex_);
+      auto lock = std::scoped_lock(connect_mutex_);
       juce::Timer::startTimer(kConnectTimer);
       timer_off_ = false;
    }
@@ -280,7 +288,7 @@ void LrIpcOut::ConnectTimer::Start()
 void LrIpcOut::ConnectTimer::Stop()
 {
    try {
-      auto lock = std::lock_guard(connect_mutex_);
+      auto lock = std::scoped_lock(connect_mutex_);
       juce::Timer::stopTimer();
       timer_off_ = true;
    }
@@ -293,7 +301,7 @@ void LrIpcOut::ConnectTimer::Stop()
 void LrIpcOut::ConnectTimer::timerCallback()
 {
    try {
-      auto lock = std::lock_guard(connect_mutex_);
+      auto lock = std::scoped_lock(connect_mutex_);
       if (!timer_off_ && !owner_.juce::InterprocessConnection::isConnected())
          owner_.juce::InterprocessConnection::connectToSocket(kHost, kLrOutPort, kConnectTryTime);
    }
@@ -306,7 +314,7 @@ void LrIpcOut::ConnectTimer::timerCallback()
 void LrIpcOut::Recenter::SetMidiMessage(rsj::MidiMessage mm)
 {
    try {
-      auto lock = std::lock_guard(mtx_);
+      auto lock = std::scoped_lock(mtx_);
       mm_ = mm;
       juce::Timer::startTimer(kRecenterTimer);
    }
@@ -321,7 +329,7 @@ void LrIpcOut::Recenter::timerCallback()
    try {
       rsj::MidiMessage local_mm{};
       {
-         auto lock = std::lock_guard(mtx_);
+         auto lock = std::scoped_lock(mtx_);
          juce::Timer::stopTimer();
          local_mm = mm_;
       }

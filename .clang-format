@@ -1,6 +1,6 @@
 ---
-# Visual Studio currently (Sept 2018) using clang-format v 6. Options for later versions (up to v 7)
-# are included but commented out. Uncomment if used with a later version of clang-format.
+# Visual Studio 2019 currently (June 2019) using clang-format v 4. Options for later versions
+# may be included but are commented out. Uncomment if used with a later version of clang-format.
 AccessModifierOffset: -2
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: false
@@ -13,6 +13,7 @@ AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
+#AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
@@ -27,6 +28,7 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
+#BreakInheritanceList: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 100
 CommentPragmas: '^ IWYU pragma:'
@@ -43,14 +45,7 @@ ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
-IncludeCategories:
-  - Regex: '^<.*\.h>'
-    Priority: 1
-  - Regex: '^<.*'
-    Priority: 2
-  - Regex: '.*'
-    Priority: 3
-IncludeIsMainRegex: '(Test)?$'
+#IncludeBlocks: Preserve
 IndentCaseLabels: false
 IndentPPDirectives: None
 IndentWidth: 3
@@ -67,6 +62,7 @@ PenaltyBreakBeforeFirstCallParameter: 75
 PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 1
 PenaltyBreakString: 80
+#PenaltyBreakTemplateDeclaration: 50
 PenaltyExcessCharacter: 1000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
@@ -74,12 +70,14 @@ ReflowComments: true
 SortIncludes: false
 SortUsingDeclarations: false
 SpaceAfterCStyleCast: false
+#SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: false
 SpaceBeforeAssignmentOperators: true
-#SpaceBeforeCtorInitializerColon: true
-#SpaceBeforeInheritanceColon: true
+#SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
-#SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
 SpacesInAngles: false
@@ -94,7 +92,7 @@ UseTab: Never
 Language: Cpp
 ---
 Language: ObjC
-#ObjCBinPackProtocolList: true
+#ObjCBinPackProtocolList: always
 ObjCBlockIndentWidth: 3
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: false

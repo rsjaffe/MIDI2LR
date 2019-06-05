@@ -37,6 +37,34 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Ocpp.h"
 #endif
 
+[[nodiscard]] std::string rsj::ReplaceInvisibleChars(std::string_view input)
+{
+   try {
+      std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
+          "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
+          "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
+          "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
+      std::string result{};
+      result.reserve(input.size());
+      for (const auto& a : input) {
+         if (a < ascii_map.size())
+#pragma warning(suppress : 26446 26482) // false alarm, range checked by if statement
+            result.append(ascii_map[a]);
+         else if (a == 127)
+            result.append("\\x7F");
+         else if (a == '\\')
+            result.append("\\\\");
+         else
+            result.push_back(a);
+      }
+      return result;
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(__func__, __func__, e);
+      throw;
+   }
+}
+
 // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
 std::string rsj::ToLower(std::string_view in)
 {
@@ -48,7 +76,7 @@ std::string rsj::ToLower(std::string_view in)
       return s;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
@@ -61,7 +89,7 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
              && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
@@ -193,7 +221,7 @@ std::wstring rsj::Utf8ToWide(std::string_view input)
       return buffer.data();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
@@ -210,7 +238,7 @@ std::string rsj::WideToUtf8(std::wstring_view wstr)
       return buffer.data();
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }

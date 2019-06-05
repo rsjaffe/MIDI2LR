@@ -33,11 +33,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "CommandSet.h"
 #include "MidiUtilities.h"
 
-// All methods with _i at end don't include a mutex and are for internal use only. Methods
-// without _i do have mutex and could be called by another class
+// All methods with I at end don't include a mutex and are for internal use only. Methods
+// without I do have mutex and could be called by another class
 class Profile {
  public:
-   Profile(const CommandSet& command_set) : command_set_{command_set} {}
+   explicit Profile(const CommandSet& command_set) : command_set_{command_set} {}
    void AddCommandForMessage(size_t command, const rsj::MidiMessageId& message);
    void AddRowMapped(const std::string& command, const rsj::MidiMessageId& message);
    void AddRowUnmapped(const rsj::MidiMessageId& message);
@@ -58,11 +58,11 @@ class Profile {
    void ToXmlFile(const juce::File& file);
 
  private:
-   void AddCommandForMessage_i(size_t command, const rsj::MidiMessageId& message);
-   const std::string& GetCommandForMessage_i(const rsj::MidiMessageId& message) const;
-   const rsj::MidiMessageId& GetMessageForNumber_i(size_t num) const;
-   bool MessageExistsInMap_i(const rsj::MidiMessageId& message) const;
-   void Sort_i();
+   void AddCommandForMessageI(size_t command, const rsj::MidiMessageId& message);
+   const std::string& GetCommandForMessageI(const rsj::MidiMessageId& message) const;
+   const rsj::MidiMessageId& GetMessageForNumberI(size_t num) const;
+   bool MessageExistsInMapI(const rsj::MidiMessageId& message) const;
+   void SortI();
 
    bool profile_unsaved_{false};
    const CommandSet& command_set_;
@@ -78,7 +78,7 @@ inline void Profile::AddCommandForMessage(size_t command, const rsj::MidiMessage
 {
    try {
       auto guard = std::unique_lock{mutex_};
-      AddCommandForMessage_i(command, message);
+      AddCommandForMessageI(command, message);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -102,7 +102,7 @@ inline const std::string& Profile::GetCommandForMessage(const rsj::MidiMessageId
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return GetCommandForMessage_i(message);
+      return GetCommandForMessageI(message);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -110,7 +110,7 @@ inline const std::string& Profile::GetCommandForMessage(const rsj::MidiMessageId
    }
 }
 
-inline const std::string& Profile::GetCommandForMessage_i(const rsj::MidiMessageId& message) const
+inline const std::string& Profile::GetCommandForMessageI(const rsj::MidiMessageId& message) const
 {
    try {
       return message_map_.at(message);
@@ -125,7 +125,7 @@ inline const rsj::MidiMessageId& Profile::GetMessageForNumber(size_t num) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return GetMessageForNumber_i(num);
+      return GetMessageForNumberI(num);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -133,7 +133,7 @@ inline const rsj::MidiMessageId& Profile::GetMessageForNumber(size_t num) const
    }
 }
 
-inline const rsj::MidiMessageId& Profile::GetMessageForNumber_i(size_t num) const
+inline const rsj::MidiMessageId& Profile::GetMessageForNumberI(size_t num) const
 {
    try {
       return command_table_.at(num);
@@ -161,7 +161,7 @@ inline bool Profile::MessageExistsInMap(const rsj::MidiMessageId& message) const
 {
    try {
       auto guard = std::shared_lock{mutex_};
-      return MessageExistsInMap_i(message);
+      return MessageExistsInMapI(message);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -169,7 +169,7 @@ inline bool Profile::MessageExistsInMap(const rsj::MidiMessageId& message) const
    }
 }
 
-inline bool Profile::MessageExistsInMap_i(const rsj::MidiMessageId& message) const
+inline bool Profile::MessageExistsInMapI(const rsj::MidiMessageId& message) const
 {
    try {
       return message_map_.find(message) != message_map_.end();

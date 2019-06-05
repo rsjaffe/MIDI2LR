@@ -140,7 +140,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-   void shutdown() noexcept override
+   void shutdown() override
    {
       // Called to allow the application to clear up before exiting.
 
@@ -237,18 +237,17 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-#pragma warning(suppress : 26447) // all exceptions suppressed by catch blocks
-   void CerealSave() const noexcept
+   void CerealSave() const
    { // scoped so archive gets flushed
       try {
 #ifdef _WIN32
-         fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
+         const fs::path p{rsj::AppDataFilePath(kSettingsFileX)};
 #else
          const auto p = rsj::AppDataFilePath(kSettingsFileX);
 #endif
          std::ofstream outfile(p, std::ios::trunc);
          if (outfile.is_open()) {
-            // too large to construct on stack
+#pragma warning(suppress : 26414) // too large to construct on stack
             const auto oarchive = std::make_unique<cereal::XMLOutputArchive>(outfile);
             (*oarchive)(controls_model_);
 #ifdef _WIN32
@@ -265,7 +264,6 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       }
    }
 
-#pragma warning(suppress : 26447) // all exceptions suppressed by catch blocks
    void CerealLoad()
    { // scoped so archive gets flushed
       try {
@@ -276,7 +274,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
          std::ifstream in_file(px);
          if (in_file.is_open() && !in_file.eof()) {
-            // too large to construct on stack
+#pragma warning(suppress : 26414) // too large to construct on stack
             const auto iarchive = std::make_unique<cereal::XMLInputArchive>(in_file);
             (*iarchive)(controls_model_);
 #ifdef _WIN32
@@ -299,7 +297,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
 #endif
             std::ifstream infile(p, std::ios::binary);
             if (infile.is_open() && !infile.eof()) {
-               // too large to construct on stack
+#pragma warning(suppress : 26414) // too large to construct on stack
                const auto iarchive = std::make_unique<cereal::BinaryInputArchive>(infile);
                (*iarchive)(controls_model_);
 #ifdef _WIN32

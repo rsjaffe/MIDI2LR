@@ -22,9 +22,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <array>
 #include <atomic>
-#ifdef _WIN32 // not yet available in XCode
 #include <charconv>
-#endif
 #include <chrono>
 #include <exception>
 #include <string>
@@ -53,6 +51,7 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
+   [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view input);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
@@ -202,7 +201,7 @@ namespace rsj {
 #pragma warning(pop)
 
    template<class Rep, class Period>
-   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration)
+   auto SleepTimed(const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto start = std::chrono::high_resolution_clock::now();
       std::this_thread::sleep_for(sleep_duration);
@@ -213,13 +212,13 @@ namespace rsj {
 
    template<class Rep, class Period>
    void SleepTimedLogged(
-       std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration)
+       std::string_view msg_prefix, const std::chrono::duration<Rep, Period> sleep_duration) //-V801
    {
       const auto elapsed = SleepTimed(sleep_duration);
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
    }
-#ifdef _WIN32 // charcvt not yet in XCode
+
    template<class T>[[nodiscard]] std::string NumToChars(T number)
    {
       std::array<char, 10> str{};
@@ -228,12 +227,6 @@ namespace rsj {
          return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
-#else
-   template<class T>[[nodiscard]] std::string NumToChars(T number)
-   {
-      return std::to_string(number);
-   }
-#endif
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED

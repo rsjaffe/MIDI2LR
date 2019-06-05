@@ -87,7 +87,7 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
       const auto profile_file = profile_location_.getChildFile(profile);
       if (profile_file.exists()) {
          if (const auto parsed{juce::XmlDocument::parse(profile_file)}) {
-            std::unique_ptr<juce::XmlElement> xml_element{parsed};
+            const std::unique_ptr<juce::XmlElement> xml_element{parsed};
             for (const auto& cb : callbacks_)
                cb(xml_element.get(), profile);
             if (const auto ptr = lr_ipc_out_.lock()) {
@@ -170,6 +170,7 @@ void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
    }
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void ProfileManager::ConnectionCallback(bool connected, bool blocked)
 {
    try {

@@ -128,7 +128,6 @@ local function execFOM(F,...)
   return F(...) --proper tail call
 end
 
---currently, only openExport..., rotateLeft and rotateRight implemented
 -- equivalent to "LrApplication.activeCatalog():getTargetPhoto():rotateLeft()", e.g., with target checking
 local function wrapForEachPhoto(F) --note lightroom applies this to all selected photos. no need to get all selected
   if not Ut.LrVersion74orMore then return function() end end -- not supported
@@ -478,11 +477,11 @@ local function fSimulateKeys(keys, developonly, tool)
     if developonly then
       if LrApplicationView.getCurrentModuleName() == 'develop' and LrApplication.activeCatalog():getTargetPhoto() ~= nil then
         if tool == nil or tool[LrDevelopController.getSelectedTool()] then
-          MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+          MIDI2LR.SERVER:send('SendKey '.. keys ..'\n')
         end
       end
     else
-      MIDI2LR.SERVER:send(string.format('SendKey %s\n', keys))
+      MIDI2LR.SERVER:send('SendKey '.. keys ..'\n')
     end
   end
 end

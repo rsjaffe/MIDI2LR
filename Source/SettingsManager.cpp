@@ -52,14 +52,82 @@ SettingsManager::SettingsManager(
       profile_manager_.SetProfileDirectory(GetProfileDirectory());
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
+}
+
+int SettingsManager::GetAutoHideTime() const noexcept
+{
+   return properties_file_->getIntValue(kAutoHideSection, 0);
+}
+
+int SettingsManager::GetLastVersionFound() const noexcept
+{
+   return properties_file_->getIntValue("LastVersionFound", 0);
 }
 
 bool SettingsManager::GetPickupEnabled() const noexcept
 {
    return properties_file_->getBoolValue("pickup_enabled", true);
+}
+
+juce::String SettingsManager::GetProfileDirectory() const noexcept
+{
+   return properties_file_->getValue("profile_directory");
+}
+
+// ReSharper disable CppMemberFunctionMayBeConst
+
+/*Const means method won't change object's client-visible state. These methods do, by changing the
+ * underlying file. ConnectionCallback is not const as it needs to be compatible with the callback
+ * type.*/
+void SettingsManager::ConnectionCallback(bool connected, bool blocked)
+{
+   try {
+      if (connected && !blocked)
+         if (const auto ptr = lr_ipc_out_.lock()) {
+            const DebugInfo db{GetProfileDirectory()};
+            ptr->SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
+            rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
+            // rest of info about app is logged by DebugInfo
+            ptr->SendCommand("AppInfoClear 1\n"s);
+            for (const auto& info : db.GetInfo()) {
+               ptr->SendCommand("AppInfo "s + info + '\n');
+            }
+            ptr->SendCommand("AppInfoDone 1\n"s);
+         }
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+void SettingsManager::SetAutoHideTime(int new_time)
+{
+   try {
+      properties_file_->setValue(kAutoHideSection, new_time);
+      properties_file_->saveIfNeeded();
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+void SettingsManager::SetLastVersionFound(int version_number)
+{
+   try {
+      properties_file_->setValue("LastVersionFound", version_number);
+      if (!properties_file_->saveIfNeeded())
+         rsj::Log("SettingsManager::SetLastVersionFound saveIfNeeded failed. Directory "
+                  + GetProfileDirectory());
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
 }
 
 void SettingsManager::SetPickupEnabled(bool enabled)
@@ -71,13 +139,9 @@ void SettingsManager::SetPickupEnabled(bool enabled)
          ptr->SendCommand("Pickup "s + (enabled ? '1' : '0') + '\n');
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
-}
-juce::String SettingsManager::GetProfileDirectory() const noexcept
-{
-   return properties_file_->getValue("profile_directory");
 }
 
 void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
@@ -90,65 +154,8 @@ void SettingsManager::SetProfileDirectory(const juce::String& profile_directory)
       profile_manager_.SetProfileDirectory(profile_directory);
    }
    catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
 }
-
-void SettingsManager::ConnectionCallback(bool connected, bool blocked)
-{
-   try {
-      if (connected && !blocked)
-         if (const auto ptr = lr_ipc_out_.lock()) {
-            DebugInfo db{GetProfileDirectory()};
-            ptr->SendCommand("Pickup "s + (GetPickupEnabled() ? '1' : '0') + '\n');
-            rsj::Log(GetPickupEnabled() ? "Pickup is enabled" : "Pickup is disabled");
-            // rest of info about app is logged by DebugInfo
-            ptr->SendCommand("AppInfoClear 1\n"s);
-            for (const auto& info : db.GetInfo()) {
-               ptr->SendCommand("AppInfo "s + info + '\n');
-            }
-            ptr->SendCommand("AppInfoDone 1\n"s);
-         }
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
-      throw;
-   }
-}
-
-int SettingsManager::GetAutoHideTime() const noexcept
-{
-   return properties_file_->getIntValue(kAutoHideSection, 0);
-}
-
-void SettingsManager::SetAutoHideTime(int new_time)
-{
-   try {
-      properties_file_->setValue(kAutoHideSection, new_time);
-      properties_file_->saveIfNeeded();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
-      throw;
-   }
-}
-
-int SettingsManager::GetLastVersionFound() const noexcept
-{
-   return properties_file_->getIntValue("LastVersionFound", 0);
-}
-
-void SettingsManager::SetLastVersionFound(int version_number)
-{
-   try {
-      properties_file_->setValue("LastVersionFound", version_number);
-      if (!properties_file_->saveIfNeeded())
-         rsj::Log("SettingsManager::SetLastVersionFound saveIfNeeded failed. Directory "
-                  + GetProfileDirectory());
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(__func__, __func__, e);
-      throw;
-   }
-}
+// ReSharper restore CppMemberFunctionMayBeConst

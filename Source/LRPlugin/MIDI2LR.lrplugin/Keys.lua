@@ -199,7 +199,7 @@ local function GetKey(i)
   if WIN_ENV == nil and ProgramPreferences.Keys[i]['command'] == nil and ProgramPreferences.Keys[i]['control'] then
     modifiers = modifiers + 6 --was saved under older version MIDI2LR where control meant command
   end
-  return string.format('%u',modifiers) .. ProgramPreferences.Keys[i]['key']
+  return string.format('%u',modifiers) .. ' ' .. ProgramPreferences.Keys[i]['key']
 end
 
 

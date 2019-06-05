@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019
 configuration: 
   - Debug
   - Release
@@ -8,5 +8,5 @@ before_build:
   - 7z e lua-5.1.5_Win64_bin.zip luac5.1.exe
   - rename luac5.1.exe luac.exe
 build:
-  project: Builds\VisualStudio2017\MIDI2LR.sln
+  project: Builds\VisualStudio2019\MIDI2LR.sln
   verbosity: minimal

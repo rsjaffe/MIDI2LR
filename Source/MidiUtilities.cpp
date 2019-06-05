@@ -32,7 +32,7 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
    channel = raw[0] & 0xF;
    switch (message_type_byte) {
    case kPwFlag:
-      value = (raw[2] << 7) | raw[1];
+      value = raw[2] << 7 | raw[1];
       break;
    case kCcFlag:
    case kKeyPressureFlag:

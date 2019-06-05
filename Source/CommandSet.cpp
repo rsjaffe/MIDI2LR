@@ -61,13 +61,13 @@ CommandSet::Impl::Impl()
 {
    try {
 #ifdef _WIN32
-      fs::path p{rsj::AppDataFilePath(L"MenuTrans.xml")};
+      const fs::path p{rsj::AppDataFilePath(L"MenuTrans.xml")};
 #else
       const auto p = rsj::AppDataFilePath("MenuTrans.xml");
 #endif
       std::ifstream infile(p);
       if (infile.is_open()) {
-         // too large to construct on stack
+#pragma warning(suppress : 26414) // too large to construct on stack
          const auto iarchive = std::make_unique<cereal::XMLInputArchive>(infile);
          (*iarchive)(*this);
 #ifdef _WIN32

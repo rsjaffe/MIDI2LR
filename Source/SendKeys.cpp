@@ -132,7 +132,7 @@ namespace {
 
          // send key down strokes
          static std::mutex mutex_sending{};
-         auto lock = std::lock_guard(mutex_sending);
+         auto lock = std::scoped_lock(mutex_sending);
          for (const auto it : rsj::Reverse(strokes)) {
             ip.ki.wVk = it;
             SendInputErrorChecked(1, &ip, size_ip);
@@ -157,7 +157,8 @@ namespace {
          static const std::string kLrc{".app/Contents/MacOS/Adobe Lightroom Classic"};
          const int number_processes{proc_listpids(PROC_ALL_PIDS, 0, NULL, 0) + 20};
          std::vector<pid_t> pids(number_processes, 0); // add a few in case more processes show up
-         proc_listpids(PROC_ALL_PIDS, 0, pids.data(), sizeof(pid_t) * (number_processes));
+         proc_listpids(
+             PROC_ALL_PIDS, 0, pids.data(), gsl::narrow_cast<int>(sizeof(pids[0]) * pids.size()));
          char path_buffer[PROC_PIDPATHINFO_MAXSIZE];
          for (const auto pid : pids) {
             if (pid == 0)
@@ -315,7 +316,7 @@ namespace {
          CGEventSetFlags(u, flags);
          { // scope for the mutex
             static std::mutex mtx{};
-            auto lock = std::lock_guard(mtx);
+            auto lock = std::scoped_lock(mtx);
             CGEventPostToPid(lr_pid, d);
             CGEventPostToPid(lr_pid, u);
          }
