@@ -52,7 +52,7 @@ end
 
 for k in pairs(ProgramPreferences.Limits) do
   if LimitParameters[k] then
-    ProgramPreferences.Limits[k]['label'] = Database.CmdTrans[k]
+    ProgramPreferences.Limits[k]['label'] = Database.CmdTrans[k][Database.LatestPVSupported]
   else
     ProgramPreferences.Limits[k] = nil --erase unused
   end
@@ -93,7 +93,8 @@ local function GetMinMax(param)
         ProgramPreferences.Limits[param][rangemax] = {low, rangemax}
       end
     else
-      ProgramPreferences.Limits[param] = {param = param, label = Database.CmdTrans[param],
+      ProgramPreferences.Limits[param] = {param = param, 
+        label = Database.CmdTrans[param][Database.LatestPVSupported],
         rangemax = {low,rangemax}}
     end
   end

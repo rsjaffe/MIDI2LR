@@ -63,7 +63,8 @@ end
 
 local function UseDefaultsLimits()
   ProgramPreferences.Limits = {}
-  ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature, [50000] = {3000,9000}}
+  ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature[Database.LatestPVSupported], 
+    [50000] = {3000,9000}}
 end
 
 local function LoadedLimits()
@@ -79,7 +80,8 @@ local function LoadedLimits()
       end
       if corrupt == true then
         ProgramPreferences.Limits[t] = nil
-        ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature, [50000] = {3000,9000}}
+        ProgramPreferences.Limits.Temperature = {param = 'Temperature', label = Database.CmdTrans.Temperature[Database.LatestPVSupported], 
+          [50000] = {3000,9000}}
       end
     end
   end

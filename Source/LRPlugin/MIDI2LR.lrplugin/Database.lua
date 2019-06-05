@@ -56,6 +56,7 @@ also optional are PV1 PV2 PV3 PV4 PV5. These change the bezel display for differ
   -----------------------------------------------------------------------------]]
 
 --local function LOC(str) return str end--for debugging
+local LatestPVSupported = 5 -- used for update PV to latest and for limits code to get best label
 
 --Common terms used in database translated once here
 --local coarse = LOC('$$$/AgPrint/CalibrationDialog/Coarse=Coarse')
@@ -284,7 +285,7 @@ local DataBase = {
   {Command='RedoUndo',Type='repeat',Translation=LOC('$$$/Bezel/RedoTitle=Redo')..' – '..LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Turning knob clockwise sends Redo keystrokes (<kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX)) to Lightroom, counterclockwise Undo (<kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX)).'..repeatexp},
   {Command='Undo',Type='button',Translation=LOC('$$$/AgCameraRawController/SoftProofingVirtualCopyPrompt/Undo=Undo'),Group=develop,Explanation='Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>z</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>z</kbd> (OSX) to Lightroom.'},
   {Command='Redo',Type='button',Translation=LOC('$$$/Bezel/RedoTitle=Redo'),Group=develop,Explanation='Sends the keystroke <kbd>\226\140\131 Control</kbd>+<kbd>y</kbd> (Windows) or <kbd>\226\140\152 Command</kbd>+<kbd>\226\135\167 Shift</kbd>+<kbd>z</kbd> (OSX) to Lightroom.'},
-  {Command='PVLatest',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1','5'),Group=develop,Explanation='Sets the Process Version of all selected photos to the latest (PV 5). Will not work in earlier Lightroom versions that do not support PV 5.'},
+  {Command='PVLatest',Type='button',Translation=LOC('$$$/AgCameraRawNamedSettings/Ops/UpdateAndSetProcessVersionFull=Update process version to ^1',LatestPVSupported),Group=develop,Explanation='Sets the Process Version of all selected photos to the latest (PV '.. LatestPVSupported ..'). Will not work in earlier Lightroom versions that do not support PV ' .. LatestPVSupported .. '.'},
   {Command='ShowClipping',Type='button',Translation=LOC('$$$/AgDevelop/Histogram/Menu/ShowClippingIndicators=Show clipping'),Group=develop,Explanation='Toggles clipping indicators on/off. Must be called while the Develop module is active. Supported in LR versions 7.4 and later.'},
   --develop: before/after previews
   {Command='ShoVwdevelop_before_after_horiz',Type='button',Translation=primaryDisplay..' '..LOC('$$$/AgPhotoBin/ViewMode/Develop/BeforeAfterLR=Before/After Left/Right'),Group=develop,Explanation=''},
@@ -829,6 +830,7 @@ local CmdTrans={}
 local CmdPanel={}
 local Parameters={}
 local ValidActions={}
+--update LatestPVSupported (at top of this file) when adding PVs below
 for _,v in ipairs(DataBase) do
   CmdTrans[v.Command] = {}
   CmdTrans[v.Command][1] = v.PV1 or v.Translation
@@ -900,6 +902,7 @@ return {
   CmdPanel = CmdPanel,
   CmdTrans = CmdTrans,
   DataBase = DataBase,
+  LatestPVSupported = LatestPVSupported,
   Parameters = Parameters,
   ValidActions = ValidActions,
   WriteAppTrans = WriteAppTrans,
