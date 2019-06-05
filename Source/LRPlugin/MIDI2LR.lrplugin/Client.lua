@@ -347,7 +347,7 @@ LrTasks.startAsyncTask(
       profile8                        = function() Profiles.changeProfile('profile8', true) end,
       profile9                        = function() Profiles.changeProfile('profile9', true) end,
       profile10                       = function() Profiles.changeProfile('profile10', true) end,
-      PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version 5'),
+      PVLatest                        = CU.wrapFOM(LrDevelopController.setProcessVersion, 'Version ' .. Database.LatestPVSupported),
       RadialFilter                    = CU.fToggleTool('circularGradient'),
       RedEye                          = CU.fToggleTool('redeye'),
       Redo                            = LrUndo.redo,
