@@ -51,30 +51,30 @@ end
 
 local langcode = LrLocalization.currentLanguage() 
 if langcode == 'de' then
-  KeyCode.BrushDecreaseKey        = '0 ,'
-  KeyCode.BrushDecreaseKeyShifted = '0 ;'
-  KeyCode.BrushIncreaseKey        = '0 .'
-  KeyCode.BrushIncreaseKeyShifted = '0 :'
+  KeyCode.BrushDecreaseKey   = '0 ,'
+  KeyCode.FeatherDecreaseKey = '0 ;'
+  KeyCode.BrushIncreaseKey   = '0 .'
+  KeyCode.FeatherIncreaseKey = '0 :'
 elseif langcode == 'es' or langcode == 'it' then
-  KeyCode.BrushDecreaseKey        = '0 <'
-  KeyCode.BrushDecreaseKeyShifted = '0 >'
-  KeyCode.BrushIncreaseKey        = '0 +'
-  KeyCode.BrushIncreaseKeyShifted = '0 *'
+  KeyCode.BrushDecreaseKey   = '0 <'
+  KeyCode.FeatherDecreaseKey = '0 >'
+  KeyCode.BrushIncreaseKey   = '0 +'
+  KeyCode.FeatherIncreaseKey = '0 *'
 elseif langcode == 'fr' then
-  KeyCode.BrushDecreaseKey        = '0 ,'
-  KeyCode.BrushDecreaseKeyShifted = '0 ?'
-  KeyCode.BrushIncreaseKey        = '0 ;'
-  KeyCode.BrushIncreaseKeyShifted = '0 .'
+  KeyCode.BrushDecreaseKey   = '0 ,'
+  KeyCode.FeatherDecreaseKey = '0 ?'
+  KeyCode.BrushIncreaseKey   = '0 ;'
+  KeyCode.FeatherIncreaseKey = '0 .'
 elseif langcode == 'sv' then 
-  KeyCode.BrushDecreaseKey        = '0 <'
-  KeyCode.BrushDecreaseKeyShifted = '0 >'
-  KeyCode.BrushIncreaseKey        = '0 -'
-  KeyCode.BrushIncreaseKeyShifted = '0 _'
+  KeyCode.BrushDecreaseKey   = '0 <'
+  KeyCode.FeatherDecreaseKey = '0 >'
+  KeyCode.BrushIncreaseKey   = '0 -'
+  KeyCode.FeatherIncreaseKey = '0 _'
 else
-  KeyCode.BrushDecreaseKey        = '0 ['
-  KeyCode.BrushDecreaseKeyShifted = '0 {'
-  KeyCode.BrushIncreaseKey        = '0 ]'
-  KeyCode.BrushIncreaseKeyShifted = '0 }'
+  KeyCode.BrushDecreaseKey   = '0 ['
+  KeyCode.FeatherDecreaseKey = '0 {'
+  KeyCode.BrushIncreaseKey   = '0 ]'
+  KeyCode.FeatherIncreaseKey = '0 }'
 end
 
 return {

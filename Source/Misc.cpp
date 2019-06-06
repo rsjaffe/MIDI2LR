@@ -71,8 +71,8 @@ std::string rsj::ToLower(std::string_view in)
    try {
       std::string s;
       s.resize(in.size());
-      std::transform(in.begin(), in.end(), s.begin(),
-          [](unsigned char c) noexcept { return std::tolower(c); });
+      std::transform(in.begin(), in.end(), s.begin(), [
+      ](unsigned char c) noexcept { return gsl::narrow_cast<unsigned char>(std::tolower(c)); });
       return s;
    }
    catch (const std::exception& e) {
@@ -101,23 +101,20 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 #include <cxxabi.h>
 #include <memory>
 #include <type_traits>
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
+[[nodiscard]] juce::String Demangle(const char* mangled_name)
 {
-   static_assert(std::is_pointer<T>() == false, "Result must be copied as __cxa_demagle returns "
-                                                "pointer to temporary. Cannot use pointer type for "
-                                                "this template.");
    std::size_t len = 0;
    int status = 0;
    std::unique_ptr<char, decltype(&std::free)> ptr(
        abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &std::free);
    if (status)
       return mangled_name;
-   return ptr.get();
+   return juce::String(juce::CharPointer_UTF8(ptr.get());
 }
 #else  // ndef _GNUG_
-template<typename T>[[nodiscard]] T Demangle(const char* mangled_name)
+[[nodiscard]] juce::String Demangle(_In_z_ const char* mangled_name)
 {
-   return mangled_name;
+   return juce::String(juce::CharPointer_UTF8(mangled_name));
 }
 #endif // _GNUG_
 
@@ -140,7 +137,7 @@ void rsj::LogAndAlertError(const juce::String& error_text)
 void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept
 {
    try {
-      const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle<juce::String>(id)
+      const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id)
                             + "::" + fu + " Version " + ProjectInfo::versionString};
       rsj::LogAndAlertError(error_text);
    }
@@ -169,8 +166,9 @@ std::wstring rsj::AppDataFilePath(std::string_view file_name)
 }
 
 namespace {
-   int MultiByteToWideCharErrorChecked(UINT CodePage, DWORD dwFlags, LPCCH lpMultiByteStr,
-       int cbMultiByte, LPWSTR lpWideCharStr, int cchWideChar)
+   int MultiByteToWideCharErrorChecked(_In_ UINT CodePage, _In_ DWORD dwFlags,
+       _In_NLS_string_(cbMultiByte) LPCCH lpMultiByteStr, _In_ int cbMultiByte,
+       _Out_writes_to_opt_(cchWideChar, return ) LPWSTR lpWideCharStr, _In_ int cchWideChar)
    {
       try {
          const auto ret = MultiByteToWideChar(
@@ -188,9 +186,10 @@ namespace {
       }
    }
 
-   int WideCharToMultiByteErrorChecked(UINT CodePage, DWORD dwFlags, LPCWCH lpWideCharStr,
-       int cchWideChar, LPSTR lpMultiByteStr, int cbMultiByte, LPCCH lpDefaultChar,
-       LPBOOL lpUsedDefaultChar)
+   int WideCharToMultiByteErrorChecked(_In_ UINT CodePage, _In_ DWORD dwFlags,
+       _In_NLS_string_(cchWideChar) LPCWCH lpWideCharStr, _In_ int cchWideChar,
+       _Out_writes_bytes_to_opt_(cbMultiByte, return ) LPSTR lpMultiByteStr, _In_ int cbMultiByte,
+       _In_opt_ LPCCH lpDefaultChar, _Out_opt_ LPBOOL lpUsedDefaultChar)
    {
       try {
          const auto ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar,
