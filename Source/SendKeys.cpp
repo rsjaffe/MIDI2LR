@@ -59,7 +59,7 @@ namespace {
       return GetKeyboardLayout(0);
    }
 
-   SHORT VkKeyScanExWErrorChecked(WCHAR ch, HKL dwhkl)
+   SHORT VkKeyScanExWErrorChecked(_In_ WCHAR ch, _In_ HKL dwhkl)
    {
       try {
          const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
@@ -102,7 +102,8 @@ namespace {
       }
    }
 
-   UINT SendInputErrorChecked(UINT cinputs, LPINPUT pinputs, int cbSize)
+   UINT SendInputErrorChecked(
+       _In_ UINT cinputs, _In_reads_(cinputs) LPINPUT pinputs, _In_ int cbSize)
    {
       try {
          const auto result = SendInput(cinputs, pinputs, cbSize);
