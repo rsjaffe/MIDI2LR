@@ -30,12 +30,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #undef NONLS
 #undef NOUSER
 #undef NOWINMESSAGES
-#include <gsl/gsl_util>
 #include <ShlObj.h>
 #include <Windows.h>
 #else
 #include "Ocpp.h"
 #endif
+#include <gsl/gsl>
 
 [[nodiscard]] std::string rsj::ReplaceInvisibleChars(std::string_view input)
 {
@@ -109,7 +109,7 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
        abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &std::free);
    if (status)
       return mangled_name;
-   return juce::String(juce::CharPointer_UTF8(ptr.get());
+   return juce::String(juce::CharPointer_UTF8(ptr.get()));
 }
 #else  // ndef _GNUG_
 [[nodiscard]] juce::String Demangle(_In_z_ const char* mangled_name)
@@ -137,8 +137,8 @@ void rsj::LogAndAlertError(const juce::String& error_text)
 void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept
 {
    try {
-      const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id)
-                            + "::" + fu + " Version " + ProjectInfo::versionString};
+      const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id) + "::" + fu
+                            + " Version " + ProjectInfo::versionString};
       rsj::LogAndAlertError(error_text);
    }
    catch (...) { //-V565
