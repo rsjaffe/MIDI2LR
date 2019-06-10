@@ -465,6 +465,7 @@ LrTasks.startAsyncTask(
       ACTIONS.QuickDevCropAspect4x5        = nocar
       ACTIONS.QuickDevCropAspect5x7        = nocar
       ACTIONS.QuickDevCropAspect85x11      = nocar
+      ACTIONS.QuickDevCropAspect9x16       = nocar
       ACTIONS.QuickDevCropAspectAsShot     = nocar
       ACTIONS.QuickDevCropAspectOriginal   = nocar
       ACTIONS.QuickDevWBAuto               = nowb
@@ -500,6 +501,7 @@ LrTasks.startAsyncTask(
       ACTIONS.QuickDevCropAspect4x5        = function() CU.QuickCropAspect({w=4,h=5}) end
       ACTIONS.QuickDevCropAspect5x7        = function() CU.QuickCropAspect({w=5,h=7}) end
       ACTIONS.QuickDevCropAspect85x11      = function() CU.QuickCropAspect({w=8.5,h=11}) end
+      ACTIONS.QuickDevCropAspect9x16       = function() CU.QuickCropAspect({w=9,h=16}) end
       ACTIONS.QuickDevCropAspectAsShot     = function() CU.QuickCropAspect('asshot') end
       ACTIONS.QuickDevCropAspectOriginal   = function() CU.QuickCropAspect('original') end
       ACTIONS.QuickDevWBAuto               = CU.wrapForEachPhoto('QuickDevWBAuto')
