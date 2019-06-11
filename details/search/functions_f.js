@@ -11,6 +11,7 @@ var searchData=
   ['removefromlayout',['removeFromLayout',['../class_resizable_layout.html#ad4441decbaeb450d2c393a85d67c3178',1,'ResizableLayout']]],
   ['removemessage',['RemoveMessage',['../class_profile.html#ae56fe39ecce15d0a5b63924504f6ee52',1,'Profile']]],
   ['removerow',['RemoveRow',['../class_profile.html#a414a11b557891329f59fb3ef7485428e',1,'Profile::RemoveRow()'],['../class_command_table_model.html#a56bd37021d8ff9e11f642223b1afa8e6',1,'CommandTableModel::RemoveRow()']]],
+  ['replaceinvisiblechars',['ReplaceInvisibleChars',['../namespacersj.html#af4f9131f50a22cfe938656d0542142be',1,'rsj']]],
   ['rescandevices',['RescanDevices',['../class_midi_sender.html#ac40f8961fcc5ab57f6c59c6220c9c2c9',1,'MidiSender::RescanDevices()'],['../class_midi_receiver.html#a9a477458f298106f55c97ae9c7043fbc',1,'MidiReceiver::RescanDevices()']]],
   ['resizablechild',['ResizableChild',['../class_resizable_child.html#a3cd221aa2e11119f2bee6cc29375b383',1,'ResizableChild']]],
   ['resizablelayout',['ResizableLayout',['../class_resizable_layout.html#a463232fab8660fd7663adf18381012d2',1,'ResizableLayout']]],

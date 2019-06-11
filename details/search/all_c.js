@@ -33,7 +33,7 @@ var searchData=
   ['message_5fmap_5f',['message_map_',['../class_profile.html#a4a2390bca21eda906de4d95a2ff94f8c',1,'Profile']]],
   ['message_5ftype_5fbyte',['message_type_byte',['../structrsj_1_1_midi_message.html#a6367688a1d8eb9308633e059220cfbe6',1,'rsj::MidiMessage']]],
   ['messageexistsinmap',['MessageExistsInMap',['../class_profile.html#a8cb8e0f04fe9662463c4686521e0953e',1,'Profile']]],
-  ['messageexistsinmap_5fi',['MessageExistsInMap_i',['../class_profile.html#aa7c214af5c65756ed4af9a2fba04b501',1,'Profile']]],
+  ['messageexistsinmapi',['MessageExistsInMapI',['../class_profile.html#a8a92fd3297f70b6713058f2ae61c71c0',1,'Profile']]],
   ['messagereceived',['messageReceived',['../class_lr_ipc_out.html#ae043684c8134422430238495fe810eef',1,'LrIpcOut']]],
   ['messages_5f',['messages_',['../class_midi_receiver.html#a5214b9f7cd228ce37b791f49e0396a96',1,'MidiReceiver']]],
   ['method',['method',['../structrsj_1_1_settings_struct.html#afb5f6774d2bffd592d871b95d6e4921d',1,'rsj::SettingsStruct']]],

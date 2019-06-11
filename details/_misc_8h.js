@@ -13,6 +13,7 @@ var _misc_8h =
     [ "LogAndAlertError", "_misc_8h.html#a13589127c96c3faf1378eb29f93022b8", null ],
     [ "NumToChars", "_misc_8h.html#a4895a4c1be1002b9feb8a0c4935efbc6", null ],
     [ "RatioToPrefix", "_misc_8h.html#a3bfc7d952a3ddbc1e06520d92f6f317f", null ],
+    [ "ReplaceInvisibleChars", "_misc_8h.html#af4f9131f50a22cfe938656d0542142be", null ],
     [ "Reverse", "_misc_8h.html#adec52fa08d11a6bde65ac979d1a5da10", null ],
     [ "SleepTimed", "_misc_8h.html#a01ba4e95db815027d2e6ef78ee4353f5", null ],
     [ "SleepTimedLogged", "_misc_8h.html#a3ff3cae4cb893f0e81cd429efdd189de", null ],

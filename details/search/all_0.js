@@ -6,7 +6,7 @@ var searchData=
   ['activetosaved',['ActiveToSaved',['../class_channel_model.html#a02c98af20857bc809f51840908a9b5b8',1,'ChannelModel']]],
   ['addcallback',['AddCallback',['../class_profile_manager.html#a60aaa040f437267441cfbec6f8ec454b',1,'ProfileManager::AddCallback()'],['../class_lr_ipc_out.html#a2fe55e9f3c0debd8cc60c202bab49ec6',1,'LrIpcOut::AddCallback()'],['../class_midi_receiver.html#a34e451f6005ea363e05aacb972966454',1,'MidiReceiver::AddCallback()']]],
   ['addcommandformessage',['AddCommandForMessage',['../class_profile.html#a2ca17fdd4051436bcbaa3b6e9f04bc08',1,'Profile']]],
-  ['addcommandformessage_5fi',['AddCommandForMessage_i',['../class_profile.html#ad573e8ffe2d45515855bd5b32c37d531',1,'Profile']]],
+  ['addcommandformessagei',['AddCommandForMessageI',['../class_profile.html#aad212334c741e1a454b8dc2fb91a56e3',1,'Profile']]],
   ['addrowmapped',['AddRowMapped',['../class_profile.html#a27523948da6b6423960a2afafba64792',1,'Profile']]],
   ['addrowunmapped',['AddRowUnmapped',['../class_profile.html#a442cfca7c0f2bd3ac152cda33b9b35e1',1,'Profile']]],
   ['addstatefor',['addStateFor',['../class_resizable_layout.html#a6d6f6015a51dbe7c950de80ed8b0ab49',1,'ResizableLayout']]],

@@ -6,7 +6,7 @@ var searchData=
   ['mapcommand',['MapCommand',['../class_profile_manager.html#a498ff5dcfc0fadef110e0241ea82b6fd',1,'ProfileManager']]],
   ['measurechange',['MeasureChange',['../class_channel_model.html#a3567d62c8b3cfc046b28fbf6efbb5860',1,'ChannelModel::MeasureChange()'],['../class_controls_model.html#a4c650884166a2b3d44869e3d60f96f4c',1,'ControlsModel::MeasureChange(const rsj::MidiMessage &amp;mm)'],['../class_controls_model.html#a6f2e681ddeb13773507b7bda57a504b8',1,'ControlsModel::MeasureChange(short controltype, size_t channel, short controlnumber, short value)']]],
   ['messageexistsinmap',['MessageExistsInMap',['../class_profile.html#a8cb8e0f04fe9662463c4686521e0953e',1,'Profile']]],
-  ['messageexistsinmap_5fi',['MessageExistsInMap_i',['../class_profile.html#aa7c214af5c65756ed4af9a2fba04b501',1,'Profile']]],
+  ['messageexistsinmapi',['MessageExistsInMapI',['../class_profile.html#a8a92fd3297f70b6713058f2ae61c71c0',1,'Profile']]],
   ['messagereceived',['messageReceived',['../class_lr_ipc_out.html#ae043684c8134422430238495fe810eef',1,'LrIpcOut']]],
   ['midi2lrapplication',['MIDI2LRApplication',['../class_m_i_d_i2_l_r_application.html#a88492c86eb83772dffb248cbeff75667',1,'MIDI2LRApplication']]],
   ['midicmdcallback',['MidiCmdCallback',['../class_profile_manager.html#a1d84fc917489f92e3c024adc7ae2b7b6',1,'ProfileManager::MidiCmdCallback()'],['../class_lr_ipc_out.html#a27ee32e8a38df4706daba31ff7e20cab',1,'LrIpcOut::MidiCmdCallback()'],['../class_main_content_component.html#a20affb5b561c098afe948341c8cbc7f2',1,'MainContentComponent::MidiCmdCallback()']]],

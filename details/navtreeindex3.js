@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"functions_c.html":[1,3,0,2],
 "functions_d.html":[1,3,0,3],
 "functions_enum.html":[1,3,4],
 "functions_eval.html":[1,3,5],
@@ -145,8 +146,8 @@ var NAVTREEINDEX3 =
 "structrsj_1_1_reversion_wrapper.html#a31f848299f4606cfc3abd3a69d5e17b2":[1,0,0,5,0],
 "structrsj_1_1_settings_struct.html":[1,0,0,6],
 "structrsj_1_1_settings_struct.html#a2a39af6257e4d41c76a6f06b0bf0fc3d":[1,0,0,6,3],
-"structrsj_1_1_settings_struct.html#a2e2c401388dfe070b46a32129b776c42":[1,0,0,6,2],
 "structrsj_1_1_settings_struct.html#a2e2c401388dfe070b46a32129b776c42":[1,0,0,6,1],
+"structrsj_1_1_settings_struct.html#a2e2c401388dfe070b46a32129b776c42":[1,0,0,6,2],
 "structrsj_1_1_settings_struct.html#a3f35747f625bf0941e78901b22caf928":[1,0,0,6,6],
 "structrsj_1_1_settings_struct.html#a5dc765c00e077ed13048125f37b9acbd":[1,0,0,6,4],
 "structrsj_1_1_settings_struct.html#a88895a58292cb0763eba9bb6a21e35b0":[1,0,0,6,0],

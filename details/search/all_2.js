@@ -14,7 +14,7 @@ var searchData=
   ['centercc',['CenterCc',['../class_channel_model.html#aa745e87e089bbddcccc41124045b3b50',1,'ChannelModel']]],
   ['centerpw',['CenterPw',['../class_channel_model.html#a8f7061971fc2e13c925e8ba6756c1af7',1,'ChannelModel']]],
   ['cerealload',['CerealLoad',['../class_m_i_d_i2_l_r_application.html#a1e52f4c3aae1ef33e77574284b15af32',1,'MIDI2LRApplication']]],
-  ['cerealsave',['CerealSave',['../class_m_i_d_i2_l_r_application.html#a3f2dbf09f9ba5f582534b4765e434d26',1,'MIDI2LRApplication']]],
+  ['cerealsave',['CerealSave',['../class_m_i_d_i2_l_r_application.html#afcb2fba1514ae2c850af5e6e789ea216',1,'MIDI2LRApplication']]],
   ['channel',['channel',['../structrsj_1_1_midi_message.html#aad2f386f5ae0d1666983903e3ac25f97',1,'rsj::MidiMessage::channel()'],['../structrsj_1_1_midi_message_id.html#aa0bbf6fc1bc605b65d06969a53612214',1,'rsj::MidiMessageId::channel()']]],
   ['channelmodel',['ChannelModel',['../class_channel_model.html',1,'ChannelModel'],['../class_channel_model.html#ab4d041ea28d8b3052a8d5e442dc49170',1,'ChannelModel::ChannelModel()'],['../class_channel_model.html#ae58634778121ef70d9463efae626ac46',1,'ChannelModel::ChannelModel(const ChannelModel &amp;)=delete'],['../class_channel_model.html#a94970f20ecec2eb2ed52200a45fbb203',1,'ChannelModel::ChannelModel(ChannelModel &amp;&amp;)=delete']]],
   ['checkpermission',['CheckPermission',['../namespacersj.html#af3d2a01c3b8513a4937128c2236ad032',1,'rsj']]],
