@@ -78,9 +78,7 @@ void MidiReceiver::handleIncomingMidiMessage(
          }
          if (result.is_nrpn) {
             if (result.is_ready) { // send when finished
-               const auto n_message{
-                   rsj::MidiMessage{rsj::kCcFlag, mess.channel, result.control, result.value}};
-               messages_.push(n_message);
+               messages_.emplace(rsj::kCcFlag, mess.channel, result.control, result.value);
             }
             break; // finished with nrpn piece
          }

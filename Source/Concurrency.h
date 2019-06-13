@@ -53,7 +53,7 @@ namespace rsj {
       bool try_lock() noexcept
       {
          if (flag_.load(std::memory_order_relaxed)) // avoid cache invalidation if lock
-                                                    // unavailable
+                                                    // appears to be unavailable
             return false;
          return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
       }
@@ -76,52 +76,53 @@ namespace rsj {
       using const_reference = typename Container::const_reference;
       static_assert(std::is_same_v<T, value_type>, "container adaptors require consistent types");
       // Constructors: see https://en.cppreference.com/w/cpp/container/queue/queue
-      // These are in same order as in cppreference
-      BlockingQueue() noexcept(std::is_nothrow_default_constructible_v<Container>){};
-      explicit BlockingQueue(const Container& container) noexcept(
+      // These are in same order and number as in cppreference
+      /*1*/ BlockingQueue() noexcept(std::is_nothrow_default_constructible_v<Container>){};
+      /*2*/ explicit BlockingQueue(const Container& cont) noexcept(
           std::is_nothrow_copy_constructible_v<Container>)
-          : queue_{container}
+          : queue_{cont}
       {
       }
-      explicit BlockingQueue(Container&& container) noexcept(
+      /*3*/ explicit BlockingQueue(Container&& cont) noexcept(
           std::is_nothrow_move_constructible_v<Container>)
-          : queue_{std::move(container)}
+          : queue_{std::move(cont)}
       {
       }
-      BlockingQueue(const BlockingQueue& other)
+      /*4*/ BlockingQueue(const BlockingQueue& other)
       {
          auto lock{std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;
       }
-      BlockingQueue(BlockingQueue&& other) noexcept(
+      /*5*/ BlockingQueue(BlockingQueue&& other) noexcept(
           std::is_nothrow_move_constructible_v<BlockingQueue>)
       {
          auto lock{std::scoped_lock(other.mutex_)};
          queue_ = std::move(other.queue_);
       }
-      template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
+      /*6*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       explicit BlockingQueue(const Alloc& alloc) noexcept(
           std::is_nothrow_constructible_v<Container, const Alloc&>)
           : queue_{alloc}
       {
       }
-      template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
+      /*7*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       BlockingQueue(const Container& cont, const Alloc& alloc) : queue_{cont, alloc}
       {
       }
-      template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
+      /*8*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       BlockingQueue(Container&& cont, const Alloc& alloc) noexcept(
           std::is_nothrow_constructible_v<Container, Container, const Alloc&>)
           : queue_(std::move(cont), alloc)
       {
       }
-      template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
+      /*9*/ template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       BlockingQueue(const BlockingQueue& other, const Alloc& alloc) : queue_(alloc)
       {
          auto lock{std::scoped_lock(other.mutex_)};
          queue_ = other.queue_;
       }
-      template<class Alloc, class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
+      /*10*/ template<class Alloc,
+          class = std::enable_if_t<std::uses_allocator_v<Container, Alloc>>>
       BlockingQueue(BlockingQueue&& other, const Alloc& alloc) noexcept(
           std::is_nothrow_constructible_v<Container, Container, const Alloc&>)
           : queue_(alloc)
@@ -134,9 +135,9 @@ namespace rsj {
       {
          {
             auto lock{std::scoped_lock(mutex_, other.mutex_)};
-            queue_ = other.queue_
+            queue_ = other.queue_;
          }
-         condition_.notify_one();
+         condition_.notify_all();
          return *this;
       }
       BlockingQueue& operator=(BlockingQueue&& other) noexcept(
@@ -146,7 +147,7 @@ namespace rsj {
             auto lock{std::scoped_lock(mutex_, other.mutex_)};
             queue_ = std::move(other.queue_);
          }
-         condition_.notify_one();
+         condition_.notify_all();
          return *this;
       }
       // destructor
@@ -246,7 +247,7 @@ namespace rsj {
          condition_.notify_one();
          return ret;
       }
-      bool empty() const
+      [[nodiscard]] bool empty() const
       {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.empty();
