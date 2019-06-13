@@ -63,14 +63,8 @@ LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
 LrIpcOut::~LrIpcOut()
 {
    try {
-      if (const auto m = command_.size_approx())
+      if (const auto m = command_.clear_count_emplace(kTerminate))
          rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
-      moodycamel::ConsumerToken ctok(command_);
-      std::string command_copy;
-      while (command_.try_dequeue(ctok, command_copy)) {
-         /* pump the queue empty */
-      }
-      command_.enqueue(kTerminate);
       connect_timer_.Stop();
       juce::InterprocessConnection::disconnect();
    }
@@ -165,8 +159,7 @@ void LrIpcOut::SendCommand(std::string&& command)
    try {
       if (sending_stopped_)
          return;
-      static const thread_local moodycamel::ProducerToken ptok(command_);
-      command_.enqueue(ptok, std::move(command));
+      command_.push(std::move(command));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -179,8 +172,7 @@ void LrIpcOut::SendCommand(const std::string& command)
    try {
       if (sending_stopped_)
          return;
-      static const thread_local moodycamel::ProducerToken ptok(command_);
-      command_.enqueue(ptok, command);
+      command_.push(command);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -251,10 +243,7 @@ void LrIpcOut::SendOut()
 {
    try {
       do {
-         std::string command_copy;
-         static thread_local moodycamel::ConsumerToken ctok(command_);
-         if (!command_.try_dequeue(ctok, command_copy))
-            command_.wait_dequeue(ctok, command_copy);
+         auto command_copy = command_.pop();
          if (command_copy == kTerminate)
             return;
          // check if there is a connection

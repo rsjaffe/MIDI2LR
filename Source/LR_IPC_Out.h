@@ -26,7 +26,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 
-#include <MoodyCamel/blockingconcurrentqueue.h>
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Concurrency.h"
 #include "MidiUtilities.h"
@@ -73,7 +72,7 @@ class LrIpcOut final : juce::InterprocessConnection {
    bool sending_stopped_{false};
    const Profile& profile_;
    ControlsModel& controls_model_;
-   moodycamel::BlockingConcurrentQueue<std::string> command_;
+   rsj::BlockingQueue<std::string> command_;
    std::future<void> send_out_future_;
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
    std::vector<std::function<void(bool, bool)>> callbacks_{};
