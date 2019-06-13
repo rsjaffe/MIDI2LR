@@ -44,6 +44,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 class ControlsModel;
+#ifndef _MSC_VER
+#define _In_
+#endif
 // NOTE: must add juce:: qualifiers in header if regenerate file
 //[/Headers]
 
@@ -63,7 +66,7 @@ class PWoptions final : public juce::Component, juce::TextEditor::Listener {
 
    //==============================================================================
    //[UserMethods]     -- You can add your own custom methods in this section.
-   static void LinkToControlsModel(ControlsModel* model) noexcept
+   static void LinkToControlsModel(_In_ ControlsModel* model) noexcept
    {
       controls_model_ = model;
    }

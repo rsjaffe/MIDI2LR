@@ -23,13 +23,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <exception>
 #include <functional>
 #include <future>
+#include <map> //map faster than unordered_map for very few members
 #include <memory>
 #include <vector>
 
-#include <MoodyCamel/blockingconcurrentqueue.h>
 #include <JuceLibraryCode/JuceHeader.h>
+#include "Concurrency.h"
 #include "MidiUtilities.h"
+#include "Misc.h"
 #include "NrpnMessage.h"
+
+#ifndef _MSC_VER
+#define _In_
+#endif
 
 class MidiReceiver final : juce::MidiInputCallback {
  public:
@@ -43,7 +49,8 @@ class MidiReceiver final : juce::MidiInputCallback {
    // re-enumerates MIDI IN devices
    void RescanDevices();
 
-   template<class T> void AddCallback(T* const object, void (T::*const mf)(rsj::MidiMessage))
+   template<class T>
+   void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(rsj::MidiMessage))
    {
       try {
          using namespace std::placeholders;
@@ -61,10 +68,10 @@ class MidiReceiver final : juce::MidiInputCallback {
    void DispatchMessages();
    void InitDevices();
    void TryToOpen(); // inner code for InitDevices
-
-   moodycamel::BlockingConcurrentQueue<rsj::MidiMessage> messages_;
-   NrpnFilter nrpn_filter_;
+   rsj::BlockingQueue<rsj::MidiMessage> messages_;
+   rsj::RelaxTTasSpinLock filter_mutex_;
    std::future<void> dispatch_messages_future_;
+   std::map<juce::MidiInput*, NrpnFilter> filters_{};
    std::vector<std::function<void(rsj::MidiMessage)>> callbacks_;
    std::vector<std::unique_ptr<juce::MidiInput>> devices_;
 };

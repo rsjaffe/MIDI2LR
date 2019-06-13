@@ -21,144 +21,35 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <array>
-#include <mutex>
-
-#include <gsl/gsl>
-#include <MoodyCamel/concurrentqueue.h>
-#include "Misc.h"
-
-namespace rsj {
-   struct Nrpn {
-      bool is_valid{false};
-      short control{0};
-      short value{0};
-      constexpr Nrpn() = default;
-      constexpr Nrpn(bool validity, short controlno, short valueval) noexcept
-          : is_valid{validity}, control{controlno}, value{valueval}
-      {
-      }
-   };
-   static constexpr Nrpn kInvalidNrpn{false, 0, 0};
-} // namespace rsj
-
-class NrpnMessage {
-   // This is a simplified NRPN message class, and assumes that all NRPN messages
-   // have 4 messages, though the NRPN standard allows omission of the 4th
-   // message. If the 4th message is dropped, this class silently consumes the
-   // message without emitting anything.
- public:
-   [[nodiscard]] bool IsInProcess() const noexcept;
-   bool ProcessMidi(short control, short value);
-   rsj::Nrpn GetNrpnIfReady();
-
- private:
-   [[nodiscard]] bool IsReady() const noexcept;
-   [[nodiscard]] short GetControl() const noexcept;
-   [[nodiscard]] short GetValue() const noexcept;
-   void Clear() noexcept;
-   void SetControlLsb(short val) noexcept(kNdebug);
-   void SetControlMsb(short val) noexcept(kNdebug);
-   void SetValueLsb(short val) noexcept(kNdebug);
-   void SetValueMsb(short val) noexcept(kNdebug);
-
-   mutable rsj::RelaxTTasSpinLock data_guard_;
-   short control_lsb_{0};
-   short control_msb_{0};
-   short value_lsb_{0};
-   short value_msb_{0};
-   moodycamel::ConcurrentQueue<rsj::Nrpn> nrpn_queued_{};
-   unsigned char ready_{0};
-};
 
 class NrpnFilter {
+   // This  assumes that all NRPN messages have 4 messages, though the NRPN standard allows omission
+   // of the 4th message. If the 4th message is dropped, this class silently consumes the message
+   // without emitting anything. Caller must handle all concurrency considerations.
  public:
-   bool ProcessMidi(short channel, short control, short value)
-   {
-      try {
-         Expects(channel <= 15 && channel >= 0);
-         return nrpn_messages_.at(channel & 0xF).ProcessMidi(control, value);
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
-   }
-
-   [[nodiscard]] bool IsInProcess(short channel) const
-   {
-      try {
-         Expects(channel <= 15 && channel >= 0);
-         return nrpn_messages_.at(channel & 0xF).IsInProcess();
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
-   }
-
-   [[nodiscard]] rsj::Nrpn GetNrpnIfReady(short channel)
-   {
-      try {
-         Expects(channel <= 15 && channel >= 0);
-         return nrpn_messages_.at(channel & 0xF).GetNrpnIfReady();
-      }
-      catch (const std::exception& e) {
-         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-         throw;
-      }
-   }
+   struct ProcessResult {
+      bool is_nrpn{};
+      bool is_ready{};
+      short control{};
+      short value{};
+   };
+   ProcessResult operator()(short channel, short control, short value);
 
  private:
-   std::array<NrpnMessage, 16> nrpn_messages_{};
+   static constexpr int kChannels{16};
+   std::array<int, kChannels> control_msb_{};
+   std::array<int, kChannels> control_lsb_{};
+   std::array<int, kChannels> value_msb_{};
+   std::array<int, kChannels> value_lsb_{};
+   std::array<int, kChannels> ready_flags_{};
+   void Clear(int channel) noexcept
+   {
+      ready_flags_[channel] = 0;
+      control_msb_[channel] = 0;
+      control_lsb_[channel] = 0;
+      value_msb_[channel] = 0;
+      value_lsb_[channel] = 0;
+   }
 };
-
-inline bool NrpnMessage::IsInProcess() const noexcept
-{
-   auto dlock = std::scoped_lock(data_guard_);
-   return ready_ != 0;
-}
-
-inline bool NrpnMessage::IsReady() const noexcept
-{
-   return ready_ == 0b1111;
-}
-
-inline short NrpnMessage::GetControl() const noexcept
-{
-   return (control_msb_ << 7) + control_lsb_;
-}
-
-inline short NrpnMessage::GetValue() const noexcept
-{
-   return (value_msb_ << 7) + value_lsb_;
-}
-
-inline void NrpnMessage::SetControlLsb(short val) noexcept(kNdebug)
-{
-   Expects(val <= 0x7F);
-   control_lsb_ = val & 0x7F;
-   ready_ |= 0b10;
-}
-
-inline void NrpnMessage::SetControlMsb(short val) noexcept(kNdebug)
-{
-   Expects(val <= 0x7F);
-   control_msb_ = val & 0x7F;
-   ready_ |= 0b1;
-}
-
-inline void NrpnMessage::SetValueLsb(short val) noexcept(kNdebug)
-{
-   Expects(val <= 0x7F);
-   value_lsb_ = val & 0x7F;
-   ready_ |= 0b1000;
-}
-
-inline void NrpnMessage::SetValueMsb(short val) noexcept(kNdebug)
-{
-   Expects(val <= 0x7F);
-   value_msb_ = val & 0x7F;
-   ready_ |= 0b100; //"Magic number" false alarm //-V112
-}
 
 #endif

@@ -163,12 +163,14 @@ DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
       using namespace std::string_literals;
       LogAndSave("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
       LogAndSave("Keyboard type "s + rsj::GetKeyboardLayout());
+      // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
          LogAndSave("Version "s + ProjectInfo::versionString);
       }
       else {
          LogAndSave("Version "s + ProjectInfo::versionString + "-debug"s);
       }
+      // ReSharper restore CppUnreachableCode
       LogAndSave("App path "s
                  + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                        .getFullPathName()

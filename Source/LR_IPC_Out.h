@@ -28,12 +28,15 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <MoodyCamel/blockingconcurrentqueue.h>
 #include <JuceLibraryCode/JuceHeader.h>
+#include "Concurrency.h"
 #include "MidiUtilities.h"
-#include "Misc.h"
 class ControlsModel;
 class MidiReceiver;
 class MidiSender;
 class Profile;
+#ifndef _MSC_VER
+#define _In_
+#endif
 
 class LrIpcOut final : juce::InterprocessConnection {
  public:
@@ -46,7 +49,7 @@ class LrIpcOut final : juce::InterprocessConnection {
    LrIpcOut& operator=(LrIpcOut&& other) = delete;
    void Start();
 
-   template<class T> void AddCallback(T* const object, void (T::*const mf)(bool, bool))
+   template<class T> void AddCallback(_In_ T* const object, _In_ void (T::*const mf)(bool, bool))
    {
       using namespace std::placeholders;
       if (object && mf) // only store non-empty functions

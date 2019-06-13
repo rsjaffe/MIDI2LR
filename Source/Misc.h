@@ -21,11 +21,11 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <array>
-#include <atomic>
 #include <charconv>
 #include <chrono>
 #include <exception>
 #include <string>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
 #include <system_error>
 #include <thread>   //sleep_for
@@ -40,21 +40,21 @@ static constexpr bool kNdebug = false;
 #endif
 
 #ifdef _WIN32
-#include <emmintrin.h>
-#define CPU_RELAX _mm_pause()
 constexpr auto MSWindows{true};
 constexpr auto OSX{false};
 #else
-#define CPU_RELAX __builtin_ia32_pause()
 constexpr auto MSWindows{false};
 constexpr auto OSX{true};
+// Microsoft SAL annotation
+#define _In_z_
 #endif
 
 namespace rsj {
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view input);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-   void ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept;
+   void ExceptionResponse(
+       _In_z_ const char* id, _In_z_ const char* fu, const std::exception& e) noexcept;
    void LogAndAlertError(const juce::String& error_text);
    void Log(const juce::String& info);
    [[nodiscard]] std::string ToLower(std::string_view in);
@@ -77,7 +77,6 @@ namespace rsj {
 #endif // def _WIN32
 
    /* additional classes/templates in Misc.h
-    * RelaxTTasSpinLock
     * Reverse
     * RatioToPrefix
     * SleepTimed
@@ -85,38 +84,7 @@ namespace rsj {
     * NumToChars
     * */
 
-   class RelaxTTasSpinLock {
-    public:
-      RelaxTTasSpinLock() noexcept = default;
-      ~RelaxTTasSpinLock() = default;
-      RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
-      RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;
-      RelaxTTasSpinLock& operator=(const RelaxTTasSpinLock& other) = delete;
-      RelaxTTasSpinLock& operator=(RelaxTTasSpinLock&& other) = delete;
-      void lock() noexcept
-      {
-         do {
-            while (flag_.load(std::memory_order_relaxed))
-               CPU_RELAX; // spin without expensive exchange
-         } while (flag_.exchange(true, std::memory_order_acquire));
-      }
 
-      bool try_lock() noexcept
-      {
-         if (flag_.load(std::memory_order_relaxed)) // avoid cache invalidation if lock
-                                                    // unavailable
-            return false;
-         return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
-      }
-
-      void unlock() noexcept
-      {
-         flag_.store(false, std::memory_order_release);
-      }
-
-    private:
-      std::atomic<bool> flag_{false};
-   };
 
    // -------------------------------------------------------------------
    // --- Reversed iterable
@@ -124,6 +92,7 @@ namespace rsj {
    // Note that this won't properly capture an rvalue container (temporary)
    // see https://stackoverflow.com/a/42221253/5699329 for that solution
 
+   // ReSharper disable once CppImplicitDefaultConstructorNotAvailable
    template<typename T> struct ReversionWrapper {
       T& iterable;
    };
@@ -227,6 +196,9 @@ namespace rsj {
          return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
+
+
+
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED

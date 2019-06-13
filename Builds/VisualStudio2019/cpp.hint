@@ -4,4 +4,5 @@
 #define GSL_SUPPRESS(x) [[gsl::suppress(x)]]
 #define MOODYCAMEL_DELETE_FUNCTION
 #define MOODYCAMEL_NOEXCEPT
+#define _In_
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984

@@ -1382,6 +1382,7 @@
     <ClInclude Include="..\..\Source\CommandSet.h"/>
     <ClInclude Include="..\..\Source\CommandTable.h"/>
     <ClInclude Include="..\..\Source\CommandTableModel.h"/>
+    <ClInclude Include="..\..\Source\Concurrency.h"/>
     <ClInclude Include="..\..\Source\ControlsModel.h"/>
     <ClInclude Include="..\..\Source\DebugInfo.h"/>
     <ClInclude Include="..\..\Source\LR_IPC_In.h"/>

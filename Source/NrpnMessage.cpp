@@ -20,80 +20,65 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "NrpnMessage.h"
 
-bool NrpnMessage::ProcessMidi(short control, short value)
+#include <gsl/gsl>
+#include "Misc.h"
+
+NrpnFilter::ProcessResult NrpnFilter::operator()(short channel, short control, short value)
 {
    try {
+      if (channel < 0 || channel >= kChannels)
+         throw std::range_error(
+             "Channel value in ProcessMIDI is " + rsj::NumToChars(channel) + '.');
       Expects(value <= 0x7F);
       Expects(control <= 0x7F);
-      static const thread_local moodycamel::ProducerToken ptok(nrpn_queued_);
-      auto ret_val = true;
+      ProcessResult ret_val{false, false, 0, 0};
       switch (control) {
-      case 6: {
-         auto dlock = std::scoped_lock(data_guard_);
-         if (ready_ >= 0b11) {
-            SetValueMsb(value);
-            if (IsReady()) {
-               nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
-               Clear();
+      case 6:
+         if (ready_flags_[channel] >= 0b11) {
+            ret_val.is_nrpn = true;
+            value_msb_[channel] = value & 0x7F;
+            ready_flags_[channel] |= 0b100; //"Magic number" false alarm //-V112
+            if (ready_flags_[channel] == 0b1111) {
+               ret_val.is_ready = true;
+               ret_val.control =
+                   gsl::narrow_cast<short>((control_msb_[channel] << 7) + control_lsb_[channel]);
+               ret_val.value =
+                   gsl::narrow_cast<short>((value_msb_[channel] << 7) + value_lsb_[channel]);
+               Clear(channel);
             }
          }
-         else
-            ret_val = false;
-         break;
-      }
-      case 38u: {
-         auto dlock = std::scoped_lock(data_guard_);
-         if (ready_ >= 0b11) {
-            SetValueLsb(value);
-            if (IsReady()) {
-               nrpn_queued_.enqueue(ptok, {true, GetControl(), GetValue()});
-               Clear();
+         return ret_val;
+      case 38u:
+         if (ready_flags_[channel] >= 0b11) {
+            ret_val.is_nrpn = true;
+            value_lsb_[channel] = value & 0x7F;
+            ready_flags_[channel] |= 0b1000;
+            if (ready_flags_[channel] == 0b1111) {
+               ret_val.is_ready = true;
+               ret_val.control =
+                   gsl::narrow_cast<short>((control_msb_[channel] << 7) + control_lsb_[channel]);
+               ret_val.value =
+                   gsl::narrow_cast<short>((value_msb_[channel] << 7) + value_lsb_[channel]);
+               Clear(channel);
             }
          }
-         else
-            ret_val = false;
-         break;
-      }
-      case 98u: {
-         auto dlock = std::scoped_lock(data_guard_);
-         SetControlLsb(value);
-      } break;
-      case 99u: {
-         auto dlock = std::scoped_lock(data_guard_);
-         SetControlMsb(value);
-      } break;
+         return ret_val;
+      case 98u:
+         ret_val.is_nrpn = true;
+         control_lsb_[channel] = value & 0x7F;
+         ready_flags_[channel] |= 0b10;
+         return ret_val;
+      case 99u:
+         ret_val.is_nrpn = true;
+         control_msb_[channel] = value & 0x7F;
+         ready_flags_[channel] |= 0b1;
+         return ret_val;
       default: // not an expected nrpn control #, handle as typical midi message
-         ret_val = false;
+         return ret_val;
       }
-      return ret_val;
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
       throw;
    }
-}
-
-rsj::Nrpn NrpnMessage::GetNrpnIfReady()
-{
-   try {
-      static thread_local moodycamel::ConsumerToken ctok(nrpn_queued_);
-      rsj::Nrpn retval;
-      if (nrpn_queued_.try_dequeue(ctok, retval)) {
-         return retval;
-      }
-      return rsj::kInvalidNrpn;
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void NrpnMessage::Clear() noexcept
-{
-   ready_ = 0;
-   control_msb_ = 0;
-   control_lsb_ = 0;
-   value_msb_ = 0;
-   value_lsb_ = 0;
 }

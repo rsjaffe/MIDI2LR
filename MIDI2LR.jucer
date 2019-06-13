@@ -22,6 +22,7 @@
             file="Source/CommandTableModel.cpp"/>
       <FILE id="MgYWRn" name="CommandTableModel.h" compile="0" resource="0"
             file="Source/CommandTableModel.h"/>
+      <FILE id="GcWnmU" name="Concurrency.h" compile="0" resource="0" file="Source/Concurrency.h"/>
       <FILE id="zLeGKN" name="ControlsModel.cpp" compile="1" resource="0"
             file="Source/ControlsModel.cpp"/>
       <FILE id="RYkZlQ" name="ControlsModel.h" compile="0" resource="0" file="Source/ControlsModel.h"/>

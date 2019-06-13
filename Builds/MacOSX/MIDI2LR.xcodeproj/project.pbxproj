@@ -679,6 +679,13 @@
 			path = "../../JuceLibraryCode/modules/juce_core";
 			sourceTree = "SOURCE_ROOT";
 		};
+		BFF71B1C4BEB3541F6DCA832 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Concurrency.h;
+			path = ../../Source/Concurrency.h;
+			sourceTree = "SOURCE_ROOT";
+		};
 		C584526C6AF79650270B99C1 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
@@ -797,6 +804,7 @@
 				66B56E601E325C222061D3BF,
 				97FB8F5E08C9C1AABF120771,
 				8565E4E927BFAE2FFFE8F5F6,
+				BFF71B1C4BEB3541F6DCA832,
 				EAA66C94AD90C8523B09EBA6,
 				3E59E20F56C0DF0C3D94DD7C,
 				002720811583B714F7F4E32F,

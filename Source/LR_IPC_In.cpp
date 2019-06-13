@@ -122,6 +122,7 @@ void LrIpcIn::run()
          // Doesn't terminate thread if disconnected, as currently don't have graceful way to
          // restart thread.
          if (!socket_.isConnected()) {
+            // ReSharper disable once CppExpressionWithoutSideEffects
             juce::Thread::wait(kNotConnectedWait);
          } // end if (is not connected)
          else {
@@ -138,6 +139,7 @@ void LrIpcIn::run()
 #pragma warning(suppress : 26438)
                   goto dumpLine; // read line failed, break out of switch and while
                case 0:
+                  // ReSharper disable once CppExpressionWithoutSideEffects
                   juce::Thread::wait(kEmptyWait);
                   break; // try again to read until char shows up
                case 1:
@@ -238,7 +240,8 @@ void LrIpcIn::ProcessLine()
                 std::min(value_string.find_first_not_of("0123456789"), value_string.size()));
             value_string.remove_prefix(1); // one space between number and character
             if (value_string.empty()) {
-               rsj::LogAndAlertError("SendKey couldn't identify keystroke. Message from plugin was \""
+               rsj::LogAndAlertError(
+                   "SendKey couldn't identify keystroke. Message from plugin was \""
                    + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
                break;
             }

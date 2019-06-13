@@ -306,7 +306,7 @@
                 </setInstallerVariable>
                 <setInstallerVariable>
                     <name>debuglabel</name>
-                    <value>for-testing-only-other-download-is-for-regular-use-</value>
+                    <value>use-this-for-debugging-only-</value>
                 </setInstallerVariable>
             </elseActionList>
         </if>
