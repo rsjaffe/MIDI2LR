@@ -25,7 +25,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <mutex>
 #include <string>
 
-#include <MoodyCamel/readerwriterqueue.h>
+#include "Concurrency.h"
 #include <JuceLibraryCode/JuceHeader.h>
 class ControlsModel;
 class MidiSender;
@@ -53,7 +53,7 @@ class LrIpcIn final : juce::Timer, juce::Thread {
    void timerCallback() override;
    // process a line received from the socket
    void ProcessLine();
-   moodycamel::BlockingReaderWriterQueue<std::string> line_;
+   rsj::BlockingQueue<std::string> line_;
    std::future<void> process_line_future_;
 
    bool thread_started_{false};

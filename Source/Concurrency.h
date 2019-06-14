@@ -180,7 +180,9 @@ namespace rsj {
       T pop()
       {
          auto lock{std::unique_lock(mutex_)};
-         condition_.wait(lock, [this]() noexcept { return !queue_.empty(); });
+         condition_.wait(lock, [this]() noexcept(noexcept(std::declval<Container&>().empty())) {
+            return !queue_.empty();
+         });
          T rc{std::move(queue_.front())};
          queue_.pop_front();
          return rc;
@@ -199,7 +201,7 @@ namespace rsj {
          auto lock{std::scoped_lock(mutex_)};
          queue_.clear();
       }
-      [[nodiscard]] auto size() const
+      [[nodiscard]] auto size() const noexcept(noexcept(std::declval<Container&>().size()))
       {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.size();
@@ -247,7 +249,7 @@ namespace rsj {
          condition_.notify_one();
          return ret;
       }
-      [[nodiscard]] bool empty() const
+      [[nodiscard]] bool empty() const noexcept(noexcept(std::declval<Container&>().empty()))
       {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.empty();
