@@ -69,7 +69,7 @@ class MidiReceiver final : juce::MidiInputCallback {
    void InitDevices();
    void TryToOpen(); // inner code for InitDevices
    rsj::BlockingQueue<rsj::MidiMessage> messages_;
-   rsj::RelaxTTasSpinLock filter_mutex_;
+   rsj::SpinLock filter_mutex_;
    std::future<void> dispatch_messages_future_;
    std::map<juce::MidiInput*, NrpnFilter> filters_{};
    std::vector<std::function<void(rsj::MidiMessage)>> callbacks_;

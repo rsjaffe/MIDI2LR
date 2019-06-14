@@ -23,37 +23,30 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <atomic>
 #include <condition_variable>
 #include <deque>
+#include <emmintrin.h>
 #include <mutex>
 #include <optional>
 #include <type_traits>
 
-#ifdef _WIN32
-#include <emmintrin.h>
-#define CPU_RELAX _mm_pause()
-#else
-#define CPU_RELAX __builtin_ia32_pause()
-#endif
-
 namespace rsj {
-   class RelaxTTasSpinLock {
+   class SpinLock {
     public:
-      RelaxTTasSpinLock() noexcept = default;
-      ~RelaxTTasSpinLock() = default;
-      RelaxTTasSpinLock(const RelaxTTasSpinLock& other) = delete;
-      RelaxTTasSpinLock(RelaxTTasSpinLock&& other) = delete;
-      RelaxTTasSpinLock& operator=(const RelaxTTasSpinLock& other) = delete;
-      RelaxTTasSpinLock& operator=(RelaxTTasSpinLock&& other) = delete;
+      SpinLock() noexcept = default;
+      ~SpinLock() = default;
+      SpinLock(const SpinLock& other) = delete;
+      SpinLock(SpinLock&& other) = delete;
+      SpinLock& operator=(const SpinLock& other) = delete;
+      SpinLock& operator=(SpinLock&& other) = delete;
       void lock() noexcept
       {
-         do {
+         do { // avoid cache invalidation if lock appears to be unavailable
             while (flag_.load(std::memory_order_relaxed))
-               CPU_RELAX; // spin without expensive exchange
+               _mm_pause(); // spin without expensive exchange
          } while (flag_.exchange(true, std::memory_order_acquire));
       }
       bool try_lock() noexcept
-      {
-         if (flag_.load(std::memory_order_relaxed)) // avoid cache invalidation if lock
-                                                    // appears to be unavailable
+      { // avoid cache invalidation if lock appears to be unavailable
+         if (flag_.load(std::memory_order_relaxed))
             return false;
          return !flag_.exchange(true, std::memory_order_acquire); // try to acquire lock
       }
@@ -153,6 +146,16 @@ namespace rsj {
       // destructor
       ~BlockingQueue() = default;
       // methods
+      [[nodiscard]] bool empty() const noexcept(noexcept(std::declval<Container>().empty()))
+      {
+         auto lock{std::scoped_lock(mutex_)};
+         return queue_.empty();
+      }
+      [[nodiscard]] auto size() const noexcept(noexcept(std::declval<Container>().size()))
+      {
+         auto lock{std::scoped_lock(mutex_)};
+         return queue_.size();
+      }
       void push(const T& value)
       {
          {
@@ -180,7 +183,7 @@ namespace rsj {
       T pop()
       {
          auto lock{std::unique_lock(mutex_)};
-         condition_.wait(lock, [this]() noexcept(noexcept(std::declval<Container&>().empty())) {
+         condition_.wait(lock, [this]() noexcept(noexcept(std::declval<Container>().empty())) {
             return !queue_.empty();
          });
          T rc{std::move(queue_.front())};
@@ -196,17 +199,23 @@ namespace rsj {
          queue_.pop_front();
          return rc;
       }
-      void clear()
+      void swap(BlockingQueue& other) noexcept(std::is_nothrow_swappable_v<Container>)
+      {
+         {
+            auto lock{std::scoped_lock(mutex_, other.mutex_)};
+            queue_.swap(other.queue_);
+         }
+         condition_.notify_all();
+         other.condition_.notify_all();
+      }
+      void clear() noexcept(noexcept(std::declval<Container>().clear()))
       {
          auto lock{std::scoped_lock(mutex_)};
          queue_.clear();
       }
-      [[nodiscard]] auto size() const noexcept(noexcept(std::declval<Container&>().size()))
-      {
-         auto lock{std::scoped_lock(mutex_)};
-         return queue_.size();
-      }
-      [[nodiscard]] auto clear_count()
+
+      [[nodiscard]] auto clear_count() noexcept(noexcept(std::declval<Container>().clear())
+                                                && noexcept(std::declval<Container>().size()))
       {
          auto lock{std::scoped_lock(mutex_)};
          auto ret = queue_.size();
@@ -248,11 +257,6 @@ namespace rsj {
          }
          condition_.notify_one();
          return ret;
-      }
-      [[nodiscard]] bool empty() const noexcept(noexcept(std::declval<Container&>().empty()))
-      {
-         auto lock{std::scoped_lock(mutex_)};
-         return queue_.empty();
       }
 
     private:

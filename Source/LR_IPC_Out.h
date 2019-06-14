@@ -98,7 +98,7 @@ class LrIpcOut final : juce::InterprocessConnection {
     private:
       void timerCallback() override;
       LrIpcOut& owner_;
-      mutable rsj::RelaxTTasSpinLock mtx_;
+      mutable rsj::SpinLock mtx_;
       rsj::MidiMessage mm_{};
    };
    ConnectTimer connect_timer_{*this};
