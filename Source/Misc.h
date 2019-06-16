@@ -45,6 +45,9 @@ constexpr auto OSX{false};
 #else
 constexpr auto MSWindows{false};
 constexpr auto OSX{true};
+#endif
+
+#ifndef _MSC_VER
 // Microsoft SAL annotation
 #define _In_z_
 #endif

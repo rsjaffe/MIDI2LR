@@ -43,7 +43,7 @@ namespace {
    constexpr auto kTerminate{"!!!@#$%^"};
    constexpr int kConnectTimer{1000};
    constexpr int kConnectTryTime{100};
-   constexpr int kDelay{100}; // in between recurrent actions
+   constexpr int kDelay{8}; // in between recurrent actions
    constexpr int kLrOutPort{58763};
    constexpr int kMinRecenterTimer{250}; // give controller enough of a refractory period before
                                          // resetting it
@@ -119,29 +119,25 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "Unmapped"s)
          return; // handled by ProfileManager
-      {
-         // rate limit messages--at least kDelay apart
-         static std::map<std::string, TimePoint> nextresponse{};
-         const auto now = Clock::now();
-         if (nextresponse[command_to_send] >= now)
-            return;
-         nextresponse[command_to_send] = now + std::chrono::milliseconds(kDelay);
-      }
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-         if (mm.message_type_byte == rsj::kPwFlag
-             || (mm.message_type_byte == rsj::kCcFlag
-                    && controls_model_.GetCcMethod(mm.channel, mm.number)
-                           == rsj::CCmethod::kAbsolute)) {
-            recenter_.SetMidiMessage(mm);
+         static TimePoint nextresponse{};
+         if (const auto now = Clock::now(); nextresponse < now) {
+            nextresponse = now + std::chrono::milliseconds(kDelay);
+            if (mm.message_type_byte == rsj::kPwFlag
+                || (mm.message_type_byte == rsj::kCcFlag
+                       && controls_model_.GetCcMethod(mm.channel, mm.number)
+                              == rsj::CCmethod::kAbsolute)) {
+               recenter_.SetMidiMessage(mm);
+            }
+            const auto change = controls_model_.MeasureChange(mm);
+            if (change == 0)
+               return;      // don't send any signal
+            if (change > 0) // turned clockwise
+               SendCommand(a->second.cw);
+            else // turned counterclockwise
+               SendCommand(a->second.ccw);
          }
-         const auto change = controls_model_.MeasureChange(mm);
-         if (change == 0)
-            return;      // don't send any signal
-         if (change > 0) // turned clockwise
-            SendCommand(a->second.cw);
-         else // turned counterclockwise
-            SendCommand(a->second.ccw);
       }
       else { // not repeated command
          const auto computed_value = controls_model_.ControllerToPlugin(mm);
