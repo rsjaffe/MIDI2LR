@@ -43,7 +43,7 @@ namespace {
    constexpr auto kTerminate{"!!!@#$%^"};
    constexpr int kConnectTimer{1000};
    constexpr int kConnectTryTime{100};
-   constexpr int kDelay{100}; // in between recurrent actions
+   constexpr int kDelay{8}; // in between recurrent actions
    constexpr int kLrOutPort{58763};
    constexpr int kMinRecenterTimer{250}; // give controller enough of a refractory period before
                                          // resetting it
@@ -63,14 +63,8 @@ LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
 LrIpcOut::~LrIpcOut()
 {
    try {
-      if (const auto m = command_.size_approx())
+      if (const auto m = command_.clear_count_emplace(kTerminate))
          rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
-      moodycamel::ConsumerToken ctok(command_);
-      std::string command_copy;
-      while (command_.try_dequeue(ctok, command_copy)) {
-         /* pump the queue empty */
-      }
-      command_.enqueue(kTerminate);
       connect_timer_.Stop();
       juce::InterprocessConnection::disconnect();
    }
@@ -125,29 +119,25 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
       if (command_to_send == "PrevPro"s || command_to_send == "NextPro"s
           || command_to_send == "Unmapped"s)
          return; // handled by ProfileManager
-      {
-         // rate limit messages--at least kDelay apart
-         static std::map<std::string, TimePoint> nextresponse{};
-         const auto now = Clock::now();
-         if (nextresponse[command_to_send] >= now)
-            return;
-         nextresponse[command_to_send] = now + std::chrono::milliseconds(kDelay);
-      }
       // if it is a repeated command, change command_to_send appropriately
       if (const auto a = kCmdUpDown.find(command_to_send); a != kCmdUpDown.end()) {
-         if (mm.message_type_byte == rsj::kPwFlag
-             || (mm.message_type_byte == rsj::kCcFlag
-                    && controls_model_.GetCcMethod(mm.channel, mm.number)
-                           == rsj::CCmethod::kAbsolute)) {
-            recenter_.SetMidiMessage(mm);
+         static TimePoint nextresponse{};
+         if (const auto now = Clock::now(); nextresponse < now) {
+            nextresponse = now + std::chrono::milliseconds(kDelay);
+            if (mm.message_type_byte == rsj::kPwFlag
+                || (mm.message_type_byte == rsj::kCcFlag
+                       && controls_model_.GetCcMethod(mm.channel, mm.number)
+                              == rsj::CCmethod::kAbsolute)) {
+               recenter_.SetMidiMessage(mm);
+            }
+            const auto change = controls_model_.MeasureChange(mm);
+            if (change == 0)
+               return;      // don't send any signal
+            if (change > 0) // turned clockwise
+               SendCommand(a->second.cw);
+            else // turned counterclockwise
+               SendCommand(a->second.ccw);
          }
-         const auto change = controls_model_.MeasureChange(mm);
-         if (change == 0)
-            return;      // don't send any signal
-         if (change > 0) // turned clockwise
-            SendCommand(a->second.cw);
-         else // turned counterclockwise
-            SendCommand(a->second.ccw);
       }
       else { // not repeated command
          const auto computed_value = controls_model_.ControllerToPlugin(mm);
@@ -165,8 +155,7 @@ void LrIpcOut::SendCommand(std::string&& command)
    try {
       if (sending_stopped_)
          return;
-      static const thread_local moodycamel::ProducerToken ptok(command_);
-      command_.enqueue(ptok, std::move(command));
+      command_.push(std::move(command));
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -179,8 +168,7 @@ void LrIpcOut::SendCommand(const std::string& command)
    try {
       if (sending_stopped_)
          return;
-      static const thread_local moodycamel::ProducerToken ptok(command_);
-      command_.enqueue(ptok, command);
+      command_.push(command);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -251,10 +239,7 @@ void LrIpcOut::SendOut()
 {
    try {
       do {
-         std::string command_copy;
-         static thread_local moodycamel::ConsumerToken ctok(command_);
-         if (!command_.try_dequeue(ctok, command_copy))
-            command_.wait_dequeue(ctok, command_copy);
+         auto command_copy = command_.pop();
          if (command_copy == kTerminate)
             return;
          // check if there is a connection

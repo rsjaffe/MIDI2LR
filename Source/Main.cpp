@@ -348,6 +348,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
                    "MS UI Gothic");
             }
          }
+         // ReSharper disable once CppUnreachableCode
          else { // PingFang added in 10.11 El Capitan as new Chinese UI fonts
             if (lang == "ko") {
                juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName(

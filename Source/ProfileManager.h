@@ -27,6 +27,9 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
+#ifndef _MSC_VER
+#define _In_
+#endif
 
 class ControlsModel;
 class LrIpcOut;
@@ -47,7 +50,8 @@ class ProfileManager final : juce::AsyncUpdater {
    ProfileManager& operator=(const ProfileManager& other) = delete;
    ProfileManager& operator=(ProfileManager&& other) = delete;
    template<class T>
-   void AddCallback(T* const object, void (T::*const mf)(juce::XmlElement*, const juce::String&))
+   void AddCallback(
+       _In_ T* const object, _In_ void (T::*const mf)(juce::XmlElement*, const juce::String&))
    {
       try {
          using namespace std::placeholders;

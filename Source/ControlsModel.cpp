@@ -98,6 +98,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
             return OffsetResult(value & kBit7 ? -((value ^ kMaxMidi) + 1) : value, controlnumber);
          default:
             Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+            // ReSharper disable once CppUnreachableCode
             return 0.0;
          }
       case rsj::kNoteOnFlag:
@@ -107,6 +108,7 @@ double ChannelModel::ControllerToPlugin(short controltype, size_t controlnumber,
          return 0.0;
       default:
          Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
+         // ReSharper disable once CppUnreachableCode
          return 0.0;
       }
    }
@@ -187,6 +189,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
             return value & kBit7 ? -((value ^ kMaxMidi) + 1) : value;
          default:
             Ensures(!"Should be unreachable code in ControllerToPlugin--unknown CCmethod");
+            // ReSharper disable once CppUnreachableCode
             return short{0};
          }
       case rsj::kNoteOnFlag:
@@ -194,6 +197,7 @@ short ChannelModel::MeasureChange(short controltype, size_t controlnumber, short
          return short{0};
       default:
          Ensures(!"Should be unreachable code in ControllerToPlugin--unknown control type");
+         // ReSharper disable once CppUnreachableCode
          return short{0};
       }
    }
@@ -238,6 +242,7 @@ short ChannelModel::PluginToController(short controltype, size_t controlnumber, 
       default:
          Ensures(!"Unexpected control type");
       }
+      // ReSharper disable once CppUnreachableCode
       return 0;
    }
    catch (const std::exception& e) {

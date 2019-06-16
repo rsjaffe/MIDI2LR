@@ -30,6 +30,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <cereal/types/array.hpp>
 #include <cereal/types/vector.hpp>
 #include <gsl/gsl>
+#include "Concurrency.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
 
@@ -217,7 +218,7 @@ class ChannelModel {
       return controlnumber > kMaxMidi;
    }
    double OffsetResult(short diff, size_t controlnumber);
-   mutable rsj::RelaxTTasSpinLock current_v_mtx_;
+   mutable rsj::SpinLock current_v_mtx_;
    mutable std::vector<rsj::SettingsStruct> settings_to_save_{};
    short pitch_wheel_max_{kMaxNrpn};
    short pitch_wheel_min_{0};

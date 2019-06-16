@@ -66,13 +66,8 @@ LrIpcIn::~LrIpcIn()
       }
       if (!juce::Thread::stopThread(kStopWait))
          rsj::Log("stopThread failed in LrIpcIn destructor");
-      if (const auto m = line_.size_approx())
+      if (const auto m = line_.clear_count_emplace(kTerminate))
          rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
-      std::string line_copy{};
-      while (line_.try_dequeue(line_copy)) {
-         /* pump the queue empty */
-      }
-      line_.enqueue(kTerminate);
       socket_.close();
    }
    catch (...) {
@@ -122,6 +117,7 @@ void LrIpcIn::run()
          // Doesn't terminate thread if disconnected, as currently don't have graceful way to
          // restart thread.
          if (!socket_.isConnected()) {
+            // ReSharper disable once CppExpressionWithoutSideEffects
             juce::Thread::wait(kNotConnectedWait);
          } // end if (is not connected)
          else {
@@ -138,6 +134,7 @@ void LrIpcIn::run()
 #pragma warning(suppress : 26438)
                   goto dumpLine; // read line failed, break out of switch and while
                case 0:
+                  // ReSharper disable once CppExpressionWithoutSideEffects
                   juce::Thread::wait(kEmptyWait);
                   break; // try again to read until char shows up
                case 1:
@@ -165,7 +162,7 @@ void LrIpcIn::run()
             {
                std::string param{line.data()};
                if (param.back() == '\n') {
-                  line_.enqueue(std::move(param));
+                  line_.push(std::move(param));
                }
             } // scope param
          dumpLine: /* empty statement */;
@@ -213,9 +210,7 @@ void LrIpcIn::ProcessLine()
           {"SwitchProfile"s, 1}, {"SendKey"s, 2}, {"TerminateApplication"s, 3}};
       do {
          // process input into [parameter] [Value]
-         std::string line_copy{};
-         if (!line_.try_dequeue(line_copy))
-            line_.wait_dequeue(line_copy);
+         std::string line_copy{line_.pop()};
          if (line_copy == kTerminate)
             return;
          std::string_view v{line_copy};
@@ -238,7 +233,8 @@ void LrIpcIn::ProcessLine()
                 std::min(value_string.find_first_not_of("0123456789"), value_string.size()));
             value_string.remove_prefix(1); // one space between number and character
             if (value_string.empty()) {
-               rsj::LogAndAlertError("SendKey couldn't identify keystroke. Message from plugin was \""
+               rsj::LogAndAlertError(
+                   "SendKey couldn't identify keystroke. Message from plugin was \""
                    + juce::String(rsj::ReplaceInvisibleChars(line_copy)) + "\".");
                break;
             }

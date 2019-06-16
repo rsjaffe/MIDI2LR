@@ -47,7 +47,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
       std::string result{};
       result.reserve(input.size());
       for (const auto& a : input) {
-         if (a < ascii_map.size())
+         if (static_cast<decltype(ascii_map)::size_type>(a) < ascii_map.size())
 #pragma warning(suppress : 26446 26482) // false alarm, range checked by if statement
             result.append(ascii_map[a]);
          else if (a == 127)
@@ -134,7 +134,8 @@ void rsj::LogAndAlertError(const juce::String& error_text)
 #pragma warning(disable : 26447)
 // use typeid(this).name() for first argument to add class information
 // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-void rsj::ExceptionResponse(const char* id, const char* fu, const std::exception& e) noexcept
+void rsj::ExceptionResponse(
+    _In_z_ const char* id, _In_z_ const char* fu, const std::exception& e) noexcept
 {
    try {
       const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id) + "::" + fu
