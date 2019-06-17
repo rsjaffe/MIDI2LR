@@ -74,19 +74,19 @@ void CommandTableModel::paintCell(
                 const auto cmd = profile_.GetMessageForNumber(gsl::narrow_cast<size_t>(row_number));
                 cmd.msg_id_type) {
             case rsj::MessageType::NoteOn:
-               format_str << cmd.channel << " | Note : " << cmd.data;
+               format_str << cmd.channel << " | Note : " << cmd.control_number;
                break;
             case rsj::MessageType::NoteOff:
-               format_str << cmd.channel << " | Note Off: " << cmd.data;
+               format_str << cmd.channel << " | Note Off: " << cmd.control_number;
                break;
             case rsj::MessageType::Cc:
-               format_str << cmd.channel << " | CC: " << cmd.data;
+               format_str << cmd.channel << " | CC: " << cmd.control_number;
                break;
             case rsj::MessageType::Pw:
                format_str << cmd.channel << " | Pitch Bend";
                break;
             case rsj::MessageType::KeyPressure:
-               format_str << cmd.channel << " | Key Pressure: " << cmd.data;
+               format_str << cmd.channel << " | Key Pressure: " << cmd.control_number;
                break;
             case rsj::MessageType::ChanPressure:
                format_str << cmd.channel << " | Channel Pressure";

@@ -233,9 +233,9 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
          Ensures(0);
       }
       mm.channel++; // used to 1-based channel numbers
-      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.number)
+      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.control_number)
                       + " [" + juce::String(mm.value) + "]";
-      const rsj::MidiMessageId msg{mm.channel, mm.number, mt};
+      const rsj::MidiMessageId msg{mm.channel, mm.control_number, mt};
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();

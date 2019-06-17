@@ -384,7 +384,7 @@ void ChannelModel::SavedToActive()
    try {
       CcDefaults();
       for (const auto& set : settings_to_save_)
-         SetCc(set.number, set.low, set.high, set.method);
+         SetCc(set.control_number, set.low, set.high, set.method);
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

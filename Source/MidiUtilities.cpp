@@ -39,10 +39,10 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
    case NoteOff:
    case NoteOn:
       value = raw[2];
-      number = raw[1];
+      control_number = raw[1];
       break;
    case PgmChange:
-      number = raw[1];
+      control_number = raw[1];
       break;
    case ChanPressure:
       value = raw[1];
@@ -55,7 +55,7 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 
 rsj::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug)
     : msg_id_type{rsj::MessageType::Cc}, channel(rhs.channel + 1),
-      data(rhs.number) // channel 1-based
+      control_number(rhs.control_number) // channel 1-based
 {
    switch (rhs.message_type_byte) { // this is needed because mapping uses custom structure
    case Cc:

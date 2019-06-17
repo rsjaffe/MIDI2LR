@@ -74,7 +74,7 @@ void MidiReceiver::handleIncomingMidiMessage(
          NrpnFilter::ProcessResult result{};
          {
             auto lock = std::scoped_lock(filter_mutex_);
-            result = filters_[device](mess.channel, mess.number, mess.value);
+            result = filters_[device](mess.channel, mess.control_number, mess.value);
          }
          if (result.is_nrpn) {
             if (result.is_ready) { // send when finished
