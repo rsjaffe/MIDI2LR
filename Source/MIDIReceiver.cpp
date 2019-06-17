@@ -23,7 +23,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <chrono>
 
 namespace {
-   constexpr rsj::MidiMessage kTerminate{0, 129, 0, 0}; // impossible channel
+   constexpr rsj::MidiMessage kTerminate{rsj::MessageType::Cc, 129, 0, 0}; // impossible channel
 }
 
 #pragma warning(push)
@@ -70,7 +70,7 @@ void MidiReceiver::handleIncomingMidiMessage(
       // will place message in multithreaded queue and let separate process handle the messages
       const rsj::MidiMessage mess{message};
       switch (mess.message_type_byte) {
-      case rsj::kCcFlag: {
+      case rsj::MessageType::Cc: {
          NrpnFilter::ProcessResult result{};
          {
             auto lock = std::scoped_lock(filter_mutex_);
@@ -78,14 +78,14 @@ void MidiReceiver::handleIncomingMidiMessage(
          }
          if (result.is_nrpn) {
             if (result.is_ready) { // send when finished
-               messages_.emplace(rsj::kCcFlag, mess.channel, result.control, result.value);
+               messages_.emplace(rsj::MessageType::Cc, mess.channel, result.control, result.value);
             }
             break; // finished with nrpn piece
          }
       }
          [[fallthrough]]; // if not nrpn, handle like other messages
-      case rsj::kNoteOnFlag:
-      case rsj::kPwFlag:
+      case rsj::MessageType::NoteOn:
+      case rsj::MessageType::Pw:
          messages_.push(mess);
          break;
       default:

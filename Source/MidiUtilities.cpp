@@ -28,46 +28,44 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
 #pragma warning(disable : 26481) // doing raw pointer arithmetic, parsing low-level structure
    const auto raw = mm.getRawData();
    Ensures(raw);
-   message_type_byte = raw[0] >> 4;
+   message_type_byte = rsj::ToMessageType(raw[0] >> 4);
    channel = raw[0] & 0xF;
    switch (message_type_byte) {
-   case kPwFlag:
+   case Pw:
       value = raw[2] << 7 | raw[1];
       break;
-   case kCcFlag:
-   case kKeyPressureFlag:
-   case kNoteOffFlag:
-   case kNoteOnFlag:
+   case Cc:
+   case KeyPressure:
+   case NoteOff:
+   case NoteOn:
       value = raw[2];
       number = raw[1];
       break;
-   case kPgmChangeFlag:
+   case PgmChange:
       number = raw[1];
       break;
-   case kChanPressureFlag:
+   case ChanPressure:
       value = raw[1];
       break;
-   case kSystemFlag:
+   case System:
       break; // no action
-   default:
-      Ensures(!"Default should be unreachable in ParseMidi");
    }
 #pragma warning(pop)
 }
 
 rsj::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug)
-    : msg_id_type{rsj::MsgIdEnum::kCc}, channel(rhs.channel + 1),
+    : msg_id_type{rsj::MessageType::Cc}, channel(rhs.channel + 1),
       data(rhs.number) // channel 1-based
 {
    switch (rhs.message_type_byte) { // this is needed because mapping uses custom structure
-   case kCcFlag:
-      msg_id_type = rsj::MsgIdEnum::kCc;
+   case Cc:
+      msg_id_type = rsj::MessageType::Cc;
       break;
-   case kNoteOnFlag:
-      msg_id_type = rsj::MsgIdEnum::kNote;
+   case NoteOn:
+      msg_id_type = rsj::MessageType::NoteOn;
       break;
-   case kPwFlag:
-      msg_id_type = rsj::MsgIdEnum::kPitchBend;
+   case Pw:
+      msg_id_type = rsj::MessageType::Pw;
       break;
    default: // should be unreachable--MidiMessageId only handles a few message types
       Ensures(0);

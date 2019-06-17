@@ -124,8 +124,8 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
          static TimePoint nextresponse{};
          if (const auto now = Clock::now(); nextresponse < now) {
             nextresponse = now + std::chrono::milliseconds(kDelay);
-            if (mm.message_type_byte == rsj::kPwFlag
-                || (mm.message_type_byte == rsj::kCcFlag
+            if (mm.message_type_byte == rsj::MessageType::Pw
+                || (mm.message_type_byte == rsj::MessageType::Cc
                        && controls_model_.GetCcMethod(mm.channel, mm.number)
                               == rsj::CCmethod::kAbsolute)) {
                recenter_.SetMidiMessage(mm);
@@ -321,11 +321,11 @@ void LrIpcOut::Recenter::timerCallback()
       const auto center = owner_.controls_model_.SetToCenter(local_mm);
       // send center to control//
       switch (local_mm.message_type_byte) {
-      case rsj::kPwFlag: {
+      case rsj::MessageType::Pw: {
          owner_.midi_sender_->SendPitchWheel(local_mm.channel + 1, center);
          break;
       }
-      case rsj::kCcFlag: {
+      case rsj::MessageType::Cc: {
          owner_.midi_sender_->SendCc(local_mm.channel + 1, local_mm.number, center);
          break;
       }
