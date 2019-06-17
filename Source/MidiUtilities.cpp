@@ -52,22 +52,3 @@ rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)
    }
 #pragma warning(pop)
 }
-
-rsj::MidiMessageId::MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug)
-    : msg_id_type{rsj::MessageType::Cc}, channel(rhs.channel + 1),
-      control_number(rhs.control_number) // channel 1-based
-{
-   switch (rhs.message_type_byte) { // this is needed because mapping uses custom structure
-   case Cc:
-      msg_id_type = rsj::MessageType::Cc;
-      break;
-   case NoteOn:
-      msg_id_type = rsj::MessageType::NoteOn;
-      break;
-   case Pw:
-      msg_id_type = rsj::MessageType::Pw;
-      break;
-   default: // should be unreachable--MidiMessageId only handles a few message types
-      Ensures(0);
-   }
-}

@@ -53,7 +53,7 @@ namespace rsj {
 
    struct MidiMessage {
       MessageType message_type_byte{NoteOn};
-      short channel{0};
+      short channel{0}; // 0-based
       short control_number{0};
       short value{0};
       constexpr MidiMessage() noexcept = default;
@@ -74,14 +74,11 @@ namespace rsj {
    }
 
    struct MidiMessageId {
-      MessageType msg_id_type;
-      int channel;
-      int control_number;
+      MessageType msg_id_type{NoteOn};
+      int channel{1}; // 1-based
+      int control_number{0};
 
-      constexpr MidiMessageId() noexcept
-          : msg_id_type(rsj::MessageType::NoteOn), channel(0), control_number(0)
-      {
-      }
+      constexpr MidiMessageId() noexcept = default;
 
       constexpr MidiMessageId(int ch, int dat, MessageType msgType) noexcept
           : msg_id_type(msgType), channel(ch), control_number(dat)
@@ -89,11 +86,16 @@ namespace rsj {
       }
 
       // ReSharper disable once CppNonExplicitConvertingConstructor
-      MidiMessageId(const MidiMessage& rhs) noexcept(kNdebug);
+      constexpr MidiMessageId(const MidiMessage& other) noexcept
+          : msg_id_type{other.message_type_byte}, channel{other.channel + 1},
+            control_number{other.control_number}
+      {
+      }
 
       constexpr bool operator==(const MidiMessageId& other) const noexcept
       {
-         return msg_id_type == other.msg_id_type && channel == other.channel && control_number == other.control_number;
+         return msg_id_type == other.msg_id_type && channel == other.channel
+                && control_number == other.control_number;
       }
 
       constexpr bool operator<(const MidiMessageId& other) const noexcept
