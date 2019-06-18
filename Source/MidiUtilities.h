@@ -63,8 +63,7 @@ namespace rsj {
       {
       }
 
-      // ReSharper disable once CppNonExplicitConvertingConstructor
-      MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
+      explicit MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug);
    };
 
    constexpr bool operator==(const rsj::MidiMessage& lhs, const rsj::MidiMessage& rhs) noexcept
@@ -85,8 +84,7 @@ namespace rsj {
       {
       }
 
-      // ReSharper disable once CppNonExplicitConvertingConstructor
-      constexpr MidiMessageId(const MidiMessage& other) noexcept
+      explicit constexpr MidiMessageId(const MidiMessage& other) noexcept
           : msg_id_type{other.message_type_byte}, channel{other.channel + 1},
             control_number{other.control_number}
       {

@@ -55,8 +55,13 @@ namespace {
          const auto thread_id = GetWindowThreadProcessId(h_lr_wnd, nullptr);
          return GetKeyboardLayout(thread_id);
       }
-      // use keyboard of MIDI2LR application
-      return GetKeyboardLayout(0);
+      else { // FindWindowA failed
+         const auto error_msg =
+             "FindWindowA failed with error code: " + rsj::NumToChars(GetLastError());
+         rsj::Log(error_msg);
+         // use keyboard of MIDI2LR application
+         return GetKeyboardLayout(0);
+      }
    }
 
    SHORT VkKeyScanExWErrorChecked(_In_ WCHAR ch, _In_ HKL dwhkl)
@@ -79,7 +84,7 @@ namespace {
    std::pair<BYTE, rsj::ActiveModifiers> KeyToVk(std::string_view key)
    {
       try {
-         const auto uc{rsj::Utf8ToWide(key)[0]};
+         const auto uc{rsj::Utf8ToWide(key).at(0)};
          static const auto kLanguageId = GetLanguage("Lightroom");
          const auto vk_code_and_shift = VkKeyScanExWErrorChecked(uc, kLanguageId);
          const auto mods = HIBYTE(vk_code_and_shift);
@@ -331,7 +336,7 @@ namespace {
    }
 #endif
 
-#pragma warning(suppress : 4244) // assigned to char intentionally
+#pragma warning(suppress : 4244 26426) // assigned to char intentionally
    const std::unordered_map<std::string, unsigned char> kKeyMap = {
 #ifdef _WIN32
        {"backspace", VK_BACK}, {"cursor down", VK_DOWN}, {"cursor left", VK_LEFT},

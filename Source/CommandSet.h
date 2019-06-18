@@ -45,7 +45,7 @@ class CommandSet {
       return cmd_by_number_.size();
    }
 
-   [[nodiscard]] auto GetLanguage() const noexcept
+   [[nodiscard]] const auto& GetLanguage() const noexcept
    {
       return m_impl_.language_;
    }

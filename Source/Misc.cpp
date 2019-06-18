@@ -121,7 +121,7 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 void rsj::Log(const juce::String& info)
 {
    if (juce::Logger::getCurrentLogger())
-      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(false) + ": " + info);
+      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
 }
 
 void rsj::LogAndAlertError(const juce::String& error_text)

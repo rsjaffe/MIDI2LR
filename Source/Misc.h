@@ -87,8 +87,6 @@ namespace rsj {
     * NumToChars
     * */
 
-
-
    // -------------------------------------------------------------------
    // --- Reversed iterable
    // https://stackoverflow.com/a/28139075/5699329
@@ -100,17 +98,17 @@ namespace rsj {
       T& iterable;
    };
 
-   template<typename T> auto begin(ReversionWrapper<T> w)
+   template<typename T> auto begin(ReversionWrapper<T> w) noexcept
    {
       return std::rbegin(w.iterable);
    }
 
-   template<typename T> auto end(ReversionWrapper<T> w)
+   template<typename T> auto end(ReversionWrapper<T> w) noexcept
    {
       return std::rend(w.iterable);
    }
 
-   template<typename T> ReversionWrapper<T> Reverse(T&& iterable)
+   template<typename T> ReversionWrapper<T> Reverse(T&& iterable) noexcept
    {
       return {iterable};
    }
@@ -199,9 +197,6 @@ namespace rsj {
          return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();
    }
-
-
-
 } // namespace rsj
 
 #endif // MISC_H_INCLUDED

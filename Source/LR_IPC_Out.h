@@ -40,7 +40,7 @@ class Profile;
 class LrIpcOut final : juce::InterprocessConnection {
  public:
    LrIpcOut(ControlsModel& c_model, const Profile& profile, std::shared_ptr<MidiSender> midi_sender,
-       MidiReceiver& midi_receiver) noexcept;
+       MidiReceiver& midi_receiver) ;
    ~LrIpcOut();
    LrIpcOut(const LrIpcOut& other) = delete;
    LrIpcOut(LrIpcOut&& other) = delete;

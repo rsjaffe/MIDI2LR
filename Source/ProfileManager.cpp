@@ -32,7 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 using namespace std::literals::string_literals;
 
 ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile,
-    std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver) noexcept
+    std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver)
     : current_profile_{profile}, controls_model_{c_model}, lr_ipc_out_{std::move(out)}
 {
    midi_receiver.AddCallback(this, &ProfileManager::MidiCmdCallback);
@@ -157,7 +157,7 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 void ProfileManager::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
-      const rsj::MidiMessageId cc = mm;
+      const rsj::MidiMessageId cc{mm};
       // return if the value isn't high enough (notes may be < 1), or the command isn't a valid
       // profile-related command
       if (controls_model_.ControllerToPlugin(mm) < 0.4 || !current_profile_.MessageExistsInMap(cc))

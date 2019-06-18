@@ -93,7 +93,7 @@ void CommandTableModel::paintCell(
                break;
             case rsj::MessageType::PgmChange: // TODO: not handled currently
             case rsj::MessageType::System:
-               break; 
+               break;
             }
             g.drawText(format_str.str(), 0, 0, width, height, juce::Justification::centredLeft);
          }

@@ -52,7 +52,7 @@ namespace {
 } // namespace
 
 LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
-    std::shared_ptr<MidiSender> midi_sender, MidiReceiver& midi_receiver) noexcept
+    std::shared_ptr<MidiSender> midi_sender, MidiReceiver& midi_receiver)
     : profile_{profile}, controls_model_{c_model}, midi_sender_{std::move(midi_sender)}
 {
    midi_receiver.AddCallback(this, &LrIpcOut::MidiCmdCallback);
