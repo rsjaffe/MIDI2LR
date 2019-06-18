@@ -215,7 +215,6 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 {
    try {
       // Display the CC parameters and add/highlight row in table corresponding to the CC
-      auto mt{mm.message_type_byte};
       juce::String command_type{"CC"};
       switch (mm.message_type_byte) { // this is needed because mapping uses custom structure
       case rsj::MessageType::Cc:      // this is default for mt and commandtype
@@ -229,13 +228,12 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
       case rsj::MessageType::Pw:
          command_type = "PITCHBEND";
          break;
-      default: // shouldn't receive any messages note categorized above
+      default: // shouldn't receive any messages not categorized above
          Ensures(0);
       }
-      mm.channel++; // used to 1-based channel numbers
-      last_command_ = juce::String(mm.channel) + ": " + command_type + juce::String(mm.control_number)
-                      + " [" + juce::String(mm.value) + "]";
-      const rsj::MidiMessageId msg{mm.channel, mm.control_number, mt};
+      const rsj::MidiMessageId msg{mm}; // msg is 1-based for channel, which display expects
+      last_command_ = juce::String(msg.channel) + ": " + command_type
+                      + juce::String(msg.control_number) + " [" + juce::String(mm.value) + "]";
       profile_.AddRowUnmapped(msg);
       row_to_select_ = gsl::narrow_cast<size_t>(profile_.GetRowForMessage(msg));
       triggerAsyncUpdate();

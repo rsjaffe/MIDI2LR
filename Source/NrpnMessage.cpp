@@ -23,55 +23,55 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <gsl/gsl>
 #include "Misc.h"
 
-NrpnFilter::ProcessResult NrpnFilter::operator()(short channel, short control, short value)
+NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
 {
    try {
-      if (channel < 0 || channel >= kChannels)
+      if (message.channel < 0 || message.channel >= kChannels)
          throw std::range_error(
-             "Channel value in ProcessMIDI is " + rsj::NumToChars(channel) + '.');
-      Expects(value <= 0x7F);
-      Expects(control <= 0x7F);
+             "Channel msg.value in ProcessMIDI is " + rsj::NumToChars(message.channel) + '.');
+      Expects(message.value <= 0x7F);
+      Expects(message.control_number <= 0x7F);
       ProcessResult ret_val{false, false, 0, 0};
-      switch (control) {
+      switch (message.control_number) {
       case 6:
-         if (ready_flags_[channel] >= 0b11) {
+         if (ready_flags_[message.channel] >= 0b11) {
             ret_val.is_nrpn = true;
-            value_msb_[channel] = value & 0x7F;
-            ready_flags_[channel] |= 0b100; //"Magic number" false alarm //-V112
-            if (ready_flags_[channel] == 0b1111) {
+            value_msb_[message.channel] = message.value & 0x7F;
+            ready_flags_[message.channel] |= 0b100; //"Magic number" false alarm //-V112
+            if (ready_flags_[message.channel] == 0b1111) {
                ret_val.is_ready = true;
-               ret_val.control =
-                   gsl::narrow_cast<short>((control_msb_[channel] << 7) + control_lsb_[channel]);
-               ret_val.value =
-                   gsl::narrow_cast<short>((value_msb_[channel] << 7) + value_lsb_[channel]);
-               Clear(channel);
+               ret_val.control = gsl::narrow_cast<short>(
+                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel]);
+               ret_val.value = gsl::narrow_cast<short>(
+                   (value_msb_[message.channel] << 7) + value_lsb_[message.channel]);
+               Clear(message.channel);
             }
          }
          return ret_val;
       case 38u:
-         if (ready_flags_[channel] >= 0b11) {
+         if (ready_flags_[message.channel] >= 0b11) {
             ret_val.is_nrpn = true;
-            value_lsb_[channel] = value & 0x7F;
-            ready_flags_[channel] |= 0b1000;
-            if (ready_flags_[channel] == 0b1111) {
+            value_lsb_[message.channel] = message.value & 0x7F;
+            ready_flags_[message.channel] |= 0b1000;
+            if (ready_flags_[message.channel] == 0b1111) {
                ret_val.is_ready = true;
-               ret_val.control =
-                   gsl::narrow_cast<short>((control_msb_[channel] << 7) + control_lsb_[channel]);
-               ret_val.value =
-                   gsl::narrow_cast<short>((value_msb_[channel] << 7) + value_lsb_[channel]);
-               Clear(channel);
+               ret_val.control = gsl::narrow_cast<short>(
+                   (control_msb_[message.channel] << 7) + control_lsb_[message.channel]);
+               ret_val.value = gsl::narrow_cast<short>(
+                   (value_msb_[message.channel] << 7) + value_lsb_[message.channel]);
+               Clear(message.channel);
             }
          }
          return ret_val;
       case 98u:
          ret_val.is_nrpn = true;
-         control_lsb_[channel] = value & 0x7F;
-         ready_flags_[channel] |= 0b10;
+         control_lsb_[message.channel] = message.value & 0x7F;
+         ready_flags_[message.channel] |= 0b10;
          return ret_val;
       case 99u:
          ret_val.is_nrpn = true;
-         control_msb_[channel] = value & 0x7F;
-         ready_flags_[channel] |= 0b1;
+         control_msb_[message.channel] = message.value & 0x7F;
+         ready_flags_[message.channel] |= 0b1;
          return ret_val;
       default: // not an expected nrpn control #, handle as typical midi message
          return ret_val;

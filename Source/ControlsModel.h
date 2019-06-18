@@ -290,6 +290,18 @@ class ControlsModel {
       }
    }
 
+   [[nodiscard]] rsj::CCmethod GetCcMethod(rsj::MidiMessageId msg_id) const
+   {
+      try { // MidiMessageId channel is 1-based
+         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1)
+             .GetCcMethod(msg_id.control_number);
+      }
+      catch (const std::exception& e) {
+         rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+         throw;
+      }
+   }
+
    [[nodiscard]] short GetCcMax(size_t channel, short controlnumber) const
    {
       try {
@@ -334,11 +346,11 @@ class ControlsModel {
       }
    }
 
-   short PluginToController(
-       rsj::MessageType controltype, size_t channel, short controlnumber, double value)
+   short PluginToController(rsj::MidiMessageId msg_id, double value)
    {
-      try {
-         return all_controls_.at(channel).PluginToController(controltype, controlnumber, value);
+      try { // msg_id is one-based
+         return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1)
+             .PluginToController(msg_id.msg_id_type, msg_id.control_number, value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -500,7 +512,7 @@ template<class Archive> void ChannelModel::save(Archive& archive, uint32_t const
    }
 }
 #pragma warning(push)
-#pragma warning(disable : 26440 26444)
+#pragma warning(disable : 26426 26440 26444)
 CEREAL_CLASS_VERSION(ChannelModel, 3)
 CEREAL_CLASS_VERSION(ControlsModel, 1)
 CEREAL_CLASS_VERSION(rsj::SettingsStruct, 1)

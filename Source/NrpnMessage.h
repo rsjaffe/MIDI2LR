@@ -21,6 +21,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
 #include <array>
+#include "MidiUtilities.h"
 
 class NrpnFilter {
    // This  assumes that all NRPN messages have 4 messages, though the NRPN standard allows omission
@@ -33,7 +34,7 @@ class NrpnFilter {
       short control{};
       short value{};
    };
-   ProcessResult operator()(short channel, short control, short value);
+   ProcessResult operator()(rsj::MidiMessage message);
 
  private:
    static constexpr int kChannels{16};
