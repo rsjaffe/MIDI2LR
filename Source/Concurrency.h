@@ -60,7 +60,8 @@ namespace rsj {
    };
 
    // all but blocking pops use scoped_lock. blocking pops use unique_lock
-   template<typename T, class Container = std::deque<T>> class BlockingQueue {
+   template<typename T, class Container = std::deque<T>, class Mutex = std::mutex>
+   class BlockingQueue {
     public:
       using container_type = Container;
       using value_type = typename Container::value_type;
@@ -146,7 +147,7 @@ namespace rsj {
       // destructor
       ~BlockingQueue() = default;
       // methods
-      [[nodiscard]] bool empty() const noexcept(noexcept(std::declval<Container>().empty()))
+      [[nodiscard]] auto empty() const noexcept(noexcept(std::declval<Container>().empty()))
       {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.empty();
@@ -155,6 +156,11 @@ namespace rsj {
       {
          auto lock{std::scoped_lock(mutex_)};
          return queue_.size();
+      }
+      [[nodiscard]] auto max_size() const noexcept(noexcept(std::declval<Container>().max_size()))
+      {
+         auto lock{std::scoped_lock(mutex_)};
+         return queue_.max_size();
       }
       void push(const T& value)
       {
@@ -208,14 +214,26 @@ namespace rsj {
          condition_.notify_all();
          other.condition_.notify_all();
       }
+      void resize(size_type count)
+      {
+         auto lock{std::scoped_lock(mutex_)};
+         queue_.resize(count);
+      }
+      void resize(size_type count, const value_type& value)
+      {
+         {
+            auto lock{std::scoped_lock(mutex_)};
+            queue_.resize(count, value);
+         }
+         condition_.notify_all();
+      }
       void clear() noexcept(noexcept(std::declval<Container>().clear()))
       {
          auto lock{std::scoped_lock(mutex_)};
          queue_.clear();
       }
-
-      [[nodiscard]] auto clear_count() noexcept(noexcept(std::declval<Container>().clear())
-                                                && noexcept(std::declval<Container>().size()))
+      [[nodiscard]] auto clear_count() noexcept(
+          noexcept(std::declval<Container>().clear()) && noexcept(std::declval<Container>().size()))
       {
          auto lock{std::scoped_lock(mutex_)};
          auto ret = queue_.size();
@@ -261,8 +279,10 @@ namespace rsj {
 
     private:
       Container queue_{};
-      mutable std::condition_variable condition_{};
-      mutable std::mutex mutex_{};
+      mutable std::conditional_t<std::is_same_v<Mutex, std::mutex>, std::condition_variable,
+          std::condition_variable_any>
+          condition_{};
+      mutable Mutex mutex_{};
    };
 } // namespace rsj
 #endif
