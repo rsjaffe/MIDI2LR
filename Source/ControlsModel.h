@@ -294,7 +294,7 @@ class ControlsModel {
    {
       try { // MidiMessageId channel is 1-based
          return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1)
-             .GetCcMethod(msg_id.control_number);
+             .GetCcMethod(static_cast<size_t>(msg_id.control_number));
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);
@@ -350,7 +350,8 @@ class ControlsModel {
    {
       try { // msg_id is one-based
          return all_controls_.at(static_cast<size_t>(msg_id.channel) - 1)
-             .PluginToController(msg_id.msg_id_type, msg_id.control_number, value);
+             .PluginToController(
+                 msg_id.msg_id_type, static_cast<size_t>(msg_id.control_number), value);
       }
       catch (const std::exception& e) {
          rsj::ExceptionResponse(typeid(this).name(), __func__, e);

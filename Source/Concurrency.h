@@ -88,7 +88,7 @@ namespace rsj {
          queue_ = other.queue_;
       }
       /*5*/ BlockingQueue(BlockingQueue&& other) noexcept(
-          std::is_nothrow_move_constructible_v<BlockingQueue>)
+          std::is_nothrow_move_constructible_v<Container>)
       {
          auto lock{std::scoped_lock(other.mutex_)};
          queue_ = std::move(other.queue_);
