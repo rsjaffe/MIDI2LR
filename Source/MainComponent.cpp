@@ -247,6 +247,7 @@ void MainContentComponent::MidiCmdCallback(rsj::MidiMessage mm)
 void MainContentComponent::LrIpcOutCallback(bool connected, bool sending_blocked)
 {
    try {
+      const juce::MessageManagerLock mmLock; // as not called in message loop
       if (connected) {
          if (sending_blocked) {
             connection_label_.setText(
