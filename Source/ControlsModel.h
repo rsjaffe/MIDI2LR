@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
+//-V813_MINSIZE=13 //warn if passing structure by value > 12 bytes (3*sizeof(int))
 #include <array>
 #include <atomic>
 #include <exception>

@@ -29,8 +29,10 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // See https://en.cppreference.com/w/cpp/language/extending_std.
 #include <typeindex>
 
-#include <JuceLibraryCode/JuceHeader.h>
 #include "Misc.h"
+namespace juce {
+   class MidiMessage;
+}
 
 namespace rsj {
    enum MessageType : short {

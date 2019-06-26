@@ -239,6 +239,8 @@ void Profile::ToXmlFile(const juce::File& file)
             case rsj::MessageType::Pw:
                setting->setAttribute("pitchbend", 0);
                break;
+            default:
+               continue; // can't handle other types
             }
             setting->setAttribute("command_string", map_entry.second);
             root.addChildElement(setting.release());

@@ -20,6 +20,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "MidiUtilities.h"
 
+#include <JuceLibraryCode/JuceHeader.h>
 #include <gsl/gsl>
 
 rsj::MidiMessage::MidiMessage(const juce::MidiMessage& mm) noexcept(kNdebug)

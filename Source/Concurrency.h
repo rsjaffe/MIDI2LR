@@ -71,7 +71,7 @@ namespace rsj {
       static_assert(std::is_same_v<T, value_type>, "container adaptors require consistent types");
       // Constructors: see https://en.cppreference.com/w/cpp/container/queue/queue
       // These are in same order and number as in cppreference
-      /*1*/ BlockingQueue() noexcept(std::is_nothrow_default_constructible_v<Container>){};
+      /*1*/ BlockingQueue() noexcept(std::is_nothrow_default_constructible_v<Container>) {}
       /*2*/ explicit BlockingQueue(const Container& cont) noexcept(
           std::is_nothrow_copy_constructible_v<Container>)
           : queue_{cont}

@@ -32,11 +32,18 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager)
 }
 
 #pragma warning(push)
-#pragma warning(disable : 26447)
-VersionChecker::~VersionChecker()
-{
+#pragma warning(disable : 4297)
+VersionChecker::~VersionChecker() try {
    if (!juce::Thread::stopThread(100))
       rsj::Log("stopThread failed in VersionChecker destructor");
+}
+catch (const std::exception& e) {
+   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
+}
+catch (...) {
+   rsj::LogAndAlertError("Exception thrown in VersionChecker destructor.");
+   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
 }
 #pragma warning(pop)
 

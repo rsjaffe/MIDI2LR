@@ -33,6 +33,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 // from
 // https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/windows-language-pack-default-values
 namespace {
+#pragma warning(suppress : 26426)
    const std::unordered_map<unsigned long int, std::string> kKeyboardNames{{0x0000041c, "Albanian"},
        {0x00000401, "Arabic (101)"}, {0x00010401, "Arabic (102)"},
        {0x00020401, "Arabic (102) AZERTY"}, {0x0000042b, "Armenian Eastern"},

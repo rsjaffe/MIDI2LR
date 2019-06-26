@@ -27,25 +27,22 @@ namespace {
 }
 
 #pragma warning(push)
-#pragma warning(disable : 26447)
-MidiReceiver::~MidiReceiver()
-{
-   try {
-      for (const auto& dev : devices_) {
-         dev->stop();
-         rsj::Log("Stopped input device " + dev->getName());
-      }
-      if (const auto remaining = messages_.clear_count_push(kTerminate))
-         rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver destructor");
+#pragma warning(disable : 4297)
+MidiReceiver::~MidiReceiver() try {
+   for (const auto& dev : devices_) {
+      dev->stop();
+      rsj::Log("Stopped input device " + dev->getName());
    }
-   catch (const std::exception& e) {
-      rsj::LogAndAlertError(juce::String("Exception in MidiReceiver Destructor. ") + e.what());
-      std::terminate();
-   }
-   catch (...) {
-      rsj::LogAndAlertError("Exception in MidiReceiver Destructor. Non-standard exception.");
-      std::terminate();
-   }
+   if (const auto remaining = messages_.clear_count_push(kTerminate))
+      rsj::Log(juce::String(remaining) + " left in queue in MidiReceiver destructor");
+}
+catch (const std::exception& e) {
+   rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
+}
+catch (...) {
+   rsj::LogAndAlertError("Exception in MidiReceiver Destructor. Non-standard exception.");
+   return; // The program is ending anyway. CERT C++ Coding Standard DCL57-CPP.
 }
 #pragma warning(pop)
 
@@ -135,7 +132,7 @@ void MidiReceiver::TryToOpen()
 
 void MidiReceiver::InitDevices()
 {
-   using namespace std::chrono_literals;
+   using namespace std::literals::chrono_literals;
    try {
       rsj::Log("Trying to open input devices");
       TryToOpen();
