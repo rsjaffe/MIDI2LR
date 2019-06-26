@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.2.3.0"
+<JUCERPROJECT id="jqaeel" name="MIDI2LR" projectType="guiapp" version="3.2.4.0"
               bundleIdentifier="com.rsjaffe.MIDI2LR" includeBinaryInAppConfig="1"
               jucerVersion="5.4.3" companyWebsite="http://rsjaffe.github.io/MIDI2LR/"
               companyEmail="rsjaffe@gmail.com" displaySplashScreen="0" reportAppUsage="0"
               splashScreenColour="Dark" cppLanguageStandard="latest" companyCopyright=""
-              defines="U_STATIC_IMPLEMENTATION=1&#10;DONT_SET_USING_JUCE_NAMESPACE=1"
-              headerPath="../../&#10;../../icu/source/common/" compilerFlagSchemes="">
+              defines="DONT_SET_USING_JUCE_NAMESPACE=1" compilerFlagSchemes=""
+              headerPath="../../&#10;../../asio/">
   <MAINGROUP id="XbT1lm" name="MIDI2LR">
     <GROUP id="{FC911F9D-9F68-948C-ADEF-64BE6AA850ED}" name="Source">
       <FILE id="RjO2Is" name="CCoptions.cpp" compile="1" resource="0" file="Source/CCoptions.cpp"/>
@@ -121,7 +121,8 @@
         <MODULEPATH id="juce_audio_basics" path="JuceLibraryCode\modules"/>
       </MODULEPATHS>
     </VS2017>
-    <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt">
+    <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="WdgQGt" bigIcon="WdgQGt"
+            extraDefs="_WIN32_WINNT=0x0601">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" defines="GSL_THROW_ON_CONTRACT_VIOLATION=1"
                        useRuntimeLibDLL="0"/>
