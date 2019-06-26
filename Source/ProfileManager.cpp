@@ -29,7 +29,6 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "MIDIReceiver.h"
 #include "MidiUtilities.h"
 #include "Profile.h"
-using namespace std::literals::string_literals;
 
 ProfileManager::ProfileManager(ControlsModel& c_model, Profile& profile,
     std::weak_ptr<LrIpcOut>&& out, MidiReceiver& midi_receiver)
@@ -92,12 +91,12 @@ void ProfileManager::SwitchToProfile(const juce::String& profile)
                cb(xml_element.get(), profile);
             if (const auto ptr = lr_ipc_out_.lock()) {
                auto command =
-                   "ChangedToDirectory "s
+                   "ChangedToDirectory "
                    + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                          .toStdString()
                    + '\n';
                ptr->SendCommand(std::move(command));
-               command = "ChangedToFile "s + profile.toStdString() + '\n';
+               command = "ChangedToFile " + profile.toStdString() + '\n';
                ptr->SendCommand(std::move(command));
             }
          }
@@ -139,11 +138,11 @@ void ProfileManager::MapCommand(const rsj::MidiMessageId& msg)
 {
    try {
       const auto cmd = current_profile_.GetCommandForMessage(msg);
-      if (cmd == "PrevPro"s) {
+      if (cmd == "PrevPro") {
          switch_state_ = SwitchState::kPrev;
          triggerAsyncUpdate();
       }
-      else if (cmd == "NextPro"s) {
+      else if (cmd == "NextPro") {
          switch_state_ = SwitchState::kNext;
          triggerAsyncUpdate();
       }
@@ -176,7 +175,7 @@ void ProfileManager::ConnectionCallback(bool connected, bool blocked)
    try {
       if (connected && !blocked) {
          if (const auto ptr = lr_ipc_out_.lock()) {
-            ptr->SendCommand("ChangedToDirectory "s
+            ptr->SendCommand("ChangedToDirectory "
                              + juce::File::addTrailingSeparator(profile_location_.getFullPathName())
                                    .toStdString()
                              + '\n');

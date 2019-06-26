@@ -127,7 +127,7 @@ namespace {
 std::string rsj::GetKeyboardLayout()
 {
    try {
-      using namespace std::string_literals;
+      using namespace std::literals::string_literals;
       static_assert(sizeof(CHAR) == sizeof(char), "Windows CHAR and char different sizes.");
       std::array<CHAR, KL_NAMELENGTH> klid_ascii{};
       if (GetKeyboardLayoutNameA(klid_ascii.data())) {
@@ -144,7 +144,7 @@ std::string rsj::GetKeyboardLayout()
             return msg;
          }
       }
-      const auto msg{"Unable to get KLID. Error "s + rsj::NumToChars(GetLastError()) + "."s};
+      const auto msg{"Unable to get KLID. Error " + rsj::NumToChars(GetLastError()) + "."s};
       rsj::Log(msg);
       return msg;
    }
@@ -160,25 +160,25 @@ std::string rsj::GetKeyboardLayout()
 DebugInfo::DebugInfo(const juce::String& profile_directory) noexcept
 {
    try {
-      using namespace std::string_literals;
-      LogAndSave("System language "s + juce::SystemStats::getDisplayLanguage().toStdString());
-      LogAndSave("Keyboard type "s + rsj::GetKeyboardLayout());
+      using namespace std::literals::string_literals;
+      LogAndSave("System language " + juce::SystemStats::getDisplayLanguage().toStdString());
+      LogAndSave("Keyboard type " + rsj::GetKeyboardLayout());
       // ReSharper disable CppUnreachableCode
       if constexpr (kNdebug) {
          LogAndSave("Version "s + ProjectInfo::versionString);
       }
       else {
-         LogAndSave("Version "s + ProjectInfo::versionString + "-debug"s);
+         LogAndSave("Version "s + ProjectInfo::versionString + "-debug");
       }
       // ReSharper restore CppUnreachableCode
-      LogAndSave("App path "s
+      LogAndSave("App path "
                  + juce::File::getSpecialLocation(juce::File::currentApplicationFile)
                        .getFullPathName()
                        .toStdString());
-      LogAndSave("Profile directory "s + profile_directory.toStdString());
+      LogAndSave("Profile directory " + profile_directory.toStdString());
 #ifdef _WIN32
-      LogAndSave("Log file directory "s + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
-      LogAndSave("Settings file directory "s + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
+      LogAndSave("Log file directory " + rsj::WideToUtf8(rsj::AppLogFilePath(L"")));
+      LogAndSave("Settings file directory " + rsj::WideToUtf8(rsj::AppDataFilePath(L"")));
 #else
       LogAndSave("Log file directory "s + rsj::AppLogFilePath(""));
       LogAndSave("Settings file directory "s + rsj::AppDataFilePath(""));

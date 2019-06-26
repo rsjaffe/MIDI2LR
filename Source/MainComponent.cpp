@@ -285,7 +285,6 @@ void MainContentComponent::SaveProfile()
 
 void MainContentComponent::buttonClicked(juce::Button* button)
 { //-V2009 overridden method
-   using namespace std::literals::string_literals;
    try {
       if (button == &rescan_button_) {
          // Re-enumerate MIDI IN and OUT devices
@@ -297,7 +296,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
             midi_sender_->RescanDevices();
          // Send new CC parameters to MIDI Out devices
          if (const auto ptr = lr_ipc_out_.lock())
-            ptr->SendCommand("FullRefresh 1\n"s);
+            ptr->SendCommand("FullRefresh 1\n");
       }
       else if (button == &remove_row_button_) {
          if (command_table_.getNumRows() > 0) {
@@ -350,7 +349,7 @@ void MainContentComponent::buttonClicked(juce::Button* button)
                std::unique_ptr<juce::XmlElement> xml_element{parsed};
                const auto new_profile = chooser.getResult();
                auto command =
-                   "ChangedToFullPath "s + new_profile.getFullPathName().toStdString() + '\n';
+                   "ChangedToFullPath " + new_profile.getFullPathName().toStdString() + '\n';
                if (const auto ptr = lr_ipc_out_.lock())
                   ptr->SendCommand(std::move(command));
                profile_name_label_.setText(
@@ -386,7 +385,6 @@ void MainContentComponent::buttonClicked(juce::Button* button)
 void MainContentComponent::ProfileChanged(
     juce::XmlElement* xml_element, const juce::String& file_name)
 { //-V2009 overridden method
-   using namespace std::literals::string_literals;
    try {
       {
          const juce::MessageManagerLock mm_lock;
@@ -397,7 +395,7 @@ void MainContentComponent::ProfileChanged(
       }
       // Send new CC parameters to MIDI Out devices
       if (const auto ptr = lr_ipc_out_.lock())
-         ptr->SendCommand("FullRefresh 1\n"s);
+         ptr->SendCommand("FullRefresh 1\n");
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
