@@ -248,7 +248,8 @@ local DataBase = {
   {Command='Prev',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Previous_Photo=Previous Photo'),Group=photos,Explanation=''},
   {Command='RotateLeft',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_left=Rotate left'),Group=photos,Explanation='Rotates all selected photos left. Supported in LR versions 7.4 and later.'},
   {Command='RotateRight',Type='button',Translation=LOC('$$$/AgDevelopShortcuts/Rotate_right=Rotate right'),Group=photos,Explanation='Rotates all selected photos right. Supported in LR versions 7.4 and later.'},
-
+  {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=photos,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up-to-date. Useful if controller out of sync with Lightroom (e.g., with layer changes).'},
+  {Command='CloseApp',Type='button',Translation=LOC('$$$/AgPluginManager/Status/HttpServer/StopServer=Stop Server'),Group=photos,Explanation='Closes the MIDI2LR application.'},
   --quick develop
   {Command='QuickDevWBAuto',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Auto=Auto'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets auto white balance for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
   {Command='QuickDevWBDaylight',Type='button',Translation=quickdev..' '..whiteBalance..' '..LOC('$$$/AgCameraRawUI/WhiteBalance/Daylight=Daylight'),Group=quickdev,Explanation='Using the Library\226\128\153s quick develop mode, sets daylight white balance for all selected photos. Works in Library and Develop modules. Supported in LR versions 7.4 and later.'},
@@ -824,7 +825,6 @@ local DataBase = {
   {Command='profile10',Type='button',Translation=profile..' 10',Group=profiles,Explanation='Change to MIDI mapping profile 10.'},
   {Command='PrevPro',Type='button',Translation=LOC('$$$/MIDI2LR/Profiles/Previous=Previous Profile'),Group=profiles,Explanation='Change to previous (by alpha order) MIDI mapping profile.'},
   {Command='NextPro',Type='button',Translation=LOC('$$$/MIDI2LR/Profiles/Next=Next Profile'),Group=profiles,Explanation='Change to next (by alpha order) MIDI mapping profile.'},
-  {Command='FullRefresh',Type='button',Translation=LOC('$$$/AgLibrary/ViewBar/Sort/RefreshMode/Manual=Manual Update'),Group=profiles,Explanation='Force an update of all develop settings in MIDI controller, even if MIDI2LR believes MIDI controller is up-to-date. Useful if controller out of sync with Lightroom (e.g., with layer changes).'},
 }
 
 local CmdTrans={}
