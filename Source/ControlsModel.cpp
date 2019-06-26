@@ -217,7 +217,7 @@ short ChannelModel::PluginToController(
 {
    try {
       Expects(controlnumber <= kMaxNrpn);
-      Expects(value >= 0.0 && value <= 1.0);
+      // value effectively clamped to 0-1 by clamp calls below
       switch (controltype) {
       case rsj::MessageType::Pw: {
          // TODO(C26451): short mixed with double: can it overflow?
