@@ -21,179 +21,27 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "LR_IPC_In.h"
 
 #include <algorithm>
-#include <array>
 #include <exception>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
+#include <thread>
 
 #include <gsl/gsl>
 #include "ControlsModel.h"
+#include "LR_IPC_Out.h"
 #include "MIDISender.h"
 #include "MidiUtilities.h"
 #include "Misc.h"
 #include "Profile.h"
 #include "ProfileManager.h"
 #include "SendKeys.h"
+using namespace std::literals::chrono_literals;
 
 namespace {
-   constexpr auto kHost = "127.0.0.1";
-   constexpr auto kTerminate{"MBxegp3VXilFy0"};
-   constexpr int kBufferSize = 1024;
-   constexpr int kConnectTryTime = 100;
-   constexpr int kEmptyWait = 100;
-   constexpr int kLrInPort = 58764;
-   constexpr int kNotConnectedWait = 333;
-   constexpr int kReadyWait = 1000;
-   constexpr int kStopWait = 1000;
-   constexpr int kConnectTimer = 1000;
-} // namespace
+   constexpr auto kEmptyWait = 100ms;
+   constexpr auto kLrInPort = 58764;
+   constexpr auto kTerminate = "MBxegp3VXilFy0";
 
-LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
-    std::shared_ptr<MidiSender> midi_sender)
-    : juce::Thread{"LR_IPC_IN"}, profile_{profile}, controls_model_{c_model},
-      profile_manager_{profile_manager}, midi_sender_{std::move(midi_sender)}
-{
-}
-
-#pragma warning(push)
-#pragma warning(disable : 26447)
-LrIpcIn::~LrIpcIn()
-{
-   try {
-      {
-         auto lock = std::scoped_lock(timer_mutex_);
-         timer_off_ = true;
-         juce::Timer::stopTimer();
-      }
-      if (!juce::Thread::stopThread(kStopWait))
-         rsj::Log("stopThread failed in LrIpcIn destructor");
-      if (const auto m = line_.clear_count_emplace(kTerminate))
-         rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
-      socket_.close();
-   }
-   catch (...) {
-      rsj::LogAndAlertError("Exception thrown in LrIpcIn destructor.");
-      std::terminate();
-   }
-}
-#pragma warning(pop)
-
-void LrIpcIn::Start()
-{
-   try {
-      // start the timer
-      juce::Timer::startTimer(kConnectTimer);
-      process_line_future_ = std::async(std::launch::async, &LrIpcIn::ProcessLine, this);
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void LrIpcIn::PleaseStopThread()
-{
-   try {
-      juce::Thread::signalThreadShouldExit();
-      juce::Thread::notify();
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void LrIpcIn::run()
-{
-   try {
-      auto _ = gsl::finally([this] {
-         auto lock = std::scoped_lock(timer_mutex_);
-         timer_off_ = true;
-         juce::Timer::stopTimer();
-      });
-      while (!juce::Thread::threadShouldExit()) {
-         std::array<char, kBufferSize> line{}; // zero filled by {} initialization
-         // if not connected, executes a wait 333 then goes back to while. if connected, tries to
-         // read a line, checks thread status and connection status before each read attempt.
-         // Doesn't terminate thread if disconnected, as currently don't have graceful way to
-         // restart thread.
-         if (!socket_.isConnected()) {
-            // ReSharper disable once CppExpressionWithoutSideEffects
-            juce::Thread::wait(kNotConnectedWait);
-         } // end if (is not connected)
-         else {
-            line.fill(0); // zero out buffer
-            auto size_read = 0;
-            // parse input until we have a line, then process that line, quit if connection lost
-            while ((size_read == 0 || line.at(gsl::narrow_cast<size_t>(size_read) - 1) != '\n')
-                   && socket_.isConnected()) {
-               if (juce::Thread::threadShouldExit())
-                  return; // after final action
-               const auto wait_status = socket_.waitUntilReady(true, kReadyWait);
-               switch (wait_status) {
-               case -1:
-#pragma warning(suppress : 26438)
-                  goto dumpLine; // read line failed, break out of switch and while
-               case 0:
-                  // ReSharper disable once CppExpressionWithoutSideEffects
-                  juce::Thread::wait(kEmptyWait);
-                  break; // try again to read until char shows up
-               case 1:
-                  switch (socket_.read(&line.at(size_read), 1, false)) {
-                  case -1:
-#pragma warning(suppress : 26438)
-                     goto dumpLine; // read error
-                  case 1:
-                     size_read++;
-                     break;
-                  case 0:
-                     // waitUntilReady returns 1 but read will is 0: it's an indication of a broken
-                     // socket.
-                     juce::JUCEApplication::getInstance()->systemRequestedQuit();
-                     break;
-                  default:
-                     Ensures(!"Unexpected value for read status");
-                  }
-                  break;
-               default:
-                  Ensures(!"Unexpected value for wait_status");
-               }
-            } // end while !\n and is connected
-            // if lose connection, line may not be terminated
-            {
-               std::string param{line.data()};
-               if (param.back() == '\n') {
-                  line_.push(std::move(param));
-               }
-            } // scope param
-         dumpLine: /* empty statement */;
-         } // end else (is connected)
-      }    // while not threadshouldexit, finally handles exit code
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-void LrIpcIn::timerCallback()
-{
-   try {
-      auto lock = std::scoped_lock(timer_mutex_);
-      if (!timer_off_ && !socket_.isConnected() && !juce::Thread::threadShouldExit()) {
-         if (socket_.connect(kHost, kLrInPort, kConnectTryTime))
-            if (!thread_started_) {
-               juce::Thread::startThread(); // avoid starting thread during shutdown
-               thread_started_ = true;
-            }
-      }
-   }
-   catch (const std::exception& e) {
-      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-      throw;
-   }
-}
-
-namespace {
    void Trim(std::string_view& value) noexcept
    {
       value.remove_prefix(std::min(value.find_first_not_of(" \t\n"), value.size()));
@@ -202,15 +50,88 @@ namespace {
    }
 } // namespace
 
+LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
+    std::shared_ptr<MidiSender> midi_sender, std::weak_ptr<LrIpcOut>&& out)
+    : controls_model_{c_model}, profile_{profile}, profile_manager_{profile_manager},
+      midi_sender_{std::move(midi_sender)}, ipc_out_{std::move(out)}
+{
+}
+
+void LrIpcIn::StartRunning()
+{
+   try {
+      process_line_future_ = std::async(std::launch::async, &LrIpcIn::ProcessLine, this);
+      Connect();
+      io_thread_ = std::async(std::launch::async, [this] { io_context_.run(); });
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+void LrIpcIn::StopRunning()
+{
+   try {
+      thread_should_exit_ = true;
+      if (connected_) {
+         const auto self = shared_from_this();
+         asio::post([this, self] {
+            asio::error_code ec;
+            // For portable behaviour with respect to graceful closure of a connected socket, call
+            // shutdown() before closing the socket.
+            socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+            if (ec) {
+               rsj::Log("LR_IPC_In socket shutdown error " + ec.message());
+               ec.clear();
+            }
+            socket_.close(ec);
+            if (ec)
+               rsj::Log("LR_IPC_In socket close error " + ec.message());
+         });
+      }
+      if (const auto m = line_.clear_count_emplace(kTerminate))
+         rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), "StopRunning", e);
+      throw;
+   }
+}
+
+void LrIpcIn::Connect()
+{
+   try {
+      const auto self{shared_from_this()};
+      socket_.async_connect(asio::ip::tcp::endpoint(asio::ip::address_v4::loopback(), kLrInPort),
+          [this, self](const asio::error_code& error) {
+             if (!error) {
+                rsj::Log("Socket connected in LR_IPC_In");
+                connected_ = true;
+                Read();
+             }
+             else if (error) {
+                asio::error_code ec2;
+                socket_.close(ec2);
+                if (ec2)
+                   rsj::Log("LR_IPC_In socket close error " + ec2.message());
+             }
+          });
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
 void LrIpcIn::ProcessLine()
 {
-   using namespace std::literals::string_literals;
    try {
       const static std::unordered_map<std::string, int> kCmds = {
-          {"SwitchProfile"s, 1}, {"SendKey"s, 2}, {"TerminateApplication"s, 3}};
+          {"SwitchProfile", 1}, {"SendKey", 2}, {"TerminateApplication", 3}};
       do {
          // process input into [parameter] [Value]
-         std::string line_copy{line_.pop()};
+         auto line_copy{line_.pop()};
          if (line_copy == kTerminate)
             return;
          std::string_view v{line_copy};
@@ -282,6 +203,40 @@ void LrIpcIn::ProcessLine()
             Ensures(!"Unexpected result for cmds");
          }
       } while (true);
+   }
+   catch (const std::exception& e) {
+      rsj::ExceptionResponse(typeid(this).name(), __func__, e);
+      throw;
+   }
+}
+
+void LrIpcIn::Read()
+{
+   try {
+      if (!thread_should_exit_) {
+         const auto self{shared_from_this()};
+         asio::async_read_until(socket_, streambuf_, '\n',
+             [this, self](const asio::error_code& error, std::size_t bytes_transferred) {
+                if (!error) {
+                   if (!bytes_transferred)
+                      std::this_thread::sleep_for(kEmptyWait);
+                   else {
+                      std::string command{buffers_begin(streambuf_.data()),
+                          buffers_begin(streambuf_.data()) + bytes_transferred};
+                      if (command == "TerminateApplication 1\n")
+                         thread_should_exit_ = true;
+                      line_.push(std::move(command));
+                      streambuf_.consume(bytes_transferred);
+                   }
+                   Read(); // read again
+                }
+                else {
+                   rsj::Log("LR_IPC_In Read: " + error.message());
+                   if (error == asio::error::misc_errors::eof) // LR closed socket
+                      juce::JUCEApplication::getInstance()->systemRequestedQuit();
+                }
+             });
+      }
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

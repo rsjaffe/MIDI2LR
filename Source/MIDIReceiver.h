@@ -45,7 +45,7 @@ class MidiReceiver final : juce::MidiInputCallback {
    MidiReceiver(MidiReceiver&& other) = delete;
    MidiReceiver& operator=(const MidiReceiver& other) = delete;
    MidiReceiver& operator=(MidiReceiver&& other) = delete;
-   void Start();
+   void StartRunning();
    // re-enumerates MIDI IN devices
    void RescanDevices();
 

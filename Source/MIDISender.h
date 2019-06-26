@@ -29,7 +29,7 @@ namespace juce {
 
 class MidiSender {
  public:
-   void Start();
+   void StartRunning();
 
    // sends a CC message to all output devices
    void SendCc(int midi_channel, int controller, int value) const;

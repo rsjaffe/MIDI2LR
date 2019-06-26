@@ -309,11 +309,11 @@ void MainContentComponent::buttonClicked(juce::Button* button)
       else if (button == &disconnect_button_) {
          if (const auto ptr = lr_ipc_out_.lock()) {
             if (disconnect_button_.getToggleState()) {
-               ptr->Stop();
+               ptr->SendingStop();
                rsj::Log("Sending halted");
             }
             else {
-               ptr->Restart();
+               ptr->SendingRestart();
                rsj::Log("Sending restarted");
             }
          }

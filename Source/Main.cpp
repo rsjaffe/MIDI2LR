@@ -35,7 +35,8 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <filesystem> //not available in XCode yet
 
 namespace fs = std::filesystem;
-#include "WinDef.h"
+#include "WinDef.h" //these defines mess up asio, so need to be more inclusive
+#undef NONLS
 #undef NOUSER
 #include <Windows.h>
 #endif
@@ -119,13 +120,16 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          // loop won't be run.
          if (command_line != kShutDownString) {
             CerealLoad();
-            midi_receiver_->Start();
-            midi_sender_->Start();
-            lr_ipc_out_->Start();
-            lr_ipc_in_->Start();
+            // need to start main window before ipc so it's already registered its callbacks and can
+            // receive messages
             main_window_ =
                 std::make_unique<MainWindow>(getApplicationName(), command_set_, profile_,
                     profile_manager_, settings_manager_, lr_ipc_out_, midi_receiver_, midi_sender_);
+            midi_receiver_->StartRunning();
+            midi_sender_->StartRunning();
+            lr_ipc_out_->StartRunning();
+            lr_ipc_in_->StartRunning();
+
             // Check for latest version
             version_checker_.startThread();
          }
@@ -151,13 +155,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // Be careful that nothing happens in this method that might rely on
       // messages being sent, or any kind of window activity, because the
       // message loop is no longer running at this point.
-      lr_ipc_in_->PleaseStopThread();
-      DefaultProfileSave();
-      CerealSave();
-      lr_ipc_out_.reset();
-      lr_ipc_in_.reset();
       midi_receiver_.reset();
       midi_sender_.reset();
+      lr_ipc_in_->StopRunning();
+      lr_ipc_out_->StopRunning();
+      DefaultProfileSave();
+      CerealSave();
+      lr_ipc_in_.reset();
+      lr_ipc_out_.reset();
       main_window_.reset(); // (deletes our window)
       juce::Logger::setCurrentLogger(nullptr);
    }
@@ -210,11 +215,14 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
       // this pointer will be null.
       try {
          if (e)
-            rsj::LogAndAlertError("Unhandled exception. " + juce::String(e->what()) + " "
-                                  + source_filename + " line " + juce::String(lineNumber));
+            rsj::LogAndAlertError(
+                "Unhandled exception. " + juce::String(e->what()) + " " + source_filename + " line "
+                + juce::String(lineNumber)
+                + " Total uncaught = " + juce::String(std::uncaught_exceptions()));
          else
             rsj::LogAndAlertError(
-                "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber));
+                "Unhandled exception. " + source_filename + " line " + juce::String(lineNumber)
+                + " Total uncaught = " + juce::String(std::uncaught_exceptions()));
       }
       catch (...) { // we'll terminate anyway
          std::terminate();
@@ -390,8 +398,8 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
    std::shared_ptr<LrIpcOut> lr_ipc_out_{
        std::make_shared<LrIpcOut>(controls_model_, profile_, midi_sender_, *midi_receiver_)};
    ProfileManager profile_manager_{controls_model_, profile_, lr_ipc_out_, *midi_receiver_};
-   std::shared_ptr<LrIpcIn> lr_ipc_in_{
-       std::make_shared<LrIpcIn>(controls_model_, profile_manager_, profile_, midi_sender_)};
+   std::shared_ptr<LrIpcIn> lr_ipc_in_{std::make_shared<LrIpcIn>(
+       controls_model_, profile_manager_, profile_, midi_sender_, lr_ipc_out_)};
    SettingsManager settings_manager_{profile_manager_, lr_ipc_out_};
    std::unique_ptr<MainWindow> main_window_{nullptr};
    // destroy after window that uses it

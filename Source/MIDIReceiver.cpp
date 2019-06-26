@@ -49,7 +49,7 @@ MidiReceiver::~MidiReceiver()
 }
 #pragma warning(pop)
 
-void MidiReceiver::Start()
+void MidiReceiver::StartRunning()
 {
    try {
       InitDevices();

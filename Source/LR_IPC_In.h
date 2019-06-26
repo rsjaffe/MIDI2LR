@@ -20,49 +20,48 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
   ==============================================================================
 */
+#include <atomic>
 #include <future>
 #include <memory>
-#include <mutex>
 #include <string>
 
+#include <asio.hpp>
 #include "Concurrency.h"
-#include <JuceLibraryCode/JuceHeader.h>
 class ControlsModel;
+class LrIpcOut;
 class MidiSender;
 class Profile;
 class ProfileManager;
-
-class LrIpcIn final : juce::Timer, juce::Thread {
+class LrIpcIn final : public std::enable_shared_from_this<LrIpcIn> {
  public:
    LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profile& profile,
-       std::shared_ptr<MidiSender> midi_sender);
-   ~LrIpcIn();
+       std::shared_ptr<MidiSender> midi_sender, std::weak_ptr<LrIpcOut>&& out);
+   ~LrIpcIn() = default;
    LrIpcIn(const LrIpcIn& other) = delete;
    LrIpcIn(LrIpcIn&& other) = delete;
    LrIpcIn& operator=(const LrIpcIn& other) = delete;
    LrIpcIn& operator=(LrIpcIn&& other) = delete;
-   void Start();
-   // signal exit to thread
-   void PleaseStopThread();
+   void StartRunning();
+   void StopRunning();
 
  private:
-   juce::StreamingSocket socket_{};
-   // Thread interface
-   void run() override;
-   // Timer callback
-   void timerCallback() override;
-   // process a line received from the socket
-   void ProcessLine();
-   rsj::BlockingQueue<std::string> line_;
-   std::future<void> process_line_future_;
-
-   bool thread_started_{false};
-   bool timer_off_{false};
+   asio::io_context io_context_{1};
+   asio::ip::tcp::socket socket_{io_context_};
+   asio::steady_timer connect_timer_{io_context_};
+   asio::streambuf streambuf_{};
+   ControlsModel& controls_model_;
    Profile& profile_;
-   ControlsModel& controls_model_; //
-   mutable std::mutex timer_mutex_;
    ProfileManager& profile_manager_;
+   rsj::BlockingQueue<std::string> line_;
+   std::atomic<bool> connected_{false};
+   std::atomic<bool> thread_should_exit_{false};
+   std::future<void> io_thread_;
+   std::future<void> process_line_future_;
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
+   std::weak_ptr<LrIpcOut> ipc_out_;
+   void Connect();
+   void ProcessLine();
+   void Read();
 };
 
 #endif // LR_IPC_IN_H_INCLUDED
