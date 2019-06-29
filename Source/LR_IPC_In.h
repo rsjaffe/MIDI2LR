@@ -53,7 +53,6 @@ class LrIpcIn final : public std::enable_shared_from_this<LrIpcIn> {
    Profile& profile_;
    ProfileManager& profile_manager_;
    rsj::BlockingQueue<std::string> line_;
-   std::atomic<bool> connected_{false};
    std::atomic<bool> thread_should_exit_{false};
    std::future<void> io_thread_;
    std::future<void> process_line_future_;

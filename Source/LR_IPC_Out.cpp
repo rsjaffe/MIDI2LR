@@ -41,11 +41,11 @@ using namespace std::literals::chrono_literals;
 
 namespace {
    constexpr auto kDelay{8ms}; // in between recurrent actions
+   constexpr auto kLrOutPort{58763};
    // give controller a minimum refractory period before resetting
    constexpr auto kMinRecenterTime(250ms);
    constexpr auto kRecenterTimer{std::max(kMinRecenterTime, kDelay + kDelay / 2)};
    constexpr auto kTerminate{"!!!@#$%^"};
-   constexpr int kLrOutPort{58763};
 } // namespace
 
 LrIpcOut::LrIpcOut(ControlsModel& c_model, const Profile& profile,
@@ -85,7 +85,7 @@ void LrIpcOut::SendingRestart()
 {
    try {
       sending_stopped_ = false;
-      const auto con{connected_.load()};
+      const auto con{connected_.load(std::memory_order_acquire)};
       for (const auto& cb : callbacks_)
          cb(con, false);
       // resync controls
@@ -101,7 +101,7 @@ void LrIpcOut::SendingStop()
 {
    try {
       sending_stopped_ = true;
-      const auto con{connected_.load()};
+      const auto con{connected_.load(std::memory_order_acquire)};
       for (const auto& cb : callbacks_)
          cb(con, true);
    }
@@ -126,11 +126,13 @@ void LrIpcOut::StartRunning()
 
 void LrIpcOut::StopRunning()
 {
+   thread_should_exit_.store(true, std::memory_order_seq_cst);
+   // pump output queue before port closed
    if (const auto m = command_.clear_count_emplace(kTerminate))
       rsj::Log(juce::String(m) + " left in queue in LrIpcOut destructor");
-   if (connected_) {
-      const auto self = shared_from_this();
-      asio::post([this, self] {
+   const auto self = shared_from_this();
+   asio::post([this, self] {
+      if (socket_.is_open()) {
          asio::error_code ec;
          // For portable behaviour with respect to graceful closure of a connected socket, call
          // shutdown() before closing the socket.
@@ -142,8 +144,9 @@ void LrIpcOut::StopRunning()
          socket_.close(ec);
          if (ec)
             rsj::Log("LR_IPC_Out socket close error " + ec.message());
-      });
-   }
+      }
+      recenter_timer_.cancel();
+   });
 }
 
 void LrIpcOut::Connect()
@@ -157,6 +160,7 @@ void LrIpcOut::Connect()
                 SendOut();
              }
              else if (error) {
+                rsj::Log("LR_IPC_Out did not connect. " + error.message());
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2)
@@ -172,7 +176,7 @@ void LrIpcOut::Connect()
 
 void LrIpcOut::ConnectionMade()
 {
-   connected_ = true;
+   connected_.store(true, std::memory_order_release);
    try {
       rsj::Log("Socket connected in LR_IPC_Out");
       for (const auto& cb : callbacks_)
@@ -278,15 +282,15 @@ void LrIpcOut::SetRecenter(rsj::MidiMessage mm)
       const auto self = shared_from_this();
       asio::dispatch([this, self] { recenter_timer_.expires_after(kRecenterTimer); });
       recenter_timer_.async_wait([this, self, mm](const asio::error_code& error) {
-         if (!error) {
-            const auto center = controls_model_.SetToCenter(mm);
+         if (!error && !thread_should_exit_.load(std::memory_order_relaxed)) {
             switch (mm.message_type_byte) {
             case rsj::MessageType::Pw: {
-               midi_sender_->SendPitchWheel(mm.channel + 1, center);
+               midi_sender_->SendPitchWheel(mm.channel + 1, controls_model_.SetToCenter(mm));
                break;
             }
             case rsj::MessageType::Cc: {
-               midi_sender_->SendCc(mm.channel + 1, mm.control_number, center);
+               midi_sender_->SendCc(
+                   mm.channel + 1, mm.control_number, controls_model_.SetToCenter(mm));
                break;
             }
             default:

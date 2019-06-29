@@ -73,10 +73,10 @@ void LrIpcIn::StartRunning()
 void LrIpcIn::StopRunning()
 {
    try {
-      thread_should_exit_ = true;
-      if (connected_) {
-         const auto self = shared_from_this();
-         asio::post([this, self] {
+      thread_should_exit_.store(true, std::memory_order_release);
+      const auto self = shared_from_this();
+      asio::post([this, self] {
+         if (socket_.is_open()) {
             asio::error_code ec;
             // For portable behaviour with respect to graceful closure of a connected socket, call
             // shutdown() before closing the socket.
@@ -88,10 +88,11 @@ void LrIpcIn::StopRunning()
             socket_.close(ec);
             if (ec)
                rsj::Log("LR_IPC_In socket close error " + ec.message());
-         });
-      }
-      if (const auto m = line_.clear_count_emplace(kTerminate))
-         rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
+         }
+         // pump input queue after port closed
+         if (const auto m = line_.clear_count_emplace(kTerminate))
+            rsj::Log(juce::String(m) + " left in queue in LrIpcIn destructor");
+      });
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), "StopRunning", e);
@@ -107,10 +108,10 @@ void LrIpcIn::Connect()
           [this, self](const asio::error_code& error) {
              if (!error) {
                 rsj::Log("Socket connected in LR_IPC_In");
-                connected_ = true;
                 Read();
              }
              else if (error) {
+                rsj::Log("LR_IPC_In did not connect. " + error.message());
                 asio::error_code ec2;
                 socket_.close(ec2);
                 if (ec2)
@@ -213,7 +214,7 @@ void LrIpcIn::ProcessLine()
 void LrIpcIn::Read()
 {
    try {
-      if (!thread_should_exit_) {
+      if (!thread_should_exit_.load(std::memory_order_acquire)) {
          const auto self{shared_from_this()};
          asio::async_read_until(socket_, streambuf_, '\n',
              [this, self](const asio::error_code& error, std::size_t bytes_transferred) {
@@ -224,7 +225,7 @@ void LrIpcIn::Read()
                       std::string command{buffers_begin(streambuf_.data()),
                           buffers_begin(streambuf_.data()) + bytes_transferred};
                       if (command == "TerminateApplication 1\n")
-                         thread_should_exit_ = true;
+                         thread_should_exit_.store(true, std::memory_order_release);
                       line_.push(std::move(command));
                       streambuf_.consume(bytes_transferred);
                    }

@@ -72,6 +72,7 @@ class LrIpcOut final : public std::enable_shared_from_this<LrIpcOut> {
    ControlsModel& controls_model_;
    rsj::BlockingQueue<std::string> command_;
    std::atomic<bool> connected_{false};
+   std::atomic<bool> thread_should_exit_{false};
    std::future<void> io_thread_;
    std::future<void> io_thread1_; // need second thread for recenter timer
    std::shared_ptr<MidiSender> midi_sender_{nullptr};
