@@ -26,6 +26,20 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Misc.h"
 #include "SettingsManager.h"
 
+namespace {
+   [[nodiscard]] std::string IntToVersion(int vers)
+   {
+      const auto major{(vers & 0xFF000000) >> 24};
+      const auto minor{(vers & 0xFF0000) >> 16};
+      const auto rev{(vers & 0xFF00) >> 8};
+      const auto build{(vers & 0xFF)};
+      std::ostringstream version_string;
+      version_string << major << '.' << minor << '.' << rev << '.' << build;
+      return version_string.str();
+   }
+
+} // namespace
+
 VersionChecker::VersionChecker(SettingsManager& settings_manager)
     : juce::Thread{"VersionChecker"}, settings_manager_{settings_manager}
 {
@@ -56,9 +70,10 @@ void VersionChecker::run()
       if (version_xml_element) {
          const auto last_checked = settings_manager_.GetLastVersionFound();
          new_version_ = version_xml_element->getIntAttribute("latest");
-         rsj::Log("Version available " + juce::String(new_version_) + ", version last checked "
-                  + juce::String(last_checked) + ", current version "
-                  + juce::String(ProjectInfo::versionNumber));
+         rsj::Log("Version available " + IntToVersion(new_version_) + ", version last checked "
+                  + IntToVersion(last_checked) + ", current version "
+                  + IntToVersion(ProjectInfo::versionNumber)
+                  + '.');
          settings_manager_.SetLastVersionFound(new_version_);
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
             triggerAsyncUpdate();
@@ -77,15 +92,8 @@ void VersionChecker::handleAsyncUpdate()
       // show a dialog box indicating there is a newer version available
       juce::DialogWindow::LaunchOptions dialog_options;
       dialog_options.dialogTitle = juce::translate("New Version Available!");
-      const auto major{(new_version_ & 0xFF000000) >> 24};
-      const auto minor{(new_version_ & 0xFF0000) >> 16};
-      const auto rev{(new_version_ & 0xFF00) >> 8};
-      const auto build{(new_version_ & 0xFF)};
-      std::ostringstream version_string;
-      version_string << juce::translate("New version is available for MIDI2LR!") << ' ' << major
-                     << '.' << minor << '.' << rev << '.' << build;
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
-      auto button = std::make_unique<juce::HyperlinkButton>(version_string.str(), download_url);
+      auto button = std::make_unique<juce::HyperlinkButton>(IntToVersion(new_version_), download_url);
       button->setFont(juce::Font{18.f}, false);
       dialog_options.content.setOwned(button.release());
       dialog_options.content->setSize(600, 100);

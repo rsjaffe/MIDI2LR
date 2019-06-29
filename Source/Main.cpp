@@ -73,6 +73,34 @@ namespace {
          juce::Logger::setCurrentLogger(new_logger);
       }
    };
+
+   [[noreturn]] void onTerminate() noexcept
+   {
+      static rsj::SpinLock terminate_mutex;
+      try {
+         auto lock = std::scoped_lock(terminate_mutex);
+         if (const auto exc = std::current_exception()) {
+            // we have an exception
+            try {
+               std::rethrow_exception(exc); // throw to recognize the type
+            }
+            catch (const std::exception& e) {
+               rsj::Log("Terminate called, exception " + juce::String(e.what()));
+            }
+
+            catch (...) {
+               rsj::Log("Terminate called, unknown exception type.");
+            }
+         }
+         else
+            rsj::Log("Terminate called, no exception available.");
+      }
+      catch (...) {
+      }
+      std::_Exit(EXIT_FAILURE);
+   }
+   // global to install prior to program start
+   [[maybe_unused]] const auto installed{std::set_terminate(&onTerminate)};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {

@@ -248,7 +248,7 @@ void CCoptions::buttonClicked(Button* button_that_was_clicked)
    }
    else if (button_that_was_clicked == applyAll) {
       //[UserButtonCode_applyAll] -- add your button handler code here..
-      rsj::CCmethod ccm;
+      rsj::CCmethod ccm{};
       if (twosbutton->getToggleState())
          ccm = rsj::CCmethod::kTwosComplement;
       else if (absbutton->getToggleState())
