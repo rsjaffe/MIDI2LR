@@ -202,6 +202,7 @@ void LrIpcOut::MidiCmdCallback(rsj::MidiMessage mm)
           {"ChangeFeatherSize", {"BrushFeatherLarger 1\n", "BrushFeatherSmaller 1\n"}},
           {"ChangeLastDevelopParameter",
               {"IncrementLastDevelopParameter 1\n", "DecrementLastDevelopParameter 1\n"}},
+          {"IncreaseDecreaseRating", {"IncreaseRating 1\n", "DecreaseRating 1\n"}},
           {"Key32Key31", {"Key32 1\n", "Key31 1\n"}},
           {"Key34Key33", {"Key34 1\n", "Key33 1\n"}},
           {"Key36Key35", {"Key36 1\n", "Key35 1\n"}},
