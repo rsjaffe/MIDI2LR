@@ -118,16 +118,44 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 }
 #endif // _GNUG_
 
-void rsj::Log(const juce::String& info)
+void rsj::Log(const juce::String& info) noexcept
 {
-   if (juce::Logger::getCurrentLogger())
-      juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+   }
+   catch (...) {
+   }
 }
 
-void rsj::LogAndAlertError(const juce::String& error_text)
+void rsj::Log(const char* info) noexcept
 {
-   juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
-   rsj::Log(error_text);
+   try {
+      if (juce::Logger::getCurrentLogger())
+         juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
+   }
+   catch (...) {
+   }
+}
+
+void rsj::LogAndAlertError(const juce::String& error_text) noexcept
+{
+   try {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
+      rsj::Log(error_text);
+   }
+   catch (...) {
+   }
+}
+
+void rsj::LogAndAlertError(const char* error_text) noexcept
+{
+   try {
+      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
+      rsj::Log(error_text);
+   }
+   catch (...) {
+   }
 }
 
 #pragma warning(push)

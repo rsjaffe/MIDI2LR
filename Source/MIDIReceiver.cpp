@@ -27,7 +27,7 @@ namespace {
 }
 
 #pragma warning(push)
-#pragma warning(disable : 4297)
+#pragma warning(disable : 4297 26447)
 MidiReceiver::~MidiReceiver() try {
    for (const auto& dev : devices_) {
       dev->stop();

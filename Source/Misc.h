@@ -58,8 +58,13 @@ namespace rsj {
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(
        _In_z_ const char* id, _In_z_ const char* fu, const std::exception& e) noexcept;
-   void LogAndAlertError(const juce::String& error_text);
-   void Log(const juce::String& info);
+   // char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
+   // caller location, thus avoiding a potential exception in the catch clause. string_view
+   // overloads not used because those are ambiguous with the String versions.
+   void LogAndAlertError(const juce::String& error_text) noexcept;
+   void LogAndAlertError(const char* error_text) noexcept;
+   void Log(const juce::String& info) noexcept;
+   void Log(const char* info) noexcept;
    [[nodiscard]] std::string ToLower(std::string_view in);
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);

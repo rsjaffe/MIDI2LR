@@ -37,7 +37,6 @@ namespace {
       version_string << major << '.' << minor << '.' << rev << '.' << build;
       return version_string.str();
    }
-
 } // namespace
 
 VersionChecker::VersionChecker(SettingsManager& settings_manager)
@@ -46,7 +45,7 @@ VersionChecker::VersionChecker(SettingsManager& settings_manager)
 }
 
 #pragma warning(push)
-#pragma warning(disable : 4297)
+#pragma warning(disable : 4297 26447)
 VersionChecker::~VersionChecker() try {
    if (!juce::Thread::stopThread(100))
       rsj::Log("stopThread failed in VersionChecker destructor");
@@ -72,8 +71,7 @@ void VersionChecker::run()
          new_version_ = version_xml_element->getIntAttribute("latest");
          rsj::Log("Version available " + IntToVersion(new_version_) + ", version last checked "
                   + IntToVersion(last_checked) + ", current version "
-                  + IntToVersion(ProjectInfo::versionNumber)
-                  + '.');
+                  + IntToVersion(ProjectInfo::versionNumber) + '.');
          settings_manager_.SetLastVersionFound(new_version_);
          if (new_version_ > ProjectInfo::versionNumber && new_version_ != last_checked) {
             triggerAsyncUpdate();
@@ -93,7 +91,8 @@ void VersionChecker::handleAsyncUpdate()
       juce::DialogWindow::LaunchOptions dialog_options;
       dialog_options.dialogTitle = juce::translate("New Version Available!");
       const juce::URL download_url{"https://github.com/rsjaffe/MIDI2LR/releases/latest"};
-      auto button = std::make_unique<juce::HyperlinkButton>(IntToVersion(new_version_), download_url);
+      auto button =
+          std::make_unique<juce::HyperlinkButton>(IntToVersion(new_version_), download_url);
       button->setFont(juce::Font{18.f}, false);
       dialog_options.content.setOwned(button.release());
       dialog_options.content->setSize(600, 100);

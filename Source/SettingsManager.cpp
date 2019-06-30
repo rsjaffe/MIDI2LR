@@ -133,7 +133,7 @@ void SettingsManager::SetLastVersionFound(int version_number)
 void SettingsManager::SetPickupEnabled(bool enabled)
 {
    try {
-      using namespace std::literals::string_literals; //needed to append char to string
+      using namespace std::literals::string_literals; // needed to append char to string
       properties_file_->setValue("pickup_enabled", enabled);
       properties_file_->saveIfNeeded();
       if (const auto ptr = lr_ipc_out_.lock())

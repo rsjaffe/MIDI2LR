@@ -48,7 +48,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
             }
          }
          return ret_val;
-      case 38u:
+      case 38:
          if (ready_flags_[message.channel] >= 0b11) {
             ret_val.is_nrpn = true;
             value_lsb_[message.channel] = message.value & 0x7F;
@@ -63,12 +63,12 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
             }
          }
          return ret_val;
-      case 98u:
+      case 98:
          ret_val.is_nrpn = true;
          control_lsb_[message.channel] = message.value & 0x7F;
          ready_flags_[message.channel] |= 0b10;
          return ret_val;
-      case 99u:
+      case 99:
          ret_val.is_nrpn = true;
          control_msb_[message.channel] = message.value & 0x7F;
          ready_flags_[message.channel] |= 0b1;
