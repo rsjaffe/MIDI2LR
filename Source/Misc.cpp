@@ -35,14 +35,34 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #else
 #include "Ocpp.h"
 #endif
-#include <gsl/gsl>
 
 namespace {
    std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a", "\\b",
        "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12", "\\x13",
        "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C", "\\x1D",
        "\\x1E", "\\x1F", " ", "!", "\\\""};
-}
+
+#ifdef __GNUG__ // gnu C++ compiler
+#include <cxxabi.h>
+#include <memory>
+#include <type_traits>
+   [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
+   {
+      std::size_t len = 0;
+      int status = 0;
+      std::unique_ptr<char, decltype(&std::free)> ptr(
+          abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &std::free);
+      if (status)
+         return mangled_name;
+      return juce::String(juce::CharPointer_UTF8(ptr.get()));
+   }
+#else  // ndef _GNUG_
+   [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
+   {
+      return juce::String(juce::CharPointer_UTF8(mangled_name));
+   }
+#endif // _GNUG_
+} // namespace
 
 std::string rsj::ReplaceInvisibleChars(std::string_view in)
 {
@@ -100,44 +120,23 @@ bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
 // from http://www.cplusplus.com/forum/beginner/175177 and
 // https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/libsupc%2B%2B/cxxabi.h#L156
 
-#ifdef __GNUG__ // gnu C++ compiler
-#include <cxxabi.h>
-#include <memory>
-#include <type_traits>
-[[nodiscard]] juce::String Demangle(const char* mangled_name)
-{
-   std::size_t len = 0;
-   int status = 0;
-   std::unique_ptr<char, decltype(&std::free)> ptr(
-       abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &std::free);
-   if (status)
-      return mangled_name;
-   return juce::String(juce::CharPointer_UTF8(ptr.get()));
-}
-#else  // ndef _GNUG_
-[[nodiscard]] juce::String Demangle(_In_z_ const char* mangled_name)
-{
-   return juce::String(juce::CharPointer_UTF8(mangled_name));
-}
-#endif // _GNUG_
-
 void rsj::Log(const juce::String& info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger())
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
    }
-   catch (...) {
+   catch (...) { //-V565
    }
 }
 
-void rsj::Log(const char* info) noexcept
+void rsj::Log(gsl::czstring<> info) noexcept
 {
    try {
       if (juce::Logger::getCurrentLogger())
          juce::Logger::writeToLog(juce::Time::getCurrentTime().toISO8601(true) + ": " + info);
    }
-   catch (...) {
+   catch (...) { //-V565
    }
 }
 
@@ -147,17 +146,17 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
       juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
       rsj::Log(error_text);
    }
-   catch (...) {
+   catch (...) { //-V565
    }
 }
 
-void rsj::LogAndAlertError(const char* error_text) noexcept
+void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 {
    try {
       juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
       rsj::Log(error_text);
    }
-   catch (...) {
+   catch (...) { //-V565
    }
 }
 
@@ -166,7 +165,7 @@ void rsj::LogAndAlertError(const char* error_text) noexcept
 // use typeid(this).name() for first argument to add class information
 // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
 void rsj::ExceptionResponse(
-    _In_z_ const char* id, _In_z_ const char* fu, const std::exception& e) noexcept
+    gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept
 {
    try {
       const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id) + "::" + fu

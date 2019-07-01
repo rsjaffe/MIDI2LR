@@ -45,11 +45,14 @@ class NrpnFilter {
    std::array<int, kChannels> ready_flags_{};
    void Clear(int channel) noexcept
    {
+#pragma warning(push)
+#pragma warning(disable : 26446 26482) // Channel bounds-checked in calling functions
       ready_flags_[channel] = 0;
       control_msb_[channel] = 0;
       control_lsb_[channel] = 0;
       value_msb_[channel] = 0;
       value_lsb_[channel] = 0;
+#pragma warning(pop)
    }
 };
 

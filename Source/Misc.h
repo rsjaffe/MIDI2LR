@@ -32,6 +32,7 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
 
 #include <JuceLibraryCode/JuceHeader.h>
+#include <gsl/gsl>
 
 #ifdef NDEBUG // asserts disabled
 static constexpr bool kNdebug = true;
@@ -47,24 +48,19 @@ constexpr auto MSWindows{false};
 constexpr auto OSX{true};
 #endif
 
-#ifndef _MSC_VER
-// Microsoft SAL annotation
-#define _In_z_
-#endif
 
 namespace rsj {
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
-   void ExceptionResponse(
-       _In_z_ const char* id, _In_z_ const char* fu, const std::exception& e) noexcept;
+   void ExceptionResponse(gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept;
    // char* overloads here are to allow catch clauses to avoid a juce::String conversion at the
    // caller location, thus avoiding a potential exception in the catch clause. string_view
    // overloads not used because those are ambiguous with the String versions.
    void LogAndAlertError(const juce::String& error_text) noexcept;
-   void LogAndAlertError(const char* error_text) noexcept;
+   void LogAndAlertError(gsl::czstring<> error_text) noexcept;
    void Log(const juce::String& info) noexcept;
-   void Log(const char* info) noexcept;
+   void Log(gsl::czstring<> info) noexcept;
    [[nodiscard]] std::string ToLower(std::string_view in);
 #ifdef _WIN32
    [[nodiscard]] std::wstring AppDataFilePath(std::wstring_view file_name);
@@ -197,7 +193,7 @@ namespace rsj {
    template<class T>[[nodiscard]] std::string NumToChars(T number)
    {
       std::array<char, 10> str{};
-      auto [p, ec] = std::to_chars(str.data(), str.data() + str.size(), number);
+      auto [p, ec] = std::to_chars(&str.front(), &str.back(), number);
       if (ec == std::errc())
          return std::string(str.data(), p - str.data());
       return "Number conversion error " + std::make_error_condition(ec).message();

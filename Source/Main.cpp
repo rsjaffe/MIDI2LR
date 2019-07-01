@@ -94,7 +94,7 @@ namespace {
          else
             rsj::Log("Terminate called, no exception available.");
       }
-      catch (...) {
+      catch (...) { //-V565
       }
       std::_Exit(EXIT_FAILURE);
    }
