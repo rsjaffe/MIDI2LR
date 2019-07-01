@@ -77,7 +77,7 @@ class CommandSet {
          else
             rsj::LogAndAlertError(
                 juce::String("Unsupported archive version for CommandSet. Version is ")
-                + std::to_string(version));
+                + rsj::NumToChars(version));
       }
       std::string language_;
       std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>>

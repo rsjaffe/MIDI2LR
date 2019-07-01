@@ -53,7 +53,7 @@ constexpr auto OSX{true};
 #endif
 
 namespace rsj {
-   [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view input);
+   [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
    // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
    void ExceptionResponse(
@@ -77,8 +77,8 @@ namespace rsj {
    {
       return AppDataFilePath(file_name);
    }
-   [[nodiscard]] std::wstring Utf8ToWide(std::string_view input);
-   [[nodiscard]] std::string WideToUtf8(std::wstring_view wstr);
+   [[nodiscard]] std::wstring Utf8ToWide(std::string_view in);
+   [[nodiscard]] std::string WideToUtf8(std::wstring_view in);
 #else
    [[nodiscard]] std::string AppDataFilePath(const std::string& file_name);
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);

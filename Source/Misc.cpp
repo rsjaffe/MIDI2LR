@@ -37,16 +37,19 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 #include <gsl/gsl>
 
-[[nodiscard]] std::string rsj::ReplaceInvisibleChars(std::string_view input)
+namespace {
+   std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a", "\\b",
+       "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12", "\\x13",
+       "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C", "\\x1D",
+       "\\x1E", "\\x1F", " ", "!", "\\\""};
+}
+
+std::string rsj::ReplaceInvisibleChars(std::string_view in)
 {
    try {
-      std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
-          "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
-          "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
-          "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
       std::string result{};
-      result.reserve(input.size());
-      for (const auto& a : input) {
+      result.reserve(in.size()); // minimum final size
+      for (const auto& a : in) {
          if (static_cast<decltype(ascii_map)::size_type>(a) < ascii_map.size())
 #pragma warning(suppress : 26446 26482) // false alarm, range checked by if statement
             result.append(ascii_map[a]);
@@ -237,14 +240,14 @@ namespace {
    }
 } // namespace
 
-std::wstring rsj::Utf8ToWide(std::string_view input)
+std::wstring rsj::Utf8ToWide(std::string_view in)
 { // add terminating null
    try {
-      const auto buffersize = MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(),
-                                  gsl::narrow_cast<int>(input.size()), nullptr, 0)
-                              + 1;
-      std::vector<wchar_t> buffer(buffersize, 0); // all zero
-      MultiByteToWideCharErrorChecked(CP_UTF8, 0, input.data(), gsl::narrow_cast<int>(input.size()),
+      const auto buffer_size = MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(),
+                                   gsl::narrow_cast<int>(in.size()), nullptr, 0)
+                               + 1;
+      std::vector<wchar_t> buffer(buffer_size, 0); // all zero
+      MultiByteToWideCharErrorChecked(CP_UTF8, 0, in.data(), gsl::narrow_cast<int>(in.size()),
           buffer.data(), gsl::narrow_cast<int>(buffer.size()));
       return buffer.data();
    }
@@ -254,14 +257,14 @@ std::wstring rsj::Utf8ToWide(std::string_view input)
    }
 }
 
-std::string rsj::WideToUtf8(std::wstring_view wstr)
+std::string rsj::WideToUtf8(std::wstring_view in)
 { // add terminating null
    try {
-      const auto buffersize = WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(),
-                                  gsl::narrow_cast<int>(wstr.size()), nullptr, 0, nullptr, nullptr)
-                              + 1;
-      std::vector<char> buffer(buffersize, 0);
-      WideCharToMultiByteErrorChecked(CP_UTF8, 0, wstr.data(), gsl::narrow_cast<int>(wstr.size()),
+      const auto buffer_size = WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(),
+                                   gsl::narrow_cast<int>(in.size()), nullptr, 0, nullptr, nullptr)
+                               + 1;
+      std::vector<char> buffer(buffer_size, 0);
+      WideCharToMultiByteErrorChecked(CP_UTF8, 0, in.data(), gsl::narrow_cast<int>(in.size()),
           buffer.data(), gsl::narrow_cast<int>(buffer.size()), nullptr, nullptr);
       return buffer.data();
    }

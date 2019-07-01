@@ -74,7 +74,7 @@ namespace {
       }
    };
 
-   [[noreturn]] void onTerminate() noexcept
+   [[noreturn]] void OnTerminate() noexcept
    {
       static rsj::SpinLock terminate_mutex;
       try {
@@ -87,7 +87,6 @@ namespace {
             catch (const std::exception& e) {
                rsj::Log("Terminate called, exception " + juce::String(e.what()));
             }
-
             catch (...) {
                rsj::Log("Terminate called, unknown exception type.");
             }
@@ -100,7 +99,7 @@ namespace {
       std::_Exit(EXIT_FAILURE);
    }
    // global to install prior to program start
-   [[maybe_unused]] const auto installed{std::set_terminate(&onTerminate)};
+   [[maybe_unused]] const auto kInstalled{std::set_terminate(&OnTerminate)};
 } // namespace
 
 class MIDI2LRApplication final : public juce::JUCEApplication {
