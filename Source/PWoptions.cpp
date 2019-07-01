@@ -38,137 +38,127 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#include <gsl/gsl>
-#include "PWoptions.h"
-#include "ControlsModel.h"
-using namespace juce;
+
 //[/Headers]
 
 #include "PWoptions.h"
 
-
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-
+#include <gsl/gsl>
+#include "ControlsModel.h"
+using namespace juce;
 //[/MiscUserDefs]
 
 //==============================================================================
-PWoptions::PWoptions ()
+PWoptions::PWoptions()
 {
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
+   //[Constructor_pre] You can add your own custom stuff here..
+   //[/Constructor_pre]
 
-    label.reset (new Label ("new label",
-                            TRANS("Minimum value")));
-    addAndMakeVisible (label.get());
-    label->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label->setJustificationType (Justification::centredLeft);
-    label->setEditable (false, false, false);
-    label->setColour (TextEditor::textColourId, Colours::black);
-    label->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+   label.reset(new Label("new label", TRANS("Minimum value")));
+   addAndMakeVisible(label.get());
+   label->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label->setJustificationType(Justification::centredLeft);
+   label->setEditable(false, false, false);
+   label->setColour(TextEditor::textColourId, Colours::black);
+   label->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
-    label->setBounds (32, 48, 150, 24);
+   label->setBounds(32, 48, 150, 24); //-V112
 
-    minval.reset (new TextEditor ("minval"));
-    addAndMakeVisible (minval.get());
-    minval->setExplicitFocusOrder (1);
-    minval->setMultiLine (false);
-    minval->setReturnKeyStartsNewLine (false);
-    minval->setReadOnly (false);
-    minval->setScrollbarsShown (true);
-    minval->setCaretVisible (true);
-    minval->setPopupMenuEnabled (true);
-    minval->setText (TRANS("0"));
+   minval.reset(new TextEditor("minval"));
+   addAndMakeVisible(minval.get());
+   minval->setExplicitFocusOrder(1);
+   minval->setMultiLine(false);
+   minval->setReturnKeyStartsNewLine(false);
+   minval->setReadOnly(false);
+   minval->setScrollbarsShown(true);
+   minval->setCaretVisible(true);
+   minval->setPopupMenuEnabled(true);
+   minval->setText(TRANS("0"));
 
-    minval->setBounds (32, 80, 150, 24);
+   minval->setBounds(32, 80, 150, 24); //-V112
 
-    label2.reset (new Label ("new label",
-                             TRANS("Maximum value")));
-    addAndMakeVisible (label2.get());
-    label2->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label2->setJustificationType (Justification::centredLeft);
-    label2->setEditable (false, false, false);
-    label2->setColour (TextEditor::textColourId, Colours::black);
-    label2->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+   label2.reset(new Label("new label", TRANS("Maximum value")));
+   addAndMakeVisible(label2.get());
+   label2->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label2->setJustificationType(Justification::centredLeft);
+   label2->setEditable(false, false, false);
+   label2->setColour(TextEditor::textColourId, Colours::black);
+   label2->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
-    label2->setBounds (32, 112, 150, 24);
+   label2->setBounds(32, 112, 150, 24); //-V112
 
-    maxval.reset (new TextEditor ("maxval"));
-    addAndMakeVisible (maxval.get());
-    maxval->setExplicitFocusOrder (2);
-    maxval->setMultiLine (false);
-    maxval->setReturnKeyStartsNewLine (false);
-    maxval->setReadOnly (false);
-    maxval->setScrollbarsShown (true);
-    maxval->setCaretVisible (true);
-    maxval->setPopupMenuEnabled (true);
-    maxval->setText (TRANS("16383"));
+   maxval.reset(new TextEditor("maxval"));
+   addAndMakeVisible(maxval.get());
+   maxval->setExplicitFocusOrder(2);
+   maxval->setMultiLine(false);
+   maxval->setReturnKeyStartsNewLine(false);
+   maxval->setReadOnly(false);
+   maxval->setScrollbarsShown(true);
+   maxval->setCaretVisible(true);
+   maxval->setPopupMenuEnabled(true);
+   maxval->setText(TRANS("16383"));
 
-    maxval->setBounds (32, 144, 150, 24);
+   maxval->setBounds(32, 144, 150, 24); //-V112
 
-    label3.reset (new Label ("new label",
-                             TRANS("Pitch Wheel")));
-    addAndMakeVisible (label3.get());
-    label3->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label3->setJustificationType (Justification::centredLeft);
-    label3->setEditable (false, false, false);
-    label3->setColour (TextEditor::textColourId, Colours::black);
-    label3->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+   label3.reset(new Label("new label", TRANS("Pitch Wheel")));
+   addAndMakeVisible(label3.get());
+   label3->setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+   label3->setJustificationType(Justification::centredLeft);
+   label3->setEditable(false, false, false);
+   label3->setColour(TextEditor::textColourId, Colours::black);
+   label3->setColour(TextEditor::backgroundColourId, Colour(0x00000000));
 
-    label3->setBounds (32, 16, 150, 24);
+   label3->setBounds(32, 16, 150, 24); //-V112
 
+   //[UserPreSize]
+   //[/UserPreSize]
 
-    //[UserPreSize]
-    //[/UserPreSize]
+   setSize(280, 350);
 
-    setSize (280, 350);
-
-
-    //[Constructor] You can add your own custom stuff here..
+   //[Constructor] You can add your own custom stuff here..
    minval->setInputFilter(&numrestrict_, false);
    maxval->setInputFilter(&numrestrict_, false);
    minval->addListener(this);
    maxval->addListener(this);
-    //[/Constructor]
+   //[/Constructor]
 }
 
 PWoptions::~PWoptions()
 {
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+   //[Destructor_pre]. You can add your own custom destruction code here..
+   //[/Destructor_pre]
 
-    label = nullptr;
-    minval = nullptr;
-    label2 = nullptr;
-    maxval = nullptr;
-    label3 = nullptr;
+   label = nullptr;
+   minval = nullptr;
+   label2 = nullptr;
+   maxval = nullptr;
+   label3 = nullptr;
 
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
+   //[Destructor]. You can add your own custom destruction code here..
+   //[/Destructor]
 }
 
 //==============================================================================
-void PWoptions::paint (Graphics& g)
+void PWoptions::paint(Graphics& g)
 {
-    //[UserPrePaint] Add your own custom painting code here..
-    //[/UserPrePaint]
+   //[UserPrePaint] Add your own custom painting code here..
+   //[/UserPrePaint]
 
-    g.fillAll (Colours::white);
+   g.fillAll(Colours::white);
 
-    //[UserPaint] Add your own custom painting code here..
-    //[/UserPaint]
+   //[UserPaint] Add your own custom painting code here..
+   //[/UserPaint]
 }
 
 void PWoptions::resized()
 {
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
+   //[UserPreResize] Add your own custom resize code here..
+   //[/UserPreResize]
 
-    //[UserResized] Add your own custom resize handling here..
-    //[/UserResized]
+   //[UserResized] Add your own custom resize handling here..
+   //[/UserResized]
 }
-
-
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void PWoptions::textEditorFocusLost(TextEditor& t)
@@ -190,7 +180,6 @@ void PWoptions::BindToControl(size_t channel)
        juce::String(controls_model_->GetPwMax(boundchannel_)), juce::dontSendNotification);
 }
 //[/MiscUserCode]
-
 
 //==============================================================================
 #if 0
@@ -235,7 +224,5 @@ END_JUCER_METADATA
 */
 #endif
 
-
 //[EndFile] You can add extra defines here...
 //[/EndFile]
-
