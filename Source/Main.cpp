@@ -204,6 +204,7 @@ class MIDI2LRApplication final : public juce::JUCEApplication {
          static std::once_flag of; // function might be called twice during LR shutdown
          std::call_once(of, [this]() {
             if (profile_.ProfileUnsaved() && main_window_) {
+               const juce::MessageManagerLock mmLock; // this may be unnecessary
                const auto result = juce::NativeMessageBox::showYesNoBox(
                    juce::AlertWindow::WarningIcon, juce::translate("MIDI2LR profiles"),
                    juce::translate(

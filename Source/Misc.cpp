@@ -144,7 +144,11 @@ void rsj::Log(gsl::czstring<> info) noexcept
 void rsj::LogAndAlertError(const juce::String& error_text) noexcept
 {
    try {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
+      {
+         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, "Error", error_text);
+      }
       rsj::Log(error_text);
    }
    catch (...) { //-V565
@@ -154,7 +158,11 @@ void rsj::LogAndAlertError(const juce::String& error_text) noexcept
 void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 {
    try {
-      juce::NativeMessageBox::showMessageBox(juce::AlertWindow::WarningIcon, "Error", error_text);
+      {
+         const juce::MessageManagerLock mmLock; // this may be unnecessary
+         juce::NativeMessageBox::showMessageBox(
+             juce::AlertWindow::WarningIcon, "Error", error_text);
+      }
       rsj::Log(error_text);
    }
    catch (...) { //-V565

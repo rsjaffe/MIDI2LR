@@ -79,14 +79,6 @@ namespace rsj {
    [[nodiscard]] std::string AppLogFilePath(const std::string& file_name);
 #endif // def _WIN32
 
-   /* additional classes/templates in Misc.h
-    * Reverse
-    * RatioToPrefix
-    * SleepTimed
-    * SleepTimedLogged
-    * NumToChars
-    * */
-
    // -------------------------------------------------------------------
    // --- Reversed iterable
    // https://stackoverflow.com/a/28139075/5699329
