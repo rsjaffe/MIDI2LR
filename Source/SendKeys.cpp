@@ -57,7 +57,7 @@ namespace {
       }
       else { // FindWindowA failed
          const auto error_msg =
-             "FindWindowA failed with error code: " + rsj::NumToChars(GetLastError());
+             "FindWindowA failed with error code: " + std::to_string(GetLastError());
          rsj::Log(error_msg);
          // use keyboard of MIDI2LR application
          return GetKeyboardLayout(0);
@@ -70,7 +70,7 @@ namespace {
          const auto vk_code_and_shift = VkKeyScanExW(ch, dwhkl);
          if (vk_code_and_shift == 0xffff) { //-V547
             const auto error_msg =
-                "VkKeyScanExW failed with error code: " + rsj::NumToChars(GetLastError());
+                "VkKeyScanExW failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return vk_code_and_shift;
@@ -114,7 +114,7 @@ namespace {
          const auto result = SendInput(cinputs, pinputs, cbSize);
          if (result == 0) {
             const auto error_msg =
-                "SendInput failed with error code: " + rsj::NumToChars(GetLastError());
+                "SendInput failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return result;

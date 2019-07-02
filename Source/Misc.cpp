@@ -36,11 +36,12 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 #include "Ocpp.h"
 #endif
 
+// XCode has issues with std:: in this file, using ::std:: to fix when necessary
 namespace {
-   std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a", "\\b",
-       "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12", "\\x13",
-       "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C", "\\x1D",
-       "\\x1E", "\\x1F", " ", "!", "\\\""};
+   ::std::array ascii_map{"\\x00", "\\x01", "\\x02", "\\x03", "\\x04", "\\x05", "\\x06", "\\a",
+       "\\b", "\\t", "\\n", "\\v", "\\f", "\\r", "\\x0E", "\\x0F", "\\x10", "\\x11", "\\x12",
+       "\\x13", "\\x14", "\\x15", "\\x16", "\\x17", "\\x18", "\\x19", "\\x1A", "\\x1B", "\\x1C",
+       "\\x1D", "\\x1E", "\\x1F", " ", "!", "\\\""};
 
 #ifdef __GNUG__ // gnu C++ compiler
 #include <cxxabi.h>
@@ -48,10 +49,10 @@ namespace {
 #include <type_traits>
    [[nodiscard]] juce::String Demangle(gsl::czstring<> mangled_name)
    {
-      std::size_t len = 0;
+      ::std::size_t len = 0;
       int status = 0;
-      std::unique_ptr<char, decltype(&std::free)> ptr(
-          abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &std::free);
+      ::std::unique_ptr<char, decltype(&::std::free)> ptr(
+          ::abi::__cxa_demangle(mangled_name, nullptr, &len, &status), &::std::free);
       if (status)
          return mangled_name;
       return juce::String(juce::CharPointer_UTF8(ptr.get()));
@@ -64,10 +65,10 @@ namespace {
 #endif // _GNUG_
 } // namespace
 
-std::string rsj::ReplaceInvisibleChars(std::string_view in)
+::std::string rsj::ReplaceInvisibleChars(::std::string_view in)
 {
    try {
-      std::string result{};
+      ::std::string result{};
       result.reserve(in.size()); // minimum final size
       for (const auto& a : in) {
          if (static_cast<decltype(ascii_map)::size_type>(a) < ascii_map.size())
@@ -82,36 +83,36 @@ std::string rsj::ReplaceInvisibleChars(std::string_view in)
       }
       return result;
    }
-   catch (const std::exception& e) {
+   catch (const ::std::exception& e) {
       rsj::ExceptionResponse(__func__, __func__, e);
       throw;
    }
 }
 
 // using transform as specified in http://en.cppreference.com/w/cpp/string/byte/tolower
-std::string rsj::ToLower(std::string_view in)
+::std::string rsj::ToLower(::std::string_view in)
 {
    try {
-      std::string s;
+      ::std::string s;
       s.resize(in.size());
-      std::transform(in.begin(), in.end(), s.begin(), [
-      ](unsigned char c) noexcept { return gsl::narrow_cast<unsigned char>(std::tolower(c)); });
+      ::std::transform(in.begin(), in.end(), s.begin(), [
+      ](unsigned char c) noexcept { return gsl::narrow_cast<unsigned char>(::std::tolower(c)); });
       return s;
    }
-   catch (const std::exception& e) {
+   catch (const ::std::exception& e) {
       rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
 }
 
 // note: C++20 will have ends_with
-bool rsj::EndsWith(std::string_view main_str, std::string_view to_match)
+bool rsj::EndsWith(::std::string_view main_str, ::std::string_view to_match)
 {
    try {
       return main_str.size() >= to_match.size()
              && main_str.compare(main_str.size() - to_match.size(), to_match.size(), to_match) == 0;
    }
-   catch (const std::exception& e) {
+   catch (const ::std::exception& e) {
       rsj::ExceptionResponse("rsj", __func__, e);
       throw;
    }
@@ -165,7 +166,7 @@ void rsj::LogAndAlertError(gsl::czstring<> error_text) noexcept
 // use typeid(this).name() for first argument to add class information
 // typical call: rsj::ExceptionResponse(typeid(this).name(), __func__, e);
 void rsj::ExceptionResponse(
-    gsl::czstring<> id, gsl::czstring<> fu, const std::exception& e) noexcept
+    gsl::czstring<> id, gsl::czstring<> fu, const ::std::exception& e) noexcept
 {
    try {
       const auto error_text{juce::String("Exception ") + e.what() + ' ' + Demangle(id) + "::" + fu
@@ -206,7 +207,7 @@ namespace {
              CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
          if (!ret) {
             const auto error_msg =
-                "MultiByteToWideChar failed with error code: " + rsj::NumToChars(GetLastError());
+                "MultiByteToWideChar failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return ret;
@@ -227,7 +228,7 @@ namespace {
              lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
          if (!ret) {
             const auto error_msg =
-                "WideCharToMultiByte failed with error code: " + rsj::NumToChars(GetLastError());
+                "WideCharToMultiByte failed with error code: " + std::to_string(GetLastError());
             throw std::runtime_error(error_msg.c_str());
          }
          return ret;
@@ -273,11 +274,11 @@ std::string rsj::WideToUtf8(std::wstring_view in)
    }
 }
 #else
-std::string rsj::AppDataFilePath(const std::string& file_name)
+::std::string rsj::AppDataFilePath(const ::std::string& file_name)
 {
    return rsj::AppDataMac() + '/' + file_name;
 }
-std::string rsj::AppLogFilePath(const std::string& file_name)
+::std::string rsj::AppLogFilePath(const ::std::string& file_name)
 {
    return rsj::AppLogMac() + '/' + file_name;
 }

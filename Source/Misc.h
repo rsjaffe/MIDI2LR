@@ -48,7 +48,6 @@ constexpr auto MSWindows{false};
 constexpr auto OSX{true};
 #endif
 
-
 namespace rsj {
    [[nodiscard]] std::string ReplaceInvisibleChars(std::string_view in);
    [[nodiscard]] bool EndsWith(std::string_view main_str, std::string_view to_match);
@@ -188,15 +187,6 @@ namespace rsj {
       const auto elapsed = SleepTimed(sleep_duration);
       rsj::Log(juce::String(msg_prefix.data(), msg_prefix.size()) + " thread slept for "
                + juce::String(elapsed.count()) + ' ' + RatioToPrefix<Period>() + "seconds.");
-   }
-
-   template<class T>[[nodiscard]] std::string NumToChars(T number)
-   {
-      std::array<char, 10> str{};
-      auto [p, ec] = std::to_chars(&str.front(), &str.back(), number);
-      if (ec == std::errc())
-         return std::string(str.data(), p - str.data());
-      return "Number conversion error " + std::make_error_condition(ec).message();
    }
 } // namespace rsj
 

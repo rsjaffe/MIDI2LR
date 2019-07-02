@@ -28,7 +28,7 @@ NrpnFilter::ProcessResult NrpnFilter::operator()(rsj::MidiMessage message)
    try {
       if (message.channel < 0 || message.channel >= kChannels)
          throw std::range_error(
-             "Channel msg.value in ProcessMIDI is " + rsj::NumToChars(message.channel) + '.');
+             "Channel msg.value in ProcessMIDI is " + std::to_string(message.channel) + '.');
       Expects(message.value <= 0x7F);
       Expects(message.control_number <= 0x7F);
       ProcessResult ret_val{false, false, 0, 0};
