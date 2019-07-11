@@ -115,8 +115,14 @@ void LrIpcOut::StartRunning()
 {
    try {
       Connect();
-      io_thread_ = std::async(std::launch::async, [this] { io_context_.run(); });
-      io_thread1_ = std::async(std::launch::async, [this] { io_context_.run(); });
+      io_thread_ = std::async(std::launch::async, [this] {
+         rsj::LabelThread(L"LrIpcOut io_thread_");
+         io_context_.run();
+      });
+      io_thread1_ = std::async(std::launch::async, [this] {
+         rsj::LabelThread(L"LrIpcOut io_thread1_");
+         io_context_.run();
+      });
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

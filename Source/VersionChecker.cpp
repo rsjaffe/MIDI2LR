@@ -63,6 +63,7 @@ catch (...) {
 void VersionChecker::run()
 {
    try {
+      rsj::LabelThread(L"VersionChecker run thread");
       const juce::URL version_url{"https://rsjaffe.github.io/MIDI2LR/version.xml"};
       const std::unique_ptr<juce::XmlElement> version_xml_element{
           version_url.readEntireXmlStream()};

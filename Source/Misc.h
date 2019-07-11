@@ -20,14 +20,11 @@ You should have received a copy of the GNU General Public License along with
 MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 ==============================================================================
 */
-#include <array>
-#include <charconv>
 #include <chrono>
 #include <exception>
 #include <string>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <string_view>
-#include <system_error>
 #include <thread>   //sleep_for
 #include <typeinfo> //for typeid, used in calls to ExceptionResponse
 
@@ -38,6 +35,35 @@ MIDI2LR.  If not, see <http://www.gnu.org/licenses/>.
 static constexpr bool kNdebug = true;
 #else // asserts enabled
 static constexpr bool kNdebug = false;
+#endif
+
+#ifndef NDEBUG
+#ifdef _WIN32
+// declarations from processthreadsapi.h
+extern "C" __declspec(dllimport) long __stdcall SetThreadDescription(
+    _In_ void* hThread, _In_ const wchar_t* lpThreadDescription);
+extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
+namespace rsj {
+   inline void LabelThread(const wchar_t* threadname) noexcept
+   {
+      SetThreadDescription(GetCurrentThread(), threadname);
+   }
+} // namespace rsj
+#else
+namespace rsj {
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept
+   {
+      /*nothing*/;
+   }
+} // namespace rsj
+#endif
+#else
+namespace rsj {
+   constexpr void LabelThread([[maybe_unused]] const wchar_t* threadname) noexcept
+   {
+      /*nothing*/;
+   }
+} // namespace rsj
 #endif
 
 #ifdef _WIN32

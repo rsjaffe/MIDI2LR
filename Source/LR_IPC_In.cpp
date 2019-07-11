@@ -60,9 +60,15 @@ LrIpcIn::LrIpcIn(ControlsModel& c_model, ProfileManager& profile_manager, Profil
 void LrIpcIn::StartRunning()
 {
    try {
-      process_line_future_ = std::async(std::launch::async, &LrIpcIn::ProcessLine, this);
+      process_line_future_ = std::async(std::launch::async, [this] {
+         rsj::LabelThread(L"LrIpcIn ProcessLine thread");
+         ProcessLine();
+      });
       Connect();
-      io_thread_ = std::async(std::launch::async, [this] { io_context_.run(); });
+      io_thread_ = std::async(std::launch::async, [this] {
+         rsj::LabelThread(L"LrIpcIn io_thread_");
+         io_context_.run();
+      });
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);

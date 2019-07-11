@@ -50,8 +50,10 @@ void MidiReceiver::StartRunning()
 {
    try {
       InitDevices();
-      dispatch_messages_future_ =
-          std::async(std::launch::async, &MidiReceiver::DispatchMessages, this);
+      dispatch_messages_future_ = std::async(std::launch::async, [this] {
+         rsj::LabelThread(L"MidiReceiver dispatch messages thread");
+         DispatchMessages();
+      });
    }
    catch (const std::exception& e) {
       rsj::ExceptionResponse(typeid(this).name(), __func__, e);
